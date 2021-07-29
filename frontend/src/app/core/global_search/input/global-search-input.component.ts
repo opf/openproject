@@ -190,6 +190,10 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     return this.pathHelperService.workPackagePath(id);
   }
 
+  public highlighting(property:string, id:string) {
+    return Highlighting.inlineClass(property, id);
+  }
+
   public search($event:any) {
     this.currentValue = this.ngSelectComponent.ngSelectInstance.searchTerm;
     this.openCloseMenu($event.term);
