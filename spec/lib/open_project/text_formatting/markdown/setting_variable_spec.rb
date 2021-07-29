@@ -62,10 +62,10 @@ describe OpenProject::TextFormatting,
                class="op-uc-link">Link with setting</a>
           </p>
           <p class="op-uc-p">
-            Inline reference to invalid variable: opSetting:smtp_password
+            Inline reference to invalid variable: {{opSetting:smtp_password}}
           </p>
           <p class="op-uc-p">
-            Inline reference to missing variable: opSetting:does_not_exist
+            Inline reference to missing variable: {{opSetting:does_not_exist}}
           </p>
         EXPECTED
       end

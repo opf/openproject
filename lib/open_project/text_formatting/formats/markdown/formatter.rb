@@ -44,8 +44,8 @@ module OpenProject::TextFormatting::Formats::Markdown
 
     def filters
       %i[
-        markdown
         setting_macros
+        markdown
         sanitization
         task_list
         table_of_contents
