@@ -27,18 +27,7 @@
 //++
 
 #breadcrumb
+  @include global-breadcrumb-styles
+  min-height: var(--breadcrumb-height)
   li
     white-space: nowrap
-
-ul.op-breadcrumb
-  margin: 0 0 0 0
-  padding: 0
-  list-style: none
-  list-style-position: outside
-  // width: 10000px
-  height: var(--breadcrumb-height)
-  line-height: var(--breadcrumb-height)
-
-// Hide projects in normal mode
-.op-breadcrumb .op-breadcrumb-project-element
-  display: none
