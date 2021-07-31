@@ -855,12 +855,12 @@ hu:
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
-    label_reset_token: "Reset backup token"
+    label_reset_token: "Visszaállítási kulcs törlése"
     label_token_users: "The following users have active backup tokens"
     reset_token:
       action_create: Létrehoz
       action_reset: Visszaállít, reset
-      heading_reset: "Reset backup token"
+      heading_reset: "Visszaállítási kulcs törlése"
       heading_create: "Visszaállítási kulcs létrehozása"
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
@@ -957,7 +957,7 @@ hu:
     text_update_consent_time: Jelölje be ezt a négyzetet, ha újra kérni szeretné a felhasználók beleegyezését. Engedélyezem, ha megváltoztatta a fenti jóváhagyási jogi információt.
     update_consent_last_time: "Utolsó hozzájárulás frissítése: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Projekt másolása %{source_project_name}'
     started: "Projekt másolása elindult a \"%{source_project_name}\" nevű projektből a \"%{target_project_name}\" projektbe. E-mailben értesítjük, amint \"%{target_project_name}\" elérhető."
     failed: "Nem lehet másolni a %{source_project_name} projektet "
     failed_internal: "Sikertelen másolás egy belső hiba miatt."
@@ -1313,9 +1313,9 @@ hu:
     work_packages:
       subject:
         created: "A munkacsomag létrehozása sikeres"
-        assigned: "You have been assigned to %{work_package}"
+        assigned: "Hozzárendeletek a %{work_package}"
         subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
+        mentioned: "Megemlítettek a %{work_package}-ban"
         involved: "You either are assigned to or are responsible for %{work_package}"
         watched: "You are watching %{work_package}"
   label_accessibility: "Kisegítő lehetőségek"
@@ -1906,8 +1906,8 @@ hu:
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
   mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
   mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_token_reset_user_info: A visszaállítási kulcs törölve.
+  mail_body_backup_token_info: Az előző kulcs elavult.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"

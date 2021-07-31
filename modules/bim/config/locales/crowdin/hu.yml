@@ -16,7 +16,7 @@ hu:
     x_bcf_issues:
       zero: 'Nincs BCF feladat'
       one: 'Egy BCF probléma'
-      other: '%{count} BCF issues'
+      other: '%{count} BCF probléma'
     bcf_xml:
       xml_file: 'BCF XML fájl'
       import_title: 'Importálás'

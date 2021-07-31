@@ -1345,10 +1345,10 @@ ru:
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
-        created: "The work package was created."
+        created: "Пакет работ создан."
         assigned: "Вы были назначены %{work_package}"
         subscribed: "Вы подписались на %{work_package}"
         mentioned: "Вы были назначены %{work_package}"

@@ -486,8 +486,8 @@ ru:
         welcome: 'Совершите вводный трехминутный тур для знакомства с наиболее <b>важными особенностями</b>. <br>Рекомендуем пройти все шаги до конца. Пройти вводный тур повторно можно в любое время.'
         wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          overview: "Управляйте своей работой в представлении <b>backlogs</b>."
+          sprints: "Справа у вас есть бэклог продукта или бэклог ошибок, слева у вас будут соответствующие спринты. Здесь вы можете создать <b>, пользовательские истории и ошибки</b>, приоритизировать с помощью перетаскивания и добавить их в спринт."
           task_board_arrow: 'Чтобы увидеть вашу <b>панель задач</b>, откройте выпадающий спринт...'
           task_board_select: '... и выберите строку <b>Панель задач</b>.'
           task_board: "Панель задач визуализирует прогресс <b>для этого спринта</b>. Нажмите на значок плюс (+) рядом с пользовательской историей, чтобы добавить новые задачи или препятствия. <br> Статус можно обновить перетаскиванием."
@@ -507,7 +507,7 @@ ru:
     notifications:
       title: "Уведомления"
       channel: "Канал"
-      no_unread: "No unread notifications"
+      no_unread: "Нет непрочитанных уведомлений"
       channels:
         in_app: "Встроенное"
         mail: "Электронная почта"
