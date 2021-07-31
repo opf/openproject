@@ -4,16 +4,16 @@ hu:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP csatlakozás'
-        sync_users: 'Sync users'
+        sync_users: 'Felhasználók szinkronizálása'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP szűrő'
         auth_source: 'LDAP csatlakozás'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
+        group_name_attribute: "Csoport név attribútum"
+        sync_users: 'Felhasználók szinkronizálása'
         base_dn: "Search base DN"
     models:
       ldap_groups/synchronized_group: 'Szinkronizált LDAP csoport'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_filter: 'LDAP csoport szinkronizálása'
     errors:
       models:
         ldap_groups/synchronized_filter:
@@ -23,11 +23,11 @@ hu:
     label_group_key: 'LDAP group filter key'
     label_synchronize: 'Szinkronizálás'
     settings:
-      name_attribute: 'LDAP groups name attribute'
+      name_attribute: 'LDAP csoport érték'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
+      singular: 'LDAP csoport szinkronizálása'
       plural: 'LDAP Group synchronization filters'
       label_n_groups_found:
         one: "1 group found by the filter"
@@ -57,8 +57,8 @@ hu:
         <br/>
         A csoportokat óránként szinkronizáljuk egy cron feladattal.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Kérjük, olvassa el a témával kapcsolatos dokumentációinkat </a>.
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
+      no_results: 'Nem található szinkronizálható csoport'
+      no_members: 'Ez a csoport nem tartalmaz szinkronizált felhasználót még'
       plural: 'Szinkronizált LDAP csoportok'
       singular: 'Szinkronizált LDAP csoport'
       form:
