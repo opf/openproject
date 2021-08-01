@@ -1310,7 +1310,7 @@ pt:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Enviando notificações para está ação "
     work_packages:
       subject:
         created: "O pacote de trabalho foi criado."
@@ -2486,7 +2486,7 @@ pt:
   text_journal_added: "%{label} %{value}  adicionado"
   text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
   text_journal_changed: ""
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
