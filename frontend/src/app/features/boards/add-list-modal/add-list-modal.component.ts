@@ -54,7 +54,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 export class AddListModalComponent extends OpModalComponent implements OnInit {
   /** Keep a switchmap for search term and loading state */
   public requests = new DebouncedRequestSwitchmap<string, ValueOption>(
-    (searchTerm:string) => this.actionService.loadAvailable(this.board, this.active, searchTerm),
+    (searchTerm:string) => this.actionService.loadAvailable(this.active, searchTerm),
     errorNotificationHandler(this.halNotification),
     true,
   );

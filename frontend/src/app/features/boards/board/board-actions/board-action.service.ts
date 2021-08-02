@@ -146,7 +146,7 @@ export abstract class BoardActionService {
    * @param active The active set of values (resources or plain values)
    * @param matching values matching the given name
    */
-  loadAvailable(board:Board, active:Set<string>, matching:string):Observable<HalResource[]> {
+  loadAvailable(active:Set<string>, matching:string):Observable<HalResource[]> {
     return this
       .loadValues(matching)
       .pipe(
