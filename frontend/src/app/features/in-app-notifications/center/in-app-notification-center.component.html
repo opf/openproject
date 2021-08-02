@@ -1,80 +1,35 @@
-<div
-    class="op-modal op-modal_fullscreen"
->
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+<div class="op-ian-center">
+  <op-ian-center-toolbar class="op-ian-center--toolbar"></op-ian-center-toolbar>
 
-  <div class="op-modal--body op-ian-center">
-    <div class="toolbar-container">
-      <div class="toolbar">
-        <div class="title-container">
-        </div>
-
-        <ul class="toolbar-items">
-
-          <li class="toolbar-item form--field-inline-buttons-container">
-            <ng-container *ngFor="let facet of facets">
-              <button
-                  type="button"
-                  class="button form--field-inline-button"
-                  [class.-active]="facet === (activeFacet$ | async)"
-                  (click)="activateFacet(facet)"
-              >
-                <span
-                    class="button--text"
-                    [textContent]="text.facets[facet]"
-                >
-                </span>
-              </button>
-            </ng-container>
-          </li>
-          <li class="toolbar-item">
-            <button
-                type="button"
-                class="button"
-                (click)="markAllRead()"
-            >
-              <op-icon icon-classes="button--icon icon-yes">
-              </op-icon>
-              <span
-                  class="button--text"
-                  [textContent]="text.mark_all_read"
-              >
-              </span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+  <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
-          itemSize="50"
-          class="op-ian-center--viewport"
+        itemSize="50"
+        class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
-            *cdkVirtualFor="let item of notifications$ | async; templateCacheSize: 0"
-            class="op-ian-center--entry"
-            [notification]="item"
-            (resourceLinkClicked)="closeMe()"
+          *cdkVirtualFor="let item of notifications$ | async; templateCacheSize: 0"
+          class="op-ian-center--entry"
+          [notification]="item"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>
-
     <ng-template #noResults>
       <div class="generic-table--no-results-container">
         <span
-            class="generic-table--no-results-title"
+          class="generic-table--no-results-title"
         >
           <op-icon icon-classes="icon-info1"></op-icon>
           {{ noResultText$ | async }}
         </span>
       </div>
     </ng-template>
-
+  </div>
+  <div class="op-ian-center--footer">
     <p
-        class="op-ian-center--max-warning"
-        *ngIf="hasMoreThanPageSize$ | async"
-        [textContent]="totalCountWarning()">
+      class="op-ian-center--max-warning"
+      *ngIf="hasMoreThanPageSize$ | async"
+      [textContent]="totalCountWarning()">
     </p>
   </div>
 </div>

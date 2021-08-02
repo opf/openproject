@@ -37,6 +37,7 @@ import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
+import { IAN_LAZY_ROUTES } from "core-app/features/in-app-notifications/in-app-notifications.lazy-routes";
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -114,6 +115,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   ...MY_ACCOUNT_LAZY_ROUTES,
+  ...IAN_LAZY_ROUTES,
 ];
 
 /**

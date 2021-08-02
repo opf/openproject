@@ -157,6 +157,10 @@ export class PathHelperService {
     return `${this.staticBase}/my/page`;
   }
 
+  public myNotificationsSettingsPath() {
+    return `${this.staticBase}/my/notifications`;
+  }
+
   public newsPath(newsId:string) {
     return `${this.staticBase}/news/${newsId}`;
   }

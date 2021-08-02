@@ -7,16 +7,22 @@ import { InAppNotificationEntryComponent } from 'core-app/features/in-app-notifi
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { UIRouterModule } from '@uirouter/angular';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { InAppNotificationCenterComponent } from './center/in-app-notification-center.component';
+import { IAN_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
+import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
+import { InAppNotificationToolbarComponent } from "core-app/features/in-app-notifications/center/toolbar/in-app-notification-toolbar.component";
 
 @NgModule({
   declarations: [
     InAppNotificationBellComponent,
     InAppNotificationCenterComponent,
     InAppNotificationEntryComponent,
+    InAppNotificationToolbarComponent,
   ],
   imports: [
-    UIRouterModule,
+    // Routes for /backlogs
+    UIRouterModule.forChild({
+      states: IAN_ROUTES,
+    }),
     CommonModule,
     IconModule,
     OpenprojectModalModule,
@@ -24,4 +30,5 @@ import { InAppNotificationCenterComponent } from './center/in-app-notification-c
     ScrollingModule,
   ],
 })
-export class OpenProjectInAppNotificationsModule { }
+export class OpenProjectInAppNotificationsModule {
+}

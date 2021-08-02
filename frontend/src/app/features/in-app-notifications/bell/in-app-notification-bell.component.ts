@@ -33,9 +33,4 @@ export class InAppNotificationBellComponent {
     readonly activeWindow:ActiveWindowService,
     readonly modalService:OpModalService) {
   }
-
-  openCenter(event:MouseEvent) {
-    this.modalService.show(InAppNotificationCenterComponent, 'global');
-    event.preventDefault();
-  }
 }

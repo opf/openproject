@@ -3,12 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
   OnInit,
 } from '@angular/core';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
@@ -21,7 +17,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterComponent extends OpModalComponent implements OnInit {
+export class InAppNotificationCenterComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
 
   notifications$ = this.ianQuery.selectAll();
@@ -44,40 +40,23 @@ export class InAppNotificationCenterComponent extends OpModalComponent implement
 
   text = {
     title: this.I18n.t('js.notifications.title'),
-    mark_all_read: this.I18n.t('js.notifications.center.mark_all_read'),
     button_close: this.I18n.t('js.button_close'),
     no_results: {
       unread: this.I18n.t('js.notifications.no_unread'),
       all: this.I18n.t('js.notice_no_results_to_display'),
     },
-    facets: {
-      unread: this.I18n.t('js.notifications.facets.unread'),
-      all: this.I18n.t('js.notifications.facets.all'),
-    },
   };
 
   constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly ianService:InAppNotificationsService,
     readonly ianQuery:InAppNotificationsQuery,
   ) {
-    super(locals, cdRef, elementRef);
   }
 
   ngOnInit():void {
-    this.ianService.get();
-  }
-
-  markAllRead():void {
-    this.ianService.markAllRead();
-    this.closeMe();
-  }
-
-  activateFacet(facet:string):void {
-    this.ianService.setActiveFacet(facet);
     this.ianService.get();
   }
 
