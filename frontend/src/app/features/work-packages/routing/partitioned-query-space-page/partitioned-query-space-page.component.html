@@ -1,10 +1,16 @@
 <div class="work-packages-partitioned-query-space--container"
-      [ngClass]="currentPartition">
-  <div class="toolbar-container -editable">
+     [ngClass]="currentPartition">
+  <ng-container *ngIf="toolbarComponent">
+    <ng-container *ngComponentOutlet="toolbarComponent;
+                            ndcDynamicInjector: injector"
+    ></ng-container>
+  </ng-container>
+  <div *ngIf="!toolbarComponent"
+       class="toolbar-container -editable">
     <div class="toolbar">
       <op-back-button *ngIf="backButtonCallback"
-                   linkClass="back-button"
-                   [customBackMethod]="backButtonCallback">
+                      linkClass="back-button"
+                      [customBackMethod]="backButtonCallback">
       </op-back-button>
 
       <editable-toolbar-title [title]="selectedTitle"
@@ -33,7 +39,8 @@
   </div>
 
   <div class="work-packages-partitioned-query-space--filter-area">
-    <ndc-dynamic [ndcDynamicComponent]="filterContainerDefinition.component"
+    <ndc-dynamic *ngIf="filterContainerDefinition"
+                 [ndcDynamicComponent]="filterContainerDefinition.component"
                  [ndcDynamicInputs]="filterContainerDefinition.inputs"
                  [ndcDynamicOutputs]="filterContainerDefinition.outputs"
                  [ndcDynamicInjector]="injector">

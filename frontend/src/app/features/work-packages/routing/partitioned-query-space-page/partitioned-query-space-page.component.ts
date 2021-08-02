@@ -27,7 +27,11 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, OnDestroy, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  ComponentRef,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
@@ -58,7 +62,6 @@ export interface ToolbarButtonComponentDefinition extends DynamicComponentDefini
 export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
 
 @Component({
-  selector: 'partitioned-query-space-page',
   templateUrl: './partitioned-query-space-page.component.html',
   styleUrls: ['./partitioned-query-space-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -97,12 +100,17 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   showToolbarSaveButton:boolean;
 
   /** Listener callbacks */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   unRegisterTitleListener:Function;
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   removeTransitionSubscription:Function;
 
   /** Determine when query is initially loaded */
   showToolbar = false;
+
+  /** The toolbar to render */
+  toolbarComponent:ComponentRef<unknown>|undefined;
 
   /** The toolbar buttons to render */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
@@ -114,7 +122,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   currentPartition:ViewPartitionState = '-split';
 
   /** What route (if any) should we go back to using the back button left of the title? */
-  backButtonCallback:Function|undefined;
+  backButtonCallback:() => void|undefined;
 
   /** Which filter container component to mount */
   filterContainerDefinition:DynamicComponentDefinition = {

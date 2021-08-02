@@ -117,6 +117,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     },
   );
 
+  toolbarComponent = null;
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,

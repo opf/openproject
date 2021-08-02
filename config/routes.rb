@@ -576,7 +576,7 @@ OpenProject::Application.routes.draw do
   root to: 'account#login'
 
   scope :notifications do
-    get '/', to: 'angular#empty_layout'
+    get '(/*state)', to: 'angular#empty_layout', as: :notifications_center
   end
 
   # Development route for styleguide

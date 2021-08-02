@@ -1,6 +1,4 @@
 <div class="op-ian-center">
-  <op-ian-center-toolbar class="op-ian-center--toolbar"></op-ian-center-toolbar>
-
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
@@ -11,6 +9,7 @@
           *cdkVirtualFor="let item of notifications$ | async; templateCacheSize: 0"
           class="op-ian-center--entry"
           [notification]="item"
+          (resourceLinkClicked)="openSplitView($event)"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>

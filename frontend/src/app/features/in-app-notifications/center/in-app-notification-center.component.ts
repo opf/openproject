@@ -10,6 +10,9 @@ import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { map } from 'rxjs/operators';
+import { StateService } from '@uirouter/angular';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { UIRouterGlobals } from '@uirouter/core';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -53,6 +56,8 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly I18n:I18nService,
     readonly ianService:InAppNotificationsService,
     readonly ianQuery:InAppNotificationsQuery,
+    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly state:StateService,
   ) {
   }
 
@@ -67,5 +72,11 @@ export class InAppNotificationCenterComponent implements OnInit {
       'js.notifications.center.total_count_warning',
       { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: state.notShowing },
     );
+  }
+
+  openSplitView($event:WorkPackageResource):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const baseRoute = this.uiRouterGlobals.current.data.baseRoute as string;
+    void this.state.go(`${baseRoute}.details`, { workPackageId: $event.id });
   }
 }

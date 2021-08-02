@@ -27,15 +27,39 @@
 //++
 
 import { Ng2StateDeclaration } from '@uirouter/angular';
+import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/split-view-routes.template';
+import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
+import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
+import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'notifications',
     url: '/notifications',
-    component: InAppNotificationCenterComponent,
     data: {
       bodyClasses: 'router--work-packages-base',
     },
+    component: WorkPackagesBaseComponent,
+    redirectTo: 'notifications.center.show',
   },
+  {
+    name: 'notifications.center',
+    component: InAppNotificationCenterPageComponent,
+    redirectTo: 'notifications.center.show',
+  },
+  {
+    name: 'notifications.center.show',
+    data: {
+      baseRoute: 'notifications.center.show',
+    },
+    views: {
+      'content-left': { component: InAppNotificationCenterComponent },
+    },
+  },
+  ...makeSplitViewRoutes(
+    'notifications.center.show',
+    undefined,
+    WorkPackageSplitViewComponent,
+  ),
 ];
