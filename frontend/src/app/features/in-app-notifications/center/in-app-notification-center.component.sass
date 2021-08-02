@@ -1,19 +1,18 @@
 .op-ian-center
-  display: grid
-  grid-template-rows: auto 100%
-  grid-template-areas: "toolbar" "content" "footer"
-
-  &--toolbar
-    grid-area: toolbar
+  height: 100%
 
   &--content
+    height: 100%
     grid-area: content
+    // Allow viewbox to get autoheight
+    display: flex
+    flex-direction: column
+
+  &--viewport
+    flex: 1
 
   &--entries
     list-style: none
-
-  &--footer
-    grid-area: footer
 
   &--entry
     display: list-item

@@ -34,5 +34,8 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     name: 'notifications',
     url: '/notifications',
     component: InAppNotificationCenterComponent,
+    data: {
+      bodyClasses: 'router--work-packages-base',
+    },
   },
 ];
