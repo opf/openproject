@@ -582,6 +582,7 @@ en:
         involved: 'I am involved'
         mentioned: 'I was mentioned'
         watched: 'I am watching'
+        work_package_commented: 'Comment on work package'
         all: 'All events'
         add: 'Add setting for project'
         already_selected: 'This project is already selected'

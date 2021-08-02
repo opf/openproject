@@ -83,7 +83,7 @@ module UserPreferences
           on_duplicate_key_update: {
             conflict_target: conflict_target,
             index_predicate: index_predicate,
-            columns: %i[watched involved mentioned all]
+            columns: %i[watched involved mentioned work_package_commented all]
           },
           validate: false
         ).ids

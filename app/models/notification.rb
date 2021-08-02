@@ -1,7 +1,7 @@
 class Notification < ApplicationRecord
-  enum reason_ian: { mentioned: 0, involved: 1, watched: 2, subscribed: 3 }, _prefix: :ian
-  enum reason_mail: { mentioned: 0, involved: 1, watched: 2, subscribed: 3 }, _prefix: :mail
-  enum reason_mail_digest: { mentioned: 0, involved: 1, watched: 2, subscribed: 3 }, _prefix: :mail_digest
+  enum reason_ian: { mentioned: 0, involved: 1, watched: 2, subscribed: 3, commented: 4 }, _prefix: :ian
+  enum reason_mail: { mentioned: 0, involved: 1, watched: 2, subscribed: 3, commented: 4 }, _prefix: :mail
+  enum reason_mail_digest: { mentioned: 0, involved: 1, watched: 2, subscribed: 3, commented: 4 }, _prefix: :mail_digest
 
   belongs_to :recipient, class_name: 'User'
   belongs_to :actor, class_name: 'User'

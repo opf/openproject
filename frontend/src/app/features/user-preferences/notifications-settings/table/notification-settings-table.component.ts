@@ -34,6 +34,7 @@ export class NotificationSettingsTableComponent {
     channel_header: this.I18n.t('js.notifications.channel'),
     mentioned_header: this.I18n.t('js.notifications.settings.mentioned'),
     watched_header: this.I18n.t('js.notifications.settings.watched'),
+    work_package_commented_header: this.I18n.t('js.notifications.settings.work_package_commented'),
     any_event_header: this.I18n.t('js.notifications.settings.all'),
     default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
   };

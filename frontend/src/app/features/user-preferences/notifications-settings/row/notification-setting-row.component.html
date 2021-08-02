@@ -44,6 +44,16 @@
 </td>
 <td>
   <input
+    type="checkbox"
+    [checked]="setting.workPackageCommented || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageCommented: $event.target.checked })"
+    data-qa-notification-type="work_package_commented"
+    [attr.aria-label]="text.work_package_commented_header"
+  />
+</td>
+<td>
+  <input
       type="checkbox"
       [checked]="setting.all"
       (change)="update({ all: $event.target.checked })"

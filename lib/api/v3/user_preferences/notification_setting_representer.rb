@@ -39,6 +39,7 @@ module API
         property :involved
         property :mentioned
         property :all
+        property :work_package_commented
 
         associated_resource :project,
                             skip_render: ->(*) { true },
