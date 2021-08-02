@@ -9,6 +9,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './news.component.html',
@@ -62,7 +63,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsProjectPath(news:NewsResource) {
-    return this.pathHelper.projectPath(news.project?.idFromLink);
+    return this.pathHelper.projectPath(idFromLink(news.project?.href));
   }
 
   public newsProjectName(news:NewsResource) {

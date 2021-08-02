@@ -4,6 +4,7 @@ import { ColorsService } from 'core-app/shared/components/colors/colors.service'
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { PrincipalLike } from './principal-types';
 import { PrincipalHelper } from './principal-helper';
 import PrincipalType = PrincipalHelper.PrincipalType;
@@ -129,7 +130,7 @@ export class PrincipalRendererService {
   }
 
   private userAvatarUrl(principal:PrincipalLike):string|null {
-    const id = principal.id || HalResource.idFromLink(principal.href || '');
+    const id = principal.id || idFromLink(principal.href || '');
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 

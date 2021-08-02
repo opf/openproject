@@ -8,7 +8,7 @@ import {
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable, timer } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -147,7 +147,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     if (project) {
       this.project = {
         ...project,
-        showUrl: this.pathHelper.projectPath(HalResource.idFromLink(project.href)),
+        showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
       };
     }
   }

@@ -31,6 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   templateUrl: './authoring.component.html',
@@ -67,7 +68,7 @@ export class AuthoringComponent implements OnInit {
     this.createdOnTime = this.timezoneService.parseDatetime(this.createdOn);
     this.timeago = this.createdOnTime.fromNow();
     this.time = this.createdOnTime.format('LLL');
-    this.userLink = this.PathHelper.userPath(this.author.idFromLink);
+    this.userLink = this.PathHelper.userPath(idFromLink(this.author.href));
   }
 
   public activityFromPath(from:any) {
