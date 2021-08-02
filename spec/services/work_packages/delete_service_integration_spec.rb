@@ -92,4 +92,28 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
       expect { work_package.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
+
+  describe 'with a notification' do
+    let!(:work_package) { FactoryBot.create :work_package, project: project }
+    let!(:notification) do
+      FactoryBot.create :notification,
+                        recipient: user,
+                        actor: user,
+                        resource: work_package,
+                        project: project
+    end
+
+    let(:instance) do
+      described_class.new(user: user,
+                          model: work_package)
+    end
+
+    subject { instance.call }
+
+    it 'deletes the notification' do
+      expect(subject).to be_success
+      expect { work_package.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

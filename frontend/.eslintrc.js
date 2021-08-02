@@ -105,7 +105,24 @@ module.exports = {
 
         "import/prefer-default-export": "off",
 
-        "no-underscore-dangle": "warn",
+        // HAL has a lot of dangling properties, so allow
+        // usage in properties but not in all other places
+        "no-underscore-dangle": [
+          "warn",
+          {
+            allow: [
+              "_links",
+              "_embedded",
+              "_meta",
+            ],
+            allowAfterThis: false,
+            allowAfterSuper: false,
+            allowAfterThisConstructor: false,
+            enforceInMethodNames: true,
+            allowFunctionParams: false,
+          }
+        ],
+
         "no-return-assign": ["error", "except-parens"],
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
 

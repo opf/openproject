@@ -1311,8 +1311,10 @@ fr:
         expiration: "Expiration"
       indefinite_expiration: "Jamais"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1619,7 +1621,6 @@ fr:
   label_none_parentheses: "(none)"
   label_not_contains: "ne contient pas"
   label_not_equals: "n'est pas"
-  label_notify_member_plural: "Notifications courriel"
   label_on: "le"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
@@ -2486,8 +2487,8 @@ fr:
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} a changé de %{old} <br/><strong>à</strong> %{new}"
-  text_journal_changed_plain: "%{label} changé de %{old} à %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
@@ -2758,7 +2759,7 @@ fr:
     Limite d'utilisateur atteinte. Vous ne pouvez plus activer d'autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour votre plan</a> ou bloquez des membres pour permettre d'autres utilisateurs.
   warning_user_limit_reached_instructions: >
     Vous avez atteint votre limite d'utilisateurs (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com pour mettre à jour votre plan Enterprise Edition et ajouter des utilisateurs supplémentaires.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

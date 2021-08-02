@@ -7,16 +7,19 @@
   <button
       type="button"
       class="op-ian-item--row"
+      [class.op-ian-item--row_unexpandable]="unexpandable"
       (click)="toggleDetails()"
   >
-    <a
+    <div
         *ngIf="project"
         class="op-ian-item--project"
-        [href]="project.showUrl"
-        [textContent]="project.title"
-        (click)="projectClicked($event)"
-        target="_blank"
-    ></a>
+    >
+      <a
+          class="op-ian-item--project-link" [href]="project.showUrl"
+          [textContent]="project.title"
+          (click)="projectClicked($event)"
+          target="_blank"
+      ></a></div>
     <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
       <span
           class="op-ian-item--title"
@@ -42,6 +45,7 @@
     </ng-container>
     <ng-template #workPackageLoading>
       <span
+          *ngIf="workPackage$"
           class="op-ian-item--title"
           [textContent]="text.loading"
       ></span>
@@ -53,15 +57,15 @@
       ></span>
     </ng-container>
     <div
-      class="op-ian-item--actor"
-      *ngIf="actor"
+        class="op-ian-item--actor"
+        *ngIf="actor"
     >
       <op-principal
-        [hide-name]="false"
-        [principal]="actor"
-        [link]="false"
-        size="medium"
-        class="op-principal_hide-name-on-mobile"
+          [hide-name]="false"
+          [principal]="actor"
+          [link]="false"
+          size="medium"
+          class="op-principal_hide-name-on-mobile"
       ></op-principal>
     </div>
     <div
@@ -90,7 +94,10 @@
         </ng-container>
       </div>
     </ng-container>
-    <ul class="work-package-details-activities-messages" *ngIf="notification.details.length > 1">
+    <ul
+        class="work-package-details-activities-messages"
+        *ngIf="details.length > 0"
+    >
       <ng-container *ngFor="let detail of details">
         <li *ngIf="detail.html && detail.html !== ''">
           <span

@@ -237,12 +237,14 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     ];
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public galleryPreviewOpen():void {
-    jQuery('#top-menu').addClass('-no-z-index');
+    jQuery('.op-app-header').addClass('-no-z-index');
   }
 
+  // eslint-disable-next-line class-methods-use-this
   public galleryPreviewClose():void {
-    jQuery('#top-menu').removeClass('-no-z-index');
+    jQuery('.op-app-header').removeClass('-no-z-index');
   }
 
   public selectViewpointInGallery() {

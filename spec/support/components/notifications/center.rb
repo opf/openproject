@@ -93,7 +93,7 @@ module Components
       end
 
       def expect_empty
-        expect(page).to have_text I18n.t('js.notice_no_results_to_display')
+        expect(page).to have_text 'No unread notifications'
       end
 
       def expect_bell_count(count)

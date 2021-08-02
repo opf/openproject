@@ -1307,8 +1307,10 @@ el:
         expiration: "Λήγει"
       indefinite_expiration: "Ποτέ"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1615,7 +1617,6 @@ el:
   label_none_parentheses: "(κανένα)"
   label_not_contains: "δεν περιέχει"
   label_not_equals: "δεν είναι"
-  label_notify_member_plural: "Ενημερώσεις email"
   label_on: "σε"
   label_open_menu: "Άνοιγμα μενού"
   label_open_work_packages: "ανοιχτό"
@@ -2482,8 +2483,8 @@ el:
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "Το %{label} άλλαξε από %{old} <br/><strong>σε</strong> %{new}"
-  text_journal_changed_plain: "Το %{label} άλλαξε από %{old} \nσε %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
   text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
   text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"
@@ -2754,7 +2755,7 @@ el:
     Επετεύχθη το όριο χρηστών. Δεν μπορείτε να ενεργοποιήσετε άλλους χρήστες. Παρακαλούμε <a href="%{upgrade_url}">αναβαθμίστε το πλάνο σας</a> ή αποκλείστε μέλη για να επιτρέψετε περισσότερους χρήστες.
   warning_user_limit_reached_instructions: >
     Έχετε φτάσει το όριο χρηστών (%{current}/%{max} ενεργοί χρήστες). Παρακαλούμε επικοινωνήστε με το sales@openproject.com για να αναβαθμίσετε σε Έκδοση για Επιχειρήσεις και να προσθέσετε επιπλέον χρήστες.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

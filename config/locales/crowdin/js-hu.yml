@@ -222,7 +222,7 @@ hu:
             description: "What are the benefits of the Enterprise on-premises Edition?"
             high_security: "Security features"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
+            installation: "Telepítési támogatás"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "Prémium funkciók"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
@@ -434,7 +434,7 @@ hu:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "Szülő munkacsomag"
     label_work_package_plural: "Munkacsomagok"
     label_watch: "Megfigyelés"
     label_watch_work_package: "Megfigyelő munkacsomag"
@@ -486,7 +486,8 @@ hu:
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -506,6 +507,7 @@ hu:
     notifications:
       title: "Értesítések"
       channel: "Csatorna"
+      no_unread: "Nincs olvasatlan értesítés"
       channels:
         in_app: "Alkalmazásban"
         mail: "Email"
@@ -527,6 +529,7 @@ hu:
         watched: 'I am watching'
         all: 'Minden esemény'
         add: 'Add setting for project'
+        already_selected: 'A projekt már ki lett választva'
         remove_projects: 'Remove notifications for projects'
         title: "Értesítési beállítások"
         self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
@@ -551,9 +554,9 @@ hu:
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Sablon használata"
-      no_template_selected: "(None)"
+      no_template_selected: "(Nincs)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Másolási beállítás"
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
@@ -637,7 +640,7 @@ hu:
       abort: "Megszakít"
     relations_autocomplete:
       placeholder: "Gépeljen a kereséshez"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      parent_placeholder: "Válassz egy szülő objektumot vagy nyomd meg az ESC gombot  kilépéshez"
     autocompleter:
       placeholder: "Gépeljen a kereséshez"
       notFoundText: "Nem található elem"
@@ -857,7 +860,7 @@ hu:
         public_text: >
           Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
+          unretrievable_query: "Nem érhető el a nézet az URL-ből"
           not_found: "Nincs ilyen nézet"
           duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
@@ -953,8 +956,8 @@ hu:
         confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
         deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
+        title: "Időbejegyzés törlésének jóváhagyása"
+        text: "Biztosan törölni akarja a következő időbejegyzést?"
     notice_no_results_to_display: "Nincs megjeleníthető eredmény."
     notice_successful_create: "Sikeres létrehozás."
     notice_successful_delete: "Sikeres törlés."
@@ -1063,12 +1066,12 @@ hu:
         label: 'Role in %{project}'
         no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        required: 'Kérjük, válasszon szerepet'
         next_button: ' Következő'
       message:
-        label: 'Invitation message'
+        label: 'Meghívó üzenet'
         description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        next_button: 'Meghívó ellenőrzése'
       summary:
         next_button: 'Meghívó küldése'
       success:

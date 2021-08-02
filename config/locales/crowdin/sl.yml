@@ -1344,8 +1344,10 @@ sl:
         expiration: "Poteče"
       indefinite_expiration: "Nikoli"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1652,7 +1654,6 @@ sl:
   label_none_parentheses: "(brez)"
   label_not_contains: "ne vsebuje"
   label_not_equals: "ni"
-  label_notify_member_plural: "Posodobitve po e-pošti"
   label_on: "vključeno"
   label_open_menu: "Odpri meni"
   label_open_work_packages: "odpri"
@@ -2520,8 +2521,8 @@ sl:
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} se je spremenila iz %{old} <br/><strong>v</strong>%{new}"
-  text_journal_changed_plain: "%{label} se je spremenil iz %{old}\nv %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
   text_journal_changed_with_diff: "%{label} spremenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
@@ -2797,7 +2798,7 @@ sl:
     Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
     Dosegli ste uporabniško omejitev (%{current} /%{max} aktivni uporabniki).Prosimo kontaktirajte sales@openproject.com  če želite nadgraditi načrt za Enterprise Edition in dodati dodatne uporabnike.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

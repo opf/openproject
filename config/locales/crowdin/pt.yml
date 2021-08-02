@@ -552,7 +552,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "não está disponível devido a uma configuração do sistema."
         not_deletable: "não pode ser excluído."
         not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
@@ -575,7 +575,7 @@ pt:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "está configurado para '%{value}', que não está na lista de permissões para upload. "
         capability:
           context:
             global: 'Global'
@@ -610,20 +610,20 @@ pt:
           outside: 'está fora da grade.'
           end_before_start: 'o valor final precisa ser maior que o valor inicial.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
             read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
             read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
             reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              no_notification_reason: 'não pode ficar em branco porque o e-mail foi escolhido como canal.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -771,8 +771,8 @@ pt:
       member: "Membro"
       news: "Notícias"
       notification:
-        one: "Notification"
-        other: "Notifications"
+        one: "Notificação"
+        other: "Notificações"
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
       query: "Consulta personalizada"
@@ -1231,7 +1231,7 @@ pt:
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
-    failed: "The export has failed: %{message}"
+    failed: "A exportação falhou: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1296,7 +1296,7 @@ pt:
   menus:
     admin:
       mail_notification: "Notificações por e-mail"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Entrada & Saída"
     quick_add:
       label: "Abrir menu de adição rápida"
   my_account:
@@ -1310,13 +1310,15 @@ pt:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
+    send_notifications: "Enviando notificações para está ação "
     work_packages:
       subject:
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "O pacote de trabalho foi criado."
+        assigned: "Você foi designado para %{work_package}"
+        subscribed: "Você se inscreveu em %{work_package}"
+        mentioned: "Você foi mencionado em %{work_package}"
+        involved: "Você está atribuído a ou é responsável por %{work_package}"
+        watched: "Você está assistindo %{work_package}"
   label_accessibility: "Acessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -1618,7 +1620,6 @@ pt:
   label_none_parentheses: "(nenhum)"
   label_not_contains: "não contém"
   label_not_equals: "não é"
-  label_notify_member_plural: "Emails atualizados"
   label_on: "ligado"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
@@ -1890,17 +1891,17 @@ pt:
   mail:
     actions: 'Ações'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      time_frame: 'Resumo de todos os eventos em que você se inscreveu no período entre %{start} e %{end}'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} criado em %{timestamp}'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'observado'
+          involved: 'designado ou responsável'
+          mentioned: 'mencionado'
           subscribed: 'todos'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+          prefix: 'Recebido devido à configuração de notificação: %{reason}'
+        subject: 'Resumo diário do projeto para %{date} - %{number} atualizações'
+        updated_at: '%{user} atualizado em %{timestamp}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
@@ -2275,10 +2276,10 @@ pt:
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
   setting_apiv3_docs: "Documentação"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "Habilitar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+    Se a página de documentos estiver habilitada, você pode obter uma visão interativa da documentação APIv3 em <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Lista de permissões de envio de anexos "
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
   setting_smtp_enable_starttls_auto: "Automaticamente usar STARTTLS, se disponível"
@@ -2324,9 +2325,9 @@ pt:
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
-  setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
-  setting_notification_email_digest_time: "Email digest time"
+  setting_notification_retention_period_days: "Período de retenção de notificação"
+  setting_notification_email_delay_minutes: "Atraso no envio de e-mail"
+  setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2340,7 +2341,7 @@ pt:
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "Ações do usuário agregadas em"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"
   setting_mail_from: "Endereço de e-mail de saída"
@@ -2397,12 +2398,12 @@ pt:
     brute_force_prevention: "Bloqueio automatizado de usuário"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de míme (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+        Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
+      email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2483,9 +2484,9 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} alterado de %{old} <br/><strong>para</strong> %{new}"
-  text_journal_changed_plain: "%{label} alterado de %{old} \npara %{new}"
+  text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2513,7 +2514,7 @@ pt:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A expressão regular é aplicada no modo multilinha. Por exemplo: ^---\s+'
   text_repository_usernames_mapping: "Selecionar ou atualizar o usuário do OpenProject mapeado para cada nome de usuário encontrado no log do repositório. Os usuários com o mesmo nome de usuário OpenProject e repositório ou e-mail serão mapeados automaticamente."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "Selecione as ações para as quais as notificações devem ser enviadas. "
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_table_difference_description: "Nesta tabela, os únicos %{entries} são mostrados. Você pode ver a diferença entre quaisquer duas entradas selecionando primeiro as caixas de seleção correspondentes na tabela. Ao clicar no botão abaixo da tabela são mostradas as diferenças."
   text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."
@@ -2756,7 +2757,7 @@ pt:
     Atingido o limite de usuários. Você não pode ativar mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie a adição de novos usuários.
   warning_user_limit_reached_instructions: >
     Você atingiu seu limite de usuários (%{current}/%{max} usuários ativos). Entre em contato com sales@openproject.com para atualizar seu plano Enterprise Edition e adicionar novos usuários.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

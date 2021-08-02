@@ -1308,8 +1308,10 @@ it:
         expiration: "Scade"
       indefinite_expiration: "Mai"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "Sei stato assegnato a %{work_package}"
         subscribed: "Ti sei abbonato a %{work_package}"
         mentioned: "Sei stato menzionato in %{work_package}"
@@ -1616,7 +1618,6 @@ it:
   label_none_parentheses: "(nessuno)"
   label_not_contains: "non contiene"
   label_not_equals: "non è"
-  label_notify_member_plural: "Aggiornamenti email"
   label_on: "il"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
@@ -2483,8 +2484,8 @@ it:
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
   text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
-  text_journal_changed: "modificato da %{old} <br/><strong>a</strong> %{new} %{label}"
-  text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
@@ -2756,7 +2757,7 @@ it:
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

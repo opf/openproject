@@ -4,9 +4,10 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.7
+  # Enable any new cops in new versions by default
+  NewCops: enable
   Exclude:
     - db/schema.rb
-
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -87,6 +88,11 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'modules/*/spec/**/*.rb'
 
 Naming/AccessorMethodName:
   Enabled: false
@@ -113,6 +119,13 @@ Rails/SkipsModelValidations:
 Rails/ContentTag:
   Enabled: false
 
+# Disable I18n.locale = in specs, where it is reset
+# by us explicitly
+Rails/I18nLocaleAssignment:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
 # * performance, as setting up integration tests is costly
@@ -136,6 +149,24 @@ RSpec/MultipleMemoizedHelpers:
   Max: 15
   AllowSubject: true
 
+RSpec/NestedGroups:
+  Max: 4
+
+# Don't force the second argument of describe
+# to be .class_method or #instance_method
+RSpec/DescribeMethod:
+  Enabled: false
+
+# We use let!() to ensure dependencies are created
+# instead of let() and referencing them explicitly
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
 
 Style/Alias:
   Enabled: false

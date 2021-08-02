@@ -4,30 +4,30 @@ hu:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP csatlakozás'
-        sync_users: 'Sync users'
+        sync_users: 'Felhasználók szinkronizálása'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP szűrő'
         auth_source: 'LDAP csatlakozás'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
+        group_name_attribute: "Csoport név attribútum"
+        sync_users: 'Felhasználók szinkronizálása'
         base_dn: "Search base DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_group: 'Szinkronizált LDAP csoport'
+      ldap_groups/synchronized_filter: 'LDAP csoport szinkronizálása'
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
+    label_menu_item: 'LDAP csoport szinkronizálása'
     label_group_key: 'LDAP group filter key'
     label_synchronize: 'Szinkronizálás'
     settings:
-      name_attribute: 'LDAP groups name attribute'
+      name_attribute: 'LDAP csoport érték'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
       add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
+      singular: 'LDAP csoport szinkronizálása'
       plural: 'LDAP Group synchronization filters'
       label_n_groups_found:
         one: "1 group found by the filter"
@@ -45,7 +45,7 @@ hu:
           Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
           Leave this option empty to reuse the base DN of the connection
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Szinkronizált LDAP csoport hozzáadása'
       destroy:
         title: 'Remove synchronized group %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
@@ -57,10 +57,10 @@ hu:
         <br/>
         A csoportokat óránként szinkronizáljuk egy cron feladattal.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/"> Kérjük, olvassa el a témával kapcsolatos dokumentációinkat </a>.
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+      no_results: 'Nem található szinkronizálható csoport'
+      no_members: 'Ez a csoport nem tartalmaz szinkronizált felhasználót még'
+      plural: 'Szinkronizált LDAP csoportok'
+      singular: 'Szinkronizált LDAP csoport'
       form:
         auth_source_text: 'Select which LDAP connection should be used.'
         sync_users_text: >

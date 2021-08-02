@@ -61,7 +61,7 @@ FactoryBot.define do
         user.notification_settings = [
           FactoryBot.create(:mail_notification_setting, user: user, all: true),
           FactoryBot.create(:in_app_notification_setting, user: user, all: true),
-          FactoryBot.create(:mail_digest_notification_setting, user: user),
+          FactoryBot.create(:mail_digest_notification_setting, user: user)
         ]
       end
 

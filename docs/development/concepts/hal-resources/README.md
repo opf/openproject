@@ -230,7 +230,7 @@ In order to turn the JSON properties from `_embedded` and `_links` into writable
 
 ## 🔗 Code references
 
-- [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/hal/services/hal-resource.service.ts) for loading and and turning JSON responses into HAL resource classes
+- [`HALResourceService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/hal/services/hal-resource.service.ts) for loading and turning JSON responses into HAL resource classes
 - [`halResource.config.ts`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/hal/services/hal-resource.config.ts) for identifying what types in the JSON response and its members/links are being turned into which classes.
 - [`HalResource`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/hal/resources/hal-resource.ts) the base HAL resource class
 -  [`HAL resource builder`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/hal/helpers/hal-resource-builder.ts) used for wiring up the links and embedded JSON properties into members of the HAL resource classes

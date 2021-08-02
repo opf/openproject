@@ -101,4 +101,22 @@ describe 'Projects module administration',
     expect(page)
       .to have_checked_field 'Work package tracking'
   end
+
+  context 'with a user who does not have the correct permissions (#38097)' do
+    let(:user_without_permission) do
+      FactoryBot.create(:user,
+                        member_in_project: project,
+                        member_with_permissions: %i(edit_project))
+    end
+
+    before do
+      login_as user_without_permission
+      settings_page.visit_tab!('generic')
+    end
+
+    it "I can't see the modules menu item" do
+      expect(page)
+        .not_to have_selector('[data-name="settings_modules"]')
+    end
+  end
 end

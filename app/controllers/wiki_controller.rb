@@ -439,10 +439,6 @@ class WikiController < ApplicationController
     @page&.ancestors&.any?
   end
 
-  def show_local_breadcrumb_defaults
-    false
-  end
-
   def redirect_to_show
     redirect_to action: :show, project_id: @project, id: @page
   end

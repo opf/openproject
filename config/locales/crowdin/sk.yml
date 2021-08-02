@@ -1346,8 +1346,10 @@ sk:
         expiration: "Expiruje"
       indefinite_expiration: "Nikdy"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1654,7 +1656,6 @@ sk:
   label_none_parentheses: "(žiadny)"
   label_not_contains: "neobsahuje"
   label_not_equals: "nie je"
-  label_notify_member_plural: "Aktualizácie e-mailom"
   label_on: "dňa"
   label_open_menu: "Otvorte menu"
   label_open_work_packages: "otvorené"
@@ -2522,8 +2523,8 @@ sk:
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} zmenený z %{old} <br/><strong>na</strong> %{new}"
-  text_journal_changed_plain: "%{label} zmenený z %{old} \nna %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
   text_journal_changed_with_diff: "%{label} zmenený (%{link})"
   text_journal_deleted: "%{label} odstránený (%{old})"
@@ -2799,7 +2800,7 @@ sk:
     Váš limit počtu užívateľov bol dosiahnutý. Nie je možné aktivovať viac užívateľov. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> alebo zablokujte niektorých stávajúcich členov aby bolo možné pridanie ďalších užívateľov.
   warning_user_limit_reached_instructions: >
     Limit počtu užívateľov (%{current}/%{max} aktívnych užívateľov) dosiahnutý. Prosím kontaktujte sales@openproject.com a upgradujte Vašu Enterprise Edition a pridajte ďalších užívateľov.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

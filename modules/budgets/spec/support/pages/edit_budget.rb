@@ -45,6 +45,12 @@ module Pages
       end
     end
 
+    def click_delete
+      within '.toolbar-items' do
+        click_link 'Delete'
+      end
+    end
+
     def path
       "/budgets/#{budget_id}"
     end

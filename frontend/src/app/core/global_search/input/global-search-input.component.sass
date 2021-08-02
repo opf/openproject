@@ -84,7 +84,9 @@ $search-input-height: 30px
         cursor: text
 
     .ng-placeholder
-      color: var(--header-item-font-color)
+      // The ng-select default theme is overly specific
+      // We might want to replace it with our own BEM theme definition
+      color: var(--header-item-font-color) !important
 
     &.-expanded
       width: $search-input-width-expanded
@@ -97,7 +99,7 @@ $search-input-height: 30px
       input
         color: var(--header-search-field-font-color)
 
-    .scroll-host
+    .ng-dropdown-panel-items.scroll-host
       @include styled-scroll-bar
       max-height: 80vh
       height: auto

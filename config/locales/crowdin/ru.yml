@@ -1345,8 +1345,10 @@ ru:
         expiration: "Срок действия"
       indefinite_expiration: "Никогда"
   notifications:
+    send_notifications: "Отправить уведомления для этого действия"
     work_packages:
       subject:
+        created: "Пакет работ создан."
         assigned: "Вы были назначены %{work_package}"
         subscribed: "Вы подписались на %{work_package}"
         mentioned: "Вы были назначены %{work_package}"
@@ -1653,7 +1655,6 @@ ru:
   label_none_parentheses: "(нет)"
   label_not_contains: "не содержит"
   label_not_equals: "не"
-  label_notify_member_plural: "Уведомление электронной почтой"
   label_on: "на"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
@@ -2519,8 +2520,8 @@ ru:
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
   text_journal_aggregation_time_explanation: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница в возрасте меньше указанного промежутка времени. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомления на то же количество времени, уменьшая количество отправляемых сообщений."
-  text_journal_changed: "%{label} изменено с %{old} <br/><strong>на</strong> %{new}"
-  text_journal_changed_plain: "%{label} изменено с %{old} на %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
@@ -2795,7 +2796,7 @@ ru:
     Достигнут предел пользователя. Вы более не можете активировать пользователей. <a href="%{upgrade_url}">, обновите ваш план</a> или блок участников для дополнительных пользователей.
   warning_user_limit_reached_instructions: >
     Вы достигли вашего пользовательского предела (%{current}/%{max} активных пользователей). Пожалуйста, свяжитесь с sales@openproject.com для обновления своего плана до Корпоративной версии и добавьте дополнительных пользователей.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

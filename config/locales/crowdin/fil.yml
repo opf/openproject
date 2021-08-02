@@ -1312,8 +1312,10 @@ fil:
         expiration: "Natapos"
       indefinite_expiration: "Hindi kailanman"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1620,7 +1622,6 @@ fil:
   label_none_parentheses: "(wala)"
   label_not_contains: "hindi naglalaman"
   label_not_equals: "ay hindi"
-  label_notify_member_plural: "I-update ang mga email"
   label_on: "sa"
   label_open_menu: "Buksan ang pagpipilian"
   label_open_work_packages: "buksan"
@@ -2485,8 +2486,8 @@ fil:
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"
@@ -2758,7 +2759,7 @@ fil:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

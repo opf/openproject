@@ -91,12 +91,12 @@ describe Query, type: :model do
 
   describe 'highlighting' do
     context 'with EE' do
-      it '#hightlighted_attrirbutes accepts valid values' do
+      it '#highlighted_attributes accepts valid values' do
         query.highlighted_attributes = %w(status priority due_date)
         expect(query).to be_valid
       end
 
-      it '#hightlighted_attributes rejects invalid values' do
+      it '#highlighted_attributes rejects invalid values' do
         query.highlighted_attributes = %w(status bogus)
         expect(query).not_to be_valid
       end

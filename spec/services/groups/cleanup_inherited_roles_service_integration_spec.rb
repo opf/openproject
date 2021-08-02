@@ -50,7 +50,7 @@ describe Groups::CleanupInheritedRolesService, 'integration', type: :model do
                         roles: roles)
 
       ::Groups::AddUsersService
-        .new(group, current_user: nil, contract_class: EmptyContract)
+        .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(ids: users.map(&:id))
     end
   end

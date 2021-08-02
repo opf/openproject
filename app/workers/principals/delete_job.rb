@@ -54,7 +54,12 @@ class Principals::DeleteJob < ApplicationJob
   end
 
   def delete_associated(principal)
+    delete_notifications(principal)
     delete_private_queries(principal)
+  end
+
+  def delete_notifications(principal)
+    ::Notification.where(recipient: principal).delete_all
   end
 
   def delete_private_queries(principal)

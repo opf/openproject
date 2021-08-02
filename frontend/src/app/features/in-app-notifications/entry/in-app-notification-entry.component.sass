@@ -38,6 +38,9 @@ $ian-bg-hover-color: #F1F8FF
       grid-template-rows: auto 1fr
       grid-template-areas: "project actor reason" "title actor date"
 
+    &_unexpandable
+      cursor: default
+
 
   &--indicator
     width: 10px
@@ -58,8 +61,13 @@ $ian-bg-hover-color: #F1F8FF
   &--project
     grid-area: project
     font-size: 0.8rem
-    color: var(--gray-dark)
     @include text-shortener
+
+  &--project-link
+    color: var(--gray-dark)
+    // Set line-height to show underline
+    // which is otherwise swallowed by overflow
+    line-height: 1.1
 
   &--reason,
   &--date

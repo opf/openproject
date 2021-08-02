@@ -75,6 +75,7 @@ describe DigestMailer, type: :mailer do
 
   describe '#work_packages' do
     subject(:mail) { described_class.work_packages(recipient.id, notifications.map(&:id)) }
+
     let(:mail_body) { mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
 
     it 'notes the day and the number of notifications in the subject' do
@@ -107,8 +108,9 @@ describe DigestMailer, type: :mailer do
       expect(mail_body)
         .to have_selector('body section h1', text: project1.name)
 
+      expected = "#{work_package.type.name} ##{work_package.id} #{work_package.status.name}: #{work_package.subject}"
       expect(mail_body)
-        .to have_selector('body section section h2', text: work_package.to_s)
+        .to have_selector('body section section h2', text: expected)
 
       expect(mail_body)
         .to have_selector('body section section p.op-uc-p', text: journal.notes)
@@ -116,6 +118,18 @@ describe DigestMailer, type: :mailer do
       expect(mail_body)
         .to have_selector('body section section li',
                           text: "Subject changed from old subject to new subject")
+    end
+
+    context 'with only a deleted work package for the digest' do
+      let(:work_package) { nil }
+
+      it `is a NullMail which isn't sent` do
+        expect(mail.body)
+          .to eql ''
+
+        expect(mail.header)
+          .to eql({})
+      end
     end
   end
 end

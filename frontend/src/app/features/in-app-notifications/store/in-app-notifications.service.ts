@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { applyTransaction, ID, transaction } from '@datorama/akita';
+import { applyTransaction, ID } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class InAppNotificationsService {
         (events) => {
           applyTransaction(() => {
             this.store.set(events._embedded.elements);
-            this.store.update({ count: events.total, notShowing: events.total - events.count });
+            this.store.update({ notShowing: events.total - events.count });
           });
         },
         (error) => {
@@ -55,27 +55,17 @@ export class InAppNotificationsService {
       .unread({ pageSize: 0 })
       .pipe(
         map((events) => events.total),
-        tap((count) => this.store.update({ count })),
+        tap((unreadCount) => {
+          this.store.update({ unreadCount });
+        }),
       );
-  }
-
-  @transaction()
-  add(inAppNotification:InAppNotification):void {
-    this.store.add(inAppNotification);
-    this.store.update((state) => ({ ...state, count: state.count + 1 }));
   }
 
   update(id:ID, inAppNotification:Partial<InAppNotification>):void {
     this.store.update(id, inAppNotification);
   }
 
-  @transaction()
-  remove(id:ID):void {
-    this.store.remove(id);
-    this.store.update((state) => ({ ...state, count: state.count + 1 }));
-  }
-
-  setActiveFacet(facet:string) {
+  setActiveFacet(facet:string):void {
     this.store.update((state) => ({ ...state, activeFacet: facet }));
   }
 
@@ -89,7 +79,7 @@ export class InAppNotificationsService {
       .subscribe(() => {
         applyTransaction(() => {
           this.store.update(null, { readIAN: true });
-          this.store.update({ count: 0 });
+          this.store.update({ unreadCount: 0 });
         });
       });
   }
@@ -100,7 +90,7 @@ export class InAppNotificationsService {
       return href && HalResource.matchFromLink(href, 'work_packages');
     });
 
-    this
+    void this
       .apiV3Service
       .work_packages
       .requireAll(_.compact(wpIds));
@@ -140,7 +130,7 @@ export class InAppNotificationsService {
             },
           );
           this.store.update(
-            ({ count }) => ({ count: count - 1 }),
+            ({ unreadCount }) => ({ unreadCount: unreadCount - 1 }),
           );
         });
       });

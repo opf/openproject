@@ -1291,8 +1291,10 @@ zh-CN:
         expiration: "过期"
       indefinite_expiration: "永不"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1599,7 +1601,6 @@ zh-CN:
   label_none_parentheses: "(无)"
   label_not_contains: "不包含"
   label_not_equals: "不是"
-  label_notify_member_plural: "电子邮件更新"
   label_on: "于"
   label_open_menu: "打开菜单"
   label_open_work_packages: "打开"
@@ -2461,8 +2462,8 @@ zh-CN:
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} 已从 %{old} <br/><strong>更改为</strong> %{new}"
-  text_journal_changed_plain: "%{label} 已从 %{old} 更改为 %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已变更 (%{link})"
   text_journal_deleted: "%{label} 已删除 (%{old})"
@@ -2731,7 +2732,7 @@ zh-CN:
     达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
   warning_user_limit_reached_instructions: >
     您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise Edition计划并添加其他用户。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

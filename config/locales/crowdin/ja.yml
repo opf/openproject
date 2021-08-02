@@ -1291,8 +1291,10 @@ ja:
         expiration: "有効期限"
       indefinite_expiration: "なし"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1599,7 +1601,6 @@ ja:
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
-  label_notify_member_plural: "電子メールで更新の通知"
   label_on: "オン"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
@@ -2465,8 +2466,8 @@ ja:
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} は %{old} <br/><strong>から</strong> %{new}　に変更されました"
-  text_journal_changed_plain: "%{label} は %{old} \nから %{new} に変更されました"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
@@ -2736,7 +2737,7 @@ ja:
     ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
   warning_user_limit_reached_instructions: >
     ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。 sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

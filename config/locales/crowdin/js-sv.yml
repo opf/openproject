@@ -486,7 +486,8 @@ sv:
         welcome: 'Ta en tre minuters introduktionstur för att lära dig de <b>viktigaste funktionerna</b>. <br> Vi rekommenderar att du slutför stegen till slutet. Du kan starta om turen när som helst.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view. <br> On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -506,6 +507,7 @@ sv:
     notifications:
       title: "Notifications"
       channel: "Channel"
+      no_unread: "No unread notifications"
       channels:
         in_app: "In-app"
         mail: "E-post"
@@ -527,6 +529,7 @@ sv:
         watched: 'I am watching'
         all: 'All events'
         add: 'Add setting for project'
+        already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
         self_notify: "Jag vill bli meddelad om ändringar som jag själv gör"

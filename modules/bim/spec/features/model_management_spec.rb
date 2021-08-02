@@ -65,7 +65,7 @@ describe 'model management',
       index_page.visit!
     end
 
-    it 'I can perfom all actions on the models' do
+    it 'I can perform all actions on the models' do
       index_page.model_listed true, model.title
       index_page.add_model_allowed true
       index_page.edit_model_allowed model.title, true

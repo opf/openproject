@@ -1294,8 +1294,10 @@ id:
         expiration: "Expires"
       indefinite_expiration: "Never"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1602,7 +1604,6 @@ id:
   label_none_parentheses: "(kosong)"
   label_not_contains: "tidak berisi"
   label_not_equals: "tidak"
-  label_notify_member_plural: "Email update"
   label_on: "pada"
   label_open_menu: "Buka menu"
   label_open_work_packages: "buka"
@@ -2466,8 +2467,8 @@ id:
   text_work_packages_ref_in_commit_messages: "Referencing & fixing Paket-Penugasan di pesan terkirim"
   text_journal_added: "%{label} %{value} ditambahkan"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} telah diupdate"
   text_journal_changed_with_diff: "%{label} dirubah menjadi (%{link})"
   text_journal_deleted: "%{label} telah dihapus (%{old})"
@@ -2737,7 +2738,7 @@ id:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

@@ -24,7 +24,7 @@ hu:
     error_no_device: "No registered 2FA device found for this user, despite being required for this instance."
     error_no_matching_strategy: "No matching 2FA strategy available for this user. Please contact your administratior."
     error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
-    error_invalid_backup_code: 'Invalid 2FA backup code'
+    error_invalid_backup_code: 'Érvénytelen 2FA visszaállítási kulcs.'
     channel_unavailable: "The delivery channel %{channel} is unavailable."
     no_valid_phone_number: "Nincs érvényes telefonszám."
     label_pwd_confirmation: "Jelszó"
@@ -44,13 +44,13 @@ hu:
     login:
       enter_backup_code_title: Írd be a tartalék kódot
       enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      other_device: 'Használjon másik eszközt vagy visszaállítási kulcsot.'
     settings:
       title: '2FA beállítások'
       current_configuration: 'Jelenlegi konfiguráció'
       label_active_strategies: 'Active 2FA strategies'
       label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      label_remember: '2FA bejelentkezés megjegyzése'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
       text_configuration_guide: For more information, check the configuration guide.
@@ -76,14 +76,14 @@ hu:
       description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
     backup_codes:
       none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
+      singular: Visszaállítási kulcs
+      plural: Visszaállítási kulcsok
       your_codes: for your %{app_name} account %{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
       generate:
-        title: Generate backup codes
+        title: Új biztonsági kódok igénylése
         keep_safe_as_password: 'Important! Treat these codes as passwords.'
         keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
         regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
@@ -150,7 +150,7 @@ hu:
       active_session_notice: >
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
+      label: 'Megjegyez'
       clear_cookie: 'Click here to remove all remembered 2FA sessions.'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."

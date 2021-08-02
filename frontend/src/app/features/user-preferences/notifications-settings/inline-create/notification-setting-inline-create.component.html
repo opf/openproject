@@ -14,10 +14,26 @@
       [placeholder]="text.please_select"
       (change)="selectProject($event)"
       (keydown.escape)="active = false"
+      [fetchDataDirectly]="true"
       [filters]="autocompleterOptions.filters"
       [resource]="autocompleterOptions.resource"
       [getOptionsFn]="autocompleterOptions.getOptionsFn"
       appendTo="body"
   >
+    <ng-template op-autocompleter-option-tmp let-item let-index="index" let-search="search">
+      <div
+        *ngIf="item"
+        class="ng-option-label"
+      >
+        <!--Selectable option-->
+        <div [ngOptionHighlight]="search">{{ item.name }}</div>
+
+        <!-- Project already selected -->
+        <div
+          *ngIf="item.disabled"
+          class="ellipsis"
+        >{{ text.already_selected }}</div>
+      </div>
+    </ng-template>
   </op-autocompleter>
 </div>

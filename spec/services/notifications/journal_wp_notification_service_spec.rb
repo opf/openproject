@@ -38,9 +38,13 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
                       notification_settings: recipient_notification_settings,
                       member_in_project: project,
                       member_through_role: role,
-                      login: recipient_login)
+                      login: recipient_login,
+                      preferences: {
+                        no_self_notified: recipient_no_self_notified
+                      })
   end
   let(:recipient_login) { "johndoe" }
+  let(:recipient_no_self_notified) { true }
   let(:other_user) do
     FactoryBot.create(:user,
                       notification_settings: other_user_notification_settings)
@@ -281,6 +285,44 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
       it_behaves_like 'creates no notification'
     end
+
+    context 'when assignee has all notifications enabled but made the change himself and has deactivated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when assignee has all notifications enabled, made the change himself and has activated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+      let(:recipient_no_self_notified) { false }
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
+      end
+    end
   end
 
   context 'when user is responsible' do
@@ -375,6 +417,44 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
       it_behaves_like 'creates no notification'
     end
+
+    context 'when responsible has all notifications enabled but made the change himself and has deactivated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when responsible has all notifications enabled, made the change himself and has activated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, involved: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, involved: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, involved: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+      let(:recipient_no_self_notified) { false }
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :involved,
+            read_mail: false,
+            reason_mail: :involved,
+            read_mail_digest: false,
+            reason_mail_digest: :involved
+          }
+        end
+      end
+    end
   end
 
   context 'when user is watcher' do
@@ -462,6 +542,44 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:role) { FactoryBot.create(:role, permissions: []) }
 
       it_behaves_like 'creates no notification'
+    end
+
+    context 'when watcher has all notifications enabled but made the change himself and has deactivated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, watched: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, watched: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, watched: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when watcher has all notifications enabled, made the change himself and has activated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, watched: true, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, watched: true, all: true),
+          FactoryBot.build(:in_app_notification_setting, watched: true, all: true)
+        ]
+      end
+      let(:author) { recipient }
+      let(:recipient_no_self_notified) { false }
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :watched,
+            read_mail: false,
+            reason_mail: :watched,
+            read_mail_digest: false,
+            reason_mail_digest: :watched
+          }
+        end
+      end
     end
   end
 
@@ -592,6 +710,44 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       let(:role) { FactoryBot.create(:role, permissions: []) }
 
       it_behaves_like 'creates no notification'
+    end
+
+    context 'when recipient has all notifications enabled but made the change himself and has deactivated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, all: true)
+        ]
+      end
+      let(:author) { recipient }
+
+      it_behaves_like 'creates no notification'
+    end
+
+    context 'when recipient has all notifications enabled, made the change himself and has activated self notification' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, all: true),
+          FactoryBot.build(:mail_digest_notification_setting, all: true),
+          FactoryBot.build(:in_app_notification_setting, all: true)
+        ]
+      end
+      let(:author) { recipient }
+      let(:recipient_no_self_notified) { false }
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :subscribed,
+            read_mail: false,
+            reason_mail: :subscribed,
+            read_mail_digest: false,
+            reason_mail_digest: :subscribed
+          }
+        end
+      end
     end
   end
 
@@ -948,6 +1104,36 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
           it_behaves_like 'creates no notification'
         end
+
+        context 'when the mentioned user made the change himself and has deactivated self notification' do
+          let(:note) do
+            "Hello user:#{recipient.login}, hey user##{recipient.id}"
+          end
+          let(:author) { recipient }
+
+          it_behaves_like 'creates no notification'
+        end
+
+        context 'when the mentioned user made the change himself, but has activated self notification' do
+          let(:note) do
+            "Hello user:#{recipient.login}, hey user##{recipient.id}"
+          end
+          let(:author) { recipient }
+          let(:recipient_no_self_notified) { false }
+
+          it_behaves_like 'creates notification' do
+            let(:notification_channel_reasons) do
+              {
+                read_ian: false,
+                reason_ian: :mentioned,
+                read_mail: false,
+                reason_mail: :mentioned,
+                read_mail_digest: false,
+                reason_mail_digest: :mentioned
+              }
+            end
+          end
+        end
       end
 
       context 'for groups' do
@@ -955,7 +1141,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         let(:group) do
           FactoryBot.create(:group, members: recipient) do |group|
             Members::CreateService
-              .new(user: nil, contract_class: EmptyContract)
+              .new(user: User.system, contract_class: EmptyContract)
               .call(project: project, principal: group, roles: [group_role])
           end
         end
@@ -986,6 +1172,17 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
           end
 
           it_behaves_like 'group mention'
+        end
+
+        context 'with the group member making the change himself and having deactivated self notification' do
+          let(:note) do
+            <<~NOTE
+              Hello <mention class="mention" data-id="#{group.id}" data-type="group" data-text="@#{group.name}">@#{group.name}</mention>
+            NOTE
+          end
+          let(:author) { recipient }
+
+          it_behaves_like 'creates no notification'
         end
       end
     end

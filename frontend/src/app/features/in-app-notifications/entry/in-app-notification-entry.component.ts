@@ -35,6 +35,9 @@ export class InAppNotificationEntryComponent implements OnInit {
   // custom rendered details, if any
   details:InAppNotificationDetail[];
 
+  // Whether body and details are empty
+  unexpandable = false;
+
   // The actor, if any
   actor?:PrincipalLike;
 
@@ -89,18 +92,23 @@ export class InAppNotificationEntryComponent implements OnInit {
     const details = this.notification.details || [];
     this.body = details.filter((el) => el.format === 'markdown');
     this.details = details.filter((el) => el.format === 'custom');
+    this.unexpandable = this.body.length === 0 && this.details.length === 0;
   }
 
   private buildTime() {
-    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.updatedAt);
+    this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
     this.relativeTime$ = timer(0, 10000)
       .pipe(
-        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.updatedAt)),
+        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.createdAt)),
         distinctUntilChanged(),
       );
   }
 
   toggleDetails():void {
+    if (this.unexpandable) {
+      return;
+    }
+
     if (!this.notification.readIAN) {
       this.inAppNotificationsService.markReadKeepAndExpanded(this.notification);
     }

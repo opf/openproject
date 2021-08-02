@@ -35,7 +35,7 @@ class InstanceFinder
 
   def self.find(model, identifier)
     if @model_method_map[model].nil?
-      raise "#{model} is not registerd with InstanceFinder"
+      raise "#{model} is not registered with InstanceFinder"
     end
 
     @model_method_map[model].call(identifier)

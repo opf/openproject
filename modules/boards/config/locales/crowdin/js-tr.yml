@@ -30,7 +30,7 @@ tr:
       error_loading_the_list: "Liste yüklenirken hata oluştu: %{error_message}"
       error_permission_missing: "Genel sorgu oluşturma izni eksik"
       error_cannot_move_into_self: "Bir iş paketini kendi sütununa taşıyamazsınız."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_list_warning: "Gerekli izniniz olmadığından tüm listeler gösterilemiyor. Daha çok bilgi için yöneticinizle görüşün."
       click_to_remove_list: "Bu listeyi kaldırmak için tıklayın"
       board_type:
         text: 'Yazı tahtası tipi'

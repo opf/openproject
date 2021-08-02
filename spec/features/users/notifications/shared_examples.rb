@@ -59,6 +59,13 @@ shared_examples 'notification settings workflow' do
       expect(in_app.mentioned).to be_truthy
       expect(in_app.watched).to be_falsey
       expect(in_app.all).to be_truthy
+
+      # Trying to add the same project again will not be possible (Regression #38072)
+      click_button 'Add setting for project'
+      container = page.find('[data-qa-selector="notification-setting-inline-create"] ng-select')
+      settings_page.search_autocomplete container, query: project.name, results_selector: 'body'
+      expect(page).to have_text 'This project is already selected'
+      expect(page).to have_selector('.ng-option-disabled', text: project.name)
     end
   end
 end

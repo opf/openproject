@@ -173,7 +173,7 @@ class CostlogController < ApplicationController
     attributes = permitted_params.cost_entry
     attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
 
-    if attributes.key?(:overridden_costs)
+    if attributes[:overridden_costs].present?
       attributes[:overridden_costs] = Rate.parse_number_string_to_number(attributes[:overridden_costs])
     end
 

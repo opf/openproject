@@ -771,7 +771,7 @@ es:
       news: "Noticias"
       notification:
         one: "Notification"
-        other: "Notificaciones"
+        other: "Notifications"
       placeholder_user: "Usuario de marcador de posición"
       project: "Proyecto"
       query: "Consulta personalizada"
@@ -1309,8 +1309,10 @@ es:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "Has sido asignado a %{work_package}"
         subscribed: "Te has suscrito a %{work_package}"
         mentioned: "Has sido mencionado en %{work_package}"
@@ -1617,7 +1619,6 @@ es:
   label_none_parentheses: "(ninguno)"
   label_not_contains: "no contiene"
   label_not_equals: "no es"
-  label_notify_member_plural: "Actualizaciones por correo electrónico"
   label_on: "en"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
@@ -2484,8 +2485,8 @@ es:
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
   text_journal_aggregation_time_explanation: "Acciones individuales de un usuario (p. ej. actualizar un paquete de trabajo dos veces) se agregan en una sola acción si su diferencia de edad es menor que el intervalo de tiempo especificado. Se mostrarán como una sola acción dentro de la aplicación. Esto también retrasará las notificaciones en la misma cantidad de tiempo reduciendo el número de correos electrónicos que se envían."
-  text_journal_changed: "%{label} se cambió de %{old} <br/><strong>a</strong> %{new}"
-  text_journal_changed_plain: "%{label} se cambió de %{old} \na %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
@@ -2756,7 +2757,7 @@ es:
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
     Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan a la edición Enterprise y añadir usuarios adicionales.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

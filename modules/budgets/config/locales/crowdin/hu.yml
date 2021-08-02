@@ -60,7 +60,7 @@ hu:
   label_budget_plural: "Költségvetések"
   label_budget_id: "Költségvetés #%{id}"
   label_deliverable: "Költségvetés"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'például %{decimal}'
   label_view_all_budgets: "Minden költség megtekintése"
   label_yes: "Igen"
   notice_budget_conflict: "Munkacsomagok ugyanabból a projektből kell származzanak."
@@ -68,3 +68,6 @@ hu:
   permission_edit_budgets: "Költségvetés szerkesztése"
   permission_view_budgets: "Költségvetések megtekintése"
   project_module_budgets: "Költségvetések"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

@@ -66,7 +66,7 @@ pl:
       upgrade_to_ee: "Uaktualnij do wersji Enterprise"
       add_token: "Wyślij swój token wsparcia edycji Enterprise"
       replace_token: "Wymień swój obecny token wsparcia"
-      order: "Zamów wersję Enterprise on-premises Edition"
+      order: "Zamów wersję Enterprise On-Premises"
       paste: "Wklej swój token wsparcia edycji Enterprise"
       required_for_feature: "Ta funkcja jest dostępna tylko z aktywnym tokenem wsparcia wersji Enterprise."
       enterprise_link: "Aby uzyskać więcej informacji, kliknij tutaj."
@@ -1343,8 +1343,10 @@ pl:
         expiration: "Wygasa"
       indefinite_expiration: "Nigdy"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1651,7 +1653,6 @@ pl:
   label_none_parentheses: "(brak)"
   label_not_contains: "nie zawierają"
   label_not_equals: "nie jest"
-  label_notify_member_plural: "Email updates"
   label_on: "wł"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
@@ -1960,7 +1961,7 @@ pl:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "Reset tokenu kopii zapasowej"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
@@ -2517,8 +2518,8 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} zmieniono z %{old} <br/><strong>na</strong> %{new}"
-  text_journal_changed_plain: "%{label} zmieniono z %{old} \nna %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2794,7 +2795,7 @@ pl:
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
     Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

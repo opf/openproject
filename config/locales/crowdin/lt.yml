@@ -552,7 +552,7 @@ lt:
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "yra nepasiekiamas dėl sistemos konfigūracijos"
         not_deletable: "negali būti pašalintas."
         not_current_user: "nėra dabartinis vartotojas"
         not_a_date: "nėra tinkama data."
@@ -575,7 +575,7 @@ lt:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "turi reikšmę '%{value}', kurios nėra leidžiamų įkelti tipų sąraše."
         capability:
           context:
             global: 'Globali'
@@ -610,20 +610,20 @@ lt:
           outside: 'yra už tinklelio.'
           end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'Bent vienas kanalas pranešimų siuntimui turi būti nurodytas.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
             read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
             read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
             reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'negali būti tuščias, nes IAN yra pasirinktas kaip informavimo kanalas.'
             reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              no_notification_reason: 'negali būti tuščias, nes el.paštas yra pasirinktas kaip informavimo kanalas.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -775,7 +775,7 @@ lt:
       member: "Narys"
       news: "Naujienos"
       notification:
-        one: "Pranešimas"
+        one: "Notification"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
@@ -1263,7 +1263,7 @@ lt:
   export:
     your_work_packages_export: "Jūsų darbo užduočių eksportas"
     succeeded: "Eksportas baigtas sėkmingai."
-    failed: "The export has failed: %{message}"
+    failed: "Eksportas nepavyko: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1328,7 +1328,7 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Įeinantis iš Išeinantis"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
@@ -1342,13 +1342,15 @@ lt:
         expiration: "Baigiasi"
       indefinite_expiration: "Niekada"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "The work package was created."
+        assigned: "Jūs buvote priskirtas prie %{work_package}"
+        subscribed: "Jūs užsiprenumeravote %{work_package}"
+        mentioned: "Jūs buvote paminėtas %{work_package}"
+        involved: "Jūs esate priskirtas arba atsakingas už %{work_package}"
+        watched: "Jūs stebite %{work_package}"
   label_accessibility: "Prieinamumas"
   label_account: "Paskyra"
   label_active: "Aktyvus"
@@ -1650,7 +1652,6 @@ lt:
   label_none_parentheses: "(nėra)"
   label_not_contains: "neturi"
   label_not_equals: "nėra"
-  label_notify_member_plural: "El. pašto atnaujinimai"
   label_on: "įjungta"
   label_open_menu: "Atidaryti meniu"
   label_open_work_packages: "atidarytas"
@@ -1922,17 +1923,17 @@ lt:
   mail:
     actions: 'Veiksmai'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      time_frame: 'Visų jūsų prenumeruojamų įvykių tarp %{start} ir %{end} suvestinė'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} sukurtas %{timestamp}'
         reason:
           watched: 'stebimas'
-          involved: 'assignee or responsible'
+          involved: 'paskirtas arba atsakingas'
           mentioned: 'paminėtas'
           subscribed: 'visi'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+          prefix: 'Gavote dėl pranešimų nustatymo: %{reason}'
+        subject: 'Kasdienė projekto santrauka %{date} - %{number} atnaujinimai'
+        updated_at: '%{user} pakeistas %{timestamp}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -2308,10 +2309,10 @@ lt:
   setting_apiv3_cors_origins_text_html: >
     Jei CORS yra įgalinta, tai yra kilmės domenai, kuriems leidžiama pasiekti OpenProject API. <br/> Kaip nurodyti reikšmes aprašoma <a href="%{origin_link}" target="_blank">Origin antraštės dokumentacijoje</a>.
   setting_apiv3_docs: "Dokumentacija"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "Įjungti dokumentų puslapį"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+    Jei dokumentų puslapis yra įjungtas, jūs galite gauti interaktyvią APIv3 dokumentaciją <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Leidžiamų failų tipų sąrašas"
   setting_email_delivery_method: "El. pašto pristatymo metodas"
   setting_sendmail_location: "Sendmail vykdomojo failo lokacija"
   setting_smtp_enable_starttls_auto: "Automatiškai naudoti STARTTLS, jei galima"
@@ -2357,9 +2358,9 @@ lt:
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
   setting_enabled_projects_columns: "Matomas projektų sąraše"
-  setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
-  setting_notification_email_digest_time: "Email digest time"
+  setting_notification_retention_period_days: "Pranešimų saugojimo laikas"
+  setting_notification_email_delay_minutes: "El.laiško siuntimo uždelsimas"
+  setting_notification_email_digest_time: "El.pašto santraukos laikas"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
@@ -2373,7 +2374,7 @@ lt:
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_export_limit: "Darbų paketų eksportavimo limitas"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "Laikais, per kurį įvykę vartotojo veiksmai yra grupuojami"
   setting_log_requesting_user: "Įrašyti vartotojo vardą, prisijungimo vardą, e. pašto adresą visiems prašymams"
   setting_login_required: "Reikalinga autentifikacija"
   setting_mail_from: "Išsiuntimo el. pašto adresas"
@@ -2430,12 +2431,12 @@ lt:
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+        Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
+      delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas vartotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje ir gali patvirtinti pranešimą prieš tai, kai jis bus išsiųstas el. paštu. Vartotojai, kurie perskaito pranešimus programoje negaus tų laiškų, kuriuos pranešimus perskaitys."
+      email_digest_explanation: "El.pašto santrauka su visais vartotojo prenumeruojamais pranešimais gali būti išsiųsta vieną kartą per dieną. Šis nustatymas atsižvelgia į vartotojo laiko zoną, t.y. 8:00 reikš, kad išsiųsta bus 7:00 UTC vartotojams iš UTC+1 zonos, ir 9:00 UTC tiems, kurie nustatę UTC-1."
     display:
       first_date_of_week_and_year_set: >
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
@@ -2516,9 +2517,9 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} pakeista iš %{old} <br/><strong>į</strong> %{new}"
-  text_journal_changed_plain: "%{label} pakeista iš %{old} \nį %{new}"
+  text_journal_aggregation_time_explanation: "Visi atskiri vartotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius."
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
@@ -2546,7 +2547,7 @@ lt:
   text_regexp_info: "pvz., ^[A-Z0-9]+$"
   text_regexp_multiline: 'Reguliarioji išraiška yra pritaikoma daug eilučių režime, pvz., ^---\s+'
   text_repository_usernames_mapping: "Parinkite ar atnaujinkite OpenProject vartotoją, kuris paminėtas repozitorijos žurnale.\nVartotojai, turintys tą patį OpenProject ir repozitorijos vardą ar el. paštą yra automatiškai surišti."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "Išrinkite veiksmus, apie kuriuos būti pranešta."
   text_status_changed_by_changeset: "Atlikta pakeitimų pakete %{value}."
   text_table_difference_description: "Šioje lentelėje pavieniai %{entries} yra rodomi. Jūs galite palyginti skirtumus tarp bet kutių dviejų įrašų pasirinkdami atitinkamus žymėtinus laukelius lentelėje. Vėliau paspaudus ant mygtuko apačioje parodomi skirtumai."
   text_time_logged_by_changeset: "Atlikta pakeitimų pakete %{value}."
@@ -2793,7 +2794,7 @@ lt:
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
     Jūs pasiekėte vartotojų ribą (%{current}/%{max} aktyvūs vartotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų vartotojų.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

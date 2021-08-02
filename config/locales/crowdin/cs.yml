@@ -1346,8 +1346,10 @@ cs:
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
+        created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
@@ -1654,7 +1656,6 @@ cs:
   label_none_parentheses: "(žádný)"
   label_not_contains: "neobsahuje"
   label_not_equals: "není"
-  label_notify_member_plural: "Aktualizace e-mailu"
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřít"
@@ -2522,8 +2523,8 @@ cs:
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} změněn z %{old} <br/><strong>na</strong> %{new}"
-  text_journal_changed_plain: "%{label} změněn z %{old} \nna %{new}"
+  text_journal_changed: ""
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"
@@ -2798,7 +2799,7 @@ cs:
     Váš limit počtu uživatelů byl dosažen. Nelze aktivovat více uživatelů. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> nebo zablokujte některé stávající členy pro přidání dalších uživatelů.
   warning_user_limit_reached_instructions: >
     Limit počtu uživatelů (%{current}/%{max} aktivních uživatelů) dosažen. Prosím kontaktujte sales@openproject.com a upgradujte vaši Enterprise Edition a přidejte další uživatele.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

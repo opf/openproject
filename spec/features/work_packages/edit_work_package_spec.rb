@@ -110,7 +110,7 @@ describe 'edit work package', js: true do
       wp_page.update_attributes status: status2.name
       wp_page.expect_attributes status: status2.name
 
-      wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+      wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
     end
   end
 
@@ -156,7 +156,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
-    wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+    wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
   it 'correctly assigns and un-assigns users' do

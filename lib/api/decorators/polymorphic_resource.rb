@@ -55,6 +55,8 @@ module API
           next unless embed_links
 
           resource = represented.send(name)
+          next if resource.nil?
+
           representer = representer_fn.call(resource)
           representer.create(resource, current_user: current_user)
         end
@@ -80,6 +82,8 @@ module API
           next if instance_exec(&skip_link)
 
           resource = represented.send(name)
+          next if resource.nil?
+
           path_name = path_fn.call(resource)
 
           ::API::Decorators::LinkObject

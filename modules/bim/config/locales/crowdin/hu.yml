@@ -16,14 +16,14 @@ hu:
     x_bcf_issues:
       zero: 'Nincs BCF feladat'
       one: 'Egy BCF probléma'
-      other: '%{count} BCF issues'
+      other: '%{count} BCF probléma'
     bcf_xml:
       xml_file: 'BCF XML fájl'
       import_title: 'Importálás'
       export: 'Exportálás'
       import_update_comment: 'Frissítve a BCF import'
       import_failed: 'Nem lehet importálni a BCF fájlt! %{error}'
-      import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
+      import_failed_unsupported_bcf_version: 'Sikertelen a BCF fájl olvasása. A BCF verzió nem támogatott. Kérem ellenőrizze hogy a verzió %{minimal_version} vagy e fölötti.'
       import_successful: 'Importálva %{count} BCF eredmény'
       import_canceled: 'BCF-XML import megszakítva.'
       type_not_active: "Ez az eredmény típus nincs aktiválva ebben a projektben. "
@@ -31,7 +31,7 @@ hu:
         num_issues_found: '%{x_bcf_issues} tartalmazza a BCF-XML file, az alábbi részletekkel a lista szerint.'
         button_prepare: 'Import előkészítése'
         button_perform_import: 'Import megerősítése'
-        button_proceed: 'Proceed with import'
+        button_proceed: 'Folytatás importálással'
         button_back_to_list: 'Vissza a listához'
         no_permission_to_add_members: 'Nincs elég jogod ezt hozzáadni a projekthez.'
         contact_project_admin: 'Vegye fel a kapcsolatot a projekt adminisztrátorával, hogy felvegye őket tagokként, és indítsa újra az importálást.'
@@ -57,7 +57,7 @@ hu:
         import_as_system_user: 'Importálja őket "Rendszer" felhasználóként.'
         what_to_do: "Mit szeretne tenni?"
         work_package_has_newer_changes: "Elavult! Ezt a témát nem frissítették, mivel a szerver legutóbbi változásai újabbak voltak, mint az importált téma \"ModifiedDate\". A témához fűzött megjegyzéseket azonban importálták."
-        bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
+        bcf_file_not_found: "Sikertelen a BCF fájl felismerése. Kérem ismételje meg a feltöltést újra."
   export:
     format:
       bcf: "BCF-XML"

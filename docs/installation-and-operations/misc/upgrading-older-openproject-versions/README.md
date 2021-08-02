@@ -107,6 +107,14 @@ The steps for this option is as follows:
 
 ## Problems with the migration?
 
+
 Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact-us/) with feedback and issues you experienced.
 
 We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
+
+
+### Known problems
+
+**Permission errors when trying to start the OP7 container**
+
+If you run into permission errors trying to start the OP7 container, you might have advanced tmpfs protections in place. Disable them temporarily with `sudo sysctl fs.protected_regular=0` (https://askubuntu.com/questions/1250974)
