@@ -1,21 +1,13 @@
 .op-ian-center
+  display: grid
+  grid-template-rows: auto 1fr auto
   height: 100%
 
   &--content
     height: 100%
-    grid-area: content
-    // Allow viewbox to get autoheight
-    display: flex
-    flex-direction: column
 
   &--viewport
-    flex: 1
-
-  &--entries
-    list-style: none
-
-  &--entry
-    display: list-item
+    height: 100%
 
   &--max-warning
     margin-bottom: 0
