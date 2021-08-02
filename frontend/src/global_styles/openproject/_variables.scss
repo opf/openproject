@@ -112,7 +112,7 @@
   --breadcrumb-border-color: #E7E7E7;
   --breadcrumb-font-size: 12px;
   --breadcrumb-highlighted-font-size: 14px;
-  --breadcrumb-font-color: var(--body-font-color);
+  --breadcrumb-font-color: lighten(var(--body-font-color), 20);
   --content-default-border-color: #EAEAEA;
   --content-default-border-width: 1px;
   --content-link-hover-active-color: var(--primary-color-dark);

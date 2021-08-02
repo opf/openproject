@@ -114,6 +114,17 @@ describe User, type: :model do
       expect(user.mail)
         .to eql 'foo@bar.com'
     end
+
+    it 'validates for local mails' do
+      user.mail = 'foobar@abc.def.some-internet'
+      expect(user).to be_valid
+    end
+
+    it 'invalidates wrong mails' do
+      user.mail = 'foobar+abc.def.some-internet'
+      expect(user).not_to be_valid
+      expect(user.errors[:mail]).to include 'is not a valid email address.'
+    end
   end
 
   describe '#login' do

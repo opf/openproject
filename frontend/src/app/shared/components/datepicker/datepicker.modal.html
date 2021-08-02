@@ -38,7 +38,9 @@
       </ng-container>
 
       <ng-container *ngIf="!singleDate">
-        <div class="form--field">
+        <div class="form--field"
+             data-qa-selector="datepicker-start-date"
+        >
           <label class="form--label"
                  [textContent]="text.startDate">
           </label>
@@ -67,7 +69,9 @@
             </a>
           </div>
         </div>
-        <div class="form--field">
+        <div class="form--field"
+             data-qa-selector="datepicker-end-date"
+        >
           <label class="form--label"
                  [textContent]="text.endDate">
           </label>
@@ -139,7 +143,7 @@
       data-qa-selector="op-datepicker-modal--action"
       [textContent]="text.cancel"
     ></button>
-    <button 
+    <button
       [attr.disabled]="!this.isSavable || undefined"
       class="op-datepicker-modal--action button -highlight"
       data-qa-selector="op-datepicker-modal--action"

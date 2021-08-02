@@ -245,6 +245,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
     }
 
     // Return whatever is on the base.
+    // TODO this needs to be typed
     return this.pristineResource[key];
   }
 

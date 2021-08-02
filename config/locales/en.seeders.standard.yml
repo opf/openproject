@@ -41,7 +41,7 @@ en:
 
             Never stop collaborating. With open source and open mind.
 
-            You can change this welcome text [here](%{base_url}/settings).
+            You can change this welcome text [here](%{base_url}/admin/settings/general).
         projects:
           demo-project:
             name: Demo project

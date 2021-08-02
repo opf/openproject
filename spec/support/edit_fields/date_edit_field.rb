@@ -107,9 +107,9 @@ class DateEditField < EditField
     end
   end
 
-  def click_today
+  def click_today(which: :start)
     within_modal do
-      find('.form--field-extra-actions a', text: 'Today').click
+      find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
     end
   end
 
