@@ -1310,7 +1310,7 @@ pt:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Enviando notificações para está ação "
     work_packages:
       subject:
         created: "O pacote de trabalho foi criado."

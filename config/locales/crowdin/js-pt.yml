@@ -487,7 +487,7 @@ pt:
         wiki: 'No <b>wiki</b>, você pode documentar e compartilhar conhecimento junto com sua equipe. '
         backlogs:
           overview: "Gerencie seu trabalho na exibição de <b>backlogs</b>."
-          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          sprints: "À direita você tem o backlog do produto ou um backlog de erros, à esquerda, você terá o sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuário e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para ver o seu <b>quadro de tarefas</b>, abra o menu suspenso de sprint ... '
           task_board_select: '... e selecione a entrada <b>quadro de tarefas</b>. '
           task_board: "O painel de tarefas visualiza o progresso de <b>para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
@@ -507,7 +507,7 @@ pt:
     notifications:
       title: "Notificações"
       channel: "Canal"
-      no_unread: "No unread notifications"
+      no_unread: "Nenhuma notificação não lida"
       channels:
         in_app: "No aplicativo"
         mail: "E-mail"
