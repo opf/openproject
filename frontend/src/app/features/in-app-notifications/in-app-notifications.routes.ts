@@ -32,7 +32,6 @@ import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notif
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'notifications',
-    parent: 'root',
     url: '/notifications',
     component: InAppNotificationCenterComponent,
   },
