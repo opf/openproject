@@ -51,6 +51,7 @@ import { BrowserDetector } from 'core-app/core/browser/browser-detector.service'
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { DayElement } from "flatpickr/dist/types/instance";
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -283,6 +284,9 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         },
         onYearChange: () => {
           this.datepickerHelper.setRangeClasses(this.dates);
+        },
+        onDayCreate: (dObj:Date[], dStr:string, fp:DatePicker, dayElem:DayElement) => {
+          dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
         },
       },
       undefined,
