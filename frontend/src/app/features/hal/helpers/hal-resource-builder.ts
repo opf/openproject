@@ -27,6 +27,7 @@ export function cloneHalResource<T extends HalResource>(value:T|undefined):T|und
 
 export function initializeHalProperties<T extends HalResource>(halResourceService:HalResourceService, halResource:T) {
   setSource();
+  setName();
   setupLinks();
   setupEmbedded();
   proxyProperties();
@@ -41,6 +42,10 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     if (!halResource.$source._links.self) {
       halResource.$source._links.self = { href: null };
     }
+  }
+
+  function setName() {
+    halResource.name = halResource.$link.title || halResource.filter.name;
   }
 
   function asHalResource(value?:HalSource, loaded = true):HalResource|HalSource|undefined|null {

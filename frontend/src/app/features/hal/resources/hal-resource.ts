@@ -110,7 +110,7 @@ export class HalResource {
 
   public $self:Promise<this>;
 
-  public _name:string;
+  public name:string = '';
 
   public static idFromLink(href:string):string {
     return href.split('/').pop()!;

@@ -59,10 +59,6 @@ export class QueryFilterInstanceResource extends HalResource {
     return this.filter.id;
   }
 
-  public get name():string {
-    return this.filter.name;
-  }
-
   /**
    * Get the complete current schema.
    *
