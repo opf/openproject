@@ -1,8 +1,7 @@
 <div class="work-packages-partitioned-query-space--container"
      [ngClass]="currentPartition">
   <ng-container *ngIf="toolbarComponent">
-    <ng-container *ngComponentOutlet="toolbarComponent;
-                            ndcDynamicInjector: injector"
+    <ng-container *ngComponentOutlet="toolbarComponent; injector: injector"
     ></ng-container>
   </ng-container>
   <div *ngIf="!toolbarComponent"

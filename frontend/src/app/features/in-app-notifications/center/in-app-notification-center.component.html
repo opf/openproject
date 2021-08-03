@@ -2,22 +2,21 @@
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
-        itemSize="80"
-        class="op-ian-center--viewport"
+          itemSize="80"
+          class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
-          *cdkVirtualFor="let records of notifications$ | async; templateCacheSize: 0"
-          class="op-ian-center--entry"
-          [notification]="records[0]"
+            *cdkVirtualFor="let records of notifications$ | async; templateCacheSize: 0"
+            class="op-ian-center--entry"
+            [notification]="records[0]"
             [aggregatedNotifications]="records"
-          (resourceLinkClicked)="openSplitView($event)"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>
     <ng-template #noResults>
       <div class="generic-table--no-results-container">
         <span
-          class="generic-table--no-results-title"
+            class="generic-table--no-results-title"
         >
           <op-icon icon-classes="icon-info1"></op-icon>
           {{ noResultText$ | async }}
@@ -27,9 +26,10 @@
   </div>
   <div class="op-ian-center--footer">
     <p
-      class="op-ian-center--max-warning"
-      *ngIf="hasMoreThanPageSize$ | async"
-      [textContent]="totalCountWarning()">
+        class="op-ian-center--max-warning"
+        *ngIf="hasMoreThanPageSize$ | async"
+        [textContent]="totalCountWarning()"
+    >
     </p>
   </div>
 </div>

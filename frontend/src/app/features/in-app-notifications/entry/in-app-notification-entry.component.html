@@ -8,7 +8,7 @@
       type="button"
       class="op-ian-item--row"
       [class.op-ian-item--row_unexpandable]="unexpandable"
-      (click)="toggleDetails()"
+      (click)="showDetails()"
   >
     <div
         *ngIf="project"
@@ -97,7 +97,10 @@
         class="op-ian-item--buttons"
       >
         <button
+          type="button"
           class="op-ian-item--button button -tiny"
+          [disabled]="loading$ | async"
+          (click)="markAsRead($event, aggregatedNotifications)"
         >
           <i class="button--icon icon-yes"></i>
         </button>
@@ -112,34 +115,4 @@
         ></span>
     </ng-template>
   </button>
-  <div
-      *ngIf="notification.expanded"
-      class="op-ian-item--details"
-      data-qa-selector="op-ian-details"
-  >
-    <ng-container *ngIf="body.length > 0">
-      <div class="op-ian-item--body">
-        <ng-container *ngFor="let bodyItem of body">
-          <div
-              class="op-ian-item--body-item"
-              [innerHTML]="bodyItem.html"
-          >
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
-    <ul
-        class="work-package-details-activities-messages"
-        *ngIf="details.length > 0"
-    >
-      <ng-container *ngFor="let detail of details">
-        <li *ngIf="detail.html && detail.html !== ''">
-          <span
-              class="message"
-              [innerHtml]="detail.html"
-          ></span>
-        </li>
-      </ng-container>
-    </ul>
-  </div>
 </div>

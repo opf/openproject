@@ -26,6 +26,9 @@ import {
 } from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { take } from "rxjs/internal/operators/take";
+import { StateService } from "@uirouter/angular";
+import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -40,6 +43,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
+  loading$ = this.ianQuery.selectLoading();
 
   // Formattable body, if any
   body:InAppNotificationDetail[];
@@ -72,9 +76,11 @@ export class InAppNotificationEntryComponent implements OnInit {
   constructor(
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
-    readonly inAppNotificationsService:InAppNotificationsService,
+    readonly ianService:InAppNotificationsService,
+    readonly ianQuery:InAppNotificationsQuery,
     readonly timezoneService:TimezoneService,
     readonly pathHelper:PathHelperService,
+    readonly state:StateService,
   ) {
   }
 
@@ -116,19 +122,37 @@ export class InAppNotificationEntryComponent implements OnInit {
       );
   }
 
-  toggleDetails():void {
-    if (this.unexpandable) {
+  showDetails():void {
+    if (this.unexpandable || !this.workPackage$) {
       return;
     }
 
     if (!this.notification.readIAN) {
-      this.inAppNotificationsService.markReadKeepAndExpanded(this.notification);
+      this.ianService.markAsRead(this.aggregatedNotifications, true);
     }
-    if (this.notification.expanded) {
-      this.inAppNotificationsService.collapse(this.notification);
-    } else {
-      this.inAppNotificationsService.expand(this.notification);
-    }
+
+    this
+      .workPackage$
+      .pipe(
+        take(1)
+      ).subscribe((wp) => {
+      this.state.go(
+        `${this.state.current.data.baseRoute}.details`,
+        { workPackageId: wp.id }
+        );
+    });
+  }
+
+  projectClicked(event:MouseEvent) {
+    event.stopPropagation();
+  }
+
+  markAsRead(event:MouseEvent, notifications:InAppNotification[]) {
+    event.stopPropagation();
+
+    this
+      .ianService
+      .markAsRead(notifications);
   }
 
   private buildActors() {
@@ -167,10 +191,6 @@ export class InAppNotificationEntryComponent implements OnInit {
       });
 
     this.translatedReasons = reasons;
-  }
-
-  projectClicked(event:MouseEvent) {
-    event.stopPropagation();
   }
 
   private buildProject() {
