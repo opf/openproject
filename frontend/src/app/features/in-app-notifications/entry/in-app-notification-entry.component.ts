@@ -54,7 +54,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   actors:PrincipalLike[] = [];
 
   // The translated reason, if available
-  translatedReason?:string;
+  translatedReasons:{[reason:string]:number};
 
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
@@ -152,10 +152,21 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildTranslatedReason() {
-    this.translatedReason = this.I18n.t(
-      `js.notifications.reasons.${this.notification.reason}`,
-      { defaultValue: this.notification.reason || this.text.placeholder },
-    );
+    const reasons:{[reason:string]:number} = {};
+
+    this
+      .aggregatedNotifications
+      .forEach((notification) => {
+        const translatedReason = this.I18n.t(
+          `js.notifications.reasons.${notification.reason}`,
+          { defaultValue: notification.reason || this.text.placeholder },
+        );
+
+        reasons[translatedReason] = reasons[translatedReason] || 0;
+        reasons[translatedReason] += 1;
+      });
+
+    this.translatedReasons = reasons;
   }
 
   projectClicked(event:MouseEvent) {

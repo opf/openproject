@@ -72,9 +72,20 @@
       </div>
 
       <div
+          class="op-ian-item--reason-wrapper"
+          >
+        <span
           class="op-ian-item--reason"
-          [textContent]="translatedReason || notification.reason"
-      ></div>
+          *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
+        >
+          <span
+              *ngIf="item.value > 1"
+              class="op-ian-item--reason-count"
+              [textContent]="item.value"
+          ></span>
+          {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
+        </span>
+      </div>
 
       <div
           class="op-ian-item--date"
