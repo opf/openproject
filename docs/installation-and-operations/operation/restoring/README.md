@@ -135,7 +135,7 @@ This assumes that the database container is called `db_1`. Find out the actual n
 
 #### All-in-one container
 
-Given a SQL dump `openproject.sql` we can create a new OpenProject container using it with the following steps.
+Given a SQL dump `openproject.sql` (or a `.pgdump` file) we can create a new OpenProject container using it with the following steps.
 
 1. Create the pgdata folder to be mounted in the OpenProject container.
 2. Initialize the database.
@@ -156,11 +156,12 @@ mkdir /var/lib/openproject/{pgdata,assets}
 Next we need to initialize the database.
 
 ```
-docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:10
+docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:11
 ```
 
 As soon as you see `CREATE ROLE` and `Migrating to ToV710AggregatedMigrations (10000000000000)` or lots of `create_table` in the container's output
-you can kill it by pressing Ctrl + C. This then initialized the database under `/var/lib/openproject/pgdata`.
+you can kill it by pressing Ctrl + C. It may take a moment to shut down.
+This then initialized the database under `/var/lib/openproject/pgdata` on your docker host.
 
 3)
 
@@ -187,15 +188,52 @@ CREATE DATABASE openproject OWNER openproject;
 \i openproject.sql
 ```
 
-Once this has finished you can quit `psql` (using `\q`) and the container (`exit`) and stop it using `docker stop postgres`.
-Now you have to fix the permissions that were changed by the postgres container so OpenProject can use the files again.
+Once this has finished you can quit `psql` (using `\q`) and the container (`exit`).
+
+**Importing backups from a package-based installation**
+
+If  you have a `.pgdump` file instead, for instance from a backup of a package-based OpenProject installation,
+the process works almost the same. You still just copy the file into the container as shown above,
+but then you use `pg_restore` instead to restore it.
 
 ```
-chown -R 102 /var/lib/openproject/pgdata
+# 1. copy .pgdump file into container
+docker cp postgresql-dump-20211119210038.pgdump postgres:/
+
+# 2. delete existing database created in step 2) above 
+docker exec -it postgres dropdb -U postgres openproject
+
+# 3. import the dump
+docker exec -it postgres pg_restore -U postgres postgresql-dump-20211119210038.pgdump
+```
+
+**Dump restored**
+
+Once the dump is restored yuo can stop the postgres container using `docker stop postgres`.
+Now you have to fix the permissions that were changed by the postgres container so OpenProject
+can use the files again.
+
+```
+chown -R 102:102 /var/lib/openproject/pgdata
 ```
 
 Your `pgdata` directory is now ready to be mounted by your final OpenProject container.
 
 4)
 
-Start the container as described in the [installation section](../../installation/docker/#recommended-usage) mounting `/var/lib/openproject/pgdata`.
+Start the container as described in the [installation section](../../installation/docker/#recommended-usage) mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
+
+**Restoring attachments**
+
+If you also have file attachments to restore you can simply copy them into the attachments folder on the docker
+host which is mounted into the OpenProject container. For instance:
+
+```
+# 1. extract files
+tar -C /var/lib/openproject/assets/files/ -xf attachments-20210211090802.tar.gz
+
+# 2. give right permission so `app` user in container can read them
+chown -R 1000:1000 /var/lib/openproject/files
+```
+
+You may need to create the `files` directory if it doesn't exist yet.
