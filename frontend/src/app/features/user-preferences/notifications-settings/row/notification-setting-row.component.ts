@@ -7,12 +7,15 @@ import { NotificationSetting } from 'core-app/features/user-preferences/state/no
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[op-notification-setting-row]',
   templateUrl: './notification-setting-row.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingRowComponent implements OnInit {
   @Input() first = false;
+
+  @Input() count:number;
 
   @Input() setting:NotificationSetting;
 

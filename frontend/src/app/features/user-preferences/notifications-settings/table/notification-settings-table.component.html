@@ -62,6 +62,7 @@
               op-notification-setting-row
               [attr.data-qa-notification-project]="item.key"
               [attr.data-qa-notification-channel]="setting.channel"
+              [count]="item.value.length"
               [first]="first"
               [setting]="setting"
           >

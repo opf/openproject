@@ -1,6 +1,6 @@
 <td
     *ngIf="first"
-    rowspan="3"
+    [attr.rowspan]="count"
 >
   <span
       *ngIf="setting._links.project.href; else defaultTitle"
@@ -53,7 +53,7 @@
 </td>
 <td
     *ngIf="first"
-    rowspan="3"
+    [attr.rowspan]="count"
     class="buttons"
 >
   <button
