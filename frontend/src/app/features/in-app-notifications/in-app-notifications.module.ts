@@ -12,6 +12,7 @@ import { InAppNotificationToolbarComponent } from 'core-app/features/in-app-noti
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { DynamicModule } from 'ng-dynamic-component';
+import { InAppNotificationStatusComponent } from './entry/status/in-app-notification-status.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DynamicModule } from 'ng-dynamic-component';
     InAppNotificationEntryComponent,
     InAppNotificationToolbarComponent,
     InAppNotificationCenterPageComponent,
+    InAppNotificationStatusComponent,
   ],
   imports: [
     // Routes for /backlogs
