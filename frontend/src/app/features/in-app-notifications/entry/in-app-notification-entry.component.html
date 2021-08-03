@@ -54,9 +54,10 @@
 
       <div
           class="op-ian-item--actor"
-          *ngIf="actor"
+          *ngIf="actors.length > 0"
       >
         <op-principal
+            *ngFor="let actor of actors"
             [hide-name]="true"
             [principal]="actor"
             [link]="false"

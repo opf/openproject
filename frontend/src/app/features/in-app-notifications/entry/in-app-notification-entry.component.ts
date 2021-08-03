@@ -1,18 +1,29 @@
 import {
-  EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 import {
   InAppNotification,
   InAppNotificationDetail,
 } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Observable, timer } from 'rxjs';
+import {
+  Observable,
+  timer,
+} from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+} from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -40,7 +51,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   unexpandable = false;
 
   // The actor, if any
-  actor?:PrincipalLike;
+  actors:PrincipalLike[] = [];
 
   // The translated reason, if available
   translatedReason?:string;
@@ -69,7 +80,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   ngOnInit():void {
     this.buildTranslatedReason();
-    this.buildActor();
+    this.buildActors();
     this.buildDetails();
     this.buildTime();
     this.buildProject();
@@ -120,15 +131,22 @@ export class InAppNotificationEntryComponent implements OnInit {
     }
   }
 
-  private buildActor() {
-    const { actor } = this.notification._links;
+  private buildActors() {
+    this.actors = this
+      .aggregatedNotifications
+      .map((notification) => {
+        const { actor } = notification._links;
 
-    if (actor) {
-      this.actor = {
-        href: actor.href,
-        name: actor.title,
-      };
-    }
+        if (!actor) {
+          return null;
+        }
+
+        return {
+          href: actor.href,
+          name: actor.title,
+        };
+      })
+      .filter((actor) => actor !== null) as PrincipalLike[];
   }
 
   private buildTranslatedReason() {
