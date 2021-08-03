@@ -45,6 +45,16 @@
 <td>
   <input
     type="checkbox"
+    [checked]="setting.workPackageCreated || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageCreated: $event.target.checked })"
+    data-qa-notification-type="work_package_created"
+    [attr.aria-label]="text.work_package_created_header"
+  />
+</td>
+<td>
+  <input
+    type="checkbox"
     [checked]="setting.workPackageCommented || setting.all"
     [disabled]="setting.all"
     (change)="update({ workPackageCommented: $event.target.checked })"

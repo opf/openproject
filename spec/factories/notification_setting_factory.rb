@@ -5,7 +5,8 @@ FactoryBot.define do
     involved { true }
     mentioned { true }
     watched { true }
-    work_package_commented { true }
+    work_package_commented { false }
+    work_package_created { false }
     project { nil } # Default settings
     user
 

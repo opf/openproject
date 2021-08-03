@@ -1,6 +1,9 @@
 class AddNotificationSettingOptions < ActiveRecord::Migration[6.1]
   def change
-    add_column :notification_settings, :work_package_commented, :boolean, default: false
+    change_table :notification_settings, bulk: true do |t|
+      t.boolean :work_package_commented, default: false
+      t.boolean :work_package_created, default: false
+    end
 
     # TODO: remove existing notification setting from settings
   end

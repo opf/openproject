@@ -92,6 +92,10 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
     it_behaves_like 'property', :workPackageCommented do
       let(:value) { notification_setting.work_package_commented }
     end
+
+    it_behaves_like 'property', :workPackageCreated do
+      let(:value) { notification_setting.work_package_created }
+    end
   end
 
   describe '_embedded' do

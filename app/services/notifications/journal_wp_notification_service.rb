@@ -85,6 +85,7 @@ class Notifications::JournalWpNotificationService
       add_receiver(receivers, settings_of_watched(work_package), :watched)
       add_receiver(receivers, settings_of_subscribed(journal), :subscribed)
       add_receiver(receivers, settings_of_commented(journal), :commented)
+      add_receiver(receivers, settings_of_created(journal), :created)
 
       remove_self_recipient(receivers, journal)
 
@@ -129,6 +130,14 @@ class Notifications::JournalWpNotificationService
                           :work_package_commented)
     end
 
+    def settings_of_created(journal)
+      scope = journal.initial? ? User.all : User.none
+
+      applicable_settings(scope,
+                          journal.data.project,
+                          :work_package_created)
+    end
+
     def applicable_settings(user_scope, project, reason)
       NotificationSetting
         .applicable(project)
@@ -171,8 +180,7 @@ class Notifications::JournalWpNotificationService
     end
 
     def send_notification_setting?(journal)
-      notify_for_wp_added?(journal) ||
-        notify_for_wp_updated?(journal) ||
+      notify_for_wp_updated?(journal) ||
         notify_for_status?(journal) ||
         notify_for_priority(journal)
     end
@@ -196,10 +204,6 @@ class Notifications::JournalWpNotificationService
         user_login_names: [user_login_names].flatten.compact,
         group_ids: [group_ids_tag_after, group_ids_tag_before, group_ids_hash].flatten.compact
       }
-    end
-
-    def notify_for_wp_added?(journal)
-      notification_enabled?('work_package_added') && journal.initial?
     end
 
     def notify_for_wp_updated?(journal)
