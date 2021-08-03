@@ -117,7 +117,7 @@ sudo service openproject restart
 
 For Docker-based installations, assuming you have a backup as per the procedure described in the [Backing up](../backing-up) guide, you simply need to restore files into the correct folders (when using the all-in-one container), or restore the docker volumes (when using the Compose file), then start OpenProject using the normal docker or docker-compose command.
 
-### Restoring a dump
+### Using docker-compose
 
 Let's assume you want to restore a database dump given in a file, say `openproject.sql`.
 
@@ -133,7 +133,7 @@ If you are using docker-compose this is what you do after you started everything
 
 This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
 
-#### All-in-one container
+### Using the all-in-one container
 
 Given a SQL dump `openproject.sql` (or a `.pgdump` file) we can create a new OpenProject container using it with the following steps.
 
@@ -142,7 +142,7 @@ Given a SQL dump `openproject.sql` (or a `.pgdump` file) we can create a new Ope
 3. Restore the dump.
 4. Start the OpenProject container mounting the pgdata folder.
 
-1)
+#### 1) Create the folders to be mounted
 
 First we create the folder to be mounted by our OpenProject container.
 While we're at we also create the assets folder which should be mounted too.
@@ -151,7 +151,7 @@ While we're at we also create the assets folder which should be mounted too.
 mkdir /var/lib/openproject/{pgdata,assets}
 ```
 
-2)
+#### 2) Initialize the database
 
 Next we need to initialize the database.
 
@@ -159,11 +159,12 @@ Next we need to initialize the database.
 docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:11
 ```
 
-As soon as you see `CREATE ROLE` and `Migrating to ToV710AggregatedMigrations (10000000000000)` or lots of `create_table` in the container's output
-you can kill it by pressing Ctrl + C. It may take a moment to shut down.
-This then initialized the database under `/var/lib/openproject/pgdata` on your docker host.
+As soon as you see `CREATE ROLE` and `Migrating to ToV710AggregatedMigrations (10000000000000)`
+or lots of `create_table` in the container's output you can kill it by pressing Ctrl + C.
+It may take a moment to shut down.
+This then has initialized the database under `/var/lib/openproject/pgdata` on your docker host.
 
-3)
+#### 3) Restore the dump
 
 Now we can restore the database. For this we mount the initialized `pgdata` folder using the postgres docker container.
 
@@ -219,10 +220,6 @@ chown -R 102:102 /var/lib/openproject/pgdata
 
 Your `pgdata` directory is now ready to be mounted by your final OpenProject container.
 
-4)
-
-Start the container as described in the [installation section](../../installation/docker/#recommended-usage) mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
-
 **Restoring attachments**
 
 If you also have file attachments to restore you can simply copy them into the attachments folder on the docker
@@ -237,3 +234,8 @@ chown -R 1000:1000 /var/lib/openproject/files
 ```
 
 You may need to create the `files` directory if it doesn't exist yet.
+
+#### 4) Start OpenProject
+
+Start the container as described in the [installation section](../../installation/docker/#recommended-usage)
+mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
