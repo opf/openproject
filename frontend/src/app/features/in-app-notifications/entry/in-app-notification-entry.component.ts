@@ -132,7 +132,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildActors() {
-    this.actors = this
+    const actors = this
       .aggregatedNotifications
       .map((notification) => {
         const { actor } = notification._links;
@@ -147,6 +147,8 @@ export class InAppNotificationEntryComponent implements OnInit {
         };
       })
       .filter((actor) => actor !== null) as PrincipalLike[];
+
+    this.actors = _.uniqBy(actors, (item) => item.href);
   }
 
   private buildTranslatedReason() {
