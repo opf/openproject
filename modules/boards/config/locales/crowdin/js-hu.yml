@@ -69,9 +69,9 @@ hu:
       add_list_modal:
         labels:
           assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
+          status: Státusz hozzáadása az új listához
+          version: Verzió hozzáadása az új listához
+          subproject: Alprojekt hozzáadása az új listához
           subtasks: Select work package to add as a new list
         warning:
           status: |

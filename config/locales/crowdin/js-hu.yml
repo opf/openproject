@@ -209,18 +209,18 @@ hu:
           next_steps: "Következő lépések"
           resend_link: "Újraküldés"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          resend_warning: "Az email újra küldése sikertelen"
+          session_timeout: "A munkamenet lejárt. Kérem töltse újra az oldalt vagy küldje újra az emailt"
           status_label: "Állapot:"
           status_confirmed: "megerősítve"
-          status_waiting: "email sent - waiting for confirmation"
+          status_waiting: "email kiküldve - megerősítésre vár"
           test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          quick_overview: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
         upsale:
           become_hero: "Legyél egy hős!"
           benefits:
             description: "What are the benefits of the Enterprise on-premises Edition?"
-            high_security: "Security features"
+            high_security: "Biztonsági szolgáltatások"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Telepítési támogatás"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
@@ -487,7 +487,7 @@ hu:
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -587,7 +587,7 @@ hu:
       hours: 'órák'
       title: 'Eltöltött idő rögzítése'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Kétlépcsős hitelesítés'
     watchers:
       label_loading: megfigyelők betöltése...
       label_error_loading: Hiba történt a megfigyelők betöltése közben

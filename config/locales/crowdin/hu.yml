@@ -436,7 +436,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Template project'
+        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -538,6 +538,7 @@ hu:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
+        email: "is not a valid email address."
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."
@@ -553,7 +554,7 @@ hu:
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
         not_available: "is not available due to a system configuration."
         not_deletable: "nem törölhető"
-        not_current_user: "is not the current user."
+        not_current_user: "nem az aktuális felhasználó"
         not_a_date: "nem érvényes dátum."
         not_a_datetime: "ez nem érvényes dátum."
         not_a_number: "ez nem egy szám."
@@ -2161,7 +2162,7 @@ hu:
     member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
     subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    only_subproject_id: "Csak alprojekt"
     name_or_identifier: "Név vagy azonosító"
   repositories:
     at_identifier: '%{identifier} -n'
@@ -2484,7 +2485,7 @@ hu:
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: ""
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"

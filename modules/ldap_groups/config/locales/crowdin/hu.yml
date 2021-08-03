@@ -62,7 +62,7 @@ hu:
       plural: 'Szinkronizált LDAP csoportok'
       singular: 'Szinkronizált LDAP csoport'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: 'LDAP csatlakozás kiválasztása'
         sync_users_text: >
           If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
         dn_text: 'Enter the full DN of the group in LDAP'

@@ -38,7 +38,7 @@ ru:
         time: 'Время рассылки'
       form:
         introduction: >
-          Отправьте POST-запрос на указанный ниже URL-адрес загрузки для любого события проека, на которое вы подписаны. Загрузка будет соответствовать представлению APIv3 изменяемого в будущем объекта.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Для получения дополнительной информации посетите документацию API
         description:
           placeholder: 'Необязательное описание вебхука.'
