@@ -2,7 +2,7 @@
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
-        itemSize="50"
+        itemSize="80"
         class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry

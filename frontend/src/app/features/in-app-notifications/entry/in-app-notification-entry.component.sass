@@ -2,6 +2,7 @@
 
 $ian-bg-color: #F9F9F9
 $ian-bg-hover-color: #F1F8FF
+$subject-font-size: 14px
 
 .op-ian-item
   background: $ian-bg-color
@@ -12,7 +13,7 @@ $ian-bg-hover-color: #F1F8FF
   border-radius: 2px
   // This needs to be set in the itemSize of
   // the virtual scroller
-  height: 50px
+  height: 80px
 
   &_expanded
     height: auto
@@ -27,9 +28,9 @@ $ian-bg-hover-color: #F1F8FF
     @include unset-button-styles
     width: 100%
     display: grid
-    grid-template-columns: 1fr 20% 15% 15%
-    grid-template-rows: 1fr 1fr
-    grid-template-areas: "project actor reason date" "title actor reason date"
+    grid-template-columns: 50px 1fr 200px 15% 15%
+    grid-template-rows: auto $subject-font-size 1fr
+    grid-template-areas: "project project project project project" "title title status date buttons" "actor reason reason reason reason"
     grid-gap: 0.5rem
     align-items: center
 
@@ -75,6 +76,7 @@ $ian-bg-hover-color: #F1F8FF
 
   &--title
     grid-area: title
+    font-size: $subject-font-size
     @include text-shortener
 
   &--reason
@@ -86,8 +88,6 @@ $ian-bg-hover-color: #F1F8FF
 
   &--date
     grid-area: date
-    justify-self: end
-    text-align: end
     @include text-shortener(false)
     white-space: nowrap
     max-width: 100%
@@ -95,3 +95,14 @@ $ian-bg-hover-color: #F1F8FF
   &--actor
     grid-area: actor
     @include text-shortener
+
+  &--status
+    grid-area: status
+
+  &--buttons
+    grid-area: buttons
+    text-align: right
+    align-items: end
+
+  &--button
+    margin: 0

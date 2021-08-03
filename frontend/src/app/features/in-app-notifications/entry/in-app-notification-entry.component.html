@@ -19,7 +19,9 @@
           [textContent]="project.title"
           (click)="projectClicked($event)"
           target="_blank"
-      ></a></div>
+      ></a>
+    </div>
+
     <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
       <span
           class="op-ian-item--title"
@@ -42,41 +44,63 @@
         >
         </span>
       </span>
+
+      <ng-container *ngIf="!workPackage$">
+        <span
+            class="op-ian-item--title"
+            [textContent]="notification.subject"
+        ></span>
+      </ng-container>
+
+      <div
+          class="op-ian-item--actor"
+          *ngIf="actor"
+      >
+        <op-principal
+            [hide-name]="true"
+            [principal]="actor"
+            [link]="false"
+            size="mini"
+        ></op-principal>
+      </div>
+
+      <div
+        class="op-ian-item--status"
+      >
+        <wp-status-button
+          [workPackage]="workPackage">
+        </wp-status-button>
+      </div>
+
+      <div
+          class="op-ian-item--reason"
+          [textContent]="translatedReason || notification.reason"
+      ></div>
+
+      <div
+          class="op-ian-item--date"
+          [title]="fixedTime"
+          [textContent]="relativeTime$ | async"
+      ></div>
+
+      <div
+        class="op-ian-item--buttons"
+      >
+        <button
+          class="op-ian-item--button button -tiny"
+        >
+          <i class="button--icon icon-yes"></i>
+        </button>
+      </div>
     </ng-container>
+
     <ng-template #workPackageLoading>
-      <span
+        <span
           *ngIf="workPackage$"
           class="op-ian-item--title"
           [textContent]="text.loading"
-      ></span>
+        ></span>
     </ng-template>
-    <ng-container *ngIf="!workPackage$">
-      <span
-          class="op-ian-item--title"
-          [textContent]="notification.subject"
-      ></span>
-    </ng-container>
-    <div
-        class="op-ian-item--actor"
-        *ngIf="actor"
-    >
-      <op-principal
-          [hide-name]="false"
-          [principal]="actor"
-          [link]="false"
-          size="medium"
-          class="op-principal_hide-name-on-mobile"
-      ></op-principal>
-    </div>
-    <div
-        class="op-ian-item--reason"
-        [textContent]="translatedReason || notification.reason"
-    ></div>
-    <div
-        class="op-ian-item--date"
-        [title]="fixedTime"
-        [textContent]="relativeTime$ | async"
-    ></div>
   </button>
   <div
       *ngIf="notification.expanded"
