@@ -23,7 +23,12 @@ import { UIRouterGlobals } from '@uirouter/core';
 export class InAppNotificationCenterComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
 
-  notifications$ = this.ianQuery.selectAll();
+  notifications$ = this
+    .ianQuery
+    .aggregatedNotifications$
+    .pipe(
+      map((items) => Object.values(items)),
+    );
 
   notificationsCount$ = this.ianQuery.selectCount();
 
@@ -40,6 +45,8 @@ export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
   facets:string[] = ['unread', 'all'];
+
+  originalOrder = ():number => 0;
 
   text = {
     title: this.I18n.t('js.notifications.title'),

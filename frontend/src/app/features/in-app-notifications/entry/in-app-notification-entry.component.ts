@@ -24,6 +24,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 })
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
+  @Input() aggregatedNotifications:InAppNotification[];
 
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 

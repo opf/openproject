@@ -1,10 +1,24 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { map } from 'rxjs/operators';
-import { InAppNotificationsStore, InAppNotificationsState } from './in-app-notifications.store';
+import { Observable } from 'rxjs';
+import {
+  InAppNotificationsState,
+  InAppNotificationsStore,
+} from './in-app-notifications.store';
+import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
+  /** Notifications grouped by resource */
+  aggregatedNotifications$:Observable<{ [key:string]:InAppNotification[] }> = this
+    .selectAll()
+    .pipe(
+      map((notifications) => (
+        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
+      )),
+    );
+
   /** Get the number of unread items */
   unreadCount$ = this.select('unreadCount');
 

@@ -6,9 +6,10 @@
         class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
-          *cdkVirtualFor="let item of notifications$ | async; templateCacheSize: 0"
+          *cdkVirtualFor="let records of notifications$ | async; templateCacheSize: 0"
           class="op-ian-center--entry"
-          [notification]="item"
+          [notification]="records[0]"
+            [aggregatedNotifications]="records"
           (resourceLinkClicked)="openSplitView($event)"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
