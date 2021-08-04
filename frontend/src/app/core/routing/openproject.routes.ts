@@ -38,6 +38,7 @@ import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
+import { StateObject } from '@uirouter/core/lib/state/stateObject';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -221,7 +222,6 @@ export function initializeUiRouterListeners(injector:Injector) {
   $transitions.onStart({}, (transition:Transition) => {
     const $state = transition.router.stateService;
     const toParams = transition.params('to');
-    const fromState = transition.from();
     const toState = transition.to();
 
     // Remove start_onboarding_tour param if set
@@ -235,11 +235,13 @@ export function initializeUiRouterListeners(injector:Injector) {
     backRoutingService.sync(transition);
 
     // Reset profiler, if we're actually profiling
-    const profiler:any = (window as any).MiniProfiler;
-    profiler && profiler.pageTransition();
+    const profiler:{ pageTransition:() => void }|undefined = window.MiniProfiler;
+    profiler?.pageTransition();
 
-    const projectIdentifier = toParams.projectPath || currentProject.identifier;
-    if (!toParams.projects && projectIdentifier) {
+    const toStateObject:StateObject|undefined = toState.$$state && toState.$$state();
+    const hasProjectRoutes = toStateObject?.includes?.root;
+    const projectIdentifier = toParams.projectPath as string || currentProject.identifier;
+    if (hasProjectRoutes && !toParams.projects && projectIdentifier) {
       const newParams = _.clone(toParams);
       _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
       return $state.target(toState, newParams, { location: 'replace' });
