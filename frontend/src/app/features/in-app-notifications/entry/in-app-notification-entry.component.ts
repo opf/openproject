@@ -26,9 +26,9 @@ import {
 } from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { take } from "rxjs/internal/operators/take";
-import { StateService } from "@uirouter/angular";
-import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/store/in-app-notifications.query";
+import { take } from 'rxjs/internal/operators/take';
+import { StateService } from '@uirouter/angular';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -38,11 +38,13 @@ import { InAppNotificationsQuery } from "core-app/features/in-app-notifications/
 })
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
+
   @Input() aggregatedNotifications:InAppNotification[];
 
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
+
   loading$ = this.ianQuery.selectLoading();
 
   // Formattable body, if any
@@ -58,7 +60,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   actors:PrincipalLike[] = [];
 
   // The translated reason, if available
-  translatedReasons:{[reason:string]:number};
+  translatedReasons:{ [reason:string]:number };
 
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
@@ -134,13 +136,14 @@ export class InAppNotificationEntryComponent implements OnInit {
     this
       .workPackage$
       .pipe(
-        take(1)
-      ).subscribe((wp) => {
-      this.state.go(
-        `${this.state.current.data.baseRoute}.details`,
-        { workPackageId: wp.id }
+        take(1),
+      )
+      .subscribe((wp) => {
+        void this.state.go(
+          `${this.state.current.data.baseRoute}.details.tabs`,
+          { workPackageId: wp.id, tabIdentifier: 'activity' },
         );
-    });
+      });
   }
 
   projectClicked(event:MouseEvent) {
@@ -176,7 +179,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   private buildTranslatedReason() {
-    const reasons:{[reason:string]:number} = {};
+    const reasons:{ [reason:string]:number } = {};
 
     this
       .aggregatedNotifications
