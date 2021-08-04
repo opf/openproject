@@ -8,6 +8,7 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 @Injectable()
@@ -51,7 +52,7 @@ export class BoardAssigneeActionService extends CachedBoardActionService {
       filter = {
         assignee: {
           operator: '=',
-          values: [value.idFromLink],
+          values: [idFromLink(value.href)],
         },
       };
     }

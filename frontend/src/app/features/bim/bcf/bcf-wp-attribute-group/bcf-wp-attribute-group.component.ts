@@ -12,6 +12,7 @@ import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -162,7 +163,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   async initialize(workPackage:WorkPackageResource) {
-    this.projectId = workPackage.project.idFromLink;
+    this.projectId = idFromLink(workPackage.project.href);
     this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'project_actions', 'viewTopic');
     this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint');
 

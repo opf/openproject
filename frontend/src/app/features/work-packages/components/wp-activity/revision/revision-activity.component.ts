@@ -34,6 +34,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'revision-activity',
@@ -105,7 +106,7 @@ export class RevisionActivityComponent implements OnInit {
       this
         .apiV3Service
         .users
-        .id(this.activity.author.idFromLink)
+        .id(idFromLink(this.activity.author.href))
         .get()
         .subscribe((user:UserResource) => {
           this.userId = user.id!;

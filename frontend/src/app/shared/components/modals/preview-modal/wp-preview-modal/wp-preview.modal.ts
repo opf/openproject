@@ -34,7 +34,7 @@ import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/m
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateService } from '@uirouter/core';
 
@@ -63,7 +63,7 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
   ngOnInit() {
     super.ngOnInit();
     const { workPackageLink } = this.locals;
-    const workPackageId = HalResource.idFromLink(workPackageLink);
+    const workPackageId = idFromLink(workPackageLink);
 
     this
       .apiV3Service
