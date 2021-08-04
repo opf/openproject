@@ -30,14 +30,14 @@ $subject-font-size: 14px
     display: grid
     grid-template-columns: 50px 1fr 200px 15% 15%
     grid-template-rows: auto $subject-font-size 1fr
-    grid-template-areas: "project project project project project" "title title status date buttons" "actor reason reason reason reason"
+    grid-template-areas: "project project project project project" "title title status date buttons" "actors reason reason reason reason"
     grid-gap: 0.5rem
     align-items: center
 
     @media screen and (max-width: 679px)
       grid-template-columns: 1fr 35px 30%
       grid-template-rows: auto 1fr
-      grid-template-areas: "project actor reason" "title actor date"
+      grid-template-areas: "project actors reason" "title actors date"
 
     &_unexpandable
       cursor: default
@@ -100,8 +100,8 @@ $subject-font-size: 14px
     white-space: nowrap
     max-width: 100%
 
-  &--actor
-    grid-area: actor
+  &--actors
+    grid-area: actors
     @include text-shortener
 
   &--status

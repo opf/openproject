@@ -52,22 +52,12 @@
         ></span>
       </ng-container>
 
-      <div
-          class="op-ian-item--actor"
-          *ngIf="actors.length > 0"
-      >
-        <op-principal
-            *ngFor="let actor of actors"
-            [hide-name]="true"
-            [principal]="actor"
-            [link]="false"
-            size="mini"
-        ></op-principal>
-      </div>
+      <op-principal-list
+        class="op-ian-item--actors"
+        [principals]="actors"
+      ></op-principal-list>
 
-      <div
-        class="op-ian-item--status"
-      >
+      <div class="op-ian-item--status">
         <op-in-app-notification-status [status]="workPackage.status"></op-in-app-notification-status>
       </div>
 
