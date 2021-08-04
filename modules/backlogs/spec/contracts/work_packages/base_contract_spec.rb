@@ -430,7 +430,7 @@ describe WorkPackages::BaseContract, type: :model do
       let(:work_package) { story }
 
       describe 'WITH a story as its parent' do
-        let(:parent) { story }
+        let(:parent) { story2 }
 
         it_behaves_like 'project id unrestricted by parent'
       end
