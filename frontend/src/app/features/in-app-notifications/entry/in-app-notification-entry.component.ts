@@ -15,6 +15,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   selector: 'op-in-app-notification-entry',
