@@ -144,7 +144,7 @@ class MessagesController < ApplicationController
     subject = @message.subject.gsub('"', '\"')
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    content << text.to_s.strip.gsub(%r{<pre>((.|\s)*?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    content << text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
 
     respond_to do |format|
       format.json { render json: { subject: subject, content: content } }

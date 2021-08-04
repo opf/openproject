@@ -182,8 +182,13 @@ module OpenProject
       # Allow separate error reporting for frontend errors
       'sentry_frontend_dsn' => nil,
       'sentry_host' => nil,
-      # Sample rate for performance monitoring
-      'sentry_traces_sample_rate' => 0.1,
+      # Allow sentry to collect tracing samples
+      # set to 1 to enable default tracing samples (see sentry initializer)
+      # set to n >= 1 to enable n times the default tracing
+      'sentry_trace_factor' => 0,
+      # Allow sentry to collect tracing samples on frontend
+      # set to n >= 1 to enable n times the default tracing
+      'sentry_frontend_trace_factor' => 0,
 
       # Allow connection to Augur
       'enterprise_trial_creation_host' => '',

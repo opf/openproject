@@ -22,7 +22,7 @@
 hu:
   button_save_as: "Mentés másként..."
   comments: "Vélemény"
-  cost_reports_title: "Time and costs"
+  cost_reports_title: "Idő és költség"
   label_cost_report: "Költség jelentés"
   label_cost_report_plural: "Költség jelentések"
   description_drill_down: "Részletek megjelenítése"

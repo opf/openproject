@@ -102,6 +102,34 @@ describe Groups::SetAttributesService, type: :model do
         .not_to have_received(:save)
     end
 
+    context 'with no changes to the users' do
+      let(:call_attributes) do
+        {
+          name: 'My new group name'
+        }
+      end
+      let(:first_user) { FactoryBot.build_stubbed(:user) }
+      let(:second_user) { FactoryBot.build_stubbed(:user) }
+      let(:first_group_user) { FactoryBot.build_stubbed(:group_user, user: first_user) }
+      let(:second_group_user) { FactoryBot.build_stubbed(:group_user, user: second_user) }
+
+      let(:group) do
+        FactoryBot.build_stubbed(:group, group_users: [first_group_user, second_group_user])
+      end
+
+      let(:updated_group) do
+        service_call.result
+      end
+
+      it 'does not change the users (Regression #38017)' do
+        expect(updated_group.name).to eq 'My new group name'
+        expect(updated_group.group_users.map(&:user_id))
+          .to eql [first_user.id, second_user.id]
+
+        expect(updated_group.group_users.any?(&:marked_for_destruction?)).to eq false
+      end
+    end
+
     context 'with changes to the users do' do
       let(:first_user) { FactoryBot.build_stubbed(:user) }
       let(:second_user) { FactoryBot.build_stubbed(:user) }

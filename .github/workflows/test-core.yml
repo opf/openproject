@@ -47,7 +47,7 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        docker-compose -f docker-compose.ci.yml build ci
+        docker-compose -f docker-compose.ci.yml build --pull ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
     - name: cleanup
       if: ${{ always() }}
@@ -77,7 +77,7 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        docker-compose -f docker-compose.ci.yml build ci
+        docker-compose -f docker-compose.ci.yml build --pull ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
       if: ${{ always() }}

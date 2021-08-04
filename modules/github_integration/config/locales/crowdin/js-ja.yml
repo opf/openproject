@@ -25,13 +25,13 @@ ja:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull requests"
+        title: "プルリクエスト"
         copy_menu:
           label: Git snippets
           description: Copy git snippets to clipboard
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
+          branch_name: ブランチ名
+          commit_message: コミットメッセージ
           cmd: Create branch with empty commit
           title: Quick snippets for Git
           copy_success: '✅ コピーしました！'
