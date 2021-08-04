@@ -14,6 +14,7 @@ class AddNotificationSettingOptions < ActiveRecord::Migration[6.1]
       t.boolean :work_package_created, default: false, index: true
       t.boolean :work_package_processed, default: false, index: true
       t.boolean :work_package_prioritized, default: false, index: true
+      t.boolean :work_package_scheduled, default: false, index: true
       t.index :all
     end
   end

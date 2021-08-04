@@ -80,7 +80,7 @@ class Notifications::JournalWpNotificationService
     def notification_receivers(journal)
       receivers = receivers_hash
 
-      %i(mentioned involved watched subscribed commented created processed prioritized).each do |reason|
+      %i(mentioned involved watched subscribed commented created processed prioritized scheduled).each do |reason|
         add_receivers_by_reason(receivers, journal, reason)
       end
 
@@ -126,35 +126,45 @@ class Notifications::JournalWpNotificationService
     end
 
     def settings_of_commented(journal)
-      scope = journal.notes? ? User.all : User.none
+      return NotificationSetting.none unless journal.notes?
 
-      applicable_settings(scope,
+      applicable_settings(User.all,
                           journal.data.project,
                           :work_package_commented)
     end
 
     def settings_of_created(journal)
-      scope = journal.initial? ? User.all : User.none
+      return NotificationSetting.none unless journal.initial?
 
-      applicable_settings(scope,
+      applicable_settings(User.all,
                           journal.data.project,
                           :work_package_created)
     end
 
     def settings_of_processed(journal)
-      scope = !journal.initial? && journal.details.has_key?(:status_id) ? User.all : User.none
+      return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:status_id)
 
-      applicable_settings(scope,
+      applicable_settings(User.all,
                           journal.data.project,
                           :work_package_processed)
     end
 
     def settings_of_prioritized(journal)
-      scope = !journal.initial? && journal.details.has_key?(:priority_id) ? User.all : User.none
+      return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:priority_id)
 
-      applicable_settings(scope,
+      applicable_settings(User.all,
                           journal.data.project,
                           :work_package_prioritized)
+    end
+
+    def settings_of_scheduled(journal)
+      if journal.initial? || !(journal.details.has_key?(:start_date) || journal.details.has_key?(:due_date))
+        return NotificationSetting.none
+      end
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_scheduled)
     end
 
     def applicable_settings(user_scope, project, reason)

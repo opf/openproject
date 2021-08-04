@@ -7,7 +7,8 @@ class Notification < ApplicationRecord
     commented: 4,
     created: 5,
     processed: 6,
-    prioritized: 7
+    prioritized: 7,
+    scheduled: 8
   }.freeze
 
   enum reason_ian: REASONS, _prefix: :ian

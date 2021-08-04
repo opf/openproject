@@ -586,6 +586,7 @@ en:
         work_package_created: 'Work package created'
         work_package_processed: 'Work package status changed'
         work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
         all: 'All events'
         add: 'Add setting for project'
         already_selected: 'This project is already selected'

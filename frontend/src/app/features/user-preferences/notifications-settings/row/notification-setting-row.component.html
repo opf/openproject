@@ -84,6 +84,16 @@
 </td>
 <td>
   <input
+    type="checkbox"
+    [checked]="setting.workPackageScheduled || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageScheduled: $event.target.checked })"
+    data-qa-notification-type="work_package_scheduled"
+    [attr.aria-label]="text.work_package_scheduled_header"
+  />
+</td>
+<td>
+  <input
       type="checkbox"
       [checked]="setting.all"
       (change)="update({ all: $event.target.checked })"

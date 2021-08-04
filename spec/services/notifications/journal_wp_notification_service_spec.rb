@@ -59,6 +59,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       work_package_commented: false,
       work_package_processed: false,
       work_package_created: false,
+      work_package_scheduled: false,
       work_package_prioritized: false
     }
   end
@@ -116,6 +117,16 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
   end
   let(:journal_2_with_priority) do
     work_package.priority = FactoryBot.create(:priority)
+    work_package.save(validate: false)
+    work_package.journals.last
+  end
+  let(:journal_2_with_start_date) do
+    work_package.start_date = Time.zone.today
+    work_package.save(validate: false)
+    work_package.journals.last
+  end
+  let(:journal_2_with_due_date) do
+    work_package.due_date = Time.zone.today
     work_package.save(validate: false)
     work_package.journals.last
   end
@@ -1008,6 +1019,109 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
                                                              .merge(work_package_prioritized: true)),
           FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
                                                                   .merge(work_package_prioritized: true))
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when the journal has a start date update' do
+    let(:journal) { journal_2_with_start_date }
+
+    context 'when the user has scheduled notifications activated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_scheduled: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_scheduled: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_scheduled: true))
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :scheduled,
+            read_mail: false,
+            reason_mail: :scheduled,
+            read_mail_digest: false,
+            reason_mail_digest: :scheduled
+          }
+        end
+      end
+    end
+
+    context 'when the user has scheduled notifications deactivated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when the journal has no start or due date update' do
+    let(:journal) { journal_2_with_notes }
+
+    context 'with the user having scheduled notifications activated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_scheduled: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_scheduled: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_processed: true))
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+  end
+
+  context 'when the journal has a due date update' do
+    let(:journal) { journal_2_with_due_date }
+
+    context 'when the user has scheduled notifications activated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_scheduled: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_scheduled: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_scheduled: true))
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :scheduled,
+            read_mail: false,
+            reason_mail: :scheduled,
+            read_mail_digest: false,
+            reason_mail_digest: :scheduled
+          }
+        end
+      end
+    end
+
+    context 'when the user has scheduled notifications deactivated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
         ]
       end
 

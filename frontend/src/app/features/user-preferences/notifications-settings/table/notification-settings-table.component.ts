@@ -38,6 +38,7 @@ export class NotificationSettingsTableComponent {
     work_package_created_header: this.I18n.t('js.notifications.settings.work_package_created'),
     work_package_processed_header: this.I18n.t('js.notifications.settings.work_package_processed'),
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.work_package_prioritized'),
+    work_package_scheduled_header: this.I18n.t('js.notifications.settings.work_package_scheduled'),
     any_event_header: this.I18n.t('js.notifications.settings.all'),
     default_all_projects: this.I18n.t('js.notifications.settings.default_all_projects'),
   };

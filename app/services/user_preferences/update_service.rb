@@ -90,6 +90,7 @@ module UserPreferences
                         work_package_created
                         work_package_processed
                         work_package_prioritized
+                        work_package_scheduled
                         all]
           },
           validate: false
