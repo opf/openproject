@@ -1514,6 +1514,7 @@ en:
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descending"
   label_details: "Details"
   label_development_roadmap: "Development roadmap"
