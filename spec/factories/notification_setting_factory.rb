@@ -7,6 +7,7 @@ FactoryBot.define do
     watched { true }
     work_package_commented { false }
     work_package_created { false }
+    work_package_processed { false }
     project { nil } # Default settings
     user
 

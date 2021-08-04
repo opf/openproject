@@ -237,7 +237,6 @@ notified_events:
   serialized: true
   default:
   - work_package_updated
-  - status_updated
   - work_package_priority_updated
   - news_added
   - news_comment_added

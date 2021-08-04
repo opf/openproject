@@ -38,9 +38,10 @@ module API
         property :watched
         property :involved
         property :mentioned
-        property :all
-        property :work_package_commented
         property :work_package_created
+        property :work_package_commented
+        property :work_package_processed
+        property :all
 
         associated_resource :project,
                             skip_render: ->(*) { true },

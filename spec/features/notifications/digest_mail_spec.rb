@@ -20,6 +20,7 @@ describe "Digest email", type: :feature, js: true do
                                          mentioned: false,
                                          work_package_commented: false,
                                          work_package_created: false,
+                                         work_package_processed: false,
                                          all: false),
                         FactoryBot.build(:in_app_notification_setting,
                                          involved: false,
@@ -27,6 +28,7 @@ describe "Digest email", type: :feature, js: true do
                                          mentioned: false,
                                          work_package_commented: false,
                                          work_package_created: false,
+                                         work_package_processed: false,
                                          all: false),
                         FactoryBot.build(:mail_digest_notification_setting,
                                          involved: true,
@@ -34,6 +36,7 @@ describe "Digest email", type: :feature, js: true do
                                          mentioned: true,
                                          work_package_commented: true,
                                          work_package_created: true,
+                                         work_package_processed: true,
                                          all: false)
                       ]
   end
@@ -57,6 +60,7 @@ describe "Digest email", type: :feature, js: true do
                                               watched: true,
                                               work_package_commented: true,
                                               work_package_created: true,
+                                              work_package_processed: true,
                                               all: false
 
     notification_settings_page.configure_channel :mail_digest,
@@ -66,6 +70,7 @@ describe "Digest email", type: :feature, js: true do
                                                  watched: true,
                                                  work_package_commented: false,
                                                  work_package_created: false,
+                                                 work_package_processed: false,
                                                  all: false
 
     notification_settings_page.add_row(mute_project)
@@ -77,6 +82,7 @@ describe "Digest email", type: :feature, js: true do
                                                  watched: false,
                                                  work_package_commented: false,
                                                  work_package_created: false,
+                                                 work_package_processed: false,
                                                  all: false
 
     notification_settings_page.save

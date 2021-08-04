@@ -584,6 +584,7 @@ en:
         watched: 'I am watching'
         work_package_commented: 'Work package commented'
         work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
         all: 'All events'
         add: 'Add setting for project'
         already_selected: 'This project is already selected'

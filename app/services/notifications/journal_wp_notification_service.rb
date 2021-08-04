@@ -86,6 +86,7 @@ class Notifications::JournalWpNotificationService
       add_receiver(receivers, settings_of_subscribed(journal), :subscribed)
       add_receiver(receivers, settings_of_commented(journal), :commented)
       add_receiver(receivers, settings_of_created(journal), :created)
+      add_receiver(receivers, settings_of_processed(journal), :processed)
 
       remove_self_recipient(receivers, journal)
 
@@ -138,6 +139,14 @@ class Notifications::JournalWpNotificationService
                           :work_package_created)
     end
 
+    def settings_of_processed(journal)
+      scope = !journal.initial? && journal.details.has_key?(:status_id) ? User.all : User.none
+
+      applicable_settings(scope,
+                          journal.data.project,
+                          :work_package_processed)
+    end
+
     def applicable_settings(user_scope, project, reason)
       NotificationSetting
         .applicable(project)
@@ -181,7 +190,6 @@ class Notifications::JournalWpNotificationService
 
     def send_notification_setting?(journal)
       notify_for_wp_updated?(journal) ||
-        notify_for_status?(journal) ||
         notify_for_priority(journal)
     end
 
@@ -208,11 +216,6 @@ class Notifications::JournalWpNotificationService
 
     def notify_for_wp_updated?(journal)
       notification_enabled?('work_package_updated') && !journal.initial?
-    end
-
-    def notify_for_status?(journal)
-      notification_enabled?('status_updated') &&
-        journal.details.has_key?(:status_id)
     end
 
     def notify_for_priority(journal)
