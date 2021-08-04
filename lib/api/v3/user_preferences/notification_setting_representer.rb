@@ -41,6 +41,7 @@ module API
         property :work_package_created
         property :work_package_commented
         property :work_package_processed
+        property :work_package_prioritized
         property :all
 
         associated_resource :project,

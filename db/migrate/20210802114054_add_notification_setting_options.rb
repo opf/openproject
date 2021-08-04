@@ -4,8 +4,10 @@ class AddNotificationSettingOptions < ActiveRecord::Migration[6.1]
       t.boolean :work_package_commented, default: false
       t.boolean :work_package_created, default: false
       t.boolean :work_package_processed, default: false
+      t.boolean :work_package_prioritized, default: false
     end
 
     # TODO: remove existing notification setting from settings
+    # TODO: add index to all boolean fields
   end
 end

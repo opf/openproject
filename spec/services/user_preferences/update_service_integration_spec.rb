@@ -59,7 +59,9 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
               watched: false,
               involved: true,
               work_package_commented: false,
-              work_package_created: true
+              work_package_created: true,
+              work_package_processed: true,
+              work_package_prioritized: false
             }
           ]
         }
@@ -85,6 +87,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         expect(subject.first.involved).to eq true
         expect(subject.first.work_package_commented).to eq false
         expect(subject.first.work_package_created).to eq true
+        expect(subject.first.work_package_processed).to eq true
+        expect(subject.first.work_package_prioritized).to eq false
 
         expect(subject.first).to eq(default_ian.reload)
         expect(current_user.notification_settings.count).to eq(1)
@@ -115,6 +119,8 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         expect(subject.first.involved).to eq false
         expect(subject.first.work_package_commented).to eq false
         expect(subject.first.work_package_created).to eq false
+        expect(subject.first.work_package_processed).to eq false
+        expect(subject.first.work_package_prioritized).to eq false
 
         expect(current_user.notification_settings.count).to eq(1)
 

@@ -100,6 +100,10 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
     it_behaves_like 'property', :workPackageProcessed do
       let(:value) { notification_setting.work_package_processed }
     end
+
+    it_behaves_like 'property', :workPackagePrioritized do
+      let(:value) { notification_setting.work_package_prioritized }
+    end
   end
 
   describe '_embedded' do

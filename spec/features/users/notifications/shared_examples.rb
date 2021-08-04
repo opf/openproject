@@ -20,6 +20,7 @@ shared_examples 'notification settings workflow' do
                                       work_package_commented: true,
                                       work_package_created: true,
                                       work_package_processed: true,
+                                      work_package_prioritized: true,
                                       all: false
 
       # Set settings for project email
@@ -31,6 +32,7 @@ shared_examples 'notification settings workflow' do
                                       work_package_commented: false,
                                       work_package_created: false,
                                       work_package_processed: false,
+                                      work_package_prioritized: false,
                                       all: false
 
       # Set settings for project email digest
@@ -42,6 +44,7 @@ shared_examples 'notification settings workflow' do
                                       work_package_commented: true,
                                       work_package_created: true,
                                       work_package_processed: true,
+                                      work_package_prioritized: true,
                                       all: true
 
       settings_page.save
@@ -59,6 +62,7 @@ shared_examples 'notification settings workflow' do
       expect(in_app.work_package_commented).to be_falsey
       expect(in_app.work_package_created).to be_falsey
       expect(in_app.work_package_processed).to be_falsey
+      expect(in_app.work_package_prioritized).to be_falsey
 
       mail = notification_settings.find_by(project: project, channel: :mail)
       expect(mail.involved).to be_truthy
@@ -68,6 +72,7 @@ shared_examples 'notification settings workflow' do
       expect(mail.work_package_commented).to be_truthy
       expect(mail.work_package_created).to be_truthy
       expect(mail.work_package_processed).to be_truthy
+      expect(mail.work_package_prioritized).to be_truthy
 
       mail_digest = notification_settings.find_by(project: project, channel: :mail_digest)
       expect(mail_digest.involved).to be_falsey
@@ -77,6 +82,7 @@ shared_examples 'notification settings workflow' do
       expect(mail_digest.work_package_commented).to be_truthy
       expect(mail_digest.work_package_created).to be_truthy
       expect(mail_digest.work_package_processed).to be_truthy
+      expect(mail_digest.work_package_prioritized).to be_truthy
 
       # Trying to add the same project again will not be possible (Regression #38072)
       click_button 'Add setting for project'

@@ -8,6 +8,7 @@ FactoryBot.define do
     work_package_commented { false }
     work_package_created { false }
     work_package_processed { false }
+    work_package_prioritized { false }
     project { nil } # Default settings
     user
 

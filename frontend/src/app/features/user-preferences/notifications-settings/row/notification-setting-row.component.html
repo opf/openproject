@@ -74,6 +74,16 @@
 </td>
 <td>
   <input
+    type="checkbox"
+    [checked]="setting.workPackagePrioritized || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackagePrioritized: $event.target.checked })"
+    data-qa-notification-type="work_package_prioritized"
+    [attr.aria-label]="text.work_package_prioritized_header"
+  />
+</td>
+<td>
+  <input
       type="checkbox"
       [checked]="setting.all"
       (change)="update({ all: $event.target.checked })"

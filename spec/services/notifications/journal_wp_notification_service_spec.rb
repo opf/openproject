@@ -58,7 +58,8 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       mentioned: false,
       work_package_commented: false,
       work_package_processed: false,
-      work_package_created: false
+      work_package_created: false,
+      work_package_prioritized: false
     }
   end
   let(:recipient_notification_settings) do
@@ -120,7 +121,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
   end
   let(:send_notifications) { true }
   let(:notification_setting) do
-    %w(work_package_updated work_package_priority_updated)
+    %w(work_package_updated)
   end
 
   def call
@@ -807,6 +808,21 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       it_behaves_like 'creates no notification'
     end
 
+    context 'when the user configured to be notified on work package priority changes' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_prioritized: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_prioritized: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_prioritized: true))
+        ]
+      end
+
+      it_behaves_like 'creates no notification'
+    end
+
     context 'when the user did not configure to be notified' do
       let(:recipient_notification_settings) do
         [
@@ -910,7 +926,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       end
     end
 
-    context 'when the user has commented notifications deactivated' do
+    context 'when the user has processed notifications deactivated' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
@@ -926,7 +942,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
   context 'when the journal has no status update' do
     let(:journal) { journal_2_with_notes }
 
-    context 'with the user having commented notifications activated' do
+    context 'with the user having processed notifications activated' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
@@ -944,46 +960,62 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
   context 'when the journal has priority' do
     let(:journal) { journal_2_with_priority }
-    let(:user_property) { :assigned_to }
 
-    context 'notification for work_package_updated and work_package_priority_updated disabled' do
-      let(:notification_setting) { [] }
+    context 'when the user has prioritized notifications activated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_prioritized: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_prioritized: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_prioritized: true))
+        ]
+      end
+
+      it_behaves_like 'creates notification' do
+        let(:notification_channel_reasons) do
+          {
+            read_ian: false,
+            reason_ian: :prioritized,
+            read_mail: false,
+            reason_mail: :prioritized,
+            read_mail_digest: false,
+            reason_mail_digest: :prioritized
+          }
+        end
+      end
+    end
+
+    context 'when the user has prioritized notifications deactivated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+        ]
+      end
 
       it_behaves_like 'creates no notification'
     end
+  end
 
-    context 'notification for work_package_updated enabled' do
-      let(:notification_setting) { %w(work_package_updated) }
+  context 'when the journal has no priority update' do
+    let(:journal) { journal_2_with_status }
 
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :involved,
-            read_mail: false,
-            reason_mail: :involved,
-            read_mail_digest: false,
-            reason_mail_digest: :involved
-          }
-        end
+    context 'with the user having prioritized notifications activated' do
+      let(:recipient_notification_settings) do
+        [
+          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false
+                                                           .merge(work_package_prioritized: true)),
+          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false
+                                                             .merge(work_package_prioritized: true)),
+          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false
+                                                                  .merge(work_package_prioritized: true))
+        ]
       end
-    end
 
-    context 'notification for work_package_priority_updated enabled' do
-      let(:notification_setting) { %w(work_package_priority_updated) }
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :involved,
-            read_mail: false,
-            reason_mail: :involved,
-            read_mail_digest: false,
-            reason_mail_digest: :involved
-          }
-        end
-      end
+      it_behaves_like 'creates no notification'
     end
   end
 

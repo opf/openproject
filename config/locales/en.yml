@@ -1896,7 +1896,6 @@ en:
   label_work_package_new: "New work package"
   label_work_package_edit: "Edit work package %{name}"
   label_work_package_plural: "Work packages"
-  label_work_package_priority_updated: "Work package priority updated"
   label_work_package_status: "Work package status"
   label_work_package_status_new: "New status"
   label_work_package_status_plural: "Work package statuses"
