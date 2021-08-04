@@ -5,7 +5,6 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  PartitionedQuerySpacePageComponent,
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
@@ -19,6 +18,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -27,7 +27,7 @@ import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notificat
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterPageComponent extends PartitionedQuerySpacePageComponent {
+export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
   text = {
     title: this.I18n.t('js.notifications.title'),
   };
@@ -39,6 +39,9 @@ export class InAppNotificationCenterPageComponent extends PartitionedQuerySpaceP
   /** Current query title to render */
   selectedTitle = this.text.title;
 
+  /** Disable filter container for now */
+  filterContainerDefinition = null;
+
   /** We need to pass the correct partition state to the view to manage the grid */
   currentPartition:ViewPartitionState = '-split';
 
@@ -47,6 +50,12 @@ export class InAppNotificationCenterPageComponent extends PartitionedQuerySpaceP
 
   /** Toolbar is not editable */
   titleEditingEnabled = false;
+
+  /** Not savable */
+  showToolbarSaveButton = false;
+
+  /** Toolbar is always enabled */
+  toolbarDisabled = false;
 
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
@@ -71,7 +80,7 @@ export class InAppNotificationCenterPageComponent extends PartitionedQuerySpaceP
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
   ) {
-    super(injector);
+    super();
   }
 
   /**
@@ -83,4 +92,10 @@ export class InAppNotificationCenterPageComponent extends PartitionedQuerySpaceP
   setPartition(state:{ data:{ partition?:ViewPartitionState } }):void {
     this.currentPartition = state.data?.partition || '-split';
   }
+
+  // For Interface compliance
+  updateTitleName(val:string) {}
+
+  // For Interface compliance
+  changeChangesFromTitle(val:string) {}
 }
