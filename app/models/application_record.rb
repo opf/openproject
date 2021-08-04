@@ -8,6 +8,14 @@ class ApplicationRecord < ::ActiveRecord::Base
   end
 
   ##
+  # Returns whether the given attribute is free of errors
+  def valid_attribute?(attribute)
+    valid? # Ensure validations have run
+
+    errors[attribute].empty?
+  end
+
+  ##
   # Get the newest recently changed resource for the given record classes
   #
   # e.g., +most_recently_changed(WorkPackage, Type, Status)+

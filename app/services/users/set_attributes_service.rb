@@ -42,7 +42,7 @@ module Users
 
     def set_default_attributes(_params)
       # Assign values other than mail to new_user when invited
-      if model.invited? && model.mail.present?
+      if model.invited? && model.valid_attribute?(:mail)
         ::UserInvitation.assign_user_attributes model
       end
 
