@@ -4,7 +4,11 @@ import {
   Component,
   Injector,
 } from '@angular/core';
-import { ViewPartitionState } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
+import {
+  PartitionedQuerySpacePageComponent,
+  ToolbarButtonComponentDefinition,
+  ViewPartitionState,
+} from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import {
   StateService,
   TransitionService,
@@ -13,7 +17,9 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotificationToolbarComponent } from 'core-app/features/in-app-notifications/center/toolbar/in-app-notification-toolbar.component';
+import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
+import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
+import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -22,24 +28,40 @@ import { InAppNotificationToolbarComponent } from 'core-app/features/in-app-noti
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
+export class InAppNotificationCenterPageComponent extends PartitionedQuerySpacePageComponent {
   text = {
     title: this.I18n.t('js.notifications.title'),
   };
 
-  /** Go back to boards using back-button */
+  /** Go back using back-button */
+  // TODO: Use better Function which actually leaves the notification page and don't only toggle the split views
   backButtonCallback = ():void => window.history.back();
 
   /** Current query title to render */
   selectedTitle = this.text.title;
 
-  /** Disable filter container for now */
-  filterContainerDefinition = null;
-
   /** We need to pass the correct partition state to the view to manage the grid */
   currentPartition:ViewPartitionState = '-split';
 
-  toolbarComponent = InAppNotificationToolbarComponent;
+  /** Show a toolbar */
+  showToolbar = true;
+
+  /** Toolbar is not editable */
+  titleEditingEnabled = false;
+
+  toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: ActivateFacetButtonComponent,
+      containerClasses: 'form--field-inline-buttons-container',
+    },
+    {
+      component: MarkAllAsReadButtonComponent,
+    },
+    {
+      component: NotificationSettingsButtonComponent,
+      containerClasses: 'hidden-for-mobile',
+    },
+  ];
 
   constructor(
     readonly I18n:I18nService,
@@ -50,7 +72,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
   ) {
-    super();
+    super(injector);
   }
 
   /**

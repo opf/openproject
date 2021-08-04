@@ -109,9 +109,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Determine when query is initially loaded */
   showToolbar = false;
 
-  /** The toolbar to render */
-  toolbarComponent:ComponentRef<unknown>|undefined;
-
   /** The toolbar buttons to render */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [];
 

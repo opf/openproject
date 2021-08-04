@@ -88,6 +88,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
   /** Listener callbacks */
   removeTransitionSubscription:Function;
 
+  /** Show a toolbar */
   showToolbar = true;
 
   /** Whether filtering is allowed */
@@ -117,7 +118,6 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     },
   );
 
-  toolbarComponent = null;
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: WorkPackageFilterButtonComponent,
