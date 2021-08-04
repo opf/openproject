@@ -436,7 +436,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Template project'
+        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -553,7 +553,7 @@ hu:
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
         not_available: "is not available due to a system configuration."
         not_deletable: "nem törölhető"
-        not_current_user: "is not the current user."
+        not_current_user: "nem az aktuális felhasználó"
         not_a_date: "nem érvényes dátum."
         not_a_datetime: "ez nem érvényes dátum."
         not_a_number: "ez nem egy szám."
@@ -661,7 +661,7 @@ hu:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "A szűrő érvénytelen értékeket tartalmaz"
               format: "%{message}\n"
         relation:
           typed_dag:
@@ -747,7 +747,7 @@ hu:
             roles:
               ungrantable: "has an unassignable role."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "nem lehet hozzárendelni a projekthez"
         version:
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
@@ -1214,7 +1214,7 @@ hu:
   error_menu_item_not_saved: Menüelem nem menthető
   error_wiki_root_menu_item_conflict: >
     Nem lehet átnevezni "%{old_name}", mert "%{new_name}" menü egy már létező menüvel "%{existing_caption}" (%{existing_identifier}) ütközik.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
     project: 'Projekt szerkesztve'
@@ -1657,7 +1657,7 @@ hu:
   label_previous_week: "Előző héten"
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: "Meglévő felhasználók vagy csoportok hozzáadása"
-  label_privacy_policy: "Data privacy and security policy"
+  label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
@@ -1908,7 +1908,7 @@ hu:
   mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
   mail_body_backup_token_reset_user_info: A visszaállítási kulcs törölve.
   mail_body_backup_token_info: Az előző kulcs elavult.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
@@ -1942,7 +1942,7 @@ hu:
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} A szerepköreid frissítve lettek"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have in the project '%{project}'."
@@ -2161,7 +2161,7 @@ hu:
     member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
     subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    only_subproject_id: "Csak alprojekt"
     name_or_identifier: "Név vagy azonosító"
   repositories:
     at_identifier: '%{identifier} -n'
@@ -2347,7 +2347,7 @@ hu:
   setting_mail_handler_api_key: "API-kulcs"
   setting_mail_handler_body_delimiters: "E-mailek csonkolása e sorok után"
   setting_mail_handler_body_delimiter_regex: "E-mailek csonkítása a megegyező kifejezéssel"
-  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
+  setting_mail_handler_ignore_filenames: "Összes melléklet figyelmen kívül hagyva"
   setting_new_project_user_role_id: "Szerepkör a  nem admin felhasználónak, aki létrehoz egy projektet,"
   setting_password_active_rules: "Választható karakter típusok"
   setting_password_count_former_banned: "A legutóbb használt  jelszavak száma, ezeket tilos újra felhasználni"
@@ -2409,7 +2409,7 @@ hu:
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
-      section_new_projects: "Settings for new projects"
+      section_new_projects: "Új projekt beállításai"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Alapértelmezett preferenciák"
@@ -2485,7 +2485,7 @@ hu:
   text_journal_added: "%{label} %{value} hozzáadva"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed: ""
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"
@@ -2513,7 +2513,7 @@ hu:
   text_regexp_info: "pl. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A reguláris kifejezés többsoros módban legyen alkalmazva. pld. ^---\s+'
   text_repository_usernames_mapping: "Jelölje be, vagy frissítse az alkalmazás felhasználóit, minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel automatikusan tárolódnak."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "Válassza ki a tevékenységeket, amelyekről e-mail értesítést kell küldeni."
   text_status_changed_by_changeset: "A %{value} commit-ban hozzáadva."
   text_table_difference_description: "Ebben a táblázatban látható az egyszeri %{entries}. Megtekintheti a két bejegyzés közötti különbséget azáltal, hogy először kiválasztja a megfelelő jelölőnégyzeteket a táblázatban. A táblázat alatti gombra kattintva a különbségek jelennek meg."
   text_time_logged_by_changeset: "A %{value} commit-ban hozzáadva."

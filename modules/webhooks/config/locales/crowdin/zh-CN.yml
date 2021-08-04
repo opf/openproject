@@ -38,7 +38,7 @@ zh-CN:
         time: '传送时间'
       form:
         introduction: >
-          对于您所订阅项目中的任何事件，将 POST 请求发送到下面的有效载荷 URL。有效载荷将对应于要修改的对象的 APIv3 表示。
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: 有关更多信息，请访问 API 文档
         description:
           placeholder: 'Webhook 的可选描述。'

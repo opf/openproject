@@ -49,7 +49,7 @@ hu:
       title: '2FA beállítások'
       current_configuration: 'Jelenlegi konfiguráció'
       label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
+      label_enforced: '2FA kényszerítése'
       label_remember: '2FA bejelentkezés megjegyzése'
       text_configuration: |
         Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
@@ -59,14 +59,14 @@ hu:
         Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
         They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
       error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+      failed_to_save_settings: 'Nem sikerült frissíteni a 2FA beállításokat %{message}'
     admin:
-      self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
+      self_edit_path: '2FA hozzáadásához vagy módosításához kérlek menj a %{self_edit_link}'
       self_edit_link_name: 'Two-factor authentication on your account page'
-      self_edit_forbidden: 'You may not edit your own 2FA devices on this path. Go to My Account > Two factor authentication instead.'
+      self_edit_forbidden: 'Ezen az útvonalon nem tudod szerkeszteni a 2FA-t. Menj a Saját Fiokom > Két faktorú azonosítás menübe'
       no_devices_for_user: 'Nincs regisztrált 2FA eszköze a felhasználónak.'
       all_devices_deleted: 'A felhasználó összes 2FA eszköze törölve lett'
-      delete_all_are_you_sure: 'Are you sure you want to delete all 2FA devices for this user?'
+      delete_all_are_you_sure: 'Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?'
       button_delete_all_devices: '2FA eszköz regisztrációjának törlése'
       button_register_mobile_phone_for_user: 'Mobiltelefon regisztrálása'
       text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
@@ -93,7 +93,7 @@ hu:
       confirm_default: 'Confirm changing default device'
       confirm_device: 'Confirm device'
       confirm_now: 'Not confirmed, click here to activate'
-      cannot_delete_default: 'Cannot delete default device'
+      cannot_delete_default: 'Az alapértelmezett eszközt nem lehet törölni'
       make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
       make_default_failed: 'Failed to update the default 2FA device.'
       deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
@@ -101,20 +101,20 @@ hu:
       registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
       registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
-      button_complete_registration: 'Complete 2FA registration'
+      button_complete_registration: '2FA regisztráció befejezése'
       text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: 'You can give the device a custom identifier using this field.'
-      failed_to_delete: 'Failed to delete 2FA device.'
+      failed_to_delete: 'Nem sikerült törölni a 2FA eszközt'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
-      not_existing: 'No 2FA device has been registered for your account.'
+      not_existing: 'Nincs regisztrál 2FA eszköz ehhez a felhasználóhoz'
       request_2fa: Please enter the code from your %{device_name} to verify your identity.
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
         secret_key: 'Titkos kulcs'
         time_based: 'Idő alapú'
-        account: 'Account name / Issuer'
+        account: 'Felhasználó név / Kibocsátó'
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
@@ -126,9 +126,9 @@ hu:
           Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
           Common examples are Google Authenticator or Authy.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'Használja  a mobiltelefonját.'
+        redacted_identifier: 'Mobiltelefon (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier} azonosító kód elküldve %{delivery_channel}'
         description: |
           Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
@@ -143,7 +143,7 @@ hu:
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+    label_two_factor_authentication: 'Kétlépcsős hitelesítés'
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
     remember:
