@@ -2,22 +2,22 @@
      class="work-package--single-view"
      [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
   <div class="wp-new--subject-wrapper"
-       *ngIf="workPackage.isNew">
+       *ngIf="isNewResource(workPackage)">
     <editable-attribute-field [resource]="workPackage"
                    [wrapperClasses]="'-no-label'"
                    [fieldName]="'subject'"></editable-attribute-field>
   </div>
 
   <div class="wp-info-wrapper">
-    <wp-status-button *ngIf="!workPackage.isNew"
+    <wp-status-button *ngIf="!isNewResource(workPackage)"
                       [workPackage]="workPackage">
     </wp-status-button>
     <attribute-help-text [attribute]="'status'"
                          [attributeScope]="'WorkPackage'"
-                         *ngIf="!workPackage.isNew"></attribute-help-text>
+                         *ngIf="!isNewResource(workPackage)"></attribute-help-text>
 
     <div class="work-packages--info-row"
-         *ngIf="!workPackage.isNew">
+         *ngIf="!isNewResource(workPackage)">
       <span [textContent]="idLabel"></span>:
       <span [textContent]="text.infoRow.createdBy"></span>
       <!-- The space has to be in an extra span
@@ -58,7 +58,10 @@
     </div>
   </div>
 
-  <div class="attributes-group -project-context hide-when-print" *ngIf="!workPackage.isNew && projectContext && !projectContext.matches">
+  <div
+    class="attributes-group -project-context hide-when-print"
+    *ngIf="!isNewResource(workPackage) && projectContext && !projectContext.matches"
+  >
     <div>
       <p>
         <span [innerHTML]="projectContextText"></span>

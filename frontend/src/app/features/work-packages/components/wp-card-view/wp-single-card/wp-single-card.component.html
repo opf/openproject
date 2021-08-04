@@ -15,7 +15,7 @@
       type="button"
       class="op-link op-wp-single-card--details-button"
       data-qa-selector="op-wp-single-card--details-button"
-      *ngIf="!workPackage.isNew && showInfoButton"
+      *ngIf="!isNewResource(workPackage) && showInfoButton"
       [title]="text.detailsView"
       (click)="emitStateLinkClicked($event, workPackage, true)">
       <op-icon icon-classes="icon icon-info2"></op-icon>
@@ -23,16 +23,16 @@
     <button
       class="op-link op-wp-single-card--inline-cancel-button"
       data-qa-selector="op-wp-single-card--inline-cancel-button"
-      *ngIf="workPackage.isNew || showRemoveButton"
-      [class.-show]="workPackage.isNew"
+      *ngIf="isNewResource(workPackage) || showRemoveButton"
+      [class.-show]="isNewResource(workPackage)"
       [title]="text.removeCard"
       (click)="onRemoved(workPackage)">
       <op-icon icon-classes="icon icon-close"></op-icon>
     </button>
   </div>
   <edit-form [resource]="workPackage"
-             [inEditMode]="workPackage.isNew"
-             *ngIf="workPackage.isNew">
+             [inEditMode]="isNewResource(workPackage)"
+             *ngIf="isNewResource(workPackage)">
     <div class="op-wp-single-card-content -new">
       <editable-attribute-field [resource]="workPackage"
                                 [wrapperClasses]="'work-packages--type-selector'"
@@ -46,7 +46,7 @@
     </div>
   </edit-form>
 
-  <div *ngIf="!workPackage.isNew"
+  <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
     <span [textContent]="wpProjectName(workPackage)"
           class="op-wp-single-card--content-project-name">

@@ -34,6 +34,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface HalResourceClass<T extends HalResource = HalResource> {
   new(injector:Injector,
@@ -157,10 +158,6 @@ export class HalResource {
     this.$source.id = val;
   }
 
-  public get isNew():boolean {
-    return !this.id || this.id === 'new';
-  }
-
   public get persisted() {
     return !!(this.id && this.id !== 'new');
   }
@@ -231,7 +228,7 @@ export class HalResource {
   }
 
   public previewPath():string|undefined {
-    if (this.isNew && this.project) {
+    if (isNewResource(this) && this.project) {
       return this.project.href;
     }
 

@@ -11,7 +11,7 @@
 
   <ng-container *ngFor="let wp of workPackages; trackBy:trackByHref">
     <wp-single-card [workPackage]="wp"
-                    [attr.data-is-new]="wp.isNew || undefined"
+                    [attr.data-is-new]="isNewResource(wp) || undefined"
                     [attr.data-work-package-id]="wp.id"
                     [attr.data-class-identifier]="cardView.classIdentifier(wp)"
                     [showInfoButton]="showInfoButton"

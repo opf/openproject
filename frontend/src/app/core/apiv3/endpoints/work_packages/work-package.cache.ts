@@ -33,6 +33,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
@@ -51,7 +52,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   }
 
   updateWorkPackage(wp:WorkPackageResource, immediate = false):Promise<WorkPackageResource> {
-    if (immediate || wp.isNew) {
+    if (immediate || isNewResource(wp)) {
       return super.updateValue(wp.id!, wp);
     }
     return this.updateValue(wp.id!, wp);
@@ -64,7 +65,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
       const state = this.multiState.get(workPackageId);
 
       // If the work package is new, ignore the schema
-      if (wp.isNew) {
+      if (isNewResource(wp)) {
         state.putValue(wp);
         continue;
       }
