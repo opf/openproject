@@ -38,7 +38,7 @@ pt:
         time: 'Tempo de entrega'
       form:
         introduction: >
-          Envie uma solicitação POST para o URL do payload abaixo para qualquer evento no projeto inscrito. O payload corresponderá à representação APIv3 do objeto que está sendo modificado.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Para mais informações, visite a documentação da API
         description:
           placeholder: 'Descrição opcional para o webhook.'

@@ -38,7 +38,7 @@ lt:
         time: 'Pristatymo laikas'
       form:
         introduction: >
-          Pasiųskite POST užklausa į žemiau pateiktą „krovinio“ URL įvykus bet kuriam įvykiui projektuose, kuriuos jūs prenumeruojate. „Krovinys“ atitiks APIv3 formatą to objekto, kuris turi būti keičiamas.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Daugiau informacijos API dokumentacijoje
         description:
           placeholder: 'Nebūtinas „webhook“ aprašymas.'

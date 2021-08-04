@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'op-select-input',
@@ -12,7 +12,7 @@ export class SelectInputComponent extends FieldType implements OnInit {
 
   public ngOnInit():void {
     if (this.model?.project) {
-      this.projectId = HalResource.idFromLink(this.model.project?.href);
+      this.projectId = idFromLink(this.model.project?.href);
     }
   }
 }

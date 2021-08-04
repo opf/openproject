@@ -44,6 +44,7 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource, HalSource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -211,7 +212,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
       const hasChanges = !change.isEmpty();
       const typeEmpty = !changeType && !type;
-      const typeMatches = type && changeType && changeType.idFromLink === type.toString();
+      const typeMatches = type && changeType && idFromLink(changeType.href) === type.toString();
 
       if (hasChanges && (typeEmpty || typeMatches)) {
         return Promise.resolve(change);

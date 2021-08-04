@@ -9,6 +9,7 @@ import { forkJoin, Observable, of } from 'rxjs';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { BcfTopicResource } from 'core-app/features/bim/bcf/api/topics/bcf-topic.resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export class ViewpointsService {
@@ -46,7 +47,7 @@ export class ViewpointsService {
   }
 
   public saveViewpoint$(workPackage:WorkPackageResource, viewpoint?:BcfViewpointInterface):Observable<BcfViewpointInterface> {
-    const wpProjectId = workPackage.project.idFromLink;
+    const wpProjectId = idFromLink(workPackage.project.href);
     const topicUUID$ = this.setBcfTopic$(workPackage);
     // Default to the current viewer's viewpoint
     const viewpoint$ = viewpoint
@@ -81,7 +82,7 @@ export class ViewpointsService {
   }
 
   private createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {
-    const wpProjectId = workPackage.project.idFromLink;
+    const wpProjectId = idFromLink(workPackage.project.href);
     const wpPayload = workPackage.convertBCF.payload;
 
     return this.bcfApi

@@ -16,7 +16,7 @@ import {
   timer,
 } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -29,6 +29,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -202,7 +203,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     if (project) {
       this.project = {
         ...project,
-        showUrl: this.pathHelper.projectPath(HalResource.idFromLink(project.href)),
+        showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
       };
     }
   }

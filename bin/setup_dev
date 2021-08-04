@@ -11,6 +11,9 @@ printf "Bundling rails dependencies ... "
 try 'bundle install > log/setup_dev.log'
 echo "done."
 
+echo "Removing public frontend assets"
+try 'rm -rf public/assets/frontend >> log/setup_dev.log'
+
 echo "Installing node_modules ... "
 try '(cd frontend && npm ci) >> log/setup_dev.log'
 
