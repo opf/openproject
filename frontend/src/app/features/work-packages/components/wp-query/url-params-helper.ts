@@ -29,6 +29,7 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -297,7 +298,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource) {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || column.idFromLink);
+      return query.columns.map((column:any) => column.id || idFromLink(column.href));
     } if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
         const id = column.href!;
@@ -340,7 +341,7 @@ export class UrlParamsHelperService {
 
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
     if (filter.operator) {
-      return filter.operator.id || filter.operator.idFromLink;
+      return filter.operator.id || idFromLink(filter.operator.href);
     }
     const { href } = filter._links.operator;
 

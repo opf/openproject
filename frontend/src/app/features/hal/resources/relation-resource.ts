@@ -28,6 +28,7 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface RelationResourceLinks {
   delete():Promise<any>;
@@ -117,8 +118,8 @@ export class RelationResource extends HalResource {
    */
   public get ids() {
     return {
-      from: WorkPackageResource.idFromLink(this.from.href!),
-      to: WorkPackageResource.idFromLink(this.to.href!),
+      from: idFromLink(this.from.href!),
+      to: idFromLink(this.to.href!),
     };
   }
 

@@ -10,7 +10,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
-
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -167,7 +167,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        workPackage.project.idFromLink,
+        idFromLink(workPackage.project.href),
         workPackage.id!,
         index,
       );

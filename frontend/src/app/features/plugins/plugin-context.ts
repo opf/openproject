@@ -5,6 +5,7 @@ import { ExternalQueryConfigurationService } from 'core-app/features/work-packag
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
@@ -55,6 +56,10 @@ export class OpenProjectPluginContext {
     states: this.injector.get<States>(States),
     apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
+  };
+
+  public readonly helpers = {
+    idFromLink,
   };
 
   // Random collection of classes needed outside of angular
