@@ -120,9 +120,6 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     work_package.journals.last
   end
   let(:send_notifications) { true }
-  let(:notification_setting) do
-    %w(work_package_updated)
-  end
 
   def call
     described_class.call(journal, send_notifications)
@@ -133,7 +130,6 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
 
     login_as(author)
-    allow(Setting).to receive(:notified_events).and_return(notification_setting)
   end
 
   shared_examples_for 'creates notification' do

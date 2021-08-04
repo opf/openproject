@@ -30,7 +30,6 @@
 
 module OpenProject
   NOTIFIABLE = [
-    %w(work_package_updated),
     %w(news_added),
     %w(news_comment_added),
     %w(file_added),

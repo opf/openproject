@@ -236,7 +236,6 @@ cross_project_work_package_relations:
 notified_events:
   serialized: true
   default:
-  - work_package_updated
   - news_added
   - news_comment_added
   - file_added

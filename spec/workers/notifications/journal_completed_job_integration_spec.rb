@@ -53,9 +53,9 @@ describe Notifications::JournalCompletedJob, type: :model do
                         author: author,
                         assigned_to: recipient)
     end
-    let(:journal) { journal_1 }
-    let(:journal_1) { work_package.journals.first }
-    let(:journal_2) do
+    let(:journal) { journal1 }
+    let(:journal1) { work_package.journals.first }
+    let(:journal2) do
       work_package.add_journal author, 'something I have to say'
       work_package.save(validate: false)
       work_package.journals.last
@@ -93,7 +93,7 @@ describe Notifications::JournalCompletedJob, type: :model do
     end
 
     describe 'journal creation' do
-      context 'work_package_created' do
+      context 'with the work package being created' do
         before do
           FactoryBot.create(:work_package, project: project)
         end
@@ -101,7 +101,7 @@ describe Notifications::JournalCompletedJob, type: :model do
         it_behaves_like 'sends notification'
       end
 
-      context 'work_package_updated' do
+      context 'with the work package being updated' do
         before do
           work_package.add_journal(author)
           work_package.subject = 'A change to the issue'
@@ -111,7 +111,7 @@ describe Notifications::JournalCompletedJob, type: :model do
         it_behaves_like 'sends notification'
       end
 
-      context 'work_package_note_added' do
+      context 'with the journal being updated with a note' do
         before do
           work_package.add_journal(author, 'This update has a note')
           work_package.save!(validate: false)
@@ -122,7 +122,7 @@ describe Notifications::JournalCompletedJob, type: :model do
     end
   end
 
-  context 'for wiki page content' do
+  context 'with wiki page content' do
     let(:wiki_page_content) do
       wiki = FactoryBot.create(:wiki,
                                project: project)
@@ -130,9 +130,9 @@ describe Notifications::JournalCompletedJob, type: :model do
       FactoryBot.create(:wiki_page_with_content, wiki: wiki).content
     end
 
-    let(:journal) { journal_1 }
-    let(:journal_1) { wiki_page_content.journals.first }
-    let(:journal_2) do
+    let(:journal) { journal1 }
+    let(:journal1) { wiki_page_content.journals.first }
+    let(:journal2) do
       wiki_page_content.add_journal author, 'something I have to say'
       wiki_page_content.save(validate: false)
       wiki_page_content.journals.last
