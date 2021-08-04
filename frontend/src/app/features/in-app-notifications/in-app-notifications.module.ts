@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { OPSharedModule } from 'core-app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { InAppNotificationBellComponent } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
@@ -15,7 +16,6 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
 import { NotificationSettingsButtonComponent } from './center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from './center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
-import { OPSharedModule } from 'core-app/shared/shared.module';
 
 @NgModule({
   declarations: [

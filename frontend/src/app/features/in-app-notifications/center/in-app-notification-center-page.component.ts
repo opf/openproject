@@ -15,7 +15,6 @@ import {
 } from '@uirouter/core';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';

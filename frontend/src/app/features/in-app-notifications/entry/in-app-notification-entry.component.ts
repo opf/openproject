@@ -147,11 +147,11 @@ export class InAppNotificationEntryComponent implements OnInit {
       });
   }
 
-  projectClicked(event:MouseEvent) {
+  projectClicked(event:MouseEvent):void {
     event.stopPropagation();
   }
 
-  markAsRead(event:MouseEvent, notifications:InAppNotification[]) {
+  markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
     event.stopPropagation();
 
     this

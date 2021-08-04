@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { IAN_FACETS } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
@@ -24,7 +24,8 @@ export class ActivateFacetButtonComponent {
   constructor(
     private I18n:I18nService,
     private ianQuery:InAppNotificationsQuery,
-    private ianService:InAppNotificationsService) {
+    private ianService:InAppNotificationsService,
+  ) {
   }
 
   activateFacet(facet:string):void {

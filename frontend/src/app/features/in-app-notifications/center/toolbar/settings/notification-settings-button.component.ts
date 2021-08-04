@@ -16,6 +16,7 @@ export class NotificationSettingsButtonComponent {
 
   constructor(
     private I18n:I18nService,
-    private pathHelper:PathHelperService) {
+    private pathHelper:PathHelperService,
+  ) {
   }
 }

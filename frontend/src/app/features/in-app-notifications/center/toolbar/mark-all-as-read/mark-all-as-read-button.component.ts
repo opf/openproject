@@ -15,7 +15,8 @@ export class MarkAllAsReadButtonComponent {
 
   constructor(
     private I18n:I18nService,
-    private ianService:InAppNotificationsService,) {
+    private ianService:InAppNotificationsService,
+  ) {
   }
 
   markAllRead():void {
