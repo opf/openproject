@@ -44,7 +44,7 @@ el:
       title: Backup OpenProject
       options: Επιλογές
       include_attachments: Include attachments
-      download_backup: Download backup
+      download_backup: Λήψη αντιγράφου ασφαλείας
       request_backup: Request backup
     close_popup_title: "Κλείσιμο αναδυόμενου"
     close_filter_title: "Κλείσιμο φίλτρου"
@@ -218,7 +218,7 @@ el:
         upsale:
           become_hero: "Γίνετε ήρωας!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Ποια είναι τα οφέλη της έκδοσης Enterprise on-premises?"
             high_security: "Χαρακτηριστικά ασφαλείας"
             high_security_text: "Σύστημα ενιαίας πρόσβασης (SAML, OpenID Connect, CAS), έλεγχος ταυτότητας δύο παραγόντων και αυτόματος συγχρονισμός ομάδων LDAP."
             installation: "Υποστήριξη εγκατάστασης"
@@ -479,7 +479,7 @@ el:
         help_menu: 'Στο μενού <b>Βοήθεια</b> θα βρείτε έναν οδηγό χρήστη και επιπλέον βοηθητικούς πόρους. <br> Απολαύστε τη δουλειά σας με το OpenProject!'
         members: 'Προσκαλέστε καινούργια <b>Μέλη</b> για να συμμετάσχουν στο έργο σας.'
         project_selection: 'Παρακαλούμε κάντε κλικ σε ένα από τα έργα με χρήσιμα demo δεδομένα για ξεκινήσετε. <br> Το <b>Demo έργο</b> ταιριάζει καλύτερα στη κλασική διαχείριση έργου, ενώ το <b>Scrum έργο</b> είναι καλύτερο για Agile διαχείριση έργου.'
-        quick_add_button: 'Create a new project or invite coworkers.'
+        quick_add_button: 'Δημιουργία ενός νέου έργου ή της πρόσκληση συναδέλφων.'
         sidebar_arrow: "Με τα βέλη μπορείτε να πλοηγηθείτε πίσω στο <b>Κύριο μενού</b> του έργου."
         welcome: 'Κάντε μια τρίλεπτη εισαγωγική περιήγηση για να μάθετε τα πιο <b>σημαντικά χαρακτηριστικά</b>. <br> Προτείνουμε να ολοκληρώσετε τα βήματα μέχρι το τέλος. Μπορείτε να επανεκκινήσετε την περιήγηση ανά πάσα στιγμή.'
         wiki: 'Μέσα στο <b>Wiki</b> μπορείτε να καταγράψετε και να μοιραστείτε γνώση μαζί με την ομάδα σας.'
@@ -522,9 +522,9 @@ el:
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'
       confirm_template_load: 'Η αλλαγή του προτύπου θα επαναφορτώσει τη σελίδα και θα χάσετε όλα τα στοιχεία εισόδου σε αυτή τη φόρμα. Συνέχεια?'
       use_template: "Χρήση προτύπου"
-      no_template_selected: "(None)"
+      no_template_selected: "(Κανένα)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Επιλογές αντιγραφής"
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
     text_are_you_sure: "Είστε σίγουρος/η;"
@@ -925,7 +925,7 @@ el:
     notice_successful_create: "Επιτυχής δημιουργία."
     notice_successful_delete: "Επιτυχής διαγραφή."
     notice_successful_update: "Επιτυχής ενημέρωση."
-    notice_job_started: "job started."
+    notice_job_started: "η εργασία ξεκίνησε."
     notice_bad_request: "Εσφαλμένο Αίτημα."
     relations:
       empty: Δεν υπάρχει συσχέτιση
@@ -991,8 +991,8 @@ el:
         invite_principal_to_project: 'Πρόσκληση %{principal} στο %{project}'
       project:
         label: 'Έργο'
-        required: 'Παρακαλώ επιλέξτε ένα έργο'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        required: 'Παρακαλούμε επιλέξτε ένα έργο'
+        lacking_permission: 'Παρακαλώ επιλέξτε ένα διαφορετικό πρότζεκτ καθώς δεν έχετε δικαιώματα να εγγράψετε τους χρήστες στο επιλεγμένο.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: 'Επόμενο'
         no_results: 'Δεν βρέθηκαν έργα'
@@ -1014,7 +1014,7 @@ el:
         label:
           name_or_email: 'Όνομα ή διεύθυνση email'
           name: 'Όνομα'
-        already_member_message: 'Ήδη ένα μέλος του %{project}'
+        already_member_message: 'Ήδη μέλος του %{project}'
         no_results_user: 'Δεν βρέθηκαν χρήστες'
         invite_user: 'Πρόσκληση:'
         no_results_placeholder: 'Δεν βρέθηκαν placeholders'
@@ -1027,14 +1027,14 @@ el:
           group: 'Παρακαλούμε επιλέξτε μια ομάδα'
       role:
         label: 'Ρόλος στο %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Δεν βρέθηκε κανένας ρόλος'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Παρακαλούμε επιλέξτε ένα ρόλο'
         next_button: 'Επόμενο'
       message:
         label: 'Μήνυμα πρόσκλησης'
-        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια εξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
-        next_button: 'Review invitation'
+        description: 'Θα στείλουμε ένα email στο %{principal}, στο οποίο μπορείτε να προσθέσετε ένα προσωπικό μήνυμα εδώ. Μια επεξήγηση για την πρόσκληση θα ήταν χρήσιμη, ή ίσως κάποια πληροφορία σχετικά με το έργο για να τους βοηθήσει να ξεκινήσουν.'
+        next_button: 'Προεπισκόπηση πρόσκλησης'
       summary:
         next_button: 'Αποστολή πρόσκλησης'
       success:
@@ -1045,7 +1045,7 @@ el:
           group: 'Η ομάδα είναι τώρα μέρος του %{project}. Εν τω μεταξύ, μπορείτε να προγραμματίσετε ήδη με αυτή την ομάδα και να αντιστοιχίσετε πακέτα εργασίας.'
         next_button: 'Συνέχεια'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: 'Η φόρμα υποβλήθηκε με επιτυχία'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Προηγμένες ρυθμίσεις'

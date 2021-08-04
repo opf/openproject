@@ -39,13 +39,13 @@ hu:
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
+      last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: Last backup from
       title: Backup OpenProject
       options: Beállítások
       include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      download_backup: Biztonsági mentés letöltése
+      request_backup: Biztonsági mentés kérés
     close_popup_title: "Előugró ablak bezárása"
     close_filter_title: "Szűrő bezárása"
     close_form_title: "Űrlap bezárása"
@@ -91,15 +91,15 @@ hu:
       title: 'Naptár'
       too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Új kártya hozzáadása'
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+      remove_from_list: 'Kártya eltávolítása a listából'
     caption_rate_history: "Díj előzmények"
     clipboard:
       browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "A vágólapra másolás sikeres!"
     chart:
       type: 'Diagram típus'
       axis_criteria: 'Tengely kritérium'
@@ -118,7 +118,7 @@ hu:
       errors:
         could_not_load: 'A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.'
     description_available_columns: "Elérhető oszlopok"
-    description_current_position: "You are here: "
+    description_current_position: "Itt vagy:"
     description_select_work_package: "Munkacsomag kiválasztás #%{id}"
     description_selected_columns: "Oszlopok kiválasztása"
     description_subwork_package: "Munkacsomag gyermeke #%{id}"
@@ -185,33 +185,33 @@ hu:
         reset_to_defaults: 'Alapbeállítások visszaállítása'
       enterprise:
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "E-mail cím megerősítése"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+            invalid_email: "Érvénytelen e-mail cím"
+            label_company: "Cég"
             label_first_name: "Keresztnév"
             label_last_name: "Vezetéknév"
             label_domain: "Domain"
             label_subscriber: "Előfizető"
             label_maximum_users: "Maximális aktív felhasználók"
-            label_starts_at: "Starts at"
+            label_starts_at: "Kezdés ideje:"
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
+          next_steps: "Következő lépések"
+          resend_link: "Újraküldés"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_label: "Állapot:"
+          status_confirmed: "megerősítve"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -223,18 +223,18 @@ hu:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Prémium funkciók"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Szakmai támogatás"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Ingyenes próbaverzió kipróbálása"
+          button_book_now: "Foglalás most"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+          link_quote: "Árajánlat kérése"
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
+          unlimited: "Korlátlan"
           you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
     custom_actions:
       date:
@@ -308,9 +308,9 @@ hu:
     label_author: "Szerző: %{user}"
     label_avatar: "Profilkép"
     label_between: "között"
-    label_board: "Board"
+    label_board: "Tábla"
     label_board_locked: "Zárolt"
-    label_board_plural: "Boards"
+    label_board_plural: "Táblák"
     label_board_sticky: "Kiemelt"
     label_change: "Változtat"
     label_create: "Létrehoz"
@@ -376,7 +376,7 @@ hu:
     label_next: " Következő"
     label_no_color: "Nincs szín"
     label_no_data: "Nincs megjelenítendő adat"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "nincs befejezési dátum"
     label_no_start_date: "nincs kezdő dátuma"
     label_no_value: "Nincs érték"
     label_none: "Egyik sem"
@@ -416,10 +416,10 @@ hu:
     label_public_query: "Nyilvános"
     label_sum: "Össz."
     label_sum_for: "Összeg"
-    label_total_sum: "Total sum"
+    label_total_sum: "Teljes összeg:"
     label_subject: "Tárgy"
     label_this_week: "ezen a héten"
-    label_today: "Today"
+    label_today: "Ma"
     label_time_entry_plural: "Eltöltött idő"
     label_up: "Fel"
     label_user_plural: "Felhasználók"
@@ -478,14 +478,14 @@ hu:
       steps:
         help_menu: 'A <b>Súgó</b> menüben találja a felhasználói útmutatót és további segítséget. <br> Élvezze az OpenProject munkáját!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
-        project_selection: 'Please click on one of the projects with useful demo data to get started. <br> The <b>Demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for Agile project management.'
+        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Create a new project or invite coworkers.'
         sidebar_arrow: "A nyíl segítségével visszatérhet a projekt <b>főmenüjébe</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
           overview: "Kezelje munkáját <b>Backlogs</b> nézetben.<br>Jobb oldalon van a Product Backlog vagy a Bug Backlog, bal oldalon a megfelelő sprint. Itt létrehozhat <b>epic, user stories és bug</b> típusokat, rangsorolhatja drag'n'drop segítségével, és hozzáadhatja őket a sprinthez."
-          task_board_arrow: 'To see your <b>Task board</b>, open the Sprint drop-down...'
+          task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
           task_board: "A <b>Feladatlap</b> megjeleníti a sprint előrehaladását. Új feladatok vagy akadályok hozzáadása a + ikonhoz a felhasználói történet mellett. A drag'n'drop segítségével frissítheti az állapotot."
         boards:
@@ -521,7 +521,7 @@ hu:
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
+      use_template: "Sablon használata"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -565,12 +565,12 @@ hu:
     relation_labels:
       parent: "Szülő"
       children: "Gyermekek"
-      relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      relates: "Kapcsolódóan"
+      duplicates: "Duplikátumok"
+      duplicated: "Duplikálta (a)z"
       blocks: "Blokkolja"
-      blocked: "Blocked by"
-      precedes: "Precedes"
+      blocked: "Blokkolta a(z)"
+      precedes: "Megelőzi"
       follows: "Követi ezt"
       includes: "Tartalmazza"
       partof: "Része"
@@ -582,7 +582,7 @@ hu:
       hierarchy_headline: "Hierarchia"
       children_headline: "Gyermekek"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Szülő kapcsolat beállítása"
       change_parent: "Szülő módosítása"
       remove_parent: "Szülő eltávolítása"
       hierarchy_indent: "Behúzási hierarchia"
@@ -591,12 +591,12 @@ hu:
       group_by_relation_type: "Rendezés kapcsolati típusok szerint"
       add_parent: "Meglévő szülő kapcsolat hozzáadása"
       add_new_child: "Új gyermek kapcsolat hozzáadása"
-      create_new: "Create new"
-      add_existing: "Add existing"
+      create_new: "Új létrehozása"
+      add_existing: "Létező tartalom hozzáadása"
       add_existing_child: "Meglévő gyermek kapcsolat hozzáadása"
       remove_child: "Gyermek kapcsolat törlése"
       add_new_relation: "Új kapcsolat hozzáadása"
-      add_existing_relation: "Add existing relation"
+      add_existing_relation: "Létező kapcsolat hozzáadása"
       update_description: "Kapcsolat részleteinek beállítása vagy frissítése"
       toggle_description: "Kapcsolat leírás kapcsolása"
       update_relation: "Klikk a kapcsolat típus módosításához"
@@ -606,7 +606,7 @@ hu:
       save: "Kapcsolat mentése"
       abort: "Megszakít"
     relations_autocomplete:
-      placeholder: "Type to search"
+      placeholder: "Gépeljen a kereséshez"
       parent_placeholder: "Choose new parent or press escape to cancel."
     repositories:
       select_tag: 'Címke kiválasztása'
@@ -693,7 +693,7 @@ hu:
       strong: "Erős"
       italic: "Dőlt betű"
       underline: "Aláhúzott"
-      deleted: "Deleted"
+      deleted: "Törölve"
       code: "Beágyazott kód"
       heading1: "Címsor 1"
       heading2: "Címsor 2"
@@ -725,7 +725,7 @@ hu:
       label_enable_multi_select: "Többszörös kijelölés engedélyezése"
       label_disable_multi_select: "Többszörös kijelölés tiltása"
       label_filter_add: "Szűrő hozzáadása"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Szöveg szűrése"
       label_options: "Beállítások"
       label_column_multiselect: "Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön"
       message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
@@ -734,7 +734,7 @@ hu:
       message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
       message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
       message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Tárgy, leírás, kommentek"
       inline_create:
         title: 'Ide kattintva adhatsz új munkacsomagot a listához'
       create:
@@ -754,7 +754,7 @@ hu:
         children_expanded: 'A hierarchia szintje %{level} bővült. Kattintson a szűrt gyermek-objektum megjelenítéséhez'
       faulty_query:
         title: A munkacsomag nem tölthető be.
-        description: Your view is erroneous and could not be processed.
+        description: A nézet hibás, és nem sikerült feldolgozni.
       no_results:
         title: Nincs megjelenítendő munkacsomag.
         description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
@@ -825,7 +825,7 @@ hu:
         errors:
           unretrievable_query: "Unable to retrieve view from URL"
           not_found: "Nincs ilyen nézet"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
+          duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
@@ -886,7 +886,7 @@ hu:
         columns: "Oszlopok..."
         sort_by: "Rendezés..."
         group_by: "Csoportosítás..."
-        display_sums: "Display sums"
+        display_sums: "Megjelenítendő összegek"
         display_hierarchy: "Hierarchia megjelenítése"
         hide_hierarchy: "Hierarchia elrejtése"
         hide_sums: "Összegek elrejtése"
@@ -949,7 +949,7 @@ hu:
         messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: "Nem sikerült a verziószám visszafejtése"
     error_could_not_resolve_user_name: "Nem sikerült a felhasználó visszafejtése"
-    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload: "A fájlt nem sikerült feltölteni: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
     units:
       workPackage:
@@ -959,39 +959,39 @@ hu:
         one: "egy gyermek munkacsomag"
         other: "%{count} gyermek feladatcsoport"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 óra"
+        other: "%{count} ó"
         zero: "0 óra"
     zen_mode:
       button_activate: 'Zen mód aktiválása'
       button_deactivate: 'Zen mód kikapcsolása'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "Az összes projektben"
       search: "Keresés"
-      close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      close_search: "Keresés bezárása"
+      current_project: "Ebben a projektben"
+      current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "minden projekt"
+        project_and_subprojects: "az összes alprojektben"
+        search_for: "Keresés"
     views:
       card: 'Kártyák'
       list: 'Tábla'
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Vissza'
-      invite: 'Invite'
+      invite: 'Meghívás'
       title:
         invite: 'Felhasználó meghívása'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
+        User: 'Felhasználó'
+        Group: 'csoport'
         PlaceholderUser: 'placeholder user'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Projekt'
-        required: 'Please select a project'
+        required: 'Válasszon projektet'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
@@ -1012,22 +1012,22 @@ hu:
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Név vagy e-mail cím'
           name: 'Név'
         already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
+        no_results_user: 'Nem található felhasználó.'
+        invite_user: 'Meghívás:'
         no_results_placeholder: 'No placeholders were found'
         create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        no_results_group: 'Nem találhatók csoportok.'
         next_button: ' Következő'
         required:
-          user: 'Please select a user'
+          user: 'Válassz egy felhasználót'
           placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          group: 'Válaszd ki a csoportot'
       role:
         label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
+        no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: ' Következő'

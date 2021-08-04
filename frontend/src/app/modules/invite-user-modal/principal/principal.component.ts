@@ -182,16 +182,25 @@ export class PrincipalComponent implements OnInit {
     // The code below transforms the model value as it comes from the dynamic form to the value accepted by the API.
     // This is not just necessary for submit, but also so that we can reseed the initial values to the payload
     // when going back to this step after having completed it once.
-    const links = this.customFields!._links || {};
-    const customFields = {
-      ...this.customFields!,
-      _links: Object.keys(links).reduce((cfs, name) => ({
-        ...cfs,
-        [name]: Array.isArray(links[name])
-          ? links[name].map((opt: any) => opt._links ? opt._links.self : opt)
-          : (links[name]._links ? links[name]._links.self : links[name])
-      }), {}),
-    };
+    const fieldsSchema = this.userDynamicFieldConfig.schema || {};
+    const customFields = Object.keys(fieldsSchema)
+      .reduce((result, fieldKey) => {
+        let fieldSchema = fieldsSchema[fieldKey];
+        let fieldValue = this.customFields[fieldKey];
+
+        if (fieldSchema.location === '_links') {
+          fieldValue = Array.isArray(fieldValue)
+            ? fieldValue.map((opt: any) => opt._links ? opt._links.self : opt)
+            : (fieldValue._links ? fieldValue._links.self : fieldValue)
+        }
+
+        result = {
+          ...result,
+          [fieldKey]: fieldValue,
+        };
+
+        return result;
+      }, {});
 
     this.save.emit({
       principalData: {

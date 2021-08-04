@@ -524,7 +524,7 @@ ja:
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
       confirm_template_load: 'テンプレートを切り替えるとページが再読み込みされ、すべての入力が失われます。続行しますか？'
       use_template: "テンプレートを使用"
-      no_template_selected: "(None)"
+      no_template_selected: "(なし)"
       copy:
         copy_options: "コピーオプション"
       autocompleter:
@@ -929,7 +929,7 @@ ja:
     notice_successful_create: "正常に作成しました。"
     notice_successful_delete: "正常に削除しました。"
     notice_successful_update: "正常に更新しました。"
-    notice_job_started: "job started."
+    notice_job_started: "ジョブか開始されました。"
     notice_bad_request: "不正な要求です。"
     relations:
       empty: 関係は存在しません
@@ -994,8 +994,8 @@ ja:
       project:
         label: 'プロジェクト'
         required: 'プロジェクトを選択してください'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: '現在選択されているプロジェクトにユーザーを割り当てる権限がないため、別のプロジェクトを選択してください。'
+        lacking_permission_info: '現在参加しているプロジェクトにユーザーを割り当てる権限がありません。別のプロジェクトを選択する必要があります。'
         next_button: '次へ'
         no_results: 'プロジェクトが見つかりませんでした'
         no_invite_rights: 'このプロジェクトにメンバーを招待することは許可されていません'
@@ -1029,8 +1029,8 @@ ja:
           group: 'グループを選択してください'
       role:
         label: '%{project} でのロール'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'ロールが見つかりません'
+        description: 'これは、 %{principal} がプロジェクトに参加したときに受け取るロールです。ロールは、実行できるアクションと表示できる情報を定義します。 <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">ロールと権限の詳細はこちら。</a>'
         required: 'ロールを選択してください'
         next_button: '次へ'
       message:
