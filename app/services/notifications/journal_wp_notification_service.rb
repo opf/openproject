@@ -43,7 +43,7 @@ class Notifications::JournalWpNotificationService
     def call(journal, send_notifications)
       return nil if abort_sending?(journal, send_notifications)
 
-      notification_receivers(journal.journable, journal).each do |recipient_id, channel_reasons|
+      notification_receivers(journal).each do |recipient_id, channel_reasons|
         create_notification(journal,
                             recipient_id,
                             channel_reasons)
@@ -77,17 +77,20 @@ class Notifications::JournalWpNotificationService
       }
     end
 
-    def notification_receivers(work_package, journal)
+    def notification_receivers(journal)
       receivers = receivers_hash
 
-      add_receiver(receivers, settings_of_mentioned(journal), :mentioned)
-      add_receiver(receivers, settings_of_involved(journal), :involved)
-      add_receiver(receivers, settings_of_watched(work_package), :watched)
-      add_receiver(receivers, settings_of_subscribed(journal), :subscribed)
+      %i(mentioned involved watched subscribed commented created processed prioritized scheduled).each do |reason|
+        add_receivers_by_reason(receivers, journal, reason)
+      end
 
       remove_self_recipient(receivers, journal)
 
       receivers
+    end
+
+    def add_receivers_by_reason(receivers, journal, reason)
+      add_receiver(receivers, send(:"settings_of_#{reason}", journal), reason)
     end
 
     def settings_of_mentioned(journal)
@@ -114,10 +117,54 @@ class Notifications::JournalWpNotificationService
                           :all)
     end
 
-    def settings_of_watched(work_package)
+    def settings_of_watched(journal)
+      work_package = journal.journable
+
       applicable_settings(work_package.watcher_users,
                           work_package.project,
                           :watched)
+    end
+
+    def settings_of_commented(journal)
+      return NotificationSetting.none unless journal.notes?
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_commented)
+    end
+
+    def settings_of_created(journal)
+      return NotificationSetting.none unless journal.initial?
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_created)
+    end
+
+    def settings_of_processed(journal)
+      return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:status_id)
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_processed)
+    end
+
+    def settings_of_prioritized(journal)
+      return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:priority_id)
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_prioritized)
+    end
+
+    def settings_of_scheduled(journal)
+      if journal.initial? || !(journal.details.has_key?(:start_date) || journal.details.has_key?(:due_date))
+        return NotificationSetting.none
+      end
+
+      applicable_settings(User.all,
+                          journal.data.project,
+                          :work_package_scheduled)
     end
 
     def applicable_settings(user_scope, project, reason)
@@ -158,15 +205,7 @@ class Notifications::JournalWpNotificationService
     end
 
     def send_notification?(journal, send_notifications)
-      send_notifications && ::UserMailer.perform_deliveries && send_notification_setting?(journal)
-    end
-
-    def send_notification_setting?(journal)
-      notify_for_wp_added?(journal) ||
-        notify_for_wp_updated?(journal) ||
-        notify_for_notes?(journal) ||
-        notify_for_status?(journal) ||
-        notify_for_priority(journal)
+      send_notifications && ::UserMailer.perform_deliveries
     end
 
     def mention_matches(journal)
@@ -188,32 +227,6 @@ class Notifications::JournalWpNotificationService
         user_login_names: [user_login_names].flatten.compact,
         group_ids: [group_ids_tag_after, group_ids_tag_before, group_ids_hash].flatten.compact
       }
-    end
-
-    def notify_for_wp_added?(journal)
-      notification_enabled?('work_package_added') && journal.initial?
-    end
-
-    def notify_for_wp_updated?(journal)
-      notification_enabled?('work_package_updated') && !journal.initial?
-    end
-
-    def notify_for_notes?(journal)
-      notification_enabled?('work_package_note_added') && journal.notes.present?
-    end
-
-    def notify_for_status?(journal)
-      notification_enabled?('status_updated') &&
-        journal.details.has_key?(:status_id)
-    end
-
-    def notify_for_priority(journal)
-      notification_enabled?('work_package_priority_updated') &&
-        journal.details.has_key?(:priority_id)
-    end
-
-    def notification_enabled?(name)
-      Setting.notified_events.include?(name)
     end
 
     def abort_sending?(journal, send_notifications)
