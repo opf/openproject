@@ -59,7 +59,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
   }
 
   updateWorkPackageList(list:WorkPackageResource[], skipOnIdentical = true) {
-    for (const i of list) {
+    list.forEach((i) => {
       const wp = i;
       const workPackageId = wp.id!;
       const state = this.multiState.get(workPackageId);
@@ -67,7 +67,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
       // If the work package is new, ignore the schema
       if (isNewResource(wp)) {
         state.putValue(wp);
-        continue;
+        return;
       }
 
       // Ensure the schema is loaded
@@ -81,6 +81,6 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
 
         state.putValue(wp);
       });
-    }
+    });
   }
 }
