@@ -103,7 +103,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public removeAttachment(attachment:any):Promise<any> {
       _.pull(this.attachments.elements, attachment);
 
-      if (attachment.$isHal) {
+      if (attachment instanceof HalResource) {
         return attachment.delete()
           .then(() => {
             if (this.attachmentsBackend) {

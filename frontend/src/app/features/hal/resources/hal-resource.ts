@@ -192,10 +192,6 @@ export class HalResource {
     return _.cloneDeep(this.$source);
   }
 
-  public get $isHal():boolean {
-    return true;
-  }
-
   public get $link():HalLinkInterface {
     return this.$links.self.$link;
   }

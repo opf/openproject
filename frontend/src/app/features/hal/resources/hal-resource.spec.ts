@@ -470,7 +470,7 @@ describe('HalResource', () => {
       });
 
       it('should crate all nested resources recursively', () => {
-        expect(deep.$isHal).toBeTruthy();
+        expect(deep instanceof HalResource).toBeTruthy();
       });
 
       it('should transfer the properties of the nested resources correctly', () => {
@@ -543,7 +543,7 @@ describe('HalResource', () => {
       });
 
       it('should have made each link a resource', () => {
-        expect(resource.$isHal).toBeTruthy();
+        expect(resource instanceof HalResource).toBeTruthy();
       });
 
       it('should be resources generated from the links', () => {
@@ -576,8 +576,8 @@ describe('HalResource', () => {
     });
 
     it('should transform the list elements', () => {
-      expect(resource.$embedded.elements[0].$isHal).toBeTruthy();
-      expect(resource.$embedded.elements[1].$isHal).toBeTruthy();
+      expect(resource.$embedded.elements[0] instanceof HalResource).toBeTruthy();
+      expect(resource.$embedded.elements[1] instanceof HalResource).toBeTruthy();
     });
   });
 
