@@ -200,12 +200,16 @@
     value.attr("id", "custom_field_custom_options_attributes_" + count + "_value");
     value.val("");
 
-    var defaultValue = dup.find(".custom-option-default-value");
+    var defaultValueContainer = dup.find(".custom-option-default-value");
+    var defaultValueCheckbox = defaultValueContainer.find('input[type="checkbox"]');
+    var defaultValueHidden = defaultValueContainer.find('input[type="hidden"]');
 
-    defaultValue.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
-    defaultValue.prop("checked", false);
+    defaultValueHidden.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
+    defaultValueCheckbox.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
+    defaultValueCheckbox.attr("id", "custom_field_custom_options_attributes_" + count + "_default_value]");
+    defaultValueCheckbox.prop("checked", false);
 
-    dup.find(".custom-option-id").remove()
+    dup.find(".custom-option-id").remove();
 
     dup.find(".move-up-custom-option").click(moveUpRow);
     dup.find(".sort-up-custom-option").click(moveRowToTheTop);
