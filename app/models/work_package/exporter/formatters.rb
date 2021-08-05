@@ -1,7 +1,7 @@
 module WorkPackage::Exporter
   module Formatters
     def self.default_formatter_strings
-      @default_formatters_strings ||= %i[default costs estimated_hours].map do |key|
+      @default_formatter_strings ||= %i[default costs estimated_hours].map do |key|
         "WorkPackage::Exporter::Formatters::#{key.to_s.camelize}"
       end
     end

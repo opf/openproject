@@ -60,4 +60,3 @@ describe OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail do
     end
   end
 end
-
