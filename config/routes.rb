@@ -149,6 +149,8 @@ OpenProject::Application.routes.draw do
             to: "custom_fields#delete_option",
             via: :delete,
             as: :delete_option_of
+
+      post :reorder_alphabetical
     end
   end
 

@@ -263,8 +263,9 @@
     $('#custom_field_multi_value').change(checkOnlyOne);
 
     // Make custom fields draggable
-    var container = document.getElementById('custom-field-dragula-container');
-    dragula([container], {
+    const container = document.getElementById('custom-field-dragula-container');
+    // eslint-disable-next-line no-undef
+    const drake = dragula([container], {
       isContainer: function (el) {
         return false;
       },
@@ -284,6 +285,22 @@
       removeOnSpill: false,
       mirrorContainer: container,
       ignoreInputTextSelection: true
+    });
+
+    // Setup autoscroll
+    window.OpenProject.getPluginContext().then((pluginContext) => {
+      new pluginContext.classes.DomAutoscrollService(
+        [
+          document.getElementById('content-wrapper'),
+        ],
+        {
+          margin: 25,
+          maxSpeed: 10,
+          scrollWhenOutside: true,
+          autoScroll: function () {
+            return drake.dragging;
+          }
+        });
     });
   });
 }(window, jQuery));
