@@ -157,7 +157,6 @@ describe('WorkPackage', () => {
     beforeEach(() => {
       file = {};
       attachment = {
-        $isHal: true,
         delete: () => undefined,
       };
 

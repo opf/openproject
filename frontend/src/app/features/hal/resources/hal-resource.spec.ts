@@ -686,7 +686,7 @@ describe('HalResource', () => {
       });
 
       it('should be a resource, if the link method is "get"', () => {
-        expect(resource.property.$isHal).toBeTruthy();
+        expect(resource.property instanceof HalResource).toBeTruthy();
       });
 
       describe('when a property is a resource', () => {
