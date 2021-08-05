@@ -743,7 +743,7 @@ hu:
               error_not_found: "nem található"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
-          role_blank: "need to be assigned."
+          role_blank: "Hozzá kell rendelve lennie"
           attributes:
             roles:
               ungrantable: "has an unassignable role."
@@ -1447,6 +1447,7 @@ hu:
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_deleted_custom_option: "(opció törlése)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"

@@ -71,6 +71,8 @@ module.exports = {
 
         // Disable webpack loader definitions
         "import/no-webpack-loader-syntax": "off",
+        // Disable order style as it's not compatible with intellij import organization
+        "import/order": "off",
 
         // It'd be good if we could error this for switch cases but allow it for for loops
         "no-continue": "off",

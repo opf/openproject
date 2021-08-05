@@ -1483,6 +1483,7 @@ ru:
   label_deleted: "﻿Удалено"
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "По убыванию"
   label_details: "Детали"
   label_development_roadmap: "Дорожная карта разработки"

@@ -1432,6 +1432,7 @@ ko:
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "내림차순"
   label_details: "세부 정보"
   label_development_roadmap: "개발 로드맵"

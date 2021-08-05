@@ -1445,6 +1445,7 @@ de:
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_option: "(gelöschte Option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Absteigend"
   label_details: "Details"
   label_development_roadmap: "Entwicklungs-Roadmap"

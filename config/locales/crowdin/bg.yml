@@ -1450,6 +1450,7 @@ bg:
   label_deleted: "изтрит"
   label_deleted_custom_field: "(изтрито потребителско поле)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Низходящо"
   label_details: "Подробности"
   label_development_roadmap: "Развитие на пътната карта"

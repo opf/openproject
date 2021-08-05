@@ -1482,6 +1482,7 @@ sl:
   label_deleted: "Izbrisano"
   label_deleted_custom_field: "(izbrisano polje po meri)"
   label_deleted_custom_option: "(izbrisana možnost)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Padajoče"
   label_details: "Podrobnosti"
   label_development_roadmap: "Načrt razvoja"

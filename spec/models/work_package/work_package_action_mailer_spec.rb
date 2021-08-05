@@ -32,13 +32,13 @@ describe WorkPackage, type: :model do
   describe ActionMailer::Base do
     let(:user_1) do
       FactoryBot.create(:user,
-                       mail: 'dlopper@somenet.foo',
-                       member_in_project: project)
+                        mail: 'dlopper@somenet.foo',
+                        member_in_project: project)
     end
     let(:user_2) do
       FactoryBot.create(:user,
-                       mail: 'jsmith@somenet.foo',
-                       member_in_project: project)
+                        mail: 'jsmith@somenet.foo',
+                        member_in_project: project)
     end
     let(:project) { FactoryBot.create(:project) }
     let(:work_package) { FactoryBot.build(:work_package, project: project) }

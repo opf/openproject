@@ -1429,6 +1429,7 @@ ja:
   label_deleted: "削除された"
   label_deleted_custom_field: "（削除されたカスタムフィールド）"
   label_deleted_custom_option: "(削除されたオプション)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降順"
   label_details: "詳細"
   label_development_roadmap: "開発ロードマップ"
