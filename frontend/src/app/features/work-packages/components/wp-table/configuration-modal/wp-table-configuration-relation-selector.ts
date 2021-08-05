@@ -103,7 +103,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
     const newFilter = this.wpTableFilters.instantiate(filter);
     const operator:QueryOperatorResource = this.getOperatorForId(newFilter, '=');
     newFilter.operator = operator;
-    newFilter.values = [{ href: '/api/v3/work_packages/{id}' }] as HalResource[];
+    newFilter.values = [{ $links: { href: '/api/v3/work_packages/{id}' } }] as HalResource[];
 
     this.wpTableFilters.add(newFilter);
   }

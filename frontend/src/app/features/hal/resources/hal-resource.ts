@@ -208,10 +208,6 @@ export class HalResource {
     this._name = name;
   }
 
-  public get href():string|null {
-    return this.$link.href;
-  }
-
   /**
    * Return the associated state to this HAL resource, if any.
    */

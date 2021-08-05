@@ -155,6 +155,9 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   private get manualSortObject() {
-    return _.find(this.available, (sort) => sort.column.href!.endsWith('/manualSorting'));
+    return _.find(
+      this.available,
+      (sortByResource: QuerySortByResource) => sortByResource.column.$links.href!.endsWith('/manualSorting'),
+    ) as QuerySortByResource|undefined; // This type coersion is apparently needed
   }
 }
