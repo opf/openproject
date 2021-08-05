@@ -461,7 +461,7 @@ hu:
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
     label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
     label_rejected_files_reason: "Ezeket a fájlokat nem lehet feltölteni, mert a méretük nagyobb, mint %{maximumFilesize}"
