@@ -29,57 +29,22 @@
 #++
 require 'spec_helper'
 
-describe Notifications::JournalNotificationService do
+describe Notifications::CreateFromJournalService, 'for a news' do
   let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
+  let(:journable) { FactoryBot.build_stubbed(:news) }
   let(:send_mails) { true }
 
-  shared_examples_for 'enqueues a notification' do
+  describe '#call' do
     before do
-      # Freeze time
-      allow(Time)
-        .to receive(:current)
-        .and_return(Time.current)
-
-      notification_set = double('notification set')
-
-      expect(Notifications::JournalCompletedJob)
+      allow(Notifications::JournalCompletedJob)
         .to receive(:set)
-        .with(wait_until: Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
-        .and_return(notification_set)
-
-      expect(notification_set)
-        .to receive(:perform_later)
-        .with(journal.id, send_mails)
     end
 
-    it 'fulfills expectations' do
+    it 'enqueues no JournalCompletedJob' do
       described_class.call(journal, send_mails)
-    end
-  end
 
-  shared_examples_for 'enqueues no notification' do
-    before do
       expect(Notifications::JournalCompletedJob)
-        .not_to receive(:set)
+        .not_to have_received(:set)
     end
-
-    it 'fulfills expectations' do
-      described_class.call(journal, send_mails)
-    end
-  end
-
-  context 'for a work package journal' do
-    let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
-    it_behaves_like 'enqueues a notification'
-  end
-
-  context 'for a wiki content journal' do
-    let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
-    it_behaves_like 'enqueues a notification'
-  end
-
-  context 'for a news journal' do
-    let(:journable) { FactoryBot.build_stubbed(:news) }
-    it_behaves_like 'enqueues no notification'
   end
 end

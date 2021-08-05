@@ -31,6 +31,10 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::JournalWpNotificationService, with_settings: { journal_aggregation_time_minutes: 0 } do
+  subject(:call) do
+    described_class.call(journal, send_notifications)
+  end
+
   let(:project) { FactoryBot.create(:project_with_types) }
   let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
   let(:recipient) do
@@ -131,10 +135,6 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     work_package.journals.last
   end
   let(:send_notifications) { true }
-
-  def call
-    described_class.call(journal, send_notifications)
-  end
 
   before do
     # make sure no other calls are made due to WP creation/update

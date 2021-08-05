@@ -28,15 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalNotificationService
+class Notifications::CreateFromJournalService
   class << self
     def call(journal, send_mails)
-      enqueue_notification(journal, send_mails) if supported?(journal)
+      enqueue_completed_job(journal, send_mails) if supported?(journal)
     end
 
     private
 
-    def enqueue_notification(journal, send_mails)
+    def enqueue_completed_job(journal, send_mails)
       Notifications::JournalCompletedJob
         .set(wait_until: delivery_time)
         .perform_later(journal.id, send_mails)

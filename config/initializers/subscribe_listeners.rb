@@ -29,7 +29,7 @@
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
+  Notifications::CreateFromJournalService.call(payload[:journal], payload[:send_notification])
 end
 
 # The aggregated journal ready listeners in effect are run inside a delayed job

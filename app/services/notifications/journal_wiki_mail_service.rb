@@ -67,7 +67,7 @@ class Notifications::JournalWikiMailService
   end
 
   def notification_disabled?(name)
-    !Setting.notified_events.include?(name)
+    Setting.notified_events.exclude?(name)
   end
 
   # Returns the mail addresses of users that should be notified
