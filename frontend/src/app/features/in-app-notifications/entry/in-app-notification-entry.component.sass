@@ -30,7 +30,7 @@ $subject-font-size: 14px
     display: grid
     grid-template-columns: 50px 1fr 200px 15% 15%
     grid-template-rows: auto $subject-font-size 1fr
-    grid-template-areas: "project project project project project" "title title status date buttons" "actors reason reason reason reason"
+    grid-template-areas: "project project project project project" "title title status status date" "actors reason reason reason reason"
     grid-gap: 0.5rem
     align-items: center
 
@@ -93,9 +93,17 @@ $subject-font-size: 14px
     @include text-shortener(false)
     white-space: nowrap
     max-width: 100%
+    text-align: right
+
     @media screen and (max-width: 679px)
       justify-self: end
+  
+  &:hover &--date,
+  &--buttons:focus-within + &--date 
+    opacity: 0
 
+    @media screen and (max-width: 679px)
+      opacity: 1
 
   &--actors
     grid-area: actors
@@ -105,9 +113,20 @@ $subject-font-size: 14px
     grid-area: status
 
   &--buttons
-    grid-area: buttons
+    grid-area: date
     text-align: right
     align-items: end
 
+    @media screen and (max-width: 679px)
+      grid-area: buttons
+
   &--button
     margin: 0
+    opacity: 0
+
+    @media screen and (max-width: 679px)
+      display: none
+
+  &:hover &--button,
+  &--button:focus
+    opacity: 1

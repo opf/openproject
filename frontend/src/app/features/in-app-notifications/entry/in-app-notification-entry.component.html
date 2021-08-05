@@ -62,31 +62,24 @@
       </div>
 
       <div
-          class="op-ian-item--reason-wrapper"
-          >
+        class="op-ian-item--reason-wrapper"
+      >
         <span
           class="op-ian-item--reason"
           *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
         >
           <span
-              *ngIf="item.value > 1"
-              class="op-ian-item--reason-count"
-              [textContent]="item.value"
+            *ngIf="item.value > 1"
+            class="op-ian-item--reason-count"
+            [textContent]="item.value"
           ></span>
           {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
         </span>
       </div>
 
-      <div
-          class="op-ian-item--date"
-          [title]="fixedTime"
-          [textContent]="relativeTime$ | async"
-      ></div>
-
-      <div
-        class="op-ian-item--buttons hidden-for-mobile"
-      >
+      <div class="op-ian-item--buttons">
         <button
+          *ngIf="!notification.readIAN"
           type="button"
           class="op-ian-item--button button -tiny"
           [disabled]="loading$ | async"
@@ -95,6 +88,12 @@
           <i class="button--icon icon-yes"></i>
         </button>
       </div>
+
+      <div
+        class="op-ian-item--date"
+        [title]="fixedTime"
+        [textContent]="relativeTime$ | async"
+      ></div>
     </ng-container>
 
     <ng-template #workPackageLoading>
