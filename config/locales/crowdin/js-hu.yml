@@ -135,7 +135,7 @@ hu:
         error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
+          not_found: 'A kért erőforrás nem található.'
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
           button: 'Gyermek kapcsolatok'
@@ -203,9 +203,9 @@ hu:
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
+            taken_email: Felhasználónkként csak egy próba verzió engedélyezett
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
+          try_another_email: "Vagy próbálja meg egy másik e-mail címellel."
           next_steps: "Következő lépések"
           resend_link: "Újraküldés"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
@@ -236,7 +236,7 @@ hu:
           text: >
             The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Korlátlan"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+          you_contribute: "A fejlesztőknek is fizetni kell a számláikat. A vállalati verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez."
     custom_actions:
       date:
         specific: 'be'
@@ -479,17 +479,17 @@ hu:
         got_it: 'Rendben'
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
+        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
+          task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
@@ -497,12 +497,12 @@ hu:
           add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
           drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
           list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
           back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
+          timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Értesítések"
@@ -530,7 +530,7 @@ hu:
         all: 'Minden esemény'
         add: 'Add setting for project'
         already_selected: 'A projekt már ki lett választva'
-        remove_projects: 'Remove notifications for projects'
+        remove_projects: 'Értesítések kikapcsolása a projektekhez'
         title: "Értesítési beállítások"
         self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     password_confirmation:
@@ -560,7 +560,7 @@ hu:
       autocompleter:
         label: 'Projektnevek automatikus kiegészítése'
     text_are_you_sure: "Biztos vagy benne?"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "Az összes adat elveszhet"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -568,7 +568,7 @@ hu:
         reset_title: "Űrlap konfiguráció visszaállítása"
         confirm_reset: >
           Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást? Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások elvesznek és MINDEN egyéni mező deaktiválódik.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "Frissítés a Vállalati Verzióra"
         upgrade_to_ee_text: "Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna minket, \"nyiltforrású\" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk legyen?"
         more_information: "További információ"
         nevermind: "Mindegy"
@@ -1032,8 +1032,8 @@ hu:
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Egyetlen projekt sem található'
+        no_invite_rights: 'Nincs jogosultságod meghívni felhasználókat ehhez a projekthez'
       type:
         required: 'Please select the type to be invited'
         user:
@@ -1063,7 +1063,7 @@ hu:
           placeholder: 'Please select a placeholder'
           group: 'Válaszd ki a csoportot'
       role:
-        label: 'Role in %{project}'
+        label: 'Szerepek a %{project}'
         no_roles_found: 'Nem található szerepkör.'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Kérjük, válasszon szerepet'
@@ -1082,7 +1082,7 @@ hu:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Folytatás'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Speciális beállítások'
