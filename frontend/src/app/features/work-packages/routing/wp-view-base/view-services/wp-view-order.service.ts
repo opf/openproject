@@ -26,23 +26,23 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { InputState } from 'reactivestates';
+import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { States } from 'core-app/core/states/states.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
-import { take } from 'rxjs/operators';
-import { InputState } from 'reactivestates';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
-import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
