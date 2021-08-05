@@ -37,6 +37,7 @@ import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
@@ -122,7 +123,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public switchToManualSorting(query:QueryResource):boolean {
     const { manualSortObject } = this;
     if (manualSortObject && !this.isManualSortingMode) {
-      if (query && query.persisted) {
+      if (query && isPersistedResource(query)) {
         // Save the query if it is persisted
         query.sortBy = [manualSortObject];
         return true;

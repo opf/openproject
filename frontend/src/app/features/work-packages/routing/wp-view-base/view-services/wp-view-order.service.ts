@@ -42,6 +42,7 @@ import { CausedUpdatesService } from 'core-app/features/boards/board/caused-upda
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
@@ -56,7 +57,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
     // Take over our current value if the query is not saved
-    if (!query.persisted && this.positions.hasValue()) {
+    if (!isPersistedResource(query) && this.positions.hasValue()) {
       this.applyToQuery(query);
     }
 
@@ -108,7 +109,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   }
 
   public get applicable() {
-    return this.currentQuery.persisted;
+    return isPersistedResource(this.currentQuery);
   }
 
   protected get currentQuery():QueryResource {
@@ -140,7 +141,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     this.positions.putValue({ ...current, ...delta });
 
     // Push the update if the query is saved
-    if (this.currentQuery.persisted) {
+    if (isPersistedResource(this.currentQuery)) {
       const updatedAt = await this
         .apiV3Service
         .queries.id(this.currentQuery)
@@ -164,7 +165,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Initialize (or load if persisted) the order for the query space
    */
   public withLoadedPositions():Promise<QueryOrder> {
-    if (this.currentQuery.persisted) {
+    if (isPersistedResource(this.currentQuery)) {
       const { value } = this.positions;
 
       // Remove empty or stale values given we can reload them
@@ -205,7 +206,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       .elements
       .map((wp) => this.states.workPackages.get(wp.id!).getValueOr(wp));
 
-    if (this.currentQuery.persisted || this.positions.isPristine()) {
+    if (isPersistedResource(this.currentQuery) || this.positions.isPristine()) {
       return upstreamOrder;
     }
     const positions = this.positions.value!;

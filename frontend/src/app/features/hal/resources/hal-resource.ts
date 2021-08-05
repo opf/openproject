@@ -161,10 +161,6 @@ export class HalResource {
     return !this.id || this.id === 'new';
   }
 
-  public get persisted() {
-    return !!(this.id && this.id !== 'new');
-  }
-
   /**
    * Retain the internal tracking identifier from the given other work package.
    * This is due to us needing to identify a work package beyond its actual ID,
