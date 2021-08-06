@@ -11,7 +11,7 @@ module WorkPackage::Exporter
     end
 
     def self.all
-      all_formatter_strings.each do |formatter_string|
+      all_formatter_strings.map do |formatter_string|
         Kernel.const_get(formatter_string)
       end
     end
