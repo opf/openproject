@@ -31,7 +31,7 @@ import { StateService, Transition } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
-interface BackRouteOptions {
+export interface BackRouteOptions {
   name:string;
   params:{};
   parent:string;
@@ -49,7 +49,7 @@ export class BackRoutingService {
   constructor(readonly injector:Injector) {
   }
 
-  private goToOtherState(route:string, params:{}):Promise<any> {
+  public goToOtherState(route:string, params:{}):Promise<any> {
     return this.$state.go(route, params);
   }
 

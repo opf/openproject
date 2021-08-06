@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
 } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
@@ -19,6 +20,10 @@ import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-no
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import {
+  BackRouteOptions,
+  BackRoutingService,
+} from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -27,14 +32,13 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
+export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin implements OnInit {
   text = {
     title: this.I18n.t('js.notifications.title'),
   };
 
   /** Go back using back-button */
-  // TODO: Use better Function which actually leaves the notification page and don't only toggle the split views
-  backButtonCallback = ():void => window.history.back();
+  backButtonCallback:() => void = this.backButtonFn.bind(this);
 
   /** Current query title to render */
   selectedTitle = this.text.title;
@@ -57,6 +61,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
   /** Toolbar is always enabled */
   toolbarDisabled = false;
 
+  /** Define the buttons shown in the toolbar */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
       component: ActivateFacetButtonComponent,
@@ -71,6 +76,12 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
     },
   ];
 
+  /** Global referrer set when coming from a hard reload */
+  private documentReferer:string;
+
+  /** Local referrer set when coming from an angular route */
+  private backRoute:BackRouteOptions;
+
   constructor(
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
@@ -79,8 +90,14 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
     readonly notifications:NotificationsService,
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
+    readonly backRoutingService:BackRoutingService,
   ) {
     super();
+  }
+
+  ngOnInit():void {
+    this.backRoute = this.backRoutingService.backRoute;
+    this.documentReferer = document.referrer;
   }
 
   /**
@@ -93,9 +110,23 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin {
     this.currentPartition = state.data?.partition || '-split';
   }
 
-  // For Interface compliance
-  updateTitleName(val:string) {}
+  // For shared template compliance
+  updateTitleName(val:string):void {}
 
-  // For Interface compliance
-  changeChangesFromTitle(val:string) {}
+  // For shared template compliance
+  changeChangesFromTitle(val:string):void {}
+
+  private backButtonFn():void {
+    if (this.backRoute) {
+      void this.backRoutingService.goToOtherState(this.backRoute.name, this.backRoute.params);
+      return;
+    }
+
+    if (this.documentReferer.length > 0) {
+      window.location.href = this.documentReferer;
+    } else {
+      // Default fallback
+      window.history.back();
+    }
+  }
 }
