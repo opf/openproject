@@ -166,7 +166,7 @@ Use the filter and grouping options as for the [work packages table configuratio
 
 ![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.PNG)
 
-If you not only want to include sub-projects but different Independent projects, choose the [global work packages view](../projects/#project-overarching-reports).
+If you not only want to include sub-projects but different independent projects, choose the [global work packages view](../projects/#project-overarching-reports).
 
 ## Aggregation by project
 
