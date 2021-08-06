@@ -115,5 +115,48 @@ describe "Notification center", type: :feature, js: true do
       center.open
       center.expect_empty
     end
+
+    context 'with mutliple notifications per work package' do
+      # In this context we have three notifications for two work packages.
+      shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
+      shared_let(:second_notification) do
+        FactoryBot.create :notification,
+                          recipient: recipient,
+                          project: project,
+                          resource: second_work_package,
+                          journal: work_package.journals.last
+      end
+      shared_let(:third_notification) do
+        FactoryBot.create :notification,
+                          recipient: recipient,
+                          project: project,
+                          resource: work_package,
+                          journal: work_package.journals.last
+      end
+      let(:second_split_screen) { ::Pages::SplitWorkPackage.new second_work_package }
+
+      it 'aggregates notifications per work package and sets all as read when opened' do
+        visit home_path
+        center.expect_bell_count 3
+        center.open
+
+        # Click on first list item, which should be the youngest notification
+        center.click_item third_notification
+
+        split_screen.expect_open
+        center.expect_read_item third_notification
+        expect(notification.reload.read_ian).to be_truthy
+        expect(second_notification.reload.read_ian).to be_falsey
+        expect(third_notification.reload.read_ian).to be_truthy
+
+        # Click on second list item, which should be the youngest notification that does
+        # not belong to the work package that represents the first list item.
+        center.click_item second_notification
+
+        second_split_screen.expect_open
+        center.expect_read_item second_notification
+        expect(second_notification.reload.read_ian).to be_truthy
+      end
+    end
   end
 end
