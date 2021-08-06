@@ -69,5 +69,5 @@ hu:
   permission_view_budgets: "Költségvetések megtekintése"
   project_module_budgets: "Költségvetések"
   text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_delete: "Költségvetés törlése az összes munkacsomagból"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

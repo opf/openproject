@@ -697,6 +697,7 @@ ja:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "は別のプロジェクトに属することはできません。"
               not_a_valid_parent: "は不正な値です。"
             start_date:
@@ -1722,7 +1723,6 @@ ja:
   label_start_to_start: "最初～最初"
   label_statistics: "統計情報"
   label_status: "ステータス"
-  label_status_updated: "ステータスの更新"
   label_stay_logged_in: "ログインを維持"
   label_storage_free_space: "残りのディスク容量"
   label_storage_used_space: "使用ディスク容量"
@@ -1806,21 +1806,17 @@ ja:
   label_wiki_show_submenu_item: "上位のメニュー項目"
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
-  label_work_package_added: "ワークパッケージが追加されました"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
   label_work_package_category_new: "新規カテゴリ"
   label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"
   label_work_package_new: "新しいワークパッケージ"
-  label_work_package_note_added: "仕事項目の注記が追加されました。"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
-  label_work_package_priority_updated: "ワークパッケージの優先度が更新されました"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
   label_work_package_types: "ワークパッケージの種類"
-  label_work_package_updated: "ワークパッケージが更新されました"
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
@@ -2387,6 +2383,7 @@ ja:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。

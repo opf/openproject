@@ -12,6 +12,8 @@ ru:
       show_viewpoint: 'Показать точку просмотра'
       delete_viewpoint: 'Удалить точку просмотра'
       management: 'Управление BCF'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "В этом проекте пока нет моделей IFC."
       use_this_link_to_manage: "Эта ссылка служит для загрузки и управления моделями IFC"

@@ -702,6 +702,7 @@ sl:
               not_start_date: "ni začeten datum, čeprav je to pomembno za mejnike."
             parent:
               cannot_be_milestone: "ne more biti mejnik."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "ne more biti v drugem projektu.\n"
               not_a_valid_parent: "ni pravo."
             start_date:
@@ -1775,7 +1776,6 @@ sl:
   label_start_to_start: "od začetka do začetka"
   label_statistics: "Statistika"
   label_status: "Stanje"
-  label_status_updated: "Stanje delovnega paketa posodobljeno"
   label_stay_logged_in: "Ostani prijavljen"
   label_storage_free_space: "Preostali prostor na disku"
   label_storage_used_space: "Zaseden prostor na disku"
@@ -1859,21 +1859,17 @@ sl:
   label_wiki_show_submenu_item: "Prikaži kot element podmenija v"
   label_wiki_start: "Začetna stran"
   label_work_package: "Zahtevek"
-  label_work_package_added: "Delovni paket je dodan"
   label_work_package_attachments: "Priloge delovnega paketa"
   label_work_package_category_new: "Nova kategorija"
   label_work_package_category_plural: "Kategorije delovnih paketov"
   label_work_package_hierarchy: "Hierarhija delovnega paketa"
   label_work_package_new: "Nov delovni paket"
-  label_work_package_note_added: "Dodana je opomba o delovnem paketu"
   label_work_package_edit: "Urejanje delovnega paketa% {name}"
   label_work_package_plural: "Delovni paketi"
-  label_work_package_priority_updated: "Prioritete delovnega paketa so se posodobile"
   label_work_package_status: "Stanje delovnega paketa"
   label_work_package_status_new: "Novo stanje"
   label_work_package_status_plural: "Status delovnega paketa"
   label_work_package_types: "Vrsta delovnega paketa"
-  label_work_package_updated: "Delovni paket je posodobljen"
   label_work_package_tracking: "Sledenje delovnega paketa"
   label_work_package_view_all: "Oglejte si vse delovne pakete"
   label_workflow: "Potek dela"
@@ -2442,6 +2438,7 @@ sl:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

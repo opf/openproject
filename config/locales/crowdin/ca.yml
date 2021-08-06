@@ -702,6 +702,7 @@ ca:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
             parent:
               cannot_be_milestone: "no pot ser una fita."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "no pot estar en un altre projecte."
               not_a_valid_parent: "no és vàlid."
             start_date:
@@ -1743,7 +1744,6 @@ ca:
   label_start_to_start: "de principi a principi"
   label_statistics: "Estadí­stiques"
   label_status: "Estat"
-  label_status_updated: "Paquet de treball actualitzat"
   label_stay_logged_in: "Manté l'entrada"
   label_storage_free_space: "Espai de disc restant"
   label_storage_used_space: "Espai de disc utilitzat"
@@ -1827,21 +1827,17 @@ ca:
   label_wiki_show_submenu_item: "Mostrar com element de submenú de "
   label_wiki_start: "Pàgina d'inici"
   label_work_package: "Paquet de treball"
-  label_work_package_added: "Paquet de treball afegit"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categories de paquet de treball"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "Paquet de treball nou"
-  label_work_package_note_added: "Afegida nota al paquet de treball"
   label_work_package_edit: "Editar paquet de treball %{name}"
   label_work_package_plural: "Paquets de treball"
-  label_work_package_priority_updated: "Actualitzada la prioritat del paquet de treball"
   label_work_package_status: "Estat del paquet de treball"
   label_work_package_status_new: "Nou estat"
   label_work_package_status_plural: "Estats de paquet de treball"
   label_work_package_types: "Tipus de paquets de treball"
-  label_work_package_updated: "Paquet de treball actualitzat"
   label_work_package_tracking: "Paquet de treball de seguiment"
   label_work_package_view_all: "Veure tots els paquets de treball"
   label_workflow: "Flux de treball"
@@ -2407,6 +2403,7 @@ ca:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

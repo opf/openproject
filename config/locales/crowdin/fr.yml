@@ -701,6 +701,7 @@ fr:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "ne peut pas être dans un autre projet."
               not_a_valid_parent: "est invalide."
             start_date:
@@ -1742,7 +1743,6 @@ fr:
   label_start_to_start: "de début à début"
   label_statistics: "Statistiques"
   label_status: "Statut"
-  label_status_updated: "Statut de Lot de Travaux mis à jour"
   label_stay_logged_in: "Rester connecté"
   label_storage_free_space: "Espace disque restant"
   label_storage_used_space: "Espace disque utilisé"
@@ -1826,21 +1826,17 @@ fr:
   label_wiki_show_submenu_item: "Montrer comme sous-menu de "
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
-  label_work_package_added: "Lot de Travaux ajouté"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
   label_work_package_new: "Nouveau Lot de Travaux"
-  label_work_package_note_added: "Note de Lot de Travaux ajoutée"
   label_work_package_edit: "Éditer le lot de travaux %{name}"
   label_work_package_plural: "Lots de Travaux"
-  label_work_package_priority_updated: "Priorité du lot de travaux mise à jour"
   label_work_package_status: "Statut du lot de travaux"
   label_work_package_status_new: "Nouveau statut"
   label_work_package_status_plural: "Statuts du lot de travaux"
   label_work_package_types: "Types de lots de travaux"
-  label_work_package_updated: "Lot de Travaux mis à jour"
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
   label_workflow: "Flux de travail"
@@ -2408,6 +2404,7 @@ fr:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         Si une des options « %{day_of_week_setting_name} » ou « %{first_week_setting_name} » sont définies, l'autre doit être réglé aussi bien pour éviter les incohérences dans le frontend.

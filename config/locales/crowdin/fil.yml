@@ -702,6 +702,7 @@ fil:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "hindi maaring sa iba pang proyekto."
               not_a_valid_parent: "ay hindi balido."
             start_date:
@@ -1743,7 +1744,6 @@ fil:
   label_start_to_start: "simula hanggang simula"
   label_statistics: "Istatistika"
   label_status: "Estado"
-  label_status_updated: "Naka-update na work package"
   label_stay_logged_in: "Manatiling naka-log in"
   label_storage_free_space: "Natitirang espasyo ng disk"
   label_storage_used_space: "Nagamit na espasyo ng disk"
@@ -1827,21 +1827,17 @@ fil:
   label_wiki_show_submenu_item: "Ipakita bilang submenu. aytem ng "
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
-  label_work_package_added: "Idinagdag ng work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
   label_work_package_new: "Bagong work package"
-  label_work_package_note_added: "Idinagdag ang talaan ng work package"
   label_work_package_edit: "I-edit ang work package %{name}"
   label_work_package_plural: "Ang mga work package"
-  label_work_package_priority_updated: "Ang work package ay prioridad naka-update"
   label_work_package_status: "Estado ng pakete ng gumagawa"
   label_work_package_status_new: "Bagong estado"
   label_work_package_status_plural: "Ang mga estado ng work package"
   label_work_package_types: "Ang mga uri ng work package"
-  label_work_package_updated: "Naka-update na work package"
   label_work_package_tracking: "Ang pagtra-track ng work package"
   label_work_package_view_all: "Tanawin lahat ang mga package"
   label_workflow: "Daloy ng trabaho"
@@ -2407,6 +2403,7 @@ fil:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
