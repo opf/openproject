@@ -109,7 +109,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/:tabIdentifier',
     component: WpTabWrapperComponent,
     data: {
-      parent: 'work-packages.show',
+      parent: 'work-packages',
       menuItem: menuItemClass,
     },
   },
@@ -131,7 +131,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: WorkPackageListViewComponent },
     },
     data: {
-      parent: 'work-packages.partitioned',
+      parent: 'work-packages',
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       partition: '-left-only',
