@@ -21,6 +21,7 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 | [Understanding the colors and lines in the Gantt chart](#understanding-the-colors-and-lines-in-the-gantt-chart) | What do the clamps, lines and symbols in the Gantt chart mean? |
 | [Gantt chart configuration](#gantt-chart-configuration)      | How to configure the view of your Gantt chart, e.g. add labels? |
 | [Gantt chart views](#gantt-chart-views)                      | How to zoom in and out and activate the Zen mode?            |
+| [Multi project views](#multi-project-views)                  | Create project overarching timelines.                        |
 | [Aggregation by project](#aggregation-by-project)            | How to display an aggregated view of all milestones of multiple projects? |
 
 
@@ -152,6 +153,20 @@ The zen mode gives you more space to focus on the tasks at hand. It's almost lik
 ![zen-mode-Gantt-chart](image-20210204173420592.png)
 
 
+
+## Multi project views
+
+With the Gantt charts in OpenProject you can create project overarching timelines.
+
+Create multi project timelines  and display all activities, phases and milestones within your project and sub-projects. Also, you can create project overarching timelines by filtering and including respective projects in one joint plan.
+
+To include sub-projects: within the parent project, click on the Filter button and select the subproject(s) you want to have included in your project plan. You can also choose an [aggregation by project](aggregation-by-project).
+
+Use the filter and grouping options as for the [work packages table configuration](../work-packages/work-package-table-configuration/) to customize your timeline. Do not forget to [save your timeline](../work-packages/work-package-table-configuration/#save-work-package-views).
+
+![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.PNG)
+
+If you not only want to include sub-projects but different Independent projects, choose the [global work packages view](../projects/#project-overarching-reports).
 
 ## Aggregation by project
 
