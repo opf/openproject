@@ -40,7 +40,7 @@ module Components
       end
 
       def close
-        page.find('button[data-qa-selector="op-modal-close"]').click
+        page.find('button[data-qa-selector="op-back-button"]').click
         expect_closed
       end
 
@@ -68,12 +68,6 @@ module Components
       def expect_read_item(notification)
         expect(page)
           .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
-      end
-
-      def expect_expanded(notification)
-        within_item(notification) do
-          expect(page).to have_selector('[data-qa-selector="op-ian-details"]')
-        end
       end
 
       def expect_work_package_item(notification)
@@ -105,7 +99,7 @@ module Components
       end
 
       def bell_element
-        page.find('op-in-app-notification-bell button')
+        page.find('op-in-app-notification-bell [data-qa-selector="op-ian-bell"]')
       end
     end
   end

@@ -18,6 +18,8 @@ describe "Notification center", type: :feature, js: true do
   end
 
   let(:center) { ::Components::Notifications::Center.new }
+  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
+  let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 
   describe 'notification for a new journal' do
     current_user { recipient }
@@ -30,11 +32,9 @@ describe "Notification center", type: :feature, js: true do
 
       center.expect_work_package_item notification
       center.click_item notification
-      center.expect_expanded notification
+      split_screen.expect_open
 
-      center.within_item(notification) do
-        expect(page).to have_text "The work package was created."
-      end
+      activity_tab.expect_activity_listed "created on #{work_package.created_at.strftime('%m/%d/%Y')}"
     end
   end
 
@@ -48,20 +48,19 @@ describe "Notification center", type: :feature, js: true do
 
       center.expect_work_package_item notification
       center.mark_all_read
-      center.expect_closed
 
       center.expect_bell_count 0
       notification.reload
       expect(notification.read_ian).to be_truthy
     end
 
-    it 'can expand the notification to mark it as read' do
+    it 'can open the split screen of the notification to mark it as read' do
       visit home_path
       center.expect_bell_count 1
       center.open
 
       center.click_item notification
-      center.expect_expanded notification
+      split_screen.expect_open
       center.expect_read_item notification
 
       retry_block do

@@ -47,6 +47,14 @@ module Pages
       expect(page).to have_no_selector(@selector)
     end
 
+    def expect_open
+      expect(page).to have_selector(@selector)
+
+      within container do
+        expect(page).to have_selector('.work-packages--details--subject', text: work_package.subject)
+      end
+    end
+
     def close
       find('.work-packages--details-close-icon').click
     end

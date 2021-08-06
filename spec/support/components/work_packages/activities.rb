@@ -36,6 +36,13 @@ module Components
 
       def initialize(work_package)
         @work_package = work_package
+        @container = '.work-package-details-activities-list'
+      end
+
+      def expect_activity_listed(activity)
+        within @container do
+          expect(page).to have_content(activity)
+        end
       end
 
       def hover_action(journal_id, action)
