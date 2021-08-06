@@ -65,6 +65,11 @@ module Components
         end
       end
 
+      def expect_no_item(notification)
+        expect(page)
+          .to have_no_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+      end
+
       def expect_read_item(notification)
         expect(page)
           .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
