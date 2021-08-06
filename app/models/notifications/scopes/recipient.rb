@@ -28,9 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+# Return mail notifications destined at the provided recipient
+module Notifications::Scopes
+  module Recipient
+    extend ActiveSupport::Concern
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service'
+    class_methods do
+      def recipient(user)
+        where(recipient_id: user.is_a?(User) ? user.id : user)
+      end
+    end
+  end
 end

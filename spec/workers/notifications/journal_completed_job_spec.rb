@@ -29,8 +29,36 @@
 #++
 
 require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service'
+describe Notifications::JournalCompletedJob, type: :model do
+  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
+
+  describe '.supported?' do
+    context 'with a work package journal' do
+      let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
+
+      it 'is truthy' do
+        expect(described_class)
+          .to be_supported(journal)
+      end
+    end
+
+    context 'with a wiki content journal' do
+      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+
+      it 'is truthy' do
+        expect(described_class)
+          .to be_supported(journal)
+      end
+    end
+
+    context 'with a news journal' do
+      let(:journable) { FactoryBot.build_stubbed(:news) }
+
+      it 'is falsey' do
+        expect(described_class)
+          .not_to be_supported(journal)
+      end
+    end
+  end
 end

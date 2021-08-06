@@ -29,17 +29,28 @@
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
+  # A job is scheduled for the end of the journal aggregation time. If the journal does still exists
+  # at the end (it might be replaced because another journal was created within that timeframe)
+  # that job generates a OpenProject::Events::AGGREGATED_..._JOURNAL_READY event.
+  Journals::ScheduleCompletedService.call(payload[:journal], payload[:send_notification])
+  # The notification is to be created immediately even though a journal might be replaced later on.
+  # That way, a user receives an in app notification right away.
   Notifications::CreateFromJournalService.call(payload[:journal], payload[:send_notification])
 end
 
+# Upon receiving an AGGREGATED_..._JOURNAL_READY events different jobs are scheduled. In here,
+# jobs for sending out emails (direct or as a digest) are scheduled.
+# But the event as such is agnostic of its consumers so it can also be used e.g. by plugins. This is done
+# for example by the webhooks.
 # The aggregated journal ready listeners in effect are run inside a delayed job
 # since they are called by (in effect) by a background job triggered within the
 # Notifications::JournalNotificationService
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpNotificationService.call(payload[:journal], payload[:send_mail])
+  Notifications::ScheduleJournalMailsService.call(payload[:journal])
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
+  # TODO: check if this can be aligned with the Notifications::ScheduleJournalMailsService
   Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
 end
 

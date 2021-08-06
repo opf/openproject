@@ -28,9 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+class Journals::ScheduleCompletedService
+  class << self
+    def call(journal, send_mails)
+      enqueue_completed_job(journal, send_mails) if Notifications::JournalCompletedJob.supported?(journal)
+    end
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service'
+    private
+
+    def enqueue_completed_job(journal, send_mails)
+      Notifications::JournalCompletedJob
+        .set(wait_until: delivery_time)
+        .perform_later(journal.id, send_mails)
+    end
+
+    def delivery_time
+      Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
+    end
+  end
 end

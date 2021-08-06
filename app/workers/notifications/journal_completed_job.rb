@@ -31,6 +31,21 @@
 class Notifications::JournalCompletedJob < ApplicationJob
   queue_with_priority :notification
 
+  class << self
+    def supported?(journal)
+      aggregated_event(journal).present?
+    end
+
+    def aggregated_event(journal)
+      case journal.journable_type
+      when WikiContent.name
+        OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
+      when WorkPackage.name
+        OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
+      end
+    end
+  end
+
   def perform(journal_id, send_mails)
     journal = Journal.find_by(id: journal_id)
 
@@ -44,19 +59,8 @@ class Notifications::JournalCompletedJob < ApplicationJob
   private
 
   def notify_journal_complete(journal, send_mails)
-    OpenProject::Notifications.send(notification_event_type(journal),
+    OpenProject::Notifications.send(self.class.aggregated_event(journal),
                                     journal: journal,
                                     send_mail: send_mails)
-  end
-
-  def notification_event_type(journal)
-    case journal.journable_type
-    when WikiContent.name
-      OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
-    when WorkPackage.name
-      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
-    else
-      raise 'Unsupported journal created event type'
-    end
   end
 end

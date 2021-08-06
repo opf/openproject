@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -29,8 +27,24 @@
 #++
 
 require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service'
+describe Notifications::Scopes::UnreadMailDigest, type: :model do
+  describe '.unread_digest_mail' do
+    subject(:scope) { ::Notification.unread_mail_digest }
+
+    let(:no_mail_notification) { FactoryBot.create(:notification, read_mail_digest: nil) }
+    let(:unread_mail_notification) { FactoryBot.create(:notification, read_mail_digest: false) }
+    let(:read_mail_notification) { FactoryBot.create(:notification, read_mail_digest: true) }
+
+    before do
+      no_mail_notification
+      unread_mail_notification
+      read_mail_notification
+    end
+
+    it 'contains the notifications with read_mail: false' do
+      expect(scope)
+        .to match_array([unread_mail_notification])
+    end
+  end
 end

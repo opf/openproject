@@ -28,9 +28,15 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+# Return mail notifications that are unread (have read_mail: false)
+module Notifications::Scopes
+  module UnreadMail
+    extend ActiveSupport::Concern
 
-describe Notifications::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service'
+    class_methods do
+      def unread_mail
+        where(read_mail: false)
+      end
+    end
+  end
 end
