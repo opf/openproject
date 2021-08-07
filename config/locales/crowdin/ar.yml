@@ -706,6 +706,7 @@ ar:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "لا يمكن أن يكون في مشروع آخر."
               not_a_valid_parent: "غير صالح."
             start_date:
@@ -1811,7 +1812,6 @@ ar:
   label_start_to_start: "البداية إلى البداية"
   label_statistics: "إحصائيات"
   label_status: "الحالة"
-  label_status_updated: "تم تحديث حالة مجموعة العمل"
   label_stay_logged_in: "ابقَ متصل"
   label_storage_free_space: "المساحة المتبقية من القرص"
   label_storage_used_space: "استخدام مساحة القرص"
@@ -1895,21 +1895,17 @@ ar:
   label_wiki_show_submenu_item: "إظهار كعنصر قائمة فرعية من "
   label_wiki_start: "صفحة البداية"
   label_work_package: "مجموعة العمل"
-  label_work_package_added: "تم إضافة مجموعة عمل"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "فئة جديدة"
   label_work_package_category_plural: "فئات مجموعة العمل"
   label_work_package_hierarchy: "التسلسل الهرمي لمجموعة العمل"
   label_work_package_new: "مجموعة عمل جديدة"
-  label_work_package_note_added: "تم إضافة ملاحظة مجموعة العمل"
   label_work_package_edit: "تعديل مجموعة العمل %{name}"
   label_work_package_plural: "مجموعات العمل"
-  label_work_package_priority_updated: "تم تحديث مجموعات العمل حسب الأولوية"
   label_work_package_status: "حالة مجموعة العمل"
   label_work_package_status_new: "حالة جديدة"
   label_work_package_status_plural: "حالات مجموعة العمل"
   label_work_package_types: "أنواع مجموعة العمل"
-  label_work_package_updated: "تم تحديث مجموعة العمل"
   label_work_package_tracking: "تتبع مجموعة العمل"
   label_work_package_view_all: "عرض جميع مجموعات العمل"
   label_workflow: "سير العمل"
@@ -2479,6 +2475,7 @@ ar:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

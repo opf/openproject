@@ -701,6 +701,7 @@ zh-TW:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "不可以存在於另外一個專案中"
               not_a_valid_parent: "不正確。"
             start_date:
@@ -1726,7 +1727,6 @@ zh-TW:
   label_start_to_start: "開始到開始"
   label_statistics: "統計"
   label_status: "狀態"
-  label_status_updated: "工作項目狀態已更新"
   label_stay_logged_in: "保持登入"
   label_storage_free_space: "剩餘磁碟空間"
   label_storage_used_space: "已用磁碟空間"
@@ -1810,21 +1810,17 @@ zh-TW:
   label_wiki_show_submenu_item: "呈現於子功能表的 "
   label_wiki_start: "開始頁面"
   label_work_package: "工作項目"
-  label_work_package_added: "工作項目已新增"
   label_work_package_attachments: "工作項目附件"
   label_work_package_category_new: "新增類別"
   label_work_package_category_plural: "工作項目類別"
   label_work_package_hierarchy: "工作包層次結構"
   label_work_package_new: "新增工作項目"
-  label_work_package_note_added: "工作項目註記已新增"
   label_work_package_edit: "編輯工作項目 %{name}"
   label_work_package_plural: "工作項目"
-  label_work_package_priority_updated: "工作項目優先等級已更新"
   label_work_package_status: "工作項目狀態"
   label_work_package_status_new: "新狀態"
   label_work_package_status_plural: "工作項目狀態"
   label_work_package_types: "工作項目類型"
-  label_work_package_updated: "工作項目已更新"
   label_work_package_tracking: "工作項目追蹤"
   label_work_package_view_all: "檢視所有工作項目"
   label_workflow: "工作流程"
@@ -2390,6 +2386,7 @@ zh-TW:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

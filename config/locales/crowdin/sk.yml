@@ -704,6 +704,7 @@ sk:
               not_start_date: "nemá rovnakú hodnotu ako dátum začiatku, aj keď je to požadované pre pracovné balíčky typu \"míľnik\"."
             parent:
               cannot_be_milestone: "nemôže byť previazaný na pracovný balíček typu \"míľnik\"."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nemôže byť previazaný na pracovný balíček nachádzajúci sa v inom projekte (musí byť povolené správcom systému)."
               not_a_valid_parent: "je neplatný."
             start_date:
@@ -1777,7 +1778,6 @@ sk:
   label_start_to_start: "od začiatku do začiatku"
   label_statistics: "Štatistiky"
   label_status: "Stav"
-  label_status_updated: "Stav Pracovného balíka bol aktualizovaný"
   label_stay_logged_in: "Zostať prihlásený"
   label_storage_free_space: "Zostávajúce miesto na disku"
   label_storage_used_space: "Použité miesto na disku"
@@ -1861,21 +1861,17 @@ sk:
   label_wiki_show_submenu_item: "Zobraziť ako položku submenu "
   label_wiki_start: "Úvodná stránka"
   label_work_package: "Pracovný balíček"
-  label_work_package_added: "Pracovný balíček pridáný"
   label_work_package_attachments: "Prílohy pracovného balíčka"
   label_work_package_category_new: "Nová kategória"
   label_work_package_category_plural: "kategórie pracovných balíčkov"
   label_work_package_hierarchy: "Hierarchia Pracovného balíčka"
   label_work_package_new: "Nový pracovný balíček"
-  label_work_package_note_added: "Poznámka pracovného balíčka pridaná"
   label_work_package_edit: "Úprava pracovného balíčka %{name}"
   label_work_package_plural: "Pracovné balíčky"
-  label_work_package_priority_updated: "Priorita pracovného balíčka aktualizovaná"
   label_work_package_status: "Stav pracovného balíčka"
   label_work_package_status_new: "Nový stav"
   label_work_package_status_plural: "Stavy pracovného balíčka"
   label_work_package_types: "Typy pracovného balíčka"
-  label_work_package_updated: "Pracovný balík bol aktualizovaný"
   label_work_package_tracking: "Sledovanie Pracovného balíka"
   label_work_package_view_all: "Zobraziť všetky pracovné balíčky"
   label_workflow: "Pracovný postup"
@@ -2444,6 +2440,7 @@ sk:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

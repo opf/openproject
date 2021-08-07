@@ -702,6 +702,7 @@
               not_start_date: "is not on start date, although this is required for milestones."
             parent:
               cannot_be_milestone: "kan ikke være en milepæl."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "kan ikke være i et annet prosjekt."
               not_a_valid_parent: "er ugyldig."
             start_date:
@@ -1743,7 +1744,6 @@
   label_start_to_start: "start til start"
   label_statistics: "Statistikk"
   label_status: "Status"
-  label_status_updated: "Status for arbeidspakke er oppdatert"
   label_stay_logged_in: "Forbli innlogget"
   label_storage_free_space: "Remaining disk space"
   label_storage_used_space: "Used disk space"
@@ -1827,21 +1827,17 @@
   label_wiki_show_submenu_item: "Vis som undermenyelement for "
   label_wiki_start: "Startside"
   label_work_package: "Arbeidspakke"
-  label_work_package_added: "Lagt til arbeidspakke"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Kategorier for arbeidspakker"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "Ny arbeidspakke"
-  label_work_package_note_added: "Lagt til arbeidspakkenotat"
   label_work_package_edit: "Rediger arbeidspakke %{name}"
   label_work_package_plural: "Arbeidspakker"
-  label_work_package_priority_updated: "Oppdatert prioritet for arbeidspakke"
   label_work_package_status: "Status for arbeidspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statuser for arbeidspakke"
   label_work_package_types: "Work package types"
-  label_work_package_updated: "Arbeidspakke oppdatert"
   label_work_package_tracking: "Sporing av arbeidspakke"
   label_work_package_view_all: "Vis alle arbeidspakker"
   label_workflow: "Arbeidsflyt"
@@ -2409,6 +2405,7 @@
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
