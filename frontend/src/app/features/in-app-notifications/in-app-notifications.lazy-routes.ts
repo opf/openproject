@@ -27,17 +27,11 @@
 //++
 
 import { Ng2StateDeclaration } from '@uirouter/angular';
-import { NotificationsSettingsPageComponent } from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
 
-export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
+export const IAN_LAZY_ROUTES:Ng2StateDeclaration[] = [
   {
-    name: 'my_notifications',
-    url: '/my/notifications',
-    component: NotificationsSettingsPageComponent,
-  },
-  {
-    name: 'user_notifications',
-    url: '/users/:userId/edit/notifications',
-    component: NotificationsSettingsPageComponent,
+    name: 'notifications.**',
+    url: '/notifications',
+    loadChildren: () => import('./in-app-notifications.module').then((m) => m.OpenProjectInAppNotificationsModule),
   },
 ];

@@ -40,12 +40,16 @@ module Components
       end
 
       def close
-        page.find('button[data-qa-selector="op-modal-close"]').click
+        page.find('button[data-qa-selector="op-back-button"]').click
         expect_closed
       end
 
       def mark_all_read
         click_button 'Mark all as read'
+      end
+
+      def show_all
+        click_button 'All'
       end
 
       def click_item(notification)
@@ -65,15 +69,14 @@ module Components
         end
       end
 
+      def expect_no_item(notification)
+        expect(page)
+          .to have_no_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+      end
+
       def expect_read_item(notification)
         expect(page)
           .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
-      end
-
-      def expect_expanded(notification)
-        within_item(notification) do
-          expect(page).to have_selector('[data-qa-selector="op-ian-details"]')
-        end
       end
 
       def expect_work_package_item(notification)
@@ -96,6 +99,14 @@ module Components
         expect(page).to have_text 'No unread notifications'
       end
 
+      def expect_number_of_notifications(count)
+        if count == 0
+          expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
+        else
+          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 20)
+        end
+      end
+
       def expect_bell_count(count)
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector="op-ian-notifications-count"]')
@@ -105,7 +116,7 @@ module Components
       end
 
       def bell_element
-        page.find('op-in-app-notification-bell button')
+        page.find('op-in-app-notification-bell [data-qa-selector="op-ian-bell"]')
       end
     end
   end
