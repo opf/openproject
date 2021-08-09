@@ -28,37 +28,50 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class Journals::CompletedJob < ApplicationJob
+  queue_with_priority :notification
 
-describe Notifications::JournalCompletedJob, type: :model do
-  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
+  class << self
+    def schedule(journal, send_mails)
+      return unless supported?(journal)
 
-  describe '.supported?' do
-    context 'with a work package journal' do
-      let(:journable) { FactoryBot.build_stubbed(:stubbed_work_package) }
+      set(wait_until: delivery_time)
+        .perform_later(journal, send_mails)
+    end
 
-      it 'is truthy' do
-        expect(described_class)
-          .to be_supported(journal)
+    def aggregated_event(journal)
+      case journal.journable_type
+      when WikiContent.name
+        OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
+      when WorkPackage.name
+        OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
       end
     end
 
-    context 'with a wiki content journal' do
-      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+    private
 
-      it 'is truthy' do
-        expect(described_class)
-          .to be_supported(journal)
-      end
+    def delivery_time
+      Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
     end
 
-    context 'with a news journal' do
-      let(:journable) { FactoryBot.build_stubbed(:news) }
-
-      it 'is falsey' do
-        expect(described_class)
-          .not_to be_supported(journal)
-      end
+    def supported?(journal)
+      aggregated_event(journal).present?
     end
+  end
+
+  def perform(journal, send_mails)
+    # If the WP has been deleted the journal will have been deleted, too.
+    # Or the journal might have been replaced
+    return unless Journal.exists?(id: journal.id)
+
+    notify_journal_complete(journal, send_mails)
+  end
+
+  private
+
+  def notify_journal_complete(journal, send_mails)
+    OpenProject::Notifications.send(self.class.aggregated_event(journal),
+                                    journal: journal,
+                                    send_mail: send_mails)
   end
 end

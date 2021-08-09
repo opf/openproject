@@ -29,22 +29,25 @@
 #++
 require 'spec_helper'
 
-describe Notifications::CreateFromJournalService, 'for a news' do
+describe Notifications::CreateFromJournalJob, 'for a wiki page' do
+  subject(:perform) do
+    described_class.perform_now(journal, send_notifications)
+  end
+
   let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
-  let(:journable) { FactoryBot.build_stubbed(:news) }
-  let(:send_mails) { true }
+  let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+  let(:send_notifications) { true }
 
-  describe '#call' do
-    before do
-      allow(Notifications::JournalCompletedJob)
-        .to receive(:set)
-    end
+  describe '#perform' do
+    it 'creates no notification' do
+      allow(Notifications::CreateService)
+        .to receive(:new)
+              .and_call_original
 
-    it 'enqueues no JournalCompletedJob' do
-      described_class.call(journal, send_mails)
+      perform
 
-      expect(Notifications::JournalCompletedJob)
-        .not_to have_received(:set)
+      expect(Notifications::CreateService)
+        .not_to have_received(:new)
     end
   end
 end

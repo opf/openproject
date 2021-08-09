@@ -30,11 +30,11 @@
 require 'spec_helper'
 
 # rubocop:disable RSpec/MultipleMemoizedHelpers
-describe Notifications::CreateFromJournalService,
+describe Notifications::CreateFromJournalJob,
          'for a work package',
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  subject(:call) do
-    described_class.call(journal, send_notifications)
+  subject(:perform) do
+    described_class.perform_now(journal, send_notifications)
   end
 
   shared_let(:project) { FactoryBot.create(:project_with_types) }
@@ -168,7 +168,7 @@ describe Notifications::CreateFromJournalService,
       allow(notifications_service)
         .to receive(:call)
 
-      call
+      perform
 
       expect(notifications_service)
         .to have_received(:call)
@@ -186,7 +186,7 @@ describe Notifications::CreateFromJournalService,
         .to receive(:new)
               .and_call_original
 
-      call
+      perform
 
       expect(Notifications::CreateService)
         .not_to have_received(:new)
@@ -1464,6 +1464,14 @@ describe Notifications::CreateFromJournalService,
       work_package.journals.last.tap do |j|
         j.update_column(:notes, nil)
       end
+    end
+
+    it_behaves_like 'creates no notification'
+  end
+
+  context 'when the journal is deleted' do
+    before do
+      journal.destroy
     end
 
     it_behaves_like 'creates no notification'
