@@ -30,6 +30,7 @@ import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -141,13 +142,13 @@ export class InAppNotificationEntryComponent implements OnInit {
       )
       .subscribe((wp) => {
         void this.state.go(
-          `${this.state.current.data.baseRoute}.details.tabs`,
+          `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
           { workPackageId: wp.id, tabIdentifier: 'activity' },
         );
       });
   }
 
-  projectClicked(event:MouseEvent):void {
+  projectClicked(event:MouseEvent):void { // eslint-disable-line class-methods-use-this
     event.stopPropagation();
   }
 

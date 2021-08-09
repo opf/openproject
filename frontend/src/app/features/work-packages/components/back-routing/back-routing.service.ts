@@ -49,7 +49,7 @@ export class BackRoutingService {
   constructor(readonly injector:Injector) {
   }
 
-  public goToOtherState(route:string, params:{}):Promise<any> {
+  public goToOtherState(route:string, params:Record<string, unknown>):Promise<unknown> {
     return this.$state.go(route, params);
   }
 

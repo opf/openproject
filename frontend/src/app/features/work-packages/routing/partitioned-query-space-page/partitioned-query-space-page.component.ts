@@ -29,7 +29,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ComponentRef,
   OnDestroy,
   OnInit,
 } from '@angular/core';

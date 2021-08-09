@@ -85,7 +85,7 @@ export class InAppNotificationsService {
       });
   }
 
-  markAsRead(notifications:InAppNotification[], keep = false) {
+  markAsRead(notifications:InAppNotification[], keep = false):void {
     const ids = notifications.map((n) => n.id);
 
     this
@@ -97,7 +97,7 @@ export class InAppNotificationsService {
       )
       .subscribe(() => {
         applyTransaction(() => {
-          this.store.update(ids, { readIAN: true, keep: keep });
+          this.store.update(ids, { readIAN: true, keep });
           this.store.update(
             ({ unreadCount }) => ({ unreadCount: unreadCount - ids.length }),
           );

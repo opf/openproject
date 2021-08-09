@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { QueryEntity } from '@datorama/akita';
 import { map, switchMap } from 'rxjs/operators';
-import { NEVER, Observable, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
   InAppNotificationsState,
   InAppNotificationsStore,
@@ -22,11 +22,11 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
             return this.unreadOrKept$;
           case 'all':
             return this.selectAll();
+          default:
+            return throwError(new Error(`Invalid facet ${facet}`));
         }
-
-        return throwError(new Error(`Invalid facet ${facet}`));
-      })
-    )
+      }),
+    );
 
   /** Notifications grouped by resource */
   aggregatedNotifications$:Observable<{ [key:string]:InAppNotification[] }> = this
