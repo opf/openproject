@@ -98,7 +98,7 @@ $subject-font-size: 14px
     @media screen and (max-width: 679px)
       justify-self: end
   
-  &:hover &--date,
+  &:not(#{&}_read):hover &--date,
   &--buttons:focus-within + &--date 
     opacity: 0
 
@@ -127,6 +127,6 @@ $subject-font-size: 14px
     @media screen and (max-width: 679px)
       display: none
 
-  &:hover &--button,
+  &:not(#{&}_read):hover &--button,
   &--button:focus
     opacity: 1

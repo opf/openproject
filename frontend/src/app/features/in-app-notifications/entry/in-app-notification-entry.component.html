@@ -1,6 +1,7 @@
 <div
     class="op-ian-item"
     [class.op-ian-item_expanded]="notification.expanded"
+    [class.op-ian-item_read]="notification.readIAN === true"
     attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
     [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
 >
