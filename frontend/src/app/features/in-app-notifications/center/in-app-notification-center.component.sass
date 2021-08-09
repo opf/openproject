@@ -1,27 +1,21 @@
 .op-ian-center
-  //grid-template-columns: 1fr 3fr
-  //grid-template-areas: "filters entries"
+  display: grid
+  grid-template-rows: 1fr auto
+  height: 100%
 
-  &--filters
-    grid-area: filters
+  &--content
+    height: 100%
 
   &--viewport
-    grid-area: entries
-    flex: 1
-
-  &--entries
-    list-style: none
-
-  &--entry
-    display: list-item
+    height: 100%
 
   &--max-warning
     margin-bottom: 0
     text-align: center
     font-style: italic
 
-:host
-  .-browser-safari &
-    // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
-    // Check #38082 before changing it
-    height: 100%
+  :host
+    .-browser-safari &
+      // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
+      // Check #38082 before changing it
+      height: 100%
