@@ -33,7 +33,7 @@ In order to open an existing project, click the **Select a project** button in t
 
 You can also start typing in a project name to filter by the project's title.
 
-![open project](1572877683380.png)
+![filter_for_project_in_header_menu](filter_project_header_menu.png)
 
 
 
@@ -42,8 +42,7 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 <div class="glossary">
 **Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package list and timeline) can be applied only to the current project and its subprojects.
 </div>
-
-![project hierarchy](1572877762016.png)
+![project_hierarchy](project_hierarchy-8178054.png)
 
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
@@ -53,11 +52,7 @@ Also, you will see your newest projects on the application landing page in the *
 
 ## Create a new project
 
-To create a new project, click the **Select a project** button in the top left corner of the header and select **+ Project**.
-
-![Getting-started-create-project](Getting-started-create-project.png)
-
-Also, you can click the green button **+ Project** directly on the system's home screen in the **Project** section.
+To create a new project, click the green button **+ Project** directly on the system's home screen in the **Project** section.
 
 ![Create-project-home-screen](Create-project-home-screen.png)
 
@@ -79,7 +74,7 @@ To configure further project information, see the documentation for [project set
 
 To view all your projects in which you are a member, click on the **View all projects** link in the **Select a project** drop-down menu.
 
-![view all projects](1569490429831.png)
+![view_all_projects](view_all_projects.png)
 
 You will see a list with all your projects and their details.
 

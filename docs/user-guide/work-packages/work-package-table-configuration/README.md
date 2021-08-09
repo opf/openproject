@@ -84,6 +84,24 @@ If you only selected work packages without children, no work packages will be sh
 
 ![filter-for-parent-work-package](image-20210301182354564.png)
 
+### Filter for work packages of a subproject
+
+When you are in a parent project and would like to view the work packages of its subprojects, you can use a filter in the work package list.
+
+The filter **Only subproject** will display all work packages of the subprojects you select. Thereby, the work packages of the parent project will not be displayed.
+
+![work_package_filter_only_subprojects](work_package_filter_only_subprojects.png)
+
+
+
+In order to view the work packages of the parent project as well as the subprojects that you select, you need to use the filter **Including subproject**.
+
+![work_package_filter_incl_subprojects](work_package_filter_incl_subprojects.png)
+
+
+
+To view all work packages across all projects, please refer to the [global work package list](../projects/#global-work-packages-list).
+
 ### Filtering by ID or work package name
 
 If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 

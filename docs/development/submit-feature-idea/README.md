@@ -8,7 +8,7 @@ keywords: feature requests, ideas, open feature request
 ---
 # Submit a feature idea
 
-## How to submit a feature idea?
+## How to submit a feature idea or request?
 
 1. Login to or register at the [OpenProject community platform](https://community.openproject.org/login). It's fast and free.
 2. Use the search bar in the header navigation on top to look for similar feature requests. If there's one, please leave a comment or add additional information. Otherwise:

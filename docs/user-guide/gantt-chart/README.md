@@ -154,6 +154,7 @@ The zen mode gives you more space to focus on the tasks at hand. It's almost lik
 
 
 
+<<<<<<< HEAD
 ## Multi project views
 
 With the Gantt charts in OpenProject you can create project overarching timelines.
@@ -166,7 +167,7 @@ Use the filter and grouping options as for the [work packages table configuratio
 
 ![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.PNG)
 
-If you not only want to include sub-projects but different independent projects, choose the [global work packages view](../projects/#project-overarching-reports).
+If you want to adjust your work package table and filter, sort or order your work packages to have a better overview in your Gantt chart, please refer to the section [work package table configuration](/../work-packages/work-package-table-configuration/).
 
 ## Aggregation by project
 
