@@ -870,8 +870,8 @@ GEM
       concurrent-ruby
       faraday
     shoulda-context (2.0.0)
-    shoulda-matchers (4.5.1)
-      activesupport (>= 4.2.0)
+    shoulda-matchers (5.0.0)
+      activesupport (>= 5.2.0)
     spreadsheet (1.2.9)
       ruby-ole
     spring (2.1.1)
@@ -1098,7 +1098,7 @@ DEPENDENCIES
   sentry-rails (~> 4.6.0)
   sentry-ruby (~> 4.6.0)
   shoulda-context (~> 2.0)
-  shoulda-matchers (~> 4.5)
+  shoulda-matchers (~> 5.0)
   spring
   spring-commands-rspec
   sprockets (~> 3.7.0)
