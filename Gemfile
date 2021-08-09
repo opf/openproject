@@ -160,7 +160,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.8.0'
+gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
