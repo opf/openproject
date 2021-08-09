@@ -4,7 +4,7 @@ require 'support/components/notifications/center'
 describe "Notification center", type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
   shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:work_package2) { FactoryBot.create :work_package, project: project }
+  shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
   shared_let(:recipient) do
     FactoryBot.create :user,
                       member_in_project: project,
@@ -18,11 +18,11 @@ describe "Notification center", type: :feature, js: true do
                       journal: work_package.journals.last
   end
 
-  shared_let(:notification2) do
+  shared_let(:second_notification) do
       FactoryBot.create :notification,
                         recipient: recipient,
                         project: project,
-                        resource: work_package2,
+                        resource: second_work_package,
                         journal: work_package.journals.last
     end
 
@@ -40,11 +40,11 @@ describe "Notification center", type: :feature, js: true do
       center.open
 
       center.expect_work_package_item notification
-      center.expect_work_package_item notification2
+      center.expect_work_package_item second_notification
       center.click_item notification
       split_screen.expect_open
 
-      activity_tab.expect_activity_listed "created on #{work_package.created_at.strftime('%m/%d/%Y')}"
+      activity_tab.expect_wp_has_been_created_activity work_package
     end
   end
 
@@ -57,7 +57,7 @@ describe "Notification center", type: :feature, js: true do
       center.open
 
       center.expect_work_package_item notification
-      center.expect_work_package_item notification2
+      center.expect_work_package_item second_notification
       center.mark_all_read
 
       center.expect_bell_count 0
@@ -65,7 +65,7 @@ describe "Notification center", type: :feature, js: true do
       expect(notification.read_ian).to be_truthy
 
       center.expect_no_item notification
-      center.expect_no_item notification2
+      center.expect_no_item second_notification
     end
 
     it 'can open the split screen of the notification to mark it as read' do
@@ -76,7 +76,7 @@ describe "Notification center", type: :feature, js: true do
       center.click_item notification
       split_screen.expect_open
       center.expect_read_item notification
-      center.expect_work_package_item notification2
+      center.expect_work_package_item second_notification
 
       retry_block do
         notification.reload
@@ -88,45 +88,19 @@ describe "Notification center", type: :feature, js: true do
 
       center.open
       center.expect_no_item notification
-      center.expect_work_package_item notification2
+      center.expect_work_package_item second_notification
     end
 
-    it 'can switch between multiple notifications and the split screen remains open and updates accordingly' do
-      visit home_path
-      center.expect_bell_count 2
-      center.open
-
-      center.click_item notification
-      split_screen.expect_open
-      center.expect_read_item notification
-      center.expect_work_package_item notification2
-
-      center.click_item notification2
-      split_screen = ::Pages::SplitWorkPackage.new(work_package2, project)
-      split_screen.expect_open
-      center.expect_read_item notification2
-
-      split_screen.close
-      split_screen.expect_closed
-
-      center.close
-      center.expect_bell_count 0
-
-      center.open
-      center.expect_empty
-    end
-
-    context 'with mutliple notifications per work package' do
-      # In this context we have three notifications for two work packages.
-      shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
-      shared_let(:second_notification) do
+    context 'with multiple notifications per work package' do
+      # In this context we have four notifications for two work packages.
+      shared_let(:third_notification) do
         FactoryBot.create :notification,
                           recipient: recipient,
                           project: project,
                           resource: second_work_package,
                           journal: work_package.journals.last
       end
-      shared_let(:third_notification) do
+      shared_let(:fourth_notification) do
         FactoryBot.create :notification,
                           recipient: recipient,
                           project: project,
@@ -137,25 +111,29 @@ describe "Notification center", type: :feature, js: true do
 
       it 'aggregates notifications per work package and sets all as read when opened' do
         visit home_path
-        center.expect_bell_count 3
+        center.expect_bell_count 4
         center.open
 
+        center.expect_number_of_notifications 2
+
         # Click on first list item, which should be the youngest notification
-        center.click_item third_notification
+        center.click_item fourth_notification
 
         split_screen.expect_open
-        center.expect_read_item third_notification
+        center.expect_read_item fourth_notification
         expect(notification.reload.read_ian).to be_truthy
         expect(second_notification.reload.read_ian).to be_falsey
-        expect(third_notification.reload.read_ian).to be_truthy
+        expect(third_notification.reload.read_ian).to be_falsey
+        expect(fourth_notification.reload.read_ian).to be_truthy
 
         # Click on second list item, which should be the youngest notification that does
         # not belong to the work package that represents the first list item.
-        center.click_item second_notification
+        center.click_item third_notification
 
         second_split_screen.expect_open
-        center.expect_read_item second_notification
+        center.expect_read_item third_notification
         expect(second_notification.reload.read_ian).to be_truthy
+        expect(third_notification.reload.read_ian).to be_truthy
       end
     end
   end

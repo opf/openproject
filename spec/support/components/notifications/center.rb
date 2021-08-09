@@ -95,6 +95,14 @@ module Components
         expect(page).to have_text 'No unread notifications'
       end
 
+      def expect_number_of_notifications(count)
+        if count == 0
+          expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
+        else
+          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 20)
+        end
+      end
+
       def expect_bell_count(count)
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector="op-ian-notifications-count"]')

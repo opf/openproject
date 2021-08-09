@@ -49,10 +49,7 @@ module Pages
 
     def expect_open
       expect(page).to have_selector(@selector)
-
-      within container do
-        expect(page).to have_selector('.work-packages--details--subject', text: work_package.subject)
-      end
+      expect_subject
     end
 
     def close
