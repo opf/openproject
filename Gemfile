@@ -284,7 +284,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.0.0'
+  gem 'brakeman', '~> 5.1.0'
   gem 'danger-brakeman'
 end
 
