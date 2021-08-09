@@ -19,12 +19,12 @@ describe "Notification center", type: :feature, js: true do
   end
 
   shared_let(:second_notification) do
-      FactoryBot.create :notification,
-                        recipient: recipient,
-                        project: project,
-                        resource: second_work_package,
-                        journal: work_package.journals.last
-    end
+    FactoryBot.create :notification,
+                      recipient: recipient,
+                      project: project,
+                      resource: second_work_package,
+                      journal: work_package.journals.last
+  end
 
   let(:center) { ::Components::Notifications::Center.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }

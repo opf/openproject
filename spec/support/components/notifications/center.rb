@@ -48,6 +48,10 @@ module Components
         click_button 'Mark all as read'
       end
 
+      def show_all
+        click_button 'All'
+      end
+
       def click_item(notification)
         text = notification.resource.is_a?(WorkPackage) ? notification.resource.subject : notification.subject
         within_item(notification) do

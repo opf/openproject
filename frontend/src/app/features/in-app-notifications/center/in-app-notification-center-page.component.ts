@@ -111,10 +111,12 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   }
 
   // For shared template compliance
-  updateTitleName(val:string):void {} // eslint-disable-line class-methods-use-this, no-unused-vars
+  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
+  updateTitleName(val:string):void {}
 
   // For shared template compliance
-  changeChangesFromTitle(val:string):void {} // eslint-disable-line class-methods-use-this, no-unused-vars
+  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
+  changeChangesFromTitle(val:string):void {}
 
   private backButtonFn():void {
     if (this.backRoute) {
