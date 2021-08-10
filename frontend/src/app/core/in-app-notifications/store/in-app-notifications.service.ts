@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { Observable } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { take } from 'rxjs/internal/operators/take';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { InAppNotificationsQuery } from './in-app-notifications.query';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
 

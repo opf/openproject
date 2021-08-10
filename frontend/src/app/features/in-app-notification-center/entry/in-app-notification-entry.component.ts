@@ -7,28 +7,28 @@ import {
   Output,
 } from '@angular/core';
 import {
-  InAppNotification,
-  InAppNotificationDetail,
-} from 'core-app/features/in-app-notifications/store/in-app-notification.model';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
   Observable,
   timer,
 } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   distinctUntilChanged,
   map,
 } from 'rxjs/operators';
-import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import {
+  InAppNotification,
+  InAppNotificationDetail,
+} from 'core-app/core/in-app-notifications/store/in-app-notification.model';
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsService } from 'core-app/core/in-app-notifications/store/in-app-notifications.service';
+import { InAppNotificationsQuery } from 'core-app/core/in-app-notifications/store/in-app-notifications.query';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 

@@ -29,9 +29,9 @@
 import { Ng2StateDeclaration } from '@uirouter/angular';
 import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/split-view-routes.template';
 import { WorkPackageSplitViewComponent } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
-import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
-import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
+import { InAppNotificationCenterComponent } from './center/in-app-notification-center.component';
+import { InAppNotificationCenterPageComponent } from './center/in-app-notification-center-page.component';
 
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {

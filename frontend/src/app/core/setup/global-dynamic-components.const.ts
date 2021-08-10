@@ -171,7 +171,7 @@ import {
 import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
-} from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
+} from 'core-app/features/in-app-notification-center/bell/in-app-notification-bell.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },

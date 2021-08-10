@@ -6,9 +6,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
-import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotificationsQuery } from 'core-app/core/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsService } from 'core-app/core/in-app-notifications/store/in-app-notifications.service';
+import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/in-app-notifications/store/in-app-notification.model';
 import { map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';

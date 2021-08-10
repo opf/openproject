@@ -6,7 +6,7 @@ import {
   InAppNotificationsState,
   InAppNotificationsStore,
 } from './in-app-notifications.store';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotification } from './in-app-notification.model';
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {

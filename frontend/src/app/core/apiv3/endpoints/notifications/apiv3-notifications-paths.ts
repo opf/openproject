@@ -26,16 +26,16 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ID } from '@datorama/akita';
+import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotification } from 'core-app/core/in-app-notifications/store/in-app-notification.model';
 import { Apiv3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { HttpClient } from '@angular/common/http';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ID } from '@datorama/akita';
 
 export class Apiv3NotificationsPaths
   extends APIv3ResourceCollection<InAppNotification, Apiv3NotificationPaths> {

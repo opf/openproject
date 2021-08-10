@@ -79,7 +79,7 @@ import { globalDynamicComponents } from 'core-app/core/setup/global-dynamic-comp
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { OpenprojectPluginsModule } from 'core-app/features/plugins/openproject-plugins.module';
 import { LinkedPluginsModule } from 'core-app/features/plugins/linked-plugins.module';
-import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-notifications/in-app-notifications.module';
+import { OpenProjectInAppNotificationCenterModule } from 'core-app/features/in-app-notification-center/in-app-notification-center.module';
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 
@@ -173,7 +173,7 @@ export function initializeServices(injector:Injector) {
     OpenprojectTabsModule,
 
     // Notifications
-    OpenProjectInAppNotificationsModule,
+    OpenProjectInAppNotificationCenterModule,
   ],
   providers: [
     { provide: States, useValue: new States() },

@@ -16,14 +16,14 @@ import {
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
-import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
-import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
   BackRouteOptions,
   BackRoutingService,
 } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { NotificationSettingsButtonComponent } from './toolbar/settings/notification-settings-button.component';
+import { ActivateFacetButtonComponent } from './toolbar/facet/activate-facet-button.component';
+import { MarkAllAsReadButtonComponent } from './toolbar/mark-all-as-read/mark-all-as-read-button.component';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',

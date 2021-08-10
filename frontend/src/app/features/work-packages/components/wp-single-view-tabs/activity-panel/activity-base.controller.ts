@@ -35,6 +35,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Transition } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { InAppNotification } from 'core-app/core/in-app-notifications/store/in-app-notification.model';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -47,6 +48,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   // Visible activities
   public visibleActivities:ActivityEntryInfo[] = [];
+
+  public notifications:InAppNotification[] = [];
 
   public reverse:boolean;
 
@@ -88,6 +91,29 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.cdRef.detectChanges();
         });
       });
+
+    this
+      .apiV3Service
+      .notifications
+      .facet(
+        'unread',
+        {
+          pageSize: 100,
+          filters: [
+            [ 'resourceId', '=', [this.workPackageId] ],
+            [ 'resourceType', '=', ['work_package'] ],
+          ],
+        },
+      )
+      .subscribe(
+        (data) => {
+          this.notifications = data._embedded.elements; 
+          console.log(this.notifications);
+        },
+        (error) => {
+          console.error(error);
+        },
+      );
   }
 
   protected updateActivities(activities:HalResource[]) {

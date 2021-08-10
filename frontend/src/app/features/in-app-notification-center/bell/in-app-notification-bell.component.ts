@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { merge, timer } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
+import { InAppNotificationsQuery } from 'core-app/core/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsService } from 'core-app/core/in-app-notifications/store/in-app-notifications.service';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 
 export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
