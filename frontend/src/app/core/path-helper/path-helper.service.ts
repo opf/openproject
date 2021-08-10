@@ -108,6 +108,10 @@ export class PathHelperService {
     return `${this.staticBase}/news/${newsId}`;
   }
 
+  public notificationsPath():string {
+    return `${this.staticBase}/notifications`;
+  }
+
   public loginPath() {
     return `${this.staticBase}/login`;
   }
