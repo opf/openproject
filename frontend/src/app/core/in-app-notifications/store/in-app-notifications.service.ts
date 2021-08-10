@@ -9,6 +9,7 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { InAppNotificationsQuery } from './in-app-notifications.query';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsService {
@@ -17,10 +18,9 @@ export class InAppNotificationsService {
     private query:InAppNotificationsQuery,
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
-  ) {
-  }
+  ) { }
 
-  get():void {
+  get(filters:ApiV3ListFilter[] = []):void {
     this.store.setLoading(true);
 
     const facet = this.query.getValue().activeFacet;
@@ -28,7 +28,13 @@ export class InAppNotificationsService {
     this
       .apiV3Service
       .notifications
-      .facet(facet, { pageSize: NOTIFICATIONS_MAX_SIZE })
+      .facet(
+        facet,
+        {
+          filters,
+          pageSize: NOTIFICATIONS_MAX_SIZE,
+        },
+      )
       .pipe(
         tap((events) => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
       )

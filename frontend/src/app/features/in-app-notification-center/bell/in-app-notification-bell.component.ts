@@ -27,9 +27,10 @@ export class InAppNotificationBellComponent {
     this.inAppQuery.unreadCount$,
   );
 
-  constructor(readonly inAppQuery:InAppNotificationsQuery,
+  constructor(
+    readonly inAppQuery:InAppNotificationsQuery,
     readonly inAppService:InAppNotificationsService,
     readonly activeWindow:ActiveWindowService,
-    readonly modalService:OpModalService) {
-  }
+    readonly modalService:OpModalService,
+  ) { }
 }
