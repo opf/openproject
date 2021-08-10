@@ -70,6 +70,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) do
         I18n.t(:text_journal_changed,
                label: "<strong>#{custom_field.name}</strong>",
+               linebreak: '',
                old: "<i title=\"#{old_formatted_value}\">#{old_formatted_value}</i>",
                new: "<i title=\"#{new_formatted_value}\">#{new_formatted_value}</i>")
       end
@@ -111,6 +112,7 @@ describe OpenProject::JournalFormatter::CustomField do
         I18n.t(:text_journal_changed_plain,
                label: custom_field.name,
                old: format_value(values.first, custom_field),
+               linebreak: '',
                new: format_value(values.last, custom_field))
       end
 
@@ -152,6 +154,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) do
         I18n.t(:text_journal_changed,
                label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
+               linebreak: '',
                old: "<i title=\"#{values.first}\">#{values.first}</i>",
                new: "<i title=\"#{values.last}\">#{values.last}</i>")
       end
@@ -229,6 +232,7 @@ describe OpenProject::JournalFormatter::CustomField do
         let(:expected) do
           I18n.t(:text_journal_changed,
                  label: "<strong>#{custom_field.name}</strong>",
+                 linebreak: '',
                  old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
                  new: "<i title=\"cf 3, cf 4\">cf 3, cf 4</i>")
         end
@@ -243,6 +247,7 @@ describe OpenProject::JournalFormatter::CustomField do
         let(:expected) do
           I18n.t(:text_journal_changed,
                  label: "<strong>#{custom_field.name}</strong>",
+                 linebreak: '',
                  old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
                  new: "<i title=\"(deleted option), cf 4\">(deleted option), cf 4</i>")
         end
