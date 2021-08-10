@@ -43,8 +43,7 @@ const accessKeys = {
 };
 
 // this could be extracted into a separate component if it grows
-const accessibleListSelector = 'table.keyboard-accessible-list';
-const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
+const accessibleListSelector = 'generic-table keyboard-accessible-list';
 
 @Injectable({
   providedIn: 'root',
@@ -81,34 +80,35 @@ export class KeyboardShortcutService {
   /**
    * Register the keyboard shortcuts.
    */
-  public register() {
+  public register():void {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
+  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
     const key = accessKeys[keyName];
     return () => {
-      const elem = jQuery(`[accesskey=${key}]:first`);
-      if (elem.is('input') || elem.attr('id') === 'global-search-input') {
+      // eslint-disable-next-line no-useless-concat
+      const elem:HTMLElement = document.querySelectorAll("[accesskey='" + `${key}` + "']")[0] as HTMLElement;
+      if (elem instanceof HTMLInputElement || elem.id === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(elem), 200);
-      } else if (elem.is('[href]')) {
-        this.clickLink(elem[0]);
+        setTimeout(() => this.FocusHelper.focus(jQuery(elem)), 200);
+      } else if (elem.getAttribute('href')) {
+        this.clickLink(elem);
       } else {
-        elem[0].click();
+        elem.click();
       }
     };
   }
 
-  public globalAction(action:keyof PathHelperService) {
+  public globalAction(action:keyof PathHelperService):() => void {
     return () => {
       const url = (this.PathHelper[action] as any)();
       window.location.href = url;
     };
   }
 
-  public projectScoped(action:keyof PathHelperService) {
+  public projectScoped(action:keyof PathHelperService):() => void {
     return () => {
       const projectIdentifier = this.currentProject.identifier;
       if (projectIdentifier) {
@@ -118,7 +118,12 @@ export class KeyboardShortcutService {
     };
   }
 
-  clickLink(link:any) {
+  // eslint-disable-next-line class-methods-use-this
+  clickLink(link:HTMLElement):void {
+    if (!link.getAttribute('href')) {
+      return;
+    }
+
     const event = new MouseEvent('click', {
       view: window,
       bubbles: true,
@@ -127,47 +132,35 @@ export class KeyboardShortcutService {
     const cancelled = !link.dispatchEvent(event);
 
     if (!cancelled) {
-      window.location.href = link.href;
+      window.location.href = link.getAttribute('href') as string;
     }
   }
 
-  showHelpModal() {
+  showHelpModal():void {
     window.open(this.PathHelper.keyboardShortcutsHelpPath());
   }
 
-  findListInPage() {
-    const domLists = jQuery(accessibleListSelector);
-    const focusElements:any = [];
-    domLists.find('tbody tr').each((index, tr) => {
-      const firstLink = jQuery(tr).find(':visible:tabbable')[0];
-      if (firstLink !== undefined) {
-        focusElements.push(firstLink);
-      }
-    });
-    return focusElements;
-  }
-
-  focusItemOffset(offset:number) {
-    const list = this.findListInPage();
+  // eslint-disable-next-line class-methods-use-this
+  focusItemOffset(offset:number):void {
+    const list = document.getElementsByClassName(accessibleListSelector)[0];
     if (list === null) {
       return;
     }
 
-    const index:number = list.indexOf(
-      jQuery(document.activeElement!)
-        .closest(accessibleRowSelector)
-        .find(':visible:tabbable')[0],
-    );
-
-    const target = jQuery(list[(index + offset + list.length) % list.length]);
-    target.focus();
+    const rows:Element[] = Array.from(list.querySelectorAll('tbody > tr'));
+    let index:number;
+    if (document.activeElement) {
+      index = rows.indexOf(document.activeElement);
+      const target = rows[index + offset] as HTMLElement;
+      target.focus();
+    }
   }
 
-  focusNextItem() {
+  focusNextItem():void {
     this.focusItemOffset(1);
   }
 
-  focusPrevItem() {
+  focusPrevItem():void {
     this.focusItemOffset(-1);
   }
 }

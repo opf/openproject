@@ -447,4 +447,12 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       table.expect_work_package_listed(wp_4)
     end
   end
+
+  describe 'search hotkey' do
+    it 'opens and focuses the global search when you press the [s] hotkey' do
+      visit home_path
+      page.find('body').send_keys('s')
+      expect(page).to have_selector '[data-qa-search-open="1"]', wait: 10
+    end
+  end
 end

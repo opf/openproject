@@ -78,6 +78,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public id?:string;
 
+  @Input() public accesskey?:number;
+
   @Input() public items?:IOPAutocompleterOption[]|HalResource[];
 
   private items$ = new Subject();
