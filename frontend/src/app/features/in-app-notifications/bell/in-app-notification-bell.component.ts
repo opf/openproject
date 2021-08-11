@@ -5,6 +5,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { merge, timer } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
 const POLLING_INTERVAL = 10000;
@@ -27,9 +28,15 @@ export class InAppNotificationBellComponent {
     this.inAppQuery.unreadCount$,
   );
 
-  constructor(readonly inAppQuery:InAppNotificationsQuery,
+  constructor(
+    readonly inAppQuery:InAppNotificationsQuery,
     readonly inAppService:InAppNotificationsService,
     readonly activeWindow:ActiveWindowService,
-    readonly modalService:OpModalService) {
+    readonly modalService:OpModalService,
+    readonly pathHelper:PathHelperService,
+  ) {}
+
+  notificationsPath():string {
+    return this.pathHelper.notificationsPath();
   }
 }
