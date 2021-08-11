@@ -64,6 +64,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   @Input() public isInitial:boolean;
 
+  @Input() public hasUnreadNotification:boolean;
+
   public userCanEdit = false;
 
   public userCanQuote = false;

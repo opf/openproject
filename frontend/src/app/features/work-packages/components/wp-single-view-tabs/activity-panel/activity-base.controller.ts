@@ -27,14 +27,16 @@
 //++
 
 import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
+import { Transition } from '@uirouter/core';
+import { combineLatest, Observable } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Transition } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -47,6 +49,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   // Visible activities
   public visibleActivities:ActivityEntryInfo[] = [];
+
+  public notifications: InAppNotification[] = [];
 
   public reverse:boolean;
 
@@ -73,15 +77,29 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   ngOnInit() {
-    this
-      .apiV3Service
-      .work_packages
-      .id(this.workPackageId)
-      .requireAndStream()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe((wp:WorkPackageResource) => {
+    combineLatest([
+      this
+        .apiV3Service
+        .work_packages
+        .id(this.workPackageId)
+        .requireAndStream()
+        .pipe(this.untilDestroyed()),
+      this
+        .apiV3Service
+        .notifications
+        .facet(
+          'unread',
+          {
+            pageSize: NOTIFICATIONS_MAX_SIZE,
+            filters: [
+              [ 'resource_id', '=', [ this.workPackageId ] ],
+              [ 'resource_type', '=', [ 'work_package' ] ],
+            ],
+          },
+        ),
+    ])
+      .subscribe(([wp, notificationCollection]) => {
+        this.notifications = notificationCollection._embedded.elements;
         this.workPackage = wp;
         this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
@@ -117,6 +135,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   protected getActivitiesWithComments() {
     return this.unfilteredActivities
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
+  }
+
+  protected hasUnreadNotification(activityHref:string) {
+    return !!this.notifications.find(notification => notification._links.activity?.href === activityHref);
   }
 
   public toggleComments() {
