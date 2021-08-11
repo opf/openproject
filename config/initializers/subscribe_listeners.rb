@@ -31,9 +31,7 @@
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
   # The notification is to be created as fast as possible even though a journal might be replaced later on.
   # That way, a user receives an in app notification right away.
-  #
-  # TODO: Support creating notifications for wiki content (only direct mail no in app or digest)
-  #
+  # The job also governs who will receive a notification (by any channel).
   Notifications::CreateFromJournalJob.perform_later(payload[:journal], payload[:send_notification])
 
   # A job is scheduled for the end of the journal aggregation time. If the journal does still exist
@@ -47,8 +45,8 @@ end
 # But the event as such is agnostic of its consumers so it can also be used e.g. by plugins. This is done
 # for example by the webhooks.
 # The aggregated journal ready listeners in effect are run inside a delayed job
-# since they are called by (in effect) by a background job triggered within the
-# Notifications::JournalNotificationService
+# since they are called (in effect) by a background job triggered within the
+# Journals::CompletedJob.
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
   Notifications::ScheduleJournalMailsService.call(payload[:journal])
 end

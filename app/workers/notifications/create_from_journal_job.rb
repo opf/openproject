@@ -42,66 +42,85 @@ class Notifications::CreateFromJournalJob < ApplicationJob
   MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
 
   def perform(journal, send_notifications)
-    return unless supported?(journal)
-    return if abort_sending?(journal, send_notifications)
+    self.journal = journal
 
-    notification_receivers(journal).each do |recipient_id, channel_reasons|
-      create_notification(journal,
-                          recipient_id,
+    return unless supported?
+    return if abort_sending?(send_notifications)
+
+    notification_receivers.each do |recipient_id, channel_reasons|
+      create_notification(recipient_id,
                           channel_reasons)
     end
   end
 
   private
 
-  def create_notification(journal, recipient_id, channel_reasons)
+  attr_accessor :journal
+
+  def create_notification(recipient_id, channel_reasons)
     notification_attributes = {
       recipient_id: recipient_id,
-      project: journal.project,
+      project: journal.data.project,
       resource: journal.journable,
       journal: journal,
-      actor: user_with_fallback(journal)
+      actor: user_with_fallback
     }.merge(channel_attributes(channel_reasons))
 
     Notifications::CreateService
-      .new(user: user_with_fallback(journal))
+      .new(user: user_with_fallback)
       .call(notification_attributes)
   end
 
   def channel_attributes(channel_reasons)
+    channel_attributes_mail(channel_reasons)
+      .merge(channel_attributes_mail_digest(channel_reasons))
+      .merge(channel_attributes_ian(channel_reasons))
+  end
+
+  def channel_attributes_mail(channel_reasons)
     {
-      read_mail: channel_reasons.keys.include?('mail') ? false : nil,
-      read_mail_digest: channel_reasons.keys.include?('mail_digest') ? false : nil,
-      read_ian: channel_reasons.keys.include?('in_app') ? false : nil,
-      reason_ian: channel_reasons['in_app']&.first,
-      reason_mail: channel_reasons['mail']&.first,
-      reason_mail_digest: channel_reasons['mail_digest']&.first
+      read_mail: strategy.supports_mail? && channel_reasons.keys.include?('mail') ? false : nil,
+      reason_mail: strategy.supports_mail? && channel_reasons['mail']&.first
     }
   end
 
-  def notification_receivers(journal)
+  def channel_attributes_mail_digest(channel_reasons)
+    {
+      read_mail_digest: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil,
+      reason_mail_digest: strategy.supports_mail_digest? && channel_reasons['mail_digest']&.first
+    }
+  end
+
+  def channel_attributes_ian(channel_reasons)
+    {
+      read_ian: strategy.supports_ian? && channel_reasons.keys.include?('in_app') ? false : nil,
+      reason_ian: strategy.supports_ian? && channel_reasons['in_app']&.first
+    }
+  end
+
+  def notification_receivers
     receivers = receivers_hash
 
-    %i(mentioned involved watched subscribed commented created processed prioritized scheduled).each do |reason|
-      add_receivers_by_reason(receivers, journal, reason)
+    strategy.reasons.each do |reason|
+      add_receivers_by_reason(receivers, reason)
     end
 
-    remove_self_recipient(receivers, journal)
+    remove_self_recipient(receivers)
 
     receivers
   end
 
-  def add_receivers_by_reason(receivers, journal, reason)
-    add_receiver(receivers, send(:"settings_of_#{reason}", journal), reason)
+  def add_receivers_by_reason(receivers, reason)
+    add_receiver(receivers, send(:"settings_of_#{reason}"), reason)
   end
 
-  def settings_of_mentioned(journal)
-    applicable_settings(mentioned_ids(journal),
+  def settings_of_mentioned
+    applicable_settings(mentioned_ids,
                         journal.data.project,
                         :mentioned)
   end
 
-  def settings_of_involved(journal)
+  def settings_of_involved
     scope = User
               .where(id: group_or_user_ids(journal.data.assigned_to))
               .or(User.where(id: group_or_user_ids(journal.data.responsible)))
@@ -111,7 +130,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :involved)
   end
 
-  def settings_of_subscribed(journal)
+  def settings_of_subscribed
     project = journal.data.project
 
     applicable_settings(User.notified_on_all(project),
@@ -119,15 +138,13 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :all)
   end
 
-  def settings_of_watched(journal)
-    work_package = journal.journable
-
-    applicable_settings(work_package.watcher_users,
-                        work_package.project,
+  def settings_of_watched
+    applicable_settings(strategy.watcher_users(journal),
+                        journal.data.project,
                         :watched)
   end
 
-  def settings_of_commented(journal)
+  def settings_of_commented
     return NotificationSetting.none unless journal.notes?
 
     applicable_settings(User.all,
@@ -135,7 +152,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :work_package_commented)
   end
 
-  def settings_of_created(journal)
+  def settings_of_created
     return NotificationSetting.none unless journal.initial?
 
     applicable_settings(User.all,
@@ -143,7 +160,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :work_package_created)
   end
 
-  def settings_of_processed(journal)
+  def settings_of_processed
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:status_id)
 
     applicable_settings(User.all,
@@ -151,7 +168,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :work_package_processed)
   end
 
-  def settings_of_prioritized(journal)
+  def settings_of_prioritized
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:priority_id)
 
     applicable_settings(User.all,
@@ -159,7 +176,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
                         :work_package_prioritized)
   end
 
-  def settings_of_scheduled(journal)
+  def settings_of_scheduled
     if journal.initial? || !(journal.details.has_key?(:start_date) || journal.details.has_key?(:due_date))
       return NotificationSetting.none
     end
@@ -173,10 +190,10 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     NotificationSetting
       .applicable(project)
       .where(reason => true)
-      .where(user: user_scope.where(id: User.allowed(:view_work_packages, project)))
+      .where(user: user_scope.where(id: User.allowed(strategy.permission, project)))
   end
 
-  def text_for_mentions(journal)
+  def text_for_mentions
     potential_text = ""
     potential_text << journal.notes if journal.try(:notes)
 
@@ -190,8 +207,8 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     potential_text
   end
 
-  def mentioned_ids(journal)
-    matches = mention_matches(journal)
+  def mentioned_ids
+    matches = mention_matches
 
     base_scope = User
                    .includes(:groups)
@@ -206,12 +223,12 @@ class Notifications::CreateFromJournalJob < ApplicationJob
       .or(by_group)
   end
 
-  def send_notification?(journal, send_notifications)
+  def send_notification?(send_notifications)
     send_notifications && ::UserMailer.perform_deliveries
   end
 
-  def mention_matches(journal)
-    text = text_for_mentions(journal)
+  def mention_matches
+    text = text_for_mentions
 
     user_ids_tag_after,
       user_ids_tag_before,
@@ -231,8 +248,8 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     }
   end
 
-  def abort_sending?(journal, send_notifications)
-    !send_notification?(journal, send_notifications) ||
+  def abort_sending?(send_notifications)
+    !send_notification?(send_notifications) ||
       journal.noop? ||
       !Journal.exists?(id: journal.id)
   end
@@ -241,7 +258,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     association.is_a?(Group) ? association.user_ids : association&.id
   end
 
-  def user_with_fallback(journal)
+  def user_with_fallback
     journal.user || DeletedUser.first
   end
 
@@ -251,8 +268,8 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     end
   end
 
-  def remove_self_recipient(receivers, journal)
-    receivers.delete(journal.user_id) if receivers[journal.user_id] && !user_with_fallback(journal).pref.self_notified?
+  def remove_self_recipient(receivers)
+    receivers.delete(journal.user_id) if receivers[journal.user_id] && !user_with_fallback.pref.self_notified?
   end
 
   def receivers_hash
@@ -263,7 +280,13 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     end
   end
 
-  def supported?(journal)
-    journal.journable_type == WorkPackage.name
+  def strategy
+    @strategy ||= if Notifications::CreateFromJournalJob.const_defined?("#{journal.journable_type}Strategy")
+                    "Notifications::CreateFromJournalJob::#{journal.journable_type}Strategy".constantize
+                  end
+  end
+
+  def supported?
+    strategy.present?
   end
 end

@@ -29,8 +29,8 @@
 class Journal::BaseJournal < ApplicationRecord
   self.abstract_class = true
 
-  belongs_to :journal
-  belongs_to :author, class_name: 'User', foreign_key: :author_id
+  has_one :journal, as: :data, inverse_of: :data, dependent: :destroy
+  belongs_to :author, class_name: 'User'
 
   def journaled_attributes
     attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }
@@ -41,7 +41,7 @@ class Journal::BaseJournal < ApplicationRecord
   end
 
   def self.excluded_attributes
-    [primary_key.to_sym, inheritance_column.to_sym, :journal_id]
+    [primary_key.to_sym, inheritance_column.to_sym]
   end
   private_class_method :excluded_attributes
 end

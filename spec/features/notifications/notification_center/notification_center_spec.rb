@@ -11,17 +11,20 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages]
   end
-  let!(:work_package) do
-    FactoryBot.create :work_package, project: project
+  let!(:other_user) do
+    FactoryBot.create(:user)
   end
-  let!(:work_package2) do
-    FactoryBot.create :work_package, project: project
+  let(:work_package) do
+    FactoryBot.create :work_package, project: project, author: other_user
   end
-  let!(:notification) do
+  let(:work_package2) do
+    FactoryBot.create :work_package, project: project, author: other_user
+  end
+  let(:notification) do
     # Will have been created via the JOURNAL_CREATED event listeners
     work_package.journals.first.notifications.first
   end
-  let!(:notification2) do
+  let(:notification2) do
     # Will have been created via the JOURNAL_CREATED event listeners
     work_package2.journals.first.notifications.first
   end
@@ -30,11 +33,25 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 
+  let(:notifications) do
+    [notification, notification2]
+  end
+
+  before do
+    # The notifications need to be created as a different user
+    # as they are otherwise swallowed to avoid self notification.
+
+    User.execute_as(other_user) do
+      perform_enqueued_jobs do
+        notifications
+      end
+    end
+  end
+
   describe 'notification for a new journal' do
     current_user { recipient }
 
     it 'will not show all details of the journal' do
-      allow(notification.journal).to receive(:initial?).and_return true
       visit home_path
       center.expect_bell_count 2
       center.open
@@ -112,20 +129,10 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       end
       let(:split_screen2) { ::Pages::SplitWorkPackage.new work_package2 }
 
-      before do
-        # The notifications need to be created as a different user
-        # as they are otherwise swallowed to avoid self notification.
-        allow(User)
-          .to receive(:current)
-                .and_return(work_package2.author)
-
-        notification3
-        notification4
-
-        allow(User)
-          .to receive(:current)
-                .and_return(recipient)
+      let(:notifications) do
+        [notification, notification2, notification3, notification4]
       end
+
 
       it 'aggregates notifications per work package and sets all as read when opened' do
         visit home_path

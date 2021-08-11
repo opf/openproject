@@ -28,9 +28,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::WikiContentJournal < Journal::BaseJournal
-  self.table_name = 'wiki_content_journals'
+module Notifications::CreateFromJournalJob::WorkPackageStrategy
+  def self.reasons
+    %i(mentioned involved watched subscribed commented created processed prioritized scheduled)
+  end
 
-  # The project does not change over the course of a wiki content lifetime
-  delegate :project, to: :journal
+  def self.permission
+    :view_work_packages
+  end
+
+  def self.supports_ian?
+    true
+  end
+
+  def self.supports_mail_digest?
+    true
+  end
+
+  def self.supports_mail?
+    true
+  end
+
+  def self.watcher_users(journal)
+    journal.journable.watcher_recipients
+  end
 end

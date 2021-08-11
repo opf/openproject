@@ -75,17 +75,15 @@ describe Group, type: :model do
         allow(::OpenProject::Notifications)
           .to receive(:send)
 
-        puts "Destroying group ..."
         start = Time.now.to_i
 
-        Groups::DeleteService
-          .new(user: User.system, contract_class: EmptyContract, model: group)
-          .call
-        perform_enqueued_jobs
+        perform_enqueued_jobs do
+          Groups::DeleteService
+            .new(user: User.system, contract_class: EmptyContract, model: group)
+            .call
+        end
 
         @seconds = Time.now.to_i - start
-
-        puts "Destroyed group in #{@seconds} seconds"
 
         expect(@seconds < 10).to eq true
       end

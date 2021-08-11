@@ -28,26 +28,288 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
+require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob, 'for a wiki page' do
+describe Notifications::CreateFromJournalJob, 'for a wiki page', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:perform) do
     described_class.perform_now(journal, send_notifications)
   end
 
-  let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable) }
-  let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+  include_context 'CreateFromJournalJob context'
+
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:wiki) { FactoryBot.create(:wiki, project: project) }
+
+  let(:permissions) { [:view_wiki_pages] }
   let(:send_notifications) { true }
 
+  let(:wiki_page) do
+    FactoryBot.create(:wiki_page,
+                      wiki: wiki,
+                      content: FactoryBot.build(:wiki_content,
+                                                author: other_user))
+  end
+  let(:wiki_content) { wiki_page.content }
+  let(:journal) { wiki_content.journals.last }
+  let(:author) { other_user }
+
+  current_user { other_user }
+
+  before do
+    recipient
+  end
+
   describe '#perform' do
-    it 'creates no notification' do
-      allow(Notifications::CreateService)
-        .to receive(:new)
-              .and_call_original
+    context 'with a newly created wiki page do' do
+      context 'with the user having registered for all notifications' do
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :subscribed,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
 
-      perform
+      context 'with the user having registered for involved notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+          ]
+        end
 
-      expect(Notifications::CreateService)
-        .not_to have_received(:new)
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for no notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for watcher notifications and watching the wiki' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+          ]
+        end
+
+        before do
+          wiki.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :watched,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
+
+      context 'with the user not having registered for watcher notifications and watching the wiki' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        before do
+          wiki.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for watcher notifications and not watching the wiki' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for all notifications but lacking permissions' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'creates no notification'
+      end
+    end
+
+    context 'with an updated wiki page do' do
+      before do
+        wiki_content.text = "Some new text to create a journal"
+        wiki_content.save!
+      end
+
+      context 'with the user having registered for all notifications' do
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :subscribed,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
+
+      context 'with the user having registered for involved notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for no notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for watcher notifications and watching the wiki' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+          ]
+        end
+
+        before do
+          wiki.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :watched,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
+
+      context 'with the user not having registered for watcher notifications and watching the wiki' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        before do
+          wiki.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for watcher notifications and not watching the wiki nor the page' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for watcher notifications and watching the page' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+          ]
+        end
+
+        before do
+          wiki_page.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :watched,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
+
+      context 'with the user not having registered for watcher notifications and watching the page' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        before do
+          wiki_page.watcher_users << recipient
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for all notifications but lacking permissions' do
+        let(:permissions) { [] }
+
+        it_behaves_like 'creates no notification'
+      end
     end
   end
 end
