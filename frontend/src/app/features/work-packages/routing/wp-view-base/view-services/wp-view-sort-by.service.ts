@@ -26,14 +26,15 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { States } from 'core-app/core/states/states.service';
 import { combine } from 'reactivestates';
 import { mapTo } from 'rxjs/operators';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { States } from 'core-app/core/states/states.service';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
@@ -122,7 +123,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   public switchToManualSorting(query:QueryResource):boolean {
     const { manualSortObject } = this;
     if (manualSortObject && !this.isManualSortingMode) {
-      if (query && query.persisted) {
+      if (query && isPersistedResource(query)) {
         // Save the query if it is persisted
         query.sortBy = [manualSortObject];
         return true;
