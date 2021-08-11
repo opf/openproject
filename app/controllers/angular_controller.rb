@@ -34,6 +34,12 @@ class AngularController < ApplicationController
   def empty_layout
     # Frontend will handle rendering
     # but we will need to render with layout
-    render html: '', layout: 'angular'
+    render html: '', layout: 'angular/angular'
+  end
+
+  def notifications_layout
+    # Frontend will handle rendering
+    # but we will need to render with notification specific layout
+    render html: '', layout: 'angular/notifications'
   end
 end

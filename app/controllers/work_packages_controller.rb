@@ -46,7 +46,9 @@ class WorkPackagesController < ApplicationController
   def show
     respond_to do |format|
       format.html do
-        render :show, locals: { work_package: work_package, menu_name: project_or_wp_query_menu }, layout: 'angular'
+        render :show,
+               locals: { work_package: work_package, menu_name: project_or_wp_query_menu },
+               layout: 'angular/angular'
       end
 
       format.any(*WorkPackage::Exporter.single_formats) do
@@ -66,8 +68,9 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        render :index, locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
-                       layout: 'angular'
+        render :index,
+               locals: { query: @query, project: @project, menu_name: project_or_wp_query_menu },
+               layout: 'angular/angular'
       end
 
       format.any(*WorkPackage::Exporter.list_formats) do

@@ -30,8 +30,6 @@ export class InAppNotificationCenterComponent implements OnInit {
       map((items) => Object.values(items)),
     );
 
-  notificationsCount$ = this.ianQuery.selectCount();
-
   hasNotifications$ = this.ianQuery.hasNotifications$;
 
   hasMoreThanPageSize$ = this.ianQuery.hasMoreThanPageSize$;

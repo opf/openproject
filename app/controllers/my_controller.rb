@@ -84,7 +84,7 @@ class MyController < ApplicationController
   # Configure user's mail notifications
   def notifications
     render html: '',
-           layout: 'angular',
+           layout: 'angular/angular',
            locals: { menu_name: :my_menu }
   end
 

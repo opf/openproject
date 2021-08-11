@@ -34,6 +34,6 @@ class APIDocsController < ApplicationController
   def index
     render_404 unless Setting.apiv3_docs_enabled?
 
-    render layout: 'angular', inline: ''
+    render layout: 'angular/angular', inline: ''
   end
 end

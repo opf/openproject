@@ -115,6 +115,12 @@ Redmine::MenuManager.map :application_menu do |menu|
             last: true
 end
 
+Redmine::MenuManager.map :notifications_menu do |menu|
+  menu.push :work_packages_query_select,
+            { controller: '/work_packages', action: 'index' },
+            partial: 'work_packages/menu_query_select'
+end
+
 Redmine::MenuManager.map :my_menu do |menu|
   menu_push = menu.push :account,
                         { controller: '/my', action: 'account' },
