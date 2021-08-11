@@ -9,7 +9,7 @@ $board-list-max-width: 300px
   flex-direction: column
 
   &:hover
-    .op-board-list--menu
+    &--menu
       visibility: visible
 
   &--action-bar
@@ -61,10 +61,10 @@ $board-list-max-width: 300px
       // it is important that second container is limited in the height, so that it is scrollable.
       grid-template: 34px minmax(0, 1fr) / 1fr
 
-// Make the button sticky so that it does not scroll,
-// Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
-// which takes the scrollbar sometimes into the width calculation and sometimes not.
-// Thus, the button is sometimes wider than the cards, and sometimes not.
+  // Make the button sticky so that it does not scroll,
+  // Unfortunately we cannot let the card container scroll because there seem to be a Chrome bug,
+  // which takes the scrollbar sometimes into the width calculation and sometimes not.
+  // Thus, the button is sometimes wider than the cards, and sometimes not.
   &--button-container
     background-color: var(--body-background)
     position: sticky

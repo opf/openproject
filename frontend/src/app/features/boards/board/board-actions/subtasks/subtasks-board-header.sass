@@ -1,6 +1,9 @@
-// Override line-height for proper
-// display of the h2 + small
+@import 'src/assets/sass/helpers'
+
 .op-subtask-board-header
 
   &--work-package-type
     padding-right: 0.5rem
+  
+  .editable-toolbar-title--fixed
+    @include board-header-editable-toolbar-title

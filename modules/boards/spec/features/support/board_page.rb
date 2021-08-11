@@ -288,12 +288,7 @@ module Pages
     end
 
     def expect_editable_list(editable)
-      # Add list button
-      if action?
-        expect(page).to have_conditional_selector(editable, '[data-qa-selector="op-board-list--card-dropdown-add-button"]')
-      else
-        expect(page).to have_conditional_selector(editable, '[data-qa-selector="op-board-list--card-dropdown-add-button"]')
-      end
+      expect(page).to have_conditional_selector(editable, '[data-qa-selector="op-board-list--card-dropdown-add-button"]')
     end
 
     def rename_board(new_name, through_dropdown: false)
