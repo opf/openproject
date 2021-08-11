@@ -21,7 +21,7 @@
 #++
 hu:
   project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+  permission_show_github_content: "GitHub tartalom mutatása"
   github_integration:
     pull_request_opened_comment: >
       **PR Opened:** Kérés elküldve %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) megnyitva  [%{github_user}] által(%{github_user_url}).

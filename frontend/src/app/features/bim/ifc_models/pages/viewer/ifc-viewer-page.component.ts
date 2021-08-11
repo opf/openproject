@@ -23,6 +23,7 @@ import { StateService, TransitionService } from '@uirouter/core';
 import { BehaviorSubject } from 'rxjs';
 import { BcfImportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component';
 import { BcfExportButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component';
+import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 
@@ -57,6 +58,10 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent {
         stateName$: this.newRoute$,
         allowed: ['work_packages.createWorkPackage', 'work_package.copy'],
       },
+    },
+    {
+      component: RefreshButtonComponent,
+      show: ():boolean => !this.viewerBridgeService.shouldShowViewer,
     },
     {
       component: BcfImportButtonComponent,

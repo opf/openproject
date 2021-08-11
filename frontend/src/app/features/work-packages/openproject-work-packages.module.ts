@@ -415,6 +415,7 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
 
     // Needed so that e.g. IFC can access it.
     WorkPackageCreateButtonComponent,
+    WorkPackageStatusButtonComponent,
     WorkPackageTypeStatusComponent,
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,

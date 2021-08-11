@@ -488,7 +488,7 @@ lt:
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
           task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
           task_board: "Užduočių lenta vizualizuoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
@@ -508,7 +508,7 @@ lt:
     notifications:
       title: "Pranešimai"
       channel: "Kanalas"
-      no_unread: "No unread notifications"
+      no_unread: "Nėra neperskaitytų pranešimų"
       channels:
         in_app: "Programoje"
         mail: "El. paštas"
@@ -528,9 +528,14 @@ lt:
         involved: 'Aš įtrauktas'
         mentioned: 'Aš buvau paminėtas'
         watched: 'Aš stebiu'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
         all: 'Visi įvykiai'
         add: 'Pridėkite projekto nustatymus'
-        already_selected: 'This project is already selected'
+        already_selected: 'Šis projektas jau pasirinktas'
         remove_projects: 'Pašalinti pranešimus projektams'
         title: "Pranešimų nustatymai"
         self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"

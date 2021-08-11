@@ -579,6 +579,15 @@ describe WorkPackages::BaseContract do
       contract.errors.symbols_for(:base)
     end
 
+    context 'when self assigning' do
+      let(:parent) { work_package }
+
+      it 'returns an error for the aparent' do
+        expect(contract.validate).to eq false
+        expect(contract.errors.symbols_for(:parent)).to eq [:cannot_be_self_assigned]
+      end
+    end
+
     context 'a relation exists between the parent and its ancestors and the work package and its descendants' do
       let(:parent) { child }
 

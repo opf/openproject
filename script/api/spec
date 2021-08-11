@@ -3,7 +3,7 @@
 if ARGV.join(" ") =~ /((-h)|(--help))/
   puts "Prints the self-contained OpenAPI 3.0 specification of OpenProject's APIv3"
   puts
-  puts "usage: ./scripts/api/spec [--format JSON|yaml]"
+  puts "usage: ./script/api/spec [--format JSON|yaml]"
   return
 end
 

@@ -44,6 +44,7 @@ declare global {
     ErrorReporter:ErrorReporter;
     onboardingTourInstance:any;
     screenfull:Screenfull;
+    MiniProfiler?:{ pageTransition:() => void };
   }
 
   interface JQuery {

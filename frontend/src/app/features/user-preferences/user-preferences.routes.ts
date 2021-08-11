@@ -32,13 +32,11 @@ import { NotificationsSettingsPageComponent } from 'core-app/features/user-prefe
 export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'my_notifications',
-    parent: 'root',
     url: '/my/notifications',
     component: NotificationsSettingsPageComponent,
   },
   {
     name: 'user_notifications',
-    parent: 'root',
     url: '/users/:userId/edit/notifications',
     component: NotificationsSettingsPageComponent,
   },

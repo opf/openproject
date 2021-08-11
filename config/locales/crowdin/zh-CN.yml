@@ -697,6 +697,7 @@ zh-CN:
               not_start_date: "不是在开始日期开始，尽管这是必需的里程碑。"
             parent:
               cannot_be_milestone: "不能是一个里程碑。"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "不能在另一个项目中。"
               not_a_valid_parent: "是无效的。"
             start_date:
@@ -1429,6 +1430,7 @@ zh-CN:
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
   label_deleted_custom_option: "（删除的选项）"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
@@ -1721,7 +1723,6 @@ zh-CN:
   label_start_to_start: "开始开始"
   label_statistics: "统计数据"
   label_status: "状态"
-  label_status_updated: "工作包状态更新"
   label_stay_logged_in: "保持登录状态"
   label_storage_free_space: "剩余磁盘空间"
   label_storage_used_space: "已使用磁盘空间"
@@ -1805,21 +1806,17 @@ zh-CN:
   label_wiki_show_submenu_item: "显示为子菜单项"
   label_wiki_start: "起始页"
   label_work_package: "工作包"
-  label_work_package_added: "添加工作包"
   label_work_package_attachments: "工作包附件"
   label_work_package_category_new: "新的类别"
   label_work_package_category_plural: "工作包类别"
   label_work_package_hierarchy: "工作包的层次结构"
   label_work_package_new: "新工作包"
-  label_work_package_note_added: "添加工作包注释"
   label_work_package_edit: "编辑工作包 %{name}"
   label_work_package_plural: "工作包"
-  label_work_package_priority_updated: "更新工作包优先级"
   label_work_package_status: "工作包状态"
   label_work_package_status_new: "新状态"
   label_work_package_status_plural: "工作包状态"
   label_work_package_types: "工作包类型"
-  label_work_package_updated: "工作包更新"
   label_work_package_tracking: "工作包跟踪"
   label_work_package_view_all: "查看所有工作包"
   label_workflow: "工作流"
@@ -2382,6 +2379,7 @@ zh-CN:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，也必须设置另一选项以避免前端不一致。

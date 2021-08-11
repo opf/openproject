@@ -91,16 +91,16 @@ hu:
       add_new: 'Új 2FA eszköz hozzáadása'
       register: 'Eszköz regisztrálása'
       confirm_default: 'Confirm changing default device'
-      confirm_device: 'Confirm device'
-      confirm_now: 'Not confirmed, click here to activate'
+      confirm_device: 'Aktiváló eszköz'
+      confirm_now: 'Nem megerősített, kattintson ide az aktiváláshoz'
       cannot_delete_default: 'Az alapértelmezett eszközt nem lehet törölni'
       make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
-      make_default_failed: 'Failed to update the default 2FA device.'
-      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
-      registration_complete: '2FA device registration complete!'
-      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
+      make_default_failed: 'Nem sikerült frissíteni az alap 2FA eszközt'
+      deletion_are_you_sure: 'Biztosan törli ezt a 2FA eszközt?'
+      registration_complete: 'Sikeres 2FA eszköz regisztráció!'
+      registration_failed_token_invalid: 'Sikertelen 2FA eszköz regisztráció, a kulcs érvénytelen.'
       registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
-      confirm_send_failed: 'Confirmation of your 2FA device failed.'
+      confirm_send_failed: 'A 2FA eszköz érvényesítése sikertelen'
       button_complete_registration: '2FA regisztráció befejezése'
       text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
@@ -132,10 +132,10 @@ hu:
         description: |
           Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'SNS kézbesítés sikertelen'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS kézbesítése sikertelen.'
+      voice_delivery_failed: 'MessageBird hívás sikertelen'
     restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
@@ -151,25 +151,25 @@ hu:
         Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Megjegyez'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      clear_cookie: 'Kattintson ide hogy törölje az összes 2FA munkamenetet'
       cookie_removed: 'All remembered 2FA sessions have been removed.'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobiltelefon:"
   field_otp: "Egyszeri jelszó"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
+  notice_account_otp_invalid: "Hibás egyszer-használatos jelszó."
+  notice_account_otp_expired: "Az egyszeri jelszó lejárt"
   notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
+  notice_account_otp_send_failed: "Nem lehetséges kiküldeni az egyszer használatos jelszót"
   notice_account_has_no_phone: "No cell phone number is associated with your account."
   label_expiration_hint: "%{date} or on logout"
   label_actions: 'Műveletek'
   label_confirmed: 'Megerősítve'
   button_continue: 'Folytatás'
-  button_make_default: 'Mark as default'
-  label_unverified_phone: "Cell phone not yet verified"
+  button_make_default: 'Megjelölés alapértelmezettként'
+  label_unverified_phone: "A mobiltelefon nem lett hitelesítve"
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
+  text_otp_not_receive: "Másik hitelesítési módszer használata"
+  text_send_otp_again: "Egyszeri jelszó újra küldése: "
   button_resend_otp_form: "Újraküldés"
   button_otp_by_voice: "Hanghívás"
   button_otp_by_sms: "SMS"

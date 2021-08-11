@@ -1,6 +1,6 @@
 <td
     *ngIf="first"
-    rowspan="3"
+    [attr.rowspan]="count"
 >
   <span
       *ngIf="setting._links.project.href; else defaultTitle"
@@ -44,6 +44,56 @@
 </td>
 <td>
   <input
+    type="checkbox"
+    [checked]="setting.workPackageCreated || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageCreated: $event.target.checked })"
+    data-qa-notification-type="work_package_created"
+    [attr.aria-label]="text.work_package_created_header"
+  />
+</td>
+<td>
+  <input
+    type="checkbox"
+    [checked]="setting.workPackageCommented || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageCommented: $event.target.checked })"
+    data-qa-notification-type="work_package_commented"
+    [attr.aria-label]="text.work_package_commented_header"
+  />
+</td>
+<td>
+  <input
+    type="checkbox"
+    [checked]="setting.workPackageProcessed || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageProcessed: $event.target.checked })"
+    data-qa-notification-type="work_package_processed"
+    [attr.aria-label]="text.work_package_processed_header"
+  />
+</td>
+<td>
+  <input
+    type="checkbox"
+    [checked]="setting.workPackagePrioritized || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackagePrioritized: $event.target.checked })"
+    data-qa-notification-type="work_package_prioritized"
+    [attr.aria-label]="text.work_package_prioritized_header"
+  />
+</td>
+<td>
+  <input
+    type="checkbox"
+    [checked]="setting.workPackageScheduled || setting.all"
+    [disabled]="setting.all"
+    (change)="update({ workPackageScheduled: $event.target.checked })"
+    data-qa-notification-type="work_package_scheduled"
+    [attr.aria-label]="text.work_package_scheduled_header"
+  />
+</td>
+<td>
+  <input
       type="checkbox"
       [checked]="setting.all"
       (change)="update({ all: $event.target.checked })"
@@ -53,7 +103,7 @@
 </td>
 <td
     *ngIf="first"
-    rowspan="3"
+    [attr.rowspan]="count"
     class="buttons"
 >
   <button

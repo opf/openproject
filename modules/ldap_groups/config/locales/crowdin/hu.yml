@@ -26,16 +26,16 @@ hu:
       name_attribute: 'LDAP csoport érték'
       name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
+      add_new: 'Szinkronizált LDAP szűrő hozzáadása'
       singular: 'LDAP csoport szinkronizálása'
-      plural: 'LDAP Group synchronization filters'
+      plural: 'LDAP csoport szinkronizációs szűrő'
       label_n_groups_found:
         one: "1 group found by the filter"
         other: "%{count} groups found by the filter"
         zero: "No groups were found by the filter"
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
+        title: 'Szinkronizált szűrő eltávolítása %{name}'
+        confirmation: "Az összes szinkronizált szűrő%{name} és az összes csoport %{groups_count} amit létrehozott törölve lesz, ha folytatja."
         removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
         verification: "Enter the filter name %{name} to verify the deletion."
       form:
@@ -47,8 +47,8 @@ hu:
     synchronized_groups:
       add_new: 'Szinkronizált LDAP csoport hozzáadása'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
+        title: 'Szinkronizált csoport %{name} visszavonása'
+        confirmation: "Az összes szinkronizált csoport%{name} és az összes %{users_count} amit létrehozott törölve lesz, ha folytatja."
         info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
         verification: "Adja meg a csoport nevét %{name} a törlés megerősítéséhez."
       help_text_html: |

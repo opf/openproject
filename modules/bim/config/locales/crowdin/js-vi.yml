@@ -12,6 +12,8 @@ vi:
       show_viewpoint: 'Hiện góc nhìn'
       delete_viewpoint: 'Xóa góc nhìn'
       management: 'BCF management'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Dự án này chưa có mô hình IFC nào."
       use_this_link_to_manage: "Dùng link này để tải lên và quản lý mô hình IFC"

@@ -214,7 +214,7 @@ hu:
           status_label: "Állapot:"
           status_confirmed: "megerősítve"
           status_waiting: "email kiküldve - megerősítésre vár"
-          test_ee: "Test the Enterprise Edition 14 days for free"
+          test_ee: "Tesztelje az Enterprise Verziót 14 napig ingyen"
           quick_overview: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
         upsale:
           become_hero: "Legyél egy hős!"
@@ -280,7 +280,7 @@ hu:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "Itt találhatóak az új funkciók és a frissítések"
           learn_about: "Tudjon meg többet az új funkciókról"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
@@ -461,7 +461,7 @@ hu:
     label_add_description: "Adjon meg leírást a %{file} fájlhoz"
     label_upload_notification: "Fájl feltöltése folyamatban"
     label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
-    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_wp_id_added_by: "%{id} hozzáadva %{author} által"
     label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
     label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
     label_rejected_files_reason: "Ezeket a fájlokat nem lehet feltölteni, mert a méretük nagyobb, mint %{maximumFilesize}"
@@ -481,12 +481,12 @@ hu:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
         project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
+        sidebar_arrow: "Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>.."
         welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
+          overview: "Munka kezelése a <b>backlogs</b>  nézetben"
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
           task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
@@ -523,12 +523,17 @@ hu:
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Default for all projects'
-        involved: 'I am involved'
-        mentioned: 'I was mentioned'
+        default_all_projects: 'Alapértelmezett az összes projektnél'
+        involved: 'Részt veszek'
+        mentioned: 'Megemlítettek'
         watched: 'I am watching'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
         all: 'Minden esemény'
-        add: 'Add setting for project'
+        add: 'Beállítás hozzáadása a projekthez'
         already_selected: 'A projekt már ki lett választva'
         remove_projects: 'Értesítések kikapcsolása a projektekhez'
         title: "Értesítési beállítások"
@@ -564,7 +569,7 @@ hu:
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
-        error_no_table_configured: "Please configure a table for %{group}."
+        error_no_table_configured: "Kérem konfigurálja a táblát a %{group}"
         reset_title: "Űrlap konfiguráció visszaállítása"
         confirm_reset: >
           Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást? Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások elvesznek és MINDEN egyéni mező deaktiválódik.
