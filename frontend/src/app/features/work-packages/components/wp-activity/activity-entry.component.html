@@ -1,4 +1,7 @@
-<div id="activity-{{ activityNo }}">
+<div
+  id="activity-{{ activityNo }}"
+  [attr.data-qa-activity-number]="activityNo"
+>
   <div [ngSwitch]="activityType">
     <revision-activity
       *ngSwitchCase="'Revision'"

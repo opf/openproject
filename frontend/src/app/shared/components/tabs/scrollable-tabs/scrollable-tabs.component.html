@@ -39,6 +39,7 @@
           <op-tab-count
             *ngIf="tab.counter && tab.showCountAsBubble"
             [counter]="tab.counter"
+            [attr.data-qa-selector]="'tab-counter-' + tab.name"
           ></op-tab-count>
           <span *ngIf="tab.counter && !tab.showCountAsBubble"> ({{ tab.counter | async }})</span>
         </a>
