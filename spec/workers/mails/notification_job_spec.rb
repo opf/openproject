@@ -42,7 +42,13 @@ describe Mails::NotificationJob, type: :model do
   let(:instance) { described_class.new }
 
   context 'with a work package journal notification' do
-    let(:journal) { FactoryBot.build_stubbed(:work_package_journal) }
+    let(:journal) do
+      FactoryBot.build_stubbed(:work_package_journal).tap do |j|
+        allow(j)
+          .to receive(:initial?)
+                .and_return(journal_initial)
+      end
+    end
     let(:read_ian) { false }
     let(:notification) do
       FactoryBot.build_stubbed(:notification,
@@ -51,19 +57,60 @@ describe Mails::NotificationJob, type: :model do
                                actor: actor,
                                read_ian: read_ian)
     end
+    let(:journal_initial) { false }
 
-    before do
-      allow(Mails::WorkPackageJob)
-        .to receive(:perform_now)
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(UserMailer)
+        .to receive(:work_package_added)
+              .and_return(mail)
+
+      allow(UserMailer)
+        .to receive(:work_package_updated)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_now)
+
+      mail
     end
 
-    context 'with the notification not read in app already' do
+    before do
+      mail
+    end
+
+    context 'with the notification being for an initial journal' do
+      let(:journal_initial) { true }
+
       it 'sends a mail' do
         job
 
-        expect(Mails::WorkPackageJob)
-          .to have_received(:perform_now)
-                .with(notification.journal, notification.recipient_id, notification.actor_id)
+        expect(UserMailer)
+          .to have_received(:work_package_added)
+                .with(recipient,
+                      journal,
+                      journal.user)
+
+        expect(mail)
+          .to have_received(:deliver_now)
+      end
+    end
+
+    context 'with the notification being for an update journal' do
+      let(:journal_initial) { false }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .to have_received(:work_package_updated)
+                .with(recipient,
+                      journal,
+                      journal.user)
+
+        expect(mail)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -73,8 +120,124 @@ describe Mails::NotificationJob, type: :model do
       it 'sends no mail' do
         job
 
-        expect(Mails::WorkPackageJob)
-          .not_to have_received(:perform_now)
+        expect(UserMailer)
+          .not_to have_received(:work_package_added)
+        expect(UserMailer)
+          .not_to have_received(:work_package_updated)
+      end
+    end
+  end
+
+  context 'with a wiki_content journal notification' do
+    let(:journal) do
+      FactoryBot.build_stubbed(:wiki_content_journal,
+                               journable: FactoryBot.build_stubbed(:wiki_content)).tap do |j|
+        allow(j)
+          .to receive(:initial?)
+                .and_return(journal_initial)
+      end
+    end
+    let(:read_ian) { false }
+    let(:notification) do
+      FactoryBot.build_stubbed(:notification,
+                               journal: journal,
+                               recipient: recipient,
+                               actor: actor,
+                               read_ian: read_ian)
+    end
+    let(:notification_setting) { %w(wiki_content_added wiki_content_updated) }
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(UserMailer)
+        .to receive(:wiki_content_added)
+              .and_return(mail)
+
+      allow(UserMailer)
+        .to receive(:wiki_content_updated)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_now)
+
+      mail
+    end
+    let(:journal_initial) { false }
+
+    before do
+      mail
+
+      allow(Setting).to receive(:notified_events).and_return(notification_setting)
+    end
+
+    context 'with the notification being for an initial journal' do
+      let(:journal_initial) { true }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .to have_received(:wiki_content_added)
+                .with(recipient,
+                      journal.journable,
+                      journal.user)
+
+        expect(mail)
+          .to have_received(:deliver_now)
+      end
+    end
+
+    context 'with the notification being for an initial journal but the event is disabled' do
+      let(:journal_initial) { true }
+      let(:notification_setting) { %w(wiki_content_updated) }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .not_to have_received(:wiki_content_added)
+      end
+    end
+
+    context 'with the notification being for an update journal' do
+      let(:journal_initial) { false }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .to have_received(:wiki_content_updated)
+                .with(recipient,
+                      journal.journable,
+                      journal.user)
+
+        expect(mail)
+          .to have_received(:deliver_now)
+      end
+    end
+
+    context 'with the notification being for an update journal but the event is disabled' do
+      let(:journal_initial) { false }
+      let(:notification_setting) { %w(wiki_content_added) }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .not_to have_received(:wiki_content_updated)
+      end
+    end
+
+    context 'with the notification read in app already' do
+      let(:read_ian) { true }
+
+      it 'sends no mail' do
+        job
+
+        expect(UserMailer)
+          .not_to have_received(:wiki_content_added)
+        expect(UserMailer)
+          .not_to have_received(:wiki_content_updated)
       end
     end
   end

@@ -52,8 +52,7 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAG
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  # TODO: check if this can be aligned with the Notifications::ScheduleJournalMailsService
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
+  Notifications::ScheduleJournalMailsService.call(payload[:journal])
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|

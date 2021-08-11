@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,31 +26,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::WorkPackageJob < Mails::DeliverJob
-  include Mails::WithSender
+module Mails::NotificationJob::WikiContentStrategy
+  class << self
+    def send_mail(notification)
+      method = mailer_method(notification)
 
-  def perform(journal_id, recipient_id, author_id)
-    @journal_id = journal_id
-    super(recipient_id, author_id)
-  end
+      return if notification_disabled?(method.to_s)
 
-  def render_mail
-    return nil unless journal # abort, assuming that the underlying WP was deleted
-
-    if journal.initial?
-      UserMailer.work_package_added(recipient, journal, sender)
-    else
-      UserMailer.work_package_updated(recipient, journal, sender)
+      UserMailer
+        .send(method,
+              notification.recipient,
+              notification.journal.journable,
+              notification.journal.user || DeletedUser.first)
+        .deliver_now
     end
-  end
 
-  private
+    private
 
-  def journal
-    @journal ||= Journal.find_by(id: @journal_id)
-  end
+    def mailer_method(notification)
+      if notification.journal.initial?
+        :wiki_content_added
+      else
+        :wiki_content_updated
+      end
+    end
 
-  def work_package
-    @work_package ||= journal.journable
+    def notification_disabled?(name)
+      Setting.notified_events.exclude?(name)
+    end
   end
 end

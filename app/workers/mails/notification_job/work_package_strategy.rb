@@ -26,47 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::NotificationJob < ApplicationJob
-  queue_with_priority :notification
+module Mails::NotificationJob::WorkPackageStrategy
+  class << self
+    def send_mail(notification)
+      journal = notification.journal
 
-  def perform(notification)
-    @notification = notification
-
-    ensure_supported
-
-    return if ian_read?
-
-    strategy.send_mail(notification)
-  end
-
-  private
-
-  attr_accessor :notification
-
-  def ensure_supported
-    unless notification.journal
-      raise ArgumentError, "The notification is lacking an associated journal"
+      UserMailer
+        .send(mailer_method(notification),
+              notification.recipient,
+              journal,
+              notification.journal.user || DeletedUser.first)
+        .deliver_now
     end
-    unless supported?
-      raise ArgumentError, "Sending mails for notifications is not supported for #{journal.journable_type}"
+
+    private
+
+    def mailer_method(notification)
+      notification.journal.initial? ? :work_package_added : :work_package_updated
     end
-  end
-
-  def ian_read?
-    notification.read_ian
-  end
-
-  def strategy
-    @strategy ||= if self.class.const_defined?("#{journal.journable_type}Strategy")
-                    "#{self.class}::#{journal.journable_type}Strategy".constantize
-                  end
-  end
-
-  def journal
-    notification.journal
-  end
-
-  def supported?
-    strategy.present?
   end
 end
