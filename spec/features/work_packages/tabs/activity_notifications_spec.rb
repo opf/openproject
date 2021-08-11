@@ -10,18 +10,12 @@ describe 'Activity tab notifications', js: true, selenium: true do
                                      project: project,
                                      created_at: 5.days.ago.to_date.to_s(:db))
 
-    work_package.update({
-      journal_notes: 'First comment on this wp.', 
-      updated_at: 5.days.ago.to_date.to_s
-    })
-    work_package.update({
-      journal_notes: 'Second comment on this wp.', 
-      updated_at: 4.days.ago.to_date.to_s
-    })
-    work_package.update({
-      journal_notes: 'Third comment on this wp.', 
-      updated_at: 3.days.ago.to_date.to_s
-    })
+    work_package.update({ journal_notes: 'First comment on this wp.',
+                          updated_at: 5.days.ago.to_date.to_s })
+    work_package.update({ journal_notes: 'Second comment on this wp.',
+                          updated_at: 4.days.ago.to_date.to_s })
+    work_package.update({ journal_notes: 'Third comment on this wp.',
+                          updated_at: 3.days.ago.to_date.to_s })
 
     work_package
   end
@@ -33,7 +27,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
     full_view.visit!
   end
 
-  context 'has notifications for the work package' do
+  context 'when there are notifications for the work package' do
     shared_let(:notification) do
       FactoryBot.create :notification,
                         recipient: admin,
@@ -52,7 +46,7 @@ describe 'Activity tab notifications', js: true, selenium: true do
     end
   end
 
-  context 'does not have notifications for the work package' do
+  context 'when there are no notifications for the work package' do
     it 'Shows no notification bubble' do
       expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"]')
     end
