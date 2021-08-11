@@ -44,7 +44,7 @@ dirs.each_with_index do |dir, index|
         <strong><%= h(dir) %></strong>
       <% else %>
         <%= link_to h(dir), action: 'show', project_id: @project,
-                            path: to_path_param(link_path), rev: @rev %>
+                            repo_path: to_path_param(link_path), rev: @rev %>
       <% end %>
 <% end %>
 <%
