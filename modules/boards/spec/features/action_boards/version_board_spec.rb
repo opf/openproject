@@ -248,18 +248,18 @@ describe 'Version action board', type: :feature, js: true do
       end
 
       board_page.expect_list 'Closed version'
-      expect(page).to have_selector('.version-board-header.-closed')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).to have_no_selector('.version-board-header.-closed')
+      expect(page).to have_no_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
 
       # Can lock that version
       board_page.click_list_dropdown 'Closed version', 'Lock version'
-      expect(page).to have_selector('.version-board-header.-locked')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-locked')
 
       closed_version.reload
       expect(closed_version.status).to eq 'locked'
