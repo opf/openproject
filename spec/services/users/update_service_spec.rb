@@ -53,7 +53,7 @@ describe Users::UpdateService do
         update_user.reload
         expect(update_user.mail).to eq('correct@example.org')
 
-        expect(subject.errors.symbols_for(:mail)).to match_array(%i[invalid])
+        expect(subject.errors.symbols_for(:mail)).to match_array(%i[email])
       end
     end
 

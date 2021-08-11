@@ -18,16 +18,31 @@ describe "Digest email", type: :feature, js: true do
                                          involved: false,
                                          watched: false,
                                          mentioned: false,
+                                         work_package_commented: false,
+                                         work_package_created: false,
+                                         work_package_processed: false,
+                                         work_package_prioritized: false,
+                                         work_package_scheduled: false,
                                          all: false),
                         FactoryBot.build(:in_app_notification_setting,
                                          involved: false,
                                          watched: false,
                                          mentioned: false,
+                                         work_package_commented: false,
+                                         work_package_created: false,
+                                         work_package_processed: false,
+                                         work_package_prioritized: false,
+                                         work_package_scheduled: false,
                                          all: false),
                         FactoryBot.build(:mail_digest_notification_setting,
                                          involved: true,
                                          watched: true,
                                          mentioned: true,
+                                         work_package_commented: true,
+                                         work_package_created: true,
+                                         work_package_processed: true,
+                                         work_package_prioritized: true,
+                                         work_package_scheduled: true,
                                          all: false)
                       ]
   end
@@ -49,6 +64,11 @@ describe "Digest email", type: :feature, js: true do
                                               involved: true,
                                               mentioned: true,
                                               watched: true,
+                                              work_package_commented: true,
+                                              work_package_created: true,
+                                              work_package_processed: true,
+                                              work_package_prioritized: true,
+                                              work_package_scheduled: true,
                                               all: false
 
     notification_settings_page.configure_channel :mail_digest,
@@ -56,6 +76,11 @@ describe "Digest email", type: :feature, js: true do
                                                  involved: false,
                                                  mentioned: true,
                                                  watched: true,
+                                                 work_package_commented: false,
+                                                 work_package_created: false,
+                                                 work_package_processed: false,
+                                                 work_package_prioritized: false,
+                                                 work_package_scheduled: false,
                                                  all: false
 
     notification_settings_page.add_row(mute_project)
@@ -65,6 +90,11 @@ describe "Digest email", type: :feature, js: true do
                                                  involved: false,
                                                  mentioned: false,
                                                  watched: false,
+                                                 work_package_commented: false,
+                                                 work_package_created: false,
+                                                 work_package_processed: false,
+                                                 work_package_prioritized: false,
+                                                 work_package_scheduled: false,
                                                  all: false
 
     notification_settings_page.save
@@ -99,7 +129,7 @@ describe "Digest email", type: :feature, js: true do
     perform_enqueued_jobs
 
     expect(ActionMailer::Base.deliveries.length)
-      .to eql 1
+      .to be 1
 
     expect(ActionMailer::Base.deliveries.first.subject)
       .to eql I18n.t(:'mail.digests.work_packages.subject',

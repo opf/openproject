@@ -36,6 +36,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -548,7 +549,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
   }
 
   private workPackageName(entry:TimeEntryResource) {
-    return `#${entry.workPackage.idFromLink}: ${entry.workPackage.name}`;
+    return `#${idFromLink(entry.workPackage.href)}: ${entry.workPackage.name}`;
   }
 
   private tooltipContentString(entry:TimeEntryResource) {

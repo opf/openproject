@@ -487,7 +487,7 @@ de:
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog or a bug backlog, on the left you will have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag and drop and add them to a sprint."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
@@ -527,6 +527,11 @@ de:
         involved: 'Ich bin beteiligt'
         mentioned: 'Ich wurde erwähnt'
         watched: 'Ich beobachte'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
         all: 'Alle Ereignisse'
         add: 'Einstellung für Projekt hinzufügen'
         already_selected: 'Dieses Projekt ist bereits ausgewählt'

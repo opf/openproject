@@ -542,6 +542,7 @@ hr:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "ne može biti prazan unos."
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
@@ -702,6 +703,7 @@ hr:
               not_start_date: "nije na datum početka, međutim potrebno je za ključne točke."
             parent:
               cannot_be_milestone: "ne može biti ključna točka."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "ne može biti u još jednom projektu."
               not_a_valid_parent: "je nevažeće."
             start_date:
@@ -1329,6 +1331,7 @@ hr:
         expiration: "Vrijedi do"
       indefinite_expiration: "Nikad"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1465,6 +1468,7 @@ hr:
   label_deleted: "izbrisano"
   label_deleted_custom_field: "(izbrisano prilagođeno polje)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Silazno"
   label_details: "Pojedinosti"
   label_development_roadmap: "Razvojni plan"
@@ -1638,7 +1642,6 @@ hr:
   label_none_parentheses: "(nijedan)"
   label_not_contains: "ne sadrži"
   label_not_equals: "nije"
-  label_notify_member_plural: "Email ažuriranja"
   label_on: "na"
   label_open_menu: "Otvori izbornik"
   label_open_work_packages: "otvori"
@@ -1758,7 +1761,6 @@ hr:
   label_start_to_start: "s početka na početak"
   label_statistics: "Statistika"
   label_status: "Status"
-  label_status_updated: "Status radnog paketa je ažuriran"
   label_stay_logged_in: "Ostani prijavljen"
   label_storage_free_space: "Dostupna veličina prostora na disku"
   label_storage_used_space: "Iskorišteni prostor na disku"
@@ -1842,21 +1844,17 @@ hr:
   label_wiki_show_submenu_item: "Prikaži kao stavku podizbornika iz "
   label_wiki_start: "Početna stranica"
   label_work_package: "Radni paket"
-  label_work_package_added: "Radni paket dodan"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova kategorija"
   label_work_package_category_plural: "Kategorije radnih paketa"
   label_work_package_hierarchy: "Hijerarhija radnih paketa"
   label_work_package_new: "Novi radni paket"
-  label_work_package_note_added: "Bilješka za Radni paket je dodana"
   label_work_package_edit: "Uredi radni paket %{name}"
   label_work_package_plural: "Radni paketi"
-  label_work_package_priority_updated: "Prioritet Radnog paketa je ažuriran"
   label_work_package_status: "Status Radnog paketa"
   label_work_package_status_new: "Novi status"
   label_work_package_status_plural: "Statusi radnog paketa"
   label_work_package_types: "Tip ranog paketa"
-  label_work_package_updated: "Radni paket je ažuriran"
   label_work_package_tracking: "Praćenje radnog paketa"
   label_work_package_view_all: "Pogledaj sve radne pakete"
   label_workflow: "Tijek rada"
@@ -2296,7 +2294,7 @@ hr:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
-  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
@@ -2425,6 +2423,7 @@ hr:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2506,8 +2505,8 @@ hr:
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label}%{value} dodana"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} promijenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"

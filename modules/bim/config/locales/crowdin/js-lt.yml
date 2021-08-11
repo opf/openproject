@@ -12,6 +12,8 @@ lt:
       show_viewpoint: 'Parodyti požiūrio tašką'
       delete_viewpoint: 'Pašalinti požiūrio tašką'
       management: 'BCF valdymas'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Šis projektas kol kas neturi jokių IFC modelių."
       use_this_link_to_manage: "Naudokite šią nuorodą IFC modelių įkėlimui ir valdymui"

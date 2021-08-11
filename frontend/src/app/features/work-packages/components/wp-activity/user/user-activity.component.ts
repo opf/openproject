@@ -47,6 +47,7 @@ import { CommentService } from 'core-app/features/work-packages/components/wp-ac
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'user-activity',
@@ -132,7 +133,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this
       .apiV3Service
       .users
-      .id(this.activity.user.idFromLink)
+      .id(idFromLink(this.activity.user.href))
       .get()
       .subscribe((user:UserResource) => {
         this.user = user;

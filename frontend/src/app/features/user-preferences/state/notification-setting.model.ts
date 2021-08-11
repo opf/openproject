@@ -8,6 +8,11 @@ export interface NotificationSetting {
   watched:boolean;
   involved:boolean;
   mentioned:boolean;
+  workPackageCommented:boolean;
+  workPackageCreated:boolean;
+  workPackageProcessed:boolean;
+  workPackagePrioritized:boolean;
+  workPackageScheduled:boolean;
   all:boolean;
 }
 
@@ -22,6 +27,11 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     involved: true,
     mentioned: true,
     watched: true,
+    workPackageCommented: true,
+    workPackageCreated: true,
+    workPackageProcessed: true,
+    workPackagePrioritized: true,
+    workPackageScheduled: true,
     all: false,
     channel: 'in_app',
     ...params,

@@ -193,7 +193,8 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
-        redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)))
+        redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
+                                              query_props: '{"t":"id:desc"}')
       end
 
       def find_all_ifc_models

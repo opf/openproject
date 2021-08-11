@@ -539,6 +539,7 @@ ko:
         error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
+        email: "is not a valid email address."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
@@ -699,6 +700,7 @@ ko:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "다른 프로젝트에 포함될 수 없음"
               not_a_valid_parent: "은(는) 올바르지 않은 값입니다"
             start_date:
@@ -1294,6 +1296,7 @@ ko:
         expiration: "만료"
       indefinite_expiration: "사용 안 함"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1430,6 +1433,7 @@ ko:
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "내림차순"
   label_details: "세부 정보"
   label_development_roadmap: "개발 로드맵"
@@ -1603,7 +1607,6 @@ ko:
   label_none_parentheses: "(없음)"
   label_not_contains: "포함하지 않음"
   label_not_equals: "일치하지 않음"
-  label_notify_member_plural: "이메일 업데이트"
   label_on: "에"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
@@ -1723,7 +1726,6 @@ ko:
   label_start_to_start: "시작 - 시작"
   label_statistics: "통계"
   label_status: "상태"
-  label_status_updated: "작업 패키지 상태 업데이트됨"
   label_stay_logged_in: "로그인 상태 유지"
   label_storage_free_space: "남은 디스크 공간"
   label_storage_used_space: "사용 중 디스크 공간"
@@ -1807,21 +1809,17 @@ ko:
   label_wiki_show_submenu_item: "다음의 하위 메뉴 항목으로 표시: "
   label_wiki_start: "시작 페이지"
   label_work_package: "작업 패키지"
-  label_work_package_added: "작업 패키지 추가됨"
   label_work_package_attachments: "작업 패키지 첨부 파일"
   label_work_package_category_new: "새 카테고리"
   label_work_package_category_plural: "작업 패키지 카테고리"
   label_work_package_hierarchy: "작업 패키지 계층 구조"
   label_work_package_new: "새 작업 패키지"
-  label_work_package_note_added: "작업 패키지 메모 추가됨"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_package_priority_updated: "작업 패키지 우선 순위 업데이트됨"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
   label_work_package_types: "작업 패키지 유형"
-  label_work_package_updated: "작업 패키지 업데이트됨"
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
@@ -2386,6 +2384,7 @@ ko:
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
       delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
@@ -2467,8 +2466,8 @@ ko:
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
   text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
-  text_journal_changed: "%{label}이(가) %{old}에서 <br/>%{new}<strong>(으)로</strong> 변경되었습니다."
-  text_journal_changed_plain: "%{label}이(가) %{old}에서 \n%{new}(으)로 변경되었습니다."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"

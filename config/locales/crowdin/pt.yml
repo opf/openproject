@@ -539,6 +539,7 @@ pt:
         error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
+        email: "não é um endereço de e-mail válido."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -699,6 +700,7 @@ pt:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             parent:
               cannot_be_milestone: "não pode ser um marco."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "não pode ser em outro projeto."
               not_a_valid_parent: "é inválido."
             start_date:
@@ -1310,9 +1312,10 @@ pt:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
+    send_notifications: "Enviando notificações para está ação "
     work_packages:
       subject:
-        created: "The work package was created."
+        created: "O pacote de trabalho foi criado."
         assigned: "Você foi designado para %{work_package}"
         subscribed: "Você se inscreveu em %{work_package}"
         mentioned: "Você foi mencionado em %{work_package}"
@@ -1446,6 +1449,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"
@@ -1619,7 +1623,6 @@ pt:
   label_none_parentheses: "(nenhum)"
   label_not_contains: "não contém"
   label_not_equals: "não é"
-  label_notify_member_plural: "Emails atualizados"
   label_on: "ligado"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
@@ -1739,7 +1742,6 @@ pt:
   label_start_to_start: "início à início"
   label_statistics: "Estatísticas"
   label_status: "Status"
-  label_status_updated: "Situação de pacote de trabalho atualizada"
   label_stay_logged_in: "Permanecer conectado"
   label_storage_free_space: "Espaço em disco restante"
   label_storage_used_space: "Espaço em disco utilizado"
@@ -1823,21 +1825,17 @@ pt:
   label_wiki_show_submenu_item: "Mostrar como item do submenu de "
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
-  label_work_package_added: "Pacote de trabalho adicionado"
   label_work_package_attachments: "Anexos de pacote de trabalho"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"
   label_work_package_new: "Novo pacote de trabalho"
-  label_work_package_note_added: "Anotação acrescentada ao pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
-  label_work_package_priority_updated: "Prioridade do pacote de trabalho atualizada"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
   label_work_package_types: "Tipos de pacote de trabalho"
-  label_work_package_updated: "Pacote de trabalho atualizado"
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
@@ -2404,6 +2402,7 @@ pt:
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
       delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
       email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2485,8 +2484,8 @@ pt:
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
   text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
-  text_journal_changed: "%{label} alterado de %{old} <br/><strong>para</strong> %{new}"
-  text_journal_changed_plain: "%{label} alterado de %{old} \npara %{new}"
+  text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
+  text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "

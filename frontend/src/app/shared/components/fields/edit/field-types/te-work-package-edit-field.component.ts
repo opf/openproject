@@ -29,6 +29,7 @@
 import { Component } from '@angular/core';
 import { WorkPackageEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/work-package-edit-field.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
@@ -92,7 +93,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
         .then((collection) => {
           this.recentWorkPackageIds = collection
             .elements
-            .map((timeEntry) => timeEntry.workPackage.idFromLink)
+            .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
             .filter((v, i, a) => a.indexOf(v) === i);
 
           return this.fetchAllowedValueQuery(query);

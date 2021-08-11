@@ -536,6 +536,7 @@ ja:
         error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
+        email: "is not a valid email address."
         empty: "は空にすることができません。"
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"
@@ -696,6 +697,7 @@ ja:
               not_start_date: "は開始日になっていません。これはマイルストーンの場倍、必要である。"
             parent:
               cannot_be_milestone: "はマイルストーンにすることはできません。"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "は別のプロジェクトに属することはできません。"
               not_a_valid_parent: "は不正な値です。"
             start_date:
@@ -1291,6 +1293,7 @@ ja:
         expiration: "有効期限"
       indefinite_expiration: "なし"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1427,6 +1430,7 @@ ja:
   label_deleted: "削除された"
   label_deleted_custom_field: "（削除されたカスタムフィールド）"
   label_deleted_custom_option: "(削除されたオプション)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降順"
   label_details: "詳細"
   label_development_roadmap: "開発ロードマップ"
@@ -1600,7 +1604,6 @@ ja:
   label_none_parentheses: "(なし)"
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
-  label_notify_member_plural: "電子メールで更新の通知"
   label_on: "オン"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
@@ -1720,7 +1723,6 @@ ja:
   label_start_to_start: "最初～最初"
   label_statistics: "統計情報"
   label_status: "ステータス"
-  label_status_updated: "ステータスの更新"
   label_stay_logged_in: "ログインを維持"
   label_storage_free_space: "残りのディスク容量"
   label_storage_used_space: "使用ディスク容量"
@@ -1804,21 +1806,17 @@ ja:
   label_wiki_show_submenu_item: "上位のメニュー項目"
   label_wiki_start: "開始ページ"
   label_work_package: "ワーク パッケージ"
-  label_work_package_added: "ワークパッケージが追加されました"
   label_work_package_attachments: "ワークパッケージの添付ファイル"
   label_work_package_category_new: "新規カテゴリ"
   label_work_package_category_plural: "ワークパッケージのカテゴリ"
   label_work_package_hierarchy: "ワークパッケージの階層"
   label_work_package_new: "新しいワークパッケージ"
-  label_work_package_note_added: "仕事項目の注記が追加されました。"
   label_work_package_edit: "ワークパッケージ %{name} を編集"
   label_work_package_plural: "ワークパッケージ"
-  label_work_package_priority_updated: "ワークパッケージの優先度が更新されました"
   label_work_package_status: "ステータス名"
   label_work_package_status_new: "新規ステータス"
   label_work_package_status_plural: "ステータスの種類"
   label_work_package_types: "ワークパッケージの種類"
-  label_work_package_updated: "ワークパッケージが更新されました"
   label_work_package_tracking: "ワークパッケージの追跡"
   label_work_package_view_all: "全てのワークパッケージを表示"
   label_workflow: "ワークフロー"
@@ -2385,6 +2383,7 @@ ja:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
@@ -2466,8 +2465,8 @@ ja:
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} は %{old} <br/><strong>から</strong> %{new}　に変更されました"
-  text_journal_changed_plain: "%{label} は %{old} \nから %{new} に変更されました"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"

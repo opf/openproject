@@ -1,20 +1,36 @@
 import {
-  EventEmitter, ChangeDetectionStrategy, Component, Input, OnInit, Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 import {
   InAppNotification,
   InAppNotificationDetail,
 } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Observable, timer } from 'rxjs';
+import {
+  Observable,
+  timer,
+} from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+} from 'rxjs/operators';
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { take } from 'rxjs/internal/operators/take';
+import { StateService } from '@uirouter/angular';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -25,9 +41,13 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;
 
+  @Input() aggregatedNotifications:InAppNotification[];
+
   @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
+
+  loading$ = this.ianQuery.selectLoading();
 
   // Formattable body, if any
   body:InAppNotificationDetail[];
@@ -39,10 +59,10 @@ export class InAppNotificationEntryComponent implements OnInit {
   unexpandable = false;
 
   // The actor, if any
-  actor?:PrincipalLike;
+  actors:PrincipalLike[] = [];
 
   // The translated reason, if available
-  translatedReason?:string;
+  translatedReasons:{ [reason:string]:number };
 
   // Format relative elapsed time (n seconds/minutes/hours ago)
   // at an interval for auto updating
@@ -60,15 +80,17 @@ export class InAppNotificationEntryComponent implements OnInit {
   constructor(
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
-    readonly inAppNotificationsService:InAppNotificationsService,
+    readonly ianService:InAppNotificationsService,
+    readonly ianQuery:InAppNotificationsQuery,
     readonly timezoneService:TimezoneService,
     readonly pathHelper:PathHelperService,
+    readonly state:StateService,
   ) {
   }
 
   ngOnInit():void {
     this.buildTranslatedReason();
-    this.buildActor();
+    this.buildActors();
     this.buildDetails();
     this.buildTime();
     this.buildProject();
@@ -104,41 +126,76 @@ export class InAppNotificationEntryComponent implements OnInit {
       );
   }
 
-  toggleDetails():void {
-    if (this.unexpandable) {
+  showDetails():void {
+    if (this.unexpandable || !this.workPackage$) {
       return;
     }
 
     if (!this.notification.readIAN) {
-      this.inAppNotificationsService.markReadKeepAndExpanded(this.notification);
+      this.ianService.markAsRead(this.aggregatedNotifications, true);
     }
-    if (this.notification.expanded) {
-      this.inAppNotificationsService.collapse(this.notification);
-    } else {
-      this.inAppNotificationsService.expand(this.notification);
-    }
+
+    this
+      .workPackage$
+      .pipe(
+        take(1),
+      )
+      .subscribe((wp) => {
+        void this.state.go(
+          `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
+          { workPackageId: wp.id, tabIdentifier: 'activity' },
+        );
+      });
   }
 
-  private buildActor() {
-    const { actor } = this.notification._links;
+  projectClicked(event:MouseEvent):void { // eslint-disable-line class-methods-use-this
+    event.stopPropagation();
+  }
 
-    if (actor) {
-      this.actor = {
-        href: actor.href,
-        name: actor.title,
-      };
-    }
+  markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
+    event.stopPropagation();
+
+    this
+      .ianService
+      .markAsRead(notifications);
+  }
+
+  private buildActors() {
+    const actors = this
+      .aggregatedNotifications
+      .map((notification) => {
+        const { actor } = notification._links;
+
+        if (!actor) {
+          return null;
+        }
+
+        return {
+          href: actor.href,
+          name: actor.title,
+        };
+      })
+      .filter((actor) => actor !== null) as PrincipalLike[];
+
+    this.actors = _.uniqBy(actors, (item) => item.href);
   }
 
   private buildTranslatedReason() {
-    this.translatedReason = this.I18n.t(
-      `js.notifications.reasons.${this.notification.reason}`,
-      { defaultValue: this.notification.reason || this.text.placeholder },
-    );
-  }
+    const reasons:{ [reason:string]:number } = {};
 
-  projectClicked(event:MouseEvent) {
-    event.stopPropagation();
+    this
+      .aggregatedNotifications
+      .forEach((notification) => {
+        const translatedReason = this.I18n.t(
+          `js.notifications.reasons.${notification.reason}`,
+          { defaultValue: notification.reason || this.text.placeholder },
+        );
+
+        reasons[translatedReason] = reasons[translatedReason] || 0;
+        reasons[translatedReason] += 1;
+      });
+
+    this.translatedReasons = reasons;
   }
 
   private buildProject() {
@@ -147,7 +204,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     if (project) {
       this.project = {
         ...project,
-        showUrl: this.pathHelper.projectPath(HalResource.idFromLink(project.href)),
+        showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
       };
     }
   }

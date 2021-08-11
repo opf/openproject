@@ -536,6 +536,7 @@ el:
         error_enterprise_only: "είναι διαθέσιμο μόνο στην Έκδοση για Επιχειρήσεις του OpenProject"
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
+        email: "is not a valid email address."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
@@ -696,6 +697,7 @@ el:
               not_start_date: "δεν είναι στην ημερομηνία έναρξης, παρόλο που απαιτείται από τα ορόσημα."
             parent:
               cannot_be_milestone: "δεν μπορεί να είναι ορόσημο."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "δεν μπορεί να είναι σε άλλο έργο."
               not_a_valid_parent: "δεν είναι έγκυρο."
             start_date:
@@ -1307,6 +1309,7 @@ el:
         expiration: "Λήγει"
       indefinite_expiration: "Ποτέ"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1443,6 +1446,7 @@ el:
   label_deleted: "διαγραμμένο"
   label_deleted_custom_field: "(διαγραμμένο προσαρμοσμένο πεδίο)"
   label_deleted_custom_option: "(διαγραμμένη επιλογή)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Φθίνουσα"
   label_details: "Λεπτομέρειες"
   label_development_roadmap: "Χάρτης πορείας ανάπτυξης"
@@ -1616,7 +1620,6 @@ el:
   label_none_parentheses: "(κανένα)"
   label_not_contains: "δεν περιέχει"
   label_not_equals: "δεν είναι"
-  label_notify_member_plural: "Ενημερώσεις email"
   label_on: "σε"
   label_open_menu: "Άνοιγμα μενού"
   label_open_work_packages: "ανοιχτό"
@@ -1736,7 +1739,6 @@ el:
   label_start_to_start: "από την αρχή μέχρι την αρχή"
   label_statistics: "Στατιστικά"
   label_status: "Κατάσταση"
-  label_status_updated: "Η κατάσταση του πακέτου εργασίας ενημερώθηκε"
   label_stay_logged_in: "Παραμείνετε συνδεδεμένοι"
   label_storage_free_space: "Υπολειπόμενος χώρος στο δίσκο"
   label_storage_used_space: "Χώρος στο δίσκο που χρησιμοποιείται"
@@ -1820,21 +1822,17 @@ el:
   label_wiki_show_submenu_item: "Εμφάνιση ως αντικείμενο υπομενού του "
   label_wiki_start: "Σελίδα έναρξης"
   label_work_package: "Εργασία"
-  label_work_package_added: "Το πακέτο εργασίας προστέθηκε"
   label_work_package_attachments: "Συνημμένα πακέτου εργασίας"
   label_work_package_category_new: "Νέα κατηγορία"
   label_work_package_category_plural: "Κατηγορίες πακέτου εργασίας"
   label_work_package_hierarchy: "Ιεραρχία πακέτου εργασίας"
   label_work_package_new: "Νέο πακέτο εργασίας"
-  label_work_package_note_added: "Προστέθηκε η σημείωση πακέτου εργασίας"
   label_work_package_edit: "Επεξεργασία του πακέτου εργασίας %{name}"
   label_work_package_plural: "Πακέτα εργασίας"
-  label_work_package_priority_updated: "Η προτεραιότητα του πακέτου εργασίας ενημερώθηκε"
   label_work_package_status: "Κατάσταση εργασίας"
   label_work_package_status_new: "Νέα κατάσταση"
   label_work_package_status_plural: "Καταστάσεις πακέτων εργασίας"
   label_work_package_types: "Τύποι πακέτου εργασίας"
-  label_work_package_updated: "Το πακέτο εργασίας ενημερώθηκε"
   label_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   label_work_package_view_all: "Εμφάνιση όλων των πακέτων εργασίας"
   label_workflow: "Ροή εργασιών"
@@ -2401,6 +2399,7 @@ el:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2483,8 +2482,8 @@ el:
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "Το %{label} άλλαξε από %{old} <br/><strong>σε</strong> %{new}"
-  text_journal_changed_plain: "Το %{label} άλλαξε από %{old} \nσε %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
   text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
   text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"

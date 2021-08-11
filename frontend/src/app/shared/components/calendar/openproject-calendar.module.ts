@@ -48,7 +48,6 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: 'router--work-packages-calendar',
       menuItem: menuItemClass,
-      parent: 'work-packages',
     },
   },
 ];

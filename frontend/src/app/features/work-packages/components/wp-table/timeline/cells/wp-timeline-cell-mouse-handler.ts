@@ -183,24 +183,26 @@ export function registerWorkPackageMouseHandler(this:void,
         return;
       }
 
-      cell.onmousemove = (ev) => {
-        const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
-        const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
-        const widthInDays = offsetDayCurrent - offsetDayStart;
-        const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, widthInDays, mouseDownType);
-        renderer.assignDateValues(renderInfo.change, labels, moved);
-        renderer.update(bar, labels, renderInfo);
-      };
-
-      cell.onmouseleave = () => {
-        deactivate(true);
-      };
+      jBody.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, mouseDownType));
+      jBody.on('mouseup.emptytimelinecell', () => deactivate(false));
 
       cell.onmouseup = () => {
         deactivate(false);
       };
 
       jBody.on('keyup.timelinecell', keyPressFn);
+    };
+  }
+
+  function mouseMoveOnEmptyCellFn(offsetDayStart:number, mouseDownType:any) {
+    return (ev:JQuery.MouseMoveEvent) => {
+      const relativePosition = Math.abs(cell.getBoundingClientRect().x - ev.clientX);
+      const offsetDayCurrent = Math.floor(relativePosition / renderInfo.viewParams.pixelPerDay);
+      const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
+      const widthInDays = offsetDayCurrent - offsetDayStart;
+      const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, widthInDays, mouseDownType);
+      renderer.assignDateValues(renderInfo.change, labels, moved);
+      renderer.update(bar, labels, renderInfo);
     };
   }
 
@@ -215,6 +217,7 @@ export function registerWorkPackageMouseHandler(this:void,
     bar.style.pointerEvents = 'auto';
 
     jBody.off('.timelinecell');
+    jBody.off('.emptytimelinecell');
     workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
     dateStates = {};

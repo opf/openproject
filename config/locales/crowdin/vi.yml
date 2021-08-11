@@ -542,6 +542,7 @@ vi:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "không thể để trống"
         even: "must be even."
         exclusion: "được bảo lưu."
@@ -702,6 +703,7 @@ vi:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
             parent:
               cannot_be_milestone: "không thể là một cột mốc."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "không thể có trong một dự án khác."
               not_a_valid_parent: "không hợp lệ"
             start_date:
@@ -1297,6 +1299,7 @@ vi:
         expiration: "Hết hạn"
       indefinite_expiration: "Không bao giờ"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1433,6 +1436,7 @@ vi:
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Lộ trình phát triển"
@@ -1606,7 +1610,6 @@ vi:
   label_none_parentheses: "(trống)"
   label_not_contains: "không chứa"
   label_not_equals: "không là"
-  label_notify_member_plural: "Cập nhật thư"
   label_on: "lúc"
   label_open_menu: "Mở trình đơn"
   label_open_work_packages: "mở"
@@ -1726,7 +1729,6 @@ vi:
   label_start_to_start: "bắt đầu đến bắt đầu"
   label_statistics: "Số liệu thống kê"
   label_status: "Trạng thái"
-  label_status_updated: "Tình trạng Work package đã cập nhật"
   label_stay_logged_in: "Duy trì đăng nhập"
   label_storage_free_space: "Dung lượng đĩa còn lại"
   label_storage_used_space: "Dung lượng đĩa đã sử dụng"
@@ -1810,21 +1812,17 @@ vi:
   label_wiki_show_submenu_item: "Hiển thị dưới dạng mục menu con của"
   label_wiki_start: "Trang bắt đầu"
   label_work_package: "Work Package"
-  label_work_package_added: "Đã thêm work package"
   label_work_package_attachments: "Phần đính kèm công việc"
   label_work_package_category_new: "Danh mục mới"
   label_work_package_category_plural: "Các thể loại work package"
   label_work_package_hierarchy: "Phân cấp công việc"
   label_work_package_new: "Work package mới"
-  label_work_package_note_added: "Đã thêm ghi chú của work package"
   label_work_package_edit: "Chỉnh sửa work package %{name}"
   label_work_package_plural: "Work Packages"
-  label_work_package_priority_updated: "Đã cập nhật độ ưu tiên của work package"
   label_work_package_status: "Tình trạng work package"
   label_work_package_status_new: "Trạng thái mới"
   label_work_package_status_plural: "Tình trạng work package"
   label_work_package_types: "Kiểu công việc"
-  label_work_package_updated: "đã cập nhật work package"
   label_work_package_tracking: "Theo dõi work package"
   label_work_package_view_all: "Xem tất cả các work package"
   label_workflow: "Quy trình làm việc"
@@ -2391,6 +2389,7 @@ vi:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2472,8 +2471,8 @@ vi:
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} được sửa từ %{old} <br/><strong>thành</strong> %{new}"
-  text_journal_changed_plain: "%{label} thay đổi %{old} thành %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"

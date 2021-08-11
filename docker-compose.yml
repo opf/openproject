@@ -32,34 +32,44 @@ x-op-frontend-build: &frontend-build
   args:
     DEV_UID: $DEV_UID
     DEV_GID: $DEV_GID
+x-op-backend: &backend
+  build:
+    <<: *build
+    target: develop
+  <<: *image
+  <<: *restart_policy
+  environment:
+    LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
+    RAILS_ENV: development
+    RAILS_CACHE_STORE: file_store
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
+  volumes:
+    - ".:/home/dev/openproject"
+    - "opdata:/var/openproject/assets"
+    - "bundle:/usr/local/bundle"
+    - "tmp:/home/dev/openproject/tmp"
+  networks:
+    - network
 
 services:
   backend:
-    build:
-      <<: *build
-      target: develop
-    <<: *image
-    <<: *restart_policy
+    <<: *backend
     command: run-app
     ports:
       - "3000:3000"
-    environment:
-      LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
-      RAILS_ENV: development
-      RAILS_CACHE_STORE: file_store
-      OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
-      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-      DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}
-    volumes:
-      - ".:/home/dev/openproject"
-      - "opdata:/var/openproject/assets"
-      - "bundle:/usr/local/bundle"
-      - "tmp:/home/dev/openproject/tmp"
     depends_on:
       - db
       - cache
-    networks:
-      - network
+      - worker
+
+  worker:
+    <<: *backend
+    command: bundle exec rake jobs:work
+    depends_on:
+      - db
+      - cache
 
   frontend:
     build:

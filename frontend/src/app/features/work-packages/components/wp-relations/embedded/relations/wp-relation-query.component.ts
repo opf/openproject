@@ -42,6 +42,7 @@ import { WorkPackageRelationsService } from 'core-app/features/work-packages/com
 import { filter } from 'rxjs/operators';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 
@@ -72,6 +73,8 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       (child:WorkPackageResource) => !!child.changeParent,
     ),
   ];
+
+  public idFromLink = idFromLink;
 
   constructor(protected readonly PathHelper:PathHelperService,
     @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,

@@ -30,7 +30,7 @@ hu:
       error_loading_the_list: "Betöltési hiba: %{error_message}"
       error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
       error_cannot_move_into_self: "Nem mozgatható a munkacsomag a saját sorába."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_list_warning: "Nem jeleníthető meg az összes lista a jogosultság miatt. További információért lépjen kapcsolatba az adminnal."
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'
@@ -69,9 +69,9 @@ hu:
       add_list_modal:
         labels:
           assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
+          status: Státusz hozzáadása az új listához
+          version: Verzió hozzáadása az új listához
+          subproject: Alprojekt hozzáadása az új listához
           subtasks: Select work package to add as a new list
         warning:
           status: |
