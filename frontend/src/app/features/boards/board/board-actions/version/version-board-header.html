@@ -1,4 +1,5 @@
-<div class="version-board-header"
+<div class="op-version-board-header"
+      data-qa-selector="op-version-board-header"
      [ngClass]="{ '-closed': version.isClosed(), '-locked': version.isLocked() }"
      *ngIf="version">
   <h2 class="editable-toolbar-title--fixed">
@@ -10,5 +11,5 @@
     </a>
   </h2>
 
-  <span class="version-board-header--info-row -italic -small-font"> {{version.endDate}}  </span>
+  <span class="op-version-board-header--info-row -italic -small-font"> {{version.endDate}}  </span>
 </div>
