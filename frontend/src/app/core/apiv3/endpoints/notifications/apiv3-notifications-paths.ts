@@ -29,7 +29,11 @@
 import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
-import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  Apiv3ListParameters,
+  ApiV3ListFilter,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { Apiv3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -67,9 +71,14 @@ export class Apiv3NotificationsPaths
    * Load unread events
    */
   public unread(additional?:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
+    const unreadFilter:ApiV3ListFilter = ['readIAN', '=', false];
+    const filters = [
+      ...(additional?.filters ? additional.filters : []),
+      unreadFilter,
+    ];
     const params:Apiv3ListParameters = {
       ...additional,
-      filters: [['readIAN', '=', false]],
+      filters,
     };
 
     return this.list(params);

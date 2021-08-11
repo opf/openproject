@@ -67,6 +67,7 @@ export class WorkPackageTabsService {
         component: WorkPackageActivityTabComponent,
         name: I18n.t('js.work_packages.tabs.activity'),
         count: workPackageNotificationsCount,
+        showCountAsBubble: true,
       },
       {
         id: 'relations',

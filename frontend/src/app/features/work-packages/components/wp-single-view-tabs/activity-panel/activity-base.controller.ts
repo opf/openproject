@@ -92,8 +92,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           {
             pageSize: NOTIFICATIONS_MAX_SIZE,
             filters: [
-              [ 'resource_id', '=', [ this.workPackageId ] ],
-              [ 'resource_type', '=', [ 'work_package' ] ],
+              [ 'resourceId', '=', [ this.workPackageId ] ],
+              [ 'resourceType', '=', [ 'work_package' ] ],
             ],
           },
         ),

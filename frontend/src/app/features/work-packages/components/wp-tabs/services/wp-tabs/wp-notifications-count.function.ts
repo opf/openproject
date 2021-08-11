@@ -19,8 +19,8 @@ export function workPackageNotificationsCount(
       {
         pageSize: NOTIFICATIONS_MAX_SIZE,
         filters: [
-          [ 'resource_id', '=', [ wpId ] ],
-          [ 'resource_type', '=', [ 'work_package' ] ],
+          [ 'resourceId', '=', [ wpId ] ],
+          [ 'resourceType', '=', [ 'work_package' ] ],
         ],
       },
     )
