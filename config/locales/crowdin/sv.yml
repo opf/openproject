@@ -701,6 +701,7 @@ sv:
               not_start_date: "är inte på startdatum, även om detta behövs för milstolpar."
             parent:
               cannot_be_milestone: "kan inte vara en milstolpe."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "kan inte vara i ett annat projekt."
               not_a_valid_parent: "är ogiltig."
             start_date:
@@ -1449,6 +1450,7 @@ sv:
   label_deleted: "raderad"
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Fallande"
   label_details: "Detaljer"
   label_development_roadmap: "Utvecklingsplan"
@@ -1741,7 +1743,6 @@ sv:
   label_start_to_start: "början till början"
   label_statistics: "Statistik"
   label_status: "Status"
-  label_status_updated: "Status för arbetspaket uppdaterad"
   label_stay_logged_in: "Fortsätt vara inloggad"
   label_storage_free_space: "Återstående diskutrymme"
   label_storage_used_space: "Använt diskutrymme"
@@ -1825,21 +1826,17 @@ sv:
   label_wiki_show_submenu_item: "Visa som undermenyalternativ för "
   label_wiki_start: "Startsida"
   label_work_package: "Arbetspaket"
-  label_work_package_added: "Arbetspaket lades till"
   label_work_package_attachments: "Bilagor till arbetspaket"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Arbetspaketkategorier"
   label_work_package_hierarchy: "Arbetspaketshierarki"
   label_work_package_new: "Nytt arbetspaket"
-  label_work_package_note_added: "Anteckning lades till arbetspaket"
   label_work_package_edit: "Redigera arbetspaket %{name}"
   label_work_package_plural: "Arbetspaketen"
-  label_work_package_priority_updated: "Arbetspaketets prioritet uppdaterad"
   label_work_package_status: "Arbetspaketstatus"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Arbetspaketstatus"
   label_work_package_types: "Arbetspaketstyper"
-  label_work_package_updated: "Arbetspaketet uppdaterat"
   label_work_package_tracking: "Arbetspaketsspårning"
   label_work_package_view_all: "Visa alla arbetspaket"
   label_workflow: "Arbetsflöde"
@@ -2405,6 +2402,7 @@ sv:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

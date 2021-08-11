@@ -46,6 +46,7 @@ import { RevitBridgeService } from 'core-app/features/bim/revit_add_in/revit-bri
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 
 /**
  * Determines based on the current user agent whether
@@ -81,10 +82,12 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     BcfNewWpAttributeGroupComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
+    RefreshButtonComponent,
   ],
   exports: [
     BcfImportButtonComponent,
     BcfExportButtonComponent,
+    RefreshButtonComponent,
   ],
 })
 export class OpenprojectBcfModule {

@@ -12,5 +12,5 @@ hu:
       models:
         grids/grid:
           overlaps: 'átfedés'
-          outside: 'is outside of the grid.'
+          outside: 'hatókörön kívül van.'
           end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'

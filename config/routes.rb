@@ -575,6 +575,10 @@ OpenProject::Application.routes.draw do
 
   root to: 'account#login'
 
+  scope :notifications do
+    get '(/*state)', to: 'angular#empty_layout', as: :notifications_center
+  end
+
   # Development route for styleguide
   if Rails.env.development?
     get '/styleguide' => redirect('/assets/styleguide.html')

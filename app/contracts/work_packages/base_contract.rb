@@ -117,6 +117,7 @@ module WorkPackages
     validate :validate_parent_exists
     validate :validate_parent_in_same_project
     validate :validate_parent_not_subtask
+    validate :validate_parent_not_self
 
     validate :validate_status_exists
     validate :validate_status_transition
@@ -228,6 +229,13 @@ module WorkPackages
       if model.parent.is_a?(WorkPackage::InexistentWorkPackage)
 
         errors.add :parent, :does_not_exist
+      end
+    end
+
+    def validate_parent_not_self
+      if model.parent == model
+
+        errors.add :parent, :cannot_be_self_assigned
       end
     end
 

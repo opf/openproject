@@ -2,9 +2,18 @@
 ---
 type: object
 properties:
+  autoHidePopups:
+    type: boolean
+    description: Whether to hide popups (e.g. success messages) after 5 seconds
   hideMail:
     type: boolean
     description: Hide mail address from other users
+  notifications:
+    type: NotificationSetting
+    description: The settings for the notifications to be received by the user
+  selfNotified:
+    type: boolean
+    description: Whether the user wants to be notfified of changes done by the user her/himself
   timeZone:
     type: string
     description: Current selected time zone
@@ -14,9 +23,6 @@ properties:
   warnOnLeavingUnsaved:
     type: boolean
     description: Issue warning when leaving a page with unsaved text
-  accessibilityMode:
-    type: boolean
-    description: Enable accessibility mode
   _links:
     type: object
     required:

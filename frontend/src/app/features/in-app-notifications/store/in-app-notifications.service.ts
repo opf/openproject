@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { applyTransaction, ID } from '@datorama/akita';
+import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -75,11 +75,32 @@ export class InAppNotificationsService {
       .pipe(
         take(1),
         switchMap((events) => this.apiV3Service.notifications.markRead(events.map((event) => event.id))),
+        setLoading(this.store),
       )
       .subscribe(() => {
         applyTransaction(() => {
           this.store.update(null, { readIAN: true });
           this.store.update({ unreadCount: 0 });
+        });
+      });
+  }
+
+  markAsRead(notifications:InAppNotification[], keep = false):void {
+    const ids = notifications.map((n) => n.id);
+
+    this
+      .apiV3Service
+      .notifications
+      .markRead(ids)
+      .pipe(
+        setLoading(this.store),
+      )
+      .subscribe(() => {
+        applyTransaction(() => {
+          this.store.update(ids, { readIAN: true, keep });
+          this.store.update(
+            ({ unreadCount }) => ({ unreadCount: unreadCount - ids.length }),
+          );
         });
       });
   }
@@ -112,27 +133,5 @@ export class InAppNotificationsService {
         expanded: true,
       },
     );
-  }
-
-  markReadKeepAndExpanded(notification:InAppNotification):void {
-    this
-      .apiV3Service
-      .notifications
-      .id(notification.id)
-      .markRead()
-      .subscribe(() => {
-        applyTransaction(() => {
-          this.store.update(
-            notification.id,
-            {
-              readIAN: true,
-              keep: true,
-            },
-          );
-          this.store.update(
-            ({ unreadCount }) => ({ unreadCount: unreadCount - 1 }),
-          );
-        });
-      });
   }
 }

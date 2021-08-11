@@ -13,13 +13,43 @@ get:
                     href: "/api/v3/my_preferences"
                   user:
                     href: "/api/v3/users/1"
-                    title: John Sheppard
-                _type: UserPreferences
-                accessibilityMode: false
+                    title: "John Sheppard"
+                  updateImmediately:
+                    href: "/api/v3/users/3/preferences"
+                    method: "patch"
+                _type: "UserPreferences"
                 commentSortDescending: true
                 hideMail: false
-                timeZone: Europe/Berlin
+                timeZone: "Europe/Berlin"
                 warnOnLeavingUnsaved: true
+                notifications:
+                  - channel: "mail"
+                    watched: false
+                    involved: true
+                    mentioned: false
+                    all: false
+                    workPackageCommented: false
+                    _links:
+                      project:
+                        href: null
+                  - channel: "in_app"
+                    watched: true
+                    involved: true
+                    mentioned: true
+                    all: false
+                    workPackageCommented: false
+                    _links:
+                      project:
+                        href: null
+                  - channel: "mail_digest"
+                    watched: true
+                    involved: true
+                    mentioned: true
+                    all: true,
+                    workPackageCommented: true
+                    _links:
+                      project:
+                        href: null
           schema:
             "$ref": "../components/schemas/user_preferences_model.yml"
       description: OK
@@ -54,12 +84,42 @@ patch:
                   user:
                     href: "/api/v3/users/1"
                     title: John Sheppard
+                  updateImmediately:
+                    href: "/api/v3/users/3/preferences"
+                    method: "patch"
                 _type: UserPreferences
-                accessibilityMode: false
                 commentSortDescending: true
                 hideMail: false
                 timeZone: Europe/Berlin
                 warnOnLeavingUnsaved: true
+                notifications:
+                - channel: "mail"
+                  watched: false
+                  involved: true
+                  mentioned: false
+                  all: false
+                  workPackageCommented: false
+                  _links:
+                    project:
+                      href: null
+                - channel: "in_app"
+                  watched: true
+                  involved: true
+                  mentioned: true
+                  all: false
+                  workPackageCommented: false
+                  _links:
+                    project:
+                      href: null
+                - channel: "mail_digest"
+                  watched: true
+                  involved: true
+                  mentioned: true
+                  all: true,
+                  workPackageCommented: true
+                  _links:
+                    project:
+                      href: null
           schema:
             "$ref": "../components/schemas/user_preferences_model.yml"
       description: OK
@@ -114,12 +174,12 @@ patch:
       application/json:
         schema:
           example:
-            accessibilityMode: true
+            autoHidePopups: true
             timeZone: Europe/Paris
           properties:
-            accessibilityMode:
+            autoHidePopups:
               type: boolean
             timeZone:
               type: string
           type: object
-  summary: Update UserPreferences
+  summary: Update my preferences

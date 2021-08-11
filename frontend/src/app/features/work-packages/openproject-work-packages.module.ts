@@ -416,6 +416,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
     // Needed so that e.g. IFC can access it.
     WorkPackageCreateButtonComponent,
+    WorkPackageStatusButtonComponent,
     WorkPackageTypeStatusComponent,
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,

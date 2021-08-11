@@ -272,8 +272,6 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should send email notification' do
-    Setting.notified_events = ['work_package_added']
-
     User.find(2).notification_settings.create(channel: :mail, all: true)
 
     # This email contains: 'Project: onlinestore'

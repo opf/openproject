@@ -1,0 +1,14 @@
+<ng-container *ngFor="let facet of availableFacets">
+  <button
+    type="button"
+    class="button form--field-inline-button"
+    [class.-active]="facet === (activeFacet$ | async)"
+    (click)="activateFacet(facet)"
+  >
+                <span
+                  class="button--text button--text_without_icon"
+                  [textContent]="text.facets[facet]"
+                >
+                </span>
+  </button>
+</ng-container>

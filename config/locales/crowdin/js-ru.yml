@@ -487,7 +487,7 @@ ru:
         wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
         backlogs:
           overview: "Управляйте своей работой в представлении <b>backlogs</b>."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          sprints: "Справа у вас есть бэклог продукта и бэклог ошибок, слева — соответствующие спринты. Здесь вы можете создать <b>, пользовательские истории и ошибки</b>, управлять приоритетом перетаскиванием и добавить их в спринт."
           task_board_arrow: 'Чтобы увидеть вашу <b>панель задач</b>, откройте выпадающий спринт...'
           task_board_select: '... и выберите строку <b>Панель задач</b>.'
           task_board: "Панель задач визуализирует прогресс <b>для этого спринта</b>. Нажмите на значок плюс (+) рядом с пользовательской историей, чтобы добавить новые задачи или препятствия. <br> Статус можно обновить перетаскиванием."
@@ -527,6 +527,11 @@ ru:
         involved: 'Я участвую'
         mentioned: 'Я был упомянут'
         watched: 'Я смотрю'
+        work_package_commented: 'Пакет работ прокомментирован'
+        work_package_created: 'Пакет работ создан'
+        work_package_processed: 'Статус пакета работ изменен'
+        work_package_prioritized: 'Приоритет пакета работ изменен'
+        work_package_scheduled: 'Пакет работ запланирован'
         all: 'Все события'
         add: 'Добавить настройку для проекта'
         already_selected: 'Этот проект уже выбран'

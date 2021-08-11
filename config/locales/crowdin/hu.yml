@@ -66,7 +66,7 @@ hu:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
       replace_token: "A jelenlegi támogatási token lecserélése"
-      order: "Order Enterprise on-premises Edition"
+      order: "Vállalati verzió megrendelése"
       paste: "Illessze be a Vállalati Verzió támogatási tokentjét"
       required_for_feature: "Ez a funkció csak aktív Vállalati Verzió támogatási tokennel érhető el."
       enterprise_link: "További információért kattintson ide."
@@ -175,7 +175,7 @@ hu:
   concatenation:
     single: 'vagy'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: További információért ebben a témakörben kérem látogasson el a dokumentációnkba
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -206,7 +206,7 @@ hu:
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
     settings:
-      change_identifier: Change identifier
+      change_identifier: Azonosító megváltoztatása
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
       forums:
@@ -311,7 +311,7 @@ hu:
       one: 'Egy leszármazott feladatcsoport'
       other: '%{count} munkacsomag leszármazottai'
     bulk:
-      could_not_be_saved: "The following work packages could not be saved:"
+      could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: 'Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz'
@@ -535,10 +535,10 @@ hu:
         confirmation: "%{attribute} nem egyezik."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "nem létezik."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "Csak az Enterprise Verzióban érhető el"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
-        email: "is not a valid email address."
+        email: "nem valós e-mail cím"
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."
@@ -607,7 +607,7 @@ hu:
           unreadable: "nem olvasható. Biztos vagy benne, hogy ez támogatási token?"
         grids/grid:
           overlaps: 'átfedés'
-          outside: 'is outside of the grid.'
+          outside: 'hatókörön kívül van.'
           end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'
         notifications:
           at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
@@ -662,7 +662,7 @@ hu:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "A szűrő érvénytelen értékeket tartalmaz"
               format: "%{message}\n"
         relation:
           typed_dag:
@@ -699,6 +699,7 @@ hu:
               not_start_date: "nincs kezdő dátum, ez szükséges a fordulóponthoz."
             parent:
               cannot_be_milestone: "nem lehet egy mérföldkő."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nem lehet egy másik projektben."
               not_a_valid_parent: "érvénytelen."
             start_date:
@@ -743,12 +744,12 @@ hu:
               error_not_found: "nem található"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
-          role_blank: "need to be assigned."
+          role_blank: "Hozzá kell rendelve lennie"
           attributes:
             roles:
               ungrantable: "has an unassignable role."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "nem lehet hozzárendelni a projekthez"
         version:
           undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
@@ -966,9 +967,9 @@ hu:
     errors: "Hiba"
     project_custom_fields: 'Projekt egyéni mezői'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Nincs ilyen fajta objektum'
+      one: 'Egy ilyen fajta objektum'
+      other: '%{count} ilyen fajta objektum'
     text:
       failed: "Nem lehet másolni a  \"%{source_project_name}\" projektet a \"%{target_project_name}\" projektbe."
       succeeded: "A \"%{source_project_name}\" projekt átmásolva a \"%{target_project_name}\" projektbe."
@@ -1114,7 +1115,7 @@ hu:
   default_role_anonymous: "Anonymous"
   default_role_developer: "Fejlesztő"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "A vezetőség és a projekt menedzser"
   default_role_non_member: "Nem tag"
   default_role_reader: "Olvasó"
   default_role_member: "Tag"
@@ -1215,7 +1216,7 @@ hu:
   error_menu_item_not_saved: Menüelem nem menthető
   error_wiki_root_menu_item_conflict: >
     Nem lehet átnevezni "%{old_name}", mert "%{new_name}" menü egy már létező menüvel "%{existing_caption}" (%{existing_identifier}) ütközik.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
     project: 'Projekt szerkesztve'
@@ -1447,6 +1448,7 @@ hu:
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_deleted_custom_option: "(opció törlése)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"
@@ -1658,7 +1660,7 @@ hu:
   label_previous_week: "Előző héten"
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: "Meglévő felhasználók vagy csoportok hozzáadása"
-  label_privacy_policy: "Data privacy and security policy"
+  label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
@@ -1739,7 +1741,6 @@ hu:
   label_start_to_start: "elejétől az elejéig"
   label_statistics: "Statisztika"
   label_status: "Állapot"
-  label_status_updated: "Munkacsomag állapotának frissítése"
   label_stay_logged_in: "Bejelentkezve maradok"
   label_storage_free_space: "Fennmaradó lemezterület"
   label_storage_used_space: "Felhasznált lemezterület"
@@ -1823,21 +1824,17 @@ hu:
   label_wiki_show_submenu_item: "Megjelenítés mint: almenüpont "
   label_wiki_start: "Kezdő oldal"
   label_work_package: "Feladatcsoport"
-  label_work_package_added: "Munka-csomag hozzáadva"
   label_work_package_attachments: "Munkacsomag mellékletek"
   label_work_package_category_new: "Új kategória"
   label_work_package_category_plural: "Munkacsomag kategóriák"
   label_work_package_hierarchy: "Feladatcsoport hierarchia"
   label_work_package_new: "Új munkacsomag"
-  label_work_package_note_added: "A feladatcsoport jegyzet hozzáadva"
   label_work_package_edit: "Munkacsomag %{name} szerkesztése"
   label_work_package_plural: "Munkacsomagok"
-  label_work_package_priority_updated: "A munkacsomag fontossága frissítve"
   label_work_package_status: "Feladatcsoport állapot"
   label_work_package_status_new: "Új állapot"
   label_work_package_status_plural: "A munkacsomag állapotai"
   label_work_package_types: "Munkacsomag típusok"
-  label_work_package_updated: "Frissült a munkacsomag"
   label_work_package_tracking: "A munkacsomag nyomon követése"
   label_work_package_view_all: "Minden munkacsomag megtekintése"
   label_workflow: "Munkafolyamat"
@@ -1893,7 +1890,7 @@ hu:
     digests:
       time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} létrehozva %{timestamp}'
         reason:
           watched: 'Megfigyelt'
           involved: 'assignee or responsible'
@@ -1901,15 +1898,15 @@ hu:
           subscribed: 'mind'
           prefix: 'Received because of the notification setting: %{reason}'
         subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        updated_at: '%{user} frissítve %{timestamp} '
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_ready: "A kért visszaállítás kész. Innen tudja letölteni:"
   mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
   mail_body_backup_token_reset_user_info: A visszaállítási kulcs törölve.
   mail_body_backup_token_info: Az előző kulcs elavult.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
   mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
@@ -1936,26 +1933,26 @@ hu:
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} Tagként hozzá lettél adva"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
+        without_message: "%{user} hozzáadott tagként a projekthez %{project}"
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
       roles: "You have the following roles:"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} A szerepköreid frissítve lettek"
     body:
       updated_by:
         without_message: "%{user} updated the roles you have in the project '%{project}'."
         with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+      roles: "A következő jogosultságaid vannak :"
   mail_member_updated_global:
     subject: "A globális jogosultságaid frissítve"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
+        without_message: "%{user} frissítette a globális jogosultságaidat"
         with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+      roles: "A következő jogosultságaid vannak :"
   mail_user_activation_limit_reached:
     subject: A felhasználó aktiválási korlátját elérte
     message: |
@@ -2326,7 +2323,7 @@ hu:
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_delay_minutes: "Email küldési késleltetés"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
@@ -2348,7 +2345,7 @@ hu:
   setting_mail_handler_api_key: "API-kulcs"
   setting_mail_handler_body_delimiters: "E-mailek csonkolása e sorok után"
   setting_mail_handler_body_delimiter_regex: "E-mailek csonkítása a megegyező kifejezéssel"
-  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
+  setting_mail_handler_ignore_filenames: "Összes melléklet figyelmen kívül hagyva"
   setting_new_project_user_role_id: "Szerepkör a  nem admin felhasználónak, aki létrehoz egy projektet,"
   setting_password_active_rules: "Választható karakter típusok"
   setting_password_count_former_banned: "A legutóbb használt  jelszavak száma, ezeket tilos újra felhasználni"
@@ -2404,13 +2401,14 @@ hu:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
       first_week_of_year_text: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
     projects:
-      section_new_projects: "Settings for new projects"
+      section_new_projects: "Új projekt beállításai"
       section_project_overview: "Settings for project overview list"
     user:
       default_preferences: "Alapértelmezett preferenciák"
@@ -2486,7 +2484,7 @@ hu:
   text_journal_added: "%{label} %{value} hozzáadva"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"
@@ -2514,7 +2512,7 @@ hu:
   text_regexp_info: "pl. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A reguláris kifejezés többsoros módban legyen alkalmazva. pld. ^---\s+'
   text_repository_usernames_mapping: "Jelölje be, vagy frissítse az alkalmazás felhasználóit, minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel automatikusan tárolódnak."
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "Válassza ki a tevékenységeket, amelyekről e-mail értesítést kell küldeni."
   text_status_changed_by_changeset: "A %{value} commit-ban hozzáadva."
   text_table_difference_description: "Ebben a táblázatban látható az egyszeri %{entries}. Megtekintheti a két bejegyzés közötti különbséget azáltal, hogy először kiválasztja a megfelelő jelölőnégyzeteket a táblázatban. A táblázat alatti gombra kattintva a különbségek jelennek meg."
   text_time_logged_by_changeset: "A %{value} commit-ban hozzáadva."
