@@ -56,7 +56,7 @@ describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_mi
       OpenProject::Notifications.unsubscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY, subscription)
     end
 
-    context 'after creation' do
+    context 'when after creation' do
       before do
         work_package
         perform_enqueued_jobs
@@ -67,7 +67,7 @@ describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_mi
       end
     end
 
-    describe 'after update' do
+    describe 'when after update' do
       before do
         work_package
 

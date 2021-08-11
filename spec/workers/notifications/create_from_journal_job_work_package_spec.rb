@@ -30,15 +30,14 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::CreateFromJournalJob,
-         'for a work package',
+         'work_package',
          with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:perform) do
     described_class.perform_now(journal.id, send_notifications)
   end
 
-  include_context 'CreateFromJournalJob context'
+  include_context 'with CreateFromJournalJob context'
 
   let(:permissions) { [:view_work_packages] }
   let(:author) { user_property == :author ? recipient : other_user }
@@ -66,7 +65,6 @@ describe Notifications::CreateFromJournalJob,
       FactoryBot.create(:work_package,
                         **wp_attributes)
     end
-
   end
   let(:journal) { journal_1 }
   let(:journal_1) { work_package.journals.first }
@@ -1387,4 +1385,3 @@ describe Notifications::CreateFromJournalJob,
     it_behaves_like 'creates no notification'
   end
 end
-# rubocop:enable Rspec/MultipleMemoizedHelpers

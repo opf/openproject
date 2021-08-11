@@ -29,7 +29,7 @@
 #++
 require 'spec_helper'
 
-describe Notifications::CreateFromJournalJob, 'for a news' do
+describe Notifications::CreateFromJournalJob, 'news' do
   subject(:perform) do
     described_class.perform_now(journal.id, send_notifications)
   end

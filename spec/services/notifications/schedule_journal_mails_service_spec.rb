@@ -56,7 +56,8 @@ describe Notifications::ScheduleJournalMailsService do
   let(:unread_mail_digest_notifications) { [] }
 
   before do
-    scope = double('scope')
+    scope = instance_double(ActiveRecord::Relation)
+    where = instance_double(ActiveRecord::QueryMethods::WhereChain)
 
     allow(Notification)
       .to receive(:mail_digest_before)
@@ -65,16 +66,15 @@ describe Notifications::ScheduleJournalMailsService do
 
     allow(scope)
       .to receive(:where)
-            .and_return(scope)
+            .and_return(where)
 
-    allow(scope)
+    allow(where)
       .to receive(:not)
             .and_return(scope)
 
     allow(scope)
       .to receive(:exists?)
             .and_return(mail_digest_before)
-
   end
 
   describe '#call', { with_settings: { notification_email_delay_minutes: 30 } } do
@@ -84,12 +84,12 @@ describe Notifications::ScheduleJournalMailsService do
       it 'schedules a delayed notification job' do
         allow(Time)
           .to receive(:now)
-                .and_return(Time.now)
+                .and_return(Time.zone.now)
 
         expect { call }
           .to have_enqueued_job(Mails::NotificationJob)
                 .with({ "_aj_globalid" => "gid://open-project/Notification/#{notification.id}" })
-                .at(Time.now + Setting.notification_email_delay_minutes.minutes)
+                .at(Time.zone.now + Setting.notification_email_delay_minutes.minutes)
       end
     end
 

@@ -29,7 +29,7 @@
 #++
 require 'spec_helper'
 
-shared_context 'CreateFromJournalJob context' do
+shared_context 'with CreateFromJournalJob context' do
   shared_let(:project) { FactoryBot.create(:project_with_types) }
   let(:permissions) { [] }
   let(:recipient) do

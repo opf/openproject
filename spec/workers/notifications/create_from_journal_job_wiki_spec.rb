@@ -30,12 +30,12 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob, 'for a wiki page', with_settings: { journal_aggregation_time_minutes: 0 } do
+describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:perform) do
     described_class.perform_now(journal.id, send_notifications)
   end
 
-  include_context 'CreateFromJournalJob context'
+  include_context 'with CreateFromJournalJob context'
 
   shared_let(:project) { FactoryBot.create(:project) }
   shared_let(:wiki) { FactoryBot.create(:wiki, project: project) }

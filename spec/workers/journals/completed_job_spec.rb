@@ -102,13 +102,16 @@ describe Journals::CompletedJob, type: :model do
       let(:journable) { FactoryBot.build_stubbed(:work_package) }
 
       it 'sends a notification' do
-        expect(OpenProject::Notifications)
+        allow(OpenProject::Notifications)
           .to receive(:send)
-          .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-                journal: journal,
-                send_mail: send_mail)
 
         subject
+
+        expect(OpenProject::Notifications)
+          .to have_received(:send)
+                .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                      journal: journal,
+                      send_mail: send_mail)
       end
     end
 
@@ -116,13 +119,16 @@ describe Journals::CompletedJob, type: :model do
       let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
 
       it 'sends a notification' do
-        expect(OpenProject::Notifications)
+        allow(OpenProject::Notifications)
           .to receive(:send)
-          .with(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY,
-                journal: journal,
-                send_mail: send_mail)
 
         subject
+
+        expect(OpenProject::Notifications)
+          .to have_received(:send)
+                .with(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY,
+                      journal: journal,
+                      send_mail: send_mail)
       end
     end
 
@@ -134,7 +140,6 @@ describe Journals::CompletedJob, type: :model do
           .to receive(:send)
 
         subject
-
       end
     end
 
