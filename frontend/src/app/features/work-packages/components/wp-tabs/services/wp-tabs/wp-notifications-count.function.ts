@@ -20,7 +20,7 @@ export function workPackageNotificationsCount(
         pageSize: NOTIFICATIONS_MAX_SIZE,
         filters: [
           [ 'resourceId', '=', [ wpId ] ],
-          [ 'resourceType', '=', [ 'work_package' ] ],
+          [ 'resourceType', '=', [ 'WorkPackage' ] ],
         ],
       },
     )
