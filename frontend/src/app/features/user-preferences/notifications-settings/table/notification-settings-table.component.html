@@ -8,6 +8,11 @@
         <col highlight-col>
         <col highlight-col>
         <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
       </colgroup>
       <thead>
       <tr>
@@ -45,6 +50,41 @@
         <th>
           <div class="generic-table--sort-header-outer">
             <div class="generic-table--sort-header">
+              <span [textContent]="text.work_package_created_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.work_package_commented_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.work_package_processed_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.work_package_prioritized_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
+              <span [textContent]="text.work_package_scheduled_header"></span>
+            </div>
+          </div>
+        </th>
+        <th>
+          <div class="generic-table--sort-header-outer">
+            <div class="generic-table--sort-header">
               <span [textContent]="text.any_event_header"></span>
             </div>
           </div>
@@ -62,6 +102,7 @@
               op-notification-setting-row
               [attr.data-qa-notification-project]="item.key"
               [attr.data-qa-notification-channel]="setting.channel"
+              [count]="item.value.length"
               [first]="first"
               [setting]="setting"
           >

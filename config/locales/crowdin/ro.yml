@@ -542,6 +542,7 @@ ro:
         error_enterprise_only: "este disponibil doar în OpenProject Enterprise Edition"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
+        email: "is not a valid email address."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
         exclusion: "este rezervat."
@@ -702,6 +703,7 @@ ro:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nu poate fi într-un alt proiect."
               not_a_valid_parent: "este invalid."
             start_date:
@@ -1329,6 +1331,7 @@ ro:
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1465,6 +1468,7 @@ ro:
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
   label_deleted_custom_option: "(opțiune eliminată)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descrescător"
   label_details: "Detalii"
   label_development_roadmap: "Plan de lucru pentru dezvoltare"
@@ -1638,7 +1642,6 @@ ro:
   label_none_parentheses: "(nimic)"
   label_not_contains: "nu conține"
   label_not_equals: "nu este"
-  label_notify_member_plural: "Actualizări prin e-mail"
   label_on: "pe"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
@@ -1758,7 +1761,6 @@ ro:
   label_start_to_start: "început la început"
   label_statistics: "Statistici"
   label_status: "Stare"
-  label_status_updated: "Stare pachet de lucru actualizată"
   label_stay_logged_in: "Rămâneți conectat"
   label_storage_free_space: "Spațiu pe disc rămas"
   label_storage_used_space: "Spațiu pe disc folosit"
@@ -1842,21 +1844,17 @@ ro:
   label_wiki_show_submenu_item: "Afișare ca submeniu pentru "
   label_wiki_start: "Pagină de start"
   label_work_package: "Pachet de lucru"
-  label_work_package_added: "Pachet de lucru adăugat"
   label_work_package_attachments: "Anexe la pachetul de lucru"
   label_work_package_category_new: "Categorie nouă"
   label_work_package_category_plural: "Categorii de pachete de lucru"
   label_work_package_hierarchy: "Ierarhia pachetelor de lucru"
   label_work_package_new: "Pachet de lucru nou"
-  label_work_package_note_added: "Notă adăugată la pachetul de lucru"
   label_work_package_edit: "Editare pachet de lucru %{name}"
   label_work_package_plural: "Pachete de lucru"
-  label_work_package_priority_updated: "Prioritate pachet de lucru actualizată"
   label_work_package_status: "Stare pachet de lucru"
   label_work_package_status_new: "Stare nouă"
   label_work_package_status_plural: "Stări pachete de lucru"
   label_work_package_types: "Tipuri de pachete de lucru"
-  label_work_package_updated: "Pachet de lucru actualizat"
   label_work_package_tracking: "Urmărire pachete de lucru"
   label_work_package_view_all: "Toate pachetele de lucru"
   label_workflow: "Flux de lucru"
@@ -2424,6 +2422,7 @@ ro:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2505,8 +2504,8 @@ ro:
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} a fost schimbat din %{old} <br/><strong>în</strong> %{new}"
-  text_journal_changed_plain: "%{label} schimbat de la %{old}\nla %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
   text_journal_changed_with_diff: "%{label} modificat (%{link})"
   text_journal_deleted: "%{label} șters (%{old})"

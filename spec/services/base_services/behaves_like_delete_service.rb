@@ -60,7 +60,7 @@ shared_examples 'BaseServices delete service' do
 
   let(:model_destroy_result) { true }
   let(:contract_validate_result) { true }
-  let(:contract_errors) { double(ActiveModel::Errors) }
+  let(:contract_errors) { ActiveModel::Errors.new(instance) }
 
   before do
     allow(model_instance).to receive(:destroy).and_return(model_destroy_result)
@@ -99,7 +99,7 @@ shared_examples 'BaseServices delete service' do
 
     context 'when model cannot be destroyed' do
       let(:model_destroy_result) { false }
-      let(:model_errors) { instance_double(ActiveModel::Errors) }
+      let(:model_errors) { ActiveModel::Errors.new(model_instance) }
 
       it 'is unsuccessful' do
         expect(subject)
@@ -107,11 +107,14 @@ shared_examples 'BaseServices delete service' do
       end
 
       it "returns the user's errors" do
+        model_errors.add :base, 'This is some error.'
+
         allow(model_instance)
           .to(receive(:errors))
           .and_return model_errors
 
         expect(subject.errors).to eql model_errors
+        expect(subject.errors[:base]).to include "This is some error."
       end
     end
   end

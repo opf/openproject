@@ -543,6 +543,7 @@ cs:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "nemůže být prázdné."
         even: "musí být sudé."
         exclusion: "vyhrazeno."
@@ -703,6 +704,7 @@ cs:
               not_start_date: "není v počátečním datu, i když je to nutné pro milníky."
             parent:
               cannot_be_milestone: "nemůže být milník."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nemůže být v jiném projektu."
               not_a_valid_parent: "je neplatné."
             start_date:
@@ -1346,6 +1348,7 @@ cs:
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1482,6 +1485,7 @@ cs:
   label_deleted: "Smazáno"
   label_deleted_custom_field: "(odstraněno vlastní pole)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Sestupně"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoje"
@@ -1655,7 +1659,6 @@ cs:
   label_none_parentheses: "(žádný)"
   label_not_contains: "neobsahuje"
   label_not_equals: "není"
-  label_notify_member_plural: "Aktualizace e-mailu"
   label_on: "zapnuto"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřít"
@@ -1775,7 +1778,6 @@ cs:
   label_start_to_start: "od začátku do začátku"
   label_statistics: "Statistika"
   label_status: "Stav"
-  label_status_updated: "Stav Pracovního balíčku byl aktualizovaný"
   label_stay_logged_in: "Zůstat přihlášený"
   label_storage_free_space: "Zbývající místo na disku"
   label_storage_used_space: "Použité místo na disku"
@@ -1859,21 +1861,17 @@ cs:
   label_wiki_show_submenu_item: "Zobrazit jako položku podnabídky "
   label_wiki_start: "Úvodní stránka"
   label_work_package: "Pracovní balíček"
-  label_work_package_added: "Pracovní balíček přidán"
   label_work_package_attachments: "Přílohy pracovních balíčků"
   label_work_package_category_new: "Nová kategorie"
   label_work_package_category_plural: "Kategorie pracovních balíčků"
   label_work_package_hierarchy: "Hierarchie pracovních balíčků"
   label_work_package_new: "Nový pracovní balíček"
-  label_work_package_note_added: "Poznámka k pracovnímu balíčku přidána"
   label_work_package_edit: "Upravit pracovní balíček %{name}"
   label_work_package_plural: "Pracovní balíčky"
-  label_work_package_priority_updated: "Priorita pracovního balíčku aktualizována"
   label_work_package_status: "Stav pracovního balíčku"
   label_work_package_status_new: "Nový stav"
   label_work_package_status_plural: "Stav pracovního balíčku"
   label_work_package_types: "Typy pracovních balíčků"
-  label_work_package_updated: "Pracovní balíček aktualizován"
   label_work_package_tracking: "Sledování pracovních balíčků"
   label_work_package_view_all: "Zobrazit všechny pracovní balíčky"
   label_workflow: "Pracovní vrstva"
@@ -2442,6 +2440,7 @@ cs:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2523,8 +2522,8 @@ cs:
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} změněn z %{old} <br/><strong>na</strong> %{new}"
-  text_journal_changed_plain: "%{label} změněn z %{old} \nna %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"

@@ -49,6 +49,7 @@ import { Subject } from 'rxjs';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { States } from 'core-app/core/states/states.service';
@@ -186,7 +187,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.projectContext = { matches: false, href: null };
     } else {
       this.projectContext = {
-        href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id!),
+        href: this.PathHelper.projectWorkPackagePath(idFromLink(resource.project.href), this.workPackage.id!),
         matches: resource.project.href === this.currentProject.apiv3Path,
       };
     }
@@ -257,7 +258,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   public get projectContextText():string {
-    const id = this.workPackage.project.idFromLink;
+    const id = idFromLink(this.workPackage.project.href);
     const projectPath = this.PathHelper.projectPath(id);
     const project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });

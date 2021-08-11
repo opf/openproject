@@ -543,6 +543,7 @@ uk:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."
@@ -703,6 +704,7 @@ uk:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "не може бути в іншому проекті."
               not_a_valid_parent: "зазначено невірно"
             start_date:
@@ -1346,6 +1348,7 @@ uk:
         expiration: "Закінчується"
       indefinite_expiration: "Ніколи"
   notifications:
+    send_notifications: "Send notifications for this action"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1482,6 +1485,7 @@ uk:
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
   label_development_roadmap: "Розробка дорожньої карти"
@@ -1655,7 +1659,6 @@ uk:
   label_none_parentheses: "(нічого)"
   label_not_contains: "не містить"
   label_not_equals: "немає"
-  label_notify_member_plural: "Оновлення електронної пошти"
   label_on: "на"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
@@ -1775,7 +1778,6 @@ uk:
   label_start_to_start: "початок"
   label_statistics: "Статистика"
   label_status: "Статус"
-  label_status_updated: "Статус робочого пакету оновлено"
   label_stay_logged_in: "Запам'ятати мене"
   label_storage_free_space: "Залишок на диску"
   label_storage_used_space: "Використовується дисковий простір"
@@ -1859,21 +1861,17 @@ uk:
   label_wiki_show_submenu_item: "Показати як пункт підменю "
   label_wiki_start: "Початкова сторінка"
   label_work_package: "Пакет робіт"
-  label_work_package_added: "Робочий пакет доданий"
   label_work_package_attachments: "Додатки до робочого пакету"
   label_work_package_category_new: "Нова категорія"
   label_work_package_category_plural: "Категорії робочих пакетів"
   label_work_package_hierarchy: "Ієрархія робочих пакетів"
   label_work_package_new: "Новий пакет робіт"
-  label_work_package_note_added: "Робочий пакет не доданий"
   label_work_package_edit: "Редагувати робочий пакет %{name}"
   label_work_package_plural: "Пакет робіт"
-  label_work_package_priority_updated: "Оновлено пріоритет робочого пакета"
   label_work_package_status: "Стан робочого пакета"
   label_work_package_status_new: "Новий статус"
   label_work_package_status_plural: "Статуси робочих пакетів"
   label_work_package_types: "Типи робочих пакетів"
-  label_work_package_updated: "Робочий пакет оновлений"
   label_work_package_tracking: "Відстеження робочого пакету"
   label_work_package_view_all: "Переглянути всі робочі пакети"
   label_workflow: "Робочий процес"
@@ -2443,6 +2441,7 @@ uk:
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2524,8 +2523,8 @@ uk:
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
   text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed: "%{label} змінено з %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} змінено з %{old}  в %{new}"
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} оновлено"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"

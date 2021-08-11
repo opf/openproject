@@ -42,6 +42,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'wp-children-query',
@@ -59,6 +60,8 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
   @Input() public group?:GroupDescriptor;
 
   @Input() public addExistingChildEnabled = false;
+
+  public idFromLink = idFromLink;
 
   public tableActions:OpTableActionFactory[] = [
     OpUnlinkTableAction.factoryFor(

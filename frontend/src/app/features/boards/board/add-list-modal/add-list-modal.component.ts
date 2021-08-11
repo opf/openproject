@@ -56,7 +56,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   getAutocompleterData = (searchTerm:string):Observable<HalResource[]> => {
     // Remove prefix # from search
     searchTerm = searchTerm.replace(/^#/, '');
-    return this.actionService.loadAvailable(this.board, this.active, searchTerm)
+    return this.actionService.loadAvailable( this.active, searchTerm)
       .pipe(tap((values) => (this.warnIfNoOptions(values))));
   };
 

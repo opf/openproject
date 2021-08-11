@@ -9,7 +9,7 @@ module API
         if spec_path.exist?
           assemble_spec spec_path
         else
-          raise "Could not find openapi-spec.yml uner #{spec_path}"
+          raise "Could not find openapi-spec.yml under #{spec_path}"
         end
       end
 

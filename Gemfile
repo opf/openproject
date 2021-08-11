@@ -32,7 +32,7 @@ ruby '~> 2.7.4'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.1.0'
+gem 'activerecord-import', '~> 1.2.0'
 gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.3'
 gem 'responders', '~> 3.0'
@@ -85,7 +85,7 @@ gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 3.26.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 5.2.1'
+gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -95,7 +95,8 @@ gem 'semantic', '~> 1.6.1'
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.2.0'
 
-gem 'date_validator', '~> 0.11.0'
+gem 'date_validator', '~> 0.12.0'
+gem 'email_validator', '~> 2.2.3'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -107,7 +108,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.12.0'
+gem 'oj', '~> 3.13.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.7.4'
@@ -148,7 +149,7 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.14.0'
+gem 'meta-tags', '~> 2.15.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -159,7 +160,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'i18n-js', '~> 3.8.0'
+gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
@@ -167,9 +168,9 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.3.0' # used for development and optionally for production
+gem 'puma', '~> 5.4.0' # used for development and optionally for production
 
-gem 'nokogiri', '~> 1.11.0'
+gem 'nokogiri', '~> 1.12.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -238,7 +239,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 4.5', require: nil
+  gem 'shoulda-matchers', '~> 5.0', require: nil
 
   gem 'parallel_tests', '~> 3.1'
 end
@@ -248,7 +249,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.5.1' # Use for event-based reloaders
+  gem 'listen', '~> 3.6.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
@@ -283,7 +284,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.0.0'
+  gem 'brakeman', '~> 5.1.0'
   gem 'danger-brakeman'
 end
 

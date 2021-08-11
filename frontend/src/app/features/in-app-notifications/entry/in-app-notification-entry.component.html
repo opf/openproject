@@ -1,116 +1,108 @@
 <div
-  class="op-ian-item"
-  [class.op-ian-item_expanded]="notification.expanded"
-  attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
-  [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
+    class="op-ian-item"
+    [class.op-ian-item_expanded]="notification.expanded"
+    [class.op-ian-item_read]="notification.readIAN === true"
+    attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
+    [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
 >
   <button
-    type="button"
-    class="op-ian-item--row"
-    [class.op-ian-item--row_unexpandable]="unexpandable"
-      (click)="toggleDetails()"
+      type="button"
+      class="op-ian-item--row"
+      [class.op-ian-item--row_unexpandable]="unexpandable"
+      (click)="showDetails()"
   >
     <div
-      *ngIf="project"
-      class="op-ian-item--project"
-      >
+        *ngIf="project"
+        class="op-ian-item--project"
+    >
       <a
-          class="op-ian-item--project-link"[href]="project.showUrl"
-      [textContent]="project.title"
-      (click)="projectClicked($event)"
-      target="_blank"
-    ></a></div>
+          class="op-ian-item--project-link" [href]="project.showUrl"
+          [textContent]="project.title"
+          (click)="projectClicked($event)"
+          target="_blank"
+      ></a>
+    </div>
+
     <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
       <span
-        class="op-ian-item--title"
-        ngPreserveWhitespaces
+          class="op-ian-item--title"
+          ngPreserveWhitespaces
       >
         <span [ngClass]="'__hl_inline_type_' + workPackage.type.id" [textContent]="workPackage.type.name">
         </span>
           <a
-            [attr.title]="workPackage.subject"
-            uiSref="work-packages.show"
-            [uiParams]="{workPackageId: workPackage.id}"
-            [textContent]="'#' + workPackage.id"
-            (click)="resourceLinkClicked.emit(workPackage)"
+              [attr.title]="workPackage.subject"
+              uiSref="work-packages.show"
+              [uiParams]="{workPackageId: workPackage.id}"
+              [textContent]="'#' + workPackage.id"
+              (click)="resourceLinkClicked.emit(workPackage)"
           >
         </a>
         <span
-          [textContent]="workPackage.subject"
-          class="op-ian-item--work-package-subject"
-          [class.-read]="notification.readIAN"
+            [textContent]="workPackage.subject"
+            class="op-ian-item--work-package-subject"
+            [class.-read]="notification.readIAN"
         >
         </span>
       </span>
+
+      <ng-container *ngIf="!workPackage$">
+        <span
+            class="op-ian-item--title"
+            [textContent]="notification.subject"
+        ></span>
+      </ng-container>
+
+      <op-principal-list
+        class="op-ian-item--actors"
+        [principals]="actors"
+      ></op-principal-list>
+
+      <div class="op-ian-item--status hidden-for-mobile">
+        <op-in-app-notification-status [status]="workPackage.status"></op-in-app-notification-status>
+      </div>
+
+      <div
+        class="op-ian-item--reason-wrapper"
+      >
+        <span
+          class="op-ian-item--reason"
+          *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
+        >
+          <span
+            *ngIf="item.value > 1"
+            class="op-ian-item--reason-count"
+            [textContent]="item.value"
+          ></span>
+          {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
+        </span>
+      </div>
+
+      <div class="op-ian-item--buttons">
+        <button
+          *ngIf="!notification.readIAN"
+          type="button"
+          class="op-ian-item--button button -tiny"
+          [disabled]="loading$ | async"
+          (click)="markAsRead($event, aggregatedNotifications)"
+        >
+          <i class="button--icon icon-yes"></i>
+        </button>
+      </div>
+
+      <div
+        class="op-ian-item--date"
+        [title]="fixedTime"
+        [textContent]="relativeTime$ | async"
+      ></div>
     </ng-container>
+
     <ng-template #workPackageLoading>
-      <span
-        *ngIf="workPackage$"
+        <span
+          *ngIf="workPackage$"
           class="op-ian-item--title"
           [textContent]="text.loading"
-      ></span>
+        ></span>
     </ng-template>
-    <ng-container *ngIf="!workPackage$">
-      <span
-        class="op-ian-item--title"
-        [textContent]="notification.subject"
-      ></span>
-    </ng-container>
-    <div
-      class="op-ian-item--actor"
-      *ngIf="actor"
-    >
-      <op-principal
-        [hide-name]="false"
-        [principal]="actor"
-        [link]="false"
-        size="medium"
-        class="op-principal_hide-name-on-mobile"
-      ></op-principal>
-    </div>
-    <div
-      class="op-ian-item--reason"
-      [textContent]="translatedReason || notification.reason"
-    ></div>
-    <div
-      class="op-ian-item--date"
-      [title]="fixedTime"
-      [textContent]="relativeTime$ | async"
-    ></div>
   </button>
-  <div
-    *ngIf="notification.expanded"
-    class="op-ian-item--details"
-    data-qa-selector="op-ian-details"
-  >
-    <ng-container *ngIf="body.length > 0">
-      <div class="op-ian-item--body">
-        <ng-container *ngFor="let bodyItem of body">
-          <div
-            class="op-ian-item--body-item"
-            [innerHTML]="bodyItem.html"
-          >
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
-    <ul
-      class="work-package-details-activities-messages"
-      *ngIf="details.length > 0"
-    >
-      <ng-container *ngFor="let detail of details">
-        <li *ngIf="detail.html && detail.html !== ''">
-          <span
-            class="message"
-            [innerHtml]="detail.html"
-          ></span>
-        </li>
-      </ng-container>
-    </ul>
-    <span
-      *ngIf="details.length === 1"
-      class="message"
-      [innerHtml]="details[0].html"
-    ></span>
-  </div>
 </div>

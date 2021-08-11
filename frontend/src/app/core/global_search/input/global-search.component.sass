@@ -1,3 +1,5 @@
+@import "src/assets/sass/helpers"
+
 .global-search
   flex-grow: 1
 
@@ -18,6 +20,7 @@
     display: flex
     flex-direction: column
     flex-grow: 1
+    overflow: hidden
 
   &--search-term
     flex-grow: 1
@@ -46,6 +49,7 @@
 
   &--wp-project
     grid-area: project
+    @include text-shortener
 
   &--wp-id
     grid-area: idlink
@@ -63,7 +67,6 @@
   &--wp-subject
     font-weight: bold
     display: inline-block
-    width: 85%
     overflow: hidden
     white-space: nowrap
     text-overflow: ellipsis

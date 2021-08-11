@@ -110,6 +110,9 @@ export class SentryReporter implements ErrorReporter {
           'The transition has been superseded by a different transition',
           // Uncaught promise rejections
           'Uncaught (in promise)',
+          // Non-errors caught for hal resources
+          'Non-Error exception captured with keys: $embedded, $halType, $links, $loaded',
+
         ],
         beforeSend: (event) => this.filterEvent(event),
       });

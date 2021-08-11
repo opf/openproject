@@ -6,7 +6,7 @@
           [ngClass]="typeHighlightingClass"
           [textContent]="resource.type.name">
     </span>
-    <a [href]="pathHelper.workPackagePath(resource.idFromLink)"
+    <a [href]="pathHelper.workPackagePath(idFromLink(resource.href))"
        [textContent]="resource.subjectWithId()"
        target="_blank">
     </a>

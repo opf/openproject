@@ -11,6 +11,7 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
@@ -95,7 +96,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public workPackagePath(entry:TimeEntryResource) {
-    return this.pathHelper.workPackagePath(entry.workPackage.idFromLink);
+    return this.pathHelper.workPackagePath(idFromLink(entry.workPackage.href));
   }
 
   public get isEditable() {
@@ -132,7 +133,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
       showClose: true,
       closeByDocument: true,
       passedData: [
-        `#${entry.workPackage?.idFromLink} ${entry.workPackage?.name}`,
+        `#${idFromLink(entry.workPackage?.href)} ${entry.workPackage?.name}`,
         `${this.i18n.t(
           'js.units.hour',
           { count: this.timezone.toHours(entry.hours) },

@@ -21,6 +21,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export abstract class BoardActionService {
@@ -132,7 +133,7 @@ export abstract class BoardActionService {
     const filter = {
       [this.filterName]: {
         operator: '=' as FilterOperator,
-        values: [value.idFromLink],
+        values: [idFromLink(value.href)],
       },
     };
 
@@ -146,7 +147,7 @@ export abstract class BoardActionService {
    * @param active The active set of values (resources or plain values)
    * @param matching values matching the given name
    */
-  loadAvailable(board:Board, active:Set<string>, matching:string):Observable<HalResource[]> {
+  loadAvailable(active:Set<string>, matching:string):Observable<HalResource[]> {
     return this
       .loadValues(matching)
       .pipe(

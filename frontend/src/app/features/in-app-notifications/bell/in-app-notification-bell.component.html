@@ -1,7 +1,7 @@
-<button
-  type="button"
+<a
   class="op-ian-bell op-app-menu--item-action"
-  (click)="openCenter($event)"
+  data-qa-selector="op-ian-bell"
+  uiSref="notifications"
   >
   <op-icon icon-classes="icon-bell">
   </op-icon>
@@ -13,4 +13,4 @@
       [textContent]="unreadCount > 99 ? '' : unreadCount">
   </span>
   </ng-container>
-</button>
+</a>
