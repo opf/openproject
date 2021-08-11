@@ -76,11 +76,8 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     },
   ];
 
-  /** Global referrer set when coming from a hard reload */
+  /** Global referrer set when coming to the notification center */
   private documentReferer:string;
-
-  /** Local referrer set when coming from an angular route */
-  private backRoute:BackRouteOptions;
 
   constructor(
     readonly I18n:I18nService,
@@ -96,7 +93,6 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   }
 
   ngOnInit():void {
-    this.backRoute = this.backRoutingService.backRoute;
     this.documentReferer = document.referrer;
   }
 
@@ -119,11 +115,6 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   changeChangesFromTitle(val:string):void {}
 
   private backButtonFn():void {
-    if (this.backRoute) {
-      void this.backRoutingService.goToOtherState(this.backRoute.name, this.backRoute.params);
-      return;
-    }
-
     if (this.documentReferer.length > 0) {
       window.location.href = this.documentReferer;
     } else {

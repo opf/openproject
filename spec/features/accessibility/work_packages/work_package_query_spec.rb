@@ -163,11 +163,11 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
     end
 
     context 'focus' do
-      let(:first_link_selector) do
-        ".wp-row-#{work_package.id} .inline-edit--display-field.id a"
+      let(:first_row_selector) do
+        ".wp-row-#{work_package.id}"
       end
-      let(:second_link_selector) do
-        ".wp-row-#{another_work_package.id} .inline-edit--display-field.id a"
+      let(:second_row_selector) do
+        ".wp-row-#{another_work_package.id}"
       end
 
       it 'navigates with J and K' do
@@ -175,14 +175,14 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
         expect(page).to have_selector(".wp-row-#{another_work_package.id}")
 
         find('body').native.send_keys('j')
-        expect(page).to have_focus_on(first_link_selector)
+        expect(page).to have_focus_on(first_row_selector)
 
         # Avoid sending keys on body since that resets focus
         page.driver.browser.switch_to.active_element.send_keys('j')
-        expect(page).to have_focus_on(second_link_selector)
+        expect(page).to have_focus_on(second_row_selector)
 
         page.driver.browser.switch_to.active_element.send_keys('k')
-        expect(page).to have_focus_on(first_link_selector)
+        expect(page).to have_focus_on(first_row_selector)
       end
     end
 

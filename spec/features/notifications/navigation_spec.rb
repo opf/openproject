@@ -43,9 +43,8 @@ describe "Notification center navigation", type: :feature, js: true do
       navigation_helper.open_center_and_navigate_within
       expect(page).to have_current_path home_path
 
-      # Todo Implement (#38564)
-      # navigation_helper.open_center_and_navigate_out
-      # expect(current_path).to eq home_path
+      navigation_helper.open_center_and_navigate_out
+      expect(page).to have_current_path home_path
     end
 
     it 'when coming from an angular page' do
@@ -57,9 +56,8 @@ describe "Notification center navigation", type: :feature, js: true do
       navigation_helper.open_center_and_navigate_within
       expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
 
-      # Todo: Implement (#38564)
-      # navigation_helper.open_center_and_navigate_out
-      # visit project_work_package_path(project, work_package, state: 'activity')
+      navigation_helper.open_center_and_navigate_out
+      expect(page).to have_current_path project_work_package_path(project, work_package, state: 'activity')
     end
   end
 
