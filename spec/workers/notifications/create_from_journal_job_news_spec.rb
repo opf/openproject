@@ -31,10 +31,17 @@ require 'spec_helper'
 
 describe Notifications::CreateFromJournalJob, 'for a news' do
   subject(:perform) do
-    described_class.perform_now(journal, send_notifications)
+    described_class.perform_now(journal.id, send_notifications)
   end
 
-  let(:journal) { FactoryBot.build_stubbed(:journal, notes: 'Some journal notes', journable: journable) }
+  let(:journal) do
+    FactoryBot.build_stubbed(:journal, notes: 'Some journal notes', journable: journable).tap do |j|
+      allow(Journal)
+        .to receive(:find_by)
+              .with(id: j.id)
+              .and_return(j)
+    end
+  end
   let(:journable) { FactoryBot.build_stubbed(:news) }
   let(:send_notifications) { true }
 

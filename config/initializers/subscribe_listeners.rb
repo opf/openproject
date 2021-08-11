@@ -32,7 +32,7 @@ OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |p
   # The notification is to be created as fast as possible even though a journal might be replaced later on.
   # That way, a user receives an in app notification right away.
   # The job also governs who will receive a notification (by any channel).
-  Notifications::CreateFromJournalJob.perform_later(payload[:journal], payload[:send_notification])
+  Notifications::CreateFromJournalJob.perform_later(payload[:journal].id, payload[:send_notification])
 
   # A job is scheduled for the end of the journal aggregation time. If the journal does still exist
   # at the end (it might be replaced because another journal was created within that timeframe)

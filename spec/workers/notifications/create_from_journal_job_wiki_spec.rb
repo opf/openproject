@@ -32,7 +32,7 @@ require_relative './create_from_journal_job_shared'
 
 describe Notifications::CreateFromJournalJob, 'for a wiki page', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:perform) do
-    described_class.perform_now(journal, send_notifications)
+    described_class.perform_now(journal.id, send_notifications)
   end
 
   include_context 'CreateFromJournalJob context'

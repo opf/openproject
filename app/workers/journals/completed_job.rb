@@ -36,7 +36,7 @@ class Journals::CompletedJob < ApplicationJob
       return unless supported?(journal)
 
       set(wait_until: delivery_time)
-        .perform_later(journal, send_mails)
+        .perform_later(journal.id, send_mails)
     end
 
     def aggregated_event(journal)
@@ -59,10 +59,12 @@ class Journals::CompletedJob < ApplicationJob
     end
   end
 
-  def perform(journal, send_mails)
+  def perform(journal_id, send_mails)
+    journal = Journal.find_by(id: journal_id)
+
     # If the WP has been deleted the journal will have been deleted, too.
     # Or the journal might have been replaced
-    return unless Journal.exists?(id: journal.id)
+    return if journal.nil?
 
     notify_journal_complete(journal, send_mails)
   end

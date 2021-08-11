@@ -49,7 +49,7 @@ describe 'seeds' do
       expect(Projects::Status.count).to eq 4
       expect(Bim::IfcModels::IfcModel.count).to eq 3
 
-      perform_enqueued_jobs
+      perform_enqueued_job
 
       expect(ActionMailer::Base.deliveries)
         .to be_empty

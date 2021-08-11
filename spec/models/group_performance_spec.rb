@@ -77,18 +77,18 @@ describe Group, type: :model do
 
         start = Time.now.to_i
 
-        perform_enqueued_jobs do
-          Groups::DeleteService
-            .new(user: User.system, contract_class: EmptyContract, model: group)
-            .call
-        end
+        Groups::DeleteService
+          .new(user: User.system, contract_class: EmptyContract, model: group)
+          .call
+
+        perform_enqueued_jobs
 
         @seconds = Time.now.to_i - start
 
         expect(@seconds < 10).to eq true
       end
 
-      it 'should reassign the work package to nobody and clean up the journals' do
+      it 'reassigns the work package to nobody and cleans up the journals' do
         expect(::OpenProject::Notifications)
           .to have_received(:send)
           .with(OpenProject::Events::MEMBER_DESTROYED, any_args)

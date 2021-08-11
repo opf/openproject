@@ -41,11 +41,11 @@ class Notifications::CreateFromJournalJob < ApplicationJob
       .freeze
   MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
 
-  def perform(journal, send_notifications)
-    self.journal = journal
+  def perform(journal_id, send_notifications)
+    self.journal = Journal.find_by(id: journal_id)
 
-    return unless supported?
     return if abort_sending?(send_notifications)
+    return unless supported?
 
     notification_receivers.each do |recipient_id, channel_reasons|
       create_notification(recipient_id,
@@ -250,8 +250,8 @@ class Notifications::CreateFromJournalJob < ApplicationJob
 
   def abort_sending?(send_notifications)
     !send_notification?(send_notifications) ||
-      journal.noop? ||
-      !Journal.exists?(id: journal.id)
+      journal.nil? ||
+      journal.noop?
   end
 
   def group_or_user_ids(association)

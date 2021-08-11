@@ -40,6 +40,10 @@ describe Journals::CompletedJob, type: :model do
               .with(j.id.to_s)
               .and_return(j)
       allow(Journal)
+        .to receive(:find_by)
+              .with(id: j.id)
+              .and_return(j)
+      allow(Journal)
         .to receive(:exists?)
               .with(id: j.id)
               .and_return(true)
@@ -60,7 +64,7 @@ describe Journals::CompletedJob, type: :model do
         expect { subject }
           .to have_enqueued_job(described_class)
                 .at(Setting.journal_aggregation_time_minutes.to_i.minutes.from_now)
-                .with(journal,
+                .with(journal.id,
                       send_mail)
       end
     end
@@ -92,7 +96,7 @@ describe Journals::CompletedJob, type: :model do
   end
 
   describe '#perform' do
-    subject { described_class.new.perform(journal, send_mail) }
+    subject { described_class.new.perform(journal.id, send_mail) }
 
     context 'with a work packages' do
       let(:journable) { FactoryBot.build_stubbed(:work_package) }
@@ -139,9 +143,9 @@ describe Journals::CompletedJob, type: :model do
 
       before do
         allow(Journal)
-          .to receive(:exists?)
+          .to receive(:find_by)
                 .with(id: journal.id)
-                .and_return(false)
+                .and_return(nil)
       end
 
       it 'sends no notification' do
