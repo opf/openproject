@@ -28,33 +28,82 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
+require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob, 'news' do
+describe Notifications::CreateFromJournalJob, 'news', with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:perform) do
     described_class.perform_now(journal.id, send_notifications)
   end
 
-  let(:journal) do
-    FactoryBot.build_stubbed(:journal, notes: 'Some journal notes', journable: journable).tap do |j|
-      allow(Journal)
-        .to receive(:find_by)
-              .with(id: j.id)
-              .and_return(j)
-    end
-  end
+  include_context 'with CreateFromJournalJob context'
+
   let(:journable) { FactoryBot.build_stubbed(:news) }
+
+  let(:news) { FactoryBot.create(:news, project: project) }
+
+  # view_news is a public permission
+  let(:permissions) { [] }
   let(:send_notifications) { true }
+  let(:journal) { news.journals.last }
+  let(:author) { other_user }
+
+  current_user { other_user }
+
+  before do
+    recipient
+  end
 
   describe '#perform' do
-    it 'creates no notification' do
-      allow(Notifications::CreateService)
-        .to receive(:new)
-              .and_call_original
+    context 'with a newly created news do' do
+      context 'with the user having registered for all notifications' do
+        it_behaves_like 'creates notification' do
+          let(:notification_channel_reasons) do
+            {
+              read_ian: nil,
+              reason_ian: false,
+              read_mail: false,
+              reason_mail: :subscribed,
+              read_mail_digest: nil,
+              reason_mail_digest: false
+            }
+          end
+        end
+      end
 
-      perform
+      context 'with the user having registered for involved notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+          ]
+        end
 
-      expect(Notifications::CreateService)
-        .not_to have_received(:new)
+        it_behaves_like 'creates no notification'
+      end
+
+      context 'with the user having registered for no notifications' do
+        let(:recipient_notification_settings) do
+          [
+            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
+            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+          ]
+        end
+
+        it_behaves_like 'creates no notification'
+      end
+    end
+
+    context 'with an updated news' do
+      before do
+        news.description = "Some new text to create a journal"
+        news.save!
+      end
+
+      context 'with the user having registered for all notifications' do
+        it_behaves_like 'creates no notification'
+      end
     end
   end
 end

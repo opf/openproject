@@ -162,7 +162,7 @@ describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_a
       end
     end
 
-    context 'with an updated wiki page do' do
+    context 'with an updated wiki page' do
       before do
         wiki_content.text = "Some new text to create a journal"
         wiki_content.save!

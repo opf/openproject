@@ -28,21 +28,21 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifications::CreateFromJournalJob::WorkPackageStrategy
+module Notifications::CreateFromJournalJob::NewsStrategy
   def self.reasons
-    %i(mentioned involved watched subscribed commented created processed prioritized scheduled)
+    %i(subscribed)
   end
 
   def self.permission
-    :view_work_packages
+    :view_news
   end
 
   def self.supports_ian?
-    true
+    false
   end
 
   def self.supports_mail_digest?
-    true
+    false
   end
 
   def self.supports_mail?
@@ -50,10 +50,11 @@ module Notifications::CreateFromJournalJob::WorkPackageStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
-  def self.watcher_users(journal)
-    journal.journable.watcher_recipients
+    if journal.initial?
+      User.notified_on_all(journal.data.project)
+    else
+      # No notification on updating a news
+      User.none
+    end
   end
 end

@@ -191,7 +191,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { true }
       let(:notification_setting) { %w(wiki_content_updated) }
 
-      it 'sends a mail' do
+      it 'sends no mail' do
         job
 
         expect(UserMailer)
@@ -220,7 +220,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { false }
       let(:notification_setting) { %w(wiki_content_added) }
 
-      it 'sends a mail' do
+      it 'sends no mail' do
         job
 
         expect(UserMailer)
@@ -238,6 +238,85 @@ describe Mails::NotificationJob, type: :model do
           .not_to have_received(:wiki_content_added)
         expect(UserMailer)
           .not_to have_received(:wiki_content_updated)
+      end
+    end
+  end
+
+  context 'with a news journal notification' do
+    let(:journal) do
+      FactoryBot.build_stubbed(:news_journal,
+                               journable: FactoryBot.build_stubbed(:news)).tap do |j|
+        allow(j)
+          .to receive(:initial?)
+                .and_return(journal_initial)
+      end
+    end
+    let(:notification) do
+      FactoryBot.build_stubbed(:notification,
+                               journal: journal,
+                               recipient: recipient,
+                               actor: actor)
+    end
+    let(:notification_setting) { %w(news_added) }
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(UserMailer)
+        .to receive(:news_added)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_now)
+
+      mail
+    end
+    let(:journal_initial) { false }
+
+    before do
+      mail
+
+      allow(Setting).to receive(:notified_events).and_return(notification_setting)
+    end
+
+    context 'with the notification being for an initial journal' do
+      let(:journal_initial) { true }
+
+      it 'sends a mail' do
+        job
+
+        expect(UserMailer)
+          .to have_received(:news_added)
+                .with(recipient,
+                      journal.journable,
+                      journal.user)
+
+        expect(mail)
+          .to have_received(:deliver_now)
+      end
+    end
+
+    context 'with the notification being for an initial journal but the event is disabled' do
+      let(:journal_initial) { true }
+      let(:notification_setting) { %w() }
+
+      it 'sends no mail' do
+        job
+
+        expect(UserMailer)
+          .not_to have_received(:news_added)
+      end
+    end
+
+    # This case should not happen as no notification is created in this case that would
+    # trigger the NotificationJob. But as this might change, this test case is in place.
+    context 'with the notification being for an update journal' do
+      let(:journal_initial) { false }
+
+      it 'sends no mail' do
+        job
+
+        expect(UserMailer)
+          .not_to have_received(:news_added)
       end
     end
   end

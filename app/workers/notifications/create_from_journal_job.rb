@@ -131,10 +131,8 @@ class Notifications::CreateFromJournalJob < ApplicationJob
   end
 
   def settings_of_subscribed
-    project = journal.data.project
-
-    applicable_settings(User.notified_on_all(project),
-                        project,
+    applicable_settings(strategy.subscribed_users(journal),
+                        journal.data.project,
                         :all)
   end
 

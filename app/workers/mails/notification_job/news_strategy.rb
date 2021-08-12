@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,32 +26,34 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifications::CreateFromJournalJob::WorkPackageStrategy
-  def self.reasons
-    %i(mentioned involved watched subscribed commented created processed prioritized scheduled)
-  end
+module Mails::NotificationJob::NewsStrategy
+  class << self
+    def send_mail(notification)
+      method = mailer_method(notification)
 
-  def self.permission
-    :view_work_packages
-  end
+      return if notification_disabled?(method.to_s)
 
-  def self.supports_ian?
-    true
-  end
+      UserMailer
+        .send(method,
+              notification.recipient,
+              notification.journal.journable,
+              notification.journal.user || DeletedUser.first)
+        .deliver_now
+    end
 
-  def self.supports_mail_digest?
-    true
-  end
+    private
 
-  def self.supports_mail?
-    true
-  end
+    def mailer_method(notification)
+      if notification.journal.initial?
+        :news_added
+      else
+        # Not supported for now
+        nil
+      end
+    end
 
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
-  def self.watcher_users(journal)
-    journal.journable.watcher_recipients
+    def notification_disabled?(name)
+      Setting.notified_events.exclude?(name)
+    end
   end
 end

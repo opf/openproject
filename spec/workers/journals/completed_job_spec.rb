@@ -91,16 +91,14 @@ describe Journals::CompletedJob, type: :model do
     context 'with a news' do
       let(:journable) { FactoryBot.build_stubbed(:news) }
 
-      it_behaves_like 'enqueues no job'
+      it_behaves_like 'enqueues a JournalCompletedJob'
     end
   end
 
   describe '#perform' do
     subject { described_class.new.perform(journal.id, send_mail) }
 
-    context 'with a work packages' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
-
+    shared_examples_for 'sends a notification' do |event|
       it 'sends a notification' do
         allow(OpenProject::Notifications)
           .to receive(:send)
@@ -109,38 +107,31 @@ describe Journals::CompletedJob, type: :model do
 
         expect(OpenProject::Notifications)
           .to have_received(:send)
-                .with(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+                .with(event,
                       journal: journal,
                       send_mail: send_mail)
       end
+    end
+
+    context 'with a work packages' do
+      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+
+      it_behaves_like 'sends a notification',
+                      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
     end
 
     context 'with wiki page content' do
       let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
 
-      it 'sends a notification' do
-        allow(OpenProject::Notifications)
-          .to receive(:send)
-
-        subject
-
-        expect(OpenProject::Notifications)
-          .to have_received(:send)
-                .with(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY,
-                      journal: journal,
-                      send_mail: send_mail)
-      end
+      it_behaves_like 'sends a notification',
+                      OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
     end
 
     context 'with a news' do
       let(:journable) { FactoryBot.build_stubbed(:news) }
 
-      it 'sends no notification' do
-        allow(OpenProject::Notifications)
-          .to receive(:send)
-
-        subject
-      end
+      it_behaves_like 'sends a notification',
+                      OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
     end
 
     context 'with a non non-existant journal' do

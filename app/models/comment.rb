@@ -30,7 +30,7 @@
 
 class Comment < ApplicationRecord
   belongs_to :commented, polymorphic: true, counter_cache: true
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
 
   validates :commented, :author, :comments, presence: true
 

@@ -55,6 +55,10 @@ OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNA
   Notifications::ScheduleJournalMailsService.call(payload[:journal])
 end
 
+OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY) do |payload|
+  Notifications::ScheduleJournalMailsService.call(payload[:journal])
+end
+
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
   next unless payload[:send_notifications]
 

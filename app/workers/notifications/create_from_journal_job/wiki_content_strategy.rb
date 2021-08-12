@@ -49,6 +49,10 @@ module Notifications::CreateFromJournalJob::WikiContentStrategy
     true
   end
 
+  def self.subscribed_users(journal)
+    User.notified_on_all(journal.data.project)
+  end
+
   def self.watcher_users(journal)
     page = journal.journable.page
 
