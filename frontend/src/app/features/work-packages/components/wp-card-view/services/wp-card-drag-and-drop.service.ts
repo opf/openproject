@@ -11,6 +11,7 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
@@ -110,7 +111,7 @@ export class WorkPackageCardDragAndDropService {
    */
   public set workPackages(workPackages:WorkPackageResource[]) {
     if (this.activeInlineCreateWp) {
-      const existingNewWp = this._workPackages.find((o) => o.isNew);
+      const existingNewWp = this._workPackages.find((o) => isNewResource(o));
 
       // If there is already a card for a new WP,
       // we have to replace this one by the new activeInlineCreateWp
@@ -130,7 +131,7 @@ export class WorkPackageCardDragAndDropService {
    */
   private get currentOrder():string[] {
     return this.workPackages
-      .filter((wp) => wp && !wp.isNew)
+      .filter((wp) => wp && !isNewResource(wp))
       .map((el) => el.id!);
   }
 
@@ -196,7 +197,7 @@ export class WorkPackageCardDragAndDropService {
     this.workPackages.splice(index, 1);
     this.activeInlineCreateWp = undefined;
 
-    if (!wp.isNew) {
+    if (!isNewResource(wp)) {
       const newOrder = this.reorderService.remove(this.currentOrder, wp.id!);
       this.updateOrder(newOrder);
     }

@@ -27,6 +27,7 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class IdDisplayField extends DisplayField {
   public text = {
@@ -34,7 +35,7 @@ export class IdDisplayField extends DisplayField {
   };
 
   public get value() {
-    if (this.resource.isNew) {
+    if (isNewResource(this.resource)) {
       return null;
     }
     return this.resource[this.name];

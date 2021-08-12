@@ -48,6 +48,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
@@ -107,8 +108,8 @@ describe('WorkPackage', () => {
       expect(workPackage.attachments).toEqual(jasmine.any(AttachmentCollectionResource));
     });
 
-    it('should return true for `isNew`', () => {
-      expect(workPackage.isNew).toBeTruthy();
+    it('should return true for `isNewResource`', () => {
+      expect(isNewResource(workPackage)).toBeTruthy();
     });
   });
 

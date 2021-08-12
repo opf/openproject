@@ -40,6 +40,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -159,7 +160,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * @return {any}
    */
   public async submit():Promise<T> {
-    if (this.change.isEmpty() && !this.resource.isNew) {
+    if (this.change.isEmpty() && !isNewResource(this.resource)) {
       this.closeEditFields();
       return Promise.resolve(this.resource);
     }

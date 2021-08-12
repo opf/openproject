@@ -36,6 +36,7 @@ import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op
 import { OpenProjectFileUploadService, UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 type Constructor<T = {}> = new (...args:any[]) => T;
 
@@ -70,7 +71,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
      * adding attachments is allowed.
      */
     public get canAddAttachments():boolean {
-      return !!this.$links.addAttachment || this.isNew;
+      return !!this.$links.addAttachment || isNewResource(this);
     }
 
     /**
@@ -182,7 +183,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
 
       if (href) {
         return this.opDirectFileUpload.uploadAndMapResponse(href, files);
-      } if (this.isNew || !this.id || !this.attachmentsBackend) {
+      } if (isNewResource(this) || !this.id || !this.attachmentsBackend) {
         href = this.apiV3Service.attachments.path;
       } else {
         href = this.addAttachment.$link.href;
@@ -196,7 +197,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
         return this.$links.prepareAttachment.href;
       }
 
-      if (this.isNew) {
+      if (isNewResource(this)) {
         return this.config.prepareAttachmentURL;
       }
       return null;

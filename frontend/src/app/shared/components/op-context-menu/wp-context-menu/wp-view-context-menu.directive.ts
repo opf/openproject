@@ -20,6 +20,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
   @InjectField() protected states!:States;
@@ -167,7 +168,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       },
     }));
 
-    if (!this.workPackage.isNew) {
+    if (!isNewResource(this.workPackage)) {
       items.unshift({
         disabled: false,
         icon: 'icon-view-fullscreen',
