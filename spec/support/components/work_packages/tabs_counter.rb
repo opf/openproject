@@ -17,7 +17,7 @@ module Components
       def expect_counter(tab, content)
         expect(tab).to have_selector('[data-qa-selector="tab-count"]')
 
-        expect(tab).to have_selector('[data-qa-selector="tab-count"]', text: '(' + content.to_s + ')')
+        expect(tab).to have_selector('[data-qa-selector="tab-count"]', text: "(#{content})")
       end
 
       # Counter should not be displayed, if there are no relations or watchers

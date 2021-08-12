@@ -13,6 +13,8 @@ export interface TabDefinition {
   routeParams?:unknown;
   /** Show a tab count with this observable's result */
   counter?:Observable<number>;
+  /** Whether the counter should be shown as number in brackets or within a bubble */
+  showCountAsBubble?:boolean;
   /** Disable the tab, optionally with an explanatory title */
   disable?:string|true;
 }

@@ -137,7 +137,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
-  protected hasUnreadNotification(activityHref:string) {
+  protected hasUnreadNotification(activityHref:string):boolean {
     return !!this.notifications.find((notification) => notification._links.activity?.href === activityHref);
   }
 
