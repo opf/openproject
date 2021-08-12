@@ -1,9 +1,17 @@
-<div class="work-package-details-activities-activity-contents"
-     *ngIf="workPackage">
+<div
+  class="work-package-details-activities-activity-contents"
+  *ngIf="workPackage"
+>
   <div class="comments-number">
-    <activity-link [workPackage]="workPackage"
-                   [activityNo]="activityNo">
-    </activity-link>
+    <span
+      *ngIf="hasUnreadNotification"
+      class="op-bubble"
+      data-qa-selector="revision-activity-bubble"
+    ></span>
+    <activity-link
+      [workPackage]="workPackage"
+      [activityNo]="activityNo"
+    ></activity-link>
   </div>
 
   <op-principal
@@ -22,9 +30,11 @@
   ></op-principal>
 
   <span class="user" *ngIf="userActive">
-    <a [attr.href]="userPath"
-       [attr.aria-label]="userLabel"
-       [textContent]="userName"></a>
+    <a
+      [attr.href]="userPath"
+      [attr.aria-label]="userLabel"
+      [textContent]="userName"
+    ></a>
   </span>
   <span class="user" *ngIf="!userActive" [textContent]="userName"></span>
   <span class="revision-activity--revision-link date" [innerHtml]="revisionLink"></span>

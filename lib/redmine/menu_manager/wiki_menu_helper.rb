@@ -50,7 +50,6 @@ module Redmine::MenuManager::WikiMenuHelper
               { controller: '/wiki', action: 'show', id: main_item.slug },
               param: :project_id,
               caption: main_item.title,
-              after: :repository,
               icon: 'icon2 icon-wiki',
               html: { class: 'wiki-menu--main-item' }
 

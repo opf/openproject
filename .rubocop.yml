@@ -137,6 +137,12 @@ RSpec/ExampleLength:
     - 'spec/features/**/*.rb'
     - 'modules/*/spec/features/**/*.rb'
 
+RSpec/DescribeClass:
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
 # See RSpec/ExampleLength for why feature specs are excluded
 RSpec/MultipleExpectations:
   Max: 15
