@@ -42,7 +42,13 @@ import { EditFieldComponent } from '../../edit-field.component';
 
 export interface ValueOption {
   name:string;
-  href:string|null;
+  href?:string|null;
+  $links?: { href:string|null };
+}
+
+function getValueHref(val:ValueOption):string|null {
+  const href = val.href ? val.href : val.$links?.href;
+  return href || null;
 }
 
 @Component({
@@ -75,8 +81,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
   };
 
   public get selectedOption() {
-    const href = this.value ? this.value.href : null;
-    return _.find(this.availableOptions, (o) => o.href === href)!;
+    const href = getValueHref(this.value);
+    return _.find(this.availableOptions, (o) => getValueHref(o) === href)!;
   }
 
   public set selectedOption(val:ValueOption|HalResource) {
@@ -88,12 +94,14 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       return;
     }
 
-    const option = _.find(this.availableOptions, (o) => o.href === val.href);
+    const option = _.find(this.availableOptions, (o) => getValueHref(o) === val.href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
     if (option && option.href === '') {
       option.href = null;
+    } else if (option && option.$links?.href === '') {
+      option.$links.href = null;
     }
 
     this.value = option;
@@ -210,14 +218,17 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public get currentValueInvalid():boolean {
     return !!(
-      (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.href === this.value.href)))
+      (this.value && !_.some(this.availableOptions, (option:HalResource) => (getValueHref(option) === getValueHref(this.value))))
       || (!this.value && this.schema.required)
     );
   }
 
   public onCreate(newElement:HalResource) {
     this.addValue(newElement);
-    this.selectedOption = { name: newElement.name, href: newElement.href };
+    this.selectedOption = {
+      name: newElement.name,
+      $links: { href: getValueHref(newElement) },
+    };
     this.handler.handleUserSubmit();
   }
 
@@ -258,7 +269,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     if (emptyOption === undefined) {
       this.availableOptions.unshift({
         name: this.text.placeholder,
-        href: '',
+        $links: { href: '' },
       });
     }
   }
