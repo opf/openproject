@@ -48,6 +48,8 @@ export class RevisionActivityComponent implements OnInit {
 
   @Input() public activityNo:number;
 
+  @Input() public hasUnreadNotification:boolean;
+
   public userId:string | number;
 
   public userName:string;

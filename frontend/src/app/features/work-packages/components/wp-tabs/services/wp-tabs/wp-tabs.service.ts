@@ -9,6 +9,7 @@ import { WorkPackageWatchersTabComponent } from 'core-app/features/work-packages
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { workPackageWatchersCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-watchers-count.function';
 import { workPackageRelationsCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-relations-count.function';
+import { workPackageNotificationsCount } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-notifications-count.function';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +66,8 @@ export class WorkPackageTabsService {
         id: 'activity',
         component: WorkPackageActivityTabComponent,
         name: I18n.t('js.work_packages.tabs.activity'),
+        count: workPackageNotificationsCount,
+        showCountAsBubble: true,
       },
       {
         id: 'relations',

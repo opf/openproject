@@ -12,4 +12,5 @@ export interface WpTabDefinition extends TabDefinition {
   component:Type<TabComponent>;
   displayable?:(workPackage:WorkPackageResource, $state:StateService) => boolean;
   count?:(workPackage:WorkPackageResource, injector:Injector) => Observable<number>;
+  showCountAsBubble?:boolean;
 }

@@ -45,6 +45,8 @@ export class ActivityEntryComponent implements OnInit {
 
   @Input() public isInitial:boolean;
 
+  @Input() public hasUnreadNotification:boolean;
+
   public projectId:string;
 
   public activityType:string;
