@@ -1472,7 +1472,7 @@ en:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
-  label_chronological_order: "In chronological order"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
@@ -1776,7 +1776,7 @@ en:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Results"
-  label_reverse_chronological_order: "In reverse chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"
