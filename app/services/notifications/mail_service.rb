@@ -26,33 +26,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Mails::NotificationJob::WikiContentStrategy
-  class << self
-    def send_mail(notification)
-      method = mailer_method(notification)
+class Notifications::MailService
+  def initialize(notification)
+    self.notification = notification
+  end
 
-      return if notification_disabled?(method.to_s)
+  def call
+    ensure_supported
 
-      UserMailer
-        .send(method,
-              notification.recipient,
-              notification.journal.journable,
-              notification.journal.user || DeletedUser.first)
-        .deliver_now
+    return if ian_read?
+
+    strategy.send_mail(notification)
+  end
+
+  private
+
+  attr_accessor :notification
+
+  def ensure_supported
+    unless supported?
+      raise ArgumentError, "Sending mails for notifications is not supported for #{strategy_model}"
     end
+  end
 
-    private
+  def ian_read?
+    notification.read_ian
+  end
 
-    def mailer_method(notification)
-      if notification.journal.initial?
-        :wiki_content_added
-      else
-        :wiki_content_updated
-      end
-    end
+  def strategy
+    @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
+                    "#{self.class}::#{strategy_model}Strategy".constantize
+                  end
+  end
 
-    def notification_disabled?(name)
-      Setting.notified_events.exclude?(name)
-    end
+  def strategy_model
+    journal&.journable_type || resource&.class
+  end
+
+  def journal
+    notification.journal
+  end
+
+  def resource
+    notification.resource
+  end
+
+  def supported?
+    strategy.present?
   end
 end

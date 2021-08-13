@@ -68,7 +68,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to eql 1
+      .to be 1
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]
@@ -91,7 +91,7 @@ describe 'News creation and commenting', type: :feature, js: true do
 
     # Creating the news comment will have sent out mails
     expect(ActionMailer::Base.deliveries.size)
-      .to eql 2
+      .to be 2
 
     expect(ActionMailer::Base.deliveries.last.to)
       .to match_array [other_user.mail]

@@ -28,13 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifications::CreateFromJournalJob::WikiContentStrategy
+module Notifications::CreateFromModelService::NewsStrategy
   def self.reasons
-    %i(watched subscribed)
+    %i(subscribed)
   end
 
   def self.permission
-    :view_wiki_pages
+    :view_news
   end
 
   def self.supports_ian?
@@ -50,17 +50,19 @@ module Notifications::CreateFromJournalJob::WikiContentStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
+    if journal.initial?
+      User.notified_on_all(journal.data.project)
+    else
+      # No notification on updating a news
+      User.none
+    end
   end
 
-  def self.watcher_users(journal)
-    page = journal.journable.page
+  def self.project(journal)
+    journal.data.project
+  end
 
-    if journal.initial?
-      page.wiki.watcher_recipients
-    else
-      page.wiki.watcher_recipients
-          .or(page.watcher_recipients)
-    end
+  def self.user(journal)
+    journal.user
   end
 end

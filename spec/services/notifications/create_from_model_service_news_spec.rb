@@ -30,21 +30,21 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob, 'news', with_settings: { journal_aggregation_time_minutes: 0 } do
-  subject(:perform) do
-    described_class.perform_now(journal.id, send_notifications)
+describe Notifications::CreateFromModelService, 'news', with_settings: { journal_aggregation_time_minutes: 0 } do
+  subject(:call) do
+    described_class.new(journal).call(send_notifications)
   end
 
   include_context 'with CreateFromJournalJob context'
 
   let(:journable) { FactoryBot.build_stubbed(:news) }
 
-  let(:news) { FactoryBot.create(:news, project: project) }
+  let(:resource) { FactoryBot.create(:news, project: project) }
 
   # view_news is a public permission
   let(:permissions) { [] }
   let(:send_notifications) { true }
-  let(:journal) { news.journals.last }
+  let(:journal) { resource.journals.last }
   let(:author) { other_user }
 
   current_user { other_user }
@@ -53,7 +53,7 @@ describe Notifications::CreateFromJournalJob, 'news', with_settings: { journal_a
     recipient
   end
 
-  describe '#perform' do
+  describe '#call' do
     context 'with a newly created news do' do
       context 'with the user having registered for all notifications' do
         it_behaves_like 'creates notification' do
@@ -97,8 +97,8 @@ describe Notifications::CreateFromJournalJob, 'news', with_settings: { journal_a
 
     context 'with an updated news' do
       before do
-        news.description = "Some new text to create a journal"
-        news.save!
+        resource.description = "Some new text to create a journal"
+        resource.save!
       end
 
       context 'with the user having registered for all notifications' do

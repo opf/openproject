@@ -28,9 +28,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::CreateFromJournalJob < ApplicationJob
-  queue_with_priority :notification
-
+class Notifications::CreateFromModelService
   MENTION_USER_ID_PATTERN =
     '<mention[^>]*(?:data-type="user"[^>]*data-id="(\d+)")|(?:data-id="(\d+)"[^>]*data-type="user")[^>]*>)|(?:\buser#(\d+)\b'
       .freeze
@@ -41,27 +39,32 @@ class Notifications::CreateFromJournalJob < ApplicationJob
       .freeze
   MENTION_PATTERN = Regexp.new("(?:#{MENTION_USER_ID_PATTERN})|(?:#{MENTION_USER_LOGIN_PATTERN})|(?:#{MENTION_GROUP_ID_PATTERN})")
 
-  def perform(journal_id, send_notifications)
-    self.journal = Journal.find_by(id: journal_id)
+  def initialize(model)
+    self.model = model
+  end
 
-    return if abort_sending?(send_notifications)
-    return unless supported?
+  def call(send_notifications)
+    result = ServiceResult.new success: !abort_sending?(send_notifications)
+
+    return result if result.failure?
 
     notification_receivers.each do |recipient_id, channel_reasons|
-      create_notification(recipient_id,
-                          channel_reasons)
+      call = create_notification(recipient_id, channel_reasons)
+      result.add_dependent!(call)
     end
+
+    result
   end
 
   private
 
-  attr_accessor :journal
+  attr_accessor :model
 
   def create_notification(recipient_id, channel_reasons)
     notification_attributes = {
       recipient_id: recipient_id,
-      project: journal.data.project,
-      resource: journal.journable,
+      project: project,
+      resource: resource,
       journal: journal,
       actor: user_with_fallback
     }.merge(channel_attributes(channel_reasons))
@@ -116,7 +119,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
 
   def settings_of_mentioned
     applicable_settings(mentioned_ids,
-                        journal.data.project,
+                        project,
                         :mentioned)
   end
 
@@ -126,19 +129,19 @@ class Notifications::CreateFromJournalJob < ApplicationJob
               .or(User.where(id: group_or_user_ids(journal.data.responsible)))
 
     applicable_settings(scope,
-                        journal.data.project,
+                        project,
                         :involved)
   end
 
   def settings_of_subscribed
-    applicable_settings(strategy.subscribed_users(journal),
-                        journal.data.project,
+    applicable_settings(strategy.subscribed_users(model),
+                        project,
                         :all)
   end
 
   def settings_of_watched
-    applicable_settings(strategy.watcher_users(journal),
-                        journal.data.project,
+    applicable_settings(strategy.watcher_users(model),
+                        project,
                         :watched)
   end
 
@@ -146,7 +149,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     return NotificationSetting.none unless journal.notes?
 
     applicable_settings(User.all,
-                        journal.data.project,
+                        project,
                         :work_package_commented)
   end
 
@@ -154,7 +157,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     return NotificationSetting.none unless journal.initial?
 
     applicable_settings(User.all,
-                        journal.data.project,
+                        project,
                         :work_package_created)
   end
 
@@ -162,7 +165,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:status_id)
 
     applicable_settings(User.all,
-                        journal.data.project,
+                        project,
                         :work_package_processed)
   end
 
@@ -170,7 +173,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:priority_id)
 
     applicable_settings(User.all,
-                        journal.data.project,
+                        project,
                         :work_package_prioritized)
   end
 
@@ -180,7 +183,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
     end
 
     applicable_settings(User.all,
-                        journal.data.project,
+                        project,
                         :work_package_scheduled)
   end
 
@@ -248,8 +251,10 @@ class Notifications::CreateFromJournalJob < ApplicationJob
 
   def abort_sending?(send_notifications)
     !send_notification?(send_notifications) ||
-      journal.nil? ||
-      journal.noop?
+      model.nil? ||
+      !model.class.exists?(id: model.id) ||
+      journal&.noop? ||
+      !supported?
   end
 
   def group_or_user_ids(association)
@@ -257,7 +262,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
   end
 
   def user_with_fallback
-    journal.user || DeletedUser.first
+    user || DeletedUser.first
   end
 
   def add_receiver(receivers, collection, reason)
@@ -267,7 +272,7 @@ class Notifications::CreateFromJournalJob < ApplicationJob
   end
 
   def remove_self_recipient(receivers)
-    receivers.delete(journal.user_id) if receivers[journal.user_id] && !user_with_fallback.pref.self_notified?
+    receivers.delete(user_with_fallback.id) if !user_with_fallback.pref.self_notified?
   end
 
   def receivers_hash
@@ -279,12 +284,28 @@ class Notifications::CreateFromJournalJob < ApplicationJob
   end
 
   def strategy
-    @strategy ||= if Notifications::CreateFromJournalJob.const_defined?("#{journal.journable_type}Strategy")
-                    "Notifications::CreateFromJournalJob::#{journal.journable_type}Strategy".constantize
+    @strategy ||= if self.class.const_defined?("#{resource.class}Strategy")
+                    "#{self.class}::#{resource.class}Strategy".constantize
                   end
   end
 
   def supported?
     strategy.present?
+  end
+
+  def user
+    strategy.user(model)
+  end
+
+  def project
+    strategy.project(model)
+  end
+
+  def resource
+    model.is_a?(Journal) ? model.journable : model
+  end
+
+  def journal
+    model.is_a?(Journal) ? model : nil
   end
 end

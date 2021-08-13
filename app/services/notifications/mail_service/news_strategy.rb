@@ -26,23 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Mails::NotificationJob::CommentStrategy
+module Notifications::MailService::NewsStrategy
   class << self
     def send_mail(notification)
-      return if notification_disabled?
+      return if notification_disabled? || !notification.journal.initial?
 
       UserMailer
-        .news_comment_added(
-           notification.recipient,
-           notification.resource,
-           notification.resource.author || DeletedUser.first)
-        .deliver_now
+        .news_added(
+          notification.recipient,
+          notification.journal.journable,
+          notification.journal.user || DeletedUser.first
+        )
+        .deliver_later
     end
 
     private
 
     def notification_disabled?
-      Setting.notified_events.exclude?('news_comment_added')
+      Setting.notified_events.exclude?('news_added')
     end
   end
 end

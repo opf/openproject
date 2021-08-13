@@ -30,9 +30,9 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_aggregation_time_minutes: 0 } do
-  subject(:perform) do
-    described_class.perform_now(journal.id, send_notifications)
+describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal_aggregation_time_minutes: 0 } do
+  subject(:call) do
+    described_class.new(journal).call(send_notifications)
   end
 
   include_context 'with CreateFromJournalJob context'
@@ -49,8 +49,8 @@ describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_a
                       content: FactoryBot.build(:wiki_content,
                                                 author: other_user))
   end
-  let(:wiki_content) { wiki_page.content }
-  let(:journal) { wiki_content.journals.last }
+  let(:resource) { wiki_page.content }
+  let(:journal) { resource.journals.last }
   let(:author) { other_user }
 
   current_user { other_user }
@@ -60,7 +60,7 @@ describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_a
   end
 
   describe '#perform' do
-    context 'with a newly created wiki page do' do
+    context 'with a newly created wiki page' do
       context 'with the user having registered for all notifications' do
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
@@ -164,8 +164,8 @@ describe Notifications::CreateFromJournalJob, 'wiki', with_settings: { journal_a
 
     context 'with an updated wiki page' do
       before do
-        wiki_content.text = "Some new text to create a journal"
-        wiki_content.save!
+        resource.text = "Some new text to create a journal"
+        resource.save!
       end
 
       context 'with the user having registered for all notifications' do

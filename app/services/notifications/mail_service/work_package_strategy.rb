@@ -26,34 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Mails::NotificationJob::NewsStrategy
+module Notifications::MailService::WorkPackageStrategy
   class << self
     def send_mail(notification)
-      method = mailer_method(notification)
-
-      return if notification_disabled?(method.to_s)
+      journal = notification.journal
 
       UserMailer
-        .send(method,
+        .send(mailer_method(notification),
               notification.recipient,
-              notification.journal.journable,
+              journal,
               notification.journal.user || DeletedUser.first)
-        .deliver_now
+        .deliver_later
     end
 
     private
 
     def mailer_method(notification)
-      if notification.journal.initial?
-        :news_added
-      else
-        # Not supported for now
-        nil
-      end
-    end
-
-    def notification_disabled?(name)
-      Setting.notified_events.exclude?(name)
+      notification.journal.initial? ? :work_package_added : :work_package_updated
     end
   end
 end

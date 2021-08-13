@@ -88,8 +88,9 @@ shared_context 'with CreateFromJournalJob context' do
         reason_mail_digest: :mentioned
       }
     end
+    let(:notification) { FactoryBot.build_stubbed(:notification) }
 
-    it 'creates a notification' do
+    it 'creates a notification and returns it' do
       notifications_service = instance_double(Notifications::CreateService)
 
       allow(Notifications::CreateService)
@@ -98,16 +99,18 @@ shared_context 'with CreateFromJournalJob context' do
               .and_return(notifications_service)
       allow(notifications_service)
         .to receive(:call)
+              .and_return(ServiceResult.new(success: true, result: notification))
 
-      perform
+      expect(call.all_results)
+        .to match_array([notification])
 
       expect(notifications_service)
         .to have_received(:call)
               .with({ recipient_id: recipient.id,
-                      project: journal.project,
+                      project: project,
                       actor: sender,
                       journal: journal,
-                      resource: journal.journable }.merge(notification_channel_reasons))
+                      resource: resource }.merge(notification_channel_reasons))
     end
   end
 
@@ -117,7 +120,7 @@ shared_context 'with CreateFromJournalJob context' do
         .to receive(:new)
               .and_call_original
 
-      perform
+      call
 
       expect(Notifications::CreateService)
         .not_to have_received(:new)

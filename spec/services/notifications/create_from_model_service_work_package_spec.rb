@@ -30,11 +30,11 @@
 require 'spec_helper'
 require_relative './create_from_journal_job_shared'
 
-describe Notifications::CreateFromJournalJob,
+describe Notifications::CreateFromModelService,
          'work_package',
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  subject(:perform) do
-    described_class.perform_now(journal.id, send_notifications)
+  subject(:call) do
+    described_class.new(journal).call(send_notifications)
   end
 
   include_context 'with CreateFromJournalJob context'
@@ -66,8 +66,8 @@ describe Notifications::CreateFromJournalJob,
                         **wp_attributes)
     end
   end
-  let(:journal) { journal_1 }
-  let(:journal_1) { work_package.journals.first }
+  let(:resource) { work_package }
+  let(:journal) { work_package.journals.first }
   let(:journal_2_with_notes) do
     work_package.add_journal author, 'something I have to say'
     work_package.save(validate: false)

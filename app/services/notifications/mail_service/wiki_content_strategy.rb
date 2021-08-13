@@ -26,23 +26,33 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Mails::NotificationJob::WorkPackageStrategy
+module Notifications::MailService::WikiContentStrategy
   class << self
     def send_mail(notification)
-      journal = notification.journal
+      method = mailer_method(notification)
+
+      return if notification_disabled?(method.to_s)
 
       UserMailer
-        .send(mailer_method(notification),
+        .send(method,
               notification.recipient,
-              journal,
+              notification.journal.journable,
               notification.journal.user || DeletedUser.first)
-        .deliver_now
+        .deliver_later
     end
 
     private
 
     def mailer_method(notification)
-      notification.journal.initial? ? :work_package_added : :work_package_updated
+      if notification.journal.initial?
+        :wiki_content_added
+      else
+        :wiki_content_updated
+      end
+    end
+
+    def notification_disabled?(name)
+      Setting.notified_events.exclude?(name)
     end
   end
 end

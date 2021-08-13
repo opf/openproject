@@ -30,8 +30,8 @@
 
 require 'spec_helper'
 
-describe Mails::NotificationJob, type: :model do
-  subject(:job) { instance.perform(notification) }
+describe Notifications::MailService, type: :model do
+  subject(:call) { instance.call }
 
   let(:recipient) do
     FactoryBot.build_stubbed(:user)
@@ -39,7 +39,7 @@ describe Mails::NotificationJob, type: :model do
   let(:actor) do
     FactoryBot.build_stubbed(:user)
   end
-  let(:instance) { described_class.new }
+  let(:instance) { described_class.new(notification) }
 
   context 'with a work package journal notification' do
     let(:journal) do
@@ -71,7 +71,7 @@ describe Mails::NotificationJob, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_now)
+        .to receive(:deliver_later)
 
       mail
     end
@@ -84,7 +84,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { true }
 
       it 'sends a mail' do
-        job
+        call
 
         expect(UserMailer)
           .to have_received(:work_package_added)
@@ -93,7 +93,7 @@ describe Mails::NotificationJob, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_now)
+          .to have_received(:deliver_later)
       end
     end
 
@@ -101,7 +101,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { false }
 
       it 'sends a mail' do
-        job
+        call
 
         expect(UserMailer)
           .to have_received(:work_package_updated)
@@ -110,7 +110,7 @@ describe Mails::NotificationJob, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_now)
+          .to have_received(:deliver_later)
       end
     end
 
@@ -118,7 +118,7 @@ describe Mails::NotificationJob, type: :model do
       let(:read_ian) { true }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:work_package_added)
@@ -158,7 +158,7 @@ describe Mails::NotificationJob, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_now)
+        .to receive(:deliver_later)
 
       mail
     end
@@ -174,7 +174,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { true }
 
       it 'sends a mail' do
-        job
+        call
 
         expect(UserMailer)
           .to have_received(:wiki_content_added)
@@ -183,7 +183,7 @@ describe Mails::NotificationJob, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_now)
+          .to have_received(:deliver_later)
       end
     end
 
@@ -192,7 +192,7 @@ describe Mails::NotificationJob, type: :model do
       let(:notification_setting) { %w(wiki_content_updated) }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:wiki_content_added)
@@ -203,7 +203,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { false }
 
       it 'sends a mail' do
-        job
+        call
 
         expect(UserMailer)
           .to have_received(:wiki_content_updated)
@@ -212,7 +212,7 @@ describe Mails::NotificationJob, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_now)
+          .to have_received(:deliver_later)
       end
     end
 
@@ -221,7 +221,7 @@ describe Mails::NotificationJob, type: :model do
       let(:notification_setting) { %w(wiki_content_added) }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:wiki_content_updated)
@@ -232,7 +232,7 @@ describe Mails::NotificationJob, type: :model do
       let(:read_ian) { true }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:wiki_content_added)
@@ -266,7 +266,7 @@ describe Mails::NotificationJob, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_now)
+        .to receive(:deliver_later)
 
       mail
     end
@@ -282,7 +282,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { true }
 
       it 'sends a mail' do
-        job
+        call
 
         expect(UserMailer)
           .to have_received(:news_added)
@@ -291,7 +291,7 @@ describe Mails::NotificationJob, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_now)
+          .to have_received(:deliver_later)
       end
     end
 
@@ -300,7 +300,7 @@ describe Mails::NotificationJob, type: :model do
       let(:notification_setting) { %w() }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:news_added)
@@ -313,7 +313,7 @@ describe Mails::NotificationJob, type: :model do
       let(:journal_initial) { false }
 
       it 'sends no mail' do
-        job
+        call
 
         expect(UserMailer)
           .not_to have_received(:news_added)
@@ -331,7 +331,7 @@ describe Mails::NotificationJob, type: :model do
     end
 
     it 'raises an error' do
-      expect { job }
+      expect { call }
         .to raise_error(ArgumentError)
     end
   end

@@ -44,7 +44,7 @@ module StateMachineJob
       if wait
         self
           .class
-          .set(wait: wait)
+          .set(wait: wait.call)
           .perform_later(to, *results)
       else
         perform(to, *results)

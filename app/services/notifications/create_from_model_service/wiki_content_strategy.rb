@@ -28,13 +28,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifications::CreateFromResourceJob::CommentStrategy
+module Notifications::CreateFromModelService::WikiContentStrategy
   def self.reasons
     %i(watched subscribed)
   end
 
   def self.permission
-    :view_news
+    :view_wiki_pages
   end
 
   def self.supports_ian?
@@ -49,19 +49,26 @@ module Notifications::CreateFromResourceJob::CommentStrategy
     true
   end
 
-  def self.subscribed_users(comment)
-    User.notified_on_all(project(comment))
+  def self.subscribed_users(journal)
+    User.notified_on_all(journal.data.project)
   end
 
-  def self.watcher_users(comment)
-    comment.commented.watcher_recipients
+  def self.watcher_users(journal)
+    page = journal.journable.page
+
+    if journal.initial?
+      page.wiki.watcher_recipients
+    else
+      page.wiki.watcher_recipients
+          .or(page.watcher_recipients)
+    end
   end
 
-  def self.project(comment)
-    comment.commented.project
+  def self.project(journal)
+    journal.data.project
   end
 
-  def self.user(comment)
-    comment.author
+  def self.user(journal)
+    journal.user
   end
 end
