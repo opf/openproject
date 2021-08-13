@@ -17,6 +17,7 @@ import { boardTeaserVideoURL } from 'core-app/features/boards/board-constants.co
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './boards-index-page.component.html',
@@ -48,7 +49,18 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   public boards$:Observable<Board[]> = this
     .apiV3Service
     .boards
-    .observeAll();
+    .observeAll()
+    .pipe(
+      map((boards:Board[]) => boards.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })),
+    );
 
   teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
 
