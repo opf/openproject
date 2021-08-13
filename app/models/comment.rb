@@ -47,13 +47,8 @@ class Comment < ApplicationRecord
   private
 
   def send_news_comment_added_mail
-    return unless Setting.notified_events.include?('news_comment_added')
-
-    return unless commented.is_a?(News)
-
-    recipients = commented.recipients + commented.watcher_recipients
-    recipients.uniq.each do |user|
-      UserMailer.news_comment_added(user, self, User.current).deliver_later
-    end
+    OpenProject::Notifications.send(OpenProject::Events::NEWS_COMMENT_CREATED,
+                                    comment: self,
+                                    send_notification: true)
   end
 end

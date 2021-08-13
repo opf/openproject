@@ -52,6 +52,8 @@ module OpenProject
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
 
+    NEWS_COMMENT_CREATED = "news_comment_created".freeze
+
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze
     PROJECT_RENAMED = "project_renamed".freeze

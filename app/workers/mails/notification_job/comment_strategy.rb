@@ -26,52 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::NotificationJob < ApplicationJob
-  queue_with_priority :notification
+module Mails::NotificationJob::CommentStrategy
+  class << self
+    def send_mail(notification)
+      return if notification_disabled?
 
-  def perform(notification)
-    @notification = notification
-
-    ensure_supported
-
-    return if ian_read?
-
-    strategy.send_mail(notification)
-  end
-
-  private
-
-  attr_accessor :notification
-
-  def ensure_supported
-    unless supported?
-      raise ArgumentError, "Sending mails for notifications is not supported for #{strategy_model}"
+      UserMailer
+        .news_comment_added(
+           notification.recipient,
+           notification.resource,
+           notification.resource.author || DeletedUser.first)
+        .deliver_now
     end
-  end
 
-  def ian_read?
-    notification.read_ian
-  end
+    private
 
-  def strategy
-    @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
-                    "#{self.class}::#{strategy_model}Strategy".constantize
-                  end
-  end
-
-  def strategy_model
-    journal&.journable_type || resource&.class
-  end
-
-  def journal
-    notification.journal
-  end
-
-  def resource
-    notification.resource
-  end
-
-  def supported?
-    strategy.present?
+    def notification_disabled?
+      Setting.notified_events.exclude?('news_comment_added')
+    end
   end
 end

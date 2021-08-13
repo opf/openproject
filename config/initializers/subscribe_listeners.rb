@@ -86,3 +86,10 @@ OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |pa
                    member: payload[:member],
                    message: payload[:message])
 end
+
+OpenProject::Notifications.subscribe(OpenProject::Events::NEWS_COMMENT_CREATED) do |payload|
+  Notifications::WorkflowJob
+    .perform_later(:create,
+                   payload[:comment],
+                   payload[:send_notification])
+end

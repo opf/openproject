@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,52 +28,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::NotificationJob < ApplicationJob
-  queue_with_priority :notification
+class Notifications::WorkflowJob < ApplicationJob
+  include ::StateMachineJob
 
-  def perform(notification)
-    @notification = notification
+  state :create,
+        to: :mail do |resource, send_notification|
+    Notifications::CreateFromResourceJob
+      .perform_now(resource, send_notification)
 
-    ensure_supported
-
-    return if ian_read?
-
-    strategy.send_mail(notification)
+    resource
   end
 
-  private
-
-  attr_accessor :notification
-
-  def ensure_supported
-    unless supported?
-      raise ArgumentError, "Sending mails for notifications is not supported for #{strategy_model}"
+  state :mail,
+        wait: Setting.notification_email_delay_minutes.minutes do |resource|
+    Notification
+      .where(resource: resource)
+      .each do |notification|
+      Mails::NotificationJob
+        .perform_now(notification)
     end
-  end
-
-  def ian_read?
-    notification.read_ian
-  end
-
-  def strategy
-    @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
-                    "#{self.class}::#{strategy_model}Strategy".constantize
-                  end
-  end
-
-  def strategy_model
-    journal&.journable_type || resource&.class
-  end
-
-  def journal
-    notification.journal
-  end
-
-  def resource
-    notification.resource
-  end
-
-  def supported?
-    strategy.present?
   end
 end
