@@ -86,9 +86,9 @@ Pressing the blue **Save** button will save your changes.
 
 ### Change the order to display comments
 
-You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **chronological** or **reverse chronological order** to display the comments.
+You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **oldest first** or **newest first** to display the comments.
 
-If you choose reverse chronological order the latest comment will appear on top in the Activity list.
+If you choose newest first the latest comment will appear on top in the Activity list.
 
 ![display comments](1572883259523.png)
 
