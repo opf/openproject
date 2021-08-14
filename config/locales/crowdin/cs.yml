@@ -1442,7 +1442,7 @@ cs:
   label_check_uncheck_all_in_column: "Zaškrtnout/Odznačit vše ve sloupci"
   label_check_uncheck_all_in_row: "Zaškrtnout/Odznačit vše v řádku"
   label_child_element: "Podřazený prvek"
-  label_chronological_order: "V chronologickém pořadí"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zavřít dokončené verze"
   label_closed_work_packages: "uzavřeno"
   label_collapse: "Sbalit"
@@ -1746,7 +1746,7 @@ cs:
   label_required: 'vyžadováno'
   label_requires: 'vyžaduje'
   label_result_plural: "Výsledky"
-  label_reverse_chronological_order: "V obráceném chronologickém pořadí"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revize"
   label_revision_id: "Revize %{value}"
   label_revision_plural: "Revize"

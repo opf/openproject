@@ -1408,7 +1408,7 @@ tr:
   label_check_uncheck_all_in_column: "Sütunundaki tümü işaretle / işaretini kaldır"
   label_check_uncheck_all_in_row: "Sıralı tümü işaretle / işaretini kaldır"
   label_child_element: "Alt eleman"
-  label_chronological_order: "Tarih sırasına göre"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tamamlanmış sürümleri kapat"
   label_closed_work_packages: "kapalı"
   label_collapse: "Daralt"
@@ -1712,7 +1712,7 @@ tr:
   label_required: 'gerekli'
   label_requires: 'gerektirir'
   label_result_plural: "Sonuçlar"
-  label_reverse_chronological_order: "Ters tarih sırasına göre"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Gözden geçirme"
   label_revision_id: "Düzeltme %{value}"
   label_revision_plural: "Düzeltmeler"

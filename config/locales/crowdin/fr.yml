@@ -1407,7 +1407,7 @@ fr:
   label_check_uncheck_all_in_column: "Cocher/Décocher tout dans la colonne"
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
-  label_chronological_order: "Dans l'ordre chronologique"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
   label_collapse: "Regrouper"
@@ -1711,7 +1711,7 @@ fr:
   label_required: 'requis'
   label_requires: 'requiert'
   label_result_plural: "Résultats"
-  label_reverse_chronological_order: "Dans l'ordre chronologique inversé"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Révision"
   label_revision_id: "Révision %{value}"
   label_revision_plural: "Révisions"

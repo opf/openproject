@@ -1425,7 +1425,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
-  label_chronological_order: "În ordine cronologică"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -1729,7 +1729,7 @@ ro:
   label_required: 'obligatoriu'
   label_requires: 'Această caracteristică necesită un cont la'
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "În ordine invers cronologică"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"

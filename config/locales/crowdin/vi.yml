@@ -1393,7 +1393,7 @@ vi:
   label_check_uncheck_all_in_column: "Chọn/Bỏ chọn tất cả trong cột"
   label_check_uncheck_all_in_row: "Chọn/Bỏ chọn tất cả trong hàng"
   label_child_element: "Phần tử con"
-  label_chronological_order: "Theo thứ tự thời gian"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Đóng các phiên bản đã hoàn thành"
   label_closed_work_packages: "đã đóng"
   label_collapse: "Thu gọn"
@@ -1697,7 +1697,7 @@ vi:
   label_required: 'bắt buộc'
   label_requires: 'bắt buộc'
   label_result_plural: "Các kết quả"
-  label_reverse_chronological_order: "In reverse chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Sửa đổi"
   label_revision_id: "Sửa đổi %{value}"
   label_revision_plural: "Sửa đổi"

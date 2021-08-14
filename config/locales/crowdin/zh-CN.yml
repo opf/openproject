@@ -1387,7 +1387,7 @@ zh-CN:
   label_check_uncheck_all_in_column: "选中/取消选中所有列"
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
-  label_chronological_order: "按时间顺序"
+  label_chronological_order: "Oldest first"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
   label_collapse: "折叠"
@@ -1691,7 +1691,7 @@ zh-CN:
   label_required: '必填'
   label_requires: '要求'
   label_result_plural: "结果"
-  label_reverse_chronological_order: "在相反的顺序"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"

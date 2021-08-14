@@ -1408,7 +1408,7 @@ nl:
   label_check_uncheck_all_in_column: "Selecteer/Deselecteer alles in kolom"
   label_check_uncheck_all_in_row: "Selecteer/Deselecteer alles in rij"
   label_child_element: "Onderliggend element"
-  label_chronological_order: "In chronologische volgorde"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Voltooide versies sluiten"
   label_closed_work_packages: "gesloten"
   label_collapse: "Samenvouwen"
@@ -1712,7 +1712,7 @@ nl:
   label_required: 'vereist'
   label_requires: 'vereist'
   label_result_plural: "Resultaten"
-  label_reverse_chronological_order: "In omgekeerde chronologische volgorde"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisie"
   label_revision_id: "Revisie %{value}"
   label_revision_plural: "Revisies"

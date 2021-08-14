@@ -1408,7 +1408,7 @@
   label_check_uncheck_all_in_column: "Sjekk/Avmerk alle i kolonnen"
   label_check_uncheck_all_in_row: "Sjekk/Avmerk alle på rad"
   label_child_element: "Underordnet element"
-  label_chronological_order: "I kronologisk rekkefølge"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Lukk fullførte versjoner"
   label_closed_work_packages: "lukket"
   label_collapse: "Skjul"
@@ -1712,7 +1712,7 @@
   label_required: 'påkrevd'
   label_requires: 'krever'
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "I omvendt kronologisk rekkefølge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisjon"
   label_revision_id: "Revisjon %{value}"
   label_revision_plural: "Revisjoner"

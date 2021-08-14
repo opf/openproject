@@ -777,10 +777,10 @@ lt:
       member: "Narys"
       news: "Naujienos"
       notification:
-        one: "Notification"
-        few: "Notifications"
-        many: "Notifications"
-        other: "Notifications"
+        one: "Pranešimas"
+        few: "Pranešimai"
+        many: "Pranešimo"
+        other: "Pranešimų"
       placeholder_user: "Statytinis vartotojas"
       project: "Projektas"
       query: "Vartotojo užklausa"
@@ -1438,7 +1438,7 @@ lt:
   label_check_uncheck_all_in_column: "Žymėti/atžymėti visus stulpelyje"
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
-  label_chronological_order: "Chronologine tvarka"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
   label_collapse: "Sutraukti"
@@ -1742,7 +1742,7 @@ lt:
   label_required: 'reikalingas'
   label_requires: 'turi turėti'
   label_result_plural: "Rezultatai"
-  label_reverse_chronological_order: "Atbuline chronologine tvarka"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizijos"

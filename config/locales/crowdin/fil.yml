@@ -1408,7 +1408,7 @@ fil:
   label_check_uncheck_all_in_column: "I-check/I-ncheck ang lahat sa hanay"
   label_check_uncheck_all_in_row: "I-check/I-uncheck ang lahat sa hilera"
   label_child_element: "Elementong bata"
-  label_chronological_order: "Sa chronological na pagkasunod-sunod"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Isara ang nakompletong bersyon"
   label_closed_work_packages: "isinara"
   label_collapse: "Bumagsak"
@@ -1712,7 +1712,7 @@ fil:
   label_required: 'kailangan'
   label_requires: 'kinakailangan'
   label_result_plural: "Mga resulta"
-  label_reverse_chronological_order: "Sa kabaligtaran ng chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rebisyon"
   label_revision_id: "Rebisyon %{value}"
   label_revision_plural: "Mga rebisyon"

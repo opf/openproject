@@ -1408,7 +1408,7 @@ ca:
   label_check_uncheck_all_in_column: "Marca/desmarca tot a la columna"
   label_check_uncheck_all_in_row: "Marca/desmarca tot a la fila"
   label_child_element: "Element fill"
-  label_chronological_order: "En ordre cronològic"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tancar versions completades"
   label_closed_work_packages: "tancat"
   label_collapse: "Replega"
@@ -1712,7 +1712,7 @@ ca:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultats"
-  label_reverse_chronological_order: "En ordre cronològic invers"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisió"
   label_revision_id: "Revisió %{value}"
   label_revision_plural: "Revisions"

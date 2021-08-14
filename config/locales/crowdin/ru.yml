@@ -1441,7 +1441,7 @@ ru:
   label_check_uncheck_all_in_column: "Поставить/снять все флажки в столбце"
   label_check_uncheck_all_in_row: "Поставить/снять все флажки в строке"
   label_child_element: "Дочерний элемент"
-  label_chronological_order: "В хронологическом порядке"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Закрыть завершённые этапы"
   label_closed_work_packages: "закрыт"
   label_collapse: "свернуть"
@@ -1745,7 +1745,7 @@ ru:
   label_required: 'требуется'
   label_requires: 'требуется'
   label_result_plural: "Результаты"
-  label_reverse_chronological_order: "В обратном хронологическом порядке"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Редакция"
   label_revision_id: "Редакция %{value}"
   label_revision_plural: "Редакции"

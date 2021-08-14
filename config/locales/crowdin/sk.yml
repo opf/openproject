@@ -1442,7 +1442,7 @@ sk:
   label_check_uncheck_all_in_column: "Označiť/zrušiť označenie všetkých v stĺpci"
   label_check_uncheck_all_in_row: "Označiť/zrušiť označenie všetkých v riadku"
   label_child_element: "Prvok - potomok"
-  label_chronological_order: "V chronologickom poradí"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zavrieť ukončené verzie"
   label_closed_work_packages: "uzatvorené"
   label_collapse: "Zbaliť"
@@ -1746,7 +1746,7 @@ sk:
   label_required: 'požadované'
   label_requires: 'vyžaduje'
   label_result_plural: "Výsledky"
-  label_reverse_chronological_order: "V obrátenom chronologickom poradí"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revízia"
   label_revision_id: "Revízia %{value}"
   label_revision_plural: "Revízie"
