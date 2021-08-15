@@ -60,7 +60,7 @@ Also, you can activate a **warning if you are leaving a work package with unsave
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![my-account-settings](image-20210503211553255.png)
+![profile-settings](profile-settings.png)
 
 ### Change your language
 
@@ -90,7 +90,7 @@ You can select the order of the comments (for example of the comments for a work
 
 If you choose newest first the latest comment will appear on top in the Activity list.
 
-![display comments](1572883259523.png)
+![order-to-display-comments](order-to-display-comments.png)
 
 ### Backlogs settings
 
