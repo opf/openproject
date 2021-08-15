@@ -1440,7 +1440,7 @@ sl:
   label_check_uncheck_all_in_column: "Označite / počistite vse v stolpcu"
   label_check_uncheck_all_in_row: "Potrdite / počistite vse vrstice"
   label_child_element: "Podrejeni elementi"
-  label_chronological_order: "V kronološkem vrstnem redu"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zapri dokončane verzije"
   label_closed_work_packages: "Zaprto"
   label_collapse: "Strni"
@@ -1744,7 +1744,7 @@ sl:
   label_required: 'Zahtevano'
   label_requires: 'Potrebuje'
   label_result_plural: "Rezultati"
-  label_reverse_chronological_order: "V obrnjenem kronološkem vrstnem redu"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizije"

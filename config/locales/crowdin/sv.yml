@@ -1407,7 +1407,7 @@ sv:
   label_check_uncheck_all_in_column: "Markera/avmarkera alla i kolumnen"
   label_check_uncheck_all_in_row: "Markera/avmarkera allt på raden"
   label_child_element: "Underordnade element"
-  label_chronological_order: "I kronologisk ordning"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Stäng slutförda versioner"
   label_closed_work_packages: "stängt"
   label_collapse: "Fäll ihop"
@@ -1711,7 +1711,7 @@ sv:
   label_required: 'obligatorisk'
   label_requires: 'kräver'
   label_result_plural: "Resultat"
-  label_reverse_chronological_order: "I omvänd kronologisk ordning"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisioner"

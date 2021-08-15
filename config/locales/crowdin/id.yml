@@ -1390,7 +1390,7 @@ id:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
-  label_chronological_order: "Urutan kronologis"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
   label_collapse: "Tampilkan"
@@ -1694,7 +1694,7 @@ id:
   label_required: 'dibutuhkan'
   label_requires: 'dibutuhkan'
   label_result_plural: "Hasil"
-  label_reverse_chronological_order: "Urutan kronologi terbalik"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisi"
   label_revision_id: "Revisi %{value}"
   label_revision_plural: "Revisi"

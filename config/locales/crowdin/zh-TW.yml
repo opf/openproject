@@ -1391,7 +1391,7 @@ zh-TW:
   label_check_uncheck_all_in_column: "選取/取消選取 全部"
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
-  label_chronological_order: "按先後順序"
+  label_chronological_order: "Oldest first"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "折疊"
@@ -1695,7 +1695,7 @@ zh-TW:
   label_required: '必要'
   label_requires: '要求'
   label_result_plural: "結果"
-  label_reverse_chronological_order: "在反序排列"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"

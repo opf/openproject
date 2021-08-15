@@ -1476,7 +1476,7 @@ ar:
   label_check_uncheck_all_in_column: "اختيار / إلغاء اختيار كل شيء في العمود"
   label_check_uncheck_all_in_row: "اختيار / إلغاء اختيار كل شيء في السطر"
   label_child_element: "العنصر التابع"
-  label_chronological_order: "في ترتيب زمني"
+  label_chronological_order: "Oldest first"
   label_close_versions: "إغلاق الإصدارات المنجزة"
   label_closed_work_packages: "مغلق"
   label_collapse: "مطوي"
@@ -1780,7 +1780,7 @@ ar:
   label_required: 'مطلوب'
   label_requires: 'متطلبات'
   label_result_plural: "نتائج"
-  label_reverse_chronological_order: "في ترتيب زمني عكسي"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "مراجعة"
   label_revision_id: "مراجعة%{value}"
   label_revision_plural: "مراجعات"

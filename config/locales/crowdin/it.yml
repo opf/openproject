@@ -1404,7 +1404,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
-  label_chronological_order: "In ordine cronologico"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
   label_collapse: "Comprimi"
@@ -1708,7 +1708,7 @@ it:
   label_required: 'obbligatorio'
   label_requires: 'richiede'
   label_result_plural: "Risultati"
-  label_reverse_chronological_order: "In ordine cronologico inverso"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisione"
   label_revision_id: "Revisione %{value}"
   label_revision_plural: "Revisioni"

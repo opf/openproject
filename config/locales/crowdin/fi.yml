@@ -1408,7 +1408,7 @@ fi:
   label_check_uncheck_all_in_column: "Valitse/poista kaikki valinnat sarakkeessa"
   label_check_uncheck_all_in_row: "Valitse/poista kaikki valinnat riviltä"
   label_child_element: "Alemman tason elementti"
-  label_chronological_order: "Aikajärjestyksessä"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Sulje valmiit versiot"
   label_closed_work_packages: "suljettu"
   label_collapse: "Pienennä"
@@ -1712,7 +1712,7 @@ fi:
   label_required: 'Required'
   label_requires: 'edellyttää'
   label_result_plural: "Tulokset"
-  label_reverse_chronological_order: "Käänteisessä aikajärjestyksessä"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisio"
   label_revision_id: "Revisio %{value}"
   label_revision_plural: "Revisiot"

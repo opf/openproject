@@ -1387,7 +1387,7 @@ ja:
   label_check_uncheck_all_in_column: "すべての欄をチェック/チェックを外す"
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
-  label_chronological_order: "古い順"
+  label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
   label_collapse: "折りたたむ"
@@ -1691,7 +1691,7 @@ ja:
   label_required: '必須'
   label_requires: '要求'
   label_result_plural: "検索結果"
-  label_reverse_chronological_order: "新しい順"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "リビジョン"
   label_revision_id: "リビジョン%{value}"
   label_revision_plural: "リビジョン"

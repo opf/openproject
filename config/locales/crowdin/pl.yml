@@ -1439,7 +1439,7 @@ pl:
   label_check_uncheck_all_in_column: "Sprawdź/Odznacz wszystko w kolumnie"
   label_check_uncheck_all_in_row: "Sprawdź/Odznacz wszystko w wierszu"
   label_child_element: "Element podrzędny"
-  label_chronological_order: "W porządku chronologicznym"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zamknij zakończone wersje"
   label_closed_work_packages: "Zamknięte"
   label_collapse: "Zwiń"
@@ -1743,7 +1743,7 @@ pl:
   label_required: 'wymagane'
   label_requires: 'wymaga'
   label_result_plural: "Wyniki"
-  label_reverse_chronological_order: "W odwrotnej kolejności chronologicznej"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rewizja"
   label_revision_id: "Rewizja %{value}"
   label_revision_plural: "Rewizje"

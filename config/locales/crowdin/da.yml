@@ -1406,7 +1406,7 @@ da:
   label_check_uncheck_all_in_column: "Markér/Afmarkér alle i kolonnen"
   label_check_uncheck_all_in_row: "Markér/Afmarkér alle i rækken"
   label_child_element: "Underelement"
-  label_chronological_order: "I kronologisk orden"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Luk afsluttede versioner"
   label_closed_work_packages: "lukket"
   label_collapse: "Fold sammen"
@@ -1710,7 +1710,7 @@ da:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "I omvendt kronologisk rækkefølge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revidering"
   label_revision_id: "Revidering %{value}"
   label_revision_plural: "Revideringer"
