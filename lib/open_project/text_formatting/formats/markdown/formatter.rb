@@ -44,6 +44,7 @@ module OpenProject::TextFormatting::Formats::Markdown
 
     def filters
       %i[
+        setting_macros
         markdown
         sanitization
         task_list

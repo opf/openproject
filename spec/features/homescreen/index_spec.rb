@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,24 +26,28 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting::Formats
-  module Plain
-    class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-      def to_html(text)
-        pipeline.to_html(text, context).html_safe
-      end
+require 'spec_helper'
 
-      def to_document(text)
-        pipeline.to_document text, context
-      end
+describe 'Homescreen index', type: :feature do
+  let!(:user) { FactoryBot.build_stubbed(:user) }
+  let!(:project) { FactoryBot.create(:public_project, identifier: 'public-project') }
 
-      def filters
-        %i(plain setting_macros pattern_matcher)
-      end
+  before do
+    login_as user
+    visit root_url
+  end
 
-      def self.format
-        :plain
-      end
+  describe 'with a dynamic URL in the welcome text',
+           with_settings: {
+             welcome_text: "With [a link to the public project]({{opSetting:base_url}}/projects/public-project)",
+             welcome_on_homescreen?: true
+           } do
+    it 'renders the correct link' do
+      expect(page)
+        .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+
+      click_link "a link to the public project"
+      expect(page).to have_current_path project_path(project)
     end
   end
 end
