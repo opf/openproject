@@ -47,6 +47,8 @@ class Journals::CompletedJob < ApplicationJob
         OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
       when News.name
         OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
+      when Message.name
+        OpenProject::Events::AGGREGATED_MESSAGE_JOURNAL_READY
       end
     end
 

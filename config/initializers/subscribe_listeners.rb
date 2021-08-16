@@ -29,6 +29,8 @@
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
+  # A job is scheduled that creates notifications (in app if supported) right away and schedules
+  # jobs to be run for mail and digest mails.
   Notifications::WorkflowJob
     .perform_later(:create,
                    payload[:journal],

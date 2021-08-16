@@ -28,9 +28,43 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::MessageJournal < Journal::BaseJournal
-  self.table_name = 'message_journals'
+module Notifications::CreateFromModelService::MessageStrategy
+  def self.reasons
+    %i(watched subscribed)
+  end
 
-  belongs_to :forum
-  has_one :project, through: :forum
+  def self.permission
+    :view_messages
+  end
+
+  def self.supports_ian?
+    false
+  end
+
+  def self.supports_mail_digest?
+    false
+  end
+
+  def self.supports_mail?
+    true
+  end
+
+  def self.subscribed_users(journal)
+    User.notified_on_all(journal.data.project)
+  end
+
+  def self.watcher_users(journal)
+    message = journal.journable
+
+    message.root.watcher_recipients
+      .or(message.forum.watcher_recipients)
+  end
+
+  def self.project(journal)
+    journal.data.project
+  end
+
+  def self.user(journal)
+    journal.user
+  end
 end

@@ -321,8 +321,82 @@ describe Notifications::MailService, type: :model do
     end
   end
 
+  context 'with a message journal notification' do
+    let(:journal) do
+      FactoryBot.build_stubbed(:message_journal,
+                               journable: FactoryBot.build_stubbed(:message))
+    end
+    let(:read_ian) { false }
+    let(:notification) do
+      FactoryBot.build_stubbed(:notification,
+                               journal: journal,
+                               resource: journal.journable,
+                               recipient: recipient,
+                               actor: actor,
+                               read_ian: read_ian)
+    end
+    let(:notification_setting) { %w(message_posted) }
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(UserMailer)
+        .to receive(:message_posted)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_later)
+
+      mail
+    end
+
+    before do
+      mail
+
+      allow(Setting).to receive(:notified_events).and_return(notification_setting)
+    end
+
+    it 'sends a mail' do
+      call
+
+      expect(UserMailer)
+        .to have_received(:message_posted)
+              .with(recipient,
+                    journal.journable,
+                    actor)
+
+      expect(mail)
+        .to have_received(:deliver_later)
+    end
+
+    context 'with the event being disabled' do
+      let(:notification_setting) { %w(wiki_content_updated) }
+
+      it 'sends no mail' do
+        call
+
+        expect(UserMailer)
+          .not_to have_received(:message_posted)
+      end
+    end
+
+    context 'with the notification read in app already' do
+      let(:read_ian) { true }
+
+      it 'sends no mail' do
+        call
+
+        expect(UserMailer)
+          .not_to have_received(:message_posted)
+      end
+    end
+  end
+
   context 'with a different journal notification' do
-    let(:journal) { FactoryBot.build_stubbed(:message_journal) }
+    # This is actually not supported by now but serves as a test
+    let(:journal) do
+      FactoryBot.build_stubbed(:journal,
+                               journable: FactoryBot.build_stubbed(:user))
+    end
     let(:notification) do
       FactoryBot.build_stubbed(:notification,
                                journal: journal,
