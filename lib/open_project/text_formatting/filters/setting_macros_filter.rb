@@ -28,23 +28,49 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting::Formats
-  module Plain
-    class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-      def to_html(text)
-        pipeline.to_html(text, context).html_safe
+module OpenProject::TextFormatting
+  module Filters
+    class SettingMacrosFilter < HTML::Pipeline::Filter
+      ALLOWED_SETTINGS = %w[
+        host_name
+        base_url
+      ].freeze
+
+      def self.regexp
+        %r{
+        \{\{opSetting:(.+?)\}\}
+        }x
       end
 
-      def to_document(text)
-        pipeline.to_document text, context
+      def call
+        return html unless applicable?
+
+        html.gsub(self.class.regexp) do |matched_string|
+          variable = $1.to_s
+          variable.gsub!('\\', '')
+
+          if ALLOWED_SETTINGS.include?(variable)
+            send variable
+          else
+            matched_string
+          end
+        end
       end
 
-      def filters
-        %i(plain setting_macros pattern_matcher)
+      private
+
+      def host_name
+        OpenProject::StaticRouting::UrlHelpers.host
       end
 
-      def self.format
-        :plain
+      def base_url
+        OpenProject::Application.root_url
+      end
+
+      ##
+      # Faster inclusion check before the regex is being applied
+      def applicable?
+        html.include?('{{opSetting:')
       end
     end
   end

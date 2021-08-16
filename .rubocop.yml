@@ -163,6 +163,11 @@ RSpec/NestedGroups:
 RSpec/DescribeMethod:
   Enabled: false
 
+# Don't force the second argument of describe
+# to match the exact file name
+RSpec/FilePath:
+  SpecSuffixOnly: true
+
 # We use let!() to ensure dependencies are created
 # instead of let() and referencing them explicitly
 RSpec/LetSetup:
