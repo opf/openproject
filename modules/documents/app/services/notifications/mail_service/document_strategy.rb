@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,8 +26,23 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::DocumentJournal < Journal::BaseJournal
-  self.table_name = "document_journals"
+module Notifications::MailService::DocumentStrategy
+  class << self
+    def send_mail(notification)
+      return if notification_disabled? || !notification.journal.initial?
 
-  belongs_to :project
+      DocumentsMailer
+        .document_added(
+          notification.recipient,
+          notification.resource
+        )
+        .deliver_later
+    end
+
+    private
+
+    def notification_disabled?
+      Setting.notified_events.exclude?('document_added')
+    end
+  end
 end

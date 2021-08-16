@@ -28,8 +28,36 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::DocumentJournal < Journal::BaseJournal
-  self.table_name = "document_journals"
+module Notifications::CreateFromModelService::DocumentStrategy
+  def self.reasons
+    %i(subscribed)
+  end
 
-  belongs_to :project
+  def self.permission
+    :view_documents
+  end
+
+  def self.supports_ian?
+    false
+  end
+
+  def self.supports_mail_digest?
+    false
+  end
+
+  def self.supports_mail?
+    true
+  end
+
+  def self.subscribed_users(journal)
+    User.notified_on_all(project(journal))
+  end
+
+  def self.project(journal)
+    journal.data.project
+  end
+
+  def self.user(journal)
+    journal.user
+  end
 end

@@ -1,4 +1,3 @@
-#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
 #
@@ -54,24 +53,6 @@ describe Document do
       end.to change { Document.count }.by 1
     end
 
-    it "should send out email-notifications" do
-      allow(valid_document).to receive(:recipients).and_return([user])
-      Setting.notified_events = Setting.notified_events << 'document_added'
-
-      expect  do
-        valid_document.save
-      end.to change { ActionMailer::Base.deliveries.size }.by 1
-    end
-
-    it "should send notifications to the recipients of the project" do
-      allow(project).to receive(:notified_users).and_return([admin])
-      document = FactoryBot.create(:document, project: project)
-
-      expect(document.recipients).not_to be_empty
-      expect(document.recipients.count).to eql 1
-      expect(document.recipients.map(&:mail)).to include admin.mail
-    end
-
     it "should set a default-category, if none is given" do
       default_category = FactoryBot.create :document_category, name: 'Technical documentation', is_default: true
       document = Document.new(project: project, title: "New Document")
@@ -111,16 +92,5 @@ describe Document do
     end
 
     it { expect(document.event_datetime.to_i).to eq(now.to_i) }
-  end
-
-  it "calls the DocumentsMailer, when a new document has been added" do
-    document = FactoryBot.build(:document)
-    # make sure, that we have actually someone to notify
-    allow(document).to receive(:recipients).and_return([user])
-    # ... and notifies are actually sent out
-    Setting.notified_events = Setting.notified_events << 'document_added'
-    expect(DocumentsMailer).to receive(:document_added).and_return(mail)
-
-    document.save
   end
 end
