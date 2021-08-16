@@ -97,13 +97,6 @@ module Redmine
           end
         end
 
-        # Returns users that should be notified
-        def recipients
-          notified = []
-          notified = project.notified_users if project
-          notified.select { |user| visible?(user) }
-        end
-
         module ClassMethods
         end
       end

@@ -28,47 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Notifications::CreateFromModelService::WikiContentStrategy
-  def self.reasons
-    %i(watched subscribed)
-  end
+# Returns a scope of users watching the instance that should be notified via whatever channel upon updates to the instance.
+# The users need to have the necessary permissions to see the instance as defined by the watchable_permission.
+# Additionally, the users need to have their mail notification setting set to watched: true.
+module Users::Scopes
+  module WatcherRecipients
+    extend ActiveSupport::Concern
 
-  def self.permission
-    :view_wiki_pages
-  end
-
-  def self.supports_ian?
-    false
-  end
-
-  def self.supports_mail_digest?
-    false
-  end
-
-  def self.supports_mail?
-    true
-  end
-
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
-  def self.watcher_users(journal)
-    page = journal.journable.page
-
-    if journal.initial?
-      User.watcher_recipients(page.wiki)
-    else
-      User.watcher_recipients(page.wiki)
-          .or(User.watcher_recipients(page))
+    class_methods do
+      def watcher_recipients(model)
+        model
+          .possible_watcher_users
+          .where(id: NotificationSetting
+                       .applicable(model.project)
+                       .where(watched: true, user_id: model.watcher_users)
+                       .select(:user_id))
+      end
     end
-  end
-
-  def self.project(journal)
-    journal.data.project
-  end
-
-  def self.user(journal)
-    journal.user
   end
 end

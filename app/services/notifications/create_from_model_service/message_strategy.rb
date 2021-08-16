@@ -56,8 +56,8 @@ module Notifications::CreateFromModelService::MessageStrategy
   def self.watcher_users(journal)
     message = journal.journable
 
-    message.root.watcher_recipients
-      .or(message.forum.watcher_recipients)
+    User.watcher_recipients(message.root)
+        .or(User.watcher_recipients(message.forum))
   end
 
   def self.project(journal)

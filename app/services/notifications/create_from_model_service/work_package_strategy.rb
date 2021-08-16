@@ -54,7 +54,7 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
   end
 
   def self.watcher_users(journal)
-    journal.journable.watcher_recipients
+    User.watcher_recipients(journal.journable)
   end
 
   def self.project(journal)

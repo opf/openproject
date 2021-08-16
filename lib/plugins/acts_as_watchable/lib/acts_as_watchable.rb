@@ -161,28 +161,6 @@ module Redmine
              watcher_user_ids.any? { |uid| uid == user.id })
         end
 
-        # Returns a scope of users watching the instance that should be notified via mail upon updates to the instance.
-        # The users need to have the necessary permissions to see the instance as defined by the watchable_permission.
-        # Additionally, the users need to have their mail notification setting set to watched: true or all: true.
-        # TODO: move into Notifications::CreateFromJournalJob
-        def watcher_recipients
-          possible_watcher_users
-            .where(id: watcher_users_with_active_notification)
-        end
-
-        protected
-
-        # Ensure that only watcher users with mail=all notification or mail=watched are returned here.
-        # TODO: move into Notifications::CreateFromJournalJob
-        def watcher_users_with_active_notification
-          settings = NotificationSetting.applicable(project)
-
-          settings
-            .where(all: true, user_id: watcher_users)
-            .or(settings.where(watched: true, user_id: watcher_users))
-            .select(:user_id)
-        end
-
         module ClassMethods
           def acts_as_watchable_permission
             acts_as_watchable_options[:permission] || "view_#{name.underscore.pluralize}".to_sym

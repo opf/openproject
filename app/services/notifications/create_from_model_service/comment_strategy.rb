@@ -54,7 +54,7 @@ module Notifications::CreateFromModelService::CommentStrategy
   end
 
   def self.watcher_users(comment)
-    comment.commented.watcher_recipients
+    User.watcher_recipients(comment.commented)
   end
 
   def self.project(comment)
