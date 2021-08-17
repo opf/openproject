@@ -84,13 +84,30 @@ describe WorkPackages::CopyService, 'integration', type: :model do
       it { is_expected.not_to eq(work_package.id) }
     end
 
-    describe 'to the same project' do
+    context 'with the same project' do
       it_behaves_like 'copied work package'
 
-      context 'project' do
+      describe '#project' do
         subject { copy.project }
 
         it { is_expected.to eq(source_project) }
+      end
+
+      describe 'copied watchers' do
+        let(:watcher_user) do
+          FactoryBot.create(:user,
+                            member_in_project: source_project,
+                            member_with_permissions: %i(view_work_packages))
+        end
+
+        before do
+          work_package.add_watcher(watcher_user)
+        end
+
+        it 'copies the watcher and does not add the copying user as a watcher' do
+          expect(copy.watcher_users)
+            .to match_array([watcher_user])
+        end
       end
     end
 
