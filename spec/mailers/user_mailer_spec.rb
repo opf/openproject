@@ -91,11 +91,8 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  shared_examples_for 'does only send mails to author if permitted' do
-    let(:user_preference) do
-      FactoryBot.build(:user_preference, others: { no_self_notified: true })
-    end
-    let(:user) { FactoryBot.build_stubbed(:user, preference: user_preference) }
+  shared_examples_for 'does not send mails to author' do
+    let(:user) { FactoryBot.build_stubbed(:user) }
 
     context 'when mail is for another user' do
       it_behaves_like 'mail is sent'
@@ -205,7 +202,7 @@ describe UserMailer, type: :mailer do
       end
     end
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#work_package_updated' do
@@ -251,7 +248,7 @@ describe UserMailer, type: :mailer do
       end
     end
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#work_package_watcher_changed' do
@@ -278,7 +275,7 @@ describe UserMailer, type: :mailer do
 
     it_behaves_like 'mail is sent'
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#wiki_content_updated' do
@@ -294,7 +291,7 @@ describe UserMailer, type: :mailer do
       expect(deliveries.first.body.encoded).to include 'diff/1'
     end
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#message_posted' do
@@ -328,7 +325,7 @@ describe UserMailer, type: :mailer do
       end
     end
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#account_information' do
@@ -360,7 +357,7 @@ describe UserMailer, type: :mailer do
       end
     end
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#news_comment_added' do
@@ -373,7 +370,7 @@ describe UserMailer, type: :mailer do
 
     it_behaves_like 'mail is sent'
 
-    it_behaves_like 'does only send mails to author if permitted'
+    it_behaves_like 'does not send mails to author'
   end
 
   describe '#password_lost' do
@@ -808,7 +805,7 @@ describe UserMailer, type: :mailer do
                                "en" => 'english header'
                              } } do
       let(:recipient) do
-        FactoryBot.build_stubbed(:user, language: 'de', preferences: { no_self_notified: false })
+        FactoryBot.build_stubbed(:user, language: 'de')
       end
 
       before do
@@ -839,7 +836,7 @@ describe UserMailer, type: :mailer do
                                "en" => 'english header'
                              } } do
       let(:recipient) do
-        FactoryBot.build_stubbed(:user, language: '', preferences: { no_self_notified: false })
+        FactoryBot.build_stubbed(:user, language: '')
       end
 
       before do

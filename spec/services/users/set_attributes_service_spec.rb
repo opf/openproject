@@ -114,14 +114,14 @@ describe Users::SetAttributesService, type: :model do
       let(:params) do
         {
           pref: {
-            self_notified: true
+            auto_hide_popups: true
           }
         }
       end
 
       it 'initializes the user`s preferences with those attributes' do
         expect(call.result.pref)
-          .to be_self_notified
+          .to be_auto_hide_popups
       end
     end
   end

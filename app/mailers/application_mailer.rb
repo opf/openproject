@@ -74,7 +74,7 @@ class ApplicationMailer < ActionMailer::Base
     end
 
     def remove_self_notifications(message, author)
-      if author.pref && author.pref[:no_self_notified] && message.to.present?
+      if author.pref && message.to.present?
         message.to = message.to.reject { |address| address == author.mail }
       end
     end

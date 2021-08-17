@@ -46,17 +46,10 @@ describe 'API v3 Work package resource',
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
-  let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
-  end
   let(:type) { FactoryBot.create(:type) }
 
-  before do
-    login_as(current_user)
+  current_user do
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'PATCH /api/v3/work_packages/:id' do
@@ -71,9 +64,8 @@ describe 'API v3 Work package resource',
     subject(:response) { last_response }
 
     shared_context 'patch request' do
-      before(:each) do
-        allow(User).to receive(:current).and_return current_user
-        patch patch_path, params.to_json, 'CONTENT_TYPE' => 'application/json'
+      before do
+        patch patch_path, params.to_json
       end
     end
 
@@ -114,39 +106,47 @@ describe 'API v3 Work package resource',
 
       describe 'notification' do
         let(:update_params) { valid_params.merge(subject: 'Updated subject') }
+        let(:other_user) do
+          FactoryBot.create(:user,
+                            member_in_project: work_package.project,
+                            member_with_permissions: %i(view_work_packages))
+        end
 
-        before(:each) do
-          allow(User).to receive(:current).and_return current_user
+        before do
+          other_user
           work_package
-        end
 
-        include_context 'patch request'
-
-        context 'not set' do
-          let(:params) { update_params }
-
-          it { expect(Journals::CompletedJob).to have_been_enqueued.at_least(1) }
-        end
-
-        context 'disabled' do
-          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
-          let(:params) { update_params }
-
-          it do
-            expect(Journals::CompletedJob)
-              .to have_been_enqueued
-                    .at_least(1)
+          perform_enqueued_jobs do
+            patch patch_path, params.to_json
           end
         end
 
-        context 'enabled' do
+        context 'without the parameter' do
+          let(:params) { update_params }
+
+          it 'sends a mail' do
+            expect(ActionMailer::Base.deliveries.length)
+              .to eq 1
+          end
+        end
+
+        context 'with the parameter disabling notifications' do
+          let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
+          let(:params) { update_params }
+
+          it 'sends no mail' do
+            expect(ActionMailer::Base.deliveries)
+              .to be_empty
+          end
+        end
+
+        context 'with the parameter enabling notifications' do
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=Something" }
           let(:params) { update_params }
 
-          it do
-            expect(Journals::CompletedJob)
-              .to have_been_enqueued
-                    .at_least(1)
+          it 'sends a mail' do
+            expect(ActionMailer::Base.deliveries.length)
+              .to eq 1
           end
         end
       end

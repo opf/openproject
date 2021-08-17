@@ -38,30 +38,6 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
 
   subject { representer.from_hash request_body }
 
-  describe 'selfNotified' do
-    let(:request_body) do
-      {
-        'selfNotified' => self_notified
-      }
-    end
-
-    context 'with setting true' do
-      let(:self_notified) { true }
-
-      it 'sets no_self_notified to false' do
-        expect(subject.no_self_notified).to eq false
-      end
-    end
-
-    context 'with setting false' do
-      let(:self_notified) { false }
-
-      it 'sets no_self_notified to true' do
-        expect(subject.no_self_notified).to eq true
-      end
-    end
-  end
-
   describe 'notification_settings' do
     let(:request_body) do
       {

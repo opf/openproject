@@ -217,7 +217,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'when assignee has all notifications enabled but made the change himself and has deactivated self notification' do
+    context 'when assignee has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true, all: true)),
@@ -228,31 +228,6 @@ describe Notifications::CreateFromModelService,
       let(:author) { recipient }
 
       it_behaves_like 'creates no notification'
-    end
-
-    context 'when assignee has all notifications enabled, made the change himself and has activated self notification' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true, all: true)),
-          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true, all: true)),
-          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true, all: true))
-        ]
-      end
-      let(:author) { recipient }
-      let(:recipient_no_self_notified) { false }
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :involved,
-            read_mail: false,
-            reason_mail: :involved,
-            read_mail_digest: false,
-            reason_mail_digest: :involved
-          }
-        end
-      end
     end
   end
 
@@ -349,7 +324,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'when responsible has all notifications enabled but made the change himself and has deactivated self notification' do
+    context 'when responsible has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, involved: true, all: true),
@@ -360,31 +335,6 @@ describe Notifications::CreateFromModelService,
       let(:author) { recipient }
 
       it_behaves_like 'creates no notification'
-    end
-
-    context 'when responsible has all notifications enabled, made the change himself and has activated self notification' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:mail_notification_setting, involved: true, all: true),
-          FactoryBot.build(:mail_digest_notification_setting, involved: true, all: true),
-          FactoryBot.build(:in_app_notification_setting, involved: true, all: true)
-        ]
-      end
-      let(:author) { recipient }
-      let(:recipient_no_self_notified) { false }
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :involved,
-            read_mail: false,
-            reason_mail: :involved,
-            read_mail_digest: false,
-            reason_mail_digest: :involved
-          }
-        end
-      end
     end
   end
 
@@ -475,7 +425,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'when watcher has all notifications enabled but made the change himself and has deactivated self notification' do
+    context 'when watcher has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true, all: true)),
@@ -486,31 +436,6 @@ describe Notifications::CreateFromModelService,
       let(:author) { recipient }
 
       it_behaves_like 'creates no notification'
-    end
-
-    context 'when watcher has all notifications enabled, made the change himself and has activated self notification' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true, all: true)),
-          FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true, all: true)),
-          FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true, all: true))
-        ]
-      end
-      let(:author) { recipient }
-      let(:recipient_no_self_notified) { false }
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :watched,
-            read_mail: false,
-            reason_mail: :watched,
-            read_mail_digest: false,
-            reason_mail_digest: :watched
-          }
-        end
-      end
     end
   end
 
@@ -644,7 +569,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates no notification'
     end
 
-    context 'when recipient has all notifications enabled but made the change himself and has deactivated self notification' do
+    context 'when recipient has all notifications enabled but made the change himself' do
       let(:recipient_notification_settings) do
         [
           FactoryBot.build(:mail_notification_setting, all: true),
@@ -655,31 +580,6 @@ describe Notifications::CreateFromModelService,
       let(:author) { recipient }
 
       it_behaves_like 'creates no notification'
-    end
-
-    context 'when recipient has all notifications enabled, made the change himself and has activated self notification' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:mail_notification_setting, all: true),
-          FactoryBot.build(:mail_digest_notification_setting, all: true),
-          FactoryBot.build(:in_app_notification_setting, all: true)
-        ]
-      end
-      let(:author) { recipient }
-      let(:recipient_no_self_notified) { false }
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason_ian: :subscribed,
-            read_mail: false,
-            reason_mail: :subscribed,
-            read_mail_digest: false,
-            reason_mail_digest: :subscribed
-          }
-        end
-      end
     end
   end
 
@@ -1248,34 +1148,13 @@ describe Notifications::CreateFromModelService,
           it_behaves_like 'creates no notification'
         end
 
-        context 'when the mentioned user made the change himself and has deactivated self notification' do
+        context 'when the mentioned user made the change himself' do
           let(:note) do
             "Hello user:#{recipient.login}, hey user##{recipient.id}"
           end
           let(:author) { recipient }
 
           it_behaves_like 'creates no notification'
-        end
-
-        context 'when the mentioned user made the change himself, but has activated self notification' do
-          let(:note) do
-            "Hello user:#{recipient.login}, hey user##{recipient.id}"
-          end
-          let(:author) { recipient }
-          let(:recipient_no_self_notified) { false }
-
-          it_behaves_like 'creates notification' do
-            let(:notification_channel_reasons) do
-              {
-                read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
-              }
-            end
-          end
         end
       end
 

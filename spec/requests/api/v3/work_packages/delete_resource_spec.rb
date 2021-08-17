@@ -48,7 +48,7 @@ describe 'API v3 Work package resource',
   current_user do
     user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
+    FactoryBot.create(:user_preference, user: user)
 
     user
   end

@@ -245,6 +245,16 @@ describe MailHandler, type: :model do
             .not_to match(/^Start Date:/i)
         end
 
+        it 'sends notifications' do
+          FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
+
+          expect do
+            perform_enqueued_jobs do
+              subject
+            end
+          end.to change(ActionMailer::Base.deliveries, :count).by(1)
+        end
+
         context 'with a user watching every creation' do
           let!(:other_user) do
             FactoryBot.create(:user,
@@ -423,21 +433,23 @@ describe MailHandler, type: :model do
         allow(OpenProject::Database).to receive(:allows_tsv?).and_return false
       end
 
-      it 'should update a work package with attachment' do
-        expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+      context 'with attachments to be added' do
+        it 'updates a work package with attachment' do
+          allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-        # Mail with two attachemnts, one of which is skipped by signature.asc filename match
-        submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
+          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
-        work_package.reload
+          work_package.reload
 
-        # Expect comment
-        expect(work_package.journals.last.notes).to eq 'Reply to work package #123'
-        expect(work_package.journals.last.user).to eq mail_user
+          # Expect comment
+          expect(work_package.journals.last.notes).to eq 'Reply to work package #123'
+          expect(work_package.journals.last.user).to eq mail_user
 
-        # Expect filename without signature to be saved
-        expect(work_package.attachments.count).to eq(1)
-        expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+          # Expect filename without signature to be saved
+          expect(work_package.attachments.count).to eq(1)
+          expect(work_package.attachments.first.filename).to eq('Photo25.jpg')
+        end
       end
 
       context 'with existing attachment' do
@@ -445,12 +457,36 @@ describe MailHandler, type: :model do
 
         it 'does not replace it (Regression #29722)' do
           work_package.reload
-          expect(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
+          allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
           # Mail with two attachemnts, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           expect(work_package.attachments.length).to eq 2
+        end
+      end
+
+      context 'with reply text' do
+        include_context 'wp_update_with_quoted_reply_above'
+
+        it_behaves_like 'journal created'
+
+        it 'sends notifications' do
+          assignee = FactoryBot.create(:user,
+                                       member_in_project: project,
+                                       member_with_permissions: %i(view_work_packages),
+                                       notification_settings: [FactoryBot.build(:mail_notification_setting,
+                                                                                all: false,
+                                                                                involved: true)])
+
+          work_package.update_column(:assigned_to_id, assignee.id)
+
+          # Sends notifications for the assignee and the author who is listening for all changes.
+          expect do
+            perform_enqueued_jobs do
+              subject
+            end
+          end.to change(ActionMailer::Base.deliveries, :count).by(2)
         end
       end
 
