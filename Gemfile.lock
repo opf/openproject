@@ -859,7 +859,7 @@ GEM
     sentry-delayed_job (4.6.5)
       delayed_job (>= 4.0)
       sentry-ruby-core (~> 4.6.0)
-    sentry-rails (4.6.4)
+    sentry-rails (4.6.5)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.6.0)
     sentry-ruby (4.6.4)
