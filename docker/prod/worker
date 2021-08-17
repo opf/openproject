@@ -5,6 +5,4 @@ if [ "$1" = "--seed" ]; then
 	$APP_PATH/docker/prod/seeder "$@"
 fi
 
-$APP_PATH/docker/prod/migration_status # abort if there are pending migrations
-
 QUIET=true bundle exec rake jobs:work
