@@ -68,15 +68,17 @@ describe "Notification center", type: :feature, js: true do
       center.expect_no_item second_notification
     end
 
-    it 'can open the split screen of the notification to mark it as read' do
+    it 'can open the split screen of the notification' do
       visit home_path
       center.expect_bell_count 2
       center.open
 
       center.click_item notification
       split_screen.expect_open
-      center.expect_read_item notification
+      center.expect_item_not_read notification
       center.expect_work_package_item second_notification
+
+      center.mark_notification_as_read notification
 
       retry_block do
         notification.reload
@@ -120,7 +122,7 @@ describe "Notification center", type: :feature, js: true do
         center.click_item fourth_notification
 
         split_screen.expect_open
-        center.expect_read_item fourth_notification
+        center.mark_notification_as_read fourth_notification
         expect(notification.reload.read_ian).to be_truthy
         expect(second_notification.reload.read_ian).to be_falsey
         expect(third_notification.reload.read_ian).to be_falsey
@@ -131,7 +133,7 @@ describe "Notification center", type: :feature, js: true do
         center.click_item third_notification
 
         second_split_screen.expect_open
-        center.expect_read_item third_notification
+        center.mark_notification_as_read third_notification
         expect(second_notification.reload.read_ian).to be_truthy
         expect(third_notification.reload.read_ian).to be_truthy
       end

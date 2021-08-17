@@ -135,10 +135,6 @@ export class InAppNotificationEntryComponent implements OnInit {
       return;
     }
 
-    if (!this.notification.readIAN) {
-      this.ianService.markAsRead(this.aggregatedNotifications, true);
-    }
-
     this
       .workPackage$
       .pipe(
