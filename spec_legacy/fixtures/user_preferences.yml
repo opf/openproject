@@ -58,7 +58,6 @@ user_preferences_002:
 user_preferences_003:
   others: |
     ---
-    no_self_notified: false
   id: 3
   user_id: 2
   hide_mail: false

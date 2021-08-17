@@ -59,14 +59,6 @@ class UserPreference < ApplicationRecord
     comments_sorting == 'desc'
   end
 
-  def self_notified?
-    !others[:no_self_notified]
-  end
-
-  def self_notified=(value)
-    others[:no_self_notified] = !value
-  end
-
   def auto_hide_popups=(value)
     others[:auto_hide_popups] = to_boolean(value)
   end
@@ -116,7 +108,7 @@ class UserPreference < ApplicationRecord
   end
 
   def init_other_preferences
-    self.others ||= { no_self_notified: true }
+    self.others ||= {}
   end
 
   def time_zone_correctness

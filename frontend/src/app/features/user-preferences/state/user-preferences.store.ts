@@ -37,7 +37,6 @@ function createInitialState():UserPreferencesModel {
     hideMail: true,
     timeZone: null,
     warnOnLeavingUnsaved: true,
-    selfNotified: false,
     notifications: [],
   };
 }

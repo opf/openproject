@@ -34,11 +34,7 @@ describe NewsController, type: :controller do
   include BecomeMember
 
   let(:user) do
-    user = FactoryBot.create(:admin)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    FactoryBot.create(:admin)
   end
   let(:project) { FactoryBot.create(:project) }
   let(:news) { FactoryBot.create(:news) }
