@@ -862,11 +862,11 @@ GEM
     sentry-rails (4.6.5)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.6.0)
-    sentry-ruby (4.6.4)
+    sentry-ruby (4.6.5)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       faraday (>= 1.0)
-      sentry-ruby-core (= 4.6.4)
-    sentry-ruby-core (4.6.4)
+      sentry-ruby-core (= 4.6.5)
+    sentry-ruby-core (4.6.5)
       concurrent-ruby
       faraday
     shoulda-context (2.0.0)
