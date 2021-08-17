@@ -153,8 +153,6 @@ The zen mode gives you more space to focus on the tasks at hand. It's almost lik
 ![zen-mode-Gantt-chart](image-20210204173420592.png)
 
 
-
-<<<<<<< HEAD
 ## Multi project views
 
 With the Gantt charts in OpenProject you can create project overarching timelines.
