@@ -27,6 +27,7 @@
 //++
 
 .router--work-packages-partitioned-split-view,
+.router--work-packages-partitioned-split-view-details,
 .router--work-packages-full-view,
 .router--work-packages-full-create
   .in_modal &
@@ -34,7 +35,8 @@
       top: 12px
 
 
-.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
+.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create)
   @include extended-content--bottom
   @include extended-content--right
 
