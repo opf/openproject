@@ -129,7 +129,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'First option')
         expect(page).to have_no_selector('th.inner', text: 'Second option')
 
@@ -190,7 +190,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
         # Expect row of work package
         within('#result-table') do
-          expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
+          expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
           expect(page).to have_selector('th.inner', text: '1')
           expect(page).to have_no_selector('th.inner', text: 'invalid!')
         end
@@ -223,7 +223,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.issue', text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'foo')
         expect(page).to have_no_selector('th.inner', text: 'None')
 

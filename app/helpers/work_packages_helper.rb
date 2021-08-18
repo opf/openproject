@@ -35,17 +35,16 @@ module WorkPackagesHelper
   # Displays a link to +work_package+ with its subject.
   # Examples:
   #
-  #   link_to_work_package(package)                             # => Defect #6: This is the subject
-  #   link_to_work_package(package, all_link: true)          # => Defect #6: This is the subject (everything within the link)
-  #   link_to_work_package(package, truncate: 9)             # => Defect #6: This i...
-  #   link_to_work_package(package, subject: false)          # => Defect #6
-  #   link_to_work_package(package, type: false)             # => #6: This is the subject
-  #   link_to_work_package(package, project: true)           # => Foo - Defect #6
-  #   link_to_work_package(package, id_only: true)           # => #6
-  #   link_to_work_package(package, subject_only: true)      # => This is the subject (as link)
-  #   link_to_work_package(package, status: true)            # => #6 New (if #id => true)
+  #   link_to_work_package(package)                            # => Defect #6: This is the subject
+  #   link_to_work_package(package, all_link: true)            # => Defect #6: This is the subject (everything within the link)
+  #   link_to_work_package(package, truncate: 9)               # => Defect #6: This i...
+  #   link_to_work_package(package, subject: false)            # => Defect #6
+  #   link_to_work_package(package, type: false)               # => #6: This is the subject
+  #   link_to_work_package(package, project: true)             # => Foo - Defect #6
+  #   link_to_work_package(package, id_only: true)             # => #6
+  #   link_to_work_package(package, subject_only: true)        # => This is the subject (as link)
+  #   link_to_work_package(package, status: true)              # => #6 New (if #id => true)
   def link_to_work_package(package, options = {})
-    only_path = options.fetch(:only_path) { true }
     if options[:subject_only]
       options.merge!(type: false,
                      subject: true,
@@ -67,7 +66,7 @@ module WorkPackagesHelper
               link: [],
               suffix: [],
               title: [],
-              css_class: ['issue'] }
+              css_class: link_to_work_package_css_classes(package, options) }
 
     # Prefix part
 
@@ -85,12 +84,10 @@ module WorkPackagesHelper
 
     # Hidden link part
 
-    if package.closed?
+    if package.closed? && !options[:no_hidden]
       parts[:hidden_link] << content_tag(:span,
                                          I18n.t(:label_closed_work_packages),
                                          class: 'hidden-for-sighted')
-
-      parts[:css_class] << 'closed'
     end
 
     # Suffix part
@@ -117,14 +114,13 @@ module WorkPackagesHelper
     prefix = parts[:prefix].join(' ')
     suffix = parts[:suffix].join(' ')
     link = parts[:link].join(' ').strip
-    hidden_link = parts[:hidden_link].join('')
+    hidden_link = parts[:hidden_link].join
     title = parts[:title].join(' ')
     css_class = parts[:css_class].join(' ')
-    css_class << options[:class].to_s
 
     # Determine path or url
     work_package_link =
-      if only_path
+      if options.fetch(:only_path, true)
         work_package_path(package)
       else
         work_package_url(package)
@@ -133,14 +129,14 @@ module WorkPackagesHelper
     if options[:all_link]
       link_text = [prefix, link].reject(&:empty?).join(' - ')
       link_text = [link_text, suffix].reject(&:empty?).join(': ')
-      link_text = [hidden_link, link_text].reject(&:empty?).join('')
+      link_text = [hidden_link, link_text].reject(&:empty?).join
 
       link_to(link_text.html_safe,
               work_package_link,
               title: title,
               class: css_class)
     else
-      link_text = [hidden_link, link].reject(&:empty?).join('')
+      link_text = [hidden_link, link].reject(&:empty?).join
 
       html_link = link_to(link_text.html_safe,
                           work_package_link,
@@ -179,8 +175,7 @@ module WorkPackagesHelper
 
   # Returns a string of css classes that apply to the issue
   def work_package_css_classes(work_package)
-    # TODO: remove issue once css is cleaned of it
-    s = 'issue work_package preview-trigger'.html_safe
+    s = 'work_package preview-trigger'.html_safe
     s << " status-#{work_package.status.position}" if work_package.status
     s << " priority-#{work_package.priority.position}" if work_package.priority
     s << ' closed' if work_package.closed?
@@ -257,5 +252,13 @@ module WorkPackagesHelper
                end
 
     [responsible, assignee].compact.join('<br>').html_safe
+  end
+
+  def link_to_work_package_css_classes(package, options)
+    classes = ['work_package']
+    classes << 'closed' if package.closed?
+    classes << options[:class].to_s
+
+    classes
   end
 end
