@@ -124,6 +124,10 @@ table.generic-table
         content:  '*'
         color:    var(--primary-color-dark)
         padding:  0 0.2rem
+      
+      &.-max
+        .generic-table--sort-header
+          max-width: none
 
     .sort
       &.asc:after
@@ -229,7 +233,7 @@ thead.-sticky th
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer
-  padding:      0 30px 0 10px
+  padding:      0 12px 0 6px
   line-height:  var(--generic-table--header-height)
   height:  var(--generic-table--header-height)
   z-index:      1
@@ -266,12 +270,15 @@ thead.-sticky th
   width:   100%
   clear:   both
   min-width: 40px
+  max-width: 300px
   display: flex
 
   & > a
     flex: 1 1
     width: 100%
     font-weight: bold
+    white-space: nowrap
+    overflow: hidden
     &.-inactive
       color: var(--button--active-font-color)
       
