@@ -169,6 +169,8 @@ sl:
     enabled_in_project: 'Omogočeno v projektu'
     contained_in_type: 'Vsebovano v vrstah'
     confirm_destroy_option: "Če izbrišete možnost, boste izbrisali vse njene primere (npr. v delovnih paketih). Ali ste prepričani, da ga želite izbrisati?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Trenutno ni poslovnih procesov
       no_results_content_text: Ustvarite novo uporabniško lastnost

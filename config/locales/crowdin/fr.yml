@@ -170,6 +170,8 @@ fr:
     enabled_in_project: 'Activé dans le projet'
     contained_in_type: 'Figurant dans le type'
     confirm_destroy_option: "Supprimer une option supprimera toutes ses occurrences (ex. dans les plans de travail). Êtes-vous sûr de vouloir le supprimer ?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé

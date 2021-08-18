@@ -169,6 +169,8 @@ pt:
     enabled_in_project: 'Habilitado no projeto'
     contained_in_type: 'Contido no tipo'
     confirm_destroy_option: "Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado

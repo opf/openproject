@@ -170,6 +170,8 @@ ro:
     enabled_in_project: 'Activat/ă în proiect'
     contained_in_type: 'Înclusă în tipul'
     confirm_destroy_option: "Ștergerea unei opțiuni va șterge toate aparițiile acesteia (de exemplu, în pachetele de lucru). Sunteți sigur că doriți să o ștergeți?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creare câmp personalizat nou

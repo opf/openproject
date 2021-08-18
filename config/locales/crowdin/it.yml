@@ -167,6 +167,8 @@ it:
     enabled_in_project: 'Abilitato nel progetto'
     contained_in_type: 'Contenuto nel tipo'
     confirm_destroy_option: "L'eliminazione di un'opzione eliminerà tutte le sue occorrenze (ad es. nelle macro-attività). Procedere all'eliminazione?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato

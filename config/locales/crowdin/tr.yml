@@ -170,6 +170,8 @@ tr:
     enabled_in_project: 'Projede etkin'
     contained_in_type: 'Türünün kapsadığı'
     confirm_destroy_option: "Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Şu anda özel bir alan bulunmamakta.
       no_results_content_text: Yeni bir özel alan oluştur

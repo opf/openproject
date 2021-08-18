@@ -170,6 +170,8 @@ zh-TW:
     enabled_in_project: '已在專案中啟用'
     contained_in_type: '已包含在類型中'
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
