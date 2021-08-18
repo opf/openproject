@@ -76,15 +76,14 @@ body.router--work-packages-partitioned-split-view-new
     margin: .5rem .5rem 0 0
 
 .work-packages--details-content
-  position:   absolute
-  top:        50px
-  bottom:     55px
-  width:      100%
-  overflow-x: hidden
-  overflow-y: scroll
-  padding:    0 5px 0 20px
-
-  @include styled-scroll-bar
+  display:         flex
+  flex-direction:  column
+  position:        absolute
+  top:             50px
+  bottom:          55px
+  width:           100%
+  overflow:        hidden
+  padding:         0 5px 10px 20px
 
 .work-packages--details
 
@@ -109,6 +108,16 @@ body.router--work-packages-partitioned-split-view-new
       line-height: 34px
       padding: 5px 0 5px 5px
       font-size: 18px
+
+  .work-packages--details-form
+    display: flex
+    flex-direction: column
+    overflow: hidden
+
+  .work-package-details-tab
+    overflow-y: auto
+    overflow-x: hidden
+    @include styled-scroll-bar
 
 .work-packages--type-selector
   flex-shrink: 0

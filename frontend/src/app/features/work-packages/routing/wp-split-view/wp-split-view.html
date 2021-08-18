@@ -8,7 +8,10 @@
 
       <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
-      <edit-form [resource]="workPackage">
+      <edit-form
+        [resource]="workPackage"
+        class="work-packages--details-form"
+      >
         <div class="wp-show--header-container">
           <op-back-button *ngIf="showBackButton()"
                        linkClass="work-packages-back-button"
