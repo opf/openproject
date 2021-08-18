@@ -234,15 +234,10 @@ thead.-sticky th
   height:  var(--generic-table--header-height)
   z-index:      1
   border-bottom: 1px solid var(--table-row-border-color)
-  display: flex
 
   &:hover,
   &.hover
     background:   #f8f8f8
-  
-  & > op-icon
-    position: absolute
-    right: 10px
 
 .generic-table--empty-header
   padding:       0 6px
@@ -271,7 +266,6 @@ thead.-sticky th
   width:   100%
   clear:   both
   min-width: 40px
-  max-width: 300px
   display: flex
   margin-right: 20px
 
@@ -281,6 +275,10 @@ thead.-sticky th
     font-weight: bold
     &.-inactive
       color: var(--button--active-font-color)
+      
+  & > op-icon
+    flex: 0 0 0
+    padding-left: 15px
 
   #startDate
     margin-left: 24px

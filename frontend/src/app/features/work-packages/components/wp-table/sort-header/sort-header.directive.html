@@ -20,6 +20,9 @@
        id="{{ headerColumn.id }}">{{headerColumn.name}}</a>
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
   <span class="generic-table--sort-header" *ngSwitchCase="'relation'">
@@ -27,6 +30,9 @@
       <op-icon icon-classes="icon-context icon-relations relations-header--icon"></op-icon>
       {{columnName}}
     </a>
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
 
   <span class="draggable-table--sort-header"
@@ -46,10 +52,9 @@
 
     <a *ngIf="!sortable">{{headerColumn.name}}</a>
 
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"
+             *ngIf="displayDropdownIcon"></op-icon>
   </span>
-
-  <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
-  icon-title="{{ text.openMenu }}"
-  *ngIf="displayDropdownIcon && columnType!='sort'"></op-icon>
 
 </div>
