@@ -44,21 +44,21 @@ describe 'Work Package boards sorting spec', type: :feature, js: true do
     board_index.visit!
   end
 
-  it 'sorts the boards grid based on their names' do
   # By adding each board the sort of table will change
-  # the currently added board should be at the top
+  # The currently added board should be at the top
+  it 'sorts the boards grid based on their names' do
 
-    board_page =board_index.create_board action: nil
+    board_page = board_index.create_board action: nil
     board_page.go_back_to_board_index
 
     expect(page.all('td.name a').first.text).to eq('Unnamed board')
 
-    board_page =board_index.create_board action: :Version, expect_empty: true
+    board_page = board_index.create_board action: :Version, expect_empty: true
     board_page.go_back_to_board_index
-    
+
     expect(page.all('td.name a').first.text).to eq('Action board (version)')
 
-    board_page =board_index.create_board action: :Status
+    board_page = board_index.create_board action: :Status
     board_page.go_back_to_board_index
 
     expect(page.all('td.name a').first.text).to eq('Action board (status)')
