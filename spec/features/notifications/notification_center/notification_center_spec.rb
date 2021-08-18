@@ -123,7 +123,12 @@ describe "Notification center", type: :feature, js: true do
 
         split_screen.expect_open
         center.mark_notification_as_read fourth_notification
-        expect(notification.reload.read_ian).to be_truthy
+
+        retry_block do
+          notification.reload
+          raise "Expected notification to be marked read" unless notification.read_ian
+        end
+
         expect(second_notification.reload.read_ian).to be_falsey
         expect(third_notification.reload.read_ian).to be_falsey
         expect(fourth_notification.reload.read_ian).to be_truthy
