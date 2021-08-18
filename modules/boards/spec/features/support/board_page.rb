@@ -371,5 +371,9 @@ module Pages
         expect(page).to (with_link ? have_selector(link) : have_no_selector(link))
       end
     end
+
+    def go_back_to_board_index
+      page.find('button[data-qa-selector="op-back-button"]').click
+    end
   end
 end
