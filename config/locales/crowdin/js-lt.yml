@@ -522,6 +522,7 @@ lt:
         all: 'Visi'
       center:
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        text_update_date: "%{date} by"
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
         default_all_projects: 'Numatytasis visiems projektams'

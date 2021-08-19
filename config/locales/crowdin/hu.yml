@@ -169,6 +169,8 @@ hu:
     enabled_in_project: 'Engedélyezve a projektben'
     contained_in_type: 'A típus tartalmazza'
     confirm_destroy_option: "Egy opció törlése az összes eddigi használatánál (úgy, mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Jelenleg nincsenek egyéni mezők.
       no_results_content_text: Új egyéni mező létrehozása

@@ -167,6 +167,8 @@ lt:
     enabled_in_project: 'Įgalintas projekte'
     contained_in_type: 'Laikomas tipe'
     confirm_destroy_option: "Ištrinant savybę, visi jos panaudojimai (pvz., darbų paketuose) taip pat bus ištrinti. Ar Jūs tikrai norite ištrinti?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką

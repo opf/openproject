@@ -522,6 +522,7 @@ es:
         all: 'Todo'
       center:
         mark_all_read: 'Marcar todos como leído'
+        text_update_date: "%{date} by"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
       settings:
         default_all_projects: 'Por defecto para todos los proyectos'

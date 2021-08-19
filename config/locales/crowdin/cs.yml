@@ -170,6 +170,8 @@ cs:
     enabled_in_project: 'Povoleno v projektu'
     contained_in_type: 'Obsahuje typ'
     confirm_destroy_option: "Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole

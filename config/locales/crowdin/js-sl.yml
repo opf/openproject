@@ -521,6 +521,7 @@ sl:
         all: 'Vse'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
