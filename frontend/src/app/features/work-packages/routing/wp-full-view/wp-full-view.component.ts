@@ -50,6 +50,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton:boolean;
 
+  displayNotificationsButton = false;
+
   public watchers:any;
 
   stateName$ = of('work-packages.new');
@@ -84,6 +86,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
+    // TODO
+    this.displayNotificationsButton = true;
 
     // watchers
     if (wp.watchers) {

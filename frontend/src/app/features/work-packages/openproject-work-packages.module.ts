@@ -171,6 +171,7 @@ import { WorkPackageFilterByTextInputComponent } from 'core-app/features/work-pa
 import { FilterIntegerValueComponent } from 'core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
+import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
 
 @NgModule({
   imports: [
@@ -388,6 +389,8 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButtonComponent,
 
+    // Notifications
+    WorkPackageMarkNotificationButtonComponent,
   ],
   exports: [
     WorkPackagesTableComponent,
