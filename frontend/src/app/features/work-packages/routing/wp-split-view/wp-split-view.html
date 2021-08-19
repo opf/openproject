@@ -6,7 +6,16 @@
     <span class="hidden-for-sighted" tabindex="-1" [opAutofocus]="shouldFocus" [textContent]="focusAnchorLabel">
       </span>
 
-      <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+      <div class="work-packages--breadcrumb">
+        <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+
+        <op-work-package-mark-notification-button
+          *ngIf="showNotificationsButton()"
+          class="work-packages--details-button"
+          [workPackage]="workPackage"
+          buttonClasses="-round"
+        ></op-work-package-mark-notification-button>
+      </div>
 
       <edit-form
         [resource]="workPackage"

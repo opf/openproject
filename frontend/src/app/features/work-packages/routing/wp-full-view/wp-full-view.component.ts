@@ -86,7 +86,9 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
-    // TODO
+
+    // Todo check for hasUnreadNotifications
+    // Todo check for User logged in
     this.displayNotificationsButton = true;
 
     // watchers

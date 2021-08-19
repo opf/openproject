@@ -105,6 +105,11 @@ export class KeepTabService {
     return this.currentTab;
   }
 
+  get currentTabIdentifier():string|undefined {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.uiRouterGlobals.params.tabIdentifier;
+  }
+
   protected notify() {
     // Notify when updated
     this.subject.next({

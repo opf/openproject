@@ -97,15 +97,21 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       });
   }
 
-  public get shouldFocus() {
+  get shouldFocus() {
     return this.$state.params.focus === true;
   }
 
-  public showBackButton():boolean {
+  showBackButton():boolean {
     return this.baseRoute.includes('bim');
   }
 
-  public backToList() {
+  backToList():void {
     this.backRouting.goToBaseState();
+  }
+
+  showNotificationsButton():boolean {
+    // Todo check for hasUnreadNotifications
+    // Todo check for User logged in
+    return this.keepTab.currentTabIdentifier === 'activity';
   }
 }
