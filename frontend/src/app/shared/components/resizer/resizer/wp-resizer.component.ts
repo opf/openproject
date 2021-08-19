@@ -69,7 +69,7 @@ export class WpResizerDirective extends UntilDestroyedMixin implements OnInit, A
   private resizer:HTMLElement;
 
   // Min-width this element is allowed to have
-  private elementMinWidth = 530;
+  private elementMinWidth = 645;
 
   public moving = false;
 
