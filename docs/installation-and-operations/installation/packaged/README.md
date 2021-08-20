@@ -201,6 +201,8 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
+**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+
 ### CentOS 7 / RHEL 7
 
 Add the OpenProject package source:
@@ -217,6 +219,8 @@ sudo yum install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
@@ -237,9 +241,13 @@ sudo zypper install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-**Note:** For SLES12, we do not provide required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
+**Note:** On SLES12 full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 [initial-config]: #initial-configuration
+
+# Full-text extraction not supported
+
+For some distributions we do not provide the required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
 
 # Initial Configuration
 
