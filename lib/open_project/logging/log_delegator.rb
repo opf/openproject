@@ -6,6 +6,14 @@ module OpenProject
         # Consume a message and let it be handled
         # by all handlers
         def log(exception, context = {})
+          # Doing the following because this is called with ActionController::Parameters from somewhere
+          # which leads to "failed to delegate" errors below ('expect the argument to be a Hash').
+          if context.respond_to?(:to_unsafe_h)
+            context = context.to_unsafe_h
+          else
+            context = context.to_h.dup
+          end
+
           message =
             if exception.is_a? Exception
               context[:exception] = exception
@@ -24,7 +32,7 @@ module OpenProject
           context[:current_user] ||= User.current
 
           registered_handlers.values.each do |handler|
-            handler.call message, context.to_h
+            handler.call message, context
           rescue StandardError => e
             Rails.logger.error "Failed to delegate log to #{handler.inspect}: #{e.inspect}\nMessage: #{message.inspect}"
           end
