@@ -93,7 +93,6 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
 
-    // Todo check for User logged in
     this
       .ianService
       .notificationsOfWpLoaded

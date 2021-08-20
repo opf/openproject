@@ -37,6 +37,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -65,11 +66,14 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     showAll: this.I18n.t('js.label_activity_show_all'),
   };
 
-  constructor(readonly apiV3Service:APIV3Service,
+  constructor(
+    readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly $transition:Transition,
-    readonly wpActivity:WorkPackagesActivityService) {
+    readonly wpActivity:WorkPackagesActivityService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super();
 
     this.reverse = wpActivity.isReversed;
@@ -77,35 +81,24 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   ngOnInit() {
-    combineLatest([
-      this
-        .apiV3Service
-        .work_packages
-        .id(this.workPackageId)
-        .requireAndStream()
-        .pipe(this.untilDestroyed()),
-      this
-        .apiV3Service
-        .notifications
-        .facet(
-          'unread',
-          {
-            pageSize: NOTIFICATIONS_MAX_SIZE,
-            filters: [
-              ['resourceId', '=', [this.workPackageId]],
-              ['resourceType', '=', ['WorkPackage']],
-            ],
-          },
-        ),
-    ])
-      .subscribe(([wp, notificationCollection]) => {
-        this.notifications = notificationCollection._embedded.elements;
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackageId)
+      .requireAndStream()
+      .pipe(this.untilDestroyed())
+      .subscribe((wp) => {
         this.workPackage = wp;
         this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
         });
       });
+
+    this.ianService.loadNotificationsOfWorkPackage(this.workPackageId);
+    this.ianService.notificationsOfWpLoaded.subscribe((notificationCollection) => {
+      this.notifications = notificationCollection._embedded.elements;
+    });
   }
 
   protected updateActivities(activities:HalResource[]) {

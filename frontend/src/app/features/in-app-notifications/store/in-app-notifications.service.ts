@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { Observable } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -9,7 +9,6 @@ import { take } from 'rxjs/internal/operators/take';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable({ providedIn: 'root' })
@@ -22,7 +21,7 @@ export class InAppNotificationsService {
   ) {
   }
 
-  public notificationsOfWpLoaded:Observable<IHALCollection<InAppNotification>>;
+  public notificationsOfWpLoaded:EventEmitter<IHALCollection<InAppNotification>> = new EventEmitter<IHALCollection<InAppNotification>>();
 
   get():void {
     this.store.setLoading(true);
@@ -110,7 +109,7 @@ export class InAppNotificationsService {
   }
 
   loadNotificationsOfWorkPackage(workPackageId:string):void {
-    this.notificationsOfWpLoaded = this
+    this
       .apiV3Service
       .notifications
       .facet(
@@ -122,7 +121,9 @@ export class InAppNotificationsService {
             ['resourceType', '=', ['WorkPackage']],
           ],
         },
-      );
+      ).subscribe((notificationCollection) => {
+        this.notificationsOfWpLoaded.emit(notificationCollection);
+      });
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]) {

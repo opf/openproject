@@ -120,7 +120,6 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   }
 
   showNotificationsButton():boolean {
-    // Todo check for User logged in
     return this.displayNotificationsButton && this.keepTab.currentTabIdentifier === 'activity';
   }
 }
