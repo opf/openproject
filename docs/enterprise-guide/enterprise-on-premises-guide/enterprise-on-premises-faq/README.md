@@ -56,7 +56,12 @@ You don't have to do anything. Just don't renew your subscription. As soon as yo
 ## I can't login via SSO to update my Enterprise on-premises token. What do I do?
 
 Until this issue is fixed you can set the token manually via the console. Copy the new token and then do the following.
-`sudo openproject run console`
+
+```
+sudo openproject run console
+# if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
+# if using docker-compose: docker-compose run --rm web bundle exec rails console
+```
 Once in the console update the token like this:
 `EnterpriseToken.first.update encoded_token: "..."`
 Where `...` is the token you have copied earlier.
