@@ -186,16 +186,15 @@ sudo wget -O /etc/yum.repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/11/installer/el/8.repo
 ```
 
-Download the OpenProject package:
-
-```bash
-sudo yum install openproject
-```
-
-Note: if the package manager refuses to install OpenProject due to the package `epel-release` not being found, you should add the EPEL repository manually, and then relaunch the command above:
+If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
 
 ```bash
 sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+```
+
+Download the OpenProject package:
+
+```bash
 sudo yum install openproject
 ```
 
