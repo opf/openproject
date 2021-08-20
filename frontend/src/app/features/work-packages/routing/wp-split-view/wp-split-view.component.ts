@@ -26,9 +26,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, Component, Injector, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
@@ -39,6 +37,7 @@ import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routi
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -52,14 +51,19 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current.data.baseRoute;
 
-  constructor(public injector:Injector,
+  private displayNotificationsButton:boolean;
+
+  constructor(
+    public injector:Injector,
     public states:States,
     public firstRoute:FirstRouteService,
     public keepTab:KeepTabService,
     public wpTableSelection:WorkPackageViewSelectionService,
     public wpTableFocus:WorkPackageViewFocusService,
     readonly $state:StateService,
-    readonly backRouting:BackRoutingService) {
+    readonly backRouting:BackRoutingService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 
@@ -95,6 +99,12 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
           );
         }
       });
+
+    this.ianService.loadNotificationsOfWorkPackage(wpId.toString());
+
+    this.ianService.notificationsOfWpLoaded.subscribe((notifications) => {
+      this.displayNotificationsButton = notifications.count > 0;
+    });
   }
 
   get shouldFocus() {
@@ -110,8 +120,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   }
 
   showNotificationsButton():boolean {
-    // Todo check for hasUnreadNotifications
     // Todo check for User logged in
-    return this.keepTab.currentTabIdentifier === 'activity';
+    return this.displayNotificationsButton && this.keepTab.currentTabIdentifier === 'activity';
   }
 }

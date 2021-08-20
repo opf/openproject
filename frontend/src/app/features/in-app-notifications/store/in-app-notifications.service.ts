@@ -9,6 +9,8 @@ import { take } from 'rxjs/internal/operators/take';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable({ providedIn: 'root' })
 export class InAppNotificationsService {
@@ -19,6 +21,8 @@ export class InAppNotificationsService {
     private notifications:NotificationsService,
   ) {
   }
+
+  public notificationsOfWpLoaded:Observable<IHALCollection<InAppNotification>>;
 
   get():void {
     this.store.setLoading(true);
@@ -103,6 +107,22 @@ export class InAppNotificationsService {
           );
         });
       });
+  }
+
+  loadNotificationsOfWorkPackage(workPackageId:string):void {
+    this.notificationsOfWpLoaded = this
+      .apiV3Service
+      .notifications
+      .facet(
+        'unread',
+        {
+          pageSize: NOTIFICATIONS_MAX_SIZE,
+          filters: [
+            ['resourceId', '=', [workPackageId]],
+            ['resourceType', '=', ['WorkPackage']],
+          ],
+        },
+      );
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]) {

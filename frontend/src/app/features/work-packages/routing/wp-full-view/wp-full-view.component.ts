@@ -34,6 +34,7 @@ import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routi
 import { of } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -56,9 +57,12 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   stateName$ = of('work-packages.new');
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public wpTableSelection:WorkPackageViewSelectionService,
-    readonly $state:StateService) {
+    readonly $state:StateService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 
@@ -80,6 +84,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     // Set Focused WP
     this.wpTableFocus.updateFocus(this.workPackage.id!);
 
+    this.ianService.loadNotificationsOfWorkPackage(this.workPackage.id || '');
+
     this.setWorkPackageScopeProperties(this.workPackage);
   }
 
@@ -87,9 +93,13 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
 
-    // Todo check for hasUnreadNotifications
     // Todo check for User logged in
-    this.displayNotificationsButton = true;
+    this
+      .ianService
+      .notificationsOfWpLoaded
+      .subscribe((notifications) => {
+        this.displayNotificationsButton = notifications.count > 0;
+      });
 
     // watchers
     if (wp.watchers) {
