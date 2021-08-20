@@ -32,7 +32,7 @@ class Groups::UpdateService < ::BaseServices::Update
   protected
 
   def persist(call)
-    removed_users = call.result.group_users.select(&:marked_for_destruction?).map(&:user)
+    removed_users = call.result.group_users.select(&:marked_for_destruction?).map(&:user).compact
     member_roles = member_roles_to_prune(removed_users)
     project_ids = member_roles.pluck(:project_id)
     member_role_ids = member_roles.pluck(:id)
