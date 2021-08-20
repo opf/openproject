@@ -521,7 +521,7 @@ ru:
         all: 'Bсе'
       center:
         mark_all_read: 'Отметить всё как прочитанное'
-        text_update_date: "%{date} by"
+        text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
       settings:
         default_all_projects: 'По умолчанию для всех проектов'
