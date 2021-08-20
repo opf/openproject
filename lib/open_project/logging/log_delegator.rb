@@ -6,8 +6,7 @@ module OpenProject
         # Consume a message and let it be handled
         # by all handlers
         def log(exception, context = {})
-          # Doing the following because this is called with ActionController::Parameters from somewhere
-          # which leads to "failed to delegate" errors below ('expect the argument to be a Hash').
+          # in case we're getting ActionController::Parameters
           if context.respond_to?(:to_unsafe_h)
             context = context.to_unsafe_h
           else

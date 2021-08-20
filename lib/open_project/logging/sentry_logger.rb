@@ -80,7 +80,10 @@ module OpenProject
 
         def filter_params(params)
           f = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
-          f.filter params
+          res = f.filter(params)
+
+          # make sure to return plain hash rather than ActionController::Parameters
+          res.respond_to?(:to_unsafe_h) ? res.to_unsafe_h : res.to_h
         rescue => e
           { filter_failed: e.message }
         end
