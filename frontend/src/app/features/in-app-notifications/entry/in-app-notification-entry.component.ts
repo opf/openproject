@@ -75,6 +75,8 @@ export class InAppNotificationEntryComponent implements OnInit {
   text = {
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
+    updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
+      { date: age }),
   };
 
   constructor(
@@ -121,7 +123,9 @@ export class InAppNotificationEntryComponent implements OnInit {
     this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
     this.relativeTime$ = timer(0, 10000)
       .pipe(
-        map(() => this.timezoneService.formattedRelativeDateTime(this.notification.createdAt)),
+        map(() => this.text.updated_by_at(
+          this.timezoneService.formattedRelativeDateTime(this.notification.createdAt),
+        )),
         distinctUntilChanged(),
       );
   }
@@ -129,10 +133,6 @@ export class InAppNotificationEntryComponent implements OnInit {
   showDetails():void {
     if (this.unexpandable || !this.workPackage$) {
       return;
-    }
-
-    if (!this.notification.readIAN) {
-      this.ianService.markAsRead(this.aggregatedNotifications, true);
     }
 
     this

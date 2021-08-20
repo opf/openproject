@@ -48,6 +48,12 @@ module Components
         click_button 'Mark all as read'
       end
 
+      def mark_notification_as_read(notification)
+        within_item(notification) do
+          page.find('[data-qa-selector="mark-as-read-button"]').click
+        end
+      end
+
       def show_all
         click_button 'All'
       end
@@ -65,7 +71,7 @@ module Components
 
       def expect_item(notification, subject: notification.subject)
         within_item(notification) do
-          expect(page).to have_text subject
+          expect(page).to have_text subject, normalize_ws: true
         end
       end
 
@@ -79,12 +85,17 @@ module Components
           .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
+      def expect_item_not_read(notification)
+        expect(page)
+          .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+      end
+
       def expect_work_package_item(notification)
         work_package = notification.resource
         raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
 
         expect_item notification,
-                    subject: "#{work_package.type.name.upcase} ##{work_package.id} #{work_package.subject}"
+                    subject: "#{work_package.type.name.upcase} #{work_package.subject}"
       end
 
       def expect_closed

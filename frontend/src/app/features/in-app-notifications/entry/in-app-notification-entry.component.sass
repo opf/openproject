@@ -7,19 +7,13 @@ $subject-font-size: 14px
 .op-ian-item
   background: $ian-bg-color
   margin: 0 0 10px 0
-  padding: 5px 10px
+  padding: 10px 20px 10px 10px
   font-size: 0.9rem
   border: 1px solid var(--content-default-border-color)
   border-radius: 2px
   // This needs to be set in the itemSize of
   // the virtual scroller
-  height: 80px
-
-  &_expanded
-    height: auto
-    display: grid
-    grid-template-rows: auto 1fr
-    grid-gap: 0.5rem
+  height: 90px
 
   &:hover
     background: $ian-bg-hover-color
@@ -27,106 +21,79 @@ $subject-font-size: 14px
   &--row
     @include unset-button-styles
     width: 100%
+    height: 100%
     display: grid
-    grid-template-columns: 50px 1fr 200px 15% 15%
-    grid-template-rows: auto $subject-font-size 1fr
-    grid-template-areas: "project project project project project" "title title status status date" "actors reason reason reason reason"
-    grid-gap: 0.5rem
+    grid-template-rows: auto $subject-font-size auto
+    grid-template-areas: "header" "body" "footer"
+    grid-gap: 10px
     align-items: center
 
-    @media screen and (max-width: 679px)
-      grid-template-columns: 50px 1fr 15% 15%
-      grid-template-areas: "project project date date" "title title title title" "actors reason reason reason"
+  &--top-line
+    grid-area: header
+    display: grid
+    grid-template-columns: max-content max-content minmax(0, max-content) max-content auto minmax(20px, max-content)
+    grid-template-areas: "status wpIdLink project reason count buttons"
+    grid-column-gap: 5px
+    font-size: 14px
+    align-items: center
 
-    &_unexpandable
-      cursor: default
+  &--middle-line
+    grid-area: body
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-column-gap: 5px
 
-
-  &--indicator
-    width: 10px
-    height: 10px
-    margin-right: 0.5rem
-    display: block
-    background: var(--primary-color)
-    border-radius: 50%
-
-    &_read
-      background: #AFAFAF
+  &--bottom-line
+    grid-area: footer
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-column-gap: 5px
+    align-items: center
 
   &--work-package-subject
+    @include text-shortener
     font-weight: bold
     &.-read
       font-weight: normal
 
+  &--work-package-id-link
+    grid-area: wpIdLink
+
   &--project
     grid-area: project
-    font-size: 0.8rem
+    color: var(--gray-dark)
     @include text-shortener
 
-  &--project-link
+  &--project-link,
+  &--work-package-id-link
     color: var(--gray-dark)
-    // Set line-height to show underline
-    // which is otherwise swallowed by overflow
-    line-height: 1.1
-
-  &--reason,
-  &--date
-    color: #7f7f7f
+    font-weight: bold
 
   &--reason-count
-    color: white
+    grid-area: count
     @include indicator-bubble
-    background: #7f7f7f
-
-  &--title
-    grid-area: title
-    font-size: $subject-font-size
-    @include text-shortener
+    justify-self: flex-end
+    margin-right: 5px
 
   &--reason
     grid-area: reason
     @include text-shortener
+    color: var(--gray-dark)
     max-width: 100%
 
   &--date
-    grid-area: date
-    @include text-shortener(false)
-    white-space: nowrap
-    max-width: 100%
-    text-align: right
-
-    @media screen and (max-width: 679px)
-      justify-self: end
-  
-  &:not(#{&}_read):hover &--date,
-  &--buttons:focus-within + &--date 
-    opacity: 0
-
-    @media screen and (max-width: 679px)
-      opacity: 1
-
-  &--actors
-    grid-area: actors
     @include text-shortener
+    color: var(--gray-dark)
+    max-width: 100%
+    line-height: 16px
 
   &--status
     grid-area: status
 
   &--buttons
-    grid-area: date
-    text-align: right
-    align-items: end
-
-    @media screen and (max-width: 679px)
-      grid-area: buttons
+    grid-area: buttons
+    font-size: 16px
 
   &--button
-    margin: 0
-    opacity: 0
-
-    @media screen and (max-width: 679px)
-      display: none
-
-  &:not(#{&}_read):hover &--button,
-  &--button:focus
-    opacity: 1
+    &:hover
+      color: var(--content-link-hover-active-color)
