@@ -24,9 +24,9 @@ module OpenProject
           context[:current_user] ||= User.current
 
           registered_handlers.values.each do |handler|
-            handler.call message, context
+            handler.call message, context.to_h
           rescue StandardError => e
-            Rails.logger.error "Failed to delegate log to #{handler.inspect}: #{e.inspect}"
+            Rails.logger.error "Failed to delegate log to #{handler.inspect}: #{e.inspect}\nMessage: #{message.inspect}"
           end
 
           nil
