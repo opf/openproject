@@ -167,8 +167,8 @@ lt:
     enabled_in_project: 'Įgalintas projekte'
     contained_in_type: 'Laikomas tipe'
     confirm_destroy_option: "Ištrinant savybę, visi jos panaudojimai (pvz., darbų paketuose) taip pat bus ištrinti. Ar Jūs tikrai norite ištrinti?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
+    reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
@@ -1440,7 +1440,7 @@ lt:
   label_check_uncheck_all_in_column: "Žymėti/atžymėti visus stulpelyje"
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
   label_collapse: "Sutraukti"
@@ -1744,7 +1744,7 @@ lt:
   label_required: 'reikalingas'
   label_requires: 'turi turėti'
   label_result_plural: "Rezultatai"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Naujausias pirmas"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizijos"
