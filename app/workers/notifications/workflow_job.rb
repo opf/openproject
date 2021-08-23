@@ -35,6 +35,11 @@
 #   2) After the journal aggregation time has passed as well as the desired delay, the direct email is sent out.
 #   3) At the same time (TODO: but it could already have been triggered after the aggregation time has passed)
 #      the digest is scheduled.
+# This order has to be kept to ensure that the notifications are created before email sending is attempted. If it weren't
+# guaranteed, with the notifications created in one job and the mails send in another, the mail sending job might get executed
+# without any notifications being created which would result in no emails being sent at all. An alternative would be to
+# decouple notification creation and mail sending from another. But then, in app notifications being read could not prevent
+# mails being sent out.
 class Notifications::WorkflowJob < ApplicationJob
   include ::StateMachineJob
 
@@ -45,8 +50,8 @@ class Notifications::WorkflowJob < ApplicationJob
   # need to be sent out any more.
   discard_on ActiveJob::DeserializationError
 
-  state :create,
-        to: :mail do |resource, send_notification|
+  state :create_notifications,
+        to: :send_mails do |resource, send_notification|
     Notifications::CreateFromModelService
       .new(resource)
       .call(send_notification)
@@ -54,7 +59,7 @@ class Notifications::WorkflowJob < ApplicationJob
       .map(&:id)
   end
 
-  state :mail,
+  state :send_mails,
         wait: -> {
           Setting.notification_email_delay_minutes.minutes + Setting.journal_aggregation_time_minutes.to_i.minutes
         } do |*notification_ids|

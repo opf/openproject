@@ -1,3 +1,4 @@
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
 #

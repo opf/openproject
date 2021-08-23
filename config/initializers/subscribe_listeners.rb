@@ -32,7 +32,7 @@ OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |p
   # A job is scheduled that creates notifications (in app if supported) right away and schedules
   # jobs to be run for mail and digest mails.
   Notifications::WorkflowJob
-    .perform_later(:create,
+    .perform_later(:create_notifications,
                    payload[:journal],
                    payload[:send_notification])
 
@@ -72,7 +72,7 @@ end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::NEWS_COMMENT_CREATED) do |payload|
   Notifications::WorkflowJob
-    .perform_later(:create,
+    .perform_later(:create_notifications,
                    payload[:comment],
                    payload[:send_notification])
 end

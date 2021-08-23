@@ -35,7 +35,6 @@ class Mails::DigestJob < Mails::DeliverJob
       # having started but not completed when a new digest notification is generated.
       # To cope with it, the Mails::DigestJob as its first action sets all digest notifications
       # to being handled even though they are still processed.
-      # See the DigestJob for more details.
       return if digest_job_already_scheduled?(notification)
 
       set(wait_until: execution_time(notification.recipient))
