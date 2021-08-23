@@ -72,28 +72,6 @@ describe Comment, type: :model do
     assert_equal 'something useful', comment.text
   end
 
-  it 'should create should send notification with settings' do
-    # news needs a project in order to be notified
-    # see Redmine::Acts::Journalized::Deprecated#recipients
-    project = FactoryBot.create(:project)
-    user = FactoryBot.create(:user, member_in_project: project)
-    # author is automatically added as watcher
-    # this makes #user to receive a notification
-    news = FactoryBot.create(:news, project: project, author: user)
-
-    # with notifications for that event turned on
-    allow(Setting).to receive(:notified_events).and_return(['news_comment_added'])
-    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
-      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
-    end
-
-    # with notifications for that event turned off
-    allow(Setting).to receive(:notified_events).and_return([])
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
-    end
-  end
-
   # TODO: testing #destroy really needed?
   it 'should destroy' do
     # just setup

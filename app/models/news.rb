@@ -30,7 +30,7 @@
 
 class News < ApplicationRecord
   belongs_to :project
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
   has_many :comments, -> {
     order(:created_at)
   }, as: :commented, dependent: :delete_all
@@ -43,15 +43,14 @@ class News < ApplicationRecord
 
   acts_as_event url: Proc.new { |o| { controller: '/news', action: 'show', id: o.id } }
 
-  acts_as_searchable columns: ["#{table_name}.title", "#{table_name}.summary", "#{table_name}.description"],
+  acts_as_searchable columns: %W[#{table_name}.title #{table_name}.summary #{table_name}.description],
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"
 
   acts_as_watchable
 
-  after_create :add_author_as_watcher,
-               :send_news_added_mail
+  after_create :add_author_as_watcher
 
   scope :visible, ->(*args) do
     includes(:project)
@@ -105,13 +104,5 @@ class News < ApplicationRecord
 
   def add_author_as_watcher
     Watcher.create(watchable: self, user: author)
-  end
-
-  def send_news_added_mail
-    if Setting.notified_events.include?('news_added')
-      recipients.uniq.each do |user|
-        UserMailer.news_added(user, self, User.current).deliver_later
-      end
-    end
   end
 end

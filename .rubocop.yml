@@ -179,6 +179,10 @@ RSpec/LeadingSubject:
 RSpec/NamedSubject:
   Enabled: false
 
+RSpec/FilePath:
+  Enabled: false
+
+
 Style/Alias:
   Enabled: false
 
