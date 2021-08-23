@@ -20,14 +20,8 @@ describe 'Activity tab notifications', js: true, selenium: true do
     work_package
   end
   shared_let(:admin) { FactoryBot.create(:admin) }
-  shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
-  before do
-    login_as(admin)
-    full_view.visit!
-  end
-
-  context 'when there are notifications for the work package' do
+  shared_examples_for 'when there are notifications for the work package' do
     shared_let(:notification) do
       FactoryBot.create :notification,
                         recipient: admin,
@@ -35,24 +29,65 @@ describe 'Activity tab notifications', js: true, selenium: true do
                         resource: work_package,
                         journal: work_package.journals.last
     end
-
-    it 'Shows a notification bubble with the right number' do
+    it 'shows a notification bubble with the right number' do
       expect(page).to have_selector('[data-qa-selector="tab-counter-Activity"]', text: '1')
     end
 
-    it 'Shows a notification icon next to activities that have an unread notification' do
+    it 'shows a notification icon next to activities that have an unread notification' do
       expect(page).to have_selector('[data-qa-selector="user-activity-bubble"]', count: 1)
       expect(page).to have_selector('[data-qa-activity-number="3"] [data-qa-selector="user-activity-bubble"]')
     end
+
+    it 'shows a button to mark the notifications as read' do
+      expect(page).to have_selector('[data-qa-selector="mark-notification-read-button"]')
+
+      # A click marks the notification as read ...
+      page.find('[data-qa-selector="mark-notification-read-button"]').click
+
+      # ... and updates the view accordingly
+      expect(page).not_to have_selector('[data-qa-selector="mark-notification-read-button"]')
+      expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"]')
+      expect(page).not_to have_selector('[data-qa-selector="user-activity-bubble"]')
+    end
   end
 
-  context 'when there are no notifications for the work package' do
-    it 'Shows no notification bubble' do
+  shared_examples_for 'when there are no notifications for the work package' do
+    it 'shows no notification bubble' do
       expect(page).not_to have_selector('[data-qa-selector="tab-counter-Activity"]')
     end
 
-    it 'Does not show any notification icons next to activities' do
+    it 'does not show any notification icons next to activities' do
       expect(page).not_to have_selector('[data-qa-selector="user-activity-bubble"]')
     end
+
+    it 'shows no button to mark the notifications as read' do
+      expect(page).not_to have_selector('[data-qa-selector="mark-notification-read-button"]')
+    end
+  end
+
+  context 'when on full view' do
+    shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
+
+    before do
+      login_as(admin)
+      full_view.visit_tab! 'activity'
+    end
+
+    it_behaves_like 'when there are notifications for the work package'
+
+    it_behaves_like 'when there are no notifications for the work package'
+  end
+
+  context 'when on split view' do
+    shared_let(:split_view) { Pages::SplitWorkPackage.new(work_package, project) }
+
+    before do
+      login_as(admin)
+      split_view.visit_tab! 'activity'
+    end
+
+    it_behaves_like 'when there are notifications for the work package'
+
+    it_behaves_like 'when there are no notifications for the work package'
   end
 end
