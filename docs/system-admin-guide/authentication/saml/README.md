@@ -110,8 +110,10 @@ That means it's best to set them using the console.
 > sudo openproject run console
 
 # docker-based installation:
-> docker exec -it openproject bash
->> bundle exec rails console
+> docker exec -it openproject bundle exec rails console
+
+# docker-compose-based installation:
+> docker-compose run --rm web bundle exec rails console
 ```
 
 Once on the console you can set the same values as named in the `configuration.yml` file.

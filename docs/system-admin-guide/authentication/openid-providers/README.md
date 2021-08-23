@@ -106,8 +106,15 @@ See [our process control guide](../../../installation-and-operations/operation/c
 
 ```
 sudo openproject run console
-> Setting.oauth_allow_remapping_of_existing_users = true
-> exit
+# or if using docker:
+# docker-compose run --rm web bundle exec rails console
+```
+
+Once in the console you can then enter the following to enable the setting and leave the console.
+
+```
+Setting.oauth_allow_remapping_of_existing_users = true
+exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
