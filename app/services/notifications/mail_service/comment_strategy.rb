@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,35 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalCompletedJob < ApplicationJob
-  queue_with_priority :notification
+module Notifications::MailService::CommentStrategy
+  class << self
+    def send_mail(notification)
+      return if notification_disabled?
 
-  def perform(journal_id, send_mails)
-    journal = Journal.find_by(id: journal_id)
+      UserMailer
+        .news_comment_added(
+          notification.recipient,
+          notification.resource,
+          notification.resource.author || DeletedUser.first
+        )
+        .deliver_later
+    end
 
-    # If the WP has been deleted the journal will have been deleted, too.
-    # Or the journal might have been replaced
-    return unless journal
+    private
 
-    notify_journal_complete(journal, send_mails)
-  end
-
-  private
-
-  def notify_journal_complete(journal, send_mails)
-    OpenProject::Notifications.send(notification_event_type(journal),
-                                    journal: journal,
-                                    send_mail: send_mails)
-  end
-
-  def notification_event_type(journal)
-    case journal.journable_type
-    when WikiContent.name
-      OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
-    when WorkPackage.name
-      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
-    else
-      raise 'Unsupported journal created event type'
+    def notification_disabled?
+      Setting.notified_events.exclude?('news_comment_added')
     end
   end
 end

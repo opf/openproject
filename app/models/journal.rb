@@ -50,6 +50,8 @@ class Journal < ApplicationRecord
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
 
+  has_many :notifications, dependent: :destroy
+
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }

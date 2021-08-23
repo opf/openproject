@@ -28,55 +28,19 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 require 'spec_helper'
+require_relative './create_from_journal_job_shared'
 
-# rubocop:disable RSpec/MultipleMemoizedHelpers
-describe Notifications::JournalWpNotificationService, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:recipient) do
-    FactoryBot.create(:user,
-                      notification_settings: recipient_notification_settings,
-                      member_in_project: project,
-                      member_through_role: role,
-                      login: recipient_login,
-                      preferences: {
-                        no_self_notified: recipient_no_self_notified
-                      })
+describe Notifications::CreateFromModelService,
+         'work_package',
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+  subject(:call) do
+    described_class.new(journal).call(send_notifications)
   end
-  let(:recipient_login) { "johndoe" }
-  let(:recipient_no_self_notified) { true }
-  let(:other_user) do
-    FactoryBot.create(:user,
-                      notification_settings: other_user_notification_settings)
-  end
+
+  include_context 'with CreateFromJournalJob context'
+
+  let(:permissions) { [:view_work_packages] }
   let(:author) { user_property == :author ? recipient : other_user }
-  let(:notification_settings_all_false) do
-    {
-      all: false,
-      involved: false,
-      watched: false,
-      mentioned: false,
-      work_package_commented: false,
-      work_package_processed: false,
-      work_package_created: false,
-      work_package_scheduled: false,
-      work_package_prioritized: false
-    }
-  end
-  let(:recipient_notification_settings) do
-    [
-      FactoryBot.build(:mail_notification_setting, all: true),
-      FactoryBot.build(:in_app_notification_setting, all: true),
-      FactoryBot.build(:mail_digest_notification_setting, all: true)
-    ]
-  end
-  let(:other_user_notification_settings) do
-    [
-      FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
-    ]
-  end
   let(:user_property) { nil }
   let(:work_package) do
     wp_attributes = {
@@ -101,10 +65,9 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
       FactoryBot.create(:work_package,
                         **wp_attributes)
     end
-
   end
-  let(:journal) { journal_1 }
-  let(:journal_1) { work_package.journals.first }
+  let(:resource) { work_package }
+  let(:journal) { work_package.journals.first }
   let(:journal_2_with_notes) do
     work_package.add_journal author, 'something I have to say'
     work_package.save(validate: false)
@@ -130,65 +93,12 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     work_package.save(validate: false)
     work_package.journals.last
   end
-  let(:send_notifications) { true }
-
-  def call
-    described_class.call(journal, send_notifications)
-  end
 
   before do
     # make sure no other calls are made due to WP creation/update
     allow(OpenProject::Notifications).to receive(:send) # ... and do nothing
 
     login_as(author)
-  end
-
-  shared_examples_for 'creates notification' do
-    let(:sender) { author }
-    let(:notification_channel_reasons) do
-      {
-        read_ian: false,
-        reason_ian: :mentioned,
-        read_mail: false,
-        reason_mail: :mentioned,
-        read_mail_digest: false,
-        reason_mail_digest: :mentioned
-      }
-    end
-
-    it 'creates a notification' do
-      notifications_service = instance_double(Notifications::CreateService)
-
-      allow(Notifications::CreateService)
-        .to receive(:new)
-              .with(user: sender)
-              .and_return(notifications_service)
-      allow(notifications_service)
-        .to receive(:call)
-
-      call
-
-      expect(notifications_service)
-        .to have_received(:call)
-              .with({ recipient_id: recipient.id,
-                      project: journal.project,
-                      actor: sender,
-                      journal: journal,
-                      resource: journal.journable }.merge(notification_channel_reasons))
-    end
-  end
-
-  shared_examples_for 'creates no notification' do
-    it 'creates no notification' do
-      allow(Notifications::CreateService)
-        .to receive(:new)
-              .and_call_original
-
-      call
-
-      expect(Notifications::CreateService)
-        .not_to have_received(:new)
-    end
   end
 
   context 'when user is assignee' do
@@ -296,7 +206,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
 
     context 'assignee is not allowed to view work packages' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
@@ -428,7 +338,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
 
     context 'when responsible is not allowed to view work packages' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
@@ -560,7 +470,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
 
     context 'when watcher is not allowed to view work packages' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
@@ -729,7 +639,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
     end
 
     context 'when not allowed to view work packages' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:permissions) { [] }
 
       it_behaves_like 'creates no notification'
     end
@@ -1194,12 +1104,12 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
       context 'group is not allowed to view the work package' do
         let(:group_role) { FactoryBot.create(:role, permissions: []) }
-        let(:role) { FactoryBot.create(:role, permissions: []) }
+        let(:permissions) { [] }
 
         it_behaves_like 'creates no notification'
 
         context 'but group member is allowed individually' do
-          let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+          let(:permissions) { [:view_work_packages] }
 
           it_behaves_like 'creates notification' do
             let(:notification_channel_reasons) do
@@ -1330,7 +1240,7 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
         end
 
         context "with the mentioned user not being allowed to view the work package" do
-          let(:role) { FactoryBot.create(:role, permissions: []) }
+          let(:permissions) { [] }
           let(:note) do
             "Hello user:#{recipient.login}, hey user##{recipient.id}"
           end
@@ -1466,20 +1376,12 @@ describe Notifications::JournalWpNotificationService, with_settings: { journal_a
 
     it_behaves_like 'creates no notification'
   end
-end
 
-describe 'initialization' do
-  it 'subscribes the listener' do
-    allow(Notifications::JournalWpNotificationService)
-      .to receive(:call)
+  context 'when the journal is deleted' do
+    before do
+      journal.destroy
+    end
 
-    OpenProject::Notifications.send(
-      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal: FactoryBot.build(:journal)
-    )
-
-    expect(Notifications::JournalWpNotificationService)
-      .to have_received(:call)
+    it_behaves_like 'creates no notification'
   end
 end
-# rubocop:enable Rspec/MultipleMemoizedHelpers

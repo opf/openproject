@@ -34,7 +34,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
-  belongs_to :activity, class_name: 'TimeEntryActivity', foreign_key: 'activity_id'
+  belongs_to :activity, class_name: 'TimeEntryActivity'
   belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
 
   acts_as_customizable

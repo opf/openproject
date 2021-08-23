@@ -75,7 +75,8 @@ class User < Principal
 
   scopes :find_by_login,
          :newest,
-         :notified_on_all
+         :notified_on_all,
+         :watcher_recipients
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))

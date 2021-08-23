@@ -26,27 +26,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::NotificationJob < ApplicationJob
-  queue_with_priority :notification
+# AssociatedJournals that belong to another journal reflecting
+# an has_many relation (e.g. custom_values) on the journaled object.
+class Journal::AssociatedJournal < ApplicationRecord
+  self.abstract_class = true
 
-  def perform(notification)
-    ensure_supported(notification)
-
-    return if ian_read?(notification)
-
-    Mails::WorkPackageJob
-      .perform_now(notification.journal, notification.recipient_id, notification.actor_id)
-  end
-
-  private
-
-  def ensure_supported(notification)
-    unless notification.journal && notification.journal.journable.is_a?(WorkPackage)
-      raise ArgumentError, "Only notification for work package journals are currently supported"
-    end
-  end
-
-  def ian_read?(notification)
-    notification.read_ian
-  end
+  belongs_to :author, class_name: 'User'
+  belongs_to :journal
 end

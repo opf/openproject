@@ -125,7 +125,7 @@ describe 'API v3 Work package resource',
         context 'not set' do
           let(:params) { update_params }
 
-          it { expect(Notifications::JournalCompletedJob).to have_been_enqueued.at_least(1) }
+          it { expect(Journals::CompletedJob).to have_been_enqueued.at_least(1) }
         end
 
         context 'disabled' do
@@ -133,7 +133,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(Notifications::JournalCompletedJob)
+            expect(Journals::CompletedJob)
               .to have_been_enqueued
                     .at_least(1)
           end
@@ -144,7 +144,7 @@ describe 'API v3 Work package resource',
           let(:params) { update_params }
 
           it do
-            expect(Notifications::JournalCompletedJob)
+            expect(Journals::CompletedJob)
               .to have_been_enqueued
                     .at_least(1)
           end

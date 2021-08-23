@@ -30,7 +30,7 @@
 
 class Document < ApplicationRecord
   belongs_to :project
-  belongs_to :category, class_name: "DocumentCategory", foreign_key: "category_id"
+  belongs_to :category, class_name: "DocumentCategory"
   acts_as_attachable delete_permission: :manage_documents,
                      add_permission: :manage_documents
 
@@ -62,7 +62,6 @@ class Document < ApplicationRecord
   }
 
   after_initialize :set_default_category
-  after_create :notify_document_created
 
   def visible?(user = User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
@@ -81,17 +80,5 @@ class Document < ApplicationRecord
   def reload(options = nil)
     @updated_at = nil
     super
-  end
-
-  private
-
-  def notify_document_created
-    return unless Setting.notified_events.include?('document_added')
-
-    recipients.each do |user|
-      next if user == User.current && !User.current.pref.self_notified?
-
-      DocumentsMailer.document_added(user, self).deliver_now
-    end
   end
 end

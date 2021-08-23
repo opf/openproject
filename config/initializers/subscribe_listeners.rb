@@ -29,18 +29,17 @@
 #++
 
 OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |payload|
-  Notifications::JournalNotificationService.call(payload[:journal], payload[:send_notification])
-end
+  # A job is scheduled that creates notifications (in app if supported) right away and schedules
+  # jobs to be run for mail and digest mails.
+  Notifications::WorkflowJob
+    .perform_later(:create_notifications,
+                   payload[:journal],
+                   payload[:send_notification])
 
-# The aggregated journal ready listeners in effect are run inside a delayed job
-# since they are called by (in effect) by a background job triggered within the
-# Notifications::JournalNotificationService
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY) do |payload|
-  Notifications::JournalWpNotificationService.call(payload[:journal], payload[:send_mail])
-end
-
-OpenProject::Notifications.subscribe(OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY) do |payload|
-  Notifications::JournalWikiMailService.call(payload[:journal], payload[:send_mail])
+  # A job is scheduled for the end of the journal aggregation time. If the journal does still exist
+  # at the end (it might be replaced because another journal was created within that timeframe)
+  # that job generates a OpenProject::Events::AGGREGATED_..._JOURNAL_READY event.
+  Journals::CompletedJob.schedule(payload[:journal], payload[:send_notification])
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
@@ -69,4 +68,11 @@ OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |pa
     .perform_later(current_user: User.current,
                    member: payload[:member],
                    message: payload[:message])
+end
+
+OpenProject::Notifications.subscribe(OpenProject::Events::NEWS_COMMENT_CREATED) do |payload|
+  Notifications::WorkflowJob
+    .perform_later(:create_notifications,
+                   payload[:comment],
+                   payload[:send_notification])
 end

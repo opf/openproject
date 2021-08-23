@@ -53,5 +53,11 @@ FactoryBot.define do
       activity_type { 'messages' }
       data { FactoryBot.build(:journal_message_journal) }
     end
+
+    factory :news_journal, class: 'Journal' do
+      journable_type { 'News' }
+      activity_type { 'news' }
+      data { FactoryBot.build(:journal_message_journal) }
+    end
   end
 end

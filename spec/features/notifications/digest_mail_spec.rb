@@ -125,8 +125,7 @@ describe "Digest email", type: :feature, js: true do
     # perform_enqueued_jobs block, the digest job would be executed right away
     # so that the second update would trigger a new digest. But we want to test
     # that only one digest is sent out
-    perform_enqueued_jobs
-    perform_enqueued_jobs
+    5.times { perform_enqueued_jobs }
 
     expect(ActionMailer::Base.deliveries.length)
       .to be 1
