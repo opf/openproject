@@ -1,4 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
+import {
+  Component, ChangeDetectionStrategy, Input, OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';

@@ -26,7 +26,9 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, Injector, OnInit,
+} from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
@@ -113,7 +115,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
     });
   }
 
-  get shouldFocus() {
+  get shouldFocus():boolean {
     return this.$state.params.focus === true;
   }
 
