@@ -10,7 +10,7 @@
         <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
 
         <op-work-package-mark-notification-button
-          *ngIf="showNotificationsButton()"
+          *ngIf="(displayNotificationsButton$ | async) && keepTab.currentTabIdentifier === 'activity'"
           class="work-packages--details-button"
           [workPackage]="workPackage"
           buttonClasses="-round"

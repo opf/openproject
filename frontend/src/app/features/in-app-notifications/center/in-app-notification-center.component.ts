@@ -30,17 +30,16 @@ export class InAppNotificationCenterComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
 
   notifications$ = this
-    .ianQuery
+    .ianService
+    .query
     .aggregatedNotifications$
     .pipe(
       map((items) => Object.values(items)),
     );
 
-  notificationsCount$ = this.ianQuery.selectCount();
+  hasNotifications$ = this.ianService.query.hasNotifications$;
 
-  hasNotifications$ = this.ianQuery.hasNotifications$;
-
-  hasMoreThanPageSize$ = this.ianQuery.hasMoreThanPageSize$;
+  hasMoreThanPageSize$ = this.ianService.query.hasMoreThanPageSize$;
 
   noResultText$ = this
     .activeFacet$
@@ -48,10 +47,16 @@ export class InAppNotificationCenterComponent implements OnInit {
       map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
     );
 
-  totalCountWarning$ = this.ianQuery.notLoaded$.pipe(map((notLoaded:number) => this.I18n.t(
-    'js.notifications.center.total_count_warning',
-    { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: notLoaded },
-  )));
+  totalCountWarning$ = this
+    .ianService
+    .query
+    .notLoaded$
+    .pipe(
+      map((notLoaded:number) => this.I18n.t(
+        'js.notifications.center.total_count_warning',
+        { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: notLoaded },
+      )),
+    );
 
   maxSize = NOTIFICATIONS_MAX_SIZE;
 

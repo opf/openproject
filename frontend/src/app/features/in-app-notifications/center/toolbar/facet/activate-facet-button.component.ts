@@ -30,6 +30,5 @@ export class ActivateFacetButtonComponent {
 
   activateFacet(facet:string):void {
     this.ianService.setActiveFacet(facet);
-    this.ianService.get();
   }
 }

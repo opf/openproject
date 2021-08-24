@@ -13,7 +13,7 @@ import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification
 export class InAppNotificationsService {
   constructor(
     private store:InAppNotificationsStore,
-    private query:InAppNotificationsQuery,
+    public query:InAppNotificationsQuery,
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
   ) {

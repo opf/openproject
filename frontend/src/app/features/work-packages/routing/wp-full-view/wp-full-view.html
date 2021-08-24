@@ -30,7 +30,7 @@
                                [showText]="false">
             </wp-watcher-button>
           </li>
-          <li class="toolbar-item" *ngIf="displayNotificationsButton">
+          <li class="toolbar-item" *ngIf="displayNotificationsButton$ | async">
             <op-work-package-mark-notification-button
               [workPackage]="workPackage"
               buttonClasses="toolbar-icon"

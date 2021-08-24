@@ -29,7 +29,7 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
 import { Component, Injector, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
@@ -37,7 +37,6 @@ import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -57,7 +56,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton:boolean;
 
-  displayNotificationsButton = false;
+  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasNotifications$;
 
   public watchers:any;
 
@@ -90,7 +89,13 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     // Set Focused WP
     this.wpTableFocus.updateFocus(this.workPackage.id!);
 
-    this.ianService.loadNotificationsOfWorkPackage(this.workPackage.id || '');
+    if (this.workPackage.id) {
+      this.ianService.setActiveFacet('unread');
+      this.ianService.setActiveFilters([
+        ['resourceId', '=', [this.workPackage.id]],
+        ['resourceType', '=', ['WorkPackage']],
+      ]);
+    }
 
     this.setWorkPackageScopeProperties(this.workPackage);
   }
@@ -98,13 +103,6 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   private setWorkPackageScopeProperties(wp:WorkPackageResource) {
     this.isWatched = wp.hasOwnProperty('unwatch');
     this.displayWatchButton = wp.hasOwnProperty('unwatch') || wp.hasOwnProperty('watch');
-
-    this
-      .ianService
-      .notificationsOfWpLoaded
-      .subscribe((notifications) => {
-        this.displayNotificationsButton = notifications.count > 0;
-      });
 
     // watchers
     if (wp.watchers) {

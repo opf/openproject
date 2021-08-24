@@ -12,9 +12,8 @@ export function workPackageNotificationsCount(
 ):Observable<number> {
   const ianService = injector.get(InAppNotificationsService);
 
-  return ianService
-    .notificationsOfWpLoaded
+  return ianService.query.unread$
     .pipe(
-      map((data) => data._embedded.elements.length),
+      map((data) => data.length),
     );
 }

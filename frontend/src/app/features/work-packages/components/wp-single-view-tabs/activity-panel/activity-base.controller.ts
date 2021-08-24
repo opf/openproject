@@ -35,8 +35,10 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -97,16 +99,9 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
     this.ianService.setActiveFacet('unread');
     this.ianService.setActiveFilters([
-      ['resourceId', '=', [workPackageId]],
+      ['resourceId', '=', [this.workPackageId]],
       ['resourceType', '=', ['WorkPackage']],
     ]);
-    this.ianService.fetchNotifications();
-
-
-    this.ianService.loadNotificationsOfWorkPackage(this.workPackageId);
-    this.ianService.notificationsOfWpLoaded.subscribe((notificationCollection) => {
-      this.notifications = notificationCollection._embedded.elements;
-    });
   }
 
   protected updateActivities(activities:HalResource[]) {
@@ -138,8 +133,14 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
-  protected hasUnreadNotification(activityHref:string):boolean {
-    return !!this.notifications.find((notification) => notification._links.activity?.href === activityHref);
+  protected hasUnreadNotification(activityHref:string):Observable<boolean> {
+    return this
+      .ianService
+      .query
+      .unread$
+      .pipe(
+        map((notifications) => !!notifications.find((notification) => notification._links.activity?.href === activityHref)),
+      );
   }
 
   public toggleComments() {
