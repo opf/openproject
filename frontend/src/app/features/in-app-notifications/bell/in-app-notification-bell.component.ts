@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { merge, timer } from 'rxjs';
@@ -15,12 +16,17 @@ const POLLING_INTERVAL = 10000;
   templateUrl: './in-app-notification-bell.component.html',
   styleUrls: ['./in-app-notification-bell.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
+  ],
 })
 export class InAppNotificationBellComponent {
   polling$ = timer(10, POLLING_INTERVAL)
     .pipe(
       filter(() => this.activeWindow.isActive),
-      switchMap(() => this.inAppService.count$()),
+      switchMap(() => this.inAppService.fetchCount()),
     );
 
   unreadCount$ = merge(

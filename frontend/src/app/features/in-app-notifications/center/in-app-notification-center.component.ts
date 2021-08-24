@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { map } from 'rxjs/operators';
@@ -19,6 +20,11 @@ import { UIRouterGlobals } from '@uirouter/core';
   templateUrl: './in-app-notification-center.component.html',
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
+  ],
 })
 export class InAppNotificationCenterComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
@@ -41,6 +47,11 @@ export class InAppNotificationCenterComponent implements OnInit {
     .pipe(
       map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
     );
+
+  totalCountWarning$ = this.ianQuery.notLoaded$.pipe(map((notLoaded:number) => this.I18n.t(
+    'js.notifications.center.total_count_warning',
+    { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: notLoaded },
+  )));
 
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
@@ -65,20 +76,11 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly ianQuery:InAppNotificationsQuery,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
-  ) {
-  }
+  ) { }
 
   ngOnInit():void {
-    this.ianService.get();
-  }
-
-  totalCountWarning():string {
-    const state = this.ianQuery.getValue();
-
-    return this.I18n.t(
-      'js.notifications.center.total_count_warning',
-      { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: state.notShowing },
-    );
+    this.ianService.setActiveFacet('unread');
+    this.ianService.setActiveFilters([]);
   }
 
   openSplitView($event:WorkPackageResource):void {

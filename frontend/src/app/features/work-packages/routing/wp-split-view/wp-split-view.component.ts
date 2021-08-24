@@ -30,6 +30,9 @@ import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/c
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -45,6 +48,9 @@ import { InAppNotificationsService } from 'core-app/features/in-app-notification
   selector: 'wp-split-view-entry',
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
   ],
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {

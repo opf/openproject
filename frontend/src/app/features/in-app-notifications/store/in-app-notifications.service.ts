@@ -1,17 +1,15 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { map, switchMap, tap, take, debounceTime } from 'rxjs/operators';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
-import { Observable } from 'rxjs';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { map, switchMap, tap } from 'rxjs/operators';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { take } from 'rxjs/internal/operators/take';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class InAppNotificationsService {
   constructor(
     private store:InAppNotificationsStore,
@@ -19,43 +17,50 @@ export class InAppNotificationsService {
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
   ) {
+    this.query.activeFetchParameters$
+      .pipe(debounceTime(0))
+      .subscribe(() => {
+        this.fetchNotifications();
+        this.fetchCount();
+      });
   }
 
-  public notificationsOfWpLoaded:EventEmitter<IHALCollection<InAppNotification>> = new EventEmitter<IHALCollection<InAppNotification>>();
-
-  get():void {
+  fetchNotifications() {
     this.store.setLoading(true);
 
-    const facet = this.query.getValue().activeFacet;
+    const { activeFacet, activeFilters } = this.query.getValue();
 
-    this
+    const call = this
       .apiV3Service
       .notifications
-      .facet(facet, { pageSize: NOTIFICATIONS_MAX_SIZE })
+      .facet(activeFacet, {
+        pageSize: NOTIFICATIONS_MAX_SIZE,
+        filters: activeFilters,
+      });
+
+    call
       .pipe(
         tap((events) => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
       )
       .subscribe(
-        (events) => {
-          applyTransaction(() => {
-            this.store.set(events._embedded.elements);
-            this.store.update({ notShowing: events.total - events.count });
-          });
-        },
-        (error) => {
-          this.notifications.addError(error);
-        },
+        (events) => applyTransaction(() => {
+          this.store.set(events._embedded.elements);
+          this.store.update({ notShowing: events.total - events.count });
+        }),
+        (error) => this.notifications.addError(error),
       )
-      .add(
-        () => this.store.setLoading(false),
-      );
+      .add(() => this.store.setLoading(false));
+
+    return call;
   }
 
-  count$():Observable<number> {
+  fetchCount() {
+    const { activeFilters } = this.query.getValue();
+
     return this
       .apiV3Service
       .notifications
-      .unread({ pageSize: 0 })
+      .unread({ pageSize: 0, filters: activeFilters })
       .pipe(
         map((events) => events.total),
         tap((unreadCount) => {
@@ -72,8 +77,12 @@ export class InAppNotificationsService {
     this.store.update((state) => ({ ...state, activeFacet: facet }));
   }
 
-  markAllRead():void {
-    this.query
+  setActiveFilters(filters:ApiV3ListFilter[]):void {
+    this.store.update((state) => ({ ...state, activeFilters: filters }));
+  }
+
+  markAllRead() {
+    return this.query
       .unread$
       .pipe(
         take(1),
@@ -88,10 +97,10 @@ export class InAppNotificationsService {
       });
   }
 
-  markAsRead(notifications:InAppNotification[], keep = false):void {
+  markAsRead(notifications:InAppNotification[], keep = false) {
     const ids = notifications.map((n) => n.id);
 
-    this
+    return this
       .apiV3Service
       .notifications
       .markRead(ids)
@@ -108,24 +117,6 @@ export class InAppNotificationsService {
       });
   }
 
-  loadNotificationsOfWorkPackage(workPackageId:string):void {
-    this
-      .apiV3Service
-      .notifications
-      .facet(
-        'unread',
-        {
-          pageSize: NOTIFICATIONS_MAX_SIZE,
-          filters: [
-            ['resourceId', '=', [workPackageId]],
-            ['resourceType', '=', ['WorkPackage']],
-          ],
-        },
-      ).subscribe((notificationCollection) => {
-        this.notificationsOfWpLoaded.emit(notificationCollection);
-      });
-  }
-
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]) {
     const wpIds = elements.map((element) => {
       const href = element._links.resource?.href;
@@ -136,23 +127,5 @@ export class InAppNotificationsService {
       .apiV3Service
       .work_packages
       .requireAll(_.compact(wpIds));
-  }
-
-  collapse(notification:InAppNotification):void {
-    this.store.update(
-      notification.id,
-      {
-        expanded: false,
-      },
-    );
-  }
-
-  expand(notification:InAppNotification):void {
-    this.store.update(
-      notification.id,
-      {
-        expanded: true,
-      },
-    );
   }
 }

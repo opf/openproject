@@ -28,7 +28,6 @@
 
 import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
 import { Transition } from '@uirouter/core';
-import { combineLatest } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -94,6 +93,15 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.cdRef.detectChanges();
         });
       });
+
+
+    this.ianService.setActiveFacet('unread');
+    this.ianService.setActiveFilters([
+      ['resourceId', '=', [workPackageId]],
+      ['resourceType', '=', ['WorkPackage']],
+    ]);
+    this.ianService.fetchNotifications();
+
 
     this.ianService.loadNotificationsOfWorkPackage(this.workPackageId);
     this.ianService.notificationsOfWpLoaded.subscribe((notificationCollection) => {

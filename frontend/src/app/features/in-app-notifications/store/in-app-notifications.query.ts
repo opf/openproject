@@ -8,10 +8,15 @@ import {
 } from './in-app-notifications.store';
 import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
   /** Select the active filter facet */
   activeFacet$ = this.select('activeFacet');
+
+  activeFetchParameters$ = this.select(['activeFacet', 'activeFilters']);
+
+  /** Select the active filter facet */
+  notLoaded$ = this.select('notLoaded');
 
   /** Get the faceted items */
   faceted$ = this.activeFacet$
@@ -60,7 +65,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
   hasMoreThanPageSize$ = this
     .select()
     .pipe(
-      map(({ notShowing }) => notShowing > 0),
+      map(({ notLoaded }) => notLoaded > 0),
     );
 
   constructor(protected store:InAppNotificationsStore) {
