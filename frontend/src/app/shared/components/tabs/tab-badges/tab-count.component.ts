@@ -8,5 +8,5 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabCountComponent {
-  @Input('counter') counter$:Observable<number>;
+  @Input('count') count:number;
 }

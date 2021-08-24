@@ -27,7 +27,11 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
 } from '@angular/core';
 import { GonService } from 'core-app/core/gon/gon.service';
 import { StateService } from '@uirouter/core';
@@ -52,12 +56,15 @@ interface GonTab extends TabDefinition {
 export class ContentTabsComponent extends ScrollableTabsComponent {
   public classes:string[] = ['content--tabs', 'scrollable-tabs'];
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly $state:StateService,
     readonly gon:GonService,
     cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService) {
-    super(cdRef);
+    readonly I18n:I18nService,
+    public injector: Injector,
+  ) {
+    super(cdRef, injector);
 
     const gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
     const currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);

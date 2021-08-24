@@ -6,12 +6,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UIRouterGlobals } from '@uirouter/core';
 
@@ -20,11 +19,6 @@ import { UIRouterGlobals } from '@uirouter/core';
   templateUrl: './in-app-notification-center.component.html',
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    InAppNotificationsService,
-    InAppNotificationsStore,
-    InAppNotificationsQuery,
-  ],
 })
 export class InAppNotificationCenterComponent implements OnInit {
   activeFacet$ = this.ianQuery.activeFacet$;
