@@ -21,6 +21,7 @@
             </div>
           </th>
           <th *ngFor="let column of columns; trackBy:trackByHref"
+              [ngClass]="{'-max': column.id === 'subject' }"
               class="wp-table--table-header">
             <sortHeader [headerColumn]="column"
                         [locale]="column.custom_field && column.custom_field.name_locale || locale"

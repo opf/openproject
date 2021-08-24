@@ -65,12 +65,6 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
-        property :self_notified,
-                 getter: ->(*) { self_notified? },
-                 setter: ->(fragment:, represented:, **) do
-                   represented.no_self_notified = !fragment
-                 end
-
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,
