@@ -276,7 +276,7 @@ module Pages
     end
 
     def back_to_index
-      find('.back-button').click
+      find('[data-qa-selector="op-back-button"]').click
     end
 
     def expect_editable_board(editable)
