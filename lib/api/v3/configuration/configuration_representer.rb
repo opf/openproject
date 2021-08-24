@@ -34,13 +34,6 @@ module API
   module V3
     module Configuration
       class ConfigurationRepresenter < ::API::Decorators::Single
-        include API::Caching::CachedRepresenter
-
-        cached_representer dependencies: ->(*) {
-          Setting.definitions.map { |sd| [sd.name, sd.value] }.sort_by(&:first).flatten +
-            Setting.pluck(:name, :value).sort_by(&:first).flatten
-        }
-
         link :self do
           {
             href: api_v3_paths.configuration
@@ -163,12 +156,6 @@ module API
             .to_s
             .gsub(/%\w/, &block)
             .presence
-        end
-
-        # Overriding since ActiveSupport::Cache.expand_cache_key(Setting) is unstable
-        # and seems to be updated very second
-        def json_key_part_represented
-          ["Setting"]
         end
       end
     end
