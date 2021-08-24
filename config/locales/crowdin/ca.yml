@@ -170,6 +170,8 @@ ca:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
       no_results_content_text: Crear un camp personalitzat nou
@@ -247,6 +249,9 @@ ca:
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ ca:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -473,7 +479,6 @@ ca:
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
         language: "Idioma"
         last_login_on: "Darrer inici de sessió"
-        mail_notification: "Avisos de correu electrònic"
         new_password: "Nova contrasenya"
         password_confirmation: "Confirmació"
         consented_at: "Consented at"
@@ -538,6 +543,7 @@ ca:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "no pot estar buit."
         even: "ha de ser parell."
         exclusion: "està reservat."
@@ -551,6 +557,7 @@ ca:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "ha de ser menor o igual a %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -570,12 +577,16 @@ ca:
         unremovable: "cannot be removed."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -603,6 +614,21 @@ ca:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -615,6 +641,9 @@ ca:
           attributes:
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -675,6 +704,7 @@ ca:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
             parent:
               cannot_be_milestone: "no pot ser una fita."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "no pot estar en un altre projecte."
               not_a_valid_parent: "no és vàlid."
             start_date:
@@ -746,6 +776,9 @@ ca:
       status: "Estat del paquet de treball"
       member: "Membre"
       news: "Notícies"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projecte"
       query: "Consulta personalitzada"
@@ -1204,6 +1237,7 @@ ca:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1266,6 +1300,9 @@ ca:
   instructions_after_logout: "Vostè es pot inscriure altre vegada fent clic a %{signin}."
   instructions_after_error: "Pot intentar iniciar sessió fent clic a %{signin}. Si l'error continua, demaneu ajuda al vostre administrador."
   menus:
+    admin:
+      mail_notification: "Avisos de correu electrònic"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1278,6 +1315,16 @@ ca:
         action: "Acció"
         expiration: "Caduca"
       indefinite_expiration: "Mai"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "Compte"
   label_active: "Actiu"
@@ -1363,7 +1410,7 @@ ca:
   label_check_uncheck_all_in_column: "Marca/desmarca tot a la columna"
   label_check_uncheck_all_in_row: "Marca/desmarca tot a la fila"
   label_child_element: "Element fill"
-  label_chronological_order: "En ordre cronològic"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tancar versions completades"
   label_closed_work_packages: "tancat"
   label_collapse: "Replega"
@@ -1406,6 +1453,7 @@ ca:
   label_deleted: "suprimit"
   label_deleted_custom_field: "(camp personalitzat suprimit)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descendent"
   label_details: "Detalls"
   label_development_roadmap: "Full de ruta de desenvolupament"
@@ -1579,7 +1627,6 @@ ca:
   label_none_parentheses: "(cap)"
   label_not_contains: "no conté"
   label_not_equals: "no és"
-  label_notify_member_plural: "Actualitzacions per correu electrònic"
   label_on: "en"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
@@ -1667,7 +1714,7 @@ ca:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultats"
-  label_reverse_chronological_order: "En ordre cronològic invers"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisió"
   label_revision_id: "Revisió %{value}"
   label_revision_plural: "Revisions"
@@ -1699,7 +1746,6 @@ ca:
   label_start_to_start: "de principi a principi"
   label_statistics: "Estadí­stiques"
   label_status: "Estat"
-  label_status_updated: "Paquet de treball actualitzat"
   label_stay_logged_in: "Manté l'entrada"
   label_storage_free_space: "Espai de disc restant"
   label_storage_used_space: "Espai de disc utilitzat"
@@ -1783,21 +1829,17 @@ ca:
   label_wiki_show_submenu_item: "Mostrar com element de submenú de "
   label_wiki_start: "Pàgina d'inici"
   label_work_package: "Paquet de treball"
-  label_work_package_added: "Paquet de treball afegit"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categories de paquet de treball"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "Paquet de treball nou"
-  label_work_package_note_added: "Afegida nota al paquet de treball"
   label_work_package_edit: "Editar paquet de treball %{name}"
   label_work_package_plural: "Paquets de treball"
-  label_work_package_priority_updated: "Actualitzada la prioritat del paquet de treball"
   label_work_package_status: "Estat del paquet de treball"
   label_work_package_status_new: "Nou estat"
   label_work_package_status_plural: "Estats de paquet de treball"
   label_work_package_types: "Tipus de paquets de treball"
-  label_work_package_updated: "Paquet de treball actualitzat"
   label_work_package_tracking: "Paquet de treball de seguiment"
   label_work_package_view_all: "Veure tots els paquets de treball"
   label_workflow: "Flux de treball"
@@ -1850,6 +1892,18 @@ ca:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Accions'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'tot'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "S'ha registrat un usuari nou (%{value}). El seu compte està pendent d'aprovació:"
   mail_body_account_information: "Informació del vostre compte"
   mail_body_account_information_external: "Podeu utilitzar el compte «%{value}» per entrar."
@@ -1876,7 +1930,7 @@ ca:
   mail_body_wiki_content_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "La vostra contrasenya %{value}"
   mail_subject_register: "L'activació del compte %{value}"
   mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
@@ -2222,6 +2276,11 @@ ca:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentació"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
   setting_smtp_enable_starttls_auto: "Utilitza STARTTLS automàticament si està disponible"
@@ -2258,7 +2317,6 @@ ca:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format de data"
   setting_default_language: "Idioma per defecte"
-  setting_default_notification_option: "Opció de notificació per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
   setting_diff_max_lines_displayed: "Nombre màxim de línies mostrades pels diff"
@@ -2268,6 +2326,9 @@ ca:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Activar SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Habilita els canals"
   setting_feeds_limit: "Límit de contingut del canals"
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
@@ -2281,7 +2342,7 @@ ca:
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_export_limit: "Límit d'exportació de paquets de treball"
-  setting_journal_aggregation_time_minutes: "Ensenyar informes agregats per"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Registrar login d'usuari, nom i adreça de correu electrònic de totes les sol·licituds"
   setting_login_required: "Es necessita autenticació"
   setting_mail_from: "Adreça de correu electrònic d'emissió"
@@ -2336,6 +2397,15 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2416,9 +2486,9 @@ ca:
   text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_aggregation_time_explanation: "Combina diaris per mostrar si la seva diferència de data és inferior el període especificat. Això retardarà també les notificacions de correu per la mateixa quantitat de temps."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
@@ -2446,7 +2516,7 @@ ca:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'S''aplica l''expressió regular en mode de múltilínia. Per exemple, ^---\s+'
   text_repository_usernames_mapping: "Seleccioneu l'assignació entre els usuaris del OpenProject i cada nom d'usuari trobat al repositori.\nEls usuaris amb el mateix nom d'usuari o correu del OpenProject i del repositori s'assignaran automàticament."
-  text_select_mail_notifications: "Seleccionar les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat en el conjunt de canvis %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Aplicat en el conjunt de canvis %{value}."
@@ -2669,10 +2739,6 @@ ca:
     password_change_unsupported: El s'admet el canvi de contrasenya.
     registered: "registrat"
     reset_failed_logins: "Reiniciar inicis de sessió fallits"
-    settings:
-      mail_notifications: "Enviar notificacions per correu electrònic"
-      mail_project_explanaition: "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. assumptes dels que en sou l'autor o hi esteu assignat)."
-      mail_self_notified: "Vull ser notificat de canvis que faig jo mateix"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2694,7 +2760,7 @@ ca:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2767,6 +2833,8 @@ ca:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Esquema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

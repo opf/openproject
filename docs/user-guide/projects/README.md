@@ -26,10 +26,10 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Copy a project](#copy-a-project)                            | Copy an existing project.                                    |
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
-| [Global projects overview](#Global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
+| [Global projects overview](#global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## Select a project
 
@@ -99,8 +99,8 @@ You can specify further advanced settings for your project. Navigate to your pro
 
 
 - You can set a project to **Public**. This means it can be accessed without signing in to OpenProject.
-
 - Click the blue **Create** button in order to save your new project. Or click the blue **Save** button to save your changes.
+- If you like, use the autocompleter to fill in the project attributes.
 
 ![project-settings](image-20210204170357754.png)
 
@@ -152,7 +152,7 @@ Navigate to the [project settings](project-settings) and click **Set as template
 You can create a new project by using an existing template. This causes the properties of the project template to be copied to the new project. Find out in our Getting started guide how to [create a new project](../../getting-started/projects/#create-a-new-project) in OpenProject. 
 Another way for using a template project would be to [copy it](#copy-a-project).
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Project-Templates.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Project-Templates.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Copy a project
 

@@ -56,7 +56,7 @@ FactoryBot.define do
     callback(:after_create) do |project, evaluator|
       evaluator.members.each do |user, roles|
         Members::CreateService
-          .new(user: nil, contract_class: EmptyContract)
+          .new(user: User.system, contract_class: EmptyContract)
           .call(principal: user, project: project, roles: Array(roles))
       end
     end

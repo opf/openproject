@@ -38,7 +38,7 @@ In the following section we will go through the basic steps required to create a
 ### Generate a plugin
 
 First off you can use the [plugin generator](https://github.com/opf/openproject-plugins) to create a basic plugin to base yours on.
-How to do that is described [here](https://www.openproject.org/development/create-openproject-plugin/). In short it’s the following command:
+How to do that is described [here](../create-openproject-plugin/). In short it’s the following command:
 
 ```bash
 # in OpenProject directory
@@ -50,7 +50,7 @@ Let’s assume that the plugin you generated is called `openproject-my_auth_plug
 ### Implement the strategy
 
 This is specific to your plugin. There may already be a gem implementing a strategy for the service you want to use.
-In that case you can skip this step and use an existing gem. Just google ‘omniauth <service>’ and chances are that you will find one.
+In that case you can skip this step and use an existing gem. Just google ‘omniauth &lt;service&gt;’ and chances are that you will find one.
 E.g. for twitter ‘omniauth twitter’ will lead you to [this](https://github.com/arunagw/omniauth-twitter) quickly.
 
 ### Register required settings

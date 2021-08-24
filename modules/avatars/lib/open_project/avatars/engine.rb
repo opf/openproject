@@ -23,7 +23,7 @@ module OpenProject::Avatars
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-avatars',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              settings: {
                default: {
                  enable_gravatars: true,

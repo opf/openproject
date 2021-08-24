@@ -68,3 +68,6 @@ ru:
   permission_edit_budgets: "Править бюджеты"
   permission_view_budgets: "Просмотр бюджетов"
   project_module_budgets: "Бюджеты"
+  text_budget_reassign_to: "Переназначить их для этого бюджета:"
+  text_budget_delete: "Удалить бюджет из всех пакетов работ"
+  text_budget_destroy_assigned_wp: "Есть %{count} пакетов работ, назначенных в этот бюджет. Что вы хотите сделать?"

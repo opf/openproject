@@ -70,14 +70,6 @@ See docs/COPYRIGHT.rdoc for more details.
     <div class="form--field">
       <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
     </div>
-
-    <div class="form--field">
-      <%= setting_text_field :journal_aggregation_time_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %>
-      <span class="form--field-instructions">
-        <%= t(:text_journal_aggregation_time_explanation) %><br/>
-        <%= t(:text_hint_disable_with_0) %>
-      </span>
-    </div>
   </section>
 
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>

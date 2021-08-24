@@ -86,6 +86,7 @@ class Project < ApplicationRecord
      association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
+  has_many :notification_settings, dependent: :destroy
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 
@@ -127,12 +128,12 @@ class Project < ApplicationRecord
             exclusion: RESERVED_IDENTIFIERS,
             if: ->(p) { p.persisted? || p.identifier.present? }
 
-  validates_associated :repository, :wiki
-  # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
+  # Contains only a-z, 0-9, dashes and underscores but cannot consist of numbers only as it would clash with the id.
   validates :identifier,
-            format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
+            format: { with: /\A(?!^\d+\z)[a-z0-9\-_]+\z/ },
             if: ->(p) { p.identifier_changed? && p.identifier.present? }
-  # reserved words
+
+  validates_associated :repository, :wiki
 
   friendly_id :identifier, use: :finders
 
@@ -275,16 +276,11 @@ class Project < ApplicationRecord
     notified_users
   end
 
-  # Returns the users that should be notified on project events
+  # Return all users who want to be notified on every event within a project.
+  # If there is only the global notification setting in place, that one is authoritative.
+  # If there is a project specific setting in place, it is the project specific setting instead.
   def notified_users
-    # TODO: User part should be extracted to User#notify_about?
-    notified_members = members.select do |member|
-      setting = member.principal.mail_notification
-
-      (setting == 'selected' && member.mail_notification?) || setting == 'all'
-    end
-
-    notified_members.map(&:principal)
+    User.notified_on_all(self)
   end
 
   # Returns an array of all custom fields enabled for project issues

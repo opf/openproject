@@ -9,7 +9,7 @@ pl:
         teaser_text: 'Usprawnij swoje zwinne zarządzanie projektami dzięki temu elastycznemu widokowi Tablice. Twórz tyle tablic, ile chcesz, dla czegokolwiek, co zechcesz śledzić.'
         upgrade_to_ee_text: 'Tablice to funkcja wersji Enterprise. Przejdź na plan płatny.'
         upgrade: 'Zmień plan teraz'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Skontaktuj się z nami, aby uzyskać demo'
       lists:
         delete: 'Usuń listę'
       version:
@@ -30,6 +30,7 @@ pl:
       error_loading_the_list: "Błąd podczas ładowania listy: %{error_message}"
       error_permission_missing: "Brakuje uprawnienia do tworzenia zapytań publicznych"
       error_cannot_move_into_self: "Nie możesz przenieść pakietu roboczego do jego własnej kolumny."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Kliknij, aby usunąć tę listę"
       board_type:
         text: 'Typ tablicy'
@@ -53,7 +54,7 @@ pl:
           Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
         action_type:
           assignee: przypisana osoba
-          status: status
+          status: Status
           version: wersja
           subproject: podprojekt
           subtasks: nadrzędny-podrzędny

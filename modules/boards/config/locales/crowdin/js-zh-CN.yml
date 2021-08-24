@@ -9,7 +9,7 @@ zh-CN:
         teaser_text: '通过此灵活的面板视图改进您的敏捷项目管理。为您想要跟踪的一切创建任意数量的面板。'
         upgrade_to_ee_text: '面板是企业版功能。请升级到付费计划。'
         upgrade: '立即升级'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: '联系我们获取演示'
       lists:
         delete: '删除列表'
       version:
@@ -30,6 +30,7 @@ zh-CN:
       error_loading_the_list: "加载列表时出错：%{error_message}"
       error_permission_missing: "缺少创建公共查询的权限"
       error_cannot_move_into_self: "您不能将工作包移动到其自己的列中。"
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "点击以移除此列表"
       board_type:
         text: '面板类型'

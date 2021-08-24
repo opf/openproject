@@ -29,4 +29,5 @@
 #++
 
 class WikiPages::CreateService < ::BaseServices::Create
+  include Attachments::ReplaceAttachments
 end

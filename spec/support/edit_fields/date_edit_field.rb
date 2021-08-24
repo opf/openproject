@@ -19,7 +19,7 @@ class DateEditField < EditField
   end
 
   def modal_selector
-    ".datepicker-modal"
+    '[data-qa-selector="op-datepicker-modal"]'
   end
 
   def input_selector
@@ -52,7 +52,7 @@ class DateEditField < EditField
 
   def toggle_scheduling_mode
     within_modal do
-      find('.datepicker-modal--scheduling-action').click
+      find('[data-qa-selector="op-datepicker-modal--scheduling-action"]').click
     end
   end
 
@@ -107,9 +107,9 @@ class DateEditField < EditField
     end
   end
 
-  def click_today
+  def click_today(which: :start)
     within_modal do
-      find('.form--field-extra-actions a', text: 'Today').click
+      find("[data-qa-selector='datepicker-#{which}-date'] .form--field-extra-actions a", text: 'Today').click
     end
   end
 
@@ -134,6 +134,6 @@ class DateEditField < EditField
   end
 
   def action_button(text)
-    page.find("#{modal_selector} .datepicker-modal--action", text: text)
+    page.find("#{modal_selector} [data-qa-selector='op-datepicker-modal--action']", text: text)
   end
 end

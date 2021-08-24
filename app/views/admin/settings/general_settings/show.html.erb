@@ -32,9 +32,6 @@ See docs/COPYRIGHT.rdoc for more details.
   <section class="form--section">
     <div class="form--field"><%= setting_text_field :app_title, size: 30, container_class: '-middle' %></div>
     <div class="form--field">
-      <%= setting_text_field :attachment_max_size, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: '-slim' %>
-    </div>
-    <div class="form--field">
       <%= setting_text_field :per_page_options, size: 20, container_class: '-slim' %>
       <span class="form--field-instructions">
         <%= t(:text_comma_separated) %><br/>
@@ -42,7 +39,7 @@ See docs/COPYRIGHT.rdoc for more details.
       </span>
     </div>
     <div class="form--field">
-      <%= setting_text_field :activity_days_default, size: 6, unit: t(:label_day_plural), container_class: '-xslim' %>
+      <%= setting_number_field :activity_days_default, size: 6, unit: t(:label_day_plural), container_class: '-xslim' %>
     </div>
     <div class="form--field">
       <%= setting_text_field :host_name, size: 60, container_class: '-middle' %>

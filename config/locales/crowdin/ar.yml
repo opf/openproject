@@ -170,6 +170,8 @@ ar:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد
@@ -247,6 +249,9 @@ ar:
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ ar:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -477,7 +483,6 @@ ar:
         force_password_change: "تنفيذ تغيير كلمة المرور في تسجيل الدخول التالي"
         language: "اللغة"
         last_login_on: "آخر تسجيل دخول"
-        mail_notification: "إشعارات البريد الإلكتروني"
         new_password: "كلمة مرور جديدة"
         password_confirmation: "تأكيد"
         consented_at: "Consented at"
@@ -542,6 +547,7 @@ ar:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "لا يمكن أن تكون فارغة."
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
@@ -555,6 +561,7 @@ ar:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "يجب أن يكون أقل من أو يساوي %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -574,12 +581,16 @@ ar:
         unremovable: "cannot be removed."
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'عالمي'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -607,6 +618,21 @@ ar:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -619,6 +645,9 @@ ar:
           attributes:
             types:
               in_use_by_work_packages: "لا يزال قيد الاستخدام من قبل مجموعات العمل: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -679,6 +708,7 @@ ar:
               not_start_date: "ليس في تاريخ البدء، وعلى الرغم من أن هذا المطلوب للمعالم."
             parent:
               cannot_be_milestone: "لا يمكن أن يكون معلما."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "لا يمكن أن يكون في مشروع آخر."
               not_a_valid_parent: "غير صالح."
             start_date:
@@ -758,6 +788,13 @@ ar:
       status: "حالة مجموعة العمل"
       member: "عضو"
       news: "الأخبار"
+      notification:
+        zero: "Notifications"
+        one: "Notification"
+        two: "Notifications"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "مشروع"
       query: "استعلام مخصص"
@@ -1268,6 +1305,7 @@ ar:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "ذرّة"
       csv: "CSV"
@@ -1330,6 +1368,9 @@ ar:
   instructions_after_logout: "يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}."
   instructions_after_error: "يمكنك محاولة تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}. إذا استمر الخطأ، اسأل المسؤول الخاص بك للحصول على تعليمات."
   menus:
+    admin:
+      mail_notification: "إشعارات البريد الإلكتروني"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1342,6 +1383,16 @@ ar:
         action: "الإجراء"
         expiration: "انتهاء الصلاحية"
       indefinite_expiration: "أبداً"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "الحساب"
   label_active: "مفعّل"
@@ -1427,7 +1478,7 @@ ar:
   label_check_uncheck_all_in_column: "اختيار / إلغاء اختيار كل شيء في العمود"
   label_check_uncheck_all_in_row: "اختيار / إلغاء اختيار كل شيء في السطر"
   label_child_element: "العنصر التابع"
-  label_chronological_order: "في ترتيب زمني"
+  label_chronological_order: "Oldest first"
   label_close_versions: "إغلاق الإصدارات المنجزة"
   label_closed_work_packages: "مغلق"
   label_collapse: "مطوي"
@@ -1470,6 +1521,7 @@ ar:
   label_deleted: "محذوف"
   label_deleted_custom_field: "(حذف حقل مخصص)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "ترتيب تنازلي"
   label_details: "تفاصيل"
   label_development_roadmap: "خارطة طريق التطوير"
@@ -1643,7 +1695,6 @@ ar:
   label_none_parentheses: "(بلا)"
   label_not_contains: "لا يحتوي على"
   label_not_equals: "ليس"
-  label_notify_member_plural: "تحديثات البريد الالكتروني"
   label_on: "في"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
@@ -1731,7 +1782,7 @@ ar:
   label_required: 'مطلوب'
   label_requires: 'متطلبات'
   label_result_plural: "نتائج"
-  label_reverse_chronological_order: "في ترتيب زمني عكسي"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "مراجعة"
   label_revision_id: "مراجعة%{value}"
   label_revision_plural: "مراجعات"
@@ -1763,7 +1814,6 @@ ar:
   label_start_to_start: "البداية إلى البداية"
   label_statistics: "إحصائيات"
   label_status: "الحالة"
-  label_status_updated: "تم تحديث حالة مجموعة العمل"
   label_stay_logged_in: "ابقَ متصل"
   label_storage_free_space: "المساحة المتبقية من القرص"
   label_storage_used_space: "استخدام مساحة القرص"
@@ -1847,21 +1897,17 @@ ar:
   label_wiki_show_submenu_item: "إظهار كعنصر قائمة فرعية من "
   label_wiki_start: "صفحة البداية"
   label_work_package: "مجموعة العمل"
-  label_work_package_added: "تم إضافة مجموعة عمل"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "فئة جديدة"
   label_work_package_category_plural: "فئات مجموعة العمل"
   label_work_package_hierarchy: "التسلسل الهرمي لمجموعة العمل"
   label_work_package_new: "مجموعة عمل جديدة"
-  label_work_package_note_added: "تم إضافة ملاحظة مجموعة العمل"
   label_work_package_edit: "تعديل مجموعة العمل %{name}"
   label_work_package_plural: "مجموعات العمل"
-  label_work_package_priority_updated: "تم تحديث مجموعات العمل حسب الأولوية"
   label_work_package_status: "حالة مجموعة العمل"
   label_work_package_status_new: "حالة جديدة"
   label_work_package_status_plural: "حالات مجموعة العمل"
   label_work_package_types: "أنواع مجموعة العمل"
-  label_work_package_updated: "تم تحديث مجموعة العمل"
   label_work_package_tracking: "تتبع مجموعة العمل"
   label_work_package_view_all: "عرض جميع مجموعات العمل"
   label_workflow: "سير العمل"
@@ -1914,6 +1960,18 @@ ar:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Actions'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'الكل'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."
@@ -1940,7 +1998,7 @@ ar:
   mail_body_wiki_content_updated: "تم تحديث صفحة wiki '%{id}' من %{author}."
   mail_subject_account_activation_request: "طلب تنشيط حساب %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
   mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
@@ -2290,6 +2348,11 @@ ar:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "التوثيق"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "طريقة تسليم البريد الإلكتروني"
   setting_sendmail_location: "موقع إرسال بريد إلكتروني قابل للتنفيذ"
   setting_smtp_enable_starttls_auto: "استخدم STARTTLS تلقائيًّا إذا كان متوفرًا"
@@ -2326,7 +2389,6 @@ ar:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "صيغة التاريخ"
   setting_default_language: "اللغة الافتراضية"
-  setting_default_notification_option: "خيار الشعار  الافتراضي"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
   setting_diff_max_lines_displayed: "الحد الأقصى لعدد الخطوط المختلفة المعروضة"
@@ -2336,6 +2398,9 @@ ar:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2349,7 +2414,7 @@ ar:
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
   setting_work_packages_export_limit: "حد تصدير مجموعات العمل"
-  setting_journal_aggregation_time_minutes: "عرض دفاتر اليومية كمجمعة داخل"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "تسجيل الدخول تسجيل دخول المستخدم واسم وعنوان البريد لجميع الطلبات"
   setting_login_required: "مطلوب مصادقة"
   setting_mail_from: "انبعاث عنوان البريد الإلكتروني"
@@ -2404,6 +2469,15 @@ ar:
     passwords: "كلمات المرور"
     session: "الجلسة"
     brute_force_prevention: "حجب المستخدم الآلي"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2484,9 +2558,9 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
-  text_journal_aggregation_time_explanation: "الجمع بين دفاتر اليومية للعرض إذا كان الفارق في السن أقل من المدى الزمني المحدد. وهذا أيضا تأخير إعلامات البريد بنفس المقدار من الوقت."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
@@ -2514,7 +2588,7 @@ ar:
   text_regexp_info: "على سبيل المثال. ^[A-Z0-9] + $"
   text_regexp_multiline: 'يتم تطبيق التعبير الاعتيادي في وضع متعدد الأسطر. على سبيل المثال: ^---\s+'
   text_repository_usernames_mapping: "قم باختيار أو تحديث مستخدم \"OpenProject: المشروع المفتوح\" الذي تم تعيينه لكل اسم مستخدم وُجِد في سجل المستودع.\nالمستخدمون الذين لديهم نفس اسم المستخدم أو عنوان البريد الإلكتروني في المشروع المفتوح OpenProject والمستودع يتم تعيينهم تلقائيًّا."
-  text_select_mail_notifications: "حدد إجراءات للبريد الإلكتروني التي يجب إرسال الإخطارات."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "تطبيق التغييرات %{value}."
   text_table_difference_description: "في هذا الجدول يتم إظهار %{entries} الفردية. تستطيع أن تشاهد الفرق بين أي اثنين من المدخلات بواسطة اختيار الخانات المتوافقة في الجدول أولًا. عند الضغط على الزر في أسفل الجدول، سيتم عرض الاختلافات."
   text_time_logged_by_changeset: "تطبيق التغييرات %{value}."
@@ -2745,10 +2819,6 @@ ar:
     password_change_unsupported: تغيير كلمة المرور غير معتمد.
     registered: "تم التسجيل"
     reset_failed_logins: "إعادة تعيين فشل تسجيل الدخول"
-    settings:
-      mail_notifications: "إرسال إشعارات البريد الإلكتروني؟"
-      mail_project_explanaition: "لمشاريع غير محددة، سيتم فقط تتلقى إعلامات حول أشياء يمكنك مشاهدة أو كنت تشارك في (على سبيل المثال-العمل بحزم كنت مؤلف أو المحال إليه)."
-      mail_self_notified: "أريد إعلامك بالتغييرات التي فعلتها"
     status_user_and_brute_force: "%{user} و %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2770,7 +2840,7 @@ ar:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2843,6 +2913,8 @@ ar:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'مخطّط'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

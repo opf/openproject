@@ -55,7 +55,7 @@ describe 'edit work package', js: true do
                                      created_at: 5.days.ago.to_date.to_s(:db))
 
     note_journal = work_package.journals.last
-    note_journal.update(created_at: 5.days.ago.to_date.to_s)
+    note_journal.update_column(:created_at, 5.days.ago.to_date.to_s(:db))
 
     work_package
   end
@@ -110,7 +110,7 @@ describe 'edit work package', js: true do
       wp_page.update_attributes status: status2.name
       wp_page.expect_attributes status: status2.name
 
-      wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+      wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
     end
   end
 
@@ -156,7 +156,7 @@ describe 'edit work package', js: true do
                               status: status2.name,
                               version: version.name,
                               category: category.name
-    wp_page.expect_activity_message("Status changed from #{status.name}\nto #{status2.name}")
+    wp_page.expect_activity_message("Status changed from #{status.name} to #{status2.name}")
   end
 
   it 'correctly assigns and un-assigns users' do

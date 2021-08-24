@@ -150,7 +150,7 @@ table.generic-table
     tr:not(.-no-highlighting)
       border-bottom: 1px solid var(--table-row-border-color)
 
-    @media screeen
+    @media screen
       td:not(.-no-ellipsis)
         @include text-shortener
 
@@ -262,10 +262,11 @@ thead.-sticky th
 
 .generic-table--header,
 .generic-table--sort-header
-  white-space: nowrap
+  @include text-shortener
   width:   100%
   clear:   both
   min-width: 40px
+  max-width: 300px
   display: flex
 
   & > a

@@ -27,9 +27,9 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:'activerecord.attributes.user.mail_notification') -%>
+<% html_title t(:label_administration), t(:'menus.admin.mail_notification') -%>
 
-<%= toolbar title: t(:'activerecord.attributes.user.mail_notification') %>
+<%= toolbar title: t(:'menus.admin.mail_notification') %>
 
 <%= styled_form_tag(admin_settings_mail_notifications_path, method: :patch) do %>
   <% if @deliveries %>
@@ -37,27 +37,24 @@ See docs/COPYRIGHT.rdoc for more details.
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
-      <div class="form--field"><%= setting_select(:default_notification_option, User.valid_notification_options.collect {|o| [t(o.last), o.first.to_s]}, container_class: '-middle') %></div>
-    </section>
-
-    <fieldset id="notified_events" class="form--fieldset">
-      <legend class="form--fieldset-legend">
-        <%= t(:text_select_mail_notifications) %>
-      </legend>
-      <div class="form--toolbar">
-        <span class="form--toolbar-item">
-          (<%= check_all_links 'notified_events' %>)
-        </span>
-      </div>
-      <%= hidden_field_tag 'settings[notified_events][]', '' %>
       <div class="form--field">
-        <div class="form--field-container -vertical">
-          <% @notifiables.each do |notifiable| %>
-            <%= notification_field notifiable %>
-          <% end %>
+        <%= setting_number_field :notification_email_delay_minutes,
+                                 container_class: '-xslim',
+                                 min: 0,
+                                 unit: t(:label_minute_plural) %>
+        <div class="form--field-instructions">
+          <%= t(:'settings.notifications.delay_minutes_explanation') %>
         </div>
       </div>
-    </fieldset>
+      <div class="form--field">
+        <%= setting_time_field :notification_email_digest_time,
+                               container_class: '-xslim',
+                               unit: 'UTC' %>
+        <div class="form--field-instructions">
+          <%= t(:'settings.notifications.email_digest_explanation') %>
+        </div>
+      </div>
+    </section>
 
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>
       <%= rails_cell Settings::TextSettingCell, I18n.locale, name: "emails_header" %>
@@ -69,9 +66,13 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
   <% end %>
 
+  <%
+    email_methods = [:smtp, :sendmail]
+    email_methods << :letter_opener if Rails.env.development?
+  %>
   <%= content_tag :fieldset, id: "mail_configuration", class: "form--fieldset" do %>
     <legend class="form--fieldset-legend"><%=t(:text_setup_mail_configuration)%></legend>
-    <div class="form--field"><%= setting_select(:email_delivery_method, [:smtp, :sendmail], id: "email_delivery_method_switch", container_class: '-xslim') %></div>
+    <div class="form--field"><%= setting_select(:email_delivery_method, email_methods, id: "email_delivery_method_switch", container_class: '-slim') %></div>
     <div id="email_delivery_method_smtp" class="email_delivery_method_settings">
       <div class="form--field"><%= setting_text_field :smtp_address, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_text_field :smtp_port, size: 6, container_class: '-xslim' %></div>
@@ -84,6 +85,9 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <div id="email_delivery_method_sendmail" class="email_delivery_method_settings">
       <div class="form--field"><%= setting_text_field :sendmail_location %></div>
+    </div>
+    <div id="email_delivery_method_letter_opener" class="email_delivery_method_settings">
+      <p>Letter opener is used to render emails as a file in your Rails tmp folder. Mails will automatically open in your browser if supported.</p>
     </div>
   <% end unless OpenProject::Configuration['email_delivery_configuration'] == 'legacy' %>
 

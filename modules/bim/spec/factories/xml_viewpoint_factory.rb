@@ -35,7 +35,7 @@ FactoryBot.define do
       if file.readable?
         file.read
       else
-        warn "Viewpoint name #{viewpoint_name} doesnt map to a viewpoint fixture"
+        warn "Viewpoint name #{viewpoint_name} doesn't map to a viewpoint fixture"
       end
     end
   end

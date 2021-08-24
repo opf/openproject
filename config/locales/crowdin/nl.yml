@@ -34,7 +34,7 @@ nl:
         alternative-color: "Alternatief"
         content-link-color: "Link font"
         primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-color-dark: "Primary (Donker)"
         header-bg-color: "Koptekst achtergrond"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Lettertype koptekst"
@@ -52,7 +52,7 @@ nl:
       enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
         content-link-color: "De kleur van het lettertype van de meeste van de links."
         primary-color: "Hoofdkleur."
         primary-color-dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
@@ -61,7 +61,7 @@ nl:
         header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
         header-border-bottom-color: "Dunne lijn onder de kop. Laat dit veld leeg als u geen lijn wilt."
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Als u het thema wijzigt, wordt uw aangepaste stijl overschreven. Het ontwerp gaat dan verloren. Weet je zeker dat je door wilt gaan?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
@@ -94,9 +94,9 @@ nl:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Dit LDAP-formulier vereist technische kennis van uw LDAP / Active Directory-configuratie.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Bezoek onze documentatie voor gedetailleerde instructies</a>.
     attribute_texts:
       name: Arbitrary name of the LDAP connection
       host: LDAP hostnaam of IP-adres
@@ -170,6 +170,8 @@ nl:
     enabled_in_project: 'Ingeschakeld in project'
     contained_in_type: 'Opgenomen in type'
     confirm_destroy_option: "Het verwijderen van een optie zal alle voorkomingen verwijderen. Weet u zeker dat u deze optie wilt verwijderen?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Momenteel zijn er geen aangepaste velden.
       no_results_content_text: Maak een nieuw aangepast veld
@@ -247,6 +249,9 @@ nl:
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ nl:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -473,7 +479,6 @@ nl:
         force_password_change: "Afdwingen van wachtwoordwijziging bij volgende login"
         language: "Taal"
         last_login_on: "Laatste log-in"
-        mail_notification: "E-mailnotificaties"
         new_password: "Nieuw wachtwoord"
         password_confirmation: "Bevestiging"
         consented_at: "Ingestemd op"
@@ -538,6 +543,7 @@ nl:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "mag niet leeg zijn."
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
@@ -551,6 +557,7 @@ nl:
         invalid_url: 'is geen geldige URL.'
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
         less_than_or_equal_to: "moet kleiner zijn dan of gelijk aan %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is geen geldige datum."
@@ -570,12 +577,16 @@ nl:
         unremovable: "kan niet verwijderd worden."
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Globaal'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Ten minste één optie moet beschikbaar zijn."
         custom_actions:
@@ -603,6 +614,21 @@ nl:
           overlaps: 'overlap.'
           outside: 'is buiten het raster.'
           end_before_start: 'eindwaarde moet groter zijn dan de startwaarde.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -615,6 +641,9 @@ nl:
           attributes:
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -675,6 +704,7 @@ nl:
               not_start_date: "is niet op begindatum, hoewel dit voor mijlpalen vereist is."
             parent:
               cannot_be_milestone: "kan geen mijlpaal zijn."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "kan niet in een ander project zijn."
               not_a_valid_parent: "is ongeldig."
             start_date:
@@ -746,6 +776,9 @@ nl:
       status: "Status werkpakket"
       member: "Deelnemer"
       news: "Nieuws"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Project"
       query: "Aangepaste query"
@@ -1204,6 +1237,7 @@ nl:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1266,6 +1300,9 @@ nl:
   instructions_after_logout: "U kan terug inloggen door op %{signin} te klikken."
   instructions_after_error: "U kan opnieuw proberen inloggen door op %{signin} te klikken. Als de fout aanhoudt, vraag dan uw admin om hulp."
   menus:
+    admin:
+      mail_notification: "E-mailnotificaties"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1278,6 +1315,16 @@ nl:
         action: "Actie"
         expiration: "Verloopt"
       indefinite_expiration: "Nooit"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Toegankelijkheid"
   label_account: "Account"
   label_active: "Actief"
@@ -1363,7 +1410,7 @@ nl:
   label_check_uncheck_all_in_column: "Selecteer/Deselecteer alles in kolom"
   label_check_uncheck_all_in_row: "Selecteer/Deselecteer alles in rij"
   label_child_element: "Onderliggend element"
-  label_chronological_order: "In chronologische volgorde"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Voltooide versies sluiten"
   label_closed_work_packages: "gesloten"
   label_collapse: "Samenvouwen"
@@ -1406,6 +1453,7 @@ nl:
   label_deleted: "verwijderd"
   label_deleted_custom_field: "(verwijderde aangepast veld)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Aflopend"
   label_details: "Details"
   label_development_roadmap: "Ontwikkeling roadmap"
@@ -1579,7 +1627,6 @@ nl:
   label_none_parentheses: "(geen)"
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
-  label_notify_member_plural: "E-mail updates"
   label_on: "op"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"
@@ -1667,7 +1714,7 @@ nl:
   label_required: 'vereist'
   label_requires: 'vereist'
   label_result_plural: "Resultaten"
-  label_reverse_chronological_order: "In omgekeerde chronologische volgorde"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisie"
   label_revision_id: "Revisie %{value}"
   label_revision_plural: "Revisies"
@@ -1699,7 +1746,6 @@ nl:
   label_start_to_start: "begin tot begin"
   label_statistics: "Statistieken"
   label_status: "Status"
-  label_status_updated: "Werkpakket status bijgewerkt"
   label_stay_logged_in: "Blijf ingelogd"
   label_storage_free_space: "Resterende schijfruimte"
   label_storage_used_space: "Gebruikte schijfruimte"
@@ -1783,21 +1829,17 @@ nl:
   label_wiki_show_submenu_item: "Toon als submenu-item van "
   label_wiki_start: "Startpagina"
   label_work_package: "Werkpakket"
-  label_work_package_added: "Werkpakket toegevoegd"
   label_work_package_attachments: "Werkpakket bijlagen"
   label_work_package_category_new: "Nieuwe categorie"
   label_work_package_category_plural: "Werkpakket categorieën"
   label_work_package_hierarchy: "Werkpakket hiërarchie"
   label_work_package_new: "Nieuw werkpakket"
-  label_work_package_note_added: "Werkpakket notitie toegevoegd"
   label_work_package_edit: "Bewerk werkpakket %{name}"
   label_work_package_plural: "Werkpakketten"
-  label_work_package_priority_updated: "Werkpakket prioriteit bijgewerkt"
   label_work_package_status: "Status werkpakket"
   label_work_package_status_new: "Nieuwe status"
   label_work_package_status_plural: "Werkpakket statussen"
   label_work_package_types: "Werkpakket types"
-  label_work_package_updated: "Werkpakket bijgewerkt"
   label_work_package_tracking: "Werkpakket bijhouden"
   label_work_package_view_all: "Bekijk alle werkpakketten"
   label_workflow: "Werkstroom"
@@ -1850,6 +1892,18 @@ nl:
       link_name_type: 'Nieuwe %{type_name}'
   mail:
     actions: 'Acties'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'alle'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."
@@ -1876,7 +1930,7 @@ nl:
   mail_body_wiki_content_updated: "De '%{id}' wikipagina is bijgewerkt door %{author}."
   mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd te worden"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
   mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
@@ -2223,6 +2277,11 @@ nl:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Kies verzendmethode"
   setting_sendmail_location: "Locatie van het uitvoerbare sendmail"
   setting_smtp_enable_starttls_auto: "Gebruik STARTTLS automatisch wanneer deze beschikbaar is"
@@ -2259,7 +2318,6 @@ nl:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Datumnotatie"
   setting_default_language: "Standaard taal"
-  setting_default_notification_option: "Standaard meldingsoptie"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
   setting_diff_max_lines_displayed: "Maximaal aantal afwijkende regels getoond"
@@ -2269,6 +2327,9 @@ nl:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "SCM Ingeschakeld"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
@@ -2282,7 +2343,7 @@ nl:
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_export_limit: "Werkpakketten export limiet"
-  setting_journal_aggregation_time_minutes: "Dagboeken als geaggregeerde weergeven binnen"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Gebruikerslogin, naam en e-mailadres voor alle aanvragen vastleggen"
   setting_login_required: "Verificatie vereist"
   setting_mail_from: "Emissie e-mailadres"
@@ -2337,6 +2398,15 @@ nl:
     passwords: "Wachtwoorden"
     session: "Sessie"
     brute_force_prevention: "Automatische gebruiker blokkering"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2417,9 +2487,9 @@ nl:
   text_work_packages_destroy_confirmation: "Weet u zeker dat u geselecteerd(e) werkpakket(ten) wilt verwijderen?"
   text_work_packages_ref_in_commit_messages: "Verwijzen naar en herstellen van de werkpakketten in commit berichten"
   text_journal_added: "%{label} %{value} toegevoegd"
-  text_journal_aggregation_time_explanation: "Tijdschriften voor weergave combineren als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail kennisgevingen door de dezelfde hoeveelheid tijd vertragen."
-  text_journal_changed: "%{label} gewijzigd van %{old} <br/><strong>naar</strong> %{new}"
-  text_journal_changed_plain: "%{label} gewijzigd van %{old} naar %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} bijgewerkt"
   text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
   text_journal_deleted: "%{label} verwijderd (%{old})"
@@ -2447,7 +2517,7 @@ nl:
   text_regexp_info: "bijv. ^[A-Z0-9]+$"
   text_regexp_multiline: 'De regex wordt toegepast in een modus met meerdere regels. bijvoorbeeld, ^---\s+'
   text_repository_usernames_mapping: "Selecteer of update de gebruiker van de OpenProject gelinkt aan elke gebruikersnaam gevonden in het repository log. Gebruikers met de zelfde OpenProject en repository gebruikersnaam of e-mail worden automatisch gelinkt."
-  text_select_mail_notifications: "Selecteer acties waarvoor mededelingen via e-mail moeten worden verstuurd."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Toegepast in changeset %{value}."
   text_table_difference_description: "In deze tabel worden de enkele %{entries} weergegeven. U kunt het verschil tussen twee vermeldingen bekijken door eerst de bijhorende selectievakjes te selecteren in de tabel. Bij het klikken op de knop onder de tabel worden de verschillen weergegeven."
   text_time_logged_by_changeset: "Toegepast in changeset %{value}."
@@ -2670,10 +2740,6 @@ nl:
     password_change_unsupported: Wijziging van het wachtwoord wordt niet ondersteund.
     registered: "geregistreerd"
     reset_failed_logins: "Reset mislukte aanmeldingen"
-    settings:
-      mail_notifications: "Stuur e-mail notificaties"
-      mail_project_explanaition: "Bij niet-geselecteerde projecten zal u enkel mededelingen ontvangen voor issues die u volgt of waar u bij betrokken bent (als auteur of toegewezen persoon)."
-      mail_self_notified: "Ik wil op de hoogte worden gesteld van wijzigingen die ik zelf maak"
     status_user_and_brute_force: "%{user} en %{brute_force}"
     status_change: "Statuswijziging"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2694,7 +2760,7 @@ nl:
     Gebruikerslimiet bereikt. U kunt geen gebruikers meer activeren. <a href="%{upgrade_url}">upgrade uw abbonement</a> of blokkeer gebruikers om extra gebruikers toegang te geven.
   warning_user_limit_reached_instructions: >
     U bereikt uw gebruikerslimiet (%{current}/%{max} actieve gebruikers). Neem contact op met sales@openproject.com om te upgraden van uw Enterprise Edition-abonnement en extra gebruikers toevoegen.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2767,6 +2833,8 @@ nl:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorisatie'

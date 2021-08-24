@@ -164,7 +164,7 @@ file to see which port each browser container is exposed on. The password is `se
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory.
-The file `frontend/npm-shrinkwrap.json` may be modified.
+The file `frontend/package-lock.json` may be modified.
 You can just reset these changes if you want to commit something or pull the latest changes.
 
 ## Debugging
@@ -192,7 +192,7 @@ an error like the following when running `bin/compose setup`:
 
 ```
 Creating core_backend_run ... done
-Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.3
+Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.4
 ```
 
 This means that the current image is out-dated. You can update it like this:

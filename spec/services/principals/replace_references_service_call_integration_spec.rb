@@ -50,10 +50,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
     context 'with a Journal' do
       let!(:journal) do
         FactoryBot.create(:work_package_journal,
-                          user_id: user_id,
-                          data: instance_double(Journal::WorkPackageJournal,
-                                                'journal=': nil,
-                                                save: true))
+                          user_id: user_id)
       end
 
       context 'with the replaced user' do
@@ -153,7 +150,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_attachment_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1 }
+          {}
         end
       end
     end
@@ -202,8 +199,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_changeset_journal,
                       :user_id do
         let(:attributes) do
-          { journal_id: 1,
-            repository_id: 1,
+          { repository_id: 1,
             revision: 1,
             committed_on: "date '2012-02-02'" }
         end
@@ -223,8 +219,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_message_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1,
-            forum_id: 1 }
+          { forum_id: 1 }
         end
       end
     end
@@ -254,7 +249,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_meeting_content_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1 }
+          {}
         end
       end
     end
@@ -279,7 +274,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_news_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1 }
+          {}
         end
       end
     end
@@ -298,8 +293,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_wiki_content_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1,
-            page_id: 1 }
+          { page_id: 1 }
         end
       end
     end
@@ -317,7 +311,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :assigned_to_id do
         let(:attributes) do
-          { journal_id: 1 }
+          {}
         end
       end
 
@@ -325,7 +319,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_work_package_journal,
                       :responsible_id do
         let(:attributes) do
-          { journal_id: 1 }
+          {}
         end
       end
     end
@@ -349,8 +343,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_time_entry_journal,
                       :user_id do
         let(:attributes) do
-          { journal_id: 1,
-            project_id: 1,
+          { project_id: 1,
             hours: 5,
             activity_id: 1,
             spent_on: "date '2012-02-02'",
@@ -377,8 +370,7 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
                       :journal_budget_journal,
                       :author_id do
         let(:attributes) do
-          { journal_id: 1,
-            project_id: 1,
+          { project_id: 1,
             subject: "'abc'",
             fixed_date: "date '2012-02-02'" }
         end
@@ -402,7 +394,24 @@ describe Principals::ReplaceReferencesService, '#call', type: :model do
             serialized: "'cde'" }
         end
       end
+    end
 
+    context 'with Notification actor' do
+      let(:recipient) { FactoryBot.create :user }
+
+      it_behaves_like 'rewritten record',
+                      :notification,
+                      :actor_id do
+        let(:attributes) do
+          {
+            recipient_id: user.id,
+            resource_id: 1234,
+            resource_type: "'WorkPackage'",
+            created_at: 'NOW()',
+            updated_at: 'NOW()'
+          }
+        end
+      end
     end
   end
 end

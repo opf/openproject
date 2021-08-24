@@ -1,14 +1,11 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
-import { DebugElement }  from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DebugElement } from '@angular/core';
 import { GitActionsMenuComponent } from "./git-actions-menu.component";
-import {I18nService} from 'core-app/modules/common/i18n/i18n.service';
-import { OpContextMenuLocalsToken } from "core-app/components/op-context-menu/op-context-menu.types";
 import { GitActionsService } from "../git-actions/git-actions.service";
 import { By } from "@angular/platform-browser";
-import { OpIconComponent } from "core-app/modules/icon/icon.component";
+import { OpIconComponent } from "core-app/shared/components/icon/icon.component";
+import { I18nService } from "core-app/core/i18n/i18n.service";
+import { OpContextMenuLocalsToken } from "core-app/shared/components/op-context-menu/op-context-menu.types";
 
 
 describe('GitActionsMenuComponent', () => {
@@ -64,21 +61,10 @@ describe('GitActionsMenuComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should select tab', () => {
-    const tabToSelect = component.tabs[0];
-    component.selectedTab = tabToSelect;
-
-    fixture.detectChanges();
-
-    expect(component.selectedTab).toBe(tabToSelect);
-  });
-
-  it('should select tab', () => {
-    const tabToSelect = component.tabs[0];
-    const copyButton = fixture.debugElement.query(By.css('button')).nativeElement;
+  it('should generate the branch name on copy button click', () => {
+    const copyButton = fixture.debugElement.query(By.css('.copy-button')).nativeElement;
 
     gitActionsService.branchName.and.returnValue('test branch');
-    component.selectedTab = tabToSelect;
     copyButton.click();
 
     fixture.detectChanges();

@@ -87,6 +87,7 @@ de:
     button_update: "Aktualisieren"
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
+    button_create: "Anlegen"
     calendar:
       title: 'Kalender'
       too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
@@ -126,7 +127,7 @@ de:
       preview: 'Vorschau-Modus ein/aus'
       source_code: 'Wechseln zwischen Markdown-Source und WYSIWYG'
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
-      error_initialization_failed: 'Fehler bei CKEditor-Initialisierung!'
+      ckeditor_error: 'Innerhalb des Editors ist ein Fehler aufgetreten'
       mode:
         manual: 'Wechseln zu reinem Markdown-Text'
         wysiwyg: 'Wechseln zu WYSIWYG-Editor'
@@ -195,7 +196,6 @@ de:
             label_company: "Unternehmen"
             label_first_name: "Vorname"
             label_last_name: "Nachname"
-            label_email: "E-Mail"
             label_domain: "Domain"
             label_subscriber: "Abonnent"
             label_maximum_users: "Maximale aktive Nutzer"
@@ -283,13 +283,13 @@ de:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Die Version enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Ein neues Konzept von <b>Platzhalter-Benutzern</b> (Premiumfunktion) erlaubt es, vorläufige Benutzer ohne E-Mail-Adresse zu OpenProject hinzuzufügen und diesen Ressourcen Aufgaben zuzuweisen.</li> <li><b>Arbeitspaket-Filter wurden um übergeordnete Arbeitspakete erweitert</b>, um alle direkten Kinder zu sehen sowie <b>um ID</b>, um nur genau diese Arbeitspakete in der Liste anzuzeigen oder auszublenden.</li> <li>Die Benutzerverwaltung wird über eine <b>neue globale Rolle</b> auch für Nicht-Admins möglich, sodass Benutzer auch ohne volle Admin-Rechte verwaltet und eingeladen werden können.</li> <li>Weitere UI- und UX-Verbesserungen, z.B. Harmonisierung der Zeit und Kosten Navigation, angepasste Hintergrundfarben der Summen- und Gruppenzeilen in der Arbeitspaketliste, Hinzufügen einer Anzeigeseite für Gruppen.</li> </ul>
+              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -313,6 +313,7 @@ de:
     label_board_locked: "Gesperrt"
     label_board_plural: "Boards"
     label_board_sticky: "Wichtig (immer oben)"
+    label_change: "Wechseln"
     label_create: "Anlegen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
@@ -335,6 +336,7 @@ de:
     label_created_on: "Angelegt"
     label_edit_comment: "Diesen Kommentar bearbeiten"
     label_edit_status: "Status des Arbeitspakets bearbeiten"
+    label_email: "E-Mail"
     label_equals: "ist"
     label_expand: "Aufklappen"
     label_expanded: "aufgeklappt"
@@ -394,6 +396,7 @@ de:
     label_quote_comment: "Diesen Kommentar zitieren"
     label_recent: "Kürzlich benutzt"
     label_reset: "Zurücksetzen"
+    label_remove: "Entfernen"
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
     label_remove_row: "Zeile entfernen"
@@ -475,31 +478,67 @@ de:
         next: 'Weiter'
         got_it: 'Verstanden'
       steps:
-        help_menu: 'Im <b>Hilfe</b> Menü finden Sie ein Benutzerhandbuch sowie weitere Hilfematerialien. <br> Viel Spaß mit OpenProject!'
+        help_menu: 'Das Menü Hilfe (?) bietet <b>zusätzliche Hilfe-Ressourcen</b>. Hier finden Sie eine Benutzeranleitung, hilfreiche Videos und vieles mehr. <br> Viel Spaß bei Ihrer Arbeit mit OpenProject!'
         members: 'Sie können hier neue <b>Mitglieder</b> zu Ihrem Projekt hinzufügen.'
-        project_selection: 'Bitte wählen Sie eines der Projekte mit hilfreichen Demodaten aus: <br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
-        quick_add_button: 'Erstellen Sie ein neues Projekt oder laden Sie Mitarbeiter ein.'
-        sidebar_arrow: "Mit dem Pfeil gelangen Sie zurück zum <b>Hauptmenü</b> des Projektes."
+        project_selection: 'Bitte wählen Sie eines der Projekte mit Demodaten aus. Die Demodaten sind derzeit lediglich in englischer Sprache verfügbar.<br> Das <b>„Demo project“</b> passt für klassisches Projektmanagement, das <b>„Scrum project“</b> ist geeignet für agiles Projektmanagement.'
+        quick_add_button: 'Klicken Sie auf das Plus (+) Symbol in der Navigationsleiste um <b>neue Projekte zu erzeugen</b> oder <b>MitarbeiterInnen einzuladen</b>.'
+        sidebar_arrow: "Benutzen Sie den Pfeil in der oberen linken Ecke um zum <b>Hauptmenü</b> des Projekts zurückzukehren."
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
-          overview: "Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
-          task_board: "Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren."
+          task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
         boards:
-          overview: 'Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.'
-          lists: 'Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht erstellen, z.B. um ein KANBAN-Board zu erstellen.'
-          add: 'Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzuzufügen.'
-          drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
+          overview: 'Wählen Sie <b>Boards</b> aus, um eine andere Sicht auf Ihr Projekt zu erhalten und es in der agilen Board-Ansicht zu verwalten.'
+          lists: 'Hier können Sie mehrere Listen (Spalten) innerhalb Ihres Boards erstellen. Mit dieser Funktion können Sie zum Beispiel ein <b>Kanban Board</b>erstellen.'
+          add: 'Klicken Sie auf das Plus-Symbol (+), um <b>eine neue Karte zu erstellen</b> oder <b>eine existierende Karte</b> zur Liste auf dem Board hinzuzufügen.'
+          drag: 'Verschieben Sie die Karten innerhalb einer Liste, um sie neu zu ordnen oder in eine andere Liste zu verschieben. <br> Sie können das Info (i) Symbol in der oberen rechten Ecke anklicken oder doppelt auf eine Karte klicken, um dessen Details zu öffnen.'
         wp:
-          toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
-          list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf eine Zeile öffnet die Detailansicht.'
-          full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
-          back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
-          create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
+          toggler: "Schauen wir uns nun den Abschnitt <b>Arbeitspaket</b> an, der Ihnen einen detaillierteren Überblick über Ihre Arbeit gibt."
+          list: 'Diese <b>Arbeitsübersicht</b> bietet eine Liste der Arbeit in Ihrem Projekt, wie Aufgaben, Meilensteine, Phasen und weitere. <br> Arbeitspakete können direkt aus dieser Ansicht erstellt und bearbeitet werden. Um die Details eines bestimmten Arbeitspakets aufzurufen, doppelklicken Sie einfach auf eine Zeile.'
+          full_view: 'Die <b>Arbeitspaketdetails</b> Ansicht enthält alle relevanten Informationen zu einem bestimmten Arbeitspaket wie Beschreibung, Status, Priorität, Aktivitäten, Abhängigkeiten und Kommentare.'
+          back_button: 'Benutzen Sie den Pfeil in der linken oberen Ecke, um zur Arbeitspaketliste zurückzukehren.'
+          create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
+    notifications:
+      title: "Benachrichtigungen"
+      channel: "Kanal"
+      no_unread: "No unread notifications"
+      channels:
+        in_app: "In-App"
+        mail: "E-Mail"
+        mail_digest: "Tägliche E-Mail-Übersicht"
+      reasons:
+        mentioned: 'erwähnt'
+        watched: 'beobachtet'
+        involved: 'beteiligt'
+      facets:
+        unread: 'Ungelesen'
+        all: 'Alle'
+      center:
+        mark_all_read: 'Alles als gelesen markieren'
+        text_update_date: "%{date} by"
+        total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
+      settings:
+        default_all_projects: 'Standard für alle Projekte'
+        involved: 'Ich bin beteiligt'
+        mentioned: 'Ich wurde erwähnt'
+        watched: 'Ich beobachte'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
+        all: 'Alle Ereignisse'
+        add: 'Einstellung für Projekt hinzufügen'
+        already_selected: 'Dieses Projekt ist bereits ausgewählt'
+        remove_projects: 'Lösche Einstellungen für alle Projekte'
+        title: "Benachrichtigungseinstellungen"
+        self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
       title: 'Geben Sie Ihr Kennwort ein um fortzufahren'
@@ -527,6 +566,7 @@ de:
       autocompleter:
         label: 'Projekt Auto-Vervollständigung'
     text_are_you_sure: "Sind Sie sicher?"
+    text_data_lost: "Alle eingegebenen Daten gehen verloren."
     types:
       attribute_groups:
         error_duplicate_group_name: "Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein."
@@ -609,7 +649,7 @@ de:
       parent_placeholder: "Wählen Sie ein neues Eltern-Arbeitspaket oder drücken Sie Escape, um abzubrechen."
     autocompleter:
       placeholder: "Suchbegriff eintippen"
-      notFoundText: "No items found"
+      notFoundText: "Keine Elemente gefunden"
       typeToSearchText: "Suchbegriff eintippen"
     repositories:
       select_tag: 'Tag auswählen'
@@ -1020,12 +1060,9 @@ de:
         already_member_message: 'Bereits ein Mitglied von %{project}'
         no_results_user: 'Keine Benutzer gefunden'
         invite_user: 'Einladen:'
-        change_user_selection: 'E-Mail-Adresse ändern oder einen bestehenden Benutzer auswählen'
         no_results_placeholder: 'Keine Platzhalter-Benutzer gefunden.'
-        change_placeholder_selection: 'Name ändern oder Platzhalter auswählen'
         create_new_placeholder: 'Erstelle neuen Platzhalter:'
         no_results_group: 'Es wurden keine Gruppen gefunden.'
-        change_group_selection: 'Name ändern oder Platzhalter auswählen'
         next_button: 'Weiter'
         required:
           user: 'Bitte einen Benutzer auswählen'

@@ -33,7 +33,6 @@ See docs/COPYRIGHT.rdoc for more details.
                               :html => {:multipart => true,
                                         :id => 'budget_form',
                                         :class => 'form'} do |f| %>
-    <%= error_messages_for 'budget' %>
     <%= render :partial => 'form', :locals => {:f => f} %>
   <div class="generic-table--action-buttons">
       <%= styled_button_tag t(:button_submit), class: '-with-icon icon-checkmark -highlight', id: 'budget-table--submit-button'%>

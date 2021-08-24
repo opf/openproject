@@ -1,0 +1,20 @@
+<div class="toolbar-container">
+  <div class="toolbar">
+    <div class="title-container">
+      <h2 [textContent]="text.title"></h2>
+    </div>
+    <ul class="toolbar-items">
+      <li
+          *ngIf="(projectSettings$ | async).length > 0"
+          class="toolbar-item"
+      >
+        <button
+            class="button"
+            (click)="removeAll()"
+        >
+          <span [textContent]="text.remove_projects"></span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

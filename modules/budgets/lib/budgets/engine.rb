@@ -3,12 +3,12 @@ module Budgets
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'budgets',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true,
              name: 'Budgets' do
       project_module :budgets do
         permission :view_budgets, { budgets: %i[index show] }
-        permission :edit_budgets, { budgets: %i[index show edit update destroy new create copy] }
+        permission :edit_budgets, { budgets: %i[index show edit update destroy destroy_info new create copy] }
       end
 
       menu :project_menu,

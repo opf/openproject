@@ -1,0 +1,11 @@
+<button
+    type="button"
+    *ngIf="exists"
+    class="op-link help-text--entry"
+    [attr.data-qa-help-text-for]="attribute"
+    [title]="text.open_dialog"
+    (click)="handleClick($event)"
+>
+  <span *ngIf="additionalLabel" [textContent]="additionalLabel"></span>
+  <op-icon icon-classes="icon icon-no-color icon-help1"></op-icon>
+</button>

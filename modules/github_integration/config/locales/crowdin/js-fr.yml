@@ -25,21 +25,17 @@ fr:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Demandes de pull"
         copy_menu:
-          label: Git
-          description: Copy important git content to clipboard
+          label: Extraits de code Git
+          description: Copier les extraits de code git dans le presse-papiers
         git_actions:
-          branch: Branche
-          branch_help: Copy the default branch name.
-          message: Message
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
-          copy_button_help: Copier dans le presse-papier
+          branch_name: Nom de la branche
+          commit_message: Message de commit
+          cmd: Créer une branche avec un commit vide
+          title: Extraits de code rapides pour Git
           copy_success: '✅ Copié !'
           copy_error: '❌ La copie a échoué !'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: 'Il n''y a pas encore de demandes de pull liées. Liez une PR existante en utilisant le code <code>OP#%{wp_id}</code> dans la description de la PR ou créez une nouvelle PR.'
       github_actions: Actions

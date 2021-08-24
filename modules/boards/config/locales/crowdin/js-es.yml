@@ -9,7 +9,7 @@ es:
         teaser_text: 'Mejore su administración de proyectos ágiles con esta vista flexible de paneles. Cree tantos paneles como prefiera para cualquier elemento del que quiera realizar un seguimiento.'
         upgrade_to_ee_text: 'Los paneles son una característica de la versión Enterprise. Actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Contacte con nosotros para una demostración'
       lists:
         delete: 'Eliminar lista'
       version:
@@ -30,6 +30,7 @@ es:
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
       error_permission_missing: "Falta el permiso para crear consultas públicas"
       error_cannot_move_into_self: "No se puede mover un paquete de trabajo a su propia columna."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
         text: 'Tipo de panel'

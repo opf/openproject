@@ -26,63 +26,74 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachments::CreateService
+class Attachments::CreateService < ::BaseServices::Create
   include Attachments::TouchContainer
 
-  attr_reader :container, :author
-
-  def initialize(container, author:)
-    @container = container
-    @author = author
-  end
+  around_call :error_wrapped_call
 
   ##
-  # Adds and saves the uploaded file as attachment of the given container.
-  # In case the container supports it, a journal will be written.
+  # Create an attachment service bypassing the user-provided whitelist
+  # for internal purposes such as exporting data.
   #
-  # An ActiveRecord::RecordInvalid error is raised if any record can't be saved.
-  def call(uploaded_file:, description:)
-    if container.nil?
-      create_attachment(uploaded_file, description)
-    elsif container.class.journaled?
-      create_journalized(uploaded_file, description)
+  # @param user The user to call the service with
+  # @param whitelist A custom whitelist to validate with, or empty to disable validation
+  #
+  # Warning: When passing an empty whitelist, this results in no validations on the content type taking place.
+  def self.bypass_whitelist(user:, whitelist: [])
+    new(user: user, contract_options: { whitelist: whitelist.map(&:to_s) })
+  end
+
+  def persist(call)
+    attachment = call.result
+    if attachment.container
+      in_container_mutex(attachment.container) { super }
     else
-      create_unjournalized(uploaded_file, description)
+      super
     end
   end
 
-  private
-
-  def create_journalized(uploaded_file, description)
+  def in_container_mutex(container)
     OpenProject::Mutex.with_advisory_lock_transaction(container) do
-      create_attachment(uploaded_file, description).tap do
+      yield.tap do
         # Get the latest attachments to ensure having them all for journalization.
         # We just created an attachment and a different worker might have added attachments
         # in the meantime, e.g when bulk uploading.
         container.attachments.reload
-
-        touch(container)
       end
     end
   end
 
-  def create_unjournalized(uploaded_file, description)
-    create_attachment(uploaded_file, description).tap do
-      touch(container)
-    end
+  def after_perform(call)
+    attachment = call.result
+    container = attachment.container
+
+    touch(container) unless container.nil?
+
+    OpenProject::Notifications.send(
+      OpenProject::Events::ATTACHMENT_CREATED,
+      attachment: attachment
+    )
+
+    call
   end
 
-  def create_attachment(uploaded_file, description)
-    attachment = Attachment.new(file: uploaded_file,
-                                container: container,
-                                description: description,
-                                author: author)
+  def error_wrapped_call
+    yield
+  rescue StandardError => e
+    log_attachment_saving_error(e)
 
-    attachment.save!
-    attachment
+    message =
+      if e&.class&.to_s == 'Errno::EACCES'
+        I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
+      else
+        I18n.t('api_v3.errors.unable_to_create_attachment')
+      end
+    raise message
   end
 
-  def build_attachment(uploaded_file, description)
-    container.attachments.build(file: uploaded_file, description: description, author: author)
+  def log_attachment_saving_error(error)
+    message = "Failed to save attachment: #{error&.class} - #{error&.message || 'Unknown error'}"
+
+    OpenProject.logger.error message
   end
 end

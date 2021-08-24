@@ -32,7 +32,7 @@ module API
   module Utilities
     # Since APIv3 uses different names for some properties, there is sometimes the need to convert
     # names between the "old" Rails/ActiveRecord world of names and the "new" APIv3 world of names.
-    # This class provides methods to cope with the neccessary name conversions
+    # This class provides methods to cope with the necessary name conversions
     # There are multiple reasons for naming differences:
     #  - APIv3 is using camelCase as opposed to snake_case
     #  - APIv3 defines some properties as a different type, which requires a name change
@@ -87,7 +87,7 @@ module API
 
         private
 
-        # Unifies different attributes refering to the same thing via a foreign key
+        # Unifies different attributes referring to the same thing via a foreign key
         # e.g. status_id -> status
         def normalize_foreign_key_name(attribute)
           attribute.to_s.sub(/(.+)_id\z/, '\1')

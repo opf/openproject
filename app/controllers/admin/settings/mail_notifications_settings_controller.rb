@@ -36,13 +36,12 @@ module Admin::Settings
 
     def show
       @deliveries = ActionMailer::Base.perform_deliveries
-      @notifiables = OpenProject::Notifiable.all
 
       respond_to :html
     end
 
     def default_breadcrumb
-      t(:'activerecord.attributes.user.mail_notification')
+      t(:'menus.admin.mail_notification')
     end
 
     def show_local_breadcrumb

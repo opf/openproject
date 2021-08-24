@@ -127,15 +127,6 @@ describe MailHandler, type: :model do
     assert_equal user, issue.assigned_to
   end
 
-  it 'should add work package with cc' do
-    issue = submit_email('ticket_with_cc.eml', issue: { project: 'ecookbook' })
-    assert issue.is_a?(WorkPackage)
-    assert !issue.new_record?
-    issue.reload
-    assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
-    assert_equal 1, issue.watcher_user_ids.size
-  end
-
   it 'should add work package by unknown user' do
     assert_no_difference 'User.count' do
       assert_equal false, submit_email('ticket_by_unknown_user.eml', issue: { project: 'ecookbook' })
@@ -281,11 +272,12 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package should send email notification' do
-    Setting.notified_events = ['work_package_added']
+    User.find(2).notification_settings.create(channel: :mail, all: true)
 
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(WorkPackage)
+    # One for the wp creation.
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
 
@@ -329,9 +321,12 @@ describe MailHandler, type: :model do
   end
 
   it 'should add work package note should send email notification' do
+    User.find(2).notification_settings.create(channel: :mail, all: true)
+    User.find(3).notification_settings.create(channel: :mail, involved: true)
+
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
-    assert_equal 3, ActionMailer::Base.deliveries.size
+    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'should add work package note should not set defaults' do

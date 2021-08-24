@@ -85,7 +85,7 @@ Be sure to choose the correct indentation and base key. The `saml` key should be
 
 #### 1.2 Environment variables
 
-As with [all the rest of the OpenProject configuration settings](https://docs.openproject.org/installation-and-operations/configuration/environment/), the SAML configuration can be provided via environment variables.
+As with [all the rest of the OpenProject configuration settings](../../../installation-and-operations/configuration/environment/), the SAML configuration can be provided via environment variables.
 
 E.g.
 
@@ -97,7 +97,7 @@ OPENPROJECT_SAML_MY__SAML_ATTRIBUTE__STATEMENTS_ADMIN="['openproject-isadmin']"
 ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
-(`__`) in the environment variable as the single underscore denotes namespaces. For more information, follow our [guide on environment variables](https://docs.openproject.org/installation-and-operations/configuration/environment/).
+(`__`) in the environment variable as the single underscore denotes namespaces. For more information, follow our [guide on environment variables](../../../installation-and-operations/configuration/environment/).
 
 #### 1.3 Settings in database
 
@@ -110,8 +110,10 @@ That means it's best to set them using the console.
 > sudo openproject run console
 
 # docker-based installation:
-> docker exec -it openproject bash
->> bundle exec rails console
+> docker exec -it openproject bundle exec rails console
+
+# docker-compose-based installation:
+> docker-compose run --rm web bundle exec rails console
 ```
 
 Once on the console you can set the same values as named in the `configuration.yml` file.
@@ -249,7 +251,7 @@ Q: After clicking on a provider badge, I am redirected to a signup form that say
 A: This can happen if you previously created user accounts in OpenProject with the same email than what is stored in the identity provider. In this case, if you want to allow existing users to be automatically remapped to the SAML identity provider, you should do the following:
 
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
-See [our process control guide](https://docs.openproject.org/installation-and-operations/operation/control/) for information on other installation types.
+See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
 ```
 sudo openproject run console

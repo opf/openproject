@@ -35,7 +35,7 @@ module OpenProject::PDFExport
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-pdf_export',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              bundled: true do
       menu :admin_menu,
            :export_card_configurations,

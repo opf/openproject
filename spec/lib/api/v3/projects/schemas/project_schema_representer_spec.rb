@@ -162,7 +162,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('attributes.public') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
     end
@@ -173,7 +173,7 @@ describe ::API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Boolean' }
         let(:name) { I18n.t('attributes.active') }
-        let(:required) { true }
+        let(:required) { false }
         let(:writable) { true }
       end
     end

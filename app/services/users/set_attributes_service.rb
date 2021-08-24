@@ -42,13 +42,21 @@ module Users
 
     def set_default_attributes(_params)
       # Assign values other than mail to new_user when invited
-      if model.invited? && model.mail.present?
+      if model.invited? && model.valid_attribute?(:mail)
         ::UserInvitation.assign_user_attributes model
       end
+
+      initialize_notification_settings unless model.notification_settings.any?
     end
 
     def set_preferences(user_preferences)
       model.pref.attributes = user_preferences if user_preferences
+    end
+
+    def initialize_notification_settings
+      NotificationSetting.channels.each_key do |channel|
+        model.notification_settings.build(channel: channel, involved: true, mentioned: true, watched: true)
+      end
     end
   end
 end

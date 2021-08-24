@@ -38,7 +38,7 @@ ro:
         time: 'Termen de livrare'
       form:
         introduction: >
-          Trimiteți o cerere POST la URL-ul de mai jos pentru orice eveniment din proiectul la care vă abonați. Payload va corespunde reprezentării APIv3 a obiectului care este modificat.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Pentru mai multe informații, vizitați documentația API
         description:
           placeholder: 'Descriere opțională pentru webhook.'

@@ -25,21 +25,17 @@ el:
       work_packages:
         tab_name: "GitHub"
       tab_header:
-        title: "Pull Requests"
+        title: "Pull requests"
         copy_menu:
-          label: Git
-          description: Copy important git content to clipboard
+          label: Git snippets
+          description: Copy git snippets to clipboard
         git_actions:
-          branch: Κλάδος
-          branch_help: Copy the default branch name.
-          message: Μήνυμα
-          message_help: Copy the default commit message.
-          cmd: Command
-          cmd_help: Copy a shell command which creates a new branch and an empty commit using the default branch name and commit message.
-          title: Copy to Clipboard
-          copy_button_help: Αντιγραφή στο πρόχειρο
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Branch name
+          commit_message: Commit message
+          cmd: Create branch with empty commit
+          title: Quick snippets for Git
+          copy_success: '✅ Αντιγράφηκε!'
+          copy_error: '❌ Η αντιγραφή απέτυχε!'
       tab_prs:
         empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
       github_actions: Ενέργειες

@@ -1,0 +1,22 @@
+<div
+  id="activity-{{ activityNo }}"
+  [attr.data-qa-activity-number]="activityNo"
+>
+  <div [ngSwitch]="activityType">
+    <revision-activity
+      *ngSwitchCase="'Revision'"
+      [workPackage]="workPackage"
+      [activity]="activity"
+      [activityNo]="activityNo"
+      [hasUnreadNotification]="hasUnreadNotification"
+    ></revision-activity>
+    <user-activity
+      *ngSwitchDefault
+      [workPackage]="workPackage"
+      [activity]="activity"
+      [activityNo]="activityNo"
+      [isInitial]="isInitial"
+      [hasUnreadNotification]="hasUnreadNotification"
+    ></user-activity>
+  </div>
+</div>

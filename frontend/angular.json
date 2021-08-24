@@ -30,7 +30,6 @@
               "chartjs-plugin-datalabels"
             ],
             "preserveSymlinks": true,
-            "aot": true,
             "deployUrl": "/assets/frontend/",
             "outputPath": "../public/assets/frontend/",
             "index": "src/index2.html",
@@ -56,7 +55,13 @@
                 "src/assets/sass/"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -73,8 +78,6 @@
               "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",

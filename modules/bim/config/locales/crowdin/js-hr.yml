@@ -12,6 +12,8 @@ hr:
       show_viewpoint: 'Show viewpoint'
       delete_viewpoint: 'Delete viewpoint'
       management: 'BCF management'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "This project does not yet have any IFC models."
       use_this_link_to_manage: "Use this link to upload and manage your IFC models"

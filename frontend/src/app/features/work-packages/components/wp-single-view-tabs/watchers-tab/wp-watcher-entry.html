@@ -1,0 +1,27 @@
+<div class="form--selected-value--container" opFocusWithin="button">
+  <span class="form--selected-value">
+    <span [ngClass]="{'deleting': deleting }">
+      <a [attr.href]="watcher.showUser.href">
+        <op-principal
+          [attr.data-principal-id]="watcher.id"
+          [attr.data-principal-name]="watcher.name"
+          data-principal-type="user"
+          data-hide-name="true"
+          data-size="avatar-mini"
+        ></op-principal>
+        <span class="work-package--watcher-name" [textContent]="watcher.name"></span>
+      </a>
+    </span>
+  </span>
+  <button
+      type="button"
+      class="op-link form--selected-value--remover"
+      [title]="text.remove"
+      (click)="remove()"
+  >
+    <op-icon icon-classes="icon-remove"></op-icon>
+  </button>
+</div>
+
+
+

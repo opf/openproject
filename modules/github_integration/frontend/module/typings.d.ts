@@ -1,10 +1,9 @@
-import { TabDefinition } from "core-app/modules/common/tabs/tab.interface";
-import { HalResourceClass } from "core-app/modules/hal/resources/hal-resource";
+import { HalResourceClass } from 'core-app/modules/hal/resources/hal-resource';
 
-export interface ITab extends TabDefinition {
-  help:string,
-  lines:number,
-  textToCopy: ()=>string
+export interface ISnippet {
+  id:string;
+  name:string;
+  textToCopy:() => string
 }
 
 export interface IGithubPullRequestResource extends HalResourceClass {

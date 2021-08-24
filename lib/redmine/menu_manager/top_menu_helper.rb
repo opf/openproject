@@ -42,12 +42,21 @@ module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_right
     content_tag :ul, class: 'op-app-menu' do
       [render_module_top_menu_node,
+       render_notification_top_menu_node,
        render_help_top_menu_node,
        render_user_top_menu_node].join.html_safe
     end
   end
 
   private
+
+  def render_notification_top_menu_node
+    return ''.html_safe unless User.current.logged?
+
+    content_tag('li', class: 'op-app-menu--item') do
+      tag('op-in-app-notification-bell')
+    end
+  end
 
   def render_user_top_menu_node(items = first_level_menu_items_for(:account_menu))
     if User.current.logged?
@@ -64,7 +73,7 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to url,
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
@@ -78,7 +87,7 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to signin_path,
                    class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
-      concat('<span class="button--dropdown-text hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
+      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
       concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
     end
 
@@ -117,7 +126,7 @@ module Redmine::MenuManager::TopMenuHelper
         label: '',
         label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
         items: items,
-        options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ' }
+        options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )
     end
   end

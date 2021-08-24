@@ -64,7 +64,7 @@ module Components
         page.find('wp-view-toggle-button').click
 
         within_view_context_menu do
-          click_link(view_name)
+          click_button(view_name)
         end
       end
 

@@ -1,7 +1,4 @@
-import {
-  ComponentFixture,
-  TestBed,
-} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement, Input } from '@angular/core';
 import { By } from "@angular/platform-browser";
 import { PullRequestComponent } from "./pull-request.component";
@@ -90,10 +87,10 @@ describe('PullRequestComponent', () => {
   });
 
   it('should render pull request data', () => {
-    const titleElement = fixture.debugElement.query(By.css('.op-pr-title')).nativeElement;
+    const titleElement = fixture.debugElement.query(By.css('.op-pull-request--title')).nativeElement;
     const avatarElement = fixture.debugElement.query(By.css('.op-avatar')).nativeElement;
-    const userElement = fixture.debugElement.query(By.css('.op-pr-user')).nativeElement;
-    const detailsElement = fixture.debugElement.query(By.css('.op-pr-link')).nativeElement;
+    const userElement = fixture.debugElement.query(By.css('.op-pull-request--user')).nativeElement;
+    const detailsElement = fixture.debugElement.query(By.css('.op-pull-request--link')).nativeElement;
     const checkRuns = fixture.debugElement.queryAll(By.css('.op-pr-check'));
     const checkRunElement = checkRuns[0].nativeElement;
     const checkRunLinkElement = checkRuns[0].query(By.css('a')).nativeElement;

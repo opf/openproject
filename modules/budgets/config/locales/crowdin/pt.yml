@@ -68,3 +68,6 @@ pt:
   permission_edit_budgets: "Editar os orçamentos"
   permission_view_budgets: "Ver orçamentos"
   project_module_budgets: "Orçamentos"
+  text_budget_reassign_to: "Reatribua-os a este orçamento:"
+  text_budget_delete: "Excluir o orçamento de todos os pacotes de trabalho"
+  text_budget_destroy_assigned_wp: "Há %{count} pacotes de trabalho atribuídos a este orçamento. O que você deseja fazer?"

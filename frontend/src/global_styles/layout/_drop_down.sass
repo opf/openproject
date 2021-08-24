@@ -67,11 +67,16 @@
   LI > A,
   .menu-item
     display: block
+    margin: 0
+    background: 0
+    border: 0
     color: var(--context-menu-unselected-font-color)
     text-decoration: none
     padding: 4px 13px 4px 10px
     white-space: nowrap
     font-weight: normal
+    width: 100%
+    text-align: left
 
     &:not(.inactive):hover
       background-color: #F0F0F0
@@ -85,10 +90,10 @@
     .no-icon
       margin-left: 19.09px //for whatever reasons it is the right dimension
 
-  LI > A.inactive
+  LI > .inactive
     color: #999999
 
-  LI > A.selected
+  LI > .selected
     background: var(--drop-down-selected-bg-color)
     color: var(--drop-down-selected-font-color)
 

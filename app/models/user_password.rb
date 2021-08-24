@@ -94,7 +94,7 @@ class UserPassword < ApplicationRecord
   protected
 
   # Save hashed_password from the initially passed plain password
-  # if it is is set.
+  # if it's set.
   def salt_and_hash_password!
     return if plain_password.nil?
 

@@ -35,6 +35,11 @@ module JournalFormatter
     include Rails.application.routes.url_helpers
     include ERB::Util
 
+    # We break the values between from and to values
+    # in the formatter if the length of one of the values
+    # exceeds this magic number of characters
+    LINEBREAK_ON_VALUE_LENGTH = 100
+
     def initialize(journal)
       @journal = journal
     end
@@ -62,7 +67,7 @@ module JournalFormatter
 
     def format_html_details(label, old_value, value)
       label = content_tag('strong', label)
-      old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value && !old_value.blank?
+      old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value.present?
       old_value = content_tag('strike', old_value) if old_value and value.blank?
       value = content_tag('i', h(value), title: h(value)) if value.present?
       value ||= ''
@@ -78,10 +83,20 @@ module JournalFormatter
       return I18n.t(:text_journal_deleted, label: label, old: old_value) if value.blank?
       return I18n.t(:text_journal_set_to, label: label, value: value) if old_value.blank?
 
+      linebreak = should_linebreak?(old_value.to_s, value.to_s)
+
       if options[:no_html]
-        I18n.t(:text_journal_changed_plain, label: label, old: old_value, new: value).html_safe
+        I18n.t(:text_journal_changed_plain,
+               label: label,
+               linebreak: linebreak ? "\n" : '',
+               old: old_value,
+               new: value)
       else
-        I18n.t(:text_journal_changed, label: label, old: old_value, new: value).html_safe
+        I18n.t(:text_journal_changed_html,
+               label: label,
+               linebreak: linebreak ? "<br/>".html_safe : '',
+               old: old_value,
+               new: value)
       end
     end
 
@@ -90,6 +105,12 @@ module JournalFormatter
         I18n.t(:text_journal_deleted, label: label, old: old_value)
       else
         I18n.t(:text_journal_added, label: label, value: value)
+      end
+    end
+
+    def should_linebreak?(old_value, new_value)
+      [old_value, new_value].any? do |val|
+        val.length >= LINEBREAK_ON_VALUE_LENGTH
       end
     end
   end

@@ -71,6 +71,50 @@ Please note: It's important to use the plain text editor of your email client (i
 
 ### Work packages
 
+Let's start with two examples right away to get you started.
+You can learn more about the details below.
+
+**Work package update**
+
+When you receive a work package notification you can simply reply to that email
+and it will be added as a comment to the work package. You can also update attributes.
+
+For instance with the following reply.
+
+```
+status: closed
+
+The issue is sorted then. Closing this.
+```
+
+This will add the comment and close the work package.
+
+![Work package closed via email](./work-package-update-via-email.png)
+
+**Work package creation**
+
+You can also create new work packages via email. Make sure to send your email to the same address you would
+use when replying to a work package notification.
+
+When creating a work package, the project it will be created in will either be pre-defined via configuration (see below) or you will have to define it at the start of the email. You can also define its other attributes
+there.
+
+For example if you write an email with the subject "Fixing problems" and the following body:
+
+```
+project: demo-project
+type: Task
+status: In Progress
+
+I'm looking into the problems.
+```
+
+It will create a new work package in the Demo Project of type task which is in progress.
+`demo-project` is the project's identifier which you can see either in the project settings
+or simply by looking at the address bar in your browser when you are in the project.
+
+![Work package created via email](./work-package-creation-via-email.png)
+
 #### Sending user address
 
 The address the mail is sent from must match an existing account in order to map the user action.
@@ -126,4 +170,4 @@ If you create a work package via email and sent it to another email (to or bcc) 
 
 ### Truncate Emails
 
-In the administator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform. Find out more [here](../../../system-admin-guide/email/#incoming-emails-settings).
+In the administrator's setting you can specify lines after which an email will not be parsed anymore. That is useful if you want to reply to an email automatically sent to you from OpenProject. E.g. you could set it to `--Truncate here--` and insert this line into your email below the updates you want to perform. Find out more [here](../../../system-admin-guide/email/#incoming-emails-settings).

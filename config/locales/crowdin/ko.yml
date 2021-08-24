@@ -170,6 +170,8 @@ ko:
     enabled_in_project: '프로젝트에 사용 가능함.'
     contained_in_type: '타입에 포함됨.'
     confirm_destroy_option: "옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -247,6 +249,9 @@ ko:
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   placeholder_users:
+    right_to_manage_members_missing: >
+      플레이스홀더 사용자를 삭제할 수 없습니다. 플레이스홀더 사용자가 멤버로 들어가 있는 모든 프로젝트의 구성원을 관리할 권한이 없습니다.
+    delete_tooltip: "플레이스홀더 사용자 삭제"
     deletion_info:
       heading: "플레이스홀더 사용자 %{name} 삭제"
       data_consequences: >
@@ -256,7 +261,8 @@ ko:
       confirmation: "삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요."
     upsale:
       title: 프로젝트 멤버가 아닌 자에게 작업을 할당합니다.
-      description: 여러 상황에서 프로젝트의 멤버가 아닌 사람에게 작업을 할당할 수 있습니다. 단순히 그 일에 적합한 사람을 채용해야 하는 경우나, 어떤 사람이 프로젝트의 정보에 접근하지 못하게 하고 싶지만 동시에 그 사람에게 할당된 작업을 추적하고자 하는 경우 등이 있을 수 있습니다.
+      description: >
+        여러 상황에서 프로젝트의 멤버가 아닌 사람에게 작업을 할당할 수 있습니다. 단순히 그 일에 적합한 사람을 채용해야 하는 경우나, 어떤 사람이 프로젝트의 정보에 접근하지 못하게 하고 싶지만 동시에 그 사람에게 할당된 작업을 추적하고자 하는 경우 등이 있을 수 있습니다.
   prioritiies:
     edit:
       priority_color_text: |
@@ -471,7 +477,6 @@ ko:
         force_password_change: "다음 로그인 암호 변경 적용"
         language: "언어"
         last_login_on: "최종 로그인"
-        mail_notification: "이메일 알림"
         new_password: "새로운 비밀번호"
         password_confirmation: "확인"
         consented_at: "동의함:"
@@ -536,6 +541,7 @@ ko:
         error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
+        email: "is not a valid email address."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
@@ -549,6 +555,7 @@ ko:
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: "은(는) %{count} 보다 작거나 같아야 합니다"
+        not_available: "is not available due to a system configuration."
         not_deletable: "- 삭제할 수 없습니다."
         not_current_user: "은(는) 현재 유효한 사용자가 아닙니다."
         not_a_date: "은(는) 유효한 날짜가 아닙니다."
@@ -568,6 +575,10 @@ ko:
         unremovable: "- 제거할 수 없습니다."
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: '글로벌'
@@ -601,6 +612,21 @@ ko:
           overlaps: '오버랩'
           outside: '- 그리드의 외부에 있습니다.'
           end_before_start: '종료 값은 시작 값보다 커야 합니다.'
+        notifications:
+          at_least_one_channel: '알림을 보낼 채널을 하나 이상 지정해야 합니다.'
+          attributes:
+            read_ian:
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            read_mail:
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            read_mail_digest:
+              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -613,6 +639,9 @@ ko:
           attributes:
             types:
               in_use_by_work_packages: "아직 작업 패키지에 사용됨: %{types}"
+            enabled_modules:
+              dependency_missing: "'%{module}' 모듈이 '%{dependency}' 모듈에 의존하므로 해당 모듈도 활성화되어 있어야 합니다."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -673,6 +702,7 @@ ko:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "다른 프로젝트에 포함될 수 없음"
               not_a_valid_parent: "은(는) 올바르지 않은 값입니다"
             start_date:
@@ -742,6 +772,8 @@ ko:
       status: "작업 패키지 상태"
       member: "멤버"
       news: "뉴스"
+      notification:
+        other: "알림"
       placeholder_user: "플레이스홀더 사용자"
       project: "프로젝트"
       query: "사용자 지정 쿼리"
@@ -1187,6 +1219,7 @@ ko:
   export:
     your_work_packages_export: "내 작업 패키지 내보내기"
     succeeded: "내보내기가 성공적으로 완료되었습니다."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1249,6 +1282,9 @@ ko:
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을 요청하세요."
   menus:
+    admin:
+      mail_notification: "이메일 알림"
+      incoming_outgoing: "수신 & 발신"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1261,6 +1297,16 @@ ko:
         action: "액션"
         expiration: "만료"
       indefinite_expiration: "사용 안 함"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "%{work_package} 을(를) 할당되었습니다."
+        subscribed: "%{work_package} 을(를) 구독하였습니다."
+        mentioned: "%{work_package} 을(를) 멘션하였습니다."
+        involved: "%{work_package} 에 할당되었거나 책임이 있습니다."
+        watched: "%{work_package}을(를) 지켜 보는 중입니다."
   label_accessibility: "접근성"
   label_account: "계정"
   label_active: "활성"
@@ -1346,7 +1392,7 @@ ko:
   label_check_uncheck_all_in_column: "칼럼에서 확인/최소"
   label_check_uncheck_all_in_row: "모든 행에서 확인/취소"
   label_child_element: "자식 요소"
-  label_chronological_order: "시간 순서대로"
+  label_chronological_order: "Oldest first"
   label_close_versions: "완료된 버전 닫기"
   label_closed_work_packages: "닫음"
   label_collapse: "축소"
@@ -1389,6 +1435,7 @@ ko:
   label_deleted: "삭제됨"
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
   label_deleted_custom_option: "(삭제된 옵션)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "내림차순"
   label_details: "세부 정보"
   label_development_roadmap: "개발 로드맵"
@@ -1562,7 +1609,6 @@ ko:
   label_none_parentheses: "(없음)"
   label_not_contains: "포함하지 않음"
   label_not_equals: "일치하지 않음"
-  label_notify_member_plural: "이메일 업데이트"
   label_on: "에"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
@@ -1650,7 +1696,7 @@ ko:
   label_required: '필수'
   label_requires: '필수'
   label_result_plural: "결과"
-  label_reverse_chronological_order: "시간 역순으로"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "수정"
   label_revision_id: "수정 %{value}"
   label_revision_plural: "수정"
@@ -1682,7 +1728,6 @@ ko:
   label_start_to_start: "시작 - 시작"
   label_statistics: "통계"
   label_status: "상태"
-  label_status_updated: "작업 패키지 상태 업데이트됨"
   label_stay_logged_in: "로그인 상태 유지"
   label_storage_free_space: "남은 디스크 공간"
   label_storage_used_space: "사용 중 디스크 공간"
@@ -1766,21 +1811,17 @@ ko:
   label_wiki_show_submenu_item: "다음의 하위 메뉴 항목으로 표시: "
   label_wiki_start: "시작 페이지"
   label_work_package: "작업 패키지"
-  label_work_package_added: "작업 패키지 추가됨"
   label_work_package_attachments: "작업 패키지 첨부 파일"
   label_work_package_category_new: "새 카테고리"
   label_work_package_category_plural: "작업 패키지 카테고리"
   label_work_package_hierarchy: "작업 패키지 계층 구조"
   label_work_package_new: "새 작업 패키지"
-  label_work_package_note_added: "작업 패키지 메모 추가됨"
   label_work_package_edit: "작업 패키지 %{name} 편집"
   label_work_package_plural: "작업 패키지"
-  label_work_package_priority_updated: "작업 패키지 우선 순위 업데이트됨"
   label_work_package_status: "작업 패키지 상태"
   label_work_package_status_new: "새 상태"
   label_work_package_status_plural: "작업 패키지 상태"
   label_work_package_types: "작업 패키지 유형"
-  label_work_package_updated: "작업 패키지 업데이트됨"
   label_work_package_tracking: "작업 패키지 추적"
   label_work_package_view_all: "모든 작업 패키지 보기"
   label_workflow: "워크플로"
@@ -1833,6 +1874,18 @@ ko:
       link_name_type: '새로운 %{type_name}'
   mail:
     actions: '작업'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: '지켜본'
+          involved: 'assignee or responsible'
+          mentioned: '멘션 된'
+          subscribed: '모두'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."
@@ -1859,7 +1912,7 @@ ko:
   mail_body_wiki_content_updated: "%{author}이(가) '%{id}' 위키 페이지를 업데이트했습니다."
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
-  mail_subject_backup_token_reset: "백업 토큰이 초기화되었습니다"
+  mail_subject_backup_token_reset: "백업 토큰 초기화"
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
@@ -2204,6 +2257,11 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
+  setting_apiv3_docs: "설명서"
+  setting_apiv3_docs_enabled: "문서 페이지 활성화"
+  setting_apiv3_docs_enabled_instructions_html: >
+    문서 페이지가 활성화되면 <a href="%{link}" target="_blank">%{link}</a>에서 APIv3 문서의 대화식 보기를 얻을 수 있습니다.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "이메일 배달 방법"
   setting_sendmail_location: "sendmail 실행 파일의 위치"
   setting_smtp_enable_starttls_auto: "사용 가능한 경우 자동으로 STARTTLS 사용"
@@ -2240,7 +2298,6 @@ ko:
   setting_first_week_of_year: "1년의 첫 주 기준"
   setting_date_format: "날짜 형식"
   setting_default_language: "기본 언어"
-  setting_default_notification_option: "기본 알림 옵션"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
   setting_diff_max_lines_displayed: "표시되는 최대 차이점 줄 수"
@@ -2250,6 +2307,9 @@ ko:
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
+  setting_notification_retention_period_days: "알림 보관 기간"
+  setting_notification_email_delay_minutes: "이메일 지연 전송"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2263,7 +2323,7 @@ ko:
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_export_limit: "작업 패키지 내보내기 제한"
-  setting_journal_aggregation_time_minutes: "다음에서 집계된 대로 저널 표시"
+  setting_journal_aggregation_time_minutes: "집계된 사용자 작업"
   setting_log_requesting_user: "모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소"
   setting_login_required: "인증이 필요함"
   setting_mail_from: "발신 이메일 주소"
@@ -2318,6 +2378,15 @@ ko:
     passwords: "암호"
     session: "세션"
     brute_force_prevention: "자동화된 사용자 차단"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
+      delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
@@ -2398,9 +2467,9 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "해당 기간 차이가 지정된 시간 간격보다 적은 경우 표시를 위해 저널을 결합합니다. 또한 이렇게 하면 동일한 시간까지 메일 알림이 지연됩니다."
-  text_journal_changed: "%{label}이(가) %{old}에서 <br/>%{new}<strong>(으)로</strong> 변경되었습니다."
-  text_journal_changed_plain: "%{label}이(가) %{old}에서 \n%{new}(으)로 변경되었습니다."
+  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} 업데이트됨"
   text_journal_changed_with_diff: "%{label} 변경됨(%{link})"
   text_journal_deleted: "%{label} 삭제됨(%{old})"
@@ -2428,7 +2497,7 @@ ko:
   text_regexp_info: "예: ^[A-Z0-9]+$"
   text_regexp_multiline: '멀티라인 모드에서 정규식이 적용됩니다. 예, e.g., ^---\s+'
   text_repository_usernames_mapping: "리포지토리 로그에 있는 각 사용자 이름에 매핑된 OpenProject 사용자를 선택하거나 업데이트하세요.\n동일한 OpenProject 및 리포지토리 사용자 이름이나 이메일을 가진 사용자가 자동으로 매핑됩니다."
-  text_select_mail_notifications: "이메일 알림을 보내야 하는 작업을 선택하세요."
+  text_select_notifications: "알림을 보낼 작업을 선택하세요."
   text_status_changed_by_changeset: "변경 집합 %{value}에 적용되었습니다."
   text_table_difference_description: "이 테이블에서 단일 %{entries}이(가) 표시됩니다. 먼저 테이블의 해당 확인란을 선택하여 두 항목 사이의 차이를 볼 수 있습니다. 테이블 아래 버튼을 클릭하면 차이가 표시됩니다."
   text_time_logged_by_changeset: "변경 집합 %{value}에 적용되었습니다."
@@ -2649,10 +2718,6 @@ ko:
     password_change_unsupported: 암호 변경은 지원되지 않습니다.
     registered: "등록됨"
     reset_failed_logins: "실패한 로그인 재설정"
-    settings:
-      mail_notifications: "이메일 알림 보내기"
-      mail_project_explanaition: "선택하지 않은 프로젝트의 경우, 주시하거나 관련된 사항(예: 사용자가 작성자 또는 담당자인 작업 패키지)에 대한 알림만 받게 됩니다."
-      mail_self_notified: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: "상태 변경"
     text_change_disabled_for_provider_login: "이 이름은 로그인 공급자가 설정하므로 변경 가능하지 않습니다."
@@ -2674,7 +2739,7 @@ ko:
     사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을 업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
   warning_user_limit_reached_instructions: >
     사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2747,6 +2812,8 @@ ko:
         invalid_json: "- 잘못된 json입니다: %{message}"
     resources:
       schema: '스키마'
+    undisclosed:
+      parent: 숨겨짐 - 권한이 없어 선택한 부모를 볼 수 없습니다.
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'

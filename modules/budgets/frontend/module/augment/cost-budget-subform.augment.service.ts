@@ -28,7 +28,7 @@
 
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
-import { HalResourceNotificationService } from "core-app/modules/hal/services/hal-resource-notification.service";
+import { HalResourceNotificationService } from "core-app/features/hal/services/hal-resource-notification.service";
 
 @Injectable()
 export class CostBudgetSubformAugmentService {

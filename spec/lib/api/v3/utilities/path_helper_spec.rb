@@ -208,14 +208,6 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :message
   end
 
-  describe 'my paths' do
-    describe '#my_preferences' do
-      subject { helper.my_preferences }
-
-      it_behaves_like 'api v3 path', '/my_preferences'
-    end
-  end
-
   describe 'news paths' do
     describe '#newses' do
       subject { helper.newses }
@@ -224,6 +216,35 @@ describe ::API::V3::Utilities::PathHelper do
     end
 
     it_behaves_like 'show', :news
+  end
+
+  describe 'notifications paths' do
+    it_behaves_like 'index', :notifications
+    it_behaves_like 'show', :notification
+
+    describe '#notification_bulk_read_ian' do
+      subject { helper.notification_bulk_read_ian }
+
+      it_behaves_like 'api v3 path', '/notifications/read_ian'
+    end
+
+    describe '#notification_bulk_unread_ian' do
+      subject { helper.notification_bulk_unread_ian }
+
+      it_behaves_like 'api v3 path', '/notifications/unread_ian'
+    end
+
+    describe '#notification_read_ian' do
+      subject { helper.notification_read_ian(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/read_ian'
+    end
+
+    describe '#notification_unread_ian' do
+      subject { helper.notification_unread_ian(42) }
+
+      it_behaves_like 'api v3 path', '/notifications/42/unread_ian'
+    end
   end
 
   describe 'markup paths' do
@@ -447,6 +468,12 @@ describe ::API::V3::Utilities::PathHelper do
   describe 'users paths' do
     it_behaves_like 'index', :user
     it_behaves_like 'show', :user
+  end
+
+  describe 'user_preferences path' do
+    subject { helper.user_preferences(42) }
+
+    it_behaves_like 'api v3 path', '/users/42/preferences'
   end
 
   describe 'group paths' do

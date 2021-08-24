@@ -56,6 +56,7 @@ class WorkPackages::CopyService
     copied = create(attributes, send_notifications)
 
     if copied.success?
+      remove_author_watcher(copied.result)
       copy_watchers(copied.result)
     end
 
@@ -84,9 +85,13 @@ class WorkPackages::CopyService
     instantiate_contract(wp, user).writable_attributes
   end
 
+  def remove_author_watcher(copied)
+    copied.remove_watcher(copied.author)
+  end
+
   def copy_watchers(copied)
-    work_package.watchers.each do |watcher|
-      copied.add_watcher(watcher.user) if watcher.user.active?
+    work_package.watcher_users.each do |user|
+      copied.add_watcher(user) if user.active?
     end
   end
 end

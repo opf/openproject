@@ -1,0 +1,212 @@
+# Schema: UserModel
+---
+type: object
+example:
+  _type: User
+  _links:
+    self:
+      href: "/api/v3/users/1"
+      title: j.sheppard
+    show:
+      href: "/users/1"
+      type: text/html
+    lock:
+      href: "/api/v3/users/1/lock"
+      method: POST
+    updateImmediately:
+      href: "/api/v3/users/1"
+      method: PATCH
+    delete:
+      href: "/api/v3/users/1"
+      method: DELETE
+  id: 1
+  login: j.sheppard
+  firstName: John
+  lastName: Sheppard
+  email: shep@mail.com
+  admin: true
+  avatar: https://example.org/users/1/avatar
+  status: active
+  language: en
+  createdAt: '2014-05-21T08:51:20Z'
+  updatedAt: '2014-05-21T08:51:20Z'
+properties:
+  id:
+    type: integer
+    description: User's id
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: true
+  login:
+    type: string
+    description: |-
+      User's login name
+
+      # Conditions
+
+      **Permission**: Administrator, manage_user global permission
+    maxLength: 256
+  firstName:
+    type: string
+    description: |-
+      User's first name
+
+      # Conditions
+
+      **Permission**: Administrator, manage_user global permission
+    maxLength: 30
+  lastName:
+    type: string
+    description: |-
+      User's last name
+
+      # Conditions
+
+      **Permission**: Administrator, manage_user global permission
+    maxLength: 30
+  name:
+    type: string
+    description: User's full name, formatting depends on instance settings
+    readOnly: true
+  email:
+    type: string
+    description: |-
+      User's email address
+
+      # Conditions
+
+      E-Mail address not hidden, **Permission**: Administrator, manage_user global permission
+    maxLength: 60
+  admin:
+    type: boolean
+    description: |-
+      Flag indicating whether or not the user is an admin
+
+      # Conditions
+
+      **Permission**: Administrator
+  avatar:
+    type: string
+    format: uri
+    description: URL to user's avatar
+    readOnly: true
+  status:
+    type: string
+    description: The current activation status of the user (see below)
+    readOnly: true
+  language:
+    type: string
+    description: |-
+      User's language | ISO 639-1 format
+
+      # Conditions
+
+      **Permission**: Administrator, manage_user global permission
+  password:
+    type: string
+    description: |-
+      User's password for the default password authentication
+
+      # Conditions
+
+      **Permission**: Administrator
+    writeOnly: true
+  identity_url:
+    type: string
+    description: |-
+      User's identity_url for OmniAuth authentication
+
+      # Conditions
+
+      **Permission**: Administrator
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the user
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      lock:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Restrict the user from logging in and performing any actions
+
+            # Conditions
+
+            not locked; **Permission**: Administrator
+          readOnly: true
+      show:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: Link to the OpenProject user page (HTML)
+          readOnly: true
+      unlock:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Allow a locked user to login and act again
+
+            # Conditions
+
+            locked; **Permission**: Administrator
+          readOnly: true
+      updateImmediately:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Updates the user's attributes.
+
+            # Conditions
+
+            **Permission**: Administrator, manage_user global permission
+          readOnly: true
+      delete:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Permanently remove a user from the instance
+
+            # Conditions
+
+            **Permission**: Administrator, self-delete
+          readOnly: true
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This user
+
+            **Resource**: User
+          readOnly: true
+      auth_source:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Link to the user's auth source (endpoint not yet implemented)
+
+            **Resource**: AuthSource
+
+            # Conditions
+
+            **Permission**: Administrator
+      members:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            Link to collection of all the user's memberships. The list will only include the memberships in projects in which the requesting user has the necessary permissions.
+
+            **Resource**: MemberCollection
+
+            # Conditions
+
+            **Permission**: view members or manage members in any project
+          readOnly: true

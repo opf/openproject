@@ -16,6 +16,8 @@ First start the console.
 
 ```
 sudo openproject run console
+# if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
+# if using docker-compose: docker-compose run --rm web bundle exec rails console
 ```
 
 Once in the console you can change the `plugin_openproject_openid_connect` setting
@@ -49,7 +51,7 @@ You can copy that into the console to get the URL you need.
 Finally you can the write the actual setting like this:
 
 ```ruby
-Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect).deep_merge({
+Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
   "providers" => {
     "okta" => options
   }

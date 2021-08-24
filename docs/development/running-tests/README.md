@@ -2,35 +2,42 @@
 
 OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, rspec system tests) require to have Chrome installed.
 
-You will likely start working with the OpenProject test suite through our continuous testing setup at [Travis CI](https://travis-ci.com/opf/openproject). All pull requests and commits to the core repository will be tested by Travis CI.
+You will likely start working with the OpenProject test suite through our continuous testing setup at [Github Actions](https://github.com/opf/openproject/actions). All pull requests and commits to the core repository will be tested by Github Actions.
 
 
 
-# Continuous testing with Travis CI
+# Continuous testing with Github Actions
 
-As part of the [development flow at OpenProject](https://docs.openproject.org/development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on travis-ci.com. You will see the results of the travis test suite run as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
+As part of the [development flow at OpenProject](../../development/#development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
 
 A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
 
-![Exemplary failing travis test suite](github-broken-tests-pr.png)
+![Exemplary failing github actions test suite](github-broken-tests-pr.png)
 
 
 
-Here you'll see that the *Travis CI* check has reported an error, which likely means that your pull request contains errors. It might also result from a temporary error running the test suite, or from a test that was broken in the `dev` branch.
+Here you'll see that the *Github Actions* check has reported an error, which likely means that your pull request contains errors. It might also result from a temporary error running the test suite, or from a test that was broken in the `dev` branch.
 
-If you expand the view  by clicking on details, you will see the individual *jobs* that Travis executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *3 - 4 hours* on Travis, but with parallel test execution, this time is reduced to around 30 - 40 minutes waiting time.
+If you expand the view  by clicking on details, you will see the individual *jobs* that Github executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *15 minutes* on Github. Due to parallel test runs and beefier custom worker machines, the run time is significantly lower than on our previous test CI.
 
-[Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/8680/checks?check_run_id=1115923361). In this case, one of the feature jobs has reported an error. 
+[Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). In this case, one of the feature jobs has reported an error.
 
 ![Exemplary failed status details](github-broken-tests-pr-details1.png)
 
 
 
-You can click on each job to show the [Travis log output for this job](https://travis-ci.com/github/opf/openproject/jobs/384924028). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
+You can click on each job and each step to show the [log output for this job](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
 
-In our example, Travis reports one test to be failing: `./modules/documents/spec/features/attachment_upload_spec.rb[1:1:1:1]`
+In our example, multiple tests are reported as failing:
+```
+rspec ./spec/features/work_packages/pagination_spec.rb[1:1:1:1] # Work package pagination with project scope behaves like paginated work package list is expected not to have text "WorkPackage No. 23"
+rspec ./spec/features/work_packages/pagination_spec.rb[1:2:1:1] # Work package pagination globally behaves like paginated work package list is expected not to have text "WorkPackage No. 29"
+rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:131 # Work package timeline navigation can save the open state and zoom of timeline
+rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:193 # Work package timeline navigation with a hierarchy being shown toggles the hierarchy in both views
+rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:317 # Work package timeline navigation when table is grouped shows milestone icons on collapsed project group rows but not on expanded ones
+```
 
-![Travis job log showing failing test](github-broken-tests-travis.png)
+![Github job log showing failing test](github-broken-tests.png)
 
 
 
@@ -62,25 +69,21 @@ For the `legacy specs` job, please [see the section on running legacy specs](#le
 
 **Helper to extract all failing tests**
 
-There is a small ruby script that will parse the logs of a travis run and output all `rspec` tests that failed for you to run in one command.
-
-To run that, you will first need to install the travis gem locally with `gem install travis` . Then you can run this script with:
+There is a small ruby script that will parse the logs of a Github Actions run and output all `rspec` tests that failed for you to run in one command.
 
 ```
-./script/travis_pr_errors	
+./script/github_pr_errors
 ```
-
-
 
 Note that it will output legacy specs and specs together, which need to be run separately.
 
 
 
-### Skipping test execution on Travis CI
+### Skipping test execution on Github Actions CI
 
 Sometimes, you know you're pushing changes to a pull request that you now are work in progress or are known to break existing or new tests.
 
-To avoid additional test executions, you can include `[CI SKIP]` in your commit message to ensure travis is not being triggered and skips your build. Please note that a successful merge of your pull request will require a green Travis CI build.
+To avoid additional test executions, you can include `[skip ci]` in your commit message to ensure Github Actions are not being triggered and skips your build. Please note that a successful merge of your pull request will require a green CI build.
 
 
 
@@ -201,7 +204,7 @@ The tests will generally run a lot slower due to the whole application being run
 
 
 
-You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let Travis CI test the entire suite.
+You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let Github Actions CI test the entire suite.
 
 ```bash
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
@@ -217,7 +220,7 @@ You can find the driver for your Chrome version here: https://chromedriver.chrom
 
 **2) Add the driver to your `PATH`**
 
-Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([ress the WIN key and search for 'system env').
+Either save the driver under `C:\Windows\system32` to make it available or add its alternative location to the `PATH` using the system environment variable settings ([press the WIN key and search for 'system env').
 
 **3) Find out your WSL ethernet adapter IP**
 
@@ -228,7 +231,7 @@ It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
 
-The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Envrionment in at least version 8 to be able to run it.
+The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
 
 **5) Run the Selenium Server**
 
@@ -291,9 +294,9 @@ You can fix this either by accessing a page locally (if the rails server is runn
 
 You can run the specs with the following commands:
 
-* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on Travis CI as part of your pull request.
+* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on Github Actions CI as part of your pull request.
 
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Travis CI used in their log output.
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Github Actions CI used in their log output.
 
   
 

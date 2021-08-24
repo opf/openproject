@@ -38,7 +38,7 @@ ko:
         time: '배달 시간'
       form:
         introduction: >
-          구독하는 프로젝트의 모든 이벤트에 대해 아래의 페이로드 URL에 POST 요청을 보내십시오. 페이로드는 수정될 개체의 APIv3 표현에 해당합니다.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: 자세한 내용은 API 설명서를 참조하십시오.
         description:
           placeholder: 'Webhook에 대한 선택적 설명입니다.'

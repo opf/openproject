@@ -1,0 +1,35 @@
+<div class="work-packages--details loading-indicator--location"
+      data-indicator-name="wpDetails"
+      *ngIf="workPackage">
+    <op-wp-tabs [workPackage]="workPackage" view="split"></op-wp-tabs>
+    <div class="work-packages--details-content work-packages-tab-view--overflow" *ngIf="workPackage">
+    <span class="hidden-for-sighted" tabindex="-1" [opAutofocus]="shouldFocus" [textContent]="focusAnchorLabel">
+      </span>
+
+      <wp-breadcrumb [workPackage]="workPackage"></wp-breadcrumb>
+
+      <edit-form [resource]="workPackage">
+        <div class="wp-show--header-container">
+          <op-back-button *ngIf="showBackButton()"
+                       linkClass="work-packages-back-button"
+                       [customBackMethod]="backToList.bind(this)">
+          </op-back-button>
+
+          <div class="subject-header">
+            <wp-subject></wp-subject>
+          </div>
+        </div>
+
+        <div class="work-package-details-tab" ui-view></div>
+      </edit-form>
+    </div>
+
+    <div class="work-packages--details-toolbar-container" *ngIf="workPackage">
+      <wp-details-toolbar [workPackage]="workPackage"></wp-details-toolbar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile hide-when-print">
+      <wp-resizer [elementClass]="'work-packages-partitioned-page--content-right'"
+                  [localStorageKey]="'openProject-splitViewFlexBasis'"></wp-resizer>
+    </div>
+</div>

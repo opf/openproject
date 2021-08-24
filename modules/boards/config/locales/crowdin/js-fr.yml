@@ -30,6 +30,7 @@ fr:
       error_loading_the_list: "Erreur lors du chargement de la liste : %{error_message}"
       error_permission_missing: "La permission pour créer des requêtes publiques est manquante"
       error_cannot_move_into_self: "Vous ne pouvez pas déplacer un lot de travaux vers sa propre colonne."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
       click_to_remove_list: "Cliquez pour supprimer cette liste"
       board_type:
         text: 'Type de tableau'

@@ -27,8 +27,11 @@
 #++
 
 class BudgetsController < ApplicationController
-  before_action :find_budget, only: %i[show edit update copy]
+  include AttachableServiceCall
+
+  before_action :find_budget, only: %i[show edit update copy destroy_info]
   before_action :find_budgets, only: :destroy
+  before_action :check_and_update_belonging_work_packages, only: :destroy
   before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
   before_action :find_optional_project, only: :index
 
@@ -85,11 +88,12 @@ class BudgetsController < ApplicationController
   def copy
     source = Budget.find(params[:id].to_i)
 
-    @budget = if source
-                Budget.new_copy(source)
-              else
-                Budget.new
-              end
+    @budget =
+      if source
+        Budget.new_copy(source)
+      else
+        Budget.new
+      end
 
     @budget.fixed_date ||= Date.today
 
@@ -97,23 +101,15 @@ class BudgetsController < ApplicationController
   end
 
   def create
-    @budget = Budget.new
-    @budget.project_id = @project.id
+    call = attachable_create_call ::Budgets::CreateService,
+                                  args: permitted_params.budget.merge(project: @project)
+    @budget = call.result
 
-    # fixed_date must be set before material_budget_items and labor_budget_items
-    @budget.fixed_date = if params[:budget] && params[:budget][:fixed_date]
-                           params[:budget].delete(:fixed_date)
-                         else
-                           Date.today
-                         end
-
-    @budget.attributes = permitted_params.budget
-    @budget.attach_files(permitted_params.attachments.to_h)
-
-    if @budget.save
+    if call.success?
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
     else
+      @errors = call.errors
       render action: 'new', layout: !request.xhr?
     end
   end
@@ -123,20 +119,16 @@ class BudgetsController < ApplicationController
   end
 
   def update
-    @budget.attributes = permitted_params.budget if params[:budget]
-    if params[:budget][:existing_material_budget_item_attributes].nil?
-      @budget.existing_material_budget_item_attributes = ({})
-    end
-    if params[:budget][:existing_labor_budget_item_attributes].nil?
-      @budget.existing_labor_budget_item_attributes = ({})
-    end
+    call = attachable_update_call ::Budgets::UpdateService,
+                                  model: @budget,
+                                  args: permitted_params.budget
 
-    @budget.attach_files(permitted_params.attachments.to_h)
-
-    if @budget.save
+    if call.success?
       flash[:notice] = t(:notice_successful_update)
       redirect_to(params[:back_to] || { action: 'show', id: @budget })
     else
+      @budget = call.result
+      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError
@@ -148,6 +140,10 @@ class BudgetsController < ApplicationController
     @budgets.each(&:destroy)
     flash[:notice] = t(:notice_successful_delete)
     redirect_to action: 'index', project_id: @project
+  end
+
+  def destroy_info
+    @possible_other_budgets = @project.budgets.where.not(id: @budget.id)
   end
 
   def update_material_budget_item
@@ -266,5 +262,28 @@ class BudgetsController < ApplicationController
       .where(project_id: @project.id)
       .page(page_param)
       .per_page(per_page_param)
+  end
+
+  def check_and_update_belonging_work_packages
+    if params[:todo]
+      update_belonging_work_packages
+    end
+
+    budget = Budget.find(params[:id])
+    if budget.work_packages.any?
+      redirect_to destroy_info_budget_path(budget)
+    end
+  end
+
+  def update_belonging_work_packages
+    reassign_to_id = params[:reassign_to_id]
+    budget_id = params[:id]
+
+    budget_exists = Budget.visible(current_user).exists?(reassign_to_id) if params[:todo] == 'reassign'
+    reassign_to = budget_exists ? reassign_to_id : nil
+
+    WorkPackage
+      .where(budget_id: budget_id)
+      .update_all(budget_id: reassign_to, updated_at: DateTime.now)
   end
 end

@@ -1,0 +1,20 @@
+# Schema: View_time_entries_activityModel
+---
+type: object
+example:
+  _type: TimeEntriesActivity
+  id: 18
+  name: a autem
+  position: 10
+  default: false
+  _embedded:
+    projects...: []
+  _links:
+    self:
+      href: "/api/v3/time_entries/activities/18"
+      title: a autem
+    projects:
+    - href: "/api/v3/projects/seeded_project"
+      title: Seeded Project
+    - href: "/api/v3/projects/working-project"
+      title: Working Project

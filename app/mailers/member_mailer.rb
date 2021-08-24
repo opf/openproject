@@ -39,7 +39,7 @@
 # The mailer does not fan out in case a group is provided. The individual members of a group
 # need to be mailed to individually.
 
-class MemberMailer < BaseMailer
+class MemberMailer < ApplicationMailer
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
 

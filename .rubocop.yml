@@ -4,9 +4,10 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.7
+  # Enable any new cops in new versions by default
+  NewCops: enable
   Exclude:
     - db/schema.rb
-
 
 Gemspec/RequiredRubyVersion:
   Exclude:
@@ -87,6 +88,11 @@ Metrics/ModuleLength:
 Metrics/ParameterLists:
   Enabled: false
 
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+    - 'modules/*/spec/**/*.rb'
 
 Naming/AccessorMethodName:
   Enabled: false
@@ -108,6 +114,17 @@ Naming/PredicateName:
 Rails/SkipsModelValidations:
   Enabled: false
 
+# Don't force us to use tag instead of content_tag
+# as this breaks angular elements
+Rails/ContentTag:
+  Enabled: false
+
+# Disable I18n.locale = in specs, where it is reset
+# by us explicitly
+Rails/I18nLocaleAssignment:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
 
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
@@ -115,6 +132,12 @@ Rails/SkipsModelValidations:
 # * following a scenario that is closer to how a user interacts
 RSpec/ExampleLength:
   Max: 25
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+RSpec/DescribeClass:
   Enabled: true
   Exclude:
     - 'spec/features/**/*.rb'
@@ -131,6 +154,33 @@ RSpec/MultipleExpectations:
 RSpec/MultipleMemoizedHelpers:
   Max: 15
   AllowSubject: true
+
+RSpec/NestedGroups:
+  Max: 4
+
+# Don't force the second argument of describe
+# to be .class_method or #instance_method
+RSpec/DescribeMethod:
+  Enabled: false
+
+# Don't force the second argument of describe
+# to match the exact file name
+RSpec/FilePath:
+  SpecSuffixOnly: true
+
+# We use let!() to ensure dependencies are created
+# instead of let() and referencing them explicitly
+RSpec/LetSetup:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
 
 
 Style/Alias:

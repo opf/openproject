@@ -50,10 +50,10 @@ class ::Widget::Table::EntryTable < ::Widget::Table
   def colgroup
     content_tag :colgroup do
       FIELDS.each do
-        concat content_tag(:col, 'highlight-col' => true) {}
+        concat content_tag(:col, 'opHighlightCol' => true) {}
       end
-      concat content_tag(:col, 'highlight-col' => true) {}
-      concat content_tag(:col, 'highlight-col' => true) {}
+      concat content_tag(:col, 'opHighlightCol' => true) {}
+      concat content_tag(:col, 'opHighlightCol' => true) {}
       concat content_tag(:col) {}
     end
   end

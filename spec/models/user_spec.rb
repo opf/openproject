@@ -114,6 +114,17 @@ describe User, type: :model do
       expect(user.mail)
         .to eql 'foo@bar.com'
     end
+
+    it 'validates for local mails' do
+      user.mail = 'foobar@abc.def.some-internet'
+      expect(user).to be_valid
+    end
+
+    it 'invalidates wrong mails' do
+      user.mail = 'foobar+abc.def.some-internet'
+      expect(user).not_to be_valid
+      expect(user.errors[:mail]).to include 'is not a valid email address.'
+    end
   end
 
   describe '#login' do
@@ -519,108 +530,6 @@ describe User, type: :model do
       end
 
       it { expect(User.find_by_rss_key(@rss_key)).to eq(nil) }
-    end
-  end
-
-  describe '#notify_about?' do
-    let(:work_package) do
-      FactoryBot.build_stubbed(:work_package,
-                               assigned_to: assignee,
-                               responsible: responsible,
-                               author: author)
-    end
-    let(:author) do
-      FactoryBot.build_stubbed(:user)
-    end
-    let(:assignee) do
-      FactoryBot.build_stubbed(:user)
-    end
-    let(:responsible) do
-      FactoryBot.build_stubbed(:user)
-    end
-    let(:project) do
-      work_package.project
-    end
-    let(:role) do
-      FactoryBot.build_stubbed(:role)
-    end
-
-    it 'is false for an inactive user' do
-      user.status = User.statuses[:locked]
-      user.mail_notification = 'all'
-      expect(user.notify_about?({})).to be_falsey
-    end
-
-    context 'Work package' do
-      it 'is true for a user with :all' do
-        author.mail_notification = 'all'
-        assert author.notify_about?(work_package)
-      end
-
-      it 'is false for a user with :none' do
-        author.mail_notification = 'none'
-        expect(author.notify_about?(work_package)).to be_falsey
-      end
-
-      it "is false for a user with :only_my_events who has no relation to the work package" do
-        user = FactoryBot.build_stubbed(:user, mail_notification: 'only_my_events')
-        expect(user.notify_about?(work_package)).to be_falsey
-      end
-
-      it 'is true for a user with :only_my_events who is the author' do
-        author.mail_notification = 'only_my_events'
-        expect(author.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is true for a user with :only_my_events who is the assignee' do
-        assignee.mail_notification = 'only_my_events'
-        expect(assignee.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is true for a user with :only_assigned who is the assignee' do
-        assignee.mail_notification = 'only_assigned'
-        expect(assignee.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is true for a user with :only_assigned who is the responsible' do
-        responsible.mail_notification = 'only_assigned'
-        expect(responsible.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is false for a user with :only_assigned who is neither assignee nor responsible' do
-        author.mail_notification = 'only_assigned'
-        expect(author.notify_about?(work_package)).to be_falsey
-      end
-
-      it 'is true for a user with :only_owner who is the author' do
-        author.mail_notification = 'only_owner'
-        expect(author.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is false for a user with :only_owner who is not the author' do
-        assignee.mail_notification = 'only_owner'
-        expect(assignee.notify_about?(work_package)).to be_falsey
-      end
-
-      it 'is true for a user with :selected who is the author' do
-        author.mail_notification = 'selected'
-        expect(author.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is true for a user with :selected who is the assignee' do
-        assignee.mail_notification = 'selected'
-        expect(assignee.notify_about?(work_package)).to be_truthy
-      end
-
-      it 'is true for a user with :selected who is the responsible' do
-        responsible.mail_notification = 'selected'
-        expect(responsible.notify_about?(work_package)).to be_truthy
-      end
-
-      it "is false for a user with :selected who has no relation to the work package" do
-        user = FactoryBot.build(:user, mail_notification: 'selected')
-        expect(user.notify_about?(work_package)).to be_falsey
-      end
     end
   end
 

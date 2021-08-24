@@ -94,7 +94,7 @@ describe 'Wysiwyg embedded work package tables',
           columns.expect_checked 'Type'
           modal.cancel
 
-          # Expect we can preview the table within ckeditor
+          # Expect we can preview the table within ckeditor-augmented-textarea
           editor.within_enabled_preview do |preview_container|
             embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
             embedded_table.expect_work_package_listed wp_task

@@ -52,7 +52,7 @@ describe 'Work package table context menu', js: true do
         goto_context_menu list_view
         menu.choose('Change project')
         expect(page).to have_selector('h2', text: I18n.t(:button_move))
-        expect(page).to have_selector('a.issue', text: "##{work_package.id}")
+        expect(page).to have_selector('a.work_package', text: "##{work_package.id}")
 
         # Open Copy
         goto_context_menu list_view
@@ -151,7 +151,7 @@ describe 'Work package table context menu', js: true do
         subject.submit_by_enter
 
         split_view.expect_and_dismiss_notification message: 'Successful creation.'
-        expect(page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{work_package.subject}")
+        expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{work_package.subject}")
         wp = WorkPackage.last
         expect(wp.parent).to eq work_package
       end

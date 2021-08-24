@@ -39,22 +39,6 @@ class User < Principal
     username: [:login]
   }.freeze
 
-  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all].freeze
-  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected].freeze
-  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events].freeze
-  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned].freeze
-  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner].freeze
-  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none].freeze
-
-  MAIL_NOTIFICATION_OPTIONS = [
-    USER_MAIL_OPTION_ALL,
-    USER_MAIL_OPTION_SELECTED,
-    USER_MAIL_OPTION_ONLY_MY_EVENTS,
-    USER_MAIL_OPTION_ONLY_ASSIGNED,
-    USER_MAIL_OPTION_ONLY_OWNER,
-    USER_MAIL_OPTION_NON
-  ].freeze
-
   include ::Associations::Groupable
   extend DeprecatedAlias
 
@@ -82,13 +66,17 @@ class User < Principal
            class_name: 'Doorkeeper::Application',
            as: :owner
 
+  has_many :notification_settings, dependent: :destroy
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
   scopes :find_by_login,
-         :newest
+         :newest,
+         :notified_on_all,
+         :watcher_recipients
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -112,7 +100,7 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
+                        unless: Proc.new { |user| user.builtin? }
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
   validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
@@ -120,10 +108,9 @@ class User < Principal
   validates_format_of :login, with: /\A[a-z0-9_\-@.+ ]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 256
-  validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
+  validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates_length_of :mail, maximum: 256, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
-  validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
@@ -133,19 +120,12 @@ class User < Principal
 
   after_save :update_password
 
-  before_create :sanitize_mail_notification_setting
-
   scope :admin, -> { where(admin: true) }
 
   def self.unique_attribute
     :login
   end
   prepend ::Mixins::UniqueFinder
-
-  def sanitize_mail_notification_setting
-    self.mail_notification = Setting.default_notification_option if mail_notification.blank?
-    true
-  end
 
   def current_password
     passwords.first
@@ -400,41 +380,6 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
-  # Return an array of project ids for which the user has explicitly turned mail notifications on
-  def notified_projects_ids
-    @notified_projects_ids ||= memberships.reload.select(&:mail_notification?).map(&:project_id)
-  end
-
-  def notified_project_ids=(ids)
-    Member
-      .where(user_id: id)
-      .update_all(mail_notification: false)
-
-    if ids && !ids.empty?
-      Member
-        .where(user_id: id, project_id: ids)
-        .update_all(mail_notification: true)
-    end
-
-    @notified_projects_ids = nil
-    notified_projects_ids
-  end
-
-  def valid_notification_options
-    self.class.valid_notification_options(self)
-  end
-
-  # Only users that belong to more than 1 project can select projects for which they are notified
-  def self.valid_notification_options(user = nil)
-    # Note that @user.membership.size would fail since AR ignores
-    # :include association option when doing a count
-    if user.nil? || user.memberships.length < 1
-      MAIL_NOTIFICATION_OPTIONS.reject { |option| option.first == 'selected' }
-    else
-      MAIL_NOTIFICATION_OPTIONS
-    end
-  end
-
   # Find a user account by matching the exact login and then a case-insensitive
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
@@ -587,12 +532,6 @@ class User < Principal
     authorization_service.preload_projects_allowed_to(action)
   end
 
-  # Utility method to help check if a user should be notified about an
-  # event.
-  def notify_about?(object)
-    active? && (mail_notification == 'all' || (object.is_a?(WorkPackage) && object.notify?(self)))
-  end
-
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
   end
@@ -605,10 +544,10 @@ class User < Principal
     RequestStore[:current_user] || User.anonymous
   end
 
-  def self.execute_as(user)
+  def self.execute_as(user, &block)
     previous_user = User.current
     User.current = user
-    yield
+    OpenProject::LocaleHelper.with_locale_for(user, &block)
   ensure
     User.current = previous_user
   end

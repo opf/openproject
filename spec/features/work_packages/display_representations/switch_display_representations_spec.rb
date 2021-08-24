@@ -76,10 +76,10 @@ describe 'Switching work package view',
       # Enable highlighting
       highlighting.switch_entire_row_highlight "Priority"
       within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority1.id}")
+        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_priority_#{priority1.id}")
       end
       within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_selector(".wp-card--highlighting.__hl_background_priority_#{priority2.id}")
+        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_priority_#{priority2.id}")
       end
 
       # Switch back to list representation & Highlighting is kept
@@ -96,10 +96,10 @@ describe 'Switching work package view',
       # Switch back to card representation & Highlighting is kept, too
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
       end
       within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_selector(".wp-card--highlighting.__hl_background_status_#{status.id}")
+        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
       end
     end
 

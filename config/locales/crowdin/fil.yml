@@ -23,7 +23,7 @@ fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: May mga walang mga pagkikilos sa proyekto sa panahong ito.
   admin:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
@@ -170,6 +170,8 @@ fil:
     enabled_in_project: 'Pinagana sa proyekto'
     contained_in_type: 'Naglaman ng uri'
     confirm_destroy_option: "Kapag nagbubura ng opsyon ay makakabura sa lahat ng mga pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong burahin ito?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
@@ -247,6 +249,9 @@ fil:
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ fil:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -473,7 +479,6 @@ fil:
         force_password_change: "Ipatupad ang password na ibahin sa susunod na login"
         language: "Linggwahe"
         last_login_on: "Huling nag login"
-        mail_notification: "Mga abiso ng emailba"
         new_password: "Bagong password"
         password_confirmation: "Kompirmasyon"
         consented_at: "Consented at"
@@ -538,6 +543,7 @@ fil:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."
@@ -551,6 +557,7 @@ fil:
         invalid_url: 'ay hindi balidong URL.'
         invalid_url_scheme: 'ay hindi suportado ng protocol (pinahintulutan: %{allowed_schemes}).'
         less_than_or_equal_to: "dapat ay hindi baba o katumbas sa %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "ay hindi balido ang petsa."
@@ -570,12 +577,16 @@ fil:
         unremovable: "cannot be removed."
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Kahit isang opsyon lang ang kinakailangan na magagamit."
         custom_actions:
@@ -603,6 +614,21 @@ fil:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -615,6 +641,9 @@ fil:
           attributes:
             types:
               in_use_by_work_packages: "ginagamit pa sa mga work packages: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -675,6 +704,7 @@ fil:
               not_start_date: "hindi sa petsa ng pagsisimula, kahit naa ito ay kinakailangan para sa mga milestone."
             parent:
               cannot_be_milestone: "hindi maaring maging isang milestone."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "hindi maaring sa iba pang proyekto."
               not_a_valid_parent: "ay hindi balido."
             start_date:
@@ -746,6 +776,9 @@ fil:
       status: "Estado ng pakete ng gumagawa"
       member: "Miyembro"
       news: "Mga balita"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Proyekto"
       query: "Custom query"
@@ -1204,6 +1237,7 @@ fil:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1266,6 +1300,9 @@ fil:
   instructions_after_logout: "Maari kang maka-sign in ulit sa pamamagitan ng pagpipindut %{signin}."
   instructions_after_error: "Maaring mong subukan muli sa pamamagitan ng pagpipindut %{signin}. kung ang mali ay nagpatuloy, magtanong sa namuno para sa tulong."
   menus:
+    admin:
+      mail_notification: "Mga abiso ng emailba"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1278,6 +1315,16 @@ fil:
         action: "Aksyon"
         expiration: "Natapos"
       indefinite_expiration: "Hindi kailanman"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Aksibilidad"
   label_account: "Akawnt"
   label_active: "Aktibo"
@@ -1363,7 +1410,7 @@ fil:
   label_check_uncheck_all_in_column: "I-check/I-ncheck ang lahat sa hanay"
   label_check_uncheck_all_in_row: "I-check/I-uncheck ang lahat sa hilera"
   label_child_element: "Elementong bata"
-  label_chronological_order: "Sa chronological na pagkasunod-sunod"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Isara ang nakompletong bersyon"
   label_closed_work_packages: "isinara"
   label_collapse: "Bumagsak"
@@ -1406,6 +1453,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
   label_development_roadmap: "Kaunlaran ng roadmao"
@@ -1579,7 +1627,6 @@ fil:
   label_none_parentheses: "(wala)"
   label_not_contains: "hindi naglalaman"
   label_not_equals: "ay hindi"
-  label_notify_member_plural: "I-update ang mga email"
   label_on: "sa"
   label_open_menu: "Buksan ang pagpipilian"
   label_open_work_packages: "buksan"
@@ -1667,7 +1714,7 @@ fil:
   label_required: 'kailangan'
   label_requires: 'kinakailangan'
   label_result_plural: "Mga resulta"
-  label_reverse_chronological_order: "Sa kabaligtaran ng chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rebisyon"
   label_revision_id: "Rebisyon %{value}"
   label_revision_plural: "Mga rebisyon"
@@ -1699,7 +1746,6 @@ fil:
   label_start_to_start: "simula hanggang simula"
   label_statistics: "Istatistika"
   label_status: "Estado"
-  label_status_updated: "Naka-update na work package"
   label_stay_logged_in: "Manatiling naka-log in"
   label_storage_free_space: "Natitirang espasyo ng disk"
   label_storage_used_space: "Nagamit na espasyo ng disk"
@@ -1783,21 +1829,17 @@ fil:
   label_wiki_show_submenu_item: "Ipakita bilang submenu. aytem ng "
   label_wiki_start: "Simulan ang pahina"
   label_work_package: "Work package"
-  label_work_package_added: "Idinagdag ng work package"
   label_work_package_attachments: "Nakakalakip na pahinag trabaho"
   label_work_package_category_new: "Bagong kategorya"
   label_work_package_category_plural: "Ang mga katergorya ng work package"
   label_work_package_hierarchy: "Hierarchy ng work package"
   label_work_package_new: "Bagong work package"
-  label_work_package_note_added: "Idinagdag ang talaan ng work package"
   label_work_package_edit: "I-edit ang work package %{name}"
   label_work_package_plural: "Ang mga work package"
-  label_work_package_priority_updated: "Ang work package ay prioridad naka-update"
   label_work_package_status: "Estado ng pakete ng gumagawa"
   label_work_package_status_new: "Bagong estado"
   label_work_package_status_plural: "Ang mga estado ng work package"
   label_work_package_types: "Ang mga uri ng work package"
-  label_work_package_updated: "Naka-update na work package"
   label_work_package_tracking: "Ang pagtra-track ng work package"
   label_work_package_view_all: "Tanawin lahat ang mga package"
   label_workflow: "Daloy ng trabaho"
@@ -1850,6 +1892,18 @@ fil:
       link_name_type: 'Bagong %{type_name}'
   mail:
     actions: 'Mga aksyon'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'lahat'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Ang bagong gumagamit (%{value}) ay naka-rehistro na. Ang akwant ay naghihhintay para sa pag-apruba:"
   mail_body_account_information: "Ang akwant na impormasyon"
   mail_body_account_information_external: "Maari mong gamitin ang iyong %{value} akwant sa pag-log in."
@@ -1876,7 +1930,7 @@ fil:
   mail_body_wiki_content_updated: "Ang '%{id}' wiking pahina ay na i-update sa %{author}."
   mail_subject_account_activation_request: "%{value} kahilingan ng akwant aktibasyon"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
   mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
@@ -2222,6 +2276,11 @@ fil:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Dokumentasyon"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
   setting_smtp_enable_starttls_auto: "Automatikong gagamitin ang STARTTLS kung magagamit"
@@ -2258,7 +2317,6 @@ fil:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format ng petsa"
   setting_default_language: "Default na linggwahe"
-  setting_default_notification_option: "Opsyon ng default na abiso"
   setting_default_projects_modules: "I-default ang pinaganang mga modyul para sa bagong proyekto"
   setting_default_projects_public: "Bagong proyektong ay publiko sa pamamagitan ng default"
   setting_diff_max_lines_displayed: "Mataas na bilang ng naka-display na linya"
@@ -2268,6 +2326,9 @@ fil:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
@@ -2281,7 +2342,7 @@ fil:
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
   setting_work_packages_export_limit: "Limitasyon ng pag-export ng work package"
-  setting_journal_aggregation_time_minutes: "Ipakita ang mga talaarawan bilang pinagsamang-sama sa loob ng"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, pangalan at mga mail address para sa lahat na hiling"
   setting_login_required: "Kailangan ng pagpapatunay"
   setting_mail_from: "Emission ng email address"
@@ -2336,6 +2397,15 @@ fil:
     passwords: "Ang mga password"
     session: "Sesyon"
     brute_force_prevention: "Naka-automate na user block"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2416,9 +2486,9 @@ fil:
   text_work_packages_destroy_confirmation: "Sigurado ka ba na gusto mong burahin ang napiling work package?"
   text_work_packages_ref_in_commit_messages: "Pagsangguni at pagsaayos ng work package sa mga isinagawang mensahe"
   text_journal_added: "%{label}%{value} idinagdag"
-  text_journal_aggregation_time_explanation: "Pagsamahhin ang mga journak para ipakita kung ang kanilang edad ay pagkakaiba ay mas mababa ng tinukoy na timespan. Ito rin ay ipagpaliban ang mga abiso ng email sa kaparehong halaga ng oras."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} ay naka-update"
   text_journal_changed_with_diff: "%{label} binagko (%{link})"
   text_journal_deleted: "%{label} binura (%{old})"
@@ -2446,7 +2516,7 @@ fil:
   text_regexp_info: "e. g ^[A-Z0-9]+$"
   text_regexp_multiline: 'Ang regex ay nakalagay sa multi-line mlde. hal., ^---\s+'
   text_repository_usernames_mapping: "Piliin o i-update ang OpenProject usrt naka-map sa bawat username nakita sa repositoryo log.\nAng mga gumagamit sa kaparehong OpenProject at repositoryong username o ang email ay automatikong naka-map."
-  text_select_mail_notifications: "Piliin ang mga aksyon para sa aling abiso na email ay dapat ipadala."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Ilapaylt sa changeset %{value}."
   text_table_difference_description: "Sa talaan na ito ang solong %{entries} ay ipinapakita. Maari mong tingnan ang kaibahansa pagitan ng kahit anong dalawang entry sa pamamagitan ng unang pagpili ayon sa mga checkbox sa talaan. Kapag nag-pindut sa pindutan ng ibaba sa talaan ang mga pagkakaiba ay ipinapakita."
   text_time_logged_by_changeset: "Ilapaylt sa changeset %{value}."
@@ -2669,10 +2739,6 @@ fil:
     password_change_unsupported: Pagbabago ng password ay hindi suportado.
     registered: "narehistro"
     reset_failed_logins: "I-reset ang mga nabigong paglog-in"
-    settings:
-      mail_notifications: "Magpadala ng abiso sa email"
-      mail_project_explanaition: "Para sa hindi napiling proyekto, makakatanggap ka lamang ng abiso tungkol sa mga bagay na tiningnan mo o kasama ka sa (hal. work packagee ikaw ang may-akda o tagapangasiwa ng)."
-      mail_self_notified: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"
     status_user_and_brute_force: "%{user} at %{brute_force}"
     status_change: "Pagbabago ng estado"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2694,7 +2760,7 @@ fil:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2767,6 +2833,8 @@ fil:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Iskema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

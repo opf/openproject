@@ -41,7 +41,7 @@ module AttachmentsHelper
   # List attachments outside the edit form
   # allowing immediate removal or addition of attachments
   #
-  # Within ckeditor-form, this attachment list is added automatically
+  # Within ckeditor-augmented-textarea-form, this attachment list is added automatically
   # when a resource is added.
   def list_attachments(resource)
     content_tag 'attachments',

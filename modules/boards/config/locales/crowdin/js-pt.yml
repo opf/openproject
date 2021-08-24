@@ -30,6 +30,7 @@ pt:
       error_loading_the_list: "Erro ao carregar a lista: %{error_message}"
       error_permission_missing: "A permissão para criar consultas públicas está faltando"
       error_cannot_move_into_self: "Você não pode mover um pacote de trabalho para sua própria coluna."
+      text_hidden_list_warning: "Nem todas as listas são exibidas porque você não tem permissão. Contate seu administrador para mais informações."
       click_to_remove_list: "Clique para remover esta lista"
       board_type:
         text: 'Tipo de quadro'

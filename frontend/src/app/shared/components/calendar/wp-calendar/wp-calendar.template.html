@@ -1,0 +1,14 @@
+<!-- position: relative added in order for the loading indicator to be positioned correctly -->
+<div class="op-wp-calendar loading-indicator--location"
+     data-qa-selector="op-wp-calendar"
+     [attr.data-indicator-name]="'table'"
+     style="position: relative">
+    <full-calendar #ucCalendar
+                   *ngIf="calendarOptions"
+                   [options]="calendarOptions">
+    </full-calendar>
+    <div
+        *ngIf="static"
+        [textContent]="tooManyResultsText"
+        class="op-wp-calendar--notification"></div>
+</div>

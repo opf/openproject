@@ -35,12 +35,23 @@ describe Projects::SetAttributesService, 'integration', type: :model do
   let(:contract) { Projects::CreateContract }
   let(:instance) { described_class.new(user: user, model: project, contract_class: contract) }
   let(:attributes) { {} }
+  let(:project) { Project.new }
   let(:service_result) do
     instance.call(attributes)
   end
 
+  describe 'with a project name starting with numbers' do
+    let(:attributes) { { name: '100 Project A' } }
+
+    it 'will create an identifier including the numbers' do
+      expect(service_result).to be_success
+      expect(service_result.result.identifier).to eq '100-project-a'
+    end
+  end
+
   describe 'with an existing project' do
-    let!(:existing) { FactoryBot.create :project, identifier: 'my-new-project' }
+    let(:existing_identifier) { 'my-new-project' }
+    let!(:existing) { FactoryBot.create :project, identifier: existing_identifier }
 
     context 'and a new project with no identifier set' do
       let(:project) { Project.new name: 'My new project' }

@@ -170,6 +170,8 @@ uk:
     enabled_in_project: 'Увімкнено в проекті'
     contained_in_type: 'Міститься за типом'
     confirm_destroy_option: "Видалення опції призведе до видалення всіх його подій (наприклад, у робочих пакетах). Дійсно видалити його?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Наразі немає спеціальних полів.
       no_results_content_text: Створіть нове спеціальне поле
@@ -247,6 +249,9 @@ uk:
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ uk:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -475,7 +481,6 @@ uk:
         force_password_change: "Примусово змінити пароль на наступному вході в систему"
         language: "Мова"
         last_login_on: "Останній вхід"
-        mail_notification: "Email сповіщення"
         new_password: "Новий пароль"
         password_confirmation: "Підтвердження"
         consented_at: "Згоден на"
@@ -540,6 +545,7 @@ uk:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "не може бути порожнім."
         even: "має бути рівним."
         exclusion: "зарезервовано."
@@ -553,6 +559,7 @@ uk:
         invalid_url: 'не є дійсною URL-адресою.'
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
         less_than_or_equal_to: "має бути меншим або рівним %{count}"
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "не є дійсною датою."
@@ -572,12 +579,16 @@ uk:
         unremovable: "неможливо видалити."
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Глобальний'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Необхідно мати принаймні один варіант."
         custom_actions:
@@ -605,6 +616,21 @@ uk:
           overlaps: 'перекриваються.'
           outside: 'знаходиться за межами сітки.'
           end_before_start: 'кінцеве значення має бути більше початкового значення.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -617,6 +643,9 @@ uk:
           attributes:
             types:
               in_use_by_work_packages: "як і раніше використовуються робочі пакети: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -677,6 +706,7 @@ uk:
               not_start_date: "не на дату початку, хоча це потрібно для етапів."
             parent:
               cannot_be_milestone: "не може бути важливою подією."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "не може бути в іншому проекті."
               not_a_valid_parent: "зазначено невірно"
             start_date:
@@ -752,6 +782,11 @@ uk:
       status: "Стан робочого пакета"
       member: "Учасник"
       news: "Новини"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        many: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Проект"
       query: "Частковий запит"
@@ -1236,6 +1271,7 @@ uk:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1298,6 +1334,9 @@ uk:
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."
   menus:
+    admin:
+      mail_notification: "Email сповіщення"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1310,6 +1349,16 @@ uk:
         action: "Дія"
         expiration: "Закінчується"
       indefinite_expiration: "Ніколи"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
   label_account: "Обліковий запис"
   label_active: "Активний"
@@ -1395,7 +1444,7 @@ uk:
   label_check_uncheck_all_in_column: "Позначте/зніміть всі прапорці в колонці"
   label_check_uncheck_all_in_row: "Позначте/зніміть всі прапорці в рядку"
   label_child_element: "Дочірній елемент"
-  label_chronological_order: "В хронологічному порядку"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Закрити завершені версії"
   label_closed_work_packages: "зачинено"
   label_collapse: "Згорнути"
@@ -1438,6 +1487,7 @@ uk:
   label_deleted: "вилучено "
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "За спаданням"
   label_details: "Детальніше"
   label_development_roadmap: "Розробка дорожньої карти"
@@ -1611,7 +1661,6 @@ uk:
   label_none_parentheses: "(нічого)"
   label_not_contains: "не містить"
   label_not_equals: "немає"
-  label_notify_member_plural: "Оновлення електронної пошти"
   label_on: "на"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
@@ -1699,7 +1748,7 @@ uk:
   label_required: 'вимагається'
   label_requires: 'вимагається'
   label_result_plural: "Результати"
-  label_reverse_chronological_order: "В зворотньому порядку"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Ревізія"
   label_revision_id: "Ревізія %{value}"
   label_revision_plural: "Ревізії"
@@ -1731,7 +1780,6 @@ uk:
   label_start_to_start: "початок"
   label_statistics: "Статистика"
   label_status: "Статус"
-  label_status_updated: "Статус робочого пакету оновлено"
   label_stay_logged_in: "Запам'ятати мене"
   label_storage_free_space: "Залишок на диску"
   label_storage_used_space: "Використовується дисковий простір"
@@ -1815,21 +1863,17 @@ uk:
   label_wiki_show_submenu_item: "Показати як пункт підменю "
   label_wiki_start: "Початкова сторінка"
   label_work_package: "Пакет робіт"
-  label_work_package_added: "Робочий пакет доданий"
   label_work_package_attachments: "Додатки до робочого пакету"
   label_work_package_category_new: "Нова категорія"
   label_work_package_category_plural: "Категорії робочих пакетів"
   label_work_package_hierarchy: "Ієрархія робочих пакетів"
   label_work_package_new: "Новий пакет робіт"
-  label_work_package_note_added: "Робочий пакет не доданий"
   label_work_package_edit: "Редагувати робочий пакет %{name}"
   label_work_package_plural: "Пакет робіт"
-  label_work_package_priority_updated: "Оновлено пріоритет робочого пакета"
   label_work_package_status: "Стан робочого пакета"
   label_work_package_status_new: "Новий статус"
   label_work_package_status_plural: "Статуси робочих пакетів"
   label_work_package_types: "Типи робочих пакетів"
-  label_work_package_updated: "Робочий пакет оновлений"
   label_work_package_tracking: "Відстеження робочого пакету"
   label_work_package_view_all: "Переглянути всі робочі пакети"
   label_workflow: "Робочий процес"
@@ -1882,6 +1926,18 @@ uk:
       link_name_type: 'Новий %{type_name}'
   mail:
     actions: 'Дії'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'всі'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -1908,7 +1964,7 @@ uk:
   mail_body_wiki_content_updated: "%{author} оновив(ла) wiki-сторінку %{id}."
   mail_subject_account_activation_request: "Запит на активацію облікового запису %{value}"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Ваш %{value} пароль"
   mail_subject_register: "Активація облікового запису %{value}"
   mail_subject_reminder: "%{count} призначених на Вас робочих пакетів в найближчі %{days} дні"
@@ -2258,6 +2314,11 @@ uk:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Документація"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Спосіб доставки електронної пошти"
   setting_sendmail_location: "Розташування виконуваного файлу sendmail"
   setting_smtp_enable_starttls_auto: "Автоматично використовуйте STARTTLS, якщо він доступний"
@@ -2294,7 +2355,6 @@ uk:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Формат дати:"
   setting_default_language: "Мова за замовчуванням"
-  setting_default_notification_option: "Спосіб сповіщення за замовчуванням"
   setting_default_projects_modules: "Включені по замовчуванню модулі для нових проектів"
   setting_default_projects_public: "Нові проекти є загальнодоступними"
   setting_diff_max_lines_displayed: "Відображається максимальна кількість рядків diff"
@@ -2304,6 +2364,9 @@ uk:
   setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Увімкнути канали"
   setting_feeds_limit: "Обмеження вмісту каналу"
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
@@ -2317,7 +2380,7 @@ uk:
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_export_limit: "Ліміт експорту робочих пакетів"
-  setting_journal_aggregation_time_minutes: "Відображати журнали як агреговані"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Запишіть логін користувача, ім'я та поштову адресу для всіх запитів"
   setting_login_required: "Необхідна аутентифікація"
   setting_mail_from: "email адреса для передачі інформації"
@@ -2372,6 +2435,15 @@ uk:
     passwords: "Паролі"
     session: "Сесія"
     brute_force_prevention: "Автоматизоване блокування користувачів"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2452,9 +2524,9 @@ uk:
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
-  text_journal_aggregation_time_explanation: "Об'єднати журнали для відображення, якщо їх різниця у віці менше зазначеного періоду часу. Це також затримає повідомлення про пошту на стільки ж часу."
-  text_journal_changed: "%{label} змінено з %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} змінено з %{old}  в %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} оновлено"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"
@@ -2482,7 +2554,7 @@ uk:
   text_regexp_info: "наприклад ^[A-Z0-9]+$"
   text_regexp_multiline: 'Реестр застосовується в багаторядковому режимі. наприклад, --- ---'
   text_repository_usernames_mapping: "Виберіть або оновіть користувача OpenProject, зіставленого з кожним ім'ям користувача в журналі репозиторію.\nКористувачі з таким самим ім'ям користувача або електронною поштою OpenProject автоматично відображаються."
-  text_select_mail_notifications: "Виберіть дії, для яких потрібно надсилати сповіщення електронною поштою."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: " Застосовується в наборі змін %{value}"
   text_table_difference_description: "У цій таблиці наведений єдиний %{entries}. Ви можете переглянути різницю між будь-якими двома записами, спочатку поставивши відповідні прапорці в таблиці. При натисканні на кнопку внизу таблиці будуть показані відмінності."
   text_time_logged_by_changeset: " Застосовується в наборі змін %{value}"
@@ -2709,10 +2781,6 @@ uk:
     password_change_unsupported: Зміна пароля не підтримується.
     registered: "Зареєстровано"
     reset_failed_logins: "Скинути помилки входу"
-    settings:
-      mail_notifications: "Надсилати сповіщення електронною поштою"
-      mail_project_explanaition: "Для невибраних проектів ви отримуватимете лише сповіщення про речі, які ви спостерігаєте, або в яких ви берете участь (наприклад, робочі пакети, якими ви є автором або правонаступником)."
-      mail_self_notified: "Я хочу отримувати повідомлення про зміни, які я роблю сам"
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: "Зміна стану"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2733,7 +2801,7 @@ uk:
     Досягнуто обмеження користувача. Не можна активувати більше користувачів. Будь ласка <a href="%{upgrade_url}"> оновіть свій план </a> або заблокувати учасників для додаткових користувачів.
   warning_user_limit_reached_instructions: >
     Ви досягли обмеження користувача (%{current}/%{max} активних користувачів). Зверніться до sales@openproject.com, щоб оновити план Enterprise Edition і додати додаткових користувачів.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2806,6 +2874,8 @@ uk:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Схема'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Попередня авторизація'

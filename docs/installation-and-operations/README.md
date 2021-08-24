@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Installation & Upgrade Guide
+  priority: 940
+robots: index, follow
+---
+
 # Installation & operations guide
 
 This page summarizes the options for getting OpenProject, some hosted and some on-premise. With this information you should be able to decide what option is best for you. Find a full feature comparison [here](https://www.openproject.org/pricing/#compare).
@@ -5,13 +12,13 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 ### On-premises
 
 * **Community edition** - The free, no license, edition of OpenProject that you install on-premise. The additional features of the Enterprise edition are not included. See the "Installation" row of the table below.
-* **Enterprise on-premise edition** - Builds on top of the Community edition: additional features, professional support, hosted on-premise with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-edition-guide/).
+* **Enterprise on-premise edition** - Builds on top of the Community edition: additional features, professional support, hosted on-premise with optional installation support. See more [on the website](https://www.openproject.org/enterprise-edition/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-on-premises-guide/).
 
 ### Hosted
 
-* **Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with premium features and professional support . See more on the [website](https://www.openproject.org/hosting/), where you can apply for a free trial, or in the [documentation](../cloud-edition-guide/).
+* **Enterprise cloud edition** - Hosted by OpenProject in an EU Data Center, with premium features and professional support . See more on the [website](https://www.openproject.org/hosting/), where you can apply for a free trial, or in the [documentation](../enterprise-guide/enterprise-cloud-guide/).
 
-* **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with premium features and support. See the [documention](installation/univention/) for details.
+* **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with premium features and support. See the [documentation](installation/univention/) for details.
 
 
 

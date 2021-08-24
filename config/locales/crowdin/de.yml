@@ -167,6 +167,8 @@ de:
     enabled_in_project: 'Im Projekt aktiviert'
     contained_in_type: 'In Typ enthalten'
     confirm_destroy_option: "Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -244,6 +246,9 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   placeholder_users:
+    right_to_manage_members_missing: >
+      Sie sind nicht berechtigt, diesen Platzhalter zu löschen. Sie haben nicht das Recht, Mitglieder für alle Projekte zu verwalten, in denen der Platzhalter Mitglied ist.
+    delete_tooltip: "Platzhalter löschen"
     deletion_info:
       heading: "Platzhalter-Benutzer %{name} löschen"
       data_consequences: >
@@ -253,7 +258,8 @@ de:
       confirmation: "Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen."
     upsale:
       title: Weisen Sie Arbeit Personen zu, die nicht Mitglieder des Projekts sind
-      description: Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
+      description: >
+        Es gibt mehrere Szenarien, in denen Sie Personen Arbeit zuweisen möchten, die nicht Mitglied Ihres Projekts sind. Es könnte einfach sein, dass Sie immer noch die richtige Person für den Job einstellen müssen. Oder Sie wollen dieser Person keinen Zugriff auf die Projektinformationen gewähren, aber dennoch die dieser Person zugewiesenen Tracking-Aufgaben aufweisen.
   prioritiies:
     edit:
       priority_color_text: |
@@ -468,7 +474,6 @@ de:
         force_password_change: "Erzwinge Passwortwechsel beim nächsten Login"
         language: "Sprache"
         last_login_on: "Letzte Anmeldung"
-        mail_notification: "Mailbenachrichtigung"
         new_password: "Neues Kennwort"
         password_confirmation: "Bestätigung"
         consented_at: "Eingewilligt am"
@@ -533,6 +538,7 @@ de:
         error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
+        email: "is not a valid email address."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -546,6 +552,7 @@ de:
         invalid_url: 'ist keine gültige URL.'
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein."
+        not_available: "ist aufgrund einer Systemkonfiguration nicht verfügbar."
         not_deletable: "kann nicht entfernt werden."
         not_current_user: "ist nicht der aktuelle Benutzer."
         not_a_date: "ist kein gültiges Datum."
@@ -565,6 +572,10 @@ de:
         unremovable: "kann nicht entfernt werden."
         wrong_length: "hat die falsche Länge (muss genau %{count} Zeichen haben)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "ist auf '%{value}' gesetzt, was nicht Teil der Positivliste für Dateiuploads ist."
         capability:
           context:
             global: 'Global'
@@ -598,6 +609,21 @@ de:
           overlaps: 'überlappen.'
           outside: 'ist außerhalb des Rasters.'
           end_before_start: 'der Endwert muss größer sein als der Startwert.'
+        notifications:
+          at_least_one_channel: 'Mindestens ein Kanal zum Senden von Benachrichtigungen muss angegeben werden.'
+          attributes:
+            read_ian:
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
+            read_mail:
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
+            read_mail_digest:
+              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
+            reason_ian:
+              no_notification_reason: 'darf nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
+            reason_mail:
+              no_notification_reason: 'darf nicht leer sein, da E-Mail als Kanal ausgewählt ist.'
+            reason_mail_digest:
+              no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -610,6 +636,9 @@ de:
           attributes:
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
+            enabled_modules:
+              dependency_missing: "Das Modul \"%{dependency}\" muss ebenfalls aktiviert sein, da das Modul \"%{module}\" dieses benötigt."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -670,6 +699,7 @@ de:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist."
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein."
               not_a_valid_parent: "ist ungültig."
             start_date:
@@ -741,6 +771,9 @@ de:
       status: "Arbeitspaket-Status"
       member: "Mitglied"
       news: "Nachrichten"
+      notification:
+        one: "Benachrichtigung"
+        other: "Benachrichtigungen"
       placeholder_user: "Platzhalter-Benutzer"
       project: "Projekt"
       query: "Benutzerdefinierte Abfrage"
@@ -1199,6 +1232,7 @@ de:
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
+    failed: "Export fehlgeschlagen: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1261,6 +1295,9 @@ de:
   instructions_after_logout: "Sie können wieder anmelden indem Sie auf %{signin} klicken."
   instructions_after_error: "Sie können versuchen sich erneut anzumelden indem Sie auf %{signin} klicken. Wenn der Fehler weiterhin auftritt, fragen Sie Ihren Administrator um Hilfe."
   menus:
+    admin:
+      mail_notification: "Mailbenachrichtigung"
+      incoming_outgoing: "Eingehende vs. Ausgehende"
     quick_add:
       label: "Schnellmenue öffnen"
   my_account:
@@ -1273,6 +1310,16 @@ de:
         action: "Aktion"
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "Ihnen wurde %{work_package} zugewiesen"
+        subscribed: "Sie haben %{work_package} abonniert"
+        mentioned: "Sie wurden in %{work_package} erwähnt"
+        involved: "Sie sind entweder zugewiesen oder verantwortlich für %{work_package}"
+        watched: "Du beobachtest %{work_package}"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1358,7 +1405,7 @@ de:
   label_check_uncheck_all_in_column: "Alle in Spalte an/abwählen"
   label_check_uncheck_all_in_row: "Alle in Zeile an/abwählen"
   label_child_element: "Kind-Element"
-  label_chronological_order: "in zeitlicher Reihenfolge"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Abgeschlossene Versionen schließen"
   label_closed_work_packages: "Geschlossen"
   label_collapse: "Zuklappen"
@@ -1401,6 +1448,7 @@ de:
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_option: "(gelöschte Option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Absteigend"
   label_details: "Details"
   label_development_roadmap: "Entwicklungs-Roadmap"
@@ -1574,7 +1622,6 @@ de:
   label_none_parentheses: "(keiner)"
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
-  label_notify_member_plural: "Aktualisierungen per E-Mail verschicken"
   label_on: "am"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
@@ -1662,7 +1709,7 @@ de:
   label_required: 'benötigt von'
   label_requires: 'benötigt'
   label_result_plural: "Ergebnisse"
-  label_reverse_chronological_order: "in umgekehrter zeitlicher Reihenfolge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisionen"
@@ -1694,7 +1741,6 @@ de:
   label_start_to_start: "Anfang bis Anfang"
   label_statistics: "Statistiken"
   label_status: "Status"
-  label_status_updated: "Arbeitspaket-Status aktualisiert"
   label_stay_logged_in: "Angemeldet bleiben"
   label_storage_free_space: "Verbleibender Speicherplatz"
   label_storage_used_space: "Verwendeter Speicherplatz"
@@ -1778,21 +1824,17 @@ de:
   label_wiki_show_submenu_item: "als Untermenüpunkt anzeigen von "
   label_wiki_start: "Hauptseite"
   label_work_package: "Arbeitspaket"
-  label_work_package_added: "Arbeitspaket hinzugefügt"
   label_work_package_attachments: "Anhänge des Arbeitspakets"
   label_work_package_category_new: "Neue Kategorie"
   label_work_package_category_plural: "Arbeitspaket-Kategorien"
   label_work_package_hierarchy: "Arbeitspakethierarchie"
   label_work_package_new: "Neues Arbeitspaket"
-  label_work_package_note_added: "Kommentar zu Arbeitspaket hinzugefügt"
   label_work_package_edit: "Arbeitspaket %{name} editieren"
   label_work_package_plural: "Arbeitspakete"
-  label_work_package_priority_updated: "Arbeitspaketpriorität aktualisiert"
   label_work_package_status: "Arbeitspaket-Status"
   label_work_package_status_new: "Neuer Status"
   label_work_package_status_plural: "Arbeitspaket-Status"
   label_work_package_types: "Arbeitspaket-Typen"
-  label_work_package_updated: "Arbeitspaket aktualisiert"
   label_work_package_tracking: "Arbeitspakete-Verfolgung"
   label_work_package_view_all: "Alle Arbeitspakete anzeigen"
   label_workflow: "Workflow"
@@ -1845,6 +1887,18 @@ de:
       link_name_type: 'Neu %{type_name}'
   mail:
     actions: 'Aktionen'
+    digests:
+      time_frame: 'Zusammenfassung aller Benachrichtigungen, die Sie im Zeitraum zwischen %{start} und %{end} erhalten haben'
+      work_packages:
+        created_at: '%{user} erstellt am %{timestamp}'
+        reason:
+          watched: 'beobachtet'
+          involved: 'Zugewiesen oder Verantwortlich'
+          mentioned: 'erwähnt'
+          subscribed: 'alle'
+          prefix: 'Erhalten aufgrund der Benachrichtigungseinstellung: %{reason}'
+        subject: 'Tägliche Projektübersicht für %{date} - %{number} Einträge'
+        updated_at: '%{user} aktualisiert %{timestamp}'
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
@@ -1871,7 +1925,7 @@ de:
   mail_body_wiki_content_updated: "Die Wiki-Seite '%{id}' wurde von %{author} aktualisiert."
   mail_subject_account_activation_request: "Antrag auf %{value} Kontoaktivierung"
   mail_subject_backup_ready: "Ihr Backup steht bereit"
-  mail_subject_backup_token_reset: "Ihr Backup-Token wurde zurückgesetzt"
+  mail_subject_backup_token_reset: "Backup-Token zurücksetzen"
   mail_subject_lost_password: "Ihr %{value} Kennwort"
   mail_subject_register: "Ihre %{value} Kontoaktivierung"
   mail_subject_reminder: "%{count} Arbeitspaket(e) müssen in den nächsten %{days} Tagen abgeschlossen werden"
@@ -2219,6 +2273,12 @@ de:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) erlaubte Origins"
   setting_apiv3_cors_origins_text_html: >
     Wenn CORS aktiviert ist, sind dies die Origins, die auf die OpenProject API zugreifen dürfen. <br/> Bitte überprüfen Sie die <a href="%{origin_link}" target="_blank">Dokumentation über den Origin Header</a>, wie die Werte anzugeben sind.
+  setting_apiv3_docs: "Dokumentation"
+  setting_apiv3_docs_enabled: "Dokumentationsseite aktivieren"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Wenn die Dokumentationsseite aktiviert ist,  sehen Sie eine interaktive APIv3 Dokumentation unter <a href="%{link}" target="_blank">%{link}</a>.
+
+  setting_attachment_whitelist: "Positivliste für Dateiuploads"
   setting_email_delivery_method: "E-Mail Zustellungsoption"
   setting_sendmail_location: "Systempfad zu sendmail"
   setting_smtp_enable_starttls_auto: "Automatisch STARTTLS verwenden, falls vorhanden"
@@ -2255,7 +2315,6 @@ de:
   setting_first_week_of_year: "Die erste Woche im Jahr enthält"
   setting_date_format: "Datumsformat"
   setting_default_language: "Standard-Sprache"
-  setting_default_notification_option: "Standard Benachrichtigungsoptionen"
   setting_default_projects_modules: "Standardmäßig aktivierte Module für neue Projekte"
   setting_default_projects_public: "Neue Projekte sind standardmäßig öffentlich"
   setting_diff_max_lines_displayed: "Maximale Anzahl anzuzeigender Diff-Zeilen"
@@ -2265,6 +2324,9 @@ de:
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
+  setting_notification_retention_period_days: "Aufbewahrungsfrist für Benachrichtigungen"
+  setting_notification_email_delay_minutes: "Verzögerung des Versands von E-Mails"
+  setting_notification_email_digest_time: "Versandzeit für E-Mail-Zusammenfassung"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2278,7 +2340,7 @@ de:
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_export_limit: "Max. Anzahl Arbeitspakete bei CSV/PDF-Export"
-  setting_journal_aggregation_time_minutes: "Zeit um Änderungen zusammenzufassen"
+  setting_journal_aggregation_time_minutes: "Benutzeraktionen aggregiert innerhalb"
   setting_log_requesting_user: "Logge Benutzer Login, Name und Mailadresse für alle Anfragen"
   setting_login_required: "Authentifizierung erforderlich"
   setting_mail_from: "E-Mail-Absender"
@@ -2333,6 +2395,15 @@ de:
     passwords: "Passwörter"
     session: "Sitzung"
     brute_force_prevention: "Automatisches Sperren von Benutzern"
+    attachments:
+      whitelist_text_html: >
+        Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
+    notifications:
+      retention_text: >
+        Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
+      delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer Benachrichtigungen innerhalb der Anwendung bestätigen können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine E-Mail für die bereits gelesene Benachrichtigung."
+      email_digest_explanation: "Einmal pro Tag kann eine E-Mail-Zusammenfassung mit allen abonnierten Benachrichtigungen verschickt werden. Die eingestellte Zeit wird für jeden Benutzer in dessen eingestellte Zeitzone umgerechnet."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
@@ -2413,9 +2484,9 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_aggregation_time_explanation: "Fasst Änderungen bei der Anzeige zusammen, falls ihr Zeitunterschied weniger als die angegebene Zeitspanne beträgt. Der Versand von Benachrichtigungen wird um die gleiche Zeit verzögert."
-  text_journal_changed: "%{label} geändert von %{old} <br/><strong>zu</strong> %{new}"
-  text_journal_changed_plain: "%{label} geändert von %{old} \nzu %{new}"
+  text_journal_aggregation_time_explanation: "Individuelle Aktionen eines Benutzers (z. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden auch Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
@@ -2443,7 +2514,7 @@ de:
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Der reguläre Ausdruck wird in einem mehrzeiligen Modus angewandt, z.B. ^---\s+'
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_select_mail_notifications: "Bitte wählen Sie die Aktionen aus, für die eine Mailbenachrichtigung gesendet werden soll."
+  text_select_notifications: "Wählen Sie Aktionen aus, für die Benachrichtigungen gesendet werden sollen."
   text_status_changed_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."
   text_table_difference_description: "Diese Tabelle zeigt einzelne %{entries} des Projektarchivs. Sie können über die Checkboxen zwei Einträge markieren und über den Schalter unter der Tabelle die Unterschiede zwischen den zwei markierten Einträgen anzeigen lassen."
   text_time_logged_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."
@@ -2666,10 +2737,6 @@ de:
     password_change_unsupported: Passwortänderung wird nicht unterstützt
     registered: "angemeldet"
     reset_failed_logins: "Fehlgeschlagene Logins zurücksetzen"
-    settings:
-      mail_notifications: "Versenden von E-Mail-Benachrichtigungen"
-      mail_project_explanaition: "Für nicht ausgewählte Projekte erhalten Sie Benachrichtigungen nur für Dinge, die Sie beobachten oder an denen Sie beteiligt sind (z.b. Arbeitspakete, deren Autor Sie sind oder denen Sie zugewiesen sind)."
-      mail_self_notified: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: "Status geändert"
     text_change_disabled_for_provider_login: "Der Name wird von Ihrem Login-Provider gesetzt und kann daher nicht geändert werden."
@@ -2690,7 +2757,7 @@ de:
     Nutzerlimit erreicht. Sie können keine weiteren Nutzer aktivieren. Bitte <a href="%{upgrade_url}">upgraden Sie Ihren Tarif</a> oder blockieren Sie Mitglieder, um Platz für weitere Nutzer zu schaffen.
   warning_user_limit_reached_instructions: >
     Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2763,6 +2830,8 @@ de:
         invalid_json: "ist ungültiges JSON: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Unbekannt - Das ausgewählte Elternelement ist wegen fehlender Berechtigungen nicht sichtbar.
   doorkeeper:
     pre_authorization:
       status: 'Vorab-Autorisierung'

@@ -33,8 +33,8 @@ The package is available for the following Linux distributions:
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
 | [Debian 10 Buster](#debian-10)              |
 | [Debian 9 Stretch](#debian-9)               |
-| [CentOS/RHEL 8.x](#el-8)                    |
-| [CentOS/RHEL 7.x](#el-7)                    |
+| [CentOS/RHEL 8.x](#centos-8--rhel-8)                    |
+| [CentOS/RHEL 7.x](#centos-7--rhel-7)                    |
 | [Suse Linux Enterprise Server 12](#sles-12) |
 
 Please ensure that you are running on a 64bit system before proceeding with the installation. You can check by running the `uname -i` command on the target server and verifying that it outputs `x86_64`:
@@ -75,7 +75,7 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/openproject-installation-ubuntu.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ### Ubuntu 18.04
 
@@ -175,8 +175,6 @@ sudo apt-get install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<a name="el-8"></a>
-
 ## CentOS Installation
 
 ### CentOS 8 / RHEL 8
@@ -188,22 +186,21 @@ sudo wget -O /etc/yum.repos.d/openproject.repo \
   https://dl.packager.io/srv/opf/openproject/stable/11/installer/el/8.repo
 ```
 
+If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
+
+```bash
+sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+```
+
 Download the OpenProject package:
 
 ```bash
 sudo yum install openproject
 ```
 
-Note: if the package manager refuses to install OpenProject due to the package `epel-release` not being found, you should add the EPEL repository manually, and then relaunch the command above:
-
-```bash
-sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
-sudo yum install openproject
-```
-
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-<a name="el-7"></a>
+**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 ### CentOS 7 / RHEL 7
 
@@ -221,6 +218,8 @@ sudo yum install openproject
 ```
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
+
+**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
@@ -241,9 +240,13 @@ sudo zypper install openproject
 
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
-**Note:** For SLES12, we do not provide required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
+**Note:** On SLES12 full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
 
 [initial-config]: #initial-configuration
+
+# Full-text extraction not supported
+
+For some distributions we do not provide the required dependencies for full-text extraction of attachments. If you need this feature, please install the required dependencies (`catdoc unrtf poppler-utils tesseract-ocr`) manually. For more information, [please see the plaintext gem](https://github.com/planio-gmbh/plaintext). Once installed, check `Administration > Information` to see if OpenProject is able to pick up these dependencies.
 
 # Initial Configuration
 
@@ -279,7 +282,7 @@ OpenProject comes in two editions:
 
 * the BIM edition, which is specifically target at the construction industry.
 
-![select-edition](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/select-edition.png)
+![select-edition](select-edition.png)
 
 You can find more about the BIM edition on [this page](https://www.openproject.org/bim-project-management/).
 
@@ -298,13 +301,13 @@ On older distributions, this wizard step won't be displayed, and the installatio
 
 OpenProject requires a PostgreSQL database to store your data. This wizard step allows you to choose an option for the PostgreSQL database connection: 
 
-![01-postgres](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/01-postgres.png)
+![01-postgres](01-postgres.png)
 
 The dialog allows you to choose from three options:
 
 ### Install a new PostgreSQL server and database locally (default)
 
-Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with adminstering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
+Choose this option if you want OpenProject to set up and configure a local database server manually. This is the best choice if you are unfamiliar with administering databases, or do not have a separate PostgreSQL database server installed that you want to connect to.
 
 ### Use an existing PostgreSQL database
 
@@ -328,7 +331,7 @@ OpenProject comes with an internal ruby application server, but this server only
 
 This wizard step allows you to auto-install an Apache2 web server to function as that proxy.
 
-![02a-apache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02a-apache.png)
+![02a-apache](02a-apache.png)
 
 The available options are:
 
@@ -342,13 +345,13 @@ In case you select to auto-install Apache2, multiple dialogs will request the pa
 
 Enter the fully qualified domain where your OpenProject installation will be reached at. This will become the `ServerName` of your apache VirtualHost and is also used to generate full links from OpenProject, such as in emails.
 
-![02b-hostname](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02b-hostname.png)
+![02b-hostname](02b-hostname.png)
 
 **Server path prefix**
 
 If you wish to install OpenProject under a server path prefix, such as `yourdomain.example.com/openproject`, please specify that prefix here with a leading slash. For example: `/openproject`. If OpenProject should respond to `http(s)://yourdomain.example.com` as specified in the previous dialog, simply leave this dialog empty and confirm by pressing `ENTER`.
 
-![02c-prefix](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02c-prefix.png)
+![02c-prefix](02c-prefix.png)
 
 **SSL/TLS configuration**
 
@@ -360,7 +363,7 @@ In that case, you will be shown three additional dialogs to enter the certificat
 2. The absolute SSL private key path
 3. The path to the Certificate Authority bundle for the certificate (optional, leave empty unless needed)
 
-![02d-ssl](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/02d-ssl.png)
+![02d-ssl](02d-ssl.png)
 
 
 
@@ -397,19 +400,21 @@ When installing with an existing Apache2, you can take a look at the source of o
 
 [For a minimal nginx config, please see this gist](https://gist.github.com/seLain/375d16ccd4542e3727e97a7478187d3a) as as starting point.
 
+**Please note:** If you reconfigure the OpenProject application and switch to `skip`, you might run into errors with the Apache configuration file, as that will not be automatically remove. Please double-check you removed references to the `openproject.conf` if you do reconfigure.
+
 ## Step 4: SVN/Git integration server
 
 If you have selected to auto-install an Apache2 web server, you will be asked whether you want to install Git and Subversion repository support. In case you do not need it or when in doubt, choose **Skip** for both options.
 
-For more information, [see our help on repositories](https://www.openproject.org/help/repository/)
+For more information, [see our help on repositories](../../../user-guide/repository/)
 
-![03-repos](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/03-repos.png)
+![03-repos](03-repos.png)
 
 ## Step 5: Outgoing email configuration
 
 OpenProject requires a setup for sending outgoing emails for notifications, such as updates on work packages, password resets, or other notifications you and your users receive.
 
-![04-mail](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/04-mail.png)
+![04-mail](04-mail.png)
 
 The wizard supports the following options:
 
@@ -425,19 +430,19 @@ Allows you to connect to a SMTP host through authentication types `NONE`,  `PLAI
 
 ### **Skip** (not recommended)
 
-Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](https://www.openproject.org/help/system-settings/email-notification-settings/).
+Does not set up mail configuration. You can configure the mail setup in OpenProject by visiting `openproject.example.com/settings?tab=notifications` in your installation. For more information, [visit our help page on this topic](../../../system-admin-guide/system-settings/).
 
 ## Step 6: Administrator email
 
 The wizard will ask you for an administrative email address so that it can create the administrator account with that email for the initial login. Enter your email address to have it tied to the admin account.
 
-![05-admin](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/05-admin.png)
+![05-admin](05-admin.png)
 
 ## Step 7: Memcached server
 
 OpenProject heavily relies on caching, which is why the wizard suggests you to install a local memcached server the OpenProject instances can connect to. You should always set this to `install` unless you have a reason to configure another caching mechanism - for example when configuring multiple shared instances of OpenProject.
 
-![06-cache](https://github.com/opf/openproject/raw/dev/docs/installation-and-operations/installation/packaged/06-cache.png)
+![06-cache](06-cache.png)
 
 ## Result
 

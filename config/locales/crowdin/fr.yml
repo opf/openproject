@@ -170,6 +170,8 @@ fr:
     enabled_in_project: 'Activé dans le projet'
     contained_in_type: 'Figurant dans le type'
     confirm_destroy_option: "Supprimer une option supprimera toutes ses occurrences (ex. dans les plans de travail). Êtes-vous sûr de vouloir le supprimer ?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
@@ -207,7 +209,7 @@ fr:
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     settings:
-      change_identifier: Change identifier
+      change_identifier: Changer l'identifiant
       activities:
         no_results_title_text: Aucune activité disponible pour le moment.
       forums:
@@ -224,12 +226,12 @@ fr:
         no_results_title_text: Aucune version du projet pour le moment.
         no_results_content_text: Créer une nouvelle version
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: Il n'y a pas d'espace disque supplémentaire utilisé par ce projet.
   members:
     index:
       no_results_title_text: Aucun membre dans ce projet pour le moment.
       no_results_content_text: Ajouter un membre au projet
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Envoyer une invitation à %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -247,6 +249,9 @@ fr:
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
   placeholder_users:
+    right_to_manage_members_missing: >
+      Vous n'avez pas le droit de supprimer l'utilisateur fictif. Vous n'avez pas le droit de gérer les membres de tous les projets dont l'utilisateur fictif est membre.
+    delete_tooltip: "Supprimer l’utilisateur fictif"
     deletion_info:
       heading: "Supprimer l’utilisateur fictif %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ fr:
       confirmation: "Saisissez le nom d'utilisateur fictif %{name} pour confirmer ça suppression."
     upsale:
       title: Assigner du travail à des personnes qui ne sont pas membres du projet.
-      description: Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
+      description: >
+        Il existe de multiples scénarios dans lesquels vous souhaitez confier des tâches à des personnes qui ne font pas partie de votre projet. Il se peut simplement que vous ayez encore besoin d'engager la bonne personne pour le travail. Ou vous ne voulez tout simplement pas donner à cette personne l'accès aux informations du projet, mais vous voulez quand même suivre les tâches qui lui sont assignées.
   prioritiies:
     edit:
       priority_color_text: |
@@ -472,7 +478,6 @@ fr:
         force_password_change: "Obliger l'utilisateur à changer de mot de passe à la prochaine connexion"
         language: "Langue"
         last_login_on: "Dernière connexion"
-        mail_notification: "Notifications par courriel"
         new_password: "Nouveau mot de passe"
         password_confirmation: "Confirmation"
         consented_at: "Consenti à"
@@ -537,6 +542,7 @@ fr:
         error_enterprise_only: "n'est disponible que dans OpenProject Enterprise Edition"
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
+        email: "is not a valid email address."
         empty: "ne peut pas être vide."
         even: "doit être pair."
         exclusion: "est réservé."
@@ -550,6 +556,7 @@ fr:
         invalid_url: 'n’est pas une URL valide.'
         invalid_url_scheme: 'n’est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         less_than_or_equal_to: "doit être inférieur ou égal à %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "ne peut pas être supprimé"
         not_current_user: "n'est pas l'utilisateur actuel."
         not_a_date: "n'est pas une date valide."
@@ -569,12 +576,16 @@ fr:
         unremovable: "ne peut pas être supprimé."
         wrong_length: "est de mauvaise longueur (devrait être %{count} caractères)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "il faut inclure au moins un filtre pour le principal, le contexte ou l'id avec l'opérateur '='."
+              minimum: "devez inclure au moins un filtre pour le principal, le contexte ou l'identifiant avec l'opérateur '='."
         custom_field:
           at_least_one_custom_option: "Au moins une option doit être disponible."
         custom_actions:
@@ -602,6 +613,21 @@ fr:
           overlaps: 'superposition.'
           outside: 'est hors de la grille.'
           end_before_start: 'la valeur finale doit être supérieure à la valeur de départ.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -614,6 +640,9 @@ fr:
           attributes:
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
+            enabled_modules:
+              dependency_missing: "Le module « %{dependency} » doit également être activé car le module « %{module} » en dépend."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -674,6 +703,7 @@ fr:
               not_start_date: "n'est pas identique à la date de début, bien que cela soit requis pour les jalons."
             parent:
               cannot_be_milestone: "ne peut pas être un jalon."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "ne peut pas être dans un autre projet."
               not_a_valid_parent: "est invalide."
             start_date:
@@ -745,6 +775,9 @@ fr:
       status: "Statut du lot de travaux"
       member: "Membre"
       news: "Actualités"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Utilisateur de remplacement"
       project: "Projet"
       query: "Requête personnalisée"
@@ -825,32 +858,32 @@ fr:
     version: "Version"
     work_package: "Lot de travaux"
   backup:
-    label_backup_token: "Backup token"
-    label_create_token: "Create backup token"
-    label_delete_token: "Delete backup token"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_backup_token: "Jeton de sauvegarde"
+    label_create_token: "Créer un jeton de sauvegarde"
+    label_delete_token: "Supprimer le jeton de sauvegarde"
+    label_reset_token: "Réinitialiser le jeton de sauvegarde"
+    label_token_users: "Les utilisateurs suivants ont des jetons de sauvegarde actifs"
     reset_token:
       action_create: Créer
       action_reset: Réinitialiser
-      heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_reset: "Réinitialiser le jeton de sauvegarde"
+      heading_create: "Créer un jeton de sauvegarde"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        L'activation des sauvegardes permettra à tout utilisateur ayant les autorisations requises et ce jeton de sauvegarde de télécharger une sauvegarde contenant toutes les données de cette installation OpenProject. Cela inclut les données de tous les autres utilisateurs.
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        Vous devrez générer un jeton de sauvegarde pour pouvoir créer une sauvegarde. Vous devrez fournir ce jeton à chaque fois que vous demanderez une sauvegarde. Vous pouvez supprimer le jeton de sauvegarde pour désactiver les sauvegardes pour cet utilisateur.
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+        Entrez %{word} pour confirmer que vous souhaitez %{action} le jeton de sauvegarde.
+      verification_word_reset: réinitialiser
+      verification_word_create: créer
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
-    text_token_deleted: Backup token deleted. Backups are now disabled.
+        Lorsque vous créez un nouveau jeton, vous ne serez autorisé à demander une sauvegarde qu'après 24 heures. Ceci est une mesure de sécurité. Après cela, vous pouvez demander une sauvegarde à tout moment en utilisant ce jeton.
+    text_token_deleted: Jeton de sauvegarde supprimé. Les sauvegardes sont maintenant désactivées.
     error:
-      invalid_token: Invalid or missing backup token
-      token_cooldown: The backup token will be valid in %{hours} hours.
-      backup_pending: There is already a backup pending.
-      limit_reached: You can only do %{limit} backups per day.
+      invalid_token: Jeton de sauvegarde invalide ou manquant
+      token_cooldown: Le jeton de sauvegarde sera valide dans %{hours} heures.
+      backup_pending: Une sauvegarde en déjà en attente.
+      limit_reached: Vous ne pouvez faire que %{limit} sauvegardes par jour.
   button_add: "Ajouter"
   button_add_comment: "Ajouter un commentaire"
   button_add_member: Ajouter un membre
@@ -930,7 +963,7 @@ fr:
     text_update_consent_time: Cochez cette case pour forcer les utilisateurs à accepter à nouveau. Activer le lorsque vous avez modifié l'aspect juridique des informations de l'accord ci-dessus.
     update_consent_last_time: "Dernière mise à jour de l'accord: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Copier le projet « %{source_project_name} »'
     started: "La copie du projet \"%{source_project_name}\" vers \"%{target_project_name}\" a débuté. Vous serez informé par courriel dès que \"%{target_project_name}\" sera disponible."
     failed: "Impossible de copier le projet %{source_project_name}"
     failed_internal: "La copie a échoué en raison d'une erreur interne."
@@ -938,9 +971,9 @@ fr:
     errors: "Erreur"
     project_custom_fields: 'Champs personnalisés du projet'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Aucun objet de ce type'
+      one: 'Un objet de ce type'
+      other: '%{count} objets de ce type'
     text:
       failed: "Impossible de copier le projet \"%{source_project_name}\" vers \"%{target_project_name}\"."
       succeeded: "Le projet \"%{source_project_name}\" a été copié vers \"%{target_project_name}\"."
@@ -1086,7 +1119,7 @@ fr:
   default_role_anonymous: "Anonyme"
   default_role_developer: "Développeur"
   default_role_project_admin: "Administrateur du projet"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "Personnel et gestionnaire de projets"
   default_role_non_member: "Non membre"
   default_role_reader: "Lecteur"
   default_role_member: "Membre"
@@ -1203,6 +1236,7 @@ fr:
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1265,6 +1299,9 @@ fr:
   instructions_after_logout: "Vous pouvez vous ré-authentifier en cliquant sur %{signin}."
   instructions_after_error: "Vous pouvez encore essayer de vous authentifier en cliquant sur %{signin}. Si l'erreur persiste, demandez de l'aide à votre administrateur."
   menus:
+    admin:
+      mail_notification: "Notifications par courriel"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Ouvrir le menu d'ajout rapide"
   my_account:
@@ -1277,6 +1314,16 @@ fr:
         action: "Action"
         expiration: "Expiration"
       indefinite_expiration: "Jamais"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibilité"
   label_account: "Compte"
   label_active: "Actif"
@@ -1326,7 +1373,7 @@ fr:
   label_available_project_versions: 'Versions disponibles'
   label_available_project_repositories: 'Dépôts disponibles'
   label_api_documentation: "Documentation de l'API"
-  label_backup: "Backup"
+  label_backup: "Sauvegarde"
   label_between: "entre"
   label_blocked_by: "bloqué par"
   label_blocks: "bloque"
@@ -1362,7 +1409,7 @@ fr:
   label_check_uncheck_all_in_column: "Cocher/Décocher tout dans la colonne"
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
-  label_chronological_order: "Dans l'ordre chronologique"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
   label_collapse: "Regrouper"
@@ -1405,6 +1452,7 @@ fr:
   label_deleted: "supprimé"
   label_deleted_custom_field: "(champs personnalisés supprimés)"
   label_deleted_custom_option: "(option supprimée)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Décroissant"
   label_details: "Détails"
   label_development_roadmap: "Feuille de route de développement"
@@ -1529,8 +1577,8 @@ fr:
   label_member_new: "Nouveau membre"
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_plural: "Membres"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Membre ajouté'
+  lable_membership_updated: 'Membre mis à jour'
   label_menu_item_name: "Nom de l'élément du menu"
   label_message: "Message"
   label_message_last: "Dernier message"
@@ -1578,7 +1626,6 @@ fr:
   label_none_parentheses: "(none)"
   label_not_contains: "ne contient pas"
   label_not_equals: "n'est pas"
-  label_notify_member_plural: "Notifications courriel"
   label_on: "le"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
@@ -1666,7 +1713,7 @@ fr:
   label_required: 'requis'
   label_requires: 'requiert'
   label_result_plural: "Résultats"
-  label_reverse_chronological_order: "Dans l'ordre chronologique inversé"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Révision"
   label_revision_id: "Révision %{value}"
   label_revision_plural: "Révisions"
@@ -1698,7 +1745,6 @@ fr:
   label_start_to_start: "de début à début"
   label_statistics: "Statistiques"
   label_status: "Statut"
-  label_status_updated: "Statut de Lot de Travaux mis à jour"
   label_stay_logged_in: "Rester connecté"
   label_storage_free_space: "Espace disque restant"
   label_storage_used_space: "Espace disque utilisé"
@@ -1782,21 +1828,17 @@ fr:
   label_wiki_show_submenu_item: "Montrer comme sous-menu de "
   label_wiki_start: "Page d'accueil"
   label_work_package: "Lot de travaux"
-  label_work_package_added: "Lot de Travaux ajouté"
   label_work_package_attachments: "Pièces jointes du lot de travaux"
   label_work_package_category_new: "Nouvelle catégorie"
   label_work_package_category_plural: "Catégories de Lots de Travaux"
   label_work_package_hierarchy: "Hiérarchie du lot de travaux"
   label_work_package_new: "Nouveau Lot de Travaux"
-  label_work_package_note_added: "Note de Lot de Travaux ajoutée"
   label_work_package_edit: "Éditer le lot de travaux %{name}"
   label_work_package_plural: "Lots de Travaux"
-  label_work_package_priority_updated: "Priorité du lot de travaux mise à jour"
   label_work_package_status: "Statut du lot de travaux"
   label_work_package_status_new: "Nouveau statut"
   label_work_package_status_plural: "Statuts du lot de travaux"
   label_work_package_types: "Types de lots de travaux"
-  label_work_package_updated: "Lot de Travaux mis à jour"
   label_work_package_tracking: "Suivi des lots de travaux"
   label_work_package_view_all: "Afficher tous les lots de travaux"
   label_workflow: "Flux de travail"
@@ -1849,15 +1891,27 @@ fr:
       link_name_type: 'Nouveau %{type_name}'
   mail:
     actions: 'Actions'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'tous'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Un nouvel utilisateur (%{value}) s'est enregistré. Le compte attend votre approbation:"
   mail_body_account_information: "Informations sur votre compte"
   mail_body_account_information_external: "Vous pouvez utiliser votre compte %{value} pour vous connecter."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "La sauvegarde que vous avez demandée est prête. Vous pouvez la télécharger ici :"
+  mail_body_backup_token_reset_admin_info: Le jeton de sauvegarde pour l'utilisateur « %{user} » a été réinitialisé.
+  mail_body_backup_token_reset_user_info: Votre jeton de sauvegarde a été réinitialisé.
+  mail_body_backup_token_info: Le jeton précédent n'est plus valide.
+  mail_body_backup_waiting_period: Le nouveau jeton sera activé dans %{hours} heures.
+  mail_body_backup_token_warning: Si ce n'était pas vous, connectez-vous immédiatement à OpenProject et réinitialisez-le à nouveau.
   mail_body_lost_password: "Pour changer votre mot de passe, cliquez sur le lien suivant:"
   mail_body_register: "Bienvenue sur OpenProject. Veuillez activer votre compte en cliquant sur ce lien :"
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
@@ -1874,8 +1928,8 @@ fr:
   mail_body_wiki_content_added: "La page wiki '%{id}' a été ajouté par %{author}."
   mail_body_wiki_content_updated: "La page wiki '%{id}' a été mise à jour par %{author}."
   mail_subject_account_activation_request: "Requête pour l'activation du compte %{value}"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_ready: "Votre sauvegarde est prête"
+  mail_subject_backup_token_reset: "Réinitialisation du jeton de sauvegarde"
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
   mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
@@ -1883,26 +1937,26 @@ fr:
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} - Vous avez été ajouté en tant que membre"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} vous a ajouté en tant que membre du projet « %{project} »."
+        with_message: "%{user} vous a ajouté en tant que membre du projet « %{project} » en écrivant :"
+      roles: "Vous avez les rôles suivants :"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} - Vos rôles ont été mis à jour"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} a mis à jour vos rôles dans le projet « %{project} »."
+        with_message: "%{user} a mis à jour vos rôles dans le projet « %{project} » en écrivant :"
+      roles: "Vous avez maintenant les rôles suivants :"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "Vos autorisations globales ont été mises à jour"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} a mis à jour les rôles que vous avez globalement"
+        with_message: "%{user} a mis à jour les rôles que vous avez globalement en écrivant :"
+      roles: "Vous avez maintenant les rôles suivants :"
   mail_user_activation_limit_reached:
     subject: Limite d'activation de l'utilisateur atteinte
     message: |
@@ -2223,6 +2277,11 @@ fr:
   setting_apiv3_cors_origins: "Origines autorisées de l'API V3 Cross-Origin Resource Sharing (CORS)"
   setting_apiv3_cors_origins_text_html: >
     Si CORS est activé, ce sont les origines qui sont autorisées à accéder à l'API OpenProject. <br/> Veuillez vérifier la <a href="%{origin_link}" target="_blank">documentation sur l'en-tête Origin</a> sur la façon de spécifier les valeurs attendues.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Méthode de livraison d'e-mail"
   setting_sendmail_location: "Emplacement de l’exécutable sendmail"
   setting_smtp_enable_starttls_auto: "Utiliser automatiquement STARTTLS si disponible"
@@ -2256,10 +2315,9 @@ fr:
   setting_consent_required: "Accord requis"
   setting_consent_decline_mail: "Adresse mail de contact de l'accord"
   setting_cross_project_work_package_relations: "Autoriser les relations entre lots de travaux de projets différents"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "La première semaine de l'année contient"
   setting_date_format: "Format de date"
   setting_default_language: "Langage par défaut"
-  setting_default_notification_option: "Option de notifications par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
   setting_diff_max_lines_displayed: "Nombre maximal de lignes de «diff» affichées"
@@ -2269,6 +2327,9 @@ fr:
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
   setting_enabled_projects_columns: "Visible dans la liste des projets"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Permettre les flux"
   setting_feeds_limit: "Limite du contenu du flux"
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
@@ -2282,7 +2343,7 @@ fr:
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_export_limit: "Nombre limite de lots de travaux exportés"
-  setting_journal_aggregation_time_minutes: "Afficher les journaux agrégés par"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Enregister le login utilisateur, nom et adresse courriel pour toutes les requêtes"
   setting_login_required: "Authentification requise"
   setting_mail_from: "Adresse expéditeur"
@@ -2337,11 +2398,20 @@ fr:
     passwords: "Mots de passe"
     session: "Session"
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Si une des options « %{day_of_week_setting_name} » ou « %{first_week_setting_name} » sont définies, l'autre doit être réglé aussi bien pour éviter les incohérences dans le frontend.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Sélectionnez la date de janvier qui se trouve dans la première semaine de l'année. Cette valeur ainsi que le premier jour de la semaine déterminent le nombre total de semaines dans une année.
     projects:
       section_new_projects: "Paramètres pour les nouveaux projets"
       section_project_overview: "Paramètres de la liste des projets"
@@ -2417,9 +2487,9 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_aggregation_time_explanation: "Combiner l'affichage des journaux si leur différence d'âge est inférieure à la durée spécifiée. Ceci reportera également de la même durée les notifications par mail."
-  text_journal_changed: "%{label} a changé de %{old} <br/><strong>à</strong> %{new}"
-  text_journal_changed_plain: "%{label} changé de %{old} à %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
@@ -2447,7 +2517,7 @@ fr:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'L''expression régulière est appliquée en mode multi-ligne, e.g. ^---\\s+'
   text_repository_usernames_mapping: "Définir ou modifier les associations entre les utilisateurs d'OpenProject et les utilisateurs trouvés dans le dépôt.\nLes utilisateurs ayant des noms ou des adresses de courriel identiques sont automatiquement associés."
-  text_select_mail_notifications: "Sélectionnez les actions pour lesquelles une notification par courriel sera envoyée."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Appliqué dans « changeset » %{value}."
   text_table_difference_description: "Dans ce tableau sont affichés les %{entries} individuelles. Vous pouvez visualiser la différence entre deux entrées en sélectionnant d'abord les cases à cocher correspondantes dans le tableau. Les différences apparaissent lorsque vous cliquez sur le bouton situé sous le tableau."
   text_time_logged_by_changeset: "Appliqué dans « changeset » %{value}."
@@ -2670,10 +2740,6 @@ fr:
     password_change_unsupported: Le changement de mot de passe n'est pas supporté.
     registered: "enregistré"
     reset_failed_logins: "Réinitialiser les connexions echouées"
-    settings:
-      mail_notifications: "Envoyer notifications par courriel"
-      mail_project_explanaition: "Pour les projets non sélectionnés, vous recevrez uniquement des notifications pour les choses que vous suivez ou auxquelles vous participez (e.g. lots de travaux dont vous êtes l'auteur ou qui vous sont assignés)."
-      mail_self_notified: "Je veux être notifié des modifications que je fais moi-même"
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: "Changement de statut"
     text_change_disabled_for_provider_login: "Le nom est défini par votre fournisseur de connexion et ne peut donc pas être modifié."
@@ -2694,7 +2760,7 @@ fr:
     Limite d'utilisateur atteinte. Vous ne pouvez plus activer d'autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour votre plan</a> ou bloquez des membres pour permettre d'autres utilisateurs.
   warning_user_limit_reached_instructions: >
     Vous avez atteint votre limite d'utilisateurs (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com pour mettre à jour votre plan Enterprise Edition et ajouter des utilisateurs supplémentaires.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2731,7 +2797,7 @@ fr:
       code_403: "Vous n'êtes pas autorisé à accéder à cette ressource."
       code_404: "La ressource demandée est introuvable."
       code_409: "Impossible de mettre à jour la ressource en raison de modifications conflictuelles."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
       expected:
         date: "AAAA-MM-JJ (date ISO 8601 uniquement)"
@@ -2767,6 +2833,8 @@ fr:
         invalid_json: "est un json invalide : %{message}"
     resources:
       schema: 'Schéma'
+    undisclosed:
+      parent: Non divulgué - Le parent sélectionné est invisible en raison d'un manque de permissions.
   doorkeeper:
     pre_authorization:
       status: 'Préautorisation'
@@ -2850,4 +2918,4 @@ fr:
     authorization_error: "Une erreur d'autorisation s'est produite."
     revoke_my_application_confirmation: "Voulez-vous vraiment supprimer cette application ? Ceci va révoquer %{token_count} actif pour elle."
     my_registered_applications: "Applications OAuth enregistrées"
-  you: you
+  you: vous

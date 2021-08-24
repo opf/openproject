@@ -48,8 +48,9 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
       expect(attachment.downloads)
         .to eql(0)
+      # expect to replace the content type with the actual value
       expect(attachment.content_type)
-        .to eql('application/binary')
+        .to eql('text/plain')
       expect(attachment.digest)
         .to eql("9473fdd0d880a43c21b7778d34872157")
     end
@@ -94,6 +95,26 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
       expect(container.lock_version)
         .to eql 0
+    end
+
+    describe 'attachment created event' do
+      let(:attachment_ids) { [] }
+
+      let!(:subscription) do
+        OpenProject::Notifications.subscribe(OpenProject::Events::ATTACHMENT_CREATED) do |payload|
+          attachment_ids << payload[:attachment].id
+        end
+      end
+
+      after do
+        OpenProject::Notifications.unsubscribe(OpenProject::Events::ATTACHMENT_CREATED, subscription)
+      end
+
+      it "is triggered" do
+        job.perform(pending_attachment.id)
+        pending_attachment.reload
+        expect(attachment_ids).to include(pending_attachment.id)
+      end
     end
   end
 

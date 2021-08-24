@@ -95,7 +95,7 @@ Thanks a lot to the community, in particular to Marc Vollmer, Frank
 Schmid, Melroy van den Berg, Richard Su, Mikhail Podshivalin, Tilo
 Laufer, Artur Kokhansky, Martin Kleehaus, Filipe Dias, and Markus
 Berthold  for [reporting
-bugs](https://www.openproject.org/development/report-a-bug/)\!
+bugs](../../development/report-a-bug/)\!
 
 For further information on the release, please refer to the [Changelog
 v.6.0.5](https://community.openproject.com/versions/817) or take a look

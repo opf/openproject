@@ -208,7 +208,7 @@ class PermittedParams
       additional_params << :force_password_change if change_password_allowed
       additional_params << :admin
     end
-    
+
     additional_params << :login if Users::BaseContract.new(User.new, current_user).writable?(:login)
 
     user additional_params
@@ -250,6 +250,10 @@ class PermittedParams
 
   def wiki_content
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
+  end
+
+  def wiki_page_with_content
+    wiki_page.merge(wiki_content)
   end
 
   def pref

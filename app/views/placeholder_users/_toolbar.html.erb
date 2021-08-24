@@ -34,12 +34,6 @@ See docs/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t(:label_profile) %></span>
     <% end %>
   </li>
-  <li class="toolbar-item">
-    <%= link_to deletion_info_placeholder_user_path(@placeholder_user),
-                class: 'button' do %>
-      <%= op_icon('button--icon icon-delete') %>
-      <span class="button--text"><%= t(:button_delete) %></span>
-    <% end %>
-  </li>
+  <%= render partial: 'placeholder_users/toolbar_delete' %>
   <% end %>
 <% end %>

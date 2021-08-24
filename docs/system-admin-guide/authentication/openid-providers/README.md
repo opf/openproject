@@ -88,6 +88,13 @@ You can now log out, and see that the login form displays a badge for authentica
 
 Congratulations, your users can now authenticate using your Azure Active Directory!
 
+#### Tenant configuration
+
+Sometimes you may need to configure the `tenant` option for the AzureAD connection.
+Currently this is not possible through the user interface.
+
+But you can do it via the console as described [here](/installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+
 ## Troubleshooting
 
 Q: After clicking on a provider badge, I am redirected to a signup form that says a user already exists with that login.
@@ -95,12 +102,19 @@ Q: After clicking on a provider badge, I am redirected to a signup form that say
 A: This can happen if you previously created user accounts in OpenProject with the same email than what is stored in the OpenID provider. In this case, if you want to allow existing users to be automatically remapped to the OpenID provider, you should do the following:
 
 Spawn an interactive console in OpenProject. The following example shows the command for the packaged installation.
-See [our process control guide](https://docs.openproject.org/installation-and-operations/operation/control/) for information on other installation types.
+See [our process control guide](../../../installation-and-operations/operation/control/) for information on other installation types.
 
 ```
 sudo openproject run console
-> Setting.oauth_allow_remapping_of_existing_users = true
-> exit
+# or if using docker:
+# docker-compose run --rm web bundle exec rails console
+```
+
+Once in the console you can then enter the following to enable the setting and leave the console.
+
+```
+Setting.oauth_allow_remapping_of_existing_users = true
+exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.

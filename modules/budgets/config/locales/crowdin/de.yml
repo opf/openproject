@@ -68,3 +68,6 @@ de:
   permission_edit_budgets: "Budgets bearbeiten"
   permission_view_budgets: "Budgets ansehen"
   project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Auf dieses Budget umbuchen:"
+  text_budget_delete: "Budget aus allen Arbeitspaketen löschen"
+  text_budget_destroy_assigned_wp: "Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?"

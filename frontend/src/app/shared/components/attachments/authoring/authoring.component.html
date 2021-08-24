@@ -1,0 +1,22 @@
+<div class="op-authoring">
+  <span *ngIf="showAuthorAsLink" [textContent]="author.name"></span>
+  <a
+    *ngIf="!showAuthorAsLink"
+    [attr.href]="userLink"
+    [textContent]="author.name"
+  ></a>
+
+  <span class="op-authoring--timestamp" *ngIf="activity">
+    <a
+      [attr.title]="time"
+      [attr.href]="activityFromPath(createdOnTime.format('YYYY-MM-DD'))"
+      [textContent]="timeago"
+    ></a>
+  </span>
+  <span
+    *ngIf="!activity"
+    class="op-authoring--timestamp"
+    [textContent]="timeago"
+    [attr.title]="time"
+  ></span>
+</div>

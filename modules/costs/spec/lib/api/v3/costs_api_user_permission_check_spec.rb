@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe API::V3::CostsApiUserPermissionCheck do
   class CostsApiUserPermissionCheckTestClass
-    # mimick representer
+    # mimic representer
     def view_time_entries_allowed?
       current_user_allowed_to(:view_time_entries, context: represented.project) ||
         current_user_allowed_to(:view_own_time_entries, context: represented.project)

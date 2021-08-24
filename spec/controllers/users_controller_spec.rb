@@ -643,11 +643,11 @@ describe UsersController, type: :controller do
       current_user { admin }
 
       let(:user) do
-        FactoryBot.create(:user, firstname: 'Firstname',
+        FactoryBot.create(:user,
+                          firstname: 'Firstname',
                           admin: true,
-                                 login: 'testlogin',
-                                 mail_notification: 'all',
-                                 force_password_change: false)
+                          login: 'testlogin',
+                          force_password_change: false)
       end
       let(:params) do
         {
@@ -656,7 +656,6 @@ describe UsersController, type: :controller do
             admin: false,
             firstname: 'Changed',
             login: 'changedlogin',
-            mail_notification: 'only_assigned',
             force_password_change: true
           },
           pref: {
@@ -681,7 +680,6 @@ describe UsersController, type: :controller do
         expect(user_from_db.admin).to be_falsey
         expect(user_from_db.firstname).to eql('Changed')
         expect(user_from_db.login).to eql('changedlogin')
-        expect(user_from_db.mail_notification).to eql('only_assigned')
         expect(user_from_db.force_password_change).to eql(true)
         expect(user_from_db.pref[:hide_mail]).to be_truthy
         expect(user_from_db.pref[:comments_sorting]).to eql('desc')
@@ -945,8 +943,7 @@ describe UsersController, type: :controller do
           login: 'jdoe',
           password: 'adminADMIN!',
           password_confirmation: 'adminADMIN!',
-          mail: 'jdoe@gmail.com',
-          mail_notification: 'none'
+          mail: 'jdoe@gmail.com'
         },
         pref: {}
       }

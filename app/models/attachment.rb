@@ -44,6 +44,19 @@ class Attachment < ApplicationRecord
            if: -> { !internal_container? }
   validate :container_changed_more_than_once
 
+  # Those columns are currently not displayed in the application and are rarely used
+  # at all.
+  # Their purpose currently is limited to full text search where the results are not highlighted.
+  # As the columns can contain a lot of text (with the exception of file_tsv) and having them included
+  # leads to them being loaded when attachments are fetched, including the columns leads to a heavily
+  # increased loading time
+  # From a production database:
+  # SELECT "attachments"."id", "attachments"."fulltext" ...
+  # => 2650 ms
+  # SELECT "attachments"."id" ...
+  # => 1 ms
+  self.ignored_columns = %w(fulltext fulltext_tsv file_tsv)
+
   acts_as_journalized
   acts_as_event title: -> { file.name },
                 url: (Proc.new do |o|
@@ -148,7 +161,7 @@ class Attachment < ApplicationRecord
   end
 
   def filename
-    attributes['file']
+    attributes['file'] || super
   end
 
   ##
@@ -175,7 +188,7 @@ class Attachment < ApplicationRecord
   end
 
   def set_content_type(file)
-    self.content_type = self.class.content_type_for(file.path) if content_type.blank?
+    self.content_type = self.class.content_type_for(file.path)
   end
 
   def set_digest(file)
@@ -253,37 +266,6 @@ class Attachment < ApplicationRecord
     where(digest: "", downloads: -1)
   end
 
-  def self.create_pending_direct_upload(file_name:, author:, container: nil, content_type: nil, file_size: 0)
-    a = create(
-      container: container,
-      author: author,
-      content_type: content_type.presence || "application/octet-stream",
-      filesize: file_size,
-      digest: "",
-      downloads: -1
-    )
-
-    # We need to do it like this because `file` is an uploader which expects a File (not a string)
-    # to upload usually. But in this case the data has already been uploaded and we just point to it.
-    a[:file] = pending_direct_upload_filename(file_name)
-
-    a.save!
-    a.reload # necessary so that the fog file uploader path is correct
-
-    a
-  end
-
-  class << self
-    private
-
-    # The name has to be in the same format as what Carrierwave will produce later on. If they are different,
-    # Carrierwave will alter the name (both local and remote) whenever the attachment is saved with the remote
-    # file loaded.
-    def pending_direct_upload_filename(file_name)
-      CarrierWave::SanitizedFile.new(nil).send(:sanitize, file_name)
-    end
-  end
-
   def pending_direct_upload?
     digest == "" && downloads == -1
   end
@@ -291,7 +273,7 @@ class Attachment < ApplicationRecord
   private
 
   def filesize_below_allowed_maximum
-    if filesize > Setting.attachment_max_size.to_i.kilobytes
+    if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
   end

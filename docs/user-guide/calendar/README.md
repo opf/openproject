@@ -21,7 +21,7 @@ The calendar shows all of the project's work packages in calendar form.
 
 ## Calendar overview
 
-To display the calendar in a project, the module **Calendar** needs to be activated in the [project settings](../projects/#activate-modules).
+To display the calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#activate-modules).
 
 When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/#work-package-types).
 

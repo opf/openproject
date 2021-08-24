@@ -50,8 +50,8 @@
       max-width: 100%
 
   #tab-content-info form,
-  .op-modal--modal-body form:not(.-vertical),
-  form.-wide-labels .op-modal--modal-body
+  .op-modal--body form:not(.-vertical),
+  form.-wide-labels .op-modal--body
     .form--label,
     .form--field-container
       flex-basis: 100% !important
@@ -59,6 +59,10 @@
 
   autocomplete-select-decoration
     width: 100%
+
+  .form--field-inline-buttons-container
+    .form--field-inline-button
+      width: auto !important
 
   .-browser-safari
     // Special rule for mobile safari to prevent zooming into the text field

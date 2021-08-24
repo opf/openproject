@@ -1,5 +1,9 @@
 ---
-  unnumbered_toc: true
+unnumbered_toc: true
+sidebar_navigation:
+  title: Release Notes
+  priority: 930
+robots: index, follow
 ---
 
 # Release Notes
@@ -11,6 +15,41 @@ Stay up to date and get an overview of the new features included in the releases
 
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
+
+## 11.3.4
+
+Release date: 2021-07-29
+
+[Release Notes](11-3-4/)
+
+
+## 11.3.3
+
+Release date: 2021-07-20
+
+[Release Notes](11-3-3/)
+
+
+## 11.3.2
+
+Release date: 2021-06-10
+
+[Release Notes](11-3-2/)
+
+
+## 11.3.1
+
+Release date: 2021-06-08
+
+[Release Notes](11-3-1/)
+
+
+## 11.3.0
+
+Release date: 2021-06-03
+
+[Release Notes](11-3-0/)
+
 
 ## 11.2.4
 
@@ -92,8 +131,11 @@ Release date: 2020-12-17
 #### Community features:
 
 - Improved styling of the WYSIWYG text editor
+
 - Direct display of user name for @notifications
+
 - Display project milestones aggregated for projects in a single row in Gantt chart
+
 - Collapse all button for groups in the work packages list
 - Extended authentication profile with an OpenID Connect provider
 

@@ -1,0 +1,22 @@
+<div class="op-modal op-modal_wide wp-table--configuration-modal op-wp-table-export">
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body">
+    <ul *ngIf="exportOptions" class="op-export-options" [ngClass]="{'-hidden': isLoading}">
+      <li
+        *ngFor="let option of exportOptions"
+        class="op-export-options--option"
+      >
+        <a
+          [attr.href]="option.url"
+          class="op-export-options--option-link"
+          (click)="triggerByLink(option.url, $event)"
+          id="export-{{ option.identifier }}"
+        >
+          <op-icon icon-classes="icon-export-{{ option.identifier }} icon-big"></op-icon>
+          <span class="op-export-options--option-label" [textContent]="option.label"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

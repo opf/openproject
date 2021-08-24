@@ -8,7 +8,7 @@ keywords: authentication FAQ, LDAP, SAML, SSO
 ---
 
 # Frequently asked questions (FAQ) for authentication
-Additional information regarding the use of LDAP from a user management perspective can be found [in this FAQ section](../../users-permissions/faq).
+Additional information regarding the use of LDAP from a user management perspective can be found [in this FAQ section](../../users-permissions/users-permissions-faq).
 
 ## How do I set up OAuth / Google authentication in the Enterprise cloud?
 
@@ -54,7 +54,7 @@ For group synchronization, OpenProject supports the AD/LDAP standard for groups 
 
 ## Is there an option to mass-create users in OpenProject via the LDAP?
 
-There's no such option at the moment. However, you can activate the on-the-fly user creation for LDAP authentification. This means: An OpenProject user account will be created automatically when a user logs in to OpenProject via LDAP the first time.
+There's no such option at the moment. However, you can activate the on-the-fly user creation for LDAP authentication. This means: An OpenProject user account will be created automatically when a user logs in to OpenProject via LDAP the first time.
 
 ## I would like to assign work packages to users from different authentication sources (AD and OpenLDAP). Is this possible without the admin creating groups manually? 
 

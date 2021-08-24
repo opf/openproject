@@ -66,7 +66,7 @@ pt:
       upgrade_to_ee: "Atualizar para a Enterprise Edition"
       add_token: "Fazer upload de um token de suporte Enterprise Edition"
       replace_token: "Substitua seu token atual de suporte"
-      order: "Ordem empresarial na edição local"
+      order: "Encomendar a Edição Enterprise on-premises"
       paste: "Cole seu token de suporte Enterprise Edition"
       required_for_feature: "Esse recurso só está disponível com um token de suporte Enterprise Edition ativo."
       enterprise_link: "Para mais informações, clique aqui."
@@ -169,6 +169,8 @@ pt:
     enabled_in_project: 'Habilitado no projeto'
     contained_in_type: 'Contido no tipo'
     confirm_destroy_option: "Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -200,7 +202,7 @@ pt:
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
     index:
-      open_as_gantt: 'Abrir como uma exibição Gantt'
+      open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
       no_results_title_text: Atualmente, não existem projetos
@@ -223,7 +225,7 @@ pt:
         no_results_title_text: Atualmente, não há versões para o projeto.
         no_results_content_text: Criar uma nova versão
       storage:
-        no_results_title_text: Não há espaço em disco gravado adicional consumido por este projeto.
+        no_results_title_text: Não há espaço adicional gravado em disco que seja consumido por este projeto.
   members:
     index:
       no_results_title_text: Atualmente, não há membros deste projeto.
@@ -246,16 +248,20 @@ pt:
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
   placeholder_users:
+    right_to_manage_members_missing: >
+      Você não pode excluir o usuário do espaço reservado. Você não possui direito de gerenciar membros para todos os projetos que o usuário do espaço reserva é membro.
+    delete_tooltip: "Excluir usuário de espaço reserva"
     deletion_info:
       heading: "Excluir usuário do espaço reservado %{name}"
       data_consequences: >
         Todas as ocorrências do usuário de espaço reservado (por exemplo, como responsável, competente ou outros valores de usuário) serão reatribuídas a uma conta chamada "Usuário excluído".
         Como os dados de todas as contas excluídas são reatribuídos a esta conta, não será possível diferenciar os dados criados por usuários de dados excluídos por outra conta.
       irreversible: "Esta ação é irreversível"
-      confirmation: "Digite o nome de usuário placeholder %{name} para confirmar a exclusão."
+      confirmation: "Digite o nome de usuário do espaço reservado %{name} para confirmar a exclusão."
     upsale:
       title: Atribuir trabalho a pessoas que não são membros do projeto.
-      description: Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
+      description: >
+        Existem vários cenários em que você deseja atribuir trabalho a pessoas que não são membros do seu projeto. Pode ser simplesmente que você ainda precise contratar a pessoa certa para o trabalho. Ou você não quer dar acesso a essas informações do projeto, mas ainda quer acompanhar as tarefas atribuídas a essa pessoa.
   prioritiies:
     edit:
       priority_color_text: |
@@ -471,7 +477,6 @@ pt:
         force_password_change: "Forçar alteração de senha no próximo acesso"
         language: "Idioma"
         last_login_on: "Último acesso"
-        mail_notification: "Notificações por e-mail"
         new_password: "Nova senha"
         password_confirmation: "Confirmação"
         consented_at: "Consentido em"
@@ -536,6 +541,7 @@ pt:
         error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
+        email: "não é um endereço de e-mail válido."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."
@@ -549,6 +555,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
+        not_available: "não está disponível devido a uma configuração do sistema."
         not_deletable: "não pode ser excluído."
         not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
@@ -568,6 +575,10 @@ pt:
         unremovable: "não pode ser removido."
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "está configurado para '%{value}', que não está na lista de permissões para upload. "
         capability:
           context:
             global: 'Global'
@@ -601,6 +612,21 @@ pt:
           overlaps: 'sobreposição.'
           outside: 'está fora da grade.'
           end_before_start: 'o valor final precisa ser maior que o valor inicial.'
+        notifications:
+          at_least_one_channel: 'É necessário especificar pelo menos um canal para o envio de notificações.'
+          attributes:
+            read_ian:
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
+            read_mail:
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
+            read_mail_digest:
+              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
+            reason_ian:
+              no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
+            reason_mail:
+              no_notification_reason: 'não pode ficar em branco porque o e-mail foi escolhido como canal.'
+            reason_mail_digest:
+              no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -613,6 +639,9 @@ pt:
           attributes:
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
+            enabled_modules:
+              dependency_missing: "O módulo '%{dependency}' precisa ser habilitado, pois o módulo '%{module}' depende dele."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -673,6 +702,7 @@ pt:
               not_start_date: "não é na data de início, embora isso seja necessário para os marcos."
             parent:
               cannot_be_milestone: "não pode ser um marco."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "não pode ser em outro projeto."
               not_a_valid_parent: "é inválido."
             start_date:
@@ -744,6 +774,9 @@ pt:
       status: "Situação do pacote de trabalho"
       member: "Membro"
       news: "Notícias"
+      notification:
+        one: "Notificação"
+        other: "Notificações"
       placeholder_user: "Usuário do espaço reservado"
       project: "Projeto"
       query: "Consulta personalizada"
@@ -826,7 +859,7 @@ pt:
   backup:
     label_backup_token: "Token de backup"
     label_create_token: "Criar token de backup"
-    label_delete_token: "Excluir token do backup"
+    label_delete_token: "Excluir token de backup"
     label_reset_token: "Redefinir token de backup"
     label_token_users: "Os seguintes usuários têm tokens de backup ativos"
     reset_token:
@@ -835,7 +868,7 @@ pt:
       heading_reset: "Redefinir token de backup"
       heading_create: "Criar token de backup"
       implications: >
-        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup, biaxe um backup contendo todos os dados desta instalação do Open Project. Isso inclui os dados de todos os outros usuários.
+        Habilitar backups permitirá que qualquer usuário com as permissões necessárias e este token de backup baixe um backup contendo todos os dados desta instalação do OpenProject. Isso inclui os dados de todos os outros usuários.
       info: >
         Você precisará gerar um token de backup para poder criar um backup. Cada vez que você solicitar um backup você terá que fornecer esse token. Você pode excluir o token de backup para desabilitar backups deste usuário.
       verification: >
@@ -843,7 +876,7 @@ pt:
       verification_word_reset: redefinir
       verification_word_create: criar
       warning: >
-        Quando você criar um novo token, só será permitido a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
+        Quando você criar um novo token, somente será permitida a solicitação de um backup após 24 horas. Esta é uma medida de segurança. Depois disso, você poderá solicitar um backup a qualquer momento usando esse token.
     text_token_deleted: Token de backup excluído. Os backups agora estão desativados.
     error:
       invalid_token: Token de backup inválido ou ausente
@@ -967,7 +1000,7 @@ pt:
       - "Out"
       - "Nov"
       - "Dez"
-    abbr_week: 'Sem.'
+    abbr_week: 'Sem'
     day_names:
       - "Domingo"
       - "Segunda"
@@ -1202,6 +1235,7 @@ pt:
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
+    failed: "A exportação falhou: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1264,6 +1298,9 @@ pt:
   instructions_after_logout: "Você pode entrar novamente clicando em %{signin}."
   instructions_after_error: "Você pode tentar entrar novamente, clicando em %{signin}. Se o erro persistir, consulte seu administrador para obter ajuda."
   menus:
+    admin:
+      mail_notification: "Notificações por e-mail"
+      incoming_outgoing: "Entrada & Saída"
     quick_add:
       label: "Abrir menu de adição rápida"
   my_account:
@@ -1276,6 +1313,16 @@ pt:
         action: "Ação"
         expiration: "Expira"
       indefinite_expiration: "Nunca"
+  notifications:
+    send_notifications: "Enviando notificações para está ação "
+    work_packages:
+      subject:
+        created: "O pacote de trabalho foi criado."
+        assigned: "Você foi designado para %{work_package}"
+        subscribed: "Você se inscreveu em %{work_package}"
+        mentioned: "Você foi mencionado em %{work_package}"
+        involved: "Você está atribuído a ou é responsável por %{work_package}"
+        watched: "Você está assistindo %{work_package}"
   label_accessibility: "Acessibilidade"
   label_account: "Conta"
   label_active: "Ativo"
@@ -1361,7 +1408,7 @@ pt:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar todos na coluna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar todos na linha"
   label_child_element: "Elemento filho"
-  label_chronological_order: "Em ordem cronológica"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Fechar versões concluídas"
   label_closed_work_packages: "fechado"
   label_collapse: "Recolher"
@@ -1404,6 +1451,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"
@@ -1577,7 +1625,6 @@ pt:
   label_none_parentheses: "(nenhum)"
   label_not_contains: "não contém"
   label_not_equals: "não é"
-  label_notify_member_plural: "Emails atualizados"
   label_on: "ligado"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
@@ -1665,7 +1712,7 @@ pt:
   label_required: 'requerido'
   label_requires: 'requer'
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Em ordem cronológica inversa"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisão"
   label_revision_id: "Revisão %{value}"
   label_revision_plural: "Revisões"
@@ -1697,7 +1744,6 @@ pt:
   label_start_to_start: "início à início"
   label_statistics: "Estatísticas"
   label_status: "Status"
-  label_status_updated: "Situação de pacote de trabalho atualizada"
   label_stay_logged_in: "Permanecer conectado"
   label_storage_free_space: "Espaço em disco restante"
   label_storage_used_space: "Espaço em disco utilizado"
@@ -1781,21 +1827,17 @@ pt:
   label_wiki_show_submenu_item: "Mostrar como item do submenu de "
   label_wiki_start: "Página inicial"
   label_work_package: "Pacote de trabalho"
-  label_work_package_added: "Pacote de trabalho adicionado"
   label_work_package_attachments: "Anexos de pacote de trabalho"
   label_work_package_category_new: "Nova categoria"
   label_work_package_category_plural: "Categorias de pacote de trabalho"
   label_work_package_hierarchy: "Hierarquia de pacotes de trabalho"
   label_work_package_new: "Novo pacote de trabalho"
-  label_work_package_note_added: "Anotação acrescentada ao pacote de trabalho"
   label_work_package_edit: "Editar pacote de trabalho %{name}"
   label_work_package_plural: "Pacotes de trabalho"
-  label_work_package_priority_updated: "Prioridade do pacote de trabalho atualizada"
   label_work_package_status: "Situação do pacote de trabalho"
   label_work_package_status_new: "Nova situação"
   label_work_package_status_plural: "Situações do Pacote de Trabalho"
   label_work_package_types: "Tipos de pacote de trabalho"
-  label_work_package_updated: "Pacote de trabalho atualizado"
   label_work_package_tracking: "Controle de pacote de trabalho"
   label_work_package_view_all: "Exibir todos os pacotes de trabalho"
   label_workflow: "Fluxo de Trabalho"
@@ -1803,7 +1845,7 @@ pt:
   label_workflow_summary: "Sumário"
   label_x_closed_work_packages_abbr:
     one: "1 fechado"
-    other: "%{count} fechado"
+    other: "%{count} fechados"
     zero: "0 fechado"
   label_x_comments:
     one: "1 comentário"
@@ -1811,7 +1853,7 @@ pt:
     zero: "sem comentários"
   label_x_open_work_packages_abbr:
     one: "1 aberto"
-    other: "%{count} aberto"
+    other: "%{count} abertos"
     zero: "0 aberto"
   label_x_projects:
     one: "1 projeto"
@@ -1848,11 +1890,23 @@ pt:
       link_name_type: 'Novo %{type_name}'
   mail:
     actions: 'Ações'
+    digests:
+      time_frame: 'Resumo de todos os eventos em que você se inscreveu no período entre %{start} e %{end}'
+      work_packages:
+        created_at: '%{user} criado em %{timestamp}'
+        reason:
+          watched: 'observado'
+          involved: 'designado ou responsável'
+          mentioned: 'mencionado'
+          subscribed: 'todos'
+          prefix: 'Recebido devido à configuração de notificação: %{reason}'
+        subject: 'Resumo diário do projeto para %{date} - %{number} atualizações'
+        updated_at: '%{user} atualizado em %{timestamp}'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."
   mail_body_backup_ready: "Seu backup solicitado está pronto. Você pode baixá-lo aqui:"
-  mail_body_backup_token_reset_admin_info: O token de backup para usuário %{user} foi redefinido.
+  mail_body_backup_token_reset_admin_info: O token de backup para o usuário %{user} foi redefinido.
   mail_body_backup_token_reset_user_info: Seu token de backup foi redefinido.
   mail_body_backup_token_info: O token anterior não é mais válido.
   mail_body_backup_waiting_period: O novo token será habilitado em %{hours} horas.
@@ -1860,7 +1914,7 @@ pt:
   mail_body_lost_password: "Para alterar sua senha, clique no link a seguir:"
   mail_body_register: "Bem-vindo ao OpenProject. Por favor, ative sua conta clicando neste link:"
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
-  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
     Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
     <br />
@@ -1873,7 +1927,7 @@ pt:
   mail_body_wiki_content_updated: "A página wiki '%{id}' foi atualizada por %{author}."
   mail_subject_account_activation_request: "solicitação de ativação de conta %{value}"
   mail_subject_backup_ready: "Seu backup está pronto"
-  mail_subject_backup_token_reset: "Seu token de backup foi redefinido"
+  mail_subject_backup_token_reset: "Redefinir token de backup"
   mail_subject_lost_password: "Sua senha %{value}"
   mail_subject_register: "Sua ativação de conta: %{value}"
   mail_subject_reminder: "%{count} pacote(s) de trabalho finalizam nos próximos %{days} dias:"
@@ -1885,22 +1939,22 @@ pt:
     body:
       added_by:
         without_message: "%{user} adicionou você como membro do projeto '%{project}'."
-        with_message: "%{user} adicionou você como membro do projeto '%{project}' escrevendo:"
-      roles: "Você tem as seguintes funções:"
+        with_message: "%{user} adicionou você como membro do projeto '%{project}' com a seguinte mensagem:"
+      roles: "Você tem os seguintes papéis:"
   mail_member_updated_project:
-    subject: "%{project} - Suas funções foram atualizadas"
+    subject: "%{project} - Seus papéis foram atualizados"
     body:
       updated_by:
-        without_message: "%{user} atualizou as funções que você tem no projeto '%{project}'."
-        with_message: "%{user} atualizou as funções que você tem no projeto '%{project}' escrevendo:"
-      roles: "Agora você tem as seguintes funções:"
+        without_message: "%{user} atualizou os papéis que você tem no projeto '%{project}'."
+        with_message: "%{user} atualizou os papéis que você tem no projeto '%{project}' com a seguinte mensagem:"
+      roles: "Agora você tem os seguintes papéis:"
   mail_member_updated_global:
     subject: "Suas permissões globais foram atualizadas"
     body:
       updated_by:
-        without_message: "%{user} atualizou as funções que você tem globalmente."
-        with_message: "%{user} atualizou os papéis que você tem globalmente escrevendo:"
-      roles: "Agora você tem as seguintes funções:"
+        without_message: "%{user} atualizou os papéis que você tem globalmente."
+        with_message: "%{user} atualizou as funções que você tem globalmente com a seguinte mensagem:"
+      roles: "Agora você tem os seguintes papéis:"
   mail_user_activation_limit_reached:
     subject: Limite de ativação de usuários atingido
     message: |
@@ -2007,7 +2061,7 @@ pt:
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
   permission_manage_user: "Criar e editar usuários"
-  permission_manage_placeholder_user: "Criar, editar e excluir usuários do placeholder"
+  permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
   permission_add_work_package_watchers: "Adicionar observadores"
   permission_assign_versions: "Atribuir versões"
@@ -2218,9 +2272,14 @@ pt:
     deactivated: 'desativado'
   search_input_placeholder: "Pesquisar..."
   setting_apiv3_cors_enabled: "Habilitar CORS"
-  setting_apiv3_cors_origins: "Origens permitidas à API V3 Cross-Origin Resource Sharing (CORS)"
+  setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_docs: "Documentação"
+  setting_apiv3_docs_enabled: "Habilitar página de documentos"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Se a página de documentos estiver habilitada, você pode obter uma visão interativa da documentação APIv3 em <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Lista de permissões de envio de anexos "
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
   setting_smtp_enable_starttls_auto: "Automaticamente usar STARTTLS, se disponível"
@@ -2257,7 +2316,6 @@ pt:
   setting_first_week_of_year: "A primeira semana no ano contém"
   setting_date_format: "Formato de data"
   setting_default_language: "Idioma padrão"
-  setting_default_notification_option: "Opção de notificação padrão"
   setting_default_projects_modules: "Módulos habilitados por padrão para novos projetos"
   setting_default_projects_public: "Novos projetos são públicos por padrão"
   setting_diff_max_lines_displayed: "Número máximo de linhas diferentes exibidas"
@@ -2267,6 +2325,9 @@ pt:
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
+  setting_notification_retention_period_days: "Período de retenção de notificação"
+  setting_notification_email_delay_minutes: "Atraso no envio de e-mail"
+  setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2280,7 +2341,7 @@ pt:
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_export_limit: "Limite para exportação de pacotes de trabalho"
-  setting_journal_aggregation_time_minutes: "Exibir diários como agregados dentro"
+  setting_journal_aggregation_time_minutes: "Ações do usuário agregadas em"
   setting_log_requesting_user: "Registrar início de sessão do usuário, nome e endereço de e-mail para todas as requisições"
   setting_login_required: "Autenticação requerida"
   setting_mail_from: "Endereço de e-mail de saída"
@@ -2297,7 +2358,7 @@ pt:
   setting_per_page_options: "Opções de objetos por página"
   setting_plain_text_mail: "Mensagens de texto simples (sem HTML)"
   setting_protocol: "Protocolo"
-  setting_project_gantt_query: "Exibição Gantt do portfólio do projeto"
+  setting_project_gantt_query: "Visualização Gantt do portfólio de projetos"
   setting_project_gantt_query_text: "Você pode modificar a consulta que é usada para exibir o gráfico Gantt da página de visão geral do projeto."
   setting_security_badge_displayed: "Exibir distintivo de segurança"
   setting_registration_footer: "Rodapé de registro"
@@ -2335,9 +2396,18 @@ pt:
     passwords: "Senhas"
     session: "Sessão"
     brute_force_prevention: "Bloqueio automatizado de usuário"
+    attachments:
+      whitelist_text_html: >
+        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de míme (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
+    notifications:
+      retention_text: >
+        Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
+      email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
       first_week_of_year_text: >
         Selecione a data de janeiro que está contida na primeira semana do ano. Este valor, juntamente com o primeiro dia da semana, determina o número total de semanas num ano.
     projects:
@@ -2415,9 +2485,9 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_aggregation_time_explanation: "Combine diários para exibir se a diferença de tempo for menor que o intervalo de tempo especificado. Isso também vai atrasar as notificações de email pela mesma quantidade de tempo."
-  text_journal_changed: "%{label} alterado de %{old} <br/><strong>para</strong> %{new}"
-  text_journal_changed_plain: "%{label} alterado de %{old} \npara %{new}"
+  text_journal_aggregation_time_explanation: "As ações individuais de um usuário (por exemplo, atualizar um pacote de trabalho duas vezes) são agregadas em uma única ação se a diferença de idade for menor que o intervalo de tempo especificado. Eles serão exibidos como uma única ação no aplicativo. Isso também atrasará as notificações na mesma quantidade de tempo, reduzindo o número de e-mails enviados. "
+  text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
+  text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
@@ -2445,7 +2515,7 @@ pt:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A expressão regular é aplicada no modo multilinha. Por exemplo: ^---\s+'
   text_repository_usernames_mapping: "Selecionar ou atualizar o usuário do OpenProject mapeado para cada nome de usuário encontrado no log do repositório. Os usuários com o mesmo nome de usuário OpenProject e repositório ou e-mail serão mapeados automaticamente."
-  text_select_mail_notifications: "Selecione as ações para as quais uma notificação por e-mail deve ser enviada."
+  text_select_notifications: "Selecione as ações para as quais as notificações devem ser enviadas. "
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_table_difference_description: "Nesta tabela, os únicos %{entries} são mostrados. Você pode ver a diferença entre quaisquer duas entradas selecionando primeiro as caixas de seleção correspondentes na tabela. Ao clicar no botão abaixo da tabela são mostradas as diferenças."
   text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."
@@ -2668,10 +2738,6 @@ pt:
     password_change_unsupported: Mudança de senha não é suportada.
     registered: "registrado"
     reset_failed_logins: "Redefinição de logins que falharam"
-    settings:
-      mail_notifications: "Enviar notificações por e-mail"
-      mail_project_explanaition: "Para projetos não selecionados, você irá receber notificações somente sobre as coisas que você observar ou estiver envolvido (ex.: pacotes de trabalho em que você é o autor ou responsável)."
-      mail_self_notified: "Quero ser notificado das alterações que eu faço"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
     text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."
@@ -2692,7 +2758,7 @@ pt:
     Atingido o limite de usuários. Você não pode ativar mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie a adição de novos usuários.
   warning_user_limit_reached_instructions: >
     Você atingiu seu limite de usuários (%{current}/%{max} usuários ativos). Entre em contato com sales@openproject.com para atualizar seu plano Enterprise Edition e adicionar novos usuários.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2741,7 +2807,7 @@ pt:
       invalid_resource: "Para a propriedade '%{property}' é esperado um link como '%{expected}' mas foi encontrado '%{actual}'."
       invalid_signal:
         embed: "A incorporação solicitada de %{invalid} não é suportada. As incorporações suportadas são %{supported}."
-        select: "A seleção solicitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
+        select: "A seleção requisitada de %{invalid} não é suportada. As seleções suportadas são %{supported}."
       invalid_user_status_transition: "A situação da conta do usuário atual não permite esta operação."
       missing_content_type: "não especificado"
       missing_request_body: "Não havia corpo da requisição."
@@ -2765,6 +2831,8 @@ pt:
         invalid_json: "é json inválido: %{message}"
     resources:
       schema: 'Esquema'
+    undisclosed:
+      parent: Não revelado - O primário selecionado está invisível devido à falta de permissões.
   doorkeeper:
     pre_authorization:
       status: 'Pré-autorização'

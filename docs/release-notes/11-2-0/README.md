@@ -64,7 +64,7 @@ Furthermore, with 11.2 we have implemented various UI and UX  improvements for O
 - Changed:  Backend: Delete placeholder user \[[#35648](https://community.openproject.com/wp/35648)\]
 - Changed: Add group show page similar to users \[[#35815](https://community.openproject.com/wp/35815)\]
 - Changed: Remove setting "Allow assignment to groups"  \[[#36056](https://community.openproject.com/wp/36056)\]
-- Changed: Accomodate placeholder users in project members administration \[[#36136](https://community.openproject.com/wp/36136)\]
+- Changed: Accommodate placeholder users in project members administration \[[#36136](https://community.openproject.com/wp/36136)\]
 - Changed: Add work package filter by id \[[#36358](https://community.openproject.com/wp/36358)\]
 - Fixed: OAuth login has CSP issues when user already had authorized the app \[[#34554](https://community.openproject.com/wp/34554)\]
 - Fixed: Unclear error message when subproject column for action board cannot be displayed due to missing permissions \[[#34840](https://community.openproject.com/wp/34840)\]
@@ -79,7 +79,7 @@ Furthermore, with 11.2 we have implemented various UI and UX  improvements for O
 - Fixed: Section header "Custom fields" was removed in user details in administration \[[#36257](https://community.openproject.com/wp/36257)\]
 - Fixed: Error "Project filter has invalid values" shown when filtering by Parent on global WP page \[[#36287](https://community.openproject.com/wp/36287)\]
 - Fixed: Error "Project filter has invalid values" shown when filtering by Parent on My page \[[#36288](https://community.openproject.com/wp/36288)\]
-- Fixed: Empty authentication section shown for some users in adminstration (for users who have global role to view / edit / create users) \[[#36294](https://community.openproject.com/wp/36294)\]
+- Fixed: Empty authentication section shown for some users in administration (for users who have global role to view / edit / create users) \[[#36294](https://community.openproject.com/wp/36294)\]
 - Fixed: Error 500 when accessing "Member" list in project while user name display format is set to email \[[#36297](https://community.openproject.com/wp/36297)\]
 - Fixed: Role "Create and edit users" can see GDPR and billing although not allowed to \[[#36298](https://community.openproject.com/wp/36298)\]
 - Fixed: Role "Create and edit users" can not change user name \[[#36299](https://community.openproject.com/wp/36299)\]
@@ -99,19 +99,19 @@ Furthermore, with 11.2 we have implemented various UI and UX  improvements for O
 To use OpenProject 11.2 right away, create a free trial instance for our [OpenProject Enterprise cloud.](https://start.openproject.com/)
 
 Prefer to run OpenProject 11.2 in your own infrastructure?
- Here you can find the [Installation guidelines](https://docs.openproject.org/installation-and-operations) for OpenProject.
+ Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
 Want to upgrade from a Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/enterprise-edition/)
 
 ## Migrating to OpenProject 11.2
 
-Follow the [upgrade guide for the packaged installation or Docker installation](https://docs.openproject.org/installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.2.
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.2.
 
 We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Support
 
-You will find useful information in the OpenProject [Documentation](https://docs.openproject.org) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
+You will find useful information in the OpenProject [Documentation](https://www.openproject.org/docs) or you can post your questions in the [Forum](https://community.openproject.org/projects/openproject/boards).
 
 ## Credits
 
@@ -125,6 +125,6 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - Thank you for the updates of our documentation, cugu, txsing, luzpaz, Amandine-Malo, marcelotm23, ivangriggs, Siltes, loganwedwards.
 
-- Every dedicated user who has [reported bugs](https://docs.openproject.org/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

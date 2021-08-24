@@ -26,38 +26,17 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_dependency 'api/v3/user_preferences/user_preferences_representer'
-
 module API
   module V3
     module UserPreferences
       class UserPreferencesAPI < ::API::OpenProjectAPI
         resource :my_preferences do
-          helpers do
-            def represent_preferences
-              UserPreferencesRepresenter.new(@preferences, current_user: current_user)
-            end
-          end
-
-          after_validation do
-            @preferences = current_user.pref
-          end
-
           get do
-            represent_preferences
+            redirect api_v3_paths.user_preferences('me'), permanent: true
           end
 
           patch do
-            fail ::API::Errors::Unauthenticated unless current_user.logged?
-
-            representer = represent_preferences
-            representer.from_hash(request_body)
-
-            if @preferences.save
-              representer
-            else
-              raise ::API::Errors::ErrorBase.create_and_merge_errors(@preferences.errors)
-            end
+            redirect api_v3_paths.user_preferences('me'), permanent: true
           end
         end
       end

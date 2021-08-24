@@ -120,17 +120,24 @@ class BackupJob < ::ApplicationJob
 
   def store_backup(file_name, backup:, user:)
     File.open(file_name) do |file|
-      attachment = Attachments::CreateService
-        .new(backup, author: user)
-        .call(uploaded_file: file, description: 'OpenProject backup')
+      call = Attachments::CreateService
+        .bypass_whitelist(user: user)
+        .call(container: backup, filename: file_name, file: file, description: 'OpenProject backup')
 
-      download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(attachment.id)
+      call.on_success do
+        download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
 
-      upsert_status(
-        status: :success,
-        message: I18n.t('export.succeeded'),
-        payload: download_payload(download_url)
-      )
+        upsert_status(
+          status: :success,
+          message: I18n.t('export.succeeded'),
+          payload: download_payload(download_url)
+        )
+      end
+
+      call.on_failure do
+        upsert_status status: :failure,
+                      message: I18n.t('export.failed', message: call.message)
+      end
     end
   end
 
@@ -186,11 +193,15 @@ class BackupJob < ::ApplicationJob
   end
 
   def dump_database!(path)
-    _out, err, st = Open3.capture3 pg_env, "pg_dump -x -O -f '#{path}'"
+    _out, err, st = Open3.capture3 pg_env, dump_command(path)
 
     failure! error: err unless st.success?
 
     st.success?
+  end
+
+  def dump_command(output_file_path)
+    "pg_dump -x -O -f '#{output_file_path}'"
   end
 
   def success!

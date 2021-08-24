@@ -1,0 +1,72 @@
+@import "src/assets/sass/helpers"
+
+.global-search
+  flex-grow: 1
+
+  @media screen and (max-width: 679px)
+    display: none
+
+  &--option,
+  &--option:hover
+    padding: 5px 5px
+    line-height: 15px
+    min-height: 25px  // line-height + padding
+    word-break: break-word
+    color: var(--body-font-color)
+    text-decoration: none
+    display: flex
+
+  &--option-meta
+    display: flex
+    flex-direction: column
+    flex-grow: 1
+    overflow: hidden
+
+  &--search-term
+    flex-grow: 1
+
+  &--project-scope
+    flex-grow: 0
+    flex-shrink: 1
+    border: 1px solid var(--button--border-color)
+    font-size: 13px
+    background: var(--button--background-color)
+    border-radius: 2px
+    padding: 0 4px
+    color: var(--body-font-color)
+
+  &--principal
+    margin-right: 5px
+    // Principal has a rounded avatar, it feels better aligned if moved a little over the line
+    margin-left: -5px
+
+  &--wp-content
+    display: grid
+    grid-template-columns: 50% 1fr auto
+    grid-template-areas: "project idlink status"
+    font-size: 0.8rem
+    padding: 5px 0 5px 0px
+
+  &--wp-project
+    grid-area: project
+    @include text-shortener
+
+  &--wp-id
+    grid-area: idlink
+    place-self: right
+    font-style: italic
+    color: var(--gray-dark)
+    font-size: 13px
+    white-space: nowrap
+
+  &--wp-status
+    grid-area: status
+    overflow: hidden
+    font-style: italic
+
+  &--wp-subject
+    font-weight: bold
+    display: inline-block
+    overflow: hidden
+    white-space: nowrap
+    text-overflow: ellipsis

@@ -212,12 +212,29 @@ module API
           index :message
           show :message
 
-          index :my_preferences
-
           index :newses, :news
 
           def self.news(id)
             "#{newses}/#{id}"
+          end
+
+          index :notification
+          show :notification
+
+          def self.notification_bulk_read_ian
+            "#{notifications}/read_ian"
+          end
+
+          def self.notification_bulk_unread_ian
+            "#{notifications}/unread_ian"
+          end
+
+          def self.notification_read_ian(id)
+            "#{notification(id)}/read_ian"
+          end
+
+          def self.notification_unread_ian(id)
+            "#{notification(id)}/unread_ian"
           end
 
           index :placeholder_user
@@ -391,6 +408,10 @@ module API
 
           def self.user_lock(id)
             "#{user(id)}/lock"
+          end
+
+          def self.user_preferences(id)
+            "#{user(id)}/preferences"
           end
 
           index :group

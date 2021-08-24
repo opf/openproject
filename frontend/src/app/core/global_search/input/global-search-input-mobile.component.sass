@@ -1,0 +1,48 @@
+@import "src/assets/sass/helpers"
+
+$search-input-height-mobile: 36px
+
+@media only screen and (max-width: 679px)
+  .top-menu-search
+    &--input
+      display: none
+      &.-expanded
+        display: block
+        min-width: unset
+        flex-basis: 100%
+        position: unset
+        flex-grow: 1
+
+        .scroll-host
+          max-height: calc(100vh - #{var(--header-height)})
+
+        .ng-clear-wrapper
+          width: 40px
+          right: 0
+
+        .ng-select-bottom
+          height: calc(100vh - #{var(--header-height)})
+          overflow-y: auto
+          margin: 0
+
+        .ng-select-container
+          height: $search-input-height-mobile !important
+          border-radius: 4px
+
+        .ng-input input
+          height: 36px
+
+    .top-menu-search--back-button
+      @include unset-button-styles
+      display: initial
+      width: 50px
+      text-align: center
+      color: var(--header-item-font-color)
+      &:hover, &:focus, &:active
+        text-decoration: none
+
+    .top-menu-search--loading
+      top: var(--header-height) + 1px
+
+    .top-menu-search--button.-input-focused
+      color: var(--header-item-font-color)

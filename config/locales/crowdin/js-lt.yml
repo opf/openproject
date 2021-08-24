@@ -87,6 +87,7 @@ lt:
     button_update: "Atnaujinti"
     button_export-pdf: "Parsisiųsti PDF"
     button_export-atom: "Parsiųsti Atom"
+    button_create: "Sukurti"
     calendar:
       title: 'Kalendorius'
       too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
@@ -126,7 +127,7 @@ lt:
       preview: 'Perjungti peržiūros režimą'
       source_code: 'Perjungti Markdown išeities kodo režimą'
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
-      error_initialization_failed: 'Nepavyko inicijuoti CKEditor!'
+      ckeditor_error: 'CKEditor''iuje įvyko klaida'
       mode:
         manual: 'Perjungti į Markdown išeities kodą'
         wysiwyg: 'Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių'
@@ -196,7 +197,6 @@ lt:
             label_company: "Kompanija"
             label_first_name: "Vardas"
             label_last_name: "Pavardė"
-            label_email: "El. paštas"
             label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
             label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
@@ -284,13 +284,13 @@ lt:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite apie naujas galimybes"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra naujų galimybių ir patobulinimų: <br> <ul class="%{list_styling_class}"> <li>Naujas konceptas -- <b>statytiniai vartotojai (placeholder users)</b> (premium galimybė) leidžia iš anksto prideti prie OpenProject vartotojus be el.pašto adreso ir priskirti jiems užduotis.</li> <li>Darbo paketų <b>filtrai papildyti tėvinės užduoties galimybe</b> lengviau pamatyti visus užduoties tiesioginius vaikus ir <b>pagal ID</b> leidžianti įtraukti arba išmesti iš sąrašo konkrečias užduotis.</li> <li>Vartotojų administravimas yra paskirstytas ne-administratoriams įvedant <b>naują globalią rolę</b>, leidžiančią valdyti ir kviesti vartotojus neturint pilnų administratoriaus teisių.</li> <li>Tolimesni UI ir UX patobulinimai, t.y. harmonizuota išlaidų raportų navigacija, grupės ir sumos eilutėms darbo paketų sąraše priskirtos spalvos, pridėtas grupės rodymo puslapis.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BIM: Pagerinta IFC modelių peržiūros greitaveika.</li> <li>BIM: IFC peržiūros programa pradėjo palaikyti dvigubo tikslumo modelius, kas naudinga didelėse statybos aikštelėse, tokiose kaip tiltai, keliai ir pan.</li> <li>BIM: Perjungimo mygtukas perspektyvos ir ortogonaliam režimui perjungti.</li> <li>BIM: Meniu redagavimui, šalinimui ar sekcijos plokštumų apvertimui.</li> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -314,6 +314,7 @@ lt:
     label_board_locked: "Užrakinta"
     label_board_plural: "Lentos"
     label_board_sticky: "Lipnus"
+    label_change: "Pakeisti"
     label_create: "Sukurti"
     label_create_work_package: "Sukurti naują darbų paketą"
     label_created_by: "Sukurta"
@@ -336,6 +337,7 @@ lt:
     label_created_on: "sukurta"
     label_edit_comment: "Redaguoti šį komentarą"
     label_edit_status: "Redaguoti darbų paketo būsena"
+    label_email: "El. paštas"
     label_equals: "yra"
     label_expand: "Išskleisti"
     label_expanded: "išskleistas"
@@ -395,6 +397,7 @@ lt:
     label_quote_comment: "Cituoti šį komentarą"
     label_recent: "Paskutiniai"
     label_reset: "Nustatyti iš naujo"
+    label_remove: "Pašalinti"
     label_remove_column: "Išimti stulpelį"
     label_remove_columns: "Pašalinti pažymėtus stulpelius"
     label_remove_row: "Išimti eilutę"
@@ -476,31 +479,67 @@ lt:
         next: 'Kitas'
         got_it: 'Supratau'
       steps:
-        help_menu: 'Meniu <b>Žinynas</b> rasite vartotojo vadovą ir papildomos pagalbos šaltinius. <br>Mėgaukitės darbu su OpenProject!'
-        members: 'Pakvieskite naujus <b>Narius</b> prisijungti prie projekto.'
-        project_selection: 'Prašome paspausti ant vieno iš projektų su įdėtais naudingais demonstraciniais duomenimis. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
-        quick_add_button: 'Sukurkite naują projektą arba pakvieskite bendradarbius.'
-        sidebar_arrow: "Rodykle galite pereiti atgal į projekto <b>Pagrindinį meniu</b>."
+        help_menu: 'Help (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti vartotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
+        members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
+        project_selection: 'Prašome paspausti ant vieno iš demo projektų kuriuos mes paruošėme. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
+        quick_add_button: 'Paspauskite plius (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
+        sidebar_arrow: "Pasinaudokite grįžimo rodykle viršutiniame kairiajame kampe grįžimui į projekto <b>pagrindinį meniu</b>."
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
-          overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde. <br> Kairėje jūs matote Produktų darbų sąrašą arba Klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
-          task_board_arrow: 'Norėdami matyti jūsų <b>Užduočių lentą</b>, atverkite Sprinto iškrentantį meniu...'
-          task_board_select: '... ir pasirinkite <b>Task board</b> elementą.'
-          task_board: "<b>Darbo lenta</b> rodo pažangą šiame sprinte. Pridėkite naujas užduotis ar kliūtis spausdami + piktogramą šalia vartotojo istorija. Naudodami drag'n'drop, jūs galite pakeisti būseną."
+          overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde."
+          sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
+          task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
+          task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
+          task_board: "Užduočių lenta vizualizuoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
         boards:
-          overview: 'Valdykite savo darbus intuityviame <b>Lentų</b> vaizde.'
-          lists: 'Galite sukurti keletą sąrašų (stulpelių) viename Lentos vaizde, t.y. sukurti KANBAN lentą.'
-          add: 'Paspaudus + <b>pridės naują kortelę</b> sąraše Lentoje.'
-          drag: 'Galite pervilkti ir numesti kortelę sąrašo ribose (perrikiuoti) ar į kitą sąrašą. Dvigubas paspaudimas permes į detalių vaizdą.'
+          overview: 'Pasirinkite <b>lentas</b> siekdami pakeisti vaizdą ir valdyti projektą naudodami agile lentų vaizdą.'
+          lists: 'Lentoje galite sukurti keletą sąrašų (stulpelių) . Ši funkcija leidžia sukurti <b>Kanban lentą</b>.'
+          add: 'Nuspauskite plius (+) ženklą ir <b>sukurkite naują kortelę</b> arba <b>pridėkite jau esamą</b> prie sąrašo lentoje.'
+          drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
-          toggler: "Dabar žvilgtelėkime į <b>Darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
-          list: 'Tai <b>Darbų paketų</b> sąrašas su svarbiais jūsų projektui veiksmais: užduotimis (tasks), etapais (milestones), fazėmis (phases) ir t.t. <br> Jūs galite kurti ir redaguoti darbų paketus tiesiai šiame sąraše. Norėdami pamatyti detaliau, du kart spustelkite pele ant pasirinktos eilutės.'
-          full_view: '<b>Darbo paketo detalių</b> lange rasite visą reikalingą informaciją, pvz., aprašymą, būseną ir prioritetą, veiklą, priklausomybes ar komentarus.'
-          back_button: 'Su rodykle galite pereiti atgal į darbo paketų sąrašą.'
-          create_button: 'Mygtukas <b>Sukurti</b> pridės naują darbą į jūsų projektą.'
+          toggler: "Dabar žvilgtelėkime į <b>darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
+          list: 'Šis <b>darbo</b> paketų vaizdas duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
+          full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
+          back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
+          create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
           timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
-          timeline: 'Čia jūs galite redaguoti savo projekto planą. Kurti naujus etapus, etapai, ir pridėti priklausomybių. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+          timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
+    notifications:
+      title: "Pranešimai"
+      channel: "Kanalas"
+      no_unread: "Nėra neperskaitytų pranešimų"
+      channels:
+        in_app: "Programoje"
+        mail: "El. paštas"
+        mail_digest: "Kasdienė el.pašto santrauka"
+      reasons:
+        mentioned: 'paminėtas'
+        watched: 'stebimas'
+        involved: 'įtrauktas'
+      facets:
+        unread: 'Neskaitytas'
+        all: 'Visi'
+      center:
+        mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        text_update_date: "%{date} "
+        total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
+      settings:
+        default_all_projects: 'Numatytasis visiems projektams'
+        involved: 'Aš įtrauktas'
+        mentioned: 'Aš buvau paminėtas'
+        watched: 'Aš stebiu'
+        work_package_commented: 'Darbų paketas pakomentuotas'
+        work_package_created: 'Darbų paketas sukurtas'
+        work_package_processed: 'Darbų paketo būsena pakeista'
+        work_package_prioritized: 'Darbų paketo prioritetai pakeisti'
+        work_package_scheduled: 'Darbų paketo tvarkaraštis pakeistas'
+        all: 'Visi įvykiai'
+        add: 'Pridėkite projekto nustatymus'
+        already_selected: 'Šis projektas jau pasirinktas'
+        remove_projects: 'Pašalinti pranešimus projektams'
+        title: "Pranešimų nustatymai"
+        self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
@@ -528,6 +567,7 @@ lt:
       autocompleter:
         label: 'Projekto autoužpildymas'
     text_are_you_sure: "Ar esate įsitikinę?"
+    text_data_lost: "Įvesta informacija bus prarasta"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
@@ -610,7 +650,7 @@ lt:
       parent_placeholder: "Pasirinkite naują tėvą arba spauskite Escape atšaukimui."
     autocompleter:
       placeholder: "Paieškai pradėkite rinkti tekstą"
-      notFoundText: "No items found"
+      notFoundText: "Nieko nerasta"
       typeToSearchText: "Paieškai pradėkite rinkti tekstą"
     repositories:
       select_tag: 'Pasirinkti žymę'
@@ -929,7 +969,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingas atnaujinimas."
-    notice_job_started: "job started."
+    notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -1000,8 +1040,8 @@ lt:
       project:
         label: 'Projektas'
         required: 'Pasirinkite projektą'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti vartotojus.'
+        lacking_permission_info: 'Jums trūksta teisių priskirti vartotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
         no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
@@ -1025,12 +1065,9 @@ lt:
         already_member_message: 'Jau yra %{project} narys'
         no_results_user: 'Nerasta jokių vartotojų.'
         invite_user: 'Pakviesti:'
-        change_user_selection: 'Pakeiskite el. pašto adresą arba pasirinkite jau esamą vartotoją'
         no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
-        change_placeholder_selection: 'Pakeiskite vardą arba pasirinkite jau esamą statytinį vartotoją'
         create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
         no_results_group: 'Nerasta jokių grupių.'
-        change_group_selection: 'Pakeiskite vardą arba pasirinkite jau esamą grupę'
         next_button: 'Kitas'
         required:
           user: 'Pasirinkite naudotoją'

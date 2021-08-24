@@ -9,7 +9,7 @@ hu:
         teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
         upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
         upgrade: 'Frissítés most'
-        personal_demo: 'Contact us for a demo'
+        personal_demo: 'Keressen fel minket a próbaverzióért'
       lists:
         delete: 'Törölt lista'
       version:
@@ -24,16 +24,17 @@ hu:
         locked: 'Zárolt'
         closed: 'Lezárva'
       new_board: 'Új tábla'
-      add_list: 'Add list to board'
+      add_list: 'Lista hozzáadása a táblához'
       add_card: 'Kártya hozzáadása'
       error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
       error_loading_the_list: "Betöltési hiba: %{error_message}"
       error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Nem mozgatható a munkacsomag a saját sorába."
+      text_hidden_list_warning: "Nem jeleníthető meg az összes lista a jogosultság miatt. További információért lépjen kapcsolatba az adminnal."
       click_to_remove_list: "Kattints a lista eltávolításához"
       board_type:
         text: 'Tábla típus'
-        free: 'basic'
+        free: 'alap'
         select_board_type: 'Please choose the type of board you need.'
         free_text: >
           Start from scratch with a blank board. Manually add cards and columns to this board.
@@ -52,25 +53,25 @@ hu:
         action_text_version: >
           Board with automated columns based on the version attribute. Ideal for planning product development.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: felelős
+          status: állapot
+          version: verzió
+          subproject: alprojekt
+          subtasks: szülő-gyerek
         board_type_title:
           assignee: Megbízott
           status: Állapot
           version: Verzió
           subproject: Alprojekt
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Szülő-gyerek
+          basic: Alap
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:
           assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
+          status: Státusz hozzáadása az új listához
+          version: Verzió hozzáadása az új listához
+          subproject: Alprojekt hozzáadása az új listához
           subtasks: Select work package to add as a new list
         warning:
           status: |

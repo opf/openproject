@@ -68,7 +68,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
         click_link "Overview"
       end
 
-      expect(page).to have_selector('.widget-box--header .help-text--entry', wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-widget-box--header"] .help-text--entry', wait: 10)
 
       # Open help text modal
       modal.open!
@@ -86,7 +86,7 @@ describe 'Project attribute help texts', type: :feature, js: true do
     it 'shows the help text on the project create form' do
       visit new_project_path
 
-      page.find('.form--fieldset-legend', text: 'ADVANCED SETTINGS').click
+      page.find('.op-fieldset--legend', text: 'ADVANCED SETTINGS').click
 
       expect(page).to have_selector('.op-form-field--label attribute-help-text', wait: 10)
 

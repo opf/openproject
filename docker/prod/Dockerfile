@@ -1,4 +1,4 @@
-FROM ruby:2.7-buster
+FROM ruby:2.7.4-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -7,17 +7,15 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG PGLOADER_BINARY_DOWNLOAD_URL=https://openproject-docker-public.s3-eu-west-1.amazonaws.com/pgloader/bin/pgloader-ccl
-
-ENV NODE_VERSION="14.16.0"
+ENV NODE_VERSION="14.17.0"
 ENV BUNDLER_VERSION="2.1.4"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
-ENV APP_DATA_PATH_LEGACY=/var/db/openproject
 ENV PGDATA=/var/openproject/pgdata
-ENV PGDATA_LEGACY=/var/lib/postgresql/9.6/main
+ENV PGVERSION="13"
+ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV RAILS_ENV=production
@@ -32,8 +30,6 @@ ENV NEW_RELIC_AGENT_ENABLED=false
 ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
-
-RUN curl ${PGLOADER_BINARY_DOWNLOAD_URL} > /usr/local/bin/pgloader-ccl && chmod +x /usr/local/bin/pgloader-ccl
 
 WORKDIR $APP_PATH
 

@@ -38,7 +38,7 @@ sl:
         time: 'Čas dostave'
       form:
         introduction: >
-          Pošljite zahtevo POST na spodnji URL obremenitve za vse dogodke v projektu, na katere ste naročeni. Payload bo ustrezal predstavitvi APIv3 spremenjenega predmeta.
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: Za več informacij obiščite API dokumentacijo
         description:
           placeholder: 'Neobvezen opis spletne zanke.'

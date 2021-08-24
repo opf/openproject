@@ -70,13 +70,32 @@ describe 'date inplace editor',
 
     start_date.click_today
 
-    start_date.datepicker.expect_year Date.today.year
-    start_date.datepicker.expect_month Date.today.strftime("%B"), true
-    start_date.datepicker.expect_day Date.today.day
+    start_date.datepicker.expect_year Time.zone.today.year
+    start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+    start_date.datepicker.expect_day Time.zone.today.day
 
     start_date.save!
     start_date.expect_inactive!
-    start_date.expect_state_text '2016-01-01 - ' + Date.today.strftime('%Y-%m-%d')
+    start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - no finish date"
+  end
+
+  context 'with the start date empty' do
+    let(:work_package) { FactoryBot.create :work_package, project: project, start_date: nil }
+
+    it 'can set "today" as a date via the provided link' do
+      start_date.activate!
+      start_date.expect_active!
+
+      start_date.click_today
+
+      start_date.datepicker.expect_year Time.zone.today.year
+      start_date.datepicker.expect_month Time.zone.today.strftime("%B"), true
+      start_date.datepicker.expect_day Time.zone.today.day
+
+      start_date.save!
+      start_date.expect_inactive!
+      start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - no finish date"
+    end
   end
 
   it 'can set start and due date to the same day' do
@@ -84,14 +103,14 @@ describe 'date inplace editor',
     start_date.expect_active!
 
     # Set the due date
-    start_date.datepicker.set_date Date.today, true
+    start_date.datepicker.set_date Time.zone.today, true
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
-    start_date.datepicker.set_date Date.today, true
+    start_date.datepicker.set_date Time.zone.today, true
 
     start_date.save!
     start_date.expect_inactive!
-    start_date.expect_state_text Date.today.strftime('%Y-%m-%d') + ' - ' + Date.today.strftime('%Y-%m-%d')
+    start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - #{Time.zone.today.strftime('%Y-%m-%d')}"
   end
 
   it 'saves the date when clearing and then confirming' do
@@ -125,7 +144,7 @@ describe 'date inplace editor',
     work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
 
     # Ensure no modal survives
-    expect(page).to have_no_selector('.op-modal--modal-container')
+    expect(page).to have_no_selector('.op-modal')
   end
 
   context 'with a date custom field' do
@@ -165,14 +184,14 @@ describe 'date inplace editor',
 
       # Open date picker
       cf_field.input_element.click
-      datepicker.set_date Date.today
+      datepicker.set_date Time.zone.today
 
       create_page.edit_field(:subject).set_value 'My subject!'
       create_page.save!
       create_page.expect_and_dismiss_notification message: 'Successful creation'
 
       wp = WorkPackage.last
-      expect(wp.custom_value_for(date_cf.id).value).to eq Date.today.iso8601
+      expect(wp.custom_value_for(date_cf.id).value).to eq Time.zone.today.iso8601
     end
   end
 end

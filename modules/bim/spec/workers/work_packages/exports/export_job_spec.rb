@@ -59,22 +59,16 @@ describe WorkPackages::Exports::ExportJob do
       let(:mime_type) { :bcf }
 
       it 'issues an OpenProject::Bim::BcfXml::Exporter export' do
-        file = double(File)
-        allow(file)
-          .to receive(:is_a?)
-          .with(File)
-          .and_return true
-
         result = WorkPackage::Exporter::Result::Success.new(format: 'blubs',
-                                                            title: 'some_title',
-                                                            content: file,
+                                                            title: "some_title.#{mime_type}",
+                                                            content: 'some content',
                                                             mime_type: "application/octet-stream")
 
         service = double('attachments create service')
 
         expect(Attachments::CreateService)
-          .to receive(:new)
-          .with(export, author: user)
+          .to receive(:bypass_whitelist)
+          .with(user: user)
           .and_return(service)
 
         expect(WorkPackages::Exports::CleanupOutdatedJob)
@@ -82,7 +76,7 @@ describe WorkPackages::Exports::ExportJob do
 
         expect(service)
           .to(receive(:call))
-          .and_return attachment
+          .and_return(ServiceResult.new(result: attachment, success: true))
 
         allow(OpenProject::Bim::BcfXml::Exporter)
           .to receive(:list)

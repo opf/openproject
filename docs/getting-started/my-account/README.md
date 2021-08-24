@@ -60,7 +60,7 @@ Also, you can activate a **warning if you are leaving a work package with unsave
 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
-![my-account-settings](image-20210503211553255.png)
+![profile-settings](profile-settings.png)
 
 ### Change your language
 
@@ -86,11 +86,11 @@ Pressing the blue **Save** button will save your changes.
 
 ### Change the order to display comments
 
-You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **chronological** or **reverse chronological order** to display the comments.
+You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **oldest first** or **newest first** to display the comments.
 
-If you choose reverse chronological order the latest comment will appear on top in the Activity list.
+If you choose newest first the latest comment will appear on top in the Activity list.
 
-![display comments](1572883259523.png)
+![order-to-display-comments](order-to-display-comments.png)
 
 ### Backlogs settings
 
@@ -163,7 +163,7 @@ When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notif
 
 By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure that emails for changes you made have been sent), activate the check-box **I want to be notified of changes that I make myself**.
 
-Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/faq) if you have questions.
+Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/email-faq) if you have questions.
 
 
 

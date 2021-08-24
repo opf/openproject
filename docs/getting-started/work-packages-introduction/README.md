@@ -20,7 +20,7 @@ For further documentation, please visit our [user guide for work packages](../..
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
 | [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
-<video src="https://www.openproject.org/wp-content/uploads/2020/12/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 ## What is a work package?
 
@@ -47,6 +47,16 @@ Click the green **Save** button to create the work package.
 The work package will the be displayed in the list view:
 
 ![list-view-work-package](1569611758166.png)
+
+Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/project-settings/work-package-types/#work-package-types) that are activated, will be shown and you can select the relevant work package type to be created.
+
+![create-work-package-header](create-work-package-header.png)
+
+Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for. 
+
+![create-work-package-define-project](create-work-package-define-project.png)
+
+Then you follow the same steps as mentioned above to fill in the your work package attributes and save it.
 
 ## Open and edit a work package
 

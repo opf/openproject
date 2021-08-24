@@ -15,17 +15,6 @@ on:
       - 'help/**'
 
 jobs:
-  danger:
-    if: github.repository == 'opf/openproject'
-    runs-on: [ubuntu-latest]
-    timeout-minutes: 10
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 50
-    - uses: danger/danger@master
-      env:
-        DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   units:
     name: Units
     if: github.repository == 'opf/openproject'
@@ -47,7 +36,7 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        docker-compose -f docker-compose.ci.yml build ci
+        docker-compose -f docker-compose.ci.yml build --pull ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
     - name: cleanup
       if: ${{ always() }}
@@ -77,10 +66,21 @@ jobs:
           ${{ runner.os }}-core-tests-
     - name: test
       run: |
-        docker-compose -f docker-compose.ci.yml build ci
+        docker-compose -f docker-compose.ci.yml build --pull ci
         docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
     - name: cleanup
       if: ${{ always() }}
       run: |
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
         sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+  api-spec:
+    name: APIv3 specification (OpenAPI 3.0)
+    if: github.repository == 'opf/openproject'
+    runs-on: [ubuntu-latest]
+    steps:    
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: ./script/api/validate_spec

@@ -161,11 +161,6 @@ module Redmine
              watcher_user_ids.any? { |uid| uid == user.id })
         end
 
-        # Returns an array of watchers
-        def watcher_recipients
-          possible_watcher_users & watcher_users.active.where.not(mail_notification: 'none')
-        end
-
         module ClassMethods
           def acts_as_watchable_permission
             acts_as_watchable_options[:permission] || "view_#{name.underscore.pluralize}".to_sym

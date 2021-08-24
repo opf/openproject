@@ -243,6 +243,60 @@ describe CustomActions::Actions::CustomField, type: :model do
         expect(instance.type)
           .to eql(:associated_property)
       end
+
+      describe 'current_user special value' do
+        let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+        let(:user) { FactoryBot.build_stubbed(:user) }
+
+        before do
+          allow(work_package).to receive(:available_custom_fields).and_return([custom_field])
+          instance.values = ['current_user']
+        end
+
+        it 'can set the value' do
+          expect(instance).to have_me_value
+        end
+
+        it 'includes the value in available_values' do
+          expect(instance.associated)
+            .to include([instance.current_user_value_key, I18n.t('custom_actions.actions.assigned_to.executing_user_value')])
+        end
+
+        context 'when logged in' do
+          before do
+            login_as user
+          end
+
+          it 'sets the current user' do
+            instance.apply work_package
+            expect(work_package.custom_value_for(custom_field).value).to eq(user.id.to_s)
+          end
+
+          it 'validates the me value when executing' do
+            errors = ActiveModel::Errors.new(CustomAction.new)
+            instance.validate errors
+            expect(errors.symbols_for(:actions)).to be_empty
+          end
+        end
+
+        context 'when not logged in' do
+          before do
+            login_as User.anonymous
+          end
+
+          it 'returns nil for the current user id' do
+            instance.apply work_package
+            expect(work_package.custom_value_for(custom_field).value).to be_nil
+          end
+
+          it 'validates the me value when executing' do
+            errors = ActiveModel::Errors.new(CustomAction.new)
+            instance.validate errors
+            expect(errors.symbols_for(:actions)).to include :not_logged_in
+          end
+        end
+      end
+
     end
 
     context 'for an int custom field' do
@@ -372,8 +426,8 @@ describe CustomActions::Actions::CustomField, type: :model do
           .and_return(users)
       end
       let(:expected) do
-        users
-          .map { |u| { value: u.id, label: u.name } }
+        values = [{ label: "(Assign to executing user)", value: "current_user" }]
+        values + users.map { |u| { value: u.id, label: u.name } }
       end
 
       context 'for a non required field' do

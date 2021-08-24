@@ -7,21 +7,23 @@ hu:
       import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
       export: 'Exportálás'
       export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
+      viewpoint: 'Nézőpont'
+      add_viewpoint: 'Nézőpont hozzáadása'
+      show_viewpoint: 'Nézőpont megjelenítése'
+      delete_viewpoint: 'Nézőpont törlése'
       management: 'BCF management'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
+      empty_warning: "Ez a projekt nem tartalmaz ICF modellt még"
+      use_this_link_to_manage: "Ezen a linken tudja feltölteni és szerkeszteni az ICF modelleket"
       keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
       models:
         ifc_models: 'IFC modell'
       views:
-        viewer: 'Viewer'
+        viewer: 'Néző'
         split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        split_cards: 'Néző és kártyák'
     revit:
       revit_add_in: "Revit Add-In"
       revit_add_in_settings: "Revit Add-In settings"

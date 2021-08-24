@@ -234,7 +234,7 @@ module Pages
     end
 
     def go_to_page!(number)
-      find('.pagination--pages a', text: number.to_s).click
+      find('.op-pagination--pages a', text: number.to_s).click
     end
   end
 end

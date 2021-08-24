@@ -170,6 +170,8 @@ ro:
     enabled_in_project: 'Activat/ă în proiect'
     contained_in_type: 'Înclusă în tipul'
     confirm_destroy_option: "Ștergerea unei opțiuni va șterge toate aparițiile acesteia (de exemplu, în pachetele de lucru). Sunteți sigur că doriți să o ștergeți?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creare câmp personalizat nou
@@ -247,6 +249,9 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Ștergeți utilizatorul de tip placeholder %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ ro:
       confirmation: "Introduceți numele de utilizator de tip placeholder %{name} pentru a confirma ștergerea."
     upsale:
       title: Atribuiți munca unor persoane care nu sunt membri ai proiectului.
-      description: Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
+      description: >
+        Există mai multe scenarii în care doriți să atribuiți sarcini unor persoane care nu sunt membre ale proiectului dumneavoastră. Ar putea fi pur și simplu pentru că trebuie să angajați persoana potrivită pentru această sarcină. Sau pur și simplu nu doriți să acordați accesul la informațiile proiectului, dar doriți totuși să urmăriți sarcinile atribuite acelei persoane.
   prioritiies:
     edit:
       priority_color_text: |
@@ -474,7 +480,6 @@ ro:
         force_password_change: "Impune schimbarea parolei la următoarea autentificare"
         language: "Limbă"
         last_login_on: "Ultima autentificare"
-        mail_notification: "Notificări prin e-mail"
         new_password: "Parolă nouă"
         password_confirmation: "Confirmare parolă"
         consented_at: "Consimţit la"
@@ -539,6 +544,7 @@ ro:
         error_enterprise_only: "este disponibil doar în OpenProject Enterprise Edition"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
+        email: "is not a valid email address."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
         exclusion: "este rezervat."
@@ -552,6 +558,7 @@ ro:
         invalid_url: 'nu este o adresa URL validă.'
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "trebuie să fie mai mic sau egal cu %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "%s nu poate fi șters."
         not_current_user: "nu este utilizatorul curent."
         not_a_date: "Acest câmp trebuie să conțină o dată validă."
@@ -571,12 +578,16 @@ ro:
         unremovable: "nu poate fi îndepărtată."
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -604,6 +615,21 @@ ro:
           overlaps: 'suprapunere.'
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -616,6 +642,9 @@ ro:
           attributes:
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "Mesaj"
         query:
           attributes:
             project:
@@ -676,6 +705,7 @@ ro:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "nu poate fi într-un alt proiect."
               not_a_valid_parent: "este invalid."
             start_date:
@@ -749,6 +779,10 @@ ro:
       status: "Stare pachet de lucru"
       member: "Membru"
       news: "Noutăţi"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        other: "Notifications"
       placeholder_user: "Utilizator Placeholder"
       project: "Proiect"
       query: "Interogare personalizată"
@@ -1220,6 +1254,7 @@ ro:
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1282,6 +1317,9 @@ ro:
   instructions_after_logout: "Vă puteţi autentifica din nou dând click pe %{signin}."
   instructions_after_error: "Puteţi încerca să vă autentificați din nou dând click pe %{signin}. Dacă eroarea persistă, cereți ajutorul administratorului."
   menus:
+    admin:
+      mail_notification: "Notificări prin e-mail"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1294,6 +1332,16 @@ ro:
         action: "Acțiune"
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1379,7 +1427,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
-  label_chronological_order: "În ordine cronologică"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -1422,6 +1470,7 @@ ro:
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
   label_deleted_custom_option: "(opțiune eliminată)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descrescător"
   label_details: "Detalii"
   label_development_roadmap: "Plan de lucru pentru dezvoltare"
@@ -1595,7 +1644,6 @@ ro:
   label_none_parentheses: "(nimic)"
   label_not_contains: "nu conține"
   label_not_equals: "nu este"
-  label_notify_member_plural: "Actualizări prin e-mail"
   label_on: "pe"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
@@ -1683,7 +1731,7 @@ ro:
   label_required: 'obligatoriu'
   label_requires: 'Această caracteristică necesită un cont la'
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "În ordine invers cronologică"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"
@@ -1715,7 +1763,6 @@ ro:
   label_start_to_start: "început la început"
   label_statistics: "Statistici"
   label_status: "Stare"
-  label_status_updated: "Stare pachet de lucru actualizată"
   label_stay_logged_in: "Rămâneți conectat"
   label_storage_free_space: "Spațiu pe disc rămas"
   label_storage_used_space: "Spațiu pe disc folosit"
@@ -1799,21 +1846,17 @@ ro:
   label_wiki_show_submenu_item: "Afișare ca submeniu pentru "
   label_wiki_start: "Pagină de start"
   label_work_package: "Pachet de lucru"
-  label_work_package_added: "Pachet de lucru adăugat"
   label_work_package_attachments: "Anexe la pachetul de lucru"
   label_work_package_category_new: "Categorie nouă"
   label_work_package_category_plural: "Categorii de pachete de lucru"
   label_work_package_hierarchy: "Ierarhia pachetelor de lucru"
   label_work_package_new: "Pachet de lucru nou"
-  label_work_package_note_added: "Notă adăugată la pachetul de lucru"
   label_work_package_edit: "Editare pachet de lucru %{name}"
   label_work_package_plural: "Pachete de lucru"
-  label_work_package_priority_updated: "Prioritate pachet de lucru actualizată"
   label_work_package_status: "Stare pachet de lucru"
   label_work_package_status_new: "Stare nouă"
   label_work_package_status_plural: "Stări pachete de lucru"
   label_work_package_types: "Tipuri de pachete de lucru"
-  label_work_package_updated: "Pachet de lucru actualizat"
   label_work_package_tracking: "Urmărire pachete de lucru"
   label_work_package_view_all: "Toate pachetele de lucru"
   label_workflow: "Flux de lucru"
@@ -1866,6 +1909,18 @@ ro:
       link_name_type: '%{type_name} nou'
   mail:
     actions: 'Acțiuni'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'toate'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "A fost înregistrat un nou user (%{value}). Activarea este în așteptarea aprobării:"
   mail_body_account_information: "Informații despre contul dumneavoastră"
   mail_body_account_information_external: "Puteți utiliza contul %{value} pentru autentificare."
@@ -1892,7 +1947,7 @@ ro:
   mail_body_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată de %{author}."
   mail_subject_account_activation_request: "cererea de activare a contului %{value}"
   mail_subject_backup_ready: "Backup-ul tău este gata"
-  mail_subject_backup_token_reset: "Token-ul tău de backup a fost resetat"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
   mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
@@ -2240,6 +2295,11 @@ ro:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) origini permise"
   setting_apiv3_cors_origins_text_html: >
     Dacă CORS este activat, acestea sunt originile cărora li se permite accesul la OpenProject API. <br/> Vă rugăm să consultați <a href="%{origin_link}" target="_blank">documentația privind antetul Origin</a> pentru a specifica valorile așteptate.
+  setting_apiv3_docs: "Documentație"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Metoda de livrare e-mail"
   setting_sendmail_location: "Locația executabilului \"sendmail\""
   setting_smtp_enable_starttls_auto: "Utilizează automat STARTTLS dacă este disponibil"
@@ -2276,7 +2336,6 @@ ro:
   setting_first_week_of_year: "Prima săptămână din an conține"
   setting_date_format: "Format dată"
   setting_default_language: "Limbă implicită"
-  setting_default_notification_option: "Opțiune implicită de notificare"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
   setting_diff_max_lines_displayed: "Numărul maxim de linii afișate în comparație"
@@ -2286,6 +2345,9 @@ ro:
   setting_email_login: "Folosiți e-mailul ca autentificare"
   setting_enabled_scm: "SCM activat"
   setting_enabled_projects_columns: "Vizibil în lista de proiecte"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
@@ -2299,7 +2361,7 @@ ro:
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_export_limit: "Limita de export pentru pachetele de lucru"
-  setting_journal_aggregation_time_minutes: "Intervalul de timp pentru agregarea jurnalelor"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Auditare utilizator, nume și adresă de email pentru toate cererile"
   setting_login_required: "Autentificare obligatorie"
   setting_mail_from: "Adresa de e-mail a expeditorului"
@@ -2354,6 +2416,15 @@ ro:
     passwords: "Parole"
     session: "Sesiune"
     brute_force_prevention: "Blocare automată a utilizatorilor"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2434,9 +2505,9 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
-  text_journal_aggregation_time_explanation: "Combină jurnalele de afişare dacă diferența de timp este mai mică decât intervalul specificat. Acest lucru va întârzia, de asemenea, notificările prin e-mail cu același interval."
-  text_journal_changed: "%{label} a fost schimbat din %{old} <br/><strong>în</strong> %{new}"
-  text_journal_changed_plain: "%{label} schimbat de la %{old}\nla %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
   text_journal_changed_with_diff: "%{label} modificat (%{link})"
   text_journal_deleted: "%{label} șters (%{old})"
@@ -2464,7 +2535,7 @@ ro:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
   text_repository_usernames_mapping: "Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.\nUtilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat."
-  text_select_mail_notifications: "Selectaţi acţiunile pentru care trebuie trimise notificări e-mail."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat prin editarea %{value}."
   text_table_difference_description: "În acest tabel este prezentat un singur %{entries}. Puteți vizualiza diferența dintre oricare două intrări selectând mai întâi casetele de selectare corespunzătoare din tabel. Când faceți clic pe butonul de sub tabel, se afișează diferențele."
   text_time_logged_by_changeset: "Aplicat prin editarea %{value}."
@@ -2689,10 +2760,6 @@ ro:
     password_change_unsupported: Schimbarea parolei nu este suportată.
     registered: "înregistrat"
     reset_failed_logins: "Resetare autentificări eşuate"
-    settings:
-      mail_notifications: "Notificări prin e-mail"
-      mail_project_explanaition: "Pentru proiectele care nu sunt selectate, veți primi notificări doar pentru ceea ce urmăriți sau în ce sunteți implicat (de exemplu tichete create de dumneavoastră sau care vă sunt atribuite)."
-      mail_self_notified: "Vreau să fiu notificat pentru modificările pe care le fac eu"
     status_user_and_brute_force: "%{user} şi %{brute_force}"
     status_change: "Schimbare de stare"
     text_change_disabled_for_provider_login: "Numele este setat de furnizorul de logare și, prin urmare, nu poate fi modificat."
@@ -2714,7 +2781,7 @@ ro:
     A fost atinsă limita de utilizatori. Nu mai puteți activa alți utilizatori. Vă rugăm să <a href="%{upgrade_url}">vă actualizați planul</a> sau să blocați membrii pentru a permite accesul la utilizatori suplimentari.
   warning_user_limit_reached_instructions: >
     Ați atins limita de utilizatori (%{current}/%{max} utilizatori activi). Vă rugăm să contactați sales@openproject.com pentru a vă actualiza planul Enterprise Edition și a adăuga utilizatori suplimentari.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2787,6 +2854,8 @@ ro:
         invalid_json: "este invalid json: %{message}"
     resources:
       schema: 'Schemă'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'

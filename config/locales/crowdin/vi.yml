@@ -172,6 +172,8 @@ vi:
     enabled_in_project: 'Đã bật trong dự án'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
       no_results_content_text: Tạo trường tùy chỉnh mới
@@ -249,6 +251,9 @@ vi:
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -258,7 +263,8 @@ vi:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Chỉ định công việc cho những người không phải là thành viên của dự án.
-      description: Có nhiều tình huống nơi bạn muốn gán công việc cho những người không phải là thành viên của dự án của bạn. Việc này có thể đơn giản là bạn vẫn cần phải thuê đúng người cho công việc. Hoặc bạn không muốn cung cấp cho người đó quyền truy cập thông tin của dự án nhưng vẫn muốn theo dõi các nhiệm vụ được giao cho người đó.
+      description: >
+        Có nhiều tình huống nơi bạn muốn gán công việc cho những người không phải là thành viên của dự án của bạn. Việc này có thể đơn giản là bạn vẫn cần phải thuê đúng người cho công việc. Hoặc bạn không muốn cung cấp cho người đó quyền truy cập thông tin của dự án nhưng vẫn muốn theo dõi các nhiệm vụ được giao cho người đó.
   prioritiies:
     edit:
       priority_color_text: |
@@ -474,7 +480,6 @@ vi:
         force_password_change: "Buộc thay đổi mật khẩu trong lần đăng nhập tiếp theo"
         language: "Ngôn ngữ"
         last_login_on: "Lần đăng nhập trước"
-        mail_notification: "Thông báo qua email"
         new_password: "Mật khẩu mới"
         password_confirmation: "Xác nhận lại mật khẩu"
         consented_at: "Đồng ý tại"
@@ -539,6 +544,7 @@ vi:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "không thể để trống"
         even: "must be even."
         exclusion: "được bảo lưu."
@@ -552,6 +558,7 @@ vi:
         invalid_url: 'không phải là một URL hợp lệ.'
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
         less_than_or_equal_to: "phải nhỏ hơn hoặc bằng %{count}"
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "không phải là ngày hợp lệ"
@@ -571,12 +578,16 @@ vi:
         unremovable: "không thể gỡ bỏ."
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "Ít nhất một lựa chọn cần phải được cung cấp."
         custom_actions:
@@ -604,6 +615,21 @@ vi:
           overlaps: 'chồng lấn.'
           outside: 'nằm ngoài bảng dữ liệu.'
           end_before_start: 'giá trị kết thúc cần lớn hơn giá trị bắt đầu.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -616,6 +642,9 @@ vi:
           attributes:
             types:
               in_use_by_work_packages: "gói công việc vẫn được sử dụng: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -676,6 +705,7 @@ vi:
               not_start_date: "không phải ngày bắt đầu, mặc dù điều này là cần thiết cho các mốc quan trọng."
             parent:
               cannot_be_milestone: "không thể là một cột mốc."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "không thể có trong một dự án khác."
               not_a_valid_parent: "không hợp lệ"
             start_date:
@@ -745,6 +775,8 @@ vi:
       status: "Tình trạng work package"
       member: "Thành viên"
       news: "Tin tức"
+      notification:
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Dự án"
       query: "Truy vấn riêng"
@@ -1190,6 +1222,7 @@ vi:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1252,6 +1285,9 @@ vi:
   instructions_after_logout: "Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}."
   instructions_after_error: "Bạn có thể thử đăng nhập lại bằng cách nhấn vào %{signin}. Nếu lỗi vẫn còn, yêu cầu quản trị của bạn để được giúp đỡ."
   menus:
+    admin:
+      mail_notification: "Thông báo qua email"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1264,6 +1300,16 @@ vi:
         action: "Hành động"
         expiration: "Hết hạn"
       indefinite_expiration: "Không bao giờ"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Trợ năng"
   label_account: "Tài khoản"
   label_active: "Đang hoạt động"
@@ -1349,7 +1395,7 @@ vi:
   label_check_uncheck_all_in_column: "Chọn/Bỏ chọn tất cả trong cột"
   label_check_uncheck_all_in_row: "Chọn/Bỏ chọn tất cả trong hàng"
   label_child_element: "Phần tử con"
-  label_chronological_order: "Theo thứ tự thời gian"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Đóng các phiên bản đã hoàn thành"
   label_closed_work_packages: "đã đóng"
   label_collapse: "Thu gọn"
@@ -1392,6 +1438,7 @@ vi:
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Lộ trình phát triển"
@@ -1565,7 +1612,6 @@ vi:
   label_none_parentheses: "(trống)"
   label_not_contains: "không chứa"
   label_not_equals: "không là"
-  label_notify_member_plural: "Cập nhật thư"
   label_on: "lúc"
   label_open_menu: "Mở trình đơn"
   label_open_work_packages: "mở"
@@ -1653,7 +1699,7 @@ vi:
   label_required: 'bắt buộc'
   label_requires: 'bắt buộc'
   label_result_plural: "Các kết quả"
-  label_reverse_chronological_order: "In reverse chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Sửa đổi"
   label_revision_id: "Sửa đổi %{value}"
   label_revision_plural: "Sửa đổi"
@@ -1685,7 +1731,6 @@ vi:
   label_start_to_start: "bắt đầu đến bắt đầu"
   label_statistics: "Số liệu thống kê"
   label_status: "Trạng thái"
-  label_status_updated: "Tình trạng Work package đã cập nhật"
   label_stay_logged_in: "Duy trì đăng nhập"
   label_storage_free_space: "Dung lượng đĩa còn lại"
   label_storage_used_space: "Dung lượng đĩa đã sử dụng"
@@ -1769,21 +1814,17 @@ vi:
   label_wiki_show_submenu_item: "Hiển thị dưới dạng mục menu con của"
   label_wiki_start: "Trang bắt đầu"
   label_work_package: "Work Package"
-  label_work_package_added: "Đã thêm work package"
   label_work_package_attachments: "Phần đính kèm công việc"
   label_work_package_category_new: "Danh mục mới"
   label_work_package_category_plural: "Các thể loại work package"
   label_work_package_hierarchy: "Phân cấp công việc"
   label_work_package_new: "Work package mới"
-  label_work_package_note_added: "Đã thêm ghi chú của work package"
   label_work_package_edit: "Chỉnh sửa work package %{name}"
   label_work_package_plural: "Work Packages"
-  label_work_package_priority_updated: "Đã cập nhật độ ưu tiên của work package"
   label_work_package_status: "Tình trạng work package"
   label_work_package_status_new: "Trạng thái mới"
   label_work_package_status_plural: "Tình trạng work package"
   label_work_package_types: "Kiểu công việc"
-  label_work_package_updated: "đã cập nhật work package"
   label_work_package_tracking: "Theo dõi work package"
   label_work_package_view_all: "Xem tất cả các work package"
   label_workflow: "Quy trình làm việc"
@@ -1836,6 +1877,18 @@ vi:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Hành động'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'tất cả'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -1862,7 +1915,7 @@ vi:
   mail_body_wiki_content_updated: "The '%{id}' wiki page has been updated by %{author}."
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Bản sao lưu của bạn đã sẵn sàng"
-  mail_subject_backup_token_reset: "Token bản sao lưu của bạn đã được tạo lại"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
@@ -2209,6 +2262,11 @@ vi:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
   setting_smtp_enable_starttls_auto: "Tự động sử dụng STARTTLS nếu hiện hữu"
@@ -2245,7 +2303,6 @@ vi:
   setting_first_week_of_year: "Tuần đầu tiên trong năm"
   setting_date_format: "Date format"
   setting_default_language: "Default language"
-  setting_default_notification_option: "Default notification option"
   setting_default_projects_modules: "Default enabled modules for new projects"
   setting_default_projects_public: "New projects are public by default"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
@@ -2255,6 +2312,9 @@ vi:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
@@ -2268,7 +2328,7 @@ vi:
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
   setting_work_packages_export_limit: "Work packages export limit"
-  setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log user login, name, and mail address for all requests"
   setting_login_required: "Authentication required"
   setting_mail_from: "Emission email address"
@@ -2323,6 +2383,15 @@ vi:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2403,9 +2472,9 @@ vi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Combine journals for display if their age difference is less than the specified timespan. This will also delay mail notifications by the same amount of time."
-  text_journal_changed: "%{label} được sửa từ %{old} <br/><strong>thành</strong> %{new}"
-  text_journal_changed_plain: "%{label} thay đổi %{old} thành %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
@@ -2433,7 +2502,7 @@ vi:
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Biểu thức được áp dụng ở chế độ đa dòng. Ví dụ: ^---\s+'
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_select_mail_notifications: "Select actions for which email notifications should be sent."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Applied in changeset %{value}."
@@ -2654,10 +2723,6 @@ vi:
     password_change_unsupported: Change of password is not supported.
     registered: "registered"
     reset_failed_logins: "Reset failed logins"
-    settings:
-      mail_notifications: "Gửi email thông báo"
-      mail_project_explanaition: "Với các dự án không được chọn, bạn chỉ có thể nhận được thông báo về các vấn đề bạn đăng ký theo dõi hoặc có liên quan đến bạn (chẳng hạn, vấn đề được gán cho bạn)."
-      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "Tên được thiết lập với người cung cấp đăng nhập của bạn và vì thế không thể thay đổi"
@@ -2678,7 +2743,7 @@ vi:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2751,6 +2816,8 @@ vi:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Xác thực'

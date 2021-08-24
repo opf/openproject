@@ -85,6 +85,10 @@ describe SettingsHelper, type: :helper do
   end
 
   describe '#setting_multiselect' do
+    before do
+      allow(Setting).to receive(:field).at_least(:once).and_return('1')
+    end
+
     subject(:output) do
       helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     end
@@ -296,6 +300,27 @@ important text</textarea>
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
       end
+    end
+  end
+
+  describe '#setting_time_field' do
+    subject(:output) do
+      helper.setting_time_field :field, options
+    end
+
+    before do
+      allow(Setting).to receive(:field).and_return('16:00')
+    end
+
+    it_behaves_like 'labelled by default'
+    it_behaves_like 'wrapped in field-container by default'
+    it_behaves_like 'wrapped in container', 'text-field-container'
+
+    it 'should output element' do
+      expect(output).to be_html_eql(%{
+        <input class="custom-class form--text-field -time"
+          id="settings_field" name="settings[field]" type="time" value="16:00" />
+      }).at_path('input')
     end
   end
 

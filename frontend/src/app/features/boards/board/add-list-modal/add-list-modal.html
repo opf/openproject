@@ -1,0 +1,61 @@
+<div
+  class="op-modal op-modal_autoheight confirm-form-submit--modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body">
+    <div *ngIf="showWarning && warningText"
+         class="notification-box -warning">
+      <div class="notification-box--content">
+        <p [innerHTML]="warningText"></p>
+      </div>
+    </div>
+
+      <div class="form--field">
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <label class="form--label" [textContent]="actionService.label"></label>
+              <op-autocompleter
+                #select
+                classes="new-list--action-select"
+                appendTo="body"
+                [resource]="autocompleterOptions.resource"
+                [openDirectly]="true"
+                [fetchDataDirectly]="true"
+                [getOptionsFn]=autocompleterOptions.getOptionsFn
+                (change)="onModelChange($event)"
+              >
+              <ng-template op-autocompleter-footer-tmp *ngIf="autocompleterOptions.resource=='version'" let-search>
+                <button
+                  class="op-select-footer--label"
+                  type="button"
+                  (click)="onNewActionCreated()">
+                  <span class="icon-context">
+                    <op-icon icon-classes="icon-plus icon-context"></op-icon>
+                    {{text.button_create}} {{ngSelectComponent.ngSelectInstance.searchTerm}}
+                  </span>
+                </button>
+
+              </ng-template>
+            </op-autocompleter>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="op-modal--footer">
+    <button
+      class="confirm-form-submit--cancel button"
+      (click)="closeMe($event)"
+      [textContent]="text.button_cancel"
+      [attr.title]="text.button_cancel"
+    ></button>
+    <button
+      class="button -highlight"
+      (click)="create()"
+      [disabled]="!this.selectedAttribute || inFlight"
+      [textContent]="text.button_add"
+      [attr.title]="text.button_add"
+    ></button>
+  </div>
+</div>

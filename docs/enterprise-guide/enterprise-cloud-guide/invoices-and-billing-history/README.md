@@ -36,7 +36,7 @@ In the overlay window, click on the link **Billing History**.
 
 Here, you will get an overview about all your past payments for the Enterprise cloud edition. 
 
-With the **Download link** you can download the inovices.
+With the **Download link** you can download the invoices.
 
 The **Load more link** will open more positions on the list.
 
@@ -51,7 +51,7 @@ To do this, you can sign into your OpenProject environment and select the "Buy n
 
 ### When does my OpenProject contract end?
 
-The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/terms-of-service/) will be extended automatically if the contract was not terminated on time. 
+The user may terminate the contract at any time, which will apply by the end of the subscription period (including last day). In case of credit card payment the subscription period is one month or one year; in case of payment via invoice the subscription period is one year. The [agreed subscription period](https://www.openproject.org/legal/terms-of-service/) will be extended automatically if the contract was not terminated on time. 
 
 ### What shall I do when I run into payment issues with OpenProject?
 

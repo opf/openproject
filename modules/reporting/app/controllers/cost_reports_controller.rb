@@ -188,7 +188,7 @@ class CostReportsController < ApplicationController
 
     return unless name
 
-    f_cls = report_engine::Filter.const_get(name.to_s.camelcase)
+    f_cls = get_filter_class(name)
     filter = f_cls.new.tap do |f|
       f.values = JSON.parse(params[:values].gsub("'", '"')) if params[:values].present? && params[:values]
     end
@@ -397,6 +397,16 @@ class CostReportsController < ApplicationController
     @current_user = User.current || User.anonymous
   end
 
+  def get_filter_class(name)
+    filter = report_engine::Filter
+      .all
+      .detect { |cls| cls.to_s.demodulize.underscore == name.to_s }
+
+    raise ArgumentError.new("Filter with name #{name} does not exist.") unless filter
+
+    filter
+  end
+
   ##
   # Determine the available values for the specified filter and return them as
   # json, if that was requested. This will be executed INSTEAD of the actual action
@@ -417,7 +427,7 @@ class CostReportsController < ApplicationController
       values = values.map { |value| value.nil? ? [::I18n.t(:label_none), '<<null>>'] : value }
       # try to find corresponding labels to the given values
       values = values.map do |value|
-        filter = report_engine::Filter.const_get(dependent.camelcase.to_sym)
+        filter = get_filter_class(dependent)
         filter_value = filter.label_for_value value
         if filter_value && filter_value.first.is_a?(Symbol)
           [::I18n.t(filter_value.first), filter_value.second]

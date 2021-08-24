@@ -30,39 +30,29 @@
 
 module BreadcrumbHelper
   def full_breadcrumb
-    if show_defaults
-      breadcrumb_list(link_to(icon_wrapper('icon2 icon-home', I18n.t(:label_home)), home_path),
-                      link_to_project_ancestors(@project),
-                      *breadcrumb_paths)
-    else
-      breadcrumb_list(*breadcrumb_paths)
-    end
+    breadcrumb_list(*breadcrumb_paths)
   end
 
   def breadcrumb(*args)
     elements = args.flatten
-    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'breadcrumb') : nil
+    elements.any? ? content_tag('p', (args.join(' &#187; ') + ' &#187; ').html_safe, class: 'op-breadcrumb') : nil
   end
 
   def breadcrumb_list(*args)
     elements = args.flatten
     breadcrumb_elements = [content_tag(:li,
                                        elements.shift.to_s,
-                                       class: 'first-breadcrumb-element',
-                                       style: 'list-style-image:none;')]
+                                       class: 'first-breadcrumb-element')]
 
     breadcrumb_elements += elements.map do |element|
       if element
-        css_class = if element.try(:include?, 'breadcrumb-project-title')
-                      'breadcrumb-project-element '
-                    end
         content_tag(:li,
                     h(element.to_s),
-                    class: "#{css_class} icon4 icon-small icon-arrow-right5")
+                    class: "icon4 icon-small icon-arrow-right5")
       end
     end
 
-    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
+    content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'op-breadcrumb',  'data-qa-selector': 'op-breadcrumb')
   end
 
   def breadcrumb_paths(*args)
@@ -81,30 +71,6 @@ module BreadcrumbHelper
       show_local_breadcrumb
     else
       false
-    end
-  end
-
-  def show_defaults
-    if !!(defined? show_local_breadcrumb_defaults)
-      show_local_breadcrumb_defaults
-    else
-      false
-    end
-  end
-
-  private
-
-  def link_to_project_ancestors(project)
-    if project && !project.new_record?
-      ancestors = (project.root? ? [] : project.ancestors.visible.to_a)
-      ancestors << project
-      ancestors.map do |p|
-        if p == project
-          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
-        else
-          link_to_project(p, { jump: current_menu_item }, title: p, class: 'breadcrumb-project-title').html_safe
-        end
-      end
     end
   end
 end

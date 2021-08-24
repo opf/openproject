@@ -28,9 +28,6 @@
 
 require 'spec_helper'
 
-##
-# The concern is implemented in the ApplicationController and is therewore applicable
-# in every controller. We're just using this particular one for the test.
 describe MyController, type: :controller do
   render_views
 
@@ -98,15 +95,17 @@ describe MyController, type: :controller do
     end
 
     it "should log in given user" do
-      expect(response.body.squish).to have_content("Username   h.wurst")
+      expect(response).to redirect_to my_page_path
+      expect(session[:user_id]).to eq user.id
     end
 
     context 'when the secret being null' do
       let(:secret) { nil }
 
       it "should log in given user" do
-        expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(response).to redirect_to my_page_path
         expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now)
+        expect(session[:user_id]).to eq user.id
       end
     end
 
@@ -116,8 +115,9 @@ describe MyController, type: :controller do
       end
 
       it "should log in given user and activate it" do
-        expect(response.body.squish).to have_content("Username   h.wurst")
+        expect(response).to redirect_to my_page_path
         expect(user.reload).to be_active
+        expect(session[:user_id]).to eq user.id
       end
     end
 
@@ -146,6 +146,30 @@ describe MyController, type: :controller do
       end
 
       it_should_behave_like "auth source sso failure"
+    end
+  end
+
+  context 'when the logged-in user differs from the header' do
+    let(:other_user) { FactoryBot.create :user, login: 'other_user' }
+    let(:session_update_time) { 1.minute.ago }
+    let(:service) { Users::LogoutService.new(controller: controller) }
+
+    before do
+      session[:user_id] = other_user.id
+      session[:updated_at] = session_update_time
+    end
+
+    it 'logs out the user and logs it in again' do
+      allow(::Users::LogoutService).to receive(:new).and_return(service)
+      allow(service).to receive(:call).with(other_user).and_call_original
+
+      get :account
+
+      expect(service).to have_received(:call).with(other_user)
+      expect(response).to redirect_to my_page_path
+      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now.utc)
+      expect(session[:user_id]).to eq user.id
+      expect(session[:updated_at]).to be > session_update_time
     end
   end
 end

@@ -54,10 +54,12 @@ class AdminUserSeeder < Seeder
       user.firstname = 'OpenProject'
       user.lastname = 'Admin'
       user.mail = ENV['ADMIN_EMAIL'].presence || 'admin@example.net'
-      user.mail_notification = User::USER_MAIL_OPTION_ONLY_MY_EVENTS.first
       user.language = I18n.locale.to_s
       user.status = User.statuses[:active]
       user.force_password_change = force_password_change?
+      user.notification_settings.build(channel: :mail, involved: true, mentioned: true, watched: true)
+      user.notification_settings.build(channel: :in_app, involved: true, mentioned: true, watched: true)
+      user.notification_settings.build(channel: :mail_digest, involved: true, mentioned: true, watched: true)
     end
   end
 

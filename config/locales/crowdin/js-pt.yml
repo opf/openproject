@@ -34,18 +34,18 @@ pt:
       remove: "Remover %{name}"
       active: "Ativar %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Pode ser que os anexos não sejam incluídos pois excedem o tamanho máximo permitido. Você pode alterar esta opção nas configurações (reinicialização de servidor necessária).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Aqui, você pode ativar um backup. O processo pode demorar um pouco dependendo da quantidade de dados (especialmente anexos) que você tenha. Você receberá um e-mail quando ele estiver pronto.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Um novo backup substituirá qualquer realizado anteriormente. Apenas um número limitado de backups por dia pode ser solicitado.
+      last_backup: Último backup
+      last_backup_from: Último backup de
+      title: fazer backup do OpenProject
       options: Opções
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Incluir anexos
+      download_backup: Baixar backup
+      request_backup: Solicitar backup
     close_popup_title: "Fechar pop-up"
     close_filter_title: "Fechar filtro"
     close_form_title: "Fechar formulário"
@@ -87,6 +87,7 @@ pt:
     button_update: "Atualizar"
     button_export-pdf: "Baixar PDF"
     button_export-atom: "Baixar Atom"
+    button_create: "Criar"
     calendar:
       title: 'Calendário'
       too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
@@ -126,12 +127,12 @@ pt:
       preview: 'Alternar modo de visualização'
       source_code: 'Alternar para código Markdown'
       error_saving_failed: 'Não foi possível salvar o documento pelo seguinte erro: %{error}'
-      error_initialization_failed: 'Falha ao inicializar CKEditor!'
+      ckeditor_error: 'Ocorreu um erro no CKEditor '
       mode:
         manual: 'Alternar para fonte Markdown'
         wysiwyg: 'Alternar para editor WYSIWYG'
       macro:
-        error: 'Não é possível expandir o macro: %{message}'
+        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: 'Esse segmento de texto está sendo dinamicamente renderizado por um macro.'
           not_found: 'Não foi possível encontrar o recurso solicitado'
@@ -195,7 +196,6 @@ pt:
             label_company: "Empresa"
             label_first_name: "Nome"
             label_last_name: "Sobrenome"
-            label_email: "E-mail"
             label_domain: "Domínio"
             label_subscriber: "Assinante"
             label_maximum_users: "Máximo de usuários ativos"
@@ -219,7 +219,7 @@ pt:
         upsale:
           become_hero: "Torne-se um herói!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Quais os benefícios do da Edição local Empresarial?"
             high_security: "Recursos de segurança"
             high_security_text: "Início de sessão único (SAML, OpenID Connect, CAS), autenticação de dois fatores e sincronização automática de grupos LDAP."
             installation: "Suporte à instalação"
@@ -283,13 +283,13 @@ pt:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Esta versão possui vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Um novo conceito de <b>usuários de espaço reservado</b> (recurso premium) permite que você adicione usuários preliminares sem um endereço de e-mail ao OpenProject e que atribua tarefas a estes recursos.</li> <li>Os filtros do pacote de trabalho <b>são ampliados por uma opção pai </b>para facilitar a visualização de todos os filhos diretos assim como <b>por ID</b> para incluir ou excluir apenas aqueles pacotes de trabalho específicos na lista.</li> <li>A administração de usuário é distribuída aos não-administradores por uma <b>nova função global</b>, permitindo o gerenciamento e convite de usuários sem que se tenha todos os privilégios de administrador.</li> <li>Mais melhorias de UI e UX, ou seja, harmonizando a navegação pelos relatórios de custo, cores de fundo adaptadas para as somas e linhas de grupo na lista do pacote de trabalho, adicionando uma página de exibição de grupo.</li> </ul>
+              A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Novo botão na navegação do cabeçalho para criar pacotes de projetos, de usuários e de trabalho.</li> <li>Um novo convite restrito para usuários, usuários de espaço reservado e grupos facilita a adição e convite de novos usuários e a atribuição de pacotes de trabalho para eles.</li> <li>A integração do GitHub no OpenProject.</li> <li>Extensões v3 de API para grupos e mais, ou seja, criação, leitura, atualização e exclusão de grupos e membros de grupo através de API.</li> <li>Multi-seleção para campos de personalização de projetos da lista de tipos.</li> <li>Criação de backup para a interface da web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Esta versão possui vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Um novo conceito de <b>usuários de espaço reservado</b> (recurso premium) permite que você adicione usuários preliminares sem um endereço de e-mail ao OpenProject e que atribua tarefas a estes recursos.</li> <li>Os filtros do pacote de trabalho <b>são ampliados por uma opção pai </b>para facilitar a visualização de todos os filhos diretos assim como <b>por ID</b> para incluir ou excluir apenas aqueles pacotes de trabalho específicos na lista.</li> <li>A administração de usuário é distribuída aos não-administradores por uma <b>nova função global</b>, permitindo o gerenciamento e convite de usuários sem que se tenha todos os privilégios de administrador.</li> <li>Mais melhorias de UI e UX, ou seja, harmonizando a navegação pelos relatórios de custo, cores de fundo adaptadas para as somas e linhas de grupo na lista do pacote de trabalho, adicionando uma página de exibição de grupo.</li> </ul>
+              A versão contém vários recursos e melhorias novos: <br> <ul class="%{list_styling_class}"> <li>BIM: desempenho melhorado do visualizador do modelos IFC.</li> <li>BIM: O visualizador IFC agora dá suporte a modelos de precisão dupla, que é ótimo para grandes canteiros de obra, como pontes, estradas etc.</li> <li>BIM: Botão de alternância para trocar entre perspectiva e modo ortogonal.</li> <li>BIM: Um menu para editar, excluir ou inversão de planos de seção.</li> <li>Novo botão na navegação do cabeçalho para criar pacotes de projetos, de usuários e de trabalho.</li> <li>Um novo convite restrito para usuários, usuários de espaço reservado e grupos facilita a adição e convite de novos usuários e a atribuição de pacotes de trabalho para eles.</li> <li>Extensões v3 de API para grupos e mais, ou seja, criação, leitura, atualização exclusão de grupos e membros de grupo através de API.</li> <li>Multi-seleção para campos personalizados de projeto da lista de tipos.</li> <li>Criação de backup para a interface da web.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -313,6 +313,7 @@ pt:
     label_board_locked: "Bloqueado"
     label_board_plural: "Quadros"
     label_board_sticky: "Afixado"
+    label_change: "Alterar"
     label_create: "Criar"
     label_create_work_package: "Criar novo pacote de trabalho"
     label_created_by: "Criado por"
@@ -335,6 +336,7 @@ pt:
     label_created_on: "criado em"
     label_edit_comment: "Editar este comentário"
     label_edit_status: "Editar a situação do pacote de trabalho"
+    label_email: "E-mail"
     label_equals: "é"
     label_expand: "Expandir"
     label_expanded: "expandido"
@@ -394,6 +396,7 @@ pt:
     label_quote_comment: "Citar este comentário"
     label_recent: "Recente"
     label_reset: "Reiniciar"
+    label_remove: "Remover"
     label_remove_column: "Remover coluna"
     label_remove_columns: "Remover colunas selecionadas"
     label_remove_row: "Remover linha"
@@ -415,7 +418,7 @@ pt:
     label_public_query: "Público"
     label_sum: "Soma"
     label_sum_for: "Soma para"
-    label_total_sum: "Soma Total"
+    label_total_sum: "Soma total"
     label_subject: "Assunto"
     label_this_week: "esta semana"
     label_today: "Hoje"
@@ -475,31 +478,67 @@ pt:
         next: 'Próxima'
         got_it: 'Entendi'
       steps:
-        help_menu: 'No menu <b>Ajuda</b> você vai encontrar um guia do usuário e recursos adicionais de ajuda. <br> Aprecie o seu trabalho com OpenProject!'
-        members: 'Convide novos <b>Membros</b> para participar de seu projeto.'
-        project_selection: 'Por favor, selecione um dos projetos com dados de demonstração úteis para começar. <br> O <b>Projeto de Demonstração</b> é o melhor para gerenciamento de projetos tradicionais, enquanto o <b>Projeto Scrum</b> é melhor para gerenciamento ágil de projetos.'
-        quick_add_button: 'Create a new project or invite coworkers.'
-        sidebar_arrow: "Com a seta, você pode navegar para o <b>menu principal</b> do projeto."
+        help_menu: 'O menu Ajuda (?) fornece <b>recursos adicionais de ajuda</b>. Aqui você pode encontrar um guia do usuário e vídeos de ajuda úteis e muito mais. <br> Aproveite seu trabalho com o OpenProject!'
+        members: 'Convide novos <b>membros</b> para participar de seu projeto.'
+        project_selection: 'Clique em um dos projetos de demonstração que preparamos. Os dados de demonstração estão atualmente disponíveis apenas em inglês. <br> O geral<b> projeto demo </b> é mais adequado para gerenciamento de projeto clássico, enquanto o <b> projeto Scrum </b> é melhor para gerenciamento de projeto ágil.'
+        quick_add_button: 'Clique no ícone mais (+) no menu de navegação para <b>criar um novo projeto</b> ou para <b>convidar colegas de trabalho</b>.'
+        sidebar_arrow: "Use a seta de retorno no canto superior esquerdo para retornar ao <b>menu principal</b> do projeto."
         welcome: 'Acompanhe um tour de apresentação de 3 minutos para descobrir mais <b>recursos importantes</b>.<br> Recomendamos que você conclua as etapas até o final. Você pode reiniciar o tour a qualquer momento.'
-        wiki: 'Na <b>Wiki</b> você pode documentar e compartilhar conhecimento com sua equipe.'
+        wiki: 'No <b>wiki</b>, você pode documentar e compartilhar conhecimento junto com sua equipe. '
         backlogs:
-          overview: "Gerencie seu trabalho na visão de <b>Backlogs</b>.<br> À direita você possui o Backlog do produto ou um Backlog de Bug, à esquerda você terá sprints respectivos. Aqui você pode criar <b>épicos, histórias de usuários e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
-          task_board_arrow: 'Para visualizar seu <b>Quadro de tarefas</b>, abra o menu suspenso de Sprint...'
-          task_board_select: '... e selecione <b>Quadro de tarefas</b>.'
-          task_board: "O <b>Quadro de tarefas</b> visualiza o progresso do sprint. Adicione novas tarefas ou impedimentos com o + ícone ao lado de uma história de usuário. Arrastando e soltando você pode atualizar a situação."
+          overview: "Gerencie seu trabalho na exibição de <b>backlogs</b>."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          task_board_arrow: 'Para ver o seu <b>quadro de tarefas</b>, abra o menu suspenso de sprint ... '
+          task_board_select: '... e selecione a entrada <b>quadro de tarefas</b>. '
+          task_board: "O painel de tarefas visualiza o progresso de <b>para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
         boards:
-          overview: 'Gerencie seu trabalho através de uma visão intuitiva de <b>Quadros</b>.'
-          lists: 'Você pode criar várias listas (colunas) dentro de uma visão de um quadro, por exemplo, para criar um quadro KANBAN.'
-          add: 'Clicar no + irá <b>adicionar um novo cartão</b> à lista dentro de um Quadro.'
-          drag: 'Arraste e solte seus cartões dentro de uma lista para reordenar ou mover para outra lista. Um clique duplo abrirá a visualização detalhada.'
+          overview: 'Selecione <b>paineis</b> para mudar a visão e gerenciar seu projeto usando a exibição de paineis ágeis.'
+          lists: 'Aqui você pode criar múltiplas listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
+          drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
-          toggler: "Agora vamos dar uma olhada na seção <b>Pacotes de trabalho</b>, que lhe fornece uma visão mais detalhada do seu trabalho."
-          list: 'Esta é a lista de <b>Pacotes de trabalho</b> com o trabalho importante dentro de seu projeto, tais como tarefas, marcos, fases e muito mais. <br>Você pode criar ou editar um pacote de trabalho diretamente dentro desta lista. Para ver seus detalhes você pode clicar duas vezes em uma linha.'
-          full_view: 'Nos <b>detalhes do pacote de trabalho</b> você encontra todas as informações pertinentes, tais como descrição, situação e prioridade, atividades, dependências ou comentários.'
-          back_button: 'Com a seta você pode navegar de volta para a lista de pacotes de trabalho.'
-          create_button: 'O botão <b>Criar</b> irá adicionar um novo pacote de trabalho ao seu projeto.'
-          timeline_button: 'Você pode ativar o <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
-          timeline: 'Aqui você pode editar o seu plano de projeto. Criar novas fases, marcos e adicionar dependências. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
+          toggler: "Agora vamos dar uma olhada na seção <b>pacote de trabalho</b> , que lhe dá uma visão mais detalhada do seu trabalho."
+          list: 'Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Pacotes de trabalho podem ser criados e editados diretamente desta visualização. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.'
+          full_view: 'A exibição <b>de detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, status, prioridade, atividades, dependências e comentários.'
+          back_button: 'Use a seta de retorno no canto superior esquerdo para sair e retornar à lista de pacotes de trabalho.'
+          create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
+          timeline_button: 'Você pode ativar a exibição de gráfico de <b>Gantt</b> para criar uma linha do tempo para o seu projeto.'
+          timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
+    notifications:
+      title: "Notificações"
+      channel: "Canal"
+      no_unread: "Nenhuma notificação não lida"
+      channels:
+        in_app: "No aplicativo"
+        mail: "E-mail"
+        mail_digest: "E-mail do resumo diário"
+      reasons:
+        mentioned: 'mencionado'
+        watched: 'observado'
+        involved: 'envolvido'
+      facets:
+        unread: 'Não lido'
+        all: 'Todos'
+      center:
+        mark_all_read: 'Marcar tudo como lido'
+        text_update_date: "%{date} by"
+        total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Mas %{more_count} não são exibidas."
+      settings:
+        default_all_projects: 'Padrão para todos os projetos'
+        involved: 'Estou envolvido'
+        mentioned: 'Eu fui mencionado'
+        watched: 'Estou assistindo'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
+        all: 'Todos os eventos'
+        add: 'Adicionar configuração para o projeto'
+        already_selected: 'Este projeto já está selecionado'
+        remove_projects: 'Remover notificações para projetos'
+        title: "Configurações de Notificação"
+        self_notify: "Quero ser notificado das alterações que eu faço"
     password_confirmation:
       field_description: 'Você precisa digitar sua senha para confirmar essa alteração.'
       title: 'Confirme sua senha para continuar'
@@ -519,14 +558,15 @@ pt:
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
-      confirm_template_load: 'Mudar o template irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
+      confirm_template_load: 'Mudar o modelo irá recarregar a página e todos os dados inseridos nesse formulário serão perdidos. Continuar?'
       use_template: "Usar modelo"
-      no_template_selected: "(None)"
+      no_template_selected: "(Nenhum)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Opções de cópia"
       autocompleter:
         label: 'Autocompletar projeto'
     text_are_you_sure: "Você tem certeza?"
+    text_data_lost: "Todos os dados inseridos serão perdidos."
     types:
       attribute_groups:
         error_duplicate_group_name: "O nome %{group} foi usado mais de uma vez. Nomes de Grupos devem ser únicos."
@@ -534,7 +574,7 @@ pt:
         reset_title: "Voltar para a configuração padrão do formulário"
         confirm_reset: >
           Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee: "Faça o upgrade para a Edição local Empresarial"
         upgrade_to_ee_text: "Uau! Se você precisa deste recurso... você é um super profissional! Você se importaria de apoiar desenvolvedores de código aberto, tornando-se um cliente da versão Enterprise Edition?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
@@ -609,7 +649,7 @@ pt:
       parent_placeholder: "Escolha o novo principal ou pressione esc para cancelar."
     autocompleter:
       placeholder: "Digite para pesquisar"
-      notFoundText: "No items found"
+      notFoundText: "Nenhum item encontrado"
       typeToSearchText: "Digite para pesquisar"
     repositories:
       select_tag: 'Selecionar marca'
@@ -928,7 +968,7 @@ pt:
     notice_successful_create: "Criado com sucesso."
     notice_successful_delete: "Exclusão bem sucedida."
     notice_successful_update: "Atualizado com sucesso."
-    notice_job_started: "job started."
+    notice_job_started: "trabalho iniciado."
     notice_bad_request: "Requisição Inválida."
     relations:
       empty: Nenhuma relação existente
@@ -984,76 +1024,73 @@ pt:
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Voltar'
-      invite: 'Invite'
+      invite: 'Convidar'
       title:
         invite: 'Convidar usuário'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: 'Convide %{type} para %{project}'
+        User: 'usuário'
+        Group: 'grupo'
+        PlaceholderUser: 'usuário do espaço reservado'
+        invite_principal_to_project: 'Convide %{principal} para %{project}'
       project:
         label: 'Projeto'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        required: 'Selecione um projeto'
+        lacking_permission: 'Como você não possui permissões para atribuir usuários para o projeto selecionado, favor selecionar outro.'
+        lacking_permission_info: 'Você não possui a permissão para atribuir usuários ao projeto que você está atualmente. Você precisa selecionar um diferente. '
         next_button: 'Próxima'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Nenhum projeto foi encontrado'
+        no_invite_rights: 'Você não tem permissão para convidar membros para este projeto'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Selecione o tipo a ser convidado'
         user:
           title: 'Usuário'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissões com base em uma função atribuída no projeto selecionado'
         group:
           title: 'Grupo'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Permissões com base em uma função atribuída no projeto selecionado'
         placeholder:
           title: 'Usuário do espaço reservado'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: 'Usuário do espaço reservado (recurso só presente na Edição Empresarial)'
+          description: 'Não possui acesso ao projeto e nenhum e-mail é enviado.'
+          description_no_ee: 'Não possui acesso ao projeto e nenhum e-mail é enviado. <br>Confira a <a href="%{eeHref}" target="_blank">Edição Empresarial</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Nome ou endereço de e-mail'
           name: 'Nome'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        change_user_selection: 'Change e-mail-address or select an existing user'
-        no_results_placeholder: 'No placeholders were found'
-        change_placeholder_selection: 'Change name or select an existing placeholder'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
-        change_group_selection: 'Change name or select an existing group'
+        already_member_message: 'Já é um membro de %{project}'
+        no_results_user: 'nenhum usuário foi encontrado'
+        invite_user: 'Convite:'
+        no_results_placeholder: 'Nenhum espaço reservado encontrado'
+        create_new_placeholder: 'Criar novo espaço reservado:'
+        no_results_group: 'Nenhum grupo encontrado'
         next_button: 'Próxima'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: 'Selecione um usuário'
+          placeholder: 'Selecione um espaço reservado'
+          group: 'Selecione um grupo'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: 'Função em %{project}'
+        no_roles_found: 'Nenhuma função encontrada'
+        description: 'Esta é uma função que %{principal} receberá quando se juntar ao projeto. A função define que ações  que ela pode realizar e que informações pode visualizar. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Aprenda mais sobre funções e permissões. </a>'
+        required: 'Selecione uma função'
         next_button: 'Próxima'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        label: 'Mensagem de convite'
+        description: 'Enviaremos um e-mail para %{principal}, no qual você pode adicionar uma mensagem pessoal. Uma explicação para o convite pode ajudar, ou talvez algumas informações sobre o projeto para que ele/ela possa começar.'
+        next_button: 'Revisar convite'
       summary:
         next_button: 'Enviar Convite'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} foi convidado!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'O usuário agora pode registrar para acessar %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
+          placeholder: 'O espaço reservado agora pode ser usado em %{project}. Enquanto isso, você já pode planejar com este usuário e atribuir pacotes de trabalho por exemplo.'
+          group: 'O grupo agora faz parte de %{project}. Enquanto isso, você já pode planejar com este grupo e atribuir pacotes de trabalho por exemplo.'
         next_button: 'Continuar'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'O formulário foi enviado com sucesso'
+      load_error_message: 'Ocorreu um erro ao carregar o formulário'
+      validation_error_message: 'Corrija os erros presentes no formulário'
       advanced_settings: 'Configurações avançadas'
 
 

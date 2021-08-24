@@ -40,11 +40,17 @@ Settings::Definition.define do
   add :apiv3_cors_origins,
       value: []
 
+  add :apiv3_docs_enabled,
+      value: true
+
   add :app_title,
       value: 'OpenProject'
 
   add :attachment_max_size,
       value: 5120
+
+  add :attachment_whitelist,
+      value: []
 
   add :autofetch_changesets,
       value: true
@@ -145,10 +151,6 @@ Settings::Definition.define do
   add :default_language,
       value: 'en'
 
-  add :default_notification_option,
-      value: 'only_my_events',
-      allowed: -> { User::MAIL_NOTIFICATION_OPTIONS.map(&:first).map(&:to_s) }
-
   add :default_projects_modules,
       value: %w[calendar board_view work_package_tracking news costs wiki],
       allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
@@ -173,7 +175,7 @@ Settings::Definition.define do
       value: {
         "en" => <<~MSG
           You have received this notification because you have either subscribed to it, or are involved in it.
-          To change your notification preferences, please click here: http://hostname/my/account
+          To change your notification preferences, please click here: {{opSetting:base_url}}/my/notifications
         MSG
       }
 
@@ -262,13 +264,17 @@ Settings::Definition.define do
   add :oauth_allow_remapping_of_existing_users,
       value: false
 
+  add :notification_retention_period_days,
+      value: 30
+
+  add :notification_email_delay_minutes,
+      value: 15
+
+  add :notification_email_digest_time,
+      value: '08:00'
+
   add :notified_events,
       value: %w[
-        work_package_added
-        work_package_updated
-        work_package_note_added
-        status_updated
-        work_package_priority_updated
         news_added
         news_comment_added
         file_added message_posted
@@ -278,11 +284,6 @@ Settings::Definition.define do
         membership_updated
       ],
       allowed: %w[
-        work_package_added
-        work_package_updated
-        work_package_note_added
-        status_updated
-        work_package_priority_updated
         news_added
         news_comment_added
         file_added message_posted
@@ -685,12 +686,6 @@ Settings::Definition.define do
       api: false,
       writable: false
 
-  add :sentry_traces_sample_rate,
-      format: :float,
-      value: 0.1,
-      api: false,
-      writable: false
-
   # Configuration default values
   {
     'attachments_storage' => 'file',
@@ -797,7 +792,15 @@ Settings::Definition.define do
     'ldap_groups_disable_sync_job' => false,
 
     # Slow query logging threshold in ms
-    'sql_slow_query_threshold' => 2000
+    'sql_slow_query_threshold' => 2000,
+
+    # Allow sentry to collect tracing samples
+    # set to 1 to enable default tracing samples (see sentry initializer)
+    # set to n >= 1 to enable n times the default tracing
+    'sentry_trace_factor' => 0,
+    # Allow sentry to collect tracing samples on frontend
+    # set to n >= 1 to enable n times the default tracing
+    'sentry_frontend_trace_factor' => 0
   }.each do |key, value|
     add(key, value: value)
   end

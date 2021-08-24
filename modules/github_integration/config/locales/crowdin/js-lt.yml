@@ -27,17 +27,13 @@ lt:
       tab_header:
         title: "Įtraukimo užklausos"
         copy_menu:
-          label: Git
-          description: Nukopijuoti svarbų git turinį į iškarpinę
+          label: Git fragmentai
+          description: Nukopijuoti git fragmentus į iškarpinę
         git_actions:
-          branch: Šaka
-          branch_help: Nukopijuoti numatytosios šakos pavadinimą.
-          message: Pranešimas
-          message_help: Nukopijuoti numatytąjį commit pranešimą.
-          cmd: Komanda
-          cmd_help: Nukopijuokite komandą, kuri sukuria naują šaką ir tuščią commit naudodama numatytąjį šakos pavadinimą ir commit pranešimą.
-          title: Kopijuoti į Iškarpinę
-          copy_button_help: Kopijuoti į iškarpinę
+          branch_name: Šakos pavadinimas
+          commit_message: Commit pranešimas
+          cmd: Sukurti šaką su tuščiu commit pranešimu
+          title: Greiti Git fragmentai
           copy_success: '✅ Nukopijuota!'
           copy_error: '❌ Kopijavimas nepavyko!'
       tab_prs:

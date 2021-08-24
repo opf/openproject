@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
   include HookHelper
   include ErrorsHelper
   include Accounts::CurrentUser
+  include Accounts::UserLogin
   include ::OpenProject::Authentication::SessionExpiry
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper

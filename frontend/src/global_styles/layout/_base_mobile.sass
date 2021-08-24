@@ -50,11 +50,14 @@
   #main
     margin-top: var(--header-height)
 
-    .-header-scrolled &
+    ._header-scrolled &
       margin-top: 0
 
   #content-wrapper
     height: initial
+    // Take care that the wrapper has the available screen height at the least
+    // Check for example notification center on mobile before changing that
+    min-height: calc(100vh - var(--header-height))
   // ------------------- END CHANGED SCROLL BEHAVIOR
 
   #content-wrapper

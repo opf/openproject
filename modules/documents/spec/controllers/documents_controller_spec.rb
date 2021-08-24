@@ -44,9 +44,7 @@ describe DocumentsController do
     FactoryBot.create(:document, title: "Sample Document", project: project, category: default_category)
   end
 
-  before do
-    allow(User).to receive(:current).and_return admin
-  end
+  current_user { admin }
 
   describe "index" do
     let(:long_description) do
@@ -130,6 +128,7 @@ describe DocumentsController do
     end
 
     describe "with attachments" do
+      let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
       before do
         notify_project = project
         FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
@@ -140,7 +139,7 @@ describe DocumentsController do
                document: FactoryBot.attributes_for(:document, title: "New Document",
                                                               project_id: notify_project.id,
                                                               category_id: default_category.id),
-               attachments: { '1' => { description: "sample file", file: file_attachment } }
+               attachments: { '1' => { id: uncontainered.id } }
              }
       end
 
@@ -149,16 +148,11 @@ describe DocumentsController do
 
         expect(document.attachments.count).to eql 1
         attachment = document.attachments.first
-        expect(attachment.description).to eql "sample file"
-        expect(attachment.filename).to eql "testfile.txt"
+        expect(uncontainered.reload).to eql attachment
       end
 
       it "should redirect to the documents-page" do
         expect(response).to redirect_to project_documents_path(project.identifier)
-      end
-
-      it "should send out mails with notifications to members of the project with :view_documents-permission" do
-        expect(ActionMailer::Base.deliveries.size).to eql 1
       end
     end
   end
@@ -176,12 +170,14 @@ describe DocumentsController do
   end
 
   describe '#add_attachment' do
+    let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+
     before do
       document
       post :add_attachment,
            params: {
              id: document.id,
-             attachments: { '1' => { description: "sample file", file: file_attachment } }
+             attachments: { '1' => { id: uncontainered.id } }
            }
     end
 
@@ -189,6 +185,7 @@ describe DocumentsController do
       expect(response).to be_redirect
       document.reload
       expect(document.attachments.length).to eq(1)
+      expect(uncontainered.reload).to eq document.attachments.first
     end
   end
 

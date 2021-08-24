@@ -42,25 +42,4 @@ describe WorkPackage, type: :model do
     let(:watch_permission) { :view_work_packages }
     let(:project) { model_instance.project }
   end
-
-  # This is not really a trait of acts as watchable but rather of
-  # the work package observer + journal observer
-  context 'notifications' do
-    let(:number_of_recipients) { (work_package.recipients | work_package.watcher_recipients).length }
-    let(:current_user) { FactoryBot.create :user }
-
-    before do
-      allow(UserMailer).to receive_message_chain :work_package_updated, :deliver
-
-      # Ensure notification setting to be set in a way that will trigger e-mails.
-      allow(Setting).to receive(:notified_events).and_return(%w(work_package_updated))
-      expect(UserMailer).to receive(:work_package_updated).exactly(number_of_recipients).times
-
-      allow(User).to receive(:current).and_return(current_user)
-    end
-
-    it 'sends one delayed mail notification for each watcher recipient' do
-      work_package.update description: 'Any new description'
-    end
-  end
 end

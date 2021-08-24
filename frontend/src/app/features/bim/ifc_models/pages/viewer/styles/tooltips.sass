@@ -1,0 +1,22 @@
+// Reusing the global tooltips selectively. The toolbar buttons already have :before CSS rules applied, such as the
+// actual icons in the buttons. So we need to be careful not to overwrite them. Thus we pick (@extend) only the styles
+// from the global tooltips that we want to use. And we accept that our tooltip speech bubbles do not have triangle
+// tips.
+@import "../../../../../../../global_styles/content/tooltips"
+
+.xeokit-toolbar [data-tippy-content]
+  +tooltip--colorize
+
+  &:after
+    @extend %tooltip--reset-styles
+    @extend %tooltip--after
+    content: attr(data-tippy-content)
+    // Here in the Xeokit viewer the toolbar aligns with the right border of the viewer's canvas. We need to make sure
+    // that the tooltips of the last button don't get cut off on the right
+    left: 0
+
+  &:hover, &:focus
+    &::before, &::after
+      @extend %tooltip--show
+
+  @extend .tooltip--bottom

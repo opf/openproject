@@ -202,7 +202,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
       it 'responds with the attachment with the appropriate content type and cache headers' do
         expect(subject.status).to eq 200
-        expect(subject.headers['Content-Type']).to eq 'image/jpeg'
+        expect(subject.headers['Content-Type']).to eq 'image/png'
 
         max_age = OpenProject::Configuration.fog_download_url_expires_in - 10
 

@@ -1,7 +1,9 @@
 module Bim
   module IfcModels
     class IfcModel < ActiveRecord::Base
-      acts_as_attachable delete_permission: :manage_ifc_models, view_permission: :view_ifc_models
+      acts_as_attachable delete_permission: :manage_ifc_models,
+                         add_permission: :manage_ifc_models,
+                         view_permission: :view_ifc_models
 
       belongs_to :project
       belongs_to :uploader, class_name: 'User', foreign_key: 'uploader_id'
@@ -18,18 +20,21 @@ module Bim
 
         define_method "#{name}_attachment=" do |file|
           if name == :ifc
-            # Also delete xkt and metadata
+            # Also delete xkt
             delete_attachment :xkt
-            delete_attachment :metadata
           end
 
           delete_attachment name
-          attach_files('first' => { 'file' => file, 'description' => name })
+          call = ::Attachments::CreateService
+            .bypass_whitelist(user: User.current)
+            .call(file: file, container: self, filename: Pathname(file.path).basename, description: name)
+
+          call.on_failure { Rails.logger.error "Failed to add #{name} attachment: #{call.message}" }
         end
       end
 
       def converted?
-        xkt_attachment.present? && metadata_attachment.present?
+        xkt_attachment.present?
       end
 
       private

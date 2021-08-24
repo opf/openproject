@@ -38,7 +38,7 @@ ja:
         time: '配信時間'
       form:
         introduction: >
-          サブスクライブするプロジェクトのすべてのイベントに対して、以下のペイロードURLにPOSTリクエストを送信します。 ペイロードは、変更されるオブジェクトのAPIv3表現に対応します。
+          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: 詳しい情報は、APIドキュメントをご覧ください
         description:
           placeholder: 'Webhookのオプションの説明。'

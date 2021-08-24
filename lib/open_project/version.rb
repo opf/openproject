@@ -33,14 +33,14 @@ require 'open3'
 
 module OpenProject
   module VERSION #:nodoc:
-    MAJOR = 11
-    MINOR = 4
+    MAJOR = 12
+    MINOR = 0
     PATCH = 0
     TINY  = PATCH # Redmine compat
 
     class << self
       # Used by semver to define the special version (if any).
-      # A special version "satify but have a lower precedence than the associated
+      # A special version "satisfy but have a lower precedence than the associated
       # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
       # be considered to be an older version.
       #

@@ -37,7 +37,7 @@ module OpenProject::Bim
     include OpenProject::Plugins::ActsAsOpEngine
 
     register 'openproject-bim',
-             author_url: 'https://www.openproject.com',
+             author_url: 'https://www.openproject.org',
              settings: {
                default: {
                }
@@ -103,8 +103,6 @@ module OpenProject::Bim
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
-    patch_with_namespace :Journal, :AggregatedJournal
-    patch_with_namespace :API, :V3, :Activities, :ActivitiesSharedHelpers
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
 
     patch_with_namespace :DemoData, :QueryBuilder
@@ -215,6 +213,7 @@ module OpenProject::Bim
     config.to_prepare do
       ::WorkPackage::Exporter
         .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
+      ::WorkPackage::Exporter::Formatters.register("OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail")
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn

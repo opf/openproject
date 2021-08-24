@@ -103,9 +103,8 @@ describe NewsController, type: :controller do
   end
 
   describe '#create' do
-    context 'with news_added notifications',
-            with_settings: { notified_events: %w(news_added) } do
-      it 'persists a news item and delivers email notifications' do
+    context 'with news_added notifications' do
+      it 'persists a news item' do
         become_member_with_permissions(project, user)
 
         post :create,
@@ -124,10 +123,6 @@ describe NewsController, type: :controller do
         expect(news.description).to eq 'This is the description'
         expect(news.author).to eq user
         expect(news.project).to eq project
-
-        perform_enqueued_jobs
-
-        expect(ActionMailer::Base.deliveries.size).to eq(1)
       end
     end
 

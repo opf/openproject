@@ -1,0 +1,26 @@
+<div class="op-ee-trial-waiting">
+  <enterprise-active-trial></enterprise-active-trial>
+
+  <p>{{ text.confirmation_info(created, email) }}</p>
+  <p>
+    <span>{{ text.status_label }} </span>
+    <span *ngIf="!eeTrialService.confirmed; else confirmedStatus" class="op-ee-trial-waiting-status--waiting"
+    data-qa-selector="op-ee-trial-waiting-status--waiting">
+      {{ text.status_waiting }}
+
+      <!-- <a id="op-ee-trial-waiting-resend-link"
+      data-qa-selector='op-ee-trial-waiting-resend-link' (click)="resendMail()">{{ text.resend }}</a> -->
+      <button
+      class="op-link op-ee-trial-waiting-resend-link"
+      data-qa-selector='op-ee-trial-waiting-resend-link'
+      (click)="resendMail()">
+      {{ text.resend }}</button>
+      <p *ngIf="eeTrialService.cancelled">{{ text.session_timeout }}</p>
+    </span>
+
+    <ng-template #confirmedStatus>
+      <span class="op-ee-trial-waiting-status--confirmed icon-yes"
+      data-qa-selector="op-ee-trial-waiting-status--confirmed"> {{ text.status_confirmed }}</span>
+    </ng-template>
+  </p>
+</div>

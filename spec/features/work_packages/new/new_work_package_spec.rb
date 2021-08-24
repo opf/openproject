@@ -227,6 +227,18 @@ describe 'new work package', js: true do
       let(:create_method) { method(:create_work_package) }
     end
 
+    it 'allows to go to the full page through the notification (Regression #37555)' do
+      create_work_package(type_task, project.name)
+      save_work_package!
+
+      wp_page.expect_notification message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      page.find('.notification-box--target-link', text: 'Click here to open this work package in fullscreen view.').click
+
+      full_page = Pages::FullWorkPackage.new(WorkPackage.last)
+      full_page.ensure_page_loaded
+      full_page.expect_subject
+    end
+
     it 'reloads the table and selects the new work package' do
       expect(page).to have_no_selector('.wp--row')
 
@@ -453,13 +465,13 @@ describe 'new work package', js: true do
 
       split_create_page.expect_attributes(combinedDate: "no start date - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(split_create_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
+      expect(split_create_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
     end
 
     it 'from the relations tab' do
       wp_page.visit_tab!('relations')
 
-      click_link('Create new child')
+      click_button('Create new child')
 
       subject = EditField.new wp_page, :subject
       subject.set_value 'Child'
@@ -473,7 +485,7 @@ describe 'new work package', js: true do
 
       wp_page.expect_attributes(combinedDate: "#{parent.start_date.strftime('%m/%d/%Y')} - #{parent.due_date.strftime('%m/%d/%Y')}")
 
-      expect(wp_page).to have_selector('.wp-breadcrumb', text: "Parent:\n#{parent.subject}")
+      expect(wp_page).to have_selector('[data-qa-selector="op-wp-breadcrumb"]', text: "Parent:\n#{parent.subject}")
     end
   end
 end

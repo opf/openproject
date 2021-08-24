@@ -28,8 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Journal::CustomizableJournal < Journal::BaseJournal
+class Journal::CustomizableJournal < Journal::AssociatedJournal
   self.table_name = 'customizable_journals'
 
-  belongs_to :custom_field, foreign_key: :custom_field_id
+  belongs_to :custom_field
 end

@@ -124,6 +124,7 @@ describe 'Version action board', type: :feature, js: true do
 
       # Add item
       board_page.add_list option: 'Shared version'
+      board_page.expect_list 'Shared version'
       board_page.add_card 'Open version', 'Task 1'
       sleep 2
 
@@ -247,18 +248,18 @@ describe 'Version action board', type: :feature, js: true do
       end
 
       board_page.expect_list 'Closed version'
-      expect(page).to have_selector('.version-board-header.-closed')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).to have_no_selector('.version-board-header.-closed')
+      expect(page).to have_no_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
 
       # Can lock that version
       board_page.click_list_dropdown 'Closed version', 'Lock version'
-      expect(page).to have_selector('.version-board-header.-locked')
+      expect(page).to have_selector('[data-qa-selector="op-version-board-header"].-locked')
 
       closed_version.reload
       expect(closed_version.status).to eq 'locked'
@@ -327,7 +328,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).to have_no_selector('.wp-card.-draggable')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-single-card"].-draggable')
     end
   end
 

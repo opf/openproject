@@ -67,16 +67,27 @@ describe 'show default model',
   end
 
   context 'with everything ready' do
+    let(:old_work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:new_work_package) { FactoryBot.create(:work_package, project: project) }
+
     before do
+      old_work_package
+      new_work_package
+
       show_default_page.visit!
       show_default_page.finished_loading
     end
 
-    it 'loads and shows the viewer correctly' do
+    it 'loads and shows the viewer and WPs correctly' do
       show_default_page.model_viewer_visible true
       show_default_page.model_viewer_shows_a_toolbar true
       show_default_page.page_shows_a_toolbar true
       model_tree.sidebar_shows_viewer_menu true
+
+      # Check the order of work packages: Latest first
+      expect(show_default_page.find_all('.op-wp-single-card--content-id').map(&:text)).to(
+        eql(["##{new_work_package.id}", "##{old_work_package.id}"])
+      )
     end
   end
 

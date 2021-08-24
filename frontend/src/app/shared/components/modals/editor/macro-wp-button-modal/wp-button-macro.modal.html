@@ -1,0 +1,73 @@
+<form
+  class="op-modal op-modal_autoheight loading-indicator--location"
+  (submit)="applyAndClose($event)"
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body form">
+    <fieldset class="form--fieldset">
+      <legend [textContent]="text.selected_type"></legend>
+      <div class="form--field">
+        <label
+            for="selected-type"
+            [textContent]="text.selected_type"
+            class="form--label hidden-for-sighted">
+        </label>
+        <div class="form--field-container">
+          <div class="form--select-container">
+            <select
+                #typeSelect
+                id="selected-type"
+                tabindex="1"
+                name="selected-type"
+                (change)="selectedType = $event.target.value"
+                class="form--select">
+              <option [textContent]="text.none"
+                      [selected]="!selectedType"
+                      [value]=""></option>
+              <option *ngFor="let type of availableTypes"
+                      [textContent]="type.name"
+                      [selected]="selectedType === type.name"
+                      [value]="type.name"></option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="form--field -wide-label">
+      <div class="form--field-container -vertical">
+        <label class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input
+              type="checkbox"
+              tabindex="2"
+              id="wp_button_macro_style"
+              (change)="buttonStyle = $event.target.checked"
+              [checked]="buttonStyle"
+              name="button_style"
+            />
+          </div>
+          {{ text.button_style }}
+        </label>
+      </div>
+    </div>
+    <p [textContent]="text.button_style_hint"></p>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      class="op-modal--cancel-button button"
+      (click)="closeMe($event)"
+      tabindex="4"
+      type="button"
+      [textContent]="text.button_cancel"
+    ></button>
+    <button
+      class="op-modal--submit-button button -highlight"
+      tabindex="3"
+      [textContent]="text.button_save"
+    ></button>
+  </div>
+</form>

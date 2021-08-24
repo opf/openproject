@@ -16,7 +16,7 @@ Namely, syntax highlighting (e.g. in the wiki and the repository) is
 working again with OpenProject 3.0.17
 ([\#17817](https://community.openproject.org/work_packages/17817 "Syntax highlighting not working properly  (closed)")):
 
-![SyntaxHighlighting](http://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2015/01/SyntaxHighlighting.png)
+![SyntaxHighlighting](SyntaxHighlighting.png)
 
 Additionally, several gems have been updated
 ([\#17937](https://community.openproject.org/work_packages/17937 "Bundle update thin (closed)"),

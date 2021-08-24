@@ -170,6 +170,8 @@ hr:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Trenutno nije dostupno niti jedno prilagođeno polje.
       no_results_content_text: Novo prilagođeno polje
@@ -247,6 +249,9 @@ hr:
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -256,7 +261,8 @@ hr:
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
       title: Assign work to people that are not members of the project.
-      description: There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -474,7 +480,6 @@ hr:
         force_password_change: "Promjena lozinke pri sljedećoj prijavi na sustav"
         language: "Jezik"
         last_login_on: "Zadnja prijava"
-        mail_notification: "Obavijesti e-mailom"
         new_password: "Nova lozinka"
         password_confirmation: "Potvrda"
         consented_at: "Pristanak na"
@@ -539,6 +544,7 @@ hr:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "ne može biti prazan unos."
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
@@ -552,6 +558,7 @@ hr:
         invalid_url: 'nije valjani URL.'
         invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
         less_than_or_equal_to: "mora biti manji od ili jednak %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -571,12 +578,16 @@ hr:
         unremovable: "cannot be removed."
         wrong_length: "je krive duljine (mora biti %{count} znakova)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Globalne'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -604,6 +615,21 @@ hr:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -616,6 +642,9 @@ hr:
           attributes:
             types:
               in_use_by_work_packages: "još uvijek u uporabi od strane radnih paketa: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -676,6 +705,7 @@ hr:
               not_start_date: "nije na datum početka, međutim potrebno je za ključne točke."
             parent:
               cannot_be_milestone: "ne može biti ključna točka."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "ne može biti u još jednom projektu."
               not_a_valid_parent: "je nevažeće."
             start_date:
@@ -749,6 +779,10 @@ hr:
       status: "Status Radnog paketa"
       member: "Član"
       news: "Vijesti"
+      notification:
+        one: "Notification"
+        few: "Notifications"
+        other: "Notifications"
       placeholder_user: "Placeholder user"
       project: "Projekt"
       query: "Prilagođeni upit"
@@ -1220,6 +1254,7 @@ hr:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1282,6 +1317,9 @@ hr:
   instructions_after_logout: "Prijaviti se možete tako da kliknete %{signin}."
   instructions_after_error: "Da bi ste se ponovno pokušali ulogirati kliknite %{signin}. Ukoliko je greška i dalje prisutna, molim vas obratite se administratoru za pomoć."
   menus:
+    admin:
+      mail_notification: "Obavijesti e-mailom"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1294,6 +1332,16 @@ hr:
         action: "Radnja"
         expiration: "Vrijedi do"
       indefinite_expiration: "Nikad"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "Korisnički račun"
   label_active: "Aktivno"
@@ -1379,7 +1427,7 @@ hr:
   label_check_uncheck_all_in_column: "Označi/Odznači sve u stupcu"
   label_check_uncheck_all_in_row: "Označi/Odznači sve u retku"
   label_child_element: "Podređeni element"
-  label_chronological_order: "U kronološkom slijedu"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Blizu finalne verzije"
   label_closed_work_packages: "zaključen"
   label_collapse: "Prikaži sve"
@@ -1422,6 +1470,7 @@ hr:
   label_deleted: "izbrisano"
   label_deleted_custom_field: "(izbrisano prilagođeno polje)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Silazno"
   label_details: "Pojedinosti"
   label_development_roadmap: "Razvojni plan"
@@ -1595,7 +1644,6 @@ hr:
   label_none_parentheses: "(nijedan)"
   label_not_contains: "ne sadrži"
   label_not_equals: "nije"
-  label_notify_member_plural: "Email ažuriranja"
   label_on: "na"
   label_open_menu: "Otvori izbornik"
   label_open_work_packages: "otvori"
@@ -1683,7 +1731,7 @@ hr:
   label_required: 'potrebne'
   label_requires: 'zahtijeva'
   label_result_plural: "Rezultati"
-  label_reverse_chronological_order: "U obrnutom kronološkom redu"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizije"
@@ -1715,7 +1763,6 @@ hr:
   label_start_to_start: "s početka na početak"
   label_statistics: "Statistika"
   label_status: "Status"
-  label_status_updated: "Status radnog paketa je ažuriran"
   label_stay_logged_in: "Ostani prijavljen"
   label_storage_free_space: "Dostupna veličina prostora na disku"
   label_storage_used_space: "Iskorišteni prostor na disku"
@@ -1799,21 +1846,17 @@ hr:
   label_wiki_show_submenu_item: "Prikaži kao stavku podizbornika iz "
   label_wiki_start: "Početna stranica"
   label_work_package: "Radni paket"
-  label_work_package_added: "Radni paket dodan"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Nova kategorija"
   label_work_package_category_plural: "Kategorije radnih paketa"
   label_work_package_hierarchy: "Hijerarhija radnih paketa"
   label_work_package_new: "Novi radni paket"
-  label_work_package_note_added: "Bilješka za Radni paket je dodana"
   label_work_package_edit: "Uredi radni paket %{name}"
   label_work_package_plural: "Radni paketi"
-  label_work_package_priority_updated: "Prioritet Radnog paketa je ažuriran"
   label_work_package_status: "Status Radnog paketa"
   label_work_package_status_new: "Novi status"
   label_work_package_status_plural: "Statusi radnog paketa"
   label_work_package_types: "Tip ranog paketa"
-  label_work_package_updated: "Radni paket je ažuriran"
   label_work_package_tracking: "Praćenje radnog paketa"
   label_work_package_view_all: "Pogledaj sve radne pakete"
   label_workflow: "Tijek rada"
@@ -1866,6 +1909,18 @@ hr:
       link_name_type: 'Novi %{type_name}'
   mail:
     actions: 'Actions'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'sve'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"
   mail_body_account_information: "Informacije o vašem korisničkom računu"
   mail_body_account_information_external: "Možete koristiti vaš %{value} korisnički račun za pristup sustavu."
@@ -1892,7 +1947,7 @@ hr:
   mail_body_wiki_content_updated: "'%{id}' wiki stranicu je ažurirao korisnik %{author}."
   mail_subject_account_activation_request: "%{value} zahtjev za aktivacijom korisničkog računa"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_subject_register: "Vaša %{value} aktivacija korisničkog računa"
   mail_subject_reminder: "%{count} radni paket(i) koji ima krajnji rok u sljedećih %{days} dana"
@@ -2241,6 +2296,11 @@ hr:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Dokumentacija"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2277,7 +2337,6 @@ hr:
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Format datuma"
   setting_default_language: "Zadani jezik"
-  setting_default_notification_option: "Podešavanje zadanih obavijesti"
   setting_default_projects_modules: "Zadani omogućeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti su zadani kao javni"
   setting_diff_max_lines_displayed: "Maksimalan broj prikazanih redaka"
@@ -2287,6 +2346,9 @@ hr:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Omogući SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Omogući sažetke sadržaja aktivnosti"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
@@ -2300,7 +2362,7 @@ hr:
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
   setting_work_packages_export_limit: "Limit izvoza radnih paketa"
-  setting_journal_aggregation_time_minutes: "Display journals as aggregated within"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zabilježite korisnički pristup, ime, i email adresu za sve zahtjeve"
   setting_login_required: "Potrebna autentifikacija"
   setting_mail_from: "Izvorišna adresa e-pošte"
@@ -2355,6 +2417,15 @@ hr:
     passwords: "Lozinke"
     session: "Sesija"
     brute_force_prevention: "Automatizirano blokiranje korisnika"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2435,9 +2506,9 @@ hr:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label}%{value} dodana"
-  text_journal_aggregation_time_explanation: "Kombinirajte journale za prikaz ako je njihova razlika starosti manja nego specificirani vremenski raspon. Ovo će također odgoditi mail notifikacije za istu količinu vremena."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} promijenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
@@ -2465,7 +2536,7 @@ hr:
   text_regexp_info: "npr. ^[A-Z0-9] + $"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Select or update the OpenProject user mapped to each username found in the repository log.\nUsers with the same OpenProject and repository username or email are automatically mapped."
-  text_select_mail_notifications: "Select actions for which email notifications should be sent."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Primjenjeno na changeset %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Primjenjeno na changeset %{value}."
@@ -2690,10 +2761,6 @@ hr:
     password_change_unsupported: Promjena lozinke nije podržana.
     registered: "registriran"
     reset_failed_logins: "Resetiraj neuspjele pokušaje prijave"
-    settings:
-      mail_notifications: "Send email notifications"
-      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "Želim biti obavješten o promjenama koje sam izvršio"
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
@@ -2715,7 +2782,7 @@ hr:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2788,6 +2855,8 @@ hr:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Shema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

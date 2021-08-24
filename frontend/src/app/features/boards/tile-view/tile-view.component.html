@@ -1,0 +1,15 @@
+<div class="tile-blocks--container">
+  <button
+    *ngFor="let tile of tiles"
+    class="tile-block button"
+    type="button"
+    [disabled]="disabled()"
+    (click)="created(tile.attribute)"
+  >
+    <img [src]="tile.image" class="tile-block-image"/>
+    <div>
+      <span class="tile-block-title">{{ tile.text }}</span>
+      <p class="tile-block-description" [textContent]="tile.description"></p>
+    </div>
+  </button>
+</div>

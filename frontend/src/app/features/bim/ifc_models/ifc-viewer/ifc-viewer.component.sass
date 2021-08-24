@@ -1,0 +1,58 @@
+@import "src/assets/sass/helpers"
+
+.op-ifc-viewer
+  height: 100%
+
+  .notification-box
+    position: absolute
+    right: 10px
+
+  &--nav-cube-canvas
+    position: absolute
+    width: 200px
+    height: 200px
+    bottom: 0
+    right: 0
+    z-index: 10
+
+  &--section-planes-overview-canvas
+    position: absolute
+    width: 250px
+    height: 250px
+    top: 50px
+    right: 50px
+    z-index: 2000
+
+  &--container
+    position: relative
+    width: 100%
+    height: 100%
+    padding-bottom: 10px
+    overflow: hidden
+    min-width: 420px
+
+  &--model-canvas
+    width: 100%
+    height: 100%
+
+    &:focus
+      outline: none
+
+  &--focus-warning
+    @include without-link-styling
+    position: absolute
+    top: 6px
+    right: 395px
+
+  &--keyboard-disabled-icon
+    font-size: 20px
+
+  &--toolbar-container,
+  &--focus-warning
+    margin-top: 10px
+    margin-right: 5px
+
+  &--nav-cube-canvas,
+  &--focus-warning
+    @media only screen and (max-width: 679px)
+      display: none

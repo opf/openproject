@@ -101,6 +101,13 @@
             var $enjoyhint = $('.enjoyhint');
             var step_data = data[current_step];
 
+            // If the condition for the step is not fullfilled, skip it
+            if (step_data.condition && !step_data.condition()) {
+              current_step++;
+              stepAction();
+              return;
+            }
+
             // Remove all classes
             $enjoyhint.removeClass();
             $enjoyhint.addClass("enjoyhint enjoyhint-step-" + (current_step + 1));

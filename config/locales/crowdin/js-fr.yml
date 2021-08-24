@@ -34,18 +34,18 @@ fr:
       remove: "Supprimer %{name}"
       active: "Activer %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Les pièces jointes peuvent ne pas être incluses car elles dépassent la taille globale maximale autorisée. Vous pouvez modifier cela via la configuration (nécessite un redémarrage du serveur).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Vous pouvez déclencher une sauvegarde ici. Le processus peut prendre un certain temps en fonction de la quantité de données (en particulier les pièces jointes) que vous avez. Vous recevrez un e-mail dès qu'elle sera prête.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+        Une nouvelle sauvegarde remplacera toute sauvegarde précédente. Il n'est possible de demander qu'un nombre limité de sauvegardes par jour.
+      last_backup: Dernière sauvegarde
+      last_backup_from: Dernière sauvegarde du
+      title: Sauvegarder OpenProject
       options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: Inclure les pièces jointes
+      download_backup: Télécharger la sauvegarde
+      request_backup: Demander une sauvegarde
     close_popup_title: "Fermer popup"
     close_filter_title: "Fermer le filtre"
     close_form_title: "Fermer le formulaire"
@@ -87,6 +87,7 @@ fr:
     button_update: "Mettre à jour"
     button_export-pdf: "Télécharger le PDF"
     button_export-atom: "Télécharger Atom"
+    button_create: "Créer"
     calendar:
       title: 'Calendrier'
       too_many: 'Il y a %{count} de paquets de travail au total, mais seulement %{max} peut être affiché.'
@@ -126,7 +127,7 @@ fr:
       preview: 'Basculer en mode aperçu'
       source_code: 'Basculer en mode source Markdown'
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante: %{error}'
-      error_initialization_failed: 'Echec de l''initialisation de CKEditor!'
+      ckeditor_error: 'An error occurred within CKEditor'
       mode:
         manual: 'Basculer en mode source Markdown'
         wysiwyg: 'Basculer vers l''éditeur WYSIWYG'
@@ -196,7 +197,6 @@ fr:
             label_company: "Société"
             label_first_name: "Prénom"
             label_last_name: "Nom de famille"
-            label_email: "Courriel"
             label_domain: "Domaine"
             label_subscriber: "Abonné"
             label_maximum_users: "Nombre maximal d’utilisateurs actif"
@@ -284,13 +284,13 @@ fr:
           text_new_features: "En savoir plus sur les nouvelles fonctionnalités et les mises à jour des produits."
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           standard:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
+              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des paquets de travail.</li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Intégration de GitHub dans OpenProject. </li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection multiple pour les champs personnalisés du projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-2-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Un nouveau concept d'<b>utilisateurs de remplacement</b> (fonctionnalité premium) permet d'ajouter des utilisateurs préliminaires sans adresse e-mail à OpenProject et d'affecter des tâches à ces ressources.</li> <li>Les filtres de lot de travaux <b>sont étendus par une option parent </b>pour facilement voir tous les enfants directs ainsi que <b>par ID</b> pour inclure ou exclure uniquement ces lots de travaux précis dans la liste.</li> <li>L'administration utilisateur est distribuée aux non-administrateurs par un <b>nouveau rôle global</b>, permettant de gérer et d'inviter des utilisateurs sans avoir les privilèges d'administration complets.</li> <li>Améliorations supplémentaires de l'interface utilisateur et de l'UX, par ex l'harmonisation la navigation des rapports de coûts, l'adaptation des couleurs de fond des lignes de la somme et des groupes dans la liste des lots de travaux ou l'ajout d'une page d'affichage de groupe.</li> </ul>
+              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>BIM : Amélioration des performances de la visionneuse de modèles IFC.</li> <li>BIM : La visionneuse IFC prend désormais en charge les modèles de double précision, ce qui est idéal pour les grands chantiers tels que les ponts, les routes, etc.</li> <li>BIM : interrupteur pour basculer entre le mode perspective et le mode orthogonal.</li> <li>BIM : Un menu pour modifier, supprimer ou retourner les plans de section.</li> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des lots de travaux. </li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection pour les champs personnalisés de projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -314,6 +314,7 @@ fr:
     label_board_locked: "Verrouillé"
     label_board_plural: "Tableaux"
     label_board_sticky: "Epinglé"
+    label_change: "Changer"
     label_create: "Créer"
     label_create_work_package: "Créer un nouveau lot de travaux"
     label_created_by: "Créé par"
@@ -336,6 +337,7 @@ fr:
     label_created_on: "créé le"
     label_edit_comment: "Éditer ce commentaire"
     label_edit_status: "Modifier le statut du lot de travaux"
+    label_email: "Courriel"
     label_equals: "est"
     label_expand: "développer"
     label_expanded: "étendu"
@@ -395,6 +397,7 @@ fr:
     label_quote_comment: "Citer ce commentaire"
     label_recent: "Récent"
     label_reset: "Réinitialiser"
+    label_remove: "Supprimer"
     label_remove_column: "Supprimer la colonne"
     label_remove_columns: "Enlever les colonnes sélectionnées"
     label_remove_row: "Supprimer la ligne"
@@ -476,31 +479,67 @@ fr:
         next: 'Suivante'
         got_it: 'J''ai compris'
       steps:
-        help_menu: 'Dans le menu <b> Help </b>, vous trouverez un guide de l''utilisateur et des ressources d''aide supplémentaires. <br> profiter de votre travail avec OpenProject!'
-        members: 'Inviter des nouveaux<b>membres</b> à participer à votre projet.'
-        project_selection: 'Veuillez cliquer sur l''un des projets avec des données de démonstration utile pour commencer. <br> Le <b>projet de démo</b> convient le mieux pour la gestion de projet classique, tandis que le <b>projet Scrum</b> est meilleur pour la gestion de projet Agile.'
-        quick_add_button: 'Créez un nouveau projet ou invitez des collègues.'
-        sidebar_arrow: "Avec la flèche, vous pouvez naviguer vers le <b>Menu Principal</b> du projet."
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Faites une visite d’introduction de trois minutes d’apprendre le plus de caractéristiques importantes de <b></b>. <br> il est recommandé d’avoir effectué les étapes jusqu''à la fin. Vous pouvez redémarrer la tournée à tout moment.'
-        wiki: 'Dans le <b>Wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Gérez votre travail dans la vue <b>Backlogs</b>.<br> Le Backlog de produit ou de bug se trouve sur la droite, les sprints respectifs se trouvent sur la gauche. Ici, vous pouvez créer <b>des récits utilisateurs épiques et des bugs</b>, les prioriser via un glisser/déposer et les ajouter à un sprint."
-          task_board_arrow: 'Pour voir votre <b>Tableau de bord des Tâches</b>, ouvrez le menu déroulant Sprint...'
-          task_board_select: '... et sélectionnez l''entrée <b>Tableau de bord des Tâches</b>.'
-          task_board: "Le <b>Tableau de bord des Tâches</b> visualise l’état d’avancement pour ce sprint. Ajouter de nouvelles tâches ou obstacles avec l’icône + à côté d’un récit utilisateur. Vous pouvez mettre à jour l’état via un glisser/déposer."
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
-          overview: 'Gérez votre travail avec un affichage intuitif en <b>Tableaux</b>.'
-          lists: 'Vous pouvez créer plusieurs listes (colonnes) dans un affichage en Tableaux, par exemple pour créer un tableau KANBAN.'
-          add: 'Cliquez sur le + va <b>ajouter une nouvelle carte</b> à la liste dans un Tableau.'
-          drag: 'Glissez et déposez vos cartes dans une liste pour recommander ou vers une autre liste. Un double clic ouvrira l’affichage en détails.'
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
-          toggler: "Maintenant, jetons un coup d'oeil à la section <b>Paquet de Travail</b>, qui vous donne une vue plus détaillée de votre travail."
-          list: 'Il s''agit de la liste <b>Paquet de Travail</b> comprenant le travail important dans votre projet, tels que les tâches, , les jalons, les phases, et plus encore. <br> vous pouvez créer ou modifier un paquet de travail directement dans cette liste. Pour voir ses détails, vous pouvez double-cliquer sur une rangée.'
-          full_view: 'Dans les <b>détails du Paquet de Travail</b> vous trouverez toutes les informations pertinentes, telles que la description, l''état, la priorité, les activités, les dépendances ou les commentaires.'
-          back_button: 'Avec la flèche, vous pouvez naviguer vers la liste de paquet de travail.'
-          create_button: 'La touche <b>Créer</b> ajoutera un nouveau paquet de travail à votre projet.'
-          timeline_button: 'Vous pouvez activer le <b>Diagramme de Gantt</b> pour créer une chronologie pour votre projet.'
-          timeline: 'Ici, vous pouvez modifier votre plan de projet. Créer de nouvelles phases, jalons et ajouter des dépendances. Tous les membres de l’équipe peuvent voir et mettre à jour le dernier plan à tout moment.'
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+    notifications:
+      title: "Notifications"
+      channel: "Channel"
+      no_unread: "No unread notifications"
+      channels:
+        in_app: "In-app"
+        mail: "Courriel"
+        mail_digest: "Daily email summary"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        involved: 'involved'
+      facets:
+        unread: 'Unread'
+        all: 'Toutes'
+      center:
+        mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+      settings:
+        default_all_projects: 'Default for all projects'
+        involved: 'I am involved'
+        mentioned: 'I was mentioned'
+        watched: 'I am watching'
+        work_package_commented: 'Work package commented'
+        work_package_created: 'Work package created'
+        work_package_processed: 'Work package status changed'
+        work_package_prioritized: 'Work package priority changed'
+        work_package_scheduled: 'Work package scheduled'
+        all: 'All events'
+        add: 'Add setting for project'
+        already_selected: 'This project is already selected'
+        remove_projects: 'Remove notifications for projects'
+        title: "Notification settings"
+        self_notify: "Je veux être notifié des modifications que je fais moi-même"
     password_confirmation:
       field_description: 'Vous devez saisir le mot de passe de votre compte pour confirmer ce changement.'
       title: 'Confirmez votre mot de passe pour continuer'
@@ -522,12 +561,13 @@ fr:
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
       confirm_template_load: 'Changer de modèle rechargera la page et vous perdrez toutes les entrées de ce formulaire. Continuer ?'
       use_template: "Utiliser le modèle"
-      no_template_selected: "(None)"
+      no_template_selected: "(aucun)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Options de copie"
       autocompleter:
         label: 'Remplissage automatique du projet'
     text_are_you_sure: "Êtes-vous sûr ?"
+    text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
         error_duplicate_group_name: "Le nom %{group} est utilisé plus d’une fois. Les noms de groupe doivent être uniques."
@@ -610,7 +650,7 @@ fr:
       parent_placeholder: "Choisissez un nouveau parent ou appuyez sur Echap pour annuler."
     autocompleter:
       placeholder: "Taper pour rechercher"
-      notFoundText: "No items found"
+      notFoundText: "Aucun élément trouvé"
       typeToSearchText: "Taper pour rechercher"
     repositories:
       select_tag: 'Sélectionner une étiquette'
@@ -929,7 +969,7 @@ fr:
     notice_successful_create: "Création réussie."
     notice_successful_delete: "Suppression réussie."
     notice_successful_update: "Mise à jour réussie."
-    notice_job_started: "job started."
+    notice_job_started: "tâche démarrée."
     notice_bad_request: "Mauvaise requête."
     relations:
       empty: Aucune relation n'existe
@@ -996,11 +1036,11 @@ fr:
       project:
         label: 'Projet'
         required: 'Veuillez sélectionner un projet'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission: 'Veuillez sélectionner un projet différent car vous n''avez pas les autorisations nécessaires pour assigner des utilisateurs au projet actuellement sélectionné.'
+        lacking_permission_info: 'Vous n''avez pas la permission d''affecter des utilisateurs au projet dans lequel vous vous trouvez. Vous devez en sélectionner un autre.'
         next_button: 'Suivante'
         no_results: 'Aucun projet trouvé'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_invite_rights: 'Vous n''êtes pas autorisé à inviter des membres à ce projet'
       type:
         required: 'Veuillez sélectionner le type d''invité'
         user:
@@ -1021,12 +1061,9 @@ fr:
         already_member_message: 'Déjà membre de %{project}'
         no_results_user: 'Aucun utilisateur n''a été trouvé'
         invite_user: 'Invité :'
-        change_user_selection: 'Changer l''adresse e-mail ou sélectionner un utilisateur existant'
         no_results_placeholder: 'Aucuns utilisateurs fictifs n''a été trouvé'
-        change_placeholder_selection: 'Modifier le nom ou sélectionner un espace réservé existant'
         create_new_placeholder: 'Créer un nouveau utilisateur fictif :'
         no_results_group: 'Aucun groupe n''a été trouvé'
-        change_group_selection: 'Changer de nom ou sélectionner un groupe existant'
         next_button: 'Suivante'
         required:
           user: 'Veuillez sélectionner un utilisateur'
@@ -1034,14 +1071,14 @@ fr:
           group: 'Veuillez sélectionner un groupe'
       role:
         label: 'Rôle dans %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        no_roles_found: 'Aucun rôle trouvé.'
+        description: 'C''est le rôle que %{principal} recevra quand il rejoindra votre projet. Le rôle définit quelles actions il est autorisé à entreprendre et quelles informations il peut voir. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> En savoir plus sur les rôles et les permissions. </a>'
         required: 'Veuillez sélectionner un rôle'
         next_button: 'Suivante'
       message:
         label: 'Message d''invitation'
         description: 'Nous enverrons un e-mail à %{principal}, auquel vous pourrez ajouter un message personnel ici. Une explication à l''invitation pourrait être utile, ou peut-être un peu d''informations concernant le projet pour les aider à démarrer.'
-        next_button: 'Review invitation'
+        next_button: 'Vérifier l''invitation'
       summary:
         next_button: 'Envoyer une invitation'
       success:
@@ -1052,9 +1089,9 @@ fr:
           group: 'Le groupe fait maintenant partie du %{project}. Entre-temps, vous pouvez déjà planifier avec ce groupe et l''assigner des lots de travaux par exemple.'
         next_button: 'Continuer'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
+      submit_success_message: 'Le formulaire a bien été envoyé'
+      load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'
+      validation_error_message: 'Veuillez corriger les erreurs présentes dans le formulaire'
       advanced_settings: 'Paramètres avancés'
 
 

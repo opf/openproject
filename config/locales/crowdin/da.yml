@@ -168,6 +168,8 @@ da:
     enabled_in_project: 'Aktiveret i projektet'
     contained_in_type: 'Indeholdt i type'
     confirm_destroy_option: "Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
@@ -245,6 +247,9 @@ da:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
     deletion_info:
       heading: "Slet pladsholderbruger %{name}"
       data_consequences: >
@@ -254,7 +259,8 @@ da:
       confirmation: "Indtast pladsholderens brugernavn %{name} for at bekræfte sletningen."
     upsale:
       title: Tildel arbejde til personer, der ikke er medlemmer af projektet.
-      description: Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
+      description: >
+        Der er flere scenarier, hvor du ønsker at tildele arbejde til folk, der ikke er medlem af dit projekt. Det kunne simpelthen være, at du stadig har brug for at ansætte den rigtige person til jobbet. Eller du vil bare ikke give personen adgang til projektets oplysninger, men vil stadig have spore opgaverne tildelt den pågældende person.
   prioritiies:
     edit:
       priority_color_text: |
@@ -471,7 +477,6 @@ da:
         force_password_change: "Ændring af adgangskode virksom ved næste login"
         language: "Sprog"
         last_login_on: "Seneste login"
-        mail_notification: "E-mail-påmindelser"
         new_password: "Ny adgangskode"
         password_confirmation: "Bekræftelse"
         consented_at: "Consented at"
@@ -536,6 +541,7 @@ da:
         error_enterprise_only: "er kun tilgængelig i OpenProject Enterprise Edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."
@@ -549,6 +555,7 @@ da:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "skal være mindre end eller lig med %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "Kan ikke slettes"
         not_current_user: "er ikke den aktuelle bruger."
         not_a_date: "is not a valid date."
@@ -568,12 +575,16 @@ da:
         unremovable: "cannot be removed."
         wrong_length: "har forkert længde (burde være %{count} tegn)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "skal indeholde mindst et filter til hovedstol, kontekst eller id med '='-operatøren."
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -601,6 +612,21 @@ da:
           overlaps: 'overlap.'
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            read_mail_digest:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            reason_ian:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail:
+              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -613,6 +639,9 @@ da:
           attributes:
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -673,6 +702,7 @@ da:
               not_start_date: "er ikke på startdato, selvom dette er påkrævet for milepæle."
             parent:
               cannot_be_milestone: "kan ikke være en milepæl."
+              cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "kan ikke være i et andet projekt."
               not_a_valid_parent: "er ugyldig."
             start_date:
@@ -744,6 +774,9 @@ da:
       status: "Status for arbejdspakke"
       member: "Medlem"
       news: "Nyheder"
+      notification:
+        one: "Notification"
+        other: "Notifications"
       placeholder_user: "Pladsholder bruger"
       project: "Prjoekt"
       query: "Selvvalgt forespørgsel"
@@ -1202,6 +1235,7 @@ da:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1264,6 +1298,9 @@ da:
   instructions_after_logout: "Du kan logge ind igen ved at klikke %{signin}."
   instructions_after_error: "Du kan forsøge at logge ind igen ved at klikke %{signin}. Hvis fejlen stadig opstår, spørg da admin. efter hjælp."
   menus:
+    admin:
+      mail_notification: "E-mail-påmindelser"
+      incoming_outgoing: "Incoming & Outgoing"
     quick_add:
       label: "Åbn hurtig-tilføj menu"
   my_account:
@@ -1276,6 +1313,16 @@ da:
         action: "Handling"
         expiration: "Udløber"
       indefinite_expiration: "Aldrig"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        involved: "You either are assigned to or are responsible for %{work_package}"
+        watched: "You are watching %{work_package}"
   label_accessibility: "Accessibility"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1361,7 +1408,7 @@ da:
   label_check_uncheck_all_in_column: "Markér/Afmarkér alle i kolonnen"
   label_check_uncheck_all_in_row: "Markér/Afmarkér alle i rækken"
   label_child_element: "Underelement"
-  label_chronological_order: "I kronologisk orden"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Luk afsluttede versioner"
   label_closed_work_packages: "lukket"
   label_collapse: "Fold sammen"
@@ -1404,6 +1451,7 @@ da:
   label_deleted: "slettet"
   label_deleted_custom_field: "(slettet selvvalgt felt)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Faldende"
   label_details: "Detaljer"
   label_development_roadmap: "Udviklingskøreplan"
@@ -1577,7 +1625,6 @@ da:
   label_none_parentheses: "(ingen)"
   label_not_contains: "indeholder ikke"
   label_not_equals: "er ikke"
-  label_notify_member_plural: "Opdateringer af e-mail"
   label_on: "på"
   label_open_menu: "Åbn menuen"
   label_open_work_packages: "åbn"
@@ -1665,7 +1712,7 @@ da:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "I omvendt kronologisk rækkefølge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revidering"
   label_revision_id: "Revidering %{value}"
   label_revision_plural: "Revideringer"
@@ -1697,7 +1744,6 @@ da:
   label_start_to_start: "Start til start"
   label_statistics: "Statistik"
   label_status: "Status"
-  label_status_updated: "Status for arbejdspakke er opdateret"
   label_stay_logged_in: "Forbliv logget ind"
   label_storage_free_space: "Resterende disklagerplads"
   label_storage_used_space: "Forbrugt disklagerplads"
@@ -1781,21 +1827,17 @@ da:
   label_wiki_show_submenu_item: "Vis som punkt i undermenu til "
   label_wiki_start: "Startside"
   label_work_package: "Arbejdspakke"
-  label_work_package_added: "Arbejdspakke tilføjet"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Ny kategori"
   label_work_package_category_plural: "Kategorier for arbejdspakker"
   label_work_package_hierarchy: "Work package hierarchy"
   label_work_package_new: "Ny arbejdspakke"
-  label_work_package_note_added: "Note tilføjet arbejdspakke"
   label_work_package_edit: "Rediger arbejdspakke %{name}"
   label_work_package_plural: "Arbejdspakker"
-  label_work_package_priority_updated: "Prioritet for arbejdspakke opdateret"
   label_work_package_status: "Status for arbejdspakke"
   label_work_package_status_new: "Ny status"
   label_work_package_status_plural: "Statusser for arbejdspakke"
   label_work_package_types: "Arbejdspakketyper"
-  label_work_package_updated: "Arbejdspakke opdateret"
   label_work_package_tracking: "Sporing af arbejdspakke"
   label_work_package_view_all: "Vis alle arbejdspakker"
   label_workflow: "Arbejdsgang"
@@ -1848,6 +1890,18 @@ da:
       link_name_type: 'New %{type_name}'
   mail:
     actions: 'Handlinger'
+    digests:
+      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      work_packages:
+        created_at: '%{user} created at %{timestamp}'
+        reason:
+          watched: 'watched'
+          involved: 'assignee or responsible'
+          mentioned: 'mentioned'
+          subscribed: 'alle'
+          prefix: 'Received because of the notification setting: %{reason}'
+        subject: 'Daily project summary for %{date} - %{number} updates'
+        updated_at: '%{user} updated at %{timestamp}'
   mail_body_account_activation_request: "En ny bruger ( %{value}) har registreret sig. Kontoen afventer din godkendelse:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan bruge din %{value} konto til at logge ind."
@@ -1874,7 +1928,7 @@ da:
   mail_body_wiki_content_updated: "Wiki-siden '%{id}' er blevet opdateret af %{author}."
   mail_subject_account_activation_request: "%{value} anmodninger om kontoaktivering"
   mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Your backup token has been reset"
+  mail_subject_backup_token_reset: "Backup token reset"
   mail_subject_lost_password: "Din %{value} adgangskode"
   mail_subject_register: "Din %{value} kontoaktivering"
   mail_subject_reminder: "%{count} arbejdspakke(r) har deadline i de næste %{days} dage"
@@ -2220,6 +2274,11 @@ da:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2256,7 +2315,6 @@ da:
   setting_first_week_of_year: "Første uge i året indeholder"
   setting_date_format: "Datoformat"
   setting_default_language: "Forhåndsvalgt sprog"
-  setting_default_notification_option: "Forhåndsvalgt indstilling for beskeder"
   setting_default_projects_modules: "Forhåndsvalgt aktive moduler for nye projekter"
   setting_default_projects_public: "Nye projekter er på forhånd sat som offentlige"
   setting_diff_max_lines_displayed: "Højeste antal viste linjer for afvigelser"
@@ -2266,6 +2324,9 @@ da:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktiver SCM"
   setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Aktiver feeds"
   setting_feeds_limit: "Grænse for indhold af feeds"
   setting_file_max_size_displayed: "Maksimal størrelse af tekstfiler, der vises inline"
@@ -2279,7 +2340,7 @@ da:
   setting_work_package_properties: "Egenskaber for arbejdspakke"
   setting_work_package_startdate_is_adddate: "Brug dags dato som start for nye arbejdspakker"
   setting_work_packages_export_limit: "Begrænsning for eksport af arbejdspakker"
-  setting_journal_aggregation_time_minutes: "Vis kladder som sammensatte inden for"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Log bruger-login, navn og mail-adresse ved hver forespørgsel"
   setting_login_required: "Godkendelse påkrævet"
   setting_mail_from: "Mailadresse for udsendelse"
@@ -2334,6 +2395,15 @@ da:
     passwords: "Adgangskoder"
     session: "Session"
     brute_force_prevention: "Automatiseret brugerblokering"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2414,9 +2484,9 @@ da:
   text_work_packages_destroy_confirmation: "Er du sikker på, du vil slette de/den valgte arbejdspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Arbejdspakker håndteres i tilknyttede meddelelser"
   text_journal_added: "%{label} %{value} tilføjet"
-  text_journal_aggregation_time_explanation: "Sammenskriv kladder til visning, hvis der er mindre tid mellem det end det angivne. Dette vil desuden forsinke påmindelser tilsvrende."
-  text_journal_changed: "%{label} changed from %{old} <br/><strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} \nto %{new}"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} opdateret"
   text_journal_changed_with_diff: "%{label} ændret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
@@ -2444,7 +2514,7 @@ da:
   text_regexp_info: "fx ^[A-Z0-9]+$"
   text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
   text_repository_usernames_mapping: "Vælg eller opdatér den OpenProject-bruger, der er tilknyttet hvert brugernavn i loggen for projektarkivet.\nBrugere med det samme brugernavn eller mailadresse i OpenProject og i projektarkivet vil automatisk blive tilknyttet."
-  text_select_mail_notifications: "Vælg handlinger hvor der skal sendes mailpåmindelser."
+  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Indføjet i pakken af ændringer, %{value}."
   text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
   text_time_logged_by_changeset: "Indføjet i pakken af ændringer, %{value}."
@@ -2667,10 +2737,6 @@ da:
     password_change_unsupported: Ændring af adgangskode er ikke understøttet.
     registered: "registreret"
     reset_failed_logins: "Nulstil mislykkede forsøg på at logge ind"
-    settings:
-      mail_notifications: "Send email notifications"
-      mail_project_explanaition: "For unselected projects, you will only receive notifications about things you watch or you're involved in (e.g. work packages you're the author or assignee of)."
-      mail_self_notified: "I want to be notified of changes that I make myself"
     status_user_and_brute_force: "%{user} og %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "Navnet er angivet af din login-udbyder og kan derfor ikke ændres."
@@ -2692,7 +2758,7 @@ da:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2765,6 +2831,8 @@ da:
         invalid_json: "is invalid json: %{message}"
     resources:
       schema: 'Skema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

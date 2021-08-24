@@ -54,7 +54,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:assigned_to_other_work_package) do
     FactoryBot.create :work_package,
                       project: project,
-                      subject: 'Not assigend to me',
+                      subject: 'Not assigned to me',
                       type: type,
                       author: user,
                       assigned_to: other_user
@@ -182,7 +182,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package_2.subject)
 
-      page.find('.pagination--item a', text: '2').click
+      page.find('.op-pagination--item button', text: '2').click
 
       expect(page)
         .not_to have_selector('.subject', text: assigned_work_package.subject)

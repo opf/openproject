@@ -44,12 +44,12 @@ describe Watcher, type: :model, with_mail: false do
   end
   let(:other_project) { FactoryBot.create(:project) }
   let(:other_user) { FactoryBot.create(:user, admin: true) }
-  let(:mail_notification) { 'all' }
+  let(:notification_settings) { [] }
   let(:saved_user) do
     FactoryBot.create :user,
                       member_in_project: saved_watchable.project,
                       member_with_permissions: [],
-                      mail_notification: mail_notification
+                      notification_settings: notification_settings
   end
   let(:saved_watchable) { FactoryBot.create :news }
 
@@ -254,28 +254,6 @@ describe Watcher, type: :model, with_mail: false do
         .to be_valid
       expect(saved_watchable.watchers.map(&:user))
         .to match_array([saved_user])
-    end
-  end
-
-  describe '#watcher_recipients' do
-    before do
-      saved_watchable.watchers.create(user: saved_user)
-    end
-
-    context 'for a user with `all` notification' do
-      it 'returns the user' do
-        expect(saved_watchable.watcher_recipients)
-          .to match_array([saved_user])
-      end
-    end
-
-    context 'for a user with `none` notification' do
-      let(:mail_notification) { 'none' }
-
-      it 'is empty' do
-        expect(saved_watchable.watcher_recipients)
-          .to be_empty
-      end
     end
   end
 end

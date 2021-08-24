@@ -1,0 +1,88 @@
+<div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
+  <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
+    <table class="keyboard-accessible-list generic-table work-package-table">
+      <colgroup>
+        <col *ngIf="configuration.dragAndDropEnabled">
+        <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
+        <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
+        <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
+        <col *ngIf="!configuration.columnMenuEnabled">
+      </colgroup>
+      <caption class="hidden-for-sighted">
+        <span>{{text.tableSummary}}</span>
+        <span id="wp-table-sort-summary"></span>
+        <span>{{text.tableSummaryHints}}</span>
+      </caption>
+      <thead class="-sticky">
+        <tr>
+          <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print">
+            <div class="generic-table--empty-header">
+              <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
+            </div>
+          </th>
+          <th *ngFor="let column of columns; trackBy:trackByHref"
+              class="wp-table--table-header">
+            <sortHeader [headerColumn]="column"
+                        [locale]="column.custom_field && column.custom_field.name_locale || locale"
+                        [table]="workPackageTable"
+
+                        opColumnsContextMenu
+                        [opColumnsContextMenu-column]="column"
+                        [opColumnsContextMenu-table]="workPackageTable">
+            </sortHeader>
+          </th>
+          <th class="wp-table--configuration-modal--trigger wp-table--context-menu-th -short hide-when-print"
+              *ngIf="configuration.columnMenuEnabled || configuration.actionsColumnEnabled">
+            <div class="generic-table--sort-header-outer" *ngIf="configuration.columnMenuEnabled">
+              <wp-table-config-menu>
+              </wp-table-config-menu>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody class="work-package--empty-tbody" *ngIf="!isEmbedded && query && results.count === 0">
+      <tr id="empty-row-notification">
+        <td [attr.colspan]="columns.length + 2">
+          <span>
+            <op-icon icon-classes="icon-info1 icon-context"></op-icon>
+            <span>
+              <strong>{{text.noResults.title}}</strong>
+              {{text.noResults.description}}
+            </span>
+          </span>
+        </td>
+      </tr>
+      </tbody>
+
+      <tbody class="results-tbody work-package--results-tbody">
+      </tbody>
+
+      <tbody>
+        <tr class="wp-table--sums-row wp-table--row"
+            wpTableSumsRow
+            [wpTableSumsRow-table]="workPackageTable">
+        </tr>
+      </tbody>
+
+      <tbody *ngIf="tableElement && configuration.inlineCreateEnabled"
+             wpInlineCreate
+             [wp-inline-create--table]="workPackageTable"
+             [wp-inline-create--project-identifier]="projectIdentifier"
+             (wp-inline-create--showing)="inlineCreateVisible = $event"
+      >
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!configuration.isEmbedded"
+       class="work-packages--tabletimeline--timeline--resizer hidden-for-mobile hide-when-print">
+    <wp-resizer [elementClass]="'work-packages-tabletimeline--timeline-side'"
+                [resizeEvent]="'wp-resize.timeline'"
+                [localStorageKey]="'openProject-timelineFlexBasis'"></wp-resizer>
+  </div>
+
+  <div class="work-packages-tabletimeline--timeline-side"
+       [ngClass]="{ '-single-margin': (sumVisible || inlineCreateVisible) && !(sumVisible && inlineCreateVisible), '-double-margin': sumVisible && inlineCreateVisible }">
+    <wp-timeline-container></wp-timeline-container>
+  </div>
+</div>

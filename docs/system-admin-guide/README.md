@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: System Admin guide
-  priority: 999
+  title: System Admin Guide
+  priority: 970
 description: OpenProject system administration guide.
 robots: index, follow
 keywords: system administration
@@ -41,5 +41,5 @@ Click on one of the categories in order to proceed with the configuration.
 | [Webhooks](./webhooks)                                 | Add and manage webhooks in OpenProject.                      |
 | [Information](information)                             | View the latest system information status.                   |
 | [GitHub Integration](github-integration)               | How to combine GitHub and OpenProject.                       |
-| [Enterprise on-premises](../enterprise-edition-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
-| [Enterprise cloud](../cloud-edition-guide/)            | Manage your OpenProject Enterprise cloud and other administrative topics. |
+| [Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
+| [Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/)            | Manage your OpenProject Enterprise cloud and other administrative topics. |

@@ -68,3 +68,6 @@ it:
   permission_edit_budgets: "Modifica budget"
   permission_view_budgets: "Visualizza budget"
   project_module_budgets: "Bilanci"
+  text_budget_reassign_to: "Riassegnali a questo valore:"
+  text_budget_delete: "Elimina il budget da tutti i pacchetti di lavoro"
+  text_budget_destroy_assigned_wp: "Ci sono %{count} pacchetti di lavoro assegnati a questo budget. Cosa vuoi fare?"

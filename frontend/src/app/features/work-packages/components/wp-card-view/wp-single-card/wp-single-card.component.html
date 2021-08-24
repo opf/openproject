@@ -1,0 +1,86 @@
+<div
+  class="op-wp-single-card"
+  data-qa-selector="op-wp-single-card"
+  [attr.data-qa-draggable]="draggable || undefined"
+  [ngClass]="cardClasses()"
+>
+
+  <div class="op-wp-single-card--highlighting"
+       [ngClass]="cardHighlightingClass(workPackage)">
+  </div>
+
+  <div class="op-wp-single-card--inline-buttons hidden-for-mobile"
+      data-qa-selector="op-wp-single-card--inline-buttons">
+    <button
+      type="button"
+      class="op-link op-wp-single-card--details-button"
+      data-qa-selector="op-wp-single-card--details-button"
+      *ngIf="!isNewResource(workPackage) && showInfoButton"
+      [title]="text.detailsView"
+      (click)="emitStateLinkClicked($event, workPackage, true)">
+      <op-icon icon-classes="icon icon-info2"></op-icon>
+    </button>
+    <button
+      class="op-link op-wp-single-card--inline-cancel-button"
+      data-qa-selector="op-wp-single-card--inline-cancel-button"
+      *ngIf="isNewResource(workPackage) || showRemoveButton"
+      [class.-show]="isNewResource(workPackage)"
+      [title]="text.removeCard"
+      (click)="onRemoved(workPackage)">
+      <op-icon icon-classes="icon icon-close"></op-icon>
+    </button>
+  </div>
+  <edit-form [resource]="workPackage"
+             [inEditMode]="isNewResource(workPackage)"
+             *ngIf="isNewResource(workPackage)">
+    <div class="op-wp-single-card-content -new">
+      <editable-attribute-field [resource]="workPackage"
+                                [wrapperClasses]="'work-packages--type-selector'"
+                                [fieldName]="'type'"
+                                class="op-wp-single-card-content--type">
+      </editable-attribute-field>
+      <editable-attribute-field [resource]="workPackage"
+                                fieldName="subject"
+                                class="op-wp-single-card-content--subject -bold">
+      </editable-attribute-field>
+    </div>
+  </edit-form>
+
+  <div *ngIf="!isNewResource(workPackage)"
+       class="op-wp-single-card--content">
+    <span [textContent]="wpProjectName(workPackage)"
+          class="op-wp-single-card--content-project-name">
+    </span>
+    <span [textContent]="wpTypeAttribute(workPackage)"
+          class="op-wp-single-card--content-type"
+          data-qa-selector="op-wp-single-card--content-type"
+          [ngClass]="typeHighlightingClass(workPackage)">
+    </span>
+    <a class="op-wp-single-card--content-id"
+       [href]="fullWorkPackageLink(workPackage)"
+       [ngClass]="uiStateLinkClass"
+       (click)="emitStateLinkClicked($event, workPackage)"
+     >
+      #{{workPackage.id}}
+    </a>
+    <span [textContent]="wpSubject(workPackage)"
+          class="op-wp-single-card--content-subject"
+          data-qa-selector="op-wp-single-card--content-subject">
+    </span>
+    <img *ngIf="this.cardCoverImageShown(workPackage)"
+         [src]="this.bcfSnapshotPath(workPackage)"
+         class="op-wp-single-card--content-cover-image">
+    <wp-status-button *ngIf="showStatusButton"
+                      [workPackage]="workPackage"
+                      class="op-wp-single-card--content-status">
+    </wp-status-button>
+    <op-principal
+      *ngIf="workPackage.assignee"
+      [principal]="workPackage.assignee"
+      [hide-name]="true"
+      size="mini"
+      class="op-wp-single-card--content-assignee"
+      data-qa-selector="op-wp-single-card--content-assignee"
+    ></op-principal>
+  </div>
+</div>

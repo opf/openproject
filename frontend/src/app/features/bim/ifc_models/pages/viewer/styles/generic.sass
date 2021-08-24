@@ -1,0 +1,68 @@
+// Global helpers
+@import "src/assets/sass/helpers"
+
+// Need to import the icon mixins
+@import "../../../../../../../global_styles/fonts/openproject_icon_definitions"
+@import "../../../../../../../global_styles/fonts/openproject_icon_font"
+
+@import "tabs"
+@import "toolbar"
+@import "loading_modal"
+@import "context_menu"
+@import "tooltips"
+@import "pivot_point"
+
+// The IFC viewer shall fill the viewport to the bottom.
+// This is different to how we style #content else where.
+.controller-bim\/ifc_models\/ifc_viewer
+  overflow: hidden
+
+  &.action-show
+    #content
+      height: 100%
+
+  // Override default behavior to let the viewer span the whole height
+  @media only screen and (max-width: 679px)
+    @include extended-content--right
+    @include extended-content--left
+    #content-wrapper
+      height: calc(100vh - 55px)
+
+    .work-packages-partitioned-page--content-container
+      flex-direction: column
+
+    .op-ifc-viewer--container
+      height: 33vh !important
+      min-width: unset !important
+
+[data-name="bim"] .main-menu--children
+  overflow-x: hidden !important
+
+// -------------------------- XEOKIT specific rules for BUTTONS --------------------------
+.xeokit-btn-group
+  vertical-align: middle
+
+  &:not(:last-of-type)
+    margin-right: .5rem
+
+.xeokit-btn
+  position: relative
+  background-color: var(--button--background-color)
+  vertical-align: middle
+  padding: .375rem .75rem
+  border-radius: 2px
+  border: 1px solid var(--button--border-color)
+  @include default-transition
+
+  &:hover
+    background-color: var(--button--background-hover-color)
+
+
+  &.disabled
+    opacity: .55
+
+  &.active
+    color: var(--button--active-font-color)
+    background-color: var(--button--active-background-color)
+    border-color: var(--button--active-border-color)
+    box-shadow: 0 0 3px var(--button--active-border-color) inset

@@ -82,7 +82,7 @@ class BaseContract < Disposable::Twin
     end
 
     def attribute(attribute, options = {}, &block)
-      property attribute
+      property attribute, options.slice(:readable)
 
       add_writable(attribute, options[:writeable])
       attribute_permission(attribute, options[:permission])

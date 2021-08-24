@@ -38,7 +38,7 @@ module Components
         sleep 0.5
 
         if page.has_selector?('#wp-view-toggle-button', text: 'Cards')
-          page.find(".wp-card-#{work_package.id}").right_click
+          page.find(".op-wp-single-card-#{work_package.id}").right_click
         else
           page.find(".wp-row-#{work_package.id}-table").right_click
         end
@@ -55,20 +55,20 @@ module Components
       end
 
       def choose(target)
-        find("#{selector} a", text: target).click
+        find("#{selector} .menu-item", text: target).click
       end
 
       def expect_no_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_no_selector("#{selector} a", text: text)
+          expect(page).to have_no_selector("#{selector} .menu-item", text: text)
         end
       end
 
       def expect_options(options)
         expect_open
         options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
+          expect(page).to have_selector("#{selector} .menu-item", text: text)
         end
       end
 

@@ -66,7 +66,7 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise Edition"
       add_token: "Carica un token di assistenza per Enterprise Edition"
       replace_token: "Sostituisci il token di assistenza attuale"
-      order: "Ordina Edizione Impresa in sede"
+      order: "Ordina l'edizione Enterprise on-premises"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
       required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
@@ -167,6 +167,8 @@ it:
     enabled_in_project: 'Abilitato nel progetto'
     contained_in_type: 'Contenuto nel tipo'
     confirm_destroy_option: "L'eliminazione di un'opzione eliminerà tutte le sue occorrenze (ad es. nelle macro-attività). Procedere all'eliminazione?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
@@ -244,6 +246,9 @@ it:
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   placeholder_users:
+    right_to_manage_members_missing: >
+      Non è consentito eliminare l'utente segnaposto. Non hai il permesso per gestire i membri per tutti i progetti di cui l'utente segnaposto è membro.
+    delete_tooltip: "Elimina utente segnaposto"
     deletion_info:
       heading: "Elimina l'utente segnaposto %{name}"
       data_consequences: >
@@ -253,7 +258,8 @@ it:
       confirmation: "Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione."
     upsale:
       title: Assegna lavoro alle persone che non sono membri del progetto.
-      description: Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
+      description: >
+        Ci sono diversi scenari in cui vuoi assegnare lavoro a persone che non sono membri del tuo progetto. Potrebbe semplicemente essere che devi ancora assumere le persone adatte al lavoro. O che non vuoi dare accesso a quella persona alle informazioni del progetto ma vuoi comunque monitorare le mansioni che gli hai assegnato.
   prioritiies:
     edit:
       priority_color_text: |
@@ -469,7 +475,6 @@ it:
         force_password_change: "Richiedi la modifica della password al prossimo login"
         language: "Linguaggio"
         last_login_on: "Ultimo accesso"
-        mail_notification: "Notifiche email"
         new_password: "Nuova password"
         password_confirmation: "Conferma"
         consented_at: "Consenso a"
@@ -534,6 +539,7 @@ it:
         error_enterprise_only: "è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
+        email: "non è un indirizzo email valido"
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
@@ -547,6 +553,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
+        not_available: "non è disponibile a causa di una configurazione di sistema."
         not_deletable: "non può essere eliminato."
         not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
@@ -566,12 +573,16 @@ it:
         unremovable: "non può essere rimosso."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "è impostato a '%{value}', che non è autorizzato per il caricamento."
         capability:
           context:
             global: 'Globale'
           query:
             filters:
-              minimum: "devi includere almeno un filtro per principale, contesto o id con l'operatore '='."
+              minimum: "necessità di includere almeno un filtro per il principale, per il contesto o per l'id con l'operatore '='."
         custom_field:
           at_least_one_custom_option: "Deve essere disponibile almeno un'opzione."
         custom_actions:
@@ -599,6 +610,21 @@ it:
           overlaps: 'sovrapposizione.'
           outside: 'è fuori dalla griglia.'
           end_before_start: 'il valore finale deve essere più grande del valore iniziale.'
+        notifications:
+          at_least_one_channel: 'Deve essere specificato almeno un canale per l''invio delle notifiche.'
+          attributes:
+            read_ian:
+              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            read_mail:
+              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            read_mail_digest:
+              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            reason_ian:
+              no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
+            reason_mail:
+              no_notification_reason: 'non può essere vuoto perché la posta è scelta come canale.'
+            reason_mail_digest:
+              no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -611,6 +637,9 @@ it:
           attributes:
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
+            enabled_modules:
+              dependency_missing: "Anche il modulo '%{dependency}' deve essere abilitato dal momento che il modulo '%{module}' dipende da esso."
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -671,6 +700,7 @@ it:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
+              cannot_be_self_assigned: "non può essere assegnato a se stesso."
               cannot_be_in_another_project: "non può essere in un altro progetto."
               not_a_valid_parent: "non è valido."
             start_date:
@@ -742,6 +772,9 @@ it:
       status: "Stato della macro-attività"
       member: "Membro"
       news: "Notizie"
+      notification:
+        one: "Notifica"
+        other: "Notifiche"
       placeholder_user: "Utente segnaposto"
       project: "Progetto"
       query: "Query personalizzata"
@@ -1200,6 +1233,7 @@ it:
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
+    failed: "L'esportazione non è riuscita: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1262,6 +1296,9 @@ it:
   instructions_after_logout: "Può accedere nuovamente cliccando %{signin}."
   instructions_after_error: "Si può provare ad accedere nuovamente cliccando %{signin}. Se l'errore persiste, chiedi aiuto al tuo amministratore."
   menus:
+    admin:
+      mail_notification: "Notifiche email"
+      incoming_outgoing: "Entrate & Uscite"
     quick_add:
       label: "Apri menu di aggiunta rapida"
   my_account:
@@ -1274,6 +1311,16 @@ it:
         action: "Azione"
         expiration: "Scade"
       indefinite_expiration: "Mai"
+  notifications:
+    send_notifications: "Invia notifiche per questa azione"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "Sei stato assegnato a %{work_package}"
+        subscribed: "Ti sei abbonato a %{work_package}"
+        mentioned: "Sei stato menzionato in %{work_package}"
+        involved: "Sei assegnato a o responsabile per %{work_package}"
+        watched: "Stai guardando il %{work_package}"
   label_accessibility: "Accessibilità"
   label_account: "Account"
   label_active: "Attivo"
@@ -1359,7 +1406,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
-  label_chronological_order: "In ordine cronologico"
+  label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
   label_collapse: "Comprimi"
@@ -1402,6 +1449,7 @@ it:
   label_deleted: "cancellato"
   label_deleted_custom_field: "(campo personalizzato eliminato)"
   label_deleted_custom_option: "(opzione eliminata)"
+  label_missing_or_hidden_custom_option: "(valore mancante o assenza di permessi di accesso)"
   label_descending: "Decrescente"
   label_details: "Dettagli"
   label_development_roadmap: "Tabella di marcia di sviluppo"
@@ -1575,7 +1623,6 @@ it:
   label_none_parentheses: "(nessuno)"
   label_not_contains: "non contiene"
   label_not_equals: "non è"
-  label_notify_member_plural: "Aggiornamenti email"
   label_on: "il"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
@@ -1663,7 +1710,7 @@ it:
   label_required: 'obbligatorio'
   label_requires: 'richiede'
   label_result_plural: "Risultati"
-  label_reverse_chronological_order: "In ordine cronologico inverso"
+  label_reverse_chronological_order: "Prima i più recenti"
   label_revision: "Revisione"
   label_revision_id: "Revisione %{value}"
   label_revision_plural: "Revisioni"
@@ -1695,7 +1742,6 @@ it:
   label_start_to_start: "dall'inizio all'inizio"
   label_statistics: "Statistiche"
   label_status: "Stato"
-  label_status_updated: "Stato della macro-attiività aggiornato"
   label_stay_logged_in: "Resta connesso"
   label_storage_free_space: "Spazio di archiviazione su disco rimanente"
   label_storage_used_space: "Spazio di archiviazione su disco utilizzato"
@@ -1779,21 +1825,17 @@ it:
   label_wiki_show_submenu_item: "Mostra come voce di sottomenù di "
   label_wiki_start: "Pagina iniziale"
   label_work_package: "Macro-attività"
-  label_work_package_added: "Macro-attività aggiunta"
   label_work_package_attachments: "Allegati macro-attività"
   label_work_package_category_new: "Nuova categoria"
   label_work_package_category_plural: "Categorie della macro-attività"
   label_work_package_hierarchy: "Gerarchia Macro-attività"
   label_work_package_new: "Nuova macro-attività"
-  label_work_package_note_added: "Aggiunta nota alla macro-attività"
   label_work_package_edit: "Modifica la macro-attività %{name}"
   label_work_package_plural: "Macro-attività"
-  label_work_package_priority_updated: "Priorità della macro-attività aggiornata"
   label_work_package_status: "Stato della macro-attività"
   label_work_package_status_new: "Nuovo stato"
   label_work_package_status_plural: "Stati della macro-attività"
   label_work_package_types: "Tipi di macro-attività"
-  label_work_package_updated: "Macro-attività aggiornata"
   label_work_package_tracking: "Monitoraggio macro-attività"
   label_work_package_view_all: "Vedi tutte le macro-attività"
   label_workflow: "Flusso di lavoro"
@@ -1846,6 +1888,18 @@ it:
       link_name_type: 'Nuovo %{type_name}'
   mail:
     actions: 'Azioni'
+    digests:
+      time_frame: 'Riepilogo di tutti gli eventi a cui ti sei iscritto nel periodo compreso tra %{start} e %{end}'
+      work_packages:
+        created_at: '%{user} creato alle %{timestamp}'
+        reason:
+          watched: 'guardato'
+          involved: 'assegnatario o responsabile'
+          mentioned: 'menzionato'
+          subscribed: 'tutti'
+          prefix: 'Ricevuto a causa dell''impostazione della notifica: %{reason}'
+        subject: 'Riepilogo giornaliero del progetto per %{date} - %{number} aggiornamenti'
+        updated_at: '%{user} aggiornato alle %{timestamp}'
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."
@@ -1872,7 +1926,7 @@ it:
   mail_body_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata da %{author}."
   mail_subject_account_activation_request: "%{value} richiesta di attivazione account"
   mail_subject_backup_ready: "Il tuo backup è pronto"
-  mail_subject_backup_token_reset: "Il tuo token di backup è stato ripristinato"
+  mail_subject_backup_token_reset: "Resetta il token di backup"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
   mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
@@ -2220,6 +2274,11 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
+  setting_apiv3_docs: "Documentazione"
+  setting_apiv3_docs_enabled: "Abilita pagina di documenti"
+  setting_apiv3_docs_enabled_instructions_html: >
+    Se la pagina dei documenti è abilitata, puoi ottenere una vista interattiva della documentazione APIv3 sotto <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
@@ -2256,7 +2315,6 @@ it:
   setting_first_week_of_year: "La prima settimana dell'anno contiene"
   setting_date_format: "Formato data"
   setting_default_language: "Linguaggio predefinito"
-  setting_default_notification_option: "Opzione di notifica predefinita"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
   setting_diff_max_lines_displayed: "Numero massimo di linee diff visualizzate"
@@ -2266,6 +2324,9 @@ it:
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
+  setting_notification_retention_period_days: "Periodo di conservazione della notifica"
+  setting_notification_email_delay_minutes: "Ritardo invio email"
+  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2279,7 +2340,7 @@ it:
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_export_limit: "Limite di esportazione delle macro-attività"
-  setting_journal_aggregation_time_minutes: "Mostra i rapporti aggregando per"
+  setting_journal_aggregation_time_minutes: "Azioni utente aggregate all'interno"
   setting_log_requesting_user: "Registra il nome d'accesso, il nome utente, e l'indirizzo mail per tutte le richieste"
   setting_login_required: "Autenticazione richiesta"
   setting_mail_from: "Indirizzo e-mail di emissione"
@@ -2334,9 +2395,18 @@ it:
     passwords: "Password"
     session: "Sessione"
     brute_force_prevention: "Blocco automatico degli utenti"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
+      delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
+      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
       first_week_of_year_text: >
         Seleziona la data di Gennaio contenuta nella prima settimana dell'anno. Questo valore, con il primo giorno della settimana, determina il numero totale di settimane in un anno.
     projects:
@@ -2414,9 +2484,9 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_aggregation_time_explanation: "Aggrega i rapporti se la loro distanza temporale è inferiore all'intervallo di tempo specificato. Questo ritarderà inoltre della stessa quantità di tempo anche le notifiche via posta elettronica."
-  text_journal_changed: "modificato da %{old} <br/><strong>a</strong> %{new} %{label}"
-  text_journal_changed_plain: "%{label} cambiato da %{old} \na %{new}"
+  text_journal_aggregation_time_explanation: "Le azioni individuali di un utente (ad es. l'aggiornamento di un pacchetto di lavoro due volte) sono aggregati in un'unica azione se la loro differenza di età è inferiore al periodo di tempo specificato. Verranno visualizzate come un'unica azione all'interno dell'applicazione. Questo ritarderà anche le notifiche della stessa quantità di tempo, riducendo il numero di e-mail inviate."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
@@ -2444,7 +2514,7 @@ it:
   text_regexp_info: "es. ^[A-Z0-9]+$"
   text_regexp_multiline: 'L''espressione regolare viene applicata in modalità multi-linea. ad esempio, ^---\s+'
   text_repository_usernames_mapping: "Seleziona o aggiorna l'utente OpenProject mappato per ogni nome utente trovato nel registro dell'archivio. Gli utenti con lo stesso nome utente e repository OpenProject o e-mail vengono mappati automaticamente."
-  text_select_mail_notifications: "Seleziona le azioni per cui l'e-mail deve essere inviata."
+  text_select_notifications: "Seleziona le azioni per le quali le notifiche devono essere inviate."
   text_status_changed_by_changeset: "Stato variato a partire dalla modifica %{value}."
   text_table_difference_description: "In questa tabella sono mostrate le singole %{entries}. È possibile visualizzare le differenze tra due voci selezionando prima le corrispondenti caselle di controllo nella tabella. Cliccando sul pulsante sotto la tabella saranno mostrate le differenze."
   text_time_logged_by_changeset: "Stato variato a partire dalla modifica %{value}."
@@ -2667,10 +2737,6 @@ it:
     password_change_unsupported: La modifica della password non è supportata.
     registered: "registrato"
     reset_failed_logins: "Azzera gli accessi falliti"
-    settings:
-      mail_notifications: "Invio notifiche via mail"
-      mail_project_explanaition: "Per i progetti non selezionati, si riceveranno solo le notifiche sulle cose che guardi o in cui sei coinvolto (es. macro-attività di cui sei l'autore o che ti sono state assegnate)."
-      mail_self_notified: "Voglio essere informato delle modifiche che faccio io stesso"
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Cambiamento di stato"
     text_change_disabled_for_provider_login: "Il nome è impostato dal servizio con cui hai effettuato l'accesso e non può essere modificato."
@@ -2692,7 +2758,7 @@ it:
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
@@ -2765,6 +2831,8 @@ it:
         invalid_json: "json non valido: %{message}"
     resources:
       schema: 'Schema'
+    undisclosed:
+      parent: Non divulgato - Il genitore selezionato è invisibile a causa della mancanza dei permessi.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorizzazione'

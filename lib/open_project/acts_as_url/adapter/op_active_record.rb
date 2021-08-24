@@ -31,7 +31,8 @@
 # Improves handling of some edge cases when to_url is called. The method is provided by
 # stringex but some edge cases have not been handled properly by that gem.
 #
-# Currently, this is limited to the string '.' which would lead to an empty string otherwise.
+# This includes
+#   * the strings '.' and '!' which would lead to an empty string otherwise
 
 module OpenProject
   module ActsAsUrl
