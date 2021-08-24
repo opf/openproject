@@ -52,17 +52,19 @@
   position: absolute
   right: 0
   top: 10px
-  display: flex
+  display: grid
   align-items: center
-  justify-content: flex-end
+  grid-template: auto auto / auto auto
+  grid-column-gap: 5px
 
-  &--bubble
-    margin-right: 5px
+  &--link
+    grid-column-end: 3
 
 .comments-icons
   padding: 0
   text-align: right
   display: block
+  grid-column: 1 / 3
   i
     padding: 5px 0 0 5px
     display: inline-block
