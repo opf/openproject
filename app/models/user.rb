@@ -380,15 +380,6 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
-  # Find a user account by matching the exact login and then a case-insensitive
-  # version.  Exact matches will be given priority.
-  def self.find_by_login(login)
-    # First look for an exact match
-    user = find_by(login: login)
-    # Fail over to case-insensitive if none was found
-    user || where(["LOWER(login) = ?", login.to_s.downcase]).first
-  end
-
   def self.find_by_rss_key(key)
     return nil unless Setting.feeds_enabled?
 
