@@ -48,21 +48,27 @@ describe 'Work Package boards sorting spec', type: :feature, js: true do
   # The currently added board should be at the top
   it 'sorts the boards grid and menu based on their names' do
     board_page = board_index.create_board action: nil
-    board_page.go_back_to_board_index
+    board_page.back_to_index
 
-    expect(page.all('td.name a').first.text).to eq('Unnamed board')
-    expect(page.all('.boards--menu-items a').first.text).to eq('Unnamed board')
+    expect(page.first('[data-qa-selector="boards-table-column--name"]'))
+      .to have_text('Unnamed board')
+    expect(page.first('[data-qa-selector="boards-menu--item"]'))
+      .to have_text('Unnamed board')
 
     board_page = board_index.create_board action: :Version, expect_empty: true
-    board_page.go_back_to_board_index
+    board_page.back_to_index
 
-    expect(page.all('td.name a').first.text).to eq('Action board (version)')
-    expect(page.all('.boards--menu-items a').first.text).to eq('Action board (version)')
+    expect(page.first('[data-qa-selector="boards-table-column--name"]'))
+      .to have_text('Action board (version)')
+    expect(page.first('[data-qa-selector="boards-menu--item"]'))
+      .to have_text('Action board (version)')
 
     board_page = board_index.create_board action: :Status
-    board_page.go_back_to_board_index
+    board_page.back_to_index
 
-    expect(page.all('td.name a').first.text).to eq('Action board (status)')
-    expect(page.all('.boards--menu-items a').first.text).to eq('Action board (status)')
+    expect(page.first('[data-qa-selector="boards-table-column--name"]'))
+      .to have_text('Action board (status)')
+    expect(page.first('[data-qa-selector="boards-menu--item"]'))
+      .to have_text('Action board (status)')
   end
 end

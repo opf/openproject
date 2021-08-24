@@ -276,7 +276,7 @@ module Pages
     end
 
     def back_to_index
-      find('.back-button').click
+      find('[data-qa-selector="op-back-button"]').click
     end
 
     def expect_editable_board(editable)
@@ -370,10 +370,6 @@ module Pages
         expect(page).to (value ? have_selector(warning) : have_no_selector(warning))
         expect(page).to (with_link ? have_selector(link) : have_no_selector(link))
       end
-    end
-
-    def go_back_to_board_index
-      page.find('button[data-qa-selector="op-back-button"]').click
     end
   end
 end

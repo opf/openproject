@@ -77,7 +77,10 @@
           </td>
         </tr>
         <tr *ngFor="let board of boards">
-          <td class="name">
+          <td
+            class="name"
+            data-qa-selector="boards-table-column--name"
+          >
            <a [textContent]="board.name"
               uiSref="boards.partitioned.show"
               [uiParams]="{ board_id: board.id }">
