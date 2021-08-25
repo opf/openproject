@@ -26,7 +26,7 @@ export class InAppNotificationBellComponent {
   polling$ = timer(10, POLLING_INTERVAL)
     .pipe(
       filter(() => this.activeWindow.isActive),
-      switchMap(() => this.inAppService.fetchCount()),
+      switchMap(() => this.inAppService.fetchUnreadCount()),
     );
 
   unreadCount$ = merge(

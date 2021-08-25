@@ -61,7 +61,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
   /** Do we have any notification that shall be visible the notification center? */
   hasNotifications$ = this.selectCount().pipe(map((count) => count > 0));
 
-  /** Determine whether the pageSize is not sufficient to load all notifcations */
+  /** Determine whether the pageSize is not sufficient to load all notifications */
   hasMoreThanPageSize$ = this
     .select()
     .pipe(

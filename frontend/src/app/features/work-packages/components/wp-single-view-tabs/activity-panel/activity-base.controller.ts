@@ -142,7 +142,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       );
   }
 
-  public toggleComments() {
+  public toggleComments():void {
     this.onlyComments = !this.onlyComments;
     this.updateActivities(this.unfilteredActivities);
 

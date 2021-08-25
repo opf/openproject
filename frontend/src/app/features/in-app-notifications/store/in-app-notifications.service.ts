@@ -29,7 +29,7 @@ export class InAppNotificationsService {
       .pipe(debounceTime(0))
       .subscribe(() => {
         this.fetchNotifications();
-        this.fetchCount();
+        this.fetchUnreadCount();
       });
   }
 
@@ -62,7 +62,7 @@ export class InAppNotificationsService {
     return call;
   }
 
-  fetchCount():Observable<number> {
+  fetchUnreadCount():Observable<number> {
     const { activeFilters } = this.query.getValue();
 
     return this

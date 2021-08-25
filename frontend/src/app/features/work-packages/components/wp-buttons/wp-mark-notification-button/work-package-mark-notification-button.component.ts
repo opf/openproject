@@ -25,7 +25,7 @@ export class WorkPackageMarkNotificationButtonComponent {
   ) {
   }
 
-  markAllBelongingWPsAsRead():void {
+  markAllBelongingNotificationsAsRead():void {
     this.ianService.markAllRead();
   }
 }
