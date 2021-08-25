@@ -49,8 +49,11 @@ Settings::Definition.define do
   add :attachment_max_size,
       value: 5120
 
+  # rubocop:disable Naming/InclusiveLanguage
+  # Existing setting
   add :attachment_whitelist,
       value: []
+  # rubocop:enable Naming/InclusiveLanguage
 
   add :autofetch_changesets,
       value: true

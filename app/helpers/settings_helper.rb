@@ -79,7 +79,6 @@ module SettingsHelper
         styled_select_tag("settings[#{setting}]",
                           options_for_select(choices, Setting.send(setting).to_s),
                           disabled_setting_option(setting).merge(options))
-
       end
   end
 

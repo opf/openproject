@@ -30,7 +30,7 @@
 
 module Settings
   class Definition
-    ENV_PREFIX ||= 'OPENPROJECT_'.freeze
+    ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     attr_accessor :name,
                   :format,
@@ -280,7 +280,7 @@ module Settings
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return original_value if original_value == ''
 
-        parsed = YAML.load(original_value)
+        parsed = YAML.safe_load(original_value)
 
         if parsed.is_a?(String)
           original_value

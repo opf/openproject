@@ -139,12 +139,12 @@ module OpenProject
         ActionMailer::Base.perform_deliveries = true
         ActionMailer::Base.delivery_method = self['email_delivery_method'].to_sym
 
-        ['smtp_', 'sendmail_'].each do |config_type|
+        %w[smtp_ sendmail_].each do |config_type|
           config = settings_of_prefix(config_type)
 
           next if config.empty?
 
-          ActionMailer::Base.send("#{config_type + 'settings'}=", config)
+          ActionMailer::Base.send("#{config_type}settings=", config)
         end
       end
 

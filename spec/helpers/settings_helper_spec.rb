@@ -78,17 +78,13 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'select-container'
     it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'select.form--select > option', count: 3
       expect(output).to have_select 'settings_field', selected: 'Jello'
     end
   end
 
   describe '#setting_multiselect' do
-    before do
-      allow(Setting).to receive(:field).at_least(:once).and_return('1')
-    end
-
     subject(:output) do
       helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     end
@@ -101,15 +97,15 @@ describe SettingsHelper, type: :helper do
       let(:container_count) { 3 }
     end
 
-    it 'should have checkboxes wrapped in checkbox-container' do
+    it 'has checkboxes wrapped in checkbox-container' do
       expect(output).to have_selector 'span.form--check-box-container', count: 3
     end
 
-    it 'should have three labels' do
+    it 'has three labels' do
       expect(output).to have_selector 'label.form--label-with-check-box', count: 3
     end
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to have_selector 'input[type="checkbox"].form--check-box', count: 3
     end
 
@@ -235,7 +231,7 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-field-container'
     it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field"
           id="settings_field" name="settings[field]" type="text" value="important value" />
@@ -257,7 +253,7 @@ describe SettingsHelper, type: :helper do
     it_behaves_like 'wrapped in container', 'text-area-container'
     it_behaves_like 'field disabled if non writable'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <textarea class="custom-class form--text-area" id="settings_field" name="settings[field]">
 important text</textarea>
@@ -280,7 +276,7 @@ important text</textarea>
       it_behaves_like 'wrapped in container', 'check-box-container'
       it_behaves_like 'field disabled if non writable'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_checked_field 'settings_field'
       end
@@ -296,7 +292,7 @@ important text</textarea>
       it_behaves_like 'wrapped in container', 'check-box-container'
       it_behaves_like 'field disabled if non writable'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
       end
@@ -316,7 +312,7 @@ important text</textarea>
     it_behaves_like 'wrapped in field-container by default'
     it_behaves_like 'wrapped in container', 'text-field-container'
 
-    it 'should output element' do
+    it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -time"
           id="settings_field" name="settings[field]" type="time" value="16:00" />
@@ -346,13 +342,13 @@ important text</textarea>
     context 'when setting includes option' do
       let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }
 
-      it 'should have a label' do
+      it 'has a label' do
         expect(output).to have_selector 'label.form--label-with-check-box', count: 1
       end
 
       it_behaves_like 'wrapped in container', 'check-box-container'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to have_selector 'input[type="checkbox"].form--check-box'
         expect(output).to have_checked_field 'Interesting stuff'
       end
@@ -371,13 +367,13 @@ important text</textarea>
     context 'when setting does not include option' do
       let(:notifiable) { OpenStruct.new(name: 'boring_stuff') }
 
-      it 'should have a label' do
+      it 'has a label' do
         expect(output).to have_selector 'label.form--label-with-check-box', count: 1
       end
 
       it_behaves_like 'wrapped in container', 'check-box-container'
 
-      it 'should output element' do
+      it 'outputs element' do
         expect(output).to have_selector 'input[type="checkbox"].form--check-box'
         expect(output).to have_unchecked_field 'Boring stuff'
       end

@@ -42,35 +42,42 @@ describe OpenProject::Configuration do
   end
 
   describe '.migrate_mailer_configuration!' do
+    before do
+      allow(Setting)
+        .to receive(:email_delivery_method=)
+    end
+
     it 'does nothing if no legacy configuration given' do
-      OpenProject::Configuration['email_delivery_method'] = nil
-      expect(Setting).to_not receive(:email_delivery_method=)
-      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+      described_class['email_delivery_method'] = nil
+      expect(Setting).not_to have_received(:email_delivery_method=)
+      expect(described_class.migrate_mailer_configuration!).to eq(true)
     end
 
     it 'does nothing if email_delivery_configuration forced to legacy' do
-      OpenProject::Configuration['email_delivery_configuration'] = 'legacy'
-      expect(Setting).to_not receive(:email_delivery_method=)
-      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+      described_class['email_delivery_configuration'] = 'legacy'
+      expect(Setting).not_to have_received(:email_delivery_method=)
+      expect(described_class.migrate_mailer_configuration!).to eq(true)
     end
 
     it 'does nothing if setting already set' do
-      OpenProject::Configuration['email_delivery_method'] = :sendmail
-      Setting.email_delivery_method = :sendmail
-      expect(Setting).to_not receive(:email_delivery_method=)
-      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+      described_class['email_delivery_method'] = :sendmail
+      allow(Setting)
+        .to receive(:email_delivery_method)
+              .and_return(:sendmail)
+      expect(Setting).not_to have_received(:email_delivery_method=)
+      expect(described_class.migrate_mailer_configuration!).to eq(true)
     end
 
     it 'migrates the existing configuration to the settings table' do
-      OpenProject::Configuration['email_delivery_method'] = :smtp
-      OpenProject::Configuration['smtp_password'] = 'p4ssw0rd'
-      OpenProject::Configuration['smtp_address'] = 'smtp.example.com'
-      OpenProject::Configuration['smtp_port'] = 587
-      OpenProject::Configuration['smtp_user_name'] = 'username'
-      OpenProject::Configuration['smtp_enable_starttls_auto'] = true
-      OpenProject::Configuration['smtp_ssl'] = true
+      described_class['email_delivery_method'] = :smtp
+      described_class['smtp_password'] = 'p4ssw0rd'
+      described_class['smtp_address'] = 'smtp.example.com'
+      described_class['smtp_port'] = 587
+      described_class['smtp_user_name'] = 'username'
+      described_class['smtp_enable_starttls_auto'] = true
+      described_class['smtp_ssl'] = true
 
-      expect(OpenProject::Configuration.migrate_mailer_configuration!).to eq(true)
+      expect(described_class.migrate_mailer_configuration!).to eq(true)
       expect(Setting.email_delivery_method).to eq(:smtp)
       expect(Setting.smtp_password).to eq('p4ssw0rd')
       expect(Setting.smtp_address).to eq('smtp.example.com')
@@ -89,9 +96,9 @@ describe OpenProject::Configuration do
     end
 
     it 'uses the legacy method to configure email settings' do
-      OpenProject::Configuration['email_delivery_configuration'] = 'legacy'
+      described_class['email_delivery_configuration'] = 'legacy'
       expect(OpenProject::Configuration).to receive(:configure_legacy_action_mailer)
-      OpenProject::Configuration.reload_mailer_configuration!
+      described_class.reload_mailer_configuration!
     end
 
     it 'allows settings smtp_authentication to none' do
@@ -107,7 +114,7 @@ describe OpenProject::Configuration do
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      OpenProject::Configuration.reload_mailer_configuration!
+      described_class.reload_mailer_configuration!
       expect(action_mailer.smtp_settings[:smtp_authentication]).to be_nil
       expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
                                                 port: 25,
@@ -127,7 +134,7 @@ describe OpenProject::Configuration do
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      OpenProject::Configuration.reload_mailer_configuration!
+      described_class.reload_mailer_configuration!
       expect(action_mailer.smtp_settings[:smtp_authentication]).to be_nil
       expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
                                                 port: 25,
@@ -148,7 +155,7 @@ describe OpenProject::Configuration do
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      OpenProject::Configuration.reload_mailer_configuration!
+      described_class.reload_mailer_configuration!
       expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
                                                 port: 587,
                                                 domain: 'example.com',
@@ -169,7 +176,7 @@ describe OpenProject::Configuration do
 
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
-      OpenProject::Configuration.reload_mailer_configuration!
+      described_class.reload_mailer_configuration!
       expect(action_mailer.smtp_settings).to eq(address: 'smtp.example.com',
                                                 port: 587,
                                                 domain: 'example.com',
@@ -205,12 +212,12 @@ describe OpenProject::Configuration do
       stub_const('ActionMailer::Base', action_mailer)
     end
 
-    it 'should enable deliveries and configure ActionMailer smtp delivery' do
+    it 'enables deliveries and configure ActionMailer smtp delivery' do
       expect(action_mailer).to receive(:perform_deliveries=).with(true)
       expect(action_mailer).to receive(:delivery_method=).with(:smtp)
       expect(action_mailer).to receive(:smtp_settings=).with(address: 'smtp.example.net',
                                                              port: '25')
-      OpenProject::Configuration.send(:configure_legacy_action_mailer)
+      described_class.send(:configure_legacy_action_mailer)
     end
   end
 
@@ -226,22 +233,22 @@ describe OpenProject::Configuration do
 
       context 'with additional cache store configuration' do
         before do
-          OpenProject::Configuration['rails_cache_store'] = 'bar'
+          described_class['rails_cache_store'] = 'bar'
         end
 
         it 'changes the cache store' do
-          OpenProject::Configuration.send(:configure_cache, application_config)
+          described_class.send(:configure_cache, application_config)
           expect(application_config.cache_store).to eq([:bar])
         end
       end
 
       context 'without additional cache store configuration' do
         before do
-          OpenProject::Configuration['rails_cache_store'] = nil
+          described_class['rails_cache_store'] = nil
         end
 
         it 'does not change the cache store' do
-          OpenProject::Configuration.send(:configure_cache, application_config)
+          described_class.send(:configure_cache, application_config)
           expect(application_config.cache_store).to eq('foo')
         end
       end
@@ -250,7 +257,7 @@ describe OpenProject::Configuration do
     context 'without cache store already set' do
       before do
         application_config.cache_store = nil
-        OpenProject::Configuration.send(:configure_cache, application_config)
+        described_class.send(:configure_cache, application_config)
       end
 
       context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
@@ -267,36 +274,34 @@ describe OpenProject::Configuration do
     end
   end
 
-  context 'helpers' do
-    describe '#direct_uploads?' do
-      let(:value) { OpenProject::Configuration.direct_uploads? }
+  describe '#direct_uploads?' do
+    let(:value) { described_class.direct_uploads? }
 
-      it 'should be false by default' do
-        expect(value).to be false
-      end
+    it 'is false by default' do
+      expect(value).to be false
+    end
 
-      context 'with remote storage' do
-        def self.storage(provider)
-          {
-            attachments_storage: :fog,
-            fog: {
-              credentials: {
-                provider: provider
-              }
+    context 'with remote storage' do
+      def self.storage(provider)
+        {
+          attachments_storage: :fog,
+          fog: {
+            credentials: {
+              provider: provider
             }
           }
-        end
+        }
+      end
 
-        context 'AWS', with_config: storage('AWS') do
-          it 'should be true' do
-            expect(value).to be true
-          end
+      context 'with AWS', with_config: storage('AWS') do
+        it 'is true' do
+          expect(value).to be true
         end
+      end
 
-        context 'Azure', with_config: storage('azure') do
-          it 'should be false' do
-            expect(value).to be false
-          end
+      context 'with Azure', with_config: storage('azure') do
+        it 'is false' do
+          expect(value).to be false
         end
       end
     end

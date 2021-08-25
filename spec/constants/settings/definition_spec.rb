@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Settings::Definition do
-  shared_context 'clean definitions' do
+  shared_context 'with clean definitions' do
     let!(:definitions_before) { described_class.all.dup }
 
     before do
@@ -47,31 +47,31 @@ describe Settings::Definition do
 
     it "is a list of setting definitions" do
       expect(all)
-        .to be_all { |d| d.is_a?(Settings::Definition) }
+        .to(be_all { |d| d.is_a?(described_class) })
     end
 
     it 'contains a definition from settings' do
       expect(all)
-        .to be_any { |d| d.name == 'smtp_address' }
+        .to(be_any { |d| d.name == 'smtp_address' })
     end
 
     it 'contains a definition from configuration' do
       expect(all)
-        .to be_any { |d| d.name == 'edition' }
+        .to(be_any { |d| d.name == 'edition' })
     end
 
     it 'contains a definition from settings.yml' do
       expect(all)
-        .to be_any { |d| d.name == 'sendmail_location' }
+        .to(be_any { |d| d.name == 'sendmail_location' })
     end
 
     it 'casts the value from settings.yml' do
       expect(all.detect { |d| d.name == 'brute_force_block_after_failed_logins' }.value)
-        .to eql 20
+        .to eq 20
     end
 
     context 'when overriding from ENV' do
-      include_context 'clean definitions'
+      include_context 'with clean definitions'
 
       it 'allows overriding configuration from ENV' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
@@ -127,7 +127,7 @@ describe Settings::Definition do
     end
 
     context 'when overriding from file' do
-      include_context 'clean definitions'
+      include_context 'with clean definitions'
 
       let(:file_contents) do
         {
@@ -197,7 +197,7 @@ describe Settings::Definition do
 
       it 'does not accept undefined settings' do
         expect(all.detect { |d| d.name == 'bogus' })
-          .to eql nil
+          .to be_nil
       end
 
       context 'when having invalid values in the file' do
@@ -233,7 +233,7 @@ describe Settings::Definition do
     end
 
     context 'when adding an additional setting' do
-      include_context 'clean definitions'
+      include_context 'with clean definitions'
 
       it 'includes the setting' do
         all
@@ -243,7 +243,7 @@ describe Settings::Definition do
                             format: :integer
 
         expect(all.detect { |d| d.name == 'bogus' }.value)
-          .to eql(1)
+          .to eq(1)
       end
     end
   end
@@ -279,7 +279,7 @@ describe Settings::Definition do
     end
 
     context 'when adding a setting late' do
-      include_context 'clean definitions'
+      include_context 'with clean definitions'
       let(:key) { 'bogus' }
 
       before do
@@ -429,12 +429,12 @@ describe Settings::Definition do
 
       it 'has the format (in symbol)' do
         expect(instance.format)
-          .to eql :integer
+          .to eq :integer
       end
 
       it 'has the value' do
         expect(instance.value)
-          .to eql 1
+          .to eq 1
       end
 
       it 'has the api_name' do
@@ -481,12 +481,12 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :integer
+          .to eq :integer
       end
 
       it 'has the value' do
         expect(instance.value)
-          .to eql 1
+          .to eq 1
       end
 
       it 'has the api_name' do
@@ -523,7 +523,7 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :hash
+          .to eq :hash
       end
 
       it 'is serialized' do
@@ -535,12 +535,12 @@ describe Settings::Definition do
     context 'with the minimal attributes (array value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: [:a, :b]
+                            value: %i[a b]
       end
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :array
+          .to eq :array
       end
 
       it 'is serialized' do
@@ -557,7 +557,7 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :boolean
+          .to eq :boolean
       end
     end
 
@@ -569,19 +569,19 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :boolean
+          .to eq :boolean
       end
     end
 
     context 'with the minimal attributes (date value)' do
       let(:instance) do
         described_class.new 'bogus',
-                            value: Date.today
+                            value: Time.zone.today
       end
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :date
+          .to eq :date
       end
     end
 
@@ -593,7 +593,7 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :date_time
+          .to eq :date_time
       end
     end
 
@@ -605,7 +605,7 @@ describe Settings::Definition do
 
       it 'has the format (in symbol) deduced' do
         expect(instance.format)
-          .to eql :string
+          .to eq :string
       end
     end
 
@@ -616,7 +616,6 @@ describe Settings::Definition do
                             value: -> { 'some value' },
                             writable: -> { false },
                             allowed: -> { %w[a b c] }
-
       end
 
       it 'returns the procs return value for value' do
@@ -644,7 +643,7 @@ describe Settings::Definition do
 
       it 'returns value as an int' do
         expect(instance.value)
-          .to eql 5
+          .to eq 5
       end
     end
 
@@ -657,7 +656,7 @@ describe Settings::Definition do
 
       it 'returns value as a float' do
         expect(instance.value)
-          .to eql 0.5
+          .to eq 0.5
       end
     end
   end

@@ -108,7 +108,7 @@ describe Setting, type: :model do
               .and_return writable
     end
 
-    context 'if definition states it to be writable' do
+    context 'when definition states it to be writable' do
       let(:writable) { true }
 
       it 'is writable' do
@@ -117,7 +117,7 @@ describe Setting, type: :model do
       end
     end
 
-    context 'if definition states it to be non writable' do
+    context 'when definition states it to be non writable' do
       let(:writable) { false }
 
       it 'is non writable' do

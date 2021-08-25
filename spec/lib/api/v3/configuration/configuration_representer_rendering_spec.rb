@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
-  subject { representer.to_json }
+  subject(:json) { representer.to_json }
 
   let(:represented) { Setting }
   let(:current_user) do
@@ -60,15 +60,15 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
       let(:href) { api_v3_paths.configuration }
     end
 
-    context 'userPreferences' do
-      context 'if logged in' do
+    describe 'userPreferences' do
+      context 'when logged in' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'userPreferences' }
           let(:href) { api_v3_paths.user_preferences(current_user.id) }
         end
       end
 
-      context 'if not logged in' do
+      context 'when not logged in' do
         let(:current_user) { FactoryBot.build_stubbed(:anonymous) }
 
         it_behaves_like 'has an untitled link' do
@@ -108,7 +108,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
     describe 'timeFormat' do
       context 'with time format', with_settings: { time_format: '%I:%M %p' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('hh:mm a'.to_json)
             .at_path('timeFormat')
         end
@@ -116,7 +116,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with time format', with_settings: { time_format: '%H:%M' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('HH:mm'.to_json)
             .at_path('timeFormat')
         end
@@ -124,7 +124,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with a time format', with_settings: { time_format: '' } do
         it 'indicates the timeFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql(nil.to_json)
             .at_path('timeFormat')
         end
@@ -134,23 +134,15 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
     describe 'dateFormat' do
       context 'without a date format', with_settings: { date_format: '' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql(nil.to_json)
-            .at_path('dateFormat')
-        end
-      end
-
-      context 'with date format (%Y-%m-%d)', with_settings: { date_format: '%Y-%m-%d' } do
-        it 'indicates the dateFormat' do
-          is_expected
-            .to be_json_eql('YYYY-MM-DD'.to_json)
             .at_path('dateFormat')
         end
       end
 
       context 'with date format (%d/%m/%Y)', with_settings: { date_format: '%Y-%m-%d' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('YYYY-MM-DD'.to_json)
             .at_path('dateFormat')
         end
@@ -158,7 +150,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%d.%m.%Y)', with_settings: { date_format: '%d.%m.%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('DD.MM.YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -166,7 +158,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%d-%m-%Y)', with_settings: { date_format: '%d-%m-%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('DD-MM-YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -174,7 +166,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%m/%d/%Y)', with_settings: { date_format: '%m/%d/%Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('MM/DD/YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -182,7 +174,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%d %b %Y)', with_settings: { date_format: '%d %b %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('DD MMM YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -190,7 +182,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%d %B %Y)', with_settings: { date_format: '%d %B %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('DD MMMM YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -198,7 +190,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%b %d, %Y)', with_settings: { date_format: '%b %d, %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('MMM DD, YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -206,7 +198,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with date format (%B %d, %Y)', with_settings: { date_format: '%B %d, %Y' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql('MMMM DD, YYYY'.to_json)
             .at_path('dateFormat')
         end
@@ -216,7 +208,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
     describe 'startOfWeek' do
       context 'without a setting', with_settings: { start_of_week: '' } do
         it 'is null' do
-          is_expected
+          expect(json)
             .to be_json_eql(nil.to_json)
             .at_path('startOfWeek')
         end
@@ -224,7 +216,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
 
       context 'with `Monday` being set', with_settings: { start_of_week: '1' } do
         it 'indicates the dateFormat' do
-          is_expected
+          expect(json)
             .to be_json_eql(1.to_json)
             .at_path('startOfWeek')
         end
@@ -247,20 +239,20 @@ describe ::API::V3::Configuration::ConfigurationRepresenter, 'rendering' do
   end
 
   describe '_embedded' do
-    context 'userPreferences' do
-      context 'if embedding' do
+    describe 'userPreferences' do
+      context 'when embedding' do
         let(:embed_links) { true }
 
         it 'embedds the user preferences' do
-          is_expected
+          expect(json)
             .to be_json_eql('UserPreferences'.to_json)
             .at_path('_embedded/userPreferences/_type')
         end
       end
 
-      context 'if not embedding' do
+      context 'when not embedding' do
         it 'embedds the user preferences' do
-          is_expected
+          expect(json)
             .not_to have_json_path('_embedded/userPreferences/_type')
         end
       end

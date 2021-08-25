@@ -135,13 +135,15 @@ class Setting < ApplicationRecord
   end
 
   validates_uniqueness_of :name
-  validates_inclusion_of :name,
-                         in: lambda { |_setting|
-                               Settings::Definition.all.map(&:name)
-                             } # lambda, because @available_settings changes at runtime
-  validates_numericality_of :value, only_integer: true, if: Proc.new { |setting|
-                                                              setting.format == :integer
-                                                            }
+  validates :name,
+            inclusion: {
+              in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
+            }
+  validates :value,
+            numericality: {
+              only_integer: true,
+              if: Proc.new { |setting| setting.format == :integer }
+            }
 
   def value
     self.class.deserialize(name, read_attribute(:value))
