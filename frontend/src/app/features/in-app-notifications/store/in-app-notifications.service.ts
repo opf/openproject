@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
   debounceTime,
-  map,
   switchMap,
   take,
   tap,
+  catchError,
 } from 'rxjs/operators';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -13,7 +13,7 @@ import { NotificationsService } from 'core-app/shared/components/notifications/n
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
-import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from './in-app-notification.model';
+import { InAppNotification } from './in-app-notification.model';
 import { Observable } from 'rxjs';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
@@ -26,59 +26,50 @@ export class InAppNotificationsService {
     private notifications:NotificationsService,
   ) {
     this.query.activeFetchParameters$
-      .pipe(debounceTime(0))
-      .subscribe(() => {
-        this.fetchNotifications();
-        this.fetchUnreadCount();
-      });
+      .pipe(
+        debounceTime(0),
+        switchMap(() => this.fetchNotifications()),
+      ).subscribe();
   }
 
   fetchNotifications():Observable<IHALCollection<InAppNotification>> {
     this.store.setLoading(true);
 
-    const { activeFacet, activeFilters } = this.query.getValue();
-
-    const call = this
-      .apiV3Service
-      .notifications
-      .facet(activeFacet, {
-        pageSize: NOTIFICATIONS_MAX_SIZE,
-        filters: activeFilters,
-      });
-
-    call
-      .pipe(
-        tap((events) => this.sideLoadInvolvedWorkPackages(events._embedded.elements)),
-      )
-      .subscribe(
-        (events) => applyTransaction(() => {
-          this.store.set(events._embedded.elements);
-          this.store.update({ notShowing: events.total - events.count });
-        }),
-        (error) => this.notifications.addError(error),
-      )
-      .add(() => this.store.setLoading(false));
-
-    return call;
-  }
-
-  fetchUnreadCount():Observable<number> {
-    const { activeFilters } = this.query.getValue();
+    const {
+      activeFacet,
+      activeFilters,
+      pageSize,
+    } = this.query.getValue();
 
     return this
       .apiV3Service
       .notifications
-      .unread({ pageSize: 0, filters: activeFilters })
+      .facet(activeFacet, {
+        pageSize,
+        filters: activeFilters,
+      })
       .pipe(
-        map((events) => events.total),
-        tap((unreadCount) => {
-          this.store.update({ unreadCount });
+        tap((events) => {
+          this.sideLoadInvolvedWorkPackages(events._embedded.elements);
+          applyTransaction(() => {
+            this.store.set(events._embedded.elements);
+            this.store.update({ notLoaded: events.total - events.count });
+          });
+          this.store.setLoading(false);
+        }),
+        catchError((error) => {
+          this.notifications.addError(error);
+          throw error;
         }),
       );
   }
 
   update(id:ID, inAppNotification:Partial<InAppNotification>):void {
     this.store.update(id, inAppNotification);
+  }
+
+  setPageSize(pageSize:number):void {
+    this.store.update((state) => ({ ...state, pageSize }));
   }
 
   setActiveFacet(facet:string):void {

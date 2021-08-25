@@ -62,7 +62,7 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current.data.baseRoute;
 
-  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasNotifications$;
+  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasUnread$;
 
   constructor(
     public injector:Injector,

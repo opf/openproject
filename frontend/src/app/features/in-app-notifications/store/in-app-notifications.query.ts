@@ -13,7 +13,7 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
   /** Select the active filter facet */
   activeFacet$ = this.select('activeFacet');
 
-  activeFetchParameters$ = this.select(['activeFacet', 'activeFilters']);
+  activeFetchParameters$ = this.select(['activeFacet', 'pageSize', 'activeFilters']);
 
   /** Select the active filter facet */
   notLoaded$ = this.select('notLoaded');
@@ -42,16 +42,16 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
       )),
     );
 
-  /** Get the number of unread items */
-  unreadCount$ = this.select('unreadCount');
-
-  /** Do we have any unread items? */
-  hasUnread$ = this.unreadCount$.pipe(map((count) => count > 0));
-
   /** Get the unread items */
   unread$ = this.selectAll({
     filterBy: ({ readIAN }) => !readIAN,
   });
+
+  /** Get the number of unread items */
+  unreadCount$ = this.unread$.pipe(map((notifications) => notifications.length));
+
+  /** Do we have any unread items? */
+  hasUnread$ = this.unreadCount$.pipe(map((count) => count > 0));
 
   /** Get all items that shall be kept in the notification center */
   unreadOrKept$ = this.selectAll({

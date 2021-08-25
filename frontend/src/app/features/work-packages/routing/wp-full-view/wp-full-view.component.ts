@@ -56,7 +56,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton:boolean;
 
-  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasNotifications$;
+  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasUnread$;
 
   public watchers:any;
 

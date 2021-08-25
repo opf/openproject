@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { merge, timer } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { timer, combineLatest } from 'rxjs';
+import { filter, switchMap, tap, map } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -22,17 +22,18 @@ const POLLING_INTERVAL = 10000;
     InAppNotificationsQuery,
   ],
 })
-export class InAppNotificationBellComponent {
+export class InAppNotificationBellComponent implements OnInit {
   polling$ = timer(10, POLLING_INTERVAL)
-    .pipe(
-      filter(() => this.activeWindow.isActive),
-      switchMap(() => this.inAppService.fetchUnreadCount()),
-    );
+      .pipe(
+        filter(() => this.activeWindow.isActive),
+        tap(() => console.log('sending fetch request from bell')),
+        switchMap(() => this.inAppService.fetchNotifications()),
+      );
 
-  unreadCount$ = merge(
+  unreadCount$ = combineLatest([
+    this.inAppQuery.notLoaded$,
     this.polling$,
-    this.inAppQuery.unreadCount$,
-  );
+  ]).pipe(map(([count]) => count));
 
   constructor(
     readonly inAppQuery:InAppNotificationsQuery,
@@ -40,7 +41,12 @@ export class InAppNotificationBellComponent {
     readonly activeWindow:ActiveWindowService,
     readonly modalService:OpModalService,
     readonly pathHelper:PathHelperService,
-  ) {}
+  ) { }
+
+  ngOnInit() {
+    this.inAppService.setPageSize(0);
+    console.log('ngoninit ian bell');
+  }
 
   notificationsPath():string {
     return this.pathHelper.notificationsPath();
