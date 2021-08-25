@@ -77,26 +77,6 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe 'selfNotified' do
-    let(:preference) { FactoryBot.build(:user_preference, others: { no_self_notified: no_self_notified }) }
-
-    context 'with setting true' do
-      let(:no_self_notified) { true }
-
-      it 'renders the property as false' do
-        is_expected.to be_json_eql(false.to_json).at_path('selfNotified')
-      end
-    end
-
-    context 'with setting false' do
-      let(:no_self_notified) { false }
-
-      it 'renders the property as true' do
-        is_expected.to be_json_eql(true.to_json).at_path('selfNotified')
-      end
-    end
-  end
-
   describe 'notification_settings' do
     it 'renders them as a nested array' do
       is_expected.to have_json_type(Array).at_path('notifications')

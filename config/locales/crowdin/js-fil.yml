@@ -522,6 +522,7 @@ fil:
         all: 'All'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -538,7 +539,6 @@ fil:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Gusto kong mapa-alam sa mga pagbabago na ginagawa ko sa aking sarili"
     password_confirmation:
       field_description: 'Kailangan mong ipasok ang iyong akwant password upang kumpirmahin ang pagbabago niito.'
       title: 'Kumpirmahin ang iyong password upanh magpatuloy'

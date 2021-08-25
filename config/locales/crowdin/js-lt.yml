@@ -522,6 +522,7 @@ lt:
         all: 'Visi'
       center:
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
         default_all_projects: 'Numatytasis visiems projektams'
@@ -538,7 +539,6 @@ lt:
         already_selected: 'Šis projektas jau pasirinktas'
         remove_projects: 'Pašalinti pranešimus projektams'
         title: "Pranešimų nustatymai"
-        self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'

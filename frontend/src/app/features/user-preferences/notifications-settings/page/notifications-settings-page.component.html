@@ -4,24 +4,6 @@
     [userId]="userId"
 ></op-notification-settings-table>
 
-<fieldset class="form--fieldset form--section">
-  <legend class="form--fieldset-legend">
-    {{ text.advanced_settings }}
-  </legend>
-  <op-form-field
-      class="op-form-field_checkbox"
-      [noWrapLabel]="false"
-      [label]="text.self_notify"
-  >
-    <input
-        slot="input"
-        type="checkbox"
-        [checked]="(preferences$ | async).selfNotified"
-        (change)="updateNotified($event.target.checked)"
-    />
-  </op-form-field>
-</fieldset>
-
 <div class="generic-table--action-buttons">
   <button
       class="button -highlight"

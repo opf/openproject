@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,31 +26,52 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Mails::WorkPackageJob < Mails::DeliverJob
-  include Mails::WithSender
-
-  def perform(journal_id, recipient_id, author_id)
-    @journal_id = journal_id
-    super(recipient_id, author_id)
+class Notifications::MailService
+  def initialize(notification)
+    self.notification = notification
   end
 
-  def render_mail
-    return nil unless journal # abort, assuming that the underlying WP was deleted
+  def call
+    ensure_supported
 
-    if journal.initial?
-      UserMailer.work_package_added(recipient, journal, sender)
-    else
-      UserMailer.work_package_updated(recipient, journal, sender)
-    end
+    return if ian_read?
+
+    strategy.send_mail(notification)
   end
 
   private
 
-  def journal
-    @journal ||= Journal.find_by(id: @journal_id)
+  attr_accessor :notification
+
+  def ensure_supported
+    unless supported?
+      raise ArgumentError, "Sending mails for notifications is not supported for #{strategy_model}"
+    end
   end
 
-  def work_package
-    @work_package ||= journal.journable
+  def ian_read?
+    notification.read_ian
+  end
+
+  def strategy
+    @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
+                    "#{self.class}::#{strategy_model}Strategy".constantize
+                  end
+  end
+
+  def strategy_model
+    journal&.journable_type || resource&.class
+  end
+
+  def journal
+    notification.journal
+  end
+
+  def resource
+    notification.resource
+  end
+
+  def supported?
+    strategy.present?
   end
 end

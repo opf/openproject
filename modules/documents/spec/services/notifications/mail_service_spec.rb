@@ -30,8 +30,8 @@
 
 require 'spec_helper'
 
-describe Mails::NotificationJob, type: :model do
-  subject(:job) { instance.perform(notification) }
+describe Notifications::MailService, type: :model do
+  subject(:call) { instance.call }
 
   let(:recipient) do
     FactoryBot.build_stubbed(:user)
@@ -39,31 +39,67 @@ describe Mails::NotificationJob, type: :model do
   let(:actor) do
     FactoryBot.build_stubbed(:user)
   end
-  let(:instance) { described_class.new }
+  let(:instance) { described_class.new(notification) }
 
-  context 'with a work package journal notification' do
-    let(:journal) { FactoryBot.build_stubbed(:work_package_journal) }
+  context 'with a document journal notification' do
+    let(:journal) do
+      FactoryBot.build_stubbed(:journal,
+                               journable: FactoryBot.build_stubbed(:document)).tap do |j|
+        allow(j)
+          .to receive(:initial?)
+                .and_return(initial_journal)
+      end
+    end
     let(:read_ian) { false }
     let(:notification) do
       FactoryBot.build_stubbed(:notification,
                                journal: journal,
+                               resource: journal.journable,
                                recipient: recipient,
                                actor: actor,
                                read_ian: read_ian)
     end
+    let(:notification_setting) { %w(document_added) }
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(DocumentsMailer)
+        .to receive(:document_added)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_later)
+
+      mail
+    end
+    let(:initial_journal) { true }
 
     before do
-      allow(Mails::WorkPackageJob)
-        .to receive(:perform_now)
+      mail
+
+      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
-    context 'with the notification not read in app already' do
-      it 'sends a mail' do
-        job
+    it 'sends a mail' do
+      call
 
-        expect(Mails::WorkPackageJob)
-          .to have_received(:perform_now)
-                .with(notification.journal, notification.recipient_id, notification.actor_id)
+      expect(DocumentsMailer)
+        .to have_received(:document_added)
+              .with(recipient,
+                    journal.journable)
+
+      expect(mail)
+        .to have_received(:deliver_later)
+    end
+
+    context 'with the event being disabled' do
+      let(:notification_setting) { %w(wiki_content_updated) }
+
+      it 'sends no mail' do
+        call
+
+        expect(DocumentsMailer)
+          .not_to have_received(:document_added)
       end
     end
 
@@ -71,26 +107,22 @@ describe Mails::NotificationJob, type: :model do
       let(:read_ian) { true }
 
       it 'sends no mail' do
-        job
+        call
 
-        expect(Mails::WorkPackageJob)
-          .not_to have_received(:perform_now)
+        expect(DocumentsMailer)
+          .not_to have_received(:document_added)
       end
     end
-  end
 
-  context 'with a different journal notification' do
-    let(:journal) { FactoryBot.build_stubbed(:message_journal) }
-    let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor)
-    end
+    context 'with the journal not being the initial one' do
+      let(:initial_journal) { false }
 
-    it 'raises an error' do
-      expect { job }
-        .to raise_error(ArgumentError)
+      it 'sends no mail' do
+        call
+
+        expect(DocumentsMailer)
+          .not_to have_received(:document_added)
+      end
     end
   end
 end

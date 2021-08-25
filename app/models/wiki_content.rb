@@ -31,8 +31,8 @@
 class WikiContent < ApplicationRecord
   extend DeprecatedAlias
 
-  belongs_to :page, class_name: 'WikiPage', foreign_key: 'page_id'
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :page, class_name: 'WikiPage'
+  belongs_to :author, class_name: 'User'
   validates_length_of :comments, maximum: 255, allow_nil: true
 
   attr_accessor :comments

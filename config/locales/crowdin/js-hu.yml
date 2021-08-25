@@ -40,7 +40,7 @@ hu:
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
       last_backup: 'Utolsó biztonsági mentés:'
-      last_backup_from: Last backup from
+      last_backup_from: 'Legutóbbi biztonsági mentés: '
       title: Backup OpenProject
       options: Beállítások
       include_attachments: Include attachments
@@ -95,7 +95,7 @@ hu:
       add_new: 'Új kártya hozzáadása'
       highlighting:
         inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
+        entire_card_by: 'Egész sor alapján'
       remove_from_list: 'Kártya eltávolítása a listából'
     caption_rate_history: "Díj előzmények"
     clipboard:
@@ -521,6 +521,7 @@ hu:
         all: 'Mind'
       center:
         mark_all_read: 'Mindegyik megjelölése olvasottként'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Alapértelmezett az összes projektnél'
@@ -537,7 +538,6 @@ hu:
         already_selected: 'A projekt már ki lett választva'
         remove_projects: 'Értesítések kikapcsolása a projektekhez'
         title: "Értesítési beállítások"
-        self_notify: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'
@@ -1029,7 +1029,7 @@ hu:
         invite_to_project: 'Invite %{type} to %{project}'
         User: 'Felhasználó'
         Group: 'csoport'
-        PlaceholderUser: 'placeholder user'
+        PlaceholderUser: 'Teszt felhasználó'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: 'Projekt'
@@ -1048,7 +1048,7 @@ hu:
           title: 'Csoport'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Teszt felhasználó'
           title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
@@ -1059,8 +1059,8 @@ hu:
         already_member_message: 'Already a member of %{project}'
         no_results_user: 'Nem található felhasználó.'
         invite_user: 'Meghívás:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
+        no_results_placeholder: 'Ben találhatók teszt felhasználók'
+        create_new_placeholder: 'Új teszt felhasználó létrehozása'
         no_results_group: 'Nem találhatók csoportok.'
         next_button: ' Következő'
         required:
@@ -1088,7 +1088,7 @@ hu:
         next_button: 'Folytatás'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
-      load_error_message: 'There was an error loading the form'
+      load_error_message: 'Hiba történt az eredmény betöltésekor.'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Speciális beállítások'
 

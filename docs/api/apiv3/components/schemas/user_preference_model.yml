@@ -11,9 +11,6 @@ properties:
   notifications:
     type: NotificationSetting
     description: The settings for the notifications to be received by the user
-  selfNotified:
-    type: boolean
-    description: Whether the user wants to be notfified of changes done by the user her/himself
   timeZone:
     type: string
     description: Current selected time zone

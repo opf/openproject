@@ -29,27 +29,34 @@
 require 'spec_helper'
 
 describe 'messages', type: :feature, js: true do
-  let(:forum) { FactoryBot.create(:forum) }
+  let(:forum) do
+    FactoryBot.create(:forum)
+  end
 
   let(:user) do
     FactoryBot.create :user,
                       member_in_project: forum.project,
-                      member_through_role: role
+                      member_through_role: role,
+                      notification_settings: [FactoryBot.build(:notification_setting, all: false)]
   end
   let(:other_user) do
-    FactoryBot.create :user,
+    FactoryBot.create(:user,
                       member_in_project: forum.project,
-                      member_through_role: role
+                      member_through_role: role,
+                      notification_settings: [FactoryBot.build(:notification_setting, all: false)]).tap do |u|
+      forum.watcher_users << u
+    end
   end
   let(:role) { FactoryBot.create(:role, permissions: [:add_messages]) }
 
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
   before do
+    other_user
     login_as user
   end
 
-  scenario 'adding, checking replies, replying' do
+  it 'adding, checking replies, replying' do
     index_page.visit!
     click_link forum.name
 
@@ -63,7 +70,10 @@ describe 'messages', type: :feature, js: true do
     SeleniumHubWaiter.wait
     create_page.add_text 'There is no message here'
 
-    show_page = create_page.click_save
+    show_page = perform_enqueued_jobs do
+      create_page.click_save
+    end
+
 
     show_page.expect_current_path
 
@@ -75,13 +85,29 @@ describe 'messages', type: :feature, js: true do
     index_page.expect_listed(subject: 'The message is',
                              replies: 0)
 
+    # Register as a watcher to later on get mails
+    click_link 'Watch'
+
+    # Creating a message will have sent a mail to the other user who was already watching the forum
+    expect(ActionMailer::Base.deliveries.size)
+      .to be 1
+
+    expect(ActionMailer::Base.deliveries.last.to)
+      .to match_array [other_user.mail]
+
+    expect(ActionMailer::Base.deliveries.last.subject)
+      .to include 'The message is'
+
     # Replying as other user
 
     login_as other_user
 
     show_page.visit!
     show_page.expect_no_replies
-    reply = show_page.reply 'But, but there should be one'
+
+    reply = perform_enqueued_jobs do
+      show_page.reply 'But, but there should be one'
+    end
 
     show_page.expect_current_path(reply)
     show_page.expect_num_replies(1)
@@ -95,6 +121,16 @@ describe 'messages', type: :feature, js: true do
     index_page.expect_listed(subject: 'The message is',
                              replies: 1,
                              last_message: 'RE: The message is')
+
+    # Creating a reply will have sent a mail to the first user who was watching the forum
+    expect(ActionMailer::Base.deliveries.size)
+      .to be 2
+
+    expect(ActionMailer::Base.deliveries.last.to)
+      .to match_array [user.mail]
+
+    expect(ActionMailer::Base.deliveries.last.subject)
+      .to include 'RE: The message is'
 
     # Quoting as first user again
     login_as user

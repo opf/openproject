@@ -29,12 +29,22 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-describe 'Upload attachment to documents', js: true do
+describe 'Upload attachment to documents',
+         js: true,
+         with_settings: {
+           journal_aggregation_time_minutes: 0,
+           notified_events: %w(document_added)
+         } do
   let!(:user) do
     FactoryBot.create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_documents
                                                   manage_documents]
+  end
+  let!(:other_user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_documents]
   end
   let!(:category) do
     FactoryBot.create(:document_category)
@@ -61,7 +71,9 @@ describe 'Upload attachment to documents', js: true do
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
       expect(page).to have_selector('attachment-list-item', text: 'image.png')
 
-      click_on 'Create'
+      perform_enqueued_jobs do
+        click_on 'Create'
+      end
 
       # Expect it to be present on the index page
       expect(page).to have_selector('.document-category-elements--header', text: 'New documentation')
@@ -88,13 +100,25 @@ describe 'Upload attachment to documents', js: true do
       editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
-      click_on 'Save'
+      perform_enqueued_jobs do
+        click_on 'Save'
+      end
 
       # Expect both images to be present on the show page
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
       expect(page).to have_content('Image uploaded the second time')
       expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
+
+      # Expect a mail to be sent to the user having subscribed to all notifications
+      expect(ActionMailer::Base.deliveries.size)
+        .to be 1
+
+      expect(ActionMailer::Base.deliveries.last.to)
+        .to match_array [other_user.mail]
+
+      expect(ActionMailer::Base.deliveries.last.subject)
+        .to include 'New documentation'
     end
   end
 

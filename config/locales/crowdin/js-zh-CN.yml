@@ -127,7 +127,7 @@ zh-CN:
       preview: '切换预览模式'
       source_code: '切换标记源模式'
       error_saving_failed: '保存文档失败，出现以下错误：%{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor 发生错误'
       mode:
         manual: '切换到标记源'
         wysiwyg: '切换到 WYSIWYG 编辑器'
@@ -480,7 +480,7 @@ zh-CN:
         got_it: '知道了'
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
+        members: '邀请新<b>成员</b>加入您的项目。'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
@@ -522,6 +522,7 @@ zh-CN:
         all: '全部'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -538,7 +539,6 @@ zh-CN:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "我想要自己的更改通知"
     password_confirmation:
       field_description: '输入密码以确认更改'
       title: '输入密码以继续'

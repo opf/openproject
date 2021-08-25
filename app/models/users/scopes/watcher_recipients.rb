@@ -28,26 +28,22 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Notifications::JournalNotificationService
-  class << self
-    def call(journal, send_mails)
-      enqueue_notification(journal, send_mails) if supported?(journal)
-    end
+# Returns a scope of users watching the instance that should be notified via whatever channel upon updates to the instance.
+# The users need to have the necessary permissions to see the instance as defined by the watchable_permission.
+# Additionally, the users need to have their mail notification setting set to watched: true.
+module Users::Scopes
+  module WatcherRecipients
+    extend ActiveSupport::Concern
 
-    private
-
-    def enqueue_notification(journal, send_mails)
-      Notifications::JournalCompletedJob
-        .set(wait_until: delivery_time)
-        .perform_later(journal.id, send_mails)
-    end
-
-    def delivery_time
-      Setting.journal_aggregation_time_minutes.to_i.minutes.from_now
-    end
-
-    def supported?(journal)
-      %w(WorkPackage WikiContent).include?(journal.journable_type)
+    class_methods do
+      def watcher_recipients(model)
+        model
+          .possible_watcher_users
+          .where(id: NotificationSetting
+                       .applicable(model.project)
+                       .where(watched: true, user_id: model.watcher_users)
+                       .select(:user_id))
+      end
     end
   end
 end

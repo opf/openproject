@@ -79,11 +79,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
   let(:permissions) { %i[view_work_packages edit_work_packages create_work_packages] }
 
   let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:dependent_error_result) do
