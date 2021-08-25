@@ -42,21 +42,15 @@ shared_examples "watcher job" do |action|
   let(:watcher) do
     FactoryBot.build_stubbed(:watcher, watchable: work_package, user: watching_user)
   end
-  let(:self_notified) { true }
   let(:user_pref) do
-    pref = FactoryBot.build_stubbed(:user_preference)
-
-    allow(pref).to receive(:self_notified?).and_return(self_notified)
-
-    pref
+    FactoryBot.build_stubbed(:user_preference)
   end
   let(:notification_settings) do
     [FactoryBot.build_stubbed(:mail_notification_setting, all: true)]
   end
   let(:watching_user) do
     FactoryBot.build_stubbed(:user,
-                             notification_settings: notification_settings,
-                             preference: user_pref).tap do |user|
+                             notification_settings: notification_settings).tap do |user|
       allow(user)
         .to receive(:notification_settings)
               .and_return(notification_settings)
@@ -113,34 +107,14 @@ shared_examples "watcher job" do |action|
   end
 
   shared_examples_for 'notifies the watcher' do
-    context 'when added by a different user
-               and has self_notified activated' do
-      let(:self_notified) { true }
-
+    context 'when added by a different user' do
       it_behaves_like 'sends a mail'
     end
 
-    context 'when added by a different user
-               and has self_notified deactivated' do
-      let(:self_notified) { false }
-
-      it_behaves_like 'sends a mail'
-    end
-
-    context 'but when watcher is added by theirself
-               and has self_notified deactivated' do
+    context 'when watcher is added by theirself' do
       let(:watcher_changer) { watching_user }
-      let(:self_notified) { false }
 
       it_behaves_like 'sends no mail'
-    end
-
-    context 'but when watcher is added by theirself
-               and has self_notified activated' do
-      let(:watcher_changer) { watching_user }
-      let(:self_notified) { true }
-
-      it_behaves_like 'sends a mail'
     end
   end
 
@@ -151,7 +125,6 @@ shared_examples "watcher job" do |action|
 
     context 'when watcher is added by theirself' do
       let(:watcher_changer) { watching_user }
-      let(:self_notified) { false }
 
       it_behaves_like 'sends no mail'
     end

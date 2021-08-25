@@ -29,16 +29,13 @@
 require 'spec_helper'
 
 describe UserPreference do
-  let(:user) { FactoryBot.build_stubbed(:user) }
   subject { FactoryBot.build(:user_preference, user: user) }
+
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   describe 'default settings' do
     it 'hides the email address' do
       expect(subject.hide_mail).to eql(true)
-    end
-
-    it 'activates no self notification' do
-      expect(subject.others[:no_self_notified]).to be_truthy
     end
 
     context 'with default setting auto_hide_popups to false', with_settings: { default_auto_hide_popups: false } do
@@ -131,31 +128,23 @@ describe UserPreference do
     end
   end
 
-  describe 'self_notified getter/setter' do
-    it 'has a getter and a setter for self_notified' do
-      subject.self_notified = false
-      expect(subject.self_notified?).to be_falsey
-      expect(subject[:no_self_notified]).to be_truthy
-    end
-  end
-
   describe '[]=' do
     let(:user) { FactoryBot.create(:user) }
 
-    context 'for attributes stored in "others"' do
+    context 'with attributes stored in "others"' do
       it 'will save the values on sending "save"' do
         subject.save
 
-        value_no_self_notified = !subject[:no_self_notified]
+        value_warn_on_leaving_unsaved = !subject[:warn_on_leaving_unsaved]
         value_auto_hide_popups = !subject[:auto_hide_popups]
 
-        subject[:no_self_notified] = value_no_self_notified
+        subject[:warn_on_leaving_unsaved] = value_warn_on_leaving_unsaved
         subject[:auto_hide_popups] = value_auto_hide_popups
 
         subject.save
         subject.reload
 
-        expect(subject[:no_self_notified]).to eql(value_no_self_notified)
+        expect(subject[:warn_on_leaving_unsaved]).to eql(value_warn_on_leaving_unsaved)
         expect(subject[:auto_hide_popups]).to eql(value_auto_hide_popups)
       end
     end

@@ -53,7 +53,7 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
 
   constructor(
     readonly globalSearchService:GlobalSearchService,
-    public injector: Injector,
+    public injector:Injector,
     cdRef:ChangeDetectorRef,
   ) {
     super(cdRef, injector);

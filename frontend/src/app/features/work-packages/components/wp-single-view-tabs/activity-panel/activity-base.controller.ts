@@ -81,7 +81,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     this.togglerText = this.text.commentsOnly;
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this
       .apiV3Service
       .work_packages
@@ -95,7 +95,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.cdRef.detectChanges();
         });
       });
-
 
     this.ianService.setActiveFacet('unread');
     this.ianService.setActiveFilters([

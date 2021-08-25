@@ -21,8 +21,9 @@ class Notification < ApplicationRecord
   belongs_to :journal
   belongs_to :resource, polymorphic: true
 
-  scope :recipient, ->(user) { where(recipient_id: user.is_a?(User) ? user.id : user) }
-
   include Scopes::Scoped
-  scopes :mail_digest_before
+  scopes :mail_digest_before,
+         :unread_mail,
+         :unread_mail_digest,
+         :recipient
 end

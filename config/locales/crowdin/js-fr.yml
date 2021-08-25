@@ -522,6 +522,7 @@ fr:
         all: 'Toutes'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -538,7 +539,6 @@ fr:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Je veux être notifié des modifications que je fais moi-même"
     password_confirmation:
       field_description: 'Vous devez saisir le mot de passe de votre compte pour confirmer ce changement.'
       title: 'Confirmez votre mot de passe pour continuer'

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'op-tab-count',
@@ -8,5 +7,5 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabCountComponent {
-  @Input('count') count:number;
+  @Input() count:number;
 }

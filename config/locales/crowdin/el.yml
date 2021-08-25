@@ -166,6 +166,8 @@ el:
     enabled_in_project: 'Ενεργοποιημένο στο έργο'
     contained_in_type: 'Περιέχονται στον τύπο'
     confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου

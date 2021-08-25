@@ -32,7 +32,7 @@ require 'spec_helper'
 
 ##
 # Tests that email notifications will be sent upon creating or changing a work package.
-describe WorkPackage, type: :model do
+describe WorkPackage, type: :model, with_settings: { journal_aggregation_time_minutes: 0 } do
   describe 'OpenProject notifications' do
     shared_let(:admin) { FactoryBot.create :admin }
 
@@ -56,7 +56,7 @@ describe WorkPackage, type: :model do
       OpenProject::Notifications.unsubscribe(OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY, subscription)
     end
 
-    context 'after creation' do
+    context 'when after creation' do
       before do
         work_package
         perform_enqueued_jobs
@@ -67,7 +67,7 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe 'after update' do
+    describe 'when after update' do
       before do
         work_package
 

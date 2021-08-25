@@ -16,6 +16,8 @@ First start the console.
 
 ```
 sudo openproject run console
+# if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
+# if using docker-compose: docker-compose run --rm web bundle exec rails console
 ```
 
 Once in the console you can change the `plugin_openproject_openid_connect` setting

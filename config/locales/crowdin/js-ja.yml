@@ -523,6 +523,7 @@ ja:
         all: '全て'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -539,7 +540,6 @@ ja:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "自分自身による変更の通知を希望"
     password_confirmation:
       field_description: 'この変更を確認するには、アカウントのパスワードを入力する必要があります。'
       title: '続行するにはパスワードを確認してください'

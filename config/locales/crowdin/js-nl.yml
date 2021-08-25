@@ -522,6 +522,7 @@ nl:
         all: 'Alle'
       center:
         mark_all_read: 'Mark all as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -538,7 +539,6 @@ nl:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Ik wil op de hoogte worden gesteld van wijzigingen die ik zelf maak"
     password_confirmation:
       field_description: 'U moet uw wachtwoord invoeren om deze wijziging te bevestigen.'
       title: 'Voer uw wachtwoord in om door te gaan'

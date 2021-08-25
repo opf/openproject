@@ -126,7 +126,9 @@ See docs/COPYRIGHT.rdoc for more details.
              id="cost_entry_costs"
              class="costs--edit-planned-costs-btn icon-context icon-edit"
              title="<%= t(:help_click_to_edit) %>">
-              <%= number_to_currency(@cost_entry.real_costs) %>
+              <span id="cost_entry_costs_text">
+                <%= number_to_currency(@cost_entry.real_costs) %>
+              </span>
             </a>
           </span>
           <% else %>
