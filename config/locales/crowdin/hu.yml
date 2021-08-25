@@ -252,7 +252,7 @@ hu:
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
     delete_tooltip: "Delete placeholder user"
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Teszt felhasználó%{name} törlése"
       data_consequences: >
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
@@ -518,7 +518,7 @@ hu:
         watcher: "Megfigyelő"
       'doorkeeper/application':
         uid: "Ügyfél azonosító"
-        secret: "Client secret"
+        secret: "Kliens titok"
         owner: "Tulajdonos"
         redirect_uri: "Átirányítás URI"
         client_credentials_user_id: "Client Credentials User ID"
@@ -776,7 +776,7 @@ hu:
       notification:
         one: "Értesítés"
         other: "Értesítések"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Teszt felhasználó"
       project: "Projekt"
       query: "Egyéni lekérdezés"
       role:
@@ -860,7 +860,7 @@ hu:
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
     label_reset_token: "Visszaállítási kulcs törlése"
-    label_token_users: "The following users have active backup tokens"
+    label_token_users: "A következő felhasználóknak van aktív visszaállítási kulcsuk"
     reset_token:
       action_create: Létrehoz
       action_reset: Visszaállít, reset
@@ -881,7 +881,7 @@ hu:
       invalid_token: Érvénytelen vagy hiányzó visszaállítási kulcs
       token_cooldown: A visszaállítási kulcs még %{hours} óráig érvényes.
       backup_pending: Egy visszaállítás még függőben van.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Csak a megadott %{limit} visszaállítást tudsz készíteni naponta
   button_add: "Hozzáadás"
   button_add_comment: "Megjegyzés hozzáadása"
   button_add_member: Tag hozzáadása
@@ -1301,7 +1301,7 @@ hu:
       mail_notification: "Email értesítés"
       incoming_outgoing: "Bejövő/Kimenő"
     quick_add:
-      label: "Open quick add menu"
+      label: "Gyorsmenü megnyitása"
   my_account:
     access_tokens:
       no_results:
@@ -1648,9 +1648,9 @@ hu:
   label_permissions: "Jogosultságok"
   label_permissions_report: "Jogosultságok riportálása"
   label_personalize_page: "A lap testreszabása"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Teszt felhasználó"
+  label_placeholder_user_new: "Új teszt felhasználó"
+  label_placeholder_user_plural: "Teszt felhasználók"
   label_planning: "Tervezés"
   label_please_login: "Kérjük, jelentkezzen be"
   label_plugins: "Modulok"
@@ -1940,7 +1940,7 @@ hu:
       added_by:
         without_message: "%{user} hozzáadott tagként a projekthez %{project}"
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+      roles: "A következő jogosultságaid vannak :"
   mail_member_updated_project:
     subject: "%{project} A szerepköreid frissítve lettek"
     body:
@@ -2060,7 +2060,7 @@ hu:
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
   permission_manage_user: "Felhasználó létrehozása és szerkesztése"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
   permission_add_work_package_watchers: "Megfigyelő hozzáadása"
   permission_assign_versions: "Hozzárendelt verziók."

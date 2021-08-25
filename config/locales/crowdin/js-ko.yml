@@ -539,7 +539,6 @@ ko:
         already_selected: 'This project is already selected'
         remove_projects: '프로젝트에 알림 제거'
         title: "알림 설정"
-        self_notify: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'

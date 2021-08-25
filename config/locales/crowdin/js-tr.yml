@@ -539,7 +539,6 @@ tr:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Yaptığım değişiklikleri kendim bildirmek istiyorum"
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
       title: 'Devam etmek için parolanızı doğrulayın'

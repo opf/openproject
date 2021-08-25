@@ -539,7 +539,6 @@ fi:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Ilmoitukset omista muutoksista"
     password_confirmation:
       field_description: 'Sinun täytyy syöttää tilisi salasana vahvistaaksesi tämän muutoksen.'
       title: 'Vahvista salasanasi jatkaaksesi'

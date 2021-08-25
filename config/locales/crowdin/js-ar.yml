@@ -539,7 +539,6 @@ ar:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "أريد إعلامك بالتغييرات التي فعلتها"
     password_confirmation:
       field_description: 'تحتاج إلى إدخال كلمة مرور حسابك لتأكيد هذا التغيير.'
       title: 'أكِّد كلمة مرورك للمواصلة'
