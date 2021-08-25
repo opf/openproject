@@ -104,6 +104,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
+          this.scrollToUnreadNotification();
         });
       });
   }
@@ -139,6 +140,22 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected hasUnreadNotification(activityHref:string):boolean {
     return !!this.notifications.find((notification) => notification._links.activity?.href === activityHref);
+  }
+
+  protected scrollToUnreadNotification() {
+    // scroll to the unread notification only if there is no deep link
+    if (!(window.location.href.indexOf("activity#") > -1)) {
+     let unreadNotifications = document.querySelectorAll('[data-qa-selector="user-activity-bubble"]');
+     let notificationsLength = unreadNotifications.length;
+      if (this.reverse) {
+        unreadNotifications[notificationsLength - 1].setAttribute("style", "scroll-margin-top: 200px;");
+        unreadNotifications[notificationsLength - 1].scrollIntoView();
+      }
+      else {
+        unreadNotifications[0].setAttribute("style", "scroll-margin-top: 200px;");
+        unreadNotifications[0].scrollIntoView();
+      }
+    }
   }
 
   public toggleComments() {
