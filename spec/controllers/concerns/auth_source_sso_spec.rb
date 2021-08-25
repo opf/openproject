@@ -45,12 +45,20 @@ describe MyController, type: :controller do
   let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
 
+  shared_examples 'should log in the user' do
+    it "logs in given user" do
+      expect(response).to redirect_to my_page_path
+      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
+      expect(session[:user_id]).to eq user.id
+    end
+  end
+
   shared_examples "auth source sso failure" do
     def attrs(user)
       user.attributes.slice(:login, :mail, :auth_source_id)
     end
 
-    it "should redirect to AccountController#sso to show the error" do
+    it "redirects to AccountController#sso to show the error" do
       expect(response).to redirect_to "/sso"
 
       failure = session[:auth_source_sso_failure]
@@ -94,19 +102,24 @@ describe MyController, type: :controller do
       get :account
     end
 
-    it "should log in given user" do
-      expect(response).to redirect_to my_page_path
-      expect(session[:user_id]).to eq user.id
-    end
+    it_behaves_like 'should log in the user'
 
     context 'when the secret being null' do
       let(:secret) { nil }
 
-      it "should log in given user" do
-        expect(response).to redirect_to my_page_path
-        expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now)
-        expect(session[:user_id]).to eq user.id
-      end
+      it_behaves_like 'should log in the user'
+    end
+
+    context 'when the secret is a number' do
+      let(:secret) { 42 }
+
+      it_behaves_like 'should log in the user'
+    end
+
+    context 'when the header values does not match the case' do
+      let(:login) { 'H.wUrSt' }
+
+      it_behaves_like 'should log in the user'
     end
 
     context 'when the user is invited' do
@@ -167,7 +180,7 @@ describe MyController, type: :controller do
 
       expect(service).to have_received(:call).with(other_user)
       expect(response).to redirect_to my_page_path
-      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.now.utc)
+      expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time
     end
