@@ -104,7 +104,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
-          this.scrollToUnreadNotification();
+          void this.scrollToUnreadNotification();
         });
       });
   }
