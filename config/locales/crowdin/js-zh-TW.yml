@@ -538,7 +538,6 @@ zh-TW:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "我想要在我自己有變更的時候被通知"
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'

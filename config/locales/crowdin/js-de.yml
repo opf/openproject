@@ -538,7 +538,6 @@ de:
         already_selected: 'Dieses Projekt ist bereits ausgewählt'
         remove_projects: 'Lösche Einstellungen für alle Projekte'
         title: "Benachrichtigungseinstellungen"
-        self_notify: "Ich möchte über Änderungen benachrichtigt werden, die ich selbst vornehme"
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
       title: 'Geben Sie Ihr Kennwort ein um fortzufahren'

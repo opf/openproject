@@ -539,7 +539,6 @@ pl:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Chcę być powiadamiany o zmianach, które sam wprowadzam"
     password_confirmation:
       field_description: 'Musisz wprowadzić hasło do twojego konta aby potwierdzić te zmiany.'
       title: 'Potwierdź hasło aby kontynuować'

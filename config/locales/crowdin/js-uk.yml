@@ -539,7 +539,6 @@ uk:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Я хочу отримувати повідомлення про зміни, які я роблю сам"
     password_confirmation:
       field_description: 'Вам необхідно ввести пароль облікового запису, щоб підтвердити цю зміну.'
       title: 'Підтвердіть ваш пароль щоб продовжити'
