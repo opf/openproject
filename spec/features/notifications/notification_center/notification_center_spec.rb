@@ -60,8 +60,10 @@ describe "Notification center", type: :feature, js: true do
       center.expect_work_package_item second_notification
       center.mark_all_read
 
-      notification.reload
-      expect(notification.read_ian).to be_truthy
+      retry_block do
+        notification.reload
+        raise "Expected notification to be marked read" unless notification.read_ian
+      end
 
       center.expect_no_item notification
       center.expect_no_item second_notification
@@ -141,7 +143,12 @@ describe "Notification center", type: :feature, js: true do
 
         second_split_screen.expect_open
         center.mark_notification_as_read third_notification
-        expect(second_notification.reload.read_ian).to be_truthy
+
+        retry_block do
+          second_notification.reload
+          raise "Expected notification to be marked read" unless second_notification.read_ian
+        end
+
         expect(third_notification.reload.read_ian).to be_truthy
       end
     end

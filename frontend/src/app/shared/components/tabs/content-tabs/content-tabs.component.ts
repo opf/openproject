@@ -62,7 +62,7 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     readonly gon:GonService,
     cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
-    public injector: Injector,
+    public injector:Injector,
   ) {
     super(cdRef, injector);
 
