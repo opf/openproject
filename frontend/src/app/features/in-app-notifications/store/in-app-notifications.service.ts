@@ -6,6 +6,7 @@ import {
   tap,
   catchError,
 } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -80,7 +81,7 @@ export class InAppNotificationsService {
     this.store.update((state) => ({ ...state, activeFilters: filters }));
   }
 
-  markAllRead() {
+  markAllRead():Subscription {
     return this.query
       .unread$
       .pipe(
@@ -96,7 +97,7 @@ export class InAppNotificationsService {
       });
   }
 
-  markAsRead(notifications:InAppNotification[], keep = false) {
+  markAsRead(notifications:InAppNotification[], keep = false):Subscription {
     const ids = notifications.map((n) => n.id);
 
     return this
@@ -116,7 +117,7 @@ export class InAppNotificationsService {
       });
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]) {
+  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):void {
     const wpIds = elements.map((element) => {
       const href = element._links.resource?.href;
       return href && HalResource.matchFromLink(href, 'work_packages');

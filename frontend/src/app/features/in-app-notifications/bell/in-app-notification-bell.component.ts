@@ -4,7 +4,12 @@ import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { timer, combineLatest } from 'rxjs';
-import { filter, switchMap, tap, map } from 'rxjs/operators';
+import {
+  filter,
+  switchMap,
+  tap,
+  map,
+} from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -23,12 +28,11 @@ const POLLING_INTERVAL = 10000;
   ],
 })
 export class InAppNotificationBellComponent implements OnInit {
-  polling$ = timer(10, POLLING_INTERVAL)
-      .pipe(
-        filter(() => this.activeWindow.isActive),
-        tap(() => console.log('sending fetch request from bell')),
-        switchMap(() => this.inAppService.fetchNotifications()),
-      );
+  polling$ = timer(10, POLLING_INTERVAL).pipe(
+    filter(() => this.activeWindow.isActive),
+    tap(() => console.log('sending fetch request from bell')),
+    switchMap(() => this.inAppService.fetchNotifications()),
+  );
 
   unreadCount$ = combineLatest([
     this.inAppQuery.notLoaded$,
@@ -43,9 +47,8 @@ export class InAppNotificationBellComponent implements OnInit {
     readonly pathHelper:PathHelperService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.inAppService.setPageSize(0);
-    console.log('ngoninit ian bell');
   }
 
   notificationsPath():string {
