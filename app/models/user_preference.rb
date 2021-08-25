@@ -30,29 +30,43 @@
 
 class UserPreference < ApplicationRecord
   belongs_to :user
-  serialize :others
-
   delegate :notification_settings, to: :user
+  serialize :settings, ::Serializers::IndifferentHashSerializer
 
   validates_presence_of :user
   validate :time_zone_correctness, if: -> { time_zone.present? }
 
-  after_initialize :init_other_preferences
+  after_initialize :init_settings
 
-  def [](attr_name)
-    attribute?(attr_name) ? super : others[attr_name]
+  ##
+  # Retrieve keys from settings, and allow accessing
+  # as boolean with ? suffix
+  def method_missing(method_name, *args)
+    key = method_name.to_s
+    action = key[-1]
+
+    case action
+    when '?'
+      to_boolean settings[key[..-2]]
+    when '='
+      settings[key[..-2]] = args.first
+    else
+      settings[key]
+    end
   end
 
-  def []=(attr_name, value)
-    attribute?(attr_name) ? super : others[attr_name] = value
+  # Allow previous array-style accessing as well
+  # delegate :[], :[]=, to: :settings
+
+  ##
+  # We respond to all methods as we retrieve
+  # the key from settings
+  def respond_to_missing?(*)
+    true
   end
 
   def comments_sorting
-    others.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
-  end
-
-  def comments_sorting=(order)
-    others[:comments_sorting] = order
+    settings.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
   end
 
   def comments_in_reverse_order?
@@ -60,20 +74,20 @@ class UserPreference < ApplicationRecord
   end
 
   def auto_hide_popups=(value)
-    others[:auto_hide_popups] = to_boolean(value)
+    settings[:auto_hide_popups] = to_boolean(value)
   end
 
   def auto_hide_popups?
-    others.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
+    settings.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
   end
 
   def warn_on_leaving_unsaved?
     # Need to cast here as previous values were '0' / '1'
-    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
+    to_boolean(settings.fetch(:warn_on_leaving_unsaved, true))
   end
 
   def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = to_boolean(value)
+    settings[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
   # Provide an alias to form builders
@@ -86,7 +100,7 @@ class UserPreference < ApplicationRecord
   end
 
   def time_zone
-    self[:time_zone].presence || Setting.user_default_timezone.presence
+    super.presence || Setting.user_default_timezone.presence
   end
 
   def canonical_time_zone
@@ -98,17 +112,12 @@ class UserPreference < ApplicationRecord
 
   private
 
-  def attribute?(name)
-    attr = name.to_sym
-    has_attribute?(attr) || attr == :user || attr == :user_id
-  end
-
   def to_boolean(value)
     ActiveRecord::Type::Boolean.new.cast(value)
   end
 
-  def init_other_preferences
-    self.others ||= {}
+  def init_settings
+    self.settings ||= {}
   end
 
   def time_zone_correctness

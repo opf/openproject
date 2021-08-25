@@ -27,27 +27,15 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-
-module Migration
-  module Utils
-    UpdateResult = Struct.new(:row, :updated)
-
-    def say_with_time_silently(message, &block)
-      say_with_time message do
-        suppress_messages(&block)
-      end
+module Serializers
+  class IndifferentHashSerializer
+    def self.dump(hash)
+      hash
     end
 
-    def in_configurable_batches(klass, default_batch_size: 1000)
-      batches = ENV["OPENPROJECT_MIGRATION_AGGREGATE_JOURNALS_BATCH_SIZE"]&.to_i || default_batch_size
-
-      klass.in_batches(of: batches)
-    end
-
-    def remove_index_if_exists(table_name, index_name)
-      if index_name_exists? table_name, index_name
-        remove_index table_name, name: index_name
-      end
+    def self.load(value)
+      hash = value.is_a?(Hash) ? value : {}
+      hash.with_indifferent_access
     end
   end
 end
