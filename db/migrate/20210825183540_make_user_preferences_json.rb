@@ -10,7 +10,7 @@ class MakeUserPreferencesJson < ActiveRecord::Migration[6.1]
   end
 
   def up
-    add_column :user_preferences, :settings, :jsonb
+    add_column :user_preferences, :settings, :jsonb, default: {}
 
     UserPreferenceWithOthers.reset_column_information
     in_configurable_batches(UserPreferenceWithOthers).each_record do |pref|

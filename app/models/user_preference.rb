@@ -47,7 +47,7 @@ class UserPreference < ApplicationRecord
 
     case action
     when '?'
-      to_boolean settings[key[..-2]]
+      to_boolean send(key[..-2])
     when '='
       settings[key[..-2]] = args.first
     else
@@ -84,6 +84,10 @@ class UserPreference < ApplicationRecord
 
   def comments_in_reverse_order?
     comments_sorting == 'desc'
+  end
+
+  def hide_mail
+    settings.fetch(:hide_mail, true)
   end
 
   def auto_hide_popups=(value)
