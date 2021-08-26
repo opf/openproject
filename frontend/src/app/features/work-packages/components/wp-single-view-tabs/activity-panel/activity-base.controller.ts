@@ -145,7 +145,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
-    if (window.location.href.indexOf('activity#') > -1 ) {
+    if (window.location.href.indexOf('activity#') > -1) {
       return;
     }
     const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
