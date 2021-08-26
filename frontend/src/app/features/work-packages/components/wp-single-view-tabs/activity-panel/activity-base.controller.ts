@@ -145,18 +145,20 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
-    if (!(window.location.href.indexOf('activity#') > -1)) {
-      const unreadNotifications = document.querySelectorAll('[data-qa-selector="user-activity-bubble"]');
-      const unreadNotificationsLength = unreadNotifications?.length;
-      if (unreadNotificationsLength && this.notifications.length) {
-        if (this.reverse) {
-          unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-          unreadNotifications[unreadNotificationsLength - 1].scrollIntoView();
-        } else {
-          unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-          unreadNotifications[0].scrollIntoView();
-        }
-      }
+    if (window.location.href.indexOf('activity#') > -1 ) {
+      return;
+    }
+    const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
+    const unreadNotificationsLength = unreadNotifications?.length;
+    if (!unreadNotificationsLength) {
+      return;
+    }
+    if (this.reverse) {
+      unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
+      unreadNotifications[unreadNotificationsLength - 1].scrollIntoView();
+    } else {
+      unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
+      unreadNotifications[0].scrollIntoView();
     }
   }
 
