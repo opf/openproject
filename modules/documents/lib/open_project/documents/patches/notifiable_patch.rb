@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,28 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject
-  NOTIFIABLE = [
-    %w(news_added),
-    %w(news_comment_added),
-    %w(file_added),
-    %w(message_posted),
-    %w(wiki_content_added),
-    %w(wiki_content_updated),
-    %w(membership_added),
-    %w(membership_updated)
-  ].freeze
-
-  Notifiable = Struct.new(:name) do
-    def to_s
-      name
+module OpenProject::Documents::Patches::NotifiablePatch
+  def self.included(base)
+    class << base
+      prepend ClassMethods
     end
+  end
 
-    # TODO: Plugin API for adding a new notification?
-    def self.all
-      OpenProject::NOTIFIABLE.map do |event_strings|
-        Notifiable.new(*event_strings)
-      end
+  module ClassMethods
+    def all
+      super + [::OpenProject::Notifiable.new('document_added')]
     end
   end
 end
