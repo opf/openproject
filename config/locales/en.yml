@@ -1969,7 +1969,7 @@ en:
     digests:
       time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: 'by %{user} %{timestamp} ago'
         reason:
           watched: 'watched'
           involved: 'assignee or responsible'
@@ -1977,7 +1977,7 @@ en:
           subscribed: 'all'
           prefix: 'Received because of the notification setting: %{reason}'
         subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        updated_at: '%{timestamp} ago by %{user}'
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"

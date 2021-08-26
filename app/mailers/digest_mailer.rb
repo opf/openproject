@@ -54,11 +54,14 @@ class DigestMailer < ApplicationMailer
     open_project_headers User: recipient.name
     message_id nil, recipient
 
+    @aggregated_notifications = load_notifications(notification_ids)
+                                  .group_by(&:resource)
+
     @notifications_by_project = load_notifications(notification_ids)
                                   .group_by(&:project)
                                   .transform_values { |of_project| of_project.group_by(&:resource) }
 
-    return if @notifications_by_project.empty?
+    return if @aggregated_notifications.empty?
 
     with_locale_for(recipient) do
       mail to: recipient.mail,

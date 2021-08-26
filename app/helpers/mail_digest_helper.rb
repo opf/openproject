@@ -43,6 +43,12 @@ module MailDigestHelper
 
     raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
                user: user,
-               timestamp: format_time(journal.created_at)))
+               timestamp: time_ago_in_words(journal.created_at)))
+  end
+
+  def unique_reasons_of_notifications(notifications)
+    notifications
+      .map { |notification| notification.reason_mail_digest }
+      .uniq
   end
 end

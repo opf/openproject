@@ -1,25 +1,91 @@
+<% @aggregated_notifications.each do | work_package, notifications_by_work_package| %>
+  <div style="border: 1px solid #dadada; margin-bottom: 10px; padding: 10px; border-radius: 10px;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+      <tr>
+        <td style="background-color: #00CC00;
+                   white-space: nowrap;
+                   padding: 0 5px;">
+          <%= work_package.status %>
+        </td>
+        <td style="padding-left: 5px;
+                   color: #878787;">
+          #<%= work_package.id %>
+        </td>
+        <td style="white-space: nowrap;
+                   padding-left: 5px;
+                   color: #878787;">
+          - <%= work_package.project %> -
+        </td>
+        <td style="padding-left: 5px;
+                   color: #878787;
+                   white-space: nowrap;">
+          <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+          <% unique_reasons.each_with_index do |reason, index| %>
+            <%= I18n.t(
+                  :"mail.digests.work_packages.reason.#{reason || :unknown}",
+                  default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %>
+          <% end %>
+        </td>
+        <td width="100%" style="text-align: right;">
+          <span style="background-color: #00A3FF;
+                       color: white;
+                       border-radius: 8px;
+                       padding: 2px 7px;
+                       font-size: 10px;">
+           <%= notifications_by_work_package.length %>
+          </span>
+        </td>
+      </tr>
+    </table>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+      <tr>
+        <td>
+          <%= work_package.type.to_s.upcase %>
+        </td>
+        <td width="100%" style="padding-left: 5px">
+          <%= work_package.subject %>
+        </td>
+      </tr>
+    </table>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+      <% notifications_by_work_package.each do | notification | %>
+        <% notification.journal.details.each do |detail| %>
+          <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
+            <td>
+              <%= notification.journal.render_detail(detail, only_path: false) %>
+              <%= digest_notification_timestamp_text(notification) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+<% end %>
+<!--
+
 <div style="color: #777; font-weight: bold">
-  <%= digest_timespan_text %>
+  <%#= digest_timespan_text %>
 </div>
 
-<% @notifications_by_project.each do |project, notifications_by_work_package| %>
+
+<%# @notifications_by_project.each do |project, notifications_by_work_package| %>
   <section style="margin-bottom: 3em; margin-top: 5em">
-    <h1 style="font-size: 2em; margin-bottom: 1.5em"><%= link_to_project(project, only_path: false) %></h1>
+    <h1 style="font-size: 2em; margin-bottom: 1.5em"><%#= link_to_project(project, only_path: false) %></h1>
 
-    <% notifications_by_work_package.each do |work_package, notifications| %>
+    <%# notifications_by_work_package.each do |work_package, notifications| %>
         <section style="margin-bottom: 3em;">
-          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%= link_to_work_package work_package, status: true, only_path: false, no_hidden: true %></h2>
+          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%#= link_to_work_package work_package, status: true, only_path: false, no_hidden: true %></h2>
 
-          <% notifications.sort_by(&:created_at).each do |notification| %>
+          <%# notifications.sort_by(&:created_at).each do |notification| %>
 
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td width="20px"></td>
                 <td style="font-weight: normal; font-size: 1.1em;">
-                  <%= digest_notification_timestamp_text(notification) %>
+                  <%#= digest_notification_timestamp_text(notification) %>
                 </td>
                 <td style="text-align: right">
-                  <%= I18n.t(
+                  <%#= I18n.t(
                         :"mail.digests.work_packages.reason.#{notification.reason_mail_digest || :unknown}",
                         default: '-') %>
                 </td>
@@ -27,32 +93,33 @@
               </tr>
             </table>
 
-            <% journal = notification.journal %>
+            <%# journal = notification.journal %>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
                 <td width="20px"></td>
                 <td>
-                  <%= format_text(journal.notes,
+                  <%#= format_text(journal.notes,
                                   only_path: false,
                                   object: notification.resource,
                                   project: notification.project) %>
 
-                  <% if journal.notes.present? && journal.details.any? %>
+                  <%# if journal.notes.present? && journal.details.any? %>
                     <div style="margin-bottom: 2em"></div>
-                  <% end %>
+                  <%# end %>
 
                   <ul>
-                    <% journal.details.each do |detail| %>
-                      <li><%= journal.render_detail(detail, only_path: false) %></li>
-                    <% end %>
+                    <%# journal.details.each do |detail| %>
+                      <li><%#= journal.render_detail(detail, only_path: false) %></li>
+                    <%# end %>
                   </ul>
                 </td>
               </tr>
             </table>
 
             <div style="margin-bottom: 3em"></div>
-          <% end %>
+          <%# end %>
         </section>
-    <% end %>
+    <%# end %>
   </section>
-<% end %>
+<%# end %>
+-->
