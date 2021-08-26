@@ -143,7 +143,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       );
   }
 
-
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
     if (!(window.location.href.indexOf('activity#') > -1)) {
@@ -162,7 +161,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   public toggleComments():void {
-
     this.onlyComments = !this.onlyComments;
     this.updateActivities(this.unfilteredActivities);
 
