@@ -65,7 +65,8 @@ export class PlannedCostsFormAugment {
   }
 
   private getValue() {
-    return jQuery('#' + this.objId + '_cost_value').val();
+    let costValueElement = jQuery('#' + this.objId + '_cost_value');
+    return costValueElement.length > 0 ? costValueElement.val() : '0.00';
   }
 
   private edit() {

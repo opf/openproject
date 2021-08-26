@@ -539,7 +539,6 @@ zh-CN:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "我想要自己的更改通知"
     password_confirmation:
       field_description: '输入密码以确认更改'
       title: '输入密码以继续'

@@ -8,10 +8,15 @@ import {
 } from './in-app-notifications.store';
 import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState> {
   /** Select the active filter facet */
   activeFacet$ = this.select('activeFacet');
+
+  activeFetchParameters$ = this.select(['activeFacet', 'pageSize', 'activeFilters']);
+
+  /** Select the active filter facet */
+  notLoaded$ = this.select('notLoaded');
 
   /** Get the faceted items */
   faceted$ = this.activeFacet$
@@ -37,16 +42,16 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
       )),
     );
 
-  /** Get the number of unread items */
-  unreadCount$ = this.select('unreadCount');
-
-  /** Do we have any unread items? */
-  hasUnread$ = this.unreadCount$.pipe(map((count) => count > 0));
-
   /** Get the unread items */
   unread$ = this.selectAll({
     filterBy: ({ readIAN }) => !readIAN,
   });
+
+  /** Get the number of unread items */
+  unreadCount$ = this.unread$.pipe(map((notifications) => notifications.length));
+
+  /** Do we have any unread items? */
+  hasUnread$ = this.unreadCount$.pipe(map((count) => count > 0));
 
   /** Get all items that shall be kept in the notification center */
   unreadOrKept$ = this.selectAll({
@@ -56,11 +61,11 @@ export class InAppNotificationsQuery extends QueryEntity<InAppNotificationsState
   /** Do we have any notification that shall be visible the notification center? */
   hasNotifications$ = this.selectCount().pipe(map((count) => count > 0));
 
-  /** Determine whether the pageSize is not sufficient to load all notifcations */
+  /** Determine whether the pageSize is not sufficient to load all notifications */
   hasMoreThanPageSize$ = this
     .select()
     .pipe(
-      map(({ notShowing }) => notShowing > 0),
+      map(({ notLoaded }) => notLoaded > 0),
     );
 
   constructor(protected store:InAppNotificationsStore) {

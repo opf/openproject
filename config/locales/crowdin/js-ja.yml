@@ -540,7 +540,6 @@ ja:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "自分自身による変更の通知を希望"
     password_confirmation:
       field_description: 'この変更を確認するには、アカウントのパスワードを入力する必要があります。'
       title: '続行するにはパスワードを確認してください'

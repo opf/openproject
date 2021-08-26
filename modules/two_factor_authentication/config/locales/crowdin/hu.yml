@@ -69,7 +69,7 @@ hu:
       delete_all_are_you_sure: 'Biztos vagy benne hogy törölni szeretnéd az összes 2FA eszközt ennél a felhasználónál?'
       button_delete_all_devices: '2FA eszköz regisztrációjának törlése'
       button_register_mobile_phone_for_user: 'Mobiltelefon regisztrálása'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
+      text_2fa_enabled: 'Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.'
       text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
     upsale:
       title: 'Two-factor authentication is an enterprise feature'
@@ -78,13 +78,13 @@ hu:
       none_found: No backup codes exist for this account.
       singular: Visszaállítási kulcs
       plural: Visszaállítási kulcsok
-      your_codes: for your %{app_name} account %{login}
+      your_codes: a te %{app_name} fiókod%{login}
       overview_description: |
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
       generate:
         title: Új biztonsági kódok igénylése
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_as_password: "Fontos! úgy kezeld ezeket a kódokat mint egy jelszót\n"
         keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
         regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
     devices:
@@ -94,12 +94,12 @@ hu:
       confirm_device: 'Aktiváló eszköz'
       confirm_now: 'Nem megerősített, kattintson ide az aktiváláshoz'
       cannot_delete_default: 'Az alapértelmezett eszközt nem lehet törölni'
-      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
+      make_default_are_you_sure: 'Biztos hogy ezt a 2FA eszközt szeretnéd alapértelmezettnek?'
       make_default_failed: 'Nem sikerült frissíteni az alap 2FA eszközt'
       deletion_are_you_sure: 'Biztosan törli ezt a 2FA eszközt?'
       registration_complete: 'Sikeres 2FA eszköz regisztráció!'
       registration_failed_token_invalid: 'Sikertelen 2FA eszköz regisztráció, a kulcs érvénytelen.'
-      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
+      registration_failed_update: 'A 2FA eszköz regisztrálása sikertelen, a kulcs érvényes volt de az eszközt nem lehetett frissíteni.'
       confirm_send_failed: 'A 2FA eszköz érvényesítése sikertelen'
       button_complete_registration: '2FA regisztráció befejezése'
       text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
@@ -142,7 +142,7 @@ hu:
       totp: 'Hitelesítő alkalmazás'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
+    mobile_transmit_notification: "Egyszer használatos jelszó kiküldve a telefonszámra."
     label_two_factor_authentication: 'Kétlépcsős hitelesítés'
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
@@ -152,7 +152,7 @@ hu:
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: 'Megjegyez'
       clear_cookie: 'Kattintson ide hogy törölje az összes 2FA munkamenetet'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
+      cookie_removed: 'Az összes 2FA kapcsolatot eltávolítottuk'
       dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobiltelefon:"
   field_otp: "Egyszeri jelszó"
@@ -167,7 +167,7 @@ hu:
   button_continue: 'Folytatás'
   button_make_default: 'Megjelölés alapértelmezettként'
   label_unverified_phone: "A mobiltelefon nem lett hitelesítve"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
+  notice_phone_number_format: "A következő módon add meg a telefonszámot +XX XXXXXXXXX"
   text_otp_not_receive: "Másik hitelesítési módszer használata"
   text_send_otp_again: "Egyszeri jelszó újra küldése: "
   button_resend_otp_form: "Újraküldés"

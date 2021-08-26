@@ -29,9 +29,12 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
 import { Component, Injector, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
-import { of } from 'rxjs';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 
@@ -42,6 +45,9 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
   host: { class: 'work-packages-page--ui-view' },
   providers: [
     { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
   ],
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
@@ -50,13 +56,18 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton:boolean;
 
+  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasUnread$;
+
   public watchers:any;
 
   stateName$ = of('work-packages.new');
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public wpTableSelection:WorkPackageViewSelectionService,
-    readonly $state:StateService) {
+    readonly $state:StateService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 
@@ -77,6 +88,14 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
     // Set Focused WP
     this.wpTableFocus.updateFocus(this.workPackage.id!);
+
+    if (this.workPackage.id) {
+      this.ianService.setActiveFacet('unread');
+      this.ianService.setActiveFilters([
+        ['resourceId', '=', [this.workPackage.id]],
+        ['resourceType', '=', ['WorkPackage']],
+      ]);
+    }
 
     this.setWorkPackageScopeProperties(this.workPackage);
   }

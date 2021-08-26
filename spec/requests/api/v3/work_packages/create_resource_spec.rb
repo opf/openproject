@@ -38,19 +38,15 @@ describe 'API v3 Work package resource',
     FactoryBot.create(:project, identifier: 'test_project', public: false)
   end
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
+  let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
   current_user do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'POST /api/v3/work_packages' do
     let(:path) { api_v3_paths.work_packages }
-    let(:permissions) { %i[add_work_packages view_project] }
+    let(:other_user) { nil }
     let(:status) { FactoryBot.build(:status, is_default: true) }
     let(:priority) { FactoryBot.build(:priority, is_default: true) }
     let(:type) { project.types.first }
@@ -71,36 +67,36 @@ describe 'API v3 Work package resource',
     before do
       status.save!
       priority.save!
+      other_user
 
-      FactoryBot.create(:user_preference, user: current_user, others: { no_self_notified: false })
       perform_enqueued_jobs do
-        post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
+        post path, parameters.to_json
       end
     end
 
-    context 'notifications' do
-      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
+    describe 'notifications' do
+      let(:other_user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions) }
 
       it 'sends a mail by default' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
+          .to be 1
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=false" }
 
-        it 'should not send a mail' do
+        it 'sends no mail' do
           expect(ActionMailer::Base.deliveries.size)
-            .to eql 0
+            .to be 0
         end
       end
 
       context 'with notifications' do
         let(:path) { "#{api_v3_paths.work_packages}?notify=true" }
 
-        it 'should send a mail' do
+        it 'sends a mail' do
           expect(ActionMailer::Base.deliveries.size)
-            .to eql 1
+            .to be 1
         end
       end
     end

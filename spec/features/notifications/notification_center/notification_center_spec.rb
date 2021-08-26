@@ -77,12 +77,16 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       center.expect_work_package_item notification2
       center.mark_all_read
 
-      center.expect_bell_count 0
-      notification.reload
-      expect(notification.read_ian).to be_truthy
+      retry_block do
+        notification.reload
+        raise "Expected notification to be marked read" unless notification.read_ian
+      end
 
       center.expect_no_item notification
       center.expect_no_item notification2
+
+      center.open
+      center.expect_bell_count 0
     end
 
     it 'can open the split screen of the notification' do

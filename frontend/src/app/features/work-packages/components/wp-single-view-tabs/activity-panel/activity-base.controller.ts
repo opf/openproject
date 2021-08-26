@@ -28,7 +28,6 @@
 
 import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
 import { Transition } from '@uirouter/core';
-import { combineLatest } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -36,7 +35,10 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotification, NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -65,41 +67,28 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     showAll: this.I18n.t('js.label_activity_show_all'),
   };
 
-  constructor(readonly apiV3Service:APIV3Service,
+  constructor(
+    readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly $transition:Transition,
-    readonly wpActivity:WorkPackagesActivityService) {
+    readonly wpActivity:WorkPackagesActivityService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super();
 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
   }
 
-  ngOnInit() {
-    combineLatest([
-      this
-        .apiV3Service
-        .work_packages
-        .id(this.workPackageId)
-        .requireAndStream()
-        .pipe(this.untilDestroyed()),
-      this
-        .apiV3Service
-        .notifications
-        .facet(
-          'unread',
-          {
-            pageSize: NOTIFICATIONS_MAX_SIZE,
-            filters: [
-              ['resourceId', '=', [this.workPackageId]],
-              ['resourceType', '=', ['WorkPackage']],
-            ],
-          },
-        ),
-    ])
-      .subscribe(([wp, notificationCollection]) => {
-        this.notifications = notificationCollection._embedded.elements;
+  ngOnInit():void {
+    this
+      .apiV3Service
+      .work_packages
+      .id(this.workPackageId)
+      .requireAndStream()
+      .pipe(this.untilDestroyed())
+      .subscribe((wp) => {
         this.workPackage = wp;
         void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
           this.updateActivities(activities);
@@ -107,6 +96,12 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.scrollToUnreadNotification();
         });
       });
+
+    this.ianService.setActiveFacet('unread');
+    this.ianService.setActiveFilters([
+      ['resourceId', '=', [this.workPackageId]],
+      ['resourceType', '=', ['WorkPackage']],
+    ]);
   }
 
   protected updateActivities(activities:HalResource[]) {
@@ -138,9 +133,16 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
 
-  protected hasUnreadNotification(activityHref:string):boolean {
-    return !!this.notifications.find((notification) => notification._links.activity?.href === activityHref);
+  protected hasUnreadNotification(activityHref:string):Observable<boolean> {
+    return this
+      .ianService
+      .query
+      .unread$
+      .pipe(
+        map((notifications) => !!notifications.find((notification) => notification._links.activity?.href === activityHref)),
+      );
   }
+
 
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
@@ -159,7 +161,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     }
   }
 
-  public toggleComments() {
+  public toggleComments():void {
+
     this.onlyComments = !this.onlyComments;
     this.updateActivities(this.unfilteredActivities);
 

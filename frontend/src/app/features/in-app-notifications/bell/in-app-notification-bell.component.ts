@@ -1,9 +1,14 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { merge, timer } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { timer, combineLatest } from 'rxjs';
+import {
+  filter,
+  switchMap,
+  map,
+} from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -15,18 +20,22 @@ const POLLING_INTERVAL = 10000;
   templateUrl: './in-app-notification-bell.component.html',
   styleUrls: ['./in-app-notification-bell.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
+  ],
 })
-export class InAppNotificationBellComponent {
-  polling$ = timer(10, POLLING_INTERVAL)
-    .pipe(
-      filter(() => this.activeWindow.isActive),
-      switchMap(() => this.inAppService.count$()),
-    );
-
-  unreadCount$ = merge(
-    this.polling$,
-    this.inAppQuery.unreadCount$,
+export class InAppNotificationBellComponent implements OnInit {
+  polling$ = timer(10, POLLING_INTERVAL).pipe(
+    filter(() => this.activeWindow.isActive),
+    switchMap(() => this.inAppService.fetchNotifications()),
   );
+
+  unreadCount$ = combineLatest([
+    this.inAppQuery.notLoaded$,
+    this.polling$,
+  ]).pipe(map(([count]) => count));
 
   constructor(
     readonly inAppQuery:InAppNotificationsQuery,
@@ -34,7 +43,11 @@ export class InAppNotificationBellComponent {
     readonly activeWindow:ActiveWindowService,
     readonly modalService:OpModalService,
     readonly pathHelper:PathHelperService,
-  ) {}
+  ) { }
+
+  ngOnInit():void {
+    this.inAppService.setPageSize(0);
+  }
 
   notificationsPath():string {
     return this.pathHelper.notificationsPath();

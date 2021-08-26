@@ -54,7 +54,7 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def notify_about_watcher_changed?
-    return false if notify_about_self_watching?
+    return false if self_watching?
     return false unless UserMailer.perform_deliveries
 
     settings = watcher
@@ -67,8 +67,8 @@ class Mails::WatcherJob < Mails::DeliverJob
     settings.watched || settings.all
   end
 
-  def notify_about_self_watching?
-    watcher.user == sender && !sender.pref.self_notified?
+  def self_watching?
+    watcher.user == sender
   end
 
   def action

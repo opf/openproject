@@ -27,11 +27,17 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Injector, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { States } from 'core-app/core/states/states.service';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -39,6 +45,7 @@ import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routi
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -46,20 +53,28 @@ import { BackRoutingService } from 'core-app/features/work-packages/components/b
   selector: 'wp-split-view-entry',
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
   ],
 })
 export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase implements OnInit {
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current.data.baseRoute;
 
-  constructor(public injector:Injector,
+  public displayNotificationsButton$:Observable<boolean> = this.ianService.query.hasUnread$;
+
+  constructor(
+    public injector:Injector,
     public states:States,
     public firstRoute:FirstRouteService,
     public keepTab:KeepTabService,
     public wpTableSelection:WorkPackageViewSelectionService,
     public wpTableFocus:WorkPackageViewFocusService,
     readonly $state:StateService,
-    readonly backRouting:BackRoutingService) {
+    readonly backRouting:BackRoutingService,
+    readonly ianService:InAppNotificationsService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 
@@ -95,17 +110,25 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
           );
         }
       });
+
+    if (wpId) {
+      this.ianService.setActiveFacet('unread');
+      this.ianService.setActiveFilters([
+        ['resourceId', '=', [wpId]],
+        ['resourceType', '=', ['WorkPackage']],
+      ]);
+    }
   }
 
-  public get shouldFocus() {
+  get shouldFocus():boolean {
     return this.$state.params.focus === true;
   }
 
-  public showBackButton():boolean {
+  showBackButton():boolean {
     return this.baseRoute.includes('bim');
   }
 
-  public backToList() {
+  backToList():void {
     this.backRouting.goToBaseState();
   }
 }

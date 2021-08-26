@@ -37,13 +37,9 @@ shared_context 'with CreateFromJournalJob context' do
                       notification_settings: recipient_notification_settings,
                       member_in_project: project,
                       member_through_role: FactoryBot.create(:role, permissions: permissions),
-                      login: recipient_login,
-                      preferences: {
-                        no_self_notified: recipient_no_self_notified
-                      })
+                      login: recipient_login)
   end
   let(:recipient_login) { "johndoe" }
-  let(:recipient_no_self_notified) { true }
   let(:other_user) do
     notification_settings = [
       FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),

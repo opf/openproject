@@ -538,7 +538,6 @@ el:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Θέλω να ειδοποιούμαι για τις δικές μου αλλαγές"
     password_confirmation:
       field_description: 'Πρέπει να εισάγετε τον κωδικό πρόσβασης του λογαριασμού σας για να επιβεβαιώσετε αυτή την αλλαγή.'
       title: 'Επιβεβαιώστε τον κωδικό πρόσβασης σας για να συνεχίσετε'

@@ -539,7 +539,6 @@ sk:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Chcem byť upozornený na zmeny, ktoré som urobil sám"
     password_confirmation:
       field_description: 'Ak chcete potvrdiť túto zmenu, musíte zadať heslo svojho účtu.'
       title: 'Ak chcete pokračovať, potvrďte svoje heslo'

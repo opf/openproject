@@ -271,16 +271,6 @@ describe MailHandler, type: :model do
     end
   end
 
-  it 'should add work package should send email notification' do
-    User.find(2).notification_settings.create(channel: :mail, all: true)
-
-    # This email contains: 'Project: onlinestore'
-    issue = submit_email('ticket_on_given_project.eml')
-    assert issue.is_a?(WorkPackage)
-    # One for the wp creation.
-    assert_equal 1, ActionMailer::Base.deliveries.size
-  end
-
   it 'should add work package note' do
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
@@ -318,15 +308,6 @@ describe MailHandler, type: :model do
     # keywords should be removed from the email body
     assert !journal.notes.match(/^Status:/i)
     assert !journal.notes.match(/^Start Date:/i)
-  end
-
-  it 'should add work package note should send email notification' do
-    User.find(2).notification_settings.create(channel: :mail, all: true)
-    User.find(3).notification_settings.create(channel: :mail, involved: true)
-
-    journal = submit_email('ticket_reply.eml')
-    assert journal.is_a?(Journal)
-    assert_equal 2, ActionMailer::Base.deliveries.size
   end
 
   it 'should add work package note should not set defaults' do

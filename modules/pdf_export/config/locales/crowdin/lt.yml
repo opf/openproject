@@ -30,7 +30,7 @@ lt:
   label_export_card_activate: "Aktyvuoti"
   label_export_card_deactivate: "De-aktyvuoti"
   notice_export_card_configuration_activated: "Konfigūracija sėkmingai aktyvuota"
-  notice_export_card_configuration_deactivated: "Konfigūracija sėkmingai de-aktyvuota."
+  notice_export_card_configuration_deactivated: "Konfigūracija sėkmingai de-aktyvuota"
   error_can_not_activate_export_card_configuration: "Ši konfigūracija negali būti aktyvuota"
   error_can_not_deactivate_export_card_configuration: "Ši konfigūracija negali būti de-aktyvuota"
   validation_error_required_keys_not_present: "Reikalingas(-i) raktas(-ai) neegzistuoja:"

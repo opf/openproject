@@ -66,32 +66,16 @@ describe MeetingContentsController do
     describe 'notify' do
       let(:action) { 'notify' }
 
-      context 'when author no_self_notified property is true' do
-        before do
-          author.pref[:no_self_notified] = true
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 2 }
-        end
+      before do
+        author.save!
       end
 
-      context 'when author no_self_notified property is false' do
-        before do
-          author.pref[:no_self_notified] = false
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      it_behaves_like 'delivered by mail' do
+        let(:mail_count) { 2 }
       end
 
       context 'with an error during deliver' do
         before do
-          author.pref[:no_self_notified] = false
-          author.save!
           allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
         end
 
@@ -111,31 +95,16 @@ describe MeetingContentsController do
     describe 'icalendar' do
       let(:action) { 'icalendar' }
 
-      context 'when author no_self_notified property is true' do
-        before do
-          author.pref[:no_self_notified] = true
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      before do
+        author.save!
       end
 
-      context 'when author no_self_notified property is false' do
-        before do
-          author.pref[:no_self_notified] = false
-          author.save!
-        end
-
-        it_behaves_like 'delivered by mail' do
-          let(:mail_count) { 3 }
-        end
+      it_behaves_like 'delivered by mail' do
+        let(:mail_count) { 3 }
       end
 
       context 'with an error during deliver' do
         before do
-          author.pref[:no_self_notified] = false
           author.save!
           allow(MeetingMailer).to receive(:content_for_review).and_raise(Net::SMTPError)
         end

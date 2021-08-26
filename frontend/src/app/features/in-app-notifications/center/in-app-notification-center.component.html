@@ -26,9 +26,9 @@
   </div>
   <div class="op-ian-center--footer">
     <p
-        class="op-ian-center--max-warning"
-        *ngIf="hasMoreThanPageSize$ | async"
-        [textContent]="totalCountWarning()"
+      class="op-ian-center--max-warning"
+      *ngIf="hasMoreThanPageSize$ | async"
+      [textContent]="totalCountWarning$ | async"
     >
     </p>
   </div>

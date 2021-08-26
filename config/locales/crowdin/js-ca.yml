@@ -539,7 +539,6 @@ ca:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Vull ser notificat de canvis que faig jo mateix"
     password_confirmation:
       field_description: 'Necessita introduir la contrasenya del seu compte per a confirmar aquest canvi.'
       title: 'Confirmi la seva contrasenya per continuar'

@@ -538,7 +538,6 @@ sl:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
     password_confirmation:
       field_description: 'Prosimo vnesite svoje uporabniško geslo za potrditev te spremembe. '
       title: 'Potrdite svoje geslo za nadaljevanje'
