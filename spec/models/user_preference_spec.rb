@@ -105,7 +105,7 @@ describe UserPreference do
                     :hide_mail?
 
     context 'when a new pref instance' do
-      subject { UserPreference.new }
+      subject { described_class.new }
 
       it 'defaults to true' do
         expect(subject.settings[:hide_mail]).to be_nil

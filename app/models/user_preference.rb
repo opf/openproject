@@ -36,8 +36,6 @@ class UserPreference < ApplicationRecord
   validates_presence_of :user
   validate :time_zone_correctness, if: -> { time_zone.present? }
 
-  after_initialize :init_settings
-
   ##
   # Retrieve keys from settings, and allow accessing
   # as boolean with ? suffix
@@ -135,10 +133,6 @@ class UserPreference < ApplicationRecord
 
   def attribute?(name)
     %i[user user_id].include?(name.to_sym)
-  end
-
-  def init_settings
-    self.settings ||= {}
   end
 
   def time_zone_correctness
