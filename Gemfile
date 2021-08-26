@@ -249,7 +249,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.6.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.7.0' # Use for event-based reloaders
 
   gem 'faker'
   gem 'letter_opener'
