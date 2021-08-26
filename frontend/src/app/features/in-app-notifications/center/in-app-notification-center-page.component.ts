@@ -20,6 +20,9 @@ import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-no
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
+import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
+import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import {
   BackRouteOptions,
   BackRoutingService,
@@ -31,6 +34,11 @@ import {
     '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    InAppNotificationsService,
+    InAppNotificationsStore,
+    InAppNotificationsQuery,
+  ],
 })
 export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin implements OnInit {
   text = {

@@ -50,7 +50,7 @@ describe('WpTabsService', () => {
 
   describe('displayableTabs()', () => {
     it('returns just the displayable tab', () => {
-      expect(service.getDisplayableTabs(workPackage)).toEqual([displayableTab]);
+      expect(service.getDisplayableTabs(workPackage)[0].id).toEqual(displayableTab.id);
     });
   });
 
