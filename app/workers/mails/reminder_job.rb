@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Mails::DigestJob < Mails::DeliverJob
+class Mails::ReminderJob < Mails::DeliverJob
   private
 
   def render_mail
     # Have to cast to array since the update in the subsequent block
-    # will result in the notification to not be found via the .mail_digest_before scope.
-    notification_ids = Notification.mail_digest_before(recipient: recipient, time: Time.current).pluck(:id)
+    # will result in the notification to not be found via the .unsent_reminders_before scope.
+    notification_ids = Notification.unsent_reminders_before(recipient: recipient, time: Time.current).pluck(:id)
 
     return nil if notification_ids.empty?
 

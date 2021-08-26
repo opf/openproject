@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::MailDigestBefore, type: :model do
-  describe '.mail_digest_before' do
-    subject(:scope) { ::Notification.mail_digest_before(recipient: recipient, time: time) }
+describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
+  describe '.unsent_reminders_before' do
+    subject(:scope) { ::Notification.unsent_reminders_before(recipient: recipient, time: time) }
 
     let(:recipient) do
       FactoryBot.create(:user)

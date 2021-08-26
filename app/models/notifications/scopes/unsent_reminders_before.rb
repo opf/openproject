@@ -29,13 +29,13 @@
 #++
 
 module Notifications::Scopes
-  module MailDigestBefore
+  module UnsentRemindersBefore
     extend ActiveSupport::Concern
 
     class_methods do
-      # Return notifications of the user for which mail digest is to be sent and that is created before
+      # Return notifications for the user for who email reminders shall be sent and that were created before
       # the specified time.
-      def mail_digest_before(recipient:, time:)
+      def unsent_reminders_before(recipient:, time:)
         where(Notification.arel_table[:created_at].lteq(time))
           .where(recipient: recipient)
           .where(read_mail_digest: false)
