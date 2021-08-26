@@ -238,7 +238,6 @@ notified_events:
   default:
   - news_added
   - news_comment_added
-  - file_added
   - message_posted
   - wiki_content_added
   - wiki_content_updated

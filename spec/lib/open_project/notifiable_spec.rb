@@ -32,7 +32,7 @@ require 'spec_helper'
 describe OpenProject::Notifiable do
   describe '#all' do
     it 'matches expected list' do
-      %w(news_added news_comment_added file_added message_posted wiki_content_added
+      %w(news_added news_comment_added message_posted wiki_content_added
          wiki_content_updated membership_added membership_updated).each do |expected|
         expect(described_class.all.map(&:name))
           .to include(expected)
