@@ -55,14 +55,27 @@ class UserPreference < ApplicationRecord
     end
   end
 
-  # Allow previous array-style accessing as well
-  # delegate :[], :[]=, to: :settings
-
   ##
   # We respond to all methods as we retrieve
   # the key from settings
   def respond_to_missing?(*)
     true
+  end
+
+  def [](attr_name)
+    if attribute?(attr_name)
+      super
+    else
+      send attr_name
+    end
+  end
+
+  def []=(attr_name, value)
+    if attribute?(attr_name)
+      super
+    else
+      send :"#{attr_name}=", value
+    end
   end
 
   def comments_sorting
@@ -96,7 +109,7 @@ class UserPreference < ApplicationRecord
   alias :auto_hide_popups :auto_hide_popups?
 
   def comments_in_reverse_order=(value)
-    others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+    settings[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
   end
 
   def time_zone
@@ -114,6 +127,10 @@ class UserPreference < ApplicationRecord
 
   def to_boolean(value)
     ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def attribute?(name)
+    %i[user user_id].include?(name.to_sym)
   end
 
   def init_settings
