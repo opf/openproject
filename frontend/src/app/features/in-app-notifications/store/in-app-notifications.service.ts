@@ -6,7 +6,7 @@ import {
   tap,
   catchError,
 } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { applyTransaction, ID, setLoading } from '@datorama/akita';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -15,7 +15,6 @@ import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification } from './in-app-notification.model';
-import { Observable } from 'rxjs';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 
 @Injectable()

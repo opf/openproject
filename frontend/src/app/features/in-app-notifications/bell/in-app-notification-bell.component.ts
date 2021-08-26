@@ -7,7 +7,6 @@ import { timer, combineLatest } from 'rxjs';
 import {
   filter,
   switchMap,
-  tap,
   map,
 } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
@@ -30,7 +29,6 @@ const POLLING_INTERVAL = 10000;
 export class InAppNotificationBellComponent implements OnInit {
   polling$ = timer(10, POLLING_INTERVAL).pipe(
     filter(() => this.activeWindow.isActive),
-    tap(() => console.log('sending fetch request from bell')),
     switchMap(() => this.inAppService.fetchNotifications()),
   );
 
