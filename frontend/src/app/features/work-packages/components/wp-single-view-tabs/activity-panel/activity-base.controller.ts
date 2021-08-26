@@ -147,12 +147,12 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     if (!(window.location.href.indexOf('activity#') > -1)) {
       const unreadNotifications = document.querySelectorAll('[data-qa-selector="user-activity-bubble"]');
       const unreadNotificationsLength = unreadNotifications?.length;
-      if (unreadNotificationsLength) {
+      if (unreadNotificationsLength && this.notifications.length) {
         if (this.reverse) {
-          unreadNotifications[unreadNotificationsLength - 1].setAttribute('style', 'scroll-margin-top: 200px;');
+          unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
           unreadNotifications[unreadNotificationsLength - 1].scrollIntoView();
         } else {
-          unreadNotifications[0].setAttribute('style', 'scroll-margin-top: 200px;');
+          unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
           unreadNotifications[0].scrollIntoView();
         }
       }
