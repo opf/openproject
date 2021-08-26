@@ -5,7 +5,7 @@ nl:
     button_update: 'Bijwerken'
     avatars:
       label_choose_avatar: "Kies Avatar van bestand"
-      uploading_avatar: "Uploading your avatar."
+      uploading_avatar: "Je afbeelding uploaden."
       text_upload_instructions: |
         Upload je eigen avatar van 128 voor 128 pixels. Grotere bestanden zullen worden geschaald en bijgesneden om overeen te komen. Een voorbeeld van je avatar wordt getoond voor het uploaden, zodra je een afbeelding hebt geselecteerd.
       error_image_too_large: "De afbeelding is te groot."

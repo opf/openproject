@@ -34,7 +34,7 @@ nl:
         alternative-color: "Alternatief"
         content-link-color: "Link font"
         primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-color-dark: "Primary (Donker)"
         header-bg-color: "Koptekst achtergrond"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Lettertype koptekst"
@@ -52,7 +52,7 @@ nl:
       enterprise_notice: "Als een speciale 'Bedankt!' voor hun financiële bijdrage aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar voor Enterprise Edition ondersteuning abonnees."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
         content-link-color: "De kleur van het lettertype van de meeste van de links."
         primary-color: "Hoofdkleur."
         primary-color-dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
@@ -61,7 +61,7 @@ nl:
         header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
         header-border-bottom-color: "Dunne lijn onder de kop. Laat dit veld leeg als u geen lijn wilt."
         main-menu-bg-color: "De kleur van de achtergrond van de linkerzijde menu's."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Als u het thema wijzigt, wordt uw aangepaste stijl overschreven. Het ontwerp gaat dan verloren. Weet je zeker dat je door wilt gaan?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Uploadeneen Enterprise Edition ondersteuningstoken"
@@ -94,9 +94,9 @@ nl:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Dit LDAP-formulier vereist technische kennis van uw LDAP / Active Directory-configuratie.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Bezoek onze documentatie voor gedetailleerde instructies</a>.
     attribute_texts:
       name: Arbitrary name of the LDAP connection
       host: LDAP hostnaam of IP-adres
