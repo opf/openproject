@@ -2758,7 +2758,7 @@ hu:
     Elérte a felhasználói korlátot. Nem aktiválhat további felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy blokkolja a további tagokat a felhasználók engedélyezéséhez.
   warning_user_limit_reached_instructions: >
     Elérte a felhasználói limitet (%{current}/%{max} aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise Edition licenc frissítésért és további felhasználók hozzáadásához.
-  warning_protocol_mismatch_html: >
+  0: >
 
   warning_bar:
     protocol_mismatch:
