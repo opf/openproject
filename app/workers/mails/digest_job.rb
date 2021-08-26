@@ -29,35 +29,6 @@
 #++
 
 class Mails::DigestJob < Mails::DeliverJob
-  class << self
-    def schedule(notification)
-      # This alone is vulnerable to the edge case of the Mails::DigestJob
-      # having started but not completed when a new digest notification is generated.
-      # To cope with it, the Mails::DigestJob as its first action sets all digest notifications
-      # to being handled even though they are still processed.
-      return if digest_job_already_scheduled?(notification)
-
-      set(wait_until: execution_time(notification.recipient))
-        .perform_later(notification.recipient)
-    end
-
-    private
-
-    def execution_time(user)
-      zone = (user.time_zone || ActiveSupport::TimeZone.new('UTC'))
-
-      zone.parse(Setting.notification_email_digest_time) + 1.day
-    end
-
-    def digest_job_already_scheduled?(notification)
-      Notification
-        .mail_digest_before(recipient: notification.recipient,
-                            time: notification.created_at)
-        .where.not(id: notification.id)
-        .exists?
-    end
-  end
-
   private
 
   def render_mail

@@ -73,13 +73,5 @@ class Notifications::WorkflowJob < ApplicationJob
           .new(notification)
           .call
       end
-
-    Notification
-      .where(id: notification_ids)
-      .unread_mail_digest
-      .each do |notification|
-        Mails::DigestJob
-          .schedule(notification)
-      end
   end
 end

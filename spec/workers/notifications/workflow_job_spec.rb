@@ -109,15 +109,8 @@ describe Notifications::WorkflowJob, type: :model do
         service_instance
       end
 
-      let!(:digest_job) do
-        allow(Mails::DigestJob)
-          .to receive(:schedule)
-      end
-
       before do
-        scope = class_double(Notification,
-                             unread_mail: [notifications.first],
-                             unread_mail_digest: [notifications.last])
+        scope = class_double(Notification, unread_mail: [notifications.first])
 
         allow(Notification)
           .to receive(:where)
@@ -130,14 +123,6 @@ describe Notifications::WorkflowJob, type: :model do
 
         expect(mail_service)
           .to have_received(:call)
-      end
-
-      it 'schedules a digest job for all notifications that are marked for the digest' do
-        perform_job
-
-        expect(Mails::DigestJob)
-          .to have_received(:schedule)
-                .with(notifications.last)
       end
     end
   end
