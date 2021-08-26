@@ -101,10 +101,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .subscribe(([wp, notificationCollection]) => {
         this.notifications = notificationCollection._embedded.elements;
         this.workPackage = wp;
-        this.wpActivity.require(this.workPackage).then((activities:any) => {
+        void this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
-          void this.scrollToUnreadNotification();
+          this.scrollToUnreadNotification();
         });
       });
   }
