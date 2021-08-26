@@ -1,6 +1,8 @@
-.version-board-header
+@import 'src/assets/sass/helpers'
+
+.op-version-board-header
   display: flex
   flex-direction: column
 
-.editable-toolbar-title--fixed
-  line-height: 1 !important
+  .editable-toolbar-title--fixed
+    @include board-header-editable-toolbar-title

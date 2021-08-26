@@ -1,7 +1,9 @@
-// Override line-height for proper
-// display of the h2 + small
-.editable-toolbar-title--fixed
-  line-height: 1 !important
+@import 'src/assets/sass/helpers'
 
-.work-package-type
-  padding-right: 0.5rem
+.op-subtask-board-header
+
+  &--work-package-type
+    padding-right: 0.5rem
+  
+  .editable-toolbar-title--fixed
+    @include board-header-editable-toolbar-title

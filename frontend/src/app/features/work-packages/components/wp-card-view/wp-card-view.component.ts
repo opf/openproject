@@ -40,6 +40,7 @@ import { QueryColumn } from 'core-app/features/work-packages/components/wp-query
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export type CardViewOrientation = 'horizontal'|'vertical';
 
@@ -116,6 +117,8 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     onCancel: () => this.setReferenceMode(false),
     onReferenced: (wp:WorkPackageResource) => this.cardDragDrop.addWorkPackageToQuery(wp, 0),
   };
+
+  isNewResource = isNewResource;
 
   constructor(readonly querySpace:IsolatedQuerySpace,
     readonly states:States,

@@ -54,7 +54,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let!(:assigned_to_other_work_package) do
     FactoryBot.create :work_package,
                       project: project,
-                      subject: 'Not assigend to me',
+                      subject: 'Not assigned to me',
                       type: type,
                       author: user,
                       assigned_to: other_user

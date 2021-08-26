@@ -20,6 +20,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   selector: 'wp-single-card',
@@ -54,6 +55,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     removeCard: this.I18n.t('js.card.remove_from_list'),
     detailsView: this.I18n.t('js.button_open_details'),
   };
+
+  isNewResource = isNewResource;
 
   constructor(readonly pathHelper:PathHelperService,
     readonly I18n:I18nService,
@@ -97,7 +100,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     const base = 'op-wp-single-card'
     let classes = this.isSelected(this.workPackage) ? checkedClassName : '';
     classes += this.draggable ? ` ${base}_draggable` : '';
-    classes += this.workPackage.isNew ? ` ${base}_new` : '';
+    classes += isNewResource(this.workPackage) ? ` ${base}_new` : '';
     classes += ` ${base}-${this.workPackage.id}`;
     classes += ` ${base}_${this.orientation}`;
     classes += this.shrinkOnMobile ? ` ${base}_shrink` : '';

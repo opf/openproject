@@ -202,13 +202,13 @@ hu:
             label_starts_at: "Kezdés ideje:"
             label_expires_at: "Lejárat ekkor"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
+            taken_domain: Csak egy próbaverzió lehet aktív egy domainen
             taken_email: Felhasználónkként csak egy próba verzió engedélyezett
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Vagy próbálja meg egy másik e-mail címellel."
           next_steps: "Következő lépések"
           resend_link: "Újraküldés"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_success: "Az email újra kiküldve. Kérlek ellenőrizd az emaileket és kattints az aktiváló linkre"
           resend_warning: "Az email újra küldése sikertelen"
           session_timeout: "A munkamenet lejárt. Kérem töltse újra az oldalt vagy küldje újra az emailt"
           status_label: "Állapot:"
@@ -528,10 +528,10 @@ hu:
         involved: 'Részt veszek'
         mentioned: 'Megemlítettek'
         watched: 'I am watching'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
+        work_package_commented: 'Hozzászóltak a munkacsomaghoz'
+        work_package_created: 'Munkacsomag létrehozva'
+        work_package_processed: 'Frissült a munkacsomag állapota'
+        work_package_prioritized: 'Frissült a munkacsomag prioritása'
         work_package_scheduled: 'Work package scheduled'
         all: 'Minden esemény'
         add: 'Beállítás hozzáadása a projekthez'

@@ -50,6 +50,7 @@ import { randomString } from 'core-app/shared/helpers/random-string';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { States } from 'core-app/core/states/states.service';
@@ -132,6 +133,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   $element:JQuery;
 
+  isNewResource = isNewResource;
+
   constructor(readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
     protected PathHelper:PathHelperService,
@@ -180,7 +183,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   private refresh(change:WorkPackageChangeset) {
     // Prepare the fields that are required always
-    const { isNew } = this.workPackage;
+    const isNew = isNewResource(this.workPackage);
     const resource = change.projectedResource;
 
     if (!resource.project) {
@@ -210,7 +213,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const isEmpty = group.members.length === 0;
 
     // Is a query in a new screen
-    const queryInNew = this.workPackage.isNew && !!group.query;
+    const queryInNew = isNewResource(this.workPackage) && !!group.query;
 
     return isEmpty || queryInNew;
   }

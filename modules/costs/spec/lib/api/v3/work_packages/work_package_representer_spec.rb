@@ -86,7 +86,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe 'work_package' do
-      # specifiying as it used to be different
+      # specifying as it used to be different
       it { is_expected.to have_json_path('spentTime') }
 
       it { is_expected.not_to have_json_path('spentHours') }

@@ -47,6 +47,7 @@ import { QuerySharingModalComponent } from 'core-app/shared/components/modals/sh
 import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 @Directive({
   selector: '[opSettingsContextMenu]',
@@ -231,7 +232,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-save',
         onClick: ($event:JQuery.TriggeredEvent) => {
           const { query } = this;
-          if (!query.persisted && this.allowQueryAction($event, 'updateImmediately')) {
+          if (!isPersistedResource(query) && this.allowQueryAction($event, 'updateImmediately')) {
             this.opModalService.show(SaveQueryModalComponent, this.injector);
           } else if (query.id && this.allowQueryAction($event, 'updateImmediately')) {
             this.wpListService.save(query);

@@ -170,7 +170,7 @@ end
 shared_examples 'matches the JSON counterpart' do
   it 'matches the JSON viewpoint counterpart' do
     path = OpenProject::Bim::Engine.root.join("spec/fixtures/viewpoints/#{xml_viewpoint.viewpoint_name}.json")
-    raise "Expected #{path} to be readable for JSON comparsion" unless path.readable?
+    raise "Expected #{path} to be readable for JSON comparison" unless path.readable?
 
     json = path.read
 

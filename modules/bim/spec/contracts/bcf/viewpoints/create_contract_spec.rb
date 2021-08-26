@@ -728,7 +728,7 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         end
       end
 
-      context 'with a component of the selection property having an unkonwn property' do
+      context 'with a component of the selection property having an unknown property' do
         let(:viewpoint_json_viewpoint) do
           valid_json['components'][:selection][1]['superfluous'] = "sdsdsf"
           valid_json

@@ -121,7 +121,7 @@ describe Version, type: :model do
     assert_progress_equal 100.0 / 3, v.closed_percent
   end
 
-  it 'should progress should consider estimated hours to weigth issues' do
+  it 'should progress should consider estimated hours to weight issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.attributes = { project: project, name: 'Progress' }
@@ -134,7 +134,7 @@ describe Version, type: :model do
     assert_progress_equal 25.0 / 95.0 * 100, v.closed_percent
   end
 
-  it 'should progress should consider average estimated hours to weigth unestimated issues' do
+  it 'should progress should consider average estimated hours to weight unestimated issues' do
     project = Project.find(1)
     (v = Version.new.tap do |v|
       v.attributes = { project: project, name: 'Progress' }

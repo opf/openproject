@@ -40,7 +40,7 @@ end
 
 require 'parallel_tests/tasks'
 # Remove task added by parallel_tests as it conflicts with our own.
-# Having both will lead to both being executred.
+# Having both will lead to both being executed.
 Rake::Task["parallel:features"].clear if Rake::Task.task_defined?("parallel:features")
 
 def check_for_pending_migrations

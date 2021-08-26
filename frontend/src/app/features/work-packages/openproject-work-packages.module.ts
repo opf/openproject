@@ -172,6 +172,7 @@ import { FilterIntegerValueComponent } from 'core-app/features/work-packages/com
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
 import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @NgModule({
   imports: [
@@ -448,9 +449,9 @@ export class OpenprojectWorkPackagesModule {
     hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
       if (group.type === 'WorkPackageFormAttributeGroup') {
         return WorkPackageFormAttributeGroupComponent;
-      } if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+      } if (!isNewResource(workPackage) && group.type === 'WorkPackageFormChildrenQueryGroup') {
         return WorkPackageChildrenQueryComponent;
-      } if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
+      } if (!isNewResource(workPackage) && group.type === 'WorkPackageFormRelationQueryGroup') {
         return WorkPackageRelationQueryComponent;
       }
       return null;

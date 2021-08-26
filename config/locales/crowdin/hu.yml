@@ -169,7 +169,7 @@ hu:
     enabled_in_project: 'Engedélyezve a projektben'
     contained_in_type: 'A típus tartalmazza'
     confirm_destroy_option: "Egy opció törlése az összes eddigi használatánál (úgy, mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?"
-    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_alphabetical: "Név szerinti sorrendbe rendezés"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Jelenleg nincsenek egyéni mezők.
@@ -198,9 +198,9 @@ hu:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "A projektet nem lehet törölni: %{errors}"
       failed: "A projekt %{name} törlése meghiúsult"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
+      failed_text: "A projekt%{name} törlése sikertelen. A projekt archiválva van."
       completed: "A projekt %{name} törlölve"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      completed_text: "A projekt%{name} törlése sikeres."
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
       open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
@@ -250,14 +250,14 @@ hu:
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+    delete_tooltip: "Teszt felhasználó törlése"
     deletion_info:
       heading: "Teszt felhasználó%{name} törlése"
       data_consequences: >
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
         As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "Ez a művelet visszavonhatatlan"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Adja meg a teszt felhasználó nevét %{name} a törlés megerősítéséhez."
     upsale:
       title: Assign work to people that are not members of the project.
       description: >
@@ -1234,7 +1234,7 @@ hu:
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."
-    failed: "The export has failed: %{message}"
+    failed: "Az exportálás meghiúsult %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1318,10 +1318,10 @@ hu:
       subject:
         created: "A munkacsomag létrehozása sikeres"
         assigned: "Hozzárendeletek a %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
+        subscribed: "Feliratkoztál a %{work_package} "
         mentioned: "Megemlítettek a %{work_package}-ban"
         involved: "You either are assigned to or are responsible for %{work_package}"
-        watched: "You are watching %{work_package}"
+        watched: "Megfigyeled a %{work_package}"
   label_accessibility: "Kisegítő lehetőségek"
   label_account: "Felhasználói fiók"
   label_active: "aktív"
@@ -1407,7 +1407,7 @@ hu:
   label_check_uncheck_all_in_column: "Megjelöl/Jelölést töröl minden oszlopban"
   label_check_uncheck_all_in_row: "Megjelöl/Jelölést töröl minden sorban"
   label_child_element: "Gyermek alkotó"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Régiek elől"
   label_close_versions: "Lezárja a befejezett változatokat"
   label_closed_work_packages: "lezárt"
   label_collapse: "Collapse"
@@ -1711,7 +1711,7 @@ hu:
   label_required: 'kötelező'
   label_requires: 'igényel'
   label_result_plural: "Eredmények"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Újak elől"
   label_revision: "Felülvizsgálat"
   label_revision_id: "Felülvizsgálat %{value}"
   label_revision_plural: "Felülvizsgálatok"
