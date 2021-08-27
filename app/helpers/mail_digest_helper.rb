@@ -29,6 +29,8 @@
 #++
 
 module MailDigestHelper
+  include ::ColorsHelper
+
   def digest_timespan_text
     end_time = Time.parse(Setting.notification_email_digest_time)
 
@@ -62,5 +64,15 @@ module MailDigestHelper
 
   def notifications_path(id)
     notifications_center_url(['details', id, 'activity'])
+  end
+
+  def type_color(type)
+    color_id = selected_color(type)
+    Color.find(color_id).hexcode
+  end
+
+  def status_colors(object)
+    color_id = selected_color(object)
+    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ')
   end
 end

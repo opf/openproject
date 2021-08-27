@@ -55,6 +55,8 @@ class DigestMailer < ApplicationMailer
     message_id nil, recipient
 
     @aggregated_notifications = load_notifications(notification_ids)
+                                  .sort_by(&:created_at)
+                                  .reverse
                                   .group_by(&:resource)
 
     return if @aggregated_notifications.empty?
