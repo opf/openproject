@@ -34,14 +34,16 @@ hu:
       remove: "%{name} törlése"
       active: "%{label} %{name} aktiválása"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: "A mellékletek nem tartozhatnak bele, mivel meghaladják a megengedett maximális méretet. Ezt a konfiguráción keresztül módosíthatja (szerver újraindítását igényli).\n"
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Itt indíthat biztonsági mentést. A folyamat a rendelkezésre álló adatmennyiségtől (különösen a mellékletektől) függően eltarthat egy ideig. Ha elkészült, kapni fog egy e -mailt.
+
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+        Egy új biztonsági mentés felülír minden előzőt. Naponta csak korlátozott számú biztonsági mentés kérhető.
+
       last_backup: 'Utolsó biztonsági mentés:'
       last_backup_from: 'Legutóbbi biztonsági mentés: '
-      title: Backup OpenProject
+      title: "Az OpenProject biztonsági mentése\n"
       options: Beállítások
       include_attachments: Include attachments
       download_backup: Biztonsági mentés letöltése
@@ -132,11 +134,11 @@ hu:
         manual: 'Váltás Markdown forrásra'
         wysiwyg: 'Váltás a WYSIWYG szerkesztőre'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'A makró nem bővíthető: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          macro_help_tooltip: 'Ezt a szövegrészt dinamikusan megjeleníti egy makró.'
           not_found: 'A kért erőforrás nem található.'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          invalid_attribute: "A kiválasztott \"%{name}\" attribútum nem létezik."
         child_pages:
           button: 'Gyermek kapcsolatok'
           include_parent: 'Tartalmazza a szülőt'
@@ -188,10 +190,11 @@ hu:
         trial:
           confirmation: "E-mail cím megerősítése"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+
+            E -mailt küldtünk Önnek %{date} dátummal: %{email}. Kérjük, ellenőrizze a postaládáját, és kattintson a megerősítő linkre a 14 napos próbaidőszak megkezdéséhez.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+              Elfogadom az <a target="_blank" href="%{link_terms}"> Általános Szerződési Feltételeket </a> és az <a target="_blank" href="%{link_privacy}"> adatvédelmi irányelveket </a >
             invalid_email: "Érvénytelen e-mail cím"
             label_company: "Cég"
             label_first_name: "Keresztnév"
@@ -201,10 +204,10 @@ hu:
             label_maximum_users: "Maximális aktív felhasználók"
             label_starts_at: "Kezdés ideje:"
             label_expires_at: "Lejárat ekkor"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            receive_newsletter: Szeretném megkapni az OpenProject <a target="_blank" href="%{link}"> hírlevelét </a>.
             taken_domain: Csak egy próbaverzió lehet aktív egy domainen
             taken_email: Felhasználónkként csak egy próba verzió engedélyezett
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          email_not_received: "Nem kapott e -mailt? A jobb oldali linkkel újra elküldheti az e -mailt."
           try_another_email: "Vagy próbálja meg egy másik e-mail címellel."
           next_steps: "Következő lépések"
           resend_link: "Újraküldés"
@@ -219,22 +222,23 @@ hu:
         upsale:
           become_hero: "Legyél egy hős!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "Milyen előnyökkel jár az Enterprise Edition?\n"
             high_security: "Biztonsági szolgáltatások"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Egyszeri bejelentkezés (SAML, OpenID Connect, CAS), kétfaktoros hitelesítés és az LDAP csoportok automatikus szinkronizálása"
             installation: "Telepítési támogatás"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            installation_text: "Tapasztalt szoftvermérnökök végigvezetik Önt a teljes telepítési és beállítási folyamaton saját infrastruktúrájában.\n"
             premium_features: "Prémium funkciók"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            premium_features_text: "Agilis táblák, egyedi téma és embléma, grafikonok, intelligens munkafolyamatok egyéni műveletekkel, teljes szövegű keresés a munkacsomag mellékletekhez és több kiválasztott egyéni mező."
             professional_support: "Szakmai támogatás"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+            professional_support_text: "Megbízható támogatást kaphat a vezető támogató mérnököktől, akik szakértő ismeretekkel rendelkeznek az OpenProject futtatásáról üzleti szempontból kritikus környezetben."
           button_start_trial: "Ingyenes próbaverzió kipróbálása"
           button_book_now: "Foglalás most"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+            A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
           link_quote: "Árajánlat kérése"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Az OpenProject Enterprise Edition a Community Edition tetejére épül. Prémium funkciókat és professzionális támogatást tartalmaz, amelyek elsősorban olyan szervezeteknek szólnak, amelyek több mint 10 felhasználóval rendelkeznek, és amelyek az üzleti szempontból kritikus projekteket irányítják az OpenProject segítségével.
+
           unlimited: "Korlátlan"
           you_contribute: "A fejlesztőknek is fizetni kell a számláikat. A vállalati verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez."
     custom_actions:
@@ -285,7 +289,8 @@ hu:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> Új meghívó a modális felhasználóknak, csoportoknak és teszt felhasználóknak lehetővé teszi új felhasználók hozzáadását vagy meghívását, valamint munkacsomagok hozzárendelését. </li> <li> GitHub integráció az OpenProject -be. </li> <li> API v3 kiterjesztések csoportokhoz és egyebek, azaz csoportokat és csoporttagokat hozhat létre, olvashat, frissíthet és törölhet az API-n keresztül. </li> <li> Többszörös kiválasztás a projekt egyedi típusmezői mezőihez. </li> <li> Biztonsági mentés létrehozása a webes felületről. < /li> </ul>
+
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
@@ -300,7 +305,7 @@ hu:
     label_add_row_before: "Sor hozzáadása előtte"
     label_add_selected_columns: "A kiválasztott oszlopok hozzáadása"
     label_added_by: "Hozzáadta"
-    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_added_time_by: "Hozzáadta: <a href=%{authorLink}>%{author} </a>,%{age}"
     label_ago: "nappal ezelőtt"
     label_all: "mind"
     label_all_work_packages: "minden feladatcsoport"
@@ -343,7 +348,7 @@ hu:
     label_expand_all: "Az összes kibontása"
     label_expand_project_menu: "Project menü kibontása"
     label_export: "Exportálás"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
     label_filename: "Fájl"
     label_filesize: "Méret"
     label_general: "Általános"
@@ -431,7 +436,7 @@ hu:
     label_total_amount: "Teljes: %{amount}"
     label_updated_on: "frissítve"
     label_value_derived_from_children: "(érték származik a gyermekektől)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_children_derived_duration: "A munkacsomag gyermekeinek időtartama"
     label_warning: "Figyelem"
     label_work_package: "Feladatcsoport"
     label_work_package_parent: "Szülő munkacsomag"
@@ -553,11 +558,12 @@ hu:
       relation_description: 'Kapcsolat leírásának hozzáadása ide kattintva'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
+
       context: 'Projekt kontextus'
       work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
       click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      confirm_template_load: "Ha megváltoztatja a sablont, az oldal újratöltődik, és elveszíti az összes űrlapon lévő adatot. Folytatni?\n"
       use_template: "Sablon használata"
       no_template_selected: "(Nincs)"
       copy:
@@ -656,8 +662,8 @@ hu:
     field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
     project_menu_details: "Részletek"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: "Kézi ütemezés\n"
+      automatic: "Automatikus ütemezés\n"
     sort:
       sorted_asc: 'Növekvő sorrend alkalmazása, '
       sorted_dsc: 'Csökkenő rendezés alkalmazva, '
@@ -870,8 +876,8 @@ hu:
           duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
         text_no_results: "Nem található egyező nézet"
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
+        is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."
@@ -905,7 +911,7 @@ hu:
           automatic: 'Automatikus'
           manually: 'Kézi'
           warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        columns_help_text: "A fenti bevitellel oszlopokat adhat hozzá a táblázatnézethez. A \"Húzd és Dobd\" módszerrel újra rendezheti az oszlopokat"
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
@@ -1034,7 +1040,7 @@ hu:
       project:
         label: 'Projekt'
         required: 'Válasszon projektet'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission: "Kérjük, válasszon másik projektet, mivel nincs jogosultsága a felhasználók kijelöléséhez.\n"
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
         next_button: ' Következő'
         no_results: 'Egyetlen projekt sem található'
