@@ -37,13 +37,21 @@ module MailDigestHelper
            end: format_time(end_time))
   end
 
-  def digest_notification_timestamp_text(notification, html: true)
+  def digest_notification_timestamp_text(notification, html: true, extended_text: false)
     journal = notification.journal
     user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
 
-    raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
-               user: user,
-               timestamp: time_ago_in_words(journal.created_at)))
+    if extended_text
+      raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created' : 'updated'}") +
+            ' ' +
+            I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
+                   user: user,
+                   timestamp: time_ago_in_words(journal.created_at)))
+    else
+      raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
+                 user: user,
+                 timestamp: time_ago_in_words(journal.created_at)))
+    end
   end
 
   def unique_reasons_of_notifications(notifications)
