@@ -39,7 +39,7 @@ module Migration
     end
 
     def in_configurable_batches(klass, default_batch_size: 1000)
-      batches = ENV["OPENPROJECT_MIGRATION_AGGREGATE_JOURNALS_BATCH_SIZE"]&.to_i || default_batch_size
+      batches = ENV["OPENPROJECT_MIGRATION_BATCH_SIZE"]&.to_i || default_batch_size
 
       klass.in_batches(of: batches)
     end
