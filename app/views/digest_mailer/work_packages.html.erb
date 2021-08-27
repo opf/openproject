@@ -1,6 +1,13 @@
 <% @aggregated_notifications.each do | work_package, notifications_by_work_package| %>
-  <div style="border: 1px solid #dadada; margin-bottom: 10px; padding: 10px; border-radius: 10px;">
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+  <a style="border: 1px solid #dadada;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: block;"
+       href="<%= notifications_path(work_package.id) %>"
+       target="_blank">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 12px;">
       <tr>
         <td style="background-color: #00CC00;
                    white-space: nowrap;
@@ -37,17 +44,17 @@
         </td>
       </tr>
     </table>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
       <tr>
         <td>
           <%= work_package.type.to_s.upcase %>
         </td>
-        <td width="100%" style="padding-left: 5px">
+        <td width="100%" style="padding-left: 5px; color: #3a3a3a;">
           <%= work_package.subject %>
         </td>
       </tr>
     </table>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
       <% notifications_by_work_package.each do | notification | %>
         <% notification.journal.details.each do |detail| %>
           <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
@@ -59,7 +66,7 @@
         <% end %>
       <% end %>
     </table>
-  </div>
+  </a>
 <% end %>
 <!--
 

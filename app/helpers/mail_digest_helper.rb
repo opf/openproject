@@ -51,4 +51,8 @@ module MailDigestHelper
       .map { |notification| notification.reason_mail_digest }
       .uniq
   end
+
+  def notifications_path(id)
+    notifications_center_url(['details', id, 'activity'])
+  end
 end
