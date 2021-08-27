@@ -99,6 +99,27 @@ describe UserPreference do
                     :auto_hide_popups?
   end
 
+  describe 'hide_mail' do
+    it_behaves_like 'accepts real and false booleans',
+                    :hide_mail=,
+                    :hide_mail?
+
+    context 'when a new pref instance' do
+      subject { described_class.new }
+
+      it 'defaults to true' do
+        expect(subject.settings[:hide_mail]).to be_nil
+        expect(subject.hide_mail).to eq true
+        expect(subject.hide_mail?).to eq true
+
+        subject.hide_mail = false
+        expect(subject.settings[:hide_mail]).to eq false
+        expect(subject.hide_mail).to eq false
+        expect(subject.hide_mail?).to eq false
+      end
+    end
+  end
+
   describe 'time_zone' do
     it 'allows to save short time zones' do
       subject.time_zone = 'Berlin'
