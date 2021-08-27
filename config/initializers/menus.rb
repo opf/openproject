@@ -116,11 +116,10 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
-  menu_push = menu.push :account,
-                        { controller: '/my', action: 'account' },
-                        caption: :label_profile,
-                        icon: 'icon2 icon-user'
-  menu_push
+  menu.push :account,
+            { controller: '/my', action: 'account' },
+            caption: :label_profile,
+            icon: 'icon2 icon-user'
   menu.push :settings,
             { controller: '/my', action: 'settings' },
             caption: :label_setting_plural,
