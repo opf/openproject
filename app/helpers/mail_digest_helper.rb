@@ -31,34 +31,27 @@
 module MailDigestHelper
   include ::ColorsHelper
 
-  def digest_timespan_text
-    end_time = Time.parse(Setting.notification_email_digest_time)
+  def digest_timespan_text(notification_count, wp_count)
+    date = Time.parse(Setting.notification_email_digest_time)
 
     I18n.t(:"mail.digests.time_frame",
-           start: format_time(end_time - 1.day),
-           end: format_time(end_time))
+           time: Setting.notification_email_digest_time,
+           weekday: day_name(date.wday),
+           date: ::I18n.l(date.to_date, format: :long),
+           number_unread: notification_count,
+           number_work_packages: wp_count)
   end
 
   def digest_notification_timestamp_text(notification, html: true, extended_text: false)
     journal = notification.journal
     user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
 
-    if extended_text
-      raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created' : 'updated'}") +
-            ' ' +
-            I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
-                   user: user,
-                   timestamp: time_ago_in_words(journal.created_at)))
-    else
-      raw(I18n.t(:"mail.digests.work_packages.#{journal.initial? ? 'created_at' : 'updated_at'}",
-                 user: user,
-                 timestamp: time_ago_in_words(journal.created_at)))
-    end
+    timestamp_text(user, journal, extended_text)
   end
 
   def unique_reasons_of_notifications(notifications)
     notifications
-      .map { |notification| notification.reason_mail_digest }
+      .map(&:reason_mail_digest)
       .uniq
   end
 
@@ -74,5 +67,22 @@ module MailDigestHelper
   def status_colors(object)
     color_id = selected_color(object)
     Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ')
+  end
+
+  private
+
+  def timestamp_text(user, journal, extended)
+    value = journal.initial? ? "created" : "updated"
+    if extended
+      raw(I18n.t(:"mail.digests.work_packages.#{value}") +
+            ' ' +
+            I18n.t(:"mail.digests.work_packages.#{value}",
+                   user: user,
+                   timestamp: time_ago_in_words(journal.created_at)))
+    else
+      raw(I18n.t(:"mail.digests.work_packages.#{value}",
+                 user: user,
+                 timestamp: time_ago_in_words(journal.created_at)))
+    end
   end
 end

@@ -1,5 +1,27 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #cccccc; margin-bottom: 30px;">
+  <tr>
+    <td style="font-size: 24px; color: #333333; padding-bottom: 10px;">
+      <%= I18n.t(:'mail.digests.salutation', user: @user.firstname) %>
+    </td>
+  </tr>
+  <tr>
+    <td style="font-size:14px; color: #1A67A3; font-weight: bold; padding-bottom: 10px;">
+      <%= digest_timespan_text(@notification_ids.length, @aggregated_notifications.length) %>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding: 10px 0 25px 0;">
+      <a href="<%= notifications_center_url %>"
+         target="_blank"
+         style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;">
+        <%= I18n.t(:'mail.digests.center') %>
+      </a>
+    </td>
+  </tr>
+</table>
+
 <% @aggregated_notifications.each do | work_package, notifications_by_work_package| %>
-  <a style="border: 1px solid #dadada;
+  <a style="border: 1px solid #E0E0E0;
             margin-bottom: 15px;
             padding: 10px;
             border-radius: 10px;
@@ -49,7 +71,7 @@
         <td style="color: <%= type_color(work_package.type) %>;">
           <%= work_package.type.to_s.upcase %>
         </td>
-        <td width="100%" style="padding-left: 5px; color: #3a3a3a;">
+        <td width="100%" style="padding-left: 5px; color: #333333;">
           <%= work_package.subject %>
         </td>
       </tr>
@@ -68,65 +90,3 @@
     </table>
   </a>
 <% end %>
-<!--
-
-<div style="color: #777; font-weight: bold">
-  <%#= digest_timespan_text %>
-</div>
-
-
-<%# @notifications_by_project.each do |project, notifications_by_work_package| %>
-  <section style="margin-bottom: 3em; margin-top: 5em">
-    <h1 style="font-size: 2em; margin-bottom: 1.5em"><%#= link_to_project(project, only_path: false) %></h1>
-
-    <%# notifications_by_work_package.each do |work_package, notifications| %>
-        <section style="margin-bottom: 3em;">
-          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%#= link_to_work_package work_package, status: true, only_path: false, no_hidden: true %></h2>
-
-          <%# notifications.sort_by(&:created_at).each do |notification| %>
-
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="20px"></td>
-                <td style="font-weight: normal; font-size: 1.1em;">
-                  <%#= digest_notification_timestamp_text(notification) %>
-                </td>
-                <td style="text-align: right">
-                  <%#= I18n.t(
-                        :"mail.digests.work_packages.reason.#{notification.reason_mail_digest || :unknown}",
-                        default: '-') %>
-                </td>
-                <td width="20px"></td>
-              </tr>
-            </table>
-
-            <%# journal = notification.journal %>
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="20px"></td>
-                <td>
-                  <%#= format_text(journal.notes,
-                                  only_path: false,
-                                  object: notification.resource,
-                                  project: notification.project) %>
-
-                  <%# if journal.notes.present? && journal.details.any? %>
-                    <div style="margin-bottom: 2em"></div>
-                  <%# end %>
-
-                  <ul>
-                    <%# journal.details.each do |detail| %>
-                      <li><%#= journal.render_detail(detail, only_path: false) %></li>
-                    <%# end %>
-                  </ul>
-                </td>
-              </tr>
-            </table>
-
-            <div style="margin-bottom: 3em"></div>
-          <%# end %>
-        </section>
-    <%# end %>
-  </section>
-<%# end %>
--->

@@ -54,6 +54,8 @@ class DigestMailer < ApplicationMailer
     open_project_headers User: recipient.name
     message_id nil, recipient
 
+    @user = recipient
+    @notification_ids = notification_ids
     @aggregated_notifications = load_notifications(notification_ids)
                                   .sort_by(&:created_at)
                                   .reverse

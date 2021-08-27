@@ -1967,7 +1967,9 @@ en:
   mail:
     actions: 'Actions'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      center: 'Notification center'
+      time_frame: "At %{time} on %{weekday}, %{date}, you have %{number_unread} unread notifications in %{number_work_packages} work packages"
+      salutation: 'Hey %{user}!'
       work_packages:
         created: 'Created'
         created_at: 'by %{user} %{timestamp} ago'
