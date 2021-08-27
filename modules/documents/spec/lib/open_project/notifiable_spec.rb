@@ -27,28 +27,13 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-module OpenProject
-  NOTIFIABLE = [
-    %w(news_added),
-    %w(news_comment_added),
-    %w(message_posted),
-    %w(wiki_content_added),
-    %w(wiki_content_updated),
-    %w(membership_added),
-    %w(membership_updated)
-  ].freeze
-
-  Notifiable = Struct.new(:name) do
-    def to_s
-      name
-    end
-
-    # TODO: Plugin API for adding a new notification?
-    def self.all
-      OpenProject::NOTIFIABLE.map do |event_strings|
-        Notifiable.new(*event_strings)
-      end
+describe OpenProject::Notifiable do
+  describe '#all' do
+    it 'includes document_added' do
+      expect(described_class.all.map(&:name))
+        .to include('document_added')
     end
   end
 end
