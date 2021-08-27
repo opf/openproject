@@ -42,10 +42,12 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     let(:notification) do
       FactoryBot.create(:notification,
                         recipient: notification_recipient,
+                        read_ian: notification_read_ian,
                         read_mail_digest: notification_read_mail_digest,
                         created_at: notification_created_at)
     end
     let(:notification_read_mail_digest) { false }
+    let(:notification_read_ian) { false }
     let(:notification_created_at) { Time.current - 10.minutes }
     let(:notification_recipient) { recipient }
 
@@ -58,33 +60,39 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
       end
     end
 
-    context 'with a notification of the user for mail digests before the time' do
+    context 'with a unread and not reminded notification that was created before the time and for the user' do
       it 'returns the notification' do
         expect(scope)
           .to match_array([notification])
       end
     end
 
-    context 'with a notification of the user for mail digests after the time' do
+    context 'with a unread and not reminded notification that was created after the time and for the user' do
       let(:notification_created_at) { Time.current + 10.minutes }
 
       it_behaves_like 'is empty'
     end
 
-    context 'with a notification of a different user for mail digests before the time' do
+    context 'with a unread and not reminded notification that was created before the time and for different user' do
       let(:notification_recipient) { FactoryBot.create(:user) }
 
       it_behaves_like 'is empty'
     end
 
-    context 'with a notification of a different user not for mail digests before the time' do
+    context 'with a unread and not reminded notification created before the time and for the user' do
       let(:notification_read_mail_digest) { nil }
 
       it_behaves_like 'is empty'
     end
 
-    context 'with a notification of a different user for already covered mail digests before the time' do
+    context 'with a unread but reminded notification created before the time and for the user' do
       let(:notification_read_mail_digest) { true }
+
+      it_behaves_like 'is empty'
+    end
+
+    context 'with a read notification that was created before the time' do
+      let(:notification_read_ian) { true }
 
       it_behaves_like 'is empty'
     end
