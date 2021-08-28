@@ -1196,7 +1196,7 @@ hu:
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
   error_enterprise_token_invalid_domain: "Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
   error_pdf_export_too_many_columns: "Túl sok oszlop lett kiválasztva a PDF exportáláshoz. Kérlek csökkentsd a sorok számát."
@@ -1501,7 +1501,6 @@ hu:
   label_feeds_access_key: "RSS hozzáférési kulcs"
   label_feeds_access_key_created_on: "RSS-hozzáférési kulcs készítette: %{value} ezelőtt "
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fájl hozzáadva"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
   label_filter_plural: "Szürő"
@@ -1988,7 +1987,7 @@ hu:
   notice_account_unknown_email: "Ismeretlen felhasználó."
   notice_account_update_failed: "A felhasználói beállítások nem menthetők. Kérem, vessen egy pillantást a fiók oldalra."
   notice_account_updated: "A hozzáférési adatok sikeresen frissítve."
-  notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
+  notice_account_other_session_expired: "A fiókjához kapcsolódó összes többi munkamenet érvénytelen.\n"
   notice_account_wrong_password: "Hibás jelszó"
   notice_account_registered_and_logged_in: "Üdvözöljük a fiókja aktiválva van. Most bejelentkezhet."
   notice_activation_failed: A fiókot nem lehet aktiválni.
@@ -2513,7 +2512,8 @@ hu:
   text_no_notes: "Ehhez a munkacsomaghoz nincsenek megjegyzések."
   text_notice_too_many_values_are_inperformant: "Megjegyzés: Az oldalanként több mint 100 elem megjelenítésekor az oldal betöltési ideje  növekedhet."
   text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
+    Megjegyzés: ha engedélyezve van, akkor a telepítési állapotot jelző jelvény jelenik meg a <a href="%{information_panel_path}">%{information_panel_label} </a> adminisztrációs panelen és a kezdőlapon. Csak a rendszergazdák számára jelenik meg. <br/> A jelvény ellenőrzi az aktuális OpenProject verziót a hivatalos OpenProject kiadási adatbázishoz képest, hogy figyelmeztesse Önt minden frissítésre vagy ismert biztonsági résre. Ha többet szeretne megtudni arról, hogy mit tartalmaz az ellenőrzés, milyen adatokra van szükség az elérhető frissítésekhez, és hogyan tilthatja le ezt az ellenőrzést, keresse fel a <a href="%{more_info_url}"> konfigurációs dokumentációt </a>.
+
   text_own_membership_delete_confirmation: "Értesítem arról, hogy eltávolít néhány vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a projektet. Biztosan folytatni kívánja?"
   text_plugin_assets_writable: "Plugin eszközök könyvtára írható"
   text_powered_by: "Készítette %{link}"
@@ -2823,7 +2823,7 @@ hu:
       multipart_body_error: "A kérelem nem tartalmazott várható többrészes elemet."
       multiple_errors: "Több mező megszorítás is megszegésre került."
       unable_to_create_attachment: "Csatolmány mentése sikertelen"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      unable_to_create_attachment_permissions: "A melléklet mentése nem sikerült a fájlrendszer engedélyeinek hiánya miatt\n"
       render:
         context_not_parsable: "A megadott kontextus nem erőforrásra hivatkozik."
         unsupported_context: "A megadott erőforrás nem támogatott kontextus."
@@ -2895,10 +2895,11 @@ hu:
         default_scopes: ""
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.
+
     authorization_dialog:
       authorize: "Engedélyez"
-      cancel: "Cancel and deny authorization."
+      cancel: "Az engedély visszavonása és megtagadása.\n"
       prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
       title: "Authorize %{application_name}"
       wants_to_access_html: >
@@ -2910,7 +2911,7 @@ hu:
       created_date: "Elfogadva "
       scopes: "Jogosultságok"
       successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      none_given: "Egyetlen OAuth -alkalmazás sem kapott hozzáférést a felhasználói fiókjához.\n"
     x_active_tokens:
       one: 'egy aktív token'
       other: '%{count} aktív token'
@@ -2919,7 +2920,7 @@ hu:
       client_credentials: "Client credentials flow"
     client_credentials: "User used for Client credentials"
     client_credentials_impersonation_set_to: "Client credentials user set to"
-    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+    client_credentials_impersonation_warning: "Megjegyzés: Az ebben az alkalmazásban az „Ügyféladatok” folyamatot használó ügyfelek jogosultak lesznek erre a felhasználóra\n"
     client_credentials_impersonation_html: >
       By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
     authorization_error: "Engedélyezési hiba történt."

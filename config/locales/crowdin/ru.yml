@@ -1531,7 +1531,6 @@ ru:
   label_feeds_access_key: "Ключ доступа к RSS"
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Файл добавлен"
   label_file_plural: "Файлы"
   label_filter_add: "Добавить фильтр"
   label_filter_plural: "Фильтры"

@@ -1498,7 +1498,6 @@ fi:
   label_feeds_access_key: "RSS avain"
   label_feeds_access_key_created_on: "RSS avain luotiin %{value} sitten"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Tiedosto lisätty"
   label_file_plural: "Tiedostot"
   label_filter_add: "Lisää suodatin"
   label_filter_plural: "Suodattimet"

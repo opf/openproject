@@ -1483,7 +1483,6 @@ vi:
   label_feeds_access_key: "Khóa truy cập RSS"
   label_feeds_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Đã thêm tập tin"
   label_file_plural: "Tập tin"
   label_filter_add: "Thêm bộ lọc"
   label_filter_plural: "Bộ lọc"

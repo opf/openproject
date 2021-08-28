@@ -1498,7 +1498,6 @@ bg:
   label_feeds_access_key: "RSS ключ за достъп"
   label_feeds_access_key_created_on: "RSS ключ за достъп създаден преди %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Файлът е добавен"
   label_file_plural: "Файлове"
   label_filter_add: "Добавяне на филтър"
   label_filter_plural: "Филтри"

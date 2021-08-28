@@ -522,6 +522,7 @@ ko:
         all: '모두'
       center:
         mark_all_read: '모두 읽은 상태로 표시'
+        mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
       settings:

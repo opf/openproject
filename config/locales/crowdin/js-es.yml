@@ -522,6 +522,7 @@ es:
         all: 'Todo'
       center:
         mark_all_read: 'Marcar todos como leído'
+        mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
       settings:

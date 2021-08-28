@@ -1566,7 +1566,6 @@ ar:
   label_feeds_access_key: "مفتاح الوصول ل RSS"
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
-  label_file_added: "تم إضافة ملف"
   label_file_plural: "الملفّات"
   label_filter_add: "إضافة عامل تصفية"
   label_filter_plural: "عوامل التصفية"

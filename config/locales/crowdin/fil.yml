@@ -1498,7 +1498,6 @@ fil:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key na nillikha %{value} nakalipas"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Idinagdag na file"
   label_file_plural: "Mga file"
   label_filter_add: "Magdagdag ng filter"
   label_filter_plural: "Mga nasala"

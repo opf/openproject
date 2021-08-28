@@ -1532,7 +1532,6 @@ sk:
   label_feeds_access_key: "Prístupový kľúč pre RSS"
   label_feeds_access_key_created_on: "Prístupový kľúč pre RSS vytvorený %{value} vzad"
   label_feeds_access_key_type: "RSS kanál"
-  label_file_added: "Súbor pridaný"
   label_file_plural: "Súbory"
   label_filter_add: "Pridať filter"
   label_filter_plural: "Filtre"

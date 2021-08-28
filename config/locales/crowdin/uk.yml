@@ -1532,7 +1532,6 @@ uk:
   label_feeds_access_key: "Клавіша доступу RSS"
   label_feeds_access_key_created_on: "Створено ключ доступу RSS %{value} тому"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Додано файл"
   label_file_plural: "Файли"
   label_filter_add: "Додати фільтр"
   label_filter_plural: "Фільтри"

@@ -1495,7 +1495,6 @@ es:
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Archivo agregado"
   label_file_plural: "Archivos"
   label_filter_add: "Añadir filtro"
   label_filter_plural: "Filtros"

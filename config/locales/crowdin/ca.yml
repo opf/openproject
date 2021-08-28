@@ -1498,7 +1498,6 @@ ca:
   label_feeds_access_key: "Clau d'accés RSS"
   label_feeds_access_key_created_on: "Clau d'accés RSS creada fa %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fitxer afegit"
   label_file_plural: "Arxius"
   label_filter_add: "Afegir un filtre"
   label_filter_plural: "Filtres"

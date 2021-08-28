@@ -1493,7 +1493,6 @@ el:
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Το αρχείο προστέθηκε"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
   label_filter_plural: "Φίλτρα"

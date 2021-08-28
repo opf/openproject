@@ -521,6 +521,7 @@ de:
         all: 'Alle'
       center:
         mark_all_read: 'Alles als gelesen markieren'
+        mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
       settings:

@@ -1532,7 +1532,6 @@ cs:
   label_feeds_access_key: "Přístupový klíč pro RSS"
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Soubor přidán"
   label_file_plural: "Soubory"
   label_filter_add: "Přidat filtr"
   label_filter_plural: "Filtry"

@@ -1481,7 +1481,6 @@ zh-TW:
   label_feeds_access_key: "RSS 金鑰"
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
   label_feeds_access_key_type: "RSS訂閱"
-  label_file_added: "檔案已新增"
   label_file_plural: "檔案"
   label_filter_add: "新增篩選器"
   label_filter_plural: "篩選器"

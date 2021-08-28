@@ -1493,7 +1493,6 @@ de:
   label_feeds_access_key: "RSS-Zugriffsschlüssel"
   label_feeds_access_key_created_on: "Atom-Zugriffsschlüssel vor %{value} erstellt"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Datei hinzugefügt"
   label_file_plural: "Dateien"
   label_filter_add: "Filter hinzufügen"
   label_filter_plural: "Filter"

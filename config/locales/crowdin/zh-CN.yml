@@ -1477,7 +1477,6 @@ zh-CN:
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
   label_feeds_access_key_type: "RSS 订阅"
-  label_file_added: "添加文件"
   label_file_plural: "文件"
   label_filter_add: "添加筛选器"
   label_filter_plural: "筛选器"

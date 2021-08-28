@@ -522,6 +522,7 @@ it:
         all: 'Tutti'
       center:
         mark_all_read: 'Segna tutti come letti'
+        mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
       settings:

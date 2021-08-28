@@ -1528,7 +1528,6 @@ lt:
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Failas pridėtas"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
   label_filter_plural: "Filtrai"

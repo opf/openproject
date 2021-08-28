@@ -1530,7 +1530,6 @@ sl:
   label_feeds_access_key: "RSS dostopni ključ"
   label_feeds_access_key_created_on: "RSS dostopni ključ narejen pred %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Datoteka dodana"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
   label_filter_plural: "Filtri"
