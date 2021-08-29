@@ -167,8 +167,8 @@ de:
     enabled_in_project: 'Im Projekt aktiviert'
     contained_in_type: 'In Typ enthalten'
     confirm_destroy_option: "Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Alphabetisch umsortieren"
+    reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -538,7 +538,7 @@ de:
         error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
-        email: "is not a valid email address."
+        email: "ist keine gültige E-Mail-Adresse."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
@@ -699,7 +699,7 @@ de:
               not_start_date: "ist nicht identisch mit dem Startdatum, obwohl dies bei Meilensteinen Pflicht ist."
             parent:
               cannot_be_milestone: "darf kein Meilenstein sein."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "kann nicht selbst zugewiesen werden."
               cannot_be_in_another_project: "darf nicht in einem anderen Projekt sein."
               not_a_valid_parent: "ist ungültig."
             start_date:
@@ -1311,7 +1311,7 @@ de:
         expiration: "Läuft aus"
       indefinite_expiration: "Nie"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1405,7 +1405,7 @@ de:
   label_check_uncheck_all_in_column: "Alle in Spalte an/abwählen"
   label_check_uncheck_all_in_row: "Alle in Zeile an/abwählen"
   label_child_element: "Kind-Element"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Älteste zuerst"
   label_close_versions: "Abgeschlossene Versionen schließen"
   label_closed_work_packages: "Geschlossen"
   label_collapse: "Zuklappen"
@@ -1448,7 +1448,7 @@ de:
   label_deleted: "gelöscht"
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(Fehlender Wert oder fehlende Zugriffsberechtigungen)"
   label_descending: "Absteigend"
   label_details: "Details"
   label_development_roadmap: "Entwicklungs-Roadmap"
@@ -1708,7 +1708,7 @@ de:
   label_required: 'benötigt von'
   label_requires: 'benötigt'
   label_result_plural: "Ergebnisse"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Neueste zuerst"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisionen"
