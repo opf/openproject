@@ -1,2 +1,16 @@
-.op-dropout
+.op-popout
   display: inline-flex
+
+  &--wrapper
+    position: absolute
+    display: none
+    left: 0
+
+  &_opened &--wrapper
+    display: flex
+
+  &_align-down &--wrapper
+    top: 100%
+
+  &_align-up &--wrapper
+    bottom: 100%

@@ -1,20 +1,30 @@
 import {
   Component,
   HostBinding,
+  Input,
 } from '@angular/core';
 
-@Component({
-  selector: 'op-dropout',
-  templateUrl: './dropout.component.html',
-})
-export class OpDropoutComponent {
-  @HostBinding('class.op-dropout') className = true;
+export enum OpPopoutAlignment {
+  Down = 'down',
+  Up = 'up',
+}
 
-  @HostBinding('class.op-dropout_opened') get openedClassName() {
+@Component({
+  selector: 'op-popout',
+  templateUrl: './popout.component.html',
+})
+export class OpPopoutComponent {
+  @HostBinding('class.op-popout') className = true;
+
+  @HostBinding('class.op-popout_opened') get openedClassName() {
     return this.opened;
   }
 
-  public opened = false;
+  @HostBinding('class') get alignmentClassName() {
+    return { [`op-popout_align-${this.alignment}`]: true };
+  }
 
-  constructor() {}
+  @Input() alignment: OpPopoutAlignment = OpPopoutAlignment.Down;
+
+  public opened = false;
 }
