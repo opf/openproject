@@ -70,6 +70,7 @@ import { ShowSectionDropdownComponent } from './components/hide-section/show-sec
 import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
+import { OpPopoutComponent } from './components/popout/popout.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 
@@ -174,6 +175,8 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+
+    OpPopoutComponent,
   ],
   declarations: [
     OpDateTimeComponent,
@@ -225,6 +228,8 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+
+    OpPopoutComponent,
   ],
 })
 export class OPSharedModule {

@@ -1,6 +1,14 @@
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { take } from 'rxjs/internal/operators/take';
@@ -17,6 +25,15 @@ export const myNotificationsPageComponentSelector = 'op-notifications-page';
 })
 export class NotificationsSettingsPageComponent implements OnInit {
   @Input() userId:string;
+
+  public form = new FormGroup({
+    assignedToMeOrAccountable: new FormControl(false, []),
+    newWorkPackages: new FormControl(false, []),
+    allStatusChanges: new FormControl(false, []),
+    allDateChanges: new FormControl(false, []),
+    allPriorityChanges: new FormControl(false, []),
+    allNewComments: new FormControl(false, []),
+  });
 
   text = {
     save: this.I18n.t('js.button_save'),

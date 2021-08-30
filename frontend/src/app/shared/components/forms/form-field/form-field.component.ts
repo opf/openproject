@@ -14,11 +14,17 @@ export class OpFormFieldComponent {
     return this.showErrorMessage;
   }
 
+  @HostBinding('class.op-form-field_checkbox') get checkboxClassName() {
+    return this.checkbox;
+  }
+
   @Input() label = '';
 
-  @Input() noWrapLabel = true;
+  @Input() noWrapLabel = false;
 
   @Input() required = false;
+
+  @Input() checkbox = false;
 
   @Input() hidden = false;
 

@@ -4,11 +4,11 @@
   [hidden]="field?.hide"
   [noWrapLabel]="to?.noWrapLabel"
   [required]="to?.required"
+  [checkbox]="field.type === 'booleanInput'"
   [helpTextAttribute]="to?.property"
   [helpTextAttributeScope]="to?.helpTextAttributeScope || dynamicFormComponent?.helpTextAttributeScope"
   [showValidationErrorOn]="to?.showValidationErrorOn || dynamicFormComponent?.showValidationErrorsOn"
   [attr.data-qa-field-name]="to?.property"
-  [ngClass]="{ 'op-form-field_checkbox': field.type === 'booleanInput' }"
 >
   <ng-container #fieldComponent slot="input"></ng-container>
 

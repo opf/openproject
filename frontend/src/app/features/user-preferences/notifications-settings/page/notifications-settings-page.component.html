@@ -1,16 +1,140 @@
 <op-notifications-settings-toolbar></op-notifications-settings-toolbar>
-<op-notification-settings-table
+<form
+  [formGroup]="form"
+  (ngSubmit)="saveChanges()"
+>
+  <h2>Notify me immediately</h2>
+  <p>These settings apply to all projects. You can create project-specific exceptions below.</p>
+
+  <div class="op-form-field op-form-field_checkbox">
+    <label class="op-form-field--label-wrap">
+      <div class="op-form-field--label">I am @mentioned</div>
+      <input
+        disabled
+        checked
+        type="checkbox"
+      />
+    </label>
+    <div class="op-form-field--description">
+      <p slot="description">Receive a notification every time someone mentions me anywhere</p>
+    </div>
+  </div>
+  
+  <op-form-field
+    label="Assigned to me or accountable"
+    [checkbox]="true"
+    [control]="form.get('assignedToMeOrAccountable')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="assignedToMeOrAccountable"
+    />
+    <p slot="description">
+      Receive notifications for all activities on work packages for which I am assignee or accountable.
+    </p>
+  </op-form-field>
+
+  <h2>Also notify me for</h2>
+  <p>Receive notifications for these activities on work packages in all projects:</p>
+
+  <div class="op-form-field op-form-field_checkbox">
+    <label class="op-form-field--label-wrap">
+      <input
+        disabled
+        checked
+        type="checkbox"
+      />
+    </label>
+    <div class="op-form-field--description">
+      <p slot="description">Updates on watched items</p>
+    </div>
+  </div>
+
+  <op-form-field
+    [checkbox]="true"
+    [control]="form.get('newWorkPackages')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="newWorkPackages"
+    />
+    <p slot="description">New work packages</p>
+  </op-form-field>
+
+  <op-form-field
+    [checkbox]="true"
+    [control]="form.get('allStatusChanges')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="allStatusChanges"
+    />
+    <p slot="description">All status changes</p>
+  </op-form-field>
+
+  <op-form-field
+    [checkbox]="true"
+    [control]="form.get('allDateChanges')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="allDateChanges"
+    />
+    <p slot="description">All date changes</p>
+  </op-form-field>
+
+  <op-form-field
+    [checkbox]="true"
+    [control]="form.get('allPriorityChanges')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="allPriorityChanges"
+    />
+    <p slot="description">All priority changes</p>
+  </op-form-field>
+
+  <op-form-field
+    [checkbox]="true"
+    [control]="form.get('allNewComments')"
+    [noWrapLabel]="false"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="allNewComments"
+    />
+    <p slot="description">All new comments</p>
+  </op-form-field>
+
+  <hr />
+
+  <h2>Project-specific notification settings</h2>
+  <p>These project-specific settings override default settings above</p>
+  
+  <op-notification-settings-table
     *ngIf="userId"
     [userId]="userId"
-></op-notification-settings-table>
+  ></op-notification-settings-table>
 
-<div class="generic-table--action-buttons">
-  <button
+  <
+
+  <div class="generic-table--action-buttons">
+    <button
       class="button -highlight"
       [textContent]="text.save"
-      (click)="saveChanges()"
-  >
-  </button>
-</div>
-
+      type="submit"
+    ></button>
+  </div>
+</form>
 
