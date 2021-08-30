@@ -15,6 +15,7 @@
 
     <% journal = notification.journal %>
     <% if journal.notes.present? %>
+      <%= I18n.t(:label_comment_added) %>:
       <%= journal.notes %>
 
     <% end %>

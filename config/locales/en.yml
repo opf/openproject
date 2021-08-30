@@ -1972,6 +1972,7 @@ en:
       settings: 'Change email settings'
       time_frame: "At %{time} on %{weekday}, %{date}, you have %{number_unread} unread notifications in %{number_work_packages} work packages"
       work_packages:
+        comment_added: '<b>Comment</b> added'
         created: 'Created'
         created_at: 'by %{user} %{timestamp} ago'
         login_to_see_all: 'Log in to see all notifications.'

@@ -78,6 +78,14 @@
     </table>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
       <% notifications_by_work_package.each do | notification | %>
+        <% if notification.journal.notes.present? %>
+          <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
+            <td>
+              <%= I18n.t(:'mail.digests.work_packages.comment_added').html_safe %>
+              <%= digest_notification_timestamp_text(notification) %>
+            </td>
+          </tr>
+        <% end %>
         <% notification.journal.details.each do |detail| %>
           <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
             <td>
