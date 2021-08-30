@@ -65,6 +65,8 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
+        property :daily_reminders
+
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,

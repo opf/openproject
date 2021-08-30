@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/UserPreferences",
+    "definitions": {
+        "UserPreferences": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "hide_mail": {
+                    "type": "boolean"
+                },
+                "time_zone": {
+                    "type": ["string", "null"]
+                },
+                "warn_on_leaving_unsaved": {
+                    "type": "boolean"
+                },
+                "comments_sorting": {
+                    "type": "string"
+                },
+                "auto_hide_popups": {
+                    "type": "boolean"
+                },
+                "self_notified": {
+                    "type": "boolean"
+                },
+                "daily_reminders": {
+                    "$ref": "#/definitions/DailyReminders"
+                }
+            },
+            "required": [
+                "auto_hide_popups",
+                "comments_sorting",
+                "daily_reminders",
+                "hide_mail",
+                "self_notified",
+                "time_zone",
+                "warn_on_leaving_unsaved"
+            ],
+            "title": "Welcome"
+        },
+        "DailyReminders": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "times": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "time"
+                    }
+                }
+            },
+            "required": [
+                "enabled",
+                "times"
+            ],
+            "title": "DailyReminders"
+        }
+    }
+}

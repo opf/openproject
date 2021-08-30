@@ -30,5 +30,17 @@
 
 module UserPreferences
   class UpdateContract < BaseContract
+    property :settings
+
+    USER_PREFERENCE_SCHEMA = Rails.root.join('config/schemas/api/user_preferences.schema.json')
+
+    validates :settings,
+              presence: true,
+              json: {
+                message: ->(errors) do
+                  errors.map { |error| JSONSchemer::Errors.pretty(error) }
+                end,
+                schema: USER_PREFERENCE_SCHEMA
+              }
   end
 end
