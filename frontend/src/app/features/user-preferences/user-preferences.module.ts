@@ -13,6 +13,8 @@ import { NotificationSettingInlineCreateComponent } from 'core-app/features/user
 import { MY_ACCOUNT_ROUTES } from 'core-app/features/user-preferences/user-preferences.routes';
 import { NotificationsSettingsToolbarComponent } from './notifications-settings/toolbar/notifications-settings-toolbar.component';
 import { NotificationSettingsTableComponent } from './notifications-settings/table/notification-settings-table.component';
+import { ReminderSettingsPageComponent } from './reminder-settings/page/reminder-settings-page.component';
+import { ReminderSettingsDailyTimeComponent } from 'core-app/features/user-preferences/reminder-settings/reminder-time/reminder-settings-daily-time.component';
 
 @NgModule({
   providers: [
@@ -26,6 +28,8 @@ import { NotificationSettingsTableComponent } from './notifications-settings/tab
     NotificationSettingInlineCreateComponent,
     NotificationsSettingsToolbarComponent,
     NotificationSettingsTableComponent,
+    ReminderSettingsPageComponent,
+    ReminderSettingsDailyTimeComponent
   ],
   imports: [
     CommonModule,

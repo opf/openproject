@@ -552,6 +552,7 @@ OpenProject::Application.routes.draw do
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
     get '/my/notifications', action: 'notifications'
+    get '/my/reminders', action: 'reminders'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'

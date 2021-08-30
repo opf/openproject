@@ -137,6 +137,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
             icon: 'icon2 icon-bell'
+  menu.push :reminders,
+            { controller: '/my', action: 'reminders' },
+            caption: I18n.t('js.reminders.settings.title'),
+            icon: 'icon2 icon-email-alert'
 
   menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t('account.delete'),

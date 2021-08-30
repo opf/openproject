@@ -627,6 +627,15 @@ en:
       autocompleter:
         label: 'Project autocompletion'
 
+    reminders:
+      settings:
+        daily:
+          title: 'Send me daily email reminders for unread notifications'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          label: 'Time %{counter}'
+        title: 'Email reminders'
+
+
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
 

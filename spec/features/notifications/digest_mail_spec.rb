@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'support/pages/my/notifications'
 
+# TODO: This feature spec is to be replaced by the reminder_mail_spec.rb in the same directory.
 describe "Digest email", type: :feature, js: true do
   let!(:project) { FactoryBot.create :project, members: { current_user => role } }
   let!(:mute_project) { FactoryBot.create :project, members: { current_user => role } }

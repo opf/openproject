@@ -1,0 +1,20 @@
+<label
+  *ngFor="let time of dailyReminderTimes; index as i"
+  class="form--label-with-check-box">
+  <div class="form--check-box-container">
+    <input type="checkbox" class="form--check-box" checked>
+  </div>
+  {{text.label(i + 1)}}
+  <div class="form--field -no-label">
+    <div class="form--field-container">
+      <div class="form--text-field-container">
+        <input
+          type="time"
+          [value]="time"
+          step="1800"
+          required
+          attr.data-qa-selector="op-settings-daily-time--time-{{i + 1}}">
+      </div>
+    </div>
+  </div>
+</label>

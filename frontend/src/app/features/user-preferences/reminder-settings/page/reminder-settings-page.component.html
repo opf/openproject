@@ -1,0 +1,19 @@
+<div class="title-container">
+  <h2 [textContent]="text.title"></h2>
+</div>
+
+<form>
+  <section class="form--section">
+    <h3 [textContent]="text.daily.title"></h3>
+    <span [textContent]="text.daily.explanation"></span>
+
+    <op-reminder-settings-daily-time>
+    </op-reminder-settings-daily-time>
+  </section>
+  <button
+    class="button -highlight"
+    [textContent]="text.save"
+    (click)="saveChanges()"
+  >
+  </button>
+</form>
