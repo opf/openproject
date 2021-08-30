@@ -1968,8 +1968,9 @@ en:
     actions: 'Actions'
     digests:
       center: 'Notification center'
-      time_frame: "At %{time} on %{weekday}, %{date}, you have %{number_unread} unread notifications in %{number_work_packages} work packages"
       salutation: 'Hey %{user}!'
+      settings: 'Change email settings'
+      time_frame: "At %{time} on %{weekday}, %{date}, you have %{number_unread} unread notifications in %{number_work_packages} work packages"
       work_packages:
         created: 'Created'
         created_at: 'by %{user} %{timestamp} ago'

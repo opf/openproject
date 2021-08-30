@@ -23,7 +23,7 @@
 <% @aggregated_notifications.each do | work_package, notifications_by_work_package| %>
   <a style="border: 1px solid #E0E0E0;
             margin-bottom: 15px;
-            padding: 10px;
+            padding: 12px;
             border-radius: 10px;
             text-decoration: none;
             display: block;"
@@ -90,3 +90,17 @@
     </table>
   </a>
 <% end %>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+  <tr>
+    <td width="100%"></td>
+    <td>
+      <a href="<%= my_notifications_url %>"
+         target="_blank"
+         style="padding: 8px 12px; color: #333333; border: 1px solid #878787; border-radius: 16px; text-decoration: none; white-space: nowrap;">
+        <%= I18n.t(:'mail.digests.settings') %>
+      </a>
+    </td>
+  </tr>
+</table>
+
