@@ -1988,6 +1988,7 @@ en:
         subject: 'Daily project summary for %{date} - %{number} updates'
         updated: 'Updated'
         updated_at: '%{timestamp} ago by %{user}'
+    logo_alt_text: 'OpenProject Logo'
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"

@@ -49,6 +49,11 @@ module MailDigestHelper
     timestamp_text(user, journal, extended_text)
   end
 
+  def email_image_tag(image, **options)
+    attachments[image] = File.read(Rails.root.join("app/assets/images/#{image}"))
+    image_tag attachments[image].url, **options
+  end
+
   def unique_reasons_of_notifications(notifications)
     notifications
       .map(&:reason_mail_digest)
