@@ -20,7 +20,7 @@
   </tr>
 </table>
 
-<% @aggregated_notifications.each do | work_package, notifications_by_work_package| %>
+<% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
   <a style="border: 1px solid #E0E0E0;
             margin-bottom: 15px;
             padding: 12px;
@@ -93,7 +93,23 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
   <tr>
-    <td width="100%"></td>
+    <td width="100%">
+      <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+        <span>
+          <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+          <% if number_of_overflowing_work_packages === 1 %>
+            <%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %>
+          <% else %>
+            <%= I18n.t(:'mail.digests.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %>
+          <% end %>
+        </span>
+        <a
+          target="_blank"
+          style="background-color: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none; white-space: nowrap;">
+          <%= I18n.t(:'mail.digests.work_packages.see_all') %>
+        </a>
+      <% end %>
+    </td>
     <td>
       <a href="<%= my_notifications_url %>"
          target="_blank"

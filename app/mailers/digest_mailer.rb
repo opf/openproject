@@ -39,6 +39,8 @@ class DigestMailer < ApplicationMailer
 
   helper :mail_digest
 
+  MAX_SHOWN_WORK_PACKAGES = 15.freeze
+
   class << self
     def generate_message_id(_, user)
       hash = "openproject.digest-#{user.id}-#{Time.current.strftime('%Y%m%d%H%M%S')}"

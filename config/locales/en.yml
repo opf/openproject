@@ -1974,12 +1974,16 @@ en:
       work_packages:
         created: 'Created'
         created_at: 'by %{user} %{timestamp} ago'
+        login_to_see_all: 'Log in to see all notifications.'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'watched'
           involved: 'assignee or responsible'
           mentioned: 'mentioned'
           subscribed: 'all'
           prefix: 'Received because of the notification setting: %{reason}'
+        see_all: 'See all'
         subject: 'Daily project summary for %{date} - %{number} updates'
         updated: 'Updated'
         updated_at: '%{timestamp} ago by %{user}'

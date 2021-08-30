@@ -76,11 +76,11 @@ module MailDigestHelper
     if extended
       raw(I18n.t(:"mail.digests.work_packages.#{value}") +
             ' ' +
-            I18n.t(:"mail.digests.work_packages.#{value}",
+            I18n.t(:"mail.digests.work_packages.#{value}_at",
                    user: user,
                    timestamp: time_ago_in_words(journal.created_at)))
     else
-      raw(I18n.t(:"mail.digests.work_packages.#{value}",
+      raw(I18n.t(:"mail.digests.work_packages.#{value}_at",
                  user: user,
                  timestamp: time_ago_in_words(journal.created_at)))
     end
