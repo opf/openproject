@@ -4,7 +4,7 @@
 >
   <thead>
     <tr>
-      <th class="op-table--cell--cell_heading"></th>
+      <th class="op-table-cell op-table--cell_heading"></th>
       <ng-container
         *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
       >
@@ -16,7 +16,79 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.mentioned_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td><input type="checkbox" disabled checked /></td>
+        <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.involved_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].involved"
+          />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.watched_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].workPackageCreated"
+          />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_processed_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].workPackageProcessed"
+          />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_scheduled_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].workPackageScheduled"
+          />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_prioritized_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].workPackagePrioritized"
+          />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_commented_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td class="op-table--cell" *ngIf="item[0]">
+          <input
+            type="checkbox"
+            [checked]="item[0].workPackageCommented"
+          />
+        </td>
       </ng-container>
     </tr>
   </tbody>
