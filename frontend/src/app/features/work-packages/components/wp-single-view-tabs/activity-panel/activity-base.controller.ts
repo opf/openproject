@@ -90,10 +90,9 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .pipe(this.untilDestroyed())
       .subscribe((wp) => {
         this.workPackage = wp;
-        void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
+        this.wpActivity.require(this.workPackage).then((activities:any) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
-          this.scrollToUnreadNotification();
         });
       });
 
@@ -141,25 +140,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .pipe(
         map((notifications) => !!notifications.find((notification) => notification._links.activity?.href === activityHref)),
       );
-  }
-
-  protected scrollToUnreadNotification():void {
-    // scroll to the unread notification only if there is no deep link
-    if (window.location.href.indexOf('activity#') > -1) {
-      return;
-    }
-    const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
-    const unreadNotificationsLength = unreadNotifications?.length;
-    if (!unreadNotificationsLength) {
-      return;
-    }
-    if (this.reverse) {
-      unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      unreadNotifications[unreadNotificationsLength - 1].scrollIntoView();
-    } else {
-      unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      unreadNotifications[0].scrollIntoView();
-    }
   }
 
   public toggleComments():void {
