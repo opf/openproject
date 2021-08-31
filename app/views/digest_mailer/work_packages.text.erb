@@ -1,3 +1,7 @@
+<%= I18n.t(:'mail.digests.salutation', user: @user.firstname) %>
+<%= digest_summary_text(@notification_ids.length, @aggregated_notifications.length) %>
+<%= "-" * 100 %>
+
 <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
 
   <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>

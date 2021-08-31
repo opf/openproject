@@ -39,7 +39,7 @@ class DigestMailer < ApplicationMailer
 
   helper :mail_digest
 
-  MAX_SHOWN_WORK_PACKAGES = 15.freeze
+  MAX_SHOWN_WORK_PACKAGES = 15
 
   class << self
     def generate_message_id(_, user)

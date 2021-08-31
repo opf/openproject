@@ -31,10 +31,10 @@
 module MailDigestHelper
   include ::ColorsHelper
 
-  def digest_timespan_text(notification_count, wp_count)
+  def digest_summary_text(notification_count, wp_count)
     date = Time.parse(Setting.notification_email_digest_time)
 
-    I18n.t(:"mail.digests.time_frame",
+    I18n.t(:'mail.digests.time_frame',
            time: Setting.notification_email_digest_time,
            weekday: day_name(date.wday),
            date: ::I18n.l(date.to_date, format: :long),
@@ -66,12 +66,12 @@ module MailDigestHelper
 
   def type_color(type)
     color_id = selected_color(type)
-    Color.find(color_id).hexcode
+    Color.find(color_id).hexcode if color_id
   end
 
-  def status_colors(object)
-    color_id = selected_color(object)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ')
+  def status_colors(status)
+    color_id = selected_color(status)
+    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
   end
 
   private
