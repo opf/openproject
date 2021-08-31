@@ -522,7 +522,7 @@ lt:
         all: 'Visi'
       center:
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
-        mark_as_read: 'Mark as read'
+        mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
