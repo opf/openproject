@@ -1,15 +1,16 @@
 // noinspection ES6UnusedImports
 
 import {
-  Component, OnInit, ChangeDetectionStrategy, Input,
+  Component,
+  ChangeDetectionStrategy,
+  Input,
 } from '@angular/core';
+import { map, tap } from 'rxjs/operators';
 import { KeyValue } from '@angular/common';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { UIRouterGlobals } from '@uirouter/core';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import {
   buildNotificationSetting,
@@ -28,6 +29,8 @@ export class NotificationSettingsTableComponent {
 
   groupedNotificationSettings$ = this.query.notificationsGroupedByProject$;
 
+  showTable$ = this.query.notificationsGroupedByProject$.pipe(map((settings) => Object.keys(settings).length > 0));
+
   text = {
     save: this.I18n.t('js.button_save'),
     involved_header: this.I18n.t('js.notifications.settings.involved'),
@@ -44,14 +47,6 @@ export class NotificationSettingsTableComponent {
   };
 
   projectOrder = (a:KeyValue<string, unknown>, b:KeyValue<string, unknown>):number => {
-    if (a.key === 'global') {
-      return -1;
-    }
-
-    if (b.key === 'global') {
-      return 1;
-    }
-
     return a.key.localeCompare(b.key);
   };
 

@@ -1,125 +1,30 @@
-<div class="generic-table--container form--section">
-  <div class="generic-table--results-container">
-    <table class="generic-table">
-      <colgroup>
-        <col>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-      </colgroup>
-      <thead>
-      <tr>
-        <th>
-          <div class="generic-table--empty-header"></div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.channel_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.involved_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.mentioned_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.watched_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_created_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_commented_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_processed_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_prioritized_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_scheduled_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.any_event_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--empty-header"></div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue: projectOrder">
-        <ng-container *ngFor="let setting of item.value; let first = first; let last = last">
-          <tr
-              class="-no-highlighting"
-              op-notification-setting-row
-              [attr.data-qa-notification-project]="item.key"
-              [attr.data-qa-notification-channel]="setting.channel"
-              [count]="item.value.length"
-              [first]="first"
-              [setting]="setting"
-          >
-          </tr>
-          <tr *ngIf="last"
-              class="op-notifications-settings-table--spacer">
-            <td colspan="7"></td>
-          </tr>
-        </ng-container>
+<table
+  class="op-table"
+  *ngIf="showTable$ | async"
+>
+  <thead>
+    <tr>
+      <th class="op-table--cell--cell_heading"></th>
+      <ng-container
+        *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
+      >
+        <th class="op-table--cell op-table--cell_heading">{{ item.key }}</th>
       </ng-container>
-      </tbody>
-    </table>
-    <op-notification-setting-inline-create
-        *ngIf="userId"
-        [userId]="userId"
-        (selected)="addRow($event)"
-        data-qa-selector="notification-setting-inline-create"
-    ></op-notification-setting-inline-create>
-  </div>
-</div>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading">{{ text.mentioned_header }}</th>
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+        <td><input type="checkbox" disabled checked /></td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>
+
+<op-notification-setting-inline-create
+  *ngIf="userId"
+  [userId]="userId"
+  (selected)="addRow($event)"
+  data-qa-selector="notification-setting-inline-create"
+></op-notification-setting-inline-create>
