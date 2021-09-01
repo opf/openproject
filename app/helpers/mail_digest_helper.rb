@@ -49,6 +49,14 @@ module MailDigestHelper
     timestamp_text(user, journal, extended_text)
   end
 
+  def digest_comment_text(notification)
+    if notification.journal.notes.match(/<mention.*data-type=\"user\".*>/)
+      I18n.t(:'mail.digests.work_packages.mentioned').html_safe
+    else
+      I18n.t(:'mail.digests.work_packages.comment_added').html_safe
+    end
+  end
+
   def email_image_tag(image, **options)
     attachments[image] = File.read(Rails.root.join("app/assets/images/#{image}"))
     image_tag attachments[image].url, **options
@@ -64,9 +72,9 @@ module MailDigestHelper
     notifications_center_url(['details', id, 'activity'])
   end
 
-  def type_color(type)
+  def type_color(type, default_fallback)
     color_id = selected_color(type)
-    Color.find(color_id).hexcode if color_id
+    color_id ? Color.find(color_id).hexcode : default_fallback
   end
 
   def status_colors(status)

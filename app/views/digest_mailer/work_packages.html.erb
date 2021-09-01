@@ -40,7 +40,9 @@
        target="_blank">
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 12px;">
       <tr>
-        <td style="<%= status_colors(work_package.status) %>
+        <td style="color: #333333;
+                   background-color: #FFFFFF;
+                   <%= status_colors(work_package.status) %>
                    white-space: nowrap;
                    padding: 0 5px;">
           <%= work_package.status %>
@@ -52,16 +54,17 @@
         <td style="white-space: nowrap;
                    padding-left: 5px;
                    color: #878787;">
-          - <%= work_package.project %> -
+          - <%= work_package.project %>
         </td>
         <td style="padding-left: 5px;
                    color: #878787;
                    white-space: nowrap;">
           <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+          <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
           <% unique_reasons.each_with_index do |reason, index| %>
             <%= I18n.t(
                   :"mail.digests.work_packages.reason.#{reason || :unknown}",
-                  default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %>
+                  default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
           <% end %>
         </td>
         <td width="100%" style="text-align: right;">
@@ -77,7 +80,7 @@
     </table>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
       <tr>
-        <td style="color: <%= type_color(work_package.type) %>;">
+        <td style="color: <%= type_color(work_package.type, '#333333') %>;">
           <%= work_package.type.to_s.upcase %>
         </td>
         <td width="100%" style="padding-left: 5px; color: #333333;">
@@ -90,7 +93,7 @@
         <% if notification.journal.notes.present? %>
           <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
             <td>
-              <%= I18n.t(:'mail.digests.work_packages.comment_added').html_safe %>
+              <%= digest_comment_text(notification) %>
               <%= digest_notification_timestamp_text(notification) %>
             </td>
           </tr>
