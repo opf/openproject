@@ -1,18 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-  TransitionService,
-} from '@uirouter/core';
+import { StateService, TransitionService } from '@uirouter/core';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -20,25 +11,18 @@ import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-no
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsStore } from 'core-app/features/in-app-notifications/store/in-app-notifications.store';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
-import {
-  BackRouteOptions,
-  BackRoutingService,
-} from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
   styleUrls: [
     '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    InAppNotificationsService,
-    InAppNotificationsStore,
-    InAppNotificationsQuery,
+    IanCenterService,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin implements OnInit {
   text = {

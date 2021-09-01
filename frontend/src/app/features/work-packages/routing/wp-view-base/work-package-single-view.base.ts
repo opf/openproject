@@ -26,7 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Injector } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Injector,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -41,6 +44,9 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { Observable } from 'rxjs';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -67,6 +73,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly hooks:HookService;
 
+  @InjectField() readonly actions$:ActionsService;
+
+  @InjectField() readonly storeService:WpSingleViewService;
+
   // Static texts
   public text:any = {};
 
@@ -78,6 +88,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public focusAnchorLabel:string;
 
   public showStaticPagePath:string;
+
+  public displayNotificationsButton$:Observable<boolean>;
 
   constructor(public injector:Injector,
     protected workPackageId:string) {
@@ -131,6 +143,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.projectIdentifier = this.workPackage.project.identifier;
         this.cdRef.detectChanges();
       });
+
+    this.displayNotificationsButton$ = this.storeService.hasNotifications$;
+    this.storeService.setFilters(this.workPackage.id as string);
 
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);

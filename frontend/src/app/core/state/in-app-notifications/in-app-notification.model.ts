@@ -8,8 +8,6 @@ export type InAppNotificationFormat = 'markdown'|'custom';
 
 export const NOTIFICATIONS_MAX_SIZE = 100;
 
-export const IAN_FACETS = ['unread', 'all'];
-
 export interface InAppNotificationDetail {
   format:InAppNotificationFormat;
   raw:string|null;
