@@ -35,12 +35,6 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   hasMoreThanPageSize$ = this.ianService.query.hasMoreThanPageSize$;
 
-  noResultText$ = this
-    .activeFacet$
-    .pipe(
-      map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
-    );
-
   totalCountWarning$ = this
     .ianService
     .query

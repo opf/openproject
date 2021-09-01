@@ -14,14 +14,7 @@
       </cdk-virtual-scroll-viewport>
     </ng-container>
     <ng-template #noResults>
-      <div class="generic-table--no-results-container">
-        <span
-            class="generic-table--no-results-title"
-        >
-          <op-icon icon-classes="icon-info1"></op-icon>
-          {{ noResultText$ | async }}
-        </span>
-      </div>
+      <div class="op-ian-center--loading-indicator"></div>
     </ng-template>
   </div>
   <div class="op-ian-center--footer">
