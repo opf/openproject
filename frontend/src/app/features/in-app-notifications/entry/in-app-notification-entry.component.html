@@ -5,13 +5,13 @@
   attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
   [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
 >
-  <button
+  <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
+    <button
     type="button"
     class="op-ian-item--row"
     [class.op-ian-item--row_unexpandable]="unexpandable"
     (click)="showDetails()"
   >
-    <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
       <div
         class="op-ian-item--top-line"
       >
@@ -96,14 +96,16 @@
           [principals]="actors"
         ></op-principal-list>
       </div>
-    </ng-container>
-
-    <ng-template #workPackageLoading>
-      <span
-        *ngIf="workPackage$"
-        class="op-ian-item--middle-line"
-        [textContent]="text.loading"
-      ></span>
-    </ng-template>
   </button>
+  </ng-container>
+  <ng-template #workPackageLoading>
+    <op-content-loader
+      *ngIf="workPackage$"
+      class="op-ian-item--loading"
+    >
+      <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
+      <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
+      <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
+    </op-content-loader>
+  </ng-template>
 </div>
