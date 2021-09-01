@@ -968,7 +968,7 @@ lt:
     notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
-    notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_successful_update: "Sėkmingai atnaujinta."
     notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
