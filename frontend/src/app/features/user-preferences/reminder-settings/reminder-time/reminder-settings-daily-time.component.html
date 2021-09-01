@@ -1,20 +1,54 @@
-<label
-  *ngFor="let time of dailyReminderTimes; index as i"
-  class="form--label-with-check-box">
-  <div class="form--check-box-container">
-    <input type="checkbox" class="form--check-box" checked>
-  </div>
-  {{text.label(i + 1)}}
-  <div class="form--field -no-label">
-    <div class="form--field-container">
-      <div class="form--text-field-container">
-        <input
-          type="time"
-          [value]="time"
-          step="1800"
-          required
-          attr.data-qa-selector="op-settings-daily-time--time-{{i + 1}}">
-      </div>
-    </div>
-  </div>
-</label>
+<div
+  class="op-reminder-settings-daily-time--enable">
+  <input
+    [(ngModel)]="enabled"
+    type="checkbox"
+    id="op-reminder-settings-daily-time--enable">
+  <label
+    for="op-reminder-settings-daily-time--enable"
+    [textContent]="text.enable">
+  </label>
+</div>
+
+<div *ngFor="let time of selectedTimes; index as i; trackBy: indexTracker"
+  class="op-reminder-settings-daily-time--row">
+  <input
+    type="checkbox"
+    [(ngModel)]="selectedTimes[i].active"
+    [disabled]="isActiveDisabled"
+    class="op-reminder-settings-daily-time--active"
+    attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}">
+  <label
+    class="op-reminder-settings-daily-time--label"
+    [textContent]="text.timeLabel(i + 1)"
+    attr.for="op-reminder-settings-daily-time-{{i + 1}}--time">
+  </label>
+  <select
+    [(ngModel)]="selectedTimes[i]"
+    [disabled]="!enabled"
+    class="op-reminder-settings-daily-time--time form--select -narrow"
+    attr.id="op-reminder-settings-daily-time-{{i + 1}}--time"
+    required="true">
+    <option
+      *ngFor="let time of availableTimes"
+      [ngValue]="time"
+      [disabled]="isOptionDisabled(time, selectedTimes[i])">
+      {{time.label}}
+    </option>
+  </select>
+  <button
+    class="op-link op-reminder-settings-daily-time--remove"
+    type="button"
+    *ngIf="isRemovable"
+    (click)="removeTime(i)">
+    <op-icon icon-classes="icon-small icon-remove icon4"></op-icon>
+  </button>
+</div>
+
+<button
+  class="button op-reminder-settings-daily-time--add"
+  [disabled]="nonAddable"
+  (click)="addTime()">
+  <i class="button--icon icon-add"></i>
+  <span class="button--text">{{text.addTime}}</span>
+</button>

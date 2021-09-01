@@ -630,9 +630,11 @@ en:
     reminders:
       settings:
         daily:
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          label: 'Time %{counter}'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
         title: 'Email reminders'
 
 

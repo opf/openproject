@@ -18,6 +18,8 @@ export interface GlobalI18n {
 
   toHumanSize(num:number, options?:ToHumanSizeOptions):string;
 
+  toTime(format:string, date:Date):string;
+
   locale:string;
   firstDayOfWeek:number;
   pluralization:any;
@@ -56,6 +58,10 @@ export class I18nService {
 
   public lookup(translateId:string):boolean|undefined {
     return this._i18n.lookup(translateId);
+  }
+
+  public toTime(format:string, date:Date):string {
+    return this._i18n.toTime(format, date);
   }
 
   public toNumber = this._i18n.toNumber.bind(this._i18n);

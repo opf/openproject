@@ -14,16 +14,6 @@ describe "Reminder email", type: :feature, js: true do
   current_user do
     FactoryBot.create :user,
                       notification_settings: [
-                        FactoryBot.build(:mail_notification_setting,
-                                         involved: false,
-                                         watched: false,
-                                         mentioned: false,
-                                         work_package_commented: false,
-                                         work_package_created: false,
-                                         work_package_processed: false,
-                                         work_package_prioritized: false,
-                                         work_package_scheduled: false,
-                                         all: false),
                         FactoryBot.build(:in_app_notification_setting,
                                          involved: false,
                                          watched: false,
@@ -33,16 +23,6 @@ describe "Reminder email", type: :feature, js: true do
                                          work_package_processed: false,
                                          work_package_prioritized: false,
                                          work_package_scheduled: false,
-                                         all: false),
-                        FactoryBot.build(:mail_digest_notification_setting,
-                                         involved: true,
-                                         watched: true,
-                                         mentioned: true,
-                                         work_package_commented: true,
-                                         work_package_created: true,
-                                         work_package_processed: true,
-                                         work_package_prioritized: true,
-                                         work_package_scheduled: true,
                                          all: false)
                       ]
   end
@@ -60,6 +40,11 @@ describe "Reminder email", type: :feature, js: true do
     reminders_settings_page.visit!
 
     # By default a reminder timed for 8:00 should be configured
-    reminders_settings_page.expect_active_daily_times("08:00")
+    reminders_settings_page.expect_active_daily_times("08:00 am")
+
+    reminders_settings_page.add_time
+
+    # The next suggested time is taken: 12:00
+    reminders_settings_page.expect_active_daily_times("08:00 am", "12:00 pm")
   end
 end

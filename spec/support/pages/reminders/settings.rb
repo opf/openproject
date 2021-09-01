@@ -42,23 +42,24 @@ module Pages
         edit_user_path(user, tab: :reminders)
       end
 
+      def add_time
+        page
+          .click_button 'Add time'
+      end
+
       def expect_active_daily_times(*times)
         times.each_with_index do |time, index|
           expect(page)
-            .to have_checked_field "Time #{index + 1}"
+            .to have_css("input[data-qa-selector='op-settings-daily-time--active-#{index + 1}']:checked")
 
           expect(page)
-            .to have_css("input[data-qa-selector='op-settings-daily-time--time-#{index + 1}']")
-
-          expect(page.find("input[data-qa-selector='op-settings-daily-time--time-#{index + 1}']").value)
-            .to eql(time)
+            .to have_field("Time #{index + 1}", text: time)
         end
       end
 
       def save
         click_button 'Save'
       end
-
     end
   end
 end

@@ -29,7 +29,7 @@ import { ReminderSettingsDailyTimeComponent } from 'core-app/features/user-prefe
     NotificationsSettingsToolbarComponent,
     NotificationSettingsTableComponent,
     ReminderSettingsPageComponent,
-    ReminderSettingsDailyTimeComponent
+    ReminderSettingsDailyTimeComponent,
   ],
   imports: [
     CommonModule,
