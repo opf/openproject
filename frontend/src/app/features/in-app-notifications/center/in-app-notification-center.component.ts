@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   OnInit,
+  AfterContentInit
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
@@ -20,8 +21,10 @@ import { UIRouterGlobals } from '@uirouter/core';
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterComponent implements OnInit {
+export class InAppNotificationCenterComponent implements OnInit, AfterContentInit {
   activeFacet$ = this.ianQuery.activeFacet$;
+
+  public isNoticationsLoaded = false;
 
   notifications$ = this
     .ianService
@@ -80,6 +83,10 @@ export class InAppNotificationCenterComponent implements OnInit {
   ngOnInit():void {
     this.ianService.setActiveFacet('unread');
     this.ianService.setActiveFilters([]);
+  }
+
+  ngAfterContentInit(){
+    setTimeout(() => this.isNoticationsLoaded = true , 0);
   }
 
   openSplitView($event:WorkPackageResource):void {

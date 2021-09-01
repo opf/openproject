@@ -1,4 +1,11 @@
 <div class="op-ian-center">
+  <div class="op-ian-center--loading-indicator" *ngIf="!isNoticationsLoaded">
+    <op-content-loader viewBox="0 0 340 84" >
+      <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
+      <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
+      <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
+    </op-content-loader>
+  </div>
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
