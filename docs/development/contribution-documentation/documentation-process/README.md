@@ -20,27 +20,15 @@ Please note that you find  the [OpenProject repository on GitHub](https://github
 If you would like to contribute changes to the OpenProject documentation, please follow these steps:
 
 1. [Fork the OpenProject repository](https://www.openproject.org/docs/development/git-workflow/#fork-openproject) and create a local development branch. Include documentation in your branch name.
-
 2. Create your changes in the documentation. It can be found in the folder [docs](https://github.com/opf/openproject/tree/dev/docs). You can work directly in the GitHub markdown files or use e.g. GitHub desktop and a markdown editor like Typora.
-
    If you are not only changing something in an existing documentation page but are adding a new page, please make sure to add metadata. To provide additional directives and useful information, we add metadata to the beginning of each documentation page. This will give you guidance on what information to provide in the metadata: 
-
-- Sidebar navigation: You do not have to add anything here. Leave it blank.
-
-- Title: Site title that will appear in the menu.
-
-- Priority: You assign a number to your page to indicate in what order it will appear. The higher up you want the section to appear in the menu, the higher the number you assign (any number between 1 and 999). I.e. the section that is appearing first gets the highest number (e.g. 999).
-
-- Description: description of the content of the page that you are creating. Best is to also include the title name.
-
-- Robots: always add “index, follow” here.
-
-- Keywords: use key words to describe the content of the page, minimum 2. 
-
-  
-
-3. [Create a pull request](https://www.openproject.org/docs/development/git-workflow/#create-a-pull-request) on our repository. Make sure you name it accordingly and also include documentation in the name.
-
+  - Sidebar navigation: You do not have to add anything here. Leave it blank.
+  - Title: Site title that will appear in the menu.
+  - Priority: You assign a number to your page to indicate in what order it will appear. The higher up you want the section to appear in the menu, the higher the number you assign (any number between 1 and 999). I.e. the section that is appearing first gets the highest number (e.g. 999).
+  - Description: description of the content of the page that you are creating. Best is to also include the title name.
+  - Robots: always add “index, follow” here.
+  - Keywords: use key words to describe the content of the page, minimum two. 
+3. [Create a pull request](https://www.openproject.org/docs/development/git-workflow/#create-a-pull-request) on our repository. Make sure you name it accordingly and also include **documentation** in the name.
 4. We will evaluate your pull request and changes before we merge it.
 
 If the author or reviewer has any questions, they can use the comments in the pull request.
