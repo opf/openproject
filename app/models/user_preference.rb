@@ -56,8 +56,8 @@ class UserPreference < ApplicationRecord
   ##
   # We respond to all methods as we retrieve
   # the key from settings
-  def respond_to_missing?(*)
-    true
+  def respond_to_missing?(method_name, include_private = false)
+    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, '')) || super
   end
 
   def [](attr_name)

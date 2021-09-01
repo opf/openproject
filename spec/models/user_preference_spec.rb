@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe UserPreference do
-  subject { FactoryBot.build(:user_preference, user: user) }
+  subject(:preference) { FactoryBot.build(:user_preference, user: user) }
 
   let(:user) { FactoryBot.build_stubbed(:user) }
 
@@ -69,6 +69,15 @@ describe UserPreference do
       %w(false 0).each do |str|
         subject.send(setter, str)
         expect(subject.send(getter)).to be false
+      end
+    end
+  end
+
+  describe '#respond_to?' do
+    context 'for created_at (key not in the schema)' do
+      it 'is does not respond' do
+        expect(preference)
+          .not_to respond_to(:created_at)
       end
     end
   end

@@ -179,9 +179,14 @@ RSpec/LeadingSubject:
 RSpec/NamedSubject:
   Enabled: false
 
-RSpec/FilePath:
-  Enabled: false
-
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - if
+    - unless
+    - for
 
 Style/Alias:
   Enabled: false
