@@ -56,18 +56,18 @@ describe ApplicationJob do
     end
   end
 
-  describe 'email configuration' do #, with_settings: { email_delivery_method: :smtp } do
-    # the email delivery method has to be smtp for the settings to be reloaded
-
+  describe 'email configuration' do
     let(:ports) { [] }
 
     before do
+      # pick a random job to test if the settings are updated
       allow_any_instance_of(Principals::DeleteJob).to receive(:perform) do
         ports << ActionMailer::Base.smtp_settings[:port]
       end
     end
 
     it "is reloaded for each job" do
+      # the email delivery method has to be smtp for the settings to be reloaded
       Setting.email_delivery_method = :smtp
 
       Principals::DeleteJob.perform_now nil
