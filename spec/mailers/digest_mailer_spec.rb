@@ -76,7 +76,7 @@ describe DigestMailer, type: :mailer do
   describe '#work_packages' do
     subject(:mail) { described_class.work_packages(recipient.id, notifications.map(&:id)) }
 
-    let(:mail_body) { mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
+    let(:mail_body) {  mail.body.encoded }
 
     it 'notes the day and the number of notifications in the subject' do
       expect(mail.subject)
@@ -104,20 +104,25 @@ describe DigestMailer, type: :mailer do
         .to eql recipient.name
     end
 
-    it 'includes the notifications grouped by project and work package' do
+    it 'includes the notifications grouped by work package' do
       expect(mail_body)
-        .to have_selector('body section h1', text: project1.name)
+        .to have_text("Hey #{recipient.firstname}!")
 
-      expected = "#{work_package.type.name} ##{work_package.id} #{work_package.status.name}: #{work_package.subject}"
+      expected_notification_subject = "#{work_package.type.name.upcase} #{work_package.subject}"
       expect(mail_body)
-        .to have_selector('body section section h2', text: expected)
+        .to have_text(expected_notification_subject, normalize_ws: true)
 
+      expected_notification_header = "#{work_package.status.name} ##{work_package.id} - #{work_package.project}"
       expect(mail_body)
-        .to have_selector('body section section p.op-uc-p', text: journal.notes)
+        .to have_text(expected_notification_header, normalize_ws: true)
 
+      expected_journal_text = "Comment added less than a minute ago by #{recipient.name}"
       expect(mail_body)
-        .to have_selector('body section section li',
-                          text: "Subject changed from old subject to new subject")
+        .to have_text(expected_journal_text, normalize_ws: true)
+
+      expected_details_text = "Subject changed from old subject to new subject less than a minute ago by #{recipient.name}"
+      expect(mail_body)
+        .to have_text(expected_details_text, normalize_ws: true)
     end
 
     context 'with only a deleted work package for the digest' do
