@@ -72,6 +72,7 @@ import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-b
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
+import { OpContentLoaderComponent } from './components/op-content-loader/op-content-loader.component';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -174,6 +175,8 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+
+    OpContentLoaderComponent,
   ],
   declarations: [
     OpDateTimeComponent,
@@ -225,6 +228,8 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+
+    OpContentLoaderComponent,
   ],
 })
 export class OPSharedModule {
