@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  AfterContentInit
+  AfterContentInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
@@ -85,8 +85,10 @@ export class InAppNotificationCenterComponent implements OnInit, AfterContentIni
     this.ianService.setActiveFilters([]);
   }
 
-  ngAfterContentInit(){
-    setTimeout(() => this.isNoticationsLoaded = true , 0);
+  ngAfterContentInit():void {
+    setTimeout(() => {
+      this.isNoticationsLoaded = true;
+    });
   }
 
   openSplitView($event:WorkPackageResource):void {
