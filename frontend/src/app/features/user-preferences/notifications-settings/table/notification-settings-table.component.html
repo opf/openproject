@@ -4,7 +4,7 @@
 >
   <thead>
     <tr>
-      <th class="op-table-cell op-table--cell_heading"></th>
+      <th class="op-table--cell op-table--cell_heading"></th>
       <ng-container
         *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
       >
@@ -22,10 +22,11 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.involved_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].involved"
+            [checked]="item.value[0].involved"
+            (change)="update({ involved: $event.target.checked }, item.value[0]._links.project.href)"
           />
         </td>
       </ng-container>
@@ -39,10 +40,11 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].workPackageCreated"
+            [checked]="item.value[0].workPackageCreated"
+            (change)="update({ workPackageCreated: $event.target.checked }, item.value[0]._links.project.href)"
           />
         </td>
       </ng-container>
@@ -50,10 +52,11 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_processed_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].workPackageProcessed"
+            [checked]="item.value[0].workPackageProcessed"
+            (change)="update({ workPackageProcessed: $event.target.checked }, item.value[0]._links.project.href)"
           />
         </td>
       </ng-container>
@@ -61,10 +64,11 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_scheduled_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].workPackageScheduled"
+            [checked]="item.value[0].workPackageScheduled"
+            (change)="update({ workPackageScheduled: $event.target.checked }, item.value[0]._links.project.href)"
           />
         </td>
       </ng-container>
@@ -72,10 +76,11 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_prioritized_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].workPackagePrioritized"
+            [checked]="item.value[0].workPackagePrioritized"
+            (change)="update({ workPackagePrioritized: $event.target.checked }, item.value[0]._links.project.href)"
           />
         </td>
       </ng-container>
@@ -83,11 +88,25 @@
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_commented_header }}</th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item[0]">
+        <td class="op-table--cell" *ngIf="item.value[0]">
           <input
             type="checkbox"
-            [checked]="item[0].workPackageCommented"
+            [checked]="item.value[0].workPackageCommented"
+            (change)="update({ workPackageCommented: $event.target.checked }, item.value[0]._links.project.href)"
           />
+        </td>
+      </ng-container>
+    </tr>
+    <tr>
+      <th class="op-table--cell op-table--cell_soft-heading"></th>
+      <ng-container
+        *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
+      >
+        <td class="op-table--cell" *ngIf="item.value[0]">
+          <button
+            type="button"
+            class="op-link"
+          >Restore defaults</button>
         </td>
       </ng-container>
     </tr>

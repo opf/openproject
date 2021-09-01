@@ -5,8 +5,9 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { KeyValue } from '@angular/common';
+import { arrayAdd, arrayUpdate } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
@@ -16,7 +17,6 @@ import {
   buildNotificationSetting,
   NotificationSetting,
 } from 'core-app/features/user-preferences/state/notification-setting.model';
-import { arrayAdd } from '@datorama/akita';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -70,5 +70,22 @@ export class NotificationSettingsTableComponent {
         notifications: arrayAdd(notifications, added),
       }),
     );
+  }
+
+  update(delta:Partial<NotificationSetting>, projectHref: string) {
+    this.store.update(
+      ({ notifications }) => ({
+        notifications: arrayUpdate(
+          notifications, this.getStoreMatcherFn(delta, projectHref), delta,
+        ),
+      }),
+    );
+  }
+
+  private getStoreMatcherFn(delta:Partial<NotificationSetting>, projectHref: string) {
+    return (notification:NotificationSetting) => {
+      return notification._links.project.href === projectHref
+        && notification.channel === delta.channel;
+    };
   }
 }

@@ -4,11 +4,13 @@ import {
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 
 @Component({
-  selector: 'op-form-field',
-  templateUrl: './form-field.component.html',
+  selector: 'op-checkbox-field',
+  templateUrl: './checkbox-field.component.html',
 })
-export class OpFormFieldComponent {
+export class OpCheckboxFieldComponent {
   @HostBinding('class.op-form-field') className = true;
+
+  @HostBinding('class.op-checkbox-field') classNameCheckbox = true;
 
   @HostBinding('class.op-form-field_invalid') get errorClassName() {
     return this.showErrorMessage;
@@ -16,11 +18,9 @@ export class OpFormFieldComponent {
 
   @Input() label = '';
 
-  @Input() noWrapLabel = false;
+  @Input() hidden = false;
 
   @Input() required = false;
-
-  @Input() hidden = false;
 
   @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
 
@@ -32,7 +32,7 @@ export class OpFormFieldComponent {
 
   @ContentChild(NgControl) ngControl:NgControl;
 
-  internalID = `op-form-field-${+new Date()}`;
+  internalID = `op-checkbox-field-${+new Date()}`;
 
   get errorsID() {
     return `${this.internalID}-errors`;

@@ -48,8 +48,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
     private query:UserPreferencesQuery,
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
-  ) {
-  }
+  ) {}
 
   ngOnInit():void {
     this.userId = this.userId || this.uiRouterGlobals.params.userId;
