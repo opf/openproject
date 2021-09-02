@@ -26,14 +26,6 @@
                     "$ref": "#/definitions/DailyReminders"
                 }
             },
-            "required": [
-                "auto_hide_popups",
-                "comments_sorting",
-                "daily_reminders",
-                "hide_mail",
-                "time_zone",
-                "warn_on_leaving_unsaved"
-            ],
             "title": "UserPreferences"
         },
         "DailyReminders": {
