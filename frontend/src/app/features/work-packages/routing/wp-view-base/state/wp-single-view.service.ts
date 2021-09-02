@@ -3,7 +3,7 @@ import { WpSingleViewStore } from './wp-single-view.store';
 import { WpSingleViewQuery } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.query';
 import { take } from 'rxjs/operators';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   markNotificationsAsRead,
@@ -22,11 +22,11 @@ export class WpSingleViewService {
 
   protected store = new WpSingleViewStore();
 
-  readonly query = new WpSingleViewQuery(this.store, this.ianService);
+  readonly query = new WpSingleViewQuery(this.store, this.resourceService);
 
   constructor(
     readonly actions$:ActionsService,
-    private ianService:InAppNotificationsService,
+    private resourceService:InAppNotificationsResourceService,
   ) {
   }
 
@@ -50,7 +50,7 @@ export class WpSingleViewService {
   }
 
   markAllAsRead():void {
-    selectCollectionAsHrefs$(this.ianService, { filters: this.store.getValue().notifications.filters })
+    selectCollectionAsHrefs$(this.resourceService, { filters: this.store.getValue().notifications.filters })
       .pipe(
         take(1),
       )
@@ -63,7 +63,7 @@ export class WpSingleViewService {
 
   private reload() {
     this
-      .ianService
+      .resourceService
       .fetchNotifications(this.query.params)
       .subscribe();
   }

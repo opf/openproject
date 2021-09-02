@@ -29,11 +29,11 @@
 import {
   NgModule,
 } from '@angular/core';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 
 @NgModule({
   providers: [
-    InAppNotificationsService,
+    InAppNotificationsResourceService,
   ],
 })
 export class OpenProjectStateModule {

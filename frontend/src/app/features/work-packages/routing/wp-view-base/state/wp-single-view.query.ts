@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 export class WpSingleViewQuery extends Query<WpSingleViewState> {
@@ -18,7 +18,7 @@ export class WpSingleViewQuery extends Query<WpSingleViewState> {
     .select((state) => state.notifications.filters)
     .pipe(
       filter((filters) => filters.length > 0),
-      switchMap((filters) => selectCollectionAsEntities$<InAppNotification>(this.ianService, { filters })),
+      switchMap((filters) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, { filters })),
     );
 
   selectNotificationsCount$ = this
@@ -39,7 +39,7 @@ export class WpSingleViewQuery extends Query<WpSingleViewState> {
 
   constructor(
     protected store:WpSingleViewStore,
-    protected ianService:InAppNotificationsService,
+    protected resourceService:InAppNotificationsResourceService,
   ) {
     super(store);
   }

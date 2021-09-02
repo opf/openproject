@@ -4,7 +4,7 @@ import {
   IanCenterState,
   IanCenterStore,
 } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   map,
   switchMap,
@@ -23,7 +23,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
   selectNotifications$ = this
     .paramsChanges$
     .pipe(
-      switchMap(() => selectCollectionAsEntities$<InAppNotification>(this.ianService, this.params)),
+      switchMap(() => selectCollectionAsEntities$<InAppNotification>(this.resourceService, this.params)),
     );
 
   aggregatedCenterNotifications$ = this
@@ -59,7 +59,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   constructor(
     protected store:IanCenterStore,
-    protected ianService:InAppNotificationsService,
+    protected resourceService:InAppNotificationsResourceService,
   ) {
     super(store);
   }

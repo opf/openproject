@@ -25,7 +25,7 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { from } from 'rxjs';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
 
 @Injectable()
@@ -35,11 +35,11 @@ export class IanCenterService {
 
   readonly store = new IanCenterStore();
 
-  readonly query = new IanCenterQuery(this.store, this.ianService);
+  readonly query = new IanCenterQuery(this.store, this.resourceService);
 
   constructor(
     readonly injector:Injector,
-    readonly ianService:InAppNotificationsService,
+    readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
   ) {
@@ -57,7 +57,7 @@ export class IanCenterService {
   }
 
   markAllAsRead():void {
-    selectCollectionAsHrefs$(this.ianService, this.query.params)
+    selectCollectionAsHrefs$(this.resourceService, this.query.params)
       .pipe(
         take(1),
       )
@@ -73,7 +73,7 @@ export class IanCenterService {
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
     if (action.caller === this) {
       this
-        .ianService
+        .resourceService
         .removeFromCollection(this.query.params, action.notifications);
     } else {
       this.reload();
@@ -81,7 +81,7 @@ export class IanCenterService {
   }
 
   private reload() {
-    this.ianService
+    this.resourceService
       .fetchNotifications(this.query.params)
       .subscribe(
         (results) => this.sideLoadInvolvedWorkPackages(results._embedded.elements),

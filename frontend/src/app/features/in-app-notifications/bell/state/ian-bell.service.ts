@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IanBellStore } from './ian-bell.store';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { IAN_FACET_FILTERS } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import {
   map,
@@ -28,12 +28,12 @@ export class IanBellService {
 
   constructor(
     readonly actions$:ActionsService,
-    readonly ianService:InAppNotificationsService,
+    readonly resourceService:InAppNotificationsResourceService,
   ) {
   }
 
   fetchUnread():Observable<number> {
-    return this.ianService
+    return this.resourceService
       .fetchNotifications({ filters: IAN_FACET_FILTERS.unread, pageSize: 0 })
       .pipe(
         map((result) => result.total),

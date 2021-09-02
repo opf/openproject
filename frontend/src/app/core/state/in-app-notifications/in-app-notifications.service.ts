@@ -29,7 +29,7 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 @EffectHandler
 @Injectable()
-export class InAppNotificationsService {
+export class InAppNotificationsResourceService {
   protected store = new InAppNotificationsStore();
 
   readonly query = new InAppNotificationsQuery(this.store);
