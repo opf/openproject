@@ -33,8 +33,10 @@ class UserPreference < ApplicationRecord
   delegate :notification_settings, to: :user
   serialize :settings, ::Serializers::IndifferentHashSerializer
 
-  validates_presence_of :user
-  validate :time_zone_correctness, if: -> { time_zone.present? }
+  validates :user,
+            presence: true
+  validate :time_zone_correctness,
+           if: -> { time_zone.present? }
 
   ##
   # Retrieve keys from settings, and allow accessing
