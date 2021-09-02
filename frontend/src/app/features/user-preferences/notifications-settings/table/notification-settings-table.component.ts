@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { KeyValue } from '@angular/common';
-import { arrayAdd, arrayUpdate } from '@datorama/akita';
+import { arrayAdd, arrayUpdate, arrayRemove } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
@@ -52,7 +52,6 @@ export class NotificationSettingsTableComponent {
 
   constructor(
     private I18n:I18nService,
-    private stateService:UserPreferencesService,
     private store:UserPreferencesStore,
     private query:UserPreferencesQuery,
   ) {
@@ -76,16 +75,22 @@ export class NotificationSettingsTableComponent {
     this.store.update(
       ({ notifications }) => ({
         notifications: arrayUpdate(
-          notifications, this.getStoreMatcherFn(delta, projectHref), delta,
+          notifications,
+          (notification:NotificationSetting) => {
+            return notification._links.project.href === projectHref
+              && notification.channel === 'in_app';
+          },
+          delta,
         ),
       }),
     );
   }
 
-  private getStoreMatcherFn(delta:Partial<NotificationSetting>, projectHref: string) {
-    return (notification:NotificationSetting) => {
-      return notification._links.project.href === projectHref
-        && notification.channel === delta.channel;
-    };
+  removeProjectSettings(projectHref: string) {
+    this.store.update(
+      ({ notifications }) => ({
+        notifications: arrayRemove(notifications, (notification:NotificationSetting) => notification._links.project.href === projectHref),
+      }),
+    );
   }
 }

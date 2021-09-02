@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Query } from '@datorama/akita';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
@@ -18,7 +18,6 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
     .pipe(
       map((notifications) => notifications.filter((setting) => setting.channel === 'in_app' && setting._links.project.title)),
       map((notifications) => _.groupBy(notifications, (setting) => setting._links.project.title)),
-      tap(console.log),
     );
 
   projectNotifications$ = this

@@ -106,7 +106,8 @@
           <button
             type="button"
             class="op-link"
-          >Restore defaults</button>
+            (click)="removeProjectSettings(item.value[0]._links.project.href)"
+          >Remove Project Settings</button>
         </td>
       </ng-container>
     </tr>
