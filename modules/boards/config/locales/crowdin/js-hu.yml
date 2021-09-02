@@ -74,7 +74,7 @@ hu:
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
+          assignee: "Válassza ki a felhasználót akit hozzá szeretne adni az új megbízotti listához.\n"
           status: Státusz hozzáadása az új listához
           version: Verzió hozzáadása az új listához
           subproject: Alprojekt hozzáadása az új listához

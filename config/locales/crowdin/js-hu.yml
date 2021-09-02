@@ -45,7 +45,7 @@ hu:
       last_backup_from: 'Legutóbbi biztonsági mentés: '
       title: "Az OpenProject biztonsági mentése\n"
       options: Beállítások
-      include_attachments: Include attachments
+      include_attachments: "Mellékletek csatolása\n"
       download_backup: Biztonsági mentés letöltése
       request_backup: Biztonsági mentés kérés
     close_popup_title: "Előugró ablak bezárása"
@@ -95,7 +95,7 @@ hu:
     card:
       add_new: 'Új kártya hozzáadása'
       highlighting:
-        inline: 'Highlight inline:'
+        inline: "Kiemelés soron belül:\n"
         entire_card_by: 'Egész sor alapján'
       remove_from_list: 'Kártya eltávolítása a listából'
     caption_rate_history: "Díj előzmények"
@@ -293,7 +293,8 @@ hu:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>BIM: Improved performance of the IFC model viewer.</li> <li>BIM: The IFC viewer now supports double precision models, which is great for large construction sites such as bridges, roads etc.</li> <li>BIM: Toggle button for switching between perspective and orthogonal mode.</li> <li>BIM: A menu for editing, deleting or flipping section planes.</li> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> BIM: Az IFC modellnéző teljesítményének javítása. </li> <li> BIM: Az IFC megjelenítő mostantól támogatja kettős pontosságú modellek, amelyek nagyszerű építkezéseken, például hidakon, utakon használhatók. </li> <li> BIM: Váltógomb a perspektivikus és az ortogonális mód közötti váltáshoz. </li> <li> BIM: Szerkesztési menü , a metszősíkok törlése vagy megfordítása. </li> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> A felhasználók, csoportok és helyőrzők számára létrehozott új meghívási mód lehetővé teszi a könnyű hozzáadást vagy meghívhat új felhasználókat, és hozzárendelheti őket munkacsomagokhoz. </li> <li> API v3 kiterjesztések csoportokhoz és egyebekhez, azaz csoportok és csoporttagok létrehozása, olvasása, frissítése és törlése az API -n keresztül. </li> <li> Több -kiválasztás a projekt egyéni mezőtípuslistájára. </li> <li> Biztonsági mentés létrehozása a webes felületről. </li> </ul>
+
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
@@ -497,11 +498,11 @@ hu:
           overview: 'Kezeld a munkádat az intuitív <b>Boards</b> nézetben'
           lists: 'Egy táblán belül több listát (oszlopot) hozhat létre, pl. hozzon létre egy KANBAN táblát.'
           add: 'Kattintson a + gombra, és <b> új kártyát ad hozzá </b> a táblán belüli listához.'
-          drag: 'Drag & Drop your cards within a list to re-order, or to another list. A double click will open the details view.'
+          drag: "Húzza és ejtse el a kártyákat egy listán belül, hogy átrendezze azokat, vagy egy másik listára helyezze őket. Egy dupla kattintással megnyithatja a részletek nézetet.\n"
         wp:
           toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
           list: 'Ez a <b>Munkacsomag</b> listázza a projekten belüli fontos munkákat, mint például task, feature, milestones, bug és így tovább.<br> A csomagban közvetlenül is létrehozhat vagy szerkeszthet egy munkacsomagot. A részletek megtekintéséhez kattintson duplán egy sorra.'
-          full_view: 'Within the <b>Work package details</b> you find all relevant information, such as description, status and priority, activities, dependencies or comments.'
+          full_view: 'A <b>Munkacsomag részletei</b> alatt minden lényeges információt megtalál, például leírást, állapotot és prioritást, tevékenységeket, függőségeket vagy megjegyzéseket.'
           back_button: 'A nyíl segítségével visszatérhet a munkacsomagok listájához.'
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
           timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
@@ -689,7 +690,8 @@ hu:
         years: "Évek"
         slider: "Nagyítás/kicsinyítés"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
+
     tl_toolbar:
       zooms: "Nagyítási szint"
       outlines: "Hierarchia szint"
@@ -846,14 +848,14 @@ hu:
         button: 'Ennek a feladatcsoportnak a beállítása'
         choose_display_mode: 'Feladatcsoportok megjelenése'
         modal_title: 'Feladatcsoport táblázat beállítás'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "Ez a konfigurációs lap nem érhető el a szerkesztett beágyazott nézetben.\n"
         default: "alapértelmezett"
         display_settings: 'Megjelenítési beállítások'
         default_mode: "Sima lista"
         hierarchy_mode: "Hierarchia"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        hierarchy_hint: "Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.\n"
+        display_sums_hint: "Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.\n"
+        show_timeline_hint: "Mutasson egy interaktív gantt-diagramot a táblázat jobb oldalán. Szélességét a táblázat és a gantt-diagram közötti elválasztóvonal húzásával változtathatja.\n"
         highlighting: 'Kiemelés'
         highlighting_mode:
           description: "Kiemelés szinnel"
@@ -871,7 +873,7 @@ hu:
           warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
         columns_help_text: "A fenti bevitellel oszlopokat adhat hozzá a táblázatnézethez. A \"Húzd és Dobd\" módszerrel újra rendezheti az oszlopokat"
         upsale:
-          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
           relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
           check_out_link: 'Tekintse meg az Enterprise Edition-t!'
         relation_filters:
@@ -922,7 +924,7 @@ hu:
         title: "Jóváhagyja %{label} törlését"
         text: "Biztosan törölni akarja %{label}-t?"
         has_children: "A feladatcsoportnak van %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        confirm_deletion_children: "Tudomásul veszem, hogy a felsorolt munkacsomagok MINDEN leszármazottja rekurzív módon eltávolításra kerül.\n"
         deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
       destroy_time_entry:
         title: "Időbejegyzés törlésének jóváhagyása"
@@ -931,7 +933,7 @@ hu:
     notice_successful_create: "Sikeres létrehozás."
     notice_successful_delete: "Sikeres törlés."
     notice_successful_update: "Sikeres frissítés."
-    notice_job_started: "job started."
+    notice_job_started: "elkezdődött a munka.\n"
     notice_bad_request: "Rossz kérés."
     relations:
       empty: Nincs kapcsolata
@@ -956,7 +958,7 @@ hu:
     error_could_not_resolve_version_name: "Nem sikerült a verziószám visszafejtése"
     error_could_not_resolve_user_name: "Nem sikerült a felhasználó visszafejtése"
     error_attachment_upload: "A fájlt nem sikerült feltölteni: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    error_attachment_upload_permission: "Nincs jogosultsága fájlok feltöltésére ezen az erőforráson.\n"
     units:
       workPackage:
         one: "munkacsomag"
@@ -990,37 +992,37 @@ hu:
       invite: 'Meghívás'
       title:
         invite: 'Felhasználó meghívása'
-        invite_to_project: 'Invite %{type} to %{project}'
+        invite_to_project: 'Meghívás %{type} a %{project}'
         User: 'Felhasználó'
         Group: 'csoport'
         PlaceholderUser: 'Teszt felhasználó'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_principal_to_project: 'Meghívás %{principal} a %{project} '
       project:
         label: 'Projekt'
         required: 'Válasszon projektet'
         lacking_permission: "Kérjük, válasszon másik projektet, mivel nincs jogosultsága a felhasználók kijelöléséhez.\n"
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        lacking_permission_info: "Nincs jogosultsága arra, hogy felhasználókat rendeljen a projekthez, amelyben éppen dolgozik. Ki kell választania egy másikat.\n"
         next_button: ' Következő'
         no_results: 'Egyetlen projekt sem található'
         no_invite_rights: 'Nincs jogosultságod meghívni felhasználókat ehhez a projekthez'
       type:
-        required: 'Please select the type to be invited'
+        required: "Kérjük, válassza ki a meghívandó típust\n"
         user:
           title: 'Felhasználó'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: "Jogosultságok a kiválasztott projektben kijelölt szerepkör alapján\n"
         group:
           title: 'Csoport'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: "Jogosultságok a kiválasztott projektben kijelölt szerepkör alapján\n"
         placeholder:
           title: 'Teszt felhasználó'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
-          description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          title_no_ee: "Tesztfelhasználó (csak Enterprise Edition funkció)\n"
+          description: "Nincs hozzáférése a projekthez, és nem küld ki e-maileket.\n"
+          description_no_ee: 'Nincs hozzáférése a projekthez, és nem küld ki e-maileket. <br>Nézze meg az <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
           name_or_email: 'Név vagy e-mail cím'
           name: 'Név'
-        already_member_message: 'Already a member of %{project}'
+        already_member_message: 'Már tagja a %{project}-nek'
         no_results_user: 'Nem található felhasználó.'
         invite_user: 'Meghívás:'
         no_results_placeholder: 'Ben találhatók teszt felhasználók'
@@ -1029,31 +1031,31 @@ hu:
         next_button: ' Következő'
         required:
           user: 'Válassz egy felhasználót'
-          placeholder: 'Please select a placeholder'
+          placeholder: 'Kérjük válasszon egy tesztfelhasználót'
           group: 'Válaszd ki a csoportot'
       role:
         label: 'Szerepek a %{project}'
         no_roles_found: 'Nem található szerepkör.'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Ez az a szerepkör, amelyet %{principal} kap, amikor csatlakozik a projekthez. A szerepkör határozza meg, hogy milyen műveleteket végezhetnek, és milyen információkat láthatnak. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Tudjon meg többet a szerepekről és jogosultságokról. </a>'
         required: 'Kérjük, válasszon szerepet'
         next_button: ' Következő'
       message:
         label: 'Meghívó üzenet'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        description: 'Küldünk egy e-mailt a %{principal} címre, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet egy magyarázat a meghívóhoz, vagy esetleg egy kis információ a projekttel kapcsolatban, hogy segítsen az elindulásban.'
         next_button: 'Meghívó ellenőrzése'
       summary:
         next_button: 'Meghívó küldése'
       success:
-        title: '%{principal} was invited!'
+        title: "%{principal} meghívást kapott!\n"
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'A felhasználó most már bejelentkezhet, hogy hozzáférjen a %{project}-hez. Eközben már tervezhet ezzel a felhasználóval, és például munkacsomagokat rendelhet hozzá.'
+          placeholder: 'A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá.'
+          group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
         next_button: 'Folytatás'
     forms:
       submit_success_message: 'Jelentés sikeresen elküldve'
       load_error_message: 'Hiba történt az eredmény betöltésekor.'
-      validation_error_message: 'Please fix the errors present in the form'
+      validation_error_message: "Kérjük, javítsa ki az űrlapon található hibákat\n"
       advanced_settings: 'Speciális beállítások'
 
 
