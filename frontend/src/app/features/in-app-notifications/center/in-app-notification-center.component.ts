@@ -1,4 +1,5 @@
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -20,7 +21,7 @@ import { UIRouterGlobals } from '@uirouter/core';
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterComponent implements OnInit {
+export class InAppNotificationCenterComponent implements OnInit, AfterContentInit {
   activeFacet$ = this.ianQuery.activeFacet$;
 
   notifications$ = this
@@ -35,6 +36,12 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   hasMoreThanPageSize$ = this.ianService.query.hasMoreThanPageSize$;
 
+  noResultText$ = this
+  .activeFacet$
+  .pipe(
+    map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
+  );
+
   totalCountWarning$ = this
     .ianService
     .query
@@ -45,6 +52,8 @@ export class InAppNotificationCenterComponent implements OnInit {
         { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: notLoaded },
       )),
     );
+
+  isNoticationsLoaded = false;
 
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
@@ -74,6 +83,12 @@ export class InAppNotificationCenterComponent implements OnInit {
   ngOnInit():void {
     this.ianService.setActiveFacet('unread');
     this.ianService.setActiveFilters([]);
+  }
+
+  ngAfterContentInit():void {
+    setTimeout(() => {
+      this.isNoticationsLoaded = true;
+    });
   }
 
   openSplitView($event:WorkPackageResource):void {
