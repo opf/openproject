@@ -102,18 +102,6 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
       .path;
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):void {
-    const wpIds = elements.map((element) => {
-      const href = element._links.resource?.href;
-      return href && HalResource.matchFromLink(href, 'work_packages');
-    });
-
-    void this
-      .apiV3Service
-      .work_packages
-      .requireAll(_.compact(wpIds));
-  }
-
   /**
    * Mark the given notification IDs as read through the API.
    */

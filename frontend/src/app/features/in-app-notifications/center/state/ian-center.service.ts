@@ -11,6 +11,7 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import {
   selectCollection$,
@@ -31,6 +32,9 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { from } from 'rxjs';
 
 @Injectable()
 @EffectHandler
@@ -49,16 +53,11 @@ export class IanCenterService extends UntilDestroyedMixin {
     .query
     .select(['params', 'activeFacet']);
 
-  selectCollection$ = this
-    .paramsChanges$
-    .pipe(
-      switchMap(() => selectCollection$(this.ianService, this.params)),
-    );
-
   selectNotifications$ = this
     .paramsChanges$
     .pipe(
       switchMap(() => selectCollectionEntities$<InAppNotification>(this.ianService, this.params)),
+      tap((notifications) => this.sideLoadInvolvedWorkPackages(notifications)),
     );
 
   aggregatedCenterNotifications$ = this
@@ -73,6 +72,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly ianService:InAppNotificationsService,
     readonly actions$:ActionsService,
+    readonly apiV3Service:APIV3Service,
   ) {
     super();
   }
@@ -112,6 +112,29 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.ianService
       .fetchNotifications(this.params)
       .subscribe();
+  }
+
+  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):void {
+    const { cache } = this.apiV3Service.work_packages;
+    const wpIds = elements
+      .map((element) => {
+        const href = element._links.resource?.href;
+        return href && HalResource.matchFromLink(href, 'work_packages');
+      })
+      .filter((id) => id && cache.stale(id)) as string[];
+
+    const promise = this
+      .apiV3Service
+      .work_packages
+      .requireAll(_.compact(wpIds));
+
+    wpIds.forEach((id) => {
+      cache.clearAndLoad(
+        id,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        from(promise).pipe(map(() => cache.current(id)!)),
+      );
+    });
   }
 
   private get params():Apiv3ListParameters {
