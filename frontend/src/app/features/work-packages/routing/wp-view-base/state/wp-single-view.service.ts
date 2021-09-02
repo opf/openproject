@@ -10,7 +10,6 @@ import {
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
   EffectCallback,
   EffectHandler,
@@ -18,7 +17,7 @@ import {
 
 @EffectHandler
 @Injectable()
-export class WpSingleViewService extends UntilDestroyedMixin {
+export class WpSingleViewService {
   id = 'WorkPackage Activity Store';
 
   protected store = new WpSingleViewStore();
@@ -29,7 +28,6 @@ export class WpSingleViewService extends UntilDestroyedMixin {
     readonly actions$:ActionsService,
     private ianService:InAppNotificationsService,
   ) {
-    super();
   }
 
   setFilters(workPackageId:string):void {

@@ -13,12 +13,11 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { notificationsMarkedRead } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 @Injectable()
 @EffectHandler
-export class IanBellService extends UntilDestroyedMixin {
+export class IanBellService {
   readonly id = 'ian-center';
 
   readonly store = new IanBellStore();
@@ -31,7 +30,6 @@ export class IanBellService extends UntilDestroyedMixin {
     readonly actions$:ActionsService,
     readonly ianService:InAppNotificationsService,
   ) {
-    super();
   }
 
   fetchUnread():Observable<number> {

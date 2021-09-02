@@ -21,7 +21,6 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -31,7 +30,7 @@ import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
 
 @Injectable()
 @EffectHandler
-export class IanCenterService extends UntilDestroyedMixin {
+export class IanCenterService {
   readonly id = 'ian-center';
 
   readonly store = new IanCenterStore();
@@ -44,7 +43,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
   ) {
-    super();
   }
 
   setFacet(facet:InAppNotificationFacet):void {

@@ -1,11 +1,9 @@
 import 'reflect-metadata';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { ActionCreator } from 'ts-action/action';
-import { Injector } from '@angular/core';
 import { Action } from 'ts-action';
+import { takeWhile } from 'rxjs/operators';
 
 /**
  * This interface specifies a constraint on the classes that can
@@ -13,8 +11,9 @@ import { Action } from 'ts-action';
  *
  * As we depend on the ActionsService, we need that as a public property.
  */
-export interface EffectClass extends UntilDestroyedMixin {
+export interface EffectClass {
   actions$:ActionsService;
+  ngOnDestroy?():void;
 }
 
 const EffectHandlers = Symbol('EffectHandlers');
@@ -40,8 +39,9 @@ type EffectHandlerItem = { callback:(action:Action) => void, action:ActionCreato
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(constructor:T):any {
   return class extends constructor {
-    /* The class decorator requires any[] args to it to function */
+    private serviceDestroyed = false;
 
+    /* The class decorator requires any[] args to it to function */
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     constructor(...args:any[]) {
       super(...args);
@@ -57,7 +57,9 @@ export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(cons
           // Subscribe to the specified action for the duration of this service's life.
           this.actions$
             .ofType(item.action)
-            .pipe(untilComponentDestroyed(this))
+            .pipe(
+              takeWhile(() => !this.serviceDestroyed),
+            )
             .subscribe((instance) => {
               // Wrap callback in a try-catch to avoid completing the subscription.
               try {
@@ -68,6 +70,13 @@ export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(cons
               }
             });
         });
+      }
+    }
+
+    ngOnDestroy():void {
+      this.serviceDestroyed = true;
+      if (super.ngOnDestroy) {
+        super.ngOnDestroy();
       }
     }
   };

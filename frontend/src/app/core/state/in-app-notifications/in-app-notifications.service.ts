@@ -25,15 +25,21 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 @EffectHandler
 @Injectable()
-export class InAppNotificationsService extends UntilDestroyedMixin {
+export class InAppNotificationsService {
   protected store = new InAppNotificationsStore();
 
   readonly query = new InAppNotificationsQuery(this.store);
+
+  private get notificationsPath():string {
+    return this
+      .apiV3Service
+      .notifications
+      .path;
+  }
 
   constructor(
     readonly actions$:ActionsService,
@@ -41,7 +47,6 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
   ) {
-    super();
   }
 
   fetchNotifications(params:Apiv3ListParameters):Observable<IHALCollection<InAppNotification>> {
@@ -117,13 +122,6 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
           this.store.update(notifications, { readIAN: true });
         }),
       );
-  }
-
-  private get notificationsPath():string {
-    return this
-      .apiV3Service
-      .notifications
-      .path;
   }
 
   /**
