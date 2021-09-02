@@ -102,23 +102,6 @@ describe UserPreferences::UpdateContract do
     it_behaves_like 'contract is invalid', settings: :exclusion
   end
 
-  context 'without a hide_mail value' do
-    let(:settings) do
-      {
-        auto_hide_popups: true,
-        comments_sorting: 'desc',
-        daily_reminders: {
-          enabled: true,
-          times: %w[08:00:00+00:00 12:00:00+00:00]
-        },
-        time_zone: 'Brasilia',
-        warn_on_leaving_unsaved: true
-      }
-    end
-
-    it_behaves_like 'contract is invalid', hide_mail: :blank
-  end
-
   context 'with a string for hide_mail' do
     let(:settings) do
       {

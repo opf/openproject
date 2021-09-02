@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,19 +26,35 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class UserPreferences::Schema
-  class << self
-    PATH = Rails.root.join('config/schemas/api/user_preferences.schema.json')
+module OpenProject::Backlogs
+  module Patches
+    module UserPreferences
+      module SchemaPatch
+        def self.included(base)
+          class << base
+            prepend(ClassMethods)
+          end
+        end
 
-    # TODO: check if Time zones can be verified within the schema
-    # TODO: allow extension by plugins
+        module ClassMethods
+          def schema
+            ret = super
 
-    def schema
-      @schema ||= JSON::parse(File.read(PATH))
-    end
+            properties = ret.dig('definitions', 'UserPreferences', 'properties')
 
-    def properties
-      @properties ||= schema.dig('definitions', 'UserPreferences', 'properties')&.keys || []
+            properties['backlogs_task_color'] = {
+              'type' => 'string'
+            }
+
+            properties['backlogs_versions_default_fold_state'] = {
+              'type' => 'string',
+              "enum" => %w[open closed]
+            }
+
+            ret
+          end
+        end
+      end
     end
   end
 end
