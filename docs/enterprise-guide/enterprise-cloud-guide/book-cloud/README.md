@@ -32,25 +32,25 @@ You will be directed to -> *Administration* -> *Billing*.
 
 (5) Click the **Subscribe** button.
 
-![Cloud-edition-booking](Cloud-edition-booking.png)
+![Book-openproject-cloud](Book-openproject-cloud.png)
 
 Next, click the **Proceed to Checkout button**.
 
-![Proceed to Checkout](image-20200115140341853.png)
+![proceed-to-checkout](proceed-to-checkout.png)
 
 Verify your **account details** and click the blue Next button.
 
-![Account details](image-20200115140444053.png)
+![account-details](account-details.png)
 
 Add your **Billing address and VAT number** and click the blue **Next** button.
 
-![Billing address](image-20200115140630463.png)
+![billing-address](billing-address.png)
 
 Enter your **payment details** (credit card information). Make sure to verify your address (same as for the invoice) in order to avoid payment failures via credit card. If your credit card is stated to a different address, make sure to enter it here as card address.
 
 Click the blue **Next** button.
 
-![Payment details](image-20200115140927046.png)
+![payment-details](payment-details.png)
 
 You will once again get an overview about your subscription. 
 Here, you can edit the account or billing information if needed.
@@ -61,7 +61,7 @@ Click the blue **Pay** button and subscribe to the OpenProject Enterprise cloud 
 
 A payment receipt will be sent via email.
 
-![Pay and subscribe](image-20200115141131383.png)
+![pay-and-subscribe](pay-and-subscribe.png)
 
 ## Pay per invoice (via bank transfer)
 
@@ -76,13 +76,13 @@ If you are a business customer from the EU, please enter a valid **VAT ID number
 
 (4) Click the blue **Subscribe** button.
 
- ![Cloud-edition-invoice](Cloud-edition-invoice.png)
+ ![cloud-edition-invoice](cloud-edition-invoice-0578035.png)
 
 You will get an overview of your booked subscription.
 
 An invoice will be sent via email to the Billing email address.
 
-![Subscription](image-20200115141724205.png)
+
 
 ## Frequently asked questions (FAQ)
 

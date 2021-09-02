@@ -27,7 +27,7 @@ You will be directed to -> *Administration* -> *Billing*.
 
 (5) Click on **Request a quote**.
 
-![Cloud-edition-create-quote](Cloud-edition-quote-creation.png)
+![request-a-quote-cloud](request-a-quote-cloud.png)
 
 
 
