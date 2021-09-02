@@ -13,12 +13,10 @@ import {
 } from '@datorama/akita';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InAppNotificationsStore } from './in-app-notifications.store';
 import { InAppNotification } from './in-app-notification.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
-import { Actions } from '@datorama/akita-ng-effects';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { collectionKey } from 'core-app/core/state/collection-store.type';

@@ -1,7 +1,12 @@
 import { EntityState, ID, QueryEntity } from '@datorama/akita';
 import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 export interface CollectionResponse {
   ids:ID[];
@@ -28,6 +33,7 @@ export function createInitialCollectionState():{ collections:Record<string, Coll
     collections: {},
   };
 }
+
 
 /**
  * Returns the collection key for the given APIv3 parameters
@@ -63,12 +69,19 @@ export function selectCollection$<T extends CollectionItem>(service:CollectionSe
  * @param params
  */
 export function selectCollectionEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<T[]> {
-  return selectCollection$<T>(service, params)
+  const key = collectionKey(params);
+
+  return service
+    .query
+    .select()
     .pipe(
-      switchMap((collection:CollectionResponse) => (
-        service.query.selectAll({
-          filterBy: ({ id }) => collection.ids.includes(id),
-        })
-      )),
+      map((state) => {
+        const collection = state.collections[key];
+        const ids = collection?.ids || [];
+
+        return ids
+          .map((id) => service.query.getEntity(id))
+          .filter((item) => !!item) as T[];
+      }),
     );
 }

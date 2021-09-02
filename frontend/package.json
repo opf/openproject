@@ -71,7 +71,6 @@
     "@angular/platform-browser-dynamic": "~12.0.2",
     "@angular/router": "~12.0.2",
     "@datorama/akita": "^6.2.0",
-    "@datorama/akita-ng-effects": "^1.0.5",
     "@fullcalendar/angular": "5.5.0",
     "@fullcalendar/core": "5.5.0",
     "@fullcalendar/daygrid": "5.5.0",
@@ -127,6 +126,7 @@
     "swagger-ui": "^3.50.0",
     "tablesorter": "^2.31.3",
     "ts-action": "^11.0.0",
+    "ts-action-operators": "^9.1.2",
     "typedjson": "^1.5.1",
     "urijs": "^1.19.2",
     "zone.js": "~0.11.4"

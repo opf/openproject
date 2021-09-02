@@ -108,9 +108,7 @@ export class WpSingleViewService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    if (action.caller !== this) {
-      const { filters } = this.store.getValue().notifications;
-      this.reload(filters);
-    }
+    const { filters } = this.store.getValue().notifications;
+    this.reload(filters);
   }
 }

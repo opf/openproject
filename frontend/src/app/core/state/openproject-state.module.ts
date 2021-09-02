@@ -27,20 +27,14 @@
 //++
 
 import {
-  Injector,
   NgModule,
 } from '@angular/core';
-import { AkitaNgEffectsModule } from '@datorama/akita-ng-effects';
 import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 
 @NgModule({
-  imports: [
-    // Global effects
-    AkitaNgEffectsModule.forRoot(),
-  ],
   providers: [
     InAppNotificationsService,
-  ]
+  ],
 })
 export class OpenProjectStateModule {
 }

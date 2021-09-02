@@ -2,10 +2,10 @@ import 'reflect-metadata';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { untilComponentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { Action } from '@datorama/akita-ng-effects/lib/types';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { ActionCreator } from 'ts-action/action';
 import { Injector } from '@angular/core';
+import { Action } from 'ts-action';
 
 // We're opening a baseclass through the decorator, the decorator enforces using any */
 /* eslint-disable @typescript-eslint/no-explicit-any */

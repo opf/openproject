@@ -3,10 +3,15 @@ import {
   Observable,
   Subject,
 } from 'rxjs';
-import { Action } from '@datorama/akita-ng-effects/lib/types';
-import { ofType } from '@datorama/akita-ng-effects';
 import { ActionCreator } from 'ts-action/action';
 import { ActionType } from 'ts-action';
+import { ofType } from 'ts-action-operators';
+
+export interface Action {
+  type:string;
+
+  [key:string]:any;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ActionsService {
