@@ -54,7 +54,7 @@ export function collectionKey(params:Apiv3ListParameters):string {
  * @param service
  * @param params
  */
-export function selectCollection$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<CollectionResponse> {
+export function selectCollectionAsHrefs$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<CollectionResponse> {
   return service
     .query
     .select((state) => {
@@ -72,7 +72,7 @@ export function selectCollection$<T extends CollectionItem>(service:CollectionSe
  * @param service
  * @param params
  */
-export function selectCollectionEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<T[]> {
+export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<T[]> {
   const key = collectionKey(params);
 
   return service

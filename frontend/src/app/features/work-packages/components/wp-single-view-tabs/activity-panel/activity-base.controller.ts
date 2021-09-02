@@ -130,6 +130,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   protected hasUnreadNotification(activityHref:string):Observable<boolean> {
     return this
       .storeService
+      .query
       .selectNotifications$
       .pipe(
         map((notifications) => (

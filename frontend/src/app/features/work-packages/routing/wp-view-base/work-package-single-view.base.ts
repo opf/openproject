@@ -102,8 +102,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Needs to be run explicitly by descendants.
    */
   protected observeWorkPackage() {
-    /** Require the work package once to ensure we're displaying errors */
-    let initialized = false;
     this
       .apiV3Service
       .work_packages
@@ -113,11 +111,13 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.untilDestroyed(),
       )
       .subscribe((wp:WorkPackageResource) => {
-        this.workPackage = wp;
-        if (!initialized) {
+        if (!this.workPackage) {
+          this.workPackage = wp;
           this.init();
-          initialized = true;
+        } else {
+          this.workPackage = wp;
         }
+
         this.cdRef.detectChanges();
       },
       (error) => this.notificationService.handleRawError(error));
@@ -148,7 +148,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         this.cdRef.detectChanges();
       });
 
-    this.displayNotificationsButton$ = this.storeService.hasNotifications$;
+    this.displayNotificationsButton$ = this.storeService.query.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id as string);
 
     // Set authorisation data

@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { IanBellStore } from './ian-bell.store';
 import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { IAN_FACET_FILTERS } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
@@ -17,6 +14,7 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { notificationsMarkedRead } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 @Injectable()
 @EffectHandler
@@ -30,7 +28,7 @@ export class IanBellService extends UntilDestroyedMixin {
   unread$ = this.query.select('totalUnread');
 
   constructor(
-    readonly injector:Injector,
+    readonly actions$:ActionsService,
     readonly ianService:InAppNotificationsService,
   ) {
     super();
@@ -47,12 +45,8 @@ export class IanBellService extends UntilDestroyedMixin {
       );
   }
 
-  markRead(count:number):void {
-    this.store.update(({ totalUnread }) => ({ totalUnread: totalUnread - count }));
-  }
-
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    this.markRead(action.notifications.length);
+    this.store.update(({ totalUnread }) => ({ totalUnread: totalUnread - action.notifications.length }));
   }
 }

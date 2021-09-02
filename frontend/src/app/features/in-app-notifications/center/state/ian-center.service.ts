@@ -3,21 +3,13 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  IAN_FACET_FILTERS,
   IanCenterStore,
   InAppNotificationFacet,
 } from './ian-center.store';
 import {
   map,
-  switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
-import {
-  selectCollection$,
-  selectCollectionEntities$,
-} from 'core-app/core/state/collection-store.type';
-import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -30,11 +22,12 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { from } from 'rxjs';
+import { InAppNotificationsService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
 
 @Injectable()
 @EffectHandler
@@ -44,29 +37,6 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly store = new IanCenterStore();
 
   readonly query = new IanCenterQuery(this.store, this.ianService);
-
-  activeFacet$ = this.query.select('activeFacet');
-
-  notLoaded$ = this.query.select('notLoaded');
-
-  paramsChanges$ = this
-    .query
-    .select(['params', 'activeFacet']);
-
-  selectNotifications$ = this
-    .paramsChanges$
-    .pipe(
-      switchMap(() => selectCollectionEntities$<InAppNotification>(this.ianService, this.params)),
-      tap((notifications) => this.sideLoadInvolvedWorkPackages(notifications)),
-    );
-
-  aggregatedCenterNotifications$ = this
-    .selectNotifications$
-    .pipe(
-      map((notifications) => (
-        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
-      )),
-    );
 
   constructor(
     readonly injector:Injector,
@@ -89,7 +59,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    selectCollection$(this.ianService, this.params)
+    selectCollectionAsHrefs$(this.ianService, this.query.params)
       .pipe(
         take(1),
       )
@@ -106,7 +76,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     if (action.caller === this) {
       this
         .ianService
-        .removeFromCollection(this.params, action.notifications);
+        .removeFromCollection(this.query.params, action.notifications);
     } else {
       this.reload();
     }
@@ -114,8 +84,10 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   private reload() {
     this.ianService
-      .fetchNotifications(this.params)
-      .subscribe();
+      .fetchNotifications(this.query.params)
+      .subscribe(
+        (results) => this.sideLoadInvolvedWorkPackages(results._embedded.elements),
+      );
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):void {
@@ -139,10 +111,5 @@ export class IanCenterService extends UntilDestroyedMixin {
         from(promise).pipe(map(() => cache.current(id)!)),
       );
     });
-  }
-
-  private get params():Apiv3ListParameters {
-    const state = this.store.getValue();
-    return { ...state.params, filters: IAN_FACET_FILTERS[state.activeFacet] };
   }
 }

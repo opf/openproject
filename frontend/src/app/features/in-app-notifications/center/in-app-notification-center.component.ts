@@ -25,29 +25,13 @@ import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications
 export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  activeFacet$ = this.storeService.activeFacet$;
+  hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
 
-  notifications$ = this
-    .storeService
-    .aggregatedCenterNotifications$
-    .pipe(
-      map((items) => Object.values(items)),
-    );
-
-  hasNotifications$ = this
-    .notifications$
-    .pipe(
-      map((items) => items.length > 0),
-    );
-
-  hasMoreThanPageSize$ = this
-    .storeService
-    .notLoaded$
-    .pipe(
-      map((notLoaded) => notLoaded > 0),
-    );
+  hasNotifications$ = this.storeService.query.hasNotifications$;
 
   noResultText$ = this
+    .storeService
+    .query
     .activeFacet$
     .pipe(
       map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
@@ -55,6 +39,7 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   totalCountWarning$ = this
     .storeService
+    .query
     .notLoaded$
     .pipe(
       filter((notLoaded) => notLoaded > 0),

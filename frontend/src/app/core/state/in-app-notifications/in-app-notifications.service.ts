@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   catchError,
   tap,
@@ -19,7 +16,7 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store.type';
+import { collectionKey } from 'core-app/core/state/collection-store';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -39,11 +36,10 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
   readonly query = new InAppNotificationsQuery(this.store);
 
   constructor(
-    readonly injector:Injector,
+    readonly actions$:ActionsService,
     private http:HttpClient,
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,
-    private actions$:ActionsService,
   ) {
     super();
   }

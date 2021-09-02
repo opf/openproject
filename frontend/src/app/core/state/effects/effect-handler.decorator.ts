@@ -7,33 +7,59 @@ import { ActionCreator } from 'ts-action/action';
 import { Injector } from '@angular/core';
 import { Action } from 'ts-action';
 
-// We're opening a baseclass through the decorator, the decorator enforces using any */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable no-param-reassign */
-
+/**
+ * This interface specifies a constraint on the classes that can
+ * be used as an @EffectHandler.
+ *
+ * As we depend on the ActionsService, we need that as a public property.
+ */
 export interface EffectClass extends UntilDestroyedMixin {
-  injector:Injector;
+  actions$:ActionsService;
 }
+
 const EffectHandlers = Symbol('EffectHandlers');
 
 type EffectHandlerItem = { callback:(action:Action) => void, action:ActionCreator };
 
+/**
+ * The EffectHandler decorates a class to be used for effects callbacks
+ * To use, add it to a store service like so
+ *
+ * ```
+ * @Injectable()
+ * @EffectHandler
+ * export class FooStoreService {
+ *   @EffectCallback(someActionName)
+ *   private actionCallback(action:ReturnType<typeof someActionName>) {
+ *     // Effect callback for the given action
+ *   }
+ * }
+ */
+/* The class decorator requires any[] args to it to function */
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(constructor:T):any {
   return class extends constructor {
+    /* The class decorator requires any[] args to it to function */
+
+    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     constructor(...args:any[]) {
       super(...args);
+
+      // Access the handlers registered in the @EffectCallback method decorator
+      // We're accessing a separate symbol on the base class that is not present
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const handlers = constructor.prototype[EffectHandlers] as Map<string, EffectHandlerItem>;
       if (handlers) {
         handlers.forEach((item:EffectHandlerItem, key:string) => {
-          debugLog(`Subscribing to effect ${key}`);
+          debugLog(`[${constructor.name}] Subscribing to effect ${key}`);
 
-          const actions$ = this.injector.get(ActionsService);
-
-          actions$
+          // Subscribe to the specified action for the duration of this service's life.
+          this.actions$
             .ofType(item.action)
             .pipe(untilComponentDestroyed(this))
             .subscribe((instance) => {
+              // Wrap callback in a try-catch to avoid completing the subscription.
               try {
                 item.callback.call(this, instance);
               } catch (e) {
@@ -47,10 +73,32 @@ export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(cons
   };
 }
 
+/**
+ * The EffectCallback decorates a method of a `@EffectHandler` decorated class
+ * to be used for effects callbacks.
+ *
+ * The decorator subscribes to the actionService for the given service for
+ * the lifetime of the service.
+ *
+ * Example:
+ *
+ * ```
+ * @Injectable()
+ * @EffectHandler
+ * export class FooStoreService {
+ *   @EffectCallback(someActionName)
+ *   private actionCallback(action:ReturnType<typeof someActionName>) {
+ *     // Effect callback for the given action
+ *   }
+ * }
+ */
 export function EffectCallback(action:ActionCreator) {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  return (target:any, property:string, descriptor:PropertyDescriptor):void => {
+  return (service:unknown, property:string, descriptor:PropertyDescriptor):void => {
+    const target = service as { [EffectHandlers]:Map<string, EffectHandlerItem> };
     if (!target[EffectHandlers]) {
+      // We're assigning the symbol property in the base class
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,no-param-reassign
       target[EffectHandlers] = new Map();
     }
 

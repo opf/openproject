@@ -21,7 +21,7 @@ export class ActivateFacetButtonComponent {
 
   availableFacets = Object.keys(IAN_FACET_FILTERS);
 
-  activeFacet$ = this.storeService.activeFacet$;
+  activeFacet$ = this.storeService.query.activeFacet$;
 
   constructor(
     private I18n:I18nService,
