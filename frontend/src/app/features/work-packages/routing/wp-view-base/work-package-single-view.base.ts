@@ -103,6 +103,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    */
   protected observeWorkPackage() {
     /** Require the work package once to ensure we're displaying errors */
+    let initialized = false;
     this
       .apiV3Service
       .work_packages
@@ -113,7 +114,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
-        this.init();
+        if (!initialized) {
+          this.init();
+          initialized = true;
+        }
         this.cdRef.detectChanges();
       },
       (error) => this.notificationService.handleRawError(error));
