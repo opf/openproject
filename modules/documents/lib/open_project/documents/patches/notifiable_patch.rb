@@ -26,38 +26,16 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
----
-user_preferences_001:
-  others: |
-    ---
-    :my_page_layout:
-      left:
-      - latestnews
-      right:
-      - issuesassignedtome
-      top:
-      - calendar
+module OpenProject::Documents::Patches::NotifiablePatch
+  def self.included(base)
+    class << base
+      prepend ClassMethods
+    end
+  end
 
-  id: 1
-  user_id: 1
-  hide_mail: true
-user_preferences_002:
-  others: |
-    ---
-    :my_page_layout:
-      left:
-      - latestnews
-      right:
-      - issuesassignedtome
-      top:
-      - calendar
-
-  id: 2
-  user_id: 3
-  hide_mail: false
-user_preferences_003:
-  others: |
-    ---
-  id: 3
-  user_id: 2
-  hide_mail: false
+  module ClassMethods
+    def all
+      super + [::OpenProject::Notifiable.new('document_added')]
+    end
+  end
+end

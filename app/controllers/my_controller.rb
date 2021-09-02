@@ -55,7 +55,7 @@ class MyController < ApplicationController
     # If mail changed, expire all other sessions
     if @user.previous_changes['mail'] && ::Sessions::DropOtherSessionsService.call(@user, session)
       flash[:info] = "#{flash[:notice]} #{t(:notice_account_other_session_expired)}"
-      flash[:notice] = nil
+      flash.delete :notice
     end
   end
 

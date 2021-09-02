@@ -50,14 +50,13 @@ module OpenProject::Documents
         }, require: :loggedin
       end
 
-      OpenProject::Notifiable.all << OpenProject::Notifiable.new('document_added')
-
       Redmine::Search.register :documents
     end
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
     patches %i[CustomFieldsHelper Project]
+    patch_with_namespace :OpenProject, :Notifiable
 
     add_api_path :documents do
       "#{root}/documents"

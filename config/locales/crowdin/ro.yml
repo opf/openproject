@@ -1515,7 +1515,6 @@ ro:
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fişier adăugat"
   label_file_plural: "Fişiere"
   label_filter_add: "Adăugare filtru"
   label_filter_plural: "Filtre"

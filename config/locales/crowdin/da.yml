@@ -1496,7 +1496,6 @@ da:
   label_feeds_access_key: "RSS adgangsnøgle"
   label_feeds_access_key_created_on: "RSS adgangsnøgle lavet for %{value} siden"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fil tilføjet"
   label_file_plural: "Filer"
   label_filter_add: "Tilføj filter"
   label_filter_plural: "Filtre"

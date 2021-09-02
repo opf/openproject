@@ -27,45 +27,15 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require_relative '../legacy_spec_helper'
+module Serializers
+  class IndifferentHashSerializer
+    def self.dump(hash)
+      hash
+    end
 
-describe UserPreference do
-  include MiniTest::Assertions
-
-  it 'should validations' do
-    # factory valid
-    assert FactoryBot.build(:user_preference).valid?
-
-    # user required
-    refute FactoryBot.build(:user_preference, user: nil).valid?
-  end
-
-  it 'should create' do
-    user = FactoryBot.create :user
-
-    assert_kind_of UserPreference, user.pref
-    assert_kind_of Hash, user.pref.others
-    assert user.pref.save
-  end
-
-  it 'should update' do
-    user = FactoryBot.create :user, preferences: { hide_mail: true }
-    assert_equal true, user.pref.hide_mail
-
-    user.pref['preftest'] = 'value'
-    assert user.pref.save
-
-    user.reload
-    assert_equal 'value', user.pref['preftest']
-  end
-
-  it 'should update_with_method' do
-    user = FactoryBot.create :user
-    assert_equal OpenProject::Configuration.default_comment_sort_order, user.pref.comments_sorting
-    user.pref.comments_sorting = 'value'
-    assert user.pref.save
-
-    user.reload
-    assert_equal 'value', user.pref.comments_sorting
+    def self.load(value)
+      hash = value.is_a?(Hash) ? value : {}
+      hash.with_indifferent_access
+    end
   end
 end

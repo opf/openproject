@@ -1498,7 +1498,6 @@ tr:
   label_feeds_access_key: "RSS erişim anahtarı"
   label_feeds_access_key_created_on: "RSS erişim anahtarı %{value} önce oluşturuldu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Dosya eklendi"
   label_file_plural: "Dosyalar"
   label_filter_add: "Filtre ekle"
   label_filter_plural: "Filtreler"

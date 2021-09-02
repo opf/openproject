@@ -32,7 +32,6 @@ module OpenProject
   NOTIFIABLE = [
     %w(news_added),
     %w(news_comment_added),
-    %w(file_added),
     %w(message_posted),
     %w(wiki_content_added),
     %w(wiki_content_updated),
@@ -40,7 +39,7 @@ module OpenProject
     %w(membership_updated)
   ].freeze
 
-  Notifiable = Struct.new(:name, :parent) do
+  Notifiable = Struct.new(:name) do
     def to_s
       name
     end

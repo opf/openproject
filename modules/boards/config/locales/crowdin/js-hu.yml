@@ -35,23 +35,30 @@ hu:
       board_type:
         text: 'Tábla típus'
         free: 'alap'
-        select_board_type: 'Please choose the type of board you need.'
+        select_board_type: "Kérjük, válassza ki a szükséges tábla típusát.\n"
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
+
         action: 'Akció tábla'
         action_by_attribute: 'Akció tábla (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Tábla szűrt listákkal a %{attribute} attribútumon. Ha áthelyezi a munkacsomagokat más listákra, frissül az attribútumuk.
+
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
+
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
+
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+
         action_type:
           assignee: felelős
           status: állapot
@@ -72,14 +79,14 @@ hu:
           status: Státusz hozzáadása az új listához
           version: Verzió hozzáadása az új listához
           subproject: Alprojekt hozzáadása az új listához
-          subtasks: Select work package to add as a new list
+          subtasks: "Válassza ki az új listaként hozzáadandó munkacsomagot\n"
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Jelenleg nincs elérhető állapot. <br>
+            Vagy nincsenek, vagy mindegyik már felkerült a táblába
+          assignee: "Nincs olyan tag, amely megfelelne a szűrő értékének. <br>\n"
+          no_member: "Ennek a projektnek jelenleg nincs hozzáadható tagja. <br>\n"
+          add_members: "\n<a href=\"%{link}\"> Új tag hozzáadása a projekthez </a> a felhasználók újbóli kiválasztásához."
       configuration_modal:
         title: 'Konfiguráld a táblát'
         display_settings:

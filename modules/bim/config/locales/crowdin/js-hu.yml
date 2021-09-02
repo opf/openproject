@@ -4,14 +4,14 @@ hu:
     bcf:
       label_bcf: 'BCF'
       import: 'Importálás'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: "BCF XML fájl importálása (BCF 2.1 verzió)\n"
       export: 'Exportálás'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
+      export_bcf_xml_file: "BCF XML fájl exportálása (BCF 2.1 verzió)\n"
       viewpoint: 'Nézőpont'
       add_viewpoint: 'Nézőpont hozzáadása'
       show_viewpoint: 'Nézőpont megjelenítése'
       delete_viewpoint: 'Nézőpont törlése'
-      management: 'BCF management'
+      management: "BCF menedzsment\n"
       refresh: 'Refresh'
       refresh_work_package: 'Refresh work package'
     ifc_models:
@@ -25,5 +25,5 @@ hu:
         split: 'Viewer and table'
         split_cards: 'Néző és kártyák'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit bővítmény\n"
+      revit_add_in_settings: "A Revit bővítmény beállításai\n"

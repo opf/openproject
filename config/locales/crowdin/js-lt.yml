@@ -522,6 +522,7 @@ lt:
         all: 'Visi'
       center:
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
@@ -967,7 +968,7 @@ lt:
     notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
-    notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_successful_update: "Sėkmingai atnaujinta."
     notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:

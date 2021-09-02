@@ -1480,7 +1480,6 @@ ko:
   label_feeds_access_key: "RSS 액세스 키"
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
   label_feeds_access_key_type: "RSS"
-  label_file_added: "파일 추가됨"
   label_file_plural: "파일"
   label_filter_add: "필터 추가"
   label_filter_plural: "필터"

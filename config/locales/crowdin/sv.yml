@@ -1497,7 +1497,6 @@ sv:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key skapad %{value} sen"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fil tillagd"
   label_file_plural: "Filer"
   label_filter_add: "Lägg till filter"
   label_filter_plural: "Filter"

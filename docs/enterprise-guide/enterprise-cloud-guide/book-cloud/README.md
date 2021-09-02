@@ -88,8 +88,7 @@ An invoice will be sent via email to the Billing email address.
 
 ### Is there an advantage of the annual over the monthly OpenProject plan?
 
-We offer two months of the Enterprise cloud edition for free if you choose an annual plan. If you decide for the two year plan, you get five months for free and if you commit to a five year plan, you get 15 months for free. 
-Please note: The free months will be included in the chosen length of your subscription period and won't be added on top.
+Yes, your subscription gets cheaper the longer the duration you choose. Please check our current pricing [here](/pricing/).
 
 ### Additional questions
 

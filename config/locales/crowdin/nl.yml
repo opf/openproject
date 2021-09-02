@@ -1498,7 +1498,6 @@ nl:
   label_feeds_access_key: "RSS toegangssleutel"
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Bestand toegevoegd"
   label_file_plural: "Bestanden"
   label_filter_add: "Filter toevoegen"
   label_filter_plural: "Filters"

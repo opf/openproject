@@ -522,6 +522,7 @@ bg:
         all: 'All'
       center:
         mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:

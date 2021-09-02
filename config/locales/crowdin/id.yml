@@ -1480,7 +1480,6 @@ id:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File ditambahkan"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter_plural: "Filter"

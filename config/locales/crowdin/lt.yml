@@ -1528,7 +1528,6 @@ lt:
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Failas pridėtas"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
   label_filter_plural: "Filtrai"
@@ -2052,7 +2051,7 @@ lt:
   notice_successful_connection: "Sėkmingas susijungimas."
   notice_successful_create: "Sėkmingas sukūrimas."
   notice_successful_delete: "Sėkmingas panaikinimas."
-  notice_successful_update: "Sėkmingas atnaujinimas."
+  notice_successful_update: "Sėkmingai atnaujinta."
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.

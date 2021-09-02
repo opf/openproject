@@ -1494,7 +1494,6 @@ it:
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File aggiunto"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
   label_filter_plural: "Filtri"

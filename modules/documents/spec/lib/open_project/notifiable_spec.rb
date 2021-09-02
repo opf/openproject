@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,37 +27,13 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
 
-# If you place a .env file into the root directory of OpenProject
-# you can override some default settings that foreman will use
-# to start OpenProject
-
-# This is used to prevent people from using the new docker-compose file for automated installs
-LOCAL_DEV_CHECK=1
-
-# Set this to your ckeditor build output directory (which includes ckeditor.js) if you
-# want to develop ckeditor locally.
-CKEDITOR_BUILD_DIR=frontend/src/vendor/ckeditor/
-
-# This is the host from which you will be accessing the development servers locally
-PUBLIC_HOST=localhost
-
-HOST=0.0.0.0
-PORT=1337
-
-DEV_UID=1000
-DEV_GID=1001
-
-DB_HOST=db
-DB_PORT=5432
-DB_USERNAME=openproject
-DB_PASSWORD=openproject
-DB_DATABASE=openproject
-
-CI_JOBS=24
-
-SMTP_ADDRESS=
-SMTP_PORT=
-SMTP_DOMAIN=
-SMTP_USER_NAME=
-SMTP_PASSWORD=
+describe OpenProject::Notifiable do
+  describe '#all' do
+    it 'includes document_added' do
+      expect(described_class.all.map(&:name))
+        .to include('document_added')
+    end
+  end
+end
