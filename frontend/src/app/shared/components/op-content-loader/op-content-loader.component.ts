@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
-  Component, 
-  Input, 
-  OnInit
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 
 function uid() {
