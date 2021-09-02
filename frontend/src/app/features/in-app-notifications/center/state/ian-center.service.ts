@@ -89,7 +89,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    selectCollection$(this.ianService, this.store.getValue().params)
+    selectCollection$(this.ianService, this.params)
       .pipe(
         take(1),
       )
@@ -103,7 +103,11 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    if (action.caller !== this) {
+    if (action.caller === this) {
+      this
+        .ianService
+        .removeFromCollection(this.params, action.notifications);
+    } else {
       this.reload();
     }
   }

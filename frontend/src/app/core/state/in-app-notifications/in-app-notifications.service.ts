@@ -19,7 +19,10 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { collectionKey } from 'core-app/core/state/collection-store.type';
+import {
+  collectionKey,
+  CollectionResponse,
+} from 'core-app/core/state/collection-store.type';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -79,6 +82,36 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
 
   update(id:ID, inAppNotification:Partial<InAppNotification>):void {
     this.store.update(id, inAppNotification);
+  }
+
+  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]) {
+    const key = collectionKey(params);
+    this.store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [key]: {
+            ...collections[key],
+            ids: [...callback(collections[key]?.ids || [])],
+          },
+        },
+      }
+    ));
+  }
+
+  removeFromCollection(params:Apiv3ListParameters, ids:ID[]):void {
+    const key = collectionKey(params);
+    this.store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [key]: {
+            ...collections[key],
+            ids: (collections[key]?.ids || []).filter((id) => !ids.includes(id)),
+          },
+        },
+      }
+    ));
   }
 
   markAsRead(notifications:ID[]):Observable<unknown> {
