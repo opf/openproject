@@ -101,8 +101,7 @@ class UserPreference < ApplicationRecord
   end
 
   def warn_on_leaving_unsaved?
-    # Need to cast here as previous values were '0' / '1'
-    to_boolean(settings.fetch(:warn_on_leaving_unsaved, true))
+    settings.fetch(:warn_on_leaving_unsaved, true)
   end
 
   def warn_on_leaving_unsaved=(value)
