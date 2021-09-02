@@ -19,10 +19,7 @@ import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import {
-  collectionKey,
-  CollectionResponse,
-} from 'core-app/core/state/collection-store.type';
+import { collectionKey } from 'core-app/core/state/collection-store.type';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -84,7 +81,7 @@ export class InAppNotificationsService extends UntilDestroyedMixin {
     this.store.update(id, inAppNotification);
   }
 
-  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]) {
+  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]):void {
     const key = collectionKey(params);
     this.store.update(({ collections }) => (
       {

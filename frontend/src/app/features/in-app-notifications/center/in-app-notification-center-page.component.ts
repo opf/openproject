@@ -1,9 +1,18 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import { StateService, TransitionService } from '@uirouter/core';
+import {
+  StateService,
+  TransitionService,
+} from '@uirouter/core';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -100,11 +109,13 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
 
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {}
+  updateTitleName(val:string):void {
+  }
 
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {}
+  changeChangesFromTitle(val:string):void {
+  }
 
   private backButtonFn():void {
     if (this.documentReferer.length > 0) {

@@ -1,11 +1,16 @@
-import { EntityState, ID, QueryEntity } from '@datorama/akita';
-import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  EntityState,
+  ID,
+  QueryEntity,
+} from '@datorama/akita';
+import {
+  Apiv3ListParameters,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
   filter,
   map,
-  switchMap,
 } from 'rxjs/operators';
 
 export interface CollectionResponse {
@@ -33,7 +38,6 @@ export function createInitialCollectionState():{ collections:Record<string, Coll
     collections: {},
   };
 }
-
 
 /**
  * Returns the collection key for the given APIv3 parameters

@@ -107,7 +107,7 @@ export class WpSingleViewService extends UntilDestroyedMixin {
    * Reload after notifications were successfully marked as read
    */
   @EffectCallback(notificationsMarkedRead)
-  private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
+  private reloadOnNotificationRead() {
     const { filters } = this.store.getValue().notifications;
     this.reload(filters);
   }

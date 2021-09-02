@@ -33,7 +33,6 @@ export function createInitialState():IanCenterState {
 
 @StoreConfig({ name: 'ian-center' })
 export class IanCenterStore extends Store<IanCenterState> {
-
   constructor() {
     super(createInitialState());
   }
