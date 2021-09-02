@@ -15,7 +15,7 @@
       </cdk-virtual-scroll-viewport>
     </ng-container>
     <ng-template #noResults>
-      <div class="generic-table--no-results-container">
+      <div class="generic-table--no-results-container" *ngIf="isNoticationsLoaded">
         <span
             class="generic-table--no-results-title"
         >

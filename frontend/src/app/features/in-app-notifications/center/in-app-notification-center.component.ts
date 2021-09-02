@@ -24,6 +24,8 @@ import { UIRouterGlobals } from '@uirouter/core';
 export class InAppNotificationCenterComponent implements OnInit, AfterContentInit {
   activeFacet$ = this.ianQuery.activeFacet$;
 
+  public isNoticationsLoaded = false;
+
   notifications$ = this
     .ianService
     .query
@@ -52,8 +54,6 @@ export class InAppNotificationCenterComponent implements OnInit, AfterContentIni
         { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: notLoaded },
       )),
     );
-
-  isNoticationsLoaded = false;
 
   maxSize = NOTIFICATIONS_MAX_SIZE;
 

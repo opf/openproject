@@ -22,20 +22,22 @@
 
   &--loading-indicator
     --container: linear-gradient(to bottom, #ffffff 100%, transparent 0%)
-    --container-height: 110px
+    --container-height: 105px
     --element: linear-gradient(to right, #C0C0C0 100%, transparent 0%)
-    --element-height: 30px
+    --element-height: 20px
     --element-width: 100%
     --element-1-position: 0px 10px
-    --element-2-position: 0px 50px
-    --element-3-position: 0px 90px
+    --element-2-position: 0px 40px
+    --element-3-position: 0px 70px
     --blur-width: 50%
     --blur-size: var(--blur-width) var(--container-height)
     &:empty::after
+      border-top: 1px dotted #C0C0C0
+      border-bottom: 1px dotted #C0C0C0
       content: ""
       display: block
       width: 100%
-      height: 310px
+      height: 105px
       -webkit-transition: all 1s ease-in-out
       -moz-transition: all 1s ease-in-out
       -o-transition: all 1s ease-in-out
