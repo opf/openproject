@@ -37,7 +37,8 @@ class DigestMailer < ApplicationMailer
   include OpenProject::TextFormatting
   include Redmine::I18n
 
-  helper :mail_digest
+  helper :mail_digest,
+         :mail_notification
 
   MAX_SHOWN_WORK_PACKAGES = 15
 

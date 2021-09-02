@@ -1,93 +1,14 @@
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #cccccc; margin-bottom: 30px;">
-  <tr>
-    <td style="width: 82px; height: 82px; vertical-align: top;">
-      <%= email_image_tag("logo_openproject_narrow.svg", alt: I18n.t(:'mail.logo_alt_text')) %>
-    </td>
-    <td width="100%" style="padding-top: 8px;">
-      <table>
-        <tr>
-          <td style="font-size: 24px; color: #333333; padding-bottom: 5px;">
-            <%= I18n.t(:'mail.digests.salutation', user: @user.firstname) %>
-          </td>
-        </tr>
-        <tr>
-          <td style="font-size:14px; color: #1A67A3; font-weight: bold; padding-bottom: 10px;">
-            <%= digest_summary_text(@notification_ids.length, @aggregated_notifications.length) %>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding: 10px 0 25px 0;">
-            <a href="<%= notifications_center_url %>"
-               target="_blank"
-               style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;">
-              <%= I18n.t(:'mail.digests.center') %>
-            </a>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<%= render partial: 'mailer/notification_mailer_header',
+           locals: {
+             summary: digest_summary_text(@notification_ids.length, @aggregated_notifications.length)
+           } %>
 
 <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
-  <a style="border: 1px solid #E0E0E0;
-            margin-bottom: 15px;
-            padding: 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: block;"
-       href="<%= notifications_path(work_package.id) %>"
-       target="_blank">
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 12px;">
-      <tr>
-        <td style="color: #333333;
-                   background-color: #FFFFFF;
-                   <%= status_colors(work_package.status) %>
-                   white-space: nowrap;
-                   padding: 0 5px;">
-          <%= work_package.status %>
-        </td>
-        <td style="padding-left: 5px;
-                   color: #878787;">
-          #<%= work_package.id %>
-        </td>
-        <td style="white-space: nowrap;
-                   padding-left: 5px;
-                   color: #878787;">
-          - <%= work_package.project %>
-        </td>
-        <td style="padding-left: 5px;
-                   color: #878787;
-                   white-space: nowrap;">
-          <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
-          <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
-          <% unique_reasons.each_with_index do |reason, index| %>
-            <%= I18n.t(
-                  :"mail.digests.work_packages.reason.#{reason || :unknown}",
-                  default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
-          <% end %>
-        </td>
-        <td width="100%" style="text-align: right;">
-          <span style="background-color: #00A3FF;
-                       color: white;
-                       border-radius: 8px;
-                       padding: 2px 7px;
-                       font-size: 10px;">
-           <%= notifications_by_work_package.length %>
-          </span>
-        </td>
-      </tr>
-    </table>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">
-      <tr>
-        <td style="color: <%= type_color(work_package.type, '#333333') %>;">
-          <%= work_package.type.to_s.upcase %>
-        </td>
-        <td width="100%" style="padding-left: 5px; color: #333333;">
-          <%= work_package.subject %>
-        </td>
-      </tr>
-    </table>
+  <%= render layout: 'mailer/notification_row',
+             locals: {
+               work_package: work_package,
+               notifications_by_work_package: notifications_by_work_package
+             } do %>
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
       <% notifications_by_work_package.each do | notification | %>
         <% if notification.journal.notes.present? %>
@@ -108,7 +29,7 @@
         <% end %>
       <% end %>
     </table>
-  </a>
+  <% end %>
 <% end %>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
@@ -131,11 +52,7 @@
       <% end %>
     </td>
     <td>
-      <a href="<%= my_notifications_url %>"
-         target="_blank"
-         style="padding: 8px 12px; color: #333333; border: 1px solid #878787; border-radius: 16px; text-decoration: none; white-space: nowrap;">
-        <%= I18n.t(:'mail.digests.settings') %>
-      </a>
+      <%= render partial: 'mailer/notification_settings_button' %>
     </td>
   </tr>
 </table>

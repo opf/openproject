@@ -29,8 +29,6 @@
 #++
 
 module MailDigestHelper
-  include ::ColorsHelper
-
   def digest_summary_text(notification_count, wp_count)
     date = Time.parse(Setting.notification_email_digest_time)
 
@@ -55,31 +53,6 @@ module MailDigestHelper
     else
       I18n.t(:'mail.digests.work_packages.comment_added').html_safe
     end
-  end
-
-  def email_image_tag(image, **options)
-    attachments[image] = File.read(Rails.root.join("app/assets/images/#{image}"))
-    image_tag attachments[image].url, **options
-  end
-
-  def unique_reasons_of_notifications(notifications)
-    notifications
-      .map(&:reason_mail_digest)
-      .uniq
-  end
-
-  def notifications_path(id)
-    notifications_center_url(['details', id, 'activity'])
-  end
-
-  def type_color(type, default_fallback)
-    color_id = selected_color(type)
-    color_id ? Color.find(color_id).hexcode : default_fallback
-  end
-
-  def status_colors(status)
-    color_id = selected_color(status)
-    Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
   end
 
   private
