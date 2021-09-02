@@ -52,7 +52,7 @@ export class IanCenterService {
 
   markAsRead(notifications:ID[]):void {
     this.actions$.dispatch(
-      markNotificationsAsRead({ caller: this, notifications }),
+      markNotificationsAsRead({ origin: this.id, notifications }),
     );
   }
 
@@ -71,7 +71,7 @@ export class IanCenterService {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    if (action.caller === this) {
+    if (action.origin === this.id) {
       this
         .resourceService
         .removeFromCollection(this.query.params, action.notifications);

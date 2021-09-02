@@ -56,7 +56,7 @@ export class WpSingleViewService {
       )
       .subscribe((collection) => {
         this.actions$.dispatch(
-          markNotificationsAsRead({ caller: this, notifications: collection.ids }),
+          markNotificationsAsRead({ origin: this.id, notifications: collection.ids }),
         );
       });
   }

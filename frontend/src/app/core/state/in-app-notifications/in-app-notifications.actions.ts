@@ -6,10 +6,10 @@ import {
 
 export const markNotificationsAsRead = action(
   '[IAN] Mark notifications as read',
-  props<{ caller:{ id:string }, notifications:ID[] }>(),
+  props<{ origin:string, notifications:ID[] }>(),
 );
 
 export const notificationsMarkedRead = action(
   '[IAN] Notifications were marked as read',
-  props<{ caller:{ id:string }, notifications:ID[] }>(),
+  props<{ origin:string, notifications:ID[] }>(),
 );
