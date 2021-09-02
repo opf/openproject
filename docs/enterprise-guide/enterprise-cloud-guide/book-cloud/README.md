@@ -82,7 +82,7 @@ You will get an overview of your booked subscription.
 
 An invoice will be sent via email to the Billing email address.
 
-
+![Subscription](Subscription.png)
 
 ## Frequently asked questions (FAQ)
 
