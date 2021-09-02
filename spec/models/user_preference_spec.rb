@@ -82,6 +82,15 @@ describe UserPreference do
     end
   end
 
+  describe 'an unsupported method' do
+    context 'for created_at (key not in the schema)' do
+      it 'raises an error' do
+        expect { preference.created_at }
+          .to raise_error NoMethodError
+      end
+    end
+  end
+
   describe 'sort order' do
     it_behaves_like 'accepts real and false booleans',
                     :comments_in_reverse_order=,

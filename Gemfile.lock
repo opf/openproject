@@ -246,9 +246,6 @@ GEM
       multi_json (~> 1.11, >= 1.11.2)
       rack (>= 2.0.8, < 3)
       railties (>= 5.2.4.1)
-    activerecord_json_validator (2.0.1)
-      activerecord (>= 4.2.0, < 7)
-      json_schemer (~> 0.2.18)
     activestorage (6.1.4.1)
       actionpack (= 6.1.4.1)
       activejob (= 6.1.4.1)
@@ -973,7 +970,6 @@ DEPENDENCIES
   activerecord-import (~> 1.2.0)
   activerecord-nulldb-adapter (~> 0.7.0)
   activerecord-session_store (~> 2.0.0)
-  activerecord_json_validator (~> 2.0.0)
   acts_as_list (~> 1.0.1)
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.8.0)
@@ -1023,6 +1019,7 @@ DEPENDENCIES
   html-pipeline (~> 2.14.0)
   htmldiff
   i18n-js (~> 3.9.0)
+  json_schemer (~> 0.2.18)
   json_spec (~> 1.1.4)
   ladle
   launchy (~> 2.5.0)

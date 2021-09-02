@@ -3,6 +3,8 @@ require_relative './migration_utils/utils'
 class MakeUserPreferencesJson < ActiveRecord::Migration[6.1]
   include ::Migration::Utils
 
+  # TODO: remove self_notified and switch type of warn_on_leaving_unsaved in DB to boolean (currently is 1/0)
+
   class UserPreferenceWithOthers < ::UserPreference
     self.table_name = 'user_preferences'
     serialize :others, Hash

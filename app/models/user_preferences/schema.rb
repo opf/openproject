@@ -32,8 +32,10 @@ class UserPreferences::Schema
   class << self
     PATH = Rails.root.join('config/schemas/api/user_preferences.schema.json')
 
+    # TODO: check if Time zones can be verified within the schema
+
     def schema
-      @schema ||= JSON::load(PATH)
+      @schema ||= JSON::parse(File.read(PATH))
     end
 
     def properties

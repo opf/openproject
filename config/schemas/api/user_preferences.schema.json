@@ -16,12 +16,10 @@
                     "type": "boolean"
                 },
                 "comments_sorting": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": ["asc", "desc"]
                 },
                 "auto_hide_popups": {
-                    "type": "boolean"
-                },
-                "self_notified": {
                     "type": "boolean"
                 },
                 "daily_reminders": {
@@ -33,11 +31,10 @@
                 "comments_sorting",
                 "daily_reminders",
                 "hide_mail",
-                "self_notified",
                 "time_zone",
                 "warn_on_leaving_unsaved"
             ],
-            "title": "Welcome"
+            "title": "UserPreferences"
         },
         "DailyReminders": {
             "type": "object",

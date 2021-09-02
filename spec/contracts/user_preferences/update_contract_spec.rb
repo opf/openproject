@@ -35,7 +35,24 @@ describe UserPreferences::UpdateContract do
 
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:user) { FactoryBot.build_stubbed :user }
-  let(:user_preference) { FactoryBot.build_stubbed(:user_preference, user: user) }
+  let(:user_preference) do
+    FactoryBot.build_stubbed(:user_preference,
+                             user: user,
+                             settings: settings&.with_indifferent_access)
+  end
+  let(:settings) do
+    {
+      hide_mail: true,
+      auto_hide_popups: true,
+      comments_sorting: 'desc',
+      daily_reminders: {
+        enabled: true,
+        times: %w[08:00:00+00:00 12:00:00+00:00]
+      },
+      time_zone: 'Brasilia',
+      warn_on_leaving_unsaved: true
+    }
+  end
   let(:contract) { described_class.new(user_preference, current_user) }
 
   context 'when current_user is admin' do
@@ -77,5 +94,155 @@ describe UserPreferences::UpdateContract do
 
   context 'when current_user is a regular user' do
     it_behaves_like 'contract user is unauthorized'
+  end
+
+  context 'when the settings are nil' do
+    let(:settings) { nil }
+
+    it_behaves_like 'contract is invalid', settings: :exclusion
+  end
+
+  context 'without a hide_mail value' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: true,
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', hide_mail: :blank
+  end
+
+  context 'with a string for hide_mail' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: true,
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: 'yes please'
+      }
+    end
+
+    it_behaves_like 'contract is invalid', hide_mail: :type_mismatch
+  end
+
+  context 'with a field within the daily_reminders having the wrong type' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: 'sure',
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', daily_reminders: :type_mismatch_nested
+  end
+
+  context 'with a field within the daily_reminders missing' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', daily_reminders: :blank_nested
+  end
+
+  context 'with an extra property' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: true,
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true,
+        foo: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', foo: :unknown_property
+  end
+
+  context 'with an extra property within the daily_reminders' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: true,
+          times: %w[08:00:00+00:00 12:00:00+00:00],
+          foo: true
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', daily_reminders: :unknown_property_nested
+  end
+
+  context 'with an invalid time for the daily_reminders' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'desc',
+        daily_reminders: {
+          enabled: true,
+          times: %w[abc 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', daily_reminders: :format_nested
+  end
+
+  context 'with an invalid order for comments_sorting' do
+    let(:settings) do
+      {
+        auto_hide_popups: true,
+        comments_sorting: 'up',
+        daily_reminders: {
+          enabled: true,
+          times: %w[08:00:00+00:00 12:00:00+00:00]
+        },
+        time_zone: 'Brasilia',
+        warn_on_leaving_unsaved: true,
+        hide_mail: true
+      }
+    end
+
+    it_behaves_like 'contract is invalid', comments_sorting: :inclusion
   end
 end

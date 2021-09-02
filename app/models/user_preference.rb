@@ -41,6 +41,8 @@ class UserPreference < ApplicationRecord
   # as boolean with ? suffix
   def method_missing(method_name, *args)
     key = method_name.to_s
+    return super unless supported_settings_method?(key)
+
     action = key[-1]
 
     case action
@@ -57,7 +59,7 @@ class UserPreference < ApplicationRecord
   # We respond to all methods as we retrieve
   # the key from settings
   def respond_to_missing?(method_name, include_private = false)
-    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, '')) || super
+    supported_settings_method?(method_name) || super
   end
 
   def [](attr_name)
@@ -137,5 +139,9 @@ class UserPreference < ApplicationRecord
 
   def time_zone_correctness
     errors.add(:time_zone, :inclusion) if time_zone.present? && canonical_time_zone.nil?
+  end
+
+  def supported_settings_method?(method_name)
+    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
   end
 end
