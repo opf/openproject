@@ -40,9 +40,9 @@
         <span style="font-size: 14px; line-height: 28px">
           <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
           <% if number_of_overflowing_work_packages === 1 %>
-            <%= I18n.t(:'mail.notifications.work_packages.more_to_see_singular') %>
+            <%= I18n.t(:'mail.notifications.work_packages.more_to_see.one') %>
           <% else %>
-            <%= I18n.t(:'mail.notifications.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %>
+            <%= I18n.t(:'mail.notifications.work_packages.more_to_see.multiple', number: number_of_overflowing_work_packages) %>
           <% end %>
         </span>
         <a

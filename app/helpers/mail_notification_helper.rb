@@ -59,7 +59,6 @@ module MailNotificationHelper
     timestamp_text(user, journal, extended_text)
   end
 
-
   def unique_reasons_of_notifications(notifications)
     notifications
       .map(&:reason_mail_digest)

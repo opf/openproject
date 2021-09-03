@@ -42,7 +42,13 @@ module Notifications::MailService::WorkPackageStrategy
     private
 
     def mailer_method(notification)
-      notification.journal.initial? ? :work_package_added : :work_package_updated
+      if notification.journal.initial?
+        :work_package_added
+      elsif notification.reason_mail_digest === 'mentioned'
+        :work_package_direct_mention
+      else
+        :work_package_updated
+      end
     end
   end
 end

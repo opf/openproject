@@ -29,6 +29,10 @@
 #++
 
 class UserMailer < ApplicationMailer
+  include ActionView::Helpers::SanitizeHelper
+
+  helper :mail_notification
+
   def test_mail(user)
     @welcome_url = url_for(controller: '/homescreen')
 
@@ -70,6 +74,26 @@ class UserMailer < ApplicationMailer
 
       with_locale_for(user) do
         mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
+      end
+    end
+  end
+
+  def work_package_direct_mention(user, journal)
+    User.execute_as user do
+      work_package = journal.journable.reload
+
+      # instance variables are used in the view
+      @work_package = work_package
+      @journal = journal
+      @user = user
+
+      set_work_package_headers(work_package)
+
+      message_id journal, user
+      references work_package, user
+
+      with_locale_for(user) do
+        mail to: user.mail, subject: strip_tags(I18n.t(:'mail.notifications.work_packages.mentioned'))
       end
     end
   end

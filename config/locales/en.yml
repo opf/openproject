@@ -1967,10 +1967,12 @@ en:
   mail:
     actions: 'Actions'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      including_mention:
+        one: 'including a mention'
+        multiple: 'including %{number_mentioned} mentions'
+      unread_notification:
+        one: '1 unread notification'
+        multiple: '%{number_unread} unread notifications'
       you_have: 'You have'
     logo_alt_text: 'Logo'
     notifications:
@@ -1982,8 +1984,9 @@ en:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          multiple: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
           involved: 'Assigned or responsible'

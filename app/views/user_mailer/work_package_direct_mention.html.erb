@@ -1,0 +1,38 @@
+<%= render partial: 'shared_notification_mailer/notification_mailer_header',
+           locals: {
+             summary: strip_tags(I18n.t(:'mail.notifications.work_packages.mentioned'))
+           } %>
+
+<%= render layout: 'shared_notification_mailer/notification_row',
+           locals: {
+             work_package: @work_package,
+             badge_count: 1,
+             unique_reasons: [I18n.t(:'mail.notifications.work_packages.reason.mentioned')]
+           } do %>
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
+    <% if @journal.notes.present? %>
+      <tr style="color: #878787; line-height: 20px; white-space: nowrap;">
+        <td>
+          <%= I18n.t(:'mail.notifications.work_packages.mentioned').html_safe %>
+          <%= notification_timestamp_text(@journal) %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%= @journal.notes %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+  <tr>
+    <td width="100%">
+    </td>
+    <td>
+      <%= render partial: 'shared_notification_mailer/notification_settings_button' %>
+    </td>
+  </tr>
+</table>
+

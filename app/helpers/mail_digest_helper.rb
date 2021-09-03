@@ -30,14 +30,14 @@
 
 module MailDigestHelper
   def digest_summary_text(notification_count, mentioned_count)
-    mentioned = mentioned_count > 1 ? 'plural' : 'singular'
-    notifications = notification_count > 1 ? 'plural' : 'singular'
+    mentioned = mentioned_count > 1 ? 'multiple' : 'one'
+    notifications = notification_count > 1 ? 'multiple' : 'one'
 
-    summary = I18n.t(:"mail.digests.unread_notification_#{notifications}",
+    summary = I18n.t(:"mail.digests.unread_notification.#{notifications}",
                      number_unread: notification_count).to_s
 
     unless mentioned_count === 0
-      summary << " #{I18n.t(:"mail.digests.including_mention_#{mentioned}",
+      summary << " #{I18n.t(:"mail.digests.including_mention.#{mentioned}",
                             number_mentioned: mentioned_count)}"
     end
 

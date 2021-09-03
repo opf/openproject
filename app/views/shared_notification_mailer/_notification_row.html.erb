@@ -21,7 +21,6 @@
       <td width="100%" style="padding-left: 8px;
                               color: #878787;">
         #<%= work_package.id %> - <%= work_package.project %>
-        <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
         <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
         <% unique_reasons.each_with_index do |reason, index| %>
           <%= I18n.t(
