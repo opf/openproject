@@ -141,29 +141,14 @@ describe UserPreference do
   describe 'time_zone' do
     it 'allows to save short time zones' do
       subject.time_zone = 'Berlin'
-      expect(subject).to be_valid
       expect(subject.time_zone).to eq('Berlin')
       expect(subject.canonical_time_zone).to eq('Europe/Berlin')
     end
 
     it 'allows to set full time zones' do
       subject.time_zone = 'Europe/Paris'
-      expect(subject).to be_valid
       expect(subject.time_zone).to eq('Europe/Paris')
       expect(subject.canonical_time_zone).to eq('Europe/Paris')
-    end
-
-    it 'disallows invalid time zones' do
-      subject.time_zone = 'Berlin123'
-      expect(subject).not_to be_valid
-    end
-
-    it 'allows empty values' do
-      subject.time_zone = nil
-      expect(subject).to be_valid
-
-      subject.time_zone = ''
-      expect(subject).to be_valid
     end
   end
 

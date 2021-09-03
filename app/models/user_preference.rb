@@ -35,9 +35,6 @@ class UserPreference < ApplicationRecord
 
   validates :user,
             presence: true
-  validate :time_zone_correctness,
-           if: -> { time_zone.present? }
-
   ##
   # Retrieve keys from settings, and allow accessing
   # as boolean with ? suffix
@@ -136,10 +133,6 @@ class UserPreference < ApplicationRecord
 
   def attribute?(name)
     %i[user user_id].include?(name.to_sym)
-  end
-
-  def time_zone_correctness
-    errors.add(:time_zone, :inclusion) if time_zone.present? && canonical_time_zone.nil?
   end
 
   def supported_settings_method?(method_name)

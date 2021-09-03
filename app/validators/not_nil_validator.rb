@@ -28,7 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module UserPreferences
-  class UpdateContract < BaseContract
+class NotNilValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    record.errors.add(attribute, :blank) if value.nil?
   end
 end
