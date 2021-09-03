@@ -126,12 +126,25 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :SetAttributesService
     patch_with_namespace :WorkPackages, :BaseContract
     patch_with_namespace :Versions, :RowCell
-    patch_with_namespace :UserPreferences, :Schema
 
     config.to_prepare do
       next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
 
       Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
+
+      # Add available settings to the user preferences
+      UserPreferences::Schema.merge!(
+        'definitions/UserPreferences/properties',
+        {
+          'backlogs_task_color' => {
+            'type' => 'string'
+          },
+          'backlogs_versions_default_fold_state' => {
+            'type' => 'string',
+            "enum" => %w[open closed]
+          }
+        }
+      )
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

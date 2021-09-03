@@ -35,9 +35,6 @@ module UserPreferences
     validates :settings,
               exclusion: { in: [{}] },
               json: {
-                message: ->(errors) do
-                  errors.map { |error| JSONSchemer::Errors.pretty(error) }
-                end,
                 schema: ->(*) {
                   UserPreferences::Schema.schema
                 },
