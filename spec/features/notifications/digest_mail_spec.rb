@@ -49,6 +49,9 @@ describe "Digest email", type: :feature, js: true do
   end
 
   before do
+    allow(Setting).to receive(:notification_email_digest_time)
+                        .and_return(hitting_reminder_slot_for(current_user))
+
     watched_work_package
     work_package
     involved_work_package
@@ -121,12 +124,9 @@ describe "Digest email", type: :feature, js: true do
       involved_work_package.save!
     end
 
-    # Have to explicitly execute the delayed jobs. If we were to execute all
-    # by wrapping the above, work package altering code, inside a
-    # perform_enqueued_jobs block, the digest job would be executed right away
-    # so that the second update would trigger a new digest. But we want to test
-    # that only one digest is sent out
-    5.times { perform_enqueued_jobs }
+    Cron::ScheduleReminderMailsJob.perform_later
+    perform_enqueued_jobs
+    perform_enqueued_jobs
 
     expect(ActionMailer::Base.deliveries.length)
       .to be 1
