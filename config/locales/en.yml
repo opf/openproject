@@ -1971,6 +1971,11 @@ en:
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notifications:
+      center: 'To notification center'
+      settings: 'Change email settings'
       work_packages:
         comment_added: '<b>Comment</b> added'
         created: 'Created'
@@ -1988,11 +1993,6 @@ en:
         see_all: 'See all'
         updated: 'Updated'
         updated_at: 'at %{timestamp} by %{user}'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
-    notification:
-      center: 'To notification center'
-      settings: 'Change email settings'
     salutation: 'Hey %{user}!'
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"

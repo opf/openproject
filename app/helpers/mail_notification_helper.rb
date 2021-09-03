@@ -53,6 +53,13 @@ module MailNotificationHelper
     image_tag "data:image/#{suffix};base64,#{base64_string}", **options
   end
 
+  def notification_timestamp_text(journal, html: true, extended_text: false)
+    user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
+
+    timestamp_text(user, journal, extended_text)
+  end
+
+
   def unique_reasons_of_notifications(notifications)
     notifications
       .map(&:reason_mail_digest)
@@ -71,5 +78,24 @@ module MailNotificationHelper
   def status_colors(status)
     color_id = selected_color(status)
     Color.find(color_id).color_styles.map { |k, v| "#{k}:#{v};" }.join(' ') if color_id
+  end
+
+  private
+
+  def timestamp_text(user, journal, extended)
+    value = journal.initial? ? "created" : "updated"
+    if extended
+      sanitize(
+        "#{I18n.t(:"mail.notifications.work_packages.#{value}")} #{I18n.t(:"mail.notifications.work_packages.#{value}_at",
+                                                                          user: user,
+                                                                          timestamp: journal.created_at.strftime(
+                                                                            I18n.t(:'time.formats.time')
+                                                                          ))}"
+      )
+    else
+      sanitize(I18n.t(:"mail.notifications.work_packages.#{value}_at",
+                      user: user,
+                      timestamp: journal.created_at.strftime(I18n.t(:'time.formats.time'))))
+    end
   end
 end

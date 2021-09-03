@@ -12,10 +12,10 @@
     <%= "-" * 20 %>
 
     <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
-    <%= digest_notification_timestamp_text(
-          notification,
+    <%= notification_timestamp_text(
+          notification.journal,
           html: false,
-          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.digests.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
+          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.notifications.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
 
     <% journal = notification.journal %>
     <% if journal.notes.present? %>
@@ -36,8 +36,8 @@
 <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
 <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
 <% if number_of_overflowing_work_packages === 1 %>
-<%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %> <%= I18n.t(:'mail.digests.work_packages.login_to_see_all') %>
+<%= I18n.t(:'mail.notifications.work_packages.more_to_see_singular') %> <%= I18n.t(:'mail.notifications.work_packages.login_to_see_all') %>
 <% else %>
-<%= I18n.t(:'mail.digests.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %> <%= I18n.t(:'mail.digests.work_packages.login_to_see_all') %>
+<%= I18n.t(:'mail.notifications.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %> <%= I18n.t(:'mail.notifications.work_packages.login_to_see_all') %>
 <% end %>
 <% end %>

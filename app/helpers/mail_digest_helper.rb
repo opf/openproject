@@ -44,37 +44,11 @@ module MailDigestHelper
     summary
   end
 
-  def digest_notification_timestamp_text(notification, html: true, extended_text: false)
-    journal = notification.journal
-    user = html ? link_to_user(journal.user, only_path: false) : journal.user.name
-
-    timestamp_text(user, journal, extended_text)
-  end
-
   def digest_comment_text(notification)
     if notification.reason_mail_digest === "mentioned"
-      sanitize I18n.t(:'mail.digests.work_packages.mentioned')
+      sanitize I18n.t(:'mail.notifications.work_packages.mentioned')
     else
-      sanitize I18n.t(:'mail.digests.work_packages.comment_added')
-    end
-  end
-
-  private
-
-  def timestamp_text(user, journal, extended)
-    value = journal.initial? ? "created" : "updated"
-    if extended
-      sanitize(
-        "#{I18n.t(:"mail.digests.work_packages.#{value}")} #{I18n.t(:"mail.digests.work_packages.#{value}_at",
-                                                                    user: user,
-                                                                    timestamp: journal.created_at.strftime(
-                                                                      I18n.t(:'time.formats.time')
-                                                                    ))}"
-      )
-    else
-      sanitize(I18n.t(:"mail.digests.work_packages.#{value}_at",
-                      user: user,
-                      timestamp: journal.created_at.strftime(I18n.t(:'time.formats.time'))))
+      sanitize I18n.t(:'mail.notifications.work_packages.comment_added')
     end
   end
 end
