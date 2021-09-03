@@ -53,7 +53,7 @@ See docs/COPYRIGHT.rdoc for more details.
         <label class="hidden-for-sighted" for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
         <%= rate_form.text_field :rate,
                                  index: id_or_index,
-                                 value: rate.rate ? rate.rate.round(4) : "",
+                                 value: rate.rate ? number_with_delimiter(rate.rate.round(4)) : "",
                                  required: true %>
         <span class="form-label">
           <%= Setting.plugin_costs['costs_currency'] %>
