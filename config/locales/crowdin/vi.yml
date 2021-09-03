@@ -61,7 +61,7 @@ vi:
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
         header-border-bottom-color: "Dòng ngắt trang, chỗ này sẽ bỏ trống nếu bạn không muốn hiễn thị"
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Thay đổi chủ đề sẽ ghi đè lên phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục?
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
@@ -145,7 +145,7 @@ vi:
         Phần này liên quan đến bảo mật kết nối của nguồn xác thực LDAP này. Để biết thêm thông tin, vui lòng truy cập <a href="%{link}"> tài liệu Net::LDAP</a>.
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Hiện tại không có bài viết cho diễn đàn.
   colors:
     index:
       no_results_title_text: Hiện có không có màu sắc.
@@ -167,7 +167,7 @@ vi:
       description: 'Những hành động tùy chỉnh sắp xếp công việc hàng ngày bằng cách kết hợp một bộ các bước cá nhân vào một nút.'
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
+      Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Đã bật trong dự án'
     contained_in_type: 'Contained in type'
@@ -336,7 +336,7 @@ vi:
         type:
           no_results_title_text: Không có phân loại.
         version:
-          no_results_title_text: There are currently no versions available.
+          no_results_title_text: Hiện tại không sẵn có phiên bản nào.
   label_invitation: Thư mời
   account:
     delete: "Xoá tài khoản"
