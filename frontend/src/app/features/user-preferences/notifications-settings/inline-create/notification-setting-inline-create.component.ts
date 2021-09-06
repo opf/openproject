@@ -35,9 +35,9 @@ export class NotificationSettingInlineCreateComponent {
   active = false;
 
   text = {
-    add_setting: this.I18n.t('js.notifications.settings.add'),
+    add_setting: this.I18n.t('js.notifications.settings.project_specific.add'),
     please_select: this.I18n.t('js.placeholders.selection'),
-    already_selected: this.I18n.t('js.notifications.settings.already_selected'),
+    already_selected: this.I18n.t('js.notifications.settings.project_specific.already_selected'),
   };
 
   public autocompleterOptions = {

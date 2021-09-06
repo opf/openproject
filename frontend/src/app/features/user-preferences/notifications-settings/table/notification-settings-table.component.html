@@ -5,9 +5,7 @@
   <thead>
     <tr>
       <th class="op-table--cell op-table--cell_heading"></th>
-      <ng-container
-        *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
-      >
+      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
         <th class="op-table--cell op-table--cell_heading">{{ item.key }}</th>
       </ng-container>
     </tr>
@@ -27,6 +25,8 @@
             type="checkbox"
             [checked]="item.value[0].involved"
             (change)="update({ involved: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="involved" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>
@@ -45,6 +45,8 @@
             type="checkbox"
             [checked]="item.value[0].workPackageCreated"
             (change)="update({ workPackageCreated: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="work_package_created" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>
@@ -57,6 +59,8 @@
             type="checkbox"
             [checked]="item.value[0].workPackageProcessed"
             (change)="update({ workPackageProcessed: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="work_package_processed" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>
@@ -69,6 +73,8 @@
             type="checkbox"
             [checked]="item.value[0].workPackageScheduled"
             (change)="update({ workPackageScheduled: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="work_package_scheduled" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>
@@ -81,6 +87,8 @@
             type="checkbox"
             [checked]="item.value[0].workPackagePrioritized"
             (change)="update({ workPackagePrioritized: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="work_package_prioritized" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>
@@ -93,6 +101,8 @@
             type="checkbox"
             [checked]="item.value[0].workPackageCommented"
             (change)="update({ workPackageCommented: $event.target.checked }, item.value[0]._links.project.href)"
+            data-qa-project-notification-type="work_package_commented" 
+            [attr.data-qa-project]="item.key" 
           />
         </td>
       </ng-container>

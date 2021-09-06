@@ -9,15 +9,20 @@ import { NotificationSetting } from 'core-app/features/user-preferences/state/no
 
 @Injectable()
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
-  /** All notification settings */
   notificationSettings$ = this.select('notifications');
 
-  /** Notification settings grouped by Project */
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map((notifications) => notifications.filter((setting) => setting.channel === 'in_app' && setting._links.project.title)),
+      map((notifications) => notifications.filter((setting) => setting.channel === 'in_app' && setting._links.project.href)),
       map((notifications) => _.groupBy(notifications, (setting) => setting._links.project.title)),
+    );
+
+  /** Notification settings grouped by Project */
+  notificationsForGlobal$:Observable<NotificationSetting|undefined> = this
+    .notificationSettings$
+    .pipe(
+      map((notifications) => notifications.find((setting) => setting.channel === 'in_app' && setting._links.project.href === null)),
     );
 
   projectNotifications$ = this

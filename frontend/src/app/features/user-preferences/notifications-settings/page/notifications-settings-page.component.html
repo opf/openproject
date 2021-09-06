@@ -3,35 +3,34 @@
   [formGroup]="form"
   (ngSubmit)="saveChanges()"
 >
-  <h2>Notify me immediately</h2>
-  <p>These settings apply to all projects. You can create project-specific exceptions below.</p>
+  <h2>{{ text.saveImmediately.title }}</h2>
+  <p>{{ text.saveImmediately.description }}</p>
 
-  <op-checkbox-field label="I am @Mentioned">
+  <op-checkbox-field [label]="text.mentioned.title">
       <input
         disabled
         checked
         type="checkbox"
         slot="input"
       />
-      <p slot="description">Receive a notification every time someone mentions me anywhere</p>
+      <p slot="description">{{ text.mentioned.description }}</p>
   </op-checkbox-field>
   
   <op-checkbox-field
-    label="Assigned to me or accountable"
-    [control]="form.get('assignedToMeOrAccountable')"
+    [label]="text.involved.title"
+    [control]="form.get('involved')"
   >
     <input
       slot="input"
       type="checkbox"
-      formControlName="assignedToMeOrAccountable"
+      formControlName="involved"
+      data-qa-global-notification-type="involved" 
     />
-    <p slot="description">
-      Receive notifications for all activities on work packages for which I am assignee or accountable.
-    </p>
+    <p slot="description">{{ text.mentioned.title }}</p>
   </op-checkbox-field>
 
-  <h2>Also notify me for</h2>
-  <p>Receive notifications for these activities on work packages in all projects:</p>
+  <h2>{{ text.alsoNotifyFor.title }}</h2>
+  <p>{{ text.alsoNotifyFor.description }}</p>
 
   <op-checkbox-field>
       <input
@@ -40,52 +39,57 @@
         type="checkbox"
         slot="input"
       />
-      <p slot="description">Updates on watched items</p>
+      <p slot="description">{{ text.watched }}</p>
   </op-checkbox-field>
 
-  <op-checkbox-field [control]="form.get('newWorkPackages')">
+  <op-checkbox-field [control]="form.get('workPackageCreated')">
     <input
       slot="input"
       type="checkbox"
-      formControlName="newWorkPackages"
+      formControlName="workPackageCreated"
+      data-qa-global-notification-type="work_package_created" 
     />
-    <p slot="description">New work packages</p>
+    <p slot="description">{{ text.work_package_created }}</p>
   </op-checkbox-field>
 
-  <op-checkbox-field [control]="form.get('allStatusChanges')">
+  <op-checkbox-field [control]="form.get('workPackageProcessed')">
     <input
       slot="input"
       type="checkbox"
-      formControlName="allStatusChanges"
+      formControlName="workPackageProcessed"
+      data-qa-global-notification-type="work_package_processed" 
     />
-    <p slot="description">All status changes</p>
+    <p slot="description">{{ text.work_package_processed }}</p>
   </op-checkbox-field>
 
-  <op-checkbox-field [control]="form.get('allDateChanges')">
+  <op-checkbox-field [control]="form.get('workPackageScheduled')">
     <input
       slot="input"
       type="checkbox"
-      formControlName="allDateChanges"
+      formControlName="workPackageScheduled"
+      data-qa-global-notification-type="work_package_scheduled" 
     />
-    <p slot="description">All date changes</p>
+    <p slot="description">{{ text.work_package_scheduled }}</p>
   </op-checkbox-field>
 
-  <op-checkbox-field [control]="form.get('allPriorityChanges')">
+  <op-checkbox-field [control]="form.get('workPackagePrioritized')">
     <input
       slot="input"
       type="checkbox"
-      formControlName="allPriorityChanges"
+      formControlName="workPackagePrioritized"
+      data-qa-global-notification-type="work_package_prioritized" 
     />
-    <p slot="description">All priority changes</p>
+    <p slot="description">{{ text.work_package_prioritized }}</p>
   </op-checkbox-field>
 
-  <op-checkbox-field [control]="form.get('allNewComments')">
+  <op-checkbox-field [control]="form.get('workPackageCommented')">
     <input
       slot="input"
       type="checkbox"
-      formControlName="allNewComments"
+      formControlName="workPackageCommented"
+      data-qa-global-notification-type="work_package_commented" 
     />
-    <p slot="description">All new comments</p>
+    <p slot="description">{{ text.work_package_commented }}</p>
   </op-checkbox-field>
 
   <hr />
