@@ -14,7 +14,10 @@ import { StateService } from '@uirouter/angular';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
-import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import {
+  InAppNotification,
+  NOTIFICATIONS_MAX_SIZE,
+} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -53,6 +56,10 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   originalOrder = ():number => 0;
 
+  trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
+    .map((el) => `${el.id}@${el.updatedAt}`)
+    .join(',');
+
   text = {
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),
@@ -69,7 +76,8 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly storeService:IanCenterService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
-  ) { }
+  ) {
+  }
 
   ngOnInit():void {
     this.storeService.setFacet('unread');
