@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 
-export class HalError implements Error {
+export class HalError extends Error {
   readonly name = 'HALError';
 
   get message():string {
@@ -16,5 +16,7 @@ export class HalError implements Error {
     readonly httpError:HttpErrorResponse,
     readonly resource:ErrorResource,
   ) {
+    super();
+    Object.setPrototypeOf(this, HalError.prototype);
   }
 }
