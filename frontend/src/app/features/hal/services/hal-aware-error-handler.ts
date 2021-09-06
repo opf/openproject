@@ -2,6 +2,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Injectable()
 export class HalAwareErrorHandler extends ErrorHandler {
@@ -13,10 +14,13 @@ export class HalAwareErrorHandler extends ErrorHandler {
     super();
   }
 
-  public handleError(error:unknown) {
+  public handleError(error:unknown):void {
     let message:string = this.text.internal_error;
 
-    if (error instanceof ErrorResource) {
+    if (error instanceof HalError) {
+      console.error('Returned HTTP HAL error resource %O', error.message);
+      message += ` ${error.message}`;
+    } else if (error instanceof ErrorResource) {
       console.error('Returned error resource %O', error);
       message += ` ${error.errorMessages.join('\n')}`;
     } else if (error instanceof HalResource) {
