@@ -1,4 +1,4 @@
-<%= I18n.t(:'mail.digests.salutation', user: @user.firstname) %>
+<%= I18n.t(:'mail.salutation', user: @user.firstname) %>
 <%= digest_summary_text(@notification_ids.length, @aggregated_notifications.length) %>
 <%= "-" * 100 %>
 
