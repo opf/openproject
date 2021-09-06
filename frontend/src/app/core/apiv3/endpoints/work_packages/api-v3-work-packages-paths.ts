@@ -157,7 +157,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
   protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
-      .getAllPaginated<WorkPackageCollectionResource[]>(
+      .getAllPaginated<WorkPackageCollectionResource>(
       this.path,
       ids.length,
       {
