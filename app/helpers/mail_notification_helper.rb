@@ -32,8 +32,10 @@ module MailNotificationHelper
   include ::ColorsHelper
 
   def email_image_tag(image, **options)
-    attachments[image] = File.read(Rails.root.join("app/assets/images/#{image}"))
-    image_tag attachments[image].url, **options
+    image_string = Rails.application.assets[image].to_s
+    base64_string = Base64.strict_encode64(image_string)
+
+    image_tag "data:image/svg+xml;base64," + base64_string, **options
   end
 
   def unique_reasons_of_notifications(notifications)
