@@ -34,15 +34,15 @@ export class OpCheckboxFieldComponent {
 
   internalID = `op-checkbox-field-${+new Date()}`;
 
-  get errorsID() {
+  get errorsID():string {
     return `${this.internalID}-errors`;
   }
 
-  get descriptionID() {
+  get descriptionID():string {
     return `${this.internalID}-description`;
   }
 
-  get describedByID() {
+  get describedByID():string {
     return this.showErrorMessage ? this.errorsID : this.descriptionID;
   }
 

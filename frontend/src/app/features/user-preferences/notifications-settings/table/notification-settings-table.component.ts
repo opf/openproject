@@ -51,10 +51,9 @@ export class NotificationSettingsTableComponent {
     private I18n:I18nService,
     private store:UserPreferencesStore,
     private query:UserPreferencesQuery,
-  ) {
-  }
+  ) {}
 
-  addRow(project:HalSourceLink) {
+  addRow(project:HalSourceLink):void {
     const added:NotificationSetting[] = [
       buildNotificationSetting(project, { channel: 'in_app' }),
       buildNotificationSetting(project, { channel: 'mail' }),
@@ -68,7 +67,7 @@ export class NotificationSettingsTableComponent {
     );
   }
 
-  update(delta:Partial<NotificationSetting>, projectHref: string) {
+  update(delta:Partial<NotificationSetting>, projectHref:string):void {
     this.store.update(
       ({ notifications }) => ({
         notifications: arrayUpdate(
@@ -80,7 +79,7 @@ export class NotificationSettingsTableComponent {
     );
   }
 
-  removeProjectSettings(projectHref: string) {
+  removeProjectSettings(projectHref:string):void {
     this.store.update(
       ({ notifications }) => ({
         notifications: arrayRemove(notifications, (notification:NotificationSetting) => notification._links.project.href === projectHref),

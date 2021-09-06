@@ -96,7 +96,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         if (!settings) {
           return;
         }
-        
+
         this.form.get('involved')?.setValue(settings.involved);
         this.form.get('workPackageCreated')?.setValue(settings.workPackageCreated);
         this.form.get('workPackageProcessed')?.setValue(settings.workPackageProcessed);
@@ -109,7 +109,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public saveChanges():void {
     this.update(this.form.value);
     const prefs = this.query.getValue();
-    console.log(prefs);
     this.stateService.update(this.userId, prefs);
   }
 
@@ -118,9 +117,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       ({ notifications }) => ({
         notifications: arrayUpdate(
           notifications,
-          (notification:NotificationSetting) => {
-            return notification._links.project.href === null;
-          },
+          (notification:NotificationSetting) => notification._links.project.href === null,
           {
             ...delta,
             mentioned: true,
