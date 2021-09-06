@@ -46,5 +46,29 @@ describe "Reminder email", type: :feature, js: true do
 
     # The next suggested time is taken: 12:00
     reminders_settings_page.expect_active_daily_times("08:00 am", "12:00 pm")
+
+    reminders_settings_page.set_time "Time 2", "03:00 pm"
+
+    reminders_settings_page.expect_active_daily_times("08:00 am", "03:00 pm")
+
+    reminders_settings_page.save
+
+    reminders_settings_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_update'))
+
+    reminders_settings_page.reload!
+
+    # Deactivate the second time but then remove the first one will activate the second (then only) one
+    # so that one time is always enabled.
+    reminders_settings_page.expect_active_daily_times("08:00 am", "03:00 pm")
+    reminders_settings_page.deactivate_time("Time 2")
+    reminders_settings_page.remove_time("Time 1")
+
+    reminders_settings_page.save
+
+    reminders_settings_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_update'))
+
+    reminders_settings_page.reload!
+
+    reminders_settings_page.expect_active_daily_times("03:00 pm")
   end
 end

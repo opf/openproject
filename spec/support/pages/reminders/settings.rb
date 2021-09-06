@@ -43,8 +43,19 @@ module Pages
       end
 
       def add_time
-        page
-          .click_button 'Add time'
+        click_button 'Add time'
+      end
+
+      def set_time(label, time)
+        select time, from: label
+      end
+
+      def deactivate_time(label)
+        find("[data-qa-selector='op-settings-daily-time--active-#{label.split[1]}']").click
+      end
+
+      def remove_time(label)
+        find("[data-qa-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
       end
 
       def expect_active_daily_times(*times)

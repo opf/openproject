@@ -118,6 +118,10 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_timezone.presence
   end
 
+  def daily_reminders
+    super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
+  end
+
   def canonical_time_zone
     return if time_zone.nil?
 
