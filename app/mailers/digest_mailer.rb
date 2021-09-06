@@ -69,8 +69,9 @@ class DigestMailer < ApplicationMailer
     with_locale_for(recipient) do
       mail to: recipient.mail,
            subject: I18n.t('mail.digests.work_packages.subject',
-                           date: format_time_as_date(Time.current),
-                           number: notification_ids.count)
+                           instance_name: Setting.app_title,
+                           notifications: notification_ids.count,
+                           work_packages: @aggregated_notifications.count)
     end
   end
 

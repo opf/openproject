@@ -133,7 +133,8 @@ describe "Digest email", type: :feature, js: true do
 
     expect(ActionMailer::Base.deliveries.first.subject)
       .to eql I18n.t(:'mail.digests.work_packages.subject',
-                     date: Time.current.strftime('%m/%d/%Y'),
-                     number: 1)
+                     instance_name: Setting.app_title,
+                     notifications: 1,
+                     work_packages: 1)
   end
 end

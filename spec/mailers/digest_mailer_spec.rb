@@ -76,13 +76,14 @@ describe DigestMailer, type: :mailer do
   describe '#work_packages' do
     subject(:mail) { described_class.work_packages(recipient.id, notifications.map(&:id)) }
 
-    let(:mail_body) {  mail.body.encoded }
+    let(:mail_body) {  mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
 
     it 'notes the day and the number of notifications in the subject' do
       expect(mail.subject)
         .to eql I18n.t('mail.digests.work_packages.subject',
-                       date: format_time_as_date(Time.current),
-                       number: 1)
+                       instance_name: Setting.app_title,
+                       notifications: 1,
+                       work_packages: 1)
     end
 
     it 'sends to the recipient' do

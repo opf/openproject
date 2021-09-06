@@ -1983,10 +1983,10 @@ en:
           subscribed: 'all'
           prefix: 'Received because of the notification setting: %{reason}'
         see_all: 'See all'
-        subject: 'Daily project summary for %{date} - %{number} updates'
+        subject: '%{instance_name} - %{notifications} unread notification(s) in %{work_packages} work package(s)'
         updated: 'Updated'
         updated_at: '%{timestamp} ago by %{user}'
-    logo_alt_text: 'OpenProject Logo'
+    logo_alt_text: 'Logo'
     notification:
       center: 'Notification center'
       settings: 'Change email settings'
