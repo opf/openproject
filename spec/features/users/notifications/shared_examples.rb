@@ -4,7 +4,7 @@ shared_examples 'notification settings workflow' do
     let!(:project_alt) { FactoryBot.create :project }
     let!(:role) { FactoryBot.create :role, permissions: %i[view_project] }
     let!(:member) { FactoryBot.create :member, user: user, project: project, roles: [role] }
-    let!(:member_2) { FactoryBot.create :member, user: user, project: project_alt, roles: [role] }
+    let!(:member_two) { FactoryBot.create :member, user: user, project: project_alt, roles: [role] }
 
     it 'allows to control notification settings' do
       # Expect default settings

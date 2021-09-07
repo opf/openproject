@@ -86,9 +86,7 @@ module Pages
       end
 
       def configure_project(project: nil, **types)
-        types.each { |type|
-          set_project_option(*type, project);
-        }
+        types.each { |type| set_project_option(*type, project) }
       end
 
       def set_project_option(type, checked, project)

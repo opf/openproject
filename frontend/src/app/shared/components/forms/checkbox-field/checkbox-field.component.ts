@@ -12,7 +12,7 @@ export class OpCheckboxFieldComponent {
 
   @HostBinding('class.op-checkbox-field') classNameCheckbox = true;
 
-  @HostBinding('class.op-form-field_invalid') get errorClassName() {
+  @HostBinding('class.op-form-field_invalid') get errorClassName():boolean {
     return this.showErrorMessage;
   }
 
@@ -56,7 +56,7 @@ export class OpCheckboxFieldComponent {
     }
 
     if (this.showValidationErrorOn === 'submit') {
-      return this.formControl.invalid && this._formGroupDirective?.submitted;
+      return this.formControl.invalid && this.formGroupDirective?.submitted;
     } if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
     } if (this.showValidationErrorOn === 'change') {
@@ -67,6 +67,6 @@ export class OpCheckboxFieldComponent {
   }
 
   constructor(
-    @Optional() private _formGroupDirective:FormGroupDirective,
+    @Optional() private formGroupDirective:FormGroupDirective,
   ) {}
 }

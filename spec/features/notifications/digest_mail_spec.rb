@@ -15,24 +15,24 @@ describe "Digest email", type: :feature, js: true do
     FactoryBot.create :user,
                       notification_settings: [
                         FactoryBot.build(:mail_notification_setting,
-                                         involved: false,
-                                         watched: false,
-                                         mentioned: false,
-                                         work_package_commented: false,
-                                         work_package_created: false,
-                                         work_package_processed: false,
-                                         work_package_prioritized: false,
-                                         work_package_scheduled: false,
+                                         involved: true,
+                                         watched: true,
+                                         mentioned: true,
+                                         work_package_commented: true,
+                                         work_package_created: true,
+                                         work_package_processed: true,
+                                         work_package_prioritized: true,
+                                         work_package_scheduled: true,
                                          all: false),
                         FactoryBot.build(:in_app_notification_setting,
-                                         involved: false,
-                                         watched: false,
-                                         mentioned: false,
-                                         work_package_commented: false,
-                                         work_package_created: false,
-                                         work_package_processed: false,
-                                         work_package_prioritized: false,
-                                         work_package_scheduled: false,
+                                         involved: true,
+                                         watched: true,
+                                         mentioned: true,
+                                         work_package_commented: true,
+                                         work_package_created: true,
+                                         work_package_processed: true,
+                                         work_package_prioritized: true,
+                                         work_package_scheduled: true,
                                          all: false),
                         FactoryBot.build(:mail_digest_notification_setting,
                                          involved: true,
@@ -56,49 +56,6 @@ describe "Digest email", type: :feature, js: true do
   end
 
   it 'sends a digest mail based on the configuration', with_settings: { journal_aggregation_time_minutes: 0 } do
-    # Configure the digest
-    notification_settings_page.visit!
-
-    notification_settings_page.expect_setting channel: :mail_digest,
-                                              project: nil,
-                                              involved: true,
-                                              mentioned: true,
-                                              watched: true,
-                                              work_package_commented: true,
-                                              work_package_created: true,
-                                              work_package_processed: true,
-                                              work_package_prioritized: true,
-                                              work_package_scheduled: true,
-                                              all: false
-
-    notification_settings_page.configure_channel :mail_digest,
-                                                 project: nil,
-                                                 involved: false,
-                                                 mentioned: true,
-                                                 watched: true,
-                                                 work_package_commented: false,
-                                                 work_package_created: false,
-                                                 work_package_processed: false,
-                                                 work_package_prioritized: false,
-                                                 work_package_scheduled: false,
-                                                 all: false
-
-    notification_settings_page.add_row(mute_project)
-
-    notification_settings_page.configure_channel :mail_digest,
-                                                 project: mute_project,
-                                                 involved: false,
-                                                 mentioned: false,
-                                                 watched: false,
-                                                 work_package_commented: false,
-                                                 work_package_created: false,
-                                                 work_package_processed: false,
-                                                 work_package_prioritized: false,
-                                                 work_package_scheduled: false,
-                                                 all: false
-
-    notification_settings_page.save
-
     # Perform some actions the user listens to
     User.execute_as other_user do
       note = <<~NOTE
