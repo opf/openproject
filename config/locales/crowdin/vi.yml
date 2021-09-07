@@ -543,6 +543,7 @@ vi:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "Có thể không được truy cập."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "không thể để trống"
         even: "must be even."
         exclusion: "được bảo lưu."

@@ -542,6 +542,7 @@ sl:
         error_enterprise_only: "je na voljo samo v OpenProject Enterprise Edition"
         error_unauthorized: "morda ni mogoče dostopati."
         error_readonly: "poskušano je bilo napisati, vendar ni mogoče pisati."
+        email: "is not a valid email address."
         empty: "ne sme biti prazno. "
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."

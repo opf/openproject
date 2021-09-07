@@ -542,6 +542,7 @@
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "kan ikke nås"
         error_readonly: "ble forsøkt skrevet til, men er skrivebeskyttet"
+        email: "is not a valid email address."
         empty: "kan ikke være tomt."
         even: "må være partall"
         exclusion: "er reservert."

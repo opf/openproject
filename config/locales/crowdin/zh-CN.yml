@@ -537,6 +537,7 @@ zh-CN:
         error_enterprise_only: "仅在 OpenProject 企业版中可用"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
+        email: "不是一个有效的电子邮件地址。"
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"

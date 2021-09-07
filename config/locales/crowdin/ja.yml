@@ -537,6 +537,7 @@ ja:
         error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
+        email: "is not a valid email address."
         empty: "は空にすることができません。"
         even: "は偶数にしてください。"
         exclusion: "は予約されています。"

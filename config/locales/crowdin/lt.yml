@@ -540,6 +540,7 @@ lt:
         error_enterprise_only: "yra galimas tik OpenProject Enterprise Edition"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
+        email: "nėra tinkamas el. pašto adresas."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."

@@ -541,6 +541,7 @@ zh-TW:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
+        email: "is not a valid email address."
         empty: "不可為空"
         even: "必須是偶數"
         exclusion: "已保留"

@@ -542,6 +542,7 @@ bg:
         error_enterprise_only: "се предлага само в OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "не може да бъде празно."
         even: "трябва да бъде четно число."
         exclusion: "е запазено."

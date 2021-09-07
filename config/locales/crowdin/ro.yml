@@ -543,6 +543,7 @@ ro:
         error_enterprise_only: "este disponibil doar în OpenProject Enterprise Edition"
         error_unauthorized: "nu pot fi accesate."
         error_readonly: "a fost încercat să fie scris, dar nu este inscriptibil."
+        email: "is not a valid email address."
         empty: "nu poate fi gol."
         even: "trebuie să fie par."
         exclusion: "este rezervat."

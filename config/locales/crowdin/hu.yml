@@ -542,6 +542,7 @@ hu:
         error_enterprise_only: "Csak az Enterprise Verzióban érhető el"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
+        email: "nem valós e-mail cím"
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."

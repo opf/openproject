@@ -541,6 +541,7 @@ pl:
         error_enterprise_only: "jest funkcją dostępną tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
+        email: "is not a valid email address."
         empty: "nie może być puste."
         even: "musi być takie samo."
         exclusion: "jest już zajęte."

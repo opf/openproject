@@ -542,6 +542,7 @@ ca:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "no pot estar buit."
         even: "ha de ser parell."
         exclusion: "està reservat."

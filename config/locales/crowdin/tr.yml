@@ -542,6 +542,7 @@ tr:
         error_enterprise_only: "sadece OpenProject'in ticari sürümlerinde mevcuttur"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
+        email: "is not a valid email address."
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."

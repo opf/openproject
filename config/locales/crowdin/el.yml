@@ -537,6 +537,7 @@ el:
         error_enterprise_only: "είναι διαθέσιμο μόνο στην Έκδοση για Επιχειρήσεις του OpenProject"
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
+        email: "is not a valid email address."
         empty: "δεν μπορεί να είναι κενό."
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."

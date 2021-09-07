@@ -537,6 +537,7 @@ de:
         error_enterprise_only: "ist nur in OpenProject Enterprise on-premises verfügbar"
         error_unauthorized: "kann nicht zugegriffen werden."
         error_readonly: "wurde versucht zu beschreiben, ist aber nicht beschreibbar."
+        email: "ist keine gültige E-Mail-Adresse."
         empty: "muss ausgefüllt werden."
         even: "muss gerade sein."
         exclusion: "ist nicht verfügbar."
