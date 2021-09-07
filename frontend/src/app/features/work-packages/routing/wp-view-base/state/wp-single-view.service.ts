@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { WpSingleViewStore } from './wp-single-view.store';
 import { WpSingleViewQuery } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.query';
-import { take } from 'rxjs/operators';
+import {
+  filter,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -14,6 +18,7 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @EffectHandler
 @Injectable()
@@ -26,6 +31,7 @@ export class WpSingleViewService {
 
   constructor(
     readonly actions$:ActionsService,
+    readonly currentUser$:CurrentUserService,
     private resourceService:InAppNotificationsResourceService,
   ) {
   }
@@ -63,8 +69,13 @@ export class WpSingleViewService {
 
   private reload() {
     this
-      .resourceService
-      .fetchNotifications(this.query.params)
+      .currentUser$
+      .isLoggedIn$
+      .pipe(
+        take(1),
+        filter((loggedIn) => loggedIn),
+        switchMap(() => this.resourceService.fetchNotifications(this.query.params)),
+      )
       .subscribe();
   }
 

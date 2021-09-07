@@ -90,4 +90,19 @@ describe 'Activity tab notifications', js: true, selenium: true do
 
     it_behaves_like 'when there are no notifications for the work package'
   end
+
+  context 'when visiting as an anonymous user', with_settings: { login_required?: false } do
+    let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
+    let!(:anonymous_role) do
+      FactoryBot.create :anonymous_role, permissions: [:view_work_packages]
+    end
+
+    it 'does not show an error' do
+      full_view.visit_tab! 'activity'
+      full_view.ensure_page_loaded
+
+      full_view.expect_no_notification type: :error, message: 'Http failure response for'
+      full_view.expect_no_notification
+    end
+  end
 end
