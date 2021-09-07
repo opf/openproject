@@ -79,7 +79,7 @@ Do not include the same information in multiple places. Instead, link through to
 ## References across the documentation
 
 - When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
-- Please see in [links](../#links) how to use links within the documentation.
+- Please see in [links](/#links) how to use links within the documentation.
 
 - When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
 
@@ -103,7 +103,7 @@ The OpenProject documentation should be as clear and easy to understand as possi
 
 ## Capitalization
 
-### Headings
+### Headings
 
 Use sentences that describe the content and capitalize the first letter in the sentence. For example:
 
@@ -113,7 +113,7 @@ Use sentences that describe the content and capitalize the first letter in the s
 
 
 
-### UI text
+### UI text
 
 When referring to specific user interface text, like a button label or menu item, use the name as in the application and start the word with a capital letter. Moreover, please make it bold. Example: **Start free trial** button.
 
@@ -193,7 +193,7 @@ Please do not use any contractions like don’t or isn’t.
 
 ## Copy
 
-### Punctuation
+### Punctuation
 
 Follow these guidelines for punctuation:
 
@@ -213,7 +213,7 @@ Use only standard spaces between words so that the search engine can find indivi
 
 
 
-## Lists
+## Lists
 
 Always start list items with a capital letter.
 
@@ -255,8 +255,8 @@ Example for an unordered list:
 
 - Do not add commas (`,`) or semicolons (`;`) to the ends of list items.
 - Separate list items from explanatory text with a colon (`:`). For example:
-  		- Feature 1: very attractive new feature
-  		- Feature 2: description of an additional feature
+    - Feature 1: very attractive new feature
+    - Feature 2: description of an additional feature
 
  
 
@@ -272,15 +272,11 @@ To keep tables accessible and scannable, tables should not have any empty cells.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
-| Feature  	       | Description                                      										       |
+| **Feature**                                                | **Description**                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------ |
+| Great feature                                              |  Enhances collaboration between marketing and sales  |
+| Best feature                                               | Use it to synchronize your example table with OpenProject  |
 
-| --------------------- | :-----------------------------------------------------------------------------------  |
-
-| Great feature   | Enhances collaboration between marketing and sales          | 
-
-| Best feature     | Use it to synchronize your example table with OpenProject | 
-
- 
 
 ## Headings
 
@@ -298,7 +294,7 @@ To help tables be easier to maintain, consider adding additional spaces to the c
 
 - Make your subheading titles clear, descriptive, and complete to help users find the right example.
 
-- See  [Capitalization](../#capitalization) for guidelines on capitalizing headings.
+- See  [Capitalization](/#capitalization) for guidelines on capitalizing headings.
 
   
 

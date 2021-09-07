@@ -28,9 +28,9 @@
 
 import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { HttpClient } from '@angular/common/http';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 export class Apiv3NotificationPaths extends APIv3GettableResource<InAppNotification> {
   @InjectField() http:HttpClient;

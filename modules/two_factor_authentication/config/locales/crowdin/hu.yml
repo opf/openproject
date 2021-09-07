@@ -25,7 +25,7 @@ hu:
     error_no_matching_strategy: "Ehhez a felhasználóhoz nem áll rendelkezésre megfelelő 2FA stratégia. Kérjük, lépjen kapcsolatba adminisztrátorával.\n"
     error_is_enforced_not_active: "Konfigurációs hiba: Kétfaktoros hitelesítést hajtottak végre, de nem léteznek aktív stratégiák.\n"
     error_invalid_backup_code: 'Érvénytelen 2FA visszaállítási kulcs.'
-    channel_unavailable: "The delivery channel %{channel} is unavailable."
+    channel_unavailable: "A kézbesítési csatorna %{channel} nem elérhető.\n"
     no_valid_phone_number: "Nincs érvényes telefonszám."
     label_pwd_confirmation: "Jelszó"
     notice_pwd_confirmation: "Meg kell erősítened a jelszavaddal, hogy módosíthasd ezeket a beállításokat."
@@ -111,7 +111,7 @@ hu:
       request_2fa: Kérjük, adja meg a (z) %{device_name} kódját személyazonosságának igazolásához.
       totp:
         title: 'Használja az alkalmazás alapú hitelesítőjét'
-        provisioning_uri: 'Provisioning URI'
+        provisioning_uri: "Provisioning URI\n"
         secret_key: 'Titkos kulcs'
         time_based: 'Idő alapú'
         account: 'Felhasználó név / Kibocsátó'
@@ -159,7 +159,7 @@ hu:
   field_otp: "Egyszeri jelszó"
   notice_account_otp_invalid: "Hibás egyszer-használatos jelszó."
   notice_account_otp_expired: "Az egyszeri jelszó lejárt"
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
+  notice_developer_strategy_otp: "A fejlesztői stratégia a következő egyszeri jelszót generálta: %{token} (Csatorna: %{channel})"
   notice_account_otp_send_failed: "Nem lehetséges kiküldeni az egyszer használatos jelszót"
   notice_account_has_no_phone: "A fiókjához nincs mobiltelefonszám társítva."
   label_expiration_hint: "%{date} vagy kijelentkezéskor"

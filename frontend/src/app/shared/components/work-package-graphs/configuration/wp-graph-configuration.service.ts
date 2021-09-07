@@ -21,7 +21,7 @@ export class WpGraphConfigurationService {
 
   private _forms:{ [id:string]:QueryFormResource } = {};
 
-  private _formsPromise:Promise<void[]>|null;
+  private _formsPromise:Promise<unknown>|null;
 
   constructor(
     readonly I18n:I18nService,

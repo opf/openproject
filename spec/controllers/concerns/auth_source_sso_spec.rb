@@ -44,6 +44,7 @@ describe MyController, type: :controller do
   let!(:auth_source) { DummyAuthSource.create name: "Dummy LDAP" }
   let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
+  let(:header_login_value) { login }
 
   shared_examples 'should log in the user' do
     it "logs in given user" do
@@ -94,7 +95,7 @@ describe MyController, type: :controller do
     end
 
     separator = secret ? ':' : ''
-    request.headers[header] = "#{login}#{separator}#{secret}"
+    request.headers[header] = "#{header_login_value}#{separator}#{secret}"
   end
 
   describe 'login' do
@@ -117,7 +118,7 @@ describe MyController, type: :controller do
     end
 
     context 'when the header values does not match the case' do
-      let(:login) { 'H.wUrSt' }
+      let(:header_login_value) { 'H.wUrSt' }
 
       it_behaves_like 'should log in the user'
     end
@@ -159,6 +160,34 @@ describe MyController, type: :controller do
       end
 
       it_should_behave_like "auth source sso failure"
+    end
+  end
+
+  context 'when the logged-in user differs in case' do
+    let(:header_login_value) { 'h.WURST' }
+    let(:session_update_time) { 1.minute.ago }
+    let(:last_login) { 1.minute.ago }
+
+    before do
+      user.update_column(:last_login_on, last_login)
+      session[:user_id] = user.id
+      session[:updated_at] = session_update_time
+      session[:should_be_kept] = true
+    end
+
+    it 'logs in the user' do
+      get :account
+
+      expect(response).not_to be_redirect
+      expect(response).to be_successful
+      expect(session[:user_id]).to eq user.id
+      expect(session[:updated_at]).to be > session_update_time
+
+      # User not is not relogged
+      expect(user.reload.last_login_on).to be_within(1.second).of(last_login)
+
+      # Session values are kept
+      expect(session[:should_be_kept]).to eq true
     end
   end
 
