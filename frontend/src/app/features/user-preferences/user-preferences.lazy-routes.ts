@@ -44,4 +44,9 @@ export const MY_ACCOUNT_LAZY_ROUTES:Ng2StateDeclaration[] = [
     url: '/my/reminders',
     loadChildren: () => import('./user-preferences.module').then((m) => m.OpenProjectMyAccountModule),
   },
+  {
+    name: 'user_reminders.**',
+    url: '/users/:userId/edit/reminders',
+    loadChildren: () => import('./user-preferences.module').then((m) => m.OpenProjectMyAccountModule),
+  },
 ];

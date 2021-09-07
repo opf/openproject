@@ -37,7 +37,7 @@ export class ReminderSettingsPageComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;// || user.id!;
+    this.userId = (this.userId || this.uiRouterGlobals.params.userId) as string;
     this
       .currentUserService
       .user$

@@ -46,4 +46,9 @@ export const MY_ACCOUNT_ROUTES:Ng2StateDeclaration[] = [
     url: '/my/reminders',
     component: ReminderSettingsPageComponent,
   },
+  {
+    name: 'user_reminders',
+    url: '/users/:userId/edit/reminders',
+    component: ReminderSettingsPageComponent,
+  },
 ];
