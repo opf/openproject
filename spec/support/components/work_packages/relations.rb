@@ -222,8 +222,10 @@ module Components
           row = ".wp-row-#{work_package.id}-table"
 
           SeleniumHubWaiter.wait
-          find(row).hover
-          find("#{row} .wp-table-action--unlink").click
+          retry_block do
+            find(row).hover
+            find("#{row} .wp-table-action--unlink").click
+          end
         end
       end
     end

@@ -83,7 +83,7 @@
     "@sentry/angular": "6.2.3",
     "@sentry/tracing": "6.2.3",
     "@sentry/types": "^6.2.3",
-    "@uirouter/angular": "^8.0.0",
+    "@uirouter/angular": "^8.0.1",
     "@uirouter/core": "^6.0.7",
     "@uirouter/rx": "^0.6.5",
     "@w11k/ngx-componentdestroyed": "^5.0.2",

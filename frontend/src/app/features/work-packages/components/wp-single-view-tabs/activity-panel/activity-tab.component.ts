@@ -43,7 +43,8 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   public trackByHref = trackByHrefAndProperty('version');
 
   ngOnInit() {
-    this.workPackageId = this.$transition.params('to').workPackageId;
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    this.workPackageId = workPackageId;
     super.ngOnInit();
   }
 }
