@@ -8,29 +8,21 @@
    target="_blank">
   <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 9px; font-size: 12px;">
     <tr>
-      <td style="color: #333333;
-        background-color: #FFFFFF;
-        <%= status_colors(work_package.status) %>
-        white-space: nowrap;
-        padding: 0 5px;">
-        <%= work_package.status %>
+      <td >
+        <div style="color: #333333;
+                    background-color: #FFFFFF;
+                    <%= status_colors(work_package.status) %>
+                    white-space: nowrap;
+                    padding: 0 5px;
+                    height: 16px;">
+          <%= work_package.status %>
+        </div>
       </td>
-      <td style="padding-left: 8px;
+      <td width="100%" style="padding-left: 8px;
         font-weight: bold;
-        color: #878787;
-        white-space: nowrap;">
-        #<%= work_package.id %>
-      </td>
-      <td style="white-space: nowrap;
-        padding-left: 5px;
-        color: #878787;
-        font-weight: bold;">
-        - <%= work_package.project %>
-      </td>
-      <td style="padding-left: 5px;
-        color: #878787;
-        font-weight: bold;
-        white-space: nowrap;">
+        color: #878787;">
+
+        #<%= work_package.id %> - <%= work_package.project %>
         <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
         <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
         <% unique_reasons.each_with_index do |reason, index| %>
@@ -39,7 +31,7 @@
                 default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
         <% end %>
       </td>
-      <td width="100%" style="text-align: right;">
+      <td style="text-align: right;">
           <span style="background-color: #00A3FF;
             color: white;
             border-radius: 8px;
