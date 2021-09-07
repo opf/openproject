@@ -1,9 +1,7 @@
 <div class="op-ian-center">
-  <div class="op-ian-center--loading-indicator" *ngIf="!isNoticationsLoaded">
+  <div class="op-ian-center--loading-indicator" *ngIf="loading$ | async">
     <op-content-loader>
-      <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
-      <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
-      <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
+      <svg:rect x="0" y="0" width="100%" height="100%" rx="1" />
     </op-content-loader>
   </div>
   <div class="op-ian-center--content">
@@ -21,7 +19,7 @@
       </cdk-virtual-scroll-viewport>
     </ng-container>
     <ng-template #noResults>
-      <div class="generic-table--no-results-container" *ngIf="isNoticationsLoaded">
+      <div class="generic-table--no-results-container" *ngIf="(loading$ | async) === false">
         <span
             class="generic-table--no-results-title"
         >

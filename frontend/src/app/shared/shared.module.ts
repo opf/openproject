@@ -26,7 +26,10 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule } from '@angular/core';
+import {
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PortalModule } from '@angular/cdk/portal';
@@ -34,7 +37,10 @@ import { CommonModule } from '@angular/common';
 import { NgOptionHighlightModule } from '@ng-select/ng-option-highlight';
 import { DragulaModule } from 'ng2-dragula';
 import { DynamicModule } from 'ng-dynamic-component';
-import { StateService, UIRouterModule } from '@uirouter/angular';
+import {
+  StateService,
+  UIRouterModule,
+} from '@uirouter/angular';
 import { CurrentUserModule } from 'core-app/core/current-user/current-user.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
@@ -51,7 +57,10 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { highlightColSelector, OpHighlightColDirective } from './directives/highlight-col/highlight-col.directive';
+import {
+  highlightColSelector,
+  OpHighlightColDirective,
+} from './directives/highlight-col/highlight-col.directive';
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
@@ -72,7 +81,6 @@ import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-b
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
-import { OpContentLoaderComponent } from './components/op-content-loader/op-content-loader.component';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -175,8 +183,6 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
-
-    OpContentLoaderComponent,
   ],
   declarations: [
     OpDateTimeComponent,
@@ -228,8 +234,6 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
-
-    OpContentLoaderComponent,
   ],
 })
 export class OPSharedModule {

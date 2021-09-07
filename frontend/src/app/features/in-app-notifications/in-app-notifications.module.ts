@@ -16,7 +16,7 @@ import { InAppNotificationStatusComponent } from './entry/status/in-app-notifica
 import { NotificationSettingsButtonComponent } from './center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from './center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
-import { ContentLoaderModule } from '@ngneat/content-loader';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 @NgModule({
   declarations: [
@@ -40,8 +40,8 @@ import { ContentLoaderModule } from '@ngneat/content-loader';
     IconModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectWorkPackagesModule,
+    OpenprojectContentLoaderModule,
     ScrollingModule,
-    ContentLoaderModule,
   ],
 })
 export class OpenProjectInAppNotificationsModule {

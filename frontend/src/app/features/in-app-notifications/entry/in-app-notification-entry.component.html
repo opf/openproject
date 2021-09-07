@@ -99,13 +99,13 @@
   </button>
   </ng-container>
   <ng-template #workPackageLoading>
-    <content-loader
+    <op-content-loader
       *ngIf="workPackage$"
       class="op-ian-item--loading"
     >
       <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
       <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
       <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
-    </content-loader>
+    </op-content-loader>
   </ng-template>
 </div>

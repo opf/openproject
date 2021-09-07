@@ -1,45 +1,5 @@
-<svg [attr.viewBox]="viewBox" [ngStyle]="style">
-    <rect role="presentation" [attr.clip-path]="clipPath" [ngStyle]="fillStyle" x="0" y="0" width="100%" height="100%" />
-  
-    <defs role="presentation">
-      <clipPath [attr.id]="idClip">
-        <ng-content></ng-content>
-      </clipPath>
-  
-      <linearGradient [attr.id]="idGradient">
-        <stop offset="0%" [attr.stop-color]="backgroundColor" [attr.stop-opacity]="backgroundOpacity">
-          <animate
-            *ngIf="animate"
-            [attr.keyTimes]="keyTimes"
-            attributeName="offset"
-            [attr.values]="animationValues[0]"
-            [attr.dur]="duration"
-            repeatCount="indefinite"
-          />
-        </stop>
-  
-        <stop offset="50%" [attr.stop-color]="foregroundColor" [attr.stop-opacity]="foregroundOpacity">
-          <animate
-            *ngIf="animate"
-            attributeName="offset"
-            [attr.keyTimes]="keyTimes"
-            [attr.values]="animationValues[1]"
-            [attr.dur]="duration"
-            repeatCount="indefinite"
-          />
-        </stop>
-  
-        <stop offset="100%" [attr.stop-color]="backgroundColor" [attr.stop-opacity]="backgroundOpacity">
-          <animate
-            *ngIf="animate"
-            attributeName="offset"
-            [attr.keyTimes]="keyTimes"
-            [attr.values]="animationValues[2]"
-            [attr.dur]="duration"
-            repeatCount="indefinite"
-          />
-        </stop>
-      </linearGradient>
-    </defs>
-  </svg>
-  
+<content-loader
+  [baseUrl]="baseUrl"
+>
+  <ng-content></ng-content>
+</content-loader>
