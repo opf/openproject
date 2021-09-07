@@ -38,6 +38,8 @@ export class InAppNotificationCenterComponent implements OnInit, AfterContentIni
 
   hasMoreThanPageSize$ = this.ianService.query.hasMoreThanPageSize$;
 
+  loading$ = this.storeService.query.selectLoading();
+
   noResultText$ = this
     .activeFacet$
     .pipe(

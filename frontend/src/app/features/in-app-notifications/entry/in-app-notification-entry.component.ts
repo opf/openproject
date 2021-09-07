@@ -12,6 +12,7 @@ import {
 } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
+  NEVER,
   Observable,
   timer,
 } from 'rxjs';
