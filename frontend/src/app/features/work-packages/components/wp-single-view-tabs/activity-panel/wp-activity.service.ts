@@ -45,8 +45,8 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
     return this.isReversed ? 'desc' : 'asc';
   }
 
-  public get isReversed() {
-    return this.ConfigurationService.commentsSortedInDescendingOrder();
+  public get isReversed():boolean {
+    return !!this.ConfigurationService.commentsSortedInDescendingOrder();
   }
 
   /**
