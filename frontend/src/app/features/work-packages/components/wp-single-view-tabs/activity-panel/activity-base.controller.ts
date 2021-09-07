@@ -31,7 +31,7 @@ import {
   Directive,
   OnInit,
 } from '@angular/core';
-import { Transition } from '@uirouter/core';
+import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -72,7 +72,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly $transition:Transition,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
     readonly storeService:WpSingleViewService,
   ) {

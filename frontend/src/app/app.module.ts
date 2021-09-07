@@ -27,7 +27,10 @@
 //++
 
 import {
-  APP_INITIALIZER, ApplicationRef, Injector, NgModule,
+  APP_INITIALIZER,
+  ApplicationRef,
+  Injector,
+  NgModule,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
