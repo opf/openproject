@@ -53,6 +53,9 @@ describe "Digest email", type: :feature, js: true do
     work_package
     involved_work_package
 
+    allow(CustomStyle.current)
+      .to receive(:logo).and_return(nil)
+
     ActiveJob::Base.queue_adapter.enqueued_jobs.clear
   end
 

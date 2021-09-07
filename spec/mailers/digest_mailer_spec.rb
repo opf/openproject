@@ -76,7 +76,12 @@ describe DigestMailer, type: :mailer do
   describe '#work_packages' do
     subject(:mail) { described_class.work_packages(recipient.id, notifications.map(&:id)) }
 
-    let(:mail_body) {  mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
+    let(:mail_body) { mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
+
+    before do
+      allow(CustomStyle.current)
+        .to receive(:logo).and_return(nil)
+    end
 
     it 'notes the day and the number of notifications in the subject' do
       expect(mail.subject)

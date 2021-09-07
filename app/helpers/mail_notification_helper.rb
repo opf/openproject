@@ -31,11 +31,25 @@
 module MailNotificationHelper
   include ::ColorsHelper
 
-  def email_image_tag(image, **options)
-    image_string = Rails.application.assets[image].to_s
+  def logo_tag(**options)
+    current_logo = CustomStyle.current.logo
+
+    if current_logo.present?
+      logo = File.read(current_logo.local_file)
+      suffix = MIME::Types.type_for(current_logo.local_file.path).first.content_type
+    else
+      logo = Rails.application.assets["logo_openproject_narrow.svg"]
+      suffix = "svg+xml"
+    end
+
+    email_image_tag(logo, suffix, options)
+  end
+
+  def email_image_tag(image, suffix, **options)
+    image_string = image.to_s
     base64_string = Base64.strict_encode64(image_string)
 
-    image_tag "data:image/svg+xml;base64," + base64_string, **options
+    image_tag "data:image/#{suffix};base64,#{base64_string}", **options
   end
 
   def unique_reasons_of_notifications(notifications)

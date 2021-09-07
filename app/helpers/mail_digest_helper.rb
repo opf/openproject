@@ -48,10 +48,10 @@ module MailDigestHelper
   end
 
   def digest_comment_text(notification)
-    if notification.journal.notes.match(/<mention.*data-type=\"user\".*>/)
-      I18n.t(:'mail.digests.work_packages.mentioned').html_safe
+    if notification.journal.notes.match(/<mention.*data-type="user".*>/)
+      sanitize I18n.t(:'mail.digests.work_packages.mentioned')
     else
-      I18n.t(:'mail.digests.work_packages.comment_added').html_safe
+      sanitize I18n.t(:'mail.digests.work_packages.comment_added')
     end
   end
 
@@ -60,15 +60,15 @@ module MailDigestHelper
   def timestamp_text(user, journal, extended)
     value = journal.initial? ? "created" : "updated"
     if extended
-      raw(I18n.t(:"mail.digests.work_packages.#{value}") +
-            ' ' +
-            I18n.t(:"mail.digests.work_packages.#{value}_at",
-                   user: user,
-                   timestamp: time_ago_in_words(journal.created_at)))
+      sanitize(
+        "#{I18n.t(:"mail.digests.work_packages.#{value}")} #{I18n.t(:"mail.digests.work_packages.#{value}_at",
+                                                                    user: user,
+                                                                    timestamp: time_ago_in_words(journal.created_at))}"
+      )
     else
-      raw(I18n.t(:"mail.digests.work_packages.#{value}_at",
-                 user: user,
-                 timestamp: time_ago_in_words(journal.created_at)))
+      sanitize(I18n.t(:"mail.digests.work_packages.#{value}_at",
+                      user: user,
+                      timestamp: time_ago_in_words(journal.created_at)))
     end
   end
 end
