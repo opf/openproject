@@ -40,7 +40,15 @@ See COPYRIGHT and LICENSE files for more details.
         color: #484848;
         background: #FFFFFF;
       }
-      
+
+      /* Enforcing the white background */
+      @media (prefers-color-scheme: dark) {
+        body {
+          color: #484848 !important;
+          background: #FFFFFF !important;
+        }
+      }
+
       h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
       h1 { font-size: 1.2em; }
       h2, h3 { font-size: 1.1em; }
