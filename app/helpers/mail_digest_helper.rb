@@ -63,12 +63,12 @@ module MailDigestHelper
       sanitize(
         "#{I18n.t(:"mail.digests.work_packages.#{value}")} #{I18n.t(:"mail.digests.work_packages.#{value}_at",
                                                                     user: user,
-                                                                    timestamp: time_ago_in_words(journal.created_at))}"
+                                                                    timestamp: journal.created_at.strftime(I18n.t(:'time.formats.time')))}"
       )
     else
       sanitize(I18n.t(:"mail.digests.work_packages.#{value}_at",
                       user: user,
-                      timestamp: time_ago_in_words(journal.created_at)))
+                      timestamp: journal.created_at.strftime(I18n.t(:'time.formats.time'))))
     end
   end
 end

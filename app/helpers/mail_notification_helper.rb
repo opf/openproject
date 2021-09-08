@@ -32,7 +32,7 @@ module MailNotificationHelper
   include ::ColorsHelper
 
   def logo_tag(**options)
-    current_logo = CustomStyle.current.logo
+    current_logo = CustomStyle.current.logo unless CustomStyle.current.nil?
 
     if current_logo.present?
       logo = File.read(current_logo.local_file)
