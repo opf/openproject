@@ -3,8 +3,8 @@
   [formGroup]="form"
   (ngSubmit)="saveChanges()"
 >
-  <h2>{{ text.saveImmediately.title }}</h2>
-  <p>{{ text.saveImmediately.description }}</p>
+  <h5>{{ text.notifyImmediately.title }}</h5>
+  <p>{{ text.notifyImmediately.description }}</p>
 
   <op-checkbox-field [label]="text.mentioned.title">
       <input
@@ -29,7 +29,7 @@
     <p slot="description">{{ text.mentioned.title }}</p>
   </op-checkbox-field>
 
-  <h2>{{ text.alsoNotifyFor.title }}</h2>
+  <h5>{{ text.alsoNotifyFor.title }}</h5>
   <p>{{ text.alsoNotifyFor.description }}</p>
 
   <op-checkbox-field>
@@ -94,7 +94,7 @@
 
   <hr />
 
-  <h2>Project-specific notification settings</h2>
+  <h5>Project-specific notification settings</h5>
   <p>These project-specific settings override default settings above</p>
   
   <op-notification-settings-table

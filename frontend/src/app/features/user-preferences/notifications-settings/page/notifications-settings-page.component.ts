@@ -39,7 +39,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   });
 
   text = {
-    saveImmediately: {
+    notifyImmediately: {
       title: this.I18n.t('js.notifications.settings.global.immediately.title'),
       description: this.I18n.t('js.notifications.settings.global.immediately.description'),
     },
