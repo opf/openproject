@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,35 +26,50 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module UserPreferences
-  class BaseContract < ::BaseContract
-    property :settings
+require 'support/pages/page'
 
-    validate :user_allowed_to_access
-    validates :settings,
-              not_nil: true,
-              json: {
-                schema: ->(*) {
-                  UserPreferences::Schema.schema
-                },
-                if: -> { model.settings.present? }
-              }
+module Pages
+  module Reminders
+    class Settings < ::Pages::Page
+      attr_reader :user
 
-    validate :time_zone_correctness,
-             if: -> { model.time_zone.present? }
+      def initialize(user)
+        super()
+        @user = user
+      end
 
-    protected
+      def path
+        edit_user_path(user, tab: :reminders)
+      end
 
-    def time_zone_correctness
-      errors.add(:time_zone, :inclusion) if model.time_zone.present? && model.canonical_time_zone.nil?
-    end
+      def add_time
+        click_button 'Add time'
+      end
 
-    ##
-    # User preferences can only be accessed with the manage_user permission
-    # or if an active, logged user is editing their own prefs
-    def user_allowed_to_access
-      unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
-        errors.add :base, :error_unauthorized
+      def set_time(label, time)
+        select time, from: label
+      end
+
+      def deactivate_time(label)
+        find("[data-qa-selector='op-settings-daily-time--active-#{label.split[1]}']").click
+      end
+
+      def remove_time(label)
+        find("[data-qa-selector='op-settings-daily-time--remove-#{label.split[1]}']").click
+      end
+
+      def expect_active_daily_times(*times)
+        times.each_with_index do |time, index|
+          expect(page)
+            .to have_css("input[data-qa-selector='op-settings-daily-time--active-#{index + 1}']:checked")
+
+          expect(page)
+            .to have_field("Time #{index + 1}", text: time)
+        end
+      end
+
+      def save
+        click_button 'Save'
       end
     end
   end

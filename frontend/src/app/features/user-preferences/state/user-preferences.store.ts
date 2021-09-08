@@ -38,6 +38,10 @@ function createInitialState():UserPreferencesModel {
     timeZone: null,
     warnOnLeavingUnsaved: true,
     notifications: [],
+    dailyReminders: {
+      enabled: true,
+      times: ['08:00'],
+    },
   };
 }
 

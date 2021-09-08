@@ -97,6 +97,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
+gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage

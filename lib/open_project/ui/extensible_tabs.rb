@@ -89,6 +89,12 @@ module OpenProject
               partial: 'users/notifications',
               path: ->(params) { edit_user_path(params[:user], tab: :notifications) },
               label: :'notifications.settings.title'
+            },
+            {
+              name: 'reminders',
+              partial: 'users/reminders',
+              path: ->(params) { edit_user_path(params[:user], tab: :reminders) },
+              label: :'reminders.settings.title'
             }
           ]
         end

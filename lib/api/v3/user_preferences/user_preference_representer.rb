@@ -65,6 +65,20 @@ module API
                  as: :commentSortDescending
         property :auto_hide_popups
 
+        # Also accept times in the format of HH:MM which are also valid according to ISO8601
+        # and have those as the only times in the resource.
+        property :daily_reminders,
+                 getter: ->(*) do
+                   reminders = daily_reminders.dup
+                   reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
+                   reminders
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.daily_reminders = fragment
+
+                   daily_reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
+                 end
+
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,

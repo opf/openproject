@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,35 +26,13 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module UserPreferences
-  class BaseContract < ::BaseContract
-    property :settings
+require 'support/pages/reminders/settings'
 
-    validate :user_allowed_to_access
-    validates :settings,
-              not_nil: true,
-              json: {
-                schema: ->(*) {
-                  UserPreferences::Schema.schema
-                },
-                if: -> { model.settings.present? }
-              }
-
-    validate :time_zone_correctness,
-             if: -> { model.time_zone.present? }
-
-    protected
-
-    def time_zone_correctness
-      errors.add(:time_zone, :inclusion) if model.time_zone.present? && model.canonical_time_zone.nil?
-    end
-
-    ##
-    # User preferences can only be accessed with the manage_user permission
-    # or if an active, logged user is editing their own prefs
-    def user_allowed_to_access
-      unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
-        errors.add :base, :error_unauthorized
+module Pages
+  module My
+    class Reminders < ::Pages::Reminders::Settings
+      def path
+        my_reminders_path
       end
     end
   end

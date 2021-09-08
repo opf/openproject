@@ -44,6 +44,10 @@ module Pages
       self
     end
 
+    def reload!
+      page.driver.browser.navigate.refresh
+    end
+
     def accept_alert_dialog!
       alert_dialog.accept if selenium_driver?
     end
