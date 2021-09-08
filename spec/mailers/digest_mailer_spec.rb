@@ -122,11 +122,11 @@ describe DigestMailer, type: :mailer do
       expect(mail_body)
         .to have_text(expected_notification_header, normalize_ws: true)
 
-      expected_journal_text = "Comment added less than a minute ago by #{recipient.name}"
+      expected_journal_text = "Comment added at #{journal.created_at.strftime('%I:%M %p')} by #{recipient.name}"
       expect(mail_body)
         .to have_text(expected_journal_text, normalize_ws: true)
 
-      expected_details_text = "Subject changed from old subject to new subject less than a minute ago by #{recipient.name}"
+      expected_details_text = "Subject changed from old subject to new subject at #{journal.created_at.strftime('%I:%M %p')} by #{recipient.name}"
       expect(mail_body)
         .to have_text(expected_details_text, normalize_ws: true)
     end

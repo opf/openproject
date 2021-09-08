@@ -1967,7 +1967,8 @@ en:
   mail:
     actions: 'Actions'
     digests:
-      time_frame: "At %{time} on %{weekday}, %{date}, you have %{number_unread} unread notifications in %{number_work_packages} work packages"
+      summary: "You have %{number_unread} unread notifications"
+      summary_with_mentioned: "You have %{number_unread} unread notifications including %{number_mentioned} mentions"
       work_packages:
         comment_added: '<b>Comment</b> added'
         created: 'Created'
@@ -1984,6 +1985,7 @@ en:
           prefix: 'Received because of the notification setting: %{reason}'
         see_all: 'See all'
         subject: '%{instance_name} - %{notifications} unread notification(s) in %{work_packages} work package(s)'
+        subject_with_mentioned: '%{instance_name} - %{notifications} unread notification(s) including %{mentioned} mention(s) in %{work_packages} work package(s), in %{projects} projects'
         updated: 'Updated'
         updated_at: 'at %{timestamp} by %{user}'
     logo_alt_text: 'Logo'

@@ -1,6 +1,6 @@
 <%= render partial: 'mailer/notification_mailer_header',
            locals: {
-             summary: digest_summary_text(@notification_ids.length, @aggregated_notifications.length)
+             summary: digest_summary_text(@notification_ids.length, @mentioned_count)
            } %>
 
 <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
@@ -12,7 +12,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
       <% notifications_by_work_package.each do | notification | %>
         <% if notification.journal.notes.present? %>
-          <tr style="color: #878787; line-height: 20px; white-space: nowrap; font-size: 14px;">
+          <tr style="color: #878787; line-height: 20px; font-size: 14px;">
             <td>
               <%= digest_comment_text(notification) %>
               <%= digest_notification_timestamp_text(notification) %>
@@ -46,7 +46,13 @@
         </span>
         <a
           target="_blank"
-          style="background-color: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none; white-space: nowrap;">
+          style="background-color: #D1E5F5;
+            padding: 8px 12px;
+            color: #1A67A3;
+            border: 1px solid #1A67A3;
+            border-radius: 16px;
+            text-decoration: none;
+            white-space: nowrap;">
           <%= I18n.t(:'mail.digests.work_packages.see_all') %>
         </a>
       <% end %>

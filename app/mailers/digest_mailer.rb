@@ -64,14 +64,40 @@ class DigestMailer < ApplicationMailer
                                   .reverse
                                   .group_by(&:resource)
 
+    @mentioned_count = @aggregated_notifications
+                         .values
+                         .flatten
+                         .map(&:reason_mail_digest)
+                         .compact
+                         .count("mentioned")
+
     return if @aggregated_notifications.empty?
 
+    project_count = @aggregated_notifications
+                      .keys
+                      .map(&:project_id)
+                      .uniq
+                      .size
+
     with_locale_for(recipient) do
+      if @mentioned_count > 0
+        subject = I18n.t('mail.digests.work_packages.subject_with_mentioned',
+                         instance_name: Setting.app_title,
+                         notifications: notification_ids.size,
+                         mentioned: @mentioned_count,
+                         work_packages: @aggregated_notifications.size,
+                         projects: project_count)
+      else
+
+        subject = I18n.t('mail.digests.work_packages.subject',
+                         instance_name: Setting.app_title,
+                         notifications: notification_ids.size,
+                         work_packages: @aggregated_notifications.size,
+                         projects: project_count)
+      end
+
       mail to: recipient.mail,
-           subject: I18n.t('mail.digests.work_packages.subject',
-                           instance_name: Setting.app_title,
-                           notifications: notification_ids.count,
-                           work_packages: @aggregated_notifications.count)
+           subject: subject
     end
   end
 

@@ -29,15 +29,15 @@
 #++
 
 module MailDigestHelper
-  def digest_summary_text(notification_count, wp_count)
-    date = Time.parse(Setting.notification_email_digest_time)
-
-    I18n.t(:'mail.digests.time_frame',
-           time: Setting.notification_email_digest_time,
-           weekday: day_name(date.wday),
-           date: ::I18n.l(date.to_date, format: :long),
-           number_unread: notification_count,
-           number_work_packages: wp_count)
+  def digest_summary_text(notification_count, mentioned_count)
+    if mentioned_count > 0
+      I18n.t(:'mail.digests.summary_with_mentioned',
+             number_unread: notification_count,
+             number_mentioned: mentioned_count)
+    else
+      I18n.t(:'mail.digests.summary',
+             number_unread: notification_count)
+    end
   end
 
   def digest_notification_timestamp_text(notification, html: true, extended_text: false)
@@ -48,7 +48,7 @@ module MailDigestHelper
   end
 
   def digest_comment_text(notification)
-    if notification.journal.notes.match(/<mention.*data-type="user".*>/)
+    if notification.reason_mail_digest === "mentioned"
       sanitize I18n.t(:'mail.digests.work_packages.mentioned')
     else
       sanitize I18n.t(:'mail.digests.work_packages.comment_added')
@@ -63,7 +63,9 @@ module MailDigestHelper
       sanitize(
         "#{I18n.t(:"mail.digests.work_packages.#{value}")} #{I18n.t(:"mail.digests.work_packages.#{value}_at",
                                                                     user: user,
-                                                                    timestamp: journal.created_at.strftime(I18n.t(:'time.formats.time')))}"
+                                                                    timestamp: journal.created_at.strftime(
+                                                                      I18n.t(:'time.formats.time')
+                                                                    ))}"
       )
     else
       sanitize(I18n.t(:"mail.digests.work_packages.#{value}_at",
