@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,24 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Notifications
-  [Queries::Notifications::Filters::ReadIanFilter,
-   Queries::Notifications::Filters::IdFilter,
-   Queries::Notifications::Filters::ResourceIdFilter,
-   Queries::Notifications::Filters::ResourceTypeFilter].each do |filter|
-    Queries::Register.filter Queries::Notifications::NotificationQuery,
-                             filter
-  end
+module Queries
+  module GroupBys
+    class Base
+      include ActiveModel::Validations
 
-  [Queries::Notifications::Orders::DefaultOrder,
-   Queries::Notifications::Orders::ReasonOrder,
-   Queries::Notifications::Orders::ReadIanOrder].each do |order|
-    Queries::Register.order Queries::Notifications::NotificationQuery,
-                            order
-  end
+      def self.i18n_scope
+        :activerecord
+      end
 
-  [Queries::Notifications::GroupBys::GroupByReason].each do |group|
-    Queries::Register.group_by Queries::Notifications::NotificationQuery,
-                               group
+      class_attribute :model
+      attr_accessor :attribute
+
+      def initialize(attribute)
+        self.attribute = attribute
+      end
+
+      def self.key
+        raise NotImplementedError
+      end
+
+      def scope
+        group_by
+      end
+
+      def name
+        attribute
+      end
+
+      # Default to the same key for order
+      # as the one for group
+      def order_key
+        self.class.key
+      end
+
+      protected
+
+      def group_by
+        model.group(name)
+      end
+    end
   end
 end

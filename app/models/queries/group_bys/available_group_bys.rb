@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,24 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Notifications
-  [Queries::Notifications::Filters::ReadIanFilter,
-   Queries::Notifications::Filters::IdFilter,
-   Queries::Notifications::Filters::ResourceIdFilter,
-   Queries::Notifications::Filters::ResourceTypeFilter].each do |filter|
-    Queries::Register.filter Queries::Notifications::NotificationQuery,
-                             filter
-  end
+module Queries
+  module GroupBys
+    module AvailableGroupBys
+      def group_by_for(key)
+        (find_registered_group_by(key) || ::Queries::GroupBys::NotExistingGroupBy).new(key)
+      end
 
-  [Queries::Notifications::Orders::DefaultOrder,
-   Queries::Notifications::Orders::ReasonOrder,
-   Queries::Notifications::Orders::ReadIanOrder].each do |order|
-    Queries::Register.order Queries::Notifications::NotificationQuery,
-                            order
-  end
+      private
 
-  [Queries::Notifications::GroupBys::GroupByReason].each do |group|
-    Queries::Register.group_by Queries::Notifications::NotificationQuery,
-                               group
+      def find_registered_group_by(key)
+        group_by_register.detect do |s|
+          s.key === key.to_sym
+        end
+      end
+
+      def group_by_register
+        ::Queries::Register.group_bys[self.class]
+      end
+    end
   end
 end

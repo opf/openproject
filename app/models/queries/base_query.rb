@@ -38,17 +38,21 @@ class Queries::BaseQuery
   end
 
   attr_accessor :filters, :orders
+  attr_reader :group_by
 
   include Queries::AvailableFilters
   include Queries::AvailableOrders
+  include Queries::GroupBys::AvailableGroupBys
   include ActiveModel::Validations
 
   validate :filters_valid,
-           :sortation_valid
+           :sortation_valid,
+           :group_by_valid
 
   def initialize(user: nil)
     @filters = []
     @orders = []
+    @group_by = nil
     @user = user
   end
 
@@ -58,6 +62,15 @@ class Queries::BaseQuery
     else
       empty_scope
     end
+  end
+
+  def groups
+    return nil if group_by.nil?
+    return empty_scope unless valid?
+
+    apply_group_by(apply_filters(default_scope))
+      .pluck(group_by.name, Arel.sql('COUNT(*)'))
+      .to_h
   end
 
   def where(attribute, operator, values)
@@ -81,6 +94,12 @@ class Queries::BaseQuery
     self
   end
 
+  def group(attribute)
+    self.group_by = group_by_for(attribute)
+
+    self
+  end
+
   def default_scope
     self.class.model.all
   end
@@ -100,6 +119,7 @@ class Queries::BaseQuery
   protected
 
   attr_accessor :user
+  attr_writer :group_by
 
   def filters_valid
     filters.each do |filter|
@@ -115,6 +135,12 @@ class Queries::BaseQuery
 
       add_error(:orders, order.name, order)
     end
+  end
+
+  def group_by_valid
+    return if group_by.nil? || group_by.valid?
+
+    add_error(:group_by, group_by.name, group_by)
   end
 
   def add_error(local_attribute, attribute_name, object)
@@ -145,7 +171,7 @@ class Queries::BaseQuery
   end
 
   def apply_orders(scope)
-    orders.each do |order|
+    build_orders.each do |order|
       scope = scope.merge(order.scope)
     end
 
@@ -154,6 +180,30 @@ class Queries::BaseQuery
     # different between all elements.
     # Without such a criteria, results can occur on multiple pages.
     already_ordered_by_id?(scope) ? scope : scope.order(id: :desc)
+  end
+
+  def apply_group_by(scope)
+    return scope if group_by.nil?
+
+    scope
+      .merge(group_by.scope)
+      .order(group_by.name)
+  end
+
+  def build_orders
+    return orders if group_by.nil? || has_group_by_order?
+
+    [group_by_order] + orders
+  end
+
+  def has_group_by_order?
+    !!group_by && orders.detect { |order| order.class.key == group_by.order_key }
+  end
+
+  def group_by_order
+    order_for(group_by.order_key).tap do |order|
+      order.direction = :asc
+    end
   end
 
   def already_ordered_by_id?(scope)
