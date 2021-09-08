@@ -521,6 +521,8 @@ sl:
         all: 'Vse'
       center:
         mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -537,7 +539,6 @@ sl:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "Želim biti opozorjen(a) za spremembe, ki jih naredim sam(a)"
     password_confirmation:
       field_description: 'Prosimo vnesite svoje uporabniško geslo za potrditev te spremembe. '
       title: 'Potrdite svoje geslo za nadaljevanje'

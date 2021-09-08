@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -102,7 +102,7 @@ module Pages
       def show_model(model)
         click_model_link model.title
 
-        expect_correct_page_loaded '.ifc-model-viewer--container'
+        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
 
         expect_model_active(model)
       end
@@ -114,7 +114,7 @@ module Pages
       def show_defaults(models = [])
         click_toolbar_button 'Show defaults'
 
-        expect_correct_page_loaded '.ifc-model-viewer--container'
+        expect_correct_page_loaded '[data-qa-selector="op-ifc-viewer--container"]'
 
         models.each do |model|
           expect_model_active(model, model.is_default)

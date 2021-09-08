@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'support/pages/my/notifications'
 
+# TODO: This feature spec is to be replaced by the reminder_mail_spec.rb in the same directory.
 describe "Digest email", type: :feature, js: true do
   let!(:project) { FactoryBot.create :project, members: { current_user => role } }
   let!(:mute_project) { FactoryBot.create :project, members: { current_user => role } }
@@ -125,8 +126,7 @@ describe "Digest email", type: :feature, js: true do
     # perform_enqueued_jobs block, the digest job would be executed right away
     # so that the second update would trigger a new digest. But we want to test
     # that only one digest is sent out
-    perform_enqueued_jobs
-    perform_enqueued_jobs
+    5.times { perform_enqueued_jobs }
 
     expect(ActionMailer::Base.deliveries.length)
       .to be 1

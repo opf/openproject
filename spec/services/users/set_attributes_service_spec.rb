@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -114,14 +114,14 @@ describe Users::SetAttributesService, type: :model do
       let(:params) do
         {
           pref: {
-            self_notified: true
+            auto_hide_popups: true
           }
         }
       end
 
       it 'initializes the user`s preferences with those attributes' do
         expect(call.result.pref)
-          .to be_self_notified
+          .to be_auto_hide_popups
       end
     end
   end

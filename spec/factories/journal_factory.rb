@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 FactoryBot.define do
@@ -51,6 +51,12 @@ FactoryBot.define do
     factory :message_journal, class: 'Journal' do
       journable_type { 'Message' }
       activity_type { 'messages' }
+      data { FactoryBot.build(:journal_message_journal) }
+    end
+
+    factory :news_journal, class: 'Journal' do
+      journable_type { 'News' }
+      activity_type { 'news' }
       data { FactoryBot.build(:journal_message_journal) }
     end
   end

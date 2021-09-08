@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'support/pages/page'
@@ -62,7 +62,7 @@ module Pages
     end
 
     def list_count
-      page.all('.board-list--container').count
+      page.all('[data-qa-selector="op-board-list"]').count
     end
 
     def within_list(name, &block)
@@ -70,12 +70,12 @@ module Pages
     end
 
     def list_selector(name)
-      ".board-list--container[data-query-name='#{name}']"
+      "[data-qa-selector='op-board-list'][data-query-name='#{name}']"
     end
 
     def add_card(list_name, card_title)
       within_list(list_name) do
-        page.find('.board-list--add-button').click
+        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       # Add item in dropdown
@@ -100,7 +100,7 @@ module Pages
 
     def reference(list_name, work_package)
       within_list(list_name) do
-        page.find('.board-list--card-dropdown-button').click
+        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add existing').click
@@ -115,7 +115,7 @@ module Pages
 
     def expect_not_referencable(list_name, work_package)
       within_list(list_name) do
-        page.find('.board-list--card-dropdown-button').click
+        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add existing').click
@@ -188,7 +188,7 @@ module Pages
 
       if option.nil?
         page.find('.boards-list--add-item').click
-        expect(page).to have_selector('.board-list--container', count: count + 1)
+        expect(page).to have_selector('[data-qa-selector="op-board-list"]', count: count + 1)
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
@@ -216,11 +216,11 @@ module Pages
     end
 
     def expect_list(name)
-      expect(page).to have_selector('.board-list--header', text: name, wait: 10)
+      expect(page).to have_selector('[data-qa-selector="op-board-list--header"]', text: name, wait: 10)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_selector('.board-list--header', text: name)
+      expect(page).not_to have_selector('[data-qa-selector="op-board-list--header"]', text: name)
     end
 
     def expect_empty
@@ -238,8 +238,8 @@ module Pages
 
     def click_list_dropdown(list_name, action)
       within_list(list_name) do
-        page.find('.board-list--header').hover
-        page.find('.board-list--menu a').click
+        page.find('[data-qa-selector="op-board-list--header"]').hover
+        page.find('[data-qa-selector="op-board-list--menu"] a').click
       end
 
       page.find('.dropdown-menu button', text: action).click
@@ -276,7 +276,7 @@ module Pages
     end
 
     def back_to_index
-      find('.back-button').click
+      find('[data-qa-selector="op-back-button"]').click
     end
 
     def expect_editable_board(editable)
@@ -288,12 +288,7 @@ module Pages
     end
 
     def expect_editable_list(editable)
-      # Add list button
-      if action?
-        expect(page).to have_conditional_selector(editable, '.board-list--add-button')
-      else
-        expect(page).to have_conditional_selector(editable, '.board-list--card-dropdown-button')
-      end
+      expect(page).to have_conditional_selector(editable, '[data-qa-selector="op-board-list--card-dropdown-add-button"]')
     end
 
     def rename_board(new_name, through_dropdown: false)

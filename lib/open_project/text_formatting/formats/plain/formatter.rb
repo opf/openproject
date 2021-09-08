@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::TextFormatting::Formats
@@ -40,7 +40,7 @@ module OpenProject::TextFormatting::Formats
       end
 
       def filters
-        %i(plain pattern_matcher)
+        %i(plain setting_macros pattern_matcher)
       end
 
       def self.format

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -50,8 +50,6 @@ describe MeetingMailer, type: :mailer do
   end
 
   before do
-    author.pref[:no_self_notified] = false
-    author.save!
     meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
                                 meeting.participants.build(user: watcher2, invited: true, attended: false)])
     meeting.save!

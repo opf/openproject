@@ -170,6 +170,8 @@
     enabled_in_project: 'Aktivert i prosjekt'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Opprett nytt egendefinert felt
@@ -1408,7 +1410,7 @@
   label_check_uncheck_all_in_column: "Sjekk/Avmerk alle i kolonnen"
   label_check_uncheck_all_in_row: "Sjekk/Avmerk alle på rad"
   label_child_element: "Underordnet element"
-  label_chronological_order: "I kronologisk rekkefølge"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Lukk fullførte versjoner"
   label_closed_work_packages: "lukket"
   label_collapse: "Skjul"
@@ -1496,7 +1498,6 @@
   label_feeds_access_key: "RSS tilgangsnøkkel"
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Lagt til fil"
   label_file_plural: "Filer"
   label_filter_add: "Legg til filter"
   label_filter_plural: "Filtre"
@@ -1712,7 +1713,7 @@
   label_required: 'påkrevd'
   label_requires: 'krever'
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "I omvendt kronologisk rekkefølge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisjon"
   label_revision_id: "Revisjon %{value}"
   label_revision_plural: "Revisjoner"

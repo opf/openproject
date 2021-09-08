@@ -43,21 +43,14 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
       # Opening the split screen marks the notifications as read
       split_screen.expect_open
-      center.expect_read_item notification
+      center.expect_work_package_item notification
       center.expect_work_package_item second_notification
 
       # Clicking on a another notification changes the split screen content
       center.click_item second_notification
       split_screen = ::Pages::SplitWorkPackage.new(second_work_package, project)
       split_screen.expect_open
-      center.expect_read_item second_notification
-
-      # Since both are marked as read, there are no notifications left
-      center.close
-      center.expect_bell_count 0
-
-      center.open
-      center.expect_empty
+      center.expect_work_package_item second_notification
     end
 
     it 'can navigate between the tabs' do

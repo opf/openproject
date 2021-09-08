@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -728,7 +728,7 @@ describe Bim::Bcf::Viewpoints::CreateContract do
         end
       end
 
-      context 'with a component of the selection property having an unkonwn property' do
+      context 'with a component of the selection property having an unknown property' do
         let(:viewpoint_json_viewpoint) do
           valid_json['components'][:selection][1]['superfluous'] = "sdsdsf"
           valid_json

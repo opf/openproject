@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require_relative './../legacy_spec_helper'
 
@@ -70,28 +70,6 @@ describe Comment, type: :model do
   it 'should text' do
     comment = FactoryBot.build(:comment, comments: 'something useful')
     assert_equal 'something useful', comment.text
-  end
-
-  it 'should create should send notification with settings' do
-    # news needs a project in order to be notified
-    # see Redmine::Acts::Journalized::Deprecated#recipients
-    project = FactoryBot.create(:project)
-    user = FactoryBot.create(:user, member_in_project: project)
-    # author is automatically added as watcher
-    # this makes #user to receive a notification
-    news = FactoryBot.create(:news, project: project, author: user)
-
-    # with notifications for that event turned on
-    allow(Setting).to receive(:notified_events).and_return(['news_comment_added'])
-    assert_difference 'ActionMailer::Base.deliveries.size', 1 do
-      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
-    end
-
-    # with notifications for that event turned off
-    allow(Setting).to receive(:notified_events).and_return([])
-    assert_no_difference 'ActionMailer::Base.deliveries.size' do
-      Comment.create!(commented: news, author: user, comments: 'more useful stuff')
-    end
   end
 
   # TODO: testing #destroy really needed?

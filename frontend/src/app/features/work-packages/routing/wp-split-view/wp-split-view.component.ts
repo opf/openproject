@@ -23,11 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Injector, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
@@ -39,12 +42,14 @@ import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routi
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Component({
   templateUrl: './wp-split-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-split-view-entry',
   providers: [
+    WpSingleViewService,
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
   ],
 })
@@ -52,14 +57,16 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   /** Reference to the base route e.g., work-packages.partitioned.list or bim.partitioned.split */
   private baseRoute:string = this.$state.current.data.baseRoute;
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public states:States,
     public firstRoute:FirstRouteService,
     public keepTab:KeepTabService,
     public wpTableSelection:WorkPackageViewSelectionService,
     public wpTableFocus:WorkPackageViewFocusService,
     readonly $state:StateService,
-    readonly backRouting:BackRoutingService) {
+    readonly backRouting:BackRoutingService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 
@@ -97,15 +104,15 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
       });
   }
 
-  public get shouldFocus() {
+  get shouldFocus():boolean {
     return this.$state.params.focus === true;
   }
 
-  public showBackButton():boolean {
+  showBackButton():boolean {
     return this.baseRoute.includes('bim');
   }
 
-  public backToList() {
+  backToList():void {
     this.backRouting.goToBaseState();
   }
 }

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Migration
@@ -36,6 +36,12 @@ module Migration
       say_with_time message do
         suppress_messages(&block)
       end
+    end
+
+    def in_configurable_batches(klass, default_batch_size: 1000)
+      batches = ENV["OPENPROJECT_MIGRATION_BATCH_SIZE"]&.to_i || default_batch_size
+
+      klass.in_batches(of: batches)
     end
 
     def remove_index_if_exists(table_name, index_name)

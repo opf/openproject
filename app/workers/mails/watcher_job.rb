@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Mails::WatcherJob < Mails::DeliverJob
@@ -54,7 +54,7 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def notify_about_watcher_changed?
-    return false if notify_about_self_watching?
+    return false if self_watching?
     return false unless UserMailer.perform_deliveries
 
     settings = watcher
@@ -67,8 +67,8 @@ class Mails::WatcherJob < Mails::DeliverJob
     settings.watched || settings.all
   end
 
-  def notify_about_self_watching?
-    watcher.user == sender && !sender.pref.self_notified?
+  def self_watching?
+    watcher.user == sender
   end
 
   def action

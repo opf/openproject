@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -445,6 +445,14 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       global_search.find_option wp_4.subject
       global_search.submit_in_global_scope
       table.expect_work_package_listed(wp_4)
+    end
+  end
+
+  describe 'search hotkey' do
+    it 'opens and focuses the global search when you press the [s] hotkey' do
+      visit home_path
+      page.find('body').send_keys('s')
+      expect(page).to have_selector '[data-qa-search-open="1"]', wait: 10
     end
   end
 end

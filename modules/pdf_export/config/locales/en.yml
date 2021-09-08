@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 
@@ -37,8 +37,8 @@ en:
   label_export_card_configuration_plural: "Export Card Configs"
   label_export_card_activate: "Activate"
   label_export_card_deactivate: "De-activate"
-  notice_export_card_configuration_activated: "Config succesfully activated"
-  notice_export_card_configuration_deactivated: "Config succesfully de-activated"
+  notice_export_card_configuration_activated: "Config successfully activated"
+  notice_export_card_configuration_deactivated: "Config successfully de-activated"
   error_can_not_activate_export_card_configuration: "This config cannot be activated"
   error_can_not_deactivate_export_card_configuration: "This config cannot be de-activated"
   validation_error_required_keys_not_present: "Required key(s) not present:"

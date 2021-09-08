@@ -170,6 +170,8 @@ uk:
     enabled_in_project: 'Увімкнено в проекті'
     contained_in_type: 'Міститься за типом'
     confirm_destroy_option: "Видалення опції призведе до видалення всіх його подій (наприклад, у робочих пакетах). Дійсно видалити його?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Наразі немає спеціальних полів.
       no_results_content_text: Створіть нове спеціальне поле
@@ -1442,7 +1444,7 @@ uk:
   label_check_uncheck_all_in_column: "Позначте/зніміть всі прапорці в колонці"
   label_check_uncheck_all_in_row: "Позначте/зніміть всі прапорці в рядку"
   label_child_element: "Дочірній елемент"
-  label_chronological_order: "В хронологічному порядку"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Закрити завершені версії"
   label_closed_work_packages: "зачинено"
   label_collapse: "Згорнути"
@@ -1530,7 +1532,6 @@ uk:
   label_feeds_access_key: "Клавіша доступу RSS"
   label_feeds_access_key_created_on: "Створено ключ доступу RSS %{value} тому"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Додано файл"
   label_file_plural: "Файли"
   label_filter_add: "Додати фільтр"
   label_filter_plural: "Фільтри"
@@ -1746,7 +1747,7 @@ uk:
   label_required: 'вимагається'
   label_requires: 'вимагається'
   label_result_plural: "Результати"
-  label_reverse_chronological_order: "В зворотньому порядку"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Ревізія"
   label_revision_id: "Ревізія %{value}"
   label_revision_plural: "Ревізії"

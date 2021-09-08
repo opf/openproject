@@ -20,6 +20,7 @@
     [disabled]="disabled"
     [name]="name"
     [id]="id"
+    [attr.accesskey]="accesskey||undefined"
     bindLabel="name"
     [bindValue]="bindValue"
     [markFirst]="markFirst"
@@ -127,7 +128,14 @@
       <span
         class="op-autocompleter--wp-subject"
         [ngOptionHighlight]="search"
-      >{{item.subject}}</span>
+      >
+        <span
+          *ngIf="item.type"
+          [ngClass]="highlighting('type', item.type.id)"
+          textContent="{{ item.type.name }}:"
+          ></span>
+        {{item.subject}}
+      </span>
 
       <div class="op-autocompleter--wp-content">
         <span

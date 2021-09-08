@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module API
@@ -38,7 +38,7 @@ module API
               namespace 'bcf_xml' do
                 helpers do
                   # Global helper to set allowed content_types
-                  # This may be overriden when multipart is allowed (file uploads)
+                  # This may be overridden when multipart is allowed (file uploads)
                   def allowed_content_types
                     if post_request?
                       %w(multipart/form-data)

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
@@ -688,7 +688,7 @@ describe CostlogController, type: :controller do
 
     describe "WHEN the user is allowed to update own cost_entries and not all
               WHEN updating foreign cost_entry
-              WHEN updating someting" do
+              WHEN updating something" do
       let(:user3) { FactoryBot.create(:user) }
 
       before do

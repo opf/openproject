@@ -25,63 +25,84 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class UserPreference < ApplicationRecord
   belongs_to :user
-  serialize :others
-
   delegate :notification_settings, to: :user
+  serialize :settings, ::Serializers::IndifferentHashSerializer
 
-  validates_presence_of :user
-  validate :time_zone_correctness, if: -> { time_zone.present? }
+  validates :user,
+            presence: true
+  ##
+  # Retrieve keys from settings, and allow accessing
+  # as boolean with ? suffix
+  def method_missing(method_name, *args)
+    key = method_name.to_s
+    return super unless supported_settings_method?(key)
 
-  after_initialize :init_other_preferences
+    action = key[-1]
+
+    case action
+    when '?'
+      to_boolean send(key[..-2])
+    when '='
+      settings[key[..-2]] = args.first
+    else
+      settings[key]
+    end
+  end
+
+  ##
+  # We respond to all methods as we retrieve
+  # the key from settings
+  def respond_to_missing?(method_name, include_private = false)
+    supported_settings_method?(method_name) || super
+  end
 
   def [](attr_name)
-    attribute?(attr_name) ? super : others[attr_name]
+    if attribute?(attr_name)
+      super
+    else
+      send attr_name
+    end
   end
 
   def []=(attr_name, value)
-    attribute?(attr_name) ? super : others[attr_name] = value
+    if attribute?(attr_name)
+      super
+    else
+      send :"#{attr_name}=", value
+    end
   end
 
   def comments_sorting
-    others.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
-  end
-
-  def comments_sorting=(order)
-    others[:comments_sorting] = order
+    settings.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
   end
 
   def comments_in_reverse_order?
     comments_sorting == 'desc'
   end
 
-  def self_notified?
-    !others[:no_self_notified]
-  end
-
-  def self_notified=(value)
-    others[:no_self_notified] = !value
+  def hide_mail
+    settings.fetch(:hide_mail, true)
   end
 
   def auto_hide_popups=(value)
-    others[:auto_hide_popups] = to_boolean(value)
+    settings[:auto_hide_popups] = to_boolean(value)
   end
 
   def auto_hide_popups?
-    others.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
+    settings.fetch(:auto_hide_popups) { Setting.default_auto_hide_popups? }
   end
 
   def warn_on_leaving_unsaved?
-    # Need to cast here as previous values were '0' / '1'
-    to_boolean(others.fetch(:warn_on_leaving_unsaved) { true })
+    settings.fetch(:warn_on_leaving_unsaved, true)
   end
 
   def warn_on_leaving_unsaved=(value)
-    others[:warn_on_leaving_unsaved] = to_boolean(value)
+    settings[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
   # Provide an alias to form builders
@@ -90,11 +111,15 @@ class UserPreference < ApplicationRecord
   alias :auto_hide_popups :auto_hide_popups?
 
   def comments_in_reverse_order=(value)
-    others[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
+    settings[:comments_sorting] = to_boolean(value) ? 'desc' : 'asc'
   end
 
   def time_zone
-    self[:time_zone].presence || Setting.user_default_timezone.presence
+    super.presence || Setting.user_default_timezone.presence
+  end
+
+  def daily_reminders
+    super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end
 
   def canonical_time_zone
@@ -106,20 +131,15 @@ class UserPreference < ApplicationRecord
 
   private
 
-  def attribute?(name)
-    attr = name.to_sym
-    has_attribute?(attr) || attr == :user || attr == :user_id
-  end
-
   def to_boolean(value)
     ActiveRecord::Type::Boolean.new.cast(value)
   end
 
-  def init_other_preferences
-    self.others ||= { no_self_notified: true }
+  def attribute?(name)
+    %i[user user_id].include?(name.to_sym)
   end
 
-  def time_zone_correctness
-    errors.add(:time_zone, :inclusion) if time_zone.present? && canonical_time_zone.nil?
+  def supported_settings_method?(method_name)
+    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
   end
 end

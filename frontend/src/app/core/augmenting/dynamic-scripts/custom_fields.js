@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 (function(window, $) {
   /*
@@ -200,12 +200,16 @@
     value.attr("id", "custom_field_custom_options_attributes_" + count + "_value");
     value.val("");
 
-    var defaultValue = dup.find(".custom-option-default-value");
+    var defaultValueContainer = dup.find(".custom-option-default-value");
+    var defaultValueCheckbox = defaultValueContainer.find('input[type="checkbox"]');
+    var defaultValueHidden = defaultValueContainer.find('input[type="hidden"]');
 
-    defaultValue.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
-    defaultValue.prop("checked", false);
+    defaultValueHidden.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
+    defaultValueCheckbox.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
+    defaultValueCheckbox.attr("id", "custom_field_custom_options_attributes_" + count + "_default_value]");
+    defaultValueCheckbox.prop("checked", false);
 
-    dup.find(".custom-option-id").remove()
+    dup.find(".custom-option-id").remove();
 
     dup.find(".move-up-custom-option").click(moveUpRow);
     dup.find(".sort-up-custom-option").click(moveRowToTheTop);
@@ -263,8 +267,9 @@
     $('#custom_field_multi_value').change(checkOnlyOne);
 
     // Make custom fields draggable
-    var container = document.getElementById('custom-field-dragula-container');
-    dragula([container], {
+    const container = document.getElementById('custom-field-dragula-container');
+    // eslint-disable-next-line no-undef
+    const drake = dragula([container], {
       isContainer: function (el) {
         return false;
       },
@@ -284,6 +289,22 @@
       removeOnSpill: false,
       mirrorContainer: container,
       ignoreInputTextSelection: true
+    });
+
+    // Setup autoscroll
+    window.OpenProject.getPluginContext().then((pluginContext) => {
+      new pluginContext.classes.DomAutoscrollService(
+        [
+          document.getElementById('content-wrapper'),
+        ],
+        {
+          margin: 25,
+          maxSpeed: 10,
+          scrollWhenOutside: true,
+          autoScroll: function () {
+            return drake.dragging;
+          }
+        });
     });
   });
 }(window, jQuery));

@@ -521,6 +521,8 @@ ru:
         all: 'Bсе'
       center:
         mark_all_read: 'Отметить всё как прочитанное'
+        mark_as_read: 'Отметить как прочитанное'
+        text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
       settings:
         default_all_projects: 'По умолчанию для всех проектов'
@@ -537,7 +539,6 @@ ru:
         already_selected: 'Этот проект уже выбран'
         remove_projects: 'Удалить уведомления для проектов'
         title: "Настройки уведомлений"
-        self_notify: "Хочу получать уведомления об изменениях, которые делаю сам"
     password_confirmation:
       field_description: 'Необходимо ввести свой пароль для подтверждения изменений.'
       title: 'Для продолжения введите свой пароль'

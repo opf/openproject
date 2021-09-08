@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
 require 'rack/test'
@@ -37,9 +37,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient }
-  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient }
+  shared_let(:work_package) { FactoryBot.create :work_package }
+  shared_let(:recipient) do
+    FactoryBot.create :user,
+                      member_in_project: work_package.project,
+                      member_with_permissions: %i[view_work_packages]
+  end
+  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
+  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
 
   let(:notifications) { [notification1, notification2] }
 
@@ -85,6 +90,34 @@ describe ::API::V3::Notifications::NotificationsAPI,
               'operator' => '=',
               'values' => ['f']
 
+            }
+          }
+        ]
+      end
+
+      context 'with the filter being set to false' do
+        it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+          let(:elements) { [notification2, notification1] }
+        end
+      end
+    end
+
+    context 'with a resource filter' do
+      let(:notification3) { FactoryBot.create :notification, recipient: recipient }
+      let(:notifications) { [notification1, notification2, notification3] }
+
+      let(:filters) do
+        [
+          {
+            'resourceId' => {
+              'operator' => '=',
+              'values' => [work_package.id.to_s]
+            }
+          },
+          {
+            'resourceType' => {
+              'operator' => '=',
+              'values' => [WorkPackage.name.to_s]
             }
           }
         ]

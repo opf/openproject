@@ -167,6 +167,8 @@ zh-CN:
     enabled_in_project: '已在项目中启用'
     contained_in_type: '已包含在类型中'
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
+    reorder_alphabetical: "按字母顺序重新排序"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -536,7 +538,7 @@ zh-CN:
         error_enterprise_only: "仅在 OpenProject 企业版中可用"
         error_unauthorized: "无法访问。"
         error_readonly: "曾尝试被写入，但不可写。"
-        email: "is not a valid email address."
+        email: "不是一个有效的电子邮件地址。"
         empty: "不能为空。"
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
@@ -768,7 +770,7 @@ zh-CN:
       member: "成员"
       news: "新闻"
       notification:
-        other: "Notifications"
+        other: "通知"
       placeholder_user: "占位符用户"
       project: "项目"
       query: "自定义查询"
@@ -1214,7 +1216,7 @@ zh-CN:
   export:
     your_work_packages_export: "您的工作包导出"
     succeeded: "导出已成功完成。"
-    failed: "The export has failed: %{message}"
+    failed: "导出失败: %{message}"
     format:
       atom: "原子"
       csv: "CSV"
@@ -1279,7 +1281,7 @@ zh-CN:
   menus:
     admin:
       mail_notification: "电子邮件通知"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "接收与发送"
     quick_add:
       label: "打开快速添加菜单"
   my_account:
@@ -1293,13 +1295,13 @@ zh-CN:
         expiration: "过期"
       indefinite_expiration: "永不"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "发送此操作的通知"
     work_packages:
       subject:
         created: "The work package was created."
         assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
+        subscribed: "您订阅了 %{work_package}"
+        mentioned: "您在 %{work_package} 中被提及"
         involved: "You either are assigned to or are responsible for %{work_package}"
         watched: "You are watching %{work_package}"
   label_accessibility: "辅助功能"
@@ -1387,7 +1389,7 @@ zh-CN:
   label_check_uncheck_all_in_column: "选中/取消选中所有列"
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
-  label_chronological_order: "按时间顺序"
+  label_chronological_order: "Oldest first"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
   label_collapse: "折叠"
@@ -1475,7 +1477,6 @@ zh-CN:
   label_feeds_access_key: "RSS 访问密钥"
   label_feeds_access_key_created_on: "RSS 访问密钥创建于 %{value} 前"
   label_feeds_access_key_type: "RSS 订阅"
-  label_file_added: "添加文件"
   label_file_plural: "文件"
   label_filter_add: "添加筛选器"
   label_filter_plural: "筛选器"
@@ -1691,7 +1692,7 @@ zh-CN:
   label_required: '必填'
   label_requires: '要求'
   label_result_plural: "结果"
-  label_reverse_chronological_order: "在相反的顺序"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
@@ -1872,7 +1873,7 @@ zh-CN:
     digests:
       time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} 创建于 %{timestamp}'
         reason:
           watched: 'watched'
           involved: 'assignee or responsible'
@@ -1880,7 +1881,7 @@ zh-CN:
           subscribed: '所有'
           prefix: 'Received because of the notification setting: %{reason}'
         subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        updated_at: '%{user} 更新于 %{timestamp}'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -1906,7 +1907,7 @@ zh-CN:
   mail_body_wiki_content_updated: "'%{id}' wiki页面已经由%{author} 更新。"
   mail_subject_account_activation_request: "%{value} 帐户激活请求"
   mail_subject_backup_ready: "您的备份已就绪"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_token_reset: "备份令牌重置"
   mail_subject_lost_password: "你的 %{value} 密码"
   mail_subject_register: "您的%{value}帐户激活"
   mail_subject_reminder: "%{count} 个工作包在 %{days} 天内到期"
@@ -2251,10 +2252,10 @@ zh-CN:
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
   setting_apiv3_docs: "文档"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "启用文档页面"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
@@ -2300,8 +2301,8 @@ zh-CN:
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
-  setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
+  setting_notification_retention_period_days: "通知保留期限"
+  setting_notification_email_delay_minutes: "邮件发送延迟"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"

@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -94,10 +94,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
       ).subscribe((manageIfcModelsAllowed) => {
         this.ifcViewer.newViewer(
           {
-            canvasElement: element.find('.ifc-model-viewer--model-canvas')[0], // WebGL canvas
-            explorerElement: jQuery('.ifc-model-viewer--tree-panel')[0], // Left panel
-            toolbarElement: element.find('.ifc-model-viewer--toolbar-container')[0], // Toolbar
-            navCubeCanvasElement: element.find('.ifc-model-viewer--nav-cube-canvas')[0],
+            canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
+            explorerElement: jQuery('[data-qa-selector="op-ifc-viewer--tree-panel"]')[0], // Left panel
+            toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
+            navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
             busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
             enableEditModels: manageIfcModelsAllowed,
           },

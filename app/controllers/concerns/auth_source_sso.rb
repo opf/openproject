@@ -26,7 +26,7 @@ module AuthSourceSSO
 
   def match_sso_with_logged_user(login, user)
     return if user.nil?
-    return user if user.login == login
+    return user if user.login.casecmp?(login)
 
     Rails.logger.warn { "Header-based auth source SSO user changed from #{user.login} to #{login}. Re-authenticating" }
     ::Users::LogoutService.new(controller: self).call(user)
@@ -61,11 +61,11 @@ module AuthSourceSSO
   end
 
   def header_name
-    sso_config && sso_config[:header]
+    sso_config && sso_config[:header].to_s
   end
 
   def header_secret
-    sso_config && sso_config[:secret]
+    sso_config && sso_config[:secret].to_s
   end
 
   def header_optional?
@@ -104,7 +104,10 @@ module AuthSourceSSO
   end
 
   def find_user_from_auth_source(login)
-    User.where(login: login).where.not(auth_source_id: nil).first
+    User
+      .by_login(login)
+      .where.not(auth_source_id: nil)
+      .first
   end
 
   def create_user_from_auth_source(login)

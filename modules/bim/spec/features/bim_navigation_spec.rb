@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -146,7 +146,7 @@ describe 'BIM navigation spec',
       end
 
       it 'after going to the full view with a selected tab,
-        the same tab shoud be opened in full screen view and after going back to details view(see #33747)' do
+        the same tab should be opened in full screen view and after going back to details view(see #33747)' do
         card_view.open_full_screen_by_details(work_package)
 
         details_view.ensure_page_loaded

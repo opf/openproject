@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -49,11 +49,7 @@ describe 'API v3 Work package resource',
   let(:role) { FactoryBot.create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:current_user) do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
-
-    FactoryBot.create(:user_preference, user: user, others: { no_self_notified: false })
-
-    user
+    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
   end
   let(:unauthorize_user) { FactoryBot.create(:user) }
   let(:type) { FactoryBot.create(:type) }

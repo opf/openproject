@@ -167,6 +167,8 @@ pl:
     enabled_in_project: 'Włączone w projekcie'
     contained_in_type: 'Zawartość'
     confirm_destroy_option: "Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
@@ -1439,7 +1441,7 @@ pl:
   label_check_uncheck_all_in_column: "Sprawdź/Odznacz wszystko w kolumnie"
   label_check_uncheck_all_in_row: "Sprawdź/Odznacz wszystko w wierszu"
   label_child_element: "Element podrzędny"
-  label_chronological_order: "W porządku chronologicznym"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zamknij zakończone wersje"
   label_closed_work_packages: "Zamknięte"
   label_collapse: "Zwiń"
@@ -1527,7 +1529,6 @@ pl:
   label_feeds_access_key: "Klucz dostępu RSS"
   label_feeds_access_key_created_on: "Klucz dostępu RSS utworzony %{value} temu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Plik dodany"
   label_file_plural: "Pliki"
   label_filter_add: "Dodaj filtr"
   label_filter_plural: "Filtry"
@@ -1743,7 +1744,7 @@ pl:
   label_required: 'wymagane'
   label_requires: 'wymaga'
   label_result_plural: "Wyniki"
-  label_reverse_chronological_order: "W odwrotnej kolejności chronologicznej"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rewizja"
   label_revision_id: "Rewizja %{value}"
   label_revision_plural: "Rewizje"

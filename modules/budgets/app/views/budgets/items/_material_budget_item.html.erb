@@ -23,7 +23,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
@@ -98,7 +98,9 @@ See docs/COPYRIGHT.rdoc for more details.
                            obj-name="<%= "#{name_prefix}[amount]" %>"
                            data-placeholder="<%= t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)) %>" %>
           <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
-            <%= number_to_currency(cost_value) %>
+            <span id="<%= "#{id_prefix}_costs_text" %>">
+              <%= number_to_currency(cost_value) %>
+            </span>
           </a>
         </cost-unit-subform>
       </td>

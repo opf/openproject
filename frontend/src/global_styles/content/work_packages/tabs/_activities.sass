@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 .user-comment
@@ -52,13 +52,19 @@
   position: absolute
   right: 0
   top: 10px
-  line-height: 16px
-  text-align: right
+  display: grid
+  align-items: center
+  grid-template: auto auto / auto auto
+  grid-column-gap: 5px
+
+  &--link
+    grid-column-end: 3
 
 .comments-icons
   padding: 0
   text-align: right
   display: block
+  grid-column: 1 / 3
   i
     padding: 5px 0 0 5px
     display: inline-block

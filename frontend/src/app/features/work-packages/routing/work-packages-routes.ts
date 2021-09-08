@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WpTabWrapperComponent } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/wp-tab-wrapper.component';
@@ -64,7 +64,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageNewFullViewComponent,
     reloadOnSearch: false,
     data: {
-      parent: 'work-packages',
       baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
@@ -77,7 +76,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageCopyFullViewComponent,
     reloadOnSearch: false,
     data: {
-      parent: 'work-packages',
       baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
@@ -97,7 +95,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     },
     component: WorkPackagesFullViewComponent,
     data: {
-      parent: 'work-packages',
       baseRoute: 'work-packages',
       bodyClasses: 'router--work-packages-full-view',
       newRoute: 'work-packages.new',
@@ -109,7 +106,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/:tabIdentifier',
     component: WpTabWrapperComponent,
     data: {
-      parent: 'work-packages',
+      parent: 'work-packages.show',
       menuItem: menuItemClass,
     },
   },
@@ -118,7 +115,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackageViewPageComponent,
     url: '',
     data: {
-      parent: 'work-packages',
       // This has to be empty to avoid inheriting the parent bodyClasses
       bodyClasses: '',
     },
@@ -131,7 +127,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: WorkPackageListViewComponent },
     },
     data: {
-      parent: 'work-packages',
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       partition: '-left-only',

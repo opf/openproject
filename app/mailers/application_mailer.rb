@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class ApplicationMailer < ActionMailer::Base
@@ -74,7 +74,7 @@ class ApplicationMailer < ActionMailer::Base
     end
 
     def remove_self_notifications(message, author)
-      if author.pref && author.pref[:no_self_notified] && message.to.present?
+      if author.pref && message.to.present?
         message.to = message.to.reject { |address| address == author.mail }
       end
     end

@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { StateService } from '@uirouter/core';
@@ -40,6 +40,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Directive({
   selector: '[wpStatusDropdown]',
@@ -85,7 +86,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     const change = this.halEditing.changeFor(this.workPackage);
     change.projectedResource.status = status;
 
-    if (!this.workPackage.isNew) {
+    if (!isNewResource(this.workPackage)) {
       this.halEditing
         .save(change)
         .then(() => {

@@ -28,14 +28,14 @@ hu:
         title: "Pull request-ek"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: "Git snippetek másolása a vágólapra\n"
         git_actions:
           branch_name: Branch neve
           commit_message: Üzenet közzététele
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          cmd: Branch létrehozása üres commit-al
+          title: "Gyors snippetek a Git-hez\n"
           copy_success: '✅ Másolva!'
           copy_error: '❌ Másolás sikertelen!'
       tab_prs:
-        empty: 'There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.'
+        empty: "Még nincsenek összekapcsolt pull-kérelmek. Linkelj egy meglévő PR-t a PR leírásában található <code>OP#%{wp_id}</code> kód használatával, vagy hozz létre egy új PR-t.\n"
       github_actions: Műveletek

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 en:
@@ -191,6 +191,8 @@ en:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -592,6 +594,7 @@ en:
         before: "must be before %{date}."
         before_or_equal_to: "must be before or equal to %{date}."
         blank: "can't be blank."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
@@ -605,11 +608,14 @@ en:
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "is too large (maximum size is %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
         greater_than_or_equal_to: "must be greater than or equal to %{count}."
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
         greater_than_start_date: "must be greater than the start date."
         inclusion: "is not set to one of the allowed values."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "is invalid."
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -630,7 +636,11 @@ en:
         taken: "has already been taken."
         too_long: "is too long (maximum is %{count} characters)."
         too_short: "is too short (minimum is %{count} characters)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
@@ -1472,7 +1482,7 @@ en:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
-  label_chronological_order: "In chronological order"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
@@ -1560,7 +1570,6 @@ en:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key created %{value} ago"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File added"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
@@ -1776,7 +1785,7 @@ en:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Results"
-  label_reverse_chronological_order: "In reverse chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"

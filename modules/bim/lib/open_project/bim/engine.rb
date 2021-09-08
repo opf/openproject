@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -213,6 +213,7 @@ module OpenProject::Bim
     config.to_prepare do
       ::WorkPackage::Exporter
         .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
+      ::WorkPackage::Exporter::Formatters.register("OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail")
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn

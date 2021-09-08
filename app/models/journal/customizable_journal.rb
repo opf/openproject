@@ -25,11 +25,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journal::CustomizableJournal < Journal::BaseJournal
+class Journal::CustomizableJournal < Journal::AssociatedJournal
   self.table_name = 'customizable_journals'
 
-  belongs_to :custom_field, foreign_key: :custom_field_id
+  belongs_to :custom_field
 end

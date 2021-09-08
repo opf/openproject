@@ -521,6 +521,8 @@ pt:
         all: 'Todos'
       center:
         mark_all_read: 'Marcar tudo como lido'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Mas %{more_count} não são exibidas."
       settings:
         default_all_projects: 'Padrão para todos os projetos'
@@ -537,7 +539,6 @@ pt:
         already_selected: 'Este projeto já está selecionado'
         remove_projects: 'Remover notificações para projetos'
         title: "Configurações de Notificação"
-        self_notify: "Quero ser notificado das alterações que eu faço"
     password_confirmation:
       field_description: 'Você precisa digitar sua senha para confirmar essa alteração.'
       title: 'Confirme sua senha para continuar'

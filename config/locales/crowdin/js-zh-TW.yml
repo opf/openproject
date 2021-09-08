@@ -521,6 +521,8 @@ zh-TW:
         all: '全部'
       center:
         mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -537,7 +539,6 @@ zh-TW:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "我想要在我自己有變更的時候被通知"
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'

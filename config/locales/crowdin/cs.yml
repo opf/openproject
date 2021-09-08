@@ -170,6 +170,8 @@ cs:
     enabled_in_project: 'Povoleno v projektu'
     contained_in_type: 'Obsahuje typ'
     confirm_destroy_option: "Smazáním možnosti smažete všechny výskyty (např. v pracovních balíčcích). Opravdu ji chcete odstranit?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: V současné době nejsou žádná vlastní pole.
       no_results_content_text: Vytvořit nové vlastní pole
@@ -1442,7 +1444,7 @@ cs:
   label_check_uncheck_all_in_column: "Zaškrtnout/Odznačit vše ve sloupci"
   label_check_uncheck_all_in_row: "Zaškrtnout/Odznačit vše v řádku"
   label_child_element: "Podřazený prvek"
-  label_chronological_order: "V chronologickém pořadí"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zavřít dokončené verze"
   label_closed_work_packages: "uzavřeno"
   label_collapse: "Sbalit"
@@ -1530,7 +1532,6 @@ cs:
   label_feeds_access_key: "Přístupový klíč pro RSS"
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Soubor přidán"
   label_file_plural: "Soubory"
   label_filter_add: "Přidat filtr"
   label_filter_plural: "Filtry"
@@ -1746,7 +1747,7 @@ cs:
   label_required: 'vyžadováno'
   label_requires: 'vyžaduje'
   label_result_plural: "Výsledky"
-  label_reverse_chronological_order: "V obráceném chronologickém pořadí"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revize"
   label_revision_id: "Revize %{value}"
   label_revision_plural: "Revize"

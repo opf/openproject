@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Seeder
@@ -66,7 +66,7 @@ class Seeder
   # Translate the given string with the fixed interpolation for base_url
   # Deep interpolation is required in order for interpolations on hashes to work!
   def translate_with_base_url(string)
-    I18n.t(string, deep_interpolation: true, base_url: OpenProject::Configuration.rails_relative_url_root)
+    I18n.t(string, deep_interpolation: true, base_url: "{{opSetting:base_url}}")
   end
 
   def edition_data_for(key)

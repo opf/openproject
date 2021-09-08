@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -254,45 +254,6 @@ describe Watcher, type: :model, with_mail: false do
         .to be_valid
       expect(saved_watchable.watchers.map(&:user))
         .to match_array([saved_user])
-    end
-  end
-
-  describe '#watcher_recipients' do
-    before do
-      saved_watchable.watchers.create(user: saved_user)
-    end
-
-    context 'with a user `all` notifications' do
-      let(:notification_settings) do
-        [FactoryBot.build(:mail_notification_setting, all: true)]
-      end
-
-      it 'returns the user' do
-        expect(saved_watchable.watcher_recipients)
-          .to match_array([saved_user])
-      end
-    end
-
-    context 'with a user `watched` notification' do
-      let(:notification_settings) do
-        [FactoryBot.build(:mail_notification_setting, watched: true)]
-      end
-
-      it 'returns the user' do
-        expect(saved_watchable.watcher_recipients)
-          .to match_array([saved_user])
-      end
-    end
-
-    context 'with a user without the `watched` notification' do
-      let(:notification_settings) do
-        [FactoryBot.build(:mail_notification_setting, watched: false)]
-      end
-
-      it 'is empty' do
-        expect(saved_watchable.watcher_recipients)
-          .to be_empty
-      end
     end
   end
 end

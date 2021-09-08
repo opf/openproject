@@ -23,10 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  Injector,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
@@ -46,9 +51,12 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
 
   public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
-  constructor(readonly globalSearchService:GlobalSearchService,
-    cdRef:ChangeDetectorRef) {
-    super(cdRef);
+  constructor(
+    readonly globalSearchService:GlobalSearchService,
+    public injector:Injector,
+    cdRef:ChangeDetectorRef,
+  ) {
+    super(cdRef, injector);
   }
 
   ngOnInit() {

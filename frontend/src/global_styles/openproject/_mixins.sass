@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @mixin default-transition
@@ -223,6 +223,10 @@ $scrollbar-size: 10px
   font: inherit
   text-align: inherit
 
+
+@mixin board-header-editable-toolbar-title
+  line-height: 1 !important
+
 @mixin global-breadcrumb-styles
   margin-top: 10px
   display: none
@@ -251,9 +255,13 @@ $scrollbar-size: 10px
   display: inline-flex
   justify-content: center
   align-items: center
+  box-sizing: content-box
   height: 16px
   line-height: 16px
   width: 16px
   border-radius: 0.5rem
+  padding: 0 0.15rem 0 0.15rem
   font-size: 0.7rem
   font-weight: bold
+  background: #00A3FF
+  color: white

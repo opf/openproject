@@ -169,6 +169,8 @@ sl:
     enabled_in_project: 'Omogočeno v projektu'
     contained_in_type: 'Vsebovano v vrstah'
     confirm_destroy_option: "Če izbrišete možnost, boste izbrisali vse njene primere (npr. v delovnih paketih). Ali ste prepričani, da ga želite izbrisati?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Trenutno ni poslovnih procesov
       no_results_content_text: Ustvarite novo uporabniško lastnost
@@ -1440,7 +1442,7 @@ sl:
   label_check_uncheck_all_in_column: "Označite / počistite vse v stolpcu"
   label_check_uncheck_all_in_row: "Potrdite / počistite vse vrstice"
   label_child_element: "Podrejeni elementi"
-  label_chronological_order: "V kronološkem vrstnem redu"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Zapri dokončane verzije"
   label_closed_work_packages: "Zaprto"
   label_collapse: "Strni"
@@ -1528,7 +1530,6 @@ sl:
   label_feeds_access_key: "RSS dostopni ključ"
   label_feeds_access_key_created_on: "RSS dostopni ključ narejen pred %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Datoteka dodana"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
   label_filter_plural: "Filtri"
@@ -1744,7 +1745,7 @@ sl:
   label_required: 'Zahtevano'
   label_requires: 'Potrebuje'
   label_result_plural: "Rezultati"
-  label_reverse_chronological_order: "V obrnjenem kronološkem vrstnem redu"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizije"

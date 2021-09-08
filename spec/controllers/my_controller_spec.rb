@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -155,7 +155,7 @@ describe MyController, type: :controller do
     context 'PATCH' do
       before do
         as_logged_in_user user do
-          user.pref.self_notified = false
+          user.pref.comments_sorting = 'desc'
           user.pref.auto_hide_popups = true
 
           patch :update_settings, params: { user: { language: 'en' }, pref: { auto_hide_popups: 0 } }
@@ -164,7 +164,7 @@ describe MyController, type: :controller do
 
       it 'updates the settings appropriately', :aggregate_failures do
         expect(assigns(:user).language).to eq 'en'
-        expect(assigns(:user).pref.self_notified?).to be_falsey
+        expect(assigns(:user).pref.comments_sorting).to eql 'desc'
         expect(assigns(:user).pref.auto_hide_popups?).to be_falsey
 
         expect(request.path).to eq(my_settings_path)

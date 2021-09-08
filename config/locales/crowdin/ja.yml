@@ -168,6 +168,8 @@ ja:
     enabled_in_project: 'プロジェクトで有効'
     contained_in_type: 'タイプに含まれる'
     confirm_destroy_option: "オプションを削除すると、そのすべての派生 (例えばワークパッケージ) が削除されます。削除してもよろしいですか?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 現在、カスタム フィールドはありません。
       no_results_content_text: 新しいカスタム フィールドを作成
@@ -1387,7 +1389,7 @@ ja:
   label_check_uncheck_all_in_column: "すべての欄をチェック/チェックを外す"
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
-  label_chronological_order: "古い順"
+  label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
   label_collapse: "折りたたむ"
@@ -1475,7 +1477,6 @@ ja:
   label_feeds_access_key: "RSSアクセスキー"
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "ファイルが追加されました。"
   label_file_plural: "ファイルを添付する"
   label_filter_add: "フィルタを追加"
   label_filter_plural: "フィルタ"
@@ -1691,7 +1692,7 @@ ja:
   label_required: '必須'
   label_requires: '要求'
   label_result_plural: "検索結果"
-  label_reverse_chronological_order: "新しい順"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "リビジョン"
   label_revision_id: "リビジョン%{value}"
   label_revision_plural: "リビジョン"
@@ -2305,8 +2306,8 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
-  setting_notification_email_digest_time: "Email digest time"
+  setting_notification_email_delay_minutes: "メール送信の遅延"
+  setting_notification_email_digest_time: "メールダイジェストの時刻"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2381,8 +2382,8 @@ ja:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
+      delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
+      email_digest_explanation: "1日に1回、ユーザーが講読しているすべての通知をまとめたダイジェストメールを送信できます。 設定は、各ユーザーの設定されたタイムゾーンに関連しているため、例えば 8:00 は、UTC+1 のユーザーの場合は 7:00 UTC に実行され、UTC-1 のユーザーの場合は 9:00 UTC に実行されます。 "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >

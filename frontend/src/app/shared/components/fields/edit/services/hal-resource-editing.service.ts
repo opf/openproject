@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -39,6 +39,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 class ChangesetStates extends StatesGroup {
   name = 'Changesets';
@@ -81,7 +82,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
    */
   constructor(change:ResourceChangeset<T>, saved:T) {
     this.id = saved.id!.toString();
-    this.wasNew = change.pristineResource.isNew;
+    this.wasNew = isNewResource(change.pristineResource);
     this.resource = saved;
     this.changes = change.changeMap;
   }

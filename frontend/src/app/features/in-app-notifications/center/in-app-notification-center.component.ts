@@ -6,13 +6,18 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
-import { NOTIFICATIONS_MAX_SIZE } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
-import { map } from 'rxjs/operators';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UIRouterGlobals } from '@uirouter/core';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import {
+  InAppNotification,
+  NOTIFICATIONS_MAX_SIZE,
+} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -21,30 +26,39 @@ import { UIRouterGlobals } from '@uirouter/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InAppNotificationCenterComponent implements OnInit {
-  activeFacet$ = this.ianQuery.activeFacet$;
+  maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  notifications$ = this
-    .ianQuery
-    .aggregatedNotifications$
-    .pipe(
-      map((items) => Object.values(items)),
-    );
+  hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
 
-  hasNotifications$ = this.ianQuery.hasNotifications$;
+  hasNotifications$ = this.storeService.query.hasNotifications$;
 
-  hasMoreThanPageSize$ = this.ianQuery.hasMoreThanPageSize$;
+  notifications$ = this.storeService.query.notifications$;
 
   noResultText$ = this
+    .storeService
+    .query
     .activeFacet$
     .pipe(
       map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
     );
 
-  maxSize = NOTIFICATIONS_MAX_SIZE;
-
-  facets:string[] = ['unread', 'all'];
+  totalCountWarning$ = this
+    .storeService
+    .query
+    .notLoaded$
+    .pipe(
+      filter((notLoaded) => notLoaded > 0),
+      map((notLoaded:number) => this.I18n.t(
+        'js.notifications.center.total_count_warning',
+        { newest_count: this.maxSize, more_count: notLoaded },
+      )),
+    );
 
   originalOrder = ():number => 0;
+
+  trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
+    .map((el) => `${el.id}@${el.updatedAt}`)
+    .join(',');
 
   text = {
     title: this.I18n.t('js.notifications.title'),
@@ -59,24 +73,14 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly ianService:InAppNotificationsService,
-    readonly ianQuery:InAppNotificationsQuery,
+    readonly storeService:IanCenterService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
   ) {
   }
 
   ngOnInit():void {
-    this.ianService.get();
-  }
-
-  totalCountWarning():string {
-    const state = this.ianQuery.getValue();
-
-    return this.I18n.t(
-      'js.notifications.center.total_count_warning',
-      { newest_count: NOTIFICATIONS_MAX_SIZE, more_count: state.notShowing },
-    );
+    this.storeService.setFacet('unread');
   }
 
   openSplitView($event:WorkPackageResource):void {

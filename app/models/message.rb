@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Message < ApplicationRecord
@@ -67,8 +67,7 @@ class Message < ApplicationRecord
   validates_length_of :subject, maximum: 255
 
   after_create :add_author_as_watcher,
-               :update_last_reply_in_parent,
-               :send_message_posted_mail
+               :update_last_reply_in_parent
   after_update :update_ancestors, if: :saved_change_to_forum_id?
   after_destroy :reset_counters
 
@@ -148,17 +147,5 @@ class Message < ApplicationRecord
     # update watchers and watcher_users
     watchers.reload
     watcher_users.reload
-  end
-
-  def send_message_posted_mail
-    return unless Setting.notified_events.include?('message_posted')
-
-    to_mail = recipients +
-              root.watcher_recipients +
-              forum.watcher_recipients
-
-    to_mail.uniq.each do |user|
-      UserMailer.message_posted(user, self, User.current).deliver_later
-    end
   end
 end

@@ -170,6 +170,8 @@ ro:
     enabled_in_project: 'Activat/ă în proiect'
     contained_in_type: 'Înclusă în tipul'
     confirm_destroy_option: "Ștergerea unei opțiuni va șterge toate aparițiile acesteia (de exemplu, în pachetele de lucru). Sunteți sigur că doriți să o ștergeți?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creare câmp personalizat nou
@@ -1425,7 +1427,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
-  label_chronological_order: "În ordine cronologică"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -1513,7 +1515,6 @@ ro:
   label_feeds_access_key: "Cheie de acces RSS"
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fişier adăugat"
   label_file_plural: "Fişiere"
   label_filter_add: "Adăugare filtru"
   label_filter_plural: "Filtre"
@@ -1729,7 +1730,7 @@ ro:
   label_required: 'obligatoriu'
   label_requires: 'Această caracteristică necesită un cont la'
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "În ordine invers cronologică"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"

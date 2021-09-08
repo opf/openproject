@@ -1,9 +1,11 @@
-.assignee-board-header
+@import 'src/assets/sass/helpers'
+
+.op-assignee-board-header
   display: flex
 
   op-principal
     align-self: center
     padding-right: 5px
 
-.editable-toolbar-title--fixed
-  line-height: 1 !important
+  .editable-toolbar-title--fixed
+    @include board-header-editable-toolbar-title

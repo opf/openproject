@@ -23,10 +23,11 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class IdDisplayField extends DisplayField {
   public text = {
@@ -34,7 +35,7 @@ export class IdDisplayField extends DisplayField {
   };
 
   public get value() {
-    if (this.resource.isNew) {
+    if (isNewResource(this.resource)) {
       return null;
     }
     return this.resource[this.name];

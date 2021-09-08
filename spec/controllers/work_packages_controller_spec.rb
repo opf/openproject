@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -239,7 +239,7 @@ describe WorkPackagesController, type: :controller do
         let(:call_action) { get('index', params: params.merge(format: 'pdf')) }
         let(:params) { { query_id: 'hokusbogus' } }
 
-        context 'when a non-existant query has been previously selected' do
+        context 'when a non-existent query has been previously selected' do
           before do
             allow(User.current).to receive(:allowed_to?).and_return(true)
 

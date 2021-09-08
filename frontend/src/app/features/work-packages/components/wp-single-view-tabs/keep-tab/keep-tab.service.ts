@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -103,6 +103,11 @@ export class KeepTabService {
 
   public get currentDetailsTab():string {
     return this.currentTab;
+  }
+
+  get currentTabIdentifier():string|undefined {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.uiRouterGlobals.params.tabIdentifier;
   }
 
   protected notify() {

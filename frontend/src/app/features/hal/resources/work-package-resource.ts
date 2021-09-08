@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,6 +44,7 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -167,7 +168,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<subject> (#<id>)" if the id is known.
    */
   public subjectWithId(truncateSubject = 40):string {
-    const id = this.isNew ? '' : ` (#${this.id})`;
+    const id = isNewResource(this) ? '' : ` (#${this.id})`;
     const subject = _.truncate(this.subject, { length: truncateSubject });
 
     return `${subject}${id}`;
@@ -179,7 +180,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public previewPath() {
-    if (!this.isNew) {
+    if (!isNewResource(this)) {
       return this.apiV3Service.work_packages.id(this.id!).path;
     }
     return super.previewPath();

@@ -24,7 +24,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'redmine/menu_manager'
@@ -122,11 +122,10 @@ Redmine::MenuManager.map :notifications_menu do |menu|
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
-  menu_push = menu.push :account,
-                        { controller: '/my', action: 'account' },
-                        caption: :label_profile,
-                        icon: 'icon2 icon-user'
-  menu_push
+  menu.push :account,
+            { controller: '/my', action: 'account' },
+            caption: :label_profile,
+            icon: 'icon2 icon-user'
   menu.push :settings,
             { controller: '/my', action: 'settings' },
             caption: :label_setting_plural,
@@ -144,6 +143,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: '/my', action: 'notifications' },
             caption: I18n.t('js.notifications.settings.title'),
             icon: 'icon2 icon-bell'
+  menu.push :reminders,
+            { controller: '/my', action: 'reminders' },
+            caption: I18n.t('js.reminders.settings.title'),
+            icon: 'icon2 icon-email-alert'
 
   menu.push :delete_account, :delete_my_account_info_path,
             caption: I18n.t('account.delete'),

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'digest/sha1'
@@ -75,7 +75,8 @@ class User < Principal
 
   scopes :find_by_login,
          :newest,
-         :notified_on_all
+         :notified_on_all,
+         :watcher_recipients
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))
@@ -377,15 +378,6 @@ class User < Principal
 
   def wants_comments_in_reverse_order?
     pref.comments_in_reverse_order?
-  end
-
-  # Find a user account by matching the exact login and then a case-insensitive
-  # version.  Exact matches will be given priority.
-  def self.find_by_login(login)
-    # First look for an exact match
-    user = find_by(login: login)
-    # Fail over to case-insensitive if none was found
-    user || where(["LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)

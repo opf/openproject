@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins/auth_plugin'
@@ -38,7 +38,7 @@ module OmniAuth
 
     ##
     # Tries to match the request path of the current request with one of the registered providers.
-    # If a match is found the strategy is intialised with that provider to handle the request.
+    # If a match is found the strategy is initialised with that provider to handle the request.
     def match_provider!
       return false unless providers
 

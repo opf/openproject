@@ -22,7 +22,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 // ++
 
 import {
@@ -34,6 +34,7 @@ import {
   ICKEditorContext,
   ICKEditorInstance,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   templateUrl: './formattable-edit-field.component.html',
@@ -77,7 +78,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance):void {
-    if (!this.resource.isNew) {
+    if (!isNewResource(this.resource)) {
       setTimeout(() => editor.editing.view.focus());
     }
   }
@@ -137,7 +138,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   protected initialize():void {
     this.initialContent = this.rawValue;
 
-    if (this.resource.isNew && this.editor) {
+    if (isNewResource(this.resource) && this.editor) {
       // Reset CKEditor when reloading after type/form changes
       this.reset();
     }

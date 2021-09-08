@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Find a user account by matching case-insensitive.
@@ -34,8 +34,17 @@ module Users::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def self.find_by_login(login)
-        where(["LOWER(login) = ?", login.to_s.downcase]).first
+      def by_login(login)
+        where(["LOWER(login) = ?", login.to_s.downcase])
+      end
+
+      # Find a user scope by matching the exact login and then a case-insensitive
+      # version. Exact matches will be given priority.
+      def find_by_login(login)
+        # First look for an exact match
+        user = find_by(login: login)
+        # Fail over to case-insensitive if none was found
+        user || by_login(login).first
       end
     end
   end

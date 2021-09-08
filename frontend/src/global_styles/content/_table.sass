@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 @keyframes fade-out
@@ -124,6 +124,10 @@ table.generic-table
         content:  '*'
         color:    var(--primary-color-dark)
         padding:  0 0.2rem
+      
+      &.-max
+        .generic-table--sort-header
+          max-width: none
 
     .sort
       &.asc:after
@@ -273,6 +277,7 @@ thead.-sticky th
     flex: 1 1
     width: 100%
     font-weight: bold
+    @include text-shortener
     &.-inactive
       color: var(--button--active-font-color)
       

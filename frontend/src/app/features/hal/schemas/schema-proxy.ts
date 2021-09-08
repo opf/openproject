@@ -23,12 +23,13 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;
@@ -108,7 +109,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    * Use +isAttributeEditable(property)+ for this case.
    */
   public get isEditable() {
-    return this.resource.isNew || !!this.resource.$links.update;
+    return isNewResource(this.resource) || !!this.resource.$links.update;
   }
 
   public mappedName(property:string):string {

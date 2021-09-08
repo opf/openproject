@@ -170,6 +170,8 @@ hr:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Trenutno nije dostupno niti jedno prilagođeno polje.
       no_results_content_text: Novo prilagođeno polje
@@ -1425,7 +1427,7 @@ hr:
   label_check_uncheck_all_in_column: "Označi/Odznači sve u stupcu"
   label_check_uncheck_all_in_row: "Označi/Odznači sve u retku"
   label_child_element: "Podređeni element"
-  label_chronological_order: "U kronološkom slijedu"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Blizu finalne verzije"
   label_closed_work_packages: "zaključen"
   label_collapse: "Prikaži sve"
@@ -1513,7 +1515,6 @@ hr:
   label_feeds_access_key: "RSS pristupni ključ"
   label_feeds_access_key_created_on: "RSS pristupni ključ kreiran %{value} prije"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Datoteka je dodana"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
   label_filter_plural: "Filteri"
@@ -1729,7 +1730,7 @@ hr:
   label_required: 'potrebne'
   label_requires: 'zahtijeva'
   label_result_plural: "Rezultati"
-  label_reverse_chronological_order: "U obrnutom kronološkom redu"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizije"
@@ -2294,7 +2295,7 @@ hr:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
-  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs: "Dokumentacija"
   setting_apiv3_docs_enabled: "Enable docs page"
   setting_apiv3_docs_enabled_instructions_html: >
     If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.

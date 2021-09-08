@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -76,14 +76,14 @@ describe 'Board management spec', type: :feature, js: true do
 
       # Open in list 1
       board_page.within_list('List 1') do
-        page.find('.board-list--add-button ').click
+        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add new card').click
 
       # Open in list 2
       board_page.within_list('List 2') do
-        page.find('.board-list--add-button ').click
+        page.find('[data-qa-selector="op-board-list--card-dropdown-add-button"]').click
       end
 
       page.find('.menu-item', text: 'Add new card').click

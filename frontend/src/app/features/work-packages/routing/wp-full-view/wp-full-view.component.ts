@@ -23,17 +23,18 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StateService } from '@uirouter/core';
 import { Component, Injector, OnInit } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
-import { of } from 'rxjs';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -41,6 +42,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
   // Required class to support inner scrolling on page
   host: { class: 'work-packages-page--ui-view' },
   providers: [
+    WpSingleViewService,
     { provide: HalResourceNotificationService, useExisting: WorkPackageNotificationService },
   ],
 })
@@ -54,9 +56,11 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   stateName$ = of('work-packages.new');
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public wpTableSelection:WorkPackageViewSelectionService,
-    readonly $state:StateService) {
+    readonly $state:StateService,
+  ) {
     super(injector, $state.params.workPackageId);
   }
 

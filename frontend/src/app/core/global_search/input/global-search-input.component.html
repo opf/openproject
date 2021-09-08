@@ -8,12 +8,13 @@
   >
     <i class="icon-arrow-left1" aria-hidden="true"></i>
   </button>
-   
+
   <op-autocompleter
     #select
     [defaultData]="false"
     [name]="'global-search-input'"
     [id]="'global-search-input'"
+    [accesskey]="4"
     class="global-search"
     [placeholder]="text.search_dots"
     [classes]="{'top-menu-search--input': true, '-markable': markable, '-expanded': expanded }"
@@ -58,7 +59,13 @@
             class="hidden-for-mobile global-search--principal"
           ></op-principal>
           <div class="global-search--option-meta">
-            <span class="global-search--wp-subject">{{item.subject}}</span>
+            <span class="global-search--wp-subject">
+              <span
+                [ngClass]="highlighting('type', item.type.id)"
+                [textContent]="item.type.name"
+              ></span>
+              {{item.subject}}
+            </span>
 
             <div class="global-search--wp-content">
               <span [textContent]="item.project.name" class="global-search--wp-project"></span>
@@ -76,13 +83,13 @@
   </op-autocompleter>
 
   <button
-      role="button"
-      #btn
-      id="top-menu-search-button"
-      class="top-menu-search--button search-form-normal"
-      title="{{text.search}}"
-      [class.-input-focused]="expanded"
-      (click)="handleClick($event)"
+    role="button"
+    #btn
+    id="top-menu-search-button"
+    class="top-menu-search--button search-form-normal"
+    title="{{text.search}}"
+    [class.-input-focused]="expanded"
+    (click)="handleClick($event)"
 
   >
     <op-icon icon-classes="icon5 icon-search ellipsis"></op-icon>

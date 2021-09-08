@@ -25,12 +25,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # Root class of the API
 # This is the place for all API wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+# rescuing, mounting of different API versions etc.
 
 require 'open_project/authentication'
 
@@ -78,7 +78,7 @@ module API
       end
 
       # Global helper to set allowed content_types
-      # This may be overriden when multipart is allowed (file uploads)
+      # This may be overridden when multipart is allowed (file uploads)
       def allowed_content_types
         %w(application/json application/hal+json)
       end

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/scm/adapters'
@@ -53,7 +53,7 @@ module OpenProject
         end
 
         ##
-        # Overriden by descendants when
+        # Overridden by descendants when
         # they are able to retrieve current
         # storage usage.
         def storage_available?

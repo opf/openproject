@@ -126,12 +126,23 @@ Rails/I18nLocaleAssignment:
   Exclude:
     - 'spec/**/*.rb'
 
+# The http verbs in Rack::Test do not accept named parameters (params: params)
+Rails/HttpPositionalArguments:
+  Exclude:
+    - 'spec/requests/api/v3/**/*.rb'
+
 # For feature specs, we tend to have longer specs that cover a larger part of the functionality.
 # This is done for multiple reasons:
 # * performance, as setting up integration tests is costly
 # * following a scenario that is closer to how a user interacts
 RSpec/ExampleLength:
   Max: 25
+  Enabled: true
+  Exclude:
+    - 'spec/features/**/*.rb'
+    - 'modules/*/spec/features/**/*.rb'
+
+RSpec/DescribeClass:
   Enabled: true
   Exclude:
     - 'spec/features/**/*.rb'
@@ -157,6 +168,11 @@ RSpec/NestedGroups:
 RSpec/DescribeMethod:
   Enabled: false
 
+# Don't force the second argument of describe
+# to match the exact file name
+RSpec/FilePath:
+  SpecSuffixOnly: true
+
 # We use let!() to ensure dependencies are created
 # instead of let() and referencing them explicitly
 RSpec/LetSetup:
@@ -167,6 +183,15 @@ RSpec/LeadingSubject:
 
 RSpec/NamedSubject:
   Enabled: false
+
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - if
+    - unless
+    - for
 
 Style/Alias:
   Enabled: false

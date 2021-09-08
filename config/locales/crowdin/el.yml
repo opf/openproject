@@ -166,6 +166,8 @@ el:
     enabled_in_project: 'Ενεργοποιημένο στο έργο'
     contained_in_type: 'Περιέχονται στον τύπο'
     confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
       no_results_content_text: Δημιουργία νέου προσαρμοσμένου πεδίου
@@ -1403,7 +1405,7 @@ el:
   label_check_uncheck_all_in_column: "Επιλογή/Αποεπιλογή όλων στη στήλη"
   label_check_uncheck_all_in_row: "Επιλογή/Αποεπιλογή όλων στη σειρά"
   label_child_element: "Στοιχείο-παιδί"
-  label_chronological_order: "Κατά χρονολογική σειρά"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Κλείσιμο ολοκληρωμένων εκδόσεων"
   label_closed_work_packages: "κλειστό"
   label_collapse: "Σύμπτυξη"
@@ -1491,7 +1493,6 @@ el:
   label_feeds_access_key: "Κλειδί πρόσβασης RSS"
   label_feeds_access_key_created_on: "Tο κλειδί πρόσβασης RSS δημιουργήθηκε πριν από %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Το αρχείο προστέθηκε"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
   label_filter_plural: "Φίλτρα"
@@ -1707,7 +1708,7 @@ el:
   label_required: 'απαιτείται'
   label_requires: 'απαιτεί'
   label_result_plural: "Αποτελέσματα"
-  label_reverse_chronological_order: "Κατά αντίστροφη χρονολογική σειρά"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Αναθεώρηση"
   label_revision_id: "Αναθεώρηση %{value}"
   label_revision_plural: "Αναθεωρήσεις"

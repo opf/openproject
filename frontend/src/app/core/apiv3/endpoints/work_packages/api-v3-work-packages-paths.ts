@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Observable } from 'rxjs';
@@ -157,7 +157,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
   protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
-      .getAllPaginated<WorkPackageCollectionResource[]>(
+      .getAllPaginated<WorkPackageCollectionResource>(
       this.path,
       ids.length,
       {

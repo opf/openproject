@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { Injector } from '@angular/core';
 
 export interface TabDefinition {
   /** Internal identifier of the tab */
@@ -12,7 +13,9 @@ export interface TabDefinition {
   /** UI router params to use uiParams with */
   routeParams?:unknown;
   /** Show a tab count with this observable's result */
-  counter?:Observable<number>;
+  counter?:(injector?:Injector) => Observable<number>;
+  /** Whether the counter should be shown as number in brackets or within a bubble */
+  showCountAsBubble?:boolean;
   /** Disable the tab, optionally with an explanatory title */
   disable?:string|true;
 }

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'rexml/document'
@@ -40,7 +40,7 @@ module OpenProject
 
     class << self
       # Used by semver to define the special version (if any).
-      # A special version "satify but have a lower precedence than the associated
+      # A special version "satisfy but have a lower precedence than the associated
       # normal version". So 2.0.0RC1 would be part of the 2.0.0 series but
       # be considered to be an older version.
       #

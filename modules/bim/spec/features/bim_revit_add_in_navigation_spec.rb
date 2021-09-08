@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require_relative '../spec_helper'
@@ -39,8 +39,7 @@ describe 'BIM Revit Add-in navigation spec',
     FactoryBot.create(:role,
                       permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:full_create) { ::Pages::FullWorkPackageCreate.new }
+  let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
 
   let(:user) do
     FactoryBot.create :user,
@@ -48,8 +47,8 @@ describe 'BIM Revit Add-in navigation spec',
                       member_through_role: role
   end
 
-  context "logged in on model page" do
-    let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+  context "when logged in on model page" do
+    let(:full_create) { ::Pages::FullWorkPackageCreate.new }
 
     before do
       login_as(user)
@@ -68,17 +67,8 @@ describe 'BIM Revit Add-in navigation spec',
       model_page.page_has_a_toolbar
     end
 
-    it 'shows no viewer' do
-      model_page.model_viewer_visible false
-    end
-
     it 'menu has no viewer options' do
       model_page.has_no_menu_item_with_text? 'Viewer'
-    end
-
-    it 'can switch to the Table view mode' do
-      model_page.switch_view 'Table'
-      expect(page).to have_selector('.work-package-table')
     end
 
     it 'the user menu has an option to go to the add-in settings' do
@@ -108,23 +98,36 @@ describe 'BIM Revit Add-in navigation spec',
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
 
-    it 'shows work package details page in full view on Table display mode' do
-      model_page.switch_view 'Table'
-      wp_table.expect_work_package_listed work_package
-      wp_table.open_split_view work_package
-
-      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
-    end
   end
 
-  context "signed out" do
+  context "when signed out" do
     it 'the user menu has an option to go to the add-in settings' do
       visit home_path
 
       click_link I18n.t(:label_login)
 
       expect(page).to have_text(I18n.t('js.revit.revit_add_in_settings'))
+    end
+  end
+
+  context 'with the table display mode' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+    before do
+      login_as user
+      model_page.visit!
+
+      model_page.switch_view 'Table'
+      loading_indicator_saveguard
+    end
+
+    it 'shows work package details page in full view' do
+      expect(page).to have_selector('.work-package-table')
+      wp_table.expect_work_package_listed work_package
+      wp_table.open_split_view work_package
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :hidden)
     end
   end
 end

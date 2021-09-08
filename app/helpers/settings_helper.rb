@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'securerandom'
@@ -188,7 +188,7 @@ module SettingsHelper
 
   # Renders a notification field for an OpenProject::Notifiable option
   def notification_field(notifiable, options = {})
-    content_tag(:label, class: 'form--label-with-check-box' + (notifiable.parent.present? ? ' parent' : '')) do
+    content_tag(:label, class: 'form--label-with-check-box') do
       styled_check_box_tag('settings[notified_events][]',
                            notifiable.name,
                            Setting.notified_events.include?(notifiable.name),

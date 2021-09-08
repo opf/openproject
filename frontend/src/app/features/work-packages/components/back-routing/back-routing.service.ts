@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable, Injector } from '@angular/core';
@@ -49,7 +49,7 @@ export class BackRoutingService {
   constructor(readonly injector:Injector) {
   }
 
-  public goToOtherState(route:string, params:Record<string, unknown>):Promise<unknown> {
+  private goToOtherState(route:string, params:Record<string, unknown>):Promise<unknown> {
     return this.$state.go(route, params);
   }
 

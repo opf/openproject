@@ -168,6 +168,8 @@ da:
     enabled_in_project: 'Aktiveret i projektet'
     contained_in_type: 'Indeholdt i type'
     confirm_destroy_option: "Sletning af en indstilling vil slette alle dens forekomster (f.eks. i arbejdspakker). Er du sikker på, at du vil slette den?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
       no_results_content_text: Oprette en ny brugerdefineret felt
@@ -1406,7 +1408,7 @@ da:
   label_check_uncheck_all_in_column: "Markér/Afmarkér alle i kolonnen"
   label_check_uncheck_all_in_row: "Markér/Afmarkér alle i rækken"
   label_child_element: "Underelement"
-  label_chronological_order: "I kronologisk orden"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Luk afsluttede versioner"
   label_closed_work_packages: "lukket"
   label_collapse: "Fold sammen"
@@ -1494,7 +1496,6 @@ da:
   label_feeds_access_key: "RSS adgangsnøgle"
   label_feeds_access_key_created_on: "RSS adgangsnøgle lavet for %{value} siden"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fil tilføjet"
   label_file_plural: "Filer"
   label_filter_add: "Tilføj filter"
   label_filter_plural: "Filtre"
@@ -1710,7 +1711,7 @@ da:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "I omvendt kronologisk rækkefølge"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revidering"
   label_revision_id: "Revidering %{value}"
   label_revision_plural: "Revideringer"

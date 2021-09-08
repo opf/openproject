@@ -5,6 +5,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { forkJoin } from 'rxjs';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -19,7 +20,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
       super.ngAfterViewInit();
 
       // Save any leftover viewpoints when saving the work package
-      if (this.workPackage.isNew) {
+      if (isNewResource(this.workPackage)) {
         this.observeCreation();
       }
     }

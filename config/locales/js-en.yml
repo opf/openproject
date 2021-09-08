@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 en:
@@ -576,6 +576,8 @@ en:
         all: 'All'
       center:
         mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
         default_all_projects: 'Default for all projects'
@@ -592,7 +594,6 @@ en:
         already_selected: 'This project is already selected'
         remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
-        self_notify: "I want to be notified of changes that I make myself"
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
@@ -625,6 +626,17 @@ en:
 
       autocompleter:
         label: 'Project autocompletion'
+
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        title: 'Email reminders'
+
 
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."

@@ -522,6 +522,8 @@ ko:
         all: '모두'
       center:
         mark_all_read: '모두 읽은 상태로 표시'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
       settings:
         default_all_projects: '모든 프로젝트 기본값'
@@ -538,7 +540,6 @@ ko:
         already_selected: 'This project is already selected'
         remove_projects: '프로젝트에 알림 제거'
         title: "알림 설정"
-        self_notify: "내가 만든 것이 변경되면 알림을 받고 싶습니다."
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'

@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 OpenProject::Application.routes.draw do
@@ -149,6 +149,8 @@ OpenProject::Application.routes.draw do
             to: "custom_fields#delete_option",
             via: :delete,
             as: :delete_option_of
+
+      post :reorder_alphabetical
     end
   end
 
@@ -550,6 +552,7 @@ OpenProject::Application.routes.draw do
     get '/my/account', action: 'account'
     get '/my/settings', action: 'settings'
     get '/my/notifications', action: 'notifications'
+    get '/my/reminders', action: 'reminders'
 
     patch '/my/account', action: 'update_account'
     patch '/my/settings', action: 'update_settings'

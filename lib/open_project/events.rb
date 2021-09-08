@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject
@@ -39,6 +39,8 @@ module OpenProject
   module Events
     AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
     AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready".freeze
+    AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready".freeze
+    AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready".freeze
 
     ATTACHMENT_CREATED = 'attachment_created'.freeze
 
@@ -50,6 +52,8 @@ module OpenProject
     MEMBER_DESTROYED = 'member_removed'.freeze
 
     TIME_ENTRY_CREATED = "time_entry_created".freeze
+
+    NEWS_COMMENT_CREATED = "news_comment_created".freeze
 
     PROJECT_CREATED = "project_created".freeze
     PROJECT_UPDATED = "project_updated".freeze

@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -46,6 +46,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -206,7 +207,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   public changeChangesFromTitle(val:string) {
-    if (this.currentQuery && this.currentQuery.persisted) {
+    if (this.currentQuery && isPersistedResource(this.currentQuery)) {
       this.updateTitleName(val);
     } else {
       this.wpListService
@@ -230,7 +231,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       return;
     }
 
-    if (query.persisted) {
+    if (isPersistedResource(query)) {
       this.selectedTitle = query.name;
     } else {
       this.selectedTitle = this.wpStaticQueries.getStaticName(query);

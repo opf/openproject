@@ -167,6 +167,8 @@ lt:
     enabled_in_project: 'Įgalintas projekte'
     contained_in_type: 'Laikomas tipe'
     confirm_destroy_option: "Ištrinant savybę, visi jos panaudojimai (pvz., darbų paketuose) taip pat bus ištrinti. Ar Jūs tikrai norite ištrinti?"
+    reorder_alphabetical: "Perrikiuoti reikšmes alfabeto tvarka"
+    reorder_confirmation: "Dėmesio: Dabartinė galimų reikšmių tvarka bus prarasta. Tęsti?"
     tab:
       no_results_title_text: Nėra jokių pasirinktinų laukų.
       no_results_content_text: Sukurti naują pasirinktinį lauką
@@ -700,7 +702,7 @@ lt:
               not_start_date: "nėra pradžios data, nors tai reikalinga svarbiems etapams."
             parent:
               cannot_be_milestone: "negali būti svarbus etapas."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "negalima priskirti sau pačiam"
               cannot_be_in_another_project: "negali būti kitame projekte."
               not_a_valid_parent: " neteisingas."
             start_date:
@@ -778,9 +780,9 @@ lt:
       news: "Naujienos"
       notification:
         one: "Pranešimas"
-        few: "Notifications"
-        many: "Pranešimai"
-        other: "Notifications"
+        few: "Pranešimai"
+        many: "Pranešimo"
+        other: "Pranešimų"
       placeholder_user: "Statytinis vartotojas"
       project: "Projektas"
       query: "Vartotojo užklausa"
@@ -1438,7 +1440,7 @@ lt:
   label_check_uncheck_all_in_column: "Žymėti/atžymėti visus stulpelyje"
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
-  label_chronological_order: "Chronologine tvarka"
+  label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
   label_collapse: "Sutraukti"
@@ -1526,7 +1528,6 @@ lt:
   label_feeds_access_key: "RSS prieigos raktas"
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Failas pridėtas"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
   label_filter_plural: "Filtrai"
@@ -1742,7 +1743,7 @@ lt:
   label_required: 'reikalingas'
   label_requires: 'turi turėti'
   label_result_plural: "Rezultatai"
-  label_reverse_chronological_order: "Atbuline chronologine tvarka"
+  label_reverse_chronological_order: "Naujausias pirmas"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizijos"
@@ -2050,7 +2051,7 @@ lt:
   notice_successful_connection: "Sėkmingas susijungimas."
   notice_successful_create: "Sėkmingas sukūrimas."
   notice_successful_delete: "Sėkmingas panaikinimas."
-  notice_successful_update: "Sėkmingas atnaujinimas."
+  notice_successful_update: "Sėkmingai atnaujinta."
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
@@ -2435,7 +2436,7 @@ lt:
         Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas vartotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje ir gali patvirtinti pranešimą prieš tai, kai jis bus išsiųstas el. paštu. Vartotojai, kurie perskaito pranešimus programoje negaus tų laiškų, kuriuos pranešimus perskaitys."
       email_digest_explanation: "El.pašto santrauka su visais vartotojo prenumeruojamais pranešimais gali būti išsiųsta vieną kartą per dieną. Šis nustatymas atsižvelgia į vartotojo laiko zoną, t.y. 8:00 reikš, kad išsiųsta bus 7:00 UTC vartotojams iš UTC+1 zonos, ir 9:00 UTC tiems, kurie nustatę UTC-1."
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam vartotojui pranešimai gali būti sukonfigūruoti individualiai.'
     display:
       first_date_of_week_and_year_set: >
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.

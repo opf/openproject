@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -188,6 +188,10 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public wpPath(id:string) {
     return this.pathHelperService.workPackagePath(id);
+  }
+
+  public highlighting(property:string, id:string) {
+    return Highlighting.inlineClass(property, id);
   }
 
   public search($event:any) {
@@ -426,6 +430,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
   }
 
   private toggleTopMenuClass() {
-    jQuery('.op-app-header').toggleClass('op-app-header_search-open', this.expanded);
+    const el = document.getElementsByClassName('op-app-header')[0] as HTMLElement;
+    el.classList.toggle('op-app-header_search-open', this.expanded);
+    el.dataset.qaSearchOpen = '1';
   }
 }

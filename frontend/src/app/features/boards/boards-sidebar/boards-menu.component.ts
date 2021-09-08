@@ -28,15 +28,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     .boards
     .observeAll()
     .pipe(
-      map((boards:Board[]) => boards.sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      })),
+      map((boards:Board[]) => boards.sort((a, b) => a.name.localeCompare(b.name))),
     );
 
   constructor(private readonly boardService:BoardService,

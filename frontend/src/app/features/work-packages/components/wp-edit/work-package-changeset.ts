@@ -2,6 +2,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource> {
   public setValue(key:string, val:any) {
@@ -24,7 +25,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
   protected setNewDefaultFor(key:string, val:unknown) {
     // Special handling for taking over the description
     // to the pristine resource
-    if (key === 'description' && this.pristineResource.isNew) {
+    if (key === 'description' && isNewResource(this.pristineResource)) {
       this.pristineResource.description = val;
       return;
     }

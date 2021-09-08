@@ -8,6 +8,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { take } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -368,7 +369,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected buildPayloadFromChanges() {
     let payload;
 
-    if (this.pristineResource.isNew) {
+    if (isNewResource(this.pristineResource)) {
       // If the resource is new, we need to pass the entire form payload
       // to let all default values be transmitted (type, status, etc.)
       // We clone the object to avoid later manipulations to affect the original resource.

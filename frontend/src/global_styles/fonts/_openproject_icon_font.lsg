@@ -78,6 +78,7 @@
 <li><span class="icon icon-drag-handle"></span>drag-handle</li>
 <li><span class="icon icon-duplicate"></span>duplicate</li>
 <li><span class="icon icon-edit"></span>edit</li>
+<li><span class="icon icon-email-alert"></span>email-alert</li>
 <li><span class="icon icon-enterprise"></span>enterprise</li>
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>
@@ -138,6 +139,8 @@
 <li><span class="icon icon-mail1"></span>mail1</li>
 <li><span class="icon icon-mail2"></span>mail2</li>
 <li><span class="icon icon-maintenance-support"></span>maintenance-support</li>
+<li><span class="icon icon-mark-all-read"></span>mark-all-read</li>
+<li><span class="icon icon-mark-read"></span>mark-read</li>
 <li><span class="icon icon-meetings"></span>meetings</li>
 <li><span class="icon icon-menu"></span>menu</li>
 <li><span class="icon icon-merge-branch"></span>merge-branch</li>

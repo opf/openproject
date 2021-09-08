@@ -25,14 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class WikiContent < ApplicationRecord
   extend DeprecatedAlias
 
-  belongs_to :page, class_name: 'WikiPage', foreign_key: 'page_id'
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :page, class_name: 'WikiPage'
+  belongs_to :author, class_name: 'User'
   validates_length_of :comments, maximum: 255, allow_nil: true
 
   attr_accessor :comments

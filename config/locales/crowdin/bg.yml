@@ -170,6 +170,8 @@ bg:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: В момента няма потребителски полета.
       no_results_content_text: Създаване на ново персонализирано поле
@@ -1408,7 +1410,7 @@ bg:
   label_check_uncheck_all_in_column: "Проверете/махнете отметката на всички в колона"
   label_check_uncheck_all_in_row: "Проверете/махнете отметката на всички в реда"
   label_child_element: "Елемент наследник"
-  label_chronological_order: "В хронологичен ред"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Затвори завършени версии"
   label_closed_work_packages: "затворен"
   label_collapse: "Свий"
@@ -1496,7 +1498,6 @@ bg:
   label_feeds_access_key: "RSS ключ за достъп"
   label_feeds_access_key_created_on: "RSS ключ за достъп създаден преди %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Файлът е добавен"
   label_file_plural: "Файлове"
   label_filter_add: "Добавяне на филтър"
   label_filter_plural: "Филтри"
@@ -1712,7 +1713,7 @@ bg:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Резултати"
-  label_reverse_chronological_order: "В обратен хронологичен ред"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Преразглеждане"
   label_revision_id: "Редакция %{value}"
   label_revision_plural: "Ревизии"

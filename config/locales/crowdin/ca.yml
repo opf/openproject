@@ -170,6 +170,8 @@ ca:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
       no_results_content_text: Crear un camp personalitzat nou
@@ -1408,7 +1410,7 @@ ca:
   label_check_uncheck_all_in_column: "Marca/desmarca tot a la columna"
   label_check_uncheck_all_in_row: "Marca/desmarca tot a la fila"
   label_child_element: "Element fill"
-  label_chronological_order: "En ordre cronològic"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tancar versions completades"
   label_closed_work_packages: "tancat"
   label_collapse: "Replega"
@@ -1496,7 +1498,6 @@ ca:
   label_feeds_access_key: "Clau d'accés RSS"
   label_feeds_access_key_created_on: "Clau d'accés RSS creada fa %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fitxer afegit"
   label_file_plural: "Arxius"
   label_filter_add: "Afegir un filtre"
   label_filter_plural: "Filtres"
@@ -1712,7 +1713,7 @@ ca:
   label_required: 'required'
   label_requires: 'requires'
   label_result_plural: "Resultats"
-  label_reverse_chronological_order: "En ordre cronològic invers"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisió"
   label_revision_id: "Revisió %{value}"
   label_revision_plural: "Revisions"

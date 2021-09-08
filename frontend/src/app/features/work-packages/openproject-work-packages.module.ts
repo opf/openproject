@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector, NgModule } from '@angular/core';
@@ -171,6 +171,8 @@ import { WorkPackageFilterByTextInputComponent } from 'core-app/features/work-pa
 import { FilterIntegerValueComponent } from 'core-app/features/work-packages/components/filters/filter-integer-value/filter-integer-value.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
+import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @NgModule({
   imports: [
@@ -388,6 +390,8 @@ import { FilterBooleanValueComponent } from 'core-app/features/work-packages/com
     WorkPackageSingleCardComponent,
     WorkPackageViewToggleButtonComponent,
 
+    // Notifications
+    WorkPackageMarkNotificationButtonComponent,
   ],
   exports: [
     WorkPackagesTableComponent,
@@ -445,9 +449,9 @@ export class OpenprojectWorkPackagesModule {
     hookService.register('attributeGroupComponent', (group:GroupDescriptor, workPackage:WorkPackageResource) => {
       if (group.type === 'WorkPackageFormAttributeGroup') {
         return WorkPackageFormAttributeGroupComponent;
-      } if (!workPackage.isNew && group.type === 'WorkPackageFormChildrenQueryGroup') {
+      } if (!isNewResource(workPackage) && group.type === 'WorkPackageFormChildrenQueryGroup') {
         return WorkPackageChildrenQueryComponent;
-      } if (!workPackage.isNew && group.type === 'WorkPackageFormRelationQueryGroup') {
+      } if (!isNewResource(workPackage) && group.type === 'WorkPackageFormRelationQueryGroup') {
         return WorkPackageRelationQueryComponent;
       }
       return null;

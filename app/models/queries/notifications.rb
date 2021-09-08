@@ -25,22 +25,22 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module Queries::Notifications
-  Queries::Register.filter Queries::Notifications::NotificationQuery,
-                           Queries::Notifications::Filters::ReadIanFilter
+  [Queries::Notifications::Filters::ReadIanFilter,
+   Queries::Notifications::Filters::IdFilter,
+   Queries::Notifications::Filters::ResourceIdFilter,
+   Queries::Notifications::Filters::ResourceTypeFilter].each do |filter|
+    Queries::Register.filter Queries::Notifications::NotificationQuery,
+                             filter
+  end
 
-  Queries::Register.filter Queries::Notifications::NotificationQuery,
-                           Queries::Notifications::Filters::IdFilter
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::DefaultOrder
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::ReasonOrder
-
-  Queries::Register.order Queries::Notifications::NotificationQuery,
-                          Queries::Notifications::Orders::ReadIanOrder
+  [Queries::Notifications::Orders::DefaultOrder,
+   Queries::Notifications::Orders::ReasonOrder,
+   Queries::Notifications::Orders::ReadIanOrder].each do |order|
+    Queries::Register.order Queries::Notifications::NotificationQuery,
+                            order
+  end
 end

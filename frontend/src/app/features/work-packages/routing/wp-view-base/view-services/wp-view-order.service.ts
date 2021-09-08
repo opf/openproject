@@ -23,20 +23,21 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { InputState } from 'reactivestates';
+import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { States } from 'core-app/core/states/states.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
-import { take } from 'rxjs/operators';
-import { InputState } from 'reactivestates';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -56,7 +57,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
     // Take over our current value if the query is not saved
-    if (!query.persisted && this.positions.hasValue()) {
+    if (!isPersistedResource(query) && this.positions.hasValue()) {
       this.applyToQuery(query);
     }
 
@@ -108,7 +109,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   }
 
   public get applicable() {
-    return this.currentQuery.persisted;
+    return isPersistedResource(this.currentQuery);
   }
 
   protected get currentQuery():QueryResource {
@@ -140,7 +141,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
     this.positions.putValue({ ...current, ...delta });
 
     // Push the update if the query is saved
-    if (this.currentQuery.persisted) {
+    if (isPersistedResource(this.currentQuery)) {
       const updatedAt = await this
         .apiV3Service
         .queries.id(this.currentQuery)
@@ -164,7 +165,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Initialize (or load if persisted) the order for the query space
    */
   public withLoadedPositions():Promise<QueryOrder> {
-    if (this.currentQuery.persisted) {
+    if (isPersistedResource(this.currentQuery)) {
       const { value } = this.positions;
 
       // Remove empty or stale values given we can reload them
@@ -205,7 +206,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
       .elements
       .map((wp) => this.states.workPackages.get(wp.id!).getValueOr(wp));
 
-    if (this.currentQuery.persisted || this.positions.isPristine()) {
+    if (isPersistedResource(this.currentQuery) || this.positions.isPristine()) {
       return upstreamOrder;
     }
     const positions = this.positions.value!;

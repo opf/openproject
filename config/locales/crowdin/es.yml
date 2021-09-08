@@ -167,6 +167,8 @@ es:
     enabled_in_project: 'Activado en el proyecto'
     contained_in_type: 'Incluido en el tipo'
     confirm_destroy_option: "Al eliminar una opción, se eliminarán todas las repeticiones (por ejemplo, en paquetes de trabajo). ¿Está seguro de que desea eliminarla?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -1405,7 +1407,7 @@ es:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar toda la columna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar toda la fila"
   label_child_element: "Elementos secundarios"
-  label_chronological_order: "En orden cronológico"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Cerrar versiones completadas"
   label_closed_work_packages: "cerrado"
   label_collapse: "Colapsar"
@@ -1493,7 +1495,6 @@ es:
   label_feeds_access_key: "Código de acceso RSS"
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Archivo agregado"
   label_file_plural: "Archivos"
   label_filter_add: "Añadir filtro"
   label_filter_plural: "Filtros"
@@ -1709,7 +1710,7 @@ es:
   label_required: 'requerido'
   label_requires: 'requiere'
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "En orden cronológico inverso"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisión"
   label_revision_id: "Revisión %{value}"
   label_revision_plural: "Revisiones"

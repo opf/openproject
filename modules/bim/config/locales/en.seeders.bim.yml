@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 en:
   seeders:
@@ -679,23 +679,23 @@ en:
                   - :to: Project preperation
                     :type: follows
               - :start: 54
-                :subject: Creating inital BIM model
+                :subject: Creating initial BIM model
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
                 :children:
                   - :start: 54
-                    :subject: Modelling inital BIM model
+                    :subject: Modelling initial BIM model
                     :description: |-
                       # Goal
 
-                      *   Modelling the inital BIM model
+                      *   Modelling the initial BIM model
                       *   Creating a BIM model for the whole project team
 
                       # Description
 
-                      *   According to the gathered data from the customer, the inital model will be modelled
+                      *   According to the gathered data from the customer, the initial model will be modelled
                       *   The model shall be modelled according to the LOD Matrices and contain the information needed
                       *   ...
                     :status: default_status_new
@@ -721,10 +721,10 @@ en:
                     :assigned_to: Lead BIM Coordinators
                     :duration: 2
                     :relations:
-                      - :to: Modelling inital BIM model
+                      - :to: Modelling initial BIM model
                         :type: follows
                   - :start: 65
-                    :subject: Submitting inital BIM model
+                    :subject: Submitting initial BIM model
                     :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
@@ -763,7 +763,7 @@ en:
                     :assigned_to: BIM Modellers
                     :duration: 0
                     :relations:
-                      - :to: Submitting inital BIM model
+                      - :to: Submitting initial BIM model
                         :type: follows
                   - :start: 67
                     :subject: Modelling the BIM model
@@ -816,7 +816,7 @@ en:
                 :assigned_to: BIM Coordinators
                 :duration: 10
                 :relations:
-                  - :to: Submitting inital BIM model
+                  - :to: Submitting initial BIM model
                     :type: follows
               - :start: 77
                 :subject: Coordination, first cycle

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject::Documents
@@ -50,14 +50,13 @@ module OpenProject::Documents
         }, require: :loggedin
       end
 
-      OpenProject::Notifiable.all << OpenProject::Notifiable.new('document_added')
-
       Redmine::Search.register :documents
     end
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
     patches %i[CustomFieldsHelper Project]
+    patch_with_namespace :OpenProject, :Notifiable
 
     add_api_path :documents do
       "#{root}/documents"

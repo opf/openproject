@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class InstanceFinder
@@ -35,7 +35,7 @@ class InstanceFinder
 
   def self.find(model, identifier)
     if @model_method_map[model].nil?
-      raise "#{model} is not registerd with InstanceFinder"
+      raise "#{model} is not registered with InstanceFinder"
     end
 
     @model_method_map[model].call(identifier)

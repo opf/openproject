@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require File.dirname(__FILE__) + '/../spec_helper'
@@ -153,10 +153,6 @@ describe DocumentsController do
 
       it "should redirect to the documents-page" do
         expect(response).to redirect_to project_documents_path(project.identifier)
-      end
-
-      it "should send out mails with notifications to members of the project with :view_documents-permission" do
-        expect(ActionMailer::Base.deliveries.size).to eql 1
       end
     end
   end

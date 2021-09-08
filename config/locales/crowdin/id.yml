@@ -170,6 +170,8 @@ id:
     enabled_in_project: 'Diaktifkan pada proyek'
     contained_in_type: 'Terkandung dalam jenis'
     confirm_destroy_option: "Menghapus sebuah pilihan akan menghapus semua kemunculan yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
@@ -1390,7 +1392,7 @@ id:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
-  label_chronological_order: "Urutan kronologis"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
   label_collapse: "Tampilkan"
@@ -1478,7 +1480,6 @@ id:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File ditambahkan"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter_plural: "Filter"
@@ -1694,7 +1695,7 @@ id:
   label_required: 'dibutuhkan'
   label_requires: 'dibutuhkan'
   label_result_plural: "Hasil"
-  label_reverse_chronological_order: "Urutan kronologi terbalik"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisi"
   label_revision_id: "Revisi %{value}"
   label_revision_plural: "Revisi"

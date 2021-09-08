@@ -48,15 +48,15 @@ class WorkPackage
     #
     # @return [Class] Class of the model the costs are based on, e.g. CostEntry or TimeEntry.
     def costs_model
-      raise NotImplementedError, "subclass responsiblity"
+      raise NotImplementedError, "subclass responsibility"
     end
 
     def costs_sum_alias
-      raise NotImplementedError, "subclass responsiblity"
+      raise NotImplementedError, "subclass responsibility"
     end
 
     def subselect_alias
-      raise NotImplementedError, "subclass responsiblity"
+      raise NotImplementedError, "subclass responsibility"
     end
 
     private

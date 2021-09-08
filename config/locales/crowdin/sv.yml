@@ -170,6 +170,8 @@ sv:
     enabled_in_project: 'Aktiverad i projekt'
     contained_in_type: 'Ingår i typ'
     confirm_destroy_option: "Radering av ett alternativ kommer radera alla förekomster (i arbetspaket). Är du säker på att du vill radera?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Det finns för närvarande inga anpassade fält.
       no_results_content_text: Skapa ett nytt anpassat fält
@@ -1407,7 +1409,7 @@ sv:
   label_check_uncheck_all_in_column: "Markera/avmarkera alla i kolumnen"
   label_check_uncheck_all_in_row: "Markera/avmarkera allt på raden"
   label_child_element: "Underordnade element"
-  label_chronological_order: "I kronologisk ordning"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Stäng slutförda versioner"
   label_closed_work_packages: "stängt"
   label_collapse: "Fäll ihop"
@@ -1495,7 +1497,6 @@ sv:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key skapad %{value} sen"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Fil tillagd"
   label_file_plural: "Filer"
   label_filter_add: "Lägg till filter"
   label_filter_plural: "Filter"
@@ -1711,7 +1712,7 @@ sv:
   label_required: 'obligatorisk'
   label_requires: 'kräver'
   label_result_plural: "Resultat"
-  label_reverse_chronological_order: "I omvänd kronologisk ordning"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisioner"

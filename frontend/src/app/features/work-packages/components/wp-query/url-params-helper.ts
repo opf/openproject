@@ -23,13 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -100,7 +101,7 @@ export class UrlParamsHelperService {
   }
 
   private encodeHighlightingMode(paramsData:any, query:QueryResource) {
-    if (query.highlightingMode && (query.persisted || query.highlightingMode !== 'inline')) {
+    if (query.highlightingMode && (isPersistedResource(query) || query.highlightingMode !== 'inline')) {
       paramsData.hl = query.highlightingMode;
     }
     return paramsData;

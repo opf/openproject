@@ -487,7 +487,7 @@ lt:
         welcome: 'Paskirkite tris minutes įvadinei kelionei ir išmokite daugumą <b>svarbių sistemos galimybių</b>. <br>Rekomenduojame atlikti visus veiksmus iki pabaigos. Ekskursiją galite paleisti iš naujo bet kuriuo metu.'
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
+          overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde."
           sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioretizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
           task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
@@ -522,23 +522,24 @@ lt:
         all: 'Visi'
       center:
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
+        mark_as_read: 'Žymėti kaip skaitytą'
+        text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
         default_all_projects: 'Numatytasis visiems projektams'
         involved: 'Aš įtrauktas'
         mentioned: 'Aš buvau paminėtas'
         watched: 'Aš stebiu'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
-        work_package_scheduled: 'Work package scheduled'
+        work_package_commented: 'Darbų paketas pakomentuotas'
+        work_package_created: 'Darbų paketas sukurtas'
+        work_package_processed: 'Darbų paketo būsena pakeista'
+        work_package_prioritized: 'Darbų paketo prioritetai pakeisti'
+        work_package_scheduled: 'Darbų paketo tvarkaraštis pakeistas'
         all: 'Visi įvykiai'
         add: 'Pridėkite projekto nustatymus'
         already_selected: 'Šis projektas jau pasirinktas'
         remove_projects: 'Pašalinti pranešimus projektams'
         title: "Pranešimų nustatymai"
-        self_notify: "Noriu būti informuotas apie pakeitimus, kuriuos pats atlieku"
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
@@ -967,7 +968,7 @@ lt:
     notice_no_results_to_display: "Nėra rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
-    notice_successful_update: "Sėkmingas atnaujinimas."
+    notice_successful_update: "Sėkmingai atnaujinta."
     notice_job_started: "užduoties vykdymas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:

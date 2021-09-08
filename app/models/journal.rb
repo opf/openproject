@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class Journal < ApplicationRecord
@@ -49,6 +49,8 @@ class Journal < ApplicationRecord
 
   has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
   has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
+
+  has_many :notifications, dependent: :destroy
 
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show

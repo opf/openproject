@@ -23,44 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
          'parsing' do
+  subject(:parsed) { representer.from_hash request_body }
+
   include ::API::V3::Utilities::PathHelper
 
   let(:preference) { OpenStruct.new }
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:representer) { described_class.new(preference, current_user: user) }
-
-  subject { representer.from_hash request_body }
-
-  describe 'selfNotified' do
-    let(:request_body) do
-      {
-        'selfNotified' => self_notified
-      }
-    end
-
-    context 'with setting true' do
-      let(:self_notified) { true }
-
-      it 'sets no_self_notified to false' do
-        expect(subject.no_self_notified).to eq false
-      end
-    end
-
-    context 'with setting false' do
-      let(:self_notified) { false }
-
-      it 'sets no_self_notified to true' do
-        expect(subject.no_self_notified).to eq true
-      end
-    end
-  end
 
   describe 'notification_settings' do
     let(:request_body) do
@@ -84,7 +60,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                 'href' => nil
               }
             }
-          },
+          }
         ]
       }
     end
@@ -102,6 +78,25 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       expect(global[:channel]).to eq 'email'
       expect(global[:all]).to eq false
       expect(global[:mentioned]).to eq true
+    end
+  end
+
+  describe 'daily_reminders' do
+    let(:request_body) do
+      {
+        "dailyReminders" => {
+          "enabled" => true,
+          "times" => %w[07:00 15:00 18:00:00+00:00]
+        }
+      }
+    end
+
+    it 'parses the times into full iso8601 time format' do
+      expect(parsed.daily_reminders)
+        .to eql({
+                  "enabled" => true,
+                  "times" => %w[07:00:00+00:00 15:00:00+00:00 18:00:00+00:00]
+                })
     end
   end
 end

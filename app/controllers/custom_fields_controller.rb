@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 class CustomFieldsController < ApplicationController
@@ -34,7 +34,7 @@ class CustomFieldsController < ApplicationController
   helper_method :gon
 
   before_action :require_admin
-  before_action :find_custom_field, only: %i(edit update destroy move delete_option)
+  before_action :find_custom_field, only: %i(edit update destroy delete_option reorder_alphabetical)
   before_action :prepare_custom_option_position, only: %i(update create)
   before_action :find_custom_option, only: :delete_option
 
@@ -73,17 +73,19 @@ class CustomFieldsController < ApplicationController
   def edit; end
 
   def update
-    call = ::CustomFields::UpdateService
-      .new(user: current_user, model: @custom_field)
-      .call(get_custom_field_params)
+    perform_update(get_custom_field_params)
+  end
 
-    if call.success?
-      flash[:notice] = t(:notice_successful_update)
-      call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
-      redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
-    else
-      render action: 'edit'
+  def reorder_alphabetical
+    reordered_options = @custom_field
+      .custom_options
+      .sort_by(&:value)
+      .each_with_index
+      .map do |custom_option, index|
+      { id: custom_option.id, position: index + 1 }
     end
+
+    perform_update(custom_options_attributes: reordered_options)
   end
 
   def destroy
@@ -110,6 +112,20 @@ class CustomFieldsController < ApplicationController
   end
 
   private
+
+  def perform_update(custom_field_params)
+    call = ::CustomFields::UpdateService
+      .new(user: current_user, model: @custom_field)
+      .call(custom_field_params)
+
+    if call.success?
+      flash[:notice] = t(:notice_successful_update)
+      call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
+      redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
+    else
+      render action: 'edit'
+    end
+  end
 
   def new_custom_field
     ::CustomFields::CreateService.careful_new_custom_field(permitted_params.custom_field_type)

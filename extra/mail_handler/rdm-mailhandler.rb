@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # !/usr/bin/env ruby
@@ -165,6 +165,7 @@ class RedmineMailHandler
     debug "Response received: #{response.code}"
 
     case response.code.to_i
+        debug "Processed successfully"
     when 403
       warn "Request was denied by your Redmine server. " +
            "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."
@@ -180,7 +181,7 @@ class RedmineMailHandler
       warn "Failed to contact your Redmine server (#{response.code})."
       75
     when 201
-      debug "Proccessed successfully"
+      debug "Processed successfully"
       0
     else
       1

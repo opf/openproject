@@ -170,6 +170,8 @@ zh-TW:
     enabled_in_project: '已在專案中啟用'
     contained_in_type: '已包含在類型中'
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -1391,7 +1393,7 @@ zh-TW:
   label_check_uncheck_all_in_column: "選取/取消選取 全部"
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
-  label_chronological_order: "按先後順序"
+  label_chronological_order: "Oldest first"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "折疊"
@@ -1479,7 +1481,6 @@ zh-TW:
   label_feeds_access_key: "RSS 金鑰"
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
   label_feeds_access_key_type: "RSS訂閱"
-  label_file_added: "檔案已新增"
   label_file_plural: "檔案"
   label_filter_add: "新增篩選器"
   label_filter_plural: "篩選器"
@@ -1695,7 +1696,7 @@ zh-TW:
   label_required: '必要'
   label_requires: '要求'
   label_result_plural: "結果"
-  label_reverse_chronological_order: "在反序排列"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"

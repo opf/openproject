@@ -23,36 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
 
 describe UserPreference do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  subject { FactoryBot.build(:user_preference, user: user) }
-
-  describe 'default settings' do
-    it 'hides the email address' do
-      expect(subject.hide_mail).to eql(true)
-    end
-
-    it 'activates no self notification' do
-      expect(subject.others[:no_self_notified]).to be_truthy
-    end
-
-    context 'with default setting auto_hide_popups to false', with_settings: { default_auto_hide_popups: false } do
-      it 'disables auto hide popups' do
-        expect(subject.auto_hide_popups).to be_falsey
-      end
-    end
-
-    context 'with default setting auto_hide_popups to true', with_settings: { default_auto_hide_popups: true } do
-      it 'disables auto hide popups' do
-        expect(subject.auto_hide_popups).to be_truthy
-      end
-    end
+  subject(:preference) do
+    FactoryBot.build(:user_preference,
+                     user: user,
+                     settings: settings)
   end
+
+  let(:settings) { {} }
+
+  let(:user) { FactoryBot.build_stubbed(:user) }
 
   shared_examples 'accepts real and false booleans' do |setter, getter|
     it 'accepts true boolean' do
@@ -72,6 +57,24 @@ describe UserPreference do
       %w(false 0).each do |str|
         subject.send(setter, str)
         expect(subject.send(getter)).to be false
+      end
+    end
+  end
+
+  describe '#respond_to?' do
+    context 'for created_at (key not in the schema)' do
+      it 'is does not respond' do
+        expect(preference)
+          .not_to respond_to(:created_at)
+      end
+    end
+  end
+
+  describe 'an unsupported method' do
+    context 'for created_at (key not in the schema)' do
+      it 'raises an error' do
+        expect { preference.created_at }
+          .to raise_error NoMethodError
       end
     end
   end
@@ -100,64 +103,99 @@ describe UserPreference do
     it_behaves_like 'accepts real and false booleans',
                     :auto_hide_popups=,
                     :auto_hide_popups?
+
+    describe 'without a value being stored and with default setting auto_hide_popups to false',
+             with_settings: { default_auto_hide_popups: false } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_falsey
+      end
+    end
+
+    context 'without a value being stored and with default setting auto_hide_popups to true',
+            with_settings: { default_auto_hide_popups: true } do
+      it 'disables auto hide popups' do
+        expect(subject.auto_hide_popups).to be_truthy
+      end
+    end
+  end
+
+  describe 'hide_mail' do
+    it_behaves_like 'accepts real and false booleans',
+                    :hide_mail=,
+                    :hide_mail?
+
+    context 'when a new pref instance' do
+      subject { described_class.new }
+
+      it 'defaults to true' do
+        expect(subject.settings[:hide_mail]).to be_nil
+        expect(subject.hide_mail).to eq true
+        expect(subject.hide_mail?).to eq true
+
+        subject.hide_mail = false
+        expect(subject.settings[:hide_mail]).to eq false
+        expect(subject.hide_mail).to eq false
+        expect(subject.hide_mail?).to eq false
+      end
+    end
+  end
+
+  describe '#daily_reminders' do
+    context 'without reminders being stored' do
+      it 'uses the defaults' do
+        expect(subject.daily_reminders)
+          .to eql("enabled" => true, "times" => ["08:00:00+00:00"])
+      end
+    end
+
+    context 'with reminders being stored' do
+      let(:settings) do
+        {
+          "daily_reminders" => {
+            "enabled" => false,
+            "times" => %w[12:00:00+00:00 18:00:00+00:00 09:00:00+00:00]
+          }
+        }
+      end
+
+      it 'uses the defaults' do
+        expect(subject.daily_reminders)
+          .to eql(settings["daily_reminders"])
+      end
+    end
   end
 
   describe 'time_zone' do
     it 'allows to save short time zones' do
       subject.time_zone = 'Berlin'
-      expect(subject).to be_valid
       expect(subject.time_zone).to eq('Berlin')
       expect(subject.canonical_time_zone).to eq('Europe/Berlin')
     end
 
     it 'allows to set full time zones' do
       subject.time_zone = 'Europe/Paris'
-      expect(subject).to be_valid
       expect(subject.time_zone).to eq('Europe/Paris')
       expect(subject.canonical_time_zone).to eq('Europe/Paris')
-    end
-
-    it 'disallows invalid time zones' do
-      subject.time_zone = 'Berlin123'
-      expect(subject).not_to be_valid
-    end
-
-    it 'allows empty values' do
-      subject.time_zone = nil
-      expect(subject).to be_valid
-
-      subject.time_zone = ''
-      expect(subject).to be_valid
-    end
-  end
-
-  describe 'self_notified getter/setter' do
-    it 'has a getter and a setter for self_notified' do
-      subject.self_notified = false
-      expect(subject.self_notified?).to be_falsey
-      expect(subject[:no_self_notified]).to be_truthy
     end
   end
 
   describe '[]=' do
     let(:user) { FactoryBot.create(:user) }
 
-    context 'for attributes stored in "others"' do
-      it 'will save the values on sending "save"' do
-        subject.save
+    it 'will save the values on sending "save"' do
+      subject.save
 
-        value_no_self_notified = !subject[:no_self_notified]
-        value_auto_hide_popups = !subject[:auto_hide_popups]
+      value_warn_on_leaving_unsaved = !subject[:warn_on_leaving_unsaved]
+      value_auto_hide_popups = !subject[:auto_hide_popups]
 
-        subject[:no_self_notified] = value_no_self_notified
-        subject[:auto_hide_popups] = value_auto_hide_popups
+      subject[:warn_on_leaving_unsaved] = value_warn_on_leaving_unsaved
+      subject[:auto_hide_popups] = value_auto_hide_popups
 
-        subject.save
-        subject.reload
+      subject.save
+      subject.reload
 
-        expect(subject[:no_self_notified]).to eql(value_no_self_notified)
-        expect(subject[:auto_hide_popups]).to eql(value_auto_hide_popups)
-      end
+      expect(subject[:warn_on_leaving_unsaved]).to eql(value_warn_on_leaving_unsaved)
+      expect(subject[:auto_hide_popups]).to eql(value_auto_hide_popups)
     end
   end
 end

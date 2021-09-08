@@ -167,6 +167,8 @@ it:
     enabled_in_project: 'Abilitato nel progetto'
     contained_in_type: 'Contenuto nel tipo'
     confirm_destroy_option: "L'eliminazione di un'opzione eliminerà tutte le sue occorrenze (ad es. nelle macro-attività). Procedere all'eliminazione?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
@@ -537,7 +539,7 @@ it:
         error_enterprise_only: "è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
-        email: "is not a valid email address."
+        email: "non è un indirizzo email valido"
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
@@ -551,7 +553,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "non è disponibile a causa di una configurazione di sistema."
         not_deletable: "non può essere eliminato."
         not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
@@ -574,7 +576,7 @@ it:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "è impostato a '%{value}', che non è autorizzato per il caricamento."
         capability:
           context:
             global: 'Globale'
@@ -618,11 +620,11 @@ it:
             read_mail_digest:
               read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
             reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              no_notification_reason: 'non può essere vuoto perché la posta è scelta come canale.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,7 +700,7 @@ it:
               not_start_date: "non è sulla data di inizio, nonostante sia obbligatorio per i traguardi."
             parent:
               cannot_be_milestone: "non può essere un traguardo."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "non può essere assegnato a se stesso."
               cannot_be_in_another_project: "non può essere in un altro progetto."
               not_a_valid_parent: "non è valido."
             start_date:
@@ -1231,7 +1233,7 @@ it:
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
-    failed: "The export has failed: %{message}"
+    failed: "L'esportazione non è riuscita: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1310,7 +1312,7 @@ it:
         expiration: "Scade"
       indefinite_expiration: "Mai"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Invia notifiche per questa azione"
     work_packages:
       subject:
         created: "The work package was created."
@@ -1404,7 +1406,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
-  label_chronological_order: "In ordine cronologico"
+  label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
   label_collapse: "Comprimi"
@@ -1447,7 +1449,7 @@ it:
   label_deleted: "cancellato"
   label_deleted_custom_field: "(campo personalizzato eliminato)"
   label_deleted_custom_option: "(opzione eliminata)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(valore mancante o assenza di permessi di accesso)"
   label_descending: "Decrescente"
   label_details: "Dettagli"
   label_development_roadmap: "Tabella di marcia di sviluppo"
@@ -1492,7 +1494,6 @@ it:
   label_feeds_access_key: "Chiave di accesso RSS"
   label_feeds_access_key_created_on: "Chiave di accesso RSS creato %{value} fa"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "File aggiunto"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
   label_filter_plural: "Filtri"
@@ -1708,7 +1709,7 @@ it:
   label_required: 'obbligatorio'
   label_requires: 'richiede'
   label_result_plural: "Risultati"
-  label_reverse_chronological_order: "In ordine cronologico inverso"
+  label_reverse_chronological_order: "Prima i più recenti"
   label_revision: "Revisione"
   label_revision_id: "Revisione %{value}"
   label_revision_plural: "Revisioni"
@@ -1887,17 +1888,17 @@ it:
   mail:
     actions: 'Azioni'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      time_frame: 'Riepilogo di tutti gli eventi a cui ti sei iscritto nel periodo compreso tra %{start} e %{end}'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        created_at: '%{user} creato alle %{timestamp}'
         reason:
           watched: 'guardato'
-          involved: 'assignee or responsible'
+          involved: 'assegnatario o responsabile'
           mentioned: 'menzionato'
           subscribed: 'tutti'
-          prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+          prefix: 'Ricevuto a causa dell''impostazione della notifica: %{reason}'
+        subject: 'Riepilogo giornaliero del progetto per %{date} - %{number} aggiornamenti'
+        updated_at: '%{user} aggiornato alle %{timestamp}'
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
   mail_body_account_information: "Informazioni sul tuo account"
   mail_body_account_information_external: "Puoi usare il tuo %{value} account per accedere."

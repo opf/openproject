@@ -170,6 +170,8 @@ ar:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد
@@ -1476,7 +1478,7 @@ ar:
   label_check_uncheck_all_in_column: "اختيار / إلغاء اختيار كل شيء في العمود"
   label_check_uncheck_all_in_row: "اختيار / إلغاء اختيار كل شيء في السطر"
   label_child_element: "العنصر التابع"
-  label_chronological_order: "في ترتيب زمني"
+  label_chronological_order: "Oldest first"
   label_close_versions: "إغلاق الإصدارات المنجزة"
   label_closed_work_packages: "مغلق"
   label_collapse: "مطوي"
@@ -1564,7 +1566,6 @@ ar:
   label_feeds_access_key: "مفتاح الوصول ل RSS"
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
-  label_file_added: "تم إضافة ملف"
   label_file_plural: "الملفّات"
   label_filter_add: "إضافة عامل تصفية"
   label_filter_plural: "عوامل التصفية"
@@ -1780,7 +1781,7 @@ ar:
   label_required: 'مطلوب'
   label_requires: 'متطلبات'
   label_result_plural: "نتائج"
-  label_reverse_chronological_order: "في ترتيب زمني عكسي"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "مراجعة"
   label_revision_id: "مراجعة%{value}"
   label_revision_plural: "مراجعات"

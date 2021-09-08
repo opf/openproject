@@ -23,7 +23,7 @@ fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: May mga walang mga pagkikilos sa proyekto sa panahong ito.
   admin:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
@@ -170,6 +170,8 @@ fil:
     enabled_in_project: 'Pinagana sa proyekto'
     contained_in_type: 'Naglaman ng uri'
     confirm_destroy_option: "Kapag nagbubura ng opsyon ay makakabura sa lahat ng mga pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong burahin ito?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
@@ -1408,7 +1410,7 @@ fil:
   label_check_uncheck_all_in_column: "I-check/I-ncheck ang lahat sa hanay"
   label_check_uncheck_all_in_row: "I-check/I-uncheck ang lahat sa hilera"
   label_child_element: "Elementong bata"
-  label_chronological_order: "Sa chronological na pagkasunod-sunod"
+  label_chronological_order: "Oldest first"
   label_close_versions: "Isara ang nakompletong bersyon"
   label_closed_work_packages: "isinara"
   label_collapse: "Bumagsak"
@@ -1496,7 +1498,6 @@ fil:
   label_feeds_access_key: "RSS access key"
   label_feeds_access_key_created_on: "RSS access key na nillikha %{value} nakalipas"
   label_feeds_access_key_type: "RSS"
-  label_file_added: "Idinagdag na file"
   label_file_plural: "Mga file"
   label_filter_add: "Magdagdag ng filter"
   label_filter_plural: "Mga nasala"
@@ -1712,7 +1713,7 @@ fil:
   label_required: 'kailangan'
   label_requires: 'kinakailangan'
   label_result_plural: "Mga resulta"
-  label_reverse_chronological_order: "Sa kabaligtaran ng chronological order"
+  label_reverse_chronological_order: "Newest first"
   label_revision: "Rebisyon"
   label_revision_id: "Rebisyon %{value}"
   label_revision_plural: "Mga rebisyon"

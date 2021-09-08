@@ -16,6 +16,8 @@ First start the console.
 
 ```
 sudo openproject run console
+# if user the docker all-in-one container: docker exec -it openproject bundle exec rails console
+# if using docker-compose: docker-compose run --rm web bundle exec rails console
 ```
 
 Once in the console you can change the `plugin_openproject_openid_connect` setting
@@ -27,13 +29,28 @@ Next define the settings for your custom provider. In this example we are config
 options = {
   "display_name"=>"Okta",
   "host"=>"mypersonal.okta.com",
-  "identifier"=>"<identifier>",
+  "identifier"=>"<identifier or client id>",
   "secret"=>"<secret>",
   "authorization_endpoint" => "/oauth2/v1/authorize",
   "token_endpoint" => "/oauth2/v1/token",
   "userinfo_endpoint" => "/oauth2/v1/userinfo"
 }
 ```
+
+For Keycloak, settings similar to the following would be used:
+
+```ruby
+options = {
+  "display_name"=>"Keycloak",
+  "host"=>"keycloak.example.com",
+  "identifier"=>"<client id>",
+  "secret"=>"<client secret>",
+  "authorization_endpoint" => "/auth/realms/REALM/protocol/openid-connect/auth",
+  "token_endpoint" => "/auth/realms/REALM/protocol/openid-connect/token",
+  "userinfo_endpoint" => "/auth/realms/REALM/protocol/openid-connect/userinfo"
+}
+```
+
 
 Just type this into the console and confirm by pressing *Enter*.
 
@@ -55,6 +72,8 @@ Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_open
   }
 })
 ```
+
+Replace "okta" with any other value such as "keycloak". It is used in some URLs so keep it a plain lowercase string.
 
 Just copy these lines into the console and again confirm using *Enter*.
 After you are done you can leave the console by entering `exit`.

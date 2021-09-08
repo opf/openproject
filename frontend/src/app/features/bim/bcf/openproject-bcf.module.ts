@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector, NgModule } from '@angular/core';
@@ -45,6 +45,7 @@ import { BcfNewWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-w
 import { RevitBridgeService } from 'core-app/features/bim/revit_add_in/revit-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component';
 
 /**
@@ -118,7 +119,7 @@ export class OpenprojectBcfModule {
         return;
       }
 
-      if (workPackage.isNew) {
+      if (isNewResource(workPackage)) {
         return BcfNewWpAttributeGroupComponent;
       }
       return BcfWpAttributeGroupComponent;
