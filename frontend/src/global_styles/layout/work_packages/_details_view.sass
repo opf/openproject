@@ -111,11 +111,13 @@ body.router--work-packages-partitioned-split-view-new
   .work-packages--details-form
     display: flex
     flex-direction: column
+    height: 100%
     overflow: hidden
 
   .work-package-details-tab
     overflow-y: auto
     overflow-x: hidden
+    flex-grow: 1
     @include styled-scroll-bar
 
   .work-packages--breadcrumb
