@@ -8,7 +8,6 @@ import { UserPreferencesStore } from 'core-app/features/user-preferences/state/u
 import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { NotificationsSettingsPageComponent } from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
-import { NotificationSettingRowComponent } from 'core-app/features/user-preferences/notifications-settings/row/notification-setting-row.component';
 import { NotificationSettingInlineCreateComponent } from 'core-app/features/user-preferences/notifications-settings/inline-create/notification-setting-inline-create.component';
 import { MY_ACCOUNT_ROUTES } from 'core-app/features/user-preferences/user-preferences.routes';
 import { NotificationsSettingsToolbarComponent } from './notifications-settings/toolbar/notifications-settings-toolbar.component';
@@ -22,7 +21,6 @@ import { NotificationSettingsTableComponent } from './notifications-settings/tab
   ],
   declarations: [
     NotificationsSettingsPageComponent,
-    NotificationSettingRowComponent,
     NotificationSettingInlineCreateComponent,
     NotificationsSettingsToolbarComponent,
     NotificationSettingsTableComponent,
