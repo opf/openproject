@@ -31,8 +31,8 @@ export class NotificationSettingsTableComponent {
   showTable$ = this.query.notificationsGroupedByProject$.pipe(map((settings) => Object.keys(settings).length > 0));
 
   text = {
+    notify_me: this.I18n.t('js.notifications.settings.notify_me'),
     save: this.I18n.t('js.button_save'),
-
     mentioned_header: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
     involved_header: this.I18n.t('js.notifications.settings.reasons.involved.title'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),

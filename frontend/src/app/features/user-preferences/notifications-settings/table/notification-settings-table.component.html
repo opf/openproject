@@ -4,7 +4,9 @@
 >
   <thead>
     <tr>
-      <th class="op-table--cell op-table--cell_heading"></th>
+      <th class="op-table--cell op-table--cell_heading">
+        {{ text.notify_me }}
+      </th>
       <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
         <th class="op-table--cell op-table--cell_heading">{{ item.key }}</th>
       </ng-container>
