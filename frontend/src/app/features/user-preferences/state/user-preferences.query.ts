@@ -7,7 +7,6 @@ import { UserPreferencesStore } from 'core-app/features/user-preferences/state/u
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
-@Injectable()
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   /** All notification settings */
   notificationSettings$ = this.select('notifications');

@@ -4,6 +4,9 @@ export interface DailyRemindersSettings {
   enabled:boolean;
   times:string[];
 }
+export interface ImmediateRemindersSettings {
+  mentioned:boolean;
+}
 
 export interface UserPreferencesModel {
   autoHidePopups:boolean;
@@ -13,4 +16,5 @@ export interface UserPreferencesModel {
   warnOnLeavingUnsaved:boolean;
   notifications:NotificationSetting[];
   dailyReminders:DailyRemindersSettings;
+  immediateReminders:ImmediateRemindersSettings;
 }

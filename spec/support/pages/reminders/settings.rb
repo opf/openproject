@@ -68,6 +68,24 @@ module Pages
         end
       end
 
+      def expect_immediate_reminder(name, enabled)
+        if enabled
+          expect(page).to have_checked_field("op-reminder-settings-immediate-#{name}")
+        else
+          expect(page).to have_no_checked_field("op-reminder-settings-immediate-#{name}")
+        end
+      end
+
+      def set_immediate_reminder(name, enabled)
+        field = page.find_field("op-reminder-settings-immediate-#{name}")
+
+        if enabled
+          field.check
+        else
+          field.uncheck
+        end
+      end
+
       def save
         click_button 'Save'
       end
