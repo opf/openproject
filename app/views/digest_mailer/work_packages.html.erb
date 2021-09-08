@@ -12,7 +12,7 @@
     <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
       <% notifications_by_work_package.each do | notification | %>
         <% if notification.journal.notes.present? %>
-          <tr style="color: #878787; line-height: 20px; white-space: nowrap; font-size: 12px;">
+          <tr style="color: #878787; line-height: 20px; white-space: nowrap; font-size: 14px;">
             <td>
               <%= digest_comment_text(notification) %>
               <%= digest_notification_timestamp_text(notification) %>
@@ -20,7 +20,7 @@
           </tr>
         <% end %>
         <% notification.journal.details.each do |detail| %>
-          <tr style="color: #878787; line-height: 20px; font-size: 12px;">
+          <tr style="color: #878787; line-height: 20px; font-size: 14px;">
             <td>
               <%= notification.journal.render_detail(detail, only_path: false) %>
               <%= digest_notification_timestamp_text(notification) %>
@@ -36,7 +36,7 @@
   <tr>
     <td width="100%">
       <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
-        <span style="line-height: 25px">
+        <span style="font-size: 14px; line-height: 28px">
           <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
           <% if number_of_overflowing_work_packages === 1 %>
             <%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %>
