@@ -1,15 +1,13 @@
 // noinspection ES6UnusedImports
 
 import {
-  Component, OnInit, ChangeDetectionStrategy, Input,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
 } from '@angular/core';
 import { KeyValue } from '@angular/common';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
-import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
-import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { UIRouterGlobals } from '@uirouter/core';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import {
   buildNotificationSetting,
@@ -26,7 +24,7 @@ import { arrayAdd } from '@datorama/akita';
 export class NotificationSettingsTableComponent {
   @Input() userId:string;
 
-  groupedNotificationSettings$ = this.query.notificationsGroupedByProject$;
+  groupedNotificationSettings$ = this.storeService.query.notificationsGroupedByProject$;
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -57,9 +55,7 @@ export class NotificationSettingsTableComponent {
 
   constructor(
     private I18n:I18nService,
-    private stateService:UserPreferencesService,
-    private store:UserPreferencesStore,
-    private query:UserPreferencesQuery,
+    private storeService:UserPreferencesService,
   ) {
   }
 
@@ -70,7 +66,7 @@ export class NotificationSettingsTableComponent {
       buildNotificationSetting(project, { channel: 'mail_digest' }),
     ];
 
-    this.store.update(
+    this.storeService.store.update(
       ({ notifications }) => ({
         notifications: arrayAdd(notifications, added),
       }),

@@ -1,10 +1,13 @@
 import {
-  ChangeDetectionStrategy, Component, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { arrayUpdate } from '@datorama/akita';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
-import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,7 +47,7 @@ export class NotificationSettingRowComponent implements OnInit {
 
   constructor(
     private I18n:I18nService,
-    private store:UserPreferencesStore,
+    private storeService:UserPreferencesService,
   ) {
   }
 
@@ -53,7 +56,7 @@ export class NotificationSettingRowComponent implements OnInit {
   }
 
   remove():void {
-    this.store.update(
+    this.storeService.store.update(
       ({ notifications }) => ({
         notifications: notifications.filter((notification) => notification._links.project.href !== this.setting._links.project.href),
       }),
@@ -61,7 +64,7 @@ export class NotificationSettingRowComponent implements OnInit {
   }
 
   update(delta:Partial<NotificationSetting>) {
-    this.store.update(
+    this.storeService.store.update(
       ({ notifications }) => ({
         notifications: arrayUpdate(
           notifications, this.matcherFn.bind(this), delta,
