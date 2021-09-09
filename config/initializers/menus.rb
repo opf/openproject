@@ -116,9 +116,9 @@ Redmine::MenuManager.map :application_menu do |menu|
 end
 
 Redmine::MenuManager.map :notifications_menu do |menu|
-  menu.push :work_packages_query_select,
-            { controller: '/work_packages', action: 'index' },
-            partial: 'work_packages/menu_query_select'
+  menu.push :notification_grouping_select,
+            { controller: '/my', action: 'notifications' },
+            partial: 'notifications/menu_notification_center'
 end
 
 Redmine::MenuManager.map :my_menu do |menu|
