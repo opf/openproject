@@ -35,8 +35,9 @@ module MailNotificationHelper
     current_logo = CustomStyle.current.logo unless CustomStyle.current.nil?
 
     if current_logo.present?
-      logo = File.read(current_logo.local_file)
-      suffix = MIME::Types.type_for(current_logo.local_file.path).first.content_type
+      logo_file = current_logo.local_file
+      logo = File.read(logo_file)
+      suffix = MIME::Types.type_for(logo_file.path).first.content_type
     else
       logo = Rails.application.assets["logo_openproject_narrow.svg"]
       suffix = "svg+xml"

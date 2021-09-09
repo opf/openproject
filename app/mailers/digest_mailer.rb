@@ -36,6 +36,7 @@ class DigestMailer < ApplicationMailer
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
   include Redmine::I18n
+  include MailDigestHelper
 
   helper :mail_digest,
          :mail_notification
@@ -73,28 +74,8 @@ class DigestMailer < ApplicationMailer
 
     return if @aggregated_notifications.empty?
 
-    project_count = @aggregated_notifications
-                      .keys
-                      .map(&:project_id)
-                      .uniq
-                      .size
-
     with_locale_for(recipient) do
-      if @mentioned_count > 0
-        subject = I18n.t('mail.digests.work_packages.subject_with_mentioned',
-                         instance_name: Setting.app_title,
-                         notifications: notification_ids.size,
-                         mentioned: @mentioned_count,
-                         work_packages: @aggregated_notifications.size,
-                         projects: project_count)
-      else
-
-        subject = I18n.t('mail.digests.work_packages.subject',
-                         instance_name: Setting.app_title,
-                         notifications: notification_ids.size,
-                         work_packages: @aggregated_notifications.size,
-                         projects: project_count)
-      end
+      subject = "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
 
       mail to: recipient.mail,
            subject: subject

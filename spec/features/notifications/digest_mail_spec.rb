@@ -135,9 +135,6 @@ describe "Digest email", type: :feature, js: true do
       .to be 1
 
     expect(ActionMailer::Base.deliveries.first.subject)
-      .to eql I18n.t(:'mail.digests.work_packages.subject',
-                     instance_name: Setting.app_title,
-                     notifications: 1,
-                     work_packages: 1)
+      .to eql "OpenProject - 1 unread notification including a mention"
   end
 end

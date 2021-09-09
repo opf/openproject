@@ -85,10 +85,7 @@ describe DigestMailer, type: :mailer do
 
     it 'notes the day and the number of notifications in the subject' do
       expect(mail.subject)
-        .to eql I18n.t('mail.digests.work_packages.subject',
-                       instance_name: Setting.app_title,
-                       notifications: 1,
-                       work_packages: 1)
+        .to eql "OpenProject - 1 unread notification"
     end
 
     it 'sends to the recipient' do
@@ -111,6 +108,7 @@ describe DigestMailer, type: :mailer do
     end
 
     it 'includes the notifications grouped by work package' do
+      time_stamp = journal.created_at.strftime('%I:%M %p')
       expect(mail_body)
         .to have_text("Hey #{recipient.firstname}!")
 
@@ -122,11 +120,11 @@ describe DigestMailer, type: :mailer do
       expect(mail_body)
         .to have_text(expected_notification_header, normalize_ws: true)
 
-      expected_journal_text = "Comment added at #{journal.created_at.strftime('%I:%M %p')} by #{recipient.name}"
+      expected_journal_text = "Comment added at #{time_stamp} by #{recipient.name}"
       expect(mail_body)
         .to have_text(expected_journal_text, normalize_ws: true)
 
-      expected_details_text = "Subject changed from old subject to new subject at #{journal.created_at.strftime('%I:%M %p')} by #{recipient.name}"
+      expected_details_text = "Subject changed from old subject to new subject at #{time_stamp} by #{recipient.name}"
       expect(mail_body)
         .to have_text(expected_details_text, normalize_ws: true)
     end

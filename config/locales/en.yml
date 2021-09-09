@@ -1967,8 +1967,10 @@ en:
   mail:
     actions: 'Actions'
     digests:
-      summary: "You have %{number_unread} unread notifications"
-      summary_with_mentioned: "You have %{number_unread} unread notifications including %{number_mentioned} mentions"
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
         comment_added: '<b>Comment</b> added'
         created: 'Created'
@@ -1984,10 +1986,9 @@ en:
           subscribed: 'all'
           prefix: 'Received because of the notification setting: %{reason}'
         see_all: 'See all'
-        subject: '%{instance_name} - %{notifications} unread notification(s) in %{work_packages} work package(s)'
-        subject_with_mentioned: '%{instance_name} - %{notifications} unread notification(s) including %{mentioned} mention(s) in %{work_packages} work package(s), in %{projects} projects'
         updated: 'Updated'
         updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
     logo_alt_text: 'Logo'
     notification:
       center: 'To notification center'

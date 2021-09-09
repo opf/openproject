@@ -1,6 +1,6 @@
 <%= render partial: 'mailer/notification_mailer_header',
            locals: {
-             summary: digest_summary_text(@notification_ids.length, @mentioned_count)
+             summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}"
            } %>
 
 <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
