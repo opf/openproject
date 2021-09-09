@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { map } from 'rxjs/operators';
 import { KeyValue } from '@angular/common';
 import { arrayAdd, arrayUpdate, arrayRemove } from '@datorama/akita';
@@ -26,9 +27,11 @@ import {
 export class NotificationSettingsTableComponent {
   @Input() userId:string;
 
-  groupedNotificationSettings$ = this.query.notificationsGroupedByProject$;
+  @Input() settings:FormArray;
 
-  showTable$ = this.query.notificationsGroupedByProject$.pipe(map((settings) => Object.keys(settings).length > 0));
+  get showTable() {
+    return this.settings.length > 0;
+  }
 
   text = {
     notify_me: this.I18n.t('js.notifications.settings.notify_me'),
@@ -41,10 +44,6 @@ export class NotificationSettingsTableComponent {
     work_package_processed_header: this.I18n.t('js.notifications.settings.reasons.work_package_processed'),
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.reasons.work_package_prioritized'),
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
-  };
-
-  projectOrder = (a:KeyValue<string, unknown>, b:KeyValue<string, unknown>):number => {
-    return a.key.localeCompare(b.key);
   };
 
   constructor(

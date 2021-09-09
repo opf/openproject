@@ -14,8 +14,8 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map((notifications) => notifications.filter((setting) => setting.channel === 'in_app' && setting._links.project.href)),
-      map((notifications) => _.groupBy(notifications, (setting) => setting._links.project.title)),
+      map((settings) => settings.filter((setting) => setting.channel === 'in_app' && setting._links.project.href)),
+      map((settings) => _.groupBy(settings, (setting) => setting._links.project.title)),
     );
 
   /** Notification settings grouped by Project */
@@ -28,7 +28,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   projectNotifications$ = this
     .notificationSettings$
     .pipe(
-      map((settings) => settings.filter((notification) => notification._links.project.href !== null)),
+      map((settings) => settings.filter((setting) => setting.channel === 'in_app'&& setting._links.project.href !== null)),
     );
 
   /** Selected projects */

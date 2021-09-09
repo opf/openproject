@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   FormGroup,
+  FormArray,
   FormControl,
 } from '@angular/forms';
 import { arrayUpdate } from '@datorama/akita';
@@ -30,12 +31,13 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   @Input() userId:string;
 
   public form = new FormGroup({
-    involved: new FormControl(false, []),
-    workPackageCreated: new FormControl(false, []),
-    workPackageProcessed: new FormControl(false, []),
-    workPackageScheduled: new FormControl(false, []),
-    workPackagePrioritized: new FormControl(false, []),
-    workPackageCommented: new FormControl(false, []),
+    involved: new FormControl(false),
+    workPackageCreated: new FormControl(false),
+    workPackageProcessed: new FormControl(false),
+    workPackageScheduled: new FormControl(false),
+    workPackagePrioritized: new FormControl(false),
+    workPackageCommented: new FormControl(false),
+    projectSettings: new FormArray([]),
   });
 
   text = {
@@ -103,6 +105,33 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.get('workPackageScheduled')?.setValue(settings.workPackageScheduled);
         this.form.get('workPackagePrioritized')?.setValue(settings.workPackagePrioritized);
         this.form.get('workPackageCommented')?.setValue(settings.workPackageCommented);
+      });
+
+    this.query.projectNotifications$
+      .pipe(this.untilDestroyed())
+      .subscribe((settings) => {
+        if (!settings) {
+          return;
+        }
+
+        console.log(settings);
+        const sortedSettings = settings.sort(
+          (a, b):number => a._links.project.title!.localeCompare(b._links.project.title!)
+        );
+
+        const projectSettings = this.form.get("projectSettings") as FormArray;
+        projectSettings.clear();
+        for (let setting of sortedSettings) {
+          projectSettings.push(new FormGroup({
+            project: new FormControl(setting._links.project),
+            involved: new FormControl(setting.involved),
+            workPackageCreated: new FormControl(setting.workPackageCreated),
+            workPackageProcessed: new FormControl(setting.workPackageProcessed),
+            workPackageScheduled: new FormControl(setting.workPackageScheduled),
+            workPackagePrioritized: new FormControl(setting.workPackagePrioritized),
+            workPackageCommented: new FormControl(setting.workPackageCommented),
+          }));
+        }
       });
   }
 
