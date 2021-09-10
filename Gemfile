@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 source 'https://rubygems.org'
@@ -97,6 +97,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
+gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage

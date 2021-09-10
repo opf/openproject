@@ -75,7 +75,7 @@ Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edi
 
 ### OpenProject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
 
-OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/docs/COPYRIGHT.rdoc).
+OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/COPYRIGHT and LICENSE files).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
 Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html.
 

@@ -127,14 +127,16 @@
       ></op-principal>
       <span
         class="op-autocompleter--wp-subject"
-        [ngOptionHighlight]="search"
       >
         <span
           *ngIf="item.type"
           [ngClass]="highlighting('type', item.type.id)"
-          textContent="{{ item.type.name }}:"
+          textContent="{{ item.type.name }} "
           ></span>
-        {{item.subject}}
+        <span
+          [ngOptionHighlight]="search"
+          [textContent]="item.subject">
+        </span>
       </span>
 
       <div class="op-autocompleter--wp-content">

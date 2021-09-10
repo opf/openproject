@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -32,7 +32,15 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
          'rendering' do
   include ::API::V3::Utilities::PathHelper
 
-  let(:preference) { FactoryBot.build(:user_preference) }
+  let(:preference) do
+    FactoryBot.build_stubbed(:user_preference,
+                             settings: {
+                               "daily_reminders" => {
+                                 "enabled" => true,
+                                 "times" => %w[07:00:00+00:00 15:00:00+00:00]
+                               }
+                             })
+  end
   let(:notification_setting) { FactoryBot.build(:notification_setting) }
   let(:user) { FactoryBot.build_stubbed(:user, preference: preference) }
   let(:representer) { described_class.new(preference, current_user: user) }
@@ -44,7 +52,6 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
 
   subject(:generated) { representer.to_json }
 
-  it { is_expected.to include_json('UserPreferences'.to_json).at_path('_type') }
   it { is_expected.to have_json_path('hideMail') }
   it { is_expected.to have_json_path('timeZone') }
   it { is_expected.to have_json_path('commentSortDescending') }
@@ -86,6 +93,25 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       is_expected.to be_json_eql(notification_setting.involved.to_json).at_path('notifications/0/involved')
       is_expected.to be_json_eql(notification_setting.mentioned.to_json).at_path('notifications/0/mentioned')
       is_expected.to be_json_eql(notification_setting.all.to_json).at_path('notifications/0/all')
+    end
+  end
+
+  describe 'properties' do
+    describe '_type' do
+      it_behaves_like 'property', :_type do
+        let(:value) { 'UserPreferences' }
+      end
+    end
+
+    describe 'dailyReminders' do
+      it_behaves_like 'property', :dailyReminders do
+        let(:value) do
+          {
+            "enabled" => true,
+            "times" => %w[07:00 15:00]
+          }
+        end
+      end
     end
   end
 
