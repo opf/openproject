@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,37 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
-module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bim)
-        end
+module Bim::Bcf
+  module Comments
+    class CreateContract < BaseContract
+      attribute :journal
+      attribute :issue
+      attribute :viewpoint
+      attribute :reply_to
+
+      validate :user_allowed_to_create
+      validate :validate_journal
+      validate :validate_viewpoint_reference
+      validate :validate_reply_to_comment
+
+      private
+
+      def user_allowed_to_create
+        errors.add :base, :error_unauthorized unless @user.allowed_to?(:manage_bcf, model.issue.work_package.project)
       end
 
-      get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                       scope: -> { visible_projects })
-                                             .mount
+      def validate_journal
+        errors.add(:base, :invalid) if model.journal.journable != model.issue.work_package
+      end
 
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
+      def validate_viewpoint_reference
+        errors.add(:viewpoint, :does_not_exist) if model.viewpoint.is_a?(::Bim::Bcf::NonExistentViewpoint)
+      end
 
-        get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
-               .mount
-
-        mount ::Bim::Bcf::API::V2_1::TopicsAPI
-        mount ::Bim::Bcf::API::V2_1::ProjectExtensions::API
+      def validate_reply_to_comment
+        errors.add(:bcf_comment, :does_not_exist) if model.reply_to.is_a?(::Bim::Bcf::NonExistentComment)
       end
     end
   end

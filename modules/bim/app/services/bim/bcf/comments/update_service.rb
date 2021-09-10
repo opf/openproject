@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,37 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
-module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bim)
-        end
+module Bim::Bcf
+  module Comments
+    class UpdateService < ::BaseServices::Update
+      private
+
+      def before_perform(params)
+        journal_call = update_journal(params[:original_comment].journal, params[:comment])
+        return journal_call if journal_call.failure?
+
+        super params.slice(*::Bim::Bcf::Comment::UPDATE_ATTRIBUTES)
       end
 
-      get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                       scope: -> { visible_projects })
-                                             .mount
-
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
-
-        get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
-               .mount
-
-        mount ::Bim::Bcf::API::V2_1::TopicsAPI
-        mount ::Bim::Bcf::API::V2_1::ProjectExtensions::API
+      def update_journal(journal, comment)
+        ::Journals::UpdateService.new(user: user,
+                                      model: journal,
+                                      contract_class: ::EmptyContract)
+                                 .call(notes: comment)
       end
     end
   end

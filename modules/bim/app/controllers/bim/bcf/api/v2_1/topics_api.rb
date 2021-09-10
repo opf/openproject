@@ -28,7 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Naming/ClassAndModuleCamelCase
 module Bim::Bcf::API::V2_1
+  # rubocop:enable Naming/ClassAndModuleCamelCase
   class TopicsAPI < ::API::OpenProjectAPI
     resources :topics do
       helpers do
@@ -85,7 +87,7 @@ module Bim::Bcf::API::V2_1
 
       route_param :topic_uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @issue = topics.find_by_uuid!(params[:topic_uuid])
+          @issue = topics.find_by!(uuid: params[:topic_uuid])
         end
 
         get &::Bim::Bcf::API::V2_1::Endpoints::Show
@@ -108,6 +110,7 @@ module Bim::Bcf::API::V2_1
                   .mount
 
         mount ::Bim::Bcf::API::V2_1::Viewpoints::API
+        mount ::Bim::Bcf::API::V2_1::Comments::API
       end
     end
   end

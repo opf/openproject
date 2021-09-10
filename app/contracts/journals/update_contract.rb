@@ -28,38 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
-module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bim)
-        end
-      end
+module Journals
+  class UpdateContract < BaseContract
+    attribute :notes
 
-      get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                       scope: -> { visible_projects })
-                                             .mount
+    validate :user_allowed_to_edit
 
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
+    private
 
-        get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
-               .mount
-
-        mount ::Bim::Bcf::API::V2_1::TopicsAPI
-        mount ::Bim::Bcf::API::V2_1::ProjectExtensions::API
-      end
+    def user_allowed_to_edit
+      errors.add(:base, :error_unauthorized) unless model.editable_by?(user)
     end
   end
 end

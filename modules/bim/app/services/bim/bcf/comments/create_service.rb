@@ -28,37 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
-module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
-  class ProjectsAPI < ::API::OpenProjectAPI
-    resources :projects do
-      helpers do
-        def visible_projects
-          Project
-            .visible(current_user)
-            .has_module(:bim)
-        end
+module Bim::Bcf
+  module Comments
+    class CreateService < ::BaseServices::Create
+      private
+
+      def before_perform(params)
+        journal_call = create_journal(params[:issue].work_package,
+                                      params[:comment])
+        return journal_call if journal_call.failure?
+
+        input = { journal: journal_call.result }
+                  .merge(params)
+                  .slice(*::Bim::Bcf::Comment::CREATE_ATTRIBUTES)
+        super input
       end
 
-      get &::Bim::Bcf::API::V2_1::Endpoints::Index.new(model: Project,
-                                                       scope: -> { visible_projects })
-                                             .mount
-
-      route_param :id, regexp: /\A(\d+)\z/ do
-        after_validation do
-          @project = visible_projects
-                     .find(params[:id])
-        end
-
-        get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
-        put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
-               .mount
-
-        mount ::Bim::Bcf::API::V2_1::TopicsAPI
-        mount ::Bim::Bcf::API::V2_1::ProjectExtensions::API
+      def create_journal(work_package, comment)
+        ::Journals::CreateService.new(work_package, user).call(notes: comment)
       end
     end
   end
