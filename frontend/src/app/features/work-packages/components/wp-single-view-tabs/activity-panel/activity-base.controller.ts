@@ -75,7 +75,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly cdRef:ChangeDetectorRef,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
-    readonly ianService:InAppNotificationsService,
     readonly deviceService:DeviceService,
     readonly storeService:WpSingleViewService,
   ) {
