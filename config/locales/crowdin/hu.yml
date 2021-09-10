@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   no_results_title_text: Nincs megjeleníthető adat.
@@ -535,6 +535,7 @@ hu:
         before: "korábbinak kell lennie, mint %{date}."
         before_or_equal_to: "korábbinak vagy egyenlőnek kell lennie, mint %{date}."
         blank: "nem lehet üres."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -548,11 +549,14 @@ hu:
         even: "kell még."
         exclusion: "foglalt."
         file_too_large: "túl nagy fájlméret (maximális méret %{count} Byte)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "nagyobbnak kell lenni mint %{count}."
         greater_than_or_equal_to: "nagyobbnak vagy egyenlőnek kell lennie mint %{count}."
         greater_than_or_equal_to_start_date: "nagyobbnak vagy egyenlőnek kell lennie, mint a kezdő dátum."
         greater_than_start_date: "nagyobbnak kell lennie, mint a kezdő dátum."
         inclusion: "nem a megengedett értékek egyike lett beállítva."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "érvénytelen."
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
@@ -573,7 +577,11 @@ hu:
         taken: "már foglalt."
         too_long: "túl hosszú (nem lehet több %{count} karakternél)."
         too_short: "túl rövid (legalább %{count} karakter kell legyen)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nem módosítható."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nem törölhető."
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:

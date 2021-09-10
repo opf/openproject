@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 vi:
   no_results_title_text: Hiện không có nội dung.
@@ -536,6 +536,7 @@ vi:
         before: "phải trước khi %{date}"
         before_or_equal_to: "phải có trước hay tương đương với %{date}"
         blank: "không được để trống"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "không khớp %{attribute}."
@@ -549,11 +550,14 @@ vi:
         even: "must be even."
         exclusion: "được bảo lưu."
         file_too_large: "quá lớn (kích thước tối đa là %{count} bytes)"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "phải lớn hơn %{count}"
         greater_than_or_equal_to: "phải lớn hơn hoặc bằng %{count}"
         greater_than_or_equal_to_start_date: "phải lớn hơn hoặc bằng ngày bắt đầu."
         greater_than_start_date: "phải lớn hơn ngày bắt đầu."
         inclusion: "không nằm trong các giá trị cho phép"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "không hợp lệ"
         invalid_url: 'không phải là một URL hợp lệ.'
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
@@ -574,7 +578,11 @@ vi:
         taken: "đã bị dùng rồi."
         too_long: "quá dài (tối đa %{count} ký tự)."
         too_short: "quá ngắn (tối thiểu %{count} ký tự)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "không thể thay đổi."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "không thể gỡ bỏ."
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:

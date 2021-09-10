@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ro:
   no_results_title_text: În acest moment nu este nimic de afișat.
@@ -536,6 +536,7 @@ ro:
         before: "trebuie să fie înainte de %{date}."
         before_or_equal_to: "trebuie să fie înainte sau în %{date}."
         blank: "nu poate fi gol."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -549,11 +550,14 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."
         greater_than_or_equal_to: "trebuie să fie mai mare sau egal cu %{count}."
         greater_than_or_equal_to_start_date: "trebuie să fie după sau la fel cu data de începere."
         greater_than_start_date: "trebuie să fie după data de începere."
         inclusion: "nu este setată la una din valorile permise."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "este invalid."
         invalid_url: 'nu este o adresa URL validă.'
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
@@ -574,7 +578,11 @@ ro:
         taken: "a fost luat deja."
         too_long: "este prea lung (maximul admis este de %{count} caractere)."
         too_short: "este prea scurt (minimum admis este de %{count} caractere)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nu poate fi modificat."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nu poate fi îndepărtată."
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:

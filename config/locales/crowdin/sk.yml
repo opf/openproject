@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sk:
   no_results_title_text: Momentálne nič na zobrazenie.
@@ -537,6 +537,7 @@ sk:
         before: "musí byť pred termínom %{date}."
         before_or_equal_to: "musí byť pred alebo rovné termínu %{date}."
         blank: "nemôže byť prázdne."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Pracovný balíček nemôže byť previazaný na žiadny zo svojich podriadenými balíčkov."
         circular_dependency: "Tento vzťah by vytvoril cyklickú závislosť."
         confirmation: "%{attribute} sa nezhoduje."
@@ -550,11 +551,14 @@ sk:
         even: "musí byť párne."
         exclusion: "patrí medzi vyhradené výrazy."
         file_too_large: "je príliš veľká (maximálna veľkosť je %{count} bytov)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musí byť väčšie ako %{count}."
         greater_than_or_equal_to: "musí byť väčšie alebo rovné ako %{count}."
         greater_than_or_equal_to_start_date: "musí byť väčší alebo rovný ako počiatočný dátum."
         greater_than_start_date: "musí byť väčší ako počiatočný dátum."
         inclusion: "nie je nastavená na niektorú z povolených hodnôt."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "je neplatný."
         invalid_url: 'nie je platnou URL adresou.'
         invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
@@ -575,7 +579,11 @@ sk:
         taken: "už existuje v systéme."
         too_long: "je príliš dlhý (maximum je %{count} znakov)."
         too_short: "je príliš krátky (minimum je %{count} znakov)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nie je možné zmeniť."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie je možné zmazať."
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:

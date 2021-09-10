@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ko:
   no_results_title_text: 표시할 내용이 없습니다.
@@ -533,6 +533,7 @@ ko:
         before: "은(는) %{date} 보다 전이어야 합니다."
         before_or_equal_to: "은(는) %{date} 이전이어야 합니다."
         blank: "내용을 입력해주세요"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다."
         circular_dependency: "이 연계는 순환 종속관계를 만듭니다."
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
@@ -546,11 +547,14 @@ ko:
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
         file_too_large: "은(는) 너무 큽니다. (최대 %{count} 바이트)"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "은(는) %{count}보다 커야 합니다"
         greater_than_or_equal_to: "은(는) %{count}보다 크거야 같아야 합니다"
         greater_than_or_equal_to_start_date: "은(는) 시작 날짜 이후이거나 같아야 합니다."
         greater_than_start_date: "은(는) 시작 날짜 이후이어야 합니다."
         inclusion: "은(는) 허용되는 값이 아닙니다."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "은(는) 올바르지 않은 값입니다"
         invalid_url: '은(는) 올바른 URL이 아닙니다.'
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
@@ -571,7 +575,11 @@ ko:
         taken: "은(는) 이미 존재합니다."
         too_long: "은(는) 너무 깁니다 (최대 %{count}자까지 가능합니다)"
         too_short: "은(는) 너무 짧습니다. (최소 %{count} 자 이상이어야 합니다)"
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "- 변경할 수 없습니다."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "- 제거할 수 없습니다."
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
