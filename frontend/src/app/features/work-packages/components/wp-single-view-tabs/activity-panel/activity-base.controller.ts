@@ -41,7 +41,6 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DeviceService } from 'core-app/core/browser/device.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Directive()
@@ -75,7 +74,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly cdRef:ChangeDetectorRef,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
-    readonly deviceService:DeviceService,
     readonly storeService:WpSingleViewService,
   ) {
     super();
@@ -144,7 +142,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
-    if (window.location.href.indexOf('activity#') > -1 || this.deviceService.isTablet) {
+    if (window.location.href.indexOf('activity#') > -1) {
       return;
     }
     const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
@@ -154,10 +152,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     }
     if (this.reverse) {
       unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      unreadNotifications[unreadNotificationsLength - 1].scrollIntoView();
+      document.getElementsByClassName('tabcontent')[0].scrollTop = (jQuery(unreadNotifications[unreadNotificationsLength - 1]).closest('.op-user-activity')[0] as HTMLElement).offsetTop;
     } else {
       unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      unreadNotifications[0].scrollIntoView();
+      document.getElementsByClassName('tabcontent')[0].scrollTop = (jQuery(unreadNotifications[0]).closest('.op-user-activity')[0] as HTMLElement).offsetTop;
     }
   }
 
