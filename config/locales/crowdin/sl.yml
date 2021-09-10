@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sl:
   no_results_title_text: Ni elementov za prikaz
@@ -535,6 +535,7 @@ sl:
         before: "mora biti pred %{date}."
         before_or_equal_to: "mora biti pred ali enako %{date}."
         blank: "ne sme biti prazno."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
@@ -548,11 +549,14 @@ sl:
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."
         file_too_large: "je preveliko (največja velikost je %{count} Bytov)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "mora biti večje od %{count}."
         greater_than_or_equal_to: "mora biti večje ali enako %{count}."
         greater_than_or_equal_to_start_date: "mora biti večji ali enak začetnemu datumu."
         greater_than_start_date: "mora biti večje od začetnega datuma."
         inclusion: "ni nastavljeno na eno od dovoljenih vrednosti."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ni pravo."
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
@@ -573,7 +577,11 @@ sl:
         taken: "je že zasedeno."
         too_long: "je predolgo (največ %{count} znakov)."
         too_short: "je prekrateko (najmanj %{count} znakov)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "ne more biti spremenjeno. "
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ne more biti odstranjeno."
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:

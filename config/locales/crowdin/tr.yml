@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
   no_results_title_text: Şu anda gösterilecek bir şey yok.
@@ -170,8 +170,8 @@ tr:
     enabled_in_project: 'Projede etkin'
     contained_in_type: 'Türünün kapsadığı'
     confirm_destroy_option: "Bir seçeneğin silinmesi, kullanıldığı her yerden (örneğin iş paketleri) silinmesine neden olur. Silmek istediğinizden emin misiniz?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Değerleri alfabetik olarak yeniden sıralayın"
+    reorder_confirmation: "Uyarı: Mevcut değerlerin sırası kaybolacak. Devam et?"
     tab:
       no_results_title_text: Şu anda özel bir alan bulunmamakta.
       no_results_content_text: Yeni bir özel alan oluştur
@@ -535,6 +535,7 @@ tr:
         before: "%{date}'dan daha önce olması gerekir."
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: "boş bırakılamaz."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
@@ -543,21 +544,24 @@ tr:
         error_enterprise_only: "sadece OpenProject'in ticari sürümlerinde mevcuttur"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
-        email: "is not a valid email address."
+        email: "Geçerli bir e-posta adresi değil.\n"
         empty: "boş olamaz."
         even: "çift olmalı."
         exclusion: "ayrılmıştır."
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
+        format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}'ten büyük olması gerekir."
         greater_than_or_equal_to: "%{count} ya da daha büyük olması gerekir."
         greater_than_or_equal_to_start_date: "başlangıç tarihi ile aynı ya da daha büyük olması gerekir."
         greater_than_start_date: "başlangıç tarihinden daha büyük olması gerekir."
         inclusion: "izin verilen değerlerden birine ayarlanmamış."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "geçersizdir."
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
-        not_available: "is not available due to a system configuration."
+        not_available: "Sistem yapılandırması nedeniyle kullanılamaz.\n"
         not_deletable: "kaldırılamadı."
         not_current_user: "mevcut kullanıcı değil."
         not_a_date: "geçerli bir tarih değil."
@@ -573,7 +577,11 @@ tr:
         taken: "zaten alınmıştır."
         too_long: "çok uzun (en fazla %{count} karakterdir)."
         too_short: "çok kısa (en az %{count} karakterdir)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "değiştirilemez."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kaldırılamadı."
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:

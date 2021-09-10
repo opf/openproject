@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 nl:
   no_results_title_text: Er is op dit moment niets om weer te geven.
@@ -535,6 +535,7 @@ nl:
         before: "moet voor %{date} zijn."
         before_or_equal_to: "moet voor of gelijk zijn aan %{date}."
         blank: "mag niet leeg zijn."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken."
         circular_dependency: "Deze relatie zou een circulaire afhankelijkheid creëren."
         confirmation: "komt niet overeen met %{attribute}."
@@ -548,11 +549,14 @@ nl:
         even: "moet gelijk zijn."
         exclusion: "is gereserveerd."
         file_too_large: "is te groot (maximum grootte is %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "moet groter zijn dan %{count}."
         greater_than_or_equal_to: "moet groter dan of gelijk zijn aan %{count}."
         greater_than_or_equal_to_start_date: "moet groter of gelijk zijn aan startdatum."
         greater_than_start_date: "moet groter zijn dan startdatum."
         inclusion: "is niet ingesteld op één van de toegestane waarden."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "is ongeldig."
         invalid_url: 'is geen geldige URL.'
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
@@ -573,7 +577,11 @@ nl:
         taken: "is al in gebruik."
         too_long: "is te lang (maximaal %{count} karakters)."
         too_short: "is te kort (minimum is %{count} karakters)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "kan niet worden gewijzigd."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kan niet verwijderd worden."
         wrong_length: "is de verkeerde lengte (dient %{count} karakters te zijn)."
       models:

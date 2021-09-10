@@ -23,13 +23,19 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  Event as SentryEvent, Hub, Scope, Severity,
+  Event as SentryEvent,
+  Hub,
+  Scope,
+  Severity,
 } from '@sentry/types';
 import { environment } from '../../../../environments/environment';
+import { EventHint } from '@sentry/angular';
+import { HttpErrorResponse } from '@angular/common/http';
+import { debugLog } from 'core-app/shared/helpers/debug_output';
 
 export type ScopeCallback = (scope:Scope) => void;
 export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
@@ -55,7 +61,7 @@ export interface ErrorReporter extends CaptureInterface {
 
 interface QueuedMessage {
   type:'captureMessage'|'captureException';
-  args:any[];
+  args:unknown[];
 }
 
 export class SentryReporter implements ErrorReporter {
@@ -82,7 +88,7 @@ export class SentryReporter implements ErrorReporter {
     const version = sentryElement.dataset.version || 'unknown';
     const traceFactor = parseFloat(sentryElement.dataset.tracingFactor || '0.0');
 
-    import('./sentry-dependency').then((imported) => {
+    void import('./sentry-dependency').then((imported) => {
       const sentry = imported.Sentry;
       sentry.init({
         dsn,
@@ -114,10 +120,10 @@ export class SentryReporter implements ErrorReporter {
           'Non-Error exception captured with keys: $embedded, $halType, $links, $loaded',
 
         ],
-        beforeSend: (event) => this.filterEvent(event),
+        beforeSend: (event, hint) => SentryReporter.filterEvent(event, hint),
       });
 
-      this.sentryLoaded(sentry as any);
+      this.sentryLoaded(sentry as unknown as Hub);
     });
   }
 
@@ -127,13 +133,15 @@ export class SentryReporter implements ErrorReporter {
 
     // Send all messages from before sentry got loaded
     this.messageStack.forEach((item) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
       this[item.type].bind(this).apply(item.args);
     });
   }
 
   public captureMessage(msg:string, severity:MessageSeverity = 'info'):void {
     if (!this.client) {
-      return this.handleOfflineMessage('captureMessage', [msg, severity]);
+      this.handleOfflineMessage('captureMessage', [msg, severity]);
+      return;
     }
 
     this.client.withScope((scope:Scope) => {
@@ -145,11 +153,12 @@ export class SentryReporter implements ErrorReporter {
   public captureException(err:Error|string):void {
     if (!this.client || !err) {
       this.handleOfflineMessage('captureException', [err]);
-      throw err;
+      throw (err as Error);
     }
 
     if (typeof err === 'string') {
-      return this.captureMessage(err, 'error');
+      this.captureMessage(err, 'error');
+      return;
     }
 
     this.client.withScope((scope:Scope) => {
@@ -172,11 +181,11 @@ export class SentryReporter implements ErrorReporter {
    * @param type
    * @param args
    */
-  private handleOfflineMessage(type:'captureMessage'|'captureException', args:any[]) {
+  private handleOfflineMessage(type:'captureMessage'|'captureException', args:unknown[]) {
     if (this.sentryConfigured) {
       this.messageStack.push({ type, args });
     } else {
-      console.log('[ErrorReporter] Would queue sentry message %O %O, but is not configured.', type, args);
+      debugLog('[ErrorReporter] Would queue sentry message %O %O, but is not configured.', type, args);
     }
   }
 
@@ -199,8 +208,16 @@ export class SentryReporter implements ErrorReporter {
    * it from being sent.
    *
    * @param event
+   * @param hint
    */
-  private filterEvent(event:SentryEvent):SentryEvent|null {
+  private static filterEvent(event:SentryEvent, hint:EventHint|undefined):SentryEvent|null {
+    // avoid duplicate requests on thrown angular errors, they
+    // are handled by the hal error handler
+    // https://github.com/getsentry/sentry-javascript/issues/2532#issuecomment-875428325
+    if (hint?.originalException instanceof HttpErrorResponse) {
+      return null;
+    }
+
     const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
     if (unsupportedBrowser) {
       console.warn('Browser is not supported, skipping sentry reporting completely.');

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 "no":
   no_results_title_text: Det finnes ingenting å vise
@@ -535,6 +535,7 @@
         before: "må være før %{date}."
         before_or_equal_to: "må være før eller lik %{date}."
         blank: "kan ikke være blank."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "En arbeidspakke kan ikke knyttes til en av sine deloppgaver."
         circular_dependency: "En slik relasjon ville lage en sirkulær avhengighet."
         confirmation: "samsvarer ikke med %{attribute}."
@@ -548,11 +549,14 @@
         even: "må være partall"
         exclusion: "er reservert."
         file_too_large: "er for stor (maks størrelse er %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "må være større enn %{count}."
         greater_than_or_equal_to: "må være større enn eller lik: %{count}."
         greater_than_or_equal_to_start_date: "må være lenger frem eller lik startdato."
         greater_than_start_date: "må være lenger frem enn startdato."
         inclusion: "ikke er satt til en av de tillatte verdiene."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "er ugyldig."
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -573,7 +577,11 @@
         taken: "has already been taken."
         too_long: "is too long (maximum is %{count} characters)."
         too_short: "is too short (minimum is %{count} characters)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:

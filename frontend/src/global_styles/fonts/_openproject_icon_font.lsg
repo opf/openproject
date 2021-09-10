@@ -78,6 +78,7 @@
 <li><span class="icon icon-drag-handle"></span>drag-handle</li>
 <li><span class="icon icon-duplicate"></span>duplicate</li>
 <li><span class="icon icon-edit"></span>edit</li>
+<li><span class="icon icon-email-alert"></span>email-alert</li>
 <li><span class="icon icon-enterprise"></span>enterprise</li>
 <li><span class="icon icon-enumerations"></span>enumerations</li>
 <li><span class="icon icon-error"></span>error</li>

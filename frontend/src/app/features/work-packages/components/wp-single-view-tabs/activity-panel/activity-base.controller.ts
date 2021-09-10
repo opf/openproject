@@ -23,11 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
-import { Transition } from '@uirouter/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  OnInit,
+} from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -35,11 +39,10 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -52,8 +55,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   // Visible activities
   public visibleActivities:ActivityEntryInfo[] = [];
-
-  public notifications:InAppNotification[] = [];
 
   public reverse:boolean;
 
@@ -72,10 +73,11 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly $transition:Transition,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
     readonly ianService:InAppNotificationsService,
     readonly deviceService:DeviceService,
+    readonly storeService:WpSingleViewService,
   ) {
     super();
 
@@ -98,12 +100,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.scrollToUnreadNotification();
         });
       });
-
-    this.ianService.setActiveFacet('unread');
-    this.ianService.setActiveFilters([
-      ['resourceId', '=', [this.workPackageId]],
-      ['resourceType', '=', ['WorkPackage']],
-    ]);
   }
 
   protected updateActivities(activities:HalResource[]) {
@@ -115,12 +111,12 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   protected shouldShowToggler() {
-    const count_all = this.unfilteredActivities.length;
-    const count_with_comments = this.getActivitiesWithComments().length;
+    const countAll = this.unfilteredActivities.length;
+    const countWithComments = this.getActivitiesWithComments().length;
 
-    return count_all > 1
-      && count_with_comments > 0
-      && count_with_comments < this.unfilteredActivities.length;
+    return countAll > 1
+      && countWithComments > 0
+      && countWithComments < this.unfilteredActivities.length;
   }
 
   protected getVisibleActivities() {
@@ -137,11 +133,13 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected hasUnreadNotification(activityHref:string):Observable<boolean> {
     return this
-      .ianService
+      .storeService
       .query
-      .unread$
+      .selectNotifications$
       .pipe(
-        map((notifications) => !!notifications.find((notification) => notification._links.activity?.href === activityHref)),
+        map((notifications) => (
+          !!notifications.find((notification) => notification._links.activity?.href === activityHref)
+        )),
       );
   }
 

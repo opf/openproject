@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hr:
   no_results_title_text: Trenutno nema zapisa za prikaz.
@@ -536,6 +536,7 @@ hr:
         before: "mora biti prije %{date}."
         before_or_equal_to: "mora biti prije ili jednako %{date}."
         blank: "ne može biti prazan unos."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Radni paket ne može biti pridružen podređenim radnim zadacima."
         circular_dependency: "Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost."
         confirmation: "ne odgovara %{attribute}."
@@ -549,11 +550,14 @@ hr:
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
         file_too_large: "je prevelik (maksimalna veličina iznosi %{count} bajta)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "mora biti veće od %{count}."
         greater_than_or_equal_to: "mora biti veće od ili jednako %{count}."
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
         greater_than_start_date: "must be greater than the start date."
         inclusion: "nije postavljeno na jednu od dozvoljenih vrijednosti."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "je nevažeće."
         invalid_url: 'nije valjani URL.'
         invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
@@ -574,7 +578,11 @@ hr:
         taken: "već je zauzeto."
         too_long: "je predugo (maksimalno %{count} znakova)."
         too_short: "je prekratko (minimalno %{count} znakova)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "je krive duljine (mora biti %{count} znakova)."
       models:

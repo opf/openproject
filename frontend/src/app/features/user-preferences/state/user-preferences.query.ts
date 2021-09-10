@@ -34,6 +34,21 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
       )),
     );
 
+  /** All daily reminders settings */
+  dailyReminders$ = this.select('dailyReminders');
+
+  dailyRemindersEnabled$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.enabled),
+    );
+
+  dailyRemindersTimes$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.times),
+    );
+
   preferences$ = this.select();
 
   constructor(protected store:UserPreferencesStore) {

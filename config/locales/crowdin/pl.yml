@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
@@ -534,6 +534,7 @@ pl:
         before: "musi być przed %{date}."
         before_or_equal_to: "musi być przed lub równe %{date}."
         blank: "nie może być puste."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
@@ -547,11 +548,14 @@ pl:
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musi być większe niż %{count}."
         greater_than_or_equal_to: "musi być większe niż lub równe %{count}."
         greater_than_or_equal_to_start_date: "musi być późniejsza niż data początku albo równa jej."
         greater_than_start_date: "musi być późniejsza niż data początku."
         inclusion: "jest niezgodne z jednym z dozwolonych wartości."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "jest nieprawidłowe."
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
@@ -572,7 +576,11 @@ pl:
         taken: "zostały już podjęte."
         too_long: "jest zbyt długi (maksymalnie %{count} znaków)."
         too_short: "jest zbyt krótkie (min. %{count} znaków)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nie można zmienić."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie można usunąć."
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:

@@ -31,4 +31,7 @@ export class I18nShim implements GlobalI18n {
   public strftime = _.identity;
 
   public toHumanSize = _.identity;
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+  public toTime = _.identity;
 }

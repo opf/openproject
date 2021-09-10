@@ -23,13 +23,26 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
+import {
+  catchError,
+  map,
+} from 'rxjs/operators';
+import {
+  Observable,
+  throwError,
+} from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import * as Pako from 'pako';
@@ -41,10 +54,17 @@ import {
   HTTPClientParamMap,
   HTTPSupportedMethods,
 } from 'core-app/features/hal/http/http.interfaces';
-import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import {
+  HalLink,
+  HalLinkInterface,
+} from 'core-app/features/hal/hal-link/hal-link';
 import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
-import { HalResource, HalResourceClass } from 'core-app/features/hal/resources/hal-resource';
+import {
+  HalResource,
+  HalResourceClass,
+} from 'core-app/features/hal/resources/hal-resource';
 import { initializeHalProperties } from '../helpers/hal-resource-builder';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 export interface HalResourceFactoryConfigInterface {
   cls?:any;
@@ -58,18 +78,20 @@ export class HalResourceService {
    */
   private config:{ [typeName:string]:HalResourceFactoryConfigInterface } = {};
 
-  constructor(readonly injector:Injector,
-    readonly http:HttpClient) {
+  constructor(
+    readonly injector:Injector,
+    readonly http:HttpClient,
+  ) {
   }
 
   /**
    * Perform a HTTP request and return a HalResource promise.
    */
-  public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:any, headers:HTTPClientHeaders = {}):Observable<T> {
+  public request<T extends HalResource>(method:HTTPSupportedMethods, href:string, data?:unknown, headers:HTTPClientHeaders = {}):Observable<T> {
     // HttpClient requires us to create HttpParams instead of passing data for get
     // so forward to that method instead.
     if (method === 'get') {
-      return this.get(href, data, headers);
+      return this.get(href, data as HTTPClientParamMap|undefined, headers);
     }
 
     const config:HTTPClientOptions = {
@@ -79,20 +101,19 @@ export class HalResourceService {
       responseType: 'json',
     };
 
-    return this._request(method, href, config);
+    return this.performRequest(method, href, config);
   }
 
-  private _request<T>(method:HTTPSupportedMethods, href:string, config:HTTPClientOptions):Observable<T> {
-    return this.http.request<T>(method, href, config)
+  private performRequest<T extends HalResource>(method:HTTPSupportedMethods, href:string, config:HTTPClientOptions):Observable<T> {
+    return this.http.request(method, href, config)
       .pipe(
-        map((response:any) => this.createHalResource(response)),
+        map((response:unknown) => this.createHalResource<T>(response)),
         catchError((error:HttpErrorResponse) => {
           whenDebugging(() => console.error(`Failed to ${method} ${href}: ${error.name}`));
           const resource = this.createHalResource<ErrorResource>(error.error);
-          resource.httpError = error;
-          return throwError(resource);
+          return throwError(new HalError(error, resource));
         }),
-      ) as any;
+      );
   }
 
   /**
@@ -111,7 +132,7 @@ export class HalResourceService {
       responseType: 'json',
     };
 
-    return this._request('get', href, config);
+    return this.performRequest('get', href, config);
   }
 
   /**
@@ -124,20 +145,27 @@ export class HalResourceService {
    * @param headers
    * @return {Promise<CollectionResource[]>}
    */
-  public async getAllPaginated<T extends HalResource[]>(href:string, expected:number, params:any = {}, headers:HTTPClientHeaders = {}) {
+  public async getAllPaginated<T extends CollectionResource>(
+    href:string,
+    expected:number,
+    params:Record<string, string|number> = {},
+    headers:HTTPClientHeaders = {},
+  ):Promise<T[]> {
     // Total number retrieved
     let retrieved = 0;
     // Current offset page
     let page = 1;
     // Accumulated results
-    const allResults:T = [] as any;
+    const allResults:T[] = [];
     // If possible, request all at once.
-    params.pageSize = expected;
+    const requestParams = { ...params };
+    requestParams.pageSize = expected;
 
     while (retrieved < expected) {
-      params.offset = page;
+      requestParams.offset = page;
 
-      const promise = this.request('get', href, this.toEprops(params), headers).toPromise();
+      const promise = this.request<T>('get', href, this.toEprops(requestParams), headers).toPromise();
+      // eslint-disable-next-line no-await-in-loop
       const results = await promise;
 
       if (results.count === 0) {

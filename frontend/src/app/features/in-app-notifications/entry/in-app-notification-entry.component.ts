@@ -1,15 +1,11 @@
 import {
-  EventEmitter,
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  InAppNotification,
-  InAppNotificationDetail,
-} from 'core-app/features/in-app-notifications/store/in-app-notification.model';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
   Observable,
@@ -18,7 +14,6 @@ import {
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   distinctUntilChanged,
@@ -28,9 +23,13 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
-import { InAppNotificationsQuery } from 'core-app/features/in-app-notifications/store/in-app-notifications.query';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
+import {
+  InAppNotification,
+  InAppNotificationDetail,
+} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -47,7 +46,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
-  loading$ = this.ianQuery.selectLoading();
+  loading$ = this.storeService.query.selectLoading();
 
   // Formattable body, if any
   body:InAppNotificationDetail[];
@@ -82,8 +81,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   constructor(
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
-    readonly ianService:InAppNotificationsService,
-    readonly ianQuery:InAppNotificationsQuery,
+    readonly storeService:IanCenterService,
     readonly timezoneService:TimezoneService,
     readonly pathHelper:PathHelperService,
     readonly state:StateService,
@@ -154,10 +152,7 @@ export class InAppNotificationEntryComponent implements OnInit {
 
   markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
     event.stopPropagation();
-
-    this
-      .ianService
-      .markAsRead(notifications);
+    this.storeService.markAsRead(notifications.map((el) => el.id));
   }
 
   private buildActors() {

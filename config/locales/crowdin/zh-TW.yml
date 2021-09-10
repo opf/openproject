@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 zh-TW:
   no_results_title_text: 目前無資料可以顯示
@@ -534,6 +534,7 @@ zh-TW:
         before: "必須在 %{date} 之前"
         before_or_equal_to: "必須在 %{date} 以前"
         blank: "不可空白"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -547,11 +548,14 @@ zh-TW:
         even: "必須是偶數"
         exclusion: "已保留"
         file_too_large: "太大 (最大為 %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "必須大於 %{count}。"
         greater_than_or_equal_to: "必須大於或等於 %{count}。"
         greater_than_or_equal_to_start_date: "必須晚於或等於開始日期。"
         greater_than_start_date: "必須晚於開始日期。"
         inclusion: "沒有被設置為一個允許的值。"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "不正確。"
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
@@ -572,7 +576,11 @@ zh-TW:
         taken: "已經被使用"
         too_long: "太長 (最長是 %{count} 個字元)"
         too_short: "太短 (最少 %{count} 個字元)"
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "無法更改。"
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "無法移除"
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:

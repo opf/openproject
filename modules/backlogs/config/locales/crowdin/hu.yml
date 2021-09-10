@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   activerecord:
@@ -36,7 +36,7 @@ hu:
               can_only_contain_work_packages_of_current_sprint: "csak a jelenlegi sprint munkacsomagjainak azonosítóit tartalmazhatja."
               must_block_at_least_one_work_package: "legalább egy munkacsomag azonosítóját tartalmaznia kell."
             parent_id:
-              parent_child_relationship_across_projects: "érvénytelen, mert a munka csomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
+              parent_child_relationship_across_projects: "érvénytelen, mert a munkacsomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
               type_must_be_one_of_the_following: "A következő típusok egyikének kell lennie: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
