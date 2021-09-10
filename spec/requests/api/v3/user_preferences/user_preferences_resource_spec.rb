@@ -130,11 +130,19 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
 
         expect(subject.body)
           .to be_json_eql("Daily reminders does not match the expected format 'time' at path 'times/0'.".to_json)
-                .at_path('message')
+                .at_path('_embedded/errors/0/message')
 
         expect(subject.body)
           .to be_json_eql("dailyReminders".to_json)
-                .at_path('_embedded/details/attribute')
+                .at_path('_embedded/errors/0/_embedded/details/attribute')
+
+        expect(subject.body)
+          .to be_json_eql("Daily reminders can only be configured to be delivered at a full hour.".to_json)
+                .at_path('_embedded/errors/1/message')
+
+        expect(subject.body)
+          .to be_json_eql("dailyReminders".to_json)
+                .at_path('_embedded/errors/1/_embedded/details/attribute')
       end
 
       it 'keeps the previous values' do
