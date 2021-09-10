@@ -39,6 +39,7 @@ import { InAppNotification } from 'core-app/features/in-app-notifications/store/
 import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -74,6 +75,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     readonly $transition:Transition,
     readonly wpActivity:WorkPackagesActivityService,
     readonly ianService:InAppNotificationsService,
+    readonly deviceService:DeviceService,
   ) {
     super();
 
@@ -145,7 +147,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected scrollToUnreadNotification():void {
     // scroll to the unread notification only if there is no deep link
-    if (window.location.href.indexOf('activity#') > -1) {
+    if (window.location.href.indexOf('activity#') > -1 || this.deviceService.isTablet) {
       return;
     }
     const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
