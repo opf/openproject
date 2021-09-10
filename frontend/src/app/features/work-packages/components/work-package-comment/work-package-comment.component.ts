@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
@@ -50,6 +50,7 @@ import { CommentService } from 'core-app/features/work-packages/components/wp-ac
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Component({
   selector: 'work-package-comment',
@@ -146,13 +147,13 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     this.inFlight = true;
     await this.onSubmit();
     const indicator = this.loadingIndicator.wpDetails;
-    return indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
+    indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
         this.active = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
-        this.wpLinkedActivities.require(this.workPackage, true);
-        this
+        void this.wpLinkedActivities.require(this.workPackage, true);
+        void this
           .apiV3Service
           .work_packages
           .id(this.workPackage.id!)
@@ -163,12 +164,14 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
       })
       .catch((error:any) => {
         this.inFlight = false;
-        if (error instanceof ErrorResource) {
-          this.workPackageNotificationService.showError(error, this.workPackage);
+        if (error instanceof HalError) {
+          this.workPackageNotificationService.showError(error.resource, this.workPackage);
         } else {
           this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       });
+
+    return indicator.promise;
   }
 
   scrollToBottom():void {

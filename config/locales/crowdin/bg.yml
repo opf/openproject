@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 bg:
   no_results_title_text: В момента няма нищо за показване.
@@ -535,6 +535,7 @@ bg:
         before: "трябва да бъде преди %{date}."
         before_or_equal_to: "трябва да бъде преди или е равно на %{date}."
         blank: "не може да бъде празно."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Работния пакет не може да бъде свързан с една от неговите подзадачи."
         circular_dependency: "Тази връзка ще доведе до циклична зависимост."
         confirmation: "не съвпада с %{attribute}."
@@ -548,11 +549,14 @@ bg:
         even: "трябва да бъде четно число."
         exclusion: "е запазено."
         file_too_large: "е твърде голям (максимален размер %{count} байта)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "трябва да бъде по-голямо от %{count}."
         greater_than_or_equal_to: "трябва да бъде по-голямо от или равно на %{count}."
         greater_than_or_equal_to_start_date: "трябва да бъде по-голяма от или равна на началната дата."
         greater_than_start_date: "трябва да бъде по-голяма от началната дата."
         inclusion: "не е зададена, като позволена стойност."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "е невалиден."
         invalid_url: 'невалиден URL адрес.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -573,7 +577,11 @@ bg:
         taken: "вече съществува."
         too_long: "е твърде дълго (максимума е %{count} знаци)."
         too_short: "е твърде кратък (минимум е %{count} знаци)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "е грешна дължина (трябва да бъде %{count} знаци)."
       models:

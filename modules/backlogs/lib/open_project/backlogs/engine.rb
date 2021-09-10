@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'open_project/plugins'
@@ -131,6 +131,20 @@ module OpenProject::Backlogs
       next if Versions::BaseContract.included_modules.include?(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
 
       Versions::BaseContract.prepend(OpenProject::Backlogs::Patches::Versions::BaseContractPatch)
+
+      # Add available settings to the user preferences
+      UserPreferences::Schema.merge!(
+        'definitions/UserPreferences/properties',
+        {
+          'backlogs_task_color' => {
+            'type' => 'string'
+          },
+          'backlogs_versions_default_fold_state' => {
+            'type' => 'string',
+            "enum" => %w[open closed]
+          }
+        }
+      )
     end
 
     extend_api_response(:v3, :work_packages, :work_package,

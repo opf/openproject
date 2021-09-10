@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 source 'https://rubygems.org'
@@ -73,7 +73,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.22.0'
+gem 'commonmarker', '~> 0.23.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -97,6 +97,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
+gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
 # provide compatible filesystem information for available storage
@@ -192,9 +193,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.6.0', require: false
-  gem "sentry-rails", '~> 4.6.0', require: false
-  gem "sentry-ruby", '~> 4.6.0',  require: false
+  gem "sentry-delayed_job", '~> 4.7.0', require: false
+  gem "sentry-rails", '~> 4.7.0', require: false
+  gem "sentry-ruby", '~> 4.7.0',  require: false
 end
 
 group :test do
@@ -288,7 +289,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.7.0', require: false
+gem 'bootsnap', '~> 1.8.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'

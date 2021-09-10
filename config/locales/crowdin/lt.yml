@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
   no_results_title_text: Nėra nieko rodytino.
@@ -533,6 +533,7 @@ lt:
         before: "turi eiti prieš %{date}."
         before_or_equal_to: "turi eiti prieš arba būti lygu %{date}."
         blank: "negali būti tuščia."
+        blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -546,11 +547,14 @@ lt:
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
+        format: "neatitinka laukiamo formato '%{expected}'."
+        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje '%{path}'."
         greater_than: "turi būti didesnis už %{count}."
         greater_than_or_equal_to: "turi būti didesnis arba lygus %{count}."
         greater_than_or_equal_to_start_date: "turi būti didesnis arba lygus už pradžios datą."
         greater_than_start_date: "turi būti didesnis už pradžios datą."
         inclusion: "nenustatyta kaip viena iš leidžiamų reikšmių."
+        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje '%{path}'."
         invalid: " neteisingas."
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
@@ -571,7 +575,11 @@ lt:
         taken: "jau užimtas."
         too_long: "yra per ilgas (daugiausiai galima %{count} simbolių)."
         too_short: "yra per trumpas (mažiausiai %{count} simbolių)."
+        type_mismatch: "yra ne tipo '%{type}'"
+        type_mismatch_nested: "yra ne  tipo '%{type}' kelyje '%{path}'"
         unchangeable: "negali būti pakeistas."
+        unknown_property: "yra nežinoma savybė."
+        unknown_property_nested: "yra nežinomas kelias '%{path}'."
         unremovable: "negali būti pašalintas."
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:

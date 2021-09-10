@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 vi:
   no_results_title_text: Hiện không có nội dung.
@@ -61,7 +61,7 @@ vi:
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
         header-border-bottom-color: "Dòng ngắt trang, chỗ này sẽ bỏ trống nếu bạn không muốn hiễn thị"
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: Thay đổi chủ đề sẽ ghi đè lên phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục?
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
@@ -145,7 +145,7 @@ vi:
         Phần này liên quan đến bảo mật kết nối của nguồn xác thực LDAP này. Để biết thêm thông tin, vui lòng truy cập <a href="%{link}"> tài liệu Net::LDAP</a>.
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Hiện tại không có bài viết cho diễn đàn.
   colors:
     index:
       no_results_title_text: Hiện có không có màu sắc.
@@ -167,7 +167,7 @@ vi:
       description: 'Những hành động tùy chỉnh sắp xếp công việc hàng ngày bằng cách kết hợp một bộ các bước cá nhân vào một nút.'
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
+      Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Đã bật trong dự án'
     contained_in_type: 'Contained in type'
@@ -336,7 +336,7 @@ vi:
         type:
           no_results_title_text: Không có phân loại.
         version:
-          no_results_title_text: There are currently no versions available.
+          no_results_title_text: Hiện tại không sẵn có phiên bản nào.
   label_invitation: Thư mời
   account:
     delete: "Xoá tài khoản"
@@ -536,6 +536,7 @@ vi:
         before: "phải trước khi %{date}"
         before_or_equal_to: "phải có trước hay tương đương với %{date}"
         blank: "không được để trống"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "không khớp %{attribute}."
@@ -549,11 +550,14 @@ vi:
         even: "must be even."
         exclusion: "được bảo lưu."
         file_too_large: "quá lớn (kích thước tối đa là %{count} bytes)"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "phải lớn hơn %{count}"
         greater_than_or_equal_to: "phải lớn hơn hoặc bằng %{count}"
         greater_than_or_equal_to_start_date: "phải lớn hơn hoặc bằng ngày bắt đầu."
         greater_than_start_date: "phải lớn hơn ngày bắt đầu."
         inclusion: "không nằm trong các giá trị cho phép"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "không hợp lệ"
         invalid_url: 'không phải là một URL hợp lệ.'
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
@@ -574,7 +578,11 @@ vi:
         taken: "đã bị dùng rồi."
         too_long: "quá dài (tối đa %{count} ký tự)."
         too_short: "quá ngắn (tối thiểu %{count} ký tự)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "không thể thay đổi."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "không thể gỡ bỏ."
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:

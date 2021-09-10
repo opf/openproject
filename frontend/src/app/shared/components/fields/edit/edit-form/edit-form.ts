@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
@@ -41,6 +41,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -193,8 +194,8 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         .catch((error:ErrorResource|unknown) => {
           this.halNotification.handleRawError(error, this.resource);
 
-          if (error instanceof ErrorResource) {
-            this.handleSubmissionErrors(error);
+          if (error instanceof HalError) {
+            this.handleSubmissionErrors(error.resource);
             reject();
           }
 
@@ -226,12 +227,12 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     });
   }
 
-  protected handleSubmissionErrors(error:any) {
+  protected handleSubmissionErrors(error:ErrorResource):void {
     // Process single API errors
     this.handleErroneousAttributes(error);
   }
 
-  protected handleErroneousAttributes(error:any) {
+  protected handleErroneousAttributes(error:ErrorResource):void {
     // Get attributes withe errors
     const erroneousAttributes = error.getInvolvedAttributes();
 
@@ -241,7 +242,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
       return;
     }
 
-    return this.setErrorsForFields(erroneousAttributes);
+    this.setErrorsForFields(erroneousAttributes);
   }
 
   private setErrorsForFields(erroneousFields:string[]) {

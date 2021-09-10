@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 fi:
   no_results_title_text: Ei näytettävää.
@@ -535,6 +535,7 @@ fi:
         before: "on oltava ennen %{date}."
         before_or_equal_to: "on oltava %{date} tai sitä ennen."
         blank: "ei voi olla sisällötön."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Tehtävää ei voida yhdistää alitehtäviin."
         circular_dependency: "Tämä riippuvuus loisi kehän."
         confirmation: "ei vastaa %{attribute}."
@@ -548,11 +549,14 @@ fi:
         even: "täytyy olla parillinen."
         exclusion: "on jo varattu."
         file_too_large: "on liian suuri (suurin sallittu koko on %{count} tavua)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "täytyy olla suurempi kuin %{count}."
         greater_than_or_equal_to: "täytyy olla suurempi tai yhtä suuri kuin%{count}."
         greater_than_or_equal_to_start_date: "on oltava suurempi tai yhtä suuri kuin alkamispäivä."
         greater_than_start_date: "tulee olla aloituspäivän jälkeinen."
         inclusion: "ei löydy listauksesta."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ei kelpaa."
         invalid_url: 'ei ole kelvollinen URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -573,7 +577,11 @@ fi:
         taken: "on jo käytössä."
         too_long: "on liian pitkä (maksimi on %{count} merkkiä)."
         too_short: "on liian lyhyt (minimi on %{count} merkkiä)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "ei voi muuttaa."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ei voida poistaa."
         wrong_length: "on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä)."
       models:

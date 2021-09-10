@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 cs:
   no_results_title_text: Momentálně není nic k zobrazení.
@@ -537,6 +537,7 @@ cs:
         before: "musí být před %{date}."
         before_or_equal_to: "musí být před nebo rovno %{date}."
         blank: "nemůže být prázdné."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Pracovní balíček nemůže být propojen s jedním z jeho podúkolů."
         circular_dependency: "Tento vztah by vytvořil kruhovou závislost."
         confirmation: "neshoduje se s %{attribute}."
@@ -550,11 +551,14 @@ cs:
         even: "musí být sudé."
         exclusion: "vyhrazeno."
         file_too_large: "je příliš velký (maximální velikost je %{count} Bajtů)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musí být větší než %{count}."
         greater_than_or_equal_to: "musí být větší než nebo rovno %{count}."
         greater_than_or_equal_to_start_date: "musí být větší nebo rovno počátečnímu datu."
         greater_than_start_date: "musí být větší než počáteční datum."
         inclusion: "není nastavena na jednu z povolených hodnot."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "je neplatné."
         invalid_url: 'není platná adresa URL.'
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
@@ -575,7 +579,11 @@ cs:
         taken: "je již použito."
         too_long: "je příliš dlouhý (maximum je %{count} znaků)."
         too_short: "je příliš krátký (minimum je %{count} znaků)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nelze změnit."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nelze odstranit."
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:

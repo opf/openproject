@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sv:
   no_results_title_text: För närvarande finns det inget att visa.
@@ -534,6 +534,7 @@ sv:
         before: "måste vara innan %{date}."
         before_or_equal_to: "måste vara före eller lika med %{date}."
         blank: "kan inte vara tomt."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter."
         circular_dependency: "Detta förhållande skulle skapa ett cirkelberoende."
         confirmation: "matchar inte %{attribute}."
@@ -547,11 +548,14 @@ sv:
         even: "måste vara jämn."
         exclusion: "är reserverat."
         file_too_large: "är för stor (största storleken är %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "måste vara större än %{count}."
         greater_than_or_equal_to: "måste vara större än eller lika med %{count}."
         greater_than_or_equal_to_start_date: "måste vara senare eller lika som startdatumet."
         greater_than_start_date: "måste vara senare än startdatumet."
         inclusion: "inte är inställd på ett av de tillåtna värdena."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "är ogiltig."
         invalid_url: 'är inte ett giltigt URL.'
         invalid_url_scheme: 'är inte ett tillåtet protokoll (tillåtna: %{allowed_schemes}).'
@@ -572,7 +576,11 @@ sv:
         taken: "har redan använts."
         too_long: "är för långt (maximalt är %{count} tecken)."
         too_short: "är för kort (minimum är %{count} tecken)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "kan inte ändras."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "kan inte tas bort."
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
