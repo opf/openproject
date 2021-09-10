@@ -706,7 +706,7 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (2.3.2)
+    rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
     rack-oauth2 (1.18.0)
       activesupport
@@ -837,7 +837,7 @@ GEM
     ruby-prof (1.4.3)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
-    ruby-saml (1.12.2)
+    ruby-saml (1.13.0)
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
