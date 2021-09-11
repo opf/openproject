@@ -1904,17 +1904,33 @@ hu:
   mail:
     actions: 'Műveletek'
     digests:
-      time_frame: 'A %{start} és %{end} közötti időszakban feliratkozott összes esemény összefoglalása.'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} létrehozva %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Létrehoz'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'Megfigyelt'
-          involved: 'megbízott vagy felelős'
-          mentioned: 'megemlített'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'mind'
           prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
-        subject: "Napi projektösszefoglaló a %{date} - %{number} frissítésekről\n"
-        updated_at: '%{user} frissítve %{timestamp} '
+        see_all: 'See all'
+        updated: 'Frissítve'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."

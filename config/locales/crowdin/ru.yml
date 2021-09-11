@@ -1933,17 +1933,33 @@ ru:
   mail:
     actions: 'Действия'
     digests:
-      time_frame: 'Сводка всех событий, на которые вы подписаны за период между %{start} и %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} создан в %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Создан'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'просмотрено'
-          involved: 'исполнитель или ответственный'
-          mentioned: 'упомянутый'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'все'
           prefix: 'Получено из-за настройки уведомления: %{reason}'
-        subject: 'Ежедневная сводка проекта %{date} - обновления %{number}'
-        updated_at: '%{user} обновлено в %{timestamp}'
+        see_all: 'See all'
+        updated: 'Обновлено'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."

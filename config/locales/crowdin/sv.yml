@@ -1899,17 +1899,33 @@ sv:
   mail:
     actions: 'Åtgärder'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Skapad'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'alla'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Uppdaterad'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerats. Kontot väntar på ditt godkännande:"
   mail_body_account_information: "Din kontoinformation"
   mail_body_account_information_external: "Du kan använda ditt %{value} konto för att logga in."

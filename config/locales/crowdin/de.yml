@@ -1895,17 +1895,33 @@ de:
   mail:
     actions: 'Aktionen'
     digests:
-      time_frame: 'Zusammenfassung aller Benachrichtigungen, die Sie im Zeitraum zwischen %{start} und %{end} erhalten haben'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} erstellt am %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Angelegt am'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'beobachtet'
-          involved: 'Zugewiesen oder Verantwortlich'
-          mentioned: 'erwähnt'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'alle'
           prefix: 'Erhalten aufgrund der Benachrichtigungseinstellung: %{reason}'
-        subject: 'Tägliche Projektübersicht für %{date} - %{number} Einträge'
-        updated_at: '%{user} aktualisiert %{timestamp}'
+        see_all: 'See all'
+        updated: 'Aktualisiert'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."
