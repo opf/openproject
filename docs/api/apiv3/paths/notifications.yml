@@ -33,6 +33,18 @@ get:
       schema:
         type: string
     - description: |-
+        string specifying group_by criteria.
+
+        + reason: Group by notification reason
+
+        + project: Sort by associated project
+      example: 'reason'
+      in: query
+      name: groupBy
+      required: false
+      schema:
+        type: string
+    - description: |-
         JSON specifying filter conditions.
         Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
