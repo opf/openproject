@@ -28,54 +28,59 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::NotExistingFilter < Queries::Filters::Base
-  def available?
-    false
-  end
+module Queries
+  module Filters
+    class NotExistingFilter < Base
+      def available?
+        false
+      end
 
-  def type
-    :inexistent
-  end
+      def type
+        :inexistent
+      end
 
-  def self.key
-    :not_existent
-  end
+      def self.key
+        :not_existent
+      end
 
-  def human_name
-    name.to_s.blank? ? type : name.to_s
-  end
+      def human_name
+        name.to_s.blank? ? type : name.to_s
+      end
 
-  validate :always_false
+      validate :always_false
 
-  def always_false
-    errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
-  end
+      def always_false
+        errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
+      end
 
-  # deactivating superclass validation
-  def validate_inclusion_of_operator; end
+      # deactivating superclass validation
+      def validate_inclusion_of_operator; end
 
-  def to_hash
-    {
-      non_existent_filter: {
-        operator: operator,
-        values: values
-      }
-    }
-  end
+      def to_hash
+        {
+          non_existent_filter: {
+            operator: operator,
+            values: values
+          }
+        }
+      end
 
-  def scope
-    # TODO: remove switch once the WP query is a
-    # subclass of Queries::Base
-    model = if context.respond_to?(:model)
-              context.model
-            else
-              WorkPackage
-            end
+      def scope
+        # TODO: remove switch once the WP query is a
+        # subclass of Queries::Base
+        model = if context.respond_to?(:model)
+                  context.model
+                else
+                  WorkPackage
+                end
 
-    model.unscoped
-  end
+        model.unscoped
+      end
 
-  def attributes_hash
-    nil
+      def attributes_hash
+        nil
+      end
+    end
+
   end
 end

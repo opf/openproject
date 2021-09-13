@@ -40,8 +40,8 @@ class Queries::BaseQuery
   attr_accessor :filters, :orders
   attr_reader :group_by
 
-  include Queries::AvailableFilters
-  include Queries::AvailableOrders
+  include Queries::Filters::AvailableFilters
+  include Queries::Orders::AvailableOrders
   include Queries::GroupBys::AvailableGroupBys
   include ActiveModel::Validations
 

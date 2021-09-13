@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Users::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Users::Orders::DefaultOrder < Queries::Orders::Base
   self.model = User
 
   def self.key

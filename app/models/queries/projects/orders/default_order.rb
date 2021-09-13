@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Projects::Orders::DefaultOrder < Queries::Orders::Base
   self.model = Project
 
   def self.key

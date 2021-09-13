@@ -28,20 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::AvailableOrders
-  def order_for(key)
-    (find_registered_order(key) || Queries::NotExistingOrder).new(key)
-  end
+module Queries
+  module Orders
+    class NotExistingOrder < Base
+      validate :always_false
 
-  private
+      def self.key
+        :inexistent
+      end
 
-  def find_registered_order(key)
-    orders_register.detect do |s|
-      s.key === key.to_sym
+      private
+
+      def always_false
+        errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
+      end
     end
-  end
-
-  def orders_register
-    Queries::Register.orders[self.class]
   end
 end

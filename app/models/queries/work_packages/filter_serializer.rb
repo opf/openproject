@@ -29,8 +29,8 @@
 #++
 
 module Queries::WorkPackages::FilterSerializer
-  extend Queries::AvailableFilters
-  extend Queries::AvailableFilters::ClassMethods
+  extend Queries::Filters::AvailableFilters
+  extend Queries::Filters::AvailableFilters::ClassMethods
 
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?

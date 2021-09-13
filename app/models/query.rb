@@ -32,7 +32,7 @@ class Query < ApplicationRecord
   include Timelines
   include Highlighting
   include ManualSorting
-  include Queries::AvailableFilters
+  include Queries::Filters::AvailableFilters
 
   belongs_to :project
   belongs_to :user

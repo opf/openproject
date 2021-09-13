@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::AvailableFilters, type: :model do
+describe Queries::Filters::AvailableFilters, type: :model do
   let(:context) { FactoryBot.build_stubbed(:project) }
   let(:register) { Queries::FilterRegister }
 
@@ -39,7 +39,7 @@ describe Queries::AvailableFilters, type: :model do
       self.context = context
     end
 
-    include Queries::AvailableFilters
+    include Queries::Filters::AvailableFilters
   end
 
   let(:includer) do
@@ -165,7 +165,7 @@ describe Queries::AvailableFilters, type: :model do
         end
 
         it 'returns the NotExistingFilter if the name is not matched' do
-          expect(includer.filter_for(:not_a_filter_name)).to be_a Queries::NotExistingFilter
+          expect(includer.filter_for(:not_a_filter_name)).to be_a Queries::Filters::NotExistingFilter
         end
       end
 
@@ -174,7 +174,7 @@ describe Queries::AvailableFilters, type: :model do
         let(:filter_3_available) { true }
 
         it 'returns the NotExistingFilter if the name is not matched' do
-          expect(includer.filter_for(:not_a_filter_name)).to be_a Queries::NotExistingFilter
+          expect(includer.filter_for(:not_a_filter_name)).to be_a Queries::Filters::NotExistingFilter
         end
 
         it 'returns an instance of the matching filter if not caring for availablility' do
@@ -190,11 +190,11 @@ describe Queries::AvailableFilters, type: :model do
         end
 
         it 'returns the NotExistingFilter if the key is not matched' do
-          expect(includer.filter_for(:f_i1)).to be_a Queries::NotExistingFilter
+          expect(includer.filter_for(:f_i1)).to be_a Queries::Filters::NotExistingFilter
         end
 
         it 'returns the NotExistingFilter if the key is matched but the name is not' do
-          expect(includer.filter_for(:f_2)).to be_a Queries::NotExistingFilter
+          expect(includer.filter_for(:f_2)).to be_a Queries::Filters::NotExistingFilter
         end
       end
 
@@ -202,7 +202,7 @@ describe Queries::AvailableFilters, type: :model do
         let(:filter_2_available) { false }
 
         it 'returns the NotExistingFilter' do
-          expect(includer.filter_for(:f_i)).to be_a Queries::NotExistingFilter
+          expect(includer.filter_for(:f_i)).to be_a Queries::Filters::NotExistingFilter
         end
       end
     end

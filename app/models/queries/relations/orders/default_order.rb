@@ -31,7 +31,7 @@
 module Queries
   module Relations
     module Orders
-      class DefaultOrder < ::Queries::BaseOrder
+      class DefaultOrder < ::Queries::Orders::Base
         self.model = Relation
 
         def self.key
