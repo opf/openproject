@@ -42,6 +42,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { take } from 'rxjs/internal/operators/take';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -67,6 +68,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     commentsOnly: this.I18n.t('js.label_activity_show_only_comments'),
     showAll: this.I18n.t('js.label_activity_show_all'),
   };
+
+  private additionalScrollMargin = 200;
 
   constructor(
     readonly apiV3Service:APIV3Service,
@@ -94,7 +97,13 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
-          this.scrollToUnreadNotification();
+          this.storeService.query.hasNotifications$
+            .pipe(take(1))
+            .subscribe((hasNotification) => {
+              if (hasNotification) {
+                this.scrollToUnreadNotification();
+              }
+            });
         });
       });
   }
@@ -141,22 +150,22 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   protected scrollToUnreadNotification():void {
+    const unreadNotifications = document.querySelectorAll("[data-notification-selector='notification-activity']");
     // scroll to the unread notification only if there is no deep link
-    if (window.location.href.indexOf('activity#') > -1) {
+    if (window.location.href.indexOf('activity#') > -1 || unreadNotifications.length === 0) {
       return;
     }
-    const unreadNotifications = document.querySelectorAll('.comments-number--bubble');
-    const unreadNotificationsLength = unreadNotifications?.length;
-    if (!unreadNotificationsLength) {
-      return;
+
+    const notificationElement = unreadNotifications[this.reverse ? unreadNotifications.length - 1 : 0] as HTMLElement;
+    const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
+
+    let scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop;
+    if (!this.reverse) {
+      // In normal order we leave same space for context
+      // In reversed order, the context is below and thus no additional space needed
+      scrollOffset -= this.additionalScrollMargin;
     }
-    if (this.reverse) {
-      unreadNotifications[unreadNotificationsLength - 1].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      document.getElementsByClassName('tabcontent')[0].scrollTop = (jQuery(unreadNotifications[unreadNotificationsLength - 1]).closest('.op-user-activity')[0] as HTMLElement).offsetTop;
-    } else {
-      unreadNotifications[0].classList.add('op-user-activity--unread-notification-bubble_scrolled');
-      document.getElementsByClassName('tabcontent')[0].scrollTop = (jQuery(unreadNotifications[0]).closest('.op-user-activity')[0] as HTMLElement).offsetTop;
-    }
+    scrollContainer.scrollTop = scrollOffset;
   }
 
   public toggleComments():void {
