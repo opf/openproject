@@ -35,7 +35,7 @@ module OpenProject
   module VERSION #:nodoc:
     MAJOR = 11
     MINOR = 3
-    PATCH = 5
+    PATCH = 6
     TINY  = PATCH # Redmine compat
 
     class << self
