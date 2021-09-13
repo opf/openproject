@@ -101,11 +101,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   }
 
   protected initializeStates(query:QueryResource) {
-    // If the configuration requests filters, we need to load the query form as well.
-    if (this.configuration.withFilters) {
-      this.loadForm(query);
-    }
-
+    void this.loadForm(query);
     super.initializeStates(query);
 
     this.querySpace

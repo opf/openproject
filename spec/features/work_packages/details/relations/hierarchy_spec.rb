@@ -85,6 +85,56 @@ shared_examples 'work package relations tab', js: true, selenium: true do
       tabs.expect_counter(relations_tab, 2)
     end
 
+    context 'when switching to custom field with required CF' do
+      let(:custom_field) do
+        FactoryBot.create(
+          :work_package_custom_field,
+          field_format: 'string',
+          default_value: nil,
+          is_required: true,
+          is_for_all: true
+        )
+      end
+      let(:type2) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+      let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+      let!(:status) { FactoryBot.create(:status, is_default: true) }
+      let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+
+      before do
+        project.types << type2
+        project.save!
+        custom_field
+      end
+
+      it 'shows the required field when switching' do
+        relations.inline_create_child 'my new child'
+        table = relations.children_table
+
+        table.expect_work_package_subject 'my new child'
+        wp = WorkPackage.find_by!(subject: 'my new child')
+        type_field = table.edit_field(wp, :type)
+
+        type_field.activate!
+        type_field.set_value type2.name
+
+        wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+                                    type: 'error'
+
+        cf_field = wp_page.edit_field("customField#{custom_field.id}")
+        cf_field.expect_active!
+        cf_field.expect_value('')
+
+        cf_field.set_value 'my value'
+        cf_field.save!
+
+        wp_page.expect_notification message: "Successful update.",
+                                    type: 'success'
+
+        wp.reload
+        expect(wp.custom_value_for(custom_field).value).to eq 'my value'
+      end
+    end
+
     describe 'inline create' do
       let!(:status) { FactoryBot.create(:status, is_default: true) }
       let!(:priority) { FactoryBot.create(:priority, is_default: true) }
