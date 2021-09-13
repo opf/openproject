@@ -48,18 +48,19 @@ module LdapGroups
     def remove_members!(users_to_remove)
       return if users_to_remove.empty?
 
+      user_ids = users_to_remove.map(&method(:user_id))
+
       self.class.transaction do
         # 1) Delete synchronized group MEMBERSHIPS from collection.
-        # 2) Remove users from users collection of internal group.
-        if users_to_remove.first.is_a? User
-          users.delete users.where(user: users_to_remove).select(:id)
-          group.users.delete users_to_remove
-        elsif users_to_remove.first.is_a? Integer
-          users.delete users.where(user_id: users_to_remove).select(:id)
-          group.users.delete group.users.where(id: users_to_remove).select(:id)
-        else
-          raise ArgumentError,
-                "Expected collection of Users or User IDs, got collection of #{users_to_remove.map(&:class).map(&:name).uniq.join(', ')}"
+        users.delete users.where(user: user_ids).select(:id)
+
+        # 2) Remove users from the internal group
+        call = Groups::UpdateService
+          .new(user: User.system, model: group)
+          .call(user_ids: group.user_ids - user_ids)
+
+        call.on_failure do
+          Rails.logger.error "[LDAP groups] Failed to remove users #{user_ids} from #{group.name}: #{call.message}"
         end
       end
     end
