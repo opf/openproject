@@ -1,32 +1,31 @@
 <table
   class="op-table"
-  *ngIf="showTable"
+  *ngIf="settings.length > 0"
 >
   <thead>
     <tr>
       <th class="op-table--cell op-table--cell_heading">
         {{ text.notify_me }}
       </th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <th class="op-table--cell op-table--cell_heading">{{ item.key }}</th>
+      <ng-container *ngFor="let item of settings.controls">
+        <th class="op-table--cell op-table--cell_heading">{{ item.controls.project.value.title }}</th>
       </ng-container>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.mentioned_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+      <ng-container *ngFor="let item of settings.controls">
         <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
       </ng-container>
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.involved_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].involved"
-            (change)="update({ involved: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="involved"
             data-qa-project-notification-type="involved" 
             [attr.data-qa-project]="item.key" 
           />
@@ -35,18 +34,17 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.watched_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
+      <ng-container *ngFor="let item of settings.controls">
         <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
       </ng-container>
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].workPackageCreated"
-            (change)="update({ workPackageCreated: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="workPackageCreated"
             data-qa-project-notification-type="work_package_created" 
             [attr.data-qa-project]="item.key" 
           />
@@ -55,12 +53,11 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_processed_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].workPackageProcessed"
-            (change)="update({ workPackageProcessed: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="workPackageProcessed"
             data-qa-project-notification-type="work_package_processed" 
             [attr.data-qa-project]="item.key" 
           />
@@ -69,12 +66,11 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_scheduled_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].workPackageScheduled"
-            (change)="update({ workPackageScheduled: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="workPackageScheduled"
             data-qa-project-notification-type="work_package_scheduled" 
             [attr.data-qa-project]="item.key" 
           />
@@ -83,12 +79,11 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_prioritized_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].workPackagePrioritized"
-            (change)="update({ workPackagePrioritized: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="workPackagePrioritized"
             data-qa-project-notification-type="work_package_prioritized" 
             [attr.data-qa-project]="item.key" 
           />
@@ -97,12 +92,11 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_commented_header }}</th>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue">
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls">
+        <td class="op-table--cell" [formGroup]="item">
           <input
             type="checkbox"
-            [checked]="item.value[0].workPackageCommented"
-            (change)="update({ workPackageCommented: $event.target.checked }, item.value[0]._links.project.href)"
+            formControlName="workPackageCommented"
             data-qa-project-notification-type="work_package_commented" 
             [attr.data-qa-project]="item.key" 
           />
@@ -111,14 +105,12 @@
     </tr>
     <tr>
       <th class="op-table--cell op-table--cell_soft-heading"></th>
-      <ng-container
-        *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue"
-      >
-        <td class="op-table--cell" *ngIf="item.value[0]">
+      <ng-container *ngFor="let item of settings.controls; let index = index">
+        <td class="op-table--cell">
           <button
             type="button"
             class="op-link"
-            (click)="removeProjectSettings(item.value[0]._links.project.href)"
+            (click)="removeProjectSettings(index)"
           >Remove Project Settings</button>
         </td>
       </ng-container>
@@ -129,6 +121,7 @@
 <op-notification-setting-inline-create
   *ngIf="userId"
   [userId]="userId"
-  (selected)="addRow($event)"
+  [settings]="settings"
+  (selected)="addProjectSettings($event)"
   data-qa-selector="notification-setting-inline-create"
 ></op-notification-setting-inline-create>

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Input,
   OnInit,
@@ -9,7 +10,6 @@ import {
   FormArray,
   FormControl,
 } from '@angular/forms';
-import { arrayUpdate } from '@datorama/akita';
 import { take } from 'rxjs/internal/operators/take';
 import { UIRouterGlobals } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -21,6 +21,26 @@ import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/u
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
+
+interface INotificationSettingsFormValue {
+  involved:boolean;
+  workPackageCreated:boolean;
+  workPackageProcessed:boolean;
+  workPackageScheduled:boolean;
+  workPackagePrioritized:boolean;
+  workPackageCommented:boolean;
+}
+
+interface IProjectNotificationSettingsValue extends INotificationSettingsFormValue {
+  project: {
+    title:string;
+    href:string; 
+  };
+}
+
+interface IFullNotificationSettingsValue extends INotificationSettingsFormValue {
+  projectSettings:IProjectNotificationSettingsValue[];
+}
 
 @Component({
   selector: myNotificationsPageComponentSelector,
@@ -71,6 +91,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   };
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private I18n:I18nService,
     private stateService:UserPreferencesService,
     private query:UserPreferencesQuery,
@@ -114,12 +135,11 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           return;
         }
 
-        console.log(settings);
         const sortedSettings = settings.sort(
           (a, b):number => a._links.project.title!.localeCompare(b._links.project.title!)
         );
 
-        const projectSettings = this.form.get("projectSettings") as FormArray;
+        const projectSettings = new FormArray([]);
         projectSettings.clear();
         for (let setting of sortedSettings) {
           projectSettings.push(new FormGroup({
@@ -132,28 +152,54 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
             workPackageCommented: new FormControl(setting.workPackageCommented),
           }));
         }
+
+        this.form.setControl('projectSettings', projectSettings);
+        this.changeDetectorRef.detectChanges();
       });
   }
 
   public saveChanges():void {
-    this.update(this.form.value);
-    const prefs = this.query.getValue();
-    this.stateService.update(this.userId, prefs);
-  }
+    const prefs = this.store.getValue();
+    const notificationSettings:IFullNotificationSettingsValue = this.form.value;
+    const globalPrefs:NotificationSetting = {
+      _links: { project: { href: null } },
+      channel: 'in_app',
+      watched: true,
+      mentioned: true,
+      involved: notificationSettings.involved,
+      workPackageCreated: notificationSettings.workPackageCreated,
+      workPackageProcessed: notificationSettings.workPackageProcessed,
+      workPackageScheduled: notificationSettings.workPackageScheduled,
+      workPackagePrioritized: notificationSettings.workPackagePrioritized,
+      workPackageCommented: notificationSettings.workPackageCommented,
+      all: false,
+    };
 
-  private update(delta:Partial<NotificationSetting>) {
-    this.store.update(
-      ({ notifications }) => ({
-        notifications: arrayUpdate(
-          notifications,
-          (notification:NotificationSetting) => notification._links.project.href === null,
-          {
-            ...delta,
-            mentioned: true,
-            watched: true,
-          },
-        ),
-      }),
-    );
+    const projectPrefs:NotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
+      _links: { project: { href: settings.project.href } },
+      channel: 'in_app',
+      watched: true,
+      mentioned: true,
+      involved: settings.involved,
+      workPackageCreated: settings.workPackageCreated,
+      workPackageProcessed: settings.workPackageProcessed,
+      workPackageScheduled: settings.workPackageScheduled,
+      workPackagePrioritized: settings.workPackagePrioritized,
+      workPackageCommented: settings.workPackageCommented,
+      all: false,
+    }));
+
+    this.stateService.update(this.userId, {
+      ...prefs,
+      notifications: [
+        globalPrefs,
+        ...projectPrefs,
+      ].reduce((total, next) => [
+        ...total,
+        next,
+        { ...next, channel: 'mail' },
+        { ...next, channel: 'mail_digest' },
+      ], []),
+    });
   }
 }

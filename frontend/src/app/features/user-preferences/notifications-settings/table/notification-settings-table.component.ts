@@ -5,18 +5,9 @@ import {
   ChangeDetectionStrategy,
   Input,
 } from '@angular/core';
-import { FormArray } from '@angular/forms';
-import { map } from 'rxjs/operators';
-import { KeyValue } from '@angular/common';
-import { arrayAdd, arrayUpdate, arrayRemove } from '@datorama/akita';
+import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
-import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
-import {
-  buildNotificationSetting,
-  NotificationSetting,
-} from 'core-app/features/user-preferences/state/notification-setting.model';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -28,10 +19,6 @@ export class NotificationSettingsTableComponent {
   @Input() userId:string;
 
   @Input() settings:FormArray;
-
-  get showTable() {
-    return this.settings.length > 0;
-  }
 
   text = {
     notify_me: this.I18n.t('js.notifications.settings.notify_me'),
@@ -46,43 +33,21 @@ export class NotificationSettingsTableComponent {
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
   };
 
-  constructor(
-    private I18n:I18nService,
-    private store:UserPreferencesStore,
-    private query:UserPreferencesQuery,
-  ) {}
+  constructor(private I18n:I18nService) {}
 
-  addRow(project:HalSourceLink):void {
-    const added:NotificationSetting[] = [
-      buildNotificationSetting(project, { channel: 'in_app' }),
-      buildNotificationSetting(project, { channel: 'mail' }),
-      buildNotificationSetting(project, { channel: 'mail_digest' }),
-    ];
-
-    this.store.update(
-      ({ notifications }) => ({
-        notifications: arrayAdd(notifications, added),
-      }),
-    );
+  addProjectSettings(project:HalSourceLink):void {
+    this.settings.push(new FormGroup({
+      project: new FormControl(project),
+      involved: new FormControl(false),
+      workPackageCreated: new FormControl(false),
+      workPackageProcessed: new FormControl(false),
+      workPackageScheduled: new FormControl(false),
+      workPackagePrioritized: new FormControl(false),
+      workPackageCommented: new FormControl(false),
+    }));
   }
 
-  update(delta:Partial<NotificationSetting>, projectHref:string):void {
-    this.store.update(
-      ({ notifications }) => ({
-        notifications: arrayUpdate(
-          notifications,
-          (notification:NotificationSetting) => notification._links.project.href === projectHref,
-          delta,
-        ),
-      }),
-    );
-  }
-
-  removeProjectSettings(projectHref:string):void {
-    this.store.update(
-      ({ notifications }) => ({
-        notifications: arrayRemove(notifications, (notification:NotificationSetting) => notification._links.project.href === projectHref),
-      }),
-    );
+  removeProjectSettings(index:number):void {
+    this.settings.removeAt(index);
   }
 }

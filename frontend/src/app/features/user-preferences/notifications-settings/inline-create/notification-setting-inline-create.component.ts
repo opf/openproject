@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
 import {
@@ -28,6 +29,8 @@ export interface NotificationSettingProjectOption {
 })
 export class NotificationSettingInlineCreateComponent {
   @Input() userId:string;
+
+  @Input() settings:FormArray;
 
   @Output() selected = new EventEmitter<HalSourceLink>();
 
@@ -72,12 +75,11 @@ export class NotificationSettingInlineCreateComponent {
       .filtered(filters)
       .get()
       .pipe(
-        withLatestFrom(this.query.selectedProjects$),
-        map(([collection, selected]) => collection.elements.map(
-          (project) => (
-            { href: project.href || '', name: project.name, disabled: selected.has(project.href) }
-          ),
-        )),
+        map((collection) => collection.elements.map((project) => ({
+          href: project.href || '',
+          name: project.name,
+          disabled: !!this.settings.controls.find((projectSetting) => projectSetting.get('project')!.value.href === project.href),
+        }))),
       );
   }
 }

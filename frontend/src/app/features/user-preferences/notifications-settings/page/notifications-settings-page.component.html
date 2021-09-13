@@ -100,7 +100,9 @@
   <op-notification-settings-table
     *ngIf="userId"
     [userId]="userId"
-    [settings]="form.get('projectSettings')"
+    [settings]="form.controls.projectSettings"
+    formArrayName="projectSettings"
+    class="op-notification-settings-page--table"
   ></op-notification-settings-table>
 
   <div class="generic-table--action-buttons">
