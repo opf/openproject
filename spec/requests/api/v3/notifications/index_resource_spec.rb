@@ -129,6 +129,32 @@ describe ::API::V3::Notifications::NotificationsAPI,
         end
       end
     end
+
+    context 'with a reason groupBy' do
+      let(:involved_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :involved }
+
+      let(:notifications) { [notification1, notification2, involved_notification] }
+
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, group_by: :reason
+      end
+
+      let(:groups) { parsed_response['groups'] }
+
+      context 'with the filter being set to false' do
+        it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+
+        it 'contains the reason groups', :aggregate_failures do
+          expect(groups).to be_a Array
+          expect(groups.count).to eq 2
+
+          keyed = groups.index_by { |el| el['value'] }
+          expect(keyed.keys).to contain_exactly 'mentioned', 'involved'
+          expect(keyed['mentioned']['count']).to eq 2
+          expect(keyed['involved']['count']).to eq 1
+        end
+      end
+    end
   end
 
   describe 'admin user' do
