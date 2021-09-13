@@ -27,7 +27,7 @@
             type="checkbox"
             formControlName="involved"
             data-qa-project-notification-type="involved" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
@@ -46,7 +46,7 @@
             type="checkbox"
             formControlName="workPackageCreated"
             data-qa-project-notification-type="work_package_created" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
@@ -59,7 +59,7 @@
             type="checkbox"
             formControlName="workPackageProcessed"
             data-qa-project-notification-type="work_package_processed" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
@@ -72,7 +72,7 @@
             type="checkbox"
             formControlName="workPackageScheduled"
             data-qa-project-notification-type="work_package_scheduled" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
@@ -85,7 +85,7 @@
             type="checkbox"
             formControlName="workPackagePrioritized"
             data-qa-project-notification-type="work_package_prioritized" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
@@ -98,7 +98,7 @@
             type="checkbox"
             formControlName="workPackageCommented"
             data-qa-project-notification-type="work_package_commented" 
-            [attr.data-qa-project]="item.key" 
+            [attr.data-qa-project]="item.controls.project.value.title" 
           />
         </td>
       </ng-container>
