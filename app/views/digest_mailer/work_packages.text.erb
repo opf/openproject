@@ -1,36 +1,43 @@
-<%= digest_timespan_text %>
+<%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+<%= "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}" %>
+<%= "-" * 100 %>
 
-<% @notifications_by_project.each do |project, notifications_by_work_package| %>
+<% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
 
-<%= "=" * (project.name.length + 4) %>
-= <%= project.name %> =
-<%= "=" * (project.name.length + 4) %>
+  <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
+  = #<%= work_package.id %> <%= work_package.subject %> =
+  <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
 
-<% notifications_by_work_package.each do |work_package, notifications| %>
+  <% notifications_by_work_package.each do | notification | %>
+    <%= "-" * 20 %>
 
-<%= "*" * (work_package.to_s.length + 4) %>
-* <%= work_package.to_s %> *
-<%= "*" * (work_package.to_s.length + 4) %>
+    <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+    <%= digest_notification_timestamp_text(
+          notification,
+          html: false,
+          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.digests.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
 
-<% notifications.sort_by(&:created_at).each do |notification| %>
+    <% journal = notification.journal %>
+    <% if journal.notes.present? %>
+      <%= I18n.t(:label_comment_added) %>:
+      <%= journal.notes %>
 
-<%= "-" * 20 %>
+    <% end %>
+    <% journal.details.each do |detail| %>
+      * <%= journal.render_detail(detail, only_path: false, no_html: true) %>
+    <% end %>
 
-<%= digest_notification_timestamp_text(notification, html: false) %> (<%= I18n.t('mail.digests.work_packages.reason.prefix',
-           reason: I18n.t(:"mail.digests.work_packages.reason.#{notification.reason_mail_digest}")) %>)
-
-<% journal = notification.journal %>
-<% if journal.notes.present? %>
-<%= journal.notes %>
-
+    <%= "-" * 20 %>
+  <% end %>
 <% end %>
-<% journal.details.each do |detail| %>
-  * <%= journal.render_detail(detail, only_path: false, no_html: true) %>
-<% end %>
-<% end %>
 
-<%= "-" * 20 %>
+<%= "-" * 100 %>
 
-
+<% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+<% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+<% if number_of_overflowing_work_packages === 1 %>
+<%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %> <%= I18n.t(:'mail.digests.work_packages.login_to_see_all') %>
+<% else %>
+<%= I18n.t(:'mail.digests.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %> <%= I18n.t(:'mail.digests.work_packages.login_to_see_all') %>
 <% end %>
 <% end %>

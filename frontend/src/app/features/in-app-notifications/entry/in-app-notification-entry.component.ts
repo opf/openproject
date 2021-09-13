@@ -72,6 +72,9 @@ export class InAppNotificationEntryComponent implements OnInit {
   project?:{ href:string, title:string, showUrl:string };
 
   text = {
+    and_other_singular: this.I18n.t('js.notifications.center.and_more_users.one'),
+    and_other_plural: (count:number):string => this.I18n.t('js.notifications.center.and_more_users.other',
+      { count }),
     loading: this.I18n.t('js.ajax.loading'),
     placeholder: this.I18n.t('js.placeholders.default'),
     updated_by_at: (age:string):string => this.I18n.t('js.notifications.center.text_update_date',
@@ -153,6 +156,16 @@ export class InAppNotificationEntryComponent implements OnInit {
   markAsRead(event:MouseEvent, notifications:InAppNotification[]):void {
     event.stopPropagation();
     this.storeService.markAsRead(notifications.map((el) => el.id));
+  }
+
+  text_for_additional_authors(number:number):string {
+    let hint:string;
+    if (number === 1) {
+      hint = this.text.and_other_singular;
+    } else {
+      hint = this.text.and_other_plural(number);
+    }
+    return hint;
   }
 
   private buildActors() {

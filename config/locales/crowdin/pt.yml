@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pt:
   no_results_title_text: Atualmente, não há o que exibir.
@@ -533,6 +533,7 @@ pt:
         before: "deve ser antes de %{date}."
         before_or_equal_to: "deve ser antes ou igual a %{date}."
         blank: "não pode ficar em branco."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas."
         circular_dependency: "Esta relação vai criar uma dependência circular."
         confirmation: "não coincide com %{attribute}."
@@ -546,11 +547,14 @@ pt:
         even: "deve ser par."
         exclusion: "está reservado."
         file_too_large: "é muito grande (tamanho máximo é %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "deve ser maior que %{count}."
         greater_than_or_equal_to: "deve ser maior ou igual a %{count}."
         greater_than_or_equal_to_start_date: "deve ser maior ou igual a data de início."
         greater_than_start_date: "deve ser maior que a data de início."
         inclusion: "Não está definido como um dos valores permitidos."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "é inválido."
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
@@ -571,7 +575,11 @@ pt:
         taken: "já está sendo utilizado."
         too_long: "é muito longo (o máximo é %{count} caracteres)."
         too_short: "é muito curto (mínimo é %{count} caracteres)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "não pode ser alterado."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "não pode ser removido."
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
@@ -1890,17 +1898,33 @@ pt:
   mail:
     actions: 'Ações'
     digests:
-      time_frame: 'Resumo de todos os eventos em que você se inscreveu no período entre %{start} e %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} criado em %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Criado'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'observado'
-          involved: 'designado ou responsável'
-          mentioned: 'mencionado'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'todos'
           prefix: 'Recebido devido à configuração de notificação: %{reason}'
-        subject: 'Resumo diário do projeto para %{date} - %{number} atualizações'
-        updated_at: '%{user} atualizado em %{timestamp}'
+        see_all: 'See all'
+        updated: 'Atualizado'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Um novo usuário (%{value}) registrou-se. A conta está aguardando sua aprovação:"
   mail_body_account_information: "Suas informações de conta"
   mail_body_account_information_external: "Você pode usar sua conta %{value} para logar."

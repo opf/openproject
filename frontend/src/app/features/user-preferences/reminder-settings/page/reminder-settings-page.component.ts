@@ -13,6 +13,7 @@ export const myReminderPageComponentSelector = 'op-reminders-page';
 @Component({
   selector: myReminderPageComponentSelector,
   templateUrl: './reminder-settings-page.component.html',
+  styleUrls: ['./reminder-settings-page.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReminderSettingsPageComponent implements OnInit {

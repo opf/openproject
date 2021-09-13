@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ar:
   no_results_title_text: لا يوجد حالياً أي شيء لعرضه.
@@ -539,6 +539,7 @@ ar:
         before: "يجب أن يكون قبل %{date}."
         before_or_equal_to: "يجب أن يكون قبل أو يساوي %{date}."
         blank: "لا يمكن أن يكون فارغا."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية."
         circular_dependency: "ان هذه العلاقة خلق تبعية دائرية."
         confirmation: "لا يتطابق مع %{attribute}."
@@ -552,11 +553,14 @@ ar:
         even: "يجب أن يكون زوجي."
         exclusion: "محجوز."
         file_too_large: "إنه كبير جدا(الحجم الأكبر هو%{count} بايت)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "يجب أن يكون أكبر من %{count}."
         greater_than_or_equal_to: "يجب أن يكون أكبر أو يساوي%{count}."
         greater_than_or_equal_to_start_date: "يجب أن يكون أكبر أو يساوي تاريخ البدء."
         greater_than_start_date: "يجب أن يكون أكبر من تاريخ البدء."
         inclusion: "لم يتم تعيين إلى واحدة من القيم المسموح بها."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "غير صالح."
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
@@ -577,7 +581,11 @@ ar:
         taken: "قد اتخذت بالفعل."
         too_long: "طويل جداً (الحد الأقصى من الأحرف %{count})."
         too_short: "قصيرة جداً (الحد الأدنى هو الأحرف %{count})."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "هو طول خاطئ (يجب أن تكون الأحرف %{count})."
       models:
@@ -1960,17 +1968,33 @@ ar:
   mail:
     actions: 'Actions'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'تم إنشاؤه'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'الكل'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Updated'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "وقد سجل مستخدم جديد (%{value}). الحساب انتظار الموافقة الخاصة بك:"
   mail_body_account_information: "معلومات الحساب الخاص بك"
   mail_body_account_information_external: "يمكنك استخدام حساب %{value} الخاص بك لتسجيل الدخول."

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 tr:
   js:
@@ -127,7 +127,7 @@ tr:
       preview: 'Önizleme modunu aç/kapat'
       source_code: 'Markdown kaynak modunu değiştir'
       error_saving_failed: 'Aşağıdaki nedenden dolayı belge kayıt edilemedi: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor içinde bir hata oluştu'
       mode:
         manual: 'Markdown kaynağına geç'
         wysiwyg: 'WYSIWYG düzenleyiciye geç'
@@ -487,7 +487,7 @@ tr:
         welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
+          overview: "İşinizi <b>birikimler</b> görünümünde yönetin."
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
@@ -506,40 +506,40 @@ tr:
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
-      title: "Notifications"
-      channel: "Channel"
-      no_unread: "No unread notifications"
+      title: "Bildirimler"
+      channel: "Kanal"
+      no_unread: "Okunmamış bildirim yok"
       channels:
-        in_app: "In-app"
+        in_app: "Uygulama içi"
         mail: "Eposta"
-        mail_digest: "Daily email summary"
+        mail_digest: "Günlük e-posta özeti"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
-        involved: 'involved'
+        mentioned: 'adı geçen, bahsedilen'
+        watched: 'izlendi'
+        involved: 'dahil olmuş'
       facets:
-        unread: 'Unread'
+        unread: 'okunmamış'
         all: 'Hepsi'
       center:
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
+        mark_all_read: 'Tümünü okundu olarak işaretle'
+        mark_as_read: 'Okundu olarak işaretle'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Default for all projects'
-        involved: 'I am involved'
-        mentioned: 'I was mentioned'
-        watched: 'I am watching'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
-        work_package_scheduled: 'Work package scheduled'
-        all: 'All events'
-        add: 'Add setting for project'
-        already_selected: 'This project is already selected'
-        remove_projects: 'Remove notifications for projects'
-        title: "Notification settings"
+        default_all_projects: 'Tüm projeler için varsayılan'
+        involved: 'ben dahilim'
+        mentioned: 'benden bahsedildi'
+        watched: 'İzliyorum'
+        work_package_commented: 'İş paketi yorumlandı'
+        work_package_created: 'İş paketi oluşturuldu'
+        work_package_processed: 'İş paketi durumu değişti'
+        work_package_prioritized: 'İş paketi önceliği değişti'
+        work_package_scheduled: 'İş paketi planlandı'
+        all: 'Tüm etkinlikler'
+        add: 'Proje için ayar ekle'
+        already_selected: 'Bu proje zaten seçildi'
+        remove_projects: 'Projeler için bildirimleri kaldırın'
+        title: "Bildirim ayarları"
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
       title: 'Devam etmek için parolanızı doğrulayın'
@@ -566,6 +566,15 @@ tr:
         copy_options: "Ayarları kopyala"
       autocompleter:
         label: 'Proje otomatik tamamlama'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        title: 'Email reminders'
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "All entered data will be lost."
     types:

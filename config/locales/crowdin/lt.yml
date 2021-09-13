@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 lt:
   no_results_title_text: Nėra nieko rodytino.
@@ -533,6 +533,7 @@ lt:
         before: "turi eiti prieš %{date}."
         before_or_equal_to: "turi eiti prieš arba būti lygu %{date}."
         blank: "negali būti tuščia."
+        blank_nested: "reikalauja, kad savybė '%{property}' būtų nustatyta."
         cant_link_a_work_package_with_a_descendant: "Darbų paketas negali būti susietas su viena iš savo vidinių užduočių."
         circular_dependency: "Šis ryšys sukurtų ciklinę priklausomybę."
         confirmation: "nesutampa su %{attribute}."
@@ -546,11 +547,14 @@ lt:
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
+        format: "neatitinka laukiamo formato '%{expected}'."
+        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje '%{path}'."
         greater_than: "turi būti didesnis už %{count}."
         greater_than_or_equal_to: "turi būti didesnis arba lygus %{count}."
         greater_than_or_equal_to_start_date: "turi būti didesnis arba lygus už pradžios datą."
         greater_than_start_date: "turi būti didesnis už pradžios datą."
         inclusion: "nenustatyta kaip viena iš leidžiamų reikšmių."
+        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje '%{path}'."
         invalid: " neteisingas."
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
@@ -571,7 +575,11 @@ lt:
         taken: "jau užimtas."
         too_long: "yra per ilgas (daugiausiai galima %{count} simbolių)."
         too_short: "yra per trumpas (mažiausiai %{count} simbolių)."
+        type_mismatch: "yra ne tipo '%{type}'"
+        type_mismatch_nested: "yra ne  tipo '%{type}' kelyje '%{path}'"
         unchangeable: "negali būti pakeistas."
+        unknown_property: "yra nežinoma savybė."
+        unknown_property_nested: "yra nežinomas kelias '%{path}'."
         unremovable: "negali būti pašalintas."
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
@@ -1922,17 +1930,33 @@ lt:
   mail:
     actions: 'Veiksmai'
     digests:
-      time_frame: 'Visų jūsų prenumeruojamų įvykių tarp %{start} ir %{end} suvestinė'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} sukurtas %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Sukurta'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'stebimas'
-          involved: 'paskirtas arba atsakingas'
-          mentioned: 'paminėtas'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'visi'
           prefix: 'Gavote dėl pranešimų nustatymo: %{reason}'
-        subject: 'Kasdienė projekto santrauka %{date} - %{number} atnaujinimai'
-        updated_at: '%{user} pakeistas %{timestamp}'
+        see_all: 'See all'
+        updated: 'Atnaujinta'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."

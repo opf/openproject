@@ -45,6 +45,9 @@ module UserPreferences
     validate :time_zone_correctness,
              if: -> { model.time_zone.present? }
 
+    validate :full_hour_reminder_time,
+             if: -> { model.daily_reminders.present? }
+
     protected
 
     def time_zone_correctness
@@ -57,6 +60,12 @@ module UserPreferences
     def user_allowed_to_access
       unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def full_hour_reminder_time
+      unless model.daily_reminders[:times].all? { |time| time.match?(/00:00\+00:00\z/) }
+        errors.add :daily_reminders, :full_hour
       end
     end
   end

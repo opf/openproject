@@ -2,7 +2,7 @@ FROM ruby:2.7.4-buster
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION="14.17.0"
-ENV CHROME_SOURCE_URL=https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb
+ENV CHROME_SOURCE_URL="https://dl.google.com/dl/linux/direct/google-chrome-stable_current_amd64.deb https://openproject-public.s3.eu-central-1.amazonaws.com/binaries/google-chrome-stable_current_amd64.deb"
 ENV USER=dev
 
 RUN useradd -d /home/$USER -m $USER -s /bin/bash
@@ -17,8 +17,13 @@ RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     postgresql-9.6 postgresql-client-9.6 postgresql-13 postgresql-client-13 time pandoc imagemagick libpq-dev default-jre-headless firefox-esr
 
-RUN wget --no-verbose -O /tmp/$(basename $CHROME_SOURCE_URL) $CHROME_SOURCE_URL && \
-  apt install -y /tmp/$(basename $CHROME_SOURCE_URL) && rm -f /tmp/$(basename $CHROME_SOURCE_URL)
+# Try Downloading binary from fallback source if first one fails
+RUN for url in $CHROME_SOURCE_URL; do \
+      file_name="/tmp/`basename $url`"; \
+      wget --no-verbose -O $file_name $url && \
+        apt install -y $file_name && rm -f $file_name && \
+        break; \
+    done
 
 ENV CI=true
 ENV RAILS_ENV=test

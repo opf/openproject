@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 ru:
   no_results_title_text: Показать нечего.
@@ -536,6 +536,7 @@ ru:
         before: "должны быть до %{date}."
         before_or_equal_to: "должны быть до или ровно %{date}."
         blank: "не может быть пустым."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Пакет работ не может быть связан с одной из своих подзадач."
         circular_dependency: "Это отношение создаст циклическую зависимость."
         confirmation: "не совпадает со значением поля %{attribute}."
@@ -549,11 +550,14 @@ ru:
         even: "должно быть чётным."
         exclusion: "зарезервировано."
         file_too_large: "слишком большой (максимальный размер составляет %{count} байт)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "должно быть больше чем %{count}."
         greater_than_or_equal_to: "должен быть больше или равно %{count}."
         greater_than_or_equal_to_start_date: "должна быть позднее даты начала или совпадать с ней."
         greater_than_start_date: "должна быть позднее даты начала."
         inclusion: "не задано ни одно из допустимых значений."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "неверно."
         invalid_url: 'не является допустимым URL-адресом.'
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
@@ -574,7 +578,11 @@ ru:
         taken: "уже принято."
         too_long: "слишком длинно (максимум — %{count} знаков)."
         too_short: "слишком коротко (минимум — %{count} знаков)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "изменить нельзя."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "не может быть удалено."
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
@@ -1925,17 +1933,33 @@ ru:
   mail:
     actions: 'Действия'
     digests:
-      time_frame: 'Сводка всех событий, на которые вы подписаны за период между %{start} и %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} создан в %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Создан'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'просмотрено'
-          involved: 'исполнитель или ответственный'
-          mentioned: 'упомянутый'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'все'
           prefix: 'Получено из-за настройки уведомления: %{reason}'
-        subject: 'Ежедневная сводка проекта %{date} - обновления %{number}'
-        updated_at: '%{user} обновлено в %{timestamp}'
+        see_all: 'See all'
+        updated: 'Обновлено'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."

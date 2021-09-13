@@ -36,8 +36,12 @@ class DigestMailer < ApplicationMailer
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
   include Redmine::I18n
+  include MailDigestHelper
 
-  helper :mail_digest
+  helper :mail_digest,
+         :mail_notification
+
+  MAX_SHOWN_WORK_PACKAGES = 15
 
   class << self
     def generate_message_id(_, user)
@@ -54,17 +58,27 @@ class DigestMailer < ApplicationMailer
     open_project_headers User: recipient.name
     message_id nil, recipient
 
-    @notifications_by_project = load_notifications(notification_ids)
-                                  .group_by(&:project)
-                                  .transform_values { |of_project| of_project.group_by(&:resource) }
+    @user = recipient
+    @notification_ids = notification_ids
+    @aggregated_notifications = load_notifications(notification_ids)
+                                  .sort_by(&:created_at)
+                                  .reverse
+                                  .group_by(&:resource)
 
-    return if @notifications_by_project.empty?
+    @mentioned_count = @aggregated_notifications
+                         .values
+                         .flatten
+                         .map(&:reason_mail_digest)
+                         .compact
+                         .count("mentioned")
+
+    return if @aggregated_notifications.empty?
 
     with_locale_for(recipient) do
+      subject = "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
+
       mail to: recipient.mail,
-           subject: I18n.t('mail.digests.work_packages.subject',
-                           date: format_time_as_date(Time.current),
-                           number: notification_ids.count)
+           subject: subject
     end
   end
 

@@ -1,6 +1,7 @@
 <div
   class="work-package-details-activities-activity-contents"
   *ngIf="workPackage"
+  [attr.data-notification-selector]="hasUnreadNotification ? 'notification-activity' : null"
 >
   <div class="comments-number">
     <span
