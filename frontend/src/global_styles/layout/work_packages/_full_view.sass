@@ -97,13 +97,22 @@
 
 .work-packages-full-view--split-right
   min-width: 530px
-  overflow-y: scroll
+  overflow-y: hidden
   overflow-x: auto
   position: relative
   @include styled-scroll-bar
 
   .work-packages--panel-inner
-    padding: 15px 5px 0 15px
+    display: grid
+    grid-template-rows: auto 1fr
+    height: 100%
+    padding: 5px 0 10px 15px
+
+  .tabcontent
+    height: 100%
+    overflow: auto
+    @include styled-scroll-bar
+    padding-right: 5px
 
   .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
     padding-left: 0
