@@ -66,7 +66,7 @@ hu:
       upgrade_to_ee: "Frissítés a Vállalati Verzióra"
       add_token: "Töltse fel a Vállalati Verzió támogatási tokenjét"
       replace_token: "A jelenlegi támogatási token lecserélése"
-      order: "Order Enterprise on-premises Edition"
+      order: "Vállalati verzió megrendelése"
       paste: "Illessze be a Vállalati Verzió támogatási tokentjét"
       required_for_feature: "Ez a funkció csak aktív Vállalati Verzió támogatási tokennel érhető el."
       enterprise_link: "További információért kattintson ide."
@@ -78,7 +78,7 @@ hu:
     is_active: jelenleg látható
     is_inactive: jelenleg nem látható
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: "Az ehhez a mezőhöz hozzáadott szöveg és kép nyilvánosan látható minden bejelentkezett felhasználó számára!\n"
     text_overview: 'Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz. Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára kattintást követően.'
     label_plural: 'Attribútum-súgószöveg'
     show_preview: 'Előnézet mutatása'
@@ -90,8 +90,8 @@ hu:
       no_results_content_text: Új autentikációs mód létrehozása
   background_jobs:
     status:
-      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
-      cancelled_due_to: "Job was cancelled due to error: %{message}"
+      error_requeue: "A művelet hibát észlelt, de újra próbálkozik. A hiba a következő volt: %{message}\n"
+      cancelled_due_to: "A műveletet hiba miatt törölték: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.
@@ -113,11 +113,11 @@ hu:
         Az OpenProject csak ebben a részfában biztosítja a megadott felhasználóneveket.
         Példa: ou = felhasználók, dc = példa, dc = com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Adjon hozzá egy opcionális RFC4515 szűrőt az LDAP -ban szűrt felhasználók számára visszaadott eredményekhez.
+        Ezzel korlátozhatja az OpenProject által hitelesítésre és csoportszinkronizálásra talált felhasználók körét.
       filter_string_concat: |
-        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
-        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+        Az OpenProject mindig szűri a felhasználó által megadott bejelentkezési attribútumot a rekord azonosítására. Ha itt megad egy szűrőt,
+        ÉS -sel lesz összekapcsolva. Alapértelmezés szerint a mindenre kiterjedő (objectClass =*) lesz szűrő.
       onthefly_register: |
         Ha bejelöli ezt a négyzetet, az OpenProject automatikusan új felhasználókat hoz létre az LDAP bejegyzéseikből
         amikor először hitelesítenek az OpenProject segítségével.
@@ -136,10 +136,10 @@ hu:
       simple_tls: 'Egyszerű_TLS'
       start_tls: 'Start_TLS'
       plain_description: "Egyszerű, nem titkosított kapcsolat, nincs TLS egyeztetés."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls_description: "Implicit TLS-titkosítás, de nincs tanúsítvány-érvényesítés. Óvatosan és az LDAP-kapcsolat implicit bizalmával használandó.\n"
+      start_tls_description: "Explicit TLS titkosítás teljes érvényesítéssel. Használja az LDAP TLS/SSL protokollon keresztüli .\n"
       section_more_info_link_html: >
-        This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+        Ez a szakasz az LDAP hitelesítési forrás kapcsolatbiztonságáról szól. További információért keresse fel a <a href="%{link}"> Net :: LDAP dokumentációt </a>
   forums:
     show:
       no_results_title_text: Jelenleg nincs fórumbejegyzés.
@@ -175,7 +175,7 @@ hu:
   concatenation:
     single: 'vagy'
   documentation:
-    see_more_link: For more information, please see our documentation on this topic.
+    see_more_link: További információért ebben a témakörben kérem látogasson el a dokumentációnkba
   global_search:
     overwritten_tabs:
       wiki_pages: "Wiki"
@@ -190,23 +190,24 @@ hu:
       no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Adja meg azoknak a neveknek a listáját, amelyeket figyelmen kívül kell hagyni a bejövő levelek mellékleteinek feldolgozásakor (pl. Aláírások vagy ikonok). Írjon be egy fájlnevet soronként.
+
   projects:
     delete:
-      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      scheduled: "A törlés ütemezésre került, és a háttérben történik. Értesítést kap az eredményről.\n"
       schedule_failed: "A projektet nem lehet törölni: %{errors}"
       failed: "A projekt %{name} törlése meghiúsult"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      failed_text: "A projekt%{name} törlése sikertelen. A projekt archiválva van."
+      completed: "A projekt %{name} törlölve"
+      completed_text: "A projekt%{name} törlése sikeres."
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
+      open_as_gantt_title_admin: "A nézetbeállításokat (például a kiválasztott munkacsomag típusokat) módosíthatja az adminisztrációban a projektbeállítások alatt.\n"
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
     settings:
-      change_identifier: Change identifier
+      change_identifier: Azonosító megváltoztatása
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
       forums:
@@ -223,12 +224,12 @@ hu:
         no_results_title_text: Jelenleg nincsenek verziók a projekthez.
         no_results_content_text: Új verzió létrehozása
       storage:
-        no_results_title_text: There is no additional recorded disk space consumed by this project.
+        no_results_title_text: "Ebben a projektben nincs további rögzített lemezterület.\n"
   members:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
       no_results_content_text: Tag hozzáadása a projekthez
-    invite_by_mail: "Send invite to %{mail}"
+    invite_by_mail: "Meghívás küldése %{mail}"
   my:
     access_token:
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"
@@ -241,25 +242,27 @@ hu:
       no_results_content_text: Hír hozzáadása
   users:
     groups:
-      member_in_these_groups: 'This user is currently a member of the following groups:'
-      no_results_title_text: This user is currently not a member in any group.
+      member_in_these_groups: 'A felhasználó a következő csoportoknak a tagja:'
+      no_results_title_text: A falhasználó egyik csoportnak se a tagja
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+      Nem törölheti a teszt felhasználót. Nincs joga a tagok kezeléséhez minden olyan projektben, amelynek a teszt felhasználó tagja.
+
+    delete_tooltip: "Teszt felhasználó törlése"
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "Teszt felhasználó%{name} törlése"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        A teszt felhasználó minden előfordulása (pl. Mint jogosult, felelős vagy más felhasználói érték) át lesz rendelve a "Törölt felhasználó" nevű fiókba.
+        Mivel minden törölt fiók adatait újra hozzárendeli ehhez a fiókhoz, nem lehet megkülönböztetni a felhasználó által létrehozott adatokat egy másik törölt fiók adataitól.
       irreversible: "Ez a művelet visszavonhatatlan"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "Adja meg a teszt felhasználó nevét %{name} a törlés megerősítéséhez."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: "Rendeljen munkát olyan személyekhez, akik nem tagjai a projektnek.\n"
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Számos olyan forgatókönyv létezik, amikor olyan embereket szeretne kiosztani, akik nem tagjai a projektnek. Egyszerűen előfordulhat, hogy még mindig a megfelelő személyt kell felvennie a munkára. Vagy egyszerűen nem akar hozzáférést biztosítani az adott személyhez a projekt információihoz, de mégis szeretné, ha nyomon követett feladatokat rendelne hozzá.
+
   prioritiies:
     edit:
       priority_color_text: |
@@ -299,7 +302,7 @@ hu:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
   wiki:
-    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    page_not_editable_index: "A kért oldal (még) nem létezik. Átirányítottuk az összes wiki -oldal indexébe.\n"
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
     index:
       no_results_content_text: Új wiki oldal hozzáadása
@@ -311,7 +314,7 @@ hu:
       one: 'Egy leszármazott feladatcsoport'
       other: '%{count} munkacsomag leszármazottai'
     bulk:
-      could_not_be_saved: "The following work packages could not be saved:"
+      could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: 'Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz'
@@ -383,7 +386,7 @@ hu:
         attr_mail: "Email attribútum"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Automatikus felhasználó készítés"
         port: "Port szám"
       changeset:
         repository: "Csomagtároló"
@@ -436,7 +439,7 @@ hu:
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Template project'
+        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -508,7 +511,7 @@ hu:
         parent_work_package: "Szülő"
         priority: "Fontosság"
         progress: "Folyamat állapot (%)"
-        schedule_manually: "Manual scheduling"
+        schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
         subproject: "Alprojekt"
@@ -517,10 +520,10 @@ hu:
         watcher: "Megfigyelő"
       'doorkeeper/application':
         uid: "Ügyfél azonosító"
-        secret: "Client secret"
+        secret: "Kliens titok"
         owner: "Tulajdonos"
         redirect_uri: "Átirányítás URI"
-        client_credentials_user_id: "Client Credentials User ID"
+        client_credentials_user_id: "Ügyféladatok Felhasználói azonosító\n"
         scopes: "Hatáskörök"
         confidential: "Bizalmas"
     errors:
@@ -534,11 +537,12 @@ hu:
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
-        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        could_not_be_copied: "A (z) %{dependency} nem másolható (teljesen)."
         does_not_exist: "nem létezik."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "Csak az Enterprise Verzióban érhető el"
         error_unauthorized: "lehet, hogy nem érhető el."
         error_readonly: "írása megkísérelve, de nem írható."
+        email: "nem valós e-mail cím"
         empty: "nem lehet üres."
         even: "kell még."
         exclusion: "foglalt."
@@ -553,7 +557,7 @@ hu:
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
         not_deletable: "nem törölhető"
-        not_current_user: "is not the current user."
+        not_current_user: "nem az aktuális felhasználó"
         not_a_date: "nem érvényes dátum."
         not_a_datetime: "ez nem érvényes dátum."
         not_a_number: "ez nem egy szám."
@@ -576,7 +580,7 @@ hu:
             global: 'Globális'
           query:
             filters:
-              minimum: "need to include at least a one filter for principal, context or id with the '=' operator."
+              minimum: "tartalmaznia kell legalább egy szűrőt a fő, kontextus vagy azonosító számára a '=' operátorral.\n"
         custom_field:
           at_least_one_custom_option: "Minimum egy opciónak elérhetőnek kell lennie."
         custom_actions:
@@ -587,7 +591,7 @@ hu:
           not_an_integer: "(%{name}) nem egész szám."
           smaller_than_or_equal_to: "(%{name}) kisebb vagy egyenlő, mint %{count}."
           greater_than_or_equal_to: "(%{name}) nagyobbnak vagy egyenlőnek kell lennie %{count} értékkel."
-          format: "%{message}"
+          format: "%{message}\n"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -595,15 +599,15 @@ hu:
               invalid_uri: 'érvényes URI-nak kell lennie.'
               relative_uri: 'abszolút URI-nak kell lennie.'
               secured_uri: 'HTTPS/SSL URI-nak kell lennie.'
-              forbidden_uri: 'is forbidden by the server.'
+              forbidden_uri: 'A szerver tiltja a hozzáférést'
             scopes:
-              not_match_configured: "doesn't match available scopes."
+              not_match_configured: "nem egyezik a rendelkezésre álló hatókörökkel.\n"
         enterprise_token:
           unreadable: "nem olvasható. Biztos vagy benne, hogy ez támogatási token?"
         grids/grid:
           overlaps: 'átfedés'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          outside: 'hatókörön kívül van.'
+          end_before_start: 'a befejező értéknek nagyobbnak kell lennie mint a kezdőnek'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -617,8 +621,8 @@ hu:
             types:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
             enabled_modules:
-              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
-              format: "%{message}"
+              dependency_missing: "A '%{dependency}' modult is engedélyezni kell, mivel a '%{module}' modul függ tőle."
+              format: "%{message}\n"
         query:
           attributes:
             project:
@@ -627,13 +631,13 @@ hu:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános nézeteket létrehozni."
             group_by:
               invalid: "Nem csoportosítható e szerint: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
             column_names:
               invalid: "Érvénytelen lekérdezési oszlop: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
             sort_criteria:
               invalid: "Nem lehet rendezni ezen oszlop szerint: %{value}"
-              format: "%{message}"
+              format: "%{message}\n"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -642,8 +646,8 @@ hu:
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
-              format: "%{message}"
+              inclusion: "A szűrő érvénytelen értékeket tartalmaz"
+              format: "%{message}\n"
         relation:
           typed_dag:
             circular_dependency: "A kapcsolat körkörös függőséget hoz létre."
@@ -663,7 +667,7 @@ hu:
         role:
           attributes:
             permissions:
-              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+              dependency_missing: "a (z) '%{dependency}' kifejezést is tartalmaznia kell, mivel a (z) '%{permission}' van kiválasztva.\n"
         time_entry:
           attributes:
             hours:
@@ -671,7 +675,7 @@ hu:
         wiki_page:
           attributes:
             slug:
-              undeducible: "cannot be deduced from the title '%{title}'."
+              undeducible: "nem lehet következtetni a \"%{title}\" címből.\n"
         work_package:
           is_not_a_valid_target_for_time_entries: "A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez."
           attributes:
@@ -699,7 +703,7 @@ hu:
           attributes:
             attribute_groups:
               attribute_unknown: "Érvénytelen feladatcsoport attribútumot használt."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              attribute_unknown_name: "Érvénytelen munkacsomag értek %{attribute}"
               duplicate_group: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
               query_invalid: "A beágyazott lekérdezés '%{group}' érvénytelen: %{details}"
               group_without_name: "Névtelen csoport nem engedélyezett."
@@ -723,16 +727,16 @@ hu:
               error_not_found: "nem található"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
-          role_blank: "need to be assigned."
+          role_blank: "Hozzá kell rendelve lennie"
           attributes:
             roles:
-              ungrantable: "has an unassignable role."
+              ungrantable: "hozzárendelhetetlen szerepe van.\n"
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "nem lehet hozzárendelni a projekthez"
         version:
-          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_work_packages_attached: "Nem lehet a verziót törölni amíg hozzá van rendelve munkacsomagokhoz."
         status:
-          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+          readonly_default_exlusive: "nem aktiválható az alapértelmezettként megjelölt állapotokhoz."
       template:
         body: "Kérjük, ellenőrizze az alábbi mezőket:"
         header:
@@ -750,7 +754,7 @@ hu:
       status: "Feladatcsoport állapot"
       member: "Tag"
       news: "Hírek"
-      placeholder_user: "Placeholder user"
+      placeholder_user: "Teszt felhasználó"
       project: "Projekt"
       query: "Egyéni lekérdezés"
       role:
@@ -790,9 +794,9 @@ hu:
     date: "dátum"
     default_columns: "Alapértelmezett oszlopok"
     description: "Leírás"
-    derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
-    derived_start_date: "Derived start date"
+    derived_due_date: "Származtatott befejezési időpont"
+    derived_estimated_hours: "Származtatott becsült idő"
+    derived_start_date: "Származtatott kezdési időpont\n"
     display_sums: "Megjelenitendő összegek"
     due_date: "Befejezési dátum"
     estimated_hours: "Becsült idő (óra)"
@@ -833,29 +837,33 @@ hu:
     label_backup_token: "Visszaállítási kulcs"
     label_create_token: "Visszaállítási kulcs létrehozása"
     label_delete_token: "Visszaállítási kulcs törlése"
-    label_reset_token: "Reset backup token"
-    label_token_users: "The following users have active backup tokens"
+    label_reset_token: "Visszaállítási kulcs törlése"
+    label_token_users: "A következő felhasználóknak van aktív visszaállítási kulcsuk"
     reset_token:
       action_create: Létrehoz
       action_reset: Visszaállít, reset
-      heading_reset: "Reset backup token"
+      heading_reset: "Visszaállítási kulcs törlése"
       heading_create: "Visszaállítási kulcs létrehozása"
       implications: >
-        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+        A biztonsági mentések engedélyezésével a szükséges jogosultságokkal és ezzel a biztonsági mentési jogkivonattal rendelkező felhasználók letölthetnek egy biztonsági másolatot, amely tartalmazza az OpenProject telepítés összes adatát. Ez magában foglalja az összes többi felhasználó adatait.
+
       info: >
-        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+        A biztonsági mentés létrehozásához biztonsági másolatot kell generálnia. Minden alkalommal, amikor biztonsági másolatot szeretne kérni, meg kell adnia ezt a tokent. A biztonsági mentés törlésével letilthatja a biztonsági mentést ennél a felhasználónál.
+
       verification: >
-        Enter %{word} to confirm you want to %{action} the backup token.
+        Írja be a %{word} billentyűt, hogy megerősítse, hogy %{action} a biztonsági mentés tokent szeretné használni.
+
       verification_word_reset: visszaállít
       verification_word_create: létrehoz
       warning: >
-        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+        Új token létrehozásakor csak 24 óra elteltével kérhet biztonsági másolatot. Ez biztonsági intézkedés. Ezt követően bármikor kérhet biztonsági másolatot a jogkivonat használatával.
+
     text_token_deleted: Visszaállítási kulcs törölve. A visszaállítások kikapcsolva.
     error:
       invalid_token: Érvénytelen vagy hiányzó visszaállítási kulcs
       token_cooldown: A visszaállítási kulcs még %{hours} óráig érvényes.
       backup_pending: Egy visszaállítás még függőben van.
-      limit_reached: You can only do %{limit} backups per day.
+      limit_reached: Csak a megadott %{limit} visszaállítást tudsz készíteni naponta
   button_add: "Hozzáadás"
   button_add_comment: "Megjegyzés hozzáadása"
   button_add_member: Tag hozzáadása
@@ -935,44 +943,44 @@ hu:
     text_update_consent_time: Jelölje be ezt a négyzetet, ha újra kérni szeretné a felhasználók beleegyezését. Engedélyezem, ha megváltoztatta a fenti jóváhagyási jogi információt.
     update_consent_last_time: "Utolsó hozzájárulás frissítése: %{update_time}"
   copy_project:
-    title: 'Copy project "%{source_project_name}"'
+    title: 'Projekt másolása %{source_project_name}'
     started: "Projekt másolása elindult a \"%{source_project_name}\" nevű projektből a \"%{target_project_name}\" projektbe. E-mailben értesítjük, amint \"%{target_project_name}\" elérhető."
     failed: "Nem lehet másolni a %{source_project_name} projektet "
-    failed_internal: "Copying failed due to an internal error."
+    failed_internal: "Sikertelen másolás egy belső hiba miatt."
     succeeded: "A %{target_project_name} projekt létrehozva "
     errors: "Hiba"
     project_custom_fields: 'Projekt egyéni mezői'
     x_objects_of_this_type:
-      zero: 'No objects of this type'
-      one: 'One object of this type'
-      other: '%{count} objects of this type'
+      zero: 'Nincs ilyen fajta objektum'
+      one: 'Egy ilyen fajta objektum'
+      other: '%{count} ilyen fajta objektum'
     text:
       failed: "Nem lehet másolni a  \"%{source_project_name}\" projektet a \"%{target_project_name}\" projektbe."
       succeeded: "A \"%{source_project_name}\" projekt átmásolva a \"%{target_project_name}\" projektbe."
   create_new_page: "Wiki oldal"
   date:
     abbr_day_names:
-      - "Vasárnap"
-      - "Hétfő"
-      - "Kedd"
-      - "Szerda"
-      - "Csütörtök"
-      - "Péntek"
-      - "Szombat"
+      - "V"
+      - "H"
+      - "K"
+      - "Sze"
+      - "CS"
+      - "P"
+      - "Szo"
     abbr_month_names:
       - null
-      - "Január"
-      - "Február"
-      - "Március"
-      - "Április"
-      - "Május"
-      - "Június"
-      - "Július"
-      - "Augusztus"
-      - "Szeptember"
-      - "Október"
-      - "November"
-      - "December"
+      - "Jan"
+      - "Feb"
+      - "Már"
+      - "Ápr"
+      - "Máj"
+      - "Jún"
+      - "Júl"
+      - "Aug"
+      - "Szept"
+      - "Okt"
+      - "Nov"
+      - "Dec"
     abbr_week: 'Wk'
     day_names:
       - "Vasárnap"
@@ -996,7 +1004,7 @@ hu:
       - "Február"
       - "Március"
       - "Április"
-      - "Május"
+      - "Máj"
       - "Június"
       - "Július"
       - "Augusztus"
@@ -1091,7 +1099,7 @@ hu:
   default_role_anonymous: "Anonymous"
   default_role_developer: "Fejlesztő"
   default_role_project_admin: "Projekt admin"
-  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_project_creator_and_staff_manager: "A vezetőség és a projekt menedzser"
   default_role_non_member: "Nem tag"
   default_role_reader: "Olvasó"
   default_role_member: "Tag"
@@ -1162,9 +1170,9 @@ hu:
   error_cookie_missing: 'Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud megfelelően működni.'
   error_custom_option_not_found: "A beállítás nem létezik."
   error_enterprise_activation_user_limit: "Fiókját nem lehet aktiválni (elérte a felhasználói korlátot). Kérjük, lépjen kapcsolatba rendszergazdájával a hozzáféréshez."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Az Enterprise Edition nem aktív. Vállalati jogkivonata domainje (%{actual}) nem egyezik a rendszer gazdagépnevével (%{expected})."
   error_failed_to_delete_entry: 'Nem sikerült törölni ezt a bejegyzést.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Hiba a függő objektum módosítása során: %{dependent_class} # %{related_id} - %{related_subject}: %{error}\n"
   error_invalid_selected_value: "Kijelölt érték érvénytelen."
   error_journal_attribute_not_present: "A lap nem tartalmaz attribútumot %{attribute}."
   error_pdf_export_too_many_columns: "Túl sok oszlop lett kiválasztva a PDF exportáláshoz. Kérlek csökkentsd a sorok számát."
@@ -1178,7 +1186,7 @@ hu:
   error_no_default_work_package_status: "Nincs alapértelmezett feladatcsoport állapot meghatározva. Kérjük, ellenőrizze a konfigurációt (\"Adminisztráció - feladatcsoport állapotok\")."
   error_no_type_in_project: "Nincs típus hozzárendelve ehhez a projekthez. Kérjük, ellenőrizze a projekt beállításait."
   error_omniauth_registration_timed_out: "A regisztráció egy külső hitelesítés-szolgáltatón keresztül túllépte az időkorlátot. Kérjük, próbálja meg újra."
-  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_invalid_auth: "Az azonosító szolgáltatótól visszaadott hitelesítési adatok érvénytelenek. További segítségért lépjen kapcsolatba rendszergazdájával.\n"
   error_scm_command_failed: "Hiba mikor kipróbáláshoz el akarja érni a repository: %{value}"
   error_scm_not_found: "A bejegyzés vagy a revízió  a csomagtárolóban  nem található."
   error_unable_delete_status: "A munka csomag állapot nem törölhető, mivel legalább egy munka csomag használja."
@@ -1192,7 +1200,7 @@ hu:
   error_menu_item_not_saved: Menüelem nem menthető
   error_wiki_root_menu_item_conflict: >
     Nem lehet átnevezni "%{old_name}", mert "%{new_name}" menü egy már létező menüvel "%{existing_caption}" (%{existing_identifier}) ütközik.
-  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
     project: 'Projekt szerkesztve'
@@ -1206,8 +1214,8 @@ hu:
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
   export:
-    your_work_packages_export: "Your work packages export"
-    succeeded: "The export has completed successfully."
+    your_work_packages_export: "Munkacsomagok exportálása"
+    succeeded: "Az exportálás sikeresen végetért."
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1260,7 +1268,7 @@ hu:
       forums: "Közösségi fórum"
       newsletter: "Biztonsági figyelmeztetések / hírlevél"
   image_conversion:
-    imagemagick: 'Imagemagick'
+    imagemagick: 'Képmásoló'
   journals:
     changes_retracted: "A módosítások visszavonásra kerültek."
   links:
@@ -1271,7 +1279,7 @@ hu:
   instructions_after_error: "Próbáljon meg újból bejelentkezni ide  %{signin} kattintva. Ha a hiba továbbra is fennáll, kérje a rendszergazda segítséget."
   menus:
     quick_add:
-      label: "Open quick add menu"
+      label: "Gyorsmenü megnyitása"
   my_account:
     access_tokens:
       no_results:
@@ -1344,7 +1352,7 @@ hu:
   label_branch: "Branch"
   label_browse: "böngész"
   label_bulk_edit_selected_work_packages: "A kiválasztott feladatcsoportok tömeges szerkesztése"
-  label_bundled: '(Bundled)'
+  label_bundled: '(Csomagban)'
   label_calendar: "Naptár"
   label_calendar_show: "Kalendárium mutatása"
   label_category: "Kategória"
@@ -1409,7 +1417,7 @@ hu:
   label_delete_project: "Projekt törlése"
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
-  label_deleted_custom_option: "(deleted option)"
+  label_deleted_custom_option: "(opció törlése)"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"
@@ -1427,7 +1435,7 @@ hu:
   label_duplicate: "duplikált"
   label_duplicates: "Ismétlődések"
   label_edit: "Szerkesztés"
-  label_edit_x: "Edit: %{x}"
+  label_edit_x: "Szerkesztés: %{x}"
   label_enable_multi_select: "Multiselect ki-/ bekapcsolása"
   label_enabled_project_custom_fields: 'Egyéni mezők engedélyezve'
   label_enabled_project_modules: 'Engedélyezett modulok'
@@ -1532,10 +1540,10 @@ hu:
   label_max_size: "Maximális mérete"
   label_me: "Nekem"
   label_member_new: "Új tag"
-  label_member_all_admin: "(All roles due to admin status)"
+  label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
-  lable_membership_added: 'Member added'
-  lable_membership_updated: 'Member updated'
+  lable_membership_added: 'Felhasználó hozzáadva'
+  lable_membership_updated: 'Felhasználó frissítve'
   label_menu_item_name: "A menüpont neve"
   label_message: "Üzenet"
   label_message_last: "Utolsó üzenet"
@@ -1608,9 +1616,9 @@ hu:
   label_permissions: "Jogosultságok"
   label_permissions_report: "Jogosultságok riportálása"
   label_personalize_page: "A lap testreszabása"
-  label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user: "Teszt felhasználó"
+  label_placeholder_user_new: "Új teszt felhasználó"
+  label_placeholder_user_plural: "Teszt felhasználók"
   label_planning: "Tervezés"
   label_please_login: "Kérjük, jelentkezzen be"
   label_plugins: "Modulok"
@@ -1622,7 +1630,7 @@ hu:
   label_previous_week: "Előző héten"
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: "Meglévő felhasználók vagy csoportok hozzáadása"
-  label_privacy_policy: "Data privacy and security policy"
+  label_privacy_policy: "Adatvédelmi és biztonsági szabályzat"
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
@@ -1857,30 +1865,30 @@ hu:
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
-  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
-  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
-  mail_body_backup_token_reset_user_info: Your backup token has been reset.
-  mail_body_backup_token_info: The previous token is no longer valid.
-  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
-  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_backup_ready: "A kért visszaállítás kész. Innen tudja letölteni:"
+  mail_body_backup_token_reset_admin_info: "A (z) \"%{user}\" felhasználó biztonsági mentési kulcsa alaphelyzetbe állítva.\n"
+  mail_body_backup_token_reset_user_info: A visszaállítási kulcs törölve.
+  mail_body_backup_token_info: Az előző kulcs elavult.
+  mail_body_backup_waiting_period: A visszaállítási kulcs még %{hours} óráig érvényes.
+  mail_body_backup_token_warning: "Ha nem te voltál, azonnal jelentkezz be az OpenProject szolgáltatásba, és állítsd újra.\n"
   mail_body_lost_password: "A jelszó módosításához kattintson az alábbi linkre:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
-  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register: "Üdvözli az OpenProject. Kérjük, aktiválja fiókját a következő linkre kattintva:\n"
+  mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Nyugodtan böngéssze a YouTube -csatornánkat (%{youtube_link}), ahol webináriumot szervezünk (%{webinar_link})
+    és „Kezdő lépések” videók (%{get_started_link}), hogy az OpenProject első lépései a lehető legegyszerűbbek legyenek.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
-  mail_body_register_closing: "Your OpenProject team"
-  mail_body_register_ending: "Stay connected! Kind regards,"
+    Ha további kérdései vannak, tekintse meg dokumentációnkat (%{documentation_link}), vagy vegye fel velünk a kapcsolatot (%{contact_us_link}).
+  mail_body_register_closing: "Az OpenProject csapata"
+  mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
   mail_body_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban:"
   mail_body_wiki_content_added: "A '%{id}' wiki oldal hozzáadva %{author} által."
   mail_body_wiki_content_updated: "A '%{id}' wiki oldal frissítve %{author} által."
   mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
-  mail_subject_backup_ready: "Your backup is ready"
-  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_backup_ready: "A biztonsági mentés elkészült"
+  mail_subject_backup_token_reset: "Biztonsági mentés token visszaállítás"
   mail_subject_lost_password: "A jelszavad %{value}"
   mail_subject_register: "A %{value} fiókód aktiválása"
   mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
@@ -1888,26 +1896,26 @@ hu:
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_member_added_project:
-    subject: "%{project} - You have been added as a member"
+    subject: "%{project} Tagként hozzá lettél adva"
     body:
       added_by:
-        without_message: "%{user} added you as a member to the project '%{project}'."
-        with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: "You have the following roles:"
+        without_message: "%{user} hozzáadott tagként a projekthez %{project}"
+        with_message: "%{user} felvett téged a \"%{project}\" projekt tagjaként:\n"
+      roles: "A következő jogosultságaid vannak :"
   mail_member_updated_project:
-    subject: "%{project} - Your roles have been updated"
+    subject: "%{project} A szerepköreid frissítve lettek"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have in the project '%{project}'."
-        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} frissítette a '%{project}' projektben betöltött szerepeit.\n"
+        with_message: "%{user} frissítette a \"%{project}\" projektben betöltött szerepeit:"
+      roles: "A következő jogosultságaid vannak :"
   mail_member_updated_global:
-    subject: "Your global permissions have been updated"
+    subject: "A globális jogosultságaid frissítve"
     body:
       updated_by:
-        without_message: "%{user} updated the roles you have globally."
-        with_message: "%{user} updated the roles you have globally writing:"
-      roles: "You now have the following roles:"
+        without_message: "%{user} frissítette a globális jogosultságaidat"
+        with_message: "%{user} frissítette a globálisan szerepeket:\n"
+      roles: "A következő jogosultságaid vannak :"
   mail_user_activation_limit_reached:
     subject: A felhasználó aktiválási korlátját elérte
     message: |
@@ -1935,7 +1943,7 @@ hu:
   notice_account_unknown_email: "Ismeretlen felhasználó."
   notice_account_update_failed: "A felhasználói beállítások nem menthetők. Kérem, vessen egy pillantást a fiók oldalra."
   notice_account_updated: "A hozzáférési adatok sikeresen frissítve."
-  notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
+  notice_account_other_session_expired: "A fiókjához kapcsolódó összes többi munkamenet érvénytelen.\n"
   notice_account_wrong_password: "Hibás jelszó"
   notice_account_registered_and_logged_in: "Üdvözöljük a fiókja aktiválva van. Most bejelentkezhet."
   notice_activation_failed: A fiókot nem lehet aktiválni.
@@ -1948,7 +1956,7 @@ hu:
   notice_email_sent: "Egy email elküldve %{value}"
   notice_failed_to_save_work_packages: "Nem sikerült menteni a %{count} munkacsomag(ok)a %{total} kiválasztott: %{ids}."
   notice_failed_to_save_members: "Nem sikerült menteni a tag(ok)at: %{errors}."
-  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_deletion_scheduled: "A törlés ütemezett és aszinkron módon történik."
   notice_file_not_found: "Az elérni kivánt oldal nem létezik, vagy már eltávolították."
   notice_forced_logout: "Automatikusan kijelentkezett %{ttl_time} perc inaktivitás után."
   notice_internal_server_error: "Az elérni kivánt oldalon hiba történt. Ha továbbra is problémákat tapasztal, kérem forduljon a %{app_title} rendszergazdához segítségért."
@@ -2013,10 +2021,10 @@ hu:
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
   permission_manage_user: "Felhasználó létrehozása és szerkesztése"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
   permission_add_work_package_watchers: "Megfigyelő hozzáadása"
-  permission_assign_versions: "Assign versions"
+  permission_assign_versions: "Hozzárendelt verziók."
   permission_browse_repository: "Csak olvasható hozzáférés a tárolóhoz (böngészés és kijelentkezés)"
   permission_change_wiki_parent_page: "A szülő wiki oldal megváltoztatása"
   permission_comment_news: "Megjegyzések írása a hírekehez"
@@ -2053,7 +2061,7 @@ hu:
   permission_manage_project_activities: "Projekt tevékenységek kezelése"
   permission_manage_public_queries: "Nyilvános nézetek kezelése"
   permission_manage_repository: "Csomagtároló kezelése"
-  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_subtasks: "feladatcsoport hierarchiák kezelése"
   permission_manage_versions: "Verziók kezelése"
   permission_manage_wiki: "Wiki kezelése"
   permission_manage_wiki_menu: "Wiki menü kezelése"
@@ -2090,7 +2098,7 @@ hu:
       title: Módosítsa a projekt azonosítóját
     template:
       copying: >
-        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+        A projekt a kiválasztott sablonprojektből jön létre. Amint elérhető a projekt, e-mailen értesítjük.
       use_template: 'Sablon használata'
       make_template: 'Mentés sablonként'
       remove_from_templates: 'Sablon törlése'
@@ -2113,8 +2121,8 @@ hu:
     assigned_to_role: "Hozzárendelt szerepkör"
     member_of_group: "Hozzárendelt csoport"
     assignee_or_group: "Megbízott, vagy a hozzá tartozó csoport"
-    subproject_id: "Including Subproject"
-    only_subproject_id: "Only subproject"
+    subproject_id: "Alprojektet is beleértve\n"
+    only_subproject_id: "Csak alprojekt"
     name_or_identifier: "Név vagy azonosító"
   repositories:
     at_identifier: '%{identifier} -n'
@@ -2215,7 +2223,7 @@ hu:
       username: "Tároló felhasználónév"
     truncated: "Elnézést, le kellett szűkítenünk ezt a könyvtárat %{limit} fájlra. %{truncated} bejegyzés került kihagyásra."
     named_repository: "%{vendor_name} tároló"
-    update_settings_successful: "The settings have been successfully saved."
+    update_settings_successful: "A beállításokat mentése sikerült."
     url: "Tároló URL-címe"
     warnings:
       cannot_annotate: "Ez a fájl nem annotálható."
@@ -2223,10 +2231,11 @@ hu:
     activated: 'aktiválva'
     deactivated: 'deaktiválva'
   search_input_placeholder: "Keresés ..."
-  setting_apiv3_cors_enabled: "Enable CORS"
-  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_enabled: "A CORS engedélyezése"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) engedélyezett származások"
   setting_apiv3_cors_origins_text_html: >
-    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+    Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
+
   setting_email_delivery_method: "E-mail küldés módja"
   setting_sendmail_location: "A sendmail program elérési útja"
   setting_smtp_enable_starttls_auto: "Automatikus STARTTLS, ha rendelkezésre áll"
@@ -2260,7 +2269,7 @@ hu:
   setting_consent_required: "Beleegyezés szükséges"
   setting_consent_decline_mail: "Hozzájárulás a kapcsolattartói e-mail címhez"
   setting_cross_project_work_package_relations: "Projektek közötti feladatcsoportok kapcsolatainak engedélyezése"
-  setting_first_week_of_year: "First week in year contains"
+  setting_first_week_of_year: "Az év első hete tartalmazza\n"
   setting_date_format: "Dátum formátum"
   setting_default_language: "Alapértelmezett nyelv"
   setting_default_notification_option: "Alapértelmezett értesítési beállítás"
@@ -2272,7 +2281,7 @@ hu:
   setting_emails_header: "E-mailek fejléce"
   setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Látható a projektlistában"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
@@ -2293,7 +2302,7 @@ hu:
   setting_mail_handler_api_key: "API-kulcs"
   setting_mail_handler_body_delimiters: "E-mailek csonkolása e sorok után"
   setting_mail_handler_body_delimiter_regex: "E-mailek csonkítása a megegyező kifejezéssel"
-  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
+  setting_mail_handler_ignore_filenames: "Összes melléklet figyelmen kívül hagyva"
   setting_new_project_user_role_id: "Szerepkör a  nem admin felhasználónak, aki létrehoz egy projektet,"
   setting_password_active_rules: "Választható karakter típusok"
   setting_password_count_former_banned: "A legutóbb használt  jelszavak száma, ezeket tilos újra felhasználni"
@@ -2303,8 +2312,8 @@ hu:
   setting_per_page_options: "Objektum per oldal opció"
   setting_plain_text_mail: "Egyszerű szöveges e-mail (nem HTML)"
   setting_protocol: "Protokol"
-  setting_project_gantt_query: "Project portfolio Gantt view"
-  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_project_gantt_query: "Projekt portfólió Gantt nézet"
+  setting_project_gantt_query_text: "A projekt áttekintő oldalán módosíthatja a Gantt -diagram megjelenítésére használt lekérdezést.\n"
   setting_security_badge_displayed: "Biztonsági állapot kijelzés"
   setting_registration_footer: "Regisztráció lábléc"
   setting_repositories_automatic_managed_vendor: "Automatikus tároló típus"
@@ -2343,12 +2352,13 @@ hu:
     brute_force_prevention: "Felhasználó automatikus blokkolása"
     display:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
       first_week_of_year_text: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+        Válassza ki azt a január dátumot, amely az év első hetében található. Ez az érték a hét első napjával együtt határozza meg az év hetek teljes számát.
+
     projects:
-      section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_new_projects: "Új projekt beállításai"
+      section_project_overview: "A projekt áttekintési lista beállítása"
     user:
       default_preferences: "Alapértelmezett preferenciák"
       deletion: "Törlés"
@@ -2442,7 +2452,8 @@ hu:
   text_no_notes: "Ehhez a munkacsomaghoz nincsenek megjegyzések."
   text_notice_too_many_values_are_inperformant: "Megjegyzés: Az oldalanként több mint 100 elem megjelenítésekor az oldal betöltési ideje  növekedhet."
   text_notice_security_badge_displayed_html: >
-    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
+    Megjegyzés: ha engedélyezve van, akkor a telepítési állapotot jelző jelvény jelenik meg a <a href="%{information_panel_path}">%{information_panel_label} </a> adminisztrációs panelen és a kezdőlapon. Csak a rendszergazdák számára jelenik meg. <br/> A jelvény ellenőrzi az aktuális OpenProject verziót a hivatalos OpenProject kiadási adatbázishoz képest, hogy figyelmeztesse Önt minden frissítésre vagy ismert biztonsági résre. Ha többet szeretne megtudni arról, hogy mit tartalmaz az ellenőrzés, milyen adatokra van szükség az elérhető frissítésekhez, és hogyan tilthatja le ezt az ellenőrzést, keresse fel a <a href="%{more_info_url}"> konfigurációs dokumentációt </a>.
+
   text_own_membership_delete_confirmation: "Értesítem arról, hogy eltávolít néhány vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a projektet. Biztosan folytatni kívánja?"
   text_plugin_assets_writable: "Plugin eszközök könyvtára írható"
   text_powered_by: "Készítette %{link}"
@@ -2680,7 +2691,7 @@ hu:
       mail_self_notified: "Értesítés küldése a saját magam által által végrehajtott módosításokról"
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: "Állapot változás"
-    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_provider_login: "A nevet a bejelentkezési szolgáltató állítja be, és így nem módosítható.\n"
     unlock: "A zárolás feloldása"
     unlock_and_reset_failed_logins: "Zárolás felodása és alaphelyzetbe állitása sikertelen bejelentkezéskor"
   version_status_closed: "lezárt"
@@ -2730,13 +2741,13 @@ hu:
     attributes:
       lock_version: "Lezárt változat"
     errors:
-      code_400: "Bad request: %{message}"
+      code_400: "Hibás hívás %{message}"
       code_401: "Az erőforrás eléréséhez azonosítás szükséges."
       code_401_wrong_credentials: "Nem megfelelő hitelesítési adatok kerültek megadásra."
       code_403: "Ön nem jogosult az erőforrás eléréséhez."
       code_404: "A kért erőforrás nem található."
       code_409: "Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt."
-      code_429: "Too many requests. Please try again later."
+      code_429: "Túl sok próbálkozás, próbáld meg később"
       code_500: "Belső hiba történt."
       expected:
         date: "ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)"
@@ -2747,8 +2758,8 @@ hu:
       invalid_relation: "A kapcsolat érvénytelen."
       invalid_resource: "A \"%{property}\" tulajdonsághoz hasonló \"%{expected}\" kapcsolat várható, de \"%{actual}\"."
       invalid_signal:
-        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
-        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+        embed: "A %{invalid} kért beágyazása nem támogatott. A támogatott beágyazások a %{supported}."
+        select: "A %{invalid} kért kiválasztása nem támogatott. A támogatott kiválasztások %{supported}."
       invalid_user_status_transition: "A jelenlegi felhasználói fiók állapota nem teszi lehetővé ezt a műveletet."
       missing_content_type: "nincs megadva"
       missing_request_body: "Nem volt kérelem."
@@ -2756,7 +2767,7 @@ hu:
       multipart_body_error: "A kérelem nem tartalmazott várható többrészes elemet."
       multiple_errors: "Több mező megszorítás is megszegésre került."
       unable_to_create_attachment: "Csatolmány mentése sikertelen"
-      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      unable_to_create_attachment_permissions: "A melléklet mentése nem sikerült a fájlrendszer engedélyeinek hiánya miatt\n"
       render:
         context_not_parsable: "A megadott kontextus nem erőforrásra hivatkozik."
         unsupported_context: "A megadott erőforrás nem támogatott kontextus."
@@ -2773,11 +2784,11 @@ hu:
     resources:
       schema: 'Séma'
     undisclosed:
-      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      parent: A kiválasztott szülő a jogosultságok hiánya miatt láthatatlan.
   doorkeeper:
     pre_authorization:
-      status: 'Pre-authorization'
-    auth_url: 'Auth URL'
+      status: "Előzetes engedélyezés\n"
+    auth_url: "Auth URL\n"
     access_token_url: 'Hozzáférési token URL'
     errors:
       messages:
@@ -2786,14 +2797,14 @@ hu:
         invalid_redirect_uri: "A kért átirányítási URI hibás formátumú vagy nem egyezik a kliens átirányítási URI-vel."
         unauthorized_client: 'A kliens nincs feljogosítva erre a kérésre.'
         access_denied: 'Az erőforrás tulajdonosa vagy hitelesítő kiszolgálója megtagadta a kérést.'
-        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
-        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        invalid_scope: "A kért hatókör érvénytelen, ismeretlen vagy rosszul formázott.\n"
+        invalid_code_challenge_method: "A kódkérdezési módszernek egyszerűnek vagy S256-osnak kell lennie.\n"
         server_error: 'Hitelesítő szervert váratlan esemény érte, mely meggátolta a kérés teljesítését.'
         temporarily_unavailable: 'A hitelesítő szerver jelenleg nem tudja teljesíteni a kérést átmeneti túlterheltség vagy a kiszolgáló karbantartása miatt.'
         #Configuration error messages
         credential_flow_not_configured: 'Az erőforrás tulajdonos jelszóadatainak átadása megszakadt, mert a Doorkeeper.configure.resource_owner_from_credentials beállítatlan.'
-        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
-        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        resource_owner_authenticator_not_configured: 'Erőforrás tulajdonos keresés megszakadt, ugyanis a Doorkeeper.configure.resource_owner_authenticator beállítatlan.'
+        admin_authenticator_not_configured: "Az admin panelhez való hozzáférés tiltott, mivel a Doorkeeper.configure.admin_authenticator nincs konfigurálva.\n"
         #Access grant errors
         unsupported_response_type: 'A hitelesítő kiszolgáló nem támogatja ezt a választ.'
         #Access token errors
@@ -2806,7 +2817,7 @@ hu:
           unknown: "Hozzáférési kulcs érvénytelen"
   unsupported_browser:
     title: "A böngésződ elavult és nem támogatott"
-    message: "You may run into errors and degraded experience on this page."
+    message: "Előfordulhat, hogy hibákba ütközik és romlik az élmény ezen az oldalon."
     update_message: 'Kérjük frissítse a böngészőjét.'
     close_warning: "Figyelmeztetés figyelmen kívül hagyása."
   oauth:
@@ -2817,44 +2828,46 @@ hu:
       new: "Új OAuth alkalmazás"
       default_scopes: "Alapértelmezett hatáskörök"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Az alkalmazás neve. Ez más felhasználók számára jelenik meg engedélyezéskor.\n"
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+          Az engedélyezett URL -címek átirányíthatók a jogosult felhasználókra. Soronként egy bejegyzés. <br/> Ha asztali alkalmazást regisztrál, használja a következő URL -t.
+
+        confidential: "Ellenőrizze, hogy az alkalmazást olyan helyen használják-e, ahol az ügyféltitkot bizalmasan lehet kezelni. A natív mobilalkalmazások és az egyoldalas alkalmazások feltételezhetően nem bizalmasak."
         scopes: "Ellenőrizze azokat a hatóköröket, amelyekhez az alkalmazás hozzáférést biztosít. Ha nem ellenőrzi a hatókört, akkor az api_v3 feltételezzük."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        client_credential_user_id: "Választható felhasználói azonosító, amelyet az ügyfelek az alkalmazás használatakor megszemélyesíthetnek. Üresen hagyva csak nyilvános hozzáférést engedélyez\n"
+        register_intro: "Ha OAuth API kliensalkalmazást fejleszt az OpenProject számára, akkor ezen az űrlapon regisztrálhatja azt, hogy minden felhasználó használhassa."
         default_scopes: ""
     client_id: "Ügyfél azonosító"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Ez az egyetlen alkalom, amikor kinyomtathatjuk az ügyfél titkát, jegyezze fel és tartsa biztonságban. Jelszóként kell kezelni, és az OpenProject később nem tudja lekérni.
+
     authorization_dialog:
       authorize: "Engedélyez"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      cancel: "Az engedély visszavonása és megtagadása.\n"
+      prompt_html: "Engedélyezze <strong>%{application_name}</strong> hogy használhassa a felhasználó<em>%{login}</em>"
+      title: "Engedélyezze %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Ez az alkalmazás hozzáférést kér az Ön OpenProject-fiókjához. <br/> <strong>A következő jogosultságokat kérte:</strong>
     scopes:
       api_v3: "Teljes API v3 hozzáférés"
       api_v3_text: "Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject API v3 verzióhoz az Ön nevében végzett műveletek elvégzéséhez."
     grants:
       created_date: "Elfogadva "
       scopes: "Jogosultságok"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      successful_application_revocation: "A %{application_name} kérelem visszavonása sikeres.\n"
+      none_given: "Egyetlen OAuth -alkalmazás sem kapott hozzáférést a felhasználói fiókjához.\n"
     x_active_tokens:
-      one: 'one active token'
-      other: '%{count} active token'
+      one: 'egy aktív token'
+      other: '%{count} aktív token'
     flows:
       authorization_code: "Hitelesítő kód:"
-      client_credentials: "Client credentials flow"
-    client_credentials: "User used for Client credentials"
-    client_credentials_impersonation_set_to: "Client credentials user set to"
-    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+      client_credentials: "Ügyfél hitelesítő adatok forgalma\n"
+    client_credentials: "Az ügyfél hitelesítő adataihoz használt felhasználó\n"
+    client_credentials_impersonation_set_to: "Az ügyfél hitelesítő adathoz felhasználó beállítása\n"
+    client_credentials_impersonation_warning: "Megjegyzés: Az ebben az alkalmazásban az „Ügyféladatok” folyamatot használó ügyfelek jogosultak lesznek erre a felhasználóra\n"
     client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+      Alapértelmezés szerint az OpenProject az OAuth 2.0 engedélyezést a %{authorization_code_flow_link} segítségével biztosítja. Opcionálisan engedélyezheti a %{client_credentials_flow_link} opciót, de meg kell adnia egy felhasználót, akinek a nevében a kérések végrehajtásra kerülnek.
     authorization_error: "Engedélyezési hiba történt."
-    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    revoke_my_application_confirmation: "Tényleg el akarja távolítani ezt az alkalmazást? Ez visszavonja az aktív %{token_count} értéket.\n"
     my_registered_applications: "Regisztrált OAuth alkalmazások"
   you: te

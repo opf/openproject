@@ -539,6 +539,7 @@ es:
         error_enterprise_only: "solo está disponible en OpenProject Enterprise Edition"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
+        email: "is not a valid email address."
         empty: "No puede estar vacío."
         even: "debe ser incluido."
         exclusion: "está reservado."

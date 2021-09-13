@@ -179,7 +179,7 @@ describe MyController, type: :controller do
         end
 
         it 'shows a flash error' do
-          expect(flash[:error]).to include 'Email is invalid.'
+          expect(flash[:error]).to include 'Email is not a valid email address.'
           expect(request.path).to eq(my_settings_path)
         end
       end

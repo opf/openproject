@@ -112,7 +112,7 @@ class User < Principal
                         :firstname,
                         :lastname,
                         :mail,
-                        unless: Proc.new { |user| user.is_a?(AnonymousUser) || user.is_a?(DeletedUser) || user.is_a?(SystemUser) }
+                        unless: Proc.new { |user| user.builtin? }
 
   validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
   validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
@@ -120,7 +120,7 @@ class User < Principal
   validates_format_of :login, with: /\A[a-z0-9_\-@.+ ]*\z/i
   validates_length_of :login, maximum: 256
   validates_length_of :firstname, :lastname, maximum: 256
-  validates_format_of :mail, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, allow_blank: true
+  validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates_length_of :mail, maximum: 256, allow_nil: true
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true

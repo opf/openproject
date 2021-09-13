@@ -540,6 +540,7 @@ ko:
         error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
+        email: "is not a valid email address."
         empty: "비워둘 수 없습니다."
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"

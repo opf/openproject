@@ -53,7 +53,7 @@ pl:
           Tablica z automatycznymi kolumnami na podstawie atrybutu wersji. Idealna do planowania rozwoju produktu.
         action_type:
           assignee: przypisana osoba
-          status: status
+          status: Status
           version: wersja
           subproject: podprojekt
           subtasks: nadrzędny-podrzędny
