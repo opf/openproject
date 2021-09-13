@@ -69,6 +69,11 @@ class Queries::BaseQuery
     return empty_scope unless valid?
 
     apply_group_by(apply_filters(default_scope))
+      .select(group_by.name, Arel.sql('COUNT(*)'))
+  end
+
+  def group_values
+    groups
       .pluck(group_by.name, Arel.sql('COUNT(*)'))
       .to_h
   end
@@ -145,11 +150,11 @@ class Queries::BaseQuery
 
   def add_error(local_attribute, attribute_name, object)
     messages = object
-               .errors
-               .messages
-               .values
-               .flatten
-               .join(" #{I18n.t('support.array.sentence_connector')} ")
+                 .errors
+                 .messages
+                 .values
+                 .flatten
+                 .join(" #{I18n.t('support.array.sentence_connector')} ")
 
     errors.add local_attribute, errors.full_message(attribute_name, messages)
   end
