@@ -88,6 +88,7 @@ module API
                    query: resulting_params,
                    page: resulting_params[:offset],
                    per_page: resulting_params[:pageSize],
+                   groups: calculate_groups(query),
                    current_user: User.current)
           end
 
@@ -102,6 +103,14 @@ module API
             calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
               params[:offset] = to_i_or_nil(params[:offset])
               params[:pageSize] = to_i_or_nil(params[:pageSize])
+            end
+          end
+
+          def calculate_groups(query)
+            return unless query.group_by
+
+            query.groups.map do |group, count|
+              ::API::Decorators::AggregationGroup.new(group, count, query: query, current_user: User.current)
             end
           end
 
