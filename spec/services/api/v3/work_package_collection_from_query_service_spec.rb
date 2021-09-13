@@ -159,14 +159,9 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
   describe '#call' do
     subject { instance.call(params) }
 
-    it 'is successful' do
-      is_expected
-        .to be_success
-    end
-
     before do
       stub_const('::API::V3::WorkPackages::WorkPackageCollectionRepresenter', mock_wp_representer)
-      stub_const('::API::Decorators::AggregationGroup', mock_aggregation_representer)
+      stub_const('::API::V3::WorkPackages::WorkPackageAggregationGroup', mock_aggregation_representer)
 
       allow(::API::V3::UpdateQueryFromV3ParamsService)
         .to receive(:new)
@@ -174,11 +169,15 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
         .and_return(mock_update_query_service)
     end
 
+    it 'is successful' do
+      expect(subject).to be_success
+    end
+
     context 'result' do
       subject { instance.call(params).result }
 
       it 'is a WorkPackageCollectionRepresenter' do
-        is_expected
+        expect(subject)
           .to be_a(::API::V3::WorkPackages::WorkPackageCollectionRepresenter)
       end
 

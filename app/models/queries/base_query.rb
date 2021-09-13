@@ -73,9 +73,8 @@ class Queries::BaseQuery
   end
 
   def group_values
-    groups
-      .pluck(group_by.name, Arel.sql('COUNT(*)'))
-      .to_h
+    groups_hash = groups.pluck(group_by.name, Arel.sql('COUNT(*)')).to_h
+    instantiate_group_keys groups_hash
   end
 
   def where(attribute, operator, values)
@@ -208,6 +207,16 @@ class Queries::BaseQuery
   def group_by_order
     order_for(group_by.order_key).tap do |order|
       order.direction = :asc
+    end
+  end
+
+  def instantiate_group_keys(groups)
+    return groups unless group_by&.association_class
+
+    ar_keys = group_by.association_class.where(id: groups.keys.compact)
+
+    groups.transform_keys do |key|
+      ar_keys.detect { |ar_key| ar_key.id == key } || "#{key} #{I18n.t(:label_not_found)}"
     end
   end
 

@@ -70,6 +70,5 @@ module Queries::Register
                   :orders,
                   :columns,
                   :group_bys
-
   end
 end

@@ -182,6 +182,25 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     end
   end
 
+  context 'with a project group_by' do
+    before do
+      instance.group(:project)
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = <<~SQL.squish
+          SELECT "notifications"."project_id", COUNT(*) FROM "notifications"
+          WHERE "notifications"."recipient_id" = #{recipient.id}
+          GROUP BY "notifications"."project_id"
+          ORDER BY "notifications"."project_id" ASC
+        SQL
+
+        expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
   context 'with a non existing group_by' do
     before do
       instance.group(:does_not_exist)

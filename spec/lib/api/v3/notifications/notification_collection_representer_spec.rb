@@ -72,7 +72,7 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
       let(:groups) do
         [
           { value: 'mentioned', count: 34 },
-          { value: 'involved', count: 5}
+          { value: 'involved', count: 5 }
         ]
       end
 

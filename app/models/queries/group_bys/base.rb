@@ -48,12 +48,22 @@ module Queries
         raise NotImplementedError
       end
 
+      def association_class
+        nil
+      end
+
       def scope
-        group_by
+        scope = model
+        scope = model.joins(joins) if joins
+        group_by scope
       end
 
       def name
         attribute
+      end
+
+      def joins
+        nil
       end
 
       # Default to the same key for order
@@ -64,8 +74,8 @@ module Queries
 
       protected
 
-      def group_by
-        model.group(name)
+      def group_by(scope)
+        scope.group(name)
       end
     end
   end

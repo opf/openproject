@@ -41,7 +41,7 @@ module Queries::WorkPackages::FilterSerializer
 
     (YAML.load(yaml) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
-      filter = filter_for(field, true)
+      filter = filter_for(field, no_memoization: true)
       filter.operator = options['operator']
       filter.values = options['values']
       array << filter

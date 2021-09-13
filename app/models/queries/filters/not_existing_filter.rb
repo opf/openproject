@@ -44,7 +44,7 @@ module Queries
       end
 
       def human_name
-        name.to_s.blank? ? type : name.to_s
+        name.to_s.presence || type
       end
 
       validate :always_false
@@ -81,6 +81,5 @@ module Queries
         nil
       end
     end
-
   end
 end

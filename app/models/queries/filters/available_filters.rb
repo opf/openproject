@@ -59,7 +59,7 @@ module Queries
         initialized_filters.select(&:available?)
       end
 
-      def filter_for(key, no_memoization = false)
+      def filter_for(key, no_memoization: false)
         filter = get_initialized_filter(key, no_memoization)
 
         raise ::Queries::Filters::MissingError if filter.nil?
@@ -67,11 +67,11 @@ module Queries
         filter
       rescue ::Queries::Filters::InvalidError => e
         Rails.logger.error "Failed to register filter for #{key}: #{e} \n" \
-                       "Falling back to non-existing filter."
+                           "Falling back to non-existing filter."
         non_existing_filter(key)
       rescue ::Queries::Filters::MissingError => e
         Rails.logger.error "Failed to find filter for #{key}: #{e} \n" \
-                       "Falling back to non-existing filter."
+                           "Falling back to non-existing filter."
         non_existing_filter(key)
       end
 
@@ -129,4 +129,3 @@ module Queries
     end
   end
 end
-
