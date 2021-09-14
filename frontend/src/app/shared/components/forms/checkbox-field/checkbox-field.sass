@@ -9,8 +9,9 @@
     grid-column-end: 2
     grid-row-start: 1
     grid-row-end: 3
+    align-self: center
     padding-right: 1rem
-    padding-top: 0.2rem
+    margin-bottom: 0
 
   &--label
     grid-column-start: 2
@@ -31,9 +32,3 @@
     white-space: pre-line
     word-break: break-word
     word-wrap: break-word
-
-  &--input + &--description
-    // This is a hacky way to get the description labels to display more centered
-    // next to the inputs When there is no label.
-    margin-top: -0.05rem 
-
