@@ -6,7 +6,9 @@ import {
   Input,
 } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
@@ -33,7 +35,14 @@ export class NotificationSettingsTableComponent {
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
   };
 
-  constructor(private I18n:I18nService) {}
+  constructor(
+    private I18n:I18nService,
+    private pathHelper:PathHelperService,
+  ) {}
+
+  projectLink(href:string) {
+    return this.pathHelper.projectPath(idFromLink(href));
+  }
 
   addProjectSettings(project:HalSourceLink):void {
     this.settings.push(new FormGroup({

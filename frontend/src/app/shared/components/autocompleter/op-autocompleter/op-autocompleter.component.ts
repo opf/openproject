@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
   SimpleChanges,
+  HostBinding,
 } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import {
@@ -48,6 +49,8 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
 export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+  @HostBinding('class.op-autocompleter') className = true;
+
   @Input() public filters?:IAPIFilter[] = [];
 
   @Input() public resource:resource;

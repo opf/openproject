@@ -8,10 +8,7 @@ import {
 import { FormArray } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import {
-  map,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
@@ -25,6 +22,7 @@ export interface NotificationSettingProjectOption {
 @Component({
   selector: 'op-notification-setting-inline-create',
   templateUrl: './notification-setting-inline-create.component.html',
+  styleUrls: ['./notification-setting-inline-create.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingInlineCreateComponent {
