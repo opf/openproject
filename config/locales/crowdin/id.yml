@@ -36,23 +36,23 @@ id:
         primary-color: "Primer"
         primary-color-dark: "Primer (gelap)"
         header-bg-color: "Latar Belakang Header"
-        header-item-bg-hover-color: "Header background on hover"
+        header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
+        header-item-font-hover-color: "Font header melayang"
+        header-border-bottom-color: "Batas header"
         main-menu-bg-color: "latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama ketika dipilih"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        main-menu-bg-hover-background: "Menu utama melayang"
+        main-menu-font-color: "Font menu utama"
+        main-menu-selected-font-color: "Font menu utama ketika dipilih"
+        main-menu-hover-font-color: "Font menu utama melayang"
+        main-menu-border-color: "Batas menu utama"
       custom_colors: "Warna kostum"
       customize: "Sesuaikan instalasi OpenProject anda dengan logo Anda sendiri. Catatan: Logo ini dapat diakses secara publik."
       enterprise_notice: "Sebagai 'Terima Kasih' spesial untuk finansial konstributor untuk mengembangkan OpenProject, fitur kecil ini hanya akan tersedia untuk Enterprise Edition dukungan pelanggan."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
         content-link-color: "Warna font sebagian besar tautan."
         primary-color: "Warna utama."
         primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
@@ -61,7 +61,7 @@ id:
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-border-bottom-color: "Garis tipis di bawah header. Biarkan filed ini kosong jika Anda tidak ingin garis apapun."
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: mengubah tema akan mengubah custom style anda. Desain akan menghilang. Apakah anda ingin melanjutkannya?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
@@ -94,20 +94,18 @@ id:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
-      <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Nama arbitary koneksi LDAP
+      host: Nama host LDAP atau alamat IP
+      login_map: Kunci atribut pada LDAP digunakan untuk mengidentifikasi pengguna unik yang masuk. Biasanya akan menjadi 'uid' atau 'samAccountName'.
+      generic_map: Kunci atribut pada LDAP dipetakan ke atribut '%{attribute}' OpenProject
+      admin_map_html: "Opsional: Kunci atribut pada LDAP yang <strong>jika ada</strong> akan menandai pengguna OpenProject sebagai admin. Biarkan kososng jika ragu."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Masukan DN pengguna sistem hanya digunakan untuk akses membaca.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        contoh: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Masukan password yang terikat dengan pengguna sistem
       base_dn: |
         Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
         OpenProject will filter for provided usernames in this subtree only.
@@ -170,6 +168,8 @@ id:
     enabled_in_project: 'Diaktifkan pada proyek'
     contained_in_type: 'Terkandung dalam jenis'
     confirm_destroy_option: "Menghapus sebuah pilihan akan menghapus semua kemunculan yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru

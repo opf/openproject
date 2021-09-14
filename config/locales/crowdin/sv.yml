@@ -170,6 +170,8 @@ sv:
     enabled_in_project: 'Aktiverad i projekt'
     contained_in_type: 'Ingår i typ'
     confirm_destroy_option: "Radering av ett alternativ kommer radera alla förekomster (i arbetspaket). Är du säker på att du vill radera?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Det finns för närvarande inga anpassade fält.
       no_results_content_text: Skapa ett nytt anpassat fält

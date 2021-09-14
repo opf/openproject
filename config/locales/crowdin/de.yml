@@ -167,6 +167,8 @@ de:
     enabled_in_project: 'Im Projekt aktiviert'
     contained_in_type: 'In Typ enthalten'
     confirm_destroy_option: "Löschen eines Werts entfernt alle bereits gesetzten Werte (z.B. bei Arbeitspaketen). Sind Sie sicher, dass Sie den Wert löschen möchten?"
+    reorder_alphabetical: "Alphabetisch umsortieren"
+    reorder_confirmation: "Warnung: Die aktuelle Reihenfolge der verfügbaren Werte geht verloren. Fortfahren?"
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen

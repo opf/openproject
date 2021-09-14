@@ -170,6 +170,8 @@ ar:
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: لا يوجد حالياً ملفات للزبائن.
       no_results_content_text: إنشاء ملف زبون جديد

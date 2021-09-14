@@ -170,6 +170,8 @@ sk:
     enabled_in_project: 'Povolené v projekte'
     contained_in_type: 'Obsiahnuté v type'
     confirm_destroy_option: "Odstránením hodnoty sa odstránia všetky predtým nastavené hodnoty (napríklad pre pracovné balíčky). Naozaj chcete odstrániť hodnotu?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole

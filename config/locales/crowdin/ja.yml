@@ -168,6 +168,8 @@ ja:
     enabled_in_project: 'プロジェクトで有効'
     contained_in_type: 'タイプに含まれる'
     confirm_destroy_option: "オプションを削除すると、そのすべての派生 (例えばワークパッケージ) が削除されます。削除してもよろしいですか?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 現在、カスタム フィールドはありません。
       no_results_content_text: 新しいカスタム フィールドを作成

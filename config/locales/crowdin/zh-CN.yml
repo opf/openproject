@@ -167,6 +167,8 @@ zh-CN:
     enabled_in_project: '已在项目中启用'
     contained_in_type: '已包含在类型中'
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
+    reorder_alphabetical: "按字母顺序重新排序"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段

@@ -170,6 +170,8 @@ ko:
     enabled_in_project: '프로젝트에 사용 가능함.'
     contained_in_type: '타입에 포함됨.'
     confirm_destroy_option: "옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
