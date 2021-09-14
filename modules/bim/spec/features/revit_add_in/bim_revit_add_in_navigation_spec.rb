@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
 describe 'BIM Revit Add-in navigation spec',
          type: :feature,
@@ -54,25 +54,21 @@ describe 'BIM Revit Add-in navigation spec',
     before do
       login_as(user)
       model_page.visit!
+
+      # Guard to ensure toolbar is completely loaded and doesn't rerender again.
+      # At first there is no badge. It gets set later and only then the toolbar's
+      # switches are ready to test.
+      model_page.find('#work-packages-filter-toggle-button .badge', text: '1')
     end
 
-    it 'shows "Cards" view by default' do
+    it 'show the right elements on the page' do
+      # shows "Cards" view by default
       model_page.expect_view_toggle_at 'Cards'
-    end
-
-    it 'shows no viewer' do
+      # shows no viewer
       model_page.model_viewer_visible false
-    end
-
-    it 'shows a toolbar' do
+      # shows a toolbar' do
       model_page.page_has_a_toolbar
-    end
-
-    it 'shows no viewer' do
-      model_page.model_viewer_visible false
-    end
-
-    it 'menu has no viewer options' do
+      # menu has no viewer options
       model_page.has_no_menu_item_with_text? 'Viewer'
     end
 
@@ -99,10 +95,7 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows work package details page in full view on Cards display mode' do
-      card_element = page.find('.wp-card')
-
-      card_element.hover
-      card_element.find('.wp-card--details-button').click
+      model_page.click_info_icon(work_package)
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
