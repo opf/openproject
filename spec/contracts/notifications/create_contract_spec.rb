@@ -92,13 +92,6 @@ describe Notifications::CreateContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'with all channels nil' do
-      let(:notification_read_ian) { nil }
-      let(:notification_read_mail_digest) { nil }
-
-      it_behaves_like 'contract is invalid', base: :at_least_one_channel
-    end
-
     context 'with read_ian true' do
       let(:notification_read_ian) { true }
 

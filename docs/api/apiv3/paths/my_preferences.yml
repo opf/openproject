@@ -23,33 +23,14 @@ get:
                 timeZone: "Europe/Berlin"
                 warnOnLeavingUnsaved: true
                 notifications:
-                  - channel: "mail"
-                    watched: false
-                    involved: true
-                    mentioned: false
-                    all: false
-                    workPackageCommented: false
-                    _links:
-                      project:
-                        href: null
-                  - channel: "in_app"
-                    watched: true
-                    involved: true
-                    mentioned: true
-                    all: false
-                    workPackageCommented: false
-                    _links:
-                      project:
-                        href: null
-                  - channel: "mail_digest"
-                    watched: true
-                    involved: true
-                    mentioned: true
-                    all: true,
-                    workPackageCommented: true
-                    _links:
-                      project:
-                        href: null
+                  watched: true
+                  involved: true
+                  mentioned: true
+                  all: false
+                  workPackageCommented: false
+                  _links:
+                    project:
+                      href: null
           schema:
             "$ref": "../components/schemas/user_preferences_model.yml"
       description: OK
@@ -93,30 +74,11 @@ patch:
                 timeZone: Europe/Berlin
                 warnOnLeavingUnsaved: true
                 notifications:
-                - channel: "mail"
-                  watched: false
-                  involved: true
-                  mentioned: false
-                  all: false
-                  workPackageCommented: false
-                  _links:
-                    project:
-                      href: null
-                - channel: "in_app"
                   watched: true
                   involved: true
                   mentioned: true
                   all: false
                   workPackageCommented: false
-                  _links:
-                    project:
-                      href: null
-                - channel: "mail_digest"
-                  watched: true
-                  involved: true
-                  mentioned: true
-                  all: true,
-                  workPackageCommented: true
                   _links:
                     project:
                       href: null

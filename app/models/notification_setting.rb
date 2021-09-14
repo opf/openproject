@@ -15,7 +15,6 @@ class NotificationSetting < ApplicationRecord
   WIKI_PAGE_UPDATED = :wiki_page_updated
   MEMBERSHIP_ADDED = :membership_added
   MEMBERSHIP_UPDATED = :membership_updated
-  ALL = :all
 
   def self.all_settings
     [
@@ -45,13 +44,9 @@ class NotificationSetting < ApplicationRecord
     ]
   end
 
-  enum channel: { in_app: 0, mail: 1, mail_digest: 2 }
-
   belongs_to :project
   belongs_to :user
 
   include Scopes::Scoped
   scopes :applicable
-
-  validates :channel, uniqueness: { scope: %i[project user] }
 end

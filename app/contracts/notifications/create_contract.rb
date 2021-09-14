@@ -28,8 +28,6 @@
 
 module Notifications
   class CreateContract < ::ModelContract
-    CHANNELS = %i[ian mail mail_digest].freeze
-
     attribute :recipient
     attribute :subject
     attribute :reason
@@ -43,34 +41,13 @@ module Notifications
 
     validate :validate_recipient_present
     validate :validate_reason_present
-    validate :validate_channels
 
     def validate_recipient_present
       errors.add(:recipient, :blank) if model.recipient.blank?
     end
 
     def validate_reason_present
-      CHANNELS.each do |channel|
-        errors.add(:"reason_#{channel}", :no_notification_reason) if read_channel_without_reason?(channel)
-      end
-    end
-
-    def validate_channels
-      if CHANNELS.map { |channel| read_channel(channel) }.compact.empty?
-        errors.add(:base, :at_least_one_channel)
-      end
-
-      CHANNELS.each do |channel|
-        errors.add(:"read_#{channel}", :read_on_creation) if read_channel(channel)
-      end
-    end
-
-    def read_channel_without_reason?(channel)
-      read_channel(channel) == false && model.send(:"reason_#{channel}").nil?
-    end
-
-    def read_channel(channel)
-      model.send(:"read_#{channel}")
+      errors.add(:reason, :no_notification_reason) if model.reason.nil?
     end
   end
 end

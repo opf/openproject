@@ -38,7 +38,7 @@ shared_examples 'notification settings workflow' do
       expect(notification_settings.count).to eq 9
       expect(notification_settings.where(project: project).count).to eq 3
 
-      in_app = notification_settings.find_by(project: project, channel: :in_app)
+      in_app = notification_settings.find_by(project: project)
       expect(in_app.involved).to be_truthy
       expect(in_app.mentioned).to be_truthy
       expect(in_app.watched).to be_truthy
@@ -47,26 +47,6 @@ shared_examples 'notification settings workflow' do
       expect(in_app.work_package_processed).to be_falsey
       expect(in_app.work_package_prioritized).to be_falsey
       expect(in_app.work_package_scheduled).to be_falsey
-
-      mail = notification_settings.find_by(project: project, channel: :mail)
-      expect(mail.involved).to be_truthy
-      expect(mail.mentioned).to be_truthy
-      expect(mail.watched).to be_truthy
-      expect(mail.work_package_commented).to be_falsey
-      expect(mail.work_package_created).to be_falsey
-      expect(mail.work_package_processed).to be_falsey
-      expect(mail.work_package_prioritized).to be_falsey
-      expect(mail.work_package_scheduled).to be_falsey
-
-      mail_digest = notification_settings.find_by(project: project, channel: :mail_digest)
-      expect(mail_digest.involved).to be_truthy
-      expect(mail_digest.mentioned).to be_truthy
-      expect(mail_digest.watched).to be_truthy
-      expect(mail_digest.work_package_commented).to be_falsey
-      expect(mail_digest.work_package_created).to be_falsey
-      expect(mail_digest.work_package_processed).to be_falsey
-      expect(mail_digest.work_package_prioritized).to be_falsey
-      expect(mail_digest.work_package_scheduled).to be_falsey
 
       # Trying to add the same project again will not be possible (Regression #38072)
       click_button 'Add setting for project'

@@ -563,7 +563,6 @@ en:
 
     notifications:
       title: "Notifications"
-      channel: "Channel"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
