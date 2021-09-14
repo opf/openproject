@@ -41,7 +41,7 @@ describe "Reminder email", type: :feature, js: true do
     end
   end
 
-  context 'configuring via the my page' do
+  context 'when configuring via the my page' do
     let(:reminders_settings_page) { Pages::My::Reminders.new(current_user) }
 
     current_user do
@@ -51,7 +51,7 @@ describe "Reminder email", type: :feature, js: true do
     it_behaves_like 'reminder settings'
   end
 
-  context 'configuring via the user administration page' do
+  context 'when configuring via the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
     let(:other_user) { FactoryBot.create :user }
@@ -63,7 +63,7 @@ describe "Reminder email", type: :feature, js: true do
     it_behaves_like 'reminder settings'
   end
 
-  context 'sending' do
+  describe 'sending' do
     let!(:project) { FactoryBot.create :project, members: { current_user => role } }
     let!(:mute_project) { FactoryBot.create :project, members: { current_user => role } }
     let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages]) }
@@ -134,6 +134,5 @@ describe "Reminder email", type: :feature, js: true do
       expect(ActionMailer::Base.deliveries.first.subject)
         .to eql "OpenProject - 1 unread notification including a mention"
     end
-
   end
 end

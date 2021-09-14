@@ -29,6 +29,5 @@
 ##
 # Calculates a slot in the user's local time that hits for scheduling reminder mail jobs
 def hitting_reminder_slot_for(user, current_utc_time = Time.current.getutc)
-  local_time = current_utc_time.in_time_zone(user.time_zone)
-  "#{'%02d' % local_time.hour}:#{local_time.min <= 30 ? '00' : '30'}"
+  current_utc_time.in_time_zone(user.time_zone).strftime('%H:00')
 end
