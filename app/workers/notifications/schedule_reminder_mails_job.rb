@@ -28,8 +28,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Cron
-  class ScheduleReminderMailsJob < CronJob
+module Notifications
+  class ScheduleReminderMailsJob < Cron::CronJob
     # runs every 30min step, so 00:00, 00:30, 01:00, 01:30...
     self.cron_expression = '/30 * * * *'
 

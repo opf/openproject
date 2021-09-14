@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Cron::ScheduleReminderMailsJob, type: :job do
+describe Notifications::ScheduleReminderMailsJob, type: :job do
   subject(:job) { described_class.perform_now }
 
   let(:ids) { [23, 42] }
