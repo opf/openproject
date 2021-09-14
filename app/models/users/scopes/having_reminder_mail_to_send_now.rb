@@ -37,8 +37,8 @@ module Users::Scopes
       # * That user has an unread notification
       # * The user hasn't been informed about the unread notification before
       # * The user has configured reminder mails to be sent now.
-      # This assumes that users only have full hours specified for the time they desire
-      # to receive a reminder mail.
+      # This assumes that users only have full hours specified for the times they desire
+      # to receive a reminder mail at.
       def having_reminder_mail_to_send_now
         # Left outer join as not all user instances have preferences associated
         # but we still want to select them.
@@ -56,10 +56,25 @@ module Users::Scopes
       end
 
       def local_time_join
+        # Joins the times local to the user preferences and then checks whether:
+        # * reminders are enabled
+        # * any of the configured reminder time is the local time
+        # If no time zone is present, utc is assumed.
+        # If no reminder settings are present, sending a reminder at 08:00 local time is assumed.
         <<~SQL.squish
           JOIN (#{local_time_table}) AS local_times
           ON COALESCE(user_preferences.settings->>'time_zone', 'UTC') = local_times.zone
-          AND local_times.time = '#{Setting.notification_email_digest_time}:00+00:00'
+          AND (
+            (
+              user_preferences.settings->'daily_reminders'->'times' IS NULL
+              AND local_times.time = '08:00:00+00:00'
+            )
+            OR
+            (
+              (user_preferences.settings->'daily_reminders'->'enabled')::boolean
+              AND user_preferences.settings->'daily_reminders'->'times' ? local_times.time
+            )
+          )
         SQL
       end
 

@@ -35,27 +35,77 @@ describe User, '.with_reminder_mail_to_send_now', type: :job do
     described_class.having_reminder_mail_to_send_now
   end
 
-  # As it is hard to mock Postgres's "now()" method, in the specs here we need to adopt the slot time
+  # As it is hard to mock PostgreSQL's "now()" method, in the specs here we need to adopt the slot time
   # relative to the local time of the user that we want to hit.
   let(:current_utc_time) { Time.current.getutc }
-  let(:slot_time) { hitting_reminder_slot_for(hitting_user, current_utc_time) } # ie. "08:00", "08:30"
 
-  let(:hitting_user) { paris_user }
-  let(:paris_user) { FactoryBot.create(:user, preferences: { time_zone: "Paris" }) } # time_zone in winter is +01:00
-  let(:moscow_user) { FactoryBot.create(:user, preferences: { time_zone: "Moscow" }) } # time_zone all year is +03:00
-  let(:greenland_user) { FactoryBot.create(:user, preferences: { time_zone: "Greenland" }) } # time_zone in winter is -03:00
-  let(:no_zone_user) { FactoryBot.create(:user) } # time_zone is nil
-  let(:notifications) { FactoryBot.create(:notification, recipient: hitting_user) }
+  let(:paris_user) do
+    FactoryBot.create(
+      :user,
+      firstname: 'Paris',
+      preferences: {
+        time_zone: "Paris",
+        daily_reminders: paris_user_daily_reminders
+      }
+    )
+  end
+  let(:paris_user_daily_reminders) do
+    {
+      enabled: true,
+      times: [hitting_reminder_slot_for("Paris", current_utc_time)]
+    }
+  end
+  let(:notifications) { FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago) }
+  let(:users) { [paris_user] }
 
   before do
-    allow(Setting).to receive(:notification_email_digest_time).and_return(slot_time)
     allow(Time).to receive(:current).and_return(current_utc_time)
     notifications
+    users
   end
 
   context 'for a user whose local time is matching the configured time' do
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user whose local time is matching the configured time (in a non CET time zone)' do
+    let(:moscow_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Moscow',
+        preferences: {
+          time_zone: "Moscow",
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Moscow", current_utc_time)]
+          }
+        }
+      )
+    end
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago)
+      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [moscow_user] }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([moscow_user])
+    end
+  end
+
+  context 'for a user whose local time is matching one of the configured times' do
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: true,
+        times: [
+          hitting_reminder_slot_for("Paris", current_utc_time - 3.hours),
+          hitting_reminder_slot_for("Paris", current_utc_time),
+          hitting_reminder_slot_for("Paris", current_utc_time + 3.hours)
+        ]
+      }
     end
 
     it 'contains the user' do
@@ -64,23 +114,60 @@ describe User, '.with_reminder_mail_to_send_now', type: :job do
     end
   end
 
-  context 'for a user whose local time is matching the configured time (in a non CET time zone)' do
-    let(:slot_time) { hitting_reminder_slot_for(moscow_user, current_utc_time) }
+  context 'for a user whose local time is matching the configured time but without a notification' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+      nil
     end
 
-    it 'contains the user' do
+    it 'is empty' do
       expect(scope)
-        .to match_array([moscow_user])
+        .to be_empty
     end
   end
 
-  context 'for a user whose local time is matching the configured time but without a notification' do
-    let(:notifications) do
-      # There is a notification for a different user
-      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+  context 'for a user whose local time is matching the configured time but with the reminder being deactivated' do
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: false,
+        times: [hitting_reminder_slot_for("Paris", current_utc_time)]
+      }
     end
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 8:00' do
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Paris',
+        preferences: {
+          time_zone: "Paris"
+        }
+      )
+    end
+    let(:current_utc_time) { ActiveSupport::TimeZone['Paris'].parse("08:00").utc }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user whose local time is matching the configured time but without a daily_reminders setting at 10:00' do
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Paris',
+        preferences: {
+          time_zone: "Paris"
+        }
+      )
+    end
+    let(:current_utc_time) { ActiveSupport::TimeZone['Paris'].parse("10:00").utc }
 
     it 'is empty' do
       expect(scope)
@@ -126,36 +213,82 @@ describe User, '.with_reminder_mail_to_send_now', type: :job do
   end
 
   context 'for a user whose local time is before the configured time' do
-    let(:notifications) do
-      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: true,
+        times: [hitting_reminder_slot_for("Paris", current_utc_time + 1.hour)]
+      }
     end
 
-    it 'contains the user' do
+    it 'is empty' do
       expect(scope)
         .to be_empty
     end
   end
 
   context 'for a user whose local time is after the configured time' do
-    let(:notifications) do
-      FactoryBot.create(:notification, recipient: greenland_user, created_at: 5.minutes.ago)
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: true,
+        times: [hitting_reminder_slot_for("Paris", current_utc_time - 1.hour)]
+      }
     end
 
-    it 'contains the user' do
+    it 'is empty' do
       expect(scope)
         .to be_empty
     end
   end
 
   context 'for a user without a time zone' do
-    let(:slot_time) { hitting_reminder_slot_for(no_zone_user, current_utc_time) }
-    let(:notifications) do
-      FactoryBot.create(:notification, recipient: no_zone_user, created_at: 5.minutes.ago)
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Paris',
+        preferences: {
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("UTC", current_utc_time)]
+          }
+        }
+      )
     end
 
     it 'is including the user as UTC is assumed' do
       expect(scope)
-        .to match_array([no_zone_user])
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user without a time zone and daily_reminders at 08:00' do
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Paris',
+        preferences: {}
+      )
+    end
+    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:00").utc }
+
+    it 'is including the user as UTC at 08:00 is assumed' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user without a time zone and daily_reminders at 10:00' do
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Paris',
+        preferences: {}
+      )
+    end
+    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
+
+    it 'is empty as UTC at 08:00 is assumed' do
+      expect(scope)
+        .to be_empty
     end
   end
 end

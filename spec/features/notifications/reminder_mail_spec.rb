@@ -71,33 +71,39 @@ describe "Reminder email", type: :feature, js: true do
     let(:work_package) { FactoryBot.create(:work_package, project: project) }
     let(:watched_work_package) { FactoryBot.create(:work_package, project: project, watcher_users: [current_user]) }
     let(:involved_work_package) { FactoryBot.create(:work_package, project: project, assigned_to: current_user) }
+    let(:current_utc_time) { ActiveSupport::TimeZone['Hawaii'].parse("08:43").utc }
 
     current_user do
-      FactoryBot.create :user,
-                        notification_settings: [
-                          FactoryBot.build(:mail_digest_notification_setting,
-                                           involved: true,
-                                           watched: true,
-                                           mentioned: true,
-                                           work_package_commented: true,
-                                           work_package_created: true,
-                                           work_package_processed: true,
-                                           work_package_prioritized: true,
-                                           work_package_scheduled: true,
-                                           all: false)
-                        ]
+      FactoryBot.create(
+        :user,
+        preferences: {
+          time_zone: "Hawaii",
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Hawaii", current_utc_time)]
+          }
+        },
+        notification_settings: [
+          FactoryBot.build(:mail_digest_notification_setting,
+                           involved: true,
+                           watched: true,
+                           mentioned: true,
+                           work_package_commented: true,
+                           work_package_created: true,
+                           work_package_processed: true,
+                           work_package_prioritized: true,
+                           work_package_scheduled: true,
+                           all: false)
+        ]
+      )
     end
 
     before do
-      allow(Setting).to receive(:notification_email_digest_time)
-                          .and_return(hitting_reminder_slot_for(current_user))
+      allow(Time).to receive(:current).and_return(current_utc_time)
 
       watched_work_package
       work_package
       involved_work_package
-
-      allow(CustomStyle.current)
-        .to receive(:logo).and_return(nil)
 
       ActiveJob::Base.queue_adapter.enqueued_jobs.clear
     end
