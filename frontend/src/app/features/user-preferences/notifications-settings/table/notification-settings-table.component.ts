@@ -25,8 +25,14 @@ export class NotificationSettingsTableComponent {
   text = {
     notify_me: this.I18n.t('js.notifications.settings.notify_me'),
     save: this.I18n.t('js.button_save'),
-    mentioned_header: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
-    involved_header: this.I18n.t('js.notifications.settings.reasons.involved.title'),
+    mentioned_header: {
+      title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
+      description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),
+    },
+    involved_header: {
+      title: this.I18n.t('js.notifications.settings.reasons.involved.title'),
+      description: this.I18n.t('js.notifications.settings.reasons.involved.description'),
+    },
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
     work_package_commented_header: this.I18n.t('js.notifications.settings.reasons.work_package_commented'),
     work_package_created_header: this.I18n.t('js.notifications.settings.reasons.work_package_created'),

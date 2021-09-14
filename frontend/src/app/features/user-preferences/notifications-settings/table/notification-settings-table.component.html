@@ -20,13 +20,19 @@
     </thead>
     <tbody>
       <tr>
-        <th class="op-table--cell op-table--cell_soft-heading">{{ text.mentioned_header }}</th>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.mentioned_header.title }}</h5>
+          <p>{{ text.mentioned_header.description }}</p>
+        </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
         </ng-container>
       </tr>
       <tr>
-        <th class="op-table--cell op-table--cell_soft-heading">{{ text.involved_header }}</th>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.involved_header.title }}</h5>
+          <p>{{ text.involved_header.description }}</p>
+        </th>
         <ng-container *ngFor="let item of settings.controls">
           <td class="op-table--cell" [formGroup]="item">
             <input
