@@ -65,7 +65,7 @@ class Notifications::WorkflowJob < ApplicationJob
 
     Notification
       .where(id: notification_ids)
-      .unread_mail
+      .unread_mail # TODO
       .each do |notification|
         Notifications::MailService
           .new(notification)

@@ -67,11 +67,8 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
+              reason: false,
               read_mail_digest: nil,
-              reason_mail_digest: false
             }
           end
         end
@@ -118,11 +115,9 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
+              reason: false,
               read_mail: false,
-              reason_mail: :watched,
               read_mail_digest: nil,
-              reason_mail_digest: false
             }
           end
         end

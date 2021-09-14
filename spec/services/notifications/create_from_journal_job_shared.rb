@@ -76,11 +76,8 @@ shared_context 'with CreateFromJournalJob context' do
     let(:notification_channel_reasons) do
       {
         read_ian: false,
-        reason_ian: :mentioned,
-        read_mail: false,
-        reason_mail: :mentioned,
-        read_mail_digest: false,
-        reason_mail_digest: :mentioned
+        reason: :mentioned,
+        read_mail_digest: false
       }
     end
     let(:notification) { FactoryBot.build_stubbed(:notification) }

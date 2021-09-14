@@ -75,29 +75,10 @@ class Notifications::CreateFromModelService
   end
 
   def channel_attributes(channel_reasons)
-    channel_attributes_mail(channel_reasons)
-      .merge(channel_attributes_mail_digest(channel_reasons))
-      .merge(channel_attributes_ian(channel_reasons))
-  end
-
-  def channel_attributes_mail(channel_reasons)
     {
-      read_mail: strategy.supports_mail? && channel_reasons.keys.include?('mail') ? false : nil,
-      reason_mail: strategy.supports_mail? && channel_reasons['mail']&.first
-    }
-  end
-
-  def channel_attributes_mail_digest(channel_reasons)
-    {
-      read_mail_digest: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil,
-      reason_mail_digest: strategy.supports_mail_digest? && channel_reasons['mail_digest']&.first
-    }
-  end
-
-  def channel_attributes_ian(channel_reasons)
-    {
+      reason: strategy.supports_ian? && channel_reasons['in_app']&.first,
       read_ian: strategy.supports_ian? && channel_reasons.keys.include?('in_app') ? false : nil,
-      reason_ian: strategy.supports_ian? && channel_reasons['in_app']&.first
+      read_mail_digest: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil
     }
   end
 

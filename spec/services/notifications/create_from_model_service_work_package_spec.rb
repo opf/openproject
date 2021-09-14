@@ -115,11 +115,8 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :assigned,
-          read_mail: false,
-          reason_mail: :assigned,
-          read_mail_digest: false,
-          reason_mail_digest: :assigned
+          reason: :assigned,
+          read_mail_digest: false
         }
       end
     end
@@ -139,7 +136,7 @@ describe Notifications::CreateFromModelService,
             read_ian: nil,
             reason_ian: nil,
             read_mail: false,
-            reason_mail: :assigned,
+            reason_mail: :involved,
             read_mail_digest: false,
             reason_mail_digest: :assigned
           }
@@ -160,11 +157,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :assigned,
-            read_mail: nil,
-            reason_mail: nil,
-            read_mail_digest: nil,
-            reason_mail_digest: nil
+            reason: :assigned,
+            read_mail_digest: nil
           }
         end
       end
@@ -195,11 +189,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :assigned,
-            read_mail: false,
-            reason_mail: :assigned,
-            read_mail_digest: false,
-            reason_mail_digest: :assigned
+            reason: :assigned,
+            read_mail_digest: false
           }
         end
       end
@@ -245,11 +236,8 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :responsible,
-          read_mail: false,
-          reason_mail: :responsible,
-          read_mail_digest: false,
-          reason_mail_digest: :responsible
+          reason: :responsible,
+          read_mail_digest: false
         }
       end
     end
@@ -267,11 +255,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            reason_ian: nil,
-            read_mail: nil,
-            reason_mail: nil,
-            read_mail_digest: false,
-            reason_mail_digest: :responsible
+            reason: nil,
+            read_mail_digest: false
           }
         end
       end
@@ -290,11 +275,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :responsible,
-            read_mail: nil,
-            reason_mail: nil,
-            read_mail_digest: nil,
-            reason_mail_digest: nil
+            reason: :responsible,
+            read_mail_digest: nil
           }
         end
       end
@@ -352,11 +334,8 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :watched,
-          read_mail: false,
-          reason_mail: :watched,
-          read_mail_digest: false,
-          reason_mail_digest: :watched
+          reason: :watched,
+          read_mail_digest: false
         }
       end
     end
@@ -374,11 +353,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            reason_ian: nil,
-            read_mail: false,
-            reason_mail: :watched,
-            read_mail_digest: false,
-            reason_mail_digest: :watched
+            reason: nil,
+            read_mail_digest: false
           }
         end
       end
@@ -397,11 +373,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :watched,
-            read_mail: nil,
-            reason_mail: nil,
-            read_mail_digest: nil,
-            reason_mail_digest: nil
+            reason: :watched,
+            read_mail_digest: nil
           }
         end
       end
@@ -454,11 +427,8 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :created,
-          read_mail: false,
-          reason_mail: :created,
-          read_mail_digest: false,
-          reason_mail_digest: :created
+          reason: :subscribed,
+          read_mail_digest: false
         }
       end
     end
@@ -476,11 +446,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: nil,
-            reason_ian: nil,
-            read_mail: false,
-            reason_mail: :created,
-            read_mail_digest: false,
-            reason_mail_digest: :created
+            reason: nil,
+            read_mail_digest: false
           }
         end
       end
@@ -499,11 +466,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :created,
-            read_mail: nil,
-            reason_mail: nil,
-            read_mail_digest: nil,
-            reason_mail_digest: nil
+            reason: :created,
+            read_mail_digest: nil
           }
         end
       end
@@ -537,11 +501,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :created,
-            read_mail: false,
-            reason_mail: :created,
-            read_mail_digest: false,
-            reason_mail_digest: :created
+            reason: :subscribed,
+            read_mail_digest: false
           }
         end
       end
@@ -599,11 +560,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :created,
-            read_mail: false,
-            reason_mail: :created,
-            read_mail_digest: false,
-            reason_mail_digest: :created
+            reason: :created,
+            read_mail_digest: false
           }
         end
       end
@@ -671,11 +629,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :commented,
-            read_mail: false,
-            reason_mail: :commented,
-            read_mail_digest: false,
-            reason_mail_digest: :commented
+            reason: :commented,
+            read_mail_digest: false
           }
         end
       end
@@ -732,11 +687,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :processed,
-            read_mail: false,
-            reason_mail: :processed,
-            read_mail_digest: false,
-            reason_mail_digest: :processed
+            reason: :processed,
+            read_mail_digest: false
           }
         end
       end
@@ -793,11 +745,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :prioritized,
-            read_mail: false,
-            reason_mail: :prioritized,
-            read_mail_digest: false,
-            reason_mail_digest: :prioritized
+            reason: :prioritized,
+            read_mail_digest: false
           }
         end
       end
@@ -854,11 +803,9 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :scheduled,
+            reason: :scheduled,
             read_mail: false,
-            reason_mail: :scheduled,
-            read_mail_digest: false,
-            reason_mail_digest: :scheduled
+            read_mail_digest: false
           }
         end
       end
@@ -915,11 +862,8 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :scheduled,
-            read_mail: false,
-            reason_mail: :scheduled,
-            read_mail_digest: false,
-            reason_mail_digest: :scheduled
+            reason: :scheduled,
+            read_mail_digest: false
           }
         end
       end
@@ -952,11 +896,8 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :assigned,
-          read_mail: false,
-          reason_mail: :assigned,
-          read_mail_digest: false,
-          reason_mail_digest: :assigned
+          reason: :assigned,
+          read_mail_digest: false
         }
       end
     end
@@ -978,11 +919,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1014,11 +952,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1035,11 +970,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1053,11 +985,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1070,11 +999,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1091,11 +1017,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end
@@ -1112,11 +1035,8 @@ describe Notifications::CreateFromModelService,
             let(:notification_channel_reasons) do
               {
                 read_ian: false,
-                reason_ian: :mentioned,
-                read_mail: false,
-                reason_mail: :mentioned,
-                read_mail_digest: false,
-                reason_mail_digest: :mentioned
+                reason: :mentioned,
+                read_mail_digest: false
               }
             end
           end

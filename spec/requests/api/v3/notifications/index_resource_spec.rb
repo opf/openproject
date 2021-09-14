@@ -82,7 +82,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
     context 'with a digest notification' do
-      let(:digest_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: nil }
+      let(:digest_notification) { FactoryBot.create :notification, recipient: recipient, reason: nil }
       let(:notifications) { [notification1, notification2, digest_notification] }
 
       it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do

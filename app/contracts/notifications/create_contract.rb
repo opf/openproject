@@ -32,16 +32,13 @@ module Notifications
 
     attribute :recipient
     attribute :subject
-    attribute :reason_ian
-    attribute :reason_mail
-    attribute :reason_mail_digest
+    attribute :reason
     attribute :project
     attribute :actor
     attribute :resource
     attribute :journal
     attribute :resource_type
     attribute :read_ian
-    attribute :read_mail
     attribute :read_mail_digest
 
     validate :validate_recipient_present

@@ -12,9 +12,7 @@ class Notification < ApplicationRecord
     responsible: 9
   }.freeze
 
-  enum reason_ian: REASONS, _prefix: :ian
-  enum reason_mail: REASONS, _prefix: :mail
-  enum reason_mail_digest: REASONS, _prefix: :mail_digest
+  enum reason: REASONS
 
   belongs_to :recipient, class_name: 'User'
   belongs_to :actor, class_name: 'User'
@@ -24,7 +22,6 @@ class Notification < ApplicationRecord
 
   include Scopes::Scoped
   scopes :unsent_reminders_before,
-         :unread_mail,
          :unread_mail_digest,
          :recipient
 end

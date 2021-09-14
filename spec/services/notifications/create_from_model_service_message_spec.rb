@@ -68,11 +68,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
@@ -119,11 +116,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
@@ -174,11 +168,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
@@ -220,11 +211,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
@@ -271,11 +259,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
@@ -326,11 +311,8 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :watched,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: false,
+              read_mail_digest: nil
             }
           end
         end
