@@ -701,6 +701,10 @@ tr:
           attributes:
             hours:
               day_limit: "tarih başına maksimum 24 saat kaydedilebileceğinden çok yüksek."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2784,7 +2788,7 @@ tr:
     Kullanıcı limitine ulaşıldı. Daha fazla kullanıcıyı etkinleştiremezsiniz. Lütfen <a href="%{upgrade_url}"> planınızı yükseltin </a> veya ek kullanıcılara izin vermek için üyeleri engelleyin.
   warning_user_limit_reached_instructions: >
     Kullanıcı sınırınıza ulaştınız (%{current}/%{max} aktif kullanıcılar). Enterprise Edition planınızı yükseltmek ve ek kullanıcılar eklemek için lütfen sales@openproject.com adresine başvurun.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

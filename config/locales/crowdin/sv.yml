@@ -700,6 +700,10 @@ sv:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2781,7 +2785,7 @@ sv:
     Användargränsen har uppnåtts. Du kan inte aktivera fler användare. Vänligen <a href="%{upgrade_url}">uppgradera din plan</a> eller blockera medlemmar för att tillåta ytterligare användare.
   warning_user_limit_reached_instructions: >
     Du har nått din användargräns (%{current}/%{max} aktiva användare). Kontakta sales@openproject.com för att uppgradera din Enterprise Edition-plan och lägga till ytterligare användare.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

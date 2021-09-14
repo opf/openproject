@@ -699,6 +699,10 @@ lt:
           attributes:
             hours:
               day_limit: "yra per didelis nes maksimum 24 valandos gali būti užregistruotos per parą."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2818,7 +2822,7 @@ lt:
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
     Jūs pasiekėte vartotojų ribą (%{current}/%{max} aktyvūs vartotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų vartotojų.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

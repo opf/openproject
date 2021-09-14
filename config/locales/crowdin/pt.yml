@@ -699,6 +699,10 @@ pt:
           attributes:
             hours:
               day_limit: "muito alto, já que só se pode registrar um máximo de 24 horas por data."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2781,7 +2785,7 @@ pt:
     Atingido o limite de usuários. Você não pode ativar mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie a adição de novos usuários.
   warning_user_limit_reached_instructions: >
     Você atingiu seu limite de usuários (%{current}/%{max} usuários ativos). Entre em contato com sales@openproject.com para atualizar seu plano Enterprise Edition e adicionar novos usuários.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

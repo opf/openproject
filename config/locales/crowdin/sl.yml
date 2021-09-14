@@ -701,6 +701,10 @@ sl:
           attributes:
             hours:
               day_limit: "je previsok, saj se lahko na datum prijavi največ 24 ur."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2822,7 +2826,7 @@ sl:
     Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
     Dosegli ste uporabniško omejitev (%{current} /%{max} aktivni uporabniki).Prosimo kontaktirajte sales@openproject.com  če želite nadgraditi načrt za Enterprise Edition in dodati dodatne uporabnike.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

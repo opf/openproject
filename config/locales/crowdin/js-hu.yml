@@ -493,7 +493,7 @@ hu:
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
           overview: "Munka kezelése a <b>backlogs</b>  nézetben"
-          sprints: "A jobb oldalon a termék lemaradása és a hibakészlet, a bal oldalon a megfelelő sprint látható. Itt létrehozhat <b> posztokat, felhasználói történeteket és hibákat </b>, rangsorolhatja őket húzással, és hozzáadhatja őket egy sprinthez.\n"
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
           task_board: "A feladattábla megjeleníti <b> a sprint haladását </b>. Új feladatok vagy akadályok hozzáadásához kattintson a felhasználói történet melletti plusz (+) ikonra. <br> Az állapot húzással frissíthető.\n"
@@ -526,6 +526,9 @@ hu:
         unread: 'Olvasatlan'
         all: 'Mind'
       center:
+        and_more_users:
+          one: 'and 1 other'
+          other: 'and %{count} others'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
         text_update_date: "%{date} szerint"

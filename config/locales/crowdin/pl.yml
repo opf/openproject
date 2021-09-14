@@ -700,6 +700,10 @@ pl:
           attributes:
             hours:
               day_limit: "jest zbyt wysoki, ponieważ pod jedną datą można zarejestrować maksymalnie 24 godziny."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -2819,7 +2823,7 @@ pl:
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
     Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

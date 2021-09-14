@@ -488,7 +488,7 @@ zh-CN:
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -521,6 +521,8 @@ zh-CN:
         unread: 'Unread'
         all: '全部'
       center:
+        and_more_users:
+          other: 'and %{count} others'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
