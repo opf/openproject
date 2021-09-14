@@ -30,8 +30,8 @@ See COPYRIGHT and LICENSE files for more details.
   <head>
     <style>
       :root {
-        color-scheme: light dark;
-        supported-color-schemes: light dark;
+        color-scheme: light;
+        supported-color-schemes: light;
       }
 
       body {
@@ -41,13 +41,14 @@ See COPYRIGHT and LICENSE files for more details.
         background: #FFFFFF;
       }
 
+      /* Enforcing the white background */
       @media (prefers-color-scheme: dark) {
         body {
-          color: #CCC !important;
-          background: #222222 !important;
+          color: #484848 !important;
+          background: #FFFFFF !important;
         }
       }
-      
+
       h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
       h1 { font-size: 1.2em; }
       h2, h3 { font-size: 1.1em; }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -173,7 +174,20 @@ describe UserPreferences::UpdateContract do
       }
     end
 
-    it_behaves_like 'contract is invalid', daily_reminders: :format_nested
+    it_behaves_like 'contract is invalid', daily_reminders: %i[format_nested full_hour]
+  end
+
+  context 'with a sub hour time for the daily_reminders' do
+    let(:settings) do
+      {
+        daily_reminders: {
+          enabled: true,
+          times: %w[12:30:00+00:00]
+        }
+      }
+    end
+
+    it_behaves_like 'contract is invalid', daily_reminders: :full_hour
   end
 
   context 'with an invalid order for comments_sorting' do

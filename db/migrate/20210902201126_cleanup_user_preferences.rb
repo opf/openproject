@@ -12,9 +12,18 @@ class CleanupUserPreferences < ActiveRecord::Migration[6.1]
       WHERE settings ->> 'warn_on_leaving_unsaved' = '0'
     SQL
 
+    # Remove all other keys from the user preferences
+    object_map = UserPreferences::Schema.properties.map { |key| "'#{key}', settings->'#{key}'" }.join(", ")
     execute <<~SQL.squish
+      WITH subquery AS (
+        SELECT id,
+               jsonb_strip_nulls(jsonb_build_object(#{object_map})) as stripped_settings
+        FROM user_preferences
+      )
       UPDATE user_preferences
-      SET settings = settings - 'no_self_notified'
+      SET settings = subquery.stripped_settings
+      FROM subquery
+      WHERE user_preferences.id = subquery.id
     SQL
   end
 

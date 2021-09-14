@@ -73,7 +73,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.22.0'
+gem 'commonmarker', '~> 0.23.0'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -193,9 +193,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.6.0', require: false
-  gem "sentry-rails", '~> 4.6.0', require: false
-  gem "sentry-ruby", '~> 4.6.0',  require: false
+  gem "sentry-delayed_job", '~> 4.7.0', require: false
+  gem "sentry-rails", '~> 4.7.0', require: false
+  gem "sentry-ruby", '~> 4.7.0',  require: false
 end
 
 group :test do
@@ -289,7 +289,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.7.0', require: false
+gem 'bootsnap', '~> 1.8.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'

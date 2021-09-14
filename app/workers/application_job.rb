@@ -36,10 +36,7 @@ class ApplicationJob < ::ActiveJob::Base
   # to avoid leaking sensitive information to logs
   self.log_arguments = false
 
-  around_perform do |_job, block|
-    reload_mailer_configuration!
-    with_clean_request_store { block.call }
-  end
+  around_perform :clean_context
 
   ##
   # Return a priority number on the given payload
@@ -89,5 +86,15 @@ class ApplicationJob < ::ActiveJob::Base
   # by the background jobs at runtime.
   def reload_mailer_configuration!
     OpenProject::Configuration.reload_mailer_configuration!
+  end
+
+  private
+
+  def clean_context
+    with_clean_request_store do
+      reload_mailer_configuration!
+
+      yield
+    end
   end
 end

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 el:
   js:
@@ -487,7 +487,7 @@ el:
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
@@ -520,6 +520,9 @@ el:
         unread: 'Unread'
         all: 'Όλα'
       center:
+        and_more_users:
+          one: 'and 1 other'
+          other: 'and %{count} others'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
@@ -565,6 +568,15 @@ el:
         copy_options: "Επιλογές αντιγραφής"
       autocompleter:
         label: 'Αυτόματη συμπλήρωση έργου'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        title: 'Email reminders'
     text_are_you_sure: "Είστε σίγουρος/η;"
     text_data_lost: "All entered data will be lost."
     types:

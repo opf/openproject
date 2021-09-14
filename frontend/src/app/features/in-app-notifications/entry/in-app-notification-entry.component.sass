@@ -49,6 +49,7 @@ $subject-font-size: 14px
     grid-template-columns: auto 1fr
     grid-column-gap: 5px
     align-items: center
+    color: var(--gray-dark)
 
   &--work-package-subject
     @include text-shortener
@@ -83,12 +84,12 @@ $subject-font-size: 14px
 
   &--date
     @include text-shortener
-    color: var(--gray-dark)
     max-width: 100%
     line-height: 16px
 
   &--status
     grid-area: status
+    margin-right: 5px
 
   &--buttons
     grid-area: buttons

@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 sl:
   no_results_title_text: Ni elementov za prikaz
@@ -535,6 +535,7 @@ sl:
         before: "mora biti pred %{date}."
         before_or_equal_to: "mora biti pred ali enako %{date}."
         blank: "ne sme biti prazno."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Zahtevek ne more biti povezan s svojo podnalogo"
         circular_dependency: "Ta povezava bi ustvarila krožno odvisnost."
         confirmation: "se ne ujema %{attribute}"
@@ -548,11 +549,14 @@ sl:
         even: "mora biti enakomerno."
         exclusion: "je rezervirano."
         file_too_large: "je preveliko (največja velikost je %{count} Bytov)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "mora biti večje od %{count}."
         greater_than_or_equal_to: "mora biti večje ali enako %{count}."
         greater_than_or_equal_to_start_date: "mora biti večji ali enak začetnemu datumu."
         greater_than_start_date: "mora biti večje od začetnega datuma."
         inclusion: "ni nastavljeno na eno od dovoljenih vrednosti."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "ni pravo."
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: 'ni podprt protokol (dovoljeno:%{allowed_schemes}).'
@@ -573,7 +577,11 @@ sl:
         taken: "je že zasedeno."
         too_long: "je predolgo (največ %{count} znakov)."
         too_short: "je prekrateko (najmanj %{count} znakov)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "ne more biti spremenjeno. "
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ne more biti odstranjeno."
         wrong_length: "je napačna dolžina (mora biti %{count} znakov). "
       models:
@@ -693,6 +701,10 @@ sl:
           attributes:
             hours:
               day_limit: "je previsok, saj se lahko na datum prijavi največ 24 ur."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1924,17 +1936,33 @@ sl:
   mail:
     actions: 'Akcije'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Ustvarjen'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'vsi'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Posodobljen'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
@@ -2798,7 +2826,7 @@ sl:
     Dosežena omejitev uporabnika. Ne morete več aktivirati uporabnikov. <a href="%{upgrade_url}"> nadgradite svoj načrt </a> ali blokirajte člane, da omogočite dodatne uporabnike.
   warning_user_limit_reached_instructions: >
     Dosegli ste uporabniško omejitev (%{current} /%{max} aktivni uporabniki).Prosimo kontaktirajte sales@openproject.com  če želite nadgraditi načrt za Enterprise Edition in dodati dodatne uporabnike.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
