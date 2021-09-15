@@ -1,11 +1,17 @@
 import {
-  Component, ContentChild, HostBinding, Input, Optional,
+  Component,
+  ContentChild,
+  HostBinding,
+  Input,
+  Optional,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { AbstractControl, FormGroupDirective, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'op-checkbox-field',
   templateUrl: './checkbox-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpCheckboxFieldComponent {
   @HostBinding('class.op-form-field') className = true;

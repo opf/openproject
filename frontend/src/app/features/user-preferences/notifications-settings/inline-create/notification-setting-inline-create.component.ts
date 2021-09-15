@@ -76,7 +76,9 @@ export class NotificationSettingInlineCreateComponent {
         map((collection) => collection.elements.map((project) => ({
           href: project.href || '',
           name: project.name,
-          disabled: !!this.settings.controls.find((projectSetting) => projectSetting.get('project')!.value.href === project.href),
+          disabled: !!this.settings.controls.find(
+            (projectSetting) => (projectSetting.get('project')!.value as NotificationSettingProjectOption).href === project.href,
+          ),
         }))),
       );
   }

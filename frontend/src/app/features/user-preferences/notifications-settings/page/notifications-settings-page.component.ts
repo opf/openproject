@@ -32,9 +32,9 @@ interface INotificationSettingsFormValue {
 }
 
 interface IProjectNotificationSettingsValue extends INotificationSettingsFormValue {
-  project: {
+  project:{
     title:string;
-    href:string; 
+    href:string;
   };
 }
 
@@ -91,7 +91,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   };
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private changeDetectorRef:ChangeDetectorRef,
     private I18n:I18nService,
     private stateService:UserPreferencesService,
     private query:UserPreferencesQuery,
@@ -135,14 +135,13 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
           return;
         }
 
-        const sortedSettings = settings.sort(
-          (a, b):number => a._links.project.title!.localeCompare(b._links.project.title!)
-        );
-
         const projectSettings = new FormArray([]);
         projectSettings.clear();
-        for (let setting of sortedSettings) {
-          projectSettings.push(new FormGroup({
+        settings
+          .sort(
+            (a, b):number => a._links.project.title!.localeCompare(b._links.project.title!),
+          )
+          .forEach((setting) => projectSettings.push(new FormGroup({
             project: new FormControl(setting._links.project),
             involved: new FormControl(setting.involved),
             workPackageCreated: new FormControl(setting.workPackageCreated),
@@ -150,8 +149,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
             workPackageScheduled: new FormControl(setting.workPackageScheduled),
             workPackagePrioritized: new FormControl(setting.workPackagePrioritized),
             workPackageCommented: new FormControl(setting.workPackageCommented),
-          }));
-        }
+          })));
 
         this.form.setControl('projectSettings', projectSettings);
         this.changeDetectorRef.detectChanges();

@@ -28,7 +28,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   projectNotifications$ = this
     .notificationSettings$
     .pipe(
-      map((settings) => settings.filter((setting) => setting.channel === 'in_app'&& setting._links.project.href !== null)),
+      map((settings) => settings.filter((setting) => setting.channel === 'in_app' && setting._links.project.href !== null)),
     );
 
   /** Selected projects */
