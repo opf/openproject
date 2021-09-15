@@ -15,6 +15,7 @@
             class="op-ian-item"
             [class.op-ian-item_expanded]="records[0].expanded"
             [class.op-ian-item_read]="records[0].readIAN === true"
+            [class.op-ian-item_selected]="(stateChanged$ | async) === records[0]._links.resource.href"
             [notification]="records[0]"
             [aggregatedNotifications]="records"
             attr.data-qa-selector="op-ian-notification-item-{{records[0].id}}"
