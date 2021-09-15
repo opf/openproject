@@ -66,13 +66,3 @@
 <% else %>
   <%= no_results_box %>
 <% end %>
-
-<div class="generic-table--action-buttons">
-  <%= link_to new_attribute_help_text_path(name: tab[:name]),
-              { class: 'attribute-help-texts--create-button button -alt-highlight',
-                aria: {label: t(:'attribute_help_texts.add_new')},
-                title: t(:'attribute_help_texts.add_new')} do %>
-    <%= op_icon('button--icon icon-add') %>
-    <span class="button--text"><%= t('activerecord.models.attribute_help_text') %></span>
-  <% end %>
-</div>
