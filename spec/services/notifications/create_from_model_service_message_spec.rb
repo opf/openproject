@@ -78,9 +78,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -90,9 +88,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -102,9 +98,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and watching the forum' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -126,9 +120,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user not having registered for watcher notifications and watching the forum' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -142,9 +134,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and not watching the forum nor root message' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -154,9 +144,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and watching the root' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -178,9 +166,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user not having registered for watcher notifications and watching the root' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -221,9 +207,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -233,9 +217,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -245,9 +227,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and watching the forum' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -269,9 +249,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user not having registered for watcher notifications and watching the forum' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -285,9 +263,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and not watching the forum nor root message' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -297,9 +273,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user having registered for watcher notifications and watching the root' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(watched: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(watched: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -321,9 +295,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
       context 'with the user not having registered for watcher notifications and watching the root' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 

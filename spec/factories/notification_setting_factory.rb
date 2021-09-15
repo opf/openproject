@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :notification_setting do
-    channel { :mail }
     all { false }
     involved { true }
     mentioned { true }
@@ -12,17 +11,5 @@ FactoryBot.define do
     work_package_scheduled { false }
     project { nil } # Default settings
     user
-
-    factory :mail_notification_setting do
-      channel { :mail }
-    end
-
-    factory :mail_digest_notification_setting do
-      channel { :mail_digest }
-    end
-
-    factory :in_app_notification_setting do
-      channel { :in_app }
-    end
   end
 end
