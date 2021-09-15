@@ -1,4 +1,4 @@
-<ul class="main-menu--children">
+<ul>
   <li class="main-item-wrapper">
     <a
       class="op-menu--item-action overview-menu-item"
@@ -24,26 +24,6 @@
     </a>
   </li>
   <li>
-    <div class="tree-menu--container">
-      <ul class="pages-hierarchy -with-hierarchy collapsible-menu--container">
-        <li class="-hierarchy-expanded">
-          <div class="tree-menu--item">
-            <span class="tree-menu--hierarchy-span">
-              <button
-                class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle"
-                type="button"
-              >
-                <span class="tree-menu--hierarchy-indicator-icon" aria-hidden="true"></span>
-              </button>
-              <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">Expanded. Click to collapse</span>
-              <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">Collapsed. Click to show</span>
-            </span>
-            <ul class="pages-hierarchy -with-hierarchy">
-              <li class="collapsible-menu--placeholder">You have no </li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <op-collapsible-menu></op-collapsible-menu>
   </li>
 </ul>

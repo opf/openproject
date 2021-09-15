@@ -5,17 +5,18 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { IanMenuService } from './state/ian-menu.service';
 
-export const ianCenterMenuSelector = 'op-ian-menu';
+export const ianMenuSelector = 'op-ian-menu';
 
 @Component({
-  selector: ianCenterMenuSelector,
+  selector: ianMenuSelector,
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.sass'],
+  providers: [ IanMenuService ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IANCenterMenuComponent implements OnInit {
+export class IanMenuComponent implements OnInit {
   text = {
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),
@@ -28,16 +29,12 @@ export class IANCenterMenuComponent implements OnInit {
   constructor(
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
-    readonly resourceService:InAppNotificationsResourceService,
+    readonly ianMenuService:IanMenuService,
   ) {
     console.log('menu');
   }
 
   ngOnInit() {
-    this.resourceService.fetchNotifications({
-      pageSize: 0,
-      groupBy: 'project',
-      filters: [['unread', '=', true]],
-    });
+    this.ianMenuService.reload();
   }
 }
