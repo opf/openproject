@@ -30,14 +30,15 @@
 
 require 'spec_helper'
 
-describe User, '.with_reminder_mail_to_send_now', type: :job do
+describe User, '.with_reminder_mail_to_send', type: :job do
   subject(:scope) do
-    described_class.having_reminder_mail_to_send_now
+    described_class.having_reminder_mail_to_send(scope_time)
   end
 
   # As it is hard to mock PostgreSQL's "now()" method, in the specs here we need to adopt the slot time
   # relative to the local time of the user that we want to hit.
   let(:current_utc_time) { Time.current.getutc }
+  let(:scope_time) { Time.current }
 
   let(:paris_user) do
     FactoryBot.create(
@@ -111,6 +112,42 @@ describe User, '.with_reminder_mail_to_send_now', type: :job do
     it 'contains the user' do
       expect(scope)
         .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user who has configured a slot between the earliest_time (in local time) and his current local time' do
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: true,
+        times: [
+          hitting_reminder_slot_for("Paris", current_utc_time - 2.hours),
+          hitting_reminder_slot_for("Paris", current_utc_time + 3.hours)
+        ]
+      }
+    end
+    let(:scope_time) { Time.current - 2.hours }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user who has configured a slot before the earliest_time (in local time) and after his current local time' do
+    let(:paris_user_daily_reminders) do
+      {
+        enabled: true,
+        times: [
+          hitting_reminder_slot_for("Paris", current_utc_time - 3.hours),
+          hitting_reminder_slot_for("Paris", current_utc_time + 1.hour)
+        ]
+      }
+    end
+    let(:scope_time) { Time.current - 2.hours }
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
     end
   end
 
@@ -289,6 +326,15 @@ describe User, '.with_reminder_mail_to_send_now', type: :job do
     it 'is empty as UTC at 08:00 is assumed' do
       expect(scope)
         .to be_empty
+    end
+  end
+
+  context 'when the provided scope_time is after the current time' do
+    let(:scope_time) { Time.current + 1.minute }
+
+    it 'raises an error' do
+      expect { scope }
+        .to raise_error ArgumentError
     end
   end
 end
