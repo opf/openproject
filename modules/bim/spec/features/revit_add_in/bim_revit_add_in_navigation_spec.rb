@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
 describe 'BIM Revit Add-in navigation spec',
          type: :feature,
@@ -39,7 +39,8 @@ describe 'BIM Revit Add-in navigation spec',
     FactoryBot.create(:role,
                       permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:full_create) { ::Pages::FullWorkPackageCreate.new }
 
   let(:user) do
     FactoryBot.create :user,
@@ -47,28 +48,33 @@ describe 'BIM Revit Add-in navigation spec',
                       member_through_role: role
   end
 
-  context "when logged in on model page" do
-    let(:full_create) { ::Pages::FullWorkPackageCreate.new }
+  context "logged in on model page" do
+    let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
 
     before do
       login_as(user)
       model_page.visit!
+
+      # Guard to ensure toolbar is completely loaded and doesn't rerender again.
+      # At first there is no badge. It gets set later and only then the toolbar's
+      # switches are ready to test.
+      model_page.find('#work-packages-filter-toggle-button .badge', text: '1')
     end
 
-    it 'shows "Cards" view by default' do
+    it 'show the right elements on the page' do
+      # shows "Cards" view by default
       model_page.expect_view_toggle_at 'Cards'
-    end
-
-    it 'shows no viewer' do
+      # shows no viewer
       model_page.model_viewer_visible false
-    end
-
-    it 'shows a toolbar' do
+      # shows a toolbar' do
       model_page.page_has_a_toolbar
+      # menu has no viewer options
+      model_page.has_no_menu_item_with_text? 'Viewer'
     end
 
-    it 'menu has no viewer options' do
-      model_page.has_no_menu_item_with_text? 'Viewer'
+    it 'can switch to the Table view mode' do
+      model_page.switch_view 'Table'
+      expect(page).to have_selector('.work-package-table')
     end
 
     it 'the user menu has an option to go to the add-in settings' do
@@ -89,18 +95,23 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows work package details page in full view on Cards display mode' do
-      card_element = page.find('[data-qa-selector="op-wp-single-card"]')
-
-      card_element.hover
-      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+      model_page.click_info_icon(work_package)
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
 
+    it 'shows work package details page in full view on Table display mode' do
+      model_page.switch_view 'Table'
+      wp_table.expect_work_package_listed work_package
+      wp_table.open_split_view work_package
+
+      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+    end
   end
 
-  context "when signed out" do
+  context "signed out" do
     it 'the user menu has an option to go to the add-in settings' do
       visit home_path
 
