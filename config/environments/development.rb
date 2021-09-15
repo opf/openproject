@@ -81,6 +81,8 @@ OpenProject::Application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
+
+  config.hosts << 'bs-local.com' if ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present?
 end
 
 ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
