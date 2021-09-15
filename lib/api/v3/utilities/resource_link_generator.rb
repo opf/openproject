@@ -51,6 +51,8 @@ module API
             # since not all things are equally named between APIv3 and the rails code,
             # we need to convert some names manually
             case record
+            when Project
+              :project
             when IssuePriority
               :priority
             when AnonymousUser, DeletedUser, SystemUser

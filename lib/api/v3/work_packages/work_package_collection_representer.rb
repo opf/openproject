@@ -40,7 +40,6 @@ module API
                        per_page: nil,
                        embed_schemas: false)
           @project = project
-          @groups = groups
           @total_sums = total_sums
           @embed_schemas = embed_schemas
 
@@ -49,6 +48,7 @@ module API
                 query: query,
                 page: page,
                 per_page: per_page,
+                groups: groups,
                 current_user: current_user)
 
           # In order to optimize performance we
@@ -143,10 +143,6 @@ module API
                  exec_context: :decorator,
                  if: ->(*) { embed_schemas && represented.any? },
                  embedded: true,
-                 render_nil: false
-
-        property :groups,
-                 exec_context: :decorator,
                  render_nil: false
 
         property :total_sums,
@@ -281,7 +277,6 @@ module API
         end
 
         attr_reader :project,
-                    :groups,
                     :total_sums,
                     :embed_schemas
       end

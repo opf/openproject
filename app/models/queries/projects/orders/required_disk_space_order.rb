@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::BaseOrder
+class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::Orders::Base
   self.model = Project
 
   def self.key

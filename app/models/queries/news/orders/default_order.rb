@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::News::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::News::Orders::DefaultOrder < Queries::Orders::Base
   self.model = News
 
   def self.key

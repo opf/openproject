@@ -104,7 +104,9 @@ module API
         sums = generate_group_sums
 
         results.work_package_count_by_group.map do |group, count|
-          ::API::Decorators::AggregationGroup.new(group, count, query: query, sums: sums[group], current_user: current_user)
+          ::API::V3::WorkPackages::WorkPackageAggregationGroup.new(
+            group, count, query: query, sums: sums[group], current_user: current_user
+          )
         end
       end
 

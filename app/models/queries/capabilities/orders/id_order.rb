@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Capabilities::Orders::IdOrder < Queries::BaseOrder
+class Queries::Capabilities::Orders::IdOrder < Queries::Orders::Base
   self.model = Capability
 
   def self.key

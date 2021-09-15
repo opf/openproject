@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::IndividualPrincipals::Orders::NameOrder < Queries::BaseOrder
+class Queries::IndividualPrincipals::Orders::NameOrder < Queries::Orders::Base
   self.model = Principal
 
   def self.key

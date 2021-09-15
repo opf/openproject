@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::Orders::CustomFieldOrder < Queries::BaseOrder
+class Queries::Projects::Orders::CustomFieldOrder < Queries::Orders::Base
   self.model = Project.all
 
   validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
