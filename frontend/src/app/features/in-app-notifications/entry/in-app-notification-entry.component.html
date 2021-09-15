@@ -1,111 +1,101 @@
-<div
-  class="op-ian-item"
-  [class.op-ian-item_expanded]="notification.expanded"
-  [class.op-ian-item_read]="notification.readIAN === true"
-  attr.data-qa-selector="op-ian-notification-item-{{notification.id}}"
-  [attr.data-qa-ian-read]="notification.readIAN === true || undefined"
+<button
+  type="button"
+  class="op-ian-item--row"
+  [class.op-ian-item--row_unexpandable]="unexpandable"
+  (click)="showDetails()"
 >
   <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">
-    <button
-    type="button"
-    class="op-ian-item--row"
-    [class.op-ian-item--row_unexpandable]="unexpandable"
-    (click)="showDetails()"
-  >
-      <div
-        class="op-ian-item--top-line"
+    <div
+      class="op-ian-item--top-line"
+    >
+      <div class="op-ian-item--status">
+        <op-in-app-notification-status [status]="workPackage.status"></op-in-app-notification-status>
+      </div>
+
+      <a
+        class="op-ian-item--work-package-id-link"
+        [attr.title]="workPackage.subject"
+        uiSref="work-packages.show"
+        [uiParams]="{workPackageId: workPackage.id}"
+        [textContent]="'#' + workPackage.id"
       >
-        <div class="op-ian-item--status">
-          <op-in-app-notification-status [status]="workPackage.status"></op-in-app-notification-status>
-        </div>
-
-        <a
-          class="op-ian-item--work-package-id-link"
-          [attr.title]="workPackage.subject"
-          uiSref="work-packages.show"
-          [uiParams]="{workPackageId: workPackage.id}"
-          [textContent]="'#' + workPackage.id"
-          (click)="resourceLinkClicked.emit(workPackage)"
-        >
-        </a>
-
-        <div
-          *ngIf="project"
-          class="op-ian-item--project"
-        >
-          - <a
-          class="op-ian-item--project-link" [href]="project.showUrl"
-          [textContent]="project.title"
-          (click)="projectClicked($event)"
-          target="_blank"
-        ></a> -
-        </div>
-
-        <div
-          class="op-ian-item--reason-wrapper"
-        >
-        <span
-          class="op-ian-item--reason"
-          *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
-        >
-          {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
-        </span>
-        </div>
-
-        <span
-          class="op-ian-item--reason-count"
-          [textContent]="aggregatedNotifications.length"
-        ></span>
-
-        <div class="op-ian-item--buttons">
-          <i
-            *ngIf="!notification.readIAN"
-            data-qa-selector="mark-as-read-button"
-            class="op-ian-item--button icon-mark-read"
-            (click)="markAsRead($event, aggregatedNotifications)"
-          >
-          </i>
-        </div>
+      </a>
+      <div
+        *ngIf="project"
+        class="op-ian-item--project"
+      >
+        - <a
+        class="op-ian-item--project-link" [href]="project.showUrl"
+        [textContent]="project.title"
+        (click)="projectClicked($event)"
+        target="_blank"
+      ></a> -
       </div>
 
       <div
-        class="op-ian-item--middle-line"
+        class="op-ian-item--reason-wrapper"
       >
-        <span
-          [ngClass]="'op-ian-item--work-package-type __hl_inline_type_' + workPackage.type.id"
-          [textContent]="workPackage.type.name">
-        </span>
-        <span
-          [textContent]="workPackage.subject"
-          class="op-ian-item--work-package-subject"
-          [class.-read]="notification.readIAN"
-        >
-        </span>
+      <span
+        class="op-ian-item--reason"
+        *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
+      >
+        {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
+      </span>
       </div>
 
-      <div
-        class="op-ian-item--bottom-line"
-      >
-        <div
-          class="op-ian-item--date"
-          [title]="fixedTime"
-          [textContent]="relativeTime$ | async"
-        ></div>
-        <div>
-          <op-principal
-            class="op-ian-item--actors"
-            [principal]="actors[0]"
-            [hide-name]="false"
-            [hide-avatar]="true"
-          ></op-principal>
-          <span
-            *ngIf="actors.length > 1"
-          >
-            {{ text_for_additional_authors(actors.length - 1) }}
-          </span>
-        </div>
+      <span
+        class="op-ian-item--reason-count"
+        [textContent]="aggregatedNotifications.length"
+      ></span>
+
+      <div class="op-ian-item--buttons">
+        <i
+          *ngIf="!notification.readIAN"
+          data-qa-selector="mark-as-read-button"
+          class="op-ian-item--button icon-mark-read"
+          (click)="markAsRead($event, aggregatedNotifications)"
+        >
+        </i>
       </div>
-  </button>
+    </div>
+
+    <div
+      class="op-ian-item--middle-line"
+    >
+      <span
+        [ngClass]="'op-ian-item--work-package-type __hl_inline_type_' + workPackage.type.id"
+        [textContent]="workPackage.type.name">
+      </span>
+      <span
+        [textContent]="workPackage.subject"
+        class="op-ian-item--work-package-subject"
+        [class.-read]="notification.readIAN"
+      >
+      </span>
+    </div>
+
+    <div
+      class="op-ian-item--bottom-line"
+    >
+      <div
+        class="op-ian-item--date"
+        [title]="fixedTime"
+        [textContent]="relativeTime$ | async"
+      ></div>
+      <div>
+        <op-principal
+          class="op-ian-item--actors"
+          [principal]="actors[0]"
+          [hide-name]="false"
+          [hide-avatar]="true"
+        ></op-principal>
+        <span
+          *ngIf="actors.length > 1"
+        >
+          {{ text_for_additional_authors(actors.length - 1) }}
+        </span>
+      </div>
+    </div>
   </ng-container>
   <ng-template #workPackageLoading>
     <op-content-loader
@@ -118,4 +108,4 @@
       <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
     </op-content-loader>
   </ng-template>
-</div>
+</button>

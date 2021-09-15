@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -40,11 +41,11 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
   encapsulation: ViewEncapsulation.None,
 })
 export class InAppNotificationEntryComponent implements OnInit {
+  @HostBinding('class.op-ian-item') className = true;
+
   @Input() notification:InAppNotification;
 
   @Input() aggregatedNotifications:InAppNotification[];
-
-  @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 
