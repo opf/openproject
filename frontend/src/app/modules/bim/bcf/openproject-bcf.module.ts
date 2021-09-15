@@ -38,6 +38,7 @@ import { BcfPathHelperService } from "core-app/modules/bim/bcf/helper/bcf-path-h
 import { ViewpointsService } from "core-app/modules/bim/bcf/helper/viewpoints.service";
 import { BcfImportButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-import-button.component";
 import { BcfExportButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/bcf-export-button.component";
+import { RefreshButtonComponent } from "core-app/modules/bim/ifc_models/toolbar/import-export-bcf/refresh-button.component.ts";
 import { IFCViewerService } from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
 import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { HookService } from "core-app/modules/plugins/hook-service";
@@ -81,10 +82,12 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
     BcfNewWpAttributeGroupComponent,
     BcfImportButtonComponent,
     BcfExportButtonComponent,
+    RefreshButtonComponent,
   ],
   exports: [
     BcfImportButtonComponent,
     BcfExportButtonComponent,
+    RefreshButtonComponent,
   ]
 })
 export class OpenprojectBcfModule {
