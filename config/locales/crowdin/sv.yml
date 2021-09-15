@@ -1415,6 +1415,7 @@ sv:
   label_deleted: "raderad"
   label_deleted_custom_field: "(raderat anpassat fält)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Fallande"
   label_details: "Detaljer"
   label_development_roadmap: "Utvecklingsplan"

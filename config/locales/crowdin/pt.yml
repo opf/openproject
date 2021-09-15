@@ -1414,6 +1414,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"

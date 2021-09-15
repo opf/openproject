@@ -107,9 +107,9 @@ id:
         contoh: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Masukan password yang terikat dengan pengguna sistem
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Masukan Base DN dari subtree LDAP yang anda inginkan agar OpenProject dapat melihat pengguna dan grup.
+        OpenProject akan memfilter username pada subtree saja.
+        Contoh: users,dc=example,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -117,16 +117,15 @@ id:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Jika anda ceklis box ini, OpenProject akan secara otomatis membuat pengguna baru dari seluruh LDAP saat pertamakali autentikasi dengan OpenProject.
+        Biarkan tidak terceklis untuk mengizinkan akun yang ada di OpenProject untuk mengautentikasi melalui LDAP!
     connection_encryption: 'Enkripsi sambungan'
-    system_account: 'System account'
+    system_account: 'Akun sistem'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject membutuhkan akses hanya baca melalui akun sistem untuk melihat pengguna dan grup pada pohon LDAP anda.
+      Harap tentukan kredensial pengikatan untuk pengguna sistem tersebut di bagian berikut.
     ldap_details: 'detil dari LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Pemetaan atribut'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -1397,6 +1396,7 @@ id:
   label_deleted: "dihapus"
   label_deleted_custom_field: "(isian kustom dihapus)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Deskending"
   label_details: "Detil"
   label_development_roadmap: "Development roadmap"

@@ -1415,6 +1415,7 @@ fr:
   label_deleted: "supprimé"
   label_deleted_custom_field: "(champs personnalisés supprimés)"
   label_deleted_custom_option: "(option supprimée)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Décroissant"
   label_details: "Détails"
   label_development_roadmap: "Feuille de route de développement"

@@ -1416,6 +1416,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
   label_development_roadmap: "Kaunlaran ng roadmao"

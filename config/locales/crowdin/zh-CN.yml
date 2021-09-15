@@ -1396,6 +1396,7 @@ zh-CN:
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
   label_deleted_custom_option: "（删除的选项）"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"

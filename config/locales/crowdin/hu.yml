@@ -1420,6 +1420,7 @@ hu:
   label_deleted: "Törölve"
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_deleted_custom_option: "(opció törlése)"
+  label_missing_or_hidden_custom_option: "(hiányzó érték vagy a hozzáférési jogosultságok hiánya)\n"
   label_descending: "Csökkenő"
   label_details: "Részletek"
   label_development_roadmap: "Fejlesztési ütemterv"

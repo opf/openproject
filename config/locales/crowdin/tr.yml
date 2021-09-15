@@ -1416,6 +1416,7 @@ tr:
   label_deleted: "silindi"
   label_deleted_custom_field: "(özel alan silindi)"
   label_deleted_custom_option: "(silinen seçenek)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Azalan"
   label_details: "Detaylar"
   label_development_roadmap: "Geliştirme yol haritası"

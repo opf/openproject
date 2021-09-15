@@ -1432,6 +1432,7 @@ hr:
   label_deleted: "izbrisano"
   label_deleted_custom_field: "(izbrisano prilagođeno polje)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Silazno"
   label_details: "Pojedinosti"
   label_development_roadmap: "Razvojni plan"

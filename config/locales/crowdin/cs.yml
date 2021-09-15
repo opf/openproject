@@ -1448,6 +1448,7 @@ cs:
   label_deleted: "Smazáno"
   label_deleted_custom_field: "(odstraněno vlastní pole)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Sestupně"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoje"

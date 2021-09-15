@@ -1412,6 +1412,7 @@ it:
   label_deleted: "cancellato"
   label_deleted_custom_field: "(campo personalizzato eliminato)"
   label_deleted_custom_option: "(opzione eliminata)"
+  label_missing_or_hidden_custom_option: "(valore mancante o assenza di permessi di accesso)"
   label_descending: "Decrescente"
   label_details: "Dettagli"
   label_development_roadmap: "Tabella di marcia di sviluppo"

@@ -1432,6 +1432,7 @@ ro:
   label_deleted: "șters"
   label_deleted_custom_field: "(câmp personalizat șters)"
   label_deleted_custom_option: "(opțiune eliminată)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descrescător"
   label_details: "Detalii"
   label_development_roadmap: "Plan de lucru pentru dezvoltare"

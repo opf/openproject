@@ -1445,6 +1445,7 @@ pl:
   label_deleted: "Usunięty"
   label_deleted_custom_field: "(usunięte pole niestandardowe)"
   label_deleted_custom_option: "(opcja usunięta)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Malejąco"
   label_details: "Szczegóły"
   label_development_roadmap: "Droga rozwoju"
