@@ -109,6 +109,24 @@ describe 'BIM Revit Add-in navigation spec',
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
+
+    context 'Creating BCFs' do
+      let!(:status) { FactoryBot.create(:default_status) }
+      let!(:priority) { FactoryBot.create :priority, is_default: true }
+
+      it 'redirects correctly' do
+        create_page = model_page.create_wp_by_button(FactoryBot.build(:type_standard))
+        expect(page).to have_current_path /bcf\/new$/, ignore_query: true
+        create_page.subject_field.set('Some subject')
+        create_page.save!
+        last_work_package = WorkPackage.find_by(subject: 'Some subject')
+        # The currently working routes seem weird as they duplicate the work package ID.
+        expect(page).to(
+          have_current_path(/bcf\/show\/#{last_work_package.id}\/details\/#{last_work_package.id}\/overview$/,
+                            ignore_query: true)
+        )
+      end
+    end
   end
 
   context "signed out" do
