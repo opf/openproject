@@ -85,6 +85,14 @@ module Pages
         expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
       end
 
+      def page_shows_a_refresh_button(visible)
+        expect(page).to have_conditional_selector(visible, '.toolbar-item a.refresh-button')
+      end
+
+      def click_refresh_button
+        page.find('.toolbar-item a.refresh-button').click
+      end
+
       def switch_view(value)
         page.find('#bim-view-toggle-button').click
         within('#bim-view-context-menu') do
