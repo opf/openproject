@@ -106,6 +106,12 @@ describe "Reminder email", type: :feature, js: true do
       involved_work_package
 
       ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+
+      # There is no delayed_job associated when using the testing backend of ActiveJob
+      # so we have to mock it.
+      allow(Notifications::ScheduleReminderMailsJob)
+        .to receive(:delayed_job)
+              .and_return(instance_double(Delayed::Backend::ActiveRecord::Job, run_at: Time.current.utc))
     end
 
     it 'sends a digest mail based on the configuration', with_settings: { journal_aggregation_time_minutes: 0 } do
