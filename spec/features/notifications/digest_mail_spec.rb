@@ -85,7 +85,7 @@ describe "Digest email", type: :feature, js: true do
     5.times { perform_enqueued_jobs }
 
     expect(ActionMailer::Base.deliveries.length)
-      .to be 1
+      .to be 2
 
     expect(ActionMailer::Base.deliveries.first.subject)
       .to eql I18n.t(:'mail.digests.work_packages.subject',
