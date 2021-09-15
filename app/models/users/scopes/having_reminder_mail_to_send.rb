@@ -104,7 +104,7 @@ module Users::Scopes
       def hours_between_earliest_and_now(earliest_time)
         raise ArgumentError if Time.current - earliest_time < 0
 
-        (0..(((Time.current - earliest_time) / 1.hour).round)).map do |i|
+        (0..[((Time.current - earliest_time) / 1.hour).round, 24].min).map do |i|
           (earliest_time + i.hours).utc
         end
       end
