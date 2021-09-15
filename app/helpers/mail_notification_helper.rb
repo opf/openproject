@@ -39,7 +39,7 @@ module MailNotificationHelper
       logo = File.read(logo_file)
       suffix = MIME::Types.type_for(logo_file.path).first.content_type
     else
-      logo = Rails.application.assets["logo_openproject_narrow.svg"]
+      logo = File.read(Rails.root.join('app/assets/images/logo_openproject_narrow.svg'))
       suffix = "svg+xml"
     end
 
