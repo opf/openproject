@@ -17,6 +17,9 @@ export const ianMenuSelector = 'op-ian-menu';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IanMenuComponent implements OnInit {
+  notificationsByProject$ = this.ianMenuService.query.notificationsByProject$;
+  notificationsByReason$ = this.ianMenuService.query.notificationsByReason$;
+
   text = {
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),

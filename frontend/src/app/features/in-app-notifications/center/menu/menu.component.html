@@ -24,6 +24,28 @@
     </a>
   </li>
   <li>
-    <op-collapsible-menu></op-collapsible-menu>
+    <div class="tree-menu--container">
+      <ul class="pages-hierarchy -with-hierarchy collapsible-menu--container">
+        <li class="-hierarchy-expanded">
+          <div class="tree-menu--item">
+            <span class="tree-menu--hierarchy-span">
+              <button
+                class="tree-menu--hierarchy-indicator collapsible-menu--category-toggle"
+                type="button"
+              >
+                <span class="tree-menu--hierarchy-indicator-icon" aria-hidden="true"></span>
+              </button>
+              <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">Expanded. Click to collapse</span>
+              <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">Collapsed. Click to show</span>
+            </span>
+            <ul class="pages-hierarchy -with-hierarchy" *ngIf="notificationsByProject$ | async">
+              <li class="collapsible-menu--placeholder" *ngFor="let item of (notificationsByProject$ | async)">
+                {{ item | json }}
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
   </li>
 </ul>
