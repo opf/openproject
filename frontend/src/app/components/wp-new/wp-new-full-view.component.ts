@@ -36,5 +36,5 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = 'work-packages.show';
+  public successState = this.$state.current.data.successState as string;
 }
