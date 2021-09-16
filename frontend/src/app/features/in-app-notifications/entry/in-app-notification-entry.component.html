@@ -1,5 +1,4 @@
-<button
-  type="button"
+<div
   class="op-ian-item--row"
   [class.op-ian-item--row_unexpandable]="unexpandable"
   (click)="showDetails()"
@@ -54,6 +53,13 @@
           data-qa-selector="mark-as-read-button"
           class="op-ian-item--button icon-mark-read"
           (click)="markAsRead($event, aggregatedNotifications)"
+          tabindex="0"
+        >
+        </i>
+        <i
+          class="op-ian-item--button op-ian-item--button_shown-on-focus icon-info1"
+          (keydown.enter)="showDetails()"
+          tabindex="0"
         >
         </i>
       </div>
@@ -108,4 +114,4 @@
       <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
     </op-content-loader>
   </ng-template>
-</button>
+</div>

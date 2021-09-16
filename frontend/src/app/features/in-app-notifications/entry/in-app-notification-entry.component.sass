@@ -28,8 +28,8 @@ $subject-font-size: 14px
   &_selected
     background: $ian-bg-selected-color
 
-  &_selected:hover
-    background: $ian-bg-selected-hover-color
+    &:hover
+      background: $ian-bg-selected-hover-color
 
   &--row
     @include unset-button-styles
@@ -112,10 +112,13 @@ $subject-font-size: 14px
     &:hover
       color: var(--content-link-hover-active-color)
 
+    &_shown-on-focus
+      @include show-on-focus
+
   &--loading
     height: 100%
     display: block
 
     svg
       // Height - padding
-      height: calc(#{$ian-height} - 20px)
+      height: calc(#{$ian-height} - 30px)
