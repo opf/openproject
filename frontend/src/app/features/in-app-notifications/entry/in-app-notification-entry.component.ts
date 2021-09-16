@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
@@ -36,6 +37,7 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
   templateUrl: './in-app-notification-entry.component.html',
   styleUrls: ['./in-app-notification-entry.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class InAppNotificationEntryComponent implements OnInit {
   @Input() notification:InAppNotification;

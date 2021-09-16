@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   OnInit,
 } from '@angular/core';
 
@@ -10,6 +11,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpContentLoaderComponent implements OnInit {
+  @Input() public viewBox:string = '0 0 400 130';
+
   baseUrl:string;
 
   ngOnInit():void {
