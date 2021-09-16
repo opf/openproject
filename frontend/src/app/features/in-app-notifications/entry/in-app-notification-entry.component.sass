@@ -2,6 +2,9 @@
 
 $ian-bg-color: #F9F9F9
 $ian-bg-hover-color: #F1F8FF
+// This needs to be set in the itemSize of
+// the virtual scroller
+$ian-height: 90px
 $subject-font-size: 14px
 
 .op-ian-item
@@ -11,9 +14,7 @@ $subject-font-size: 14px
   font-size: 0.9rem
   border: 1px solid var(--content-default-border-color)
   border-radius: 2px
-  // This needs to be set in the itemSize of
-  // the virtual scroller
-  height: 90px
+  height: $ian-height
 
   &:hover
     background: $ian-bg-hover-color
@@ -98,3 +99,11 @@ $subject-font-size: 14px
   &--button
     &:hover
       color: var(--content-link-hover-active-color)
+
+  &--loading
+    height: 100%
+    display: block
+
+    svg
+      // Height - padding
+      height: calc(#{$ian-height} - 20px)

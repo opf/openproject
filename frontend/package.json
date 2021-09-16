@@ -79,6 +79,7 @@
     "@kolkov/ngx-gallery": "^1.0.11",
     "@ng-select/ng-option-highlight": "0.0.5",
     "@ng-select/ng-select": "^4.0.4",
+    "@ngneat/content-loader": "^6.1.0",
     "@ngx-formly/core": "^5.10.19",
     "@sentry/angular": "6.2.3",
     "@sentry/tracing": "6.2.3",

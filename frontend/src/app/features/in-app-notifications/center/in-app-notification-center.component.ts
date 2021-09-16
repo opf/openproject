@@ -34,6 +34,8 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   notifications$ = this.storeService.query.notifications$;
 
+  loading$ = this.storeService.query.selectLoading();
+
   noResultText$ = this
     .storeService
     .query
