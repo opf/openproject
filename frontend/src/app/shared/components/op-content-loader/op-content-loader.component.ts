@@ -11,7 +11,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpContentLoaderComponent implements OnInit {
-  @Input() public viewBox:string = '0 0 400 130';
+  @Input() public viewBox = '0 0 400 130';
 
   baseUrl:string;
 

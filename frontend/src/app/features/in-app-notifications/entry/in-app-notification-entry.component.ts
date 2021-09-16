@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
-  NEVER,
   Observable,
   timer,
 } from 'rxjs';
