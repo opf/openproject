@@ -16,34 +16,34 @@ describe "Digest email", type: :feature, js: true do
     FactoryBot.create :user,
                       notification_settings: [
                         FactoryBot.build(:mail_notification_setting,
-                                         involved: true,
-                                         watched: true,
+                                         involved: false,
+                                         watched: false,
                                          mentioned: true,
-                                         work_package_commented: true,
-                                         work_package_created: true,
-                                         work_package_processed: true,
-                                         work_package_prioritized: true,
-                                         work_package_scheduled: true,
+                                         work_package_commented: false,
+                                         work_package_created: false,
+                                         work_package_processed: false,
+                                         work_package_prioritized: false,
+                                         work_package_scheduled: false,
                                          all: false),
                         FactoryBot.build(:in_app_notification_setting,
-                                         involved: true,
-                                         watched: true,
+                                         involved: false,
+                                         watched: false,
                                          mentioned: true,
-                                         work_package_commented: true,
-                                         work_package_created: true,
-                                         work_package_processed: true,
-                                         work_package_prioritized: true,
-                                         work_package_scheduled: true,
+                                         work_package_commented: false,
+                                         work_package_created: false,
+                                         work_package_processed: false,
+                                         work_package_prioritized: false,
+                                         work_package_scheduled: false,
                                          all: false),
                         FactoryBot.build(:mail_digest_notification_setting,
-                                         involved: true,
-                                         watched: true,
-                                         mentioned: true,
-                                         work_package_commented: true,
-                                         work_package_created: true,
-                                         work_package_processed: true,
-                                         work_package_prioritized: true,
-                                         work_package_scheduled: true,
+                                         involved: false,
+                                         watched: false,
+                                         mentioned: false,
+                                         work_package_commented: false,
+                                         work_package_created: false,
+                                         work_package_processed: false,
+                                         work_package_prioritized: false,
+                                         work_package_scheduled: false,
                                          all: false)
                       ]
   end
@@ -89,7 +89,7 @@ describe "Digest email", type: :feature, js: true do
     5.times { perform_enqueued_jobs }
 
     expect(ActionMailer::Base.deliveries.length)
-      .to be 2
+      .to be 1
 
     expect(ActionMailer::Base.deliveries.first.subject)
       .to eql "OpenProject - 1 unread notification including a mention"
