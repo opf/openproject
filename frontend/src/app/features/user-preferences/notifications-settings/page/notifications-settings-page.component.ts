@@ -27,8 +27,7 @@ export class NotificationsSettingsPageComponent implements OnInit {
 
   constructor(
     private I18n:I18nService,
-    private stateService:UserPreferencesService,
-    private query:UserPreferencesQuery,
+    private storeService:UserPreferencesService,
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
   ) {
@@ -42,12 +41,12 @@ export class NotificationsSettingsPageComponent implements OnInit {
       .pipe(take(1))
       .subscribe((user) => {
         this.userId = this.userId || user.id!;
-        this.stateService.get(this.userId);
+        this.storeService.get(this.userId);
       });
   }
 
   public saveChanges():void {
-    const prefs = this.query.getValue();
-    this.stateService.update(this.userId, prefs);
+    const prefs = this.storeService.query.getValue();
+    this.storeService.update(this.userId, prefs);
   }
 }

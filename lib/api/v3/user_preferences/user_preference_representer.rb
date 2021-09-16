@@ -79,6 +79,8 @@ module API
                    daily_reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
                  end
 
+        property :immediate_reminders
+
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,
