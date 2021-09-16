@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Versions::Orders::SemverNameOrder < Queries::BaseOrder
+class Queries::Versions::Orders::SemverNameOrder < Queries::Orders::Base
   self.model = Version
 
   def self.key

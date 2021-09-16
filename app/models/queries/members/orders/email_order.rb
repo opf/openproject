@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Orders::EmailOrder < Queries::BaseOrder
+class Queries::Members::Orders::EmailOrder < Queries::Orders::Base
   self.model = Member
 
   def self.key

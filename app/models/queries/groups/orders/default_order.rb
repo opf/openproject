@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Groups::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Groups::Orders::DefaultOrder < Queries::Orders::Base
   self.model = Group
 
   def self.key

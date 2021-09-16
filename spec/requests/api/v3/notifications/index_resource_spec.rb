@@ -43,8 +43,18 @@ describe ::API::V3::Notifications::NotificationsAPI,
                       member_in_project: work_package.project,
                       member_with_permissions: %i[view_work_packages]
   end
-  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
-  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient, resource: work_package }
+  shared_let(:notification1) do
+    FactoryBot.create :notification,
+                      recipient: recipient,
+                      resource: work_package,
+                      project: work_package.project
+  end
+  shared_let(:notification2) do
+    FactoryBot.create :notification,
+                      recipient: recipient,
+                      resource: work_package,
+                      project: work_package.project
+  end
 
   let(:notifications) { [notification1, notification2] }
 
@@ -127,6 +137,64 @@ describe ::API::V3::Notifications::NotificationsAPI,
         it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
           let(:elements) { [notification2, notification1] }
         end
+      end
+    end
+
+    context 'with a reason groupBy' do
+      let(:involved_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :involved }
+
+      let(:notifications) { [notification1, notification2, involved_notification] }
+
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, group_by: :reason
+      end
+
+      let(:groups) { parsed_response['groups'] }
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+
+      it 'contains the reason groups', :aggregate_failures do
+        expect(groups).to be_a Array
+        expect(groups.count).to eq 2
+
+        keyed = groups.index_by { |el| el['value'] }
+        expect(keyed.keys).to contain_exactly 'mentioned', 'involved'
+        expect(keyed['mentioned']['count']).to eq 2
+        expect(keyed['involved']['count']).to eq 1
+      end
+    end
+
+    context 'with a project groupBy' do
+      let(:work_package2) { FactoryBot.create :work_package }
+      let(:other_project_notification) do
+        FactoryBot.create :notification,
+                          resource: work_package2,
+                          project: work_package2.project,
+                          recipient: recipient,
+                          reason_ian: :involved
+      end
+
+      let(:notifications) { [notification1, notification2, other_project_notification] }
+
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, group_by: :project
+      end
+
+      let(:groups) { parsed_response['groups'] }
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+
+      it 'contains the project groups', :aggregate_failures do
+        expect(groups).to be_a Array
+        expect(groups.count).to eq 2
+
+        keyed = groups.index_by { |el| el['value'] }
+        expect(keyed.keys).to contain_exactly work_package2.project.name, work_package.project.name
+        expect(keyed[work_package.project.name]['count']).to eq 2
+        expect(keyed[work_package2.project.name]['count']).to eq 1
+
+        expect(keyed.dig(work_package.project.name, '_links', 'valueLink')[0]['href'])
+          .to eq "/api/v3/projects/#{work_package.project.id}"
       end
     end
   end

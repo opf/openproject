@@ -2,13 +2,13 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2021 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -28,26 +28,58 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Notifications
-  [Queries::Notifications::Filters::ReadIanFilter,
-   Queries::Notifications::Filters::IdFilter,
-   Queries::Notifications::Filters::ResourceIdFilter,
-   Queries::Notifications::Filters::ResourceTypeFilter].each do |filter|
-    Queries::Register.filter Queries::Notifications::NotificationQuery,
-                             filter
-  end
+module Queries
+  module Filters
+    class NotExistingFilter < Base
+      def available?
+        false
+      end
 
-  [Queries::Notifications::Orders::DefaultOrder,
-   Queries::Notifications::Orders::ReasonOrder,
-   Queries::Notifications::Orders::ProjectOrder,
-   Queries::Notifications::Orders::ReadIanOrder].each do |order|
-    Queries::Register.order Queries::Notifications::NotificationQuery,
-                            order
-  end
+      def type
+        :inexistent
+      end
 
-  [Queries::Notifications::GroupBys::GroupByReason,
-   Queries::Notifications::GroupBys::GroupByProject].each do |group|
-    Queries::Register.group_by Queries::Notifications::NotificationQuery,
-                               group
+      def self.key
+        :not_existent
+      end
+
+      def human_name
+        name.to_s.presence || type
+      end
+
+      validate :always_false
+
+      def always_false
+        errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
+      end
+
+      # deactivating superclass validation
+      def validate_inclusion_of_operator; end
+
+      def to_hash
+        {
+          non_existent_filter: {
+            operator: operator,
+            values: values
+          }
+        }
+      end
+
+      def scope
+        # TODO: remove switch once the WP query is a
+        # subclass of Queries::Base
+        model = if context.respond_to?(:model)
+                  context.model
+                else
+                  WorkPackage
+                end
+
+        model.unscoped
+      end
+
+      def attributes_hash
+        nil
+      end
+    end
   end
 end

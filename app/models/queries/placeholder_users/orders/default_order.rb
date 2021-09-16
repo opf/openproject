@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::PlaceholderUsers::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::PlaceholderUsers::Orders::DefaultOrder < Queries::Orders::Base
   self.model = PlaceholderUser
 
   def self.key

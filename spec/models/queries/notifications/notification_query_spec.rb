@@ -114,7 +114,11 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"notifications\".\"read_ian\" DESC, \"notifications\".\"id\" DESC"
+        expected = <<~SQL.squish
+          SELECT "notifications".* FROM "notifications"
+          WHERE "notifications"."recipient_id" = #{recipient.id}
+          ORDER BY "notifications"."read_ian" DESC, "notifications"."id" DESC
+        SQL
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -128,7 +132,11 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = "SELECT \"notifications\".* FROM \"notifications\" WHERE \"notifications\".\"recipient_id\" = #{recipient.id} ORDER BY \"reason\" DESC, \"notifications\".\"id\" DESC"
+        expected = <<~SQL.squish
+          SELECT "notifications".* FROM "notifications"
+          WHERE "notifications"."recipient_id" = #{recipient.id}
+          ORDER BY "notifications"."reason_ian" DESC, "notifications"."id" DESC
+        SQL
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -138,6 +146,64 @@ describe Queries::Notifications::NotificationQuery, type: :model do
   context 'with a non existing sortation' do
     before do
       instance.order(non_existing: :desc)
+    end
+
+    describe '#results' do
+      it 'returns a query not returning anything' do
+        expected = Notification.where(Arel::Nodes::Equality.new(1, 0))
+
+        expect(instance.results.to_sql).to eql expected.to_sql
+      end
+    end
+
+    describe 'valid?' do
+      it 'is false' do
+        expect(instance).to be_invalid
+      end
+    end
+  end
+
+  context 'with a reason group_by' do
+    before do
+      instance.group(:reason)
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = <<~SQL.squish
+          SELECT "notifications"."reason_ian", COUNT(*) FROM "notifications"
+          WHERE "notifications"."recipient_id" = #{recipient.id}
+          GROUP BY "notifications"."reason_ian"
+          ORDER BY "notifications"."reason_ian" ASC
+        SQL
+
+        expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
+  context 'with a project group_by' do
+    before do
+      instance.group(:project)
+    end
+
+    describe '#results' do
+      it 'is the same as handwriting the query' do
+        expected = <<~SQL.squish
+          SELECT "notifications"."project_id", COUNT(*) FROM "notifications"
+          WHERE "notifications"."recipient_id" = #{recipient.id}
+          GROUP BY "notifications"."project_id"
+          ORDER BY "notifications"."project_id" ASC
+        SQL
+
+        expect(instance.groups.to_sql).to eql expected
+      end
+    end
+  end
+
+  context 'with a non existing group_by' do
+    before do
+      instance.group(:does_not_exist)
     end
 
     describe '#results' do

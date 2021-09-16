@@ -28,10 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Orders::ReasonOrder < Queries::BaseOrder
+class Queries::Notifications::Orders::ReasonOrder < Queries::Orders::Base
   self.model = Notification
 
   def self.key
     :reason
+  end
+
+  def name
+    :reason_ian
   end
 end

@@ -40,6 +40,7 @@ class ParamsToQueryService
 
     query = apply_filters(query, params)
     apply_order(query, params)
+    apply_group_by(query, params)
   end
 
   private
@@ -72,6 +73,14 @@ class ParamsToQueryService
     end
 
     query.order(hash_sort)
+  end
+
+  def apply_group_by(query, params)
+    return query unless params[:groupBy]
+
+    group_by = convert_attribute(params[:groupBy])
+
+    query.group(group_by)
   end
 
   # Expected format looks like:
