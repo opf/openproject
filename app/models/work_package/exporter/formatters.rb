@@ -1,10 +1,18 @@
 module WorkPackage::Exporter
   module Formatters
+    def self.default_formatter_strings
+      @default_formatter_strings ||= %i[default costs estimated_hours].map do |key|
+        "WorkPackage::Exporter::Formatters::#{key.to_s.camelize}"
+      end
+    end
+
+    def self.all_formatter_strings
+      @all_formatter_strings ||= default_formatter_strings
+    end
+
     def self.all
-      @formatters ||= begin
-        %i[default costs estimated_hours].map do |key|
-          Kernel.const_get("WorkPackage::Exporter::Formatters::#{key.to_s.camelize}")
-        end
+      all_formatter_strings.map do |formatter_string|
+        Kernel.const_get(formatter_string)
       end
     end
 
@@ -12,8 +20,8 @@ module WorkPackage::Exporter
       all.map(&:key)
     end
 
-    def self.register(clz)
-      @formatters << clz
+    def self.register(class_string)
+      @all_formatter_strings = all_formatter_strings + [class_string]
     end
 
     ##
