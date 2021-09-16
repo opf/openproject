@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 (function ($) {
@@ -35,7 +35,7 @@
       if (selectedPage) {
         const selected = $(`[slug="${selectedPage}"]`, tree);
         selected.toggleClass('-selected', true);
-        if (selected.length > 1) {
+        if (selected.length > 0) {
           selected[0].scrollIntoView();
         }
       }

@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'fog/aws'
@@ -39,12 +39,12 @@ module CarrierWave
       # Ensure that the provider AWS is uppercased
       provider = credentials[:provider] || 'AWS'
       if [:aws, 'aws'].include? provider
-        provider = 'AWS'
+        credentials[:provider] = 'AWS'
       end
 
       CarrierWave.configure do |config|
         config.fog_provider    = 'fog/aws'
-        config.fog_credentials = { provider: provider }.merge(credentials)
+        config.fog_credentials = credentials
         config.fog_directory   = directory
         config.fog_public      = public
 

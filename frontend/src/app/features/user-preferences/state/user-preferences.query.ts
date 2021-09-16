@@ -7,7 +7,6 @@ import { UserPreferencesStore } from 'core-app/features/user-preferences/state/u
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
-@Injectable()
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
   notificationSettings$ = this.select('notifications');
 
@@ -38,6 +37,21 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
       map((notifications) => (
         new Set(notifications.map((setting) => setting._links.project?.href))
       )),
+    );
+
+  /** All daily reminders settings */
+  dailyReminders$ = this.select('dailyReminders');
+
+  dailyRemindersEnabled$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.enabled),
+    );
+
+  dailyRemindersTimes$ = this
+    .dailyReminders$
+    .pipe(
+      map((reminders) => reminders.times),
     );
 
   preferences$ = this.select();

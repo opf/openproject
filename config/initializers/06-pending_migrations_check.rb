@@ -25,14 +25,14 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 # We want to abort booting when there are missing migrations by default
 # since it can lead to runtime schema cache issues.
 # Refusing to boot will encourage admins to fix missing migrations.
 
-exceptions = %w(db:create db:drop db:migrate db:structure:load db:schema:load)
+exceptions = %w(db:create db:drop db:migrate db:structure:load db:schema:load assets:precompile)
 is_console = Rails.const_defined? 'Console'
 
 if Rails.env.production? && !is_console && (exceptions & ARGV).empty?

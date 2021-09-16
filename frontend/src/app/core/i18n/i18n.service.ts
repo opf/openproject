@@ -18,6 +18,8 @@ export interface GlobalI18n {
 
   toHumanSize(num:number, options?:ToHumanSizeOptions):string;
 
+  toTime(format:string, date:Date):string;
+
   locale:string;
   firstDayOfWeek:number;
   pluralization:any;
@@ -44,27 +46,25 @@ interface ToHumanSizeOptions extends ToNumberOptions {
 
 @Injectable({ providedIn: 'root' })
 export class I18nService {
-  private _i18n:GlobalI18n = (window as any).I18n;
+  private i18n:GlobalI18n = window.I18n;
 
   public get locale():string {
-    return this._i18n.locale;
+    return this.i18n.locale;
   }
 
-  public t(translateId:string, parameters?:{ [key:string]:any }):string {
-    return this._i18n.t(translateId, parameters);
-  }
+  public t = this.i18n.t.bind(this.i18n) as GlobalI18n['t'];
 
-  public lookup(translateId:string):boolean|undefined {
-    return this._i18n.lookup(translateId);
-  }
+  public lookup = this.i18n.lookup.bind(this.i18n) as GlobalI18n['lookup'];
 
-  public toNumber = this._i18n.toNumber.bind(this._i18n);
+  public toTime = this.i18n.toTime.bind(this.i18n) as GlobalI18n['toTime'];
 
-  public toPercentage = this._i18n.toPercentage.bind(this._i18n);
+  public toNumber = this.i18n.toNumber.bind(this.i18n) as GlobalI18n['toNumber'];
 
-  public toCurrency = this._i18n.toCurrency.bind(this._i18n);
+  public toPercentage = this.i18n.toPercentage.bind(this.i18n) as GlobalI18n['toPercentage'];
 
-  public strftime = this._i18n.strftime.bind(this._i18n);
+  public toCurrency = this.i18n.toCurrency.bind(this.i18n) as GlobalI18n['toCurrency'];
 
-  public toHumanSize = this._i18n.toHumanSize.bind(this._i18n);
+  public strftime = this.i18n.strftime.bind(this.i18n) as GlobalI18n['strftime'];
+
+  public toHumanSize = this.i18n.toHumanSize.bind(this.i18n) as GlobalI18n['toHumanSize'];
 }

@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
@@ -48,6 +48,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
@@ -152,8 +153,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
             });
         }
       })
-      .catch((error:any) => {
-        if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
+      .catch((error:unknown) => {
+        if (error instanceof HalError && error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
           this.apiV3Service.root.get().subscribe((root:RootResource) => {
             if (!root.user) {
               // Not logged in

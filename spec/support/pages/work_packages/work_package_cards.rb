@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 require 'support/pages/page'
 
@@ -82,6 +82,12 @@ module Pages
 
     def select_work_package(work_package)
       card(work_package).click
+    end
+
+    def click_info_icon(work_package)
+      card_element = card(work_package)
+      card_element.hover
+      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
     end
 
     def deselect_work_package(work_package)

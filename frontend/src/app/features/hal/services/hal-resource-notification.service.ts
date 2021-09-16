@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { StateService } from '@uirouter/core';
@@ -37,6 +37,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Injectable()
 export class HalResourceNotificationService {
@@ -78,8 +79,8 @@ export class HalResourceNotificationService {
 
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
-    if (response instanceof ErrorResource) {
-      return this.handleErrorResponse(response, resource);
+    if (response instanceof HalError) {
+      return this.handleErrorResponse(response.resource, resource);
     }
 
     const errorBody = this.retrieveError(response);
@@ -108,7 +109,7 @@ export class HalResourceNotificationService {
   public retrieveErrorMessage(response:unknown):string {
     const error = this.retrieveError(response);
 
-    if (error instanceof ErrorResource) {
+    if (error instanceof ErrorResource || error instanceof HalError) {
       return error.message;
     }
 
@@ -142,6 +143,10 @@ export class HalResourceNotificationService {
   }
 
   protected handleErrorResponse(errorResource:any, resource?:HalResource) {
+    if (errorResource instanceof HalError && resource) {
+      return this.showError(errorResource.resource, resource);
+    }
+
     if (!(errorResource instanceof ErrorResource)) {
       return this.showGeneralError(errorResource);
     }
@@ -150,7 +155,7 @@ export class HalResourceNotificationService {
       return this.showError(errorResource, resource);
     }
 
-    this.showApiErrorMessages(errorResource);
+    return this.showApiErrorMessages(errorResource);
   }
 
   public showError(errorResource:any, resource:HalResource) {

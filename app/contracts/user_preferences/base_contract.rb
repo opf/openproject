@@ -25,14 +25,34 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module UserPreferences
   class BaseContract < ::BaseContract
+    property :settings
+
     validate :user_allowed_to_access
+    validates :settings,
+              not_nil: true,
+              json: {
+                schema: ->(*) {
+                  UserPreferences::Schema.schema
+                },
+                if: -> { model.settings.present? }
+              }
+
+    validate :time_zone_correctness,
+             if: -> { model.time_zone.present? }
+
+    validate :full_hour_reminder_time,
+             if: -> { model.daily_reminders.present? }
 
     protected
+
+    def time_zone_correctness
+      errors.add(:time_zone, :inclusion) if model.time_zone.present? && model.canonical_time_zone.nil?
+    end
 
     ##
     # User preferences can only be accessed with the manage_user permission
@@ -40,6 +60,12 @@ module UserPreferences
     def user_allowed_to_access
       unless user.allowed_to_globally?(:manage_user) || (user.logged? && user.active? && user.id == model.user_id)
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def full_hour_reminder_time
+      unless model.daily_reminders[:times].all? { |time| time.match?(/00:00\+00:00\z/) }
+        errors.add :daily_reminders, :full_hour
       end
     end
   end

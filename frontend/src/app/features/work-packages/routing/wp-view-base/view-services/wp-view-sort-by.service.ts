@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { combine } from 'reactivestates';
@@ -52,7 +52,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public onReadyWithAvailable():Observable<null> {
-    return combine(this.pristineState, this.states.queries.sortBy)
+    return combine(this.pristineState, this.querySpace.available.sortBy)
       .values$()
       .pipe(
         mapTo(null),
@@ -140,7 +140,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   private get availableState() {
-    return this.states.queries.sortBy;
+    return this.querySpace.available.sortBy;
   }
 
   public get available():QuerySortByResource[] {

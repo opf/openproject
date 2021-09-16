@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'roar/decorator'
@@ -64,6 +64,22 @@ module API
         property :comments_in_reverse_order,
                  as: :commentSortDescending
         property :auto_hide_popups
+
+        # Also accept times in the format of HH:MM which are also valid according to ISO8601
+        # and have those as the only times in the resource.
+        property :daily_reminders,
+                 getter: ->(*) do
+                   reminders = daily_reminders.dup
+                   reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2}).*\z/, '\1') } if reminders
+                   reminders
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.daily_reminders = fragment
+
+                   daily_reminders['times'].map! { |time| time.gsub(/\A(\d{2}:\d{2})\z/, '\1:00+00:00') }
+                 end
+
+        property :immediate_reminders
 
         property :notification_settings,
                  as: :notifications,

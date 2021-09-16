@@ -23,7 +23,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 require 'spec_helper'
@@ -99,7 +99,8 @@ describe 'backlogs onboarding tour', js: true do
       expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.overview')), normalize_ws: true
 
       next_button.click
-      expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.sprints')), normalize_ws: true
+      text = sanitize_string(I18n.t('js.onboarding.steps.backlogs.sprints'))
+      expect(page).to have_text Loofah.fragment(text).text(encode_special_chars: false), normalize_ws: true
 
       next_button.click
       expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.backlogs.task_board_arrow')), normalize_ws: true

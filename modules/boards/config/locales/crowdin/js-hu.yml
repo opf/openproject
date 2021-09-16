@@ -45,16 +45,20 @@ hu:
           Tábla szűrt listákkal a %{attribute} attribútumon. Ha áthelyezi a munkacsomagokat más listákra, frissül az attribútumuk.
 
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
+
         action_text_status: >
           Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
 
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+
         action_type:
           assignee: felelős
           status: állapot
@@ -71,17 +75,17 @@ hu:
         select_attribute: "Akció attribútum"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
+          assignee: "Válassza ki a felhasználót akit hozzá szeretne adni az új megbízotti listához.\n"
           status: Státusz hozzáadása az új listához
           version: Verzió hozzáadása az új listához
           subproject: Alprojekt hozzáadása az új listához
-          subtasks: Select work package to add as a new list
+          subtasks: "Válassza ki az új listaként hozzáadandó munkacsomagot\n"
         warning:
           status: |
             Jelenleg nincs elérhető állapot. <br>
             Vagy nincsenek, vagy mindegyik már felkerült a táblába
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
+          assignee: "Nincs olyan tag, amely megfelelne a szűrő értékének. <br>\n"
+          no_member: "Ennek a projektnek jelenleg nincs hozzáadható tagja. <br>\n"
           add_members: "\n<a href=\"%{link}\"> Új tag hozzáadása a projekthez </a> a felhasználók újbóli kiválasztásához."
       configuration_modal:
         title: 'Konfiguráld a táblát'

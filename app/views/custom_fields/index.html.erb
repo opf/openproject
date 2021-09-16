@@ -23,10 +23,20 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:label_custom_field_plural) %>
+<%= toolbar title: t(:label_custom_field_plural) do %>
+  <li class="toolbar-item">
+    <%= link_to new_custom_field_path(type: selected_tab(custom_fields_tabs)[:name]),
+                { class: 'button -alt-highlight',
+                  aria: {label: t(:label_custom_field_new)},
+                  title: t(:label_custom_field_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.models.custom_field') %></span>
+    <% end %>
+  </li>
+<% end %>
 
 <%= render_tabs custom_fields_tabs %>
 

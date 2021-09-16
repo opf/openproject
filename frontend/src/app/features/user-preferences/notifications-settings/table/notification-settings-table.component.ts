@@ -9,6 +9,7 @@ import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({

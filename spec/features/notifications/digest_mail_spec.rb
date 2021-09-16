@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'support/pages/my/notifications'
 
+# TODO: This feature spec is to be replaced by the reminder_mail_spec.rb in the same directory.
 describe "Digest email", type: :feature, js: true do
   let!(:project) { FactoryBot.create :project, members: { current_user => role } }
   let!(:mute_project) { FactoryBot.create :project, members: { current_user => role } }
@@ -52,6 +53,9 @@ describe "Digest email", type: :feature, js: true do
     work_package
     involved_work_package
 
+    allow(CustomStyle.current)
+      .to receive(:logo).and_return(nil)
+
     ActiveJob::Base.queue_adapter.enqueued_jobs.clear
   end
 
@@ -88,8 +92,6 @@ describe "Digest email", type: :feature, js: true do
       .to be 2
 
     expect(ActionMailer::Base.deliveries.first.subject)
-      .to eql I18n.t(:'mail.digests.work_packages.subject',
-                     date: Time.current.strftime('%m/%d/%Y'),
-                     number: 1)
+      .to eql "OpenProject - 1 unread notification including a mention"
   end
 end

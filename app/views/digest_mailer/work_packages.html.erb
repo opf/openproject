@@ -1,58 +1,65 @@
-<div style="color: #777; font-weight: bold">
-  <%= digest_timespan_text %>
-</div>
+<%= render partial: 'mailer/notification_mailer_header',
+           locals: {
+             summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}"
+           } %>
 
-<% @notifications_by_project.each do |project, notifications_by_work_package| %>
-  <section style="margin-bottom: 3em; margin-top: 5em">
-    <h1 style="font-size: 2em; margin-bottom: 1.5em"><%= link_to_project(project, only_path: false) %></h1>
-
-    <% notifications_by_work_package.each do |work_package, notifications| %>
-        <section style="margin-bottom: 3em;">
-          <h2 style="margin-bottom: 1em; font-size: 1.5em;"><%= link_to_work_package work_package, status: true, only_path: false, no_hidden: true %></h2>
-
-          <% notifications.sort_by(&:created_at).each do |notification| %>
-
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="20px"></td>
-                <td style="font-weight: normal; font-size: 1.1em;">
-                  <%= digest_notification_timestamp_text(notification) %>
-                </td>
-                <td style="text-align: right">
-                  <%= I18n.t(
-                        :"mail.digests.work_packages.reason.#{notification.reason_mail_digest || :unknown}",
-                        default: '-') %>
-                </td>
-                <td width="20px"></td>
-              </tr>
-            </table>
-
-            <% journal = notification.journal %>
-            <table width="100%" border="0" cellpadding="0" cellspacing="0">
-              <tr>
-                <td width="20px"></td>
-                <td>
-                  <%= format_text(journal.notes,
-                                  only_path: false,
-                                  object: notification.resource,
-                                  project: notification.project) %>
-
-                  <% if journal.notes.present? && journal.details.any? %>
-                    <div style="margin-bottom: 2em"></div>
-                  <% end %>
-
-                  <ul>
-                    <% journal.details.each do |detail| %>
-                      <li><%= journal.render_detail(detail, only_path: false) %></li>
-                    <% end %>
-                  </ul>
-                </td>
-              </tr>
-            </table>
-
-            <div style="margin-bottom: 3em"></div>
-          <% end %>
-        </section>
-    <% end %>
-  </section>
+<% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
+  <%= render layout: 'mailer/notification_row',
+             locals: {
+               work_package: work_package,
+               notifications_by_work_package: notifications_by_work_package
+             } do %>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="font-size: 12px;">
+      <% notifications_by_work_package.each do | notification | %>
+        <% if notification.journal.notes.present? %>
+          <tr style="color: #878787; line-height: 20px; font-size: 14px;">
+            <td>
+              <%= digest_comment_text(notification) %>
+              <%= digest_notification_timestamp_text(notification) %>
+            </td>
+          </tr>
+        <% end %>
+        <% notification.journal.details.each do |detail| %>
+          <tr style="color: #878787; line-height: 20px; font-size: 14px;">
+            <td>
+              <%= notification.journal.render_detail(detail, only_path: false) %>
+              <%= digest_notification_timestamp_text(notification) %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </table>
+  <% end %>
 <% end %>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+  <tr>
+    <td width="100%">
+      <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+        <span style="font-size: 14px; line-height: 28px">
+          <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+          <% if number_of_overflowing_work_packages === 1 %>
+            <%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %>
+          <% else %>
+            <%= I18n.t(:'mail.digests.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %>
+          <% end %>
+        </span>
+        <a
+          target="_blank"
+          style="background-color: #D1E5F5;
+            padding: 8px 12px;
+            color: #1A67A3;
+            border: 1px solid #1A67A3;
+            border-radius: 16px;
+            text-decoration: none;
+            white-space: nowrap;">
+          <%= I18n.t(:'mail.digests.work_packages.see_all') %>
+        </a>
+      <% end %>
+    </td>
+    <td>
+      <%= render partial: 'mailer/notification_settings_button' %>
+    </td>
+  </tr>
+</table>
+

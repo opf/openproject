@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 hu:
   activerecord:
@@ -68,6 +68,6 @@ hu:
   permission_edit_budgets: "Költségvetés szerkesztése"
   permission_view_budgets: "Költségvetések megtekintése"
   project_module_budgets: "Költségvetések"
-  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_reassign_to: "Újra hozzárendelve ehhez a költségkerethez:"
   text_budget_delete: "Költségvetés törlése az összes munkacsomagból"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_destroy_assigned_wp: "%{count} munkacsomag van hozzárendelve ehhez a költségkerethez. Mit szeretne csinálni?\n"

@@ -63,7 +63,9 @@
         <div class="work-packages--panel-inner">
           <span class="hidden-for-sighted" tabindex="-1" opAutofocus [textContent]="focusAnchorLabel"></span>
           <op-wp-tabs [workPackage]="workPackage" view="full"></op-wp-tabs>
-          <div class="tabcontent" ui-view>
+          <div class="tabcontent"
+               data-notification-selector='notification-scroll-container'
+               ui-view>
           </div>
         </div>
 

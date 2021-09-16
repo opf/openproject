@@ -13,6 +13,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 
 export interface NotificationSettingProjectOption {
   name:string;
@@ -50,7 +51,6 @@ export class NotificationSettingInlineCreateComponent {
   constructor(
     private I18n:I18nService,
     private apiV3Service:APIV3Service,
-    private query:UserPreferencesQuery,
   ) {
   }
 

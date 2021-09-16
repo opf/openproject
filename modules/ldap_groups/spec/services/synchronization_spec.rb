@@ -310,20 +310,30 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
       let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+      let(:manager)   { FactoryBot.create :role, name: 'Manager' }
+      let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
 
       before do
+        project
         synced_foo.users.create(user: user_aa729)
         synced_foo.users.create(user: user_cc414)
-
-        subject
       end
 
       it 'removes the membership' do
+        expect(project.members.count).to eq 2
+        expect(project.users).to contain_exactly user_aa729, user_cc414
+
+        subject
+
         group_foo.reload
         synced_foo.reload
+        project.reload
 
         expect(group_foo.users).to eq([user_aa729])
         expect(synced_foo.users.pluck(:user_id)).to eq([user_aa729.id])
+
+        expect(project.members.count).to eq 1
+        expect(project.users).to contain_exactly user_aa729
       end
     end
   end

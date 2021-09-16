@@ -30,7 +30,7 @@ Furthermore, you can add text widgets, custom texts, links and other information
 
 Open the project overview by navigating to **Overview** in the project menu on the left.
 
-![project overview](image-20191112132919003.png)
+![project_overview](project_overview.png)
 
 
 

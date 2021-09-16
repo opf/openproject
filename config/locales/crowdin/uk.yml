@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 uk:
   no_results_title_text: Немає що виводити на екран.
@@ -537,6 +537,7 @@ uk:
         before: "має бути раніше %{date}"
         before_or_equal_to: "має бути до або  %{date}"
         blank: "не може бути порожнім."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Робочий пакет не може бути пов'язаний з одним з підзадач."
         circular_dependency: "Це співвідношення створить кругову залежність."
         confirmation: "не збігається %{attribute}"
@@ -550,11 +551,14 @@ uk:
         even: "має бути рівним."
         exclusion: "зарезервовано."
         file_too_large: "занадто великий (максимальний розмір -%{count} байт)"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "має бути більше ніж %{count}."
         greater_than_or_equal_to: "має бути більшим або рівним %{count}"
         greater_than_or_equal_to_start_date: "має бути більшою або дорівнювати даті початку."
         greater_than_start_date: "має бути більше дати початку."
         inclusion: "не встановлено в одному з допустимих значень"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "зазначено невірно"
         invalid_url: 'не є дійсною URL-адресою.'
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
@@ -575,7 +579,11 @@ uk:
         taken: "вже прийнято."
         too_long: "занадто довгий (максимум - %{count} characters).\n"
         too_short: "занадто короткий (мінімум %{count} символів)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "не можна змінити."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "неможливо видалити."
         wrong_length: "неправильна довжина (повинна бути %{count} символів)."
       models:
@@ -695,6 +703,10 @@ uk:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1926,17 +1938,33 @@ uk:
   mail:
     actions: 'Дії'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Створено'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'всі'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Оновлено'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
@@ -2800,7 +2828,7 @@ uk:
     Досягнуто обмеження користувача. Не можна активувати більше користувачів. Будь ласка <a href="%{upgrade_url}"> оновіть свій план </a> або заблокувати учасників для додаткових користувачів.
   warning_user_limit_reached_instructions: >
     Ви досягли обмеження користувача (%{current}/%{max} активних користувачів). Зверніться до sales@openproject.com, щоб оновити план Enterprise Edition і додати додаткових користувачів.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

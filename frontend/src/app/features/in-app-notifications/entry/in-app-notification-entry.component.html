@@ -91,10 +91,19 @@
           [title]="fixedTime"
           [textContent]="relativeTime$ | async"
         ></div>
-        <op-principal-list
-          class="op-ian-item--actors"
-          [principals]="actors"
-        ></op-principal-list>
+        <div>
+          <op-principal
+            class="op-ian-item--actors"
+            [principal]="actors[0]"
+            [hide-name]="false"
+            [hide-avatar]="true"
+          ></op-principal>
+          <span
+            *ngIf="actors.length > 1"
+          >
+            {{ text_for_additional_authors(actors.length - 1) }}
+          </span>
+        </div>
       </div>
     </ng-container>
 

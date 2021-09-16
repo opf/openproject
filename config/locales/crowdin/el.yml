@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 el:
   no_results_title_text: Δεν υπάρχει προς το παρόν τίποτα για εμφάνιση.
@@ -530,6 +530,7 @@ el:
         before: "πρέπει να είναι πριν από %{date}."
         before_or_equal_to: "πρέπει να είναι πριν ή ίσο με %{date}."
         blank: "δεν πρέπει να είναι κενό."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του."
         circular_dependency: "Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση."
         confirmation: "δεν ταιριάζει με %{attribute}."
@@ -543,11 +544,14 @@ el:
         even: "πρέπει να είναι άρτιος."
         exclusion: "είναι δεσμευμένο."
         file_too_large: "είναι πολύ μεγάλο (το μέγιστο μέγεθος είναι %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "πρέπει να είναι μεγαλύτερο από %{count}."
         greater_than_or_equal_to: "πρέπει να είναι μεγαλύτερο ή ίσο με %{count}."
         greater_than_or_equal_to_start_date: "πρέπει να είναι μεγαλύτερη ή ίση με τη ημερομηνία έναρξης."
         greater_than_start_date: "πρέπει να είναι μεγαλύτερη από τη ημερομηνία έναρξης."
         inclusion: "δεν έχει οριστεί σε μια από τις επιτρεπόμενες τιμές."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "δεν είναι έγκυρο."
         invalid_url: 'δεν είναι μια έγκυρη διεύθυνση URL.'
         invalid_url_scheme: 'δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes}).'
@@ -568,7 +572,11 @@ el:
         taken: "έχει ήδη κατοχυρωθεί."
         too_long: "είναι πολύ μεγάλο (το μέγιστο είναι %{count} χαρακτήρες)."
         too_short: "είναι πολύ μικρό (το ελάχιστο είναι %{count} χαρακτήρες)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "δεν μπορεί να αλλαχθεί."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "δεν μπορεί να αφαιρεθεί."
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
@@ -688,6 +696,10 @@ el:
           attributes:
             hours:
               day_limit: "είναι πολύ υψηλό καθώς το μέγιστο που μπορεί να καταγραφεί ανά ημέρα είναι 24 ώρες."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1887,17 +1899,33 @@ el:
   mail:
     actions: 'Ενέργειες'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Δημιουργήθηκε'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'όλα'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Ενημερωμένο'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
   mail_body_account_information: "Πληροφορίες του λογαριασμού σας"
   mail_body_account_information_external: "Μπορείτε να χρησιμοποιήσετε τον λογαριασμό %{value} για να συνδεθείτε."
@@ -2755,7 +2783,7 @@ el:
     Επετεύχθη το όριο χρηστών. Δεν μπορείτε να ενεργοποιήσετε άλλους χρήστες. Παρακαλούμε <a href="%{upgrade_url}">αναβαθμίστε το πλάνο σας</a> ή αποκλείστε μέλη για να επιτρέψετε περισσότερους χρήστες.
   warning_user_limit_reached_instructions: >
     Έχετε φτάσει το όριο χρηστών (%{current}/%{max} ενεργοί χρήστες). Παρακαλούμε επικοινωνήστε με το sales@openproject.com για να αναβαθμίσετε σε Έκδοση για Επιχειρήσεις και να προσθέσετε επιπλέον χρήστες.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

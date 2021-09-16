@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 zh-CN:
   no_results_title_text: 目前没有什么可显示。
@@ -530,6 +530,7 @@ zh-CN:
         before: "必须在 %{date} 之前。"
         before_or_equal_to: "必须在早于或等于 %{date}"
         blank: "不能为空。"
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "工作包无法链接到它的子任务之一。"
         circular_dependency: "这种关系将创建循环依赖项。"
         confirmation: "不匹配 %{attribute}。"
@@ -543,11 +544,14 @@ zh-CN:
         even: "必须是偶数。"
         exclusion: "是保留关键字。"
         file_too_large: "太大 (最大大小为 %{count} 字节)。"
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "必须大于 %{count}。"
         greater_than_or_equal_to: "必须大于或等于 %{count}。"
         greater_than_or_equal_to_start_date: "必须晚于或等于开始日期。"
         greater_than_start_date: "必须晚于开始日期。"
         inclusion: "未设置为允许的值之一。"
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "是无效的。"
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
@@ -568,7 +572,11 @@ zh-CN:
         taken: "已经采取。"
         too_long: "太长 (最多 %{count} 个字符)。"
         too_short: "太短 (最低是 %{count} 个字符)。"
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "不能更改。"
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "不能删除。"
         wrong_length: "长度不正确 (应该是 %{count} 个字符)。"
       models:
@@ -688,6 +696,10 @@ zh-CN:
           attributes:
             hours:
               day_limit: "过高，因为每天最多可以记录 24 小时。"
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1871,17 +1883,33 @@ zh-CN:
   mail:
     actions: '操作'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} 创建于 %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: '已创建'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: '所有'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} 更新于 %{timestamp}'
+        see_all: 'See all'
+        updated: '已更新'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
@@ -2732,7 +2760,7 @@ zh-CN:
     达到用户限制。 您无法再激活任何用户。 请<a href="%{upgrade_url}">升级您的计划</a>或阻止会员以允许其他用户。
   warning_user_limit_reached_instructions: >
     您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise Edition计划并添加其他用户。
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

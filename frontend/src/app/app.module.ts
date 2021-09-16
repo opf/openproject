@@ -23,11 +23,14 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  APP_INITIALIZER, ApplicationRef, Injector, NgModule,
+  APP_INITIALIZER,
+  ApplicationRef,
+  Injector,
+  NgModule,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -82,6 +85,7 @@ import { LinkedPluginsModule } from 'core-app/features/plugins/linked-plugins.mo
 import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-notifications/in-app-notifications.module';
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
+import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -105,6 +109,8 @@ export function initializeServices(injector:Injector) {
     BrowserModule,
     // Commons
     OPSharedModule,
+    // State module
+    OpenProjectStateModule,
     // Router module
     OpenprojectRouterModule,
     // Hal Module

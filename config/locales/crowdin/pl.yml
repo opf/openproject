@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 pl:
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
@@ -534,6 +534,7 @@ pl:
         before: "musi być przed %{date}."
         before_or_equal_to: "musi być przed lub równe %{date}."
         blank: "nie może być puste."
+        blank_nested: "needs to have the property '%{property}' set."
         cant_link_a_work_package_with_a_descendant: "Zestaw zadań nie może być powiązany z jego podzadaniami."
         circular_dependency: "Ta relacja może wytworzyć zależność cykliczną."
         confirmation: "nie pasuje do %{attribute}."
@@ -547,11 +548,14 @@ pl:
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "musi być większe niż %{count}."
         greater_than_or_equal_to: "musi być większe niż lub równe %{count}."
         greater_than_or_equal_to_start_date: "musi być późniejsza niż data początku albo równa jej."
         greater_than_start_date: "musi być późniejsza niż data początku."
         inclusion: "jest niezgodne z jednym z dozwolonych wartości."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
         invalid: "jest nieprawidłowe."
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
@@ -572,7 +576,11 @@ pl:
         taken: "zostały już podjęte."
         too_long: "jest zbyt długi (maksymalnie %{count} znaków)."
         too_short: "jest zbyt krótkie (min. %{count} znaków)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "nie można zmienić."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "nie można usunąć."
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
@@ -692,6 +700,10 @@ pl:
           attributes:
             hours:
               day_limit: "jest zbyt wysoki, ponieważ pod jedną datą można zarejestrować maksymalnie 24 godziny."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1923,17 +1935,33 @@ pl:
   mail:
     actions: 'Akcje'
     digests:
-      time_frame: 'Summary of all events you subscribed to in the period between %{start} and %{end}'
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
       work_packages:
-        created_at: '%{user} created at %{timestamp}'
+        comment_added: '<b>Comment</b> added'
+        created: 'Utworzono'
+        created_at: 'at %{timestamp} by %{user} '
+        login_to_see_all: 'Log in to see all notifications.'
+        mentioned: 'You have been <b>mentioned in a comment</b>'
+        more_to_see_singular: 'There is 1 more work package with notifications.'
+        more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
-          watched: 'watched'
-          involved: 'assignee or responsible'
-          mentioned: 'mentioned'
+          watched: 'Watched'
+          involved: 'Assigned or responsible'
+          mentioned: 'Mentioned'
           subscribed: 'wszystkie'
           prefix: 'Received because of the notification setting: %{reason}'
-        subject: 'Daily project summary for %{date} - %{number} updates'
-        updated_at: '%{user} updated at %{timestamp}'
+        see_all: 'See all'
+        updated: 'Zaktualizowano'
+        updated_at: 'at %{timestamp} by %{user}'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    notification:
+      center: 'To notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Informacje o koncie"
   mail_body_account_information_external: "You can use your %{value} account to log in."
@@ -2795,7 +2823,7 @@ pl:
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
     Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

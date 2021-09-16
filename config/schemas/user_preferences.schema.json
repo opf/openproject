@@ -1,0 +1,69 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$ref": "#/definitions/UserPreferences",
+    "definitions": {
+        "UserPreferences": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "hide_mail": {
+                    "type": "boolean"
+                },
+                "time_zone": {
+                    "type": ["string", "null"]
+                },
+                "warn_on_leaving_unsaved": {
+                    "type": "boolean"
+                },
+                "comments_sorting": {
+                    "type": "string",
+                    "enum": ["asc", "desc"]
+                },
+                "auto_hide_popups": {
+                    "type": "boolean"
+                },
+                "daily_reminders": {
+                    "$ref": "#/definitions/DailyReminders"
+                },
+                "immediate_reminders": {
+                  "$ref": "#/definitions/ImmediateReminders"
+                }
+            },
+            "title": "UserPreferences"
+        },
+        "DailyReminders": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "times": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "time"
+                    }
+                }
+            },
+            "required": [
+                "enabled",
+                "times"
+            ],
+            "title": "DailyReminders"
+        },
+        "ImmediateReminders": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "mentioned": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "mentioned"
+          ],
+          "title": "ImmediateReminders"
+        }
+    }
+}

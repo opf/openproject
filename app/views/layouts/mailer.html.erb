@@ -23,15 +23,15 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-See docs/COPYRIGHT.rdoc for more details.
+See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <html>
   <head>
     <style>
       :root {
-        color-scheme: light dark;
-        supported-color-schemes: light dark;
+        color-scheme: light;
+        supported-color-schemes: light;
       }
 
       body {
@@ -41,13 +41,14 @@ See docs/COPYRIGHT.rdoc for more details.
         background: #FFFFFF;
       }
 
+      /* Enforcing the white background */
       @media (prefers-color-scheme: dark) {
         body {
-          color: #CCC !important;
-          background: #222222 !important;
+          color: #484848 !important;
+          background: #FFFFFF !important;
         }
       }
-      
+
       h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
       h1 { font-size: 1.2em; }
       h2, h3 { font-size: 1.1em; }

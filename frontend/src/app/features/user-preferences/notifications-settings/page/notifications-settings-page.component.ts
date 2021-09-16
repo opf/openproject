@@ -93,7 +93,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   constructor(
     private changeDetectorRef:ChangeDetectorRef,
     private I18n:I18nService,
-    private stateService:UserPreferencesService,
+    private storeService:UserPreferencesService,
     private query:UserPreferencesQuery,
     private store:UserPreferencesStore,
     private currentUserService:CurrentUserService,
@@ -110,7 +110,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       .pipe(take(1))
       .subscribe((user) => {
         this.userId = this.userId || user.id!;
-        this.stateService.get(this.userId);
+        this.storeService.get(this.userId);
       });
 
     this.query.notificationsForGlobal$
@@ -187,7 +187,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       all: false,
     }));
 
-    this.stateService.update(this.userId, {
+    this.storeService.update(this.userId, {
       ...prefs,
       notifications: [
         globalPrefs,

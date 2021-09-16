@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component } from '@angular/core';
@@ -43,7 +43,8 @@ export class WorkPackageActivityTabComponent extends ActivityPanelBaseController
   public trackByHref = trackByHrefAndProperty('version');
 
   ngOnInit() {
-    this.workPackageId = this.$transition.params('to').workPackageId;
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    this.workPackageId = workPackageId;
     super.ngOnInit();
   }
 }

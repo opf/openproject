@@ -25,7 +25,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
 module OpenProject
@@ -92,7 +92,11 @@ module OpenProject
       end
 
       def remote_storage_hosts
-        [remote_storage_upload_host, remote_storage_download_host].compact
+        [
+          fog_credentials[:host],
+          remote_storage_upload_host,
+          remote_storage_download_host
+        ].compact
       end
 
       def attachments_storage_path

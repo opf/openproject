@@ -17,7 +17,7 @@
 #You should have received a copy of the GNU General Public License
 #along with this program; if not, write to the Free Software
 #Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#See docs/COPYRIGHT.rdoc for more details.
+#See COPYRIGHT and LICENSE files for more details.
 #++
 bg:
   activerecord:
@@ -71,7 +71,7 @@ bg:
     show_burndown_chart: "Burndown Chart"
     story: "История"
     story_points: "Точки на история"
-    story_points_ideal: "Исторически точки (идеално)"
+    story_points_ideal: "Точки на история (идеални)"
     task: "Задачата"
     task_color: "Task color"
     unassigned: "Unassigned"
@@ -83,7 +83,7 @@ bg:
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Натрупване на продукти"
   backlogs_product_backlog_is_empty: "Натрупването на продукти е празно"
-  backlogs_product_backlog_unsized: "в горната част на изоставането на продукта има неразмерени материали."
+  backlogs_product_backlog_unsized: "в горната част на изоставането на продукта има не оразмерени материали."
   backlogs_sizing_inconsistent: "Размерите на историите се различават спрямо техните оценки"
   backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"

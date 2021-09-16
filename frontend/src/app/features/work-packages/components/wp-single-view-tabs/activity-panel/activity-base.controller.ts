@@ -23,11 +23,15 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Directive, OnInit } from '@angular/core';
-import { Transition } from '@uirouter/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  OnInit,
+} from '@angular/core';
+import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
@@ -35,10 +39,10 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { InAppNotification } from 'core-app/features/in-app-notifications/store/in-app-notification.model';
-import { InAppNotificationsService } from 'core-app/features/in-app-notifications/store/in-app-notifications.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { take } from 'rxjs/internal/operators/take';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -51,8 +55,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   // Visible activities
   public visibleActivities:ActivityEntryInfo[] = [];
-
-  public notifications:InAppNotification[] = [];
 
   public reverse:boolean;
 
@@ -67,13 +69,15 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     showAll: this.I18n.t('js.label_activity_show_all'),
   };
 
+  private additionalScrollMargin = 200;
+
   constructor(
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
-    readonly $transition:Transition,
+    readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
-    readonly ianService:InAppNotificationsService,
+    readonly storeService:WpSingleViewService,
   ) {
     super();
 
@@ -90,17 +94,18 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .pipe(this.untilDestroyed())
       .subscribe((wp) => {
         this.workPackage = wp;
-        this.wpActivity.require(this.workPackage).then((activities:any) => {
+        void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
+          this.storeService.query.hasNotifications$
+            .pipe(take(1))
+            .subscribe((hasNotification) => {
+              if (hasNotification) {
+                this.scrollToUnreadNotification();
+              }
+            });
         });
       });
-
-    this.ianService.setActiveFacet('unread');
-    this.ianService.setActiveFilters([
-      ['resourceId', '=', [this.workPackageId]],
-      ['resourceType', '=', ['WorkPackage']],
-    ]);
   }
 
   protected updateActivities(activities:HalResource[]) {
@@ -112,12 +117,12 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   protected shouldShowToggler() {
-    const count_all = this.unfilteredActivities.length;
-    const count_with_comments = this.getActivitiesWithComments().length;
+    const countAll = this.unfilteredActivities.length;
+    const countWithComments = this.getActivitiesWithComments().length;
 
-    return count_all > 1
-      && count_with_comments > 0
-      && count_with_comments < this.unfilteredActivities.length;
+    return countAll > 1
+      && countWithComments > 0
+      && countWithComments < this.unfilteredActivities.length;
   }
 
   protected getVisibleActivities() {
@@ -134,12 +139,33 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   protected hasUnreadNotification(activityHref:string):Observable<boolean> {
     return this
-      .ianService
+      .storeService
       .query
-      .unread$
+      .selectNotifications$
       .pipe(
-        map((notifications) => !!notifications.find((notification) => notification._links.activity?.href === activityHref)),
+        map((notifications) => (
+          !!notifications.find((notification) => notification._links.activity?.href === activityHref)
+        )),
       );
+  }
+
+  protected scrollToUnreadNotification():void {
+    const unreadNotifications = document.querySelectorAll("[data-notification-selector='notification-activity']");
+    // scroll to the unread notification only if there is no deep link
+    if (window.location.href.indexOf('activity#') > -1 || unreadNotifications.length === 0) {
+      return;
+    }
+
+    const notificationElement = unreadNotifications[this.reverse ? unreadNotifications.length - 1 : 0] as HTMLElement;
+    const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
+
+    let scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop;
+    if (!this.reverse) {
+      // In normal order we leave same space for context
+      // In reversed order, the context is below and thus no additional space needed
+      scrollOffset -= this.additionalScrollMargin;
+    }
+    scrollContainer.scrollTop = scrollOffset;
   }
 
   public toggleComments():void {

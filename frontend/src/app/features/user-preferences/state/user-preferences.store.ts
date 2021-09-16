@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable } from '@angular/core';
@@ -38,10 +38,16 @@ function createInitialState():UserPreferencesModel {
     timeZone: null,
     warnOnLeavingUnsaved: true,
     notifications: [],
+    dailyReminders: {
+      enabled: true,
+      times: ['08:00'],
+    },
+    immediateReminders: {
+      mentioned: false,
+    },
   };
 }
 
-@Injectable()
 @StoreConfig({ name: 'notification-settings' })
 export class UserPreferencesStore extends Store<UserPreferencesModel> {
   constructor() {

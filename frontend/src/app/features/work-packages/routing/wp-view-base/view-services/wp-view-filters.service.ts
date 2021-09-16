@@ -23,7 +23,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable } from '@angular/core';
@@ -93,7 +93,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   }
 
   public get availableState():InputState<QueryFilterInstanceSchemaResource[]> {
-    return this.states.queries.filters;
+    return this.querySpace.available.filters;
   }
 
   /** Return whether the filters the user is working on are incomplete */
