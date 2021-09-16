@@ -83,7 +83,6 @@ describe Notifications::WorkflowJob, type: :model do
                 .and_return(Time.current)
 
         expected_time = Time.current +
-                        Setting.notification_email_delay_minutes.minutes +
                         Setting.journal_aggregation_time_minutes.to_i.minutes
 
         expect { perform_job }
