@@ -16,13 +16,11 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
-import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
-interface INotificationSettingsFormValue {
+interface INotificationSettingsValue {
   involved:boolean;
   workPackageCreated:boolean;
   workPackageProcessed:boolean;
@@ -31,14 +29,14 @@ interface INotificationSettingsFormValue {
   workPackageCommented:boolean;
 }
 
-interface IProjectNotificationSettingsValue extends INotificationSettingsFormValue {
+interface IProjectNotificationSettingsValue extends INotificationSettingsValue {
   project:{
     title:string;
     href:string;
   };
 }
 
-interface IFullNotificationSettingsValue extends INotificationSettingsFormValue {
+interface IFullNotificationSettingsValue extends INotificationSettingsValue {
   projectSettings:IProjectNotificationSettingsValue[];
 }
 
@@ -94,8 +92,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     private changeDetectorRef:ChangeDetectorRef,
     private I18n:I18nService,
     private storeService:UserPreferencesService,
-    private query:UserPreferencesQuery,
-    private store:UserPreferencesStore,
     private currentUserService:CurrentUserService,
     private uiRouterGlobals:UIRouterGlobals,
   ) {
@@ -113,7 +109,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.storeService.get(this.userId);
       });
 
-    this.query.notificationsForGlobal$
+    this.storeService.query.notificationsForGlobal$
       .pipe(this.untilDestroyed())
       .subscribe((settings) => {
         if (!settings) {
@@ -128,7 +124,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
         this.form.get('workPackageCommented')?.setValue(settings.workPackageCommented);
       });
 
-    this.query.projectNotifications$
+    this.storeService.query.projectNotifications$
       .pipe(this.untilDestroyed())
       .subscribe((settings) => {
         if (!settings) {
@@ -157,8 +153,8 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   }
 
   public saveChanges():void {
-    const prefs = this.store.getValue();
-    const notificationSettings:IFullNotificationSettingsValue = this.form.value;
+    const prefs = this.storeService.store.getValue();
+    const notificationSettings = (this.form.value as IFullNotificationSettingsValue);
     const globalPrefs:NotificationSetting = {
       _links: { project: { href: null } },
       channel: 'in_app',
