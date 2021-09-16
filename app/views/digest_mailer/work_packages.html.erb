@@ -34,7 +34,7 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
   <tr>
-    <td width="100%">
+    <td width="80%">
       <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
         <span style="font-size: 14px; line-height: 28px">
           <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
@@ -57,7 +57,7 @@
         </a>
       <% end %>
     </td>
-    <td>
+    <td width="20%" style="text-align: right">
       <%= render partial: 'mailer/notification_settings_button' %>
     </td>
   </tr>
