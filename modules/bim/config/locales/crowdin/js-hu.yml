@@ -12,6 +12,8 @@ hu:
       show_viewpoint: 'Nézőpont megjelenítése'
       delete_viewpoint: 'Nézőpont törlése'
       management: "BCF menedzsment\n"
+      refresh: 'Frissítés'
+      refresh_work_package: 'Munkacsomag frissítése'
     ifc_models:
       empty_warning: "Ez a projekt nem tartalmaz ICF modellt még"
       use_this_link_to_manage: "Ezen a linken tudja feltölteni és szerkeszteni az ICF modelleket"
