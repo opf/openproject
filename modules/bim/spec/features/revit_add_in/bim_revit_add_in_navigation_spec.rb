@@ -119,6 +119,8 @@ describe 'BIM Revit Add-in navigation spec',
         expect(page).to have_current_path /bcf\/new$/, ignore_query: true
         create_page.subject_field.set('Some subject')
         create_page.save!
+
+        sleep(5)
         last_work_package = WorkPackage.find_by(subject: 'Some subject')
         # The currently working routes seem weird as they duplicate the work package ID.
         expect(page).to(
