@@ -16,8 +16,8 @@ export interface IOpCollapsibleMenuItem {
 
 @Component({
   selector: 'op-collapsible-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.sass'],
+  templateUrl: './collapsible-menu.component.html',
+  styleUrls: ['./collapsible-menu.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpCollapsibleMenuComponent implements OnInit {
