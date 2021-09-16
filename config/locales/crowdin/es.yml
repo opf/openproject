@@ -787,7 +787,7 @@ es:
       news: "Noticias"
       notification:
         one: "Notification"
-        other: "Notifications"
+        other: "Notificaciones"
       placeholder_user: "Usuario de marcador de posición"
       project: "Proyecto"
       query: "Consulta personalizada"

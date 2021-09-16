@@ -488,7 +488,7 @@ lt:
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
           overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioritetizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
           task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
           task_board: "Užduočių lenta vizualizuoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
@@ -522,10 +522,10 @@ lt:
         all: 'Visi'
       center:
         and_more_users:
-          one: 'and 1 other'
-          few: 'and %{count} others'
-          many: 'and %{count} others'
-          other: 'and %{count} others'
+          one: 'ir dar 1'
+          few: 'ir dar %{count}'
+          many: 'ir dar %{count}'
+          other: 'ir dar %{count}'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "

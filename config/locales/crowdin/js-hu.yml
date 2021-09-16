@@ -493,7 +493,7 @@ hu:
         wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
         backlogs:
           overview: "Munka kezelése a <b>backlogs</b>  nézetben"
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "Jobbra a termék- és a hibatár, balra pedig a megfelelő sprintek. Itt létrehozhatsz <b>képeket, felhasználói történeteket és hibákat</b>, drag & drop segítségével priorizálhatsz, és hozzáadhatod őket egy sprinthez.\n"
           task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
           task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
           task_board: "A feladattábla megjeleníti <b> a sprint haladását </b>. Új feladatok vagy akadályok hozzáadásához kattintson a felhasználói történet melletti plusz (+) ikonra. <br> Az állapot húzással frissíthető.\n"
@@ -527,8 +527,8 @@ hu:
         all: 'Mind'
       center:
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: "és 1 másik\n"
+          other: 'és %{count} egyéb'
         mark_all_read: 'Mindegyik megjelölése olvasottként'
         mark_as_read: 'Megjelölés olvasottként'
         text_update_date: "%{date} szerint"
@@ -578,12 +578,12 @@ hu:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
-        title: 'Email reminders'
+          add_time: "Idő hozzáadása\n"
+          enable: "Napi e-mail emlékeztetők engedélyezése\n"
+          explanation: "Ezeket az emlékeztetőket csak az olvasatlan értesítésekről kapja, és csak az Ön által megadott időpontokban.\n"
+          time_label: 'Idő%{counter}:'
+          title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
+        title: 'E-mail emlékeztetők'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
     types:

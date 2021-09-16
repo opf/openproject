@@ -702,7 +702,7 @@ lt:
         user_preference:
           attributes:
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "gali būti sukonfigūruotas tik pristatymui lygią valandą."
         wiki_page:
           attributes:
             slug:
@@ -1934,33 +1934,33 @@ lt:
   mail:
     actions: 'Veiksmai'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      including_mention_singular: 'įskaitant paminėjimą'
+      including_mention_plural: 'įskaitant %{number_mentioned} paminėjimus'
+      unread_notification_singular: '1 neperskaitytas pranešimas'
+      unread_notification_plural: '%{number_unread} neperskaityti pranešimai'
       work_packages:
-        comment_added: '<b>Comment</b> added'
+        comment_added: '<b>Komentaras</b> pridėtas'
         created: 'Sukurta'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        created_at: '%{timestamp} naudotojo %{user} '
+        login_to_see_all: 'Prisijunkite, kad matytumėte visus pranešimus'
+        mentioned: 'Jūs buvote <b>paminėtas komentare</b>'
+        more_to_see_singular: 'Yra dar 1 darbo paketas su pranešimais'
+        more_to_see_plural: 'Yra dar %{number} darbo paketai su pranešimais.'
         reason:
-          watched: 'Watched'
-          involved: 'Assigned or responsible'
-          mentioned: 'Mentioned'
+          watched: 'Stebimas'
+          involved: 'Priskirtas ar atsakingas'
+          mentioned: 'Paminėtas'
           subscribed: 'visi'
           prefix: 'Gavote dėl pranešimų nustatymo: %{reason}'
-        see_all: 'See all'
+        see_all: 'Žiūrėti visus'
         updated: 'Atnaujinta'
-        updated_at: 'at %{timestamp} by %{user}'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+        updated_at: '%{timestamp} naudotojo %{user}'
+      you_have: 'Jūs turite'
+    logo_alt_text: 'Logotipas'
     notification:
-      center: 'To notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: 'Į pranešimų centrą'
+      settings: 'Keisti e-pašto nustatymus'
+    salutation: 'Labas, %{user}!'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."

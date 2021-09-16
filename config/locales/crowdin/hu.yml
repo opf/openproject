@@ -535,7 +535,7 @@ hu:
         before: "korábbinak kell lennie, mint %{date}."
         before_or_equal_to: "korábbinak vagy egyenlőnek kell lennie, mint %{date}."
         blank: "nem lehet üres."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "be kell állítani a '%{property}' tulajdonságot.\n"
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -549,14 +549,14 @@ hu:
         even: "kell még."
         exclusion: "foglalt."
         file_too_large: "túl nagy fájlméret (maximális méret %{count} Byte)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "nem felel meg az elvárt '%{expected}' formátumnak."
+        format_nested: "nem felel meg az elvárt '%{expected}' formátumnak az '%{path}' elérési útvonalon."
         greater_than: "nagyobbnak kell lenni mint %{count}."
         greater_than_or_equal_to: "nagyobbnak vagy egyenlőnek kell lennie mint %{count}."
         greater_than_or_equal_to_start_date: "nagyobbnak vagy egyenlőnek kell lennie, mint a kezdő dátum."
         greater_than_start_date: "nagyobbnak kell lennie, mint a kezdő dátum."
         inclusion: "nem a megengedett értékek egyike lett beállítva."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "nincs beállítva az '%{path}' elérési útvonalon a megengedett értékek egyikére."
         invalid: "érvénytelen."
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
@@ -577,11 +577,11 @@ hu:
         taken: "már foglalt."
         too_long: "túl hosszú (nem lehet több %{count} karakternél)."
         too_short: "túl rövid (legalább %{count} karakter kell legyen)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "nem '%{type}' típusú."
+        type_mismatch_nested: "nem '%{type}' típusú az '%%{path}' elérési útvonalon."
         unchangeable: "nem módosítható."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "nem ismert tulajdonság.\n"
+        unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
         unremovable: "nem törölhető."
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
@@ -704,7 +704,7 @@ hu:
         user_preference:
           attributes:
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "csak teljes órában történő kézbesítésre konfigurálható.\n"
         wiki_page:
           attributes:
             slug:
@@ -1908,33 +1908,33 @@ hu:
   mail:
     actions: 'Műveletek'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      including_mention_singular: "beleértve az alábbiakat\n"
+      including_mention_plural: 'beleértve az %{number_mentioned} említéseket is'
+      unread_notification_singular: '1 olvasatlan értesítés'
+      unread_notification_plural: '%{number_unread} olvasatlan értesítések'
       work_packages:
-        comment_added: '<b>Comment</b> added'
+        comment_added: '<b>Comment</b> hozzáadva'
         created: 'Létrehoz'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        created_at: 'a %{timestamp} a%{user} által'
+        login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
+        mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
+        more_to_see_singular: "Még 1 munkacsomag van értesítésekkel.\n"
+        more_to_see_plural: 'További %{number} munkacsomagok vannak értesítésekkel.'
         reason:
-          watched: 'Watched'
-          involved: 'Assigned or responsible'
-          mentioned: 'Mentioned'
+          watched: 'Megfigyelt'
+          involved: 'Megbízott vagy felelős'
+          mentioned: 'Megemlített'
           subscribed: 'mind'
           prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
-        see_all: 'See all'
+        see_all: 'Mutasd mindet'
         updated: 'Frissítve'
-        updated_at: 'at %{timestamp} by %{user}'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+        updated_at: 'a %{timestamp} a%{user} által'
+      you_have: 'Neked van'
+    logo_alt_text: 'Logó'
     notification:
-      center: 'To notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: "Az értesítési központba\n"
+      settings: "E-mail beállítások módosítása\n"
+    salutation: 'Helló %{user}!'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
