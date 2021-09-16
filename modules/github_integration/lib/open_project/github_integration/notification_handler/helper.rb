@@ -44,7 +44,8 @@ module OpenProject::GithubIntegration
         host_name = Regexp.escape(Setting.host_name)
         wp_regex = /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
 
-        text.scan(wp_regex)
+        String(text)
+          .scan(wp_regex)
           .map { |first, second| (first || second).to_i }
           .select(&:positive?)
           .uniq
