@@ -68,6 +68,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
       menuItem: menuItemClass,
+      successState: 'work-packages.show',
     },
   },
   {
