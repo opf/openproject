@@ -39,41 +39,6 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def work_package_added(user, journal, author)
-    User.execute_as user do
-      work_package = journal.journable.reload
-      @issue = work_package # instance variable is used in the view
-      @journal = journal
-
-      set_work_package_headers(work_package)
-
-      message_id work_package, user
-
-      with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
-  def work_package_updated(user, journal, author = User.current)
-    User.execute_as user do
-      work_package = journal.journable.reload
-
-      # instance variables are used in the view
-      @issue = work_package
-      @journal = journal
-
-      set_work_package_headers(work_package)
-
-      message_id journal, user
-      references work_package, user
-
-      with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
   def work_package_watcher_changed(work_package, user, watcher_changer, action)
     User.execute_as user do
       @issue = work_package

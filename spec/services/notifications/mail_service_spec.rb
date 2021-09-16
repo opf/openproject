@@ -41,93 +41,6 @@ describe Notifications::MailService, type: :model do
   end
   let(:instance) { described_class.new(notification) }
 
-  context 'with a work package journal notification' do
-    let(:journal) do
-      FactoryBot.build_stubbed(:work_package_journal).tap do |j|
-        allow(j)
-          .to receive(:initial?)
-                .and_return(journal_initial)
-      end
-    end
-    let(:read_ian) { false }
-    let(:notification) do
-      FactoryBot.build_stubbed(:notification,
-                               journal: journal,
-                               recipient: recipient,
-                               actor: actor,
-                               read_ian: read_ian)
-    end
-    let(:journal_initial) { false }
-
-    let(:mail) do
-      mail = instance_double(ActionMailer::MessageDelivery)
-
-      allow(UserMailer)
-        .to receive(:work_package_added)
-              .and_return(mail)
-
-      allow(UserMailer)
-        .to receive(:work_package_updated)
-              .and_return(mail)
-
-      allow(mail)
-        .to receive(:deliver_later)
-
-      mail
-    end
-
-    before do
-      mail
-    end
-
-    context 'with the notification being for an initial journal' do
-      let(:journal_initial) { true }
-
-      it 'sends a mail' do
-        call
-
-        expect(UserMailer)
-          .to have_received(:work_package_added)
-                .with(recipient,
-                      journal,
-                      journal.user)
-
-        expect(mail)
-          .to have_received(:deliver_later)
-      end
-    end
-
-    context 'with the notification being for an update journal' do
-      let(:journal_initial) { false }
-
-      it 'sends a mail' do
-        call
-
-        expect(UserMailer)
-          .to have_received(:work_package_updated)
-                .with(recipient,
-                      journal,
-                      journal.user)
-
-        expect(mail)
-          .to have_received(:deliver_later)
-      end
-    end
-
-    context 'with the notification read in app already' do
-      let(:read_ian) { true }
-
-      it 'sends no mail' do
-        call
-
-        expect(UserMailer)
-          .not_to have_received(:work_package_added)
-        expect(UserMailer)
-          .not_to have_received(:work_package_updated)
-      end
-    end
-  end
-
   context 'with a wiki_content journal notification' do
     let(:journal) do
       FactoryBot.build_stubbed(:wiki_content_journal,
@@ -392,10 +305,9 @@ describe Notifications::MailService, type: :model do
   end
 
   context 'with a different journal notification' do
-    # This is actually not supported by now but serves as a test
     let(:journal) do
       FactoryBot.build_stubbed(:journal,
-                               journable: FactoryBot.build_stubbed(:user))
+                               journable: FactoryBot.build_stubbed(:work_package))
     end
     let(:notification) do
       FactoryBot.build_stubbed(:notification,
@@ -404,9 +316,15 @@ describe Notifications::MailService, type: :model do
                                actor: actor)
     end
 
-    it 'raises an error' do
+    # did that before
+    it 'does nothing' do
       expect { call }
-        .to raise_error(ArgumentError)
+        .not_to raise_error(ArgumentError)
+    end
+
+    it 'does not send a mail' do
+      expect { call }
+        .not_to change(ActionMailer::Base.deliveries, :count)
     end
   end
 end

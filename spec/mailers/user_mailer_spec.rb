@@ -156,101 +156,6 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe '#work_package_added' do
-    before do
-      described_class.work_package_added(recipient, journal, user).deliver_now
-    end
-
-    it_behaves_like 'mail is sent' do
-      it 'contains the WP subject in the mail subject' do
-        expect(deliveries.first.subject)
-          .to include(work_package.subject)
-      end
-
-      it 'has the desired "Precedence" header' do
-        expect(deliveries.first['Precedence'].value)
-          .to eql 'bulk'
-      end
-
-      it 'has the desired "Auto-Submitted" header' do
-        expect(deliveries.first['Auto-Submitted'].value)
-          .to eql 'auto-generated'
-      end
-
-      it 'carries a message_id' do
-        expect(deliveries.first.message_id)
-          .to eql(described_class.generate_message_id(journal, recipient))
-      end
-
-      it 'does not reference' do
-        expect(deliveries.first.references)
-          .to be_nil
-      end
-
-      context 'with plain_text_mail active', with_settings: { plain_text_mail: 1 } do
-        it 'only sends plain text' do
-          expect(mail.content_type)
-            .to match /text\/plain/
-        end
-      end
-
-      context 'with plain_text_mail inactive', with_settings: { plain_text_mail: 0 } do
-        it 'sends a multipart mail' do
-          expect(mail.content_type)
-            .to match /multipart\/alternative/
-        end
-      end
-    end
-
-    it_behaves_like 'does not send mails to author'
-  end
-
-  describe '#work_package_updated' do
-    before do
-      described_class.work_package_updated(recipient, journal, user).deliver_now
-    end
-
-    it_behaves_like 'mail is sent' do
-      it 'carries a message_id' do
-        expect(deliveries.first.message_id)
-          .to eql(described_class.generate_message_id(journal, recipient))
-      end
-
-      it 'references the message_id' do
-        expect(deliveries.first.references)
-          .to eql described_class.generate_message_id(journal, recipient)
-      end
-
-      context 'with a link' do
-        let(:work_package) do
-          FactoryBot.build_stubbed(:work_package,
-                                   type: type_standard,
-                                   description: "Some text with a reference to ##{referenced_wp.id}")
-        end
-
-        let(:referenced_wp) do
-          FactoryBot.build_stubbed(:work_package)
-        end
-
-        it 'renders the link' do
-          expect(html_body)
-            .to have_link("##{referenced_wp.id}", href: work_package_url(referenced_wp, host: Setting.host_name))
-        end
-
-        context 'with a relative url root',
-                with_config: { rails_relative_url_root: '/subpath' } do
-          it 'renders the link' do
-            expect(html_body)
-              .to have_link("##{referenced_wp.id}",
-                            href: work_package_url(referenced_wp, host: Setting.host_name, script_name: '/subpath'))
-          end
-        end
-      end
-    end
-
-    it_behaves_like 'does not send mails to author'
-  end
-
   describe '#work_package_watcher_changed' do
     let(:watcher_changer) { user }
 
@@ -412,18 +317,27 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#message_id' do
-    describe 'same user' do
-      let(:journal2) { FactoryBot.build_stubbed(:work_package_journal) }
-
-      before do
-        allow(journal2).to receive(:journable).and_return(work_package)
-        allow(journal2).to receive(:user).and_return(user)
-        allow(journal2).to receive(:created_at).and_return(journal.created_at + 5.seconds)
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:message) do
+      FactoryBot.build_stubbed(:message).tap do |m|
+        allow(m)
+          .to receive(:project)
+                .and_return project
       end
+    end
+    let(:message2) do
+      FactoryBot.build_stubbed(:message).tap do |m|
+        allow(m)
+          .to receive(:project)
+                .and_return project
+      end
+    end
+    let(:author) { FactoryBot.build_stubbed(:user) }
 
+    describe 'same user' do
       subject do
-        message_ids = [journal, journal2].each_with_object([]) do |j, l|
-          l << described_class.work_package_updated(user, j).message_id
+        message_ids = [message, message2].map do |m|
+          described_class.message_posted(user, m, author).message_id
         end
 
         message_ids.uniq.count
@@ -435,364 +349,15 @@ describe UserMailer, type: :mailer do
     describe 'same timestamp' do
       let(:user2) { FactoryBot.build_stubbed(:user) }
 
-      before do
-        allow(work_package).to receive(:recipients).and_return([user, user2])
-      end
-
       subject do
-        message_ids = [user, user2].each_with_object([]) do |u, l|
-          l << described_class.work_package_updated(u, journal).message_id
+        message_ids = [user, user2].map do |user|
+          described_class.message_posted(user, message, author).message_id
         end
 
         message_ids.uniq.count
       end
 
       it { expect(subject).to eq(2) }
-    end
-  end
-
-  describe 'journal details' do
-    subject { described_class.work_package_updated(user, journal).body.encoded.gsub("\r\n", "\n") }
-
-    describe 'plain text mail' do
-      before do
-        allow(Setting).to receive(:plain_text_mail).and_return('1')
-      end
-
-      context 'with changed done ratio' do
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
-        end
-
-        it 'displays changed done ratio' do
-          expect(subject).to include("Progress (%) changed from 40 to 100")
-        end
-      end
-
-      context 'with new done ratio' do
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])
-        end
-
-        it 'displays new done ratio' do
-          expect(subject).to include("Progress (%) changed from 0 to 100")
-        end
-      end
-
-      context 'with deleted done ratio' do
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [50, nil])
-        end
-
-        it 'displays deleted done ratio' do
-          expect(subject).to include("Progress (%) changed from 50 to 0")
-        end
-      end
-
-      describe 'start_date attribute' do
-        before do
-          allow(journal).to receive(:details).and_return('start_date' => %w[2010-01-01 2010-01-31])
-        end
-
-        it 'old date should be formatted' do
-          expect(subject).to match('01/01/2010')
-        end
-
-        it 'new date should be formatted' do
-          expect(subject).to match('01/31/2010')
-        end
-      end
-
-      describe 'due_date attribute' do
-        before do
-          allow(journal).to receive(:details).and_return('due_date' => %w[2010-01-01 2010-01-31])
-        end
-
-        it 'old date should be formatted' do
-          expect(subject).to match('01/01/2010')
-        end
-
-        it 'new date should be formatted' do
-          expect(subject).to match('01/31/2010')
-        end
-      end
-
-      describe 'project attribute' do
-        let(:project1) { FactoryBot.create(:project) }
-        let(:project2) { FactoryBot.create(:project) }
-
-        before do
-          allow(journal).to receive(:details).and_return('project_id' => [project1.id, project2.id])
-        end
-
-        it "shows the old project's name" do
-          expect(subject).to match(project1.name)
-        end
-
-        it "shows the new project's name" do
-          expect(subject).to match(project2.name)
-        end
-      end
-
-      describe 'attribute issue status' do
-        let(:status1) { FactoryBot.create(:status) }
-        let(:status2) { FactoryBot.create(:status) }
-
-        before do
-          allow(journal).to receive(:details).and_return('status_id' => [status1.id, status2.id])
-        end
-
-        it "shows the old status' name" do
-          expect(subject).to match(status1.name)
-        end
-
-        it "shows the new status' name" do
-          expect(subject).to match(status2.name)
-        end
-      end
-
-      describe 'attribute type' do
-        let(:type1) { FactoryBot.create(:type_standard) }
-        let(:type2) { FactoryBot.create(:type_bug) }
-
-        before do
-          allow(journal).to receive(:details).and_return('type_id' => [type1.id, type2.id])
-        end
-
-        it "shows the old type's name" do
-          expect(subject).to match(type1.name)
-        end
-
-        it "shows the new type's name" do
-          expect(subject).to match(type2.name)
-        end
-      end
-
-      describe 'attribute assigned to' do
-        let(:assignee1) { FactoryBot.create(:user) }
-        let(:assignee2) { FactoryBot.create(:user) }
-
-        before do
-          allow(journal).to receive(:details).and_return('assigned_to_id' => [assignee1.id, assignee2.id])
-        end
-
-        it "shows the old assignee's name" do
-          expect(subject).to match(assignee1.name)
-        end
-
-        it "shows the new assignee's name" do
-          expect(subject).to match(assignee2.name)
-        end
-      end
-
-      describe 'attribute priority' do
-        let(:priority1) { FactoryBot.create(:priority) }
-        let(:priority2) { FactoryBot.create(:priority) }
-
-        before do
-          allow(journal).to receive(:details).and_return('priority_id' => [priority1.id, priority2.id])
-        end
-
-        it "shows the old priority's name" do
-          expect(subject).to match(priority1.name)
-        end
-
-        it "shows the new priority's name" do
-          expect(subject).to match(priority2.name)
-        end
-      end
-
-      describe 'attribute category' do
-        let(:category1) { FactoryBot.create(:category) }
-        let(:category2) { FactoryBot.create(:category) }
-
-        before do
-          allow(journal).to receive(:details).and_return('category_id' => [category1.id, category2.id])
-        end
-
-        it "shows the old category's name" do
-          expect(subject).to match(category1.name)
-        end
-
-        it "shows the new category's name" do
-          expect(subject).to match(category2.name)
-        end
-      end
-
-      describe 'attribute version' do
-        let(:version1) { FactoryBot.create(:version) }
-        let(:version2) { FactoryBot.create(:version) }
-
-        before do
-          allow(journal).to receive(:details).and_return('version_id' => [version1.id, version2.id])
-        end
-
-        it "shows the old version's name" do
-          expect(subject).to match(version1.name)
-        end
-
-        it "shows the new version's name" do
-          expect(subject).to match(version2.name)
-        end
-      end
-
-      describe 'attribute estimated hours' do
-        let(:estimated_hours1) { 30.5678 }
-        let(:estimated_hours2) { 35.912834 }
-
-        before do
-          allow(journal).to receive(:details).and_return('estimated_hours' => [estimated_hours1, estimated_hours2])
-        end
-
-        it 'shows the old estimated hours' do
-          expect(subject).to match('%.2f' % estimated_hours1)
-        end
-
-        it 'shows the new estimated hours' do
-          expect(subject).to match('%.2f' % estimated_hours2)
-        end
-      end
-
-      describe 'custom field' do
-        let(:expected_text) { 'original, unchanged text' }
-        let(:expected_text2) { 'modified, new text' }
-        let(:custom_field) do
-          FactoryBot.create :work_package_custom_field,
-                            field_format: 'text'
-        end
-
-        before do
-          allow(journal).to receive(:details).and_return("custom_fields_#{custom_field.id}" => [expected_text, expected_text2])
-        end
-
-        it 'shows the old custom field value' do
-          expect(subject).to match(expected_text)
-        end
-
-        it 'shows the new custom field value' do
-          expect(subject).to match(expected_text2)
-        end
-      end
-
-      describe 'attachments' do
-        shared_let(:attachment) { FactoryBot.create(:attachment) }
-
-        context 'when added' do # rubocop:disable Rspec/NestedGroups
-          before do
-            allow(journal).to receive(:details).and_return("attachments_#{attachment.id}" => [nil, attachment.filename])
-          end
-
-          it "shows the attachment's filename" do
-            expect(subject).to match(attachment.filename)
-          end
-
-          it "links correctly" do
-            expect(subject).to match("<a href=\"http://mydomain.foo/api/v3/attachments/#{attachment.id}/content\">")
-          end
-
-          context 'with a suburl', with_config: { rails_relative_url_root: '/rdm' } do # rubocop:disable Rspec/NestedGroups
-            it "links correctly" do
-              expect(subject).to match("<a href=\"http://mydomain.foo/rdm/api/v3/attachments/#{attachment.id}/content\">")
-            end
-          end
-
-          it "shows status 'added'" do
-            expect(subject).to match('added')
-          end
-
-          it "shows no status 'deleted'" do
-            expect(subject).not_to match('deleted')
-          end
-        end
-
-        context 'when removed' do # rubocop:disable Rspec/NestedGroups
-          before do
-            allow(journal).to receive(:details).and_return("attachments_#{attachment.id}" => [attachment.filename, nil])
-          end
-
-          it "shows the attachment's filename" do
-            expect(subject).to match(attachment.filename)
-          end
-
-          it "shows no status 'added'" do
-            expect(subject).not_to match('added')
-          end
-
-          it "shows status 'deleted'" do
-            expect(subject).to match('deleted')
-          end
-        end
-      end
-    end
-
-    describe 'html mail' do
-      let(:expected_translation) do
-        I18n.t(:done_ratio, scope: %i[activerecord
-                                      attributes
-                                      work_package])
-      end
-      let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
-
-      before do
-        allow(Setting).to receive(:plain_text_mail).and_return('0')
-      end
-
-      context 'with changed done ratio' do
-        let(:expected) do
-          "#{expected_prefix} changed from <i title=\"40\">40</i> <strong>to</strong> <i title=\"100\">100</i>"
-        end
-
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [40, 100])
-        end
-
-        it 'displays changed done ratio' do
-          expect(subject).to include(expected)
-        end
-      end
-
-      context 'with changed subject to long value' do
-        let(:old_subject) { 'foo' }
-        let(:new_subject) { 'abcd' * 25 }
-        let(:expected) do
-          "<strong>Subject</strong> changed from <i title=\"#{old_subject}\">#{old_subject}</i> <br/><strong>to</strong> " \
-            "<i title=\"#{new_subject}\">#{new_subject}</i>"
-        end
-
-        before do
-          allow(journal).to receive(:details).and_return('subject' => [old_subject, new_subject])
-        end
-
-        it 'displays changed subject with newline' do
-          expect(subject).to include(expected)
-        end
-      end
-
-      context 'with new done ratio' do
-        let(:expected) do
-          "#{expected_prefix} changed from <i title=\"0\">0</i> <strong>to</strong> <i title=\"100\">100</i>"
-        end
-
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [nil, 100])
-        end
-
-        it 'displays new done ratio' do
-          expect(subject).to include(expected)
-        end
-      end
-
-      context 'with deleted done ratio' do
-        let(:expected) { "#{expected_prefix} changed from <i title=\"50\">50</i> <strong>to</strong> <i title=\"0\">0</i>" }
-
-        before do
-          allow(journal).to receive(:details).and_return('done_ratio' => [50, nil])
-        end
-
-        it 'displays deleted done ratio' do
-          expect(subject).to include(expected)
-        end
-      end
     end
   end
 
