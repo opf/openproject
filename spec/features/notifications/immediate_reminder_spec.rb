@@ -21,7 +21,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.set_immediate_reminder :mentioned, true
+      reminders_settings_page.expect_immediate_reminder :mentioned, true
 
       expect(pref.reload.immediate_reminders[:mentioned]).to eq true
     end
