@@ -32,6 +32,10 @@ export class ReminderSettingsPageComponent implements OnInit {
       title: this.I18n.t('js.reminders.settings.immediate.title'),
       explanation: this.I18n.t('js.reminders.settings.immediate.explanation'),
     },
+    alerts: {
+      title: this.I18n.t('js.reminders.settings.alerts.title'),
+      explanation: this.I18n.t('js.reminders.settings.alerts.explanation'),
+    },
   };
 
   constructor(

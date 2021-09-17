@@ -43,6 +43,14 @@ module API
         property :work_package_processed
         property :work_package_prioritized
         property :work_package_scheduled
+        property :news_added
+        property :news_commented
+        property :document_added
+        property :forum_messages
+        property :wiki_page_added
+        property :wiki_page_updated
+        property :membership_added
+        property :membership_updated
         property :all
 
         associated_resource :project,

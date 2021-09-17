@@ -91,6 +91,14 @@ module UserPreferences
                         work_package_processed
                         work_package_prioritized
                         work_package_scheduled
+                        news_added
+                        news_commented
+                        document_added
+                        forum_messages
+                        wiki_page_added
+                        wiki_page_updated
+                        membership_added
+                        membership_updated
                         all]
           },
           validate: false

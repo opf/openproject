@@ -14,6 +14,11 @@
     <op-reminder-settings-daily-time>
     </op-reminder-settings-daily-time>
   </section>
+  <section class="form--section">
+    <h5 [textContent]="text.alerts.title"></h5>
+    <p [textContent]="text.alerts.explanation"></p>
+      <op-email-alerts-settings></op-email-alerts-settings>
+  </section>
   <button
     class="button -highlight"
     [textContent]="text.save"
