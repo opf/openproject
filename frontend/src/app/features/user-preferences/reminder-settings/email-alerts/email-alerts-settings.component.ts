@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { ImmediateRemindersSettings } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 import { arrayUpdate } from '@datorama/akita';
 
@@ -44,18 +43,16 @@ export class EmailAlertsSettingsComponent {
   ) {
   }
 
-  toggleEnabled(key:string, enabled:boolean) {
+  toggleEnabled(key:string, enabled:boolean):void {
     const delta = { [key]: enabled };
     this.storeService.store.update(
       ({ notifications }) => ({
         notifications: arrayUpdate(
-          notifications, this.matcherFn.bind(this), delta,
+          notifications,
+          (notification:NotificationSetting) => !notification._links.project.href,
+          delta,
         ),
       }),
     );
-  }
-
-  private matcherFn(notification:NotificationSetting) {
-    return !notification._links.project.href;
   }
 }

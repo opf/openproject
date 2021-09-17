@@ -35,23 +35,23 @@ module API
         include API::Decorators::LinkedResource
 
         property :channel
-        property :watched
-        property :involved
-        property :mentioned
-        property :work_package_created
-        property :work_package_commented
-        property :work_package_processed
-        property :work_package_prioritized
-        property :work_package_scheduled
-        property :news_added
-        property :news_commented
-        property :document_added
-        property :forum_messages
-        property :wiki_page_added
-        property :wiki_page_updated
-        property :membership_added
-        property :membership_updated
-        property :all
+        property NotificationSetting::WATCHED
+        property NotificationSetting::INVOLVED
+        property NotificationSetting::MENTIONED
+        property NotificationSetting::WORK_PACKAGE_CREATED
+        property NotificationSetting::WORK_PACKAGE_COMMENTED
+        property NotificationSetting::WORK_PACKAGE_PROCESSED
+        property NotificationSetting::WORK_PACKAGE_PRIORITIZED
+        property NotificationSetting::WORK_PACKAGE_SCHEDULED
+        property NotificationSetting::NEWS_ADDED
+        property NotificationSetting::NEWS_COMMENTED
+        property NotificationSetting::DOCUMENT_ADDED
+        property NotificationSetting::FORUM_MESSAGES
+        property NotificationSetting::WIKI_PAGE_ADDED
+        property NotificationSetting::WIKI_PAGE_UPDATED
+        property NotificationSetting::MEMBERSHIP_ADDED
+        property NotificationSetting::MEMBERSHIP_UPDATED
+        property NotificationSetting::ALL
 
         associated_resource :project,
                             skip_render: ->(*) { true },

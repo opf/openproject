@@ -50,7 +50,15 @@ module Notifications::CreateFromModelService::WikiContentStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
+    User.notified_globally notification_reason(journal)
+  end
+
+  def self.notification_reason(journal)
+    if journal.initial?
+      NotificationSetting::WIKI_PAGE_ADDED
+    else
+      NotificationSetting::WIKI_PAGE_UPDATED
+    end
   end
 
   def self.watcher_users(journal)

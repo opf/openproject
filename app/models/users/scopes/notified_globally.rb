@@ -41,6 +41,7 @@ module Users::Scopes
           id: NotificationSetting
                 .where(setting => true)
                 .where(project: nil)
+                .select(:user_id)
         )
       end
     end

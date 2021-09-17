@@ -51,12 +51,17 @@ module Notifications::CreateFromModelService::NewsStrategy
 
   def self.subscribed_users(journal)
     if journal.initial?
-      User.notified_on_all(journal.data.project)
+      User.notified_globally notification_reason(journal)
     else
       # No notification on updating a news
       User.none
     end
   end
+
+  def self.notification_reason(_journal)
+    NotificationSetting::NEWS_ADDED
+  end
+
 
   def self.project(journal)
     journal.data.project

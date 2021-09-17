@@ -50,7 +50,11 @@ module Notifications::CreateFromModelService::CommentStrategy
   end
 
   def self.subscribed_users(comment)
-    User.notified_on_all(project(comment))
+    User.notified_globally notification_reason(comment)
+  end
+
+  def self.notification_reason(_comment)
+    NotificationSetting::NEWS_COMMENTED
   end
 
   def self.watcher_users(comment)
