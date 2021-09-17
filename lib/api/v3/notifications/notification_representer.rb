@@ -100,6 +100,10 @@ module API
           'Notification'
         end
 
+        self.to_eager_load = [:project,
+                              :actor,
+                              { journal: %i[attachable_journals customizable_journals] }]
+
         ##
         # For notifications, we want to skip the initial journal
         # as the information is not that useful
