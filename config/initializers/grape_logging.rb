@@ -1,6 +1,6 @@
 OpenProject::Application.configure do
   config.after_initialize do
-    formatter = ::Lograge::Formatters::KeyValue.new
+    formatter = OpenProject::Logging::Lograge.formatter_class.new
 
     ActiveSupport::Notifications.subscribe('openproject_grape_logger') do |_, _, _, _, payload|
       time = payload.delete :time
