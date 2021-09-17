@@ -32,8 +32,7 @@ class Notifications::MailService
   end
 
   def call
-    ensure_supported
-
+    return unless supported?
     return if ian_read?
 
     strategy.send_mail(notification)
@@ -42,12 +41,6 @@ class Notifications::MailService
   private
 
   attr_accessor :notification
-
-  def ensure_supported
-    unless supported?
-      raise ArgumentError, "Sending mails for notifications is not supported for #{strategy_model}"
-    end
-  end
 
   def ian_read?
     notification.read_ian

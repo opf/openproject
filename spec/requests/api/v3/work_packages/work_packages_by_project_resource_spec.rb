@@ -319,26 +319,26 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
     describe 'notifications' do
       let(:other_user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
 
-      it 'sends a mail by default' do
-        expect(ActionMailer::Base.deliveries.length)
-          .to be 1
+      it 'creates a notification' do
+        expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+          .to exist
       end
 
       context 'without notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=false" }
 
-        it 'sends no mail' do
-          expect(ActionMailer::Base.deliveries)
-            .to be_empty
+        it 'creates no notification' do
+          expect(Notification)
+            .not_to exist
         end
       end
 
       context 'with notifications' do
         let(:path) { "#{api_v3_paths.work_packages_by_project(project.id)}?notify=true" }
 
-        it 'sends a mail' do
-          expect(ActionMailer::Base.deliveries.length)
-            .to be 1
+        it 'creates a notification' do
+          expect(Notification.where(recipient: other_user, resource: WorkPackage.last))
+            .to exist
         end
       end
     end

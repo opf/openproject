@@ -254,9 +254,8 @@ describe OpenProject::Hook do
                 .and_return(wp)
       end
     end
-    let(:journal) { FactoryBot.build_stubbed(:work_package_journal, journable: work_package) }
     let!(:comparison_mail) do
-      UserMailer.work_package_added(user, journal, author).deliver_now
+      UserMailer.work_package_watcher_changed(work_package, user, author, :added).deliver_now
       ActionMailer::Base.deliveries.last
     end
 
@@ -264,7 +263,7 @@ describe OpenProject::Hook do
       test_hook_controller_class.new.call_hook(:view_layouts_base_html_head)
 
       ActionMailer::Base.deliveries.clear
-      UserMailer.work_package_added(user, journal, author).deliver_now
+      UserMailer.work_package_watcher_changed(work_package, user, author, :added).deliver_now
       mail2 = ActionMailer::Base.deliveries.last
 
       assert_equal comparison_mail.text_part.body.encoded, mail2.text_part.body.encoded
