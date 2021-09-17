@@ -123,12 +123,14 @@ class Notifications::CreateFromModelService
                         :mentioned)
   end
 
-  def settings_of_involved
-    scope = User
-              .where(id: group_or_user_ids(journal.data.assigned_to))
-              .or(User.where(id: group_or_user_ids(journal.data.responsible)))
+  def settings_of_assigned
+    applicable_settings(User.where(id: group_or_user_ids(journal.data.assigned_to)),
+                        project,
+                        :involved)
+  end
 
-    applicable_settings(scope,
+  def settings_of_responsible
+    applicable_settings(User.where(id: group_or_user_ids(journal.data.responsible)),
                         project,
                         :involved)
   end

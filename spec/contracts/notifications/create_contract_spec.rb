@@ -42,7 +42,7 @@ describe Notifications::CreateContract do
   let(:notification_recipient) { FactoryBot.build_stubbed(:user) }
   let(:notification_subject) { 'Some text' }
   let(:notification_reason_ian) { :mentioned }
-  let(:notification_reason_mail) { :involved }
+  let(:notification_reason_mail) { :assigned }
   let(:notification_reason_mail_digest) { :watched }
   let(:notification_read_ian) { false }
   let(:notification_read_mail) { false }

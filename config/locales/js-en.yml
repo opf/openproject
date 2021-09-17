@@ -570,7 +570,8 @@ en:
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
-        involved: 'involved'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'Unread'
         all: 'All'
