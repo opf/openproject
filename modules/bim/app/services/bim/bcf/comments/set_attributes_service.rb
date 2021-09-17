@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,7 +28,6 @@
 
 module Bim::Bcf
   module Comments
-    class SetAttributesService < ::BaseServices::SetAttributes
-    end
+    class SetAttributesService < ::BaseServices::SetAttributes; end
   end
 end

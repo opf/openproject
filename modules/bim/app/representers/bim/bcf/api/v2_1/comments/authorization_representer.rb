@@ -26,9 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Naming/ClassAndModuleCamelCase
 module Bim::Bcf::API::V2_1
-  # rubocop:enable Naming/ClassAndModuleCamelCase
   class Comments::AuthorizationRepresenter < BaseRepresenter
     property :comment_actions,
              getter: ->(decorator:, **) {

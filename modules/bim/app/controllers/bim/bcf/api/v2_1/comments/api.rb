@@ -35,44 +35,35 @@ module Bim::Bcf::API::V2_1
             @issue.comments.includes(:journal, :issue, :viewpoint)
           end
 
+          def get_viewpoint_by_uuid(viewpoint_uuid)
+            if viewpoint_uuid == nil
+              nil
+            else
+              @issue.viewpoints.find_by(uuid: viewpoint_uuid) || ::Bim::Bcf::NonExistentViewpoint.new
+            end
+          end
+
+          def get_comment_by_uuid(comment)
+            if comment == nil
+              nil
+            else
+              @issue.comments.find_by(uuid: comment) || ::Bim::Bcf::NonExistentComment.new
+            end
+          end
+
           def transform_create_parameter(params)
-            viewpoint = if params[:viewpoint_guid] == nil
-                          nil
-                        else
-                          @issue.viewpoints
-                                .find_by(uuid: params[:viewpoint_guid]) || ::Bim::Bcf::NonExistentViewpoint.new
-                        end
-            replied_comment = if params[:reply_to_comment_guid] == nil
-                                nil
-                              else
-                                @issue.comments
-                                      .find_by(uuid: params[:reply_to_comment_guid]) || ::Bim::Bcf::NonExistentComment.new
-                              end
             {
               issue: @issue,
-              viewpoint: viewpoint,
-              reply_to: replied_comment
+              viewpoint: get_viewpoint_by_uuid(params[:viewpoint_guid]),
+              reply_to: get_comment_by_uuid(params[:reply_to_comment_guid])
             }
           end
 
           def transform_update_parameter(params)
-            viewpoint = if params[:viewpoint_guid] == nil
-                          nil
-                        else
-                          @issue.viewpoints
-                                .find_by(uuid: params[:viewpoint_guid]) || ::Bim::Bcf::NonExistentViewpoint.new
-                        end
-            replied_comment = if params[:reply_to_comment_guid] == nil
-                                nil
-                              else
-                                @issue.comments
-                                      .find_by(uuid: params[:reply_to_comment_guid]) || ::Bim::Bcf::NonExistentComment.new
-                              end
-
             {
               original_comment: @comment,
-              viewpoint: viewpoint,
-              reply_to: replied_comment
+              viewpoint: get_viewpoint_by_uuid(params[:viewpoint_guid]),
+              reply_to: get_comment_by_uuid(params[:reply_to_comment_guid])
             }
           end
         end
