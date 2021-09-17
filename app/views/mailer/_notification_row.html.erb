@@ -9,15 +9,21 @@
          target="_blank">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin-bottom: 9px; font-size: 14px;">
           <tr>
-            <td style="color: #333333;
-              background-color: #FFFFFF;
-              <%= status_colors(work_package.status) %>
-              white-space: nowrap;
-              padding: 2px 12px;
-              height: 18px;">
-              <%= work_package.status %>
+            <td>
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="color: #333333;
+                    background-color: #FFFFFF;
+                    <%= status_colors(work_package.status) %>
+                    white-space: nowrap;
+                    padding: 2px 12px;
+                    height: 18px;">
+                    <%= work_package.status %>
+                  </td>
+                </tr>
+              </table>
             </td>
-            <td width="100%" style="padding-left: 8px;
+            <td width="95%%" style="padding-left: 8px;
                                     color: #878787;">
 
               #<%= work_package.id %> - <%= work_package.project %>
@@ -29,13 +35,19 @@
                       default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
               <% end %>
             </td>
-            <td style="text-align: right;background-color: #00A3FF;
-                      color: white;
-                      border-radius: 8px;
-                      padding: 2px 8px;
-                      font-size: 14px;
-                      height: 18px;">
-               <%= notifications_by_work_package.length %>
+            <td>
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color: #00A3FF;
+                            color: white;
+                            border-radius: 8px;
+                            padding: 2px 8px;
+                            font-size: 14px;
+                            height: 18px;">
+                     <%= notifications_by_work_package.length %>
+                  </td>
+                </tr>
+              </table>
             </td>
           </tr>
         </table>
