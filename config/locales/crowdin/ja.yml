@@ -1924,10 +1924,10 @@ ja:
   mail_body_register_header_title: "プロジェクトへの招待メール"
   mail_body_register_user: "%{name}さん"
   mail_body_register_links_html: |
-    私たちがウェビナー (%{webinar_link}) の場としている YouTube チャンネル (%{youtube_link}) を自由に閲覧して下さい。
-    OpenProject の最初のステップを簡単にする “Get started”(はじめに) ビデオ (%{get_started_link}) があります。
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    さらに質問がある場合、ドキュメント (%{documentation_link}) を参照するか、問い合わせ先 (%{contact_us_link}) に連絡してください。
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "あなたのOpenProjectチーム"
   mail_body_register_ending: "連絡をお待ちしています！よろしくお願いいたします。"
   mail_body_reminder: "担当している %{count}件 のワークパッケージが %{days} 日内に期限を迎えます："

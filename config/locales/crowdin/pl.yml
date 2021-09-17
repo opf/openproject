@@ -1976,10 +1976,10 @@ pl:
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
-    Zapraszamy do przeglądania naszego kanału na YouTube (%{youtube_link}), na którym udostępniamy webinarium (%{webinar_link}).
-    i filmy „Rozpoczęcie pracy” (%{get_started_link}), aby jak najbardziej ułatwić rozpoczęcie pracy w OpenProject.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Jeśli masz dodatkowe pytania, zapoznaj się z naszą dokumentacją (%{documentation_link}) lub skontaktuj się z nami (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Twój zespół OpenProject"
   mail_body_register_ending: "Bądźmy w kontakcie! Z poważaniem,"
   mail_body_reminder: "Termin wykonania %{count} pakietów roboczych przypisanych do Ciebie kończy się w ciągu %{days} dni:"

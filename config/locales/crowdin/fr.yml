@@ -1944,10 +1944,10 @@ fr:
   mail_body_register_header_title: "E-mail d'invitation du membre du projet"
   mail_body_register_user: "Chère/cher %{name}, "
   mail_body_register_links_html: |
-    N'hésitez pas à parcourir notre chaîne youtube (%{youtube_link}) où nous fournissons un webinaire (%{webinar_link})
-    et des vidéos de « Démarrage » (%{get_started_link}) pour rendre vos premières étapes dans OpenProject aussi faciles que possible.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Si vous avez d'autres questions, consultez notre documentation (%{documentation_link}) ou contactez-nous (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Votre équipe OpenProject"
   mail_body_register_ending: "Restez connecté ! Cordialement,"
   mail_body_reminder: "%{count} lot(s) de travaux qui vous sont assignés arrivent à échéance dans les %{days} prochains jours:"

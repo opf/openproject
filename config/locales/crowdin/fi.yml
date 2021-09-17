@@ -1948,7 +1948,7 @@ fi:
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "OpenProject tiimisi"
   mail_body_register_ending: "Ystävällisin terveisin,"
   mail_body_reminder: "%{count} sinulle nimettyä tapahtuma(a) erääntyy %{days} päivä sisään:"

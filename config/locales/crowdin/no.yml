@@ -1948,7 +1948,7 @@
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} arbeidspakke(r) som er tildelt deg forfaller de neste %{days} dager:"

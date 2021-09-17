@@ -1940,10 +1940,10 @@ el:
   mail_body_register_header_title: "Email πρόσκλησης μέλους του έργου"
   mail_body_register_user: "Αγαπητέ/ή %{name},"
   mail_body_register_links_html: |
-    Μη διστάσετε να περιηγηθείτε στο youtube κανάλι μας (%{youtube_link}) όπου παρέχουμε ένα webinar (%{webinar_link})
-    και βίντεο "Πως να ξεκινήσετε" (%{get_started_link}) για να κάνετε τα πρώτα σας βήματα στο OpenProject όσο το δυνατόν πιο εύκολα.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Εάν έχετε περαιτέρω ερωτήσεις, συμβουλευτείτε την τεκμηρίωση (%{documentation_link}) ή επικοινωνήστε μαζί μας (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Η ομάδα OpenProject σας"
   mail_body_register_ending: "Μείνετε συνδεδεμένοι! Με εκτίμηση,"
   mail_body_reminder: "%{count} πακέτο(τα) εργασίας που έχουν ανατεθεί σε εσάς έχουν προθεσμία στις επόμενες %{days} ημέρες:"

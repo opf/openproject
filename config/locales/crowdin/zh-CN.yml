@@ -1924,9 +1924,10 @@ zh-CN:
   mail_body_register_header_title: "项目成员邀请电子邮件"
   mail_body_register_user: "%{name}，您好："
   mail_body_register_links_html: |
-    请随时浏览我们的 youtube 频道 (%{youtube_link})，在这里我们提供了网络研讨会 (%{webinar_link}) 和“入门”视频 (%{get_started_link})，让您在 OpenProject 中尽可能轻松地迈出第一步。
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    如果您有任何其他问题，请参阅我们的文档 (%{documentation_link}) 或与我们联系 (%{contact_us_link})。
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "您的 OpenProject 团队"
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："

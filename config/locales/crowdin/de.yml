@@ -1940,10 +1940,10 @@ de:
   mail_body_register_header_title: "Einladung als Projektmitglied"
   mail_body_register_user: "Hallo %{name},"
   mail_body_register_links_html: |
-    Bitte besuchen Sie unseren YouTube-Kanal (%{youtube_link}), in dem wir Webinare (%{webinar_link})
-    und "Erste-Schritte"-Videos (%{get_started_link}) bereitstellen, um Ihre ersten Schritte in OpenProject so einfach wie möglich zu machen.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Wenn Sie weitere Fragen haben, finden Sie Hilfe in unserer Dokumentation (%{documentation_link}) oder Sie kontaktieren uns (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Ihr OpenProject Team"
   mail_body_register_ending: "Wir freuen uns auf Ihre Rückmeldung! Herzlichen Dank,"
   mail_body_reminder: "%{count} Arbeitspakete, die Ihnen zugewiesen sind, müssen in den nächsten %{days} Tagen abgegeben werden:"

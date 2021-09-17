@@ -1978,10 +1978,10 @@ ru:
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
   mail_body_register_links_html: |
-    Пожалуйста, не стесняйтесь просматривать наш Youtube канал (%{youtube_link}), где мы предоставляем вебинары (%{webinar_link})
-    и видео "Начать работу" (%{get_started_link}), чтобы сделать ваши первые шаги в OpenProject максимально простыми.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Если у вас есть какие-либо вопросы, обратитесь к нашей документации (%{documentation_link}) или свяжитесь с нами (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Ваша команда OpenProject"
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"

@@ -1949,10 +1949,10 @@ hu:
   mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
-    Nyugodtan böngéssze a YouTube -csatornánkat (%{youtube_link}), ahol webináriumot szervezünk (%{webinar_link})
-    és „Kezdő lépések” videók (%{get_started_link}), hogy az OpenProject első lépései a lehető legegyszerűbbek legyenek.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Ha további kérdései vannak, tekintse meg dokumentációnkat (%{documentation_link}), vagy vegye fel velünk a kapcsolatot (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Az OpenProject csapata"
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"

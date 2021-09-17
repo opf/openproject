@@ -1943,9 +1943,10 @@ pt:
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
-    Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Se você tiver mais perguntas, consulte nossa documentação (%{documentation_link}) ou entre em contato conosco (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Sua equipe do OpenProject"
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"

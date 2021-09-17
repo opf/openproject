@@ -1945,10 +1945,10 @@ tr:
   mail_body_register_header_title: "Proje üyesi davet e-postası"
   mail_body_register_user: "Sevgili %{name},"
   mail_body_register_links_html: |
-    Lütfen bir web semineri (%{youtube_link}) sağladığımız youtube kanalımıza (%{webinar_link}) göz atabilirsiniz.
-    ve OpenProject'teki ilk adımlarınızı olabildiğince kolay hale getirmek için "Başlayın" videoları (%{get_started_link})
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Başka sorunuz varsa dokümantasyonumuza (%{documentation_link}) bakın veya bize ulaşın  (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "OpenProject ekibiniz"
   mail_body_register_ending: "Bağlı kalın! Saygılarımla,"
   mail_body_reminder: "Size tahsis edilen(ler) %{count} iş paketinin bir sonraki %{days} gün içinde ödemesi gerekiyor:"

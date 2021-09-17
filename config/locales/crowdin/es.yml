@@ -1942,10 +1942,10 @@ es:
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
   mail_body_register_links_html: |
-    Por favor, no dude en navegar por nuestro canal de youtube (%{youtube_link}) donde proporcionamos un webinar (%{webinar_link})
-    y videos "Get started" (%{get_started_link}) para hacer que sus primeros pasos en OpenProject sean lo más fáciles posible.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Si tiene más preguntas, consulte nuestra documentación (%{documentation_link}) o póngase en contacto con nosotros (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Tu equipo de OpenProject"
   mail_body_register_ending: "¡Mantente conectado! Saludos,"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"

@@ -1962,10 +1962,10 @@ ro:
   mail_body_register_header_title: "E-mail de invitație pentru membrii proiectului"
   mail_body_register_user: "Dragă %{name},"
   mail_body_register_links_html: |
-    Vă rugăm să nu ezitați să navigați pe canalul nostru de youtube (%{youtube_link}) unde oferim un webinar (%{webinar_link})
-    și clipuri video "Începeți" (%{get_started_link}) pentru a vă face primii pași în OpenProject cât mai ușor posibil.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Dacă aveți întrebări suplimentare, consultați documentația noastră (%{documentation_link}) sau contactați-ne (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Echipa dumneavoastră OpenProject"
   mail_body_register_ending: "Rămâneți conectați! Vă salutăm cu drag,"
   mail_body_reminder: "%{count} pachete de lucru care vă sunt atribuite au scadență în următoarele %{days} zile:"

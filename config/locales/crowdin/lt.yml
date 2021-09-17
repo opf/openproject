@@ -1975,10 +1975,10 @@ lt:
   mail_body_register_header_title: "Projekto nario kvietimo el. laiškas"
   mail_body_register_user: "Brangus %{name}, "
   mail_body_register_links_html: |
-    Galite panaršyti mūsų youtube kanale (%{youtube_link}), kur pateikiame webinarą (%{webinar_link})
-    ir „Pradėkime“ video (%{get_started_link}) tam, kad jūsų pirmieji žingsniai OpenProject būtų kaip įmanoma lengvesni.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Jei turėsite papildomų klausimų, peržiūrėkite mūsų dokumentaciją (%{documentation_link}) arba susisiekite su mumis (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Jūsų OpenProject komanda"
   mail_body_register_ending: "Likit prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"

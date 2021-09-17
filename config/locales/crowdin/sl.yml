@@ -1977,10 +1977,10 @@ sl:
   mail_body_register_header_title: "E-pošta člana projekta za vabilo"
   mail_body_register_user: "Dragi %{name},"
   mail_body_register_links_html: |
-    Na našem youtube kanalu (%{youtube_link}) lahko najdete spletinar (%{webinar_link})
-    in “Kako začeti” video vsebine (%{get_started_link}).
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    V primeru dodatnih vprašanj se obrnite na dokumentacijo (%{documentation_link}) ali nas kontaktirajte (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Tvoja OpenProject ekipa"
   mail_body_register_ending: "Ostanite povezani! Lep pozdrav,"
   mail_body_reminder: "%{count} delovni paketi, ki so vam dodeljeni bodo zapadli v naslednjih dneh: %{days}"
