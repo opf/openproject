@@ -56,6 +56,8 @@ module OpenProject
             sentry_scope.set_fingerprint [ref]
           end
 
+          sentry_scope.set_tags code_origin: 'backend'
+
           # Collect extra information from payload extender
           # e.g., with saas tenant information
           extra = ::OpenProject::Logging.extend_payload! log_context[:extra] || {}, { sentry_scope: sentry_scope }
