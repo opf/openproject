@@ -29,6 +29,9 @@ if OpenProject::Logging::SentryLogger.enabled?
     # Submit events as delayed job
     config.async = lambda { |event, hint| ::SentryJob.perform_later(event, hint) }
 
+    # Don't send loaded modules
+    config.send_modules = false
+
     # Cleanup backtrace
     config.backtrace_cleanup_callback = lambda do |backtrace|
       Rails.backtrace_cleaner.clean(backtrace)

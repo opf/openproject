@@ -40,6 +40,10 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
       expect(handler.extract_work_package_ids('')).to eq([])
     end
 
+    it 'returns an empty array for a null source' do
+      expect(handler.extract_work_package_ids(nil)).to eq([])
+    end
+
     it 'finds a work package by code' do
       source = "Blabla\nOP#1234\n"
       expect(handler.extract_work_package_ids(source)).to eq([1234])
