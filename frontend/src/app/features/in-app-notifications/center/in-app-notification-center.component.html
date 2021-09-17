@@ -7,14 +7,19 @@
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async) as notifications; else noResults">
       <cdk-virtual-scroll-viewport
-          itemSize="90"
+          itemSize="100"
           class="op-ian-center--viewport"
       >
         <op-in-app-notification-entry
             *cdkVirtualFor="let records of notifications$ | async; trackBy: trackNotificationGroups; templateCacheSize: 0"
-            class="op-ian-center--entry"
+            class="op-ian-item"
+            [class.op-ian-item_expanded]="records[0].expanded"
+            [class.op-ian-item_read]="records[0].readIAN === true"
+            [class.op-ian-item_selected]="(stateChanged$ | async) === records[0]._links.resource.href"
             [notification]="records[0]"
             [aggregatedNotifications]="records"
+            attr.data-qa-selector="op-ian-notification-item-{{records[0].id}}"
+            [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>

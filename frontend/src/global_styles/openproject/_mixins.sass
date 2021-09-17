@@ -265,3 +265,10 @@ $scrollbar-size: 10px
   font-weight: bold
   background: #00A3FF
   color: white
+
+@mixin show-on-focus
+  position: absolute
+  right: -10000px
+
+  &:focus
+    right: 0
