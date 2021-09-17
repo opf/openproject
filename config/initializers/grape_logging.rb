@@ -1,7 +1,5 @@
 OpenProject::Application.configure do
   config.after_initialize do
-    formatter = OpenProject::Logging::Lograge.formatter_class.new
-
     ActiveSupport::Notifications.subscribe('openproject_grape_logger') do |_, _, _, _, payload|
       time = payload.delete :time
       attributes = {
@@ -10,7 +8,7 @@ OpenProject::Application.configure do
         view: time[:view]
       }.merge(payload)
 
-      string = formatter.call(attributes)
+      string = OpenProject::Logging.formatter.call(attributes)
       Rails.logger.info string
     end
   end
