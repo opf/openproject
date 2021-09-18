@@ -2361,7 +2361,6 @@ hu:
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Látható a projektlistában"
   setting_notification_retention_period_days: "Értesítés megőrzési időszaka\n"
-  setting_notification_email_delay_minutes: "Email küldési késleltetés"
   setting_notification_email_digest_time: "Email feldolgozási idő\n"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
@@ -2439,7 +2438,6 @@ hu:
       retention_text: >
         Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
 
-      delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
       email_digest_explanation: "Naponta egyszer küldhető egy e -mail kivonat, amely tartalmazza az összes felhasználó által feliratkozott értesítés gyűjteményét. A beállítás az egyes felhasználók által konfigurált időzónához képest van, így pl. A 8:00 UTC+1 felhasználók számára UTC 7:00 órakor, az UTC-1-es felhasználók pedig 9:00 UTC-kor kerülnek végrehajtásra.\n"
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
     display:

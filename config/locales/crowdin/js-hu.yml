@@ -583,6 +583,9 @@ hu:
           explanation: "Ezeket az emlékeztetőket csak az olvasatlan értesítésekről kapja, és csak az Ön által megadott időpontokban.\n"
           time_label: 'Idő%{counter}:'
           title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
         title: 'E-mail emlékeztetők'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"

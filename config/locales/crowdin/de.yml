@@ -2352,7 +2352,6 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_notification_retention_period_days: "Aufbewahrungsfrist für Benachrichtigungen"
-  setting_notification_email_delay_minutes: "Verzögerung des Versands von E-Mails"
   setting_notification_email_digest_time: "Versandzeit für E-Mail-Zusammenfassung"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
@@ -2428,7 +2427,6 @@ de:
     notifications:
       retention_text: >
         Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
-      delay_minutes_explanation: "Das Senden von E-Mails kann verzögert werden, damit Benutzer Benachrichtigungen innerhalb der Anwendung bestätigen können, bevor eine E-Mail versendet wird. Benutzer, die eine Benachrichtigung innerhalb der Anwendung lesen, erhalten keine E-Mail für die bereits gelesene Benachrichtigung."
       email_digest_explanation: "Einmal pro Tag kann eine E-Mail-Zusammenfassung mit allen abonnierten Benachrichtigungen verschickt werden. Die eingestellte Zeit wird für jeden Benutzer in dessen eingestellte Zeitzone umgerechnet."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:

@@ -2335,7 +2335,6 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_notification_retention_period_days: "알림 보관 기간"
-  setting_notification_email_delay_minutes: "이메일 지연 전송"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2411,7 +2410,6 @@ ko:
     notifications:
       retention_text: >
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
-      delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:

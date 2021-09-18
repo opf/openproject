@@ -216,9 +216,9 @@ lt:
           status_confirmed: "patvirtinta"
           status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
           test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
-          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Tapti didvyriu!"
+          become_hero: "Tapkite didvyriu!"
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
@@ -499,7 +499,7 @@ lt:
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
           toggler: "Dabar žvilgtelėkime į <b>darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
-          list: 'Šis <b>darbo</b> paketų vaizdas duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
+          list: 'Šis <b>darbo</b> paketų apžvalga duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
           full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
           back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
@@ -579,6 +579,9 @@ lt:
           explanation: 'Jūs gausite priminimus tik apie neskaitytus pranešimus ir tiktai jūsų nurodytomis valandomis.'
           time_label: 'Laikas %{counter}:'
           title: 'Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus'
+        immediate:
+          title: 'Siųsti man e-pašto priminimą'
+          mentioned: 'Iš karto, kai kažkas @pamini mane'
         title: 'El.pašto priminimai'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Įvesta informacija bus prarasta"
@@ -925,7 +928,7 @@ lt:
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Patikrinkite Enterprise Edition.'
+          check_out_link: 'Pabandykite Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:

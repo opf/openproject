@@ -2392,7 +2392,6 @@ uk:
   setting_enabled_scm: "Увімкнені SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Увімкнути канали"
   setting_feeds_limit: "Обмеження вмісту каналу"
@@ -2468,7 +2467,6 @@ uk:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:

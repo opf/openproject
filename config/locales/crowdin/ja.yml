@@ -2334,7 +2334,6 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "メール送信の遅延"
   setting_notification_email_digest_time: "メールダイジェストの時刻"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
@@ -2410,7 +2409,6 @@ ja:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "メール送信を遅らせることで、アプリ内通知を設定したユーザーが、メールを送信前にアプリケーション内で通知を確認できるようにすることができます。 アプリケーション内で通知を読んだユーザーは、すでに読んだ通知の電子メールを受け取りません。"
       email_digest_explanation: "1日に1回、ユーザーが講読しているすべての通知をまとめたダイジェストメールを送信できます。 設定は、各ユーザーの設定されたタイムゾーンに関連しているため、例えば 8:00 は、UTC+1 のユーザーの場合は 7:00 UTC に実行され、UTC-1 のユーザーの場合は 9:00 UTC に実行されます。 "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:

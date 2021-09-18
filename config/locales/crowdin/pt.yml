@@ -2354,7 +2354,6 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_notification_retention_period_days: "Período de retenção de notificação"
-  setting_notification_email_delay_minutes: "Atraso no envio de e-mail"
   setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
@@ -2430,7 +2429,6 @@ pt:
     notifications:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
       email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
