@@ -1,26 +1,27 @@
-<ng-container
-  *ngIf="(dailyReminders$ | async) && (selectedTimes$ | async) as selectedTimes">
-  <!-- TODO: use checkbox component for the enabled input -->
-  <div
-    class="op-reminder-settings-daily-time--enable">
+<ng-container *ngIf="(selectedTimes$ | async) as selectedTimes"
+              [formGroup]="form"
+>
+  <op-checkbox-field
+          [control]="form.get('enabled')"
+  >
     <input
-      [ngModel]="enabled$ | async"
-      (ngModelChange)="toggleEnabled($event)"
-      type="checkbox"
-      id="op-reminder-settings-daily-time--enable">
-    <label
-      for="op-reminder-settings-daily-time--enable"
-      [textContent]="text.enable">
-    </label>
-  </div>
+            slot="input"
+            type="checkbox"
+            formControlName="enabled"
+    />
+    <p slot="description">{{ text.enable }}</p>
+  </op-checkbox-field>
 
   <div *ngFor="let time of selectedTimes; index as i; trackBy: index"
     class="op-reminder-settings-daily-time--row">
+
     <input
+      *ngIf="(activeTimes$ | async) as activeTimes"
       type="checkbox"
       [ngModel]="isActive(time)"
       (ngModelChange)="toggleActive($event, i, selectedTimes)"
-      [disabled]="(activeTimes$ | async).length === 0 || (activeTimes$ | async).length === 1 && (activeTimes$ | async)[0] === time"
+      [ngModelOptions]="{standalone: true}"
+      [disabled]="activeTimes.length === 0 || activeTimes.length === 1 && activeTimes[0] === time"
       class="op-reminder-settings-daily-time--active"
       attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}">
     <label
@@ -31,6 +32,7 @@
     <select
       [ngModel]="time"
       (ngModelChange)="changeTime($event, selectedTimes, i)"
+      [ngModelOptions]="{standalone: true}"
       [disabled]="(enabled$ | async) === false"
       class="op-reminder-settings-daily-time--time form--select -narrow"
       attr.id="op-reminder-settings-daily-time-{{i + 1}}--time"
@@ -54,6 +56,7 @@
 
   <button
     class="button op-reminder-settings-daily-time--add"
+    type="button"
     [disabled]="nonAddable$ | async"
     (click)="addTime(selectedTimes)">
     <i class="button--icon icon-add"></i>

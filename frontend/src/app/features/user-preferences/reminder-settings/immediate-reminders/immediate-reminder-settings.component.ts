@@ -1,18 +1,22 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { ImmediateRemindersSettings } from 'core-app/features/user-preferences/state/user-preferences.model';
+import {
+  FormGroup,
+  FormGroupDirective,
+} from '@angular/forms';
 
 @Component({
   selector: 'op-immediate-reminder-settings',
   templateUrl: './immediate-reminder-settings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImmediateReminderSettingsComponent {
-  immediateReminders$ = this.storeService.query.select('immediateReminders');
+export class ImmediateReminderSettingsComponent implements OnInit {
+  form:FormGroup;
 
   text = {
     mentioned: this.I18n.t('js.reminders.settings.immediate.mentioned'),
@@ -21,17 +25,11 @@ export class ImmediateReminderSettingsComponent {
   constructor(
     private I18n:I18nService,
     private storeService:UserPreferencesService,
+    private rootFormGroup:FormGroupDirective,
   ) {
   }
 
-  toggleEnabled(key:keyof ImmediateRemindersSettings, enabled:boolean):void {
-    this.storeService.store.update(({ immediateReminders }) => (
-      {
-        immediateReminders: {
-          ...immediateReminders,
-          [key]: enabled,
-        },
-      }
-    ));
+  ngOnInit():void {
+    this.form = this.rootFormGroup.control.get('immediateReminders') as FormGroup;
   }
 }

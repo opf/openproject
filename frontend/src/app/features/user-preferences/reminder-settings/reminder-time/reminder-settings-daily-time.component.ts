@@ -1,14 +1,25 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   map,
-  skip,
+  shareReplay,
 } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import {
+  combineLatest,
+  NEVER,
+  Observable,
+} from 'rxjs';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+} from '@angular/forms';
 
 @Component({
   selector: 'op-reminder-settings-daily-time',
@@ -16,7 +27,7 @@ import { UserPreferencesService } from 'core-app/features/user-preferences/state
   styleUrls: ['./reminder-settings-daily-time.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReminderSettingsDailyTimeComponent {
+export class ReminderSettingsDailyTimeComponent implements OnInit {
   // All times that are available in a day with a 1 hour gap between each.
   // ['00:00', '01:00', ..., '24:00']
   public availableTimes:string[] = ReminderSettingsDailyTimeComponent.setupAvailableTimes();
@@ -28,54 +39,28 @@ export class ReminderSettingsDailyTimeComponent {
   // Upon a reload of the page, it is accepted to loose this information.
   public inactiveTimes:Array<{ position:number, time:string }> = [];
 
+  public form:FormGroup;
+
   // Hours suggested if a new time is added by a user.
   public suggestedTimes = ['08:00', '12:00', '15:00', '18:00'];
 
-  // The daily reminders with the first value skipped. Only used
-  // for that skipping as the first value is produced by the front end (default value).
-  public dailyReminders$ = this.storeService.query.dailyReminders$.pipe(skip(1));
-
   // Whether the reminder are active at all.
-  public enabled$ = this.storeService.query.dailyRemindersEnabled$;
+  public enabled$:Observable<boolean>;
 
   // The active times as present in the store interleaved with the inactive
   // times.
-  public selectedTimes$ = this
-    .storeService
-    .query
-    .dailyRemindersTimes$
-    .pipe(map((times) => {
-      const activeTimes = Array(...times);
-
-      this
-        .inactiveTimes
-        .sort((a, b) => a.position - b.position)
-        .forEach((inactiveTime) => {
-          activeTimes.splice(inactiveTime.position, 0, inactiveTime.time);
-        });
-
-      return activeTimes;
-    }));
+  public selectedTimes$:Observable<string[]> = NEVER;
 
   // Times that are truly active:
   // * the reminders are not disabled completely
   // * the times are not inactive individually.
-  public activeTimes$ = combineLatest([
-    this.storeService.query.dailyRemindersEnabled$,
-    this.storeService.query.dailyRemindersTimes$,
-  ]).pipe(map(([enabled, times]) => (enabled ? times : [])));
+  public activeTimes$:Observable<string[]> = NEVER;
 
   // Times can only be removed if the element is active and if there is more than one time present.
-  public timeRemovable$ = combineLatest([
-    this.storeService.query.dailyRemindersEnabled$,
-    this.selectedTimes$,
-  ]).pipe(map(([enabled, selectedTimes]) => enabled && selectedTimes.length > 1));
+  public timeRemovable$:Observable<boolean> = NEVER;
 
   // Times can not be added if the element is disabled or if all the possible times have already been added (active or not).
-  public nonAddable$ = combineLatest([
-    this.storeService.query.dailyRemindersEnabled$,
-    this.selectedTimes$,
-  ]).pipe(map(([enabled, selectedTimes]) => !enabled || selectedTimes.length === this.availableTimes.length));
+  public nonAddable$:Observable<boolean> = NEVER;
 
   text = {
     timeLabel: (counter:number):string => this.I18n.t('js.reminders.settings.daily.time_label', { counter }),
@@ -86,7 +71,59 @@ export class ReminderSettingsDailyTimeComponent {
   constructor(
     private I18n:I18nService,
     private storeService:UserPreferencesService,
-  ) { }
+    private rootFormGroup:FormGroupDirective,
+  ) {
+  }
+
+  ngOnInit():void {
+    this.form = this.rootFormGroup.control.get('dailyReminders') as FormGroup;
+
+    this.enabled$ = this
+      .form
+      .valueChanges
+      .pipe(
+        map(() => this.form.get('enabled')?.value as boolean),
+        shareReplay(1),
+      );
+
+    this.selectedTimes$ = (this
+      .form
+      .get('times') as FormArray)
+      .valueChanges
+      .pipe(
+        map(() => {
+          const timesArray = this.form.get('times') as FormArray;
+          const activeTimes = timesArray.controls.map((c) => c.value as string);
+
+          this
+            .inactiveTimes
+            .sort((a, b) => a.position - b.position)
+            .forEach((inactiveTime) => {
+              activeTimes.splice(inactiveTime.position, 0, inactiveTime.time);
+            });
+
+          return activeTimes;
+        }),
+        shareReplay(1),
+      );
+
+    this.timeRemovable$ = combineLatest([
+      this.enabled$,
+      this.selectedTimes$,
+    ]).pipe(map(([enabled, selectedTimes]) => enabled && selectedTimes.length > 1));
+
+    this.nonAddable$ = combineLatest([
+      this.enabled$,
+      this.selectedTimes$,
+    ]).pipe(map(([enabled, selectedTimes]) => !enabled || selectedTimes.length === this.availableTimes.length));
+
+    this.activeTimes$ = combineLatest([
+      this.enabled$,
+      this.selectedTimes$,
+    ]).pipe(
+      map(([enabled, times]) => (enabled ? times : [])),
+    );
+  }
 
   addTime(selectedTimes:string[]):void {
     const time = this.firstAvailableSuggested(selectedTimes) || this.firstAfterSelected(selectedTimes);
@@ -133,17 +170,6 @@ export class ReminderSettingsDailyTimeComponent {
     this.storeTimes(selectedTimes);
   }
 
-  toggleEnabled(enabled:boolean):void {
-    this.storeService.store.update(({ dailyReminders }) => (
-      {
-        dailyReminders: {
-          ...dailyReminders,
-          enabled,
-        },
-      }
-    ));
-  }
-
   toggleActive(active:boolean, index:number, selectedTimes:string[]):void {
     if (!active) {
       this.inactiveTimes.push({ position: index, time: selectedTimes[index] });
@@ -164,13 +190,20 @@ export class ReminderSettingsDailyTimeComponent {
   }
 
   private storeTimes(selectedTimes:string[]) {
-    this.storeService.store.update(({ dailyReminders }) => (
-      {
-        dailyReminders: {
-          ...dailyReminders,
-          times: selectedTimes.filter((selected) => !this.inactiveTimes.map((inactive) => inactive.time).includes(selected)), // .map((selected) => selected.time),
-        },
-      }));
+    const times = selectedTimes
+      .filter(
+        (selected) => !this.inactiveTimes
+          .map((inactive) => inactive.time)
+          .includes(selected),
+      );
+
+    const timesForm = this.form.get('times') as FormArray;
+    timesForm.clear({ emitEvent: false });
+    times.forEach((time) => {
+      timesForm.push(new FormControl(time), { emitEvent: false });
+    });
+
+    timesForm.enable({ emitEvent: true });
   }
 
   private firstAvailableSuggested(selectedTimes:string[]) {

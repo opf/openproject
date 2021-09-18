@@ -155,7 +155,9 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
   public saveChanges():void {
     const prefs = this.storeService.store.getValue();
     const notificationSettings = (this.form.value as IFullNotificationSettingsValue);
+    const globalNotification = prefs.notifications.find((notification) => !notification._links.project.href) as NotificationSetting;
     const globalPrefs:NotificationSetting = {
+      ...globalNotification,
       _links: { project: { href: null } },
       channel: 'in_app',
       watched: true,
@@ -181,6 +183,14 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackagePrioritized: settings.workPackagePrioritized,
       workPackageCommented: settings.workPackageCommented,
       all: false,
+      newsAdded: false,
+      newsCommented: false,
+      documentAdded: false,
+      forumMessages: false,
+      wikiPageAdded: false,
+      wikiPageUpdated: false,
+      membershipAdded: false,
+      membershipUpdated: false,
     }));
 
     this.storeService.update(this.userId, {

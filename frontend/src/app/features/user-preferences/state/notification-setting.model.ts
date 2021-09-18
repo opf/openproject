@@ -13,6 +13,14 @@ export interface NotificationSetting {
   workPackageProcessed:boolean;
   workPackagePrioritized:boolean;
   workPackageScheduled:boolean;
+  newsAdded:boolean;
+  newsCommented:boolean;
+  documentAdded:boolean;
+  forumMessages:boolean;
+  wikiPageAdded:boolean;
+  wikiPageUpdated:boolean;
+  membershipAdded:boolean;
+  membershipUpdated:boolean;
   all:boolean;
 }
 
@@ -32,6 +40,14 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     workPackageProcessed: true,
     workPackagePrioritized: true,
     workPackageScheduled: true,
+    newsAdded: true,
+    newsCommented: true,
+    documentAdded: true,
+    forumMessages: true,
+    wikiPageAdded: true,
+    wikiPageUpdated: true,
+    membershipAdded: true,
+    membershipUpdated: true,
     all: false,
     channel: 'in_app',
     ...params,

@@ -77,7 +77,7 @@ module Pages
       end
 
       def set_immediate_reminder(name, enabled)
-        field = page.find_field("op-reminder-settings-immediate-#{name}")
+        field = page.find("input[data-qa-immediate-reminder='#{name}']")
 
         if enabled
           field.check

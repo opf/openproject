@@ -38,7 +38,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
     .pipe(
       map((settings) => settings.find((notification) => !notification._links.project.href)),
       filter((global) => !!global),
-    );
+    ) as Observable<NotificationSetting>;
 
   /** Selected projects */
   selectedProjects$ = this

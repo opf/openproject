@@ -62,7 +62,6 @@ module Notifications::CreateFromModelService::NewsStrategy
     NotificationSetting::NEWS_ADDED
   end
 
-
   def self.project(journal)
     journal.data.project
   end

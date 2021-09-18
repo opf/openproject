@@ -1,30 +1,39 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
-import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
-import { arrayUpdate } from '@datorama/akita';
+import {
+  FormGroup,
+  FormGroupDirective,
+} from '@angular/forms';
+
+export type EmailAlertType =
+  'newsAdded'|'newsCommented'|'documentAdded'|'forumMessages'|'wikiPageAdded'|
+  'wikiPageUpdated'|'membershipAdded'|'membershipUpdated';
+
+export const emailAlerts:EmailAlertType[] = [
+  'newsAdded',
+  'newsCommented',
+  'documentAdded',
+  'forumMessages',
+  'wikiPageAdded',
+  'wikiPageUpdated',
+  'membershipAdded',
+  'membershipUpdated',
+];
 
 @Component({
   selector: 'op-email-alerts-settings',
   templateUrl: './email-alerts-settings.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmailAlertsSettingsComponent {
-  globalNotification$ = this.storeService.query.globalNotification$;
+export class EmailAlertsSettingsComponent implements OnInit {
+  form:FormGroup;
 
-  alerts = [
-    'newsAdded',
-    'newsCommented',
-    'documentAdded',
-    'forumMessages',
-    'wikiPageAdded',
-    'wikiPageUpdated',
-    'membershipAdded',
-    'membershipUpdated',
-  ];
+  alerts:EmailAlertType[] = emailAlerts;
 
   text = {
     newsAdded: this.I18n.t('js.reminders.settings.alerts.news_added'),
@@ -40,19 +49,11 @@ export class EmailAlertsSettingsComponent {
   constructor(
     private I18n:I18nService,
     private storeService:UserPreferencesService,
+    private rootFormGroup:FormGroupDirective,
   ) {
   }
 
-  toggleEnabled(key:string, enabled:boolean):void {
-    const delta = { [key]: enabled };
-    this.storeService.store.update(
-      ({ notifications }) => ({
-        notifications: arrayUpdate(
-          notifications,
-          (notification:NotificationSetting) => !notification._links.project.href,
-          delta,
-        ),
-      }),
-    );
+  ngOnInit():void {
+    this.form = this.rootFormGroup.control.get('emailAlerts') as FormGroup;
   }
 }

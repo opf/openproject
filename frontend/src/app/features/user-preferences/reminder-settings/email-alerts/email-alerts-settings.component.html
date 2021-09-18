@@ -1,16 +1,14 @@
-<ng-container
-  *ngIf="(globalNotification$ | async) as notification">
+<ng-container [formGroup]="form">
   <div *ngFor="let setting of alerts">
-    <!-- TODO: use checkbox component for the enabled input -->
-    <input
-            [ngModel]="notification[setting]"
-            (ngModelChange)="toggleEnabled(setting, $event)"
-            type="checkbox"
-            id="op-alert-settings-{{ setting }}"
+    <op-checkbox-field
+            [control]="form.get(setting)"
     >
-    <label
-            for="op-alert-settings-{{ setting }}"
-            [textContent]="text[setting]">
-    </label>
+      <input
+              slot="input"
+              type="checkbox"
+              [formControlName]="setting"
+      />
+      <p slot="description">{{ text[setting] }}</p>
+    </op-checkbox-field>
   </div>
 </ng-container>
