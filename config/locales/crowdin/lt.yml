@@ -52,7 +52,7 @@ lt:
       enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, ši mažytė funkcija galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        alternative-color: "Stipri, akį rėžianti spalva įprastai naudojama svarbiausiam mygtukui ekrane."
+        alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
         content-link-color: "Šrifto spalva daugeliui nuorodų."
         primary-color: "Pagrindinė spalva."
         primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
@@ -61,9 +61,9 @@ lt:
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-border-bottom-color: "Linija po antrašte. Palikite laukelį tuščią, jei nenorite jokios linijos."
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
-      theme_warning: Temos keitimas perrašys jūsų pritaikytą stilių. Ankstesnis dizainas bus prarastas. Ar esate tikri, kad norite tęsti?
+      theme_warning: Temos keitimas perrašys jūsų pritaikytą stilių. Ankstesnis dizainas bus prarastas. Ar tikrai norite tęsti?
     enterprise:
-      upgrade_to_ee: "Patobulinti į „Enterprise Edition“ versiją"
+      upgrade_to_ee: "Pagerinti į „Enterprise Edition“ versiją"
       add_token: "Įkelti „Enterprise Edition“ paramos raktą"
       replace_token: "Pakeisti savo esamą paramos raktą"
       order: "Užsisakykite Enterprise on-premises Edition"
@@ -104,13 +104,13 @@ lt:
       generic_map: LDAP atributo pavadinimas, kuris bus susietas su OpenProject atributu `%{attribute}`
       admin_map_html: "Pasirinktinis: LDAP atributas, kuris <strong>jei bus nustatytas</strong> pažymi, kad vartotojas yra OpenProject administratorius. Jei abejojate, palikite tuščią."
       system_user_dn_html: |
-        Įveskite sisteminio vartotojo, naudojamos tik skaitymo teisėmis jugtis prie LDAP, DN.
+        Įveskite sisteminio naudotojo, naudojamos tik skaitymo teisėmis jugtis prie LDAP, DN.
         <br/>
         Pavyzdžiui: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Įveskite sisteminio vartotojo, kuris jungsis prie LDAP, slaptažodį
+      system_user_password: Įveskite sisteminio naudotojo, kuris jungsis prie LDAP, slaptažodį
       base_dn: |
-        Įveskite submedžio, kuriame OpenProject ieškos vartotojų ir grupių šaknies DN (Base DN).
-        OpenProject ieškos vartotojų tik šio submedžio ribose.
+        Įveskite submedžio, kuriame OpenProject ieškos naudotojų ir grupių šaknies DN (Base DN).
+        OpenProject ieškos naudotojų tik šio submedžio ribose.
         Pavyzdys: ou=users,dc=example,dc=com
       filter_string: |
         Pridėkite nebūtiną RFC4515 filtrą, kuris bus naudojamas riboti perduodamų iš LDAP vartotojų sąrašą.
@@ -118,26 +118,26 @@ lt:
       filter_string_concat: |
         OpenProject įrašų identifikavimui visada naudos login atributą su vartotojo pateiktais duomenimis. Jei jūs čia nurodysite filtrą, jis prie kitų filtrų bus prijungtas naudojant AND. Nenurodžius, bus naudojamas viską apimantis filtras (objectClass=*).
       onthefly_register: |
-        Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus vartotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
-        Nežymėkite šio lauko, jei norite, kad tik jau sukurti vartotojai galėtų prisijungti pasinaudodami LDAP!
+        Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
+        Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
-      OpenProject reikia tik-skaitymui skirto sisteminio vartotojo kitų vartotojų ir grupių patikrinimui jūsų LDAP medyje.
-      Šioje sekcijoje prašome pateikti tokio vartotojo kredencialus.
+      OpenProject reikia tik-skaitymui skirto sisteminio naudotojo kitų naudotojų ir grupių patikrinimui jūsų LDAP medyje.
+      Šioje skiltyje prašome pateikti tokio naudotojo prisijungimo duomenis.
     ldap_details: 'LDAP duomenys'
     user_settings: 'Atributų surišimas'
     user_settings_legend: |
-      Žemiau esantys laukai yra naudojami nustatyti kaip OpenProject vartotojai yra kuriami pagal LDAP įrašus ir kokie LDAP atributai yra naudojami nustatyti kuriuos OpenProject vartotojo atributus (atributų surišimas).
+      Žemiau esantys laukai yra naudojami nurodant, kaip OpenProject naudotojai yra kuriami pagal LDAP įrašus ir kokie LDAP atributai yra naudojami nurodant kuriuos OpenProject naudotojo atributus (atributų surišimas).
     tls_mode:
       plain: 'joks'
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
       plain_description: "Paprasta, nešifruota jungtis, be TLS derybų."
-      simple_tls_description: "Numanomas TLS šifravimas, bet be sertifikato tikrinimo. Naudoti atsargiai kai besąlygiškai pasitikite LDAP jungtimi."
+      simple_tls_description: "Numanomas TLS šifravimas, bet be sertifikato tikrinimo. Naudokite atsargiai, kai besąlygiškai pasitikite LDAP jungtimi."
       start_tls_description: "Pilnas TLS šifravimas su pilnu jungties validavimu. Naudokite LDAP per TLS/SSL."
       section_more_info_link_html: >
-        Ši skiltis apie šio LDAP autentikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
+        Ši skiltis apie šio LDAP autentifikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -292,7 +292,7 @@ lt:
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
       edit_query: "Keisti lentelę"
-      query_group_placeholder: "Pavadi lentelę"
+      query_group_placeholder: "Pavadinti lentelę"
       reset: "Atkurti į numatytuosius"
       type_color_text: |
         Spauskite, kad priskirtumėte arba pakeistumėte šio tipo spalvą. Parinkta spalva išskiria darbo paketus Gantt diagramose. Todėl rekomenduojama naudoti stiprią spalvą.
@@ -351,8 +351,8 @@ lt:
         other: "Paskyra bus ištrinta iš aplikacijos. Vartotojas nebegalės prisijungti su savo prisijungimo duomenimis. Jis gali pasirinkti galimybę vėl tapti šios aplikacijos vartotoju pasinaudodamas suteikta galimybe."
         self: "Jūsų paskyra bus ištrinta iš sistemos. Jūs nebegalėsite prisijungti su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos vartotoju, galite pasinaudoti suteikta galimybe."
       login_verification:
-        other: "Įveskite prisijungimo %{name}, kad patvirtintumėte naikinimą. Nurodžius jūsų paprašys patvirtinti jūsų slaptažodį."
-        self: "Įveskite jūsų prisijungimo %{name}, kad patvirtintumėte naikinimą. Įvedus jūsų bus paprašyta patvirtinti jūsų slaptažodį."
+        other: "Įveskite prisijungimo %{name}, kad patvirtintumėte naikinimą. Nurodžius, jūsų paprašys patvirtinti jūsų slaptažodį."
+        self: "Įveskite jūsų prisijungimo %{name}, kad patvirtintumėte naikinimą. Įvedus, jūsų bus paprašyta patvirtinti jūsų slaptažodį."
     error_inactive_activation_by_mail: >
       Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti, paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
     error_inactive_manual_activation: >
@@ -467,7 +467,7 @@ lt:
         description: "Numatytasis aprašymo tekstas"
         attribute_groups: ''
         is_in_roadmap: "Rodoma plane pagal nutylėjimą"
-        is_default: "Pagal nutylėjimą jungta naujiems projektams"
+        is_default: "Pagal nutylėjimą įjungta naujiems projektams"
         is_milestone: "Yra svarbus etapas"
         color: "Spalva"
       user:
@@ -628,7 +628,7 @@ lt:
             project:
               error_not_found: "nerasta"
             public:
-              error_unauthorized: "- Naudotojas neturi teisių kurti viešus rodinius."
+              error_unauthorized: "- Naudotojas neturi teisių kurti viešus vaizdus."
             group_by:
               invalid: "Negalima grupuoti naudojant: %{value}"
               format: "%{message}"
@@ -671,7 +671,7 @@ lt:
         time_entry:
           attributes:
             hours:
-              day_limit: "yra per didelis nes maksimum 24 valandos gali būti užregistruotos per parą."
+              day_limit: "yra per didelis, nes per parą gali būti užregistruotos daugiausiai 24 valandos."
         wiki_page:
           attributes:
             slug:
@@ -1281,10 +1281,10 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Patobulinti į „Enterprise Edition“ versiją"
+        title: "Pagerinti į „Enterprise Edition“ versiją"
         more_info: "Daugiau informacijos"
     links:
-      upgrade_enterprise_edition: "Patobulinti į „Enterprise Edition“ versiją"
+      upgrade_enterprise_edition: "Pagerinti į „Enterprise Edition“ versiją"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
@@ -2384,7 +2384,7 @@ lt:
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:
       section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Nustatymai projektų peržiūros sąrašui"
+      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     user:
       default_preferences: "Numatytosios parinktys"
       deletion: "Trynimas"

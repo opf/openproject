@@ -215,9 +215,9 @@ lt:
           status_confirmed: "patvirtinta"
           status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
           test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
-          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Tapti didvyriu!"
+          become_hero: "Tapkite didvyriu!"
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
@@ -868,7 +868,7 @@ lt:
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Patikrinkite Enterprise Edition.'
+          check_out_link: 'Pabandykite Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:
