@@ -2170,7 +2170,7 @@ lt:
   permission_move_work_packages: "Perkelti darbų paketus"
   permission_protect_wiki_pages: "Apsaugoti wiki puslapius"
   permission_rename_wiki_pages: "Pervadinti wiki puslapius"
-  permission_save_queries: "Įrašyti rodinius"
+  permission_save_queries: "Įrašyti vaizdus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_manage_types: "Pasirinkti tipus"
   permission_view_calendar: "Peržiūrėti kalendorių"
@@ -2765,7 +2765,7 @@ lt:
     Siunčia naują pakvietimo laišką su nauju atpažinimo ženklu su mintimi, kad seno ženklo atpažinimo laikas baigėsi arba vartotojas negavo originalaus laiško. Taip pat gali būti naudojamas aktyviems vartotojams, kad jie pasirinktų naują autentifikavimo metodą. Kai naudojama aktyviems vartotojams, jų būsena pasikeičia į „pakviestas“.
   tooltip:
     setting_email_login: >
-      Įjungus naudotojas negalės pasirinkti prisijungimo vardą registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
+      Įjungus, naudotojas negalės pasirinkti prisijungimo vardo registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
   top_menu:
@@ -2912,7 +2912,7 @@ lt:
         server_error: 'Autorizacijos serveris pateko į netikėtą būseną, todėl jis nesugebėjo išpildyti užklausos.'
         temporarily_unavailable: 'Autorizacijos serveris šiuo metu negali išpildyti užklausos, nes laikinai yra perkrautas ar vykdoma jo priežiūra.'
         #Configuration error messages
-        credential_flow_not_configured: 'Resurso savininko slaptažodžio įgaliojimų eiga nepavyko, nes konfigūruojamas Doorkeeper.configure.resource_owner_from_credentials.'
+        credential_flow_not_configured: "Resurso savininko slaptažodžio įgaliojimų eiga nepavyko, nes nesukonfigūruotas\nDoorkeeper.configure.resource_owner_from_credentials."
         resource_owner_authenticator_not_configured: 'Resurso savininko paieška nepavyko, nes konfigūruojamas Doorkeeper.configure.resource_owner_authenticator.'
         admin_authenticator_not_configured: "Prieiga prie administravimo skydelio uždrausta, nes\nDoorkeeper.configure.admin_authenticator nėra sukonfigūruotas."
         #Access grant errors
@@ -2926,7 +2926,7 @@ lt:
           expired: "Baigėsi prieigos žetono galiojimas"
           unknown: "Netinkamas prieigos žetonas"
   unsupported_browser:
-    title: "Jūsų naršyklė pasenusi arba nepalaikoma."
+    title: "Jūsų naršyklė pasenusi ir nepalaikoma."
     message: "Šiame puslapyje jums gali kilti problemų ar jis gali prastai veikti."
     update_message: 'Prašome atnaujinti savo naršyklę.'
     close_warning: "Ignoruoti šį perspėjimą."
