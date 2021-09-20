@@ -180,7 +180,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.2.0'
+gem 'openproject-token', '~> 2.2'
 
 gem 'plaintext', '~> 0.3.2'
 
