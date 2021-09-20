@@ -4,30 +4,33 @@ import {
   Component,
   Input,
   OnInit,
+  HostBinding,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export interface IOpCollapsibleMenuItem {
+export interface IOpSidemenuItem {
   title:string;
   icon?:string;
   counter?:number;
   link:string;
+  children?: IOpSidemenuItem[];
 }
 
 @Component({
-  selector: 'op-collapsible-menu',
-  templateUrl: './collapsible-menu.component.html',
-  styleUrls: ['./collapsible-menu.component.sass'],
+  selector: 'op-sidemenu',
+  templateUrl: './sidemenu.component.html',
+  styleUrls: ['./sidemenu.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpCollapsibleMenuComponent implements OnInit {
-  @Input() items:IOpCollapsibleMenuItem[] = [];
+export class OpSidemenuComponent implements OnInit {
+  @HostBinding('class.op-sidemenu') className = true;
+  @HostBinding('class.op-sidemenu_collapsed') collapsed = false;
 
-  @Input('items-placeholder') itemsPlaceholder:string = '';
+  @Input() items:IOpSidemenuItem[] = [];
 
   @Input() title:string;
 
-  collapsed = false;
+  @Input() collapsible:string;
 
   constructor(
     readonly cdRef:ChangeDetectorRef,

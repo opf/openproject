@@ -1,0 +1,40 @@
+<button
+  class="op-sidemenu--title"
+  type="button"
+  (click)="toggleCollapsed"
+  *ngIf="title && collapsible"
+>
+  <span class="tree-menu--hierarchy-indicator-icon" aria-hidden="true"></span>
+  {{ title }}
+</button>
+<div
+  class="op-sidemenu--title"
+  *ngIf="title && !collapsible"
+>{{ title }}</div>
+
+<ul class="op-sidemenu--items">
+  <li
+    class="op-sidemenu--item"
+    *ngFor="let item of items"
+  >
+    <a
+      class="op-sidemenu--item-action"
+      [href]="item.href"
+      *ngIf="!item.children"
+    >
+      <span
+        *ngIf="item.icon"
+        class="op-sidemenu--item-icon"
+      ></span>
+      <span class="op-sidemenu--item-title">{{ item.title }}</span>
+      <span class="op-bubble" *ngIf="item.count">{{ item.count }}</span>
+    </a>
+
+    <op-sidemenu
+      *ngIf="item.children"
+      [title]="item.title"
+      [items]="item.children"
+      [collapsible]="item.collapsible"
+    ></op-sidemenu>
+  </li>
+</ul>
