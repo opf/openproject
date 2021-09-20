@@ -64,7 +64,7 @@ shared_examples_for 'bcf api successful response' do
       .to eql(defined?(expected_status) ? expected_status : 200)
 
     if expected_body.nil?
-      expect("").to be_json_eql(expected_body.to_json)
+      expect(subject.body).to be_json_eql(expected_body.to_json)
     else
       expect_identical_without_time(subject, expected_body)
     end
@@ -84,47 +84,47 @@ shared_examples_for 'bcf api successful response expectation' do
 end
 
 shared_examples_for 'bcf api not found response' do
-  let(:expect_404) do
+  let(:expect404) do
     { message: 'The requested resource could not be found.' }
   end
 
   it 'responds 404 NOT FOUND', :aggregate_failures do
     expect(subject.status).to eq 404
-    expect(subject.body).to be_json_eql(expect_404.to_json)
+    expect(subject.body).to be_json_eql(expect404.to_json)
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api method not allowed response' do
-  let(:expect_405) { "405 Not Allowed" }
+  let(:expect405) { "405 Not Allowed" }
 
   it 'responds 405 METHOD NOT ALLOWED', :aggregate_failures do
     expect(subject.status).to eq 405
-    expect(subject.body).to eql(expect_405)
+    expect(subject.body).to eql(expect405)
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api not allowed response' do
-  let(:expect_403) do
+  let(:expect403) do
     { message: 'You are not authorized to access this resource.' }
   end
 
   it 'responds 403 NOT ALLOWED', :aggregate_failures do
     expect(subject.status).to eq 403
-    expect(subject.body).to be_json_eql(expect_403.to_json)
+    expect(subject.body).to be_json_eql(expect403.to_json)
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end
 
 shared_examples_for 'bcf api unprocessable response' do
-  let(:expect_422) do
+  let(:expect422) do
     { message: message }
   end
 
   it 'responds 422 UNPROCESSABLE ENTITY', :aggregate_failures do
     expect(subject.status).to eq 422
-    expect(subject.body).to be_json_eql(expect_422.to_json)
+    expect(subject.body).to be_json_eql(expect422.to_json)
     expect(subject.headers['Content-Type']).to eql 'application/json; charset=utf-8'
   end
 end

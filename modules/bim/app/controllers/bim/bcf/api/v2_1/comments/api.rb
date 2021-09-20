@@ -75,9 +75,13 @@ module Bim::Bcf::API::V2_1
                      params_modifier: ->(params) { transform_create_parameter(params).merge(params) })
                 .mount
 
+        params do
+          requires :comment_guid, type: String, desc: 'The comment\'s UUID'
+        end
+
         route_param :comment_guid, regexp: /\A[a-f0-9\-]+\z/ do
           after_validation do
-            @comment = all_comments.find_by!(uuid: params[:comment_guid])
+            @comment = all_comments.find_by!(uuid: declared_params[:comment_guid])
           end
 
           get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Bim::Bcf::Comment).mount

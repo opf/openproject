@@ -56,7 +56,7 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
   let(:assignee) { FactoryBot.create(:user) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package, assigned_to: assignee, due_date: Date.today, project: project)
+    FactoryBot.create(:work_package, assigned_to: assignee, due_date: Time.zone.today, project: project)
   end
 
   let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package) }
@@ -592,7 +592,6 @@ describe 'BCF 2.1 comments resource', type: :request, content_type: :json, with_
           }
         end
       end
-
     end
   end
 
