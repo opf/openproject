@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe User, '.with_reminder_mail_to_send', type: :job do
+describe User, '.having_reminder_mail_to_send', type: :job do
   subject(:scope) do
     described_class.having_reminder_mail_to_send(scope_time)
   end
@@ -335,6 +335,32 @@ describe User, '.with_reminder_mail_to_send', type: :job do
     it 'raises an error' do
       expect { scope }
         .to raise_error ArgumentError
+    end
+  end
+
+  context 'for a user without preferences at 08:00' do
+    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:00").utc }
+
+    before do
+      paris_user.pref.destroy
+    end
+
+    it 'is including the user as UTC at 08:00 is assumed' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
+  context 'for a user without preferences at 10:00' do
+    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
+
+    before do
+      paris_user.pref.destroy
+    end
+
+    it 'is empty as UTC at 08:00 is assumed' do
+      expect(scope)
+        .to be_empty
     end
   end
 end
