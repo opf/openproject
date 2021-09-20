@@ -2161,7 +2161,7 @@ lt:
   permission_manage_members: "Valdyti narius"
   permission_manage_news: "Valdyti naujienas"
   permission_manage_project_activities: "Valdyti projekto veiklas"
-  permission_manage_public_queries: "Tvarkyti viešus rodinius"
+  permission_manage_public_queries: "Tvarkyti viešus vaizdus"
   permission_manage_repository: "Valdyti repozitoriją"
   permission_manage_subtasks: "Valdyti darbų paketo hierarchijas"
   permission_manage_versions: "Valdyti versijas"
