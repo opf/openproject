@@ -60,8 +60,12 @@ module OpenProject::Avatars
           local_avatar_attachment&.destroy
           reset_avatar_attachment_cache!
 
-          attach_files('first' => { 'file' => file, 'description' => 'avatar' })
-          save
+          @local_avatar_attachment = Attachments::CreateService
+            .new(user: User.system, contract_class: EmptyContract)
+            .call(file: file, container: self, filename: file.original_filename, description: 'avatar')
+            .result
+          
+          touch
         end
 
         def reset_avatar_attachment_cache!

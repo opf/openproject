@@ -28,28 +28,26 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+module Documents
+  class BaseContract < ::ModelContract
+    include Attachments::ValidateReplacements
 
-module API
-  module V3
-    module Attachments
-      class AttachmentMetadataRepresenter < ::API::Decorators::Single
-        def initialize(attachment)
-          super(attachment, current_user: nil)
-        end
+    def self.model
+      Document
+    end
 
-        property :file_name
-        property :description,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(description, plain: true)
-                 },
-                 setter: ->(fragment:, **) { self.description = fragment['raw'] },
-                 render_nil: true
+    attribute :project
+    attribute :category
+    attribute :title
+    attribute :description
 
-        property :content_type, render_nil: false
-        property :file_size, render_nil: false
-        property :digest, render_nil: false
+    validate :validate_manage_allowed
+
+    private
+
+    def validate_manage_allowed
+      unless user.allowed_to?(:manage_documents, model.project)
+        errors.add :base, :error_unauthorized
       end
     end
   end
