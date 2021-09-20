@@ -68,7 +68,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
               read_ian: nil,
               reason: false,
               read_mail: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end
@@ -117,7 +117,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
               read_ian: nil,
               reason: false,
               read_mail: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end
@@ -170,7 +170,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
             {
               read_ian: nil,
               reason: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end
@@ -218,7 +218,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
             {
               read_ian: nil,
               reason: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end
@@ -270,7 +270,7 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
             {
               read_ian: nil,
               reason: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end

@@ -78,7 +78,7 @@ class Notifications::CreateFromModelService
     {
       reason: strategy.supports_ian? && channel_reasons['in_app']&.first,
       read_ian: strategy.supports_ian? && channel_reasons.keys.include?('in_app') ? false : nil,
-      read_mail_digest: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil
+      sent_mail: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil
     }
   end
 

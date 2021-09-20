@@ -61,7 +61,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
             {
               read_ian: nil,
               reason: false,
-              read_mail_digest: nil
+              sent_mail: nil
             }
           end
         end

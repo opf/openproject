@@ -34,8 +34,8 @@ module Notifications::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def unread_mail_digest
-        where(read_mail_digest: false)
+      def unsent_mail
+        where(sent_mail: false)
       end
     end
   end

@@ -29,6 +29,8 @@
 #++
 
 class Mails::ReminderJob < Mails::DeliverJob
+  include ::Notifications::WithMarkedNotifications
+
   private
 
   def render_mail
@@ -46,8 +48,8 @@ class Mails::ReminderJob < Mails::DeliverJob
 
   # Running the digest job will take some time to complete.
   # Within this timeframe, new notifications might come in. Upon notification creation
-  # a job is scheduled unless there is no prior digest notification that is not yet read (read_mail_digest: true).
-  # If we were to only set the read_mail_digest state at the end of the mail rendering an edge case of the following
+  # a job is scheduled unless there is no prior digest notification that is not yet read (sent_mail: true).
+  # If we were to only set the sent_mail state at the end of the mail rendering an edge case of the following
   # would lead to digest not being sent or at least sent unduly late:
   # * Job starts and fetches the notifications for rendering. We need to fetch all notifications to be rendered to
   #   order them as desired.
@@ -58,18 +60,4 @@ class Mails::ReminderJob < Mails::DeliverJob
   #
   # A new job would then only be scheduled upon the creation of a new digest notification which (as unlikely as that is)
   # might only happen after some days have gone by.
-  #
-  # Because we mark the notifications as read even though they in fact aren't, we do it in a transaction
-  # so that the change is rolled back in case of an error.
-  def with_marked_notifications(notification_ids)
-    Notification.transaction do
-      mark_notifications_read(notification_ids)
-
-      yield
-    end
-  end
-
-  def mark_notifications_read(notification_ids)
-    Notification.where(id: notification_ids).update_all(read_mail_digest: true, updated_at: Time.current)
-  end
 end

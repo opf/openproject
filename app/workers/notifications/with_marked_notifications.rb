@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,51 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Because we mark the notifications as read even though they in fact aren't, we do it in a transaction
+# so that the change is rolled back in case of an error.
 module Notifications
-  class MailService
-    include WithMarkedNotifications
+  module WithMarkedNotifications
+    extend ActiveSupport::Concern
 
-    def initialize(notification)
-      self.notification = notification
-    end
+    included do
+      private
 
-    def call
-      return unless supported?
-      return if ian_read?
+      def with_marked_notifications(notification_ids)
+        Notification.transaction do
+          mark_notifications_sent(notification_ids)
 
-      with_marked_notifications(notification.id) do
-        strategy.send_mail(notification)
+          yield
+        end
       end
-    end
 
-    private
-
-    attr_accessor :notification
-
-    def ian_read?
-      notification.read_ian
-    end
-
-    def strategy
-      @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
-                      "#{self.class}::#{strategy_model}Strategy".constantize
-                    end
-    end
-
-    def strategy_model
-      journal&.journable_type || resource&.class
-    end
-
-    def journal
-      notification.journal
-    end
-
-    def resource
-      notification.resource
-    end
-
-    def supported?
-      strategy.present?
+      def mark_notifications_sent(notification_ids)
+        Notification.where(id: Array(notification_ids)).update_all(sent_mail: true, updated_at: Time.current)
+      end
     end
   end
 end

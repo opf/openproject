@@ -37,7 +37,7 @@ module Notifications
     attribute :journal
     attribute :resource_type
     attribute :read_ian
-    attribute :read_mail_digest
+    attribute :sent_mail
 
     validate :validate_recipient_present
     validate :validate_reason_present

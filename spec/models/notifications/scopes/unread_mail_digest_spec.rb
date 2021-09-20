@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe Notifications::Scopes::UnreadMailDigest, type: :model do
   describe '.unread_digest_mail' do
-    subject(:scope) { ::Notification.unread_mail_digest }
+    subject(:scope) { ::Notification.unsent_mail }
 
-    let(:no_mail_notification) { FactoryBot.create(:notification, read_mail_digest: nil) }
-    let(:unread_mail_notification) { FactoryBot.create(:notification, read_mail_digest: false) }
-    let(:read_mail_notification) { FactoryBot.create(:notification, read_mail_digest: true) }
+    let(:no_mail_notification) { FactoryBot.create(:notification, sent_mail: nil) }
+    let(:unread_mail_notification) { FactoryBot.create(:notification, sent_mail: false) }
+    let(:read_mail_notification) { FactoryBot.create(:notification, sent_mail: true) }
 
     before do
       no_mail_notification

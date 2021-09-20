@@ -43,7 +43,7 @@ describe Notifications::CreateContract do
   let(:notification_subject) { 'Some text' }
   let(:notification_reason) { :mentioned }
   let(:notification_read_ian) { false }
-  let(:notification_read_mail_digest) { false }
+  let(:notification_sent_mail) { false }
 
   let(:notification) do
     Notification.new(project: notification_context,
@@ -52,7 +52,7 @@ describe Notifications::CreateContract do
                      reason: notification_reason,
                      resource: notification_resource,
                      read_ian: notification_read_ian,
-                     read_mail_digest: notification_read_mail_digest)
+                     sent_mail: notification_sent_mail)
   end
 
   let(:contract) { described_class.new(notification, current_user) }
@@ -98,10 +98,10 @@ describe Notifications::CreateContract do
       it_behaves_like 'contract is invalid', read_ian: :read_on_creation
     end
 
-    context 'with read_mail_digest true' do
-      let(:notification_read_mail_digest) { true }
+    context 'with sent_mail true' do
+      let(:notification_sent_mail) { true }
 
-      it_behaves_like 'contract is invalid', read_mail_digest: :read_on_creation
+      it_behaves_like 'contract is invalid', sent_mail: :read_on_creation
     end
   end
 end
