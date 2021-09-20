@@ -46,7 +46,7 @@ describe Setting, type: :model do
     end
 
     it 'allows anonymous users to access public information' do
-      expect(described_class).to be_login_required
+      expect(described_class).not_to be_login_required
     end
   end
 

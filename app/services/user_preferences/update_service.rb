@@ -34,7 +34,15 @@ module UserPreferences
 
     attr_accessor :notifications
 
-    def before_perform(params)
+    def validate_params(params)
+      contract = ParamsContract.new(model, user, params: params)
+
+      ServiceResult.new success: contract.valid?,
+                        errors: contract.errors,
+                        result: model
+    end
+
+    def before_perform(params, _service_result)
       self.notifications = params&.delete(:notification_settings)
 
       super

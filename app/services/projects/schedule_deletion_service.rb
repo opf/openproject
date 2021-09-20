@@ -41,7 +41,7 @@ module Projects
 
     private
 
-    def before_perform(_params)
+    def before_perform(_params, _service_result)
       Projects::ArchiveService
         .new(user: user, model: model)
         .call

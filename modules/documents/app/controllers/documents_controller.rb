@@ -108,14 +108,6 @@ class DocumentsController < ApplicationController
                                   model: @document,
                                   args: document_params
 
-    if call.success?
-      added = call.result
-                  .attachments
-                  .reject { |a| current_attachments.include?(a.id) }
-
-      notify_attachments added
-    end
-
     redirect_to action: 'show', id: @document
   end
 
@@ -124,14 +116,4 @@ class DocumentsController < ApplicationController
   def document_params
     params.fetch(:document, {}).permit('category_id', 'title', 'description')
   end
-
-  def notify_attachments(added)
-    return if added.empty?
-
-    users = added.first.container.recipients
-    users.each do |user|
-      UserMailer.attachments_added(user, added).deliver_later
-    end
-  end
-
 end

@@ -33,11 +33,11 @@ module Bim::Bcf
     class CreateService < ::BaseServices::Create
       private
 
-      def before_perform(params)
+      def before_perform(params, service_result)
         wp_call = get_work_package params
         return wp_call if wp_call.failure?
 
-        super issue_params(work_package: wp_call.result, params: params)
+        super issue_params(work_package: wp_call.result, params: params), service_result
       end
 
       def issue_params(work_package:, params:)

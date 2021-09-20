@@ -27,6 +27,13 @@ class NotificationSetting < ApplicationRecord
       WORK_PACKAGE_PROCESSED,
       WORK_PACKAGE_PRIORITIZED,
       WORK_PACKAGE_SCHEDULED,
+      ALL,
+      *email_settings
+    ]
+  end
+
+  def self.email_settings
+    [
       NEWS_ADDED,
       NEWS_COMMENTED,
       DOCUMENT_ADDED,
@@ -34,8 +41,7 @@ class NotificationSetting < ApplicationRecord
       WIKI_PAGE_ADDED,
       WIKI_PAGE_UPDATED,
       MEMBERSHIP_ADDED,
-      MEMBERSHIP_UPDATED,
-      ALL
+      MEMBERSHIP_UPDATED
     ]
   end
 

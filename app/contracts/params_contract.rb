@@ -28,28 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Users
-  class UpdateService < ::BaseServices::Update
-    include ::HookHelper
+class ParamsContract < BaseContract
+  attr_reader :params
 
-    protected
+  def initialize(model, user, params:, options: {})
+    super(model, user, options: options)
 
-    def before_perform(params, _service_result)
-      call_hook :service_update_user_before_save,
-                params: params,
-                user: model
-
-      super
-    end
-
-    def persist(service_result)
-      service_result = super(service_result)
-
-      if service_result.success?
-        service_result.success = model.pref.save
-      end
-
-      service_result
-    end
+    @params = params
   end
 end

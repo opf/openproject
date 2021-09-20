@@ -28,58 +28,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module BaseServices
-  class Write < BaseContracted
+module UserPreferences
+  class ParamsContract < ::ParamsContract
+    validate :only_one_global_setting,
+             if: -> { notifications.present? }
+
+    validate :global_email_alerts,
+             if: -> { notifications.present? }
+
     protected
 
-    def persist(service_result)
-      service_result = super(service_result)
-
-      unless service_result.result.save
-        service_result.errors = service_result.result.errors
-        service_result.success = false
+    def only_one_global_setting
+      if has_more_than_one_global_channel?
+        errors.add :notification_settings, :only_one_global_setting
       end
-
-      service_result
     end
 
-    # Validations are already handled in the SetAttributesService
-    # and thus we do not have to validate again.
-    def validate_contract(service_result)
-      service_result
+    def global_email_alerts
+      if project_notifications.any?(method(:email_alerts_set?))
+        errors.add :notification_settings, :email_alerts_global
+      end
     end
 
-    def before_perform(params, _service_result)
-      set_attributes(params)
+    ##
+    # Check if the given notification hash has email-only settings set
+    def email_alerts_set?(notification_setting)
+      NotificationSetting.email_settings.any? do |setting|
+        notification_setting[setting] == true
+      end
     end
 
-    def set_attributes(params)
-      attributes_service_class
-        .new(user: user,
-             model: instance(params),
-             contract_class: contract_class,
-             contract_options: contract_options)
-        .call(set_attributes_params(params))
+    def has_more_than_one_global_channel?
+      global_notifications
+        .group_by { |notification| notification[:channel] }
+        .any? { |_, items| items.count > 1 }
     end
 
-    def attributes_service_class
-      "#{namespace}::SetAttributesService".constantize
+    def global_notifications
+      notifications.select { |notification| notification[:project_id].nil? }
     end
 
-    def instance(_params)
-      raise NotImplementedError
+    def project_notifications
+      notifications.select { |notification| notification[:project_id].present? }
     end
 
-    def default_contract_class
-      raise NotImplementedError
-    end
-
-    def instance_class
-      namespace.singularize.constantize
-    end
-
-    def set_attributes_params(params)
-      params
+    def notifications
+      params[:notification_settings]
     end
   end
 end
