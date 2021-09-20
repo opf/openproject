@@ -60,7 +60,7 @@ export abstract class CachableAPIV3Collection<
       tap(
         (response:R) => {
           if (response instanceof CollectionResource) {
-            response.elements.forEach(this.touch.bind(this));
+            response.elements?.forEach(this.touch.bind(this));
           } else if (response instanceof HalResource) {
             this.touch(response as any);
           }
