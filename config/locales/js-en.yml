@@ -209,6 +209,8 @@ en:
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
