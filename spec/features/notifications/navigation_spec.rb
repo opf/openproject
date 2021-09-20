@@ -23,7 +23,7 @@ describe "Notification center navigation", type: :feature, js: true do
                       recipient: recipient,
                       project: project,
                       resource: second_work_package,
-                      journal: work_package.journals.last
+                      journal: second_work_package.journals.last
   end
 
   let(:center) { ::Components::Notifications::Center.new }

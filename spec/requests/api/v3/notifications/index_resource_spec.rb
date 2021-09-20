@@ -47,13 +47,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
     FactoryBot.create :notification,
                       recipient: recipient,
                       resource: work_package,
-                      project: work_package.project
+                      project: work_package.project,
+                      journal: work_package.journals.first
   end
   shared_let(:notification2) do
     FactoryBot.create :notification,
                       recipient: recipient,
                       resource: work_package,
-                      project: work_package.project
+                      project: work_package.project,
+                      journal: work_package.journals.first
   end
 
   let(:notifications) { [notification1, notification2] }
@@ -172,14 +174,16 @@ describe ::API::V3::Notifications::NotificationsAPI,
                           reason_ian: :assigned,
                           recipient: recipient,
                           resource: work_package,
-                          project: work_package.project
+                          project: work_package.project,
+                          journal: work_package.journals.first
       end
       let(:notification4) do
         FactoryBot.create :notification,
                           reason_ian: :responsible,
                           recipient: recipient,
                           resource: work_package,
-                          project: work_package.project
+                          project: work_package.project,
+                          journal: work_package.journals.first
       end
       let(:notifications) { [notification1, notification2, notification3, notification4] }
 
@@ -222,7 +226,14 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a reason groupBy' do
-      let(:responsible_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :responsible }
+      let(:responsible_notification) do
+        FactoryBot.create :notification,
+                          recipient: recipient,
+                          reason_ian: :responsible,
+                          resource: work_package,
+                          project: work_package.project,
+                          journal: work_package.journals.first
+      end
 
       let(:notifications) { [notification1, notification2, responsible_notification] }
 
@@ -252,7 +263,8 @@ describe ::API::V3::Notifications::NotificationsAPI,
                           resource: work_package2,
                           project: work_package2.project,
                           recipient: recipient,
-                          reason_ian: :responsible
+                          reason_ian: :responsible,
+                          journal: work_package2.journals.first
       end
 
       let(:notifications) { [notification1, notification2, other_project_notification] }
