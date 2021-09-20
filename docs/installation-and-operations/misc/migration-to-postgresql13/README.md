@@ -10,8 +10,19 @@ Please follow this section only if you have installed OpenProject using [this pr
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 </div>
 
-In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. If you are using an external database, please follow the instructions from your provider, or adapt the instructions given below.
+Please first check whether this guide applies to you at all. Only PostgreSQL installations that were installed by the OpenProject package are applicable to this guide.
 
+To do that, please run the following command:
+
+```bash
+sudo cat /etc/openproject/installer.dat | grep postgres/autoinstall
+```
+
+And verify that it outputs: postgres/autoinstall **install**.
+
+If that is not the case, you are likely using a self-provisioned database or a remote database. In this case, please follow the instructions from your provider or use generic PostgreSQL upgrade guides. A guide we can recommend for Debian/Ubuntu based servers is this one: https://gorails.com/guides/upgrading-postgresql-version-on-ubuntu-server Please adapt that guide or the following steps to your distribution.
+
+In the following, we assume that you initially let OpenProject setup your PostgreSQL installation, using a local database. 
 1. First, connect to your server and make sure your local version is PostgreSQL v10:
 
 ```bash
