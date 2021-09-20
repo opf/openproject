@@ -36,7 +36,7 @@ module API
 
         class << self
           def wrap(projects)
-            custom_fields = if projects && !projects.empty?
+            custom_fields = if projects.present?
                               projects.first.available_custom_fields
                             end
 
