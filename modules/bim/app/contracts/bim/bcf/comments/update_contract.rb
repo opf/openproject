@@ -28,27 +28,6 @@
 
 module Bim::Bcf
   module Comments
-    class UpdateContract < BaseContract
-      attribute :viewpoint
-      attribute :reply_to
-
-      validate :user_allowed_to_update
-      validate :validate_viewpoint_reference
-      validate :validate_reply_to_comment
-
-      private
-
-      def user_allowed_to_update
-        errors.add :base, :error_unauthorized unless @user.allowed_to?(:manage_bcf, model.issue.work_package.project)
-      end
-
-      def validate_viewpoint_reference
-        errors.add(:viewpoint, :does_not_exist) if model.viewpoint.is_a?(::Bim::Bcf::NonExistentViewpoint)
-      end
-
-      def validate_reply_to_comment
-        errors.add(:bcf_comment, :does_not_exist) if model.reply_to.is_a?(::Bim::Bcf::NonExistentComment)
-      end
-    end
+    class UpdateContract < ::Bim::Bcf::Comments::BaseContract; end
   end
 end
