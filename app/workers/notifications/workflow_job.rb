@@ -64,6 +64,15 @@ class Notifications::WorkflowJob < ApplicationJob
     next unless notification_ids
 
     Notification
+     .where(id: notification_ids)
+     .where(reason: NotificationSetting.mail_reasons)
+     .each do |notification|
+       Notifications::MailService
+         .new(notification)
+         .call
+     end
+
+    Notification
       .where(id: notification_ids)
       .unread_mail # TODO
       .each do |notification|

@@ -58,7 +58,7 @@ FactoryBot.define do
       user.pref.save if factory.preferences.present?
 
       if user.notification_settings.empty?
-        all_true = NotificationSetting.all_settings.index_with(true)
+        all_true = NotificationSetting.all_reasons.index_with(true)
         user.notification_settings = [
           FactoryBot.create(:notification_setting, user: user, **all_true),
         ]
