@@ -1,6 +1,6 @@
 <section class="form--section">
   <p>
-    <%= format_text user_consent_instructions(consenting_user) %>
+    <%= format_text user_consent_instructions(consenting_user), { target: '_blank' } %>
   </p>
 
   <label class="form--label-with-check-box -required -no-ellipsis">
@@ -8,6 +8,6 @@
       <input type="checkbox" name="consent_check" class="form--check-box" required="required" />
     </div>
 
-    <%= format_text consent_checkbox_label %>
+    <p><%= consent_checkbox_label %></p>
   </label>
 </section>

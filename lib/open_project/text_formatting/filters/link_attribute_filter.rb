@@ -27,43 +27,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'task_list/filter'
 
-module OpenProject::TextFormatting::Formats::Markdown
-  class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
-    def to_html(text)
-      result = pipeline.call(text, context)
-      output = result[:output].to_s
+module OpenProject::TextFormatting
+  module Filters
+    class LinkAttributeFilter < HTML::Pipeline::Filter
+      def call
+        links.each do |node|
+          node['target'] = context[:target] if context[:target].present?
+        end
 
-      output.html_safe
-    end
+        doc
+      end
 
-    def to_document(text)
-      pipeline.to_document text, context
-    end
-
-    def filters
-      %i[
-        setting_macros
-        markdown
-        sanitization
-        task_list
-        table_of_contents
-        macro
-        mention
-        pattern_matcher
-        syntax_highlight
-        attachment
-        relative_link
-        link_attribute
-        figure_wrapped
-        bem_css
-        autolink
-      ]
-    end
-
-    def self.format
-      :markdown
+      def links
+        doc.xpath(".//a[contains(@href,'/')]")
+      end
     end
   end
 end

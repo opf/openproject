@@ -61,7 +61,7 @@ module Accounts::UserConsent
   def decline_consent
     message = I18n.t('consent.decline_warning_message') + "\n"
     message <<
-      if Setting.consent_decline_mail
+      if Setting.consent_decline_mail.present?
         I18n.t('consent.contact_this_mail_address', mail_address: Setting.consent_decline_mail)
       else
         I18n.t('consent.contact_your_administrator')
