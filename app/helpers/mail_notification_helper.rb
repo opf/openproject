@@ -75,7 +75,7 @@ module MailNotificationHelper
 
   def placeholder_table_styles(options = {})
     default_options = {
-      style: 'table-layout:fixed;border-collapse:separate;border-spacing:0;' << (options[:style].present? ? options.delete(:style) : ''),
+      style: 'table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;' << (options[:style].present? ? options.delete(:style) : ''),
       cellspacing: "0",
       cellpadding: "0"
     }
