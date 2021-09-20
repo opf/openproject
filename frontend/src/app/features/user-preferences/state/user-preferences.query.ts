@@ -8,20 +8,26 @@ import { UserPreferencesModel } from 'core-app/features/user-preferences/state/u
 import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export class UserPreferencesQuery extends Query<UserPreferencesModel> {
-  /** All notification settings */
   notificationSettings$ = this.select('notifications');
 
-  /** Notification settings grouped by Project */
   notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
-      map((notifications) => _.groupBy(notifications, (setting) => setting._links.project.title || 'global')),
+      map((settings) => settings.filter((setting) => setting.channel === 'in_app' && setting._links.project.href)),
+      map((settings) => _.groupBy(settings, (setting) => setting._links.project.title)),
+    );
+
+  /** Notification settings grouped by Project */
+  notificationsForGlobal$:Observable<NotificationSetting|undefined> = this
+    .notificationSettings$
+    .pipe(
+      map((notifications) => notifications.find((setting) => setting.channel === 'in_app' && setting._links.project.href === null)),
     );
 
   projectNotifications$ = this
     .notificationSettings$
     .pipe(
-      map((settings) => settings.filter((notification) => notification._links.project.href !== null)),
+      map((settings) => settings.filter((setting) => setting.channel === 'in_app' && setting._links.project.href !== null)),
     );
 
   /** Selected projects */

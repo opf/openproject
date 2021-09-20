@@ -5,12 +5,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
-import {
-  map,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
@@ -25,10 +23,13 @@ export interface NotificationSettingProjectOption {
 @Component({
   selector: 'op-notification-setting-inline-create',
   templateUrl: './notification-setting-inline-create.component.html',
+  styleUrls: ['./notification-setting-inline-create.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationSettingInlineCreateComponent {
   @Input() userId:string;
+
+  @Input() settings:FormArray;
 
   @Output() selected = new EventEmitter<HalSourceLink>();
 
@@ -36,9 +37,9 @@ export class NotificationSettingInlineCreateComponent {
   active = false;
 
   text = {
-    add_setting: this.I18n.t('js.notifications.settings.add'),
+    add_setting: this.I18n.t('js.notifications.settings.project_specific.add'),
     please_select: this.I18n.t('js.placeholders.selection'),
-    already_selected: this.I18n.t('js.notifications.settings.already_selected'),
+    already_selected: this.I18n.t('js.notifications.settings.project_specific.already_selected'),
   };
 
   public autocompleterOptions = {
@@ -50,7 +51,6 @@ export class NotificationSettingInlineCreateComponent {
   constructor(
     private I18n:I18nService,
     private apiV3Service:APIV3Service,
-    private storeService:UserPreferencesService,
   ) {
   }
 
@@ -73,12 +73,13 @@ export class NotificationSettingInlineCreateComponent {
       .filtered(filters)
       .get()
       .pipe(
-        withLatestFrom(this.storeService.query.selectedProjects$),
-        map(([collection, selected]) => collection.elements.map(
-          (project) => (
-            { href: project.href || '', name: project.name, disabled: selected.has(project.href) }
+        map((collection) => collection.elements.map((project) => ({
+          href: project.href || '',
+          name: project.name,
+          disabled: !!this.settings.controls.find(
+            (projectSetting) => (projectSetting.get('project')!.value as NotificationSettingProjectOption).href === project.href,
           ),
-        )),
+        }))),
       );
   }
 }

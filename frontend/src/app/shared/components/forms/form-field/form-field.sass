@@ -20,7 +20,7 @@
     margin: 0
 
   &--label
-    font-size: 14px
+    font-size: 1rem
     font-weight: bold
     line-height: 1.2
 
@@ -33,6 +33,9 @@
   &--description,
   &--help-text
     font-size: 12px
+
+  &--description *:last-child
+    margin-bottom: 0
 
   &--errors
     display: flex
@@ -48,19 +51,3 @@
   &--errors
     &:empty
       display: none
-
-  // Checkbox mode
-  $off: &
-  &_checkbox
-    #{$off}--label-wrap
-      flex-direction: row
-      flex-wrap: wrap
-
-    #{$off}--input
-      order: 1
-      margin-right: 1rem
-    #{$off}--label
-      order: 2
-    #{$off}--description
-      order: 3
-

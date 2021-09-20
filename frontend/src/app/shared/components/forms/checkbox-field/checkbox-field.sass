@@ -1,0 +1,34 @@
+.op-checkbox-field
+  &--label-wrap
+    display: grid
+    grid-template-columns: auto 1fr
+    grid-template-rows: auto auto
+
+  &--input
+    grid-column-start: 1
+    grid-column-end: 2
+    grid-row-start: 1
+    grid-row-end: 3
+    align-self: center
+    padding-right: 1rem
+    margin-bottom: 0
+
+  &--label
+    grid-column-start: 2
+    grid-column-end: 2
+    grid-row-start: 1
+    grid-row-end: 2
+    margin-bottom: 0
+
+  &--description
+    grid-column-start: 2
+    grid-column-end: 2
+    grid-row-start: 2
+    grid-row-end: 3
+    margin-bottom: 0
+
+  &--label,
+  &--description
+    white-space: pre-line
+    word-break: break-word
+    word-wrap: break-word

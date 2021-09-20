@@ -15,7 +15,6 @@ export class NotificationsSettingsToolbarComponent {
 
   text = {
     title: this.I18n.t('js.notifications.settings.title'),
-    remove_projects: this.I18n.t('js.notifications.settings.remove_projects'),
   };
 
   constructor(

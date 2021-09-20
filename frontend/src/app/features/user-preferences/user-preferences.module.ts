@@ -9,7 +9,6 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { NotificationsSettingsPageComponent } from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
-import { NotificationSettingRowComponent } from 'core-app/features/user-preferences/notifications-settings/row/notification-setting-row.component';
 import { NotificationSettingInlineCreateComponent } from 'core-app/features/user-preferences/notifications-settings/inline-create/notification-setting-inline-create.component';
 import { MY_ACCOUNT_ROUTES } from 'core-app/features/user-preferences/user-preferences.routes';
 import { NotificationsSettingsToolbarComponent } from './notifications-settings/toolbar/notifications-settings-toolbar.component';
@@ -24,7 +23,6 @@ import { ImmediateReminderSettingsComponent } from 'core-app/features/user-prefe
   ],
   declarations: [
     NotificationsSettingsPageComponent,
-    NotificationSettingRowComponent,
     NotificationSettingInlineCreateComponent,
     NotificationsSettingsToolbarComponent,
     NotificationSettingsTableComponent,

@@ -1,67 +1,47 @@
 shared_examples 'notification settings workflow' do
   describe 'with another project the user can see' do
     let!(:project) { FactoryBot.create :project }
+    let!(:project_alt) { FactoryBot.create :project }
     let!(:role) { FactoryBot.create :role, permissions: %i[view_project] }
     let!(:member) { FactoryBot.create :member, user: user, project: project, roles: [role] }
+    let!(:member_two) { FactoryBot.create :member, user: user, project: project_alt, roles: [role] }
 
     it 'allows to control notification settings' do
       # Expect default settings
       settings_page.expect_represented
 
-      # Add setting for the project
-      settings_page.add_row project
+      # Add projects columns
+      settings_page.add_project project
+      settings_page.add_project project_alt
 
       # Set settings for project email
-      settings_page.configure_channel :mail,
-                                      project: project,
-                                      involved: true,
-                                      mentioned: true,
-                                      watched: true,
-                                      work_package_commented: true,
-                                      work_package_created: true,
-                                      work_package_processed: true,
-                                      work_package_prioritized: true,
-                                      work_package_scheduled: true,
-                                      all: false
+      settings_page.configure_global involved: true,
+                                     work_package_commented: true,
+                                     work_package_created: true,
+                                     work_package_processed: true,
+                                     work_package_prioritized: true,
+                                     work_package_scheduled: true
 
       # Set settings for project email
-      settings_page.configure_channel :in_app,
-                                      project: project,
+      settings_page.configure_project project: project,
                                       involved: true,
-                                      mentioned: true,
-                                      watched: false,
                                       work_package_commented: false,
                                       work_package_created: false,
                                       work_package_processed: false,
                                       work_package_prioritized: false,
-                                      work_package_scheduled: false,
-                                      all: false
-
-      # Set settings for project email digest
-      settings_page.configure_channel :mail_digest,
-                                      project: project,
-                                      involved: false,
-                                      mentioned: true,
-                                      watched: false,
-                                      work_package_commented: true,
-                                      work_package_created: true,
-                                      work_package_processed: true,
-                                      work_package_prioritized: true,
-                                      work_package_scheduled: true,
-                                      all: true
+                                      work_package_scheduled: false
 
       settings_page.save
 
       user.reload
       notification_settings = user.notification_settings
-      expect(notification_settings.count).to eq 6
+      expect(notification_settings.count).to eq 9
       expect(notification_settings.where(project: project).count).to eq 3
 
       in_app = notification_settings.find_by(project: project, channel: :in_app)
       expect(in_app.involved).to be_truthy
       expect(in_app.mentioned).to be_truthy
-      expect(in_app.watched).to be_falsey
-      expect(in_app.all).to be_falsey
+      expect(in_app.watched).to be_truthy
       expect(in_app.work_package_commented).to be_falsey
       expect(in_app.work_package_created).to be_falsey
       expect(in_app.work_package_processed).to be_falsey
@@ -72,23 +52,21 @@ shared_examples 'notification settings workflow' do
       expect(mail.involved).to be_truthy
       expect(mail.mentioned).to be_truthy
       expect(mail.watched).to be_truthy
-      expect(mail.all).to be_falsey
-      expect(mail.work_package_commented).to be_truthy
-      expect(mail.work_package_created).to be_truthy
-      expect(mail.work_package_processed).to be_truthy
-      expect(mail.work_package_prioritized).to be_truthy
-      expect(mail.work_package_scheduled).to be_truthy
+      expect(mail.work_package_commented).to be_falsey
+      expect(mail.work_package_created).to be_falsey
+      expect(mail.work_package_processed).to be_falsey
+      expect(mail.work_package_prioritized).to be_falsey
+      expect(mail.work_package_scheduled).to be_falsey
 
       mail_digest = notification_settings.find_by(project: project, channel: :mail_digest)
-      expect(mail_digest.involved).to be_falsey
+      expect(mail_digest.involved).to be_truthy
       expect(mail_digest.mentioned).to be_truthy
-      expect(mail_digest.watched).to be_falsey
-      expect(mail_digest.all).to be_truthy
-      expect(mail_digest.work_package_commented).to be_truthy
-      expect(mail_digest.work_package_created).to be_truthy
-      expect(mail_digest.work_package_processed).to be_truthy
-      expect(mail_digest.work_package_prioritized).to be_truthy
-      expect(mail_digest.work_package_scheduled).to be_truthy
+      expect(mail_digest.watched).to be_truthy
+      expect(mail_digest.work_package_commented).to be_falsey
+      expect(mail_digest.work_package_created).to be_falsey
+      expect(mail_digest.work_package_processed).to be_falsey
+      expect(mail_digest.work_package_prioritized).to be_falsey
+      expect(mail_digest.work_package_scheduled).to be_falsey
 
       # Trying to add the same project again will not be possible (Regression #38072)
       click_button 'Add setting for project'

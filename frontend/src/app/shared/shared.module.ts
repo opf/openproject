@@ -78,6 +78,7 @@ import { RemoteFieldUpdaterComponent } from './components/remote-field-updater/r
 import { ShowSectionDropdownComponent } from './components/hide-section/show-section-dropdown.component';
 import { SlideToggleComponent } from './components/slide-toggle/slide-toggle.component';
 import { DynamicBootstrapModule } from './components/dynamic-bootstrap/dynamic-bootstrap.module';
+import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/checkbox-field.component';
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
@@ -179,7 +180,7 @@ export function bootstrapModule(injector:Injector) {
 
     SlideToggleComponent,
 
-    // Autocompleter
+    OpCheckboxFieldComponent,
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
@@ -231,6 +232,7 @@ export function bootstrapModule(injector:Injector) {
     // filter
     SlideToggleComponent,
 
+    OpCheckboxFieldComponent,
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
