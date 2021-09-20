@@ -11,8 +11,30 @@
         <span class="tree-menu--hierarchy-indicator-expanded hidden-for-sighted">Expanded. Click to collapse</span>
         <span class="tree-menu--hierarchy-indicator-collapsed hidden-for-sighted">Collapsed. Click to show</span>
       </span>
-      <ul class="pages-hierarchy -with-hierarchy">
-        <li class="collapsible-menu--placeholder">You have no </li>
+      <button
+        class="collapsible-menu--category-toggle ellipsis"
+        type="button"
+        (click)="toggleCollapsed"
+      >
+        {{ title }}
+      </button>
+      <ul
+        class="pages-hierarchy -with-hierarchy"
+        *ngIf="!collapsed"
+      >
+        <li
+          class="collapsible-menu--placeholder"
+          *ngIf="!items || !items.length"
+        >{{ itemsPlaceholder }}</li>
+        <li class="ui-menu-item collapsible-menu--item" *ngFor="let item of items">
+          <a
+            class="collapsible-menu-item--item-link"
+            href="#"
+          >
+            <span>{{ item.value }}</span>
+            <span class="op-bubble" *ngIf="item.count">{{ item.count }}</span>
+          </a>
+        </li>
       </ul>
     </div>
   </li>

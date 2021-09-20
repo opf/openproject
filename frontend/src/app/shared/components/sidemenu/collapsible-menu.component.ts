@@ -21,7 +21,9 @@ export interface IOpCollapsibleMenuItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpCollapsibleMenuComponent implements OnInit {
-  @Input() items:IOpCollapsibleMenuItem[];
+  @Input() items:IOpCollapsibleMenuItem[] = [];
+
+  @Input('items-placeholder') itemsPlaceholder:string = '';
 
   @Input() title:string;
 
@@ -33,5 +35,10 @@ export class OpCollapsibleMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.items);
+  }
+
+  toggleCollapsed() {
+    this.collapsed = !this.collapsed;
   }
 }

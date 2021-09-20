@@ -4,10 +4,14 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IanMenuService } from './state/ian-menu.service';
 
 export const ianMenuSelector = 'op-ian-menu';
+
+const REASON_MENU_ITEMS = [
+];
 
 @Component({
   selector: ianMenuSelector,
@@ -18,7 +22,11 @@ export const ianMenuSelector = 'op-ian-menu';
 })
 export class IanMenuComponent implements OnInit {
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$;
-  notificationsByReason$ = this.ianMenuService.query.notificationsByReason$;
+  notificationsByReason$ = this.ianMenuService.query.notificationsByReason$; /*.pipe(
+    map((items) => {
+
+    }),
+  );*/
 
   text = {
     title: this.I18n.t('js.notifications.title'),
@@ -39,5 +47,6 @@ export class IanMenuComponent implements OnInit {
 
   ngOnInit() {
     this.ianMenuService.reload();
+    this.notificationsByProject$.subscribe(console.log);
   }
 }
