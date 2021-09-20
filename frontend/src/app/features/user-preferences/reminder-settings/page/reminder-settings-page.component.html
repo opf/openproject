@@ -1,33 +1,34 @@
 <div class="title-container">
-    <h2 [textContent]="text.title"></h2>
+  <h2 [textContent]="text.title"></h2>
 </div>
 
 <form
-        [formGroup]="form"
-        (ngSubmit)="saveChanges()"
-        class="op-form"
+  *ngIf="formInitialized"
+  [formGroup]="form"
+  (ngSubmit)="saveChanges()"
+  class="op-form"
 >
-    <section class="form--section">
-        <h5 [textContent]="text.immediate.title"></h5>
-        <op-immediate-reminder-settings></op-immediate-reminder-settings>
-    </section>
-    <section class="form--section">
-        <h5 [textContent]="text.daily.title"></h5>
-        <p [textContent]="text.daily.explanation"></p>
+  <section class="form--section">
+    <h5 [textContent]="text.immediate.title"></h5>
+    <op-immediate-reminder-settings></op-immediate-reminder-settings>
+  </section>
+  <section class="form--section">
+    <h5 [textContent]="text.daily.title"></h5>
+    <p [textContent]="text.daily.explanation"></p>
 
-        <op-reminder-settings-daily-time>
-        </op-reminder-settings-daily-time>
-    </section>
-    <section class="form--section">
-        <h5 [textContent]="text.alerts.title"></h5>
-        <p [textContent]="text.alerts.explanation"></p>
-        <op-email-alerts-settings></op-email-alerts-settings>
-    </section>
-    <div class="generic-table--action-buttons">
-        <button
-                class="button -highlight"
-                [textContent]="text.save"
-                type="submit"
-        ></button>
-    </div>
+    <op-reminder-settings-daily-time>
+    </op-reminder-settings-daily-time>
+  </section>
+  <section class="form--section">
+    <h5 [textContent]="text.alerts.title"></h5>
+    <p [textContent]="text.alerts.explanation"></p>
+    <op-email-alerts-settings></op-email-alerts-settings>
+  </section>
+  <div class="generic-table--action-buttons">
+    <button
+      class="button -highlight"
+      [textContent]="text.save"
+      type="submit"
+    ></button>
+  </div>
 </form>

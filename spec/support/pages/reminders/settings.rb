@@ -70,9 +70,9 @@ module Pages
 
       def expect_immediate_reminder(name, enabled)
         if enabled
-          expect(page).to have_checked_field("op-reminder-settings-immediate-#{name}")
+          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:checked")
         else
-          expect(page).to have_no_checked_field("op-reminder-settings-immediate-#{name}")
+          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:not(:checked)")
         end
       end
 

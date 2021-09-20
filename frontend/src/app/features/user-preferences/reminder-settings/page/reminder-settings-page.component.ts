@@ -82,6 +82,8 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     },
   };
 
+  formInitialized = false;
+
   constructor(
     private I18n:I18nService,
     private storeService:UserPreferencesService,
@@ -126,6 +128,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
           this.form.get(`emailAlerts.${alert}`)?.setValue(globalSetting[alert]);
         });
 
+        this.formInitialized = true;
         this.cdRef.detectChanges();
       });
   }
