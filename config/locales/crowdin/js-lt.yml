@@ -78,8 +78,8 @@ lt:
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
     button_open_fullscreen: "Atidaryti viso ekrano rodinį"
-    button_show_cards: "Rodyti kortelių rodinį"
-    button_show_list: "Rodyti sąrašo rodinį"
+    button_show_cards: "Rodyti kortelių vaizdą"
+    button_show_list: "Rodyti sąrašo vaizdą"
     button_quote: "Cituoti"
     button_save: "Išsaugoti"
     button_settings: "Nustatymai"
@@ -153,7 +153,7 @@ lt:
           macros: 'Makrokomandos'
           chose_macro: 'Pasirinkite makrokomandą'
         toc: 'Turinys'
-        toolbar_help: 'Spauskite, kad parinktum4te valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
+        toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
           button: 'Įterpti kito wiki puslapio turinį'
           text: '[Placeholder] Įterptas wiki puslapis'
