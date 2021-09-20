@@ -34,8 +34,8 @@ module Notifications
     self.cron_expression = '0 * * * *'
 
     def perform
-      User.having_reminder_mail_to_send(run_at).pluck(:id).each do |subscriber_ids|
-        Mails::ReminderJob.perform_later(subscriber_ids)
+      User.having_reminder_mail_to_send(run_at).pluck(:id).each do |user_id|
+        Mails::ReminderJob.perform_later(user_id)
       end
     end
 
