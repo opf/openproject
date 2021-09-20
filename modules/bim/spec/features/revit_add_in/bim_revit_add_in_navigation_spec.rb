@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require_relative '../../spec_helper'
 
 describe 'BIM Revit Add-in navigation spec',
          type: :feature,
@@ -48,26 +48,26 @@ describe 'BIM Revit Add-in navigation spec',
   end
 
   context "when logged in on model page" do
-    let(:full_create) { ::Pages::FullWorkPackageCreate.new }
-
     before do
       login_as(user)
       model_page.visit!
+
+      # Guard to ensure toolbar is completely loaded and doesn't rerender again.
+      # At first there is no badge. It gets set later and only then the toolbar's
+      # switches are ready to test.
+      model_page.find('#work-packages-filter-toggle-button .badge', text: '1')
     end
 
-    it 'shows "Cards" view by default' do
+    let(:full_create) { ::Pages::FullWorkPackageCreate.new }
+
+    it 'show the right elements on the page' do
+      # shows "Cards" view by default
       model_page.expect_view_toggle_at 'Cards'
-    end
-
-    it 'shows no viewer' do
+      # shows no viewer
       model_page.model_viewer_visible false
-    end
-
-    it 'shows a toolbar' do
+      # shows a toolbar' do
       model_page.page_has_a_toolbar
-    end
-
-    it 'menu has no viewer options' do
+      # menu has no viewer options
       model_page.has_no_menu_item_with_text? 'Viewer'
     end
 
@@ -89,15 +89,47 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     it 'shows work package details page in full view on Cards display mode' do
-      card_element = page.find('[data-qa-selector="op-wp-single-card"]')
-
-      card_element.hover
-      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+      model_page.click_info_icon(work_package)
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
       expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
     end
 
+    context 'with the table display mode' do
+      let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+      it 'shows work package details page in full view on Table display mode' do
+        model_page.switch_view 'Table'
+        loading_indicator_saveguard
+
+        expect(page).to have_selector('.work-package-table')
+        wp_table.expect_work_package_listed work_package
+        wp_table.open_split_view work_package
+
+        expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
+        expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+      end
+    end
+
+    context 'Creating BCFs' do
+      let!(:status) { FactoryBot.create(:default_status) }
+      let!(:priority) { FactoryBot.create :priority, is_default: true }
+
+      it 'redirects correctly' do
+        create_page = model_page.create_wp_by_button(FactoryBot.build(:type_standard))
+        expect(page).to have_current_path /bcf\/new$/, ignore_query: true
+        create_page.subject_field.set('Some subject')
+        create_page.save!
+
+        sleep(5)
+        last_work_package = WorkPackage.find_by(subject: 'Some subject')
+        # The currently working routes seem weird as they duplicate the work package ID.
+        expect(page).to(
+          have_current_path(/bcf\/show\/#{last_work_package.id}\/details\/#{last_work_package.id}\/overview$/,
+                            ignore_query: true)
+        )
+      end
+    end
   end
 
   context "when signed out" do
@@ -107,27 +139,6 @@ describe 'BIM Revit Add-in navigation spec',
       click_link I18n.t(:label_login)
 
       expect(page).to have_text(I18n.t('js.revit.revit_add_in_settings'))
-    end
-  end
-
-  context 'with the table display mode' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-
-    before do
-      login_as user
-      model_page.visit!
-
-      model_page.switch_view 'Table'
-      loading_indicator_saveguard
-    end
-
-    it 'shows work package details page in full view' do
-      expect(page).to have_selector('.work-package-table')
-      wp_table.expect_work_package_listed work_package
-      wp_table.open_split_view work_package
-
-      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :hidden)
     end
   end
 end

@@ -577,6 +577,9 @@ es:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
         title: 'Email reminders'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."

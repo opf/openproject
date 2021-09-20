@@ -1,22 +1,35 @@
 @import "src/assets/sass/helpers"
 
-$ian-bg-color: #F9F9F9
-$ian-bg-hover-color: #F1F8FF
+$ian-bg-color: #FFFFFF
+$ian-bg-hover-color: var(--gray-light)
+$ian-bg-selected-color: #D1E5F5
+$ian-bg-selected-hover-color: darken($ian-bg-selected-color, 2)
+// This needs to be set in the itemSize of
+// the virtual scroller
+$ian-height: 100px
 $subject-font-size: 14px
 
 .op-ian-item
+  display: block
   background: $ian-bg-color
-  margin: 0 0 10px 0
-  padding: 10px 20px 10px 10px
+  margin: 0
+  padding: 15px 20px 15px 10px
   font-size: 0.9rem
-  border: 1px solid var(--content-default-border-color)
+  border-top: 1px solid var(--content-default-border-color)
   border-radius: 2px
-  // This needs to be set in the itemSize of
-  // the virtual scroller
-  height: 90px
+  height: $ian-height
 
   &:hover
     background: $ian-bg-hover-color
+
+  &:last-of-type
+    border-bottom: 1px solid var(--content-default-border-color)
+
+  &_selected
+    background: $ian-bg-selected-color
+
+    &:hover
+      background: $ian-bg-selected-hover-color
 
   &--row
     @include unset-button-styles
@@ -98,3 +111,14 @@ $subject-font-size: 14px
   &--button
     &:hover
       color: var(--content-link-hover-active-color)
+
+    &_shown-on-focus
+      @include show-on-focus
+
+  &--loading
+    height: 100%
+    display: block
+
+    svg
+      // Height - padding
+      height: calc(#{$ian-height} - 30px)

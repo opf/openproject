@@ -69,7 +69,7 @@ class Color < ApplicationRecord
   # Returns whether the color is bright according to
   # YIQ lightness.
   def bright?
-    brightness_yiq >= 128
+    brightness_yiq >= 150
   end
 
   ##

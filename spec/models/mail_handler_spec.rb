@@ -245,36 +245,15 @@ describe MailHandler, type: :model do
             .not_to match(/^Start Date:/i)
         end
 
-        it 'sends notifications' do
-          FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
+        it 'sends notifications to watching users' do
+          # User gets all updates
+          user = FactoryBot.create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
 
           expect do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(ActionMailer::Base.deliveries, :count).by(1)
-        end
-
-        context 'with a user watching every creation' do
-          let!(:other_user) do
-            FactoryBot.create(:user,
-                              member_in_project: project,
-                              member_with_permissions: %i[view_work_packages])
-          end
-
-          it 'sends a mail as a work package has been created' do
-            perform_enqueued_jobs do
-              subject
-            end
-
-            # Email notification should be sent
-            mail = ActionMailer::Base.deliveries.last
-
-            expect(mail)
-              .not_to be_nil
-            expect(mail.subject)
-              .to include('New ticket on a given project')
-          end
+          end.to change(Notification.where(recipient: user), :count).by(1)
         end
       end
 
@@ -486,7 +465,7 @@ describe MailHandler, type: :model do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(ActionMailer::Base.deliveries, :count).by(2)
+          end.to change(Notification, :count).by(2)
         end
       end
 

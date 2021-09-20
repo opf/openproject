@@ -6,11 +6,15 @@ import { Apiv3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/a
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
+import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 
 @Injectable({ providedIn: 'root' })
 export class UserPreferencesService {
+  readonly store = new UserPreferencesStore();
+
+  readonly query = new UserPreferencesQuery(this.store);
+
   constructor(
-    private store:UserPreferencesStore,
     private http:HttpClient,
     private apiV3Service:APIV3Service,
     private notifications:NotificationsService,

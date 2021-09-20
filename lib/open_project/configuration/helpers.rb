@@ -92,7 +92,11 @@ module OpenProject
       end
 
       def remote_storage_hosts
-        [remote_storage_upload_host, remote_storage_download_host].compact
+        [
+          fog_credentials[:host],
+          remote_storage_upload_host,
+          remote_storage_download_host
+        ].compact
       end
 
       def attachments_storage_path

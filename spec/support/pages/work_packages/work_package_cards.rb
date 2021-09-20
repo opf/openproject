@@ -84,6 +84,12 @@ module Pages
       card(work_package).click
     end
 
+    def click_info_icon(work_package)
+      card_element = card(work_package)
+      card_element.hover
+      card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
+    end
+
     def deselect_work_package(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 

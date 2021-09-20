@@ -563,10 +563,6 @@ en:
       title: "Notifications"
       channel: "Channel"
       no_unread: "No unread notifications"
-      channels:
-        in_app: "In-app"
-        mail: "Email"
-        mail_digest: "Daily email summary"
       reasons:
         mentioned: 'mentioned'
         watched: 'watched'
@@ -583,20 +579,33 @@ en:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Default for all projects'
-        involved: 'I am involved'
-        mentioned: 'I was mentioned'
-        watched: 'I am watching'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
-        work_package_scheduled: 'Work package scheduled'
-        all: 'All events'
-        add: 'Add setting for project'
-        already_selected: 'This project is already selected'
-        remove_projects: 'Remove notifications for projects'
         title: "Notification settings"
+        notify_me: "Notify me"
+        reasons: 
+          mentioned: 
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
@@ -638,6 +647,9 @@ en:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
         title: 'Email reminders'
 
 

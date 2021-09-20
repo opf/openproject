@@ -1924,9 +1924,10 @@ zh-CN:
   mail_body_register_header_title: "项目成员邀请电子邮件"
   mail_body_register_user: "%{name}，您好："
   mail_body_register_links_html: |
-    请随时浏览我们的 youtube 频道 (%{youtube_link})，在这里我们提供了网络研讨会 (%{webinar_link}) 和“入门”视频 (%{get_started_link})，让您在 OpenProject 中尽可能轻松地迈出第一步。
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    如果您有任何其他问题，请参阅我们的文档 (%{documentation_link}) 或与我们联系 (%{contact_us_link})。
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "您的 OpenProject 团队"
   mail_body_register_ending: "保持联系！谨致问候，"
   mail_body_reminder: "%{count} 个分配给您的工作包将在 %{days} 天后到期："
@@ -2330,7 +2331,6 @@ zh-CN:
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
   setting_notification_retention_period_days: "通知保留期限"
-  setting_notification_email_delay_minutes: "邮件发送延迟"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
@@ -2406,7 +2406,6 @@ zh-CN:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:

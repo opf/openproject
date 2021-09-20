@@ -71,15 +71,15 @@ lt:
     button_collapse_all: "Sutraukti visus"
     button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
-    button_list_view: "Sąrašo rodinys"
-    button_show_view: "Viso ekrano rodinys"
+    button_list_view: "Sąrašo vaizdas"
+    button_show_view: "Viso ekrano vaizdas"
     button_log_time: "Registruoti laiką"
     button_more: "Daugiau"
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
-    button_open_fullscreen: "Atidaryti viso ekrano rodinį"
-    button_show_cards: "Rodyti kortelių rodinį"
-    button_show_list: "Rodyti sąrašo rodinį"
+    button_open_fullscreen: "Atidaryti viso ekrano vaizdą"
+    button_show_cards: "Rodyti kortelių vaizdą"
+    button_show_list: "Rodyti sąrašo vaizdą"
     button_quote: "Cituoti"
     button_save: "Išsaugoti"
     button_settings: "Nustatymai"
@@ -154,7 +154,7 @@ lt:
           macros: 'Makrokomandos'
           chose_macro: 'Pasirinkite makrokomandą'
         toc: 'Turinys'
-        toolbar_help: 'Spauskite, kad parinktum4te valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
+        toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
           button: 'Įterpti kito wiki puslapio turinį'
           text: '[Placeholder] Įterptas wiki puslapis'
@@ -216,9 +216,9 @@ lt:
           status_confirmed: "patvirtinta"
           status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
           test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
-          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Tapti didvyriu!"
+          become_hero: "Tapkite didvyriu!"
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
@@ -245,8 +245,8 @@ lt:
     error:
       internal: "Įvyko vidinė klaida."
       cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
-      query_saving: "Nepavyko įrašyti rodinio."
-      embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
+      query_saving: "Nepavyko įrašyti vaizdo."
+      embedded_table_loading: "Nepavyko įkelti įdėto vaizdo: %{message}"
     enumeration_activities: "Veikla (laiko sekimas)"
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
@@ -274,7 +274,7 @@ lt:
     hal:
       error:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
-        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
+        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas kilęs iš ryšių (pvz., vaiko ryšio), arba jis nėra konfigūruojamas."
         format:
           date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
         general: "Įvyko klaida."
@@ -282,7 +282,7 @@ lt:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          learn_about: "Sužinokite apie naujas galimybes"
+          learn_about: "Sužinokite daugiau apie naujas galimybes"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
@@ -407,7 +407,7 @@ lt:
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
-    label_show_in_menu: "Rodyti rodinį meniu"
+    label_show_in_menu: "Rodyti vaizdą meniu"
     label_sort_by: "Rūšiuoti pagal"
     label_sorted_by: "surikiuota pagal"
     label_sort_higher: "Perkelti aukštyn"
@@ -470,7 +470,7 @@ lt:
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
     label_version_plural: "Versijos"
-    label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
+    label_view_has_changed: "Šiame vaizde yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:
@@ -488,7 +488,7 @@ lt:
         wiki: '<b>Wiki</b>''yje galite dokumentuoti ir dalintis žiniomis su savo komandos nariais.'
         backlogs:
           overview: "Valdykite savo darbus <b>Darbų sąrašo</b> vaizde."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "Kairėje jūs matote produkto darbų sąrašą ir klaidų darbų sąrašą, dešinėje -- atitinkamus sprintus. Čia jūs galite kurti <b>epics, user stories ir bugs</b>, prioritetizuoti vilkdami į reikiamą vietą ir priskirti sprintui."
           task_board_arrow: 'Norėdami matyti jūsų <b>užduočių lentą</b>, atverkite sprinto iškrentantį meniu...'
           task_board_select: '... ir pasirinkite <b>task board</b> elementą.'
           task_board: "Užduočių lenta vizualizuoja <b>sprinto progresą</b>. Nuspauskite pliuso (+) ženklą prie user story norėdami pridėti naujas užduotis arba trukdžius. <br> Būsena gali būti pakeista nuvelkant į reikiamą vietą."
@@ -499,7 +499,7 @@ lt:
           drag: 'Vilkite korteles sąrašo viduje norėdami pakeisti jų tvarką, arba perkelti į kitą sąrašą. <br> Galite nuspausti ant info (i) ženklo viršutiniame dešiniajame kampa arba du kartus spustelėti kortelę norėdami pamatyti jos detales.'
         wp:
           toggler: "Dabar žvilgtelėkime į <b>darbų paketų</b> skyrių, kuris suteikia išsamesnį vaizdą apie jūsų darbus."
-          list: 'Šis <b>darbo</b> paketų vaizdas duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
+          list: 'Šis <b>darbo</b> paketų apžvalga duoda sąrašą visų projekto darbų, tokių kaip užduotys, etapai ir t.t. <br> Darbų paketai gali būti sukurti ir redaguojami tiesiai šiame vaizde. Norėdami pasiekti darbų paketo detales paprasčiausiai du kartus spustelėkite ant eilutės.'
           full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
           back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
@@ -522,10 +522,10 @@ lt:
         all: 'Visi'
       center:
         and_more_users:
-          one: 'and 1 other'
-          few: 'and %{count} others'
-          many: 'and %{count} others'
-          other: 'and %{count} others'
+          one: 'ir dar 1'
+          few: 'ir dar %{count}'
+          many: 'ir dar %{count}'
+          other: 'ir dar %{count}'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
@@ -579,6 +579,9 @@ lt:
           explanation: 'Jūs gausite priminimus tik apie neskaitytus pranešimus ir tiktai jūsų nurodytomis valandomis.'
           time_label: 'Laikas %{counter}:'
           title: 'Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus'
+        immediate:
+          title: 'Siųsti man e-pašto priminimą'
+          mentioned: 'Iš karto, kai kažkas @pamini mane'
         title: 'El.pašto priminimai'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Įvesta informacija bus prarasta"
@@ -877,9 +880,9 @@ lt:
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
         click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
         rename_query_placeholder: "Vaizdo pavadinimas"
-        star_text: "Pažymėti šį rodinį kaip mėgstamiausią ir pridėti į įrašytų rodinių dėklą kairėje."
+        star_text: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
         public_text: >
-          Publikuoti šį rodinį, leidžiant kitiems naudotojams prieigą prie jūsų rodinio. Naudotojai su teise „Valdyti viešus rodinius“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo rodinyje ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
+          Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
         errors:
           unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
           not_found: "Nėra tokio vaizdo"
@@ -925,7 +928,7 @@ lt:
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Patikrinkite Enterprise Edition.'
+          check_out_link: 'Pabandykite Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:

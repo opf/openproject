@@ -2,9 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  HostBinding,
   Input,
   OnInit,
   Output,
+  ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import {
@@ -36,13 +38,14 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
   templateUrl: './in-app-notification-entry.component.html',
   styleUrls: ['./in-app-notification-entry.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class InAppNotificationEntryComponent implements OnInit {
+  @HostBinding('class.op-ian-item') className = true;
+
   @Input() notification:InAppNotification;
 
   @Input() aggregatedNotifications:InAppNotification[];
-
-  @Output() resourceLinkClicked = new EventEmitter<unknown>();
 
   workPackage$:Observable<WorkPackageResource>|null = null;
 

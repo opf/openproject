@@ -1978,10 +1978,10 @@ ru:
   mail_body_register_header_title: "Приглашение участника проекта по электронной почте"
   mail_body_register_user: "Уважаемый, %{name},"
   mail_body_register_links_html: |
-    Пожалуйста, не стесняйтесь просматривать наш Youtube канал (%{youtube_link}), где мы предоставляем вебинары (%{webinar_link})
-    и видео "Начать работу" (%{get_started_link}), чтобы сделать ваши первые шаги в OpenProject максимально простыми.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Если у вас есть какие-либо вопросы, обратитесь к нашей документации (%{documentation_link}) или свяжитесь с нами (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Ваша команда OpenProject"
   mail_body_register_ending: "Оставайтесь на связи! С уважением,"
   mail_body_reminder: "%{count} пакета(ов) работ, закрепленных за Вами, должны быть представлены в следующие  %{days}:"
@@ -2388,7 +2388,6 @@ ru:
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
   setting_enabled_projects_columns: "Видимый в списке проектов"
   setting_notification_retention_period_days: "Период хранения уведомлений"
-  setting_notification_email_delay_minutes: "Задержка отправки письма"
   setting_notification_email_digest_time: "Время дайджета email"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_feeds_limit: "Предел содержимого новостной ленты"
@@ -2464,7 +2463,6 @@ ru:
     notifications:
       retention_text: >
         Количество дней в системе уведомлений для пользователей (источник уведомлений в приложении). Все события, старше этого времени будут удалены.
-      delay_minutes_explanation: "Отправка электронной почты может быть отложена, чтобы разрешить пользователям с настроенными в уведомлениях приложения, чтобы подтвердить уведомление внутри приложения до отправки почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
       email_digest_explanation: "Раз в сутки может быть отправлен дайджест с подборкой всех подписчиков на уведомления. Параметр относителен к каждому пользователю, настроенному часовой пояс, так что напр. 8:00 будет выполнено в 7:00 UTC для пользователей в UTC+1 и 9:00 UTC для пользователей в UTC-1."
       events_explanation: 'Регулирует, по каким событиям отправляется письмо. Пакеты работ исключаются из этого списка, поскольку уведомления для них могут быть настроены специально для каждого пользователя.'
     display:

@@ -14,6 +14,11 @@
     text-align: center
     font-style: italic
 
+  // While loading, appear to be showing one item row
+  &--loading-indicator
+    height: 100px
+    overflow: hidden // FIXME this shouldn't be necessary with proper svg scaling
+
   :host
     .-browser-safari &
       // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
