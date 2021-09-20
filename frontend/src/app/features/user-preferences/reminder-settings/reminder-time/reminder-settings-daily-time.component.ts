@@ -191,6 +191,10 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
       );
   }
 
+  isDisabled(time:string, activeTimes:string[]):boolean {
+    return activeTimes.length === 0 || (activeTimes.length === 1 && activeTimes[0] === time);
+  }
+
   private storeTimes(selectedTimes:string[]) {
     const times = selectedTimes
       .filter(

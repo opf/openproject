@@ -53,7 +53,7 @@ module Notifications::CreateFromModelService::WikiContentStrategy
     User.notified_globally notification_reason(journal)
   end
 
-  def self.notification_reason(journal)
+  def self.subscribed_notification_reason(journal)
     if journal.initial?
       NotificationSetting::WIKI_PAGE_ADDED
     else

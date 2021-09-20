@@ -21,7 +21,7 @@
       [ngModel]="isActive(time)"
       (ngModelChange)="toggleActive($event, i, selectedTimes)"
       [ngModelOptions]="{standalone: true}"
-      [disabled]="activeTimes.length === 0 || activeTimes.length === 1 && activeTimes[0] === time"
+      [disabled]="isDisabled(time, activeTimes)"
       class="op-reminder-settings-daily-time--active"
       attr.data-qa-selector="op-settings-daily-time--active-{{i + 1}}">
     <label

@@ -58,7 +58,7 @@ module Notifications::CreateFromModelService::NewsStrategy
     end
   end
 
-  def self.notification_reason(_journal)
+  def self.subscribed_notification_reason(_journal)
     NotificationSetting::NEWS_ADDED
   end
 

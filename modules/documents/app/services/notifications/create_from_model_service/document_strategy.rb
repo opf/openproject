@@ -53,7 +53,7 @@ module Notifications::CreateFromModelService::DocumentStrategy
     User.notified_globally notification_reason(journal)
   end
 
-  def self.notification_reason(_journal)
+  def self.subscribed_notification_reason(_journal)
     NotificationSetting::DOCUMENT_ADDED
   end
 

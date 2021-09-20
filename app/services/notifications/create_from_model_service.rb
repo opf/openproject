@@ -120,7 +120,7 @@ class Notifications::CreateFromModelService
   def settings_of_mentioned
     project_applicable_settings(mentioned_ids,
                                 project,
-                                :mentioned)
+                                NotificationSetting::MENTIONED)
   end
 
   def settings_of_assigned
@@ -139,7 +139,7 @@ class Notifications::CreateFromModelService
     # Subscribed is a collection of events for non-work packages
     # which currently ignore project-specific overrides
     settings_for_allowed_users(strategy.subscribed_users(model),
-                               strategy.notification_reason(model))
+                               strategy.subscribed_notification_reason(model))
   end
 
   def settings_of_watched

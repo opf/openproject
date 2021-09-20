@@ -53,7 +53,7 @@ module Notifications::CreateFromModelService::CommentStrategy
     User.notified_globally notification_reason(comment)
   end
 
-  def self.notification_reason(_comment)
+  def self.subscribed_notification_reason(_comment)
     NotificationSetting::NEWS_COMMENTED
   end
 

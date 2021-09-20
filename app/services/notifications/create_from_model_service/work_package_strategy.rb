@@ -49,10 +49,6 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
     true
   end
 
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
   def self.watcher_users(journal)
     User.watcher_recipients(journal.journable)
   end
