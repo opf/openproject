@@ -41,7 +41,7 @@ module Queries
             create!(name, filter_hash[field])
           rescue ::Queries::Filters::InvalidError
             Rails.logger.error "Failed to constantize field filter #{field} from hash."
-            ::Queries::NotExistingFilter.create!(field)
+            ::Queries::Filters::NotExistingFilter.create!(field)
           end
         end
       end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::TimeEntries::Orders::DefaultOrder < Queries::Orders::Base
   self.model = TimeEntry
 
   def self.key

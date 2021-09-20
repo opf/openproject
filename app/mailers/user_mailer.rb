@@ -39,41 +39,6 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def work_package_added(user, journal, author)
-    User.execute_as user do
-      work_package = journal.journable.reload
-      @issue = work_package # instance variable is used in the view
-      @journal = journal
-
-      set_work_package_headers(work_package)
-
-      message_id work_package, user
-
-      with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
-  def work_package_updated(user, journal, author = User.current)
-    User.execute_as user do
-      work_package = journal.journable.reload
-
-      # instance variables are used in the view
-      @issue = work_package
-      @journal = journal
-
-      set_work_package_headers(work_package)
-
-      message_id journal, user
-      references work_package, user
-
-      with_locale_for(user) do
-        mail_for_author author, to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
   def work_package_watcher_changed(work_package, user, watcher_changer, action)
     User.execute_as user do
       @issue = work_package
@@ -125,41 +90,6 @@ class UserMailer < ApplicationMailer
     user = @token.user
     with_locale_for(user) do
       subject = t(:mail_subject_lost_password, value: Setting.app_title)
-      mail to: user.mail, subject: subject
-    end
-  end
-
-  def copy_project_failed(user, source_project, target_project_name, errors)
-    @source_project = source_project
-    @target_project_name = target_project_name
-    @errors = errors
-
-    open_project_headers 'Source-Project' => source_project.identifier,
-                         'Author' => user.login
-
-    message_id source_project, user
-
-    with_locale_for(user) do
-      subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
-
-      mail to: user.mail, subject: subject
-    end
-  end
-
-  def copy_project_succeeded(user, source_project, target_project, errors)
-    @source_project = source_project
-    @target_project = target_project
-    @errors = errors
-
-    open_project_headers 'Source-Project' => source_project.identifier,
-                         'Target-Project' => target_project.identifier,
-                         'Author' => user.login
-
-    message_id target_project, user
-
-    with_locale_for(user) do
-      subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
-
       mail to: user.mail, subject: subject
     end
   end

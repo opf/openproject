@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Notifications::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Notifications::Orders::DefaultOrder < Queries::Orders::Base
   self.model = Notification
 
   def self.key

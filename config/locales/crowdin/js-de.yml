@@ -487,7 +487,7 @@ de:
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag  drop and add them to a sprint."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
@@ -520,6 +520,9 @@ de:
         unread: 'Ungelesen'
         all: 'Alle'
       center:
+        and_more_users:
+          one: 'and 1 other'
+          other: 'and %{count} others'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
         text_update_date: "%{date} von"
@@ -573,6 +576,9 @@ de:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
         title: 'Email reminders'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."

@@ -39,8 +39,15 @@ module Queries::Notifications
 
   [Queries::Notifications::Orders::DefaultOrder,
    Queries::Notifications::Orders::ReasonOrder,
+   Queries::Notifications::Orders::ProjectOrder,
    Queries::Notifications::Orders::ReadIanOrder].each do |order|
     Queries::Register.order Queries::Notifications::NotificationQuery,
                             order
+  end
+
+  [Queries::Notifications::GroupBys::GroupByReason,
+   Queries::Notifications::GroupBys::GroupByProject].each do |group|
+    Queries::Register.group_by Queries::Notifications::NotificationQuery,
+                               group
   end
 end

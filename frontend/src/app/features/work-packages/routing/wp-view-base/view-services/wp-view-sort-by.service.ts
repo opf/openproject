@@ -52,7 +52,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   public onReadyWithAvailable():Observable<null> {
-    return combine(this.pristineState, this.states.queries.sortBy)
+    return combine(this.pristineState, this.querySpace.available.sortBy)
       .values$()
       .pipe(
         mapTo(null),
@@ -140,7 +140,7 @@ export class WorkPackageViewSortByService extends WorkPackageQueryStateService<Q
   }
 
   private get availableState() {
-    return this.states.queries.sortBy;
+    return this.querySpace.available.sortBy;
   }
 
   public get available():QuerySortByResource[] {

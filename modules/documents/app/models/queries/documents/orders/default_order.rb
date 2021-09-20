@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Documents::Orders::DefaultOrder < Queries::BaseOrder
+class Queries::Documents::Orders::DefaultOrder < Queries::Orders::Base
   self.model = Document
 
   def self.key

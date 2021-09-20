@@ -194,6 +194,7 @@ export class SentryReporter implements ErrorReporter {
    * @param scope
    */
   private setupContext(scope:Scope) {
+    scope.setTag('code_origin', 'frontend');
     scope.setTag('locale', window.I18n.locale);
     scope.setTag('domain', window.location.hostname);
     scope.setTag('url_path', window.location.pathname);

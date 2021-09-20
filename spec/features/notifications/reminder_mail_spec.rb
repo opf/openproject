@@ -100,6 +100,7 @@ describe "Reminder email", type: :feature, js: true do
 
     before do
       allow(Time).to receive(:current).and_return(current_utc_time)
+      allow(Time).to receive(:now).and_return(current_utc_time)
 
       watched_work_package
       work_package

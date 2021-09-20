@@ -34,8 +34,10 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 export class CurrentProjectService {
   private current:{ id:string, identifier:string, name:string };
 
-  constructor(private PathHelper:PathHelperService,
-    private apiV3Service:APIV3Service) {
+  constructor(
+    private PathHelper:PathHelperService,
+    private apiV3Service:APIV3Service,
+  ) {
     this.detect();
   }
 

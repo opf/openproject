@@ -16,7 +16,7 @@ export class OpFormFieldComponent {
 
   @Input() label = '';
 
-  @Input() noWrapLabel = true;
+  @Input() noWrapLabel = false;
 
   @Input() required = false;
 

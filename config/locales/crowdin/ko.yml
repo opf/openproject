@@ -699,6 +699,10 @@ ko:
           attributes:
             hours:
               day_limit: "하루 최대 24시간을 기록할 수 있으므로 너무 높습니다."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1923,10 +1927,10 @@ ko:
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
-    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고 
-    “시작하기” 동영상(%{get_started_link})을 보고 OpenProject에서의 첫 단계를 최대한 수월하게 진행하세요.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    추가 질문이 있으시면 설명서(%{documentation_link})를 참조하거나 당사(%{contact_us_link})에 문의하세요.
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "OpenProject 팀"
   mail_body_register_ending: "계속 지켜봐 주세요! 감사합니다."
   mail_body_reminder: "사용자에게 할당된 %{count} 작업 패키지가 다음 %{days}일 후 만료됩니다."
@@ -2331,7 +2335,6 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_notification_retention_period_days: "알림 보관 기간"
-  setting_notification_email_delay_minutes: "이메일 지연 전송"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2407,7 +2410,6 @@ ko:
     notifications:
       retention_text: >
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
-      delay_minutes_explanation: "앱 내 알림이 구성된 사용자가 메일이 발송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
@@ -2762,7 +2764,7 @@ ko:
     사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을 업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
   warning_user_limit_reached_instructions: >
     사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

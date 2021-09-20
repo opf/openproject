@@ -42,10 +42,12 @@ function createInitialState():UserPreferencesModel {
       enabled: true,
       times: ['08:00'],
     },
+    immediateReminders: {
+      mentioned: false,
+    },
   };
 }
 
-@Injectable()
 @StoreConfig({ name: 'notification-settings' })
 export class UserPreferencesStore extends Store<UserPreferencesModel> {
   constructor() {

@@ -697,6 +697,10 @@ it:
           attributes:
             hours:
               day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1937,10 +1941,10 @@ it:
   mail_body_register_header_title: "Email di invito come membro del progetto"
   mail_body_register_user: "Gentile %{name}, "
   mail_body_register_links_html: |
-    Date un'occhiata al nostro canale youtube (%{youtube_link}) dove forniamo un webinar (%{webinar_link})
-    e video su “Come iniziare” (%{get_started_link}), in modo da rendere i tuoi primi passi in OpenProject più facili possibile.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Se hai ulteriori domande, consulta la nostra documentazione (%{documentation_link}) o contattaci (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Il tuo team OpenProject"
   mail_body_register_ending: "Resta in contatto! Cordiali saluti,"
   mail_body_reminder: "%{count} macro-attività a te assegnata/e scadono nei prossimi %{days} giorni:"
@@ -2348,7 +2352,6 @@ it:
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_notification_retention_period_days: "Periodo di conservazione della notifica"
-  setting_notification_email_delay_minutes: "Ritardo invio email"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
@@ -2424,7 +2427,6 @@ it:
     notifications:
       retention_text: >
         Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
-      delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
@@ -2781,7 +2783,7 @@ it:
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
     Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

@@ -699,6 +699,10 @@ pt:
           attributes:
             hours:
               day_limit: "muito alto, já que só se pode registrar um máximo de 24 horas por data."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1939,9 +1943,10 @@ pt:
   mail_body_register_header_title: "E-mail de convite a membro do projeto"
   mail_body_register_user: "Prezado(a) %{name},"
   mail_body_register_links_html: |
-    Por favor, fique à vontade para navegar em nosso canal do youtube (%{youtube_link}), onde fornecemos um webinar (%{webinar_link}) e vídeos de "Como começar" (%{get_started_link}) para aprender seus primeiros passos no OpenProject da maneira mais simples possível.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Se você tiver mais perguntas, consulte nossa documentação (%{documentation_link}) ou entre em contato conosco (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Sua equipe do OpenProject"
   mail_body_register_ending: "Fique ligado! Atenciosamente,"
   mail_body_reminder: "%{count} pacote(s) de trabalho foram atribuídos a você para os próximos %{days} dias:"
@@ -2349,7 +2354,6 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_notification_retention_period_days: "Período de retenção de notificação"
-  setting_notification_email_delay_minutes: "Atraso no envio de e-mail"
   setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
@@ -2425,7 +2429,6 @@ pt:
     notifications:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
       email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
@@ -2781,7 +2784,7 @@ pt:
     Atingido o limite de usuários. Você não pode ativar mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie a adição de novos usuários.
   warning_user_limit_reached_instructions: >
     Você atingiu seu limite de usuários (%{current}/%{max} usuários ativos). Entre em contato com sales@openproject.com para atualizar seu plano Enterprise Edition e adicionar novos usuários.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

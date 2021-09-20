@@ -8,6 +8,7 @@ import {
 } from './ian-center.store';
 import {
   map,
+  switchMap,
   take,
 } from 'rxjs/operators';
 import {
@@ -16,7 +17,10 @@ import {
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
-import { ID } from '@datorama/akita';
+import {
+  ID,
+  setLoading,
+} from '@datorama/akita';
 import {
   EffectCallback,
   EffectHandler,
@@ -83,12 +87,14 @@ export class IanCenterService {
   private reload() {
     this.resourceService
       .fetchNotifications(this.query.params)
-      .subscribe(
-        (results) => this.sideLoadInvolvedWorkPackages(results._embedded.elements),
-      );
+      .pipe(
+        setLoading(this.store),
+        switchMap((results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))),
+      )
+      .subscribe();
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):void {
+  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;
     const wpIds = elements
       .map((element) => {
@@ -109,5 +115,7 @@ export class IanCenterService {
         from(promise).pipe(map(() => cache.current(id)!)),
       );
     });
+
+    return promise;
   }
 }

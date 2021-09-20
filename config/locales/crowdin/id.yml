@@ -36,23 +36,23 @@ id:
         primary-color: "Primer"
         primary-color-dark: "Primer (gelap)"
         header-bg-color: "Latar Belakang Header"
-        header-item-bg-hover-color: "Header background on hover"
+        header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
+        header-item-font-hover-color: "Font header melayang"
+        header-border-bottom-color: "Batas header"
         main-menu-bg-color: "latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama ketika dipilih"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        main-menu-bg-hover-background: "Menu utama melayang"
+        main-menu-font-color: "Font menu utama"
+        main-menu-selected-font-color: "Font menu utama ketika dipilih"
+        main-menu-hover-font-color: "Font menu utama melayang"
+        main-menu-border-color: "Batas menu utama"
       custom_colors: "Warna kostum"
       customize: "Sesuaikan instalasi OpenProject anda dengan logo Anda sendiri. Catatan: Logo ini dapat diakses secara publik."
       enterprise_notice: "Sebagai 'Terima Kasih' spesial untuk finansial konstributor untuk mengembangkan OpenProject, fitur kecil ini hanya akan tersedia untuk Enterprise Edition dukungan pelanggan."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
         content-link-color: "Warna font sebagian besar tautan."
         primary-color: "Warna utama."
         primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
@@ -61,7 +61,7 @@ id:
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-border-bottom-color: "Garis tipis di bawah header. Biarkan filed ini kosong jika Anda tidak ingin garis apapun."
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: mengubah tema akan mengubah custom style anda. Desain akan menghilang. Apakah anda ingin melanjutkannya?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
@@ -94,24 +94,22 @@ id:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
-      <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Nama arbitary koneksi LDAP
+      host: Nama host LDAP atau alamat IP
+      login_map: Kunci atribut pada LDAP digunakan untuk mengidentifikasi pengguna unik yang masuk. Biasanya akan menjadi 'uid' atau 'samAccountName'.
+      generic_map: Kunci atribut pada LDAP dipetakan ke atribut '%{attribute}' OpenProject
+      admin_map_html: "Opsional: Kunci atribut pada LDAP yang <strong>jika ada</strong> akan menandai pengguna OpenProject sebagai admin. Biarkan kososng jika ragu."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Masukan DN pengguna sistem hanya digunakan untuk akses membaca.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        contoh: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Masukan password yang terikat dengan pengguna sistem
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Masukan Base DN dari subtree LDAP yang anda inginkan agar OpenProject dapat melihat pengguna dan grup.
+        OpenProject akan memfilter username pada subtree saja.
+        Contoh: users,dc=example,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -119,16 +117,15 @@ id:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Jika anda ceklis box ini, OpenProject akan secara otomatis membuat pengguna baru dari seluruh LDAP saat pertamakali autentikasi dengan OpenProject.
+        Biarkan tidak terceklis untuk mengizinkan akun yang ada di OpenProject untuk mengautentikasi melalui LDAP!
     connection_encryption: 'Enkripsi sambungan'
-    system_account: 'System account'
+    system_account: 'Akun sistem'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject membutuhkan akses hanya baca melalui akun sistem untuk melihat pengguna dan grup pada pohon LDAP anda.
+      Harap tentukan kredensial pengikatan untuk pengguna sistem tersebut di bagian berikut.
     ldap_details: 'detil dari LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Pemetaan atribut'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -699,6 +696,10 @@ id:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
           attributes:
             slug:
@@ -1926,7 +1927,7 @@ id:
     Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
     and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact us (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan berakhir dalam %{days} hari :"
@@ -2331,7 +2332,6 @@ id:
   setting_enabled_scm: "Aktifkan SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_delay_minutes: "Email sending delay"
   setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Aktifkan Feed"
   setting_feeds_limit: "Batasan konten feed"
@@ -2407,7 +2407,6 @@ id:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
       email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
@@ -2762,7 +2761,7 @@ id:
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
     You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:

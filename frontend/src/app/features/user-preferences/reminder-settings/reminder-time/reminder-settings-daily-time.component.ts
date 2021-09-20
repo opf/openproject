@@ -1,11 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/user-preferences.query';
 import {
-  map, skip,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import {
+  map,
+  skip,
 } from 'rxjs/operators';
-import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { combineLatest } from 'rxjs';
+import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 
 @Component({
   selector: 'op-reminder-settings-daily-time',
@@ -30,14 +33,15 @@ export class ReminderSettingsDailyTimeComponent {
 
   // The daily reminders with the first value skipped. Only used
   // for that skipping as the first value is produced by the front end (default value).
-  public dailyReminders$ = this.query.dailyReminders$.pipe(skip(1));
+  public dailyReminders$ = this.storeService.query.dailyReminders$.pipe(skip(1));
 
   // Whether the reminder are active at all.
-  public enabled$ = this.query.dailyRemindersEnabled$;
+  public enabled$ = this.storeService.query.dailyRemindersEnabled$;
 
   // The active times as present in the store interleaved with the inactive
   // times.
   public selectedTimes$ = this
+    .storeService
     .query
     .dailyRemindersTimes$
     .pipe(map((times) => {
@@ -56,22 +60,22 @@ export class ReminderSettingsDailyTimeComponent {
   // Times that are truly active:
   // * the reminders are not disabled completely
   // * the times are not inactive individually.
-  public activeTimes$ = combineLatest(
-    this.query.dailyRemindersEnabled$,
-    this.query.dailyRemindersTimes$,
-  ).pipe(map(([enabled, times]) => (enabled ? times : [])));
+  public activeTimes$ = combineLatest([
+    this.storeService.query.dailyRemindersEnabled$,
+    this.storeService.query.dailyRemindersTimes$,
+  ]).pipe(map(([enabled, times]) => (enabled ? times : [])));
 
   // Times can only be removed if the element is active and if there is more than one time present.
-  public timeRemovable$ = combineLatest(
-    this.query.dailyRemindersEnabled$,
+  public timeRemovable$ = combineLatest([
+    this.storeService.query.dailyRemindersEnabled$,
     this.selectedTimes$,
-  ).pipe(map(([enabled, selectedTimes]) => enabled && selectedTimes.length > 1));
+  ]).pipe(map(([enabled, selectedTimes]) => enabled && selectedTimes.length > 1));
 
   // Times can not be added if the element is disabled or if all the possible times have already been added (active or not).
-  public nonAddable$ = combineLatest(
-    this.query.dailyRemindersEnabled$,
+  public nonAddable$ = combineLatest([
+    this.storeService.query.dailyRemindersEnabled$,
     this.selectedTimes$,
-  ).pipe(map(([enabled, selectedTimes]) => !enabled || selectedTimes.length === this.availableTimes.length));
+  ]).pipe(map(([enabled, selectedTimes]) => !enabled || selectedTimes.length === this.availableTimes.length));
 
   text = {
     timeLabel: (counter:number):string => this.I18n.t('js.reminders.settings.daily.time_label', { counter }),
@@ -81,8 +85,7 @@ export class ReminderSettingsDailyTimeComponent {
 
   constructor(
     private I18n:I18nService,
-    private query:UserPreferencesQuery,
-    private store:UserPreferencesStore,
+    private storeService:UserPreferencesService,
   ) { }
 
   addTime(selectedTimes:string[]):void {
@@ -131,7 +134,7 @@ export class ReminderSettingsDailyTimeComponent {
   }
 
   toggleEnabled(enabled:boolean):void {
-    this.store.update(({ dailyReminders }) => (
+    this.storeService.store.update(({ dailyReminders }) => (
       {
         dailyReminders: {
           ...dailyReminders,
@@ -161,7 +164,7 @@ export class ReminderSettingsDailyTimeComponent {
   }
 
   private storeTimes(selectedTimes:string[]) {
-    this.store.update(({ dailyReminders }) => (
+    this.storeService.store.update(({ dailyReminders }) => (
       {
         dailyReminders: {
           ...dailyReminders,

@@ -39,6 +39,10 @@ module API
     include OpenProject::Authentication::Scope
     extend API::Utilities::GrapeHelper
 
+    insert_before Grape::Middleware::Error,
+                  ::GrapeLogging::Middleware::RequestLogger,
+                  { instrumentation_key: 'openproject_grape_logger' }
+
     content_type :json, 'application/json; charset=utf-8'
 
     use OpenProject::Authentication::Manager

@@ -245,7 +245,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
 
   // Get the available state
   protected get availableState() {
-    return this.states.queries.columns;
+    return this.querySpace.available.columns;
   }
 
   /**

@@ -204,7 +204,10 @@ module OpenProject
       'ldap_groups_disable_sync_job' => false,
 
       # Slow query logging threshold in ms
-      'sql_slow_query_threshold' => 2000
+      'sql_slow_query_threshold' => 2000,
+
+      # Use lograge to format logs, off by default
+      'lograge_formatter' => nil
     }
 
     @config = nil

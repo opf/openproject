@@ -1,125 +1,142 @@
-<div class="generic-table--container form--section">
-  <div class="generic-table--results-container">
-    <table class="generic-table">
-      <colgroup>
-        <col>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-        <col opHighlightCol>
-      </colgroup>
-      <thead>
+<div class="op-scrollable-table">
+  <table
+    class="op-table"
+    *ngIf="settings.length > 0"
+  >
+    <thead>
       <tr>
-        <th>
-          <div class="generic-table--empty-header"></div>
+        <th class="op-table--cell op-table--cell_heading">
+          {{ text.notify_me }}
         </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.channel_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.involved_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.mentioned_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.watched_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_created_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_commented_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_processed_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_prioritized_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.work_package_scheduled_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--sort-header-outer">
-            <div class="generic-table--sort-header">
-              <span [textContent]="text.any_event_header"></span>
-            </div>
-          </div>
-        </th>
-        <th>
-          <div class="generic-table--empty-header"></div>
-        </th>
-      </tr>
-      </thead>
-      <tbody>
-      <ng-container *ngFor="let item of (groupedNotificationSettings$ | async) | keyvalue: projectOrder">
-        <ng-container *ngFor="let setting of item.value; let first = first; let last = last">
-          <tr
-              class="-no-highlighting"
-              op-notification-setting-row
-              [attr.data-qa-notification-project]="item.key"
-              [attr.data-qa-notification-channel]="setting.channel"
-              [count]="item.value.length"
-              [first]="first"
-              [setting]="setting"
-          >
-          </tr>
-          <tr *ngIf="last"
-              class="op-notifications-settings-table--spacer">
-            <td colspan="7"></td>
-          </tr>
+        <ng-container *ngFor="let item of settings.controls">
+          <th class="op-table--cell op-table--cell_heading">
+            <a
+              class="op-link"
+              [href]="projectLink(item.controls.project.value.href)"
+            >{{ item.controls.project.value.title }}</a>
+          </th>
         </ng-container>
-      </ng-container>
-      </tbody>
-    </table>
-    <op-notification-setting-inline-create
-        *ngIf="userId"
-        [userId]="userId"
-        (selected)="addRow($event)"
-        data-qa-selector="notification-setting-inline-create"
-    ></op-notification-setting-inline-create>
-  </div>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.mentioned_header.title }}</h5>
+          <p>{{ text.mentioned_header.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.involved_header.title }}</h5>
+          <p>{{ text.involved_header.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="involved"
+              data-qa-project-notification-type="involved" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.watched_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"><input type="checkbox" disabled checked /></td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageCreated"
+              data-qa-project-notification-type="work_package_created" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_processed_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageProcessed"
+              data-qa-project-notification-type="work_package_processed" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_scheduled_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageScheduled"
+              data-qa-project-notification-type="work_package_scheduled" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_prioritized_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackagePrioritized"
+              data-qa-project-notification-type="work_package_prioritized" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_commented_header }}</th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell" [formGroup]="item">
+            <input
+              type="checkbox"
+              formControlName="workPackageCommented"
+              data-qa-project-notification-type="work_package_commented" 
+              [attr.data-qa-project]="item.controls.project.value.title" 
+            />
+          </td>
+        </ng-container>
+      </tr>
+      <tr>
+        <th class="op-table--cell op-table--cell_soft-heading"></th>
+        <ng-container *ngFor="let item of settings.controls; let index = index">
+          <td class="op-table--cell">
+            <button
+              type="button"
+              class="op-link"
+              (click)="removeProjectSettings(index)"
+            >
+              Remove Project Settings
+            </button>
+          </td>
+        </ng-container>
+      </tr>
+    </tbody>
+  </table>
 </div>
+
+<op-notification-setting-inline-create
+  *ngIf="userId"
+  [userId]="userId"
+  [settings]="settings"
+  (selected)="addProjectSettings($event)"
+  data-qa-selector="notification-setting-inline-create"
+></op-notification-setting-inline-create>

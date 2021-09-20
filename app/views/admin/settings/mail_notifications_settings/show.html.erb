@@ -37,15 +37,6 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field"><%= setting_text_field :mail_from, size: 60, container_class: '-middle' %></div>
       <div class="form--field"><%= setting_check_box :bcc_recipients %></div>
       <div class="form--field"><%= setting_check_box :plain_text_mail %></div>
-      <div class="form--field">
-        <%= setting_number_field :notification_email_delay_minutes,
-                                 container_class: '-xslim',
-                                 min: 0,
-                                 unit: t(:label_minute_plural) %>
-        <div class="form--field-instructions">
-          <%= t(:'settings.notifications.delay_minutes_explanation') %>
-        </div>
-      </div>
     </section>
 
     <fieldset id="emails_decorators" class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_emails_header) %> & <%= t(:setting_emails_footer) %></legend>

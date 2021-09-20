@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,23 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications::MailService::WorkPackageStrategy
-  class << self
-    def send_mail(notification)
-      journal = notification.journal
+class Queries::Notifications::GroupBys::GroupByReason < Queries::GroupBys::Base
+  self.model = Notification
 
-      UserMailer
-        .send(mailer_method(notification),
-              notification.recipient,
-              journal,
-              notification.journal.user || DeletedUser.first)
-        .deliver_later
-    end
+  def self.key
+    :reason
+  end
 
-    private
-
-    def mailer_method(notification)
-      notification.journal.initial? ? :work_package_added : :work_package_updated
-    end
+  def name
+    :reason_ian
   end
 end

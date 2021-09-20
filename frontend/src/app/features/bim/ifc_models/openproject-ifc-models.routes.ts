@@ -120,6 +120,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
       baseRoute: 'bim.partitioned.list',
       allowMovingInEditMode: true,
       partition: '-left-only',
+      successState: 'bim.partitioned.show'
     },
     views: { 'content-left': { component: WorkPackageNewFullViewComponent } },
   },

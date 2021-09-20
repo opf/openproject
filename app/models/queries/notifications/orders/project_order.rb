@@ -28,16 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::NotExistingOrder < Queries::BaseOrder
-  validate :always_false
+class Queries::Notifications::Orders::ProjectOrder < Queries::Orders::Base
+  self.model = Notification
 
   def self.key
-    :inexistent
+    :project
   end
 
-  private
+  def joins
+    :project
+  end
 
-  def always_false
-    errors.add :base, I18n.t(:'activerecord.errors.messages.does_not_exist')
+  protected
+
+  def order
+    order_string = "projects.name"
+    order_string += " DESC" if direction == :desc
+
+    model.order(order_string)
   end
 end

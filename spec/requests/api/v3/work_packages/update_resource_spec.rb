@@ -124,9 +124,9 @@ describe 'API v3 Work package resource',
         context 'without the parameter' do
           let(:params) { update_params }
 
-          it 'sends a mail' do
-            expect(ActionMailer::Base.deliveries.length)
-              .to eq 1
+          it 'creates a notification' do
+            expect(Notification.where(recipient: other_user, resource: work_package))
+              .to exist
           end
         end
 
@@ -134,9 +134,9 @@ describe 'API v3 Work package resource',
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=false" }
           let(:params) { update_params }
 
-          it 'sends no mail' do
-            expect(ActionMailer::Base.deliveries)
-              .to be_empty
+          it 'creates no notification' do
+            expect(Notification)
+              .not_to exist
           end
         end
 
@@ -144,9 +144,9 @@ describe 'API v3 Work package resource',
           let(:patch_path) { "#{api_v3_paths.work_package work_package.id}?notify=Something" }
           let(:params) { update_params }
 
-          it 'sends a mail' do
-            expect(ActionMailer::Base.deliveries.length)
-              .to eq 1
+          it 'creates a notification' do
+            expect(Notification.where(recipient: other_user, resource: work_package))
+              .to exist
           end
         end
       end

@@ -535,7 +535,7 @@ hu:
         before: "korábbinak kell lennie, mint %{date}."
         before_or_equal_to: "korábbinak vagy egyenlőnek kell lennie, mint %{date}."
         blank: "nem lehet üres."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "be kell állítani a '%{property}' tulajdonságot.\n"
         cant_link_a_work_package_with_a_descendant: "A feladatcsoport nem kapcsolható saját részfeladatához."
         circular_dependency: "Ez a kapcsolat egy körkörös függőséget eredményezne."
         confirmation: "%{attribute} nem egyezik."
@@ -549,14 +549,14 @@ hu:
         even: "kell még."
         exclusion: "foglalt."
         file_too_large: "túl nagy fájlméret (maximális méret %{count} Byte)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "nem felel meg az elvárt '%{expected}' formátumnak."
+        format_nested: "nem felel meg az elvárt '%{expected}' formátumnak az '%{path}' elérési útvonalon."
         greater_than: "nagyobbnak kell lenni mint %{count}."
         greater_than_or_equal_to: "nagyobbnak vagy egyenlőnek kell lennie mint %{count}."
         greater_than_or_equal_to_start_date: "nagyobbnak vagy egyenlőnek kell lennie, mint a kezdő dátum."
         greater_than_start_date: "nagyobbnak kell lennie, mint a kezdő dátum."
         inclusion: "nem a megengedett értékek egyike lett beállítva."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "nincs beállítva az '%{path}' elérési útvonalon a megengedett értékek egyikére."
         invalid: "érvénytelen."
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
@@ -577,11 +577,11 @@ hu:
         taken: "már foglalt."
         too_long: "túl hosszú (nem lehet több %{count} karakternél)."
         too_short: "túl rövid (legalább %{count} karakter kell legyen)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "nem '%{type}' típusú."
+        type_mismatch_nested: "nem '%{type}' típusú az '%%{path}' elérési útvonalon."
         unchangeable: "nem módosítható."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "nem ismert tulajdonság.\n"
+        unknown_property_nested: "ismeretlen '%{path}' elérési útvonal."
         unremovable: "nem törölhető."
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
@@ -701,6 +701,10 @@ hu:
           attributes:
             hours:
               day_limit: "túl magas, mivel dátumonként legfeljebb 24 óra naplózható."
+        user_preference:
+          attributes:
+            daily_reminders:
+              full_hour: "csak teljes órában történő kézbesítésre konfigurálható.\n"
         wiki_page:
           attributes:
             slug:
@@ -1904,33 +1908,33 @@ hu:
   mail:
     actions: 'Műveletek'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      including_mention_singular: "beleértve az alábbiakat\n"
+      including_mention_plural: 'beleértve az %{number_mentioned} említéseket is'
+      unread_notification_singular: '1 olvasatlan értesítés'
+      unread_notification_plural: '%{number_unread} olvasatlan értesítések'
       work_packages:
-        comment_added: '<b>Comment</b> added'
+        comment_added: '<b>Comment</b> hozzáadva'
         created: 'Létrehoz'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        created_at: 'a %{timestamp} a%{user} által'
+        login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
+        mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
+        more_to_see_singular: "Még 1 munkacsomag van értesítésekkel.\n"
+        more_to_see_plural: 'További %{number} munkacsomagok vannak értesítésekkel.'
         reason:
-          watched: 'Watched'
-          involved: 'Assigned or responsible'
-          mentioned: 'Mentioned'
+          watched: 'Megfigyelt'
+          involved: 'Megbízott vagy felelős'
+          mentioned: 'Megemlített'
           subscribed: 'mind'
           prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
-        see_all: 'See all'
+        see_all: 'Mutasd mindet'
         updated: 'Frissítve'
-        updated_at: 'at %{timestamp} by %{user}'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+        updated_at: 'a %{timestamp} a%{user} által'
+      you_have: 'Neked van'
+    logo_alt_text: 'Logó'
     notification:
-      center: 'To notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: "Az értesítési központba\n"
+      settings: "E-mail beállítások módosítása\n"
+    salutation: 'Helló %{user}!'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."
@@ -1945,10 +1949,10 @@ hu:
   mail_body_register_header_title: "Projekttag meghívó e -mail\n"
   mail_body_register_user: "Kedves %{name},"
   mail_body_register_links_html: |
-    Nyugodtan böngéssze a YouTube -csatornánkat (%{youtube_link}), ahol webináriumot szervezünk (%{webinar_link})
-    és „Kezdő lépések” videók (%{get_started_link}), hogy az OpenProject első lépései a lehető legegyszerűbbek legyenek.
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
     <br />
-    Ha további kérdései vannak, tekintse meg dokumentációnkat (%{documentation_link}), vagy vegye fel velünk a kapcsolatot (%{contact_us_link}).
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
   mail_body_register_closing: "Az OpenProject csapata"
   mail_body_register_ending: "Maradj kapcsolatban! Üdvözlettel,"
   mail_body_reminder: "Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon esedékesek:"
@@ -2357,7 +2361,6 @@ hu:
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Látható a projektlistában"
   setting_notification_retention_period_days: "Értesítés megőrzési időszaka\n"
-  setting_notification_email_delay_minutes: "Email küldési késleltetés"
   setting_notification_email_digest_time: "Email feldolgozási idő\n"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
@@ -2435,7 +2438,6 @@ hu:
       retention_text: >
         Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
 
-      delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
       email_digest_explanation: "Naponta egyszer küldhető egy e -mail kivonat, amely tartalmazza az összes felhasználó által feliratkozott értesítés gyűjteményét. A beállítás az egyes felhasználók által konfigurált időzónához képest van, így pl. A 8:00 UTC+1 felhasználók számára UTC 7:00 órakor, az UTC-1-es felhasználók pedig 9:00 UTC-kor kerülnek végrehajtásra.\n"
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
     display:
@@ -2794,7 +2796,7 @@ hu:
     Elérte a felhasználói korlátot. Nem aktiválhat további felhasználókat. Kérjük, <a href="%{upgrade_url}"> frissítse a licencét </a>, vagy blokkolja a további tagokat a felhasználók engedélyezéséhez.
   warning_user_limit_reached_instructions: >
     Elérte a felhasználói limitet (%{current}/%{max} aktív felhasználók). Kérjük, forduljon a sales@openproject.com címhez az Enterprise Edition licenc frissítésért és további felhasználók hozzáadásához.
-  0: >
+  warning_protocol_mismatch_html: >
 
   warning_bar:
     protocol_mismatch:
