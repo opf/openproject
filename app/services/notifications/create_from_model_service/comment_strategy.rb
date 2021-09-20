@@ -50,7 +50,7 @@ module Notifications::CreateFromModelService::CommentStrategy
   end
 
   def self.subscribed_users(comment)
-    User.notified_globally notification_reason(comment)
+    User.notified_globally subscribed_notification_reason(comment)
   end
 
   def self.subscribed_notification_reason(_comment)

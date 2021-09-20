@@ -108,7 +108,7 @@ class DocumentsController < ApplicationController
                                   model: @document,
                                   args: document_params
 
-    if call.success? && Setting.notified_events.include?('document_added')
+    if call.success?
       added = call.result
                   .attachments
                   .reject { |a| current_attachments.include?(a.id) }

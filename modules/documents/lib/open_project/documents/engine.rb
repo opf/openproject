@@ -56,7 +56,6 @@ module OpenProject::Documents
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
     patches %i[CustomFieldsHelper Project]
-    patch_with_namespace :OpenProject, :Notifiable
 
     add_api_path :documents do
       "#{root}/documents"

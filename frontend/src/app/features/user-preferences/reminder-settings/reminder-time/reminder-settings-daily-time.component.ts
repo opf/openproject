@@ -93,6 +93,7 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
       .get('times') as FormArray)
       .valueChanges
       .pipe(
+        startWith(() => this.form.get('times')?.value as FormArray),
         map(() => {
           const timesArray = this.form.get('times') as FormArray;
           const activeTimes = timesArray.controls.map((c) => c.value as string);
@@ -191,6 +192,7 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
       );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   isDisabled(time:string, activeTimes:string[]):boolean {
     return activeTimes.length === 0 || (activeTimes.length === 1 && activeTimes[0] === time);
   }

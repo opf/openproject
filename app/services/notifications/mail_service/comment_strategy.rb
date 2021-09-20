@@ -29,8 +29,6 @@
 module Notifications::MailService::CommentStrategy
   class << self
     def send_mail(notification)
-      return if notification_disabled?
-
       UserMailer
         .news_comment_added(
           notification.recipient,
@@ -38,12 +36,6 @@ module Notifications::MailService::CommentStrategy
           notification.resource.author || DeletedUser.first
         )
         .deliver_later
-    end
-
-    private
-
-    def notification_disabled?
-      Setting.notified_events.exclude?('news_comment_added')
     end
   end
 end

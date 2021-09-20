@@ -24,7 +24,6 @@ import {
 } from 'core-app/features/user-preferences/reminder-settings/email-alerts/email-alerts-settings.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
-  distinctUntilChanged,
   filter,
   withLatestFrom,
 } from 'rxjs/operators';

@@ -50,7 +50,7 @@ module Notifications::CreateFromModelService::DocumentStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_globally notification_reason(journal)
+    User.notified_globally subscribed_notification_reason(journal)
   end
 
   def self.subscribed_notification_reason(_journal)

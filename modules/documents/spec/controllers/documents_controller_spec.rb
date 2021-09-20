@@ -105,7 +105,6 @@ describe DocumentsController do
 
     before do
       ActionMailer::Base.deliveries.clear
-      allow(Setting).to receive(:notified_events).and_return(Setting.notified_events.dup << 'document_added')
     end
 
     it "should create a new document with valid arguments" do

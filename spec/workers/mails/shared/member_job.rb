@@ -115,57 +115,25 @@ shared_examples 'member job' do
   context 'with a global membership' do
     let(:project) { nil }
 
-    context 'with sending enabled', with_settings: { notified_events: ['membership_updated'] } do
+    context 'with sending enabled' do
       it 'sends mail' do
         run_job
 
         expect(MemberMailer)
           .to have_received(:updated_global)
           .with(current_user, member, message)
-      end
-    end
-
-    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
-      let(:message) { '' }
-
-      it_behaves_like 'sends no mail'
-    end
-
-    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
-      it 'sends mail' do
-        run_job
-
-        expect(MemberMailer)
-          .to have_received(:updated_global)
-                .with(current_user, member, message)
       end
     end
   end
 
   context 'with a user membership' do
-    context 'with sending enabled', with_settings: { notified_events: %w[membership_updated membership_added] } do
+    context 'with sending enabled' do
       it 'sends mail' do
         run_job
 
         expect(MemberMailer)
           .to have_received(user_project_mail_method)
           .with(current_user, member, message)
-      end
-    end
-
-    context 'with sending disabled and no message', with_settings: { notified_events: [] } do
-      let(:message) { '' }
-
-      it_behaves_like 'sends no mail'
-    end
-
-    context 'with sending disabled and a message', with_settings: { notified_events: [] } do
-      it 'sends mail' do
-        run_job
-
-        expect(MemberMailer)
-          .to have_received(user_project_mail_method)
-                .with(current_user, member, message)
       end
     end
   end
