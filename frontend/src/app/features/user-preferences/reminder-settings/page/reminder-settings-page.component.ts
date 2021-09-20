@@ -24,9 +24,11 @@ import {
 } from 'core-app/features/user-preferences/reminder-settings/email-alerts/email-alerts-settings.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
+  distinctUntilChanged,
   filter,
   withLatestFrom,
 } from 'rxjs/operators';
+import { filterObservable } from 'core-app/shared/helpers/rxjs/filterWith';
 
 export const myReminderPageComponentSelector = 'op-reminders-page';
 
@@ -110,6 +112,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
       .pipe(
         filter((settings) => !!settings),
         withLatestFrom(this.storeService.query.globalNotification$),
+        filterObservable(this.storeService.query.selectLoading(), (val) => !val),
       )
       .subscribe(([settings, globalSetting]) => {
         this.form.get('immediateReminders.mentioned')?.setValue(settings.immediateReminders.mentioned);
