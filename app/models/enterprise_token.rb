@@ -69,6 +69,8 @@ class EnterpriseToken < ApplicationRecord
            :issued_at,
            :starts_at,
            :expires_at,
+           :reprieve_days,
+           :reprieve_days_left,
            :restrictions,
            to: :token_object
 
@@ -86,8 +88,8 @@ class EnterpriseToken < ApplicationRecord
     RequestStore.delete :current_ee_token
   end
 
-  def expired?
-    token_object.expired? || invalid_domain?
+  def expired?(reprieve: true)
+    token_object.expired?(reprieve: reprieve) || invalid_domain?
   end
 
   ##

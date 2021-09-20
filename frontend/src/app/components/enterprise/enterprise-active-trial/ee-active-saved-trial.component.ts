@@ -45,9 +45,21 @@ export class EEActiveSavedTrialComponent extends EEActiveTrialBase {
   public userCount = this.elementRef.nativeElement.dataset['userCount'];
   public startsAt = this.elementRef.nativeElement.dataset['startsAt'];
   public expiresAt = this.elementRef.nativeElement.dataset['expiresAt'];
+  public isExpired:boolean = this.elementRef.nativeElement.dataset['isExpired'] == 'true';
+  public reprieveDaysLeft = this.elementRef.nativeElement.dataset['reprieveDaysLeft'];
 
   constructor(readonly elementRef:ElementRef,
               readonly I18n:I18nService) {
     super(I18n);
+  }
+
+  public get expiredWarningText():string {
+    var warning = this.text.text_expired;
+
+    if (this.reprieveDaysLeft && this.reprieveDaysLeft > 0) {
+      warning = warning + ": " + this.text.text_reprieve_days_left(this.reprieveDaysLeft);
+    }
+
+    return warning;
   }
 }
