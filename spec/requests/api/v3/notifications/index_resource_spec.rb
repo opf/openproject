@@ -141,9 +141,9 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a reason groupBy' do
-      let(:involved_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :involved }
+      let(:responsible_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :responsible }
 
-      let(:notifications) { [notification1, notification2, involved_notification] }
+      let(:notifications) { [notification1, notification2, responsible_notification] }
 
       let(:send_request) do
         get api_v3_paths.path_for :notifications, group_by: :reason
@@ -158,9 +158,9 @@ describe ::API::V3::Notifications::NotificationsAPI,
         expect(groups.count).to eq 2
 
         keyed = groups.index_by { |el| el['value'] }
-        expect(keyed.keys).to contain_exactly 'mentioned', 'involved'
+        expect(keyed.keys).to contain_exactly 'mentioned', 'responsible'
         expect(keyed['mentioned']['count']).to eq 2
-        expect(keyed['involved']['count']).to eq 1
+        expect(keyed['responsible']['count']).to eq 1
       end
     end
 
@@ -171,7 +171,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
                           resource: work_package2,
                           project: work_package2.project,
                           recipient: recipient,
-                          reason_ian: :involved
+                          reason_ian: :responsible
       end
 
       let(:notifications) { [notification1, notification2, other_project_notification] }

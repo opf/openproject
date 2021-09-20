@@ -115,11 +115,11 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :involved,
+          reason_ian: :assigned,
           read_mail: false,
-          reason_mail: :involved,
+          reason_mail: :assigned,
           read_mail_digest: false,
-          reason_mail_digest: :involved
+          reason_mail_digest: :assigned
         }
       end
     end
@@ -141,7 +141,7 @@ describe Notifications::CreateFromModelService,
             read_mail: false,
             reason_mail: :subscribed,
             read_mail_digest: false,
-            reason_mail_digest: :involved
+            reason_mail_digest: :assigned
           }
         end
       end
@@ -160,7 +160,7 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :involved,
+            reason_ian: :assigned,
             read_mail: nil,
             reason_mail: nil,
             read_mail_digest: nil,
@@ -197,9 +197,9 @@ describe Notifications::CreateFromModelService,
             read_ian: false,
             reason_ian: :subscribed,
             read_mail: false,
-            reason_mail: :involved,
+            reason_mail: :assigned,
             read_mail_digest: false,
-            reason_mail_digest: :involved
+            reason_mail_digest: :assigned
           }
         end
       end
@@ -245,11 +245,11 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :involved,
+          reason_ian: :responsible,
           read_mail: false,
-          reason_mail: :involved,
+          reason_mail: :responsible,
           read_mail_digest: false,
-          reason_mail_digest: :involved
+          reason_mail_digest: :responsible
         }
       end
     end
@@ -290,7 +290,7 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason_ian: :involved,
+            reason_ian: :responsible,
             read_mail: nil,
             reason_mail: nil,
             read_mail_digest: nil,
@@ -953,11 +953,11 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason_ian: :involved,
+          reason_ian: :assigned,
           read_mail: false,
-          reason_mail: :involved,
+          reason_mail: :assigned,
           read_mail_digest: false,
-          reason_mail_digest: :involved
+          reason_mail_digest: :assigned
         }
       end
     end
