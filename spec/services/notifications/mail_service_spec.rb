@@ -71,7 +71,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -94,7 +94,7 @@ describe Notifications::MailService, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -111,7 +111,7 @@ describe Notifications::MailService, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -152,7 +152,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -175,7 +175,7 @@ describe Notifications::MailService, type: :model do
                       journal.user)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -215,7 +215,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -234,7 +234,7 @@ describe Notifications::MailService, type: :model do
                     actor)
 
       expect(mail)
-        .to have_received(:deliver_later)
+        .to have_received(:deliver_now)
     end
 
     context 'with the notification read in app already' do
