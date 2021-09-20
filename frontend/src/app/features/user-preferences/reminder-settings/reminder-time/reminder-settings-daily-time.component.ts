@@ -7,6 +7,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   map,
   shareReplay,
+  startWith,
 } from 'rxjs/operators';
 import {
   combineLatest,
@@ -82,6 +83,7 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
       .form
       .valueChanges
       .pipe(
+        startWith(() => this.form.get('enabled')?.value as boolean),
         map(() => this.form.get('enabled')?.value as boolean),
         shareReplay(1),
       );

@@ -135,7 +135,6 @@ class Notifications::CreateFromModelService
                                 NotificationSetting::RESPONSIBLE)
   end
 
-
   def settings_of_subscribed
     # Subscribed is a collection of events for non-work packages
     # which currently ignore project-specific overrides
