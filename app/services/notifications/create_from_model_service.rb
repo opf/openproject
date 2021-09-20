@@ -126,13 +126,13 @@ class Notifications::CreateFromModelService
   def settings_of_assigned
     project_applicable_settings(User.where(id: group_or_user_ids(journal.data.assigned_to)),
                                 project,
-                                NotificationSetting::ASSIGNED)
+                                NotificationSetting::INVOLVED)
   end
 
   def settings_of_responsible
     project_applicable_settings(User.where(id: group_or_user_ids(journal.data.responsible)),
                                 project,
-                                NotificationSetting::RESPONSIBLE)
+                                NotificationSetting::INVOLVED)
   end
 
   def settings_of_subscribed

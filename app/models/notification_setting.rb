@@ -1,7 +1,6 @@
 class NotificationSetting < ApplicationRecord
   WATCHED = :watched
-  ASSIGNED = :assigned
-  RESPONSIBLE = :responsible
+  INVOLVED = :involved
   MENTIONED = :mentioned
   WORK_PACKAGE_CREATED = :work_package_created
   WORK_PACKAGE_COMMENTED = :work_package_commented
@@ -21,8 +20,7 @@ class NotificationSetting < ApplicationRecord
   def self.all_settings
     [
       WATCHED,
-      ASSIGNED,
-      RESPONSIBLE,
+      INVOLVED,
       MENTIONED,
       WORK_PACKAGE_CREATED,
       WORK_PACKAGE_COMMENTED,
