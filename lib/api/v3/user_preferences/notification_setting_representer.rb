@@ -35,23 +35,9 @@ module API
         include API::Decorators::LinkedResource
 
         property :channel
-        property NotificationSetting::WATCHED
-        property NotificationSetting::INVOLVED
-        property NotificationSetting::MENTIONED
-        property NotificationSetting::WORK_PACKAGE_CREATED
-        property NotificationSetting::WORK_PACKAGE_COMMENTED
-        property NotificationSetting::WORK_PACKAGE_PROCESSED
-        property NotificationSetting::WORK_PACKAGE_PRIORITIZED
-        property NotificationSetting::WORK_PACKAGE_SCHEDULED
-        property NotificationSetting::NEWS_ADDED
-        property NotificationSetting::NEWS_COMMENTED
-        property NotificationSetting::DOCUMENT_ADDED
-        property NotificationSetting::FORUM_MESSAGES
-        property NotificationSetting::WIKI_PAGE_ADDED
-        property NotificationSetting::WIKI_PAGE_UPDATED
-        property NotificationSetting::MEMBERSHIP_ADDED
-        property NotificationSetting::MEMBERSHIP_UPDATED
-        property NotificationSetting::ALL
+        NotificationSetting.all_settings.each do |setting|
+          property setting
+        end
 
         associated_resource :project,
                             skip_render: ->(*) { true },
