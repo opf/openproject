@@ -30,8 +30,8 @@
 
 module Notifications
   class ScheduleReminderMailsJob < Cron::CronJob
-    # runs every hour, so 00:00, 01:00...
-    self.cron_expression = '0 * * * *'
+    # runs every quarter of an hour, so 00:00, 00:15...
+    self.cron_expression = '*/15 * * * *'
 
     def perform
       User.having_reminder_mail_to_send(run_at).pluck(:id).each do |user_id|

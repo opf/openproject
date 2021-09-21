@@ -71,7 +71,13 @@ describe "Reminder email", type: :feature, js: true do
     let(:work_package) { FactoryBot.create(:work_package, project: project) }
     let(:watched_work_package) { FactoryBot.create(:work_package, project: project, watcher_users: [current_user]) }
     let(:involved_work_package) { FactoryBot.create(:work_package, project: project, assigned_to: current_user) }
-    let(:current_utc_time) { ActiveSupport::TimeZone['Hawaii'].parse("08:43").utc }
+    # The run_at time of the delayed job used for scheduling the reminder mails
+    # needs to be within a time frame eligible for sending out mails for the chose
+    # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
+    # The job is scheduled to run every 15 min so the run_at will in production always move between the quarters of an hour.
+    # The current time can be way behind that.
+    let(:current_utc_time) { ActiveSupport::TimeZone['Hawaii'].parse("08:34:10").utc }
+    let(:job_run_at) { ActiveSupport::TimeZone['Hawaii'].parse("08:00").utc }
 
     current_user do
       FactoryBot.create(
@@ -112,7 +118,7 @@ describe "Reminder email", type: :feature, js: true do
       # so we have to mock it.
       allow(Notifications::ScheduleReminderMailsJob)
         .to receive(:delayed_job)
-              .and_return(instance_double(Delayed::Backend::ActiveRecord::Job, run_at: Time.current.utc))
+              .and_return(instance_double(Delayed::Backend::ActiveRecord::Job, run_at: job_run_at))
     end
 
     it 'sends a digest mail based on the configuration', with_settings: { journal_aggregation_time_minutes: 0 } do
