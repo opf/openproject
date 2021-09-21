@@ -54,18 +54,24 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_global(current_user, member, member_message)
+    return if sending_disabled?(:updated, member.user_id)
+
     MemberMailer
       .updated_global(current_user, member, member_message)
       .deliver_now
   end
 
   def send_added_project(current_user, member, member_message)
+    return if sending_disabled?(:added, member.user_id)
+
     MemberMailer
       .added_project(current_user, member, member_message)
       .deliver_now
   end
 
   def send_updated_project(current_user, member, member_message)
+    return if sending_disabled?(:updated, member.user_id)
+
     MemberMailer
       .updated_project(current_user, member, member_message)
       .deliver_now
@@ -77,5 +83,11 @@ class Mails::MemberJob < ApplicationJob
       .where(principal: member.principal.users)
       .includes(:project, :principal, :roles, :member_roles)
       .each(&block)
+  end
+
+  def sending_disabled?(setting, user_id)
+    NotificationSetting
+      .where(project_id: nil, user_id: user_id)
+      .exists?("membership_#{setting}" => false)
   end
 end
