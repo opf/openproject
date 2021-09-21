@@ -29,11 +29,6 @@
 import { Injectable } from '@angular/core';
 import { Apiv3Paths } from './apiv3-paths';
 
-export interface INotificationPageQueryParameters {
-  reason?:string;
-  project?:string;
-};
-
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath = window.appBasePath || '';
@@ -113,10 +108,8 @@ export class PathHelperService {
     return `${this.staticBase}/news/${newsId}`;
   }
 
-  public notificationsPath({ reason, project }:INotificationPageQueryParameters = {}):string {
-    const reasonQuery = reason ? `&reason=${reason}` : '';
-    const projectQuery = project ? `&project=${project}` : '';
-    return `${this.staticBase}/notifications?${reasonQuery}${projectQuery}`;
+  public notificationsPath():string {
+    return `${this.staticBase}/notifications`;
   }
 
   public loginPath() {

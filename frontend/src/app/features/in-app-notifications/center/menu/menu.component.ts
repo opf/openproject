@@ -6,18 +6,13 @@ import {
 } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { StateService } from '@uirouter/core';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import {
-  PathHelperService,
-  INotificationPageQueryParameters,
-} from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
 
 export const ianMenuSelector = 'op-ian-menu';
-
-const REASON_MENU_ITEMS = [
-];
 
 @Component({
   selector: ianMenuSelector,
@@ -34,20 +29,20 @@ export class IanMenuComponent implements OnInit {
   ];
 
   reasonMenuItems = [
-    { key: 'mentioned', title: '@mentioned', href: this.getHrefForFilters({ reason: 'mentioned' }) },
-    { key: 'involved', title: 'Involved', href: this.getHrefForFilters({ reason: 'involved'  }) },
-    { key: 'watched', title: 'Watched', href: this.getHrefForFilters({ reason: 'watched'  }) },
-    { key: 'created', title: 'Created', href: this.getHrefForFilters({ reason: 'created'  }) },
-    { key: 'assigned', title: 'Assigned', href: this.getHrefForFilters({ reason: 'assigned'  }) },
-    { key: 'accountable', title: 'Accountable', href: this.getHrefForFilters({ reason: 'accountable'  }) },
-    { key: 'commented', title: 'Commented', href: this.getHrefForFilters({ reason: 'commented'  }) },
+    { key: 'mentioned', title: '@mentioned', href: this.getHrefForFilters({ filter: 'reason', name: 'mentioned' }) },
+    { key: 'involved', title: 'Involved', href: this.getHrefForFilters({ filter: 'reason', name: 'involved'  }) },
+    { key: 'watched', title: 'Watched', href: this.getHrefForFilters({ filter: 'reason', name: 'watched'  }) },
+    { key: 'created', title: 'Created', href: this.getHrefForFilters({ filter: 'reason', name: 'created'  }) },
+    { key: 'assigned', title: 'Assigned', href: this.getHrefForFilters({ filter: 'reason', name: 'assigned'  }) },
+    { key: 'accountable', title: 'Accountable', href: this.getHrefForFilters({ filter: 'reason', name: 'accountable'  }) },
+    { key: 'commented', title: 'Commented', href: this.getHrefForFilters({ filter: 'reason', name: 'commented'  }) },
   ];
 
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
     map((items) => items.map(item => ({
       ...item,
       title: item.value,
-      href: this.getHrefForFilters({ project: idFromLink(item._links.valueLink[0].href) }),
+      href: this.getHrefForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
     }))),
   );
 
@@ -90,15 +85,14 @@ export class IanMenuComponent implements OnInit {
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly ianMenuService:IanMenuService,
-    readonly pathHelper:PathHelperService,
-  ) {
-  }
+    readonly state:StateService,
+  ) { }
 
   ngOnInit() {
     this.ianMenuService.reload();
   }
 
   private getHrefForFilters(filters:INotificationPageQueryParameters = {}) {
-    return this.pathHelper.notificationsPath(filters);
+    return this.state.href('notifications', filters);
   }
 }

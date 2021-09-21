@@ -1,4 +1,5 @@
 import { Query } from '@datorama/akita';
+import { StateService } from '@uirouter/core';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -11,6 +12,7 @@ import {
 } from 'rxjs/operators';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
 
 export class IanCenterQuery extends Query<IanCenterState> {
@@ -54,12 +56,14 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   get params():Apiv3ListParameters {
     const state = this.store.getValue();
+    const filters = this.state.params;
     return { ...state.params, filters: IAN_FACET_FILTERS[state.activeFacet] };
   }
 
   constructor(
     protected store:IanCenterStore,
     protected resourceService:InAppNotificationsResourceService,
+    protected state:StateService,
   ) {
     super(store);
   }

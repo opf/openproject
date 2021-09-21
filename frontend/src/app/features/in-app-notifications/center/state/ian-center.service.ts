@@ -2,6 +2,7 @@ import {
   Injectable,
   Injector,
 } from '@angular/core';
+import { StateService } from '@uirouter/core';
 import {
   IanCenterStore,
   InAppNotificationFacet,
@@ -39,13 +40,14 @@ export class IanCenterService {
 
   readonly store = new IanCenterStore();
 
-  readonly query = new IanCenterQuery(this.store, this.resourceService);
+  readonly query = new IanCenterQuery(this.store, this.resourceService, this.state);
 
   constructor(
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
+    readonly state:StateService,
   ) {
   }
 
