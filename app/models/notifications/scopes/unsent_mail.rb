@@ -30,7 +30,7 @@
 
 # Return digest mail notifications that are unread (have read_digest_mail: false)
 module Notifications::Scopes
-  module UnreadMailDigest
+  module UnsentMail
     extend ActiveSupport::Concern
 
     class_methods do

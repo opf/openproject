@@ -26,7 +26,6 @@ class NotificationSetting < ApplicationRecord
       WORK_PACKAGE_PROCESSED,
       WORK_PACKAGE_PRIORITIZED,
       WORK_PACKAGE_SCHEDULED,
-      ALL,
       *email_settings
     ]
   end

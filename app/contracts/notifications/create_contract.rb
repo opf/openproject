@@ -41,6 +41,16 @@ module Notifications
 
     validate :validate_recipient_present
     validate :validate_reason_present
+    validate :validate_read
+    validate :validate_sent
+
+    def validate_read
+      errors.add(:read_ian, :read_on_creation) if model.read_ian
+    end
+
+    def validate_sent
+      errors.add(:sent_mail, :set_on_creation) if model.sent_mail
+    end
 
     def validate_recipient_present
       errors.add(:recipient, :blank) if model.recipient.blank?

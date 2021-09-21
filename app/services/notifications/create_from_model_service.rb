@@ -48,8 +48,8 @@ class Notifications::CreateFromModelService
 
     return result if result.failure?
 
-    notification_receivers.each do |recipient_id, channel_reasons|
-      call = create_notification(recipient_id, channel_reasons)
+    notification_receivers.each do |recipient_id, reasons|
+      call = create_notification(recipient_id, reasons)
       result.add_dependent!(call)
     end
 
@@ -60,26 +60,21 @@ class Notifications::CreateFromModelService
 
   attr_accessor :model
 
-  def create_notification(recipient_id, channel_reasons)
+  def create_notification(recipient_id, reasons)
     notification_attributes = {
       recipient_id: recipient_id,
       project: project,
       resource: resource,
       journal: journal,
-      actor: user_with_fallback
-    }.merge(channel_attributes(channel_reasons))
+      actor: user_with_fallback,
+      reason: reasons.first,
+      read_ian: false,
+      sent_mail: false
+    }
 
     Notifications::CreateService
       .new(user: user_with_fallback)
       .call(notification_attributes)
-  end
-
-  def channel_attributes(channel_reasons)
-    {
-      reason: strategy.supports_ian? && channel_reasons['in_app']&.first,
-      read_ian: strategy.supports_ian? && channel_reasons.keys.include?('in_app') ? false : nil,
-      sent_mail: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil
-    }
   end
 
   def notification_receivers
@@ -255,7 +250,7 @@ class Notifications::CreateFromModelService
 
   def add_receiver(receivers, collection, reason)
     collection.each do |notification|
-      receivers[notification.user_id][notification.channel] << reason
+      receivers[notification.user_id] << reason
     end
   end
 
@@ -265,9 +260,7 @@ class Notifications::CreateFromModelService
 
   def receivers_hash
     Hash.new do |hash, user|
-      hash[user] = Hash.new do |channel_hash, channel|
-        channel_hash[channel] = []
-      end
+      hash[user] = []
     end
   end
 

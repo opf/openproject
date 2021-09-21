@@ -77,7 +77,7 @@ describe Notifications::CreateContract do
       let(:notification_reason) { nil }
       let(:notification_read_ian) { nil }
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like 'contract is invalid', reason: :no_notification_reason
     end
 
     context 'without a subject' do
@@ -101,7 +101,7 @@ describe Notifications::CreateContract do
     context 'with sent_mail true' do
       let(:notification_sent_mail) { true }
 
-      it_behaves_like 'contract is invalid', sent_mail: :read_on_creation
+      it_behaves_like 'contract is invalid', sent_mail: :set_on_creation
     end
   end
 end

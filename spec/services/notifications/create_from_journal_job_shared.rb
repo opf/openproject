@@ -52,13 +52,13 @@ shared_context 'with CreateFromJournalJob context' do
   end
   let(:notification_settings_all_false) do
     NotificationSetting
-      .all_reasons
+      .all_settings
       .index_with(false)
   end
 
   let(:notification_settings_all_true) do
     NotificationSetting
-      .all_reasons
+      .all_settings
       .index_with(true)
   end
 
