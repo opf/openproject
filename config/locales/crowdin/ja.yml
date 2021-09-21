@@ -553,6 +553,7 @@ ja:
         invalid_url: 'は有効な URL ではありません。'
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
         less_than_or_equal_to: "は%{count}以下の値にしてください。"
+        not_available: "is not available due to a system configuration."
         not_deletable: "削除できません。"
         not_current_user: "現在のユーザーではありません。"
         not_a_date: "は有効な日付ではありません。"
@@ -572,6 +573,10 @@ ja:
         unremovable: "削除できません。"
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: '全般'
@@ -1194,6 +1199,7 @@ ja:
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2214,6 +2220,7 @@ ja:
   setting_apiv3_cors_origins: "API V3のオリジン間リソース共有 (CORS) が許可されています"
   setting_apiv3_cors_origins_text_html: >
     CORS が有効になっている場合、これらは OpenProject API へのアクセスが許可されている起源です。 <br/> 期待される値を指定する方法については、 <a href="%{origin_link}" target="_blank">Origin ヘッダー</a> のドキュメントを確認してください。
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "メールの配信方法"
   setting_sendmail_location: "Sendmail の実行可能ファイルの場所"
   setting_smtp_enable_starttls_auto: "利用可能な場合、STARTTLS を自動的に使用する"
@@ -2328,6 +2335,13 @@ ja:
     passwords: "パスワード"
     session: "セッション"
     brute_force_prevention: "自動的にユーザをロック"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。

@@ -186,6 +186,8 @@ ja:
         new_group: '新規グループ'
         reset_to_defaults: 'デフォルトに戻す'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "メールアドレスの確認"
           confirmation_info: >

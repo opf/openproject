@@ -558,6 +558,7 @@ tr:
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
+        not_available: "Sistem yapılandırması nedeniyle kullanılamaz.\n"
         not_deletable: "kaldırılamadı."
         not_current_user: "mevcut kullanıcı değil."
         not_a_date: "geçerli bir tarih değil."
@@ -577,6 +578,10 @@ tr:
         unremovable: "kaldırılamadı."
         wrong_length: "uzunluğu yanlıştır (%{count} karakter olmalıdır)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Küresel'
@@ -1214,6 +1219,7 @@ tr:
   export:
     your_work_packages_export: "İş paketleri dışa aktarma"
     succeeded: "Dışa aktarma başarıyla tamamlandı."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2235,6 +2241,7 @@ tr:
   setting_apiv3_cors_origins: "API V3 Kaynaklar Arası Kaynak Paylaşımı (CORS) izin verilen kaynaklar"
   setting_apiv3_cors_origins_text_html: >
     CORS etkinleştirilirse, bunlar OpenProject API'ye erişmesine izin verilen kaynaklardır. <br/> Beklenen değerlerin nasıl belirtileceğini öğrenmek için lütfen  <a href="%{origin_link}" target="_blank">Kaynak başlığındaki Belgeleri </a> kontrol edin.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "E-posta teslim yöntemi"
   setting_sendmail_location: "Çalıştırılabilir sendmail aracının yolu"
   setting_smtp_enable_starttls_auto: "STARTTLS varsa otomatik olarak kullan"
@@ -2349,6 +2356,13 @@ tr:
     passwords: "Parolalar"
     session: "Oturum"
     brute_force_prevention: "Otomatik kullanıcı engelleme"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Eğer %{day_of_week_setting_name} veya %{first_week_setting_name} seçeneklerinden biri ayarlanmışsa, ön uçta tutarsızlık yaşanmaması için diğer seçeneğin de ayarlanması gerekir.

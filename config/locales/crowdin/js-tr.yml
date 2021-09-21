@@ -185,6 +185,8 @@ tr:
         new_group: 'Yeni grup'
         reset_to_defaults: 'Varsayılanlara geri yükle'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "E-posta adresi doğrulama"
           confirmation_info: >

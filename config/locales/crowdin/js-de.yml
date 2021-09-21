@@ -184,6 +184,8 @@ de:
         new_group: 'Neue Gruppe'
         reset_to_defaults: 'Auf Standardwerte zurücksetzen'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "E-Mail-Adresse bestätigen"
           confirmation_info: >

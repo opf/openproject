@@ -185,6 +185,8 @@ zh-CN:
         new_group: '新的组'
         reset_to_defaults: '重置为默认值'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "确认电子邮件地址"
           confirmation_info: >

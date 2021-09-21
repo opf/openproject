@@ -184,6 +184,8 @@ el:
         new_group: 'Νέα ομάδα'
         reset_to_defaults: 'Επαναφορά στα προεπιλεγμένα'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Επιβεβαίωση της διεύθυνσης email"
           confirmation_info: >

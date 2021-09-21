@@ -558,6 +558,7 @@ hu:
         invalid_url: 'nem érvényes URL.'
         invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
         less_than_or_equal_to: "kisebbnek vagy egyenlőnek kell lennie mint, %{count}."
+        not_available: "nem érhető el a rendszer konfigurációja miatt.\n"
         not_deletable: "nem törölhető"
         not_current_user: "nem az aktuális felhasználó"
         not_a_date: "nem érvényes dátum."
@@ -577,6 +578,10 @@ hu:
         unremovable: "nem törölhető."
         wrong_length: "nem megfelelő hosszúságú (%{count} karakter szükséges)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "'%{value}'-re van állítva, ami nem szerepel a feltöltés fehér listáján.\n"
         capability:
           context:
             global: 'Globális'
@@ -1218,6 +1223,7 @@ hu:
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."
+    failed: "Az exportálás meghiúsult %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2239,6 +2245,7 @@ hu:
   setting_apiv3_cors_origins_text_html: >
     Ha a CORS engedélyezve van, ezek azok az eredetiek, amelyek hozzáférhetnek az OpenProject API-hoz. <br/> Kérjük, olvassa el a <a href="%{origin_link}" target="_blank">Dokumentáció az Origin fejlécről</a> című dokumentumot az elvárt értékek megadásáról.
 
+  setting_attachment_whitelist: "Mellékletfeltöltési fehérlista"
   setting_email_delivery_method: "E-mail küldés módja"
   setting_sendmail_location: "A sendmail program elérési útja"
   setting_smtp_enable_starttls_auto: "Automatikus STARTTLS, ha rendelkezésre áll"
@@ -2353,6 +2360,15 @@ hu:
     passwords: "Jelszavak"
     session: "Munkamenet"
     brute_force_prevention: "Felhasználó automatikus blokkolása"
+    attachments:
+      whitelist_text_html: >
+        Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).
+
+    notifications:
+      retention_text: >
+        Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
+
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.

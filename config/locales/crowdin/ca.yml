@@ -558,6 +558,7 @@ ca:
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "ha de ser menor o igual a %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -577,6 +578,10 @@ ca:
         unremovable: "cannot be removed."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
@@ -1214,6 +1219,7 @@ ca:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2233,6 +2239,7 @@ ca:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Mètode de lliurament del correu electrònic"
   setting_sendmail_location: "Localització de l'executable de sendmail"
   setting_smtp_enable_starttls_auto: "Utilitza STARTTLS automàticament si està disponible"
@@ -2347,6 +2354,13 @@ ca:
     passwords: "Contrasenyes"
     session: "Sessió"
     brute_force_prevention: "Bloqueig automàtic d'usuari"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

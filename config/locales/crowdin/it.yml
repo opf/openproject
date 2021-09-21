@@ -554,6 +554,7 @@ it:
         invalid_url: 'non è un URL valido.'
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         less_than_or_equal_to: "deve essere inferiore o uguale a %{count}."
+        not_available: "non è disponibile a causa di una configurazione di sistema."
         not_deletable: "non può essere eliminato."
         not_current_user: "non è l'utente attuale."
         not_a_date: "non è una data valida."
@@ -573,6 +574,10 @@ it:
         unremovable: "non può essere rimosso."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "è impostato a '%{value}', che non è autorizzato per il caricamento."
         capability:
           context:
             global: 'Globale'
@@ -1210,6 +1215,7 @@ it:
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
+    failed: "L'esportazione non è riuscita: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2231,6 +2237,7 @@ it:
   setting_apiv3_cors_origins: "Origini di condivisione CORS (Cross-Origin Resource Sharing) API V3 consentite"
   setting_apiv3_cors_origins_text_html: >
     Se CORS è abilitato, queste sono le origini che possono accedere alle API di OpenProject. <br/> Controlla la <a href="%{origin_link}" target="_blank">Documentazione sull'intestazione dell'origine</a> per sapere come specificare i valori previsti.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Metodo di invio e-mail"
   setting_sendmail_location: "Percorso dell'eseguibile del programma di invio della posta"
   setting_smtp_enable_starttls_auto: "Usa automaticamente, se disponibile, STARTTLS"
@@ -2345,6 +2352,13 @@ it:
     passwords: "Password"
     session: "Sessione"
     brute_force_prevention: "Blocco automatico degli utenti"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.

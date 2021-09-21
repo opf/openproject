@@ -559,6 +559,7 @@ ru:
         invalid_url: 'не является допустимым URL-адресом.'
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         less_than_or_equal_to: "должно быть меньше или равно %{count}."
+        not_available: "недоступно из-за конфигурации системы."
         not_deletable: "не может быть удален."
         not_current_user: "не является текущим пользователем."
         not_a_date: "не является допустимой датой."
@@ -578,6 +579,10 @@ ru:
         unremovable: "не может быть удалено."
         wrong_length: "неправильная длина (должно быть %{count} знаков)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "установлено в '%{value}', который не является белым списком для загрузки."
         capability:
           context:
             global: 'Глобальная'
@@ -1245,6 +1250,7 @@ ru:
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
+    failed: "Экспорт не удался: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2265,6 +2271,7 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
+  setting_attachment_whitelist: "Белый список загрузки вложений"
   setting_email_delivery_method: "Метод доставки электронной почты"
   setting_sendmail_location: "Расположение исполняемого файла sendmail"
   setting_smtp_enable_starttls_auto: "Автоматически использовать STARTTLS, если таковые имеются"
@@ -2379,6 +2386,13 @@ ru:
     passwords: "Пароли"
     session: "Сессия"
     brute_force_prevention: "Автоматическое блокирование пользователя"
+    attachments:
+      whitelist_text_html: >
+        Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
+    notifications:
+      retention_text: >
+        Количество дней в системе уведомлений для пользователей (источник уведомлений в приложении). Все события, старше этого времени будут удалены.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.

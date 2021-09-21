@@ -71,13 +71,13 @@ lt:
     button_collapse_all: "Sutraukti visus"
     button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
-    button_list_view: "Sąrašo rodinys"
-    button_show_view: "Viso ekrano rodinys"
+    button_list_view: "Sąrašo vaizdas"
+    button_show_view: "Viso ekrano vaizdas"
     button_log_time: "Registruoti laiką"
     button_more: "Daugiau"
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
-    button_open_fullscreen: "Atidaryti viso ekrano rodinį"
+    button_open_fullscreen: "Atidaryti viso ekrano vaizdą"
     button_show_cards: "Rodyti kortelių vaizdą"
     button_show_list: "Rodyti sąrašo vaizdą"
     button_quote: "Cituoti"
@@ -185,6 +185,8 @@ lt:
         new_group: 'Nauja grupė'
         reset_to_defaults: 'Atkurti į numatytuosius'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Patvirtinti el. pašto adresą"
           confirmation_info: >
@@ -244,8 +246,8 @@ lt:
     error:
       internal: "Įvyko vidinė klaida."
       cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
-      query_saving: "Nepavyko įrašyti rodinio."
-      embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
+      query_saving: "Nepavyko įrašyti vaizdo."
+      embedded_table_loading: "Nepavyko įkelti įdėto vaizdo: %{message}"
     enumeration_activities: "Veikla (laiko sekimas)"
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
@@ -273,7 +275,7 @@ lt:
     hal:
       error:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
-        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
+        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas kilęs iš ryšių (pvz., vaiko ryšio), arba jis nėra konfigūruojamas."
         format:
           date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
         general: "Įvyko klaida."
@@ -281,7 +283,7 @@ lt:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          learn_about: "Sužinokite apie naujas galimybes"
+          learn_about: "Sužinokite daugiau apie naujas galimybes"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
@@ -405,7 +407,7 @@ lt:
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
-    label_show_in_menu: "Rodyti rodinį meniu"
+    label_show_in_menu: "Rodyti vaizdą meniu"
     label_sort_by: "Rūšiuoti pagal"
     label_sorted_by: "surikiuota pagal"
     label_sort_higher: "Perkelti aukštyn"
@@ -468,7 +470,7 @@ lt:
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
     label_version_plural: "Versijos"
-    label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
+    label_view_has_changed: "Šiame vaizde yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:
@@ -571,8 +573,8 @@ lt:
       duplicated: "Dubliuotas"
       blocks: "Blokai"
       blocked: "Blokuojamas"
-      precedes: "Ankstesnė"
-      follows: "Seka"
+      precedes: "Prieš"
+      follows: "Po"
       includes: "Turi savyje"
       partof: "Dalis"
       requires: "Reikalingas"
@@ -820,9 +822,9 @@ lt:
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
         click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
         rename_query_placeholder: "Vaizdo pavadinimas"
-        star_text: "Pažymėti šį rodinį kaip mėgstamiausią ir pridėti į įrašytų rodinių dėklą kairėje."
+        star_text: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
         public_text: >
-          Publikuoti šį rodinį, leidžiant kitiems naudotojams prieigą prie jūsų rodinio. Naudotojai su teise „Valdyti viešus rodinius“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo rodinyje ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
+          Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
         errors:
           unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
           not_found: "Nėra tokio vaizdo"
@@ -922,7 +924,7 @@ lt:
       destroy_time_entry:
         title: "Patvirtinkite laiko įrašo trynimą."
         text: "Ar Jūs tikrai norite ištrinti šį laiko įrašą?"
-    notice_no_results_to_display: "Nėra rezultatų."
+    notice_no_results_to_display: "Nėra matomų rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingai atnaujinta."
@@ -950,7 +952,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
     error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
-    error_attachment_upload: "Nepavyko įkelti: %{error}"
+    error_attachment_upload: "Nepavyko įkelti failo: %{error}"
     error_attachment_upload_permission: "Jūs neturite teisės įkelti failus į šį resursą."
     units:
       workPackage:
@@ -966,7 +968,7 @@ lt:
       hour:
         one: "1 val."
         other: "%{count} val"
-        zero: "0 h"
+        zero: "0 val"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
