@@ -37,9 +37,7 @@ export class OpSidemenuComponent implements OnInit {
     readonly I18n:I18nService,
   ) { }
 
-  ngOnInit() {
-    console.log(this.items);
-  }
+  ngOnInit() { }
 
   toggleCollapsed() {
     this.collapsed = !this.collapsed;
