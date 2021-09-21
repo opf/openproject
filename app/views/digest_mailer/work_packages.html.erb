@@ -32,42 +32,50 @@
   <% end %>
 <% end %>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+<table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
   <tr>
-    <td width="80%">
-      <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
-        <table>
-          <tr>
-            <td>
-              <span style="font-size: 14px; line-height: 28px">
-                <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
-                <% if number_of_overflowing_work_packages === 1 %>
-                  <%= I18n.t(:'mail.digests.work_packages.more_to_see_singular') %>
-                <% else %>
-                  <%= I18n.t(:'mail.digests.work_packages.more_to_see_plural', number: number_of_overflowing_work_packages) %>
-                <% end %>
-              </span>
-            </td>
-            <td>
-              <a
-                target="_blank"
-                style="background-color: #D1E5F5;
-                  padding: 8px 12px;
-                  color: #1A67A3;
-                  border: 1px solid #1A67A3;
-                  border-radius: 16px;
-                  text-decoration: none;
-                  white-space: nowrap;">
-                <%= I18n.t(:'mail.digests.work_packages.see_all') %>
-              </a>
-            </td>
-          </tr>
-        </table>
-      <% end %>
+    <td>
+      <table <%= placeholder_table_styles(style: 'width:100%;') %>>
+        <tr>
+          <td>
+            <table>
+              <tr>
+                <td>
+                  <span>
+                    <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
+                          <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
+                          <%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
+                  </span>
+                </td>
+                <%= placeholder_cell('10px', true) %>
+                <td>
+                  <a
+                    target="_blank"
+                    style="background-color: #D1E5F5;
+                      padding: 8px 12px;
+                      color: #1A67A3;
+                      border: 1px solid #1A67A3;
+                      border-radius: 16px;
+                      text-decoration: none;
+                      white-space: nowrap;">
+                    <%= I18n.t(:'mail.digests.work_packages.see_all') %>
+                  </a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
     </td>
-    <td width="20%" style="text-align: right">
+    <%= placeholder_cell('10px', true) %>
+    <td>
       <%= render partial: 'mailer/notification_settings_button' %>
     </td>
   </tr>
 </table>
 
+<table>
+  <tr>
+    <%= placeholder_cell('20px') %>
+  </tr>
+</table>
