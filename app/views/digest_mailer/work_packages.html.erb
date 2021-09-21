@@ -1,81 +1,89 @@
-<%= render partial: 'mailer/notification_mailer_header',
-           locals: {
-             summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}"
-           } %>
-
-<% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
-  <%= render layout: 'mailer/notification_row',
-             locals: {
-               work_package: work_package,
-               notifications_by_work_package: notifications_by_work_package
-             } do %>
-    <table <%= placeholder_table_styles %>>
-      <% notifications_by_work_package.each do | notification | %>
-        <% if notification.journal.notes.present? %>
-          <tr>
-            <td style="color: #878787; line-height: 24px; font-size: 14px;">
-              <%= digest_comment_text(notification) %>
-              <%= digest_notification_timestamp_text(notification) %>
-            </td>
-          </tr>
-        <% end %>
-        <% notification.journal.details.each do |detail| %>
-          <tr>
-            <td style="color: #878787; line-height: 24px; font-size: 14px;">
-              <%= notification.journal.render_detail(detail, only_path: false) %>
-              <%= digest_notification_timestamp_text(notification) %>
-            </td>
-          </tr>
-        <% end %>
-      <% end %>
-    </table>
-  <% end %>
-<% end %>
-
-<table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
+<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;margin-left:auto;margin-right:auto') %>>
   <tr>
     <td>
-      <table <%= placeholder_table_styles(style: 'width:100%;') %>>
+      <%= render partial: 'mailer/notification_mailer_header',
+                 locals: {
+                   summary: "#{I18n.t(:'mail.digests.you_have')} #{digest_summary_text(@notification_ids.length, @mentioned_count)}"
+                 } %>
+
+      <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
+        <%= render layout: 'mailer/notification_row',
+                   locals: {
+                     work_package: work_package,
+                     notifications_by_work_package: notifications_by_work_package
+                   } do %>
+          <table <%= placeholder_table_styles %>>
+            <% notifications_by_work_package.each do | notification | %>
+              <% if notification.journal.notes.present? %>
+                <tr>
+                  <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
+                    <%= digest_comment_text(notification) %>
+                    <%= digest_notification_timestamp_text(notification) %>
+                  </td>
+                </tr>
+              <% end %>
+              <% notification.journal.details.each do |detail| %>
+                <tr>
+                  <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
+                    <%= notification.journal.render_detail(detail, only_path: false) %>
+                    <%= digest_notification_timestamp_text(notification) %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+          </table>
+        <% end %>
+      <% end %>
+
+      <table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
         <tr>
           <td>
-            <table>
+            <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
               <tr>
                 <td>
-                  <span>
+                  <table>
+                    <tr>
+                      <td>
+                  <span style="font-size:14px;">
                     <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
-                          <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
-                          <%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
+                    <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
+                    <%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
                   </span>
-                </td>
-                <%= placeholder_cell('10px', true) %>
-                <td>
-                  <a
-                    target="_blank"
-                    style="background-color: #D1E5F5;
-                      padding: 8px 12px;
-                      color: #1A67A3;
-                      border: 1px solid #1A67A3;
-                      border-radius: 16px;
-                      text-decoration: none;
-                      white-space: nowrap;">
-                    <%= I18n.t(:'mail.digests.work_packages.see_all') %>
-                  </a>
+                      </td>
+                      <%= placeholder_cell('10px', true) %>
+                      <td>
+                        <a
+                          target="_blank"
+                          style="background-color: #D1E5F5;
+                            padding: 8px 12px;
+                            color: #1A67A3;
+                            border: 1px solid #1A67A3;
+                            border-radius: 16px;
+                            text-decoration: none;
+                            font-size:14px;
+                            white-space: nowrap;">
+                          <%= I18n.t(:'mail.digests.work_packages.see_all') %>
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </table>
           </td>
+          <%= placeholder_cell('10px', true) %>
+          <td>
+            <%= render partial: 'mailer/notification_settings_button' %>
+          </td>
         </tr>
       </table>
-    </td>
-    <%= placeholder_cell('10px', true) %>
-    <td>
-      <%= render partial: 'mailer/notification_settings_button' %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('20px') %>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>
 
-<table>
-  <tr>
-    <%= placeholder_cell('20px') %>
-  </tr>
-</table>

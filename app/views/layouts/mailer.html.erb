@@ -77,8 +77,11 @@ See COPYRIGHT and LICENSE files for more details.
         color: #878787;
       }
     </style>
+
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="initial-scale=1.0">
   </head>
-  <body>
+  <body style="padding: 0">
       <span class="header"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %></span>
       <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
       <%= yield %>

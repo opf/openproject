@@ -1,11 +1,11 @@
-<table <%= placeholder_table_styles(style: "width:100%;min-width:100%") %>>
+<table <%= placeholder_table_styles(width:'100%',style: "width:100%;min-width:100%") %>>
   <tr>
     <td>
       <table <%= placeholder_table_styles %>>
         <tr>
           <%= placeholder_cell('12px', true) %>
           <td>
-            <table <%= placeholder_table_styles(style: "width:100%") %>>
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%") %>>
               <tr>
                 <td>
                   <span style="font-size: 24px; color: #333333;">
@@ -45,7 +45,7 @@
             <table <%= placeholder_table_styles %>>
               <tr>
                 <td style="width: 96px; height: 96px; vertical-align: top;">
-                  <%= logo_tag({ alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;"}) %>
+                  <%= logo_tag({ alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;max-width: 240px;"}) %>
                 </td>
               </tr>
             </table>
