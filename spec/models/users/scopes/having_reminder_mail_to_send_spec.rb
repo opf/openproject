@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe User, '.having_reminder_mail_to_send', type: :job do
+describe User, '.having_reminder_mail_to_send', type: :model do
   subject(:scope) do
     described_class.having_reminder_mail_to_send(scope_time)
   end
