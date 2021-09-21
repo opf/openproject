@@ -66,12 +66,11 @@ class Notifications::WorkflowJob < ApplicationJob
     Notification
       .where(id: notification_ids)
       .unsent_mail
-      .where(reason: NotificationSetting.mail_reasons)
+      .where(reason: NotificationSetting.email_settings)
       .each do |notification|
-        Notifications::MailService
-          .new(notification)
-          .call
-      end
+      Notifications::MailService
+        .new(notification)
+        .call
     end
   end
 end

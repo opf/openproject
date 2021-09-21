@@ -42,9 +42,7 @@ shared_context 'with CreateFromJournalJob context' do
   let(:recipient_login) { "johndoe" }
   let(:other_user) do
     notification_settings = [
-      FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-      FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+      FactoryBot.build(:notification_setting, **notification_settings_all_false)
     ]
 
     FactoryBot.create(:user,
@@ -64,9 +62,7 @@ shared_context 'with CreateFromJournalJob context' do
 
   let(:recipient_notification_settings) do
     [
-      FactoryBot.build(:mail_notification_setting, **notification_settings_all_true),
-      FactoryBot.build(:in_app_notification_setting, **notification_settings_all_true),
-      FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_true)
+      FactoryBot.build(:notification_setting, **notification_settings_all_true)
     ]
   end
   let(:send_notifications) { true }

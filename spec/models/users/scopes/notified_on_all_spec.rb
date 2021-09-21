@@ -45,8 +45,7 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
     context 'when user is notified about everything' do
       let(:notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, all: true),
-          FactoryBot.build(:in_app_notification_setting, all: true)
+          FactoryBot.build(:notification_setting, all: true)
         ]
       end
 
@@ -58,8 +57,7 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
       context 'with in app notifications disabled' do
         let(:notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, all: true),
-            FactoryBot.build(:in_app_notification_setting, all: false)
+            FactoryBot.build(:notification_setting, all: true)
           ]
         end
 
@@ -72,8 +70,7 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
       context 'with mail notifications disabled' do
         let(:notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, all: false),
-            FactoryBot.build(:in_app_notification_setting, all: true)
+            FactoryBot.build(:notification_setting, all: false)
           ]
         end
 
@@ -86,8 +83,7 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
       context 'with all disabled' do
         let(:notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, all: false),
-            FactoryBot.build(:in_app_notification_setting, all: false)
+            FactoryBot.build(:notification_setting, all: false)
           ]
         end
 
@@ -100,10 +96,8 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
       context 'with all disabled as a default but enabled in the project' do
         let(:notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, all: false),
-            FactoryBot.build(:in_app_notification_setting, all: false),
-            FactoryBot.build(:mail_notification_setting, project: project, all: true),
-            FactoryBot.build(:in_app_notification_setting, project: project, all: true)
+            FactoryBot.build(:notification_setting, all: false),
+            FactoryBot.build(:notification_setting, project: project, all: true)
           ]
         end
 
@@ -116,10 +110,8 @@ describe Users::Scopes::NotifiedOnAll, type: :model do
       context 'with all enabled as a default but disabled in the project' do
         let(:notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, all: true),
-            FactoryBot.build(:in_app_notification_setting, all: true),
-            FactoryBot.build(:mail_notification_setting, project: project, all: false),
-            FactoryBot.build(:in_app_notification_setting, project: project, all: false)
+            FactoryBot.build(:notification_setting, all: true),
+            FactoryBot.build(:notification_setting, project: project, all: false)
           ]
         end
 
