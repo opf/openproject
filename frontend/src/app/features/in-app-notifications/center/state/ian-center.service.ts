@@ -31,6 +31,8 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { from } from 'rxjs';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import { StateService } from '@uirouter/angular';
+import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 
 @Injectable()
 @EffectHandler
@@ -41,11 +43,14 @@ export class IanCenterService {
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
 
+  public selectedNotificationIndex = 0;
+
   constructor(
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
+    readonly state:StateService,
   ) {
   }
 
@@ -58,6 +63,7 @@ export class IanCenterService {
     this.actions$.dispatch(
       markNotificationsAsRead({ origin: this.id, notifications }),
     );
+    
   }
 
   markAllAsRead():void {
@@ -75,13 +81,9 @@ export class IanCenterService {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    if (action.origin === this.id) {
-      this
-        .resourceService
-        .removeFromCollection(this.query.params, action.notifications);
-    } else {
-      this.reload();
-    }
+    this.beforeReloadNotifications(action.notifications[0]);
+    this.resourceService.removeFromCollection(this.query.params, action.notifications);
+    this.afterReloadNotifications(this.selectedNotificationIndex);
   }
 
   private reload() {
@@ -117,5 +119,51 @@ export class IanCenterService {
     });
 
     return promise;
+  }
+
+  private afterReloadNotifications(notificationIndex: number) {
+    if (window.location.href.indexOf('details') <= -1) {
+      return;
+    }
+    this.query.notifications$.pipe(take(1)).subscribe((elemenets)=> { 
+    if (elemenets.length <= 0)
+      {
+        void this.state.go(
+          `${(this.state.current.data as BackRouteOptions).baseRoute}`
+        );
+      } else {
+        var index = notificationIndex > elemenets.length ? 0 : notificationIndex - 1;
+        const href = elemenets[index][0]._links.resource?.href;
+        const id = href && HalResource.matchFromLink(href, 'work_packages');
+        if (id) {
+          const wp = this
+            .apiV3Service
+            .work_packages
+            .id(id)
+            .requireAndStream();
+
+            wp.pipe(take(1))
+            .subscribe((wp) => {
+              void this.state.go(
+                `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
+                { workPackageId: wp.id, tabIdentifier: 'activity' },
+              );
+          });
+        }  
+      }
+    });
+  }
+
+  private beforeReloadNotifications(notificationID : string | number) {
+    this.query.notifications$.pipe().subscribe((wpNotifications) => {
+      let counter = 0;
+      wpNotifications.forEach(elment => {
+        counter ++;
+        elment.forEach(notification => {
+          if (notification.id ==  notificationID)
+            this.selectedNotificationIndex = counter;
+        });
+      });
+    });
   }
 }
