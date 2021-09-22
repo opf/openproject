@@ -597,7 +597,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
-    marcel (1.0.1)
+    marcel (1.0.2)
     messagebird-rest (1.4.2)
     meta-tags (2.15.0)
       actionpack (>= 3.2.0, < 6.2)
