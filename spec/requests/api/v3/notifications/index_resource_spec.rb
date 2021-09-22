@@ -140,6 +140,32 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
     end
 
+    context 'with a project filter' do
+      let(:other_work_package) { FactoryBot.create(:work_package) }
+      let(:notification3) do
+        FactoryBot.create :notification,
+                          recipient: recipient,
+                          resource: other_work_package,
+                          project: other_work_package.project
+      end
+      let(:notifications) { [notification1, notification2, notification3] }
+
+      let(:filters) do
+        [
+          {
+            'project' => {
+              'operator' => '=',
+              'values' => [work_package.project_id.to_s]
+            }
+          }
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
     context 'with a reason groupBy' do
       let(:responsible_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :responsible }
 
