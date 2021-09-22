@@ -1,10 +1,10 @@
 import { Query } from '@datorama/akita';
-import { StateService } from '@uirouter/core';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
   IanCenterStore,
 } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
+import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   map,
@@ -56,14 +56,22 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   get params():Apiv3ListParameters {
     const state = this.store.getValue();
-    const filters = this.state.params;
-    return { ...state.params, filters: IAN_FACET_FILTERS[state.activeFacet] };
+    const hasFilters = state.filters.name && state.filters.filter;
+    return {
+      ...state.params,
+      filters: [
+        ...IAN_FACET_FILTERS[state.activeFacet],
+        ...(hasFilters
+          ? ([[state.filters.filter, '=', [state.filters.name]]] as ApiV3ListFilter[])
+          : []
+        ),
+      ],
+    };
   }
 
   constructor(
     protected store:IanCenterStore,
     protected resourceService:InAppNotificationsResourceService,
-    protected state:StateService,
   ) {
     super(store);
   }

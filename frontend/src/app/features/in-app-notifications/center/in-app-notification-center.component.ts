@@ -99,5 +99,9 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
 
   ngOnInit():void {
     this.storeService.setFacet('unread');
+    this.storeService.setFilters({
+      filter: this.uiRouterGlobals.params.filter,
+      name: this.uiRouterGlobals.params.name,
+    });
   }
 }

@@ -1,9 +1,7 @@
 import { Query } from '@datorama/akita';
-import {
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { combineLatestWith } from 'rxjs/operators';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
 import {
@@ -18,6 +16,7 @@ export class IanMenuQuery extends Query<IanMenuState> {
   constructor(
     protected store:IanMenuStore,
     protected resourceService:InAppNotificationsResourceService,
+    protected projectsResourceService:ProjectsResourceService,
   ) {
     super(store);
   }
