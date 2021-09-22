@@ -509,14 +509,11 @@ tr:
       title: "Bildirimler"
       channel: "Kanal"
       no_unread: "Okunmamış bildirim yok"
-      channels:
-        in_app: "Uygulama içi"
-        mail: "Eposta"
-        mail_digest: "Günlük e-posta özeti"
       reasons:
         mentioned: 'adı geçen, bahsedilen'
         watched: 'izlendi'
-        involved: 'dahil olmuş'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'okunmamış'
         all: 'Hepsi'
@@ -529,20 +526,33 @@ tr:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
       settings:
-        default_all_projects: 'Tüm projeler için varsayılan'
-        involved: 'ben dahilim'
-        mentioned: 'benden bahsedildi'
-        watched: 'İzliyorum'
-        work_package_commented: 'İş paketi yorumlandı'
-        work_package_created: 'İş paketi oluşturuldu'
-        work_package_processed: 'İş paketi durumu değişti'
-        work_package_prioritized: 'İş paketi önceliği değişti'
-        work_package_scheduled: 'İş paketi planlandı'
-        all: 'Tüm etkinlikler'
-        add: 'Proje için ayar ekle'
-        already_selected: 'Bu proje zaten seçildi'
-        remove_projects: 'Projeler için bildirimleri kaldırın'
         title: "Bildirim ayarları"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
       title: 'Devam etmek için parolanızı doğrulayın'

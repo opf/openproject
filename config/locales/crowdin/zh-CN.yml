@@ -1314,7 +1314,7 @@ zh-CN:
         assigned: "You have been assigned to %{work_package}"
         subscribed: "您订阅了 %{work_package}"
         mentioned: "您在 %{work_package} 中被提及"
-        involved: "You either are assigned to or are responsible for %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
   label_accessibility: "辅助功能"
   label_account: "帐户"
@@ -1897,7 +1897,8 @@ zh-CN:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: '负责'
           mentioned: 'Mentioned'
           subscribed: '所有'
           prefix: 'Received because of the notification setting: %{reason}'

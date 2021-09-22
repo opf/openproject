@@ -1332,7 +1332,7 @@ es:
         assigned: "Has sido asignado a %{work_package}"
         subscribed: "Te has suscrito a %{work_package}"
         mentioned: "Has sido mencionado en %{work_package}"
-        involved: "Usted está asignado o es responsable de %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "Estás viendo a %{work_package}"
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
@@ -1915,7 +1915,8 @@ es:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: 'Responsable'
           mentioned: 'Mentioned'
           subscribed: 'todos'
           prefix: 'Received because of the notification setting: %{reason}'
