@@ -23,19 +23,38 @@ export const ianMenuSelector = 'op-ian-menu';
 })
 export class IanMenuComponent implements OnInit {
   baseMenuItems = [
-    { title: 'Inbox', href: this.getHrefForFilters({}) },
-    { title: 'Flagged', href: this.getHrefForFilters({}) },
-    { title: 'My Comments', href: this.getHrefForFilters({}) },
+    {
+      title: 'Inbox',
+      icon: 'inbox',
+      href: this.getHrefForFilters({}),
+    },
   ];
 
   reasonMenuItems = [
-    { key: 'mentioned', title: '@mentioned', href: this.getHrefForFilters({ filter: 'reason', name: 'mentioned' }) },
-    { key: 'involved', title: 'Involved', href: this.getHrefForFilters({ filter: 'reason', name: 'involved'  }) },
-    { key: 'watched', title: 'Watched', href: this.getHrefForFilters({ filter: 'reason', name: 'watched'  }) },
-    { key: 'created', title: 'Created', href: this.getHrefForFilters({ filter: 'reason', name: 'created'  }) },
-    { key: 'assigned', title: 'Assigned', href: this.getHrefForFilters({ filter: 'reason', name: 'assigned'  }) },
-    { key: 'accountable', title: 'Accountable', href: this.getHrefForFilters({ filter: 'reason', name: 'accountable'  }) },
-    { key: 'commented', title: 'Commented', href: this.getHrefForFilters({ filter: 'reason', name: 'commented'  }) },
+    {
+      key: 'mentioned',
+      title: '@mentioned',
+      icon: 'mention',
+      href: this.getHrefForFilters({ filter: 'reason', name: 'mentioned' }),
+    },
+    {
+      key: 'assigned',
+      title: 'Assigned',
+      icon: 'assigned',
+      href: this.getHrefForFilters({ filter: 'reason', name: 'assigned'  }),
+    },
+    {
+      key: 'accountable',
+      title: 'Accountable',
+      icon: 'accountable',
+      href: this.getHrefForFilters({ filter: 'reason', name: 'accountable'  }),
+    },
+    {
+      key: 'watched',
+      title: 'Watching',
+      icon: 'watching',
+      href: this.getHrefForFilters({ filter: 'reason', name: 'watched'  }),
+    },
   ];
 
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(

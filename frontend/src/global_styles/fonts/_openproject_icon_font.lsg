@@ -4,6 +4,7 @@
 
 <ul class="icon-list">
 <li><span class="icon icon-accessibility"></span>accessibility</li>
+<li><span class="icon icon-accountable"></span>accountable</li>
 <li><span class="icon icon-add"></span>add</li>
 <li><span class="icon icon-align-center"></span>align-center</li>
 <li><span class="icon icon-align-justify"></span>align-justify</li>
@@ -26,6 +27,7 @@
 <li><span class="icon icon-arrow-up1"></span>arrow-up1</li>
 <li><span class="icon icon-arrow-up2"></span>arrow-up2</li>
 <li><span class="icon icon-assigned-to-me"></span>assigned-to-me</li>
+<li><span class="icon icon-assigned"></span>assigned</li>
 <li><span class="icon icon-attachment"></span>attachment</li>
 <li><span class="icon icon-attention"></span>attention</li>
 <li><span class="icon icon-back-up"></span>back-up</li>
@@ -124,6 +126,7 @@
 <li><span class="icon icon-image1"></span>image1</li>
 <li><span class="icon icon-image2"></span>image2</li>
 <li><span class="icon icon-import"></span>import</li>
+<li><span class="icon icon-inbox"></span>inbox</li>
 <li><span class="icon icon-info1"></span>info1</li>
 <li><span class="icon icon-info2"></span>info2</li>
 <li><span class="icon icon-input-disabled"></span>input-disabled</li>
@@ -142,6 +145,7 @@
 <li><span class="icon icon-mark-all-read"></span>mark-all-read</li>
 <li><span class="icon icon-mark-read"></span>mark-read</li>
 <li><span class="icon icon-meetings"></span>meetings</li>
+<li><span class="icon icon-mention"></span>mention</li>
 <li><span class="icon icon-menu"></span>menu</li>
 <li><span class="icon icon-merge-branch"></span>merge-branch</li>
 <li><span class="icon icon-microphone"></span>microphone</li>
@@ -255,6 +259,7 @@
 <li><span class="icon icon-view-timeline"></span>view-timeline</li>
 <li><span class="icon icon-warning"></span>warning</li>
 <li><span class="icon icon-watched"></span>watched</li>
+<li><span class="icon icon-watching"></span>watching</li>
 <li><span class="icon icon-wiki-edit"></span>wiki-edit</li>
 <li><span class="icon icon-wiki"></span>wiki</li>
 <li><span class="icon icon-wiki2"></span>wiki2</li>

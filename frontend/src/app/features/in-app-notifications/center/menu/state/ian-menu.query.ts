@@ -1,5 +1,4 @@
 import { Query } from '@datorama/akita';
-import { combineLatestWith } from 'rxjs/operators';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
