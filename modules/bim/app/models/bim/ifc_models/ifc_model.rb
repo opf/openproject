@@ -13,7 +13,7 @@ module Bim
 
       scope :defaults, -> { where(is_default: true) }
 
-      %i(ifc xkt metadata).each do |name|
+      %i(ifc xkt).each do |name|
         define_method "#{name}_attachment" do
           get_attached_type(name)
         end
@@ -27,7 +27,7 @@ module Bim
           delete_attachment name
           call = ::Attachments::CreateService
             .bypass_whitelist(user: User.current)
-            .call(file: file, container: self, filename: file.original_filename, description: name)
+            .call(file: file, container: self, filename: File.basename(file.path), description: name)
 
           call.on_failure { Rails.logger.error "Failed to add #{name} attachment: #{call.message}" }
         end
