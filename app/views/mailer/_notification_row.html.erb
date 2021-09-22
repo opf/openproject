@@ -1,102 +1,106 @@
+<a style="text-decoration: none;display: block;"
+   href="<%= notifications_path(work_package.id) %>"
+   target="_blank">
 <table <%= placeholder_table_styles(width:'100%',style: "width:100%;border-width:1px;border-color:#E0E0E0;border-style:solid;border-radius:10px") %>>
-  <tr>
-    <%= placeholder_cell('12px') %>
-  </tr>
-  <tr>
-    <td>
-      <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;font-size:14px;') %>>
-        <tr>
-          <%= placeholder_cell('12px', true) %>
-          <td>
-            <table <%= placeholder_table_styles %>>
-              <tr>
-                <td>
-                  <table <%= placeholder_table_styles %>>
-                    <tr>
-                      <td style="color: #333333;
-                        background-color: #FFFFFF;
-                        <%= status_colors(work_package.status) %>
-                        white-space: nowrap;
-                        padding: 2px 12px;
-                        height: 18px;">
-                        <%= work_package.status %>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-                <%= placeholder_cell('8px', true) %>
-                <td width="100%" style="color: #878787;">
-                  #<%= work_package.id %> - <%= work_package.project %>
-                  <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
-                  <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
-                  <% unique_reasons.each_with_index do |reason, index| %>
-                    <%= I18n.t(
-                          :"mail.digests.work_packages.reason.#{reason || :unknown}",
-                          default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
-                  <% end %>
-                </td>
-                <td>
-                  <table <%= placeholder_table_styles %>>
-                    <tr>
-                      <td style="background-color: #00A3FF;
-                        color: white;
-                        border-radius: 10px;
-                        padding: 2px 8px;
-                        font-size: 14px;
-                        height: 18px;
-                        line-height: 18px;">
-                        <%= notifications_by_work_package.length %>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <%= placeholder_cell('12px', true) %>
-        </tr>
-        <tr>
-          <%= placeholder_cell('12px', true) %>
-          <%= placeholder_cell('16px') %>
-          <%= placeholder_cell('12px', true) %>
-        </tr>
-        <tr>
-          <%= placeholder_cell('12px', true) %>
-          <td>
-            <table <%= placeholder_table_styles(style: 'font-size:16px;font-weight:bold') %>>
-              <tr>
-                <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
-                  <%= work_package.type.to_s.upcase %>
-                </td>
-                <%= placeholder_cell('4px', true) %>
-                <td width="100%" style="color: #333333;">
-                  <%= work_package.subject %>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <%= placeholder_cell('12px', true) %>
-        </tr>
-        <tr>
-          <%= placeholder_cell('12px', true) %>
-          <%= placeholder_cell('12px') %>
-          <%= placeholder_cell('12px', true) %>
-        </tr>
-        <tr>
-          <%= placeholder_cell('12px', true) %>
-          <td><%= yield %></td>
-          <%= placeholder_cell('12px', true) %>
-        </tr>
-      </table>
-    </td>
-  </tr>
-  <tr>
-    <%= placeholder_cell('12px') %>
-  </tr>
-</table>
+    <tr>
+      <%= placeholder_cell('12px') %>
+    </tr>
+    <tr>
+      <td>
+        <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;font-size:14px;') %>>
+          <tr>
+            <%= placeholder_cell('12px', true) %>
+            <td>
+              <table <%= placeholder_table_styles %>>
+                <tr>
+                  <td>
+                    <table <%= placeholder_table_styles %>>
+                      <tr>
+                        <td style="color: #333333;
+                          background-color: #FFFFFF;
+                          <%= status_colors(work_package.status) %>
+                          white-space: nowrap;
+                          padding: 2px 12px;
+                          height: 18px;">
+                          <%= work_package.status %>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                  <%= placeholder_cell('8px', true) %>
+                  <td width="100%" style="color: #878787;">
+                    #<%= work_package.id %> - <%= work_package.project %>
+                    <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+                    <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
+                    <% unique_reasons.each_with_index do |reason, index| %>
+                      <%= I18n.t(
+                            :"mail.digests.work_packages.reason.#{reason || :unknown}",
+                            default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
+                    <% end %>
+                  </td>
+                  <td>
+                    <table <%= placeholder_table_styles %>>
+                      <tr>
+                        <td style="background-color: #00A3FF;
+                          color: white;
+                          border-radius: 10px;
+                          padding: 2px 8px;
+                          font-size: 14px;
+                          height: 18px;
+                          line-height: 18px;">
+                          <%= notifications_by_work_package.length %>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <%= placeholder_cell('12px', true) %>
+          </tr>
+          <tr>
+            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('16px') %>
+            <%= placeholder_cell('12px', true) %>
+          </tr>
+          <tr>
+            <%= placeholder_cell('12px', true) %>
+            <td>
+              <table <%= placeholder_table_styles(style: 'font-size:16px;font-weight:bold') %>>
+                <tr>
+                  <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
+                    <%= work_package.type.to_s.upcase %>
+                  </td>
+                  <%= placeholder_cell('4px', true) %>
+                  <td width="100%" style="color: #333333;">
+                    <%= work_package.subject %>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <%= placeholder_cell('12px', true) %>
+          </tr>
+          <tr>
+            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px') %>
+            <%= placeholder_cell('12px', true) %>
+          </tr>
+          <tr>
+            <%= placeholder_cell('12px', true) %>
+            <td><%= yield %></td>
+            <%= placeholder_cell('12px', true) %>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <%= placeholder_cell('12px') %>
+    </tr>
+  </table>
 
-<table>
-  <tr>
-    <%= placeholder_cell('20px') %>
-  </tr>
-</table>
+  <table>
+    <tr>
+      <%= placeholder_cell('20px') %>
+    </tr>
+  </table>
+</a>
