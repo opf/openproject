@@ -3,7 +3,7 @@
     <td>
       <table <%= placeholder_table_styles %>>
         <tr>
-          <%= placeholder_cell('12px', true) %>
+          <%= placeholder_cell('12px', vertical: true) %>
           <td>
             <table <%= placeholder_table_styles(width:'100%',style: "width:100%") %>>
               <tr>
@@ -14,7 +14,7 @@
                 </td>
               </tr>
               <tr>
-                <%= placeholder_cell('8px') %>
+                <%= placeholder_cell('8px', vertical: false) %>
               </tr>
               <tr>
                 <td>
@@ -24,7 +24,7 @@
                 </td>
               </tr>
               <tr>
-                <%= placeholder_cell('24px') %>
+                <%= placeholder_cell('24px', vertical: false) %>
               </tr>
               <tr>
                 <td>
@@ -36,11 +36,11 @@
                 </td>
               </tr>
               <tr>
-                <%= placeholder_cell('40px') %>
+                <%= placeholder_cell('40px', vertical: false) %>
               </tr>
             </table>
           </td>
-          <%= placeholder_cell('16px', true) %>
+          <%= placeholder_cell('16px', vertical: true) %>
           <td style="vertical-align: top;">
             <table <%= placeholder_table_styles %>>
               <tr>

@@ -84,13 +84,13 @@ module MailNotificationHelper
     default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
   end
 
-  def placeholder_cell(number, is_vertical = false)
-    style = if is_vertical
+  def placeholder_cell(number, vertical:)
+    style = if vertical
               "max-width:#{number}; min-width:#{number}; width:#{number}"
             else
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag('td', '&nbsp;'.html_safe, style: style).html_safe
+    content_tag('td', '&nbsp;'.html_safe, style: style)
   end
 end

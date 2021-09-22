@@ -1,6 +1,6 @@
 <table <%= placeholder_table_styles %>>
   <tr>
-    <%= placeholder_cell('20px') %>
+    <%= placeholder_cell('20px', vertical: false) %>
   </tr>
 </table>
 
@@ -57,7 +57,7 @@
                             <%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
                           </span>
                         </td>
-                        <%= placeholder_cell('10px', true) %>
+                        <%= placeholder_cell('10px', vertical: true) %>
                         <td>
                           <a href="<%= notifications_center_url %>"
                             target="_blank"
@@ -79,7 +79,7 @@
               </tr>
             </table>
           </td>
-          <%= placeholder_cell('10px', true) %>
+          <%= placeholder_cell('10px', vertical: true) %>
           <td>
             <%= render partial: 'mailer/notification_settings_button' %>
           </td>
@@ -88,7 +88,7 @@
 
       <table>
         <tr>
-          <%= placeholder_cell('20px') %>
+          <%= placeholder_cell('20px', vertical: false) %>
         </tr>
       </table>
     </td>

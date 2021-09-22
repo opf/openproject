@@ -3,13 +3,13 @@
    target="_blank">
 <table <%= placeholder_table_styles(width:'100%',style: "width:100%;border-width:1px;border-color:#E0E0E0;border-style:solid;border-radius:10px") %>>
     <tr>
-      <%= placeholder_cell('12px') %>
+      <%= placeholder_cell('12px', vertical: false) %>
     </tr>
     <tr>
       <td>
         <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;font-size:14px;') %>>
           <tr>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
             <td>
               <table <%= placeholder_table_styles %>>
                 <tr>
@@ -27,7 +27,7 @@
                       </tr>
                     </table>
                   </td>
-                  <%= placeholder_cell('8px', true) %>
+                  <%= placeholder_cell('8px', vertical: true) %>
                   <td width="100%" style="color: #878787;">
                     #<%= work_package.id %> - <%= work_package.project %>
                     <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
@@ -56,51 +56,51 @@
                 </tr>
               </table>
             </td>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
           </tr>
           <tr>
-            <%= placeholder_cell('12px', true) %>
-            <%= placeholder_cell('16px') %>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
+            <%= placeholder_cell('16px', vertical: false) %>
+            <%= placeholder_cell('12px', vertical: true) %>
           </tr>
           <tr>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
             <td>
               <table <%= placeholder_table_styles(style: 'font-size:16px;font-weight:bold') %>>
                 <tr>
                   <td style="color: <%= type_color(work_package.type, '#333333') %>;white-space: nowrap;">
                     <%= work_package.type.to_s.upcase %>
                   </td>
-                  <%= placeholder_cell('4px', true) %>
+                  <%= placeholder_cell('4px', vertical: true) %>
                   <td width="100%" style="color: #333333;">
                     <%= work_package.subject %>
                   </td>
                 </tr>
               </table>
             </td>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
           </tr>
           <tr>
-            <%= placeholder_cell('12px', true) %>
-            <%= placeholder_cell('12px') %>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
+            <%= placeholder_cell('12px', vertical: false) %>
+            <%= placeholder_cell('12px', vertical: true) %>
           </tr>
           <tr>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
             <td><%= yield %></td>
-            <%= placeholder_cell('12px', true) %>
+            <%= placeholder_cell('12px', vertical: true) %>
           </tr>
         </table>
       </td>
     </tr>
     <tr>
-      <%= placeholder_cell('12px') %>
+      <%= placeholder_cell('12px', vertical: false) %>
     </tr>
   </table>
 
   <table>
     <tr>
-      <%= placeholder_cell('20px') %>
+      <%= placeholder_cell('20px', vertical: false) %>
     </tr>
   </table>
 </a>
