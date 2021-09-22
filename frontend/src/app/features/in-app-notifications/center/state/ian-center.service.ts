@@ -63,7 +63,6 @@ export class IanCenterService {
     this.actions$.dispatch(
       markNotificationsAsRead({ origin: this.id, notifications }),
     );
-    
   }
 
   markAllAsRead():void {
@@ -121,47 +120,47 @@ export class IanCenterService {
     return promise;
   }
 
-  private afterReloadNotifications(notificationIndex: number) {
+  private afterReloadNotifications(notificationIndex:number) {
     if (window.location.href.indexOf('details') <= -1) {
       return;
     }
-    this.query.notifications$.pipe(take(1)).subscribe((elemenets)=> { 
-    if (elemenets.length <= 0)
-      {
-        void this.state.go(
-          `${(this.state.current.data as BackRouteOptions).baseRoute}`
-        );
+    this.query.notifications$.pipe(take(1)).subscribe((notifications) => {
+      if (notifications.length <= 0) {
+          void this.state.go(
+            `${(this.state.current.data as BackRouteOptions).baseRoute}`,
+          );
       } else {
-        var index = notificationIndex > elemenets.length ? 0 : notificationIndex - 1;
-        const href = elemenets[index][0]._links.resource?.href;
-        const id = href && HalResource.matchFromLink(href, 'work_packages');
-        if (id) {
-          const wp = this
-            .apiV3Service
-            .work_packages
-            .id(id)
-            .requireAndStream();
+          const index = notificationIndex > notifications.length ? 0 : notificationIndex - 1;
+          const href = notifications[index][0]._links.resource?.href;
+          const id = href && HalResource.matchFromLink(href, 'work_packages');
+          if (id) {
+            const wp = this
+              .apiV3Service
+              .work_packages
+              .id(id)
+              .requireAndStream();
 
             wp.pipe(take(1))
-            .subscribe((wp) => {
-              void this.state.go(
-                `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
-                { workPackageId: wp.id, tabIdentifier: 'activity' },
-              );
-          });
-        }  
-      }
+              .subscribe((workPackage) => {
+                void this.state.go(
+                  `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
+                  { workPackageId: workPackage.id, tabIdentifier: 'activity' },
+                );
+            });
+          }
+        }
     });
   }
 
-  private beforeReloadNotifications(notificationID : string | number) {
+  private beforeReloadNotifications(notificationID:string | number) {
     this.query.notifications$.pipe().subscribe((wpNotifications) => {
       let counter = 0;
-      wpNotifications.forEach(elment => {
-        counter ++;
-        elment.forEach(notification => {
-          if (notification.id ==  notificationID)
+      wpNotifications.forEach((wpNotification) => {
+        counter = counter + 1;
+        wpNotification.forEach((notification) => {
+          if (notification.id === notificationID) {
             this.selectedNotificationIndex = counter;
+          }
         });
       });
     });
