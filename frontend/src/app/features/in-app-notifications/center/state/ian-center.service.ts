@@ -126,29 +126,29 @@ export class IanCenterService {
     }
     this.query.notifications$.pipe(take(1)).subscribe((notifications) => {
       if (notifications.length <= 0) {
-          void this.state.go(
-            `${(this.state.current.data as BackRouteOptions).baseRoute}`,
-          );
+        void this.state.go(
+          `${(this.state.current.data as BackRouteOptions).baseRoute}`,
+        );
       } else {
-          const index = notificationIndex > notifications.length ? 0 : notificationIndex - 1;
-          const href = notifications[index][0]._links.resource?.href;
-          const id = href && HalResource.matchFromLink(href, 'work_packages');
-          if (id) {
-            const wp = this
-              .apiV3Service
-              .work_packages
-              .id(id)
-              .requireAndStream();
+        const index = notificationIndex > notifications.length ? 0 : notificationIndex - 1;
+        const href = notifications[index][0]._links.resource?.href;
+        const id = href && HalResource.matchFromLink(href, 'work_packages');
+        if (id) {
+          const wp = this
+            .apiV3Service
+            .work_packages
+            .id(id)
+            .requireAndStream();
 
-            wp.pipe(take(1))
-              .subscribe((workPackage) => {
-                void this.state.go(
-                  `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
-                  { workPackageId: workPackage.id, tabIdentifier: 'activity' },
-                );
-            });
-          }
+          wp.pipe(take(1))
+            .subscribe((workPackage) => {
+              void this.state.go(
+                `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
+                { workPackageId: workPackage.id, tabIdentifier: 'activity' },
+              );
+          });
         }
+      }
     });
   }
 
@@ -156,7 +156,7 @@ export class IanCenterService {
     this.query.notifications$.pipe().subscribe((wpNotifications) => {
       let counter = 0;
       wpNotifications.forEach((wpNotification) => {
-        counter = counter + 1;
+        counter += 1;
         wpNotification.forEach((notification) => {
           if (notification.id === notificationID) {
             this.selectedNotificationIndex = counter;
