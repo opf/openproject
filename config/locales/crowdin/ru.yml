@@ -1368,7 +1368,7 @@ ru:
         assigned: "Вы были назначены %{work_package}"
         subscribed: "Вы подписались на %{work_package}"
         mentioned: "Вы были назначены %{work_package}"
-        involved: "Вы либо назначены, либо ответственны за %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "Вы просматриваете %{work_package}"
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
@@ -1951,7 +1951,8 @@ ru:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: 'Подотчетный'
           mentioned: 'Mentioned'
           subscribed: 'все'
           prefix: 'Получено из-за настройки уведомления: %{reason}'

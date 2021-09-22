@@ -509,14 +509,11 @@ ko:
       title: "알림"
       channel: "채널"
       no_unread: "No unread notifications"
-      channels:
-        in_app: "앱내"
-        mail: "이메일"
-        mail_digest: "Daily email summary"
       reasons:
         mentioned: '멘션 된'
         watched: '지켜본'
-        involved: '참여된'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: '읽지 않음'
         all: '모두'
@@ -528,20 +525,33 @@ ko:
         text_update_date: "%{date} by"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
       settings:
-        default_all_projects: '모든 프로젝트 기본값'
-        involved: '내가 참여된'
-        mentioned: '내가 멘션 된'
-        watched: '내가 지켜보는 중'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
-        work_package_scheduled: 'Work package scheduled'
-        all: '모든 이벤트'
-        add: '프로젝트에 셋팅 추가'
-        already_selected: 'This project is already selected'
-        remove_projects: '프로젝트에 알림 제거'
         title: "알림 설정"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'

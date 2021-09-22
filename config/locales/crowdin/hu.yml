@@ -1339,7 +1339,7 @@ hu:
         assigned: "Hozzárendeletek a %{work_package}"
         subscribed: "Feliratkoztál a %{work_package} "
         mentioned: "Megemlítettek a %{work_package}-ban"
-        involved: "Ön vagy a %{work_package}-hez van rendelve, vagy Ön a felelős érte.\n"
+        responsible: "You have become accountable for %{work_package}"
         watched: "Megfigyeled a %{work_package}"
   label_accessibility: "Kisegítő lehetőségek"
   label_account: "Felhasználói fiók"
@@ -1922,7 +1922,8 @@ hu:
         more_to_see_plural: 'További %{number} munkacsomagok vannak értesítésekkel.'
         reason:
           watched: 'Megfigyelt'
-          involved: 'Megbízott vagy felelős'
+          assigned: 'Assigned'
+          responsible: 'Felelős'
           mentioned: 'Megemlített'
           subscribed: 'mind'
           prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"

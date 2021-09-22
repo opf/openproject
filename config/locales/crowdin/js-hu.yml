@@ -514,14 +514,11 @@ hu:
       title: "Értesítések"
       channel: "Csatorna"
       no_unread: "Nincs olvasatlan értesítés"
-      channels:
-        in_app: "Alkalmazásban"
-        mail: "Email"
-        mail_digest: "Napi e-mail összefoglaló\n"
       reasons:
         mentioned: 'megemlített'
         watched: 'Megfigyelt'
-        involved: 'érintett'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'Olvasatlan'
         all: 'Mind'
@@ -534,20 +531,33 @@ hu:
         text_update_date: "%{date} szerint"
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
       settings:
-        default_all_projects: 'Alapértelmezett az összes projektnél'
-        involved: 'Részt veszek'
-        mentioned: 'Megemlítettek'
-        watched: 'Figyelem'
-        work_package_commented: 'Hozzászóltak a munkacsomaghoz'
-        work_package_created: 'Munkacsomag létrehozva'
-        work_package_processed: 'Frissült a munkacsomag állapota'
-        work_package_prioritized: 'Frissült a munkacsomag prioritása'
-        work_package_scheduled: "Tervezett munkacsomag\n"
-        all: 'Minden esemény'
-        add: 'Beállítás hozzáadása a projekthez'
-        already_selected: 'A projekt már ki lett választva'
-        remove_projects: 'Értesítések kikapcsolása a projektekhez'
         title: "Értesítési beállítások"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'

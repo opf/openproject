@@ -196,7 +196,7 @@ class Queries::Filters::Base
   end
 
   def validate_presence_of_values
-    if operator_strategy && operator_strategy.requires_value? && (values.nil? || values.reject(&:blank?).empty?)
+    if operator_strategy&.requires_value? && (values.nil? || values.reject(&:blank?).empty?)
       errors.add(:values, I18n.t('activerecord.errors.messages.blank'))
     end
   end

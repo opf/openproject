@@ -1330,7 +1330,7 @@ de:
         assigned: "Ihnen wurde %{work_package} zugewiesen"
         subscribed: "Sie haben %{work_package} abonniert"
         mentioned: "Sie wurden in %{work_package} erwähnt"
-        involved: "Sie sind entweder zugewiesen oder verantwortlich für %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "Du beobachtest %{work_package}"
   label_accessibility: "Barrierefreiheit"
   label_account: "Konto"
@@ -1913,7 +1913,8 @@ de:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: 'Verantwortlich'
           mentioned: 'Mentioned'
           subscribed: 'alle'
           prefix: 'Erhalten aufgrund der Benachrichtigungseinstellung: %{reason}'

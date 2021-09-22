@@ -28,40 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications::CreateFromModelService::WorkPackageStrategy
-  def self.reasons
-    %i(mentioned assigned responsible watched subscribed commented created processed prioritized scheduled)
-  end
+module OpenProject::TextFormatting
+  module Filters
+    class LinkAttributeFilter < HTML::Pipeline::Filter
+      def call
+        links.each do |node|
+          node['target'] = context[:target] if context[:target].present?
+        end
 
-  def self.permission
-    :view_work_packages
-  end
+        doc
+      end
 
-  def self.supports_ian?
-    true
-  end
-
-  def self.supports_mail_digest?
-    true
-  end
-
-  def self.supports_mail?
-    true
-  end
-
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
-  def self.watcher_users(journal)
-    User.watcher_recipients(journal.journable)
-  end
-
-  def self.project(journal)
-    journal.data.project
-  end
-
-  def self.user(journal)
-    journal.user
+      def links
+        doc.xpath(".//a[contains(@href,'/')]")
+      end
+    end
   end
 end

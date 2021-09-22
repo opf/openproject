@@ -508,14 +508,11 @@ ru:
       title: "Уведомления"
       channel: "Канал"
       no_unread: "Нет непрочитанных уведомлений"
-      channels:
-        in_app: "Встроенное"
-        mail: "Электронная почта"
-        mail_digest: "Ежедневная сводка по электронной почте"
       reasons:
         mentioned: 'упомянутый'
         watched: 'просмотрено'
-        involved: 'вовлечено'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'Непрочтено'
         all: 'Bсе'
@@ -530,20 +527,33 @@ ru:
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
       settings:
-        default_all_projects: 'По умолчанию для всех проектов'
-        involved: 'Я участвую'
-        mentioned: 'Я был упомянут'
-        watched: 'Я смотрю'
-        work_package_commented: 'Пакет работ прокомментирован'
-        work_package_created: 'Пакет работ создан'
-        work_package_processed: 'Статус пакета работ изменен'
-        work_package_prioritized: 'Приоритет пакета работ изменен'
-        work_package_scheduled: 'Пакет работ запланирован'
-        all: 'Все события'
-        add: 'Добавить настройку для проекта'
-        already_selected: 'Этот проект уже выбран'
-        remove_projects: 'Удалить уведомления для проектов'
         title: "Настройки уведомлений"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: 'Необходимо ввести свой пароль для подтверждения изменений.'
       title: 'Для продолжения введите свой пароль'

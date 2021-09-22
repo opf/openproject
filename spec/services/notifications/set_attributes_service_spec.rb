@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe Notifications::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
@@ -58,7 +59,7 @@ describe Notifications::SetAttributesService, type: :model do
   let(:call_attributes) { {} }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:reason_ian) { :mentioned }
-  let(:reason_mail) { :involved }
+  let(:reason_mail) { :assigned }
   let(:reason_mail_digest) { :watched }
   let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable, data: journal_data) }
   let(:journable) { nil }
@@ -99,7 +100,7 @@ describe Notifications::SetAttributesService, type: :model do
           .to eql({
                     project_id: project.id,
                     reason_ian: 'mentioned',
-                    reason_mail: 'involved',
+                    reason_mail: 'assigned',
                     reason_mail_digest: 'watched',
                     journal_id: journal.id,
                     recipient_id: 1,
@@ -139,7 +140,7 @@ describe Notifications::SetAttributesService, type: :model do
             .to eql({
                       project_id: project.id,
                       reason_ian: 'mentioned',
-                      reason_mail: 'involved',
+                      reason_mail: 'assigned',
                       reason_mail_digest: 'watched',
                       resource_id: journable.id,
                       resource_type: 'WorkPackage',
@@ -161,3 +162,4 @@ describe Notifications::SetAttributesService, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

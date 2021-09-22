@@ -1,14 +1,15 @@
 class Notification < ApplicationRecord
   REASONS = {
     mentioned: 0,
-    involved: 1,
+    assigned: 1,
     watched: 2,
     subscribed: 3,
     commented: 4,
     created: 5,
     processed: 6,
     prioritized: 7,
-    scheduled: 8
+    scheduled: 8,
+    responsible: 9
   }.freeze
 
   enum reason_ian: REASONS, _prefix: :ian

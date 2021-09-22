@@ -509,14 +509,11 @@ lt:
       title: "Pranešimai"
       channel: "Kanalas"
       no_unread: "Nėra neperskaitytų pranešimų"
-      channels:
-        in_app: "Programoje"
-        mail: "El. paštas"
-        mail_digest: "Kasdienė el.pašto santrauka"
       reasons:
         mentioned: 'paminėtas'
         watched: 'stebimas'
-        involved: 'įtrauktas'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'Neskaitytas'
         all: 'Visi'
@@ -531,20 +528,33 @@ lt:
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
-        default_all_projects: 'Numatytasis visiems projektams'
-        involved: 'Aš įtrauktas'
-        mentioned: 'Aš buvau paminėtas'
-        watched: 'Aš stebiu'
-        work_package_commented: 'Darbų paketas pakomentuotas'
-        work_package_created: 'Darbų paketas sukurtas'
-        work_package_processed: 'Darbų paketo būsena pakeista'
-        work_package_prioritized: 'Darbų paketo prioritetai pakeisti'
-        work_package_scheduled: 'Darbų paketo tvarkaraštis pakeistas'
-        all: 'Visi įvykiai'
-        add: 'Pridėkite projekto nustatymus'
-        already_selected: 'Šis projektas jau pasirinktas'
-        remove_projects: 'Pašalinti pranešimus projektams'
         title: "Pranešimų nustatymai"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
@@ -627,8 +637,8 @@ lt:
       duplicated: "Dubliuotas"
       blocks: "Blokai"
       blocked: "Blokuojamas"
-      precedes: "Ankstesnė"
-      follows: "Seka"
+      precedes: "Prieš"
+      follows: "Po"
       includes: "Turi savyje"
       partof: "Dalis"
       requires: "Reikalingas"
@@ -982,7 +992,7 @@ lt:
       destroy_time_entry:
         title: "Patvirtinkite laiko įrašo trynimą."
         text: "Ar Jūs tikrai norite ištrinti šį laiko įrašą?"
-    notice_no_results_to_display: "Nėra rezultatų."
+    notice_no_results_to_display: "Nėra matomų rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingai atnaujinta."
@@ -1010,7 +1020,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
     error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
-    error_attachment_upload: "Nepavyko įkelti: %{error}"
+    error_attachment_upload: "Nepavyko įkelti failo: %{error}"
     error_attachment_upload_permission: "Jūs neturite teisės įkelti failus į šį resursą."
     units:
       workPackage:
@@ -1026,7 +1036,7 @@ lt:
       hour:
         one: "1 val."
         other: "%{count} val"
-        zero: "0 h"
+        zero: "0 val"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'
