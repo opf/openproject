@@ -128,7 +128,7 @@
     "pako": "^2.0.3",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.6",
+    "rxjs": "^7.1.0",
     "screenfull": "^4.2.1",
     "swagger-ui": "^3.50.0",
     "tablesorter": "^2.31.3",
