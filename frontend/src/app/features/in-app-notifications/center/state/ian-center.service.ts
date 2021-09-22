@@ -146,7 +146,7 @@ export class IanCenterService {
                 `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
                 { workPackageId: workPackage.id, tabIdentifier: 'activity' },
               );
-          });
+            });
         }
       }
     });
