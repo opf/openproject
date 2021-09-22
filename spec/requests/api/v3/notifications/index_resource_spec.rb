@@ -140,6 +140,87 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
     end
 
+    context 'with a project filter' do
+      let(:other_work_package) { FactoryBot.create(:work_package) }
+      let(:notification3) do
+        FactoryBot.create :notification,
+                          recipient: recipient,
+                          resource: other_work_package,
+                          project: other_work_package.project
+      end
+      let(:notifications) { [notification1, notification2, notification3] }
+
+      let(:filters) do
+        [
+          {
+            'project' => {
+              'operator' => '=',
+              'values' => [work_package.project_id.to_s]
+            }
+          }
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
+    context 'with a reason filter' do
+      let(:notification3) do
+        FactoryBot.create :notification,
+                          reason_ian: :assigned,
+                          recipient: recipient,
+                          resource: work_package,
+                          project: work_package.project
+      end
+      let(:notification4) do
+        FactoryBot.create :notification,
+                          reason_ian: :responsible,
+                          recipient: recipient,
+                          resource: work_package,
+                          project: work_package.project
+      end
+      let(:notifications) { [notification1, notification2, notification3, notification4] }
+
+      let(:filters) do
+        [
+          {
+            'reason' => {
+              'operator' => '=',
+              'values' => [notification1.reason_ian.to_s, notification4.reason_ian.to_s]
+            }
+          }
+        ]
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 3, 'Notification' do
+        let(:elements) { [notification4, notification2, notification1] }
+      end
+
+      context 'with an invalid reason' do
+        let(:filters) do
+          [
+            {
+              'reason' => {
+                'operator' => '=',
+                'values' => ['bogus']
+              }
+            }
+          ]
+        end
+
+        it 'returns an error' do
+          expect(last_response.status)
+            .to be 400
+
+          expect(last_response.body)
+            .to be_json_eql("Filters Reason filter has invalid values.".to_json)
+                  .at_path('message/0')
+        end
+      end
+    end
+
     context 'with a reason groupBy' do
       let(:responsible_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: :responsible }
 
