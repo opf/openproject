@@ -93,7 +93,7 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
         .then((collection) => {
           this.recentWorkPackageIds = collection
             .elements
-            .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
+            .map((timeEntry) => String(idFromLink(timeEntry.workPackage.href)))
             .filter((v, i, a) => a.indexOf(v) === i);
 
           return this.fetchAllowedValueQuery(query);

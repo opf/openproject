@@ -212,7 +212,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
       const hasChanges = !change.isEmpty();
       const typeEmpty = !changeType && !type;
-      const typeMatches = type && changeType && idFromLink(changeType.href) === type.toString();
+      const typeMatches = type && changeType && idFromLink(changeType.href) === type;
 
       if (hasChanges && (typeEmpty || typeMatches)) {
         return Promise.resolve(change);

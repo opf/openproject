@@ -6,7 +6,7 @@ import { Project } from 'core-app/core/state/projects/project.model';
 export interface IanMenuGroupingData {
   value:string;
   count:number;
-  project?:Project;
+  projectHasParent?:boolean;
   _links:{
     valueLink:{
       href:string;   
@@ -17,6 +17,7 @@ export interface IanMenuGroupingData {
 export interface IanMenuState {
   notificationsByProject:IanMenuGroupingData[],
   notificationsByReason:IanMenuGroupingData[],
+  projectsFilter: Apiv3ListParameters,
 }
 
 export const IAN_MENU_PROJECT_FILTERS:Apiv3ListParameters = {
@@ -35,6 +36,7 @@ export function createInitialState():IanMenuState {
   return {
     notificationsByProject: [],
     notificationsByReason: [],
+    projectsFilter: {},
   };
 }
 

@@ -27,10 +27,8 @@ import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import {
-  InAppNotification,
-  InAppNotificationDetail,
-} from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { CustomText } from 'core-app/core/state/hal-resource';
+import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
 @Component({
@@ -52,10 +50,10 @@ export class InAppNotificationEntryComponent implements OnInit {
   loading$ = this.storeService.query.selectLoading();
 
   // Formattable body, if any
-  body:InAppNotificationDetail[];
+  body:CustomText[];
 
   // custom rendered details, if any
-  details:InAppNotificationDetail[];
+  details:CustomText[];
 
   // Whether body and details are empty
   unexpandable = false;
@@ -215,7 +213,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     if (project) {
       this.project = {
         ...project,
-        showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
+        showUrl: this.pathHelper.projectPath(String(idFromLink(project.href))),
       };
     }
   }

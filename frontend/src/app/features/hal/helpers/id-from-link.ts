@@ -1,4 +1,4 @@
-export default function idFromLink(href:string|null):string {
+export default function idFromLink(href:string|null):number {
   const idPart = (href || '').split('/').pop()!;
-  return decodeURIComponent(idPart);
+  return parseInt(decodeURIComponent(idPart), 10);
 }

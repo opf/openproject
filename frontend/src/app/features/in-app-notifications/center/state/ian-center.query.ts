@@ -1,15 +1,15 @@
 import { Query } from '@datorama/akita';
 import {
+  map,
+  switchMap,
+} from 'rxjs/operators';
+import {
   IAN_FACET_FILTERS,
   IanCenterState,
   IanCenterStore,
 } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import {
-  map,
-  switchMap,
-} from 'rxjs/operators';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';

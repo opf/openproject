@@ -56,7 +56,7 @@ export class ActivityEntryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projectId = idFromLink(this.workPackage.project.href);
+    this.projectId = String(idFromLink(this.workPackage.project.href));
 
     this.activityType = this.activity._type;
   }

@@ -48,7 +48,7 @@ export class NotificationSettingsTableComponent {
   ) {}
 
   projectLink(href:string) {
-    return this.pathHelper.projectPath(idFromLink(href));
+    return this.pathHelper.projectPath(String(idFromLink(href)));
   }
 
   addProjectSettings(project:HalSourceLink):void {

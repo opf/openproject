@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { StateService } from '@uirouter/core';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -58,11 +58,20 @@ export class IanMenuComponent implements OnInit {
   ];
 
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
-    map((items) => items.map(item => ({
-      ...item,
-      title: item.value,
-      href: this.getHrefForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
-    }))),
+    map((items) => items
+      .map(item => ({
+        ...item,
+        title: (item.projectHasParent ? '...' : '') + item.value,
+        href: this.getHrefForFilters({ filter: 'project', name: String(idFromLink(item._links.valueLink[0].href)) }),
+      }))
+      .sort((a, b) => {
+        if (b.projectHasParent && !a.projectHasParent) {
+          return -1;
+        }
+
+        return a.value.toLowerCase().localeCompare(b.value.toLowerCase());
+      }),
+    ),
   );
 
   notificationsByReason$ = this.ianMenuService.query.notificationsByReason$.pipe(

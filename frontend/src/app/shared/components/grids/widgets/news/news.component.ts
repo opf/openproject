@@ -63,7 +63,7 @@ export class WidgetNewsComponent extends AbstractWidgetComponent implements OnIn
   }
 
   public newsProjectPath(news:NewsResource) {
-    return this.pathHelper.projectPath(idFromLink(news.project?.href));
+    return this.pathHelper.projectPath(String(idFromLink(news.project?.href)));
   }
 
   public newsProjectName(news:NewsResource) {
