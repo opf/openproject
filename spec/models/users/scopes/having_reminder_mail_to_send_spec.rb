@@ -153,7 +153,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
         ]
       }
     end
-    let(:scope_time) { Time.current - 2.hours }
+    let(:scope_time) { current_utc_time - 2.hours }
 
     it 'is empty' do
       expect(scope)
