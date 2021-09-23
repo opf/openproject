@@ -1335,7 +1335,7 @@ nl:
         assigned: "You have been assigned to %{work_package}"
         subscribed: "You subscribed to %{work_package}"
         mentioned: "You have been mentioned in %{work_package}"
-        involved: "You either are assigned to or are responsible for %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
   label_accessibility: "Toegankelijkheid"
   label_account: "Account"
@@ -1918,7 +1918,8 @@ nl:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: 'Verantwoording afleggen'
           mentioned: 'Mentioned'
           subscribed: 'alle'
           prefix: 'Received because of the notification setting: %{reason}'

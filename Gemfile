@@ -142,7 +142,7 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 11.0.0', require: false
+gem 'airbrake', '~> 12.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
@@ -169,7 +169,7 @@ gem 'sprockets', '~> 3.7.0'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'puma', '~> 5.4.0' # used for development and optionally for production
+gem 'puma', '~> 5.5.0' # used for development and optionally for production
 
 gem 'nokogiri', '~> 1.12.0'
 
@@ -181,7 +181,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.1.1'
+gem 'openproject-token', '~> 2.2.0'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -289,7 +289,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.8.0', require: false
+gem 'bootsnap', '~> 1.9.1', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'

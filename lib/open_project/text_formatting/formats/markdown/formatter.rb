@@ -55,6 +55,7 @@ module OpenProject::TextFormatting::Formats::Markdown
         syntax_highlight
         attachment
         relative_link
+        link_attribute
         figure_wrapped
         bem_css
         autolink

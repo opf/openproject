@@ -1317,7 +1317,7 @@ ko:
         assigned: "%{work_package} 을(를) 할당되었습니다."
         subscribed: "%{work_package} 을(를) 구독하였습니다."
         mentioned: "%{work_package} 을(를) 멘션하였습니다."
-        involved: "%{work_package} 에 할당되었거나 책임이 있습니다."
+        responsible: "You have become accountable for %{work_package}"
         watched: "%{work_package}을(를) 지켜 보는 중입니다."
   label_accessibility: "접근성"
   label_account: "계정"
@@ -1900,7 +1900,8 @@ ko:
         more_to_see_plural: 'There are %{number} more work packages with notifications.'
         reason:
           watched: 'Watched'
-          involved: 'Assigned or responsible'
+          assigned: 'Assigned'
+          responsible: '담당'
           mentioned: 'Mentioned'
           subscribed: '모두'
           prefix: 'Received because of the notification setting: %{reason}'

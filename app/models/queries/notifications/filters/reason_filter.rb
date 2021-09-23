@@ -28,40 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications::CreateFromModelService::WorkPackageStrategy
-  def self.reasons
-    %i(mentioned assigned responsible watched subscribed commented created processed prioritized scheduled)
+class Queries::Notifications::Filters::ReasonFilter < Queries::Notifications::Filters::NotificationFilter
+  def allowed_values
+    Notification.reason_ians.keys.map { |reason| [reason, reason] }
   end
 
-  def self.permission
-    :view_work_packages
+  def type
+    :list
   end
 
-  def self.supports_ian?
-    true
-  end
-
-  def self.supports_mail_digest?
-    true
-  end
-
-  def self.supports_mail?
-    true
-  end
-
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
-  end
-
-  def self.watcher_users(journal)
-    User.watcher_recipients(journal.journable)
-  end
-
-  def self.project(journal)
-    journal.data.project
-  end
-
-  def self.user(journal)
-    journal.user
+  def where
+    id_values = values.map { |value| Notification.reason_ians[value] }
+    operator_strategy.sql_for_field(id_values, self.class.model.table_name, :reason_ian)
   end
 end

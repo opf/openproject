@@ -508,14 +508,11 @@ de:
       title: "Benachrichtigungen"
       channel: "Kanal"
       no_unread: "No unread notifications"
-      channels:
-        in_app: "In-App"
-        mail: "E-Mail"
-        mail_digest: "Tägliche E-Mail-Übersicht"
       reasons:
         mentioned: 'erwähnt'
         watched: 'beobachtet'
-        involved: 'beteiligt'
+        assigned: 'assigned'
+        responsible: 'accountable'
       facets:
         unread: 'Ungelesen'
         all: 'Alle'
@@ -528,20 +525,33 @@ de:
         text_update_date: "%{date} von"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
       settings:
-        default_all_projects: 'Standard für alle Projekte'
-        involved: 'Ich bin beteiligt'
-        mentioned: 'Ich wurde erwähnt'
-        watched: 'Ich beobachte'
-        work_package_commented: 'Work package commented'
-        work_package_created: 'Work package created'
-        work_package_processed: 'Work package status changed'
-        work_package_prioritized: 'Work package priority changed'
-        work_package_scheduled: 'Work package scheduled'
-        all: 'Alle Ereignisse'
-        add: 'Einstellung für Projekt hinzufügen'
-        already_selected: 'Dieses Projekt ist bereits ausgewählt'
-        remove_projects: 'Lösche Einstellungen für alle Projekte'
         title: "Benachrichtigungseinstellungen"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'all priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
       title: 'Geben Sie Ihr Kennwort ein um fortzufahren'
