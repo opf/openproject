@@ -2392,7 +2392,7 @@ ru:
     notifications:
       retention_text: >
         Количество дней в системе уведомлений для пользователей (источник уведомлений в приложении). Все события, старше этого времени будут удалены.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      delay_minutes_explanation: "Отправка электронной почты может быть отложена для разрешения пользователям с настроенными в приложении уведомлениями подтвердить уведомление внутри приложения перед отправкой почты. Пользователи, которые прочитали уведомление в приложении, не будут получать по электронной почте уже прочитанное уведомление."
     display:
       first_date_of_week_and_year_set: >
         Если параметры "%{day_of_week_setting_name}" или "%{first_week_setting_name}" заданы,  должны быть заданы и другие тоже во избежание несоответствий в интерфейсе.
