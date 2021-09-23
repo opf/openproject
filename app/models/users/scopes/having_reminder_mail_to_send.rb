@@ -120,12 +120,12 @@ module Users::Scopes
         quarters = ((latest_time - earliest_time) / 60 / 15).floor
 
         (1..quarters).each_with_object([next_quarter_hour(earliest_time)]) do |i, times|
-          times << times.last + i * 15.minutes
+          times << (times.last + (i * 15.minutes))
         end
       end
 
       def next_quarter_hour(time)
-        (time + (time.min % 15 == 0 ? 0.minutes : (15 - time.min % 15).minutes))
+        (time + (time.min % 15 == 0 ? 0.minutes : (15 - (time.min % 15)).minutes))
       end
     end
   end
