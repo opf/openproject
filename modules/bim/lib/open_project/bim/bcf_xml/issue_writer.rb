@@ -222,7 +222,7 @@ module OpenProject::Bim::BcfXml
     def viewpoints(xml)
       issue.viewpoints.find_each do |vp|
         xml.Viewpoints "Guid" => vp.uuid do
-          xml.Viewpoint "#{vp.uuid}.xml"
+          xml.Viewpoint "#{vp.uuid}.bcfv"
           xml.Snapshot "#{vp.uuid}#{vp.snapshot.extension}"
         end
       end

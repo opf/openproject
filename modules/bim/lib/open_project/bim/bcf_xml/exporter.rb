@@ -123,7 +123,7 @@ module OpenProject::Bim::BcfXml
     def viewpoints_for(issue_dir, issue)
       [].tap do |files|
         issue.viewpoints.find_each do |vp|
-          vp_file = File.join(issue_dir, "#{vp.uuid}.xml")
+          vp_file = File.join(issue_dir, "#{vp.uuid}.bcfv")
           snapshot_file = File.join(issue_dir, "#{vp.uuid}#{vp.snapshot.extension}")
 
           # Copy the files
