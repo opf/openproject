@@ -7,8 +7,8 @@ import {
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   map,
-  switchMap,
 } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
@@ -20,11 +20,12 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   paramsChanges$ = this.select(['params', 'activeFacet']);
 
-  selectNotifications$ = this
-    .paramsChanges$
-    .pipe(
-      switchMap(() => selectCollectionAsEntities$<InAppNotification>(this.resourceService, this.params)),
-    );
+  selectNotifications$ = combineLatest([
+    this.paramsChanges$,
+    this.resourceService.query.select(),
+  ]).pipe(
+    map(([, state]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, state, this.params)),
+  );
 
   aggregatedCenterNotifications$ = this
     .selectNotifications$
