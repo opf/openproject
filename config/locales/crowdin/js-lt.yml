@@ -512,8 +512,8 @@ lt:
       reasons:
         mentioned: 'paminėtas'
         watched: 'stebimas'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        assigned: 'paskirta'
+        responsible: 'atsakingas'
       facets:
         unread: 'Neskaitytas'
         all: 'Visi'
@@ -529,32 +529,32 @@ lt:
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
       settings:
         title: "Pranešimų nustatymai"
-        notify_me: "Notify me"
+        notify_me: "Pranešti man"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Aš @paminėtas'
+            description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Priskirta man arba atsakingas'
+            description: 'Gauti pranešimus apie visus veiksmus su darbų paketais, kuriuose aš arba paskirtasis, arba atsakingas.'
+          watched: 'Stebimų elementų pakeitimai'
+          work_package_commented: 'Visi nauji komentarai'
+          work_package_created: 'Nauji darbų paketai'
+          work_package_processed: 'Visi būsenų pakeitimai'
+          work_package_prioritized: 'visi prioritetų pakeitimai'
+          work_package_scheduled: 'Visi datų pakeitimai'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Pranešti man nedelsiant'
+            description: 'Šie nustatymai taikomi visiems projektams. Žemiau jūs galite sukurti konkrečiam projektui taikomas išimtis.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Tai pat pranešti man apie'
+            description: 'Gauti pranešimus apie šiuos veiksmus su darbo paketais visuose projektuose:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: 'Konkrečių projektų pranešimų nustatymai'
+          description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus'
+          add: 'Pridėti nustatymą projektui'
+          already_selected: 'Šis projektas jau pažymėtas'
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'

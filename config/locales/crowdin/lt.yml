@@ -1365,7 +1365,7 @@ lt:
         assigned: "Jūs buvote priskirtas prie %{work_package}"
         subscribed: "Jūs užsiprenumeravote %{work_package}"
         mentioned: "Jūs buvote paminėtas %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
+        responsible: "Jūs tapote atsakingas už %{work_package}"
         watched: "Jūs stebite %{work_package}"
   label_accessibility: "Prieinamumas"
   label_account: "Paskyra"
@@ -1948,7 +1948,7 @@ lt:
         more_to_see_plural: 'Yra dar %{number} darbo paketai su pranešimais.'
         reason:
           watched: 'Stebimas'
-          assigned: 'Assigned'
+          assigned: 'Paskirta'
           responsible: 'Atsakingas'
           mentioned: 'Paminėtas'
           subscribed: 'visi'
