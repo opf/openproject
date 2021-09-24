@@ -3,7 +3,7 @@ export interface IHALGrouping {
   count:number;
   _links:{
     valueLink:{
-      href:string;   
+      href:string;
     }[];
   };
 }

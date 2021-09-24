@@ -95,7 +95,7 @@ class MyController < ApplicationController
   # Configure user's mail reminders
   def reminders
     render html: '',
-           layout: 'angular',
+           layout: 'angular/angular',
            locals: { menu_name: :my_menu }
   end
 
