@@ -2390,7 +2390,7 @@ lt:
     notifications:
       retention_text: >
         Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
     display:
       first_date_of_week_and_year_set: >
         Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.

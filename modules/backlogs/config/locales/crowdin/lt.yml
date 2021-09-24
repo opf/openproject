@@ -90,7 +90,7 @@ lt:
   backlogs_sprint_unsized: "Projekto aktyvūs ir neseniai uždaryti sprintai turi istorijų, kurių dydis nėra įvertintas"
   backlogs_sprints: "Sprintai"
   backlogs_story: "Istorija"
-  backlogs_story_type: "Istorijos tipas"
+  backlogs_story_type: "Istorijų tipai"
   backlogs_task: "Užduotis"
   backlogs_task_type: "Užduoties tipas"
   backlogs_velocity_missing: "Šiam projektui negalima paskaičiuoti greičio"
