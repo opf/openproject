@@ -78,7 +78,7 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def news_added(user, news, author)
+  def news_added(user, news)
     @news = news
 
     open_project_headers 'Type'    => 'News'
@@ -89,7 +89,7 @@ class UserMailer < ApplicationMailer
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
+      mail to: user.mail, subject: subject
     end
   end
 
@@ -111,7 +111,7 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def news_comment_added(user, comment, author)
+  def news_comment_added(user, comment)
     @comment = comment
     @news    = @comment.commented
 
@@ -123,11 +123,11 @@ class UserMailer < ApplicationMailer
     with_locale_for(user) do
       subject = "#{News.model_name.human}: #{@news.title}"
       subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
+      mail to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_added(user, wiki_content, author)
+  def wiki_content_added(user, wiki_content)
     @wiki_content = wiki_content
 
     open_project_headers 'Project' => @wiki_content.project.identifier,
@@ -138,11 +138,11 @@ class UserMailer < ApplicationMailer
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail to: user.mail, subject: subject
     end
   end
 
-  def wiki_content_updated(user, wiki_content, author)
+  def wiki_content_updated(user, wiki_content)
     @wiki_content  = wiki_content
     @wiki_diff_url = url_for(controller: '/wiki',
                              action: :diff,
@@ -158,16 +158,16 @@ class UserMailer < ApplicationMailer
 
     with_locale_for(user) do
       subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail to: user.mail, subject: subject
     end
   end
 
-  def message_posted(user, message, author)
+  def message_posted(user, message)
     @message     = message
     @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
 
     open_project_headers 'Project' => @message.project.identifier,
-                         'Wiki-Page-Id' => @message.parent_id || @message.id,
+                         'Message-Id' => @message.parent_id || @message.id,
                          'Type' => 'Forum'
 
     message_id @message, user
@@ -175,7 +175,7 @@ class UserMailer < ApplicationMailer
 
     with_locale_for(user) do
       subject = "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail_for_author author, to: user.mail, subject: subject
+      mail to: user.mail, subject: subject
     end
   end
 

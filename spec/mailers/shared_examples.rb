@@ -27,18 +27,3 @@ shared_examples_for 'mail is not sent' do
     expect(deliveries).to be_empty
   end
 end
-
-shared_examples_for 'does not send mails to author' do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-
-  context 'when mail is for another user' do
-    it_behaves_like 'mail is sent'
-  end
-
-  context 'when mail is for author' do
-    let(:recipient) { user }
-
-    it_behaves_like 'mail is not sent'
-  end
-end
-

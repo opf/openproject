@@ -117,19 +117,17 @@ describe UserMailer, type: :mailer do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      described_class.wiki_content_added(recipient, wiki_content, user).deliver_now
+      described_class.wiki_content_added(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#wiki_content_updated' do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      described_class.wiki_content_updated(recipient, wiki_content, user).deliver_now
+      described_class.wiki_content_updated(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -137,8 +135,6 @@ describe UserMailer, type: :mailer do
     it 'links to the latest version diff page' do
       expect(deliveries.first.body.encoded).to include 'diff/1'
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#message_posted' do
@@ -151,7 +147,7 @@ describe UserMailer, type: :mailer do
     end
 
     before do
-      described_class.message_posted(recipient, message, user).deliver_now
+      described_class.message_posted(recipient, message).deliver_now
     end
 
     it_behaves_like 'mail is sent' do
@@ -171,8 +167,6 @@ describe UserMailer, type: :mailer do
                         href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
       end
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#account_information' do
@@ -194,7 +188,7 @@ describe UserMailer, type: :mailer do
     let(:news) { FactoryBot.build_stubbed(:news) }
 
     before do
-      described_class.news_added(recipient, news, user).deliver_now
+      described_class.news_added(recipient, news).deliver_now
     end
 
     it_behaves_like 'mail is sent' do
@@ -203,8 +197,6 @@ describe UserMailer, type: :mailer do
           .to eql(described_class.generate_message_id(news, recipient))
       end
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#news_comment_added' do
@@ -212,12 +204,10 @@ describe UserMailer, type: :mailer do
     let(:comment) { FactoryBot.build_stubbed(:comment, commented: news) }
 
     before do
-      described_class.news_comment_added(recipient, comment, user).deliver_now
+      described_class.news_comment_added(recipient, comment).deliver_now
     end
 
     it_behaves_like 'mail is sent'
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#password_lost' do
@@ -274,12 +264,11 @@ describe UserMailer, type: :mailer do
                 .and_return project
       end
     end
-    let(:author) { FactoryBot.build_stubbed(:user) }
 
     describe 'same user' do
       subject do
         message_ids = [message, message2].map do |m|
-          described_class.message_posted(user, m, author).message_id
+          described_class.message_posted(user, m).message_id
         end
 
         message_ids.uniq.count
@@ -293,7 +282,7 @@ describe UserMailer, type: :mailer do
 
       subject do
         message_ids = [user, user2].map do |user|
-          described_class.message_posted(user, message, author).message_id
+          described_class.message_posted(user, message).message_id
         end
 
         message_ids.uniq.count

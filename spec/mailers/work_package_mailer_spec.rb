@@ -95,13 +95,6 @@ describe WorkPackageMailer, type: :mailer do
         .to eql "<openproject.work_package-#{recipient.id}-#{work_package.id}.#{created_at}@example.net>"
     end
 
-    it 'has a references header' do
-      created_at = work_package.created_at.strftime('%Y%m%d%H%M%S')
-
-      expect(mail['References'].value)
-        .to eql "<openproject.work_package-#{recipient.id}-#{work_package.id}.#{created_at}@example.net>"
-    end
-
     it 'has a work package assignee header' do
       expect(mail['X-OpenProject-WorkPackage-Assignee'].value)
         .to eql work_package.assigned_to.login

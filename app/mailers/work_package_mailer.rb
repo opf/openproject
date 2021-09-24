@@ -37,15 +37,13 @@ class WorkPackageMailer < ApplicationMailer
       set_work_package_headers(work_package)
 
       message_id journal, recipient
-      references work_package, recipient
 
       with_locale_for(recipient) do
-        mail_for_author author,
-                        to: recipient.mail,
-                        subject: I18n.t(:'mail.mention.subject',
-                                        user_name: author.name,
-                                        id: work_package.id,
-                                        subject: work_package.subject)
+        mail to: recipient.mail,
+             subject: I18n.t(:'mail.mention.subject',
+                             user_name: author.name,
+                             id: work_package.id,
+                             subject: work_package.subject)
       end
     end
   end
@@ -58,7 +56,6 @@ class WorkPackageMailer < ApplicationMailer
 
       set_work_package_headers(work_package)
       message_id work_package, user
-      references work_package, user
 
       with_locale_for(user) do
         mail to: user.mail, subject: subject_for_work_package(work_package)

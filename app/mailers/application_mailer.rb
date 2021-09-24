@@ -73,12 +73,6 @@ class ApplicationMailer < ActionMailer::Base
       "#{hash}@#{host}"
     end
 
-    def remove_self_notifications(message, author)
-      if author.pref && message.to.present?
-        message.to = message.to.reject { |address| address == author.mail }
-      end
-    end
-
     def mail_timestamp(object)
       object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     end
@@ -108,18 +102,6 @@ class ApplicationMailer < ActionMailer::Base
   def mail(headers = {}, &block)
     block ||= method(:default_formats_for_setting)
     super(headers, &block)
-  end
-
-  # like #mail, but contains special author based filters
-  # currently only:
-  #  - remove_self_notifications
-  # might be refactored at a later time to be as generic as Interceptors
-  def mail_for_author(author, headers = {}, &block)
-    message = mail headers, &block
-
-    self.class.remove_self_notifications(message, author)
-
-    message
   end
 
   def message_id(object, user)

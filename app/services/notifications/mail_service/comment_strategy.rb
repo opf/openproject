@@ -32,8 +32,7 @@ module Notifications::MailService::CommentStrategy
       UserMailer
         .news_comment_added(
           notification.recipient,
-          notification.resource,
-          notification.resource.author || DeletedUser.first
+          notification.resource
         )
         .deliver_later
     end
