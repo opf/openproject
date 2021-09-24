@@ -110,8 +110,24 @@ class ApplicationMailer < ActionMailer::Base
     super(headers, &block)
   end
 
+  # like #mail, but contains special author based filters
+  # currently only:
+  #  - remove_self_notifications
+  # might be refactored at a later time to be as generic as Interceptors
+  def mail_for_author(author, headers = {}, &block)
+    message = mail headers, &block
+
+    self.class.remove_self_notifications(message, author)
+
+    message
+  end
+
   def message_id(object, user)
     headers['Message-ID'] = "<#{self.class.generate_message_id(object, user)}>"
+  end
+
+  def references(object, user)
+    headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
   # Prepends given fields with 'X-OpenProject-' to save some duplication

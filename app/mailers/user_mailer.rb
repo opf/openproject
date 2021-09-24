@@ -279,22 +279,7 @@ class UserMailer < ApplicationMailer
     "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
   end
 
-  # like #mail, but contains special author based filters
-  # currently only:
-  #  - remove_self_notifications
-  # might be refactored at a later time to be as generic as Interceptors
-  def mail_for_author(author, headers = {}, &block)
-    message = mail headers, &block
-
-    self.class.remove_self_notifications(message, author)
-
-    message
-  end
-
-  def references(object, user)
-    headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
-  end
-
+  # TODO: Delete since moved to WorkPackageMailer
   def set_work_package_headers(work_package)
     open_project_headers 'Project' => work_package.project.identifier,
                          'Issue-Id' => work_package.id,

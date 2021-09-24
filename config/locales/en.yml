@@ -1998,6 +1998,8 @@ en:
         updated_at: 'at %{timestamp} by %{user}'
       you_have: 'You have'
     logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
       settings: 'Change email settings'
