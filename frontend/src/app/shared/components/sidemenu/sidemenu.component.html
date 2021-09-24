@@ -1,18 +1,27 @@
 <button
   class="op-sidemenu--title"
   type="button"
-  (click)="toggleCollapsed"
+  (click)="toggleCollapsed()"
   *ngIf="title && collapsible"
 >
-  <span class="tree-menu--hierarchy-indicator-icon" aria-hidden="true"></span>
+  <span class="icon-context icon-small"
+        [ngClass]="collapsed ? 'icon-arrow-down1' : 'icon-arrow-up1'"
+        aria-hidden="true">
+  </span>
   {{ title }}
 </button>
+
 <div
   class="op-sidemenu--title"
   *ngIf="title && !collapsible"
->{{ title }}</div>
+>
+  {{ title }}
+</div>
 
-<ul class="op-sidemenu--items">
+<ul
+  class="op-sidemenu--items"
+  [ngClass]="{'op-sidemenu--items_collapsed' : collapsed}"
+>
   <li
     class="op-sidemenu--item"
     *ngFor="let item of items"

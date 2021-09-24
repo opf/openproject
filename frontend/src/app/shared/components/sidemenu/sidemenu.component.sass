@@ -12,16 +12,17 @@
     padding: 8px 12px 
     margin-top: 12px
     font-size: 12px
+    cursor: pointer
 
     &:hover
       background: var(--main-menu-bg-hover-background)
       color: var(--main-menu-hover-font-color)
 
-  &_collapsible &--title
-    cursor: pointer
-
   &--items
     list-style: none
+
+    &_collapsed
+      display: none
 
   &--item-action
     display: flex

@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
-  OnInit,
   HostBinding,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -13,7 +12,8 @@ export interface IOpSidemenuItem {
   icon?:string;
   counter?:number;
   link:string;
-  children?: IOpSidemenuItem[];
+  children?:IOpSidemenuItem[];
+  collapsible?:boolean;
 }
 
 @Component({
@@ -22,24 +22,23 @@ export interface IOpSidemenuItem {
   styleUrls: ['./sidemenu.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OpSidemenuComponent implements OnInit {
+export class OpSidemenuComponent {
   @HostBinding('class.op-sidemenu') className = true;
+
   @HostBinding('class.op-sidemenu_collapsed') collapsed = false;
 
   @Input() items:IOpSidemenuItem[] = [];
 
   @Input() title:string;
 
-  @Input() collapsible:string;
+  @Input() collapsible = true;
 
   constructor(
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
   ) { }
 
-  ngOnInit() { }
-
-  toggleCollapsed() {
+  toggleCollapsed():void {
     this.collapsed = !this.collapsed;
   }
 }
