@@ -36,7 +36,7 @@ import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routi
 export interface INotificationPageQueryParameters {
   filter?:string;
   name?:string;
-};
+}
 
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {

@@ -33,11 +33,11 @@ export class IanMenuQuery extends Query<IanMenuState> {
     this.select('notificationsByProject'),
     this.projectsForNotifications$,
   ]).pipe(
-    map(([notifications, projects]) => notifications.map(notification => {
-      const project = projects.find(project => project.id === idFromLink(notification._links.valueLink[0].href));
+    map(([notifications, projects]) => notifications.map((notification) => {
+      const project = projects.find((p) => p.id.toString() === idFromLink(notification._links.valueLink[0].href));
       return {
         ...notification,
-        projectHasParent: project?._links.parent.href ? true : false,
+        projectHasParent: !!project?._links.parent.href,
       };
     })),
   );

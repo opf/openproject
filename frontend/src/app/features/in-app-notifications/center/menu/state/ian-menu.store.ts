@@ -1,7 +1,5 @@
 import { Store, StoreConfig } from '@datorama/akita';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { Project } from 'core-app/core/state/projects/project.model';
 
 export interface IanMenuGroupingData {
   value:string;

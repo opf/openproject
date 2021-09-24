@@ -9,7 +9,7 @@ export interface IanCenterState {
     pageSize:number;
   };
   activeFacet:InAppNotificationFacet;
-  filters: INotificationPageQueryParameters;
+  filters:INotificationPageQueryParameters;
 
   /** Number of elements not showing after max values loaded */
   notLoaded:number;

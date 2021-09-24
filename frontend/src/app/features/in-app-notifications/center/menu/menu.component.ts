@@ -61,7 +61,7 @@ export class IanMenuComponent implements OnInit {
     map((items) => items
       .map((item) => ({
         ...item,
-        title: (item.projectHasParent ? '...' : '') + item.value,
+        title: (item.projectHasParent ? '... ' : '') + item.value,
         href: this.getHrefForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
       }))
       .sort((a, b) => {

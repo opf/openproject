@@ -24,10 +24,12 @@
 >
   <li
     class="op-sidemenu--item"
+    data-qa-selector="op-sidemenu--item"
     *ngFor="let item of items"
   >
     <a
       class="op-sidemenu--item-action"
+      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [href]="item.href"
       *ngIf="!item.children"
     >

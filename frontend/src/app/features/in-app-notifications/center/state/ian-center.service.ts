@@ -50,7 +50,7 @@ export class IanCenterService {
   ) {
   }
 
-  setFilters(filters:INotificationPageQueryParameters) {
+  setFilters(filters:INotificationPageQueryParameters):void {
     this.store.update({ filters });
     this.debouncedReload();
   }
@@ -90,7 +90,7 @@ export class IanCenterService {
     }
   }
 
-  private debouncedReload = _.debounce(this.reload.bind(this));
+  private debouncedReload = _.debounce(() => { this.reload(); });
 
   private reload() {
     this.resourceService
@@ -100,7 +100,7 @@ export class IanCenterService {
         switchMap((results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))),
       )
       .subscribe();
-  };
+  }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;

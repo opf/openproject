@@ -75,9 +75,11 @@ module Components
         end
       end
 
-      def expect_no_item(notification)
-        expect(page)
-          .to have_no_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+      def expect_no_item(*notifications)
+        notifications.each do |notification|
+          expect(page)
+            .to have_no_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+        end
       end
 
       def expect_read_item(notification)
@@ -90,12 +92,14 @@ module Components
           .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
-      def expect_work_package_item(notification)
-        work_package = notification.resource
-        raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
+      def expect_work_package_item(*notifications)
+        notifications.each do |notification|
+          work_package = notification.resource
+          raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
 
-        expect_item notification,
-                    subject: "#{work_package.type.name.upcase} #{work_package.subject}"
+          expect_item notification,
+                      subject: "#{work_package.type.name.upcase} #{work_package.subject}"
+        end
       end
 
       def expect_closed
