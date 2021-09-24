@@ -44,10 +44,10 @@ export class IanMenuComponent implements OnInit {
       href: this.getHrefForFilters({ filter: 'reason', name: 'assigned' }),
     },
     {
-      key: 'accountable',
+      key: 'responsible',
       title: this.I18n.t('js.notifications.menu.accountable'),
       icon: 'accountable',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'accountable' }),
+      href: this.getHrefForFilters({ filter: 'reason', name: 'responsible' }),
     },
     {
       key: 'watched',

@@ -10,8 +10,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 export interface IOpSidemenuItem {
   title:string;
   icon?:string;
-  counter?:number;
-  link:string;
+  count?:number;
+  href:string;
   children?:IOpSidemenuItem[];
   collapsible?:boolean;
 }

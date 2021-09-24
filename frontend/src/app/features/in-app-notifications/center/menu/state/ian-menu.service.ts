@@ -46,13 +46,18 @@ export class IanMenuService {
     return this.reload();
   }
 
-  public reload() {
+  public reload():void {
     this.ianResourceService.fetchNotifications(IAN_MENU_PROJECT_FILTERS)
       .subscribe((data) => {
         const projectsFilter:Apiv3ListParameters = {
           pageSize: 100,
-          filters: [['id', '=', data.groups!.map(group => String(idFromLink(group._links.valueLink[0].href)))]],
+          filters: [],
         };
+
+        if (data.groups) {
+          projectsFilter.filters = [['id', '=', data.groups.map((group) => String(idFromLink(group._links.valueLink[0].href)))]];
+        }
+
         this.store.update({
           notificationsByProject: data.groups,
           projectsFilter,

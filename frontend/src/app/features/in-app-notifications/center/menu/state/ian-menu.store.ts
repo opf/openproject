@@ -9,7 +9,7 @@ export interface IanMenuGroupingData {
   projectHasParent?:boolean;
   _links:{
     valueLink:{
-      href:string;   
+      href:string;
     }[];
   };
 }
@@ -17,7 +17,7 @@ export interface IanMenuGroupingData {
 export interface IanMenuState {
   notificationsByProject:IanMenuGroupingData[],
   notificationsByReason:IanMenuGroupingData[],
-  projectsFilter: Apiv3ListParameters,
+  projectsFilter:Apiv3ListParameters,
 }
 
 export const IAN_MENU_PROJECT_FILTERS:Apiv3ListParameters = {
