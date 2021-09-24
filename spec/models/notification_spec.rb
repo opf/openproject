@@ -27,15 +27,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'spec_helper'
 
-class Notifications::CreateService < ::BaseServices::Create
-  protected
+describe Notification,
+         type: :model do
+  describe '.save' do
+    context 'for a non existing journal (e.g. because it has been deleted)' do
+      let(:notification) { FactoryBot.build(:notification, journal_id: 55) }
 
-  def persist(service_result)
-    super
-  rescue ActiveRecord::InvalidForeignKey
-    service_result.success = false
-    service_result.errors.add(:journal_id, :does_not_exist)
-    service_result
+      it 'raises an error' do
+        expect { notification.save }
+          .to raise_error ActiveRecord::InvalidForeignKey
+      end
+    end
   end
 end
