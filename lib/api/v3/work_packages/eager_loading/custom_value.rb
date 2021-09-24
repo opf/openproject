@@ -118,8 +118,7 @@ module API
 
             scope
               .where(id: ids_of_values)
-              .map { |v| [v.id, v] }
-              .to_h
+              .index_by(&:id)
           end
 
           def custom_values_of(field_format)
@@ -143,8 +142,7 @@ module API
             @loaded_custom_fields_by_id ||= begin
               WorkPackageCustomField
                 .where(id: usages.map { |u| u['custom_field_id'] }.uniq)
-                .map { |cf| [cf.id, cf] }
-                .to_h
+                .index_by(&:id)
             end
 
             @loaded_custom_fields_by_id[id]
