@@ -382,5 +382,3 @@ apiv3_docs_enabled:
 notification_retention_period_days:
   default: 30
   format: int
-notification_email_digest_time:
-  default: '08:00'
