@@ -8,7 +8,7 @@ export const ProjectAllowedValidator = (currentUserService:CurrentUserService) =
   (control:AbstractControl) =>
     currentUserService.hasCapabilities$(
       'memberships/create',
-      String(idFromLink(control.value.href)),
+      idFromLink(control.value.href),
     ).pipe(
       take(1),
       map((isAllowed) => (isAllowed ? null : { lackingPermission: true })),

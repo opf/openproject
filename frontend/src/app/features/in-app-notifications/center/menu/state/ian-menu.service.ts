@@ -55,7 +55,7 @@ export class IanMenuService {
         };
 
         if (data.groups) {
-          projectsFilter.filters = [['id', '=', data.groups.map((group) => String(idFromLink(group._links.valueLink[0].href)))]];
+          projectsFilter.filters = [['id', '=', data.groups.map((group) => idFromLink(group._links.valueLink[0].href))]];
         }
 
         this.store.update({

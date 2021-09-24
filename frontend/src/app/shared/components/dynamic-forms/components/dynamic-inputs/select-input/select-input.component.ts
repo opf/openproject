@@ -12,7 +12,7 @@ export class SelectInputComponent extends FieldType implements OnInit {
 
   public ngOnInit():void {
     if (this.model?.project) {
-      this.projectId = String(idFromLink(this.model.project?.href));
+      this.projectId = idFromLink(this.model.project?.href);
     }
   }
 }

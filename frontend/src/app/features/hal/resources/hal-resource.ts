@@ -146,7 +146,7 @@ export class HalResource {
       return this.$source.id.toString();
     }
 
-    const id = String(idFromLink(this.href));
+    const id = idFromLink(this.href);
     if (/^\d+$/.exec(id)) {
       return id;
     }

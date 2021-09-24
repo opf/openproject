@@ -167,7 +167,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        String(idFromLink(workPackage.project.href)),
+        idFromLink(workPackage.project.href),
         workPackage.id!,
         index,
       );

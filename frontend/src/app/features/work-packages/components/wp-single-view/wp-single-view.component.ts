@@ -190,7 +190,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.projectContext = { matches: false, href: null };
     } else {
       this.projectContext = {
-        href: this.PathHelper.projectWorkPackagePath(String(idFromLink(resource.project.href)), this.workPackage.id!),
+        href: this.PathHelper.projectWorkPackagePath(idFromLink(resource.project.href), this.workPackage.id!),
         matches: resource.project.href === this.currentProject.apiv3Path,
       };
     }
@@ -261,7 +261,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   public get projectContextText():string {
-    const id = String(idFromLink(this.workPackage.project.href));
+    const id = idFromLink(this.workPackage.project.href);
     const projectPath = this.PathHelper.projectPath(id);
     const project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });

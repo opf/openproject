@@ -213,7 +213,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     if (project) {
       this.project = {
         ...project,
-        showUrl: this.pathHelper.projectPath(String(idFromLink(project.href))),
+        showUrl: this.pathHelper.projectPath(idFromLink(project.href)),
       };
     }
   }

@@ -118,8 +118,8 @@ export class RelationResource extends HalResource {
    */
   public get ids() {
     return {
-      from: String(idFromLink(this.from.href!)),
-      to: String(idFromLink(this.to.href!)),
+      from: idFromLink(this.from.href!),
+      to: idFromLink(this.to.href!),
     };
   }
 

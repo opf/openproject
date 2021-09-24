@@ -163,7 +163,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   async initialize(workPackage:WorkPackageResource) {
-    this.projectId = String(idFromLink(workPackage.project.href));
+    this.projectId = idFromLink(workPackage.project.href);
     this.viewAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'project_actions', 'viewTopic');
     this.createAllowed = await this.bcfAuthorization.isAllowedTo(this.projectId, 'topic_actions', 'createViewpoint');
 
