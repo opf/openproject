@@ -38,11 +38,11 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def render_mail
-    UserMailer
-      .work_package_watcher_changed(watcher.watchable,
-                                    recipient,
-                                    sender,
-                                    action)
+    WorkPackageMailer
+      .watcher_changed(watcher.watchable,
+                       recipient,
+                       sender,
+                       action)
   end
 
   private

@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_relative './shared_examples'
 
 describe WorkPackageMailer, type: :mailer do
   include OpenProject::ObjectLinking
@@ -37,6 +38,7 @@ describe WorkPackageMailer, type: :mailer do
 
   let(:work_package) do
     FactoryBot.build_stubbed(:work_package,
+                             type: FactoryBot.build_stubbed(:type_standard),
                              project: project,
                              assigned_to: assignee)
   end
@@ -103,6 +105,24 @@ describe WorkPackageMailer, type: :mailer do
     it 'has a work package assignee header' do
       expect(mail['X-OpenProject-WorkPackage-Assignee'].value)
         .to eql work_package.assigned_to.login
+    end
+  end
+
+  describe '#watcher_changed' do
+    subject(:deliveries) { ActionMailer::Base.deliveries }
+
+    let(:watcher_changer) { author }
+
+    before do
+      described_class.watcher_changed(work_package, recipient, author, 'added').deliver_now
+      described_class.watcher_changed(work_package, recipient, author, 'removed').deliver_now
+    end
+
+    include_examples 'multiple mails are sent', 2
+
+    it 'contains the WP subject in the mail subject' do
+      expect(deliveries.first.subject)
+        .to include(work_package.subject)
     end
   end
 end

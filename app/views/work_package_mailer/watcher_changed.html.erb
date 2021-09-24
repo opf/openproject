@@ -26,9 +26,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<%= t("text_work_package_watcher_#{@action}", id: "##{@issue.id}", watcher_changer: @watcher_changer) %>
-
-----------------------------------------
-<%= render partial: 'issue_details', locals: { issue: @issue } %>
-<%= t(:text_latest_note, note: last_work_package_note(@issue)) %>
+<%= t("text_work_package_watcher_#{@action}", id: "##{@work_package.id}", watcher_changer: @watcher_changer) %>
+<hr />
+<%= render partial: 'work_package_details', locals: { work_package: @work_package } %>
+<p>
+  <%= format_text(t(:text_latest_note, note: last_work_package_note(@work_package)),
+                    only_path: false,
+                    object: @work_package,
+                    project: @work_package.project) %>
+</p>

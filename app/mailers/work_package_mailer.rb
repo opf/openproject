@@ -50,7 +50,27 @@ class WorkPackageMailer < ApplicationMailer
     end
   end
 
+  def watcher_changed(work_package, user, watcher_changer, action)
+    User.execute_as user do
+      @work_package = work_package
+      @watcher_changer = watcher_changer
+      @action = action
+
+      set_work_package_headers(work_package)
+      message_id work_package, user
+      references work_package, user
+
+      with_locale_for(user) do
+        mail to: user.mail, subject: subject_for_work_package(work_package)
+      end
+    end
+  end
+
   private
+
+  def subject_for_work_package(wp)
+    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
+  end
 
   def set_work_package_headers(work_package)
     open_project_headers 'Project' => work_package.project.identifier,

@@ -39,22 +39,6 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def work_package_watcher_changed(work_package, user, watcher_changer, action)
-    User.execute_as user do
-      @issue = work_package
-      @watcher_changer = watcher_changer
-      @action = action
-
-      set_work_package_headers(work_package)
-      message_id work_package, user
-      references work_package, user
-
-      with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
-  end
-
   def backup_ready(user)
     User.execute_as user do
       @download_url = admin_backups_url
@@ -270,24 +254,6 @@ class UserMailer < ApplicationMailer
 
     with_locale_for(admin) do
       mail to: admin.mail, subject: t("mail_user_activation_limit_reached.subject")
-    end
-  end
-
-  private
-
-  def subject_for_work_package(wp)
-    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
-  end
-
-  # TODO: Delete since moved to WorkPackageMailer
-  def set_work_package_headers(work_package)
-    open_project_headers 'Project' => work_package.project.identifier,
-                         'Issue-Id' => work_package.id,
-                         'Issue-Author' => work_package.author.login,
-                         'Type' => 'WorkPackage'
-
-    if work_package.assigned_to
-      open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
     end
   end
 end

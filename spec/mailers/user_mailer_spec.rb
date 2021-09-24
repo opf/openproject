@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_relative './shared_examples'
 
 describe UserMailer, type: :mailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }
@@ -59,50 +60,6 @@ describe UserMailer, type: :mailer do
     allow(Setting).to receive(:host_name).and_return('mydomain.foo')
     allow(Setting).to receive(:protocol).and_return('http')
     allow(Setting).to receive(:default_language).and_return('en')
-  end
-
-  shared_examples_for 'mail is sent' do
-    let(:letters_sent_count) { 1 }
-    let(:mail) { deliveries.first }
-    let(:html_body) { mail.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded }
-
-    it 'actually sends a mail' do
-      expect(deliveries.size).to eql(letters_sent_count)
-    end
-
-    it 'is sent to the recipient' do
-      expect(deliveries.first.to).to include(recipient.mail)
-    end
-
-    it 'is sent from the configured address' do
-      expect(deliveries.first.from).to match_array([Setting.mail_from])
-    end
-  end
-
-  shared_examples_for 'multiple mails are sent' do |set_letters_sent_count|
-    it_behaves_like 'mail is sent' do
-      let(:letters_sent_count) { set_letters_sent_count }
-    end
-  end
-
-  shared_examples_for 'mail is not sent' do
-    it 'sends no mail' do
-      expect(deliveries).to be_empty
-    end
-  end
-
-  shared_examples_for 'does not send mails to author' do
-    let(:user) { FactoryBot.build_stubbed(:user) }
-
-    context 'when mail is for another user' do
-      it_behaves_like 'mail is sent'
-    end
-
-    context 'when mail is for author' do
-      let(:recipient) { user }
-
-      it_behaves_like 'mail is not sent'
-    end
   end
 
   describe '#with_deliveries' do
@@ -153,21 +110,6 @@ describe UserMailer, type: :mailer do
     context 'with the user name setting prone to trip up email address separation',
             with_settings: { user_format: :lastname_coma_firstname } do
       it_behaves_like 'mail is sent'
-    end
-  end
-
-  describe '#work_package_watcher_changed' do
-    let(:watcher_changer) { user }
-
-    before do
-      described_class.work_package_watcher_changed(work_package, recipient, watcher_changer, 'added').deliver_now
-      described_class.work_package_watcher_changed(work_package, recipient, watcher_changer, 'removed').deliver_now
-    end
-
-    include_examples 'multiple mails are sent', 2
-
-    it 'contains the WP subject in the mail subject' do
-      expect(deliveries.first.subject).to include(work_package.subject)
     end
   end
 

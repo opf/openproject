@@ -38,7 +38,7 @@ shared_examples "watcher job" do |action|
   let(:watcher_changer) do
     FactoryBot.build_stubbed(:user)
   end
-  let(:work_package) { FactoryBot.build_stubbed(:work_package, project: project) }
+  let(:work_package) { FactoryBot.build_stubbed(:work_package, type: FactoryBot.build_stubbed(:type), project: project) }
   let(:watcher) do
     FactoryBot.build_stubbed(:watcher, watchable: work_package, user: watching_user)
   end
@@ -67,16 +67,16 @@ shared_examples "watcher job" do |action|
 
   before do
     # make sure no actual calls make it into the UserMailer
-    allow(UserMailer)
-      .to receive(:work_package_watcher_changed)
+    allow(WorkPackageMailer)
+      .to receive(:watcher_changed)
       .and_return(double('mail', deliver_now: nil))
   end
 
   shared_examples_for 'sends a mail' do
     it 'sends a mail' do
       subject
-      expect(UserMailer)
-        .to have_received(:work_package_watcher_changed)
+      expect(WorkPackageMailer)
+        .to have_received(:watcher_changed)
         .with(work_package,
               watching_user,
               watcher_changer,
@@ -87,8 +87,8 @@ shared_examples "watcher job" do |action|
   shared_examples_for 'sends no mail' do
     it 'sends no mail' do
       subject
-      expect(UserMailer)
-        .not_to have_received(:work_package_watcher_changed)
+      expect(WorkPackageMailer)
+        .not_to have_received(:watcher_changed)
     end
   end
 
@@ -97,7 +97,7 @@ shared_examples "watcher job" do |action|
       before do
         mail = double('mail')
         allow(mail).to receive(:deliver_now).and_raise(SocketError)
-        expect(UserMailer).to receive(:work_package_watcher_changed).and_return(mail)
+        expect(WorkPackageMailer).to receive(:watcher_changed).and_return(mail)
       end
 
       it 'raises the error' do
