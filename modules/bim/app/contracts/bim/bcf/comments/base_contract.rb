@@ -27,24 +27,29 @@
 #++
 
 module Bim::Bcf
-  class Comment < ActiveRecord::Base
-    self.table_name = :bcf_comments
+  module Comments
+    class BaseContract < BaseContract
+      attribute :issue
+      attribute :viewpoint
+      attribute :reply_to
 
-    include InitializeWithUuid
+      validate :user_allowed_to_manage_bcf
+      validate :validate_viewpoint_reference
+      validate :validate_reply_to_comment
 
-    CREATE_ATTRIBUTES = %i[journal issue viewpoint reply_to].freeze
-    UPDATE_ATTRIBUTES = %i[viewpoint reply_to].freeze
+      private
 
-    belongs_to :journal
-    belongs_to :issue, foreign_key: :issue_id, class_name: "Bim::Bcf::Issue"
-    belongs_to :viewpoint, foreign_key: :viewpoint_id, class_name: "Bim::Bcf::Viewpoint", optional: true
-    belongs_to :reply_to, foreign_key: :reply_to, class_name: "Bim::Bcf::Comment", optional: true
+      def user_allowed_to_manage_bcf
+        errors.add :base, :error_unauthorized unless @user.allowed_to?(:manage_bcf, model.issue.work_package.project)
+      end
 
-    validates_presence_of :uuid
-    validates_uniqueness_of :uuid, scope: [:issue_id]
+      def validate_viewpoint_reference
+        errors.add(:viewpoint, :does_not_exist) if model.viewpoint.is_a?(::Bim::Bcf::NonExistentViewpoint)
+      end
 
-    def self.has_uuid?(uuid, issue_id)
-      exists?(uuid: uuid, issue_id: issue_id)
+      def validate_reply_to_comment
+        errors.add(:bcf_comment, :does_not_exist) if model.reply_to.is_a?(::Bim::Bcf::NonExistentComment)
+      end
     end
   end
 end

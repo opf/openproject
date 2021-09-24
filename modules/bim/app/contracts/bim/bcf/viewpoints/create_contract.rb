@@ -104,7 +104,7 @@ module Bim::Bcf
       end
 
       def validate_json_viewpoint_present
-        errors.add(:json_viewpoint, :blank) unless viewpoint.present?
+        errors.add(:json_viewpoint, :blank) if viewpoint.blank?
       end
 
       def validate_json_viewpoint_hash

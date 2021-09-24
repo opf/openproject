@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -85,7 +83,7 @@ module Bim::Bcf::API::V2_1
 
       route_param :topic_uuid, regexp: /\A[a-f0-9\-]+\z/ do
         after_validation do
-          @issue = topics.find_by_uuid!(params[:topic_uuid])
+          @issue = topics.find_by!(uuid: params[:topic_uuid])
         end
 
         get &::Bim::Bcf::API::V2_1::Endpoints::Show
@@ -108,6 +106,7 @@ module Bim::Bcf::API::V2_1
                   .mount
 
         mount ::Bim::Bcf::API::V2_1::Viewpoints::API
+        mount ::Bim::Bcf::API::V2_1::Comments::API
       end
     end
   end
