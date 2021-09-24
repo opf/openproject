@@ -97,7 +97,7 @@ shared_examples "watcher job" do |action|
       before do
         mail = double('mail')
         allow(mail).to receive(:deliver_now).and_raise(SocketError)
-        expect(WorkPackageMailer).to receive(:watcher_changed).and_return(mail)
+        allow(WorkPackageMailer).to receive(:watcher_changed).and_return(mail)
       end
 
       it 'raises the error' do

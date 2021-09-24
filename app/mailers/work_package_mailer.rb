@@ -65,8 +65,9 @@ class WorkPackageMailer < ApplicationMailer
 
   private
 
-  def subject_for_work_package(wp)
-    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
+  def subject_for_work_package(work_package)
+    "#{work_package.project.name} - #{work_package.status.name} #{work_package.type.name} " +
+      "##{work_package.id}: #{work_package.subject}"
   end
 
   def set_work_package_headers(work_package)

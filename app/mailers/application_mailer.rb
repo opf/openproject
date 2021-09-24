@@ -123,4 +123,43 @@ class ApplicationMailer < ActionMailer::Base
     format.html unless Setting.plain_text_mail?
     format.text
   end
+
+  def send_mail(user, subject)
+    with_locale_for(user) do
+      mail to: user.mail, subject: subject
+    end
+  end
+end
+
+##
+# Interceptors
+#
+# These are registered in config/initializers/register_mail_interceptors.rb
+#
+# Unfortunately, this results in changes on the interceptor classes during development mode
+# not being reflected until a server restart.
+
+class DefaultHeadersInterceptor
+  def self.delivering_email(mail)
+    mail.headers(default_headers)
+  end
+
+  def self.default_headers
+    {
+      'X-Mailer' => 'OpenProject',
+      'X-OpenProject-Host' => Setting.host_name,
+      'X-OpenProject-Site' => Setting.app_title,
+      'Precedence' => 'bulk',
+      'Auto-Submitted' => 'auto-generated'
+    }
+  end
+end
+
+class DoNotSendMailsWithoutReceiverInterceptor
+  def self.delivering_email(mail)
+    receivers = [mail.to, mail.cc, mail.bcc]
+    # the above fields might be empty arrays (if entries have been removed
+    # by another interceptor) or nil, therefore checking for blank?
+    mail.perform_deliveries = false if receivers.all?(&:blank?)
+  end
 end
