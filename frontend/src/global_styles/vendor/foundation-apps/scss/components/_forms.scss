@@ -265,7 +265,7 @@ select {
 // Range slider
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 input[type="range"] {
-  $margin: ($slider-thumb-height - $slider-height) / 2;
+  $margin: ($slider-thumb-height - $slider-height) * 0.5;
 
   @include no-appearance;
   display: block;

@@ -76,7 +76,7 @@ $notification-icon-align: top !default;
   }
   @else if $x == middle {
     left: 50%;
-    margin-left: -($size / 2);
+    margin-left: -($size * 0.5);
   }
 
   @if $y == top {
