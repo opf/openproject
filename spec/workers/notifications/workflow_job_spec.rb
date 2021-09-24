@@ -38,8 +38,13 @@ describe Notifications::WorkflowJob, type: :model do
   let(:send_notification) { true }
 
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification),
-     FactoryBot.build_stubbed(:notification)]
+    [FactoryBot.build_stubbed(:notification, reason_ian: :assigned, reason_mail: :assigned),
+     mentioned_notification,
+     FactoryBot.build_stubbed(:notification, reason_ian: :watched, reason_mail: :watched)]
+  end
+
+  let(:mentioned_notification) do
+    FactoryBot.build_stubbed(:notification, reason_ian: :mentioned, reason_mail: :mentioned)
   end
 
   describe '#perform' do
@@ -69,6 +74,18 @@ describe Notifications::WorkflowJob, type: :model do
         service_instance
       end
 
+      let!(:mail_service) do
+        service_instance = instance_double(Notifications::MailService,
+                                           call: nil)
+
+        allow(Notifications::MailService)
+          .to receive(:new)
+                .with(mentioned_notification)
+                .and_return(service_instance)
+
+        service_instance
+      end
+
       it 'calls the service to create notifications' do
         perform_job
 
@@ -77,7 +94,14 @@ describe Notifications::WorkflowJob, type: :model do
                 .with(send_notification)
       end
 
-      it 'schedules a delayed WorkflowJob' do
+      it 'sends mails for all notifications that are marked to send mails and that have a mention reason' do
+        perform_job
+
+        expect(mail_service)
+          .to have_received(:call)
+      end
+
+      it 'schedules a delayed WorkflowJob for those notifications not to be sent directly' do
         allow(Time)
           .to receive(:current)
                 .and_return(Time.current)
@@ -87,7 +111,7 @@ describe Notifications::WorkflowJob, type: :model do
 
         expect { perform_job }
           .to enqueue_job(described_class)
-                .with(:send_mails, *notifications.map(&:id))
+                .with(:send_mails, *(notifications - [mentioned_notification]).map(&:id))
                 .at(expected_time)
       end
     end
