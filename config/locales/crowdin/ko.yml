@@ -835,7 +835,6 @@ ko:
     firstname: "이름"
     group: "그룹"
     groups: "그룹"
-    name: "이름"
     id: "ID"
     is_default: "기본값"
     is_for_all: "모든 포로젝트를 위한"
@@ -845,6 +844,7 @@ ko:
     lastname: "성"
     login: "사용자 이름"
     mail: "이메일"
+    name: "이름"
     password: "암호"
     priority: "우선 순위"
     project: "프로젝트"
@@ -1896,8 +1896,8 @@ ko:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2336,7 +2336,6 @@ ko:
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
   setting_notification_retention_period_days: "알림 보관 기간"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2411,7 +2410,6 @@ ko:
     notifications:
       retention_text: >
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >

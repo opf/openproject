@@ -836,7 +836,6 @@ de:
     firstname: "Vorname"
     group: "Gruppe"
     groups: "Gruppen"
-    name: "Name"
     id: "ID"
     is_default: "Standardwert"
     is_for_all: "Für alle Projekte"
@@ -846,6 +845,7 @@ de:
     lastname: "Nachname"
     login: "Benutzername"
     mail: "E-Mail"
+    name: "Name"
     password: "Kennwort"
     priority: "Priorität"
     project: "Projekt"
@@ -1909,8 +1909,9 @@ de:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2353,7 +2354,6 @@ de:
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
   setting_enabled_projects_columns: "In der Projektliste sichtbar"
   setting_notification_retention_period_days: "Aufbewahrungsfrist für Benachrichtigungen"
-  setting_notification_email_digest_time: "Versandzeit für E-Mail-Zusammenfassung"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
@@ -2428,7 +2428,6 @@ de:
     notifications:
       retention_text: >
         Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
-      email_digest_explanation: "Einmal pro Tag kann eine E-Mail-Zusammenfassung mit allen abonnierten Benachrichtigungen verschickt werden. Die eingestellte Zeit wird für jeden Benutzer in dessen eingestellte Zeitzone umgerechnet."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >

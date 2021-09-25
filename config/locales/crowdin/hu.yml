@@ -841,7 +841,6 @@ hu:
     firstname: "Keresztnév"
     group: "Csoport"
     groups: "Csoportok"
-    name: "Név"
     id: "ID"
     is_default: "Alap érték"
     is_for_all: "Minden projekthez"
@@ -851,6 +850,7 @@ hu:
     lastname: "Vezetéknév"
     login: "Felhasználónév"
     mail: "Email"
+    name: "Név"
     password: "Jelszó"
     priority: "Fontosság"
     project: "Projekt"
@@ -1918,8 +1918,9 @@ hu:
         created_at: 'a %{timestamp} a%{user} által'
         login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
         mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
-        more_to_see_singular: "Még 1 munkacsomag van értesítésekkel.\n"
-        more_to_see_plural: 'További %{number} munkacsomagok vannak értesítésekkel.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Megfigyelt'
           assigned: 'Assigned'
@@ -2362,7 +2363,6 @@ hu:
   setting_enabled_scm: "SCM engedélyezve"
   setting_enabled_projects_columns: "Látható a projektlistában"
   setting_notification_retention_period_days: "Értesítés megőrzési időszaka\n"
-  setting_notification_email_digest_time: "Email feldolgozási idő\n"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
   setting_file_max_size_displayed: "A szöveg fájl sorainak maximum mérete megjelenítéskor"
@@ -2439,7 +2439,6 @@ hu:
       retention_text: >
         Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
 
-      email_digest_explanation: "Naponta egyszer küldhető egy e -mail kivonat, amely tartalmazza az összes felhasználó által feliratkozott értesítés gyűjteményét. A beállítás az egyes felhasználók által konfigurált időzónához képest van, így pl. A 8:00 UTC+1 felhasználók számára UTC 7:00 órakor, az UTC-1-es felhasználók pedig 9:00 UTC-kor kerülnek végrehajtásra.\n"
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
     display:
       first_date_of_week_and_year_set: >

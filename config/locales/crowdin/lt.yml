@@ -847,7 +847,6 @@ lt:
     firstname: "Vardas"
     group: "Grupė"
     groups: "Grupės"
-    name: "Vardas"
     id: "ID"
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
@@ -857,6 +856,7 @@ lt:
     lastname: "Pavardė"
     login: "Naudotojas"
     mail: "El. paštas"
+    name: "Vardas"
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"
@@ -1944,8 +1944,11 @@ lt:
         created_at: '%{timestamp} naudotojo %{user} '
         login_to_see_all: 'Prisijunkite, kad matytumėte visus pranešimus'
         mentioned: 'Jūs buvote <b>paminėtas komentare</b>'
-        more_to_see_singular: 'Yra dar 1 darbo paketas su pranešimais'
-        more_to_see_plural: 'Yra dar %{number} darbo paketai su pranešimais.'
+        more_to_see:
+          one: 'Yra dar 1 darbo paketas su pranešimais.'
+          few: 'Yra dar %{count} darbo paketai su pranešimais.'
+          many: 'Yra dar %{count} darbo paketų su pranešimais.'
+          other: 'Yra dar %{count} darbo paketų su pranešimais.'
         reason:
           watched: 'Stebimas'
           assigned: 'Paskirta'
@@ -2387,7 +2390,6 @@ lt:
   setting_enabled_scm: "Įgalinti SCM"
   setting_enabled_projects_columns: "Matomas projektų sąraše"
   setting_notification_retention_period_days: "Pranešimų saugojimo laikas"
-  setting_notification_email_digest_time: "El.pašto santraukos laikas"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
   setting_file_max_size_displayed: "Maksimalus tekstinių failų dydis rodomas vienoje eilutėje"
@@ -2462,7 +2464,6 @@ lt:
     notifications:
       retention_text: >
         Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
-      email_digest_explanation: "El.pašto santrauka su visais vartotojo prenumeruojamais pranešimais gali būti išsiųsta vieną kartą per dieną. Šis nustatymas atsižvelgia į vartotojo laiko zoną, t.y. 8:00 reikš, kad išsiųsta bus 7:00 UTC vartotojams iš UTC+1 zonos, ir 9:00 UTC tiems, kurie nustatę UTC-1."
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam vartotojui pranešimai gali būti sukonfigūruoti individualiai.'
     display:
       first_date_of_week_and_year_set: >

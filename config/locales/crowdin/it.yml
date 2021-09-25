@@ -837,7 +837,6 @@ it:
     firstname: "Nome"
     group: "Gruppo"
     groups: "Gruppi"
-    name: "Nome"
     id: "ID"
     is_default: "Valore predefinito"
     is_for_all: "Per tutti progetti"
@@ -847,6 +846,7 @@ it:
     lastname: "Cognome"
     login: "Nome utente"
     mail: "Email"
+    name: "Nome"
     password: "Password"
     priority: "Priorità"
     project: "Progetto"
@@ -1910,8 +1910,9 @@ it:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2353,7 +2354,6 @@ it:
   setting_enabled_scm: "SCM Abilitato"
   setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
   setting_notification_retention_period_days: "Periodo di conservazione della notifica"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Abilita Feed"
   setting_feeds_limit: "Limite al contenuto del contributo"
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
@@ -2428,7 +2428,6 @@ it:
     notifications:
       retention_text: >
         Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
     display:
       first_date_of_week_and_year_set: >

@@ -127,7 +127,7 @@ es:
       preview: 'Alternar modo de vista previa'
       source_code: 'Alternar modo de visualización de Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
@@ -479,8 +479,8 @@ es:
         next: 'Siguiente'
         got_it: 'Entendido'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
+        help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario y vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
+        members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
