@@ -557,7 +557,7 @@ zh-TW:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
-        not_available: "is not available due to a system configuration."
+        not_available: "由於系統配置所以不可用"
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "不是有效的日期。"
@@ -580,7 +580,7 @@ zh-TW:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "設置為 '%{value}'，未列入上傳白名單"
         capability:
           context:
             global: '全域設定'
@@ -1203,7 +1203,7 @@ zh-TW:
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
-    failed: "The export has failed: %{message}"
+    failed: "匯出失敗：%{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -2223,7 +2223,7 @@ zh-TW:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_attachment_whitelist: "附件上傳白名單"
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2340,10 +2340,10 @@ zh-TW:
     brute_force_prevention: "自動禁止使用者"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+        設定用戶的通知事件（應用程式內通知的來源）將保留在系統中的天數。任何早於此時間的事件都將被刪除
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >

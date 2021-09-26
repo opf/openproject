@@ -149,7 +149,7 @@ lt:
   rb_label_copy_tasks_none: "Joks"
   rb_label_copy_tasks_open: "Atidaryti"
   rb_label_link_to_original: "Įtraukti nuorodą į originalią istoriją"
-  remaining_hours: "likę valandos"
+  remaining_hours: "likusios valandos"
   required_burn_rate_hours: "reikalingas degimo tempas (valandos)"
   required_burn_rate_points: "reikalingas degimo tempas (taškai)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
