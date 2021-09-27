@@ -27,31 +27,10 @@
 #++
 
 require 'spec_helper'
+require_relative './ifc_upload_shared_examples'
 
-describe 'direct IFC upload', type: :feature, js: true, with_direct_uploads: :redirect, with_config: { edition: 'bim' } do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim] }
-  let(:ifc_fixture) { ::UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
-
-  before do
-    login_as user
-
-    allow_any_instance_of(Bim::IfcModels::BaseContract).to receive(:ifc_attachment_is_ifc).and_return true
-  end
-
-  it 'should work' do
-    visit new_bcf_project_ifc_model_path(project_id: project.identifier)
-
-    page.attach_file("file", ifc_fixture.path, visible: :all)
-
-    click_on "Create"
-
-    expect(page).to have_content("Upload succeeded")
-
-    expect(Attachment.count).to eq 1
-    expect(Attachment.first[:file]).to eq 'model.ifc'
-
-    expect(Bim::IfcModels::IfcModel.count).to eq 1
-    expect(Bim::IfcModels::IfcModel.first.title).to eq "minimal.ifc"
+describe 'IFC upload', type: :feature, js: true, with_config: { edition: 'bim' } do
+  it_behaves_like 'can upload an IFC file' do
+    let(:model_name) { 'minimal.ifc' }
   end
 end
