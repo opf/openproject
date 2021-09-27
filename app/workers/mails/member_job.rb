@@ -54,7 +54,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_global(current_user, member, member_message)
-    return if sending_disabled?(:updated, member.user_id)
+    return if sending_disabled?(:updated, member.user_id, member_message)
 
     MemberMailer
       .updated_global(current_user, member, member_message)
@@ -62,7 +62,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_added_project(current_user, member, member_message)
-    return if sending_disabled?(:added, member.user_id)
+    return if sending_disabled?(:added, member.user_id, member_message)
 
     MemberMailer
       .added_project(current_user, member, member_message)
@@ -70,7 +70,7 @@ class Mails::MemberJob < ApplicationJob
   end
 
   def send_updated_project(current_user, member, member_message)
-    return if sending_disabled?(:updated, member.user_id)
+    return if sending_disabled?(:updated, member.user_id, member_message)
 
     MemberMailer
       .updated_project(current_user, member, member_message)
@@ -85,9 +85,12 @@ class Mails::MemberJob < ApplicationJob
       .each(&block)
   end
 
-  def sending_disabled?(setting, user_id)
+  def sending_disabled?(setting, user_id, message)
+    # In case we have an invitation message, always send a mail
+    return false if message.present?
+
     NotificationSetting
-      .where(project_id: nil, user_id: user_id)
+      .where(project_id: nil, user_id: user_id, channel: NotificationSetting.channels[:mail])
       .exists?("membership_#{setting}" => false)
   end
 end

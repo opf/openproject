@@ -69,21 +69,21 @@ shared_examples 'member job' do
 
       allow(Member)
         .to receive(:of)
-        .with(project)
-        .and_return(scope)
+              .with(project)
+              .and_return(scope)
 
       allow(scope)
         .to receive(:where)
-        .with(principal: group_users)
-        .and_return(scope)
+              .with(principal: group_users)
+              .and_return(scope)
 
       allow(scope)
         .to receive(:includes)
-        .and_return(scope)
+              .and_return(scope)
 
       allow(g)
         .to receive(:users)
-        .and_return(group_users)
+              .and_return(group_users)
     end
   end
   let(:group_user_members) { [] }
@@ -97,7 +97,7 @@ shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-        .and_return(double('mail', deliver_now: nil))
+              .and_return(double('mail', deliver_now: nil))
     end
   end
 
@@ -121,7 +121,32 @@ shared_examples 'member job' do
 
         expect(MemberMailer)
           .to have_received(:updated_global)
-          .with(current_user, member, message)
+                .with(current_user, member, message)
+      end
+    end
+
+    context 'with sending disabled' do
+      let(:principal) do
+        FactoryBot.create :user,
+                          notification_settings: [
+                            FactoryBot.build(:mail_notification_setting,
+                                             NotificationSetting::MEMBERSHIP_ADDED => false,
+                                             NotificationSetting::MEMBERSHIP_UPDATED => false)
+                          ]
+      end
+
+      it 'still sends mail due to the message present' do
+        run_job
+
+        expect(MemberMailer)
+          .to have_received(:updated_global)
+                .with(current_user, member, message)
+      end
+
+      context 'and the message is nil' do
+        let(:message) { '' }
+
+        it_behaves_like 'sends no mail'
       end
     end
   end
@@ -133,7 +158,7 @@ shared_examples 'member job' do
 
         expect(MemberMailer)
           .to have_received(user_project_mail_method)
-          .with(current_user, member, message)
+                .with(current_user, member, message)
       end
     end
   end
