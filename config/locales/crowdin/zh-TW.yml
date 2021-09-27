@@ -534,7 +534,7 @@ zh-TW:
         before: "必須在 %{date} 之前"
         before_or_equal_to: "必須在 %{date} 以前"
         blank: "不可空白"
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "需要設置屬性  '%{property}' "
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -548,19 +548,19 @@ zh-TW:
         even: "必須是偶數"
         exclusion: "已保留"
         file_too_large: "太大 (最大為 %{count} Bytes)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "與預期的格式“%{expected}”不符"
+        format_nested: "與路徑“%{path}”中的預期格式“%{expected}”不符"
         greater_than: "必須大於 %{count}。"
         greater_than_or_equal_to: "必須大於或等於 %{count}。"
         greater_than_or_equal_to_start_date: "必須晚於或等於開始日期。"
         greater_than_start_date: "必須晚於開始日期。"
         inclusion: "沒有被設置為一個允許的值。"
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "未設置為路徑“%{path}”中允許的值之一"
         invalid: "不正確。"
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
-        not_available: "is not available due to a system configuration."
+        not_available: "由於系統配置所以不可用"
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "不是有效的日期。"
@@ -576,24 +576,24 @@ zh-TW:
         taken: "已經被使用"
         too_long: "太長 (最長是 %{count} 個字元)"
         too_short: "太短 (最少 %{count} 個字元)"
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "不是“%{type}”類型"
+        type_mismatch_nested: "在路徑“%{path}”處不是“%{type}”類型"
         unchangeable: "無法更改。"
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "不是已知屬性"
+        unknown_property_nested: "具有未知路徑 '%{path}'"
         unremovable: "無法移除"
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              not_whitelisted: "設置為 '%{value}'，未列入上傳白名單"
         capability:
           context:
             global: '全域設定'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "需要為主體、上下文或 id 至少包含一個帶有“=”運算符的過濾器"
         custom_field:
           at_least_one_custom_option: "需要至少一個選項可用。"
         custom_actions:
@@ -622,20 +622,20 @@ zh-TW:
           outside: 'is outside of the grid.'
           end_before_start: '結束值必須大於開始值。'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: '至少需要指定一個發送通知的方式'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: '在創建通知時不能設置為 true'
             read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: '在創建通知時不能設置為 true'
             read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: '在創建通知時不能設置為 true'
             reason_ian:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
+              no_notification_reason: '當郵件被選為管道時不能為空'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: '當郵件摘要被選為管道時不能為空'
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -703,7 +703,7 @@ zh-TW:
         user_preference:
           attributes:
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "只能配置在一個小時整內交付"
         wiki_page:
           attributes:
             slug:
@@ -715,7 +715,7 @@ zh-TW:
               not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "不能指派給自己"
               cannot_be_in_another_project: "不可以存在於另外一個專案中"
               not_a_valid_parent: "不正確。"
             start_date:
@@ -786,7 +786,7 @@ zh-TW:
       member: "成員"
       news: "新知"
       notification:
-        other: "Notifications"
+        other: "通知"
       placeholder_user: "Placeholder user"
       project: "專案"
       query: "自訂查詢"
@@ -1232,7 +1232,7 @@ zh-TW:
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
-    failed: "The export has failed: %{message}"
+    failed: "匯出失敗：%{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1297,7 +1297,7 @@ zh-TW:
   menus:
     admin:
       mail_notification: "電子郵件通知"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "輸入 & 輸出"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1311,15 +1311,15 @@ zh-TW:
         expiration: "過期"
       indefinite_expiration: "永不"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "發送此操作的通知"
     work_packages:
       subject:
-        created: "The work package was created."
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "工作包已建立"
+        assigned: "您已被指派到 %{work_package}"
+        subscribed: "您訂閱了 %{work_package}"
+        mentioned: "您已在 %{work_package} 中被提醒"
+        responsible: "您已對 %{work_package} 負責"
+        watched: "您正在監看 %{work_package}"
   label_accessibility: "輔助功能"
   label_account: "帳號"
   label_active: "啟用"
@@ -1405,7 +1405,7 @@ zh-TW:
   label_check_uncheck_all_in_column: "選取/取消選取 全部"
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "折疊"
@@ -1708,7 +1708,7 @@ zh-TW:
   label_required: '必要'
   label_requires: '要求'
   label_result_plural: "結果"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"
@@ -1887,34 +1887,34 @@ zh-TW:
   mail:
     actions: '操作'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      including_mention_singular: '包括提醒'
+      including_mention_plural: '包括 %{number_mentioned} 提醒'
+      unread_notification_singular: '1 條未讀通知'
+      unread_notification_plural: '%{number_unread} 條未讀通知'
       work_packages:
-        comment_added: '<b>Comment</b> added'
+        comment_added: '<b>評論</b>已添加'
         created: '已建立'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
+        created_at: '由 %{user} 在 %{timestamp} '
+        login_to_see_all: '登入以查看所有通知'
+        mentioned: '您已在<b>評論中被提醒</b>'
         more_to_see:
-          other: 'There are %{count} more work packages with notifications.'
+          other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
         reason:
-          watched: 'Watched'
-          assigned: 'Assigned'
+          watched: '監看'
+          assigned: '指派'
           responsible: '可信賴的'
-          mentioned: 'Mentioned'
+          mentioned: '提醒'
           subscribed: '所有'
-          prefix: 'Received because of the notification setting: %{reason}'
-        see_all: 'See all'
+          prefix: '因為通知設定而收到：%{reason}'
+        see_all: '全部顯示'
         updated: '已更新'
-        updated_at: 'at %{timestamp} by %{user}'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+        updated_at: '由 %{user} 在 %{timestamp} '
+      you_have: '你擁有'
+    logo_alt_text: '商標'
     notification:
-      center: 'To notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: '顯示通知中心'
+      settings: '更改電子郵件設定'
+    salutation: '嘿 %{user}'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
@@ -1929,10 +1929,10 @@ zh-TW:
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    請隨時瀏覽我們提供網絡研討會 (%{webinar_link}) 的 YouTube 頻道 (%{youtube_link})
+    和“入門”視頻 (%{get_started_link}) 使您在 OpenProject 中的第一步盡可能簡單。
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    如果您有任何其他問題，請查閱我們的文件 (%{documentation_link}) 或聯繫您的管理員。
   mail_body_register_closing: "Your OpenProject team"
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 個指派給您的工作項目將在 %{days} 天後到期"
@@ -2288,10 +2288,10 @@ zh-TW:
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
   setting_apiv3_docs: "說明文件"
-  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled: "啟用文件頁面"
   setting_apiv3_docs_enabled_instructions_html: >
-    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+    如果啟用了文件頁面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下獲得 APIv3 文檔的互動式視圖
+  setting_attachment_whitelist: "附件上傳白名單"
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2337,7 +2337,7 @@ zh-TW:
   setting_email_login: "使用信箱登入"
   setting_enabled_scm: "啟用 SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
+  setting_notification_retention_period_days: "通知保留期"
   setting_feeds_enabled: "啟用 Feed"
   setting_feeds_limit: "Feed 內容限制"
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
@@ -2351,7 +2351,7 @@ zh-TW:
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_export_limit: "工作項目匯出數量限制"
-  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_journal_aggregation_time_minutes: "整合的用戶操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
   setting_mail_from: "發出的電子郵件地址"
@@ -2408,11 +2408,11 @@ zh-TW:
     brute_force_prevention: "自動禁止使用者"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
     notifications:
       retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+        設定用戶的通知事件（應用程式內通知的來源）將保留在系統中的天數。任何早於此時間的事件都將被刪除
+      events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2493,9 +2493,9 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_aggregation_time_explanation: "用戶的單一操作（例如，更新工作包兩次）如果時間差異小於指定的時間間隔，則將整合為單一操作。它們將在應用程序中顯示為單個操作。這也會將通知延遲相同的時間，減少發送的電子郵件數量。"
+  text_journal_changed_html: "%{label} 從 %{old} %{linebreak}<strong> 改為</strong> %{new}"
+  text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
@@ -2523,7 +2523,7 @@ zh-TW:
   text_regexp_info: "例如: ^[A-Z0-9]+$"
   text_regexp_multiline: '這個正規表達式被套用在多行模式'
   text_repository_usernames_mapping: "選擇或更新與版本庫中的帳號所對應的OpenProject使用者。\n版本庫中與OpenProject的使用者具有相同名稱或email將被自動對應。"
-  text_select_notifications: "Select actions for which notifications should be sent."
+  text_select_notifications: "選擇應發送通知的操作"
   text_status_changed_by_changeset: "已套用至變更列表 %{value} 中。"
   text_table_difference_description: "此表格展示了單個%{entries}。您可以先選擇複選框，再點擊表格下方的按鈕來比較兩項之間的差異。"
   text_time_logged_by_changeset: "已套用至變更列表 %{value} 中。"

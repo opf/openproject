@@ -580,10 +580,10 @@ zh-TW:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
+          add_time: '添加時間'
+          enable: '啟用每日電子郵件提醒'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
+          time_label: '時間 %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
         immediate:
           title: 'Send me an email reminder'
