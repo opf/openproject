@@ -129,12 +129,6 @@ describe DocumentsController do
               .with(:create_notifications, document.journals.last, true)
     end
 
-    it 'does trigger a workflow job for the document' do
-      expect(Notifications::WorkflowJob)
-        .to have_been_enqueued
-              .with(:create_notifications, document.journals.last, true)
-    end
-
     describe "with attachments" do
       let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
 

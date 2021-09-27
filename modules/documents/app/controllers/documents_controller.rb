@@ -87,8 +87,6 @@ class DocumentsController < ApplicationController
                                   model: @document,
                                   args: document_params
 
-    binding.pry
-
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'show', id: @document
