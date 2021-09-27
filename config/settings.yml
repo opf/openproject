@@ -382,3 +382,6 @@ apiv3_docs_enabled:
 notification_retention_period_days:
   default: 30
   format: int
+attachment_whitelist:
+  serialized: true
+  default: []

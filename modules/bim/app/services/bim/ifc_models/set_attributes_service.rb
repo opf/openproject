@@ -34,6 +34,7 @@ module Bim
       protected
 
       def set_attributes(params)
+        model.project = params[:project] if params.key?(:project)
         set_ifc_attachment(params.delete(:ifc_attachment))
 
         super
