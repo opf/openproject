@@ -25,9 +25,10 @@ module Bim
           end
 
           delete_attachment name
+          filename = file.respond_to?(:original_filename) ? file.original_filename : File.basename(file.path)
           call = ::Attachments::CreateService
             .bypass_whitelist(user: User.current)
-            .call(file: file, container: self, filename: File.basename(file.path), description: name)
+            .call(file: file, container: self, filename: filename, description: name)
 
           call.on_failure { Rails.logger.error "Failed to add #{name} attachment: #{call.message}" }
         end
