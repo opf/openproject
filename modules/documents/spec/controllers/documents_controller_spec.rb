@@ -129,6 +129,12 @@ describe DocumentsController do
               .with(:create_notifications, document.journals.last, true)
     end
 
+    it 'does trigger a workflow job for the document' do
+      expect(Notifications::WorkflowJob)
+        .to have_been_enqueued
+              .with(:create_notifications, document.journals.last, true)
+    end
+
     describe "with attachments" do
       let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
 
@@ -170,90 +176,6 @@ describe DocumentsController do
     it "shows the attachment" do
       expect(response).to be_successful
       expect(response).to render_template('show')
-    end
-  end
-
-  describe '#add_attachment' do
-    let(:recipient) { nil }
-    let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
-
-    before do
-      allow(DocumentsMailer)
-        .to receive(:attachments_added)
-              .and_call_original
-
-      recipient
-      document
-
-      post :add_attachment,
-           params: {
-             id: document.id,
-             attachments: { '1' => { id: uncontainered.id } }
-           }
-    end
-
-    it "adds the attachment" do
-      expect(response).to be_redirect
-      document.reload
-      expect(document.attachments.length).to eq(1)
-      expect(uncontainered.reload).to eq document.attachments.first
-    end
-
-    it 'does not trigger a mail for the current user' do
-      expect(DocumentsMailer)
-        .not_to have_received(:attachments_added)
-                  .with(current_user, *any_args)
-    end
-
-    context 'with a user that does not want to be notified' do
-      let!(:recipient) do
-        FactoryBot.create :user,
-                          member_in_project: project,
-                          notification_settings: [
-                            FactoryBot.build(:mail_notification_setting,
-                                             NotificationSetting::DOCUMENT_ADDED => false)
-                          ]
-      end
-
-      it 'does not trigger an attachment job' do
-        expect(DocumentsMailer)
-          .not_to have_received(:attachments_added)
-                    .with(recipient, *any_args)
-      end
-    end
-
-    context 'with a user the document is not visible for' do
-      let!(:recipient) do
-        FactoryBot.create :user,
-                          notification_settings: [
-                            FactoryBot.build(:mail_notification_setting,
-                                             NotificationSetting::DOCUMENT_ADDED => true)
-                          ]
-      end
-
-      it 'does not trigger an attachment job' do
-        expect(DocumentsMailer)
-          .not_to have_received(:attachments_added)
-                    .with(recipient, *any_args)
-      end
-    end
-
-    context 'with a user that wants to be notified' do
-      let!(:recipient) do
-        FactoryBot.create :user,
-                          member_in_project: project,
-                          member_with_permissions: %i[view_documents],
-                          notification_settings: [
-                            FactoryBot.build(:mail_notification_setting,
-                                             NotificationSetting::DOCUMENT_ADDED => true)
-                          ]
-      end
-
-      it 'does trigger an attachment job' do
-        expect(DocumentsMailer)
-          .to have_received(:attachments_added)
-                .with(recipient, *any_args)
-      end
     end
   end
 

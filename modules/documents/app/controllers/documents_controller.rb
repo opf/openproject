@@ -87,6 +87,8 @@ class DocumentsController < ApplicationController
                                   model: @document,
                                   args: document_params
 
+    binding.pry
+
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to action: 'show', id: @document
@@ -102,44 +104,7 @@ class DocumentsController < ApplicationController
     redirect_to controller: '/documents', action: 'index', project_id: @project
   end
 
-  def add_attachment
-    current_attachments = @document.attachments.pluck(:id)
-    call = attachable_update_call ::Documents::UpdateService,
-                                  model: @document,
-                                  args: document_params
-
-    if call.success?
-      added = call.result
-                  .attachments
-                  .reject { |a| current_attachments.include?(a.id) }
-
-      notify_attachments added
-    end
-
-    redirect_to action: 'show', id: @document
-  end
-
   private
-
-  def notify_attachments(added)
-    return if added.empty?
-
-    document_added_recipients.find_each do |user|
-      DocumentsMailer.attachments_added(user, added).deliver_later
-    end
-  end
-
-  def document_added_recipients
-    notified_users = NotificationSetting
-      .where(project_id: nil, channel: NotificationSetting.channels[:mail])
-      .where(NotificationSetting::DOCUMENT_ADDED => true)
-      .where.not(user_id: current_user.id)
-      .select(:user_id)
-
-    User
-      .allowed(:view_documents, @project)
-      .where(id: notified_users)
-  end
 
   def document_params
     params.fetch(:document, {}).permit('category_id', 'title', 'description')
