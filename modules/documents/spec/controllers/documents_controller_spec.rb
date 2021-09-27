@@ -31,12 +31,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe DocumentsController do
   render_views
 
-  let(:admin)           { FactoryBot.create(:admin) }
-  let(:project)         { FactoryBot.create(:project, name: "Test Project") }
-  let(:user)            { FactoryBot.create(:user) }
-  let(:role)            { FactoryBot.create(:role, permissions: [:view_documents]) }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:project) { FactoryBot.create(:project, name: "Test Project") }
+  let(:user) { FactoryBot.create(:user) }
+  let(:role) { FactoryBot.create(:role, permissions: [:view_documents]) }
 
-  let(:default_category)  do
+  let(:default_category) do
     FactoryBot.create(:document_category, project: project, name: "Default Category")
   end
 
@@ -99,8 +99,8 @@ describe DocumentsController do
   describe "create" do
     let(:document_attributes) do
       FactoryBot.attributes_for(:document, title: "New Document",
-                                           project_id: project.id,
-                                           category_id: default_category.id)
+                                project_id: project.id,
+                                category_id: default_category.id)
     end
 
     before do
@@ -111,8 +111,8 @@ describe DocumentsController do
       expect do
         post :create, params: { project_id: project.identifier,
                                 document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                                               project_id: project.id,
-                                                                               category_id: default_category.id) }
+                                                                    project_id: project.id,
+                                                                    category_id: default_category.id) }
       end.to change { Document.count }.by 1
     end
 
@@ -136,8 +136,8 @@ describe DocumentsController do
              params: {
                project_id: notify_project.identifier,
                document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                              project_id: notify_project.id,
-                                                              category_id: default_category.id),
+                                                   project_id: notify_project.id,
+                                                   category_id: default_category.id),
                attachments: { '1' => { id: uncontainered.id } }
              }
       end
@@ -169,10 +169,17 @@ describe DocumentsController do
   end
 
   describe '#add_attachment' do
+    let(:recipient) { nil }
     let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
 
     before do
+      allow(DocumentsMailer)
+        .to receive(:attachments_added)
+              .and_call_original
+
+      recipient
       document
+
       post :add_attachment,
            params: {
              id: document.id,
@@ -180,11 +187,68 @@ describe DocumentsController do
            }
     end
 
-    it "should delete the document and redirect back to documents-page of the project" do
+    it "should add the attachment" do
       expect(response).to be_redirect
       document.reload
       expect(document.attachments.length).to eq(1)
       expect(uncontainered.reload).to eq document.attachments.first
+    end
+
+    it 'should not trigger a mail for the current user' do
+      expect(DocumentsMailer)
+        .not_to have_received(:attachments_added)
+                  .with(current_user, *any_args)
+    end
+
+    context 'with a user that does not want to be notified' do
+      let!(:recipient) do
+        FactoryBot.create :user,
+                          member_in_project: project,
+                          notification_settings: [
+                            FactoryBot.build(:mail_notification_setting,
+                                             NotificationSetting::DOCUMENT_ADDED => false)
+                          ]
+      end
+
+      it 'does not trigger an attachment job' do
+        expect(DocumentsMailer)
+          .not_to have_received(:attachments_added)
+                .with(recipient, *any_args)
+      end
+    end
+
+    context 'with a user the document is not visible for' do
+      let!(:recipient) do
+        FactoryBot.create :user,
+                          notification_settings: [
+                            FactoryBot.build(:mail_notification_setting,
+                                             NotificationSetting::DOCUMENT_ADDED => true)
+                          ]
+      end
+
+      it 'does not trigger an attachment job' do
+        expect(DocumentsMailer)
+          .not_to have_received(:attachments_added)
+                .with(recipient, *any_args)
+      end
+    end
+
+    context 'with a user that wants to be notified' do
+      let!(:recipient) do
+        FactoryBot.create :user,
+                          member_in_project: project,
+                          member_with_permissions: %i[view_documents],
+                          notification_settings: [
+                            FactoryBot.build(:mail_notification_setting,
+                                             NotificationSetting::DOCUMENT_ADDED => true)
+                          ]
+      end
+
+      it 'does trigger an attachment job' do
+        expect(DocumentsMailer)
+          .to have_received(:attachments_added)
+                .with(recipient, *any_args)
+      end
     end
   end
 
