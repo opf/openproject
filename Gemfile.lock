@@ -408,7 +408,7 @@ GEM
       uber (< 0.2.0)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
-    doorkeeper (5.5.2)
+    doorkeeper (5.5.3)
       railties (>= 5)
     dry-configurable (0.13.0)
       concurrent-ruby (~> 1.0)
