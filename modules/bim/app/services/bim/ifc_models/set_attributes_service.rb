@@ -77,7 +77,7 @@ module Bim
           model.attachments << ifc_attachment
         else
           ::Attachments::BuildService
-            .new(user: user)
+            .bypass_whitelist(user: user)
             .call(file: ifc_attachment, container: model, filename: ifc_attachment.original_filename, description: 'ifc')
         end
       end
