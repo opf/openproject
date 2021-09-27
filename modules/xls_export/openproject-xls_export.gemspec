@@ -12,5 +12,5 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*"] + %w(CHANGELOG.md README.md)
 
-  s.add_dependency "spreadsheet", "~>1.2.6"
+  s.add_dependency "spreadsheet", "~>1.3.0"
 end
