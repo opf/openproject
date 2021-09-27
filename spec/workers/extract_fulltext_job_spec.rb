@@ -123,5 +123,7 @@ describe ExtractFulltextJob, type: :job do
       extracted_attributes
       expect(logger).to have_received(:error).with(/boom-internal-error/)
     end
+
+    include_examples 'only file name indexed'
   end
 end
