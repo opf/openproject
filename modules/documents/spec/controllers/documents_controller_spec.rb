@@ -69,17 +69,17 @@ describe DocumentsController do
       get :index, params: { project_id: project.identifier }
     end
 
-    it "should render the index-template successfully" do
+    it "renders the index-template successfully" do
       expect(response).to be_successful
       expect(response).to render_template("index")
     end
 
-    it "should group documents by category, if no other sorting is given " do
+    it "group documents by category, if no other sorting is given" do
       expect(assigns(:grouped)).not_to be_nil
       expect(assigns(:grouped).keys.map(&:name)).to eql [default_category.name]
     end
 
-    it "should render documents with long descriptions properly" do
+    it "renders documents with long descriptions properly" do
       expect(response.body).to have_selector('.wiki p', visible: :all)
       expect(response.body).to have_selector('.wiki p', visible: :all, text: (document.description.split("\n").first + '...'))
       expect(response.body).to have_selector('.wiki p', visible: :all, text: /EndOfLineHere.../)
@@ -98,7 +98,8 @@ describe DocumentsController do
 
   describe "create" do
     let(:document_attributes) do
-      FactoryBot.attributes_for(:document, title: "New Document",
+      FactoryBot.attributes_for(:document,
+                                title: "New Document",
                                 project_id: project.id,
                                 category_id: default_category.id)
     end
@@ -107,27 +108,30 @@ describe DocumentsController do
       ActionMailer::Base.deliveries.clear
     end
 
-    it "should create a new document with valid arguments" do
-      expect do
-        post :create, params: { project_id: project.identifier,
-                                document: FactoryBot.attributes_for(:document, title: "New Document",
-                                                                    project_id: project.id,
-                                                                    category_id: default_category.id) }
-      end.to change { Document.count }.by 1
-    end
-
-    it "should create a new document with valid arguments" do
+    it "creates a new document with valid arguments" do
       expect do
         post :create,
              params: {
                project_id: project.identifier,
-               document: document_attributes
+               document: FactoryBot.attributes_for(
+                 :document,
+                 title: "New Document",
+                 project_id: project.id,
+                 category_id: default_category.id
+               )
              }
-      end.to change { Document.count }.by 1
+      end.to change(Document, :count).by 1
+    end
+
+    it 'does trigger a workflow job for the document' do
+      expect(Notifications::WorkflowJob)
+        .to have_been_enqueued
+              .with(:create_notifications, document.journals.last, true)
     end
 
     describe "with attachments" do
       let(:uncontainered) { FactoryBot.create :attachment, container: nil, author: admin }
+
       before do
         notify_project = project
         FactoryBot.create(:member, project: notify_project, user: user, roles: [role])
@@ -135,14 +139,15 @@ describe DocumentsController do
         post :create,
              params: {
                project_id: notify_project.identifier,
-               document: FactoryBot.attributes_for(:document, title: "New Document",
+               document: FactoryBot.attributes_for(:document,
+                                                   title: "New Document",
                                                    project_id: notify_project.id,
                                                    category_id: default_category.id),
                attachments: { '1' => { id: uncontainered.id } }
              }
       end
 
-      it "should add an attachment" do
+      it "adds an attachment" do
         document = Document.last
 
         expect(document.attachments.count).to eql 1
@@ -150,7 +155,7 @@ describe DocumentsController do
         expect(uncontainered.reload).to eql attachment
       end
 
-      it "should redirect to the documents-page" do
+      it "redirects to the documents-page" do
         expect(response).to redirect_to project_documents_path(project.identifier)
       end
     end
@@ -162,7 +167,7 @@ describe DocumentsController do
       get :show, params: { id: document.id }
     end
 
-    it "should delete the document and redirect back to documents-page of the project" do
+    it "shows the attachment" do
       expect(response).to be_successful
       expect(response).to render_template('show')
     end
@@ -187,14 +192,14 @@ describe DocumentsController do
            }
     end
 
-    it "should add the attachment" do
+    it "adds the attachment" do
       expect(response).to be_redirect
       document.reload
       expect(document.attachments.length).to eq(1)
       expect(uncontainered.reload).to eq document.attachments.first
     end
 
-    it 'should not trigger a mail for the current user' do
+    it 'does not trigger a mail for the current user' do
       expect(DocumentsMailer)
         .not_to have_received(:attachments_added)
                   .with(current_user, *any_args)
@@ -213,7 +218,7 @@ describe DocumentsController do
       it 'does not trigger an attachment job' do
         expect(DocumentsMailer)
           .not_to have_received(:attachments_added)
-                .with(recipient, *any_args)
+                    .with(recipient, *any_args)
       end
     end
 
@@ -229,7 +234,7 @@ describe DocumentsController do
       it 'does not trigger an attachment job' do
         expect(DocumentsMailer)
           .not_to have_received(:attachments_added)
-                .with(recipient, *any_args)
+                    .with(recipient, *any_args)
       end
     end
 
@@ -257,10 +262,10 @@ describe DocumentsController do
       document
     end
 
-    it "should delete the document and redirect back to documents-page of the project" do
+    it "deletes the document and redirect back to documents-page of the project" do
       expect do
         delete :destroy, params: { id: document.id }
-      end.to change { Document.count }.by -1
+      end.to change(Document, :count).by -1
 
       expect(response).to redirect_to "/projects/#{project.identifier}/documents"
       expect { Document.find(document.id) }.to raise_error ActiveRecord::RecordNotFound

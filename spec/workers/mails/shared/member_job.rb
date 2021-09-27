@@ -97,7 +97,7 @@ shared_examples 'member job' do
     %i[added_project updated_global updated_project].each do |mails|
       allow(MemberMailer)
         .to receive(mails)
-              .and_return(double('mail', deliver_now: nil))
+              .and_return(double('mail', deliver_now: nil))  # rubocop:disable Rspec/VerifiedDoubles
     end
   end
 
@@ -143,7 +143,7 @@ shared_examples 'member job' do
                 .with(current_user, member, message)
       end
 
-      context 'and the message is nil' do
+      context 'when the message is nil' do
         let(:message) { '' }
 
         it_behaves_like 'sends no mail'
