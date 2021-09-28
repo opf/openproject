@@ -31,7 +31,7 @@ module Bim
     class UpdateService < ::BaseServices::Update
       protected
 
-      def before_perform(params)
+      def before_perform(params, _service_result)
         @ifc_attachment_updated = params[:ifc_attachment].present?
 
         super

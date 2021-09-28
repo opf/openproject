@@ -34,10 +34,6 @@ describe MailHandler, type: :model do
 
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
 
-  before do
-    allow(Setting).to receive(:notified_events).and_return(OpenProject::Notifiable.all.map(&:name))
-  end
-
   it 'should add work package with attributes override' do
     issue = submit_email('ticket_with_attributes.eml', allow_override: 'type,category,priority')
     assert issue.is_a?(WorkPackage)

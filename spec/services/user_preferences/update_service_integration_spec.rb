@@ -77,15 +77,14 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
         default_mail = current_user.notification_settings.find_by(channel: 'mail')
         default_ian = current_user.notification_settings.find_by(channel: 'in_app')
 
-        expect(default_ian.all).to eq true
         expect(default_ian.watched).to eq true
         expect(default_ian.mentioned).to eq true
         expect(default_ian.involved).to eq true
-        expect(default_ian.work_package_commented).to eq false
-        expect(default_ian.work_package_created).to eq false
-        expect(default_ian.work_package_processed).to eq false
-        expect(default_ian.work_package_prioritized).to eq false
-        expect(default_ian.work_package_scheduled).to eq false
+        expect(default_ian.work_package_commented).to eq true
+        expect(default_ian.work_package_created).to eq true
+        expect(default_ian.work_package_processed).to eq true
+        expect(default_ian.work_package_prioritized).to eq true
+        expect(default_ian.work_package_scheduled).to eq true
 
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq nil

@@ -29,7 +29,7 @@
 module Notifications::MailService::DocumentStrategy
   class << self
     def send_mail(notification)
-      return if notification_disabled? || !notification.journal.initial?
+      return unless notification.journal.initial?
 
       DocumentsMailer
         .document_added(
@@ -37,12 +37,6 @@ module Notifications::MailService::DocumentStrategy
           notification.resource
         )
         .deliver_later
-    end
-
-    private
-
-    def notification_disabled?
-      Setting.notified_events.exclude?('document_added')
     end
   end
 end

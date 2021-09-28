@@ -50,7 +50,11 @@ module Notifications::CreateFromModelService::DocumentStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_on_all(project(journal))
+    User.notified_globally subscribed_notification_reason(journal)
+  end
+
+  def self.subscribed_notification_reason(_journal)
+    NotificationSetting::DOCUMENT_ADDED
   end
 
   def self.project(journal)

@@ -34,12 +34,12 @@ module Users
 
     protected
 
-    def before_perform(params)
+    def before_perform(params, _service_result)
       call_hook :service_update_user_before_save,
                 params: params,
                 user: model
 
-      super(params)
+      super
     end
 
     def persist(service_result)

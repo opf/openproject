@@ -2,7 +2,12 @@
   <h2 [textContent]="text.title"></h2>
 </div>
 
-<form>
+<form
+  *ngIf="formInitialized"
+  [formGroup]="form"
+  (ngSubmit)="saveChanges()"
+  class="op-form"
+>
   <section class="form--section">
     <h5 [textContent]="text.immediate.title"></h5>
     <op-immediate-reminder-settings></op-immediate-reminder-settings>
@@ -14,10 +19,16 @@
     <op-reminder-settings-daily-time>
     </op-reminder-settings-daily-time>
   </section>
-  <button
-    class="button -highlight"
-    [textContent]="text.save"
-    (click)="saveChanges()"
-  >
-  </button>
+  <section class="form--section">
+    <h5 [textContent]="text.alerts.title"></h5>
+    <p [textContent]="text.alerts.explanation"></p>
+    <op-email-alerts-settings></op-email-alerts-settings>
+  </section>
+  <div class="form--space">
+    <button
+            class="button -highlight"
+            [textContent]="text.save"
+            type="submit"
+    ></button>
+  </div>
 </form>

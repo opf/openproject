@@ -33,7 +33,7 @@ module Bim::Bcf
     class UpdateService < ::BaseServices::Update
       private
 
-      def before_perform(params)
+      def before_perform(params, service_result)
         wp_call = ::WorkPackages::UpdateService
           .new(model: model.work_package,
                user: user,
@@ -43,7 +43,7 @@ module Bim::Bcf
         if wp_call.success?
           issue_params = params.slice(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES)
 
-          super(issue_params)
+          super(issue_params, service_result)
         else
           wp_call
         end

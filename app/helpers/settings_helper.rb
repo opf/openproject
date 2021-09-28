@@ -186,17 +186,6 @@ module SettingsHelper
     setting_label(setting, options) + wrap_field_outer(options, &block)
   end
 
-  # Renders a notification field for an OpenProject::Notifiable option
-  def notification_field(notifiable, options = {})
-    content_tag(:label, class: 'form--label-with-check-box') do
-      styled_check_box_tag('settings[notified_events][]',
-                           notifiable.name,
-                           Setting.notified_events.include?(notifiable.name),
-                           options.merge(id: nil)) +
-        l_or_humanize(notifiable.name, prefix: 'label_')
-    end
-  end
-
   private
 
   def wrap_field_outer(options, &block)

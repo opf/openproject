@@ -51,23 +51,22 @@ shared_context 'with CreateFromJournalJob context' do
                       notification_settings: notification_settings)
   end
   let(:notification_settings_all_false) do
-    {
-      all: false,
-      involved: false,
-      watched: false,
-      mentioned: false,
-      work_package_commented: false,
-      work_package_processed: false,
-      work_package_created: false,
-      work_package_scheduled: false,
-      work_package_prioritized: false
-    }
+    NotificationSetting
+      .all_settings
+      .index_with(false)
   end
+
+  let(:notification_settings_all_true) do
+    NotificationSetting
+      .all_settings
+      .index_with(true)
+  end
+
   let(:recipient_notification_settings) do
     [
-      FactoryBot.build(:mail_notification_setting, all: true),
-      FactoryBot.build(:in_app_notification_setting, all: true),
-      FactoryBot.build(:mail_digest_notification_setting, all: true)
+      FactoryBot.build(:mail_notification_setting, **notification_settings_all_true),
+      FactoryBot.build(:in_app_notification_setting, **notification_settings_all_true),
+      FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_true)
     ]
   end
   let(:send_notifications) { true }

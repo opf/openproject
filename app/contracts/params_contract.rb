@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,16 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Documents::Patches::NotifiablePatch
-  def self.included(base)
-    class << base
-      prepend ClassMethods
-    end
-  end
+class ParamsContract < BaseContract
+  attr_reader :params
 
-  module ClassMethods
-    def all
-      super + [::OpenProject::Notifiable.new('document_added')]
-    end
+  def initialize(model, user, params:, options: {})
+    super(model, user, options: options)
+
+    @params = params
   end
 end

@@ -63,8 +63,7 @@ describe WikiContent, type: :model do
   describe '#save (create)' do
     let(:content) { FactoryBot.build(:wiki_content, page: page) }
 
-    it 'sends mails to the wiki`s watchers and project all watchers',
-       with_settings: { notified_events: ['wiki_content_added'] } do
+    it 'sends mails to the wiki`s watchers and project all watchers' do
       wiki_watcher
       project_watcher
 
@@ -80,7 +79,7 @@ describe WikiContent, type: :model do
 
   describe '#save (update)' do
     it 'sends mails to the watchers, the wiki`s watchers and project all watchers',
-       with_settings: { notified_events: ['wiki_content_updated'], journal_aggregation_time_minutes: 0 } do
+       with_settings: { journal_aggregation_time_minutes: 0 } do
       page_watcher
       wiki_watcher
       project_watcher

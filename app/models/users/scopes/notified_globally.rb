@@ -28,26 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  NOTIFIABLE = [
-    %w(news_added),
-    %w(news_comment_added),
-    %w(message_posted),
-    %w(wiki_content_added),
-    %w(wiki_content_updated),
-    %w(membership_added),
-    %w(membership_updated)
-  ].freeze
+# Return all users who have a global setting configured
+# Does not take into consideration local overrides, as
+# that is currently not available for non-work-package settings
+module Users::Scopes
+  module NotifiedGlobally
+    extend ActiveSupport::Concern
 
-  Notifiable = Struct.new(:name) do
-    def to_s
-      name
-    end
-
-    # TODO: Plugin API for adding a new notification?
-    def self.all
-      OpenProject::NOTIFIABLE.map do |event_strings|
-        Notifiable.new(*event_strings)
+    class_methods do
+      def notified_globally(setting)
+        where(
+          id: NotificationSetting
+                .where(setting => true)
+                .where(project: nil)
+                .select(:user_id)
+        )
       end
     end
   end

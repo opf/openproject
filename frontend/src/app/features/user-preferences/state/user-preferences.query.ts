@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { Query } from '@datorama/akita';
-import { map } from 'rxjs/operators';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
@@ -29,6 +32,13 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
     .pipe(
       map((settings) => settings.filter((setting) => setting.channel === 'in_app' && setting._links.project.href !== null)),
     );
+
+  globalNotification$ = this
+    .notificationSettings$
+    .pipe(
+      map((settings) => settings.find((notification) => !notification._links.project.href)),
+      filter((global) => !!global),
+    ) as Observable<NotificationSetting>;
 
   /** Selected projects */
   selectedProjects$ = this

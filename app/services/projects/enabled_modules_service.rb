@@ -40,7 +40,7 @@ module Projects
 
     private
 
-    def before_perform(params)
+    def before_perform(params, _service_result)
       model.enabled_module_names = params[:enabled_modules]
       super
     end

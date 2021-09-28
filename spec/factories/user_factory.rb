@@ -58,9 +58,10 @@ FactoryBot.define do
       user.pref.save unless factory.preferences&.empty?
 
       if user.notification_settings.empty?
+        all_true = NotificationSetting.all_settings.index_with(true)
         user.notification_settings = [
-          FactoryBot.create(:mail_notification_setting, user: user, all: true),
-          FactoryBot.create(:in_app_notification_setting, user: user, all: true),
+          FactoryBot.create(:mail_notification_setting, user: user, **all_true),
+          FactoryBot.create(:in_app_notification_setting, user: user, **all_true),
           FactoryBot.create(:mail_digest_notification_setting, user: user)
         ]
       end

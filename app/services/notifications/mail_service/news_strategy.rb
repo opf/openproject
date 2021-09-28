@@ -29,7 +29,7 @@
 module Notifications::MailService::NewsStrategy
   class << self
     def send_mail(notification)
-      return if notification_disabled? || !notification.journal.initial?
+      return unless notification.journal.initial?
 
       UserMailer
         .news_added(
@@ -38,12 +38,6 @@ module Notifications::MailService::NewsStrategy
           notification.journal.user || DeletedUser.first
         )
         .deliver_later
-    end
-
-    private
-
-    def notification_disabled?
-      Setting.notified_events.exclude?('news_added')
     end
   end
 end
