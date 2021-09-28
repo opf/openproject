@@ -38,7 +38,8 @@
     .xeokit-models,
     .xeokit-objects,
     .xeokit-classes,
-    .xeokit-storeys
+    .xeokit-storeys,
+    .xeokit-properties
       overflow: hidden !important
 
     .xeokit-btn-group
@@ -61,6 +62,26 @@
 
     &:focus
       outline: none
+
+  .xeokit-propertiesTab
+    padding: 0 15px
+
+    a.xeokit-tab-btn
+      text-decoration: none
+      color: var(--body-font-color)
+      line-height: var(--main-menu-item-height)
+      height: var(--main-menu-item-height)
+      font-family: var(--body-font-family)
+      font-size: var(--main-menu-font-size)
+      font-style: normal
+
+    &.active a.xeokit-tab-btn
+      border-bottom-color: var(--body-font-color)
+
+    .xeokit-tab-content
+      position: relative
+      padding: 1.5em 0
+      color: var(--body-font-color)
 
 // Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
 $pill-padding-left: 8px
