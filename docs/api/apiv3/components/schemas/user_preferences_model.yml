@@ -20,8 +20,18 @@ example:
     watched: false
     involved: true
     mentioned: false
-    all: false
+    newsAdded: false,
+    newsCommented: false
+    documentAdded: false
+    forumMessages: false
+    wikiPageAdded: false
+    wikiPageUpdated: false
+    membershipAdded: false
+    membershipUpdated: false
     workPackageCommented: false
+    workPackageProcessed: false
+    workPackagePrioritized: false
+    workPackageScheduled: false
     _links:
       project:
         href: null

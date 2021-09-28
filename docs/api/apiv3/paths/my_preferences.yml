@@ -23,11 +23,21 @@ get:
                 timeZone: "Europe/Berlin"
                 warnOnLeavingUnsaved: true
                 notifications:
-                  watched: true
+                  watched: false
                   involved: true
-                  mentioned: true
-                  all: false
+                  mentioned: false
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
                   workPackageCommented: false
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
                   _links:
                     project:
                       href: null
@@ -74,11 +84,21 @@ patch:
                 timeZone: Europe/Berlin
                 warnOnLeavingUnsaved: true
                 notifications:
-                  watched: true
+                  watched: false
                   involved: true
-                  mentioned: true
-                  all: false
+                  mentioned: false
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
                   workPackageCommented: false
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
                   _links:
                     project:
                       href: null
