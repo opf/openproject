@@ -22,6 +22,12 @@
                 "auto_hide_popups": {
                     "type": "boolean"
                 },
+                "workdays": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
                 "daily_reminders": {
                     "$ref": "#/definitions/DailyReminders"
                 },
