@@ -15,6 +15,7 @@ export interface XeokitElements {
   canvasElement:HTMLElement;
   explorerElement:HTMLElement;
   toolbarElement:HTMLElement;
+  inspectorElement:HTMLElement;
   navCubeCanvasElement:HTMLElement;
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
@@ -47,13 +48,21 @@ export interface BCFLoadOptions {
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
   public shouldShowViewer = true;
+
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
+
+  public inspectorVisible$ = new BehaviorSubject<boolean>(false);
+
   private _viewer:any;
 
   @InjectField() pathHelper:PathHelperService;
+
   @InjectField() bcfApi:BcfApiService;
+
   @InjectField() viewpointsService:ViewpointsService;
+
   @InjectField() currentProjectService:CurrentProjectService;
+
   @InjectField() httpClient:HttpClient;
 
   constructor(readonly injector:Injector) {
@@ -65,25 +74,27 @@ export class IFCViewerService extends ViewerBridgeService {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
-      viewerUI.on("queryPicked", (event:any) => {
+      viewerUI.on('queryPicked', (event:any) => {
         alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
       });
 
-      viewerUI.on("modelLoaded", () => this.viewerVisible$.next(true));
+      viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
 
-      viewerUI.loadProject(projects[0]["id"]);
+      viewerUI.loadProject(projects[0].id);
 
-      viewerUI.on("addModel", () => { // "Add" selected in Models tab's context menu
+      viewerUI.on('addModel', (event:Event) => { // "Add" selected in Models tab's context menu
         window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
       });
 
-      viewerUI.on("editModel", (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
-        window.location.href = this.pathHelper.ifcModelsEditPath(
-          this.currentProjectService.identifier as string, event.modelId);
+      viewerUI.on('openInspector', () => {
+        this.inspectorVisible$.next(true);
       });
 
-      viewerUI.on("deleteModel", (event:{ modelId:number|string }) => {
-        // "Delete" selected in Models tab's context menu.
+      viewerUI.on('editModel', (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
+        window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
+      });
+
+      viewerUI.on('deleteModel', (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
         // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
         const formData = new FormData();
         formData.append(
@@ -96,7 +107,11 @@ export class IFCViewerService extends ViewerBridgeService {
         );
 
         this.httpClient.post(
-          this.pathHelper.ifcModelsDeletePath(this.currentProjectService.identifier as string, event.modelId), formData)
+          this.pathHelper.ifcModelsDeletePath(
+            this.currentProjectService.identifier as string, event.modelId,
+          ),
+          formData,
+        )
           .subscribe()
           .add(() => {
             // Ensure we reload after every request.

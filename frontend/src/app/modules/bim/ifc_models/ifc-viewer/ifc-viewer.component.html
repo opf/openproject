@@ -1,5 +1,5 @@
 <div #outerContainer
-     class="ifc-model-viewer">
+     class="op-ifc-viewer">
 
   <div *ngIf="modelCount === 0" class="notification-box -info">
     <div class="notification-box--content">
@@ -15,21 +15,41 @@
     </div>
   </div>
 
-  <div class="ifc-model-viewer--container xeokit-busy-modal-backdrop">
+  <div class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
+       data-qa-selector="op-ifc-viewer--container">
+
+    <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
+      <div class="op-ifc-viewer--toolbar-container"
+           data-qa-selector="op-ifc-viewer--toolbar-container">
+      </div>
+
+      <div class="op-ifc-viewer--toolbar-info-button">
+        <button class="icon-info1 xeokit-btn"
+                (click)="toggleInspector()">
+        </button>
+      </div>
+    </div>
+
+    <canvas #modelCanvas
+            class="op-ifc-viewer--model-canvas"
+            data-qa-selector="op-ifc-viewer--model-canvas"
+            tabindex="0">
+    </canvas>
+
     <div *ngIf="modelCount && !keyboardEnabled"
-         class="ifc-model-viewer--focus-warning">
-      <a class="ifc-model-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
+         class="op-ifc-viewer--focus-warning op-ifc-viewer--model-canvas-overlay">
+      <a class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
          (mousedown)="enableFromIcon($event)"
          [attr.title]="text.keyboard_input_disabled">
       </a>
     </div>
 
-    <div class="ifc-model-viewer--toolbar-container"></div>
-    <canvas #modelCanvas
-            class="ifc-model-viewer--model-canvas"
-            tabindex="0">
-    </canvas>
+    <canvas class="op-ifc-viewer--nav-cube-canvas op-ifc-viewer--model-canvas-overlay"
+            data-qa-selector="op-ifc-viewer--nav-cube-canvas"></canvas>
   </div>
 
-  <canvas class="ifc-model-viewer--nav-cube-canvas"></canvas>
+  <div class="op-ifc-viewer--inspector-container"
+       [ngClass]="{ 'op-ifc-viewer--inspector-container-hidden': !inspectorEnabled}"
+       data-qa-selector="op-ifc-viewer--inspector-container">
+  </div>
 </div>

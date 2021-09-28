@@ -1,10 +1,6 @@
 // -------------------------- GENERIC --------------------------
-.ifc-model-viewer--toolbar-container
-  position: absolute
-  width: 100%
-  padding: 0px 6px
+.op-ifc-viewer--toolbar-container
   pointer-events: none
-  z-index: 2
 
   button
     pointer-events: all
@@ -89,11 +85,11 @@
 // -------------------------- MOBILE specific --------------------------
 
 @media only screen and (max-width: 679px)
-  .ifc-model-viewer--toolbar-container
+  .op-ifc-viewer--toolbar-container
     padding-right: 15px
 
-  .ifc-model-viewer--focus-warning,
-  .ifc-model-viewer--toolbar-container
+  .op-ifc-viewer--focus-warning,
+  .op-ifc-viewer--toolbar-container
     .fa-male,
     .fa-cut
       display: none
