@@ -66,16 +66,8 @@ describe Notifications::CreateContract do
       it_behaves_like 'contract is invalid', recipient: :blank
     end
 
-    context 'without a reason for IAN with read_ian false' do
+    context 'without a reason' do
       let(:notification_reason) { nil }
-      let(:notification_read_ian) { false }
-
-      it_behaves_like 'contract is invalid', reason: :no_notification_reason
-    end
-
-    context 'without a reason for IAN with read_ian nil' do
-      let(:notification_reason) { nil }
-      let(:notification_read_ian) { nil }
 
       it_behaves_like 'contract is invalid', reason: :no_notification_reason
     end

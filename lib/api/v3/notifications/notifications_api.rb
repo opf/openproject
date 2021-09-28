@@ -46,8 +46,6 @@ module API
               ::Notification
                 .recipient(current_user)
                 .includes(NotificationRepresenter.to_eager_load)
-                .where
-                .not(reason: nil)
             end
 
             def bulk_update_status(attributes)
