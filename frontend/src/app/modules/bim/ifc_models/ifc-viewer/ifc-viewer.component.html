@@ -49,7 +49,7 @@
   </div>
 
   <div class="op-ifc-viewer--inspector-container"
-       [ngClass]="{ 'op-ifc-viewer--inspector-container-hidden': !inspectorEnabled}"
+       [class.op-ifc-viewer--inspector-container-hidden]="!(inspectorVisible$ | async)"
        data-qa-selector="op-ifc-viewer--inspector-container">
   </div>
 </div>

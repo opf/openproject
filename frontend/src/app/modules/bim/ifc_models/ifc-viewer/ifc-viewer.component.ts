@@ -40,6 +40,7 @@ import { IfcModelsDataService } from 'core-app/modules/bim/ifc_models/pages/view
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: 'ifc-viewer',
@@ -62,7 +63,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   keyboardEnabled = false;
 
-  inspectorEnabled = false;
+  public inspectorVisible$:BehaviorSubject<boolean>;
 
   @ViewChild('outerContainer') outerContainer:ElementRef;
 
@@ -74,6 +75,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
               private ifcViewer:IFCViewerService,
               private currentUserService:CurrentUserService,
               private currentProjectService:CurrentProjectService) {
+    this.inspectorVisible$ = this.ifcViewer.inspectorVisible$;
   }
 
   ngOnInit():void {
@@ -107,10 +109,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
           },
           this.ifcData.projects,
         );
-
-        this.ifcViewer.inspectorVisible$.subscribe((visible) => {
-          this.inspectorEnabled = visible;
-        });
       });
   }
 
@@ -119,7 +117,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   }
 
   toggleInspector() {
-    this.ifcViewer.inspectorVisible$.next(!this.inspectorEnabled);
+    this.ifcViewer.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
   @HostListener('mousedown')
