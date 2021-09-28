@@ -72,5 +72,9 @@ module Notifications
     def supported?
       strategy.present?
     end
+
+    def notification_marked_attribute
+      :mail_alert_sent
+    end
   end
 end

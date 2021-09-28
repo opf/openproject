@@ -33,6 +33,10 @@ class Mails::ReminderJob < Mails::DeliverJob
 
   private
 
+  def notification_marked_attribute
+    :mail_reminder_sent
+  end
+
   def render_mail
     # Have to cast to array since the update in the subsequent block
     # will result in the notification to not be found via the .unsent_reminders_before scope.
@@ -48,8 +52,8 @@ class Mails::ReminderJob < Mails::DeliverJob
 
   # Running the digest job will take some time to complete.
   # Within this timeframe, new notifications might come in. Upon notification creation
-  # a job is scheduled unless there is no prior digest notification that is not yet read (sent_mail: true).
-  # If we were to only set the sent_mail state at the end of the mail rendering an edge case of the following
+  # a job is scheduled unless there is no prior digest notification that is not yet read (mail_reminder_sent: true).
+  # If we were to only set the mail_reminder_sent state at the end of the mail rendering an edge case of the following
   # would lead to digest not being sent or at least sent unduly late:
   # * Job starts and fetches the notifications for rendering. We need to fetch all notifications to be rendered to
   #   order them as desired.

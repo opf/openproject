@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :notification do
     subject { "MyText" } # rubocop:disable RSpec/EmptyLineAfterSubject
     read_ian { false }
-    sent_mail { false }
+    mail_reminder_sent { false }
     reason { :mentioned }
     recipient factory: :user
     project { association :project }

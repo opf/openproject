@@ -3,7 +3,8 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
     change_table :notifications, bulk: true do |t|
       t.remove :read_mail, :reason_mail, :reason_mail_digest
       t.rename :reason_ian, :reason
-      t.rename :read_mail_digest, :sent_mail
+      t.rename :read_mail_digest, :mail_reminder_sent
+      t.boolean :mail_alert_sent, default: nil, index: true
     end
 
     change_table :notification_settings, bulk: true do |t|
@@ -33,7 +34,7 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
       t.boolean :read_mail, default: false, index: true
       t.integer :reason_mail, limit: 1
       t.integer :reason_mail_digest, limit: 1
-      t.rename :sent_mail, :read_mail_digest
+      t.rename :mail_reminder_sent, :read_mail_digest
       t.rename :reason, :reason_ian
     end
 

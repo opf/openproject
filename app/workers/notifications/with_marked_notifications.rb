@@ -46,7 +46,9 @@ module Notifications
       end
 
       def mark_notifications_sent(notification_ids)
-        Notification.where(id: Array(notification_ids)).update_all(sent_mail: true, updated_at: Time.current)
+        Notification
+          .where(id: Array(notification_ids))
+          .update_all(notification_marked_attribute => true, updated_at: Time.current)
       end
     end
   end

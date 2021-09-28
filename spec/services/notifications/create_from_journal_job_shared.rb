@@ -73,7 +73,7 @@ shared_context 'with CreateFromJournalJob context' do
       {
         read_ian: false,
         reason: :mentioned,
-        sent_mail: false
+        mail_reminder_sent: false
       }
     end
     let(:notification) { FactoryBot.build_stubbed(:notification) }

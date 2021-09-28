@@ -30,12 +30,12 @@
 
 # Return digest mail notifications that are unread (have read_digest_mail: false)
 module Notifications::Scopes
-  module UnsentMail
+  module MailReminderUnsent
     extend ActiveSupport::Concern
 
     class_methods do
-      def unsent_mail
-        where(sent_mail: false)
+      def mail_reminder_unsent
+        where(mail_reminder_sent: false)
       end
     end
   end

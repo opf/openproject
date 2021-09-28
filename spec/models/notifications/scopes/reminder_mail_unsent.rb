@@ -26,40 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class CreateContract < ::ModelContract
-    attribute :recipient
-    attribute :subject
-    attribute :reason
-    attribute :project
-    attribute :actor
-    attribute :resource
-    attribute :journal
-    attribute :resource_type
-    attribute :read_ian
-    attribute :mail_reminder_sent
-    attribute :mail_alert_sent
+require 'spec_helper'
 
-    validate :validate_recipient_present
-    validate :validate_reason_present
-    validate :validate_read
-    validate :validate_sent
+describe Notifications::Scopes::MailReminderUnsent, type: :model do
+  describe '.unread_digest_mail' do
+    subject(:scope) { ::Notification.mail_reminder_unsent }
 
-    def validate_read
-      errors.add(:read_ian, :read_on_creation) if model.read_ian
+    let(:no_mail_notification) { FactoryBot.create(:notification, mail_reminder_sent: nil) }
+    let(:unread_mail_notification) { FactoryBot.create(:notification, mail_reminder_sent: false) }
+    let(:read_mail_notification) { FactoryBot.create(:notification, mail_reminder_sent: true) }
+
+    before do
+      no_mail_notification
+      unread_mail_notification
+      read_mail_notification
     end
 
-    def validate_sent
-      errors.add(:mail_reminder_sent, :set_on_creation) if model.mail_reminder_sent
-      errors.add(:mail_alert_sent, :set_on_creation) if model.mail_alert_sent
-    end
-
-    def validate_recipient_present
-      errors.add(:recipient, :blank) if model.recipient.blank?
-    end
-
-    def validate_reason_present
-      errors.add(:reason, :no_notification_reason) if model.reason.nil?
+    it 'contains the notifications with read_mail: false' do
+      expect(scope)
+        .to match_array([unread_mail_notification])
     end
   end
 end

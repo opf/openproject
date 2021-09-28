@@ -686,7 +686,7 @@ en:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            sent_mail:
+            mail_reminder_sent:
               set_on_creation: 'cannot be set to true on notification creation.'
             reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'

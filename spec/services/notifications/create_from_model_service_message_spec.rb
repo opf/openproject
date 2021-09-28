@@ -69,7 +69,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -111,7 +111,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -157,7 +157,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -198,7 +198,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -240,7 +240,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -286,7 +286,7 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end

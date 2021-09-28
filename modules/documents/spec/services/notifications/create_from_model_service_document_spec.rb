@@ -63,7 +63,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end
@@ -110,7 +110,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
             {
               read_ian: nil,
               reason: false,
-              sent_mail: nil
+              mail_reminder_sent: nil
             }
           end
         end

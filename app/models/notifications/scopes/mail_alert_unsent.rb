@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,25 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+# Return alert mail notifications that are unread (have mail_alert_sent: false)
+module Notifications::Scopes
+  module MailAlertUnsent
+    extend ActiveSupport::Concern
 
-describe Notifications::Scopes::UnreadMailDigest, type: :model do
-  describe '.unread_digest_mail' do
-    subject(:scope) { ::Notification.unsent_mail }
-
-    let(:no_mail_notification) { FactoryBot.create(:notification, sent_mail: nil) }
-    let(:unread_mail_notification) { FactoryBot.create(:notification, sent_mail: false) }
-    let(:read_mail_notification) { FactoryBot.create(:notification, sent_mail: true) }
-
-    before do
-      no_mail_notification
-      unread_mail_notification
-      read_mail_notification
-    end
-
-    it 'contains the notifications with read_mail: false' do
-      expect(scope)
-        .to match_array([unread_mail_notification])
+    class_methods do
+      def mail_alert_unsent
+        where(mail_alert_unsent: false)
+      end
     end
   end
 end

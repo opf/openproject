@@ -69,7 +69,7 @@ class Notifications::CreateFromModelService
       actor: user_with_fallback,
       reason: reasons.first,
       read_ian: false,
-      sent_mail: false
+      mail_reminder_sent: false
     }
 
     Notifications::CreateService

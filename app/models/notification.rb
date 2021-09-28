@@ -23,6 +23,7 @@ class Notification < ApplicationRecord
 
   include Scopes::Scoped
   scopes :unsent_reminders_before,
-         :unsent_mail,
+         :mail_reminder_unsent,
+         :mail_alert_unsent,
          :recipient
 end

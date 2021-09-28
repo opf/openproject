@@ -100,7 +100,7 @@ describe Notifications::SetAttributesService, type: :model do
                     recipient_id: 1,
                     subject: event_subject,
                     read_ian: false,
-                    sent_mail: false
+                    mail_reminder_sent: false
                   })
       end
 
@@ -136,7 +136,7 @@ describe Notifications::SetAttributesService, type: :model do
                       journal_id: journal.id,
                       recipient_id: 1,
                       read_ian: false,
-                      sent_mail: false
+                      mail_reminder_sent: false
                     })
         end
       end
