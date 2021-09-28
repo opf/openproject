@@ -52,7 +52,7 @@ module MailDigestHelper
   end
 
   def digest_comment_text(notification)
-    if notification.reason == "mentioned"
+    if notification.reason_mentioned?
       sanitize I18n.t(:'mail.digests.work_packages.mentioned')
     else
       sanitize I18n.t(:'mail.digests.work_packages.comment_added')
