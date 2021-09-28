@@ -25,6 +25,7 @@
 
       <div class="op-ifc-viewer--toolbar-info-button">
         <button class="icon-info1 xeokit-btn"
+                [ngClass]="{ 'active': inspectorEnabled}"
                 (click)="toggleInspector()">
         </button>
       </div>
