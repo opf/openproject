@@ -186,6 +186,8 @@ ko:
         new_group: '새 그룹'
         reset_to_defaults: '기본값으로 초기화'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "이메일 주소 확인"
           confirmation_info: >

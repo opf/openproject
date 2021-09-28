@@ -187,6 +187,8 @@ hu:
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "E-mail cím megerősítése"
           confirmation_info: >

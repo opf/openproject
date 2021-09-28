@@ -185,6 +185,8 @@ sl:
         new_group: 'Nova skupina'
         reset_to_defaults: 'Ponastavi na privzete vrednosti'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Potrditev e-poštnega naslova"
           confirmation_info: >

@@ -185,6 +185,8 @@ ru:
         new_group: 'Новая группа'
         reset_to_defaults: 'Восстановить значения по умолчанию'
       enterprise:
+        text_reprieve_days_left: "%{days} дней до окончания льготного периода"
+        text_expired: "просрочено"
         trial:
           confirmation: "Подтверждение адреса электронной почты"
           confirmation_info: >
