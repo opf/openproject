@@ -83,6 +83,9 @@
       padding: 1.5em 0
       color: var(--body-font-color)
 
+      p
+        font-size: 0.9rem
+
 // Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
 $pill-padding-left: 8px
 
@@ -91,9 +94,11 @@ $pill-padding-left: 8px
     list-style: none
     padding-left: 30px
     margin-left: -1 * $pill-padding-left
+
     li
       line-height: 30px
       padding-left: $pill-padding-left
+
       a
         display: inline-block
         line-height: 30px
@@ -116,6 +121,7 @@ $pill-padding-left: 8px
 
         &.plus:before
           @include icon-mixin-arrow-right2
+
         &.minus:before
           @include icon-mixin-arrow-down1
 
@@ -131,9 +137,10 @@ $pill-padding-left: 8px
       span
         cursor: pointer
         vertical-align: middle
+
         &:hover
           vertical-align: middle
-        
+
   .xeokit-tree-panel > ul
     padding-left: 0
 

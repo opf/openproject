@@ -15,7 +15,8 @@
     </div>
   </div>
 
-  <div class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
+  <div *ngIf="modelCount"
+       class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
        data-qa-selector="op-ifc-viewer--container">
 
     <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
@@ -37,7 +38,7 @@
             tabindex="0">
     </canvas>
 
-    <div *ngIf="modelCount && !keyboardEnabled"
+    <div *ngIf="!keyboardEnabled"
          class="op-ifc-viewer--focus-warning op-ifc-viewer--model-canvas-overlay">
       <a class="op-ifc-viewer--keyboard-disabled-icon icon-no-color icon-input-disabled"
          (mousedown)="enableFromIcon($event)"
