@@ -35,7 +35,7 @@ module Notifications::Scopes
 
     class_methods do
       def mail_alert_unsent
-        where(mail_alert_unsent: false)
+        where(mail_alert_sent: false)
       end
     end
   end

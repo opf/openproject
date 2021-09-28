@@ -299,7 +299,7 @@ describe Notifications::CreateFromModelService,
     let(:user_property) { :watcher }
     let(:recipient_notification_settings) do
       [
-        FactoryBot.build(:notification_setting, **notification_settings_all_true),
+        FactoryBot.build(:notification_setting, **notification_settings_all_true)
       ]
     end
 
