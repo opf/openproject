@@ -59,8 +59,6 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
           notification_settings: [
             {
               project_id: nil,
-              channel: 'in_app',
-              all: false,
               watched: false,
               involved: true,
               work_package_commented: false,
@@ -74,8 +72,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
       end
 
       it 'updates the existing one, removes the email one' do
-        default_mail = current_user.notification_settings.find_by(channel: 'mail')
-        default_ian = current_user.notification_settings.find_by(channel: 'in_app')
+        default_ian = current_user.notification_settings.first
 
         expect(default_ian.watched).to eq true
         expect(default_ian.mentioned).to eq true
@@ -88,8 +85,6 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq nil
-        expect(subject.first.channel).to eq 'in_app'
-        expect(subject.first.all).to eq false
         expect(subject.first.mentioned).to eq false
         expect(subject.first.watched).to eq false
         expect(subject.first.involved).to eq true
@@ -101,7 +96,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
 
         expect(subject.first).to eq(default_ian.reload)
         expect(current_user.notification_settings.count).to eq(1)
-        expect { default_mail.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { default_ian.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -110,32 +105,26 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
       let(:attributes) do
         {
           notification_settings: [
-            { project_id: project.id, channel: 'in_app', all: true }
+            { project_id: project.id, mentioned: true }
           ]
         }
       end
 
       it 'inserts the setting, removing the old one' do
         default = current_user.notification_settings.to_a
-        expect(default.count).to eq 3
+        expect(default.count).to eq 1
 
         expect(subject.count).to eq 1
         expect(subject.first.project_id).to eq project.id
-        expect(subject.first.channel).to eq 'in_app'
-        expect(subject.first.all).to eq true
-        expect(subject.first.mentioned).to eq false
-        expect(subject.first.watched).to eq false
-        expect(subject.first.involved).to eq false
-        expect(subject.first.work_package_commented).to eq false
-        expect(subject.first.work_package_created).to eq false
-        expect(subject.first.work_package_processed).to eq false
-        expect(subject.first.work_package_prioritized).to eq false
-        expect(subject.first.work_package_scheduled).to eq false
+
+        NotificationSetting.all_settings.each do |key|
+          val = subject.first.send key
+          expect(val).to eq(key == :mentioned)
+        end
 
         expect(current_user.notification_settings.count).to eq(1)
 
         expect { default.first.reload }.to raise_error(ActiveRecord::RecordNotFound)
-        expect { default.second.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

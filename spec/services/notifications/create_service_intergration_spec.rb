@@ -52,9 +52,9 @@ describe Notifications::CreateService, 'integration', type: :model do
         journal: journal,
         actor: actor,
         read_ian: false,
-        reason_ian: :mentioned,
-        read_mail: nil,
-        read_mail_digest: nil
+        reason: :mentioned,
+        mail_reminder_sent: nil,
+        mail_alert_sent: nil
       }
     end
 

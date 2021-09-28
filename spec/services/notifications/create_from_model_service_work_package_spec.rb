@@ -129,8 +129,8 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates notification' do
         let(:notification_channel_reasons) do
           {
-            read_ian: nil,
-            reason: nil,
+            read_ian: false,
+            reason: :assigned,
             mail_reminder_sent: false
           }
         end
@@ -235,7 +235,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates notification' do
         let(:notification_channel_reasons) do
           {
-            read_ian: nil,
+            read_ian: false,
             reason: nil,
             mail_reminder_sent: false
           }
@@ -323,8 +323,8 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates notification' do
         let(:notification_channel_reasons) do
           {
-            read_ian: nil,
-            reason: nil,
+            read_ian: false,
+            reason: :watched,
             mail_reminder_sent: false
           }
         end
@@ -390,7 +390,7 @@ describe Notifications::CreateFromModelService,
       let(:notification_channel_reasons) do
         {
           read_ian: false,
-          reason: :subscribed,
+          reason: :created,
           mail_reminder_sent: false
         }
       end
@@ -406,8 +406,8 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'creates notification' do
         let(:notification_channel_reasons) do
           {
-            read_ian: nil,
-            reason: nil,
+            read_ian: false,
+            reason: :created,
             mail_reminder_sent: false
           }
         end
@@ -454,7 +454,7 @@ describe Notifications::CreateFromModelService,
         let(:notification_channel_reasons) do
           {
             read_ian: false,
-            reason: :subscribed,
+            reason: :created,
             mail_reminder_sent: false
           }
         end
@@ -703,7 +703,6 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :scheduled,
-            read_mail: false,
             mail_reminder_sent: false
           }
         end

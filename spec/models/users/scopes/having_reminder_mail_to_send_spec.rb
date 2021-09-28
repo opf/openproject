@@ -321,7 +321,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but with an already read notification (reminder)' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_mail_digest: true)
+      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
     end
 
     it 'is empty' do

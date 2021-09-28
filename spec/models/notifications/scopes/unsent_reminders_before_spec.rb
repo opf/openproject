@@ -42,6 +42,7 @@ describe Notifications::Scopes::UnsentRemindersBefore, type: :model do
     let(:notification) do
       FactoryBot.create(:notification,
                         recipient: notification_recipient,
+                        read_ian: notification_read_ian,
                         mail_reminder_sent: notification_mail_reminder_sent,
                         created_at: notification_created_at)
     end
