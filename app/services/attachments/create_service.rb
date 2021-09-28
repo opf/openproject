@@ -26,74 +26,64 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class Attachments::CreateService < ::BaseServices::Create
-  include Attachments::TouchContainer
+module Attachments
+  class CreateService < BaseService
+    include TouchContainer
 
-  around_call :error_wrapped_call
+    around_call :error_wrapped_call
 
-  ##
-  # Create an attachment service bypassing the user-provided whitelist
-  # for internal purposes such as exporting data.
-  #
-  # @param user The user to call the service with
-  # @param whitelist A custom whitelist to validate with, or empty to disable validation
-  #
-  # Warning: When passing an empty whitelist, this results in no validations on the content type taking place.
-  def self.bypass_whitelist(user:, whitelist: [])
-    new(user: user, contract_options: { whitelist: whitelist.map(&:to_s) })
-  end
-
-  def persist(call)
-    attachment = call.result
-    if attachment.container
-      in_container_mutex(attachment.container) { super }
-    else
-      super
-    end
-  end
-
-  def in_container_mutex(container)
-    OpenProject::Mutex.with_advisory_lock_transaction(container) do
-      yield.tap do
-        # Get the latest attachments to ensure having them all for journalization.
-        # We just created an attachment and a different worker might have added attachments
-        # in the meantime, e.g when bulk uploading.
-        container.attachments.reload
-      end
-    end
-  end
-
-  def after_perform(call)
-    attachment = call.result
-    container = attachment.container
-
-    touch(container) unless container.nil?
-
-    OpenProject::Notifications.send(
-      OpenProject::Events::ATTACHMENT_CREATED,
-      attachment: attachment
-    )
-
-    call
-  end
-
-  def error_wrapped_call
-    yield
-  rescue StandardError => e
-    log_attachment_saving_error(e)
-
-    message =
-      if e&.class&.to_s == 'Errno::EACCES'
-        I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
+    def persist(call)
+      attachment = call.result
+      if attachment.container
+        in_container_mutex(attachment.container) { super }
       else
-        I18n.t('api_v3.errors.unable_to_create_attachment')
+        super
       end
-    raise message
-  end
+    end
 
-  def log_attachment_saving_error(error)
-    message = "Failed to save attachment: #{error&.class} - #{error&.message || 'Unknown error'}"
+    def in_container_mutex(container)
+      OpenProject::Mutex.with_advisory_lock_transaction(container) do
+        yield.tap do
+          # Get the latest attachments to ensure having them all for journalization.
+          # We just created an attachment and a different worker might have added attachments
+          # in the meantime, e.g when bulk uploading.
+          container.attachments.reload
+        end
+      end
+    end
 
-    OpenProject.logger.error message
+    def after_perform(call)
+      attachment = call.result
+      container = attachment.container
+
+      touch(container) unless container.nil?
+
+      OpenProject::Notifications.send(
+        OpenProject::Events::ATTACHMENT_CREATED,
+        attachment: attachment
+      )
+
+      call
+    end
+
+    def error_wrapped_call
+      yield
+    rescue StandardError => e
+      log_attachment_saving_error(e)
+
+      message =
+        if e&.class&.to_s == 'Errno::EACCES'
+          I18n.t('api_v3.errors.unable_to_create_attachment_permissions')
+        else
+          I18n.t('api_v3.errors.unable_to_create_attachment')
+        end
+      raise message
+    end
+
+    def log_attachment_saving_error(error)
+      message = "Failed to save attachment: #{error&.class} - #{error&.message || 'Unknown error'}"
+
+      OpenProject.logger.error message
+    end
   end
 end
