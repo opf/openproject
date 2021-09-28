@@ -46,7 +46,7 @@ shared_examples "watcher job" do |action|
     FactoryBot.build_stubbed(:user_preference)
   end
   let(:notification_settings) do
-    [FactoryBot.build_stubbed(:notification_setting, all: true)]
+    [FactoryBot.build_stubbed(:notification_setting)]
   end
   let(:watching_user) do
     FactoryBot.build_stubbed(:user,
@@ -57,10 +57,6 @@ shared_examples "watcher job" do |action|
 
       allow(notification_settings)
         .to receive(:applicable)
-              .and_return(notification_settings)
-
-      allow(notification_settings)
-        .to receive(:mail)
               .and_return(notification_settings)
     end
   end
@@ -132,7 +128,7 @@ shared_examples "watcher job" do |action|
 
   it_behaves_like 'notifies the watcher' do
     let(:notification_settings) do
-      [FactoryBot.build_stubbed(:notification_setting, mentioned: false, involved: false, watched: false, all: true)]
+      [FactoryBot.build_stubbed(:notification_setting, mentioned: false, involved: false, watched: true)]
     end
   end
 
