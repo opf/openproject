@@ -590,7 +590,7 @@ GEM
     mime-types-data (3.2021.0225)
     mini_magick (4.11.0)
     mini_mime (1.0.3)
-    mini_portile2 (2.5.1)
+    mini_portile2 (2.6.1)
     minisyntax (0.2.5)
     minitest (5.14.4)
     mixlib-shellout (2.1.0)
@@ -607,8 +607,8 @@ GEM
     newrelic_rpm (7.0.0)
     nio4r (2.5.7)
     no_proxy_fix (0.1.2)
-    nokogiri (1.11.4)
-      mini_portile2 (~> 2.5.0)
+    nokogiri (1.12.5)
+      mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     nokogumbo (2.0.5)
       nokogiri (~> 1.8, >= 1.8.4)
@@ -1024,7 +1024,7 @@ DEPENDENCIES
   my_page!
   net-ldap (~> 0.17.0)
   newrelic_rpm
-  nokogiri (~> 1.11.0)
+  nokogiri (~> 1.12.5)
   oj (~> 3.11.0)
   okcomputer (~> 1.18.1)
   omniauth!
