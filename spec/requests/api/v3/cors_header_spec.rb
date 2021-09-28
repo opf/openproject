@@ -36,35 +36,43 @@ describe 'API v3 CORS headers',
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
+  shared_examples 'outputs CORS headers' do |request_path|
+    it 'outputs CORS headers', :aggregate_failures do
+      options request_path,
+              nil,
+              'HTTP_ORIGIN' => 'https://foo.example.com',
+              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
+              'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'test'
+
+      expect(last_response.headers['Access-Control-Allow-Origin']).to eq('https://foo.example.com')
+      expect(last_response.headers['Access-Control-Allow-Methods']).to eq('GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS')
+      expect(last_response.headers['Access-Control-Allow-Headers']).to eq('test')
+      expect(last_response.headers).to have_key('Access-Control-Max-Age')
+    end
+
+    it 'rejects CORS headers for invalid origin' do
+      options request_path,
+              nil,
+              'HTTP_ORIGIN' => 'invalid.example.com',
+              'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
+              'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'test'
+
+      expect(last_response.headers).not_to have_key 'Access-Control-Allow-Origin'
+      expect(last_response.headers).not_to have_key 'Access-Control-Allow-Methods'
+      expect(last_response.headers).not_to have_key 'Access-Control-Allow-Headers'
+      expect(last_response.headers).not_to have_key 'Access-Control-Max-Age'
+    end
+  end
+
   context 'with setting enabled',
           with_settings: { apiv3_cors_enabled: true } do
     context 'with allowed origin set to specific values',
             with_settings: { apiv3_cors_origins: %w[https://foo.example.com bla.test] } do
-      it 'outputs CORS headers', :aggregate_failures do
-        options '/api/v3',
-                nil,
-                'HTTP_ORIGIN' => 'https://foo.example.com',
-                'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-                'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'test'
 
-        expect(last_response.headers['Access-Control-Allow-Origin']).to eq('https://foo.example.com')
-        expect(last_response.headers['Access-Control-Allow-Methods']).to eq('GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS')
-        expect(last_response.headers['Access-Control-Allow-Headers']).to eq('test')
-        expect(last_response.headers).to have_key('Access-Control-Max-Age')
-      end
-
-      it 'rejects CORS headers for invalid origin' do
-        options '/api/v3',
-                nil,
-                'HTTP_ORIGIN' => 'invalid.example.com',
-                'HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'GET',
-                'HTTP_ACCESS_CONTROL_REQUEST_HEADERS' => 'test'
-
-        expect(last_response.headers).not_to have_key 'Access-Control-Allow-Origin'
-        expect(last_response.headers).not_to have_key 'Access-Control-Allow-Methods'
-        expect(last_response.headers).not_to have_key 'Access-Control-Allow-Headers'
-        expect(last_response.headers).not_to have_key 'Access-Control-Max-Age'
-      end
+      it_behaves_like 'outputs CORS headers', '/api/v3'
+      it_behaves_like 'outputs CORS headers', '/oauth/token'
+      it_behaves_like 'outputs CORS headers', '/oauth/authorize'
+      it_behaves_like 'outputs CORS headers', '/oauth/revoke'
 
       # CORS needs to output headers even if you're unauthorized to allow authentication
       # to happen
