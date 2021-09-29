@@ -76,7 +76,8 @@
       font-style: normal
 
     &.active a.xeokit-tab-btn
-      border-bottom-color: var(--body-font-color)
+      color: var(--content-link-color)
+      border-bottom-color: var(--content-link-color)
 
     .xeokit-tab-content
       position: relative
@@ -101,10 +102,12 @@
       td:first-child
         font-weight: bold
 
+      td:last-child
+        overflow-wrap: anywhere
+
       td
-        max-width: 300px
         text-align: left
-        overflow-wrap: break-word
+        font-size: 0.9rem
         line-height: 1.6
         padding-top: 0.5rem
         padding-bottom: 0.5rem
