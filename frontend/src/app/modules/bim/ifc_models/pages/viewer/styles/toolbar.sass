@@ -85,8 +85,14 @@
 // -------------------------- MOBILE specific --------------------------
 
 @media only screen and (max-width: 679px)
-  .op-ifc-viewer--toolbar-container
+  .op-ifc-viewer--toolbar
     padding-right: 15px
+
+    .xeokit-toolbar
+      flex-wrap: nowrap
+
+      .xeokit-btn-group
+        white-space: nowrap
 
   .op-ifc-viewer--focus-warning,
   .op-ifc-viewer--toolbar-container

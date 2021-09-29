@@ -100,7 +100,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         this.ifcViewer.newViewer(
           {
             canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
-            explorerElement: jQuery('.ifc-model-viewer--tree-panel')[0], // Left panel
+            explorerElement: jQuery('.op-ifc-viewer--tree-panel')[0], // Left panel
             toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
             inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
             navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
