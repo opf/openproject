@@ -576,6 +576,9 @@ en:
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_selection: "Click on a notification to view all activity details."
       menu:
         accountable: 'Accountable'
         assigned: 'Assigned'
