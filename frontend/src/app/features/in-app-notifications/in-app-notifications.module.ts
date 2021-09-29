@@ -18,6 +18,7 @@ import { NotificationSettingsButtonComponent } from './center/toolbar/settings/n
 import { ActivateFacetButtonComponent } from './center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
     ActivateFacetButtonComponent,
     MarkAllAsReadButtonComponent,
     IanMenuComponent,
+    EmptyStateComponent,
   ],
   imports: [
     OPSharedModule,

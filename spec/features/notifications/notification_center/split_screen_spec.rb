@@ -26,7 +26,7 @@ describe "Split screen in the notification center", type: :feature, js: true do
   end
 
   let(:center) { ::Pages::Notifications::Center.new }
-  let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
+  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
 
   describe 'basic use case' do
     current_user { recipient }
@@ -54,6 +54,8 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
     it 'can navigate between the tabs' do
       center.expect_bell_count 2
+      split_screen.expect_empty_state
+
       center.click_item notification
       split_screen.expect_open
 
@@ -77,7 +79,22 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
       # The split screen can be closed
       split_screen.close
-      split_screen.expect_closed
+      split_screen.expect_empty_state
+    end
+  end
+
+  context 'with no unread notification' do
+    current_user { recipient }
+
+    before do
+      Notification.where(recipient: recipient).update_all(read_ian: true)
+      visit home_path
+      center.open
+    end
+
+    it 'can switch between multiple notifications and the split screen remains open and updates accordingly' do
+      center.expect_bell_count 0
+      split_screen.expect_caught_up
     end
   end
 end
