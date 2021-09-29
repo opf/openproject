@@ -190,6 +190,12 @@ module OpenProject
       # set to n >= 1 to enable n times the default tracing
       'sentry_frontend_trace_factor' => 0,
 
+      # enable statsd metrics (currently puma only) by configuring host
+      'statsd' => {
+        'host' => nil,
+        'port' => 8125
+      },
+
       # Allow connections for trial creation and booking
       'enterprise_trial_creation_host' => 'https://augur.openproject.com',
       'enterprise_chargebee_site' => 'openproject-enterprise',
@@ -207,7 +213,15 @@ module OpenProject
       'sql_slow_query_threshold' => 2000,
 
       # Use lograge to format logs, off by default
-      'lograge_formatter' => nil
+      'lograge_formatter' => nil,
+
+      'web' => {
+        'workers' => 2,
+        'timeout' => 120,
+        'wait_timeout' => 10,
+        'min_threads' => 4,
+        'max_threads' => 16
+      }
     }
 
     @config = nil

@@ -3,8 +3,8 @@
 # Any libraries that use thread pools should be configured to match
 # the maximum value specified for Puma.
 #
-threads_min_count = ENV.fetch("RAILS_MIN_THREADS") { 4 }.to_i
-threads_max_count = ENV.fetch("RAILS_MAX_THREADS") { 16 }.to_i
+threads_min_count = OpenProject::Configuration.web_min_threads
+threads_max_count = OpenProject::Configuration.web_max_threads
 threads threads_min_count, [threads_min_count, threads_max_count].max
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
@@ -21,7 +21,7 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-workers ENV.fetch("OPENPROJECT_WEB_WORKERS") { 0 }.to_i
+workers OpenProject::Configuration.web_workers
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -32,3 +32,22 @@ preload_app! if ENV["RAILS_ENV"] == 'production'
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart unless ENV["RAILS_ENV"] == 'production'
+
+# activate statsd plugin only if a host is configured explicitly
+if OpenProject::Configuration.statsd_host.present?
+  module ConfigurationViaOpenProject
+    def initialize
+      host = OpenProject::Configuration.statsd_host
+      port = OpenProject::Configuration.statsd_port
+
+      Rails.logger.debug { "Enabling puma statsd plugin (publish to udp://#{host}:#{port})" }
+
+      @host = host
+      @port = port
+    end
+  end
+
+  StatsdConnector.prepend ConfigurationViaOpenProject
+
+  plugin :statsd
+end

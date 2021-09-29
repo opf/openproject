@@ -156,20 +156,15 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem 'dalli', '~> 2.7.10'
-
-  # Unicorn worker killer to restart unicorn child workers
-  gem 'unicorn-worker-killer', require: false
 end
 
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
-# required by Procfile, for deployment on heroku or packaging with packager.io.
-# also, better than thin since we can control worker concurrency.
-gem 'unicorn'
-
-gem 'puma', '~> 5.5.0' # used for development and optionally for production
+gem 'puma', '~> 5.5'
+gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
+gem 'puma-plugin-statsd', '~> 2.0'
 
 gem 'nokogiri', '~> 1.12.5'
 
