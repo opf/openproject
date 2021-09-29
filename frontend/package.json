@@ -71,7 +71,7 @@
     "@uirouter/core": "^6.0.7",
     "@uirouter/rx": "^0.6.5",
     "@w11k/ngx-componentdestroyed": "^5.0.2",
-    "@xeokit/xeokit-bim-viewer": "2.3.2",
+    "@xeokit/xeokit-bim-viewer": "2.3.6",
     "autoprefixer": "^9.6.1",
     "browserslist": "^4.9.1",
     "cdk-drag-scroll": "^0.0.6",
