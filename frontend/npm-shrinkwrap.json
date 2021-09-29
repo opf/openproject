@@ -3295,9 +3295,9 @@
       }
     },
     "@xeokit/xeokit-bim-viewer": {
-      "version": "2.3.1",
-      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.3.1.tgz",
-      "integrity": "sha512-Y61mIRIb18UNjD6Wf2R4VYYgbYya0UsSG2//bMYL67bSzOCcZFGPyr1xDiHlV3KbqgyWJhjKXFcoMdPavfH6Og==",
+      "version": "2.3.2",
+      "resolved": "https://registry.npmjs.org/@xeokit/xeokit-bim-viewer/-/xeokit-bim-viewer-2.3.2.tgz",
+      "integrity": "sha512-3dmbmBbbt3BjQTn15auKR+ciMz61rK6B5wqUXCqUaHMqZqnjYFxBmURxjV5P4WNUlTpbm5vDbrwgi5b5GovRLg==",
       "requires": {
         "@xeokit/xeokit-sdk": "2.0.0",
         "http-server": "^13.0.2"
