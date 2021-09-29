@@ -114,6 +114,7 @@ describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :assigned,
+          mail_alert_sent: false,
           mail_reminder_sent: false
         }
       end
@@ -131,25 +132,8 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :assigned,
+            mail_alert_sent: false,
             mail_reminder_sent: false
-          }
-        end
-      end
-    end
-
-    context 'assignee has mail notifications disabled' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
-        ]
-      end
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason: :assigned,
-            mail_reminder_sent: nil
           }
         end
       end
@@ -177,6 +161,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :assigned,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -220,44 +205,9 @@ describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :responsible,
+          mail_alert_sent: false,
           mail_reminder_sent: false
         }
-      end
-    end
-
-    context 'when responsible has in app notifications disabled' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: false))
-        ]
-      end
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason: nil,
-            mail_reminder_sent: false
-          }
-        end
-      end
-    end
-
-    context 'when responsible has mail notifications disabled' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
-        ]
-      end
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason: :responsible,
-            mail_reminder_sent: nil
-          }
-        end
       end
     end
 
@@ -308,6 +258,7 @@ describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :watched,
+          mail_alert_sent: false,
           mail_reminder_sent: false
         }
       end
@@ -325,25 +276,8 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :watched,
+            mail_alert_sent: false,
             mail_reminder_sent: false
-          }
-        end
-      end
-    end
-
-    context 'when watcher has mail notifications disabled' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
-        ]
-      end
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason: :watched,
-            mail_reminder_sent: nil
           }
         end
       end
@@ -391,6 +325,7 @@ describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :created,
+          mail_alert_sent: false,
           mail_reminder_sent: false
         }
       end
@@ -408,25 +343,8 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
+            mail_alert_sent: false,
             mail_reminder_sent: false
-          }
-        end
-      end
-    end
-
-    context 'with mail notifications disabled' do
-      let(:recipient_notification_settings) do
-        [
-          FactoryBot.build(:notification_setting, **notification_settings_all_false)
-        ]
-      end
-
-      it_behaves_like 'creates notification' do
-        let(:notification_channel_reasons) do
-          {
-            read_ian: false,
-            reason: :created,
-            mail_reminder_sent: nil
           }
         end
       end
@@ -455,6 +373,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -504,6 +423,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :created,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -559,6 +479,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :commented,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -607,6 +528,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :processed,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -655,6 +577,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :prioritized,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -703,6 +626,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :scheduled,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -751,6 +675,7 @@ describe Notifications::CreateFromModelService,
           {
             read_ian: false,
             reason: :scheduled,
+            mail_alert_sent: false,
             mail_reminder_sent: false
           }
         end
@@ -783,6 +708,7 @@ describe Notifications::CreateFromModelService,
         {
           read_ian: false,
           reason: :assigned,
+          mail_alert_sent: false,
           mail_reminder_sent: false
         }
       end
@@ -804,6 +730,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -835,6 +762,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -853,6 +781,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -868,6 +797,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -882,6 +812,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -900,6 +831,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end
@@ -918,6 +850,7 @@ describe Notifications::CreateFromModelService,
               {
                 read_ian: false,
                 reason: :mentioned,
+                mail_alert_sent: false,
                 mail_reminder_sent: false
               }
             end

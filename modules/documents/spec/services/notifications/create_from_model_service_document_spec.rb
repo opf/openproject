@@ -63,7 +63,8 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
             {
               read_ian: false,
               reason: :subscribed,
-              mail_reminder_sent: false
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -110,7 +111,8 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
             {
               read_ian: false,
               reason: :subscribed,
-              mail_reminder_sent: false
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end

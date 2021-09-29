@@ -61,6 +61,7 @@ describe DigestMailer, type: :mailer do
   let(:notifications) do
     [FactoryBot.build_stubbed(:notification,
                               resource: work_package,
+                              reason: :commented,
                               journal: journal,
                               project: project1)].tap do |notifications|
       allow(Notification)

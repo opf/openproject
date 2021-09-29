@@ -68,7 +68,8 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
             {
               read_ian: false,
               reason: :subscribed,
-              mail_reminder_sent: false
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -110,7 +111,8 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
             {
               read_ian: false,
               reason: :watched,
-              mail_reminder_sent: false
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end

@@ -67,9 +67,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :subscribed,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -109,9 +110,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -155,9 +157,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -196,9 +199,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :subscribed,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -238,9 +242,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -284,9 +289,10 @@ describe Notifications::CreateFromModelService, 'message', with_settings: { jour
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end

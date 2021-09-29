@@ -35,18 +35,18 @@ shared_examples 'notification settings workflow' do
 
       user.reload
       notification_settings = user.notification_settings
-      expect(notification_settings.count).to eq 9
-      expect(notification_settings.where(project: project).count).to eq 3
+      expect(notification_settings.count).to eq 3
+      expect(notification_settings.where(project: project).count).to eq 1
 
-      in_app = notification_settings.find_by(project: project)
-      expect(in_app.involved).to be_truthy
-      expect(in_app.mentioned).to be_truthy
-      expect(in_app.watched).to be_truthy
-      expect(in_app.work_package_commented).to be_falsey
-      expect(in_app.work_package_created).to be_falsey
-      expect(in_app.work_package_processed).to be_falsey
-      expect(in_app.work_package_prioritized).to be_falsey
-      expect(in_app.work_package_scheduled).to be_falsey
+      project_settings = notification_settings.find_by(project: project)
+      expect(project_settings.involved).to be_truthy
+      expect(project_settings.mentioned).to be_truthy
+      expect(project_settings.watched).to be_truthy
+      expect(project_settings.work_package_commented).to be_falsey
+      expect(project_settings.work_package_created).to be_falsey
+      expect(project_settings.work_package_processed).to be_falsey
+      expect(project_settings.work_package_prioritized).to be_falsey
+      expect(project_settings.work_package_scheduled).to be_falsey
 
       # Trying to add the same project again will not be possible (Regression #38072)
       click_button 'Add setting for project'

@@ -65,9 +65,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              read_mail: false,
+              read_ian: false,
+              reason: :subscribed,
+              mail_alert_sent: false,
               mail_reminder_sent: nil
             }
           end
@@ -108,9 +108,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              read_mail: false,
+              read_ian: false,
+              reason: :watched,
+              mail_alert_sent: false,
               mail_reminder_sent: nil
             }
           end
@@ -158,8 +158,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
+              read_ian: false,
+              reason: :subscribed,
+              mail_alert_sent: false,
               mail_reminder_sent: nil
             }
           end
@@ -200,9 +201,10 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
-              mail_reminder_sent: nil
+              read_ian: false,
+              reason: :watched,
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
@@ -246,8 +248,9 @@ describe Notifications::CreateFromModelService, 'wiki', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: nil,
-              reason: false,
+              read_ian: false,
+              reason: :watched,
+              mail_alert_sent: false,
               mail_reminder_sent: nil
             }
           end

@@ -61,7 +61,8 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
             {
               read_ian: false,
               reason: :subscribed,
-              mail_reminder_sent: false
+              mail_reminder_sent: nil,
+              mail_alert_sent: false
             }
           end
         end
