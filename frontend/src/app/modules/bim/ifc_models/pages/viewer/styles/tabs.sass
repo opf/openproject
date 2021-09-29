@@ -89,6 +89,27 @@
     .xeokit-no-prop-set-warning
       visibility: hidden
 
+    .xeokit-table
+      width: 100%
+
+      tr:first-child
+        border-top: 1px solid var(--table-row-border-color)
+
+      tr
+        border-bottom: 1px solid var(--table-row-border-color)
+
+      td:first-child
+        font-weight: bold
+
+      td
+        max-width: 300px
+        text-align: left
+        overflow-wrap: break-word
+        line-height: 1.6
+        padding-top: 0.5rem
+        padding-bottom: 0.5rem
+        vertical-align: top
+
 // Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
 $pill-padding-left: 8px
 

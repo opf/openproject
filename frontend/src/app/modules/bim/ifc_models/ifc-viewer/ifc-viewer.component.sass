@@ -10,7 +10,7 @@
     right: 10px
 
   &--container
-    width: 100%
+    flex-grow: 1
     padding-bottom: 24px
     overflow: hidden
 
@@ -44,12 +44,12 @@
       margin-left: 0.5em
 
   &--inspector-container
-    width: 420px
-    min-width: 300px
+    width: 380px
     border-left: 2px solid #eee
     border-top: 2px solid #eee
 
     @media only screen and (max-width: 679px)
+      width: 300px
       border-bottom: 2px solid #eee
 
     &-hidden
