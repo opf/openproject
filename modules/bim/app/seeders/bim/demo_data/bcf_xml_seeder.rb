@@ -41,7 +41,7 @@ module Bim
         filename = project_data_for(key, 'bcf_xml_file')
         return unless filename.present?
 
-        user = User.admin.first
+        user = User.admin.active.first
 
         print_status '    ↳ Import BCF XML file'
 

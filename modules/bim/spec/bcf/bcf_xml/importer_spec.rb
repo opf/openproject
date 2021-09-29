@@ -73,7 +73,6 @@ describe ::OpenProject::Bim::BcfXml::Importer do
     workflow
     priority
     bcf_manager_member
-    login_as(bcf_manager)
   end
 
   describe '#to_listing' do
