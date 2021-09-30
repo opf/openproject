@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../users/notifications/shared_examples'
+require_relative '../../users/notifications/shared_examples'
 
 describe "Reminder email", type: :feature, js: true do
   shared_examples 'reminder settings' do

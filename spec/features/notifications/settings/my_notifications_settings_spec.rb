@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../users/notifications/shared_examples'
+require_relative '../../users/notifications/shared_examples'
 require 'support/pages/my/notifications'
 
 describe "My notifications settings", type: :feature, js: true do
