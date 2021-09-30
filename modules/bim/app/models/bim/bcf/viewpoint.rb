@@ -42,11 +42,11 @@ module Bim::Bcf
     def snapshot=(file)
       snapshot&.destroy
       build_snapshot file
-    end
+   end
 
     def build_snapshot(file, user: User.current)
       ::Attachments::BuildService
-        .new(user: user)
+        .bypass_whitelist(user: user)
         .call(file: file, container: self, filename: file.original_filename, description: 'snapshot')
         .result
     end

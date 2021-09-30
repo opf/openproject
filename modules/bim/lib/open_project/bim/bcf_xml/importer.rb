@@ -39,26 +39,14 @@ module OpenProject::Bim::BcfXml
       end
     end
 
-    def aggregations
-      @aggregations ||= Aggregations.new(extractor_list, @project)
+    def import!(options = {})
+      User.execute_as(current_user) do
+        perform_import(options)
+      end
     end
 
-    def import!(options = {})
-      options = DEFAULT_IMPORT_OPTIONS.merge(options)
-      Zip::File.open(@file) do |zip|
-        create_or_add_missing_members(options)
-
-        # Extract all topics of the zip and save them
-        synchronize_topics(zip, options)
-
-        # TODO: Extract documents
-
-        # TODO: Extract BIM snippets
-      end
-    rescue StandardError => e
-      Rails.logger.error "Failed to import BCF Zip #{file}: #{e} #{e.message}"
-      Rails.logger.debug { e.backtrace.join("\n") }
-      raise
+    def aggregations
+      @aggregations ||= Aggregations.new(extractor_list, @project)
     end
 
     def bcf_version_valid?
@@ -75,6 +63,24 @@ module OpenProject::Bim::BcfXml
     end
 
     private
+
+    def perform_import(options)
+      options = DEFAULT_IMPORT_OPTIONS.merge(options)
+      Zip::File.open(@file) do |zip|
+        create_or_add_missing_members(options)
+
+        # Extract all topics of the zip and save them
+        synchronize_topics(zip, options)
+
+        # TODO: Extract documents
+
+        # TODO: Extract BIM snippets
+      end
+    rescue StandardError => e
+      Rails.logger.error "Failed to import BCF Zip #{file}: #{e} #{e.message}"
+      Rails.logger.debug { e.backtrace.join("\n") }
+      raise
+    end
 
     def create_or_add_missing_members(options)
       treat_invalid_people(options)

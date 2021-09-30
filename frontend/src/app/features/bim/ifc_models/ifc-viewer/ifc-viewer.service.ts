@@ -16,6 +16,7 @@ export interface XeokitElements {
   canvasElement:HTMLElement;
   explorerElement:HTMLElement;
   toolbarElement:HTMLElement;
+  inspectorElement:HTMLElement;
   navCubeCanvasElement:HTMLElement;
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
@@ -51,6 +52,8 @@ export class IFCViewerService extends ViewerBridgeService {
 
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
 
+  public inspectorVisible$ = new BehaviorSubject<boolean>(false);
+
   private _viewer:any;
 
   @InjectField() pathHelper:PathHelperService;
@@ -82,6 +85,10 @@ export class IFCViewerService extends ViewerBridgeService {
 
       viewerUI.on('addModel', (event:Event) => { // "Add" selected in Models tab's context menu
         window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
+      });
+
+      viewerUI.on('openInspector', () => {
+        this.inspectorVisible$.next(true);
       });
 
       viewerUI.on('editModel', (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
@@ -167,7 +174,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        idFromLink(workPackage.project.href),
+        workPackage.project.idFromLink,
         workPackage.id!,
         index,
       );
