@@ -632,6 +632,10 @@ de:
               no_notification_reason: 'darf nicht leer sein, da E-Mail als Kanal ausgewählt ist.'
             reason_mail_digest:
               no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -2429,6 +2433,7 @@ de:
       retention_text: >
         Legen Sie die Anzahl der Tage fest, in denen Benachrichtigungen für Benutzer im System gehalten werden. Alle Ereignisse, die älter als diese Zeit sind, werden gelöscht und stehen nicht mehr als In-App-Benachrichtigungen zur Verfügung.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Wenn beide Optionen "%{day_of_week_setting_name}" oder "%{first_week_setting_name}" gesetzt sind der andere muss ebenfalls gesetzt werden, um Ungereimtheiten im Frontend zu vermeiden.
@@ -2539,7 +2544,6 @@ de:
   text_regexp_info: "z. B. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Der reguläre Ausdruck wird in einem mehrzeiligen Modus angewandt, z.B. ^---\s+'
   text_repository_usernames_mapping: "Bitte legen Sie die Zuordnung der OpenProject-Benutzer zu den Benutzernamen der Commit-Log-Meldungen des Projektarchivs fest.\nBenutzer mit identischen OpenProject- und Projektarchiv-Benutzernamen oder -E-Mail-Adressen werden automatisch zugeordnet."
-  text_select_notifications: "Wählen Sie Aktionen aus, für die Benachrichtigungen gesendet werden sollen."
   text_status_changed_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."
   text_table_difference_description: "Diese Tabelle zeigt einzelne %{entries} des Projektarchivs. Sie können über die Checkboxen zwei Einträge markieren und über den Schalter unter der Tabelle die Unterschiede zwischen den zwei markierten Einträgen anzeigen lassen."
   text_time_logged_by_changeset: "Status geändert durch Projektarchiv-Änderung %{value}."

@@ -489,7 +489,7 @@ ru:
         wiki: 'В пределах <b>вики</b> возможно документирование и обмен знаниями в вашей команде.'
         backlogs:
           overview: "Управляйте своей работой в представлении <b>backlogs</b>."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "Справа у вас есть бэклог продукта и бэклог ошибок, слева у вас есть соответствующие спринты. Здесь вы можете создать <b>эпики, пользовательские истории и ошибки</b>, приоритизировать через перетаскивание и добавить их в спринт."
           task_board_arrow: 'Чтобы увидеть вашу <b>панель задач</b>, откройте выпадающий спринт...'
           task_board_select: '... и выберите строку <b>Панель задач</b>.'
           task_board: "Панель задач визуализирует прогресс <b>для этого спринта</b>. Нажмите на значок плюс (+) рядом с пользовательской историей, чтобы добавить новые задачи или препятствия. <br> Статус можно обновить перетаскиванием."
@@ -513,49 +513,49 @@ ru:
       reasons:
         mentioned: 'упомянутый'
         watched: 'просмотрено'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        assigned: 'назначено'
+        responsible: 'подотчетный'
       facets:
         unread: 'Непрочтено'
         all: 'Bсе'
       center:
         and_more_users:
-          one: 'and 1 other'
-          few: 'and %{count} others'
-          many: 'and %{count} others'
-          other: 'and %{count} others'
+          one: 'и еще 1'
+          few: 'и %{count} других'
+          many: 'и %{count} других'
+          other: 'и %{count} других'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
       settings:
         title: "Настройки уведомлений"
-        notify_me: "Notify me"
+        notify_me: "Уведомить меня"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Я @mentioned'
+            description: 'Получать уведомления каждый раз, когда кто-то упоминает меня в любом месте'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Назначен мне или подотчетен'
+            description: 'Получать уведомления о всех видах деятельности в пакетах работ, с которыми я связан.'
+          watched: 'Обновления просмотренных элементов'
+          work_package_commented: 'Все новые комментарии'
+          work_package_created: 'Новые пакеты работ'
+          work_package_processed: 'Все изменения статуса'
+          work_package_prioritized: 'все приоритетные изменения'
+          work_package_scheduled: 'Все изменения даты'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Сразу уведомить меня'
+            description: 'Эти настройки применяются ко всем проектам. Вы можете создать исключения, специфичные для конкретного проекта.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Также уведомить меня для'
+            description: 'Получать уведомления об этих действиях в пакетах работ всех проектов:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: 'Конкретные настройки уведомлений проекта'
+          description: 'Эти настройки специфического проекта переопределяют настройки по умолчанию'
+          add: 'Добавить настройку для проекта'
+          already_selected: 'Этот проект уже выбран'
     password_confirmation:
       field_description: 'Необходимо ввести свой пароль для подтверждения изменений.'
       title: 'Для продолжения введите свой пароль'
@@ -585,15 +585,27 @@ ru:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Добавить время'
+          enable: 'Включить ежедневные напоминания по электронной почте'
+          explanation: 'Вы будете получать эти напоминания только для непрочитанных уведомлений и только в часах, которые вы указали.'
+          time_label: 'Время %{counter}:'
+          title: 'Посылать мне ежедневные напоминания по электронной почте для непрочитанных уведомлений'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
-        title: 'Email reminders'
+          title: 'Отправить мне напоминание по электронной почте'
+          mentioned: 'Сразу же когда кто-то @упоминает меня'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Новость добавлена'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki-страница добавлена'
+          wiki_page_updated: 'Wiki-страница обновлена'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'Почтовые напоминания'
     text_are_you_sure: "Вы уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
     types:

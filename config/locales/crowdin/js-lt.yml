@@ -594,6 +594,18 @@ lt:
         immediate:
           title: 'Siųsti man e-pašto priminimą'
           mentioned: 'Iš karto, kai kažkas @pamini mane'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Pridėta naujiena'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki puslapis pridėtas'
+          wiki_page_updated: 'Wiki puslapis atnaujintas'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'El.pašto priminimai'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Įvesta informacija bus prarasta"
