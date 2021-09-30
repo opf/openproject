@@ -42,6 +42,8 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  # Let the date be one where workdays are enabled by default
+  # to avoid specifying them explictly
   let(:current_time) { "2021-09-30T08:10:59Z".to_datetime }
   let(:scope_time) { "2021-09-30T08:00:00Z".to_datetime }
 
@@ -51,10 +53,12 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       firstname: 'Paris',
       preferences: {
         time_zone: "Paris",
+        workdays: paris_user_workdays,
         daily_reminders: paris_user_daily_reminders
       }
     )
   end
+  let(:paris_user_workdays) { [1, 2, 3, 4, 5] }
   let(:paris_user_daily_reminders) do
     {
       enabled: true,
@@ -76,6 +80,16 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  context 'for a user whose local time is matching but the workday is disabled' do
+    # Configured date is a thursday = 4
+    let(:paris_user_workdays) { [1, 2] }
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
   context 'for a user whose local time is not matching the configured time' do
     let(:current_time) { "2021-09-30T08:20:59Z".to_datetime }
     let(:scope_time) { "2021-09-30T08:15:00Z".to_datetime }
@@ -83,6 +97,84 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     it 'is empty' do
       expect(scope)
         .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is on the previous workday' do
+    # 8:00 thursday UTC = 22:00 wednesday Hawaii
+    let(:hawaii_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Hawaii',
+        preferences: {
+          time_zone: "Hawaii",
+          workdays: hawaii_user_workdays,
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Hawaii", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [hawaii_user] }
+    let(:hawaii_user_workdays) { paris_user_workdays }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([hawaii_user])
+    end
+
+    context 'when the user disables Wednesday as a workday' do
+      let(:hawaii_user_workdays) { [1, 2, 4, 5, 6, 7] }
+
+      it 'is empty' do
+        expect(scope)
+          .to be_empty
+      end
+    end
+  end
+
+
+  context 'for a user whose local time is on the next workday' do
+    # 12:00 thursday UTC = 03:00 friday @ Samoa
+    let(:current_time) { "2021-09-30T12:05:59Z".to_datetime }
+    let(:scope_time) { "2021-09-30T12:00:00Z".to_datetime }
+
+    let(:samoa_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Samoa',
+        preferences: {
+          time_zone: "Samoa",
+          workdays: samoa_user_workdays,
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Samoa", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: samoa_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [samoa_user] }
+    let(:samoa_user_workdays) { paris_user_workdays }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([samoa_user])
+    end
+
+    context 'when the user disables Wednesday as a workday' do
+      let(:samoa_user_workdays) { [1, 2, 3, 4, 6, 7] }
+
+      it 'is empty' do
+        expect(scope)
+          .to be_empty
+      end
     end
   end
 
