@@ -29,35 +29,43 @@
 #++
 
 module SearchHelper
-  def highlight_tokens(text, tokens)
-    return text unless text && tokens && !tokens.empty?
+  def highlight_tokens(text, tokens, text_on_not_found: false)
+    split_text = text_split_by_token(text, tokens)
 
-    re_tokens = tokens.map { |t| Regexp.escape(t) }
-    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
+    return nil unless split_text.length > 1 || text_on_not_found
+
     result = ''
-    text.split(regexp).each_with_index do |words, i|
+    split_text.each_with_index do |words, i|
       if result.length > 1200
         # maximum length of the preview reached
         result << '...'
         break
       end
-      if i.even?
-        result << h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
-      else
-        t = (tokens.index(words.downcase) || 0) % 4
-        result << content_tag('span', h(words), class: "search-highlight token-#{t}")
-      end
+
+      result << if i.even?
+                  abbreviated_text(words)
+                else
+                  token_span(tokens, words)
+                end
     end
     result.html_safe
   end
 
-  def highlight_first(texts, tokens)
-    texts.each do |text|
-      if has_tokens? text, tokens
-        return highlight_tokens text, tokens
-      end
-    end
-    highlight_tokens texts[-1], tokens
+  def highlight_tokens_in_event(event, tokens)
+    # This way, the attachments are only loaded in case the tokens are not found inside
+    # the journal notes.
+    highlight_tokens(last_journal(event).try(:notes), tokens) or
+      highlight_tokens(attachment_fulltexts(event), tokens) or
+      highlight_tokens(attachment_filenames(event), tokens) or
+      highlight_tokens(event.event_description, tokens, text_on_not_found: true)
+  end
+
+  def text_split_by_token(text, tokens)
+    return [text].compact unless text && tokens && !tokens.empty?
+
+    re_tokens = tokens.map { |t| Regexp.escape(t) }
+    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
+    text.split(regexp)
   end
 
   def has_tokens?(text, tokens)
@@ -88,14 +96,6 @@ module SearchHelper
     end
   end
 
-  def attachment_fulltexts(event)
-    attachment_strings_for(:fulltext, event)
-  end
-
-  def attachment_filenames(event)
-    attachment_strings_for(:filename, event)
-  end
-
   def type_label(t)
     OpenProject::GlobalSearch.tab_name(t)
   end
@@ -124,9 +124,30 @@ module SearchHelper
 
   private
 
-  def attachment_strings_for(attribute_name, event)
-    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
-      event.attachments&.map(&attribute_name)&.join(' ')
+  def attachment_fulltexts(event)
+    only_if_tsv_supported(event) do
+      Attachment.where(id: event.attachment_ids).pluck(:fulltext).join(' ')
     end
+  end
+
+  def attachment_filenames(event)
+    only_if_tsv_supported(event) do
+      event.attachments&.map(&:filename)&.join(' ')
+    end
+  end
+
+  def only_if_tsv_supported(event)
+    if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv? && event.respond_to?(:attachments)
+      yield
+    end
+  end
+
+  def token_span(tokens, words)
+    t = (tokens.index(words.downcase) || 0) % 4
+    content_tag('span', h(words), class: "search-highlight token-#{t}")
+  end
+
+  def abbreviated_text(words)
+    h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
   end
 end
