@@ -102,22 +102,22 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   showNextNotification():void {
     void this
-    .query
-    .notifications$
-    .pipe(
-      take(1),
-    ).subscribe((notifications) => {
-      if (notifications.length <= 0) {
-        void this.state.go(
-          `${(this.state.current.data).baseRoute}`
-        );
-        return;
-      }
-      if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
-        const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource!.href);
-        this.openSplitScreen(wpId);
-      }
-    });
+      .query
+      .notifications$
+      .pipe(
+        take(1),
+      ).subscribe((notifications) => {
+        if (notifications.length <= 0) {
+          void this.state.go(
+            `${(this.state.current.data).baseRoute}`,
+          );
+          return;
+        }
+        if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
+          const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource!.href);
+          this.openSplitScreen(wpId);
+        }
+      });
   }
 
   /**
@@ -130,7 +130,6 @@ export class IanCenterService extends UntilDestroyedMixin {
         .resourceService
         .removeFromCollection(this.query.params, action.notifications);
         this.showNextNotification();
-
     } else {
       this.reload().subscribe(() => {
         this.showNextNotification();
@@ -145,7 +144,7 @@ export class IanCenterService extends UntilDestroyedMixin {
         setLoading(this.store),
         switchMap((results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))),
         switchMap(() => this.query.notifications$),
-        take(1)
+        take(1),
       );
   }
 
