@@ -29,12 +29,17 @@
 #++
 
 class WorkPackageMailer < ApplicationMailer
+  helper :mail_notification
+
   def mentioned(recipient, journal)
+    @user = recipient
+    @work_package = journal.journable
+    @journal = journal
+
     author = journal.user
-    work_package = journal.journable
 
     User.execute_as author do
-      set_work_package_headers(work_package)
+      set_work_package_headers(@work_package)
 
       message_id journal, recipient
 
@@ -42,8 +47,8 @@ class WorkPackageMailer < ApplicationMailer
         mail to: recipient.mail,
              subject: I18n.t(:'mail.mention.subject',
                              user_name: author.name,
-                             id: work_package.id,
-                             subject: work_package.subject)
+                             id: @work_package.id,
+                             subject: @work_package.subject)
       end
     end
   end

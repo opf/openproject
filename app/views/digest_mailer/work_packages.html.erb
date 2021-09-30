@@ -16,7 +16,9 @@
         <%= render layout: 'mailer/notification_row',
                    locals: {
                      work_package: work_package,
-                     notifications_by_work_package: notifications_by_work_package
+                     unique_reasons: unique_reasons_of_notifications(notifications_by_work_package),
+                     show_count: true,
+                     count: notifications_by_work_package.length
                    } do %>
           <table <%= placeholder_table_styles %>>
             <% notifications_by_work_package.each do | notification | %>
@@ -54,7 +56,7 @@
                           <span style="font-size:14px;">
                             <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
                             <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
-                            <%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
+                            <%= I18n.t(:"mail.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
                           </span>
                         </td>
                         <%= placeholder_cell('10px', vertical: true) %>
@@ -69,7 +71,7 @@
                               text-decoration: none;
                               font-size:14px;
                               white-space: nowrap;">
-                            <%= I18n.t(:'mail.digests.work_packages.see_all') %>
+                            <%= I18n.t(:'mail.work_packages.see_all') %>
                           </a>
                         </td>
                       </tr>
