@@ -54,7 +54,7 @@ module Pages
       end
 
       def model_viewer_visible(visible)
-        selector = '.ifc-model-viewer--model-canvas'
+        selector = '.op-ifc-viewer--model-canvas'
         expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
       end
 
@@ -62,12 +62,12 @@ module Pages
         selector = '.xeokit-btn'
 
         if visible
-          within ('.ifc-model-viewer--toolbar-container') do
+          within ('.op-ifc-viewer--toolbar') do
             expect(page).to have_selector(selector, count: 9)
           end
         else
           expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('.ifc-model-viewer--toolbar-container')
+          expect(page).to have_no_selector('.op-ifc-viewer--toolbar')
         end
       end
 

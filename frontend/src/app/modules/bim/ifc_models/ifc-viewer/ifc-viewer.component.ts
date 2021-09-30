@@ -33,34 +33,40 @@ import {
   HostListener,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
-import { IFCViewerService } from "core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service";
-import { IfcModelsDataService } from "core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service";
-import { I18nService } from "core-app/modules/common/i18n/i18n.service";
-import { CurrentUserService } from "core-app/modules/current-user/current-user.service";
-import { CurrentProjectService } from "core-app/components/projects/current-project.service";
+import { IFCViewerService } from 'core-app/modules/bim/ifc_models/ifc-viewer/ifc-viewer.service';
+import { IfcModelsDataService } from 'core-app/modules/bim/ifc_models/pages/viewer/ifc-models-data.service';
+import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
+import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
+import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: 'ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
   styleUrls: ['./ifc-viewer.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerComponent implements OnInit, OnDestroy {
   private viewerUI:any;
+
   modelCount:number;
+
   canManage = this.ifcData.allowed('manage_ifc_models');
 
   text = {
     empty_warning: this.I18n.t('js.ifc_models.empty_warning'),
     use_this_link_to_manage: this.I18n.t('js.ifc_models.use_this_link_to_manage'),
-    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled')
+    keyboard_input_disabled: this.I18n.t('js.ifc_models.keyboard_input_disabled'),
   };
 
   keyboardEnabled = false;
 
+  public inspectorVisible$:BehaviorSubject<boolean>;
+
   @ViewChild('outerContainer') outerContainer:ElementRef;
+
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
@@ -69,6 +75,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
               private ifcViewer:IFCViewerService,
               private currentUserService:CurrentUserService,
               private currentProjectService:CurrentProjectService) {
+    this.inspectorVisible$ = this.ifcViewer.inspectorVisible$;
   }
 
   ngOnInit():void {
@@ -85,27 +92,32 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         [
           'ifc_models/create',
           'ifc_models/update',
-          'ifc_models/destroy'
+          'ifc_models/destroy',
         ],
-        this.currentProjectService.id as string
-      ).subscribe((manageIfcModelsAllowed) => {
+        this.currentProjectService.id as string,
+      )
+      .subscribe((manageIfcModelsAllowed) => {
         this.ifcViewer.newViewer(
           {
-            canvasElement: element.find(".ifc-model-viewer--model-canvas")[0], // WebGL canvas
-            explorerElement: jQuery(".ifc-model-viewer--tree-panel")[0], // Left panel
-            toolbarElement: element.find(".ifc-model-viewer--toolbar-container")[0], // Toolbar
-            navCubeCanvasElement: element.find(".ifc-model-viewer--nav-cube-canvas")[0],
-            busyModelBackdropElement: element.find(".xeokit-busy-modal-backdrop")[0],
-            enableEditModels: manageIfcModelsAllowed
+            canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
+            explorerElement: jQuery('.op-ifc-viewer--tree-panel')[0], // Left panel
+            toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
+            inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
+            navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
+            busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
+            enableEditModels: manageIfcModelsAllowed,
           },
-          this.ifcData.projects
-        )
+          this.ifcData.projects,
+        );
       });
-
   }
 
   ngOnDestroy():void {
     this.ifcViewer.destroy();
+  }
+
+  toggleInspector() {
+    this.ifcViewer.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
   @HostListener('mousedown')
