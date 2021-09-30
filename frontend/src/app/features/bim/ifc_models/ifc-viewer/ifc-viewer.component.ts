@@ -70,11 +70,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
 
   constructor(private I18n:I18nService,
-              private elementRef:ElementRef,
-              public ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService,
-              private currentUserService:CurrentUserService,
-              private currentProjectService:CurrentProjectService) {
+    private elementRef:ElementRef,
+    public ifcData:IfcModelsDataService,
+    private ifcViewer:IFCViewerService,
+    private currentUserService:CurrentUserService,
+    private currentProjectService:CurrentProjectService) {
     this.inspectorVisible$ = this.ifcViewer.inspectorVisible$;
   }
 
@@ -100,7 +100,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         this.ifcViewer.newViewer(
           {
             canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
-            explorerElement: jQuery('.op-ifc-viewer--tree-panel')[0], // Left panel
+            explorerElement: jQuery('[data-qa-selector="op-ifc-viewer--tree-panel"]')[0], // Left panel
             toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
             inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
             navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
@@ -130,7 +130,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element) {
-    if (this.modelCount && !this.outerContainer.nativeElement!.contains(target)) {
+    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewer.setKeyboardEnabled(false);
     }
