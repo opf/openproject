@@ -116,12 +116,12 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     this.ifcViewer.destroy();
   }
 
-  toggleInspector() {
+  toggleInspector():void {
     this.ifcViewer.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
   @HostListener('mousedown')
-  enableKeyBoard() {
+  enableKeyBoard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
       this.ifcViewer.setKeyboardEnabled(true);
@@ -129,14 +129,14 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element) {
+  disableKeyboard(target:Element):void {
     if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewer.setKeyboardEnabled(false);
     }
   }
 
-  enableFromIcon(event:MouseEvent) {
+  enableFromIcon(event:MouseEvent):boolean {
     this.enableKeyBoard();
 
     // Focus on the canvas

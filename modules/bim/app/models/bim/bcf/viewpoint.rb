@@ -42,7 +42,7 @@ module Bim::Bcf
     def snapshot=(file)
       snapshot&.destroy
       build_snapshot file
-   end
+    end
 
     def build_snapshot(file, user: User.current)
       ::Attachments::BuildService
