@@ -73,7 +73,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   setFacet(facet:InAppNotificationFacet):void {
     this.store.update({ activeFacet: facet });
-    this.reload();
+    this.reload().subscribe();
   }
 
   markAsRead(notifications:ID[]):void {
@@ -100,6 +100,26 @@ export class IanCenterService extends UntilDestroyedMixin {
     );
   }
 
+  showNextNotification():void {
+    void this
+    .query
+    .notifications$
+    .pipe(
+      take(1),
+    ).subscribe((notifications) => {
+      if (notifications.length <= 0) {
+        void this.state.go(
+          `${(this.state.current.data).baseRoute}`
+        );
+        return;
+      }
+      if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
+        const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource!.href);
+        this.openSplitScreen(wpId);
+      }
+    });
+  }
+
   /**
    * Reload after notifications were successfully marked as read
    */
@@ -109,31 +129,24 @@ export class IanCenterService extends UntilDestroyedMixin {
       this
         .resourceService
         .removeFromCollection(this.query.params, action.notifications);
+        this.showNextNotification();
 
-      this
-        .query
-        .notifications$
-        .pipe(
-          take(1),
-        ).subscribe((notifications) => {
-          if (notifications[this.selectedNotificationIndex][0]._links.resource) {
-            const wpId = idFromLink(notifications[this.selectedNotificationIndex][0]._links.resource!.href);
-            this.openSplitScreen(wpId);
-          }
-        });
     } else {
-      this.reload();
+      this.reload().subscribe(() => {
+        this.showNextNotification();
+      });
     }
   }
 
   private reload() {
-    this.resourceService
+     return this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
         setLoading(this.store),
         switchMap((results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))),
-      )
-      .subscribe();
+        switchMap(() => this.query.notifications$),
+        take(1)
+      );
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
@@ -170,7 +183,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       ).subscribe((notifications) => {
         for (let i = 0; i < notifications.length; ++i) {
           if (notifications[i][0]._links.resource
-            && idFromLink(notifications[i][0]._links.resource!.href) === this.uiRouterGlobals.params.workPackageId) {// eslint-disable-line @typescript-eslint/no-non-null-assertion
+            && idFromLink(notifications[i][0]._links.resource!.href) === this.uiRouterGlobals.params.workPackageId) { // eslint-disable-line @typescript-eslint/no-non-null-assertion
             this.selectedNotificationIndex = i;
             return;
           }
