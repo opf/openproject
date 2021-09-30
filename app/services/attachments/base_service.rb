@@ -23,29 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
 module Attachments
-  class BuildService < BaseService
-    private
-
-    def persist(service_result)
-      attachment = service_result.result
-      add_to_association(attachment)
-
-      unless attachment.valid?
-        service_result.errors = attachment.errors
-        service_result.success = false
-      end
-
-      service_result
-    end
-
-    def add_to_association(attachment)
-      return unless attachment.container
-
-      attachment.container.association(:attachments).add_to_target(attachment)
+  class BaseService < ::BaseServices::Create
+    ##
+    # Create an attachment service bypassing the user-provided whitelist
+    # for internal purposes such as exporting data.
+    #
+    # @param user The user to call the service with
+    # @param whitelist A custom whitelist to validate with, or empty to disable validation
+    #
+    # Warning: When passing an empty whitelist, this results in no validations on the content type taking place.
+    def self.bypass_whitelist(user:, whitelist: [])
+      new(user: user, contract_options: { whitelist: whitelist.map(&:to_s) })
     end
   end
 end
