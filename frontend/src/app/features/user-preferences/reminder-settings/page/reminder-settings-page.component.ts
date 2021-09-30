@@ -35,6 +35,7 @@ interface IReminderSettingsFormValue {
   immediateReminders:ImmediateRemindersSettings,
   dailyReminders:DailyRemindersSettings,
   emailAlerts:Record<EmailAlertType, boolean>;
+  workdays:boolean[];
 }
 
 @Component({
@@ -158,7 +159,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     const globalNotifications = prefs.notifications.filter((notification) => !notification._links.project.href);
     const projectNotifications = prefs.notifications.filter((notification) => !!notification._links.project.href);
     const reminderSettings = (this.form.value as IReminderSettingsFormValue);
-    const workdays = ReminderSettingsPageComponent.buildWorkdays(this.form.value.workdays as boolean[]);
+    const workdays = ReminderSettingsPageComponent.buildWorkdays(reminderSettings.workdays);
 
     this.storeService.update(this.userId, {
       ...prefs,

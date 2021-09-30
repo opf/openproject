@@ -14,4 +14,3 @@ class AddReminderWorkdays < ActiveRecord::Migration[6.1]
     remove_index_if_exists :user_preferences, :index_user_prefs_settings_workdays
   end
 end
-

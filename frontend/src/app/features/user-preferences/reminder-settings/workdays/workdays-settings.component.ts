@@ -14,7 +14,7 @@ import * as moment from 'moment';
   selector: 'op-workdays-settings',
   templateUrl: './workdays-settings.component.html',
   styleUrls: ['./workdays-settings.component.sass'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkdaysSettingsComponent implements OnInit {
   control:FormArray;
@@ -32,7 +32,7 @@ export class WorkdaysSettingsComponent implements OnInit {
    * Working with the FormArray however, we use 0=Monday, 6=Sunday and add one before saving
    * @private
    */
-  private isoWorkdays:string[] = this.buildISOWeekdays();
+  private isoWorkdays:string[] = WorkdaysSettingsComponent.buildISOWeekdays();
 
   constructor(
     readonly formGroup:FormGroupDirective,
@@ -53,7 +53,7 @@ export class WorkdaysSettingsComponent implements OnInit {
   }
 
   /** Workdays from moment.js are in non-ISO order, that means Sunday=0, Saturday=6 */
-  private buildISOWeekdays():string[] {
+  static buildISOWeekdays():string[] {
     const days = moment.weekdays(false);
 
     days.push(days.shift() as string);

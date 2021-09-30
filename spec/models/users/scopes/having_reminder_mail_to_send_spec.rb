@@ -137,7 +137,6 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
-
   context 'for a user whose local time is on the next workday' do
     # 12:00 thursday UTC = 03:00 friday @ Samoa
     let(:current_time) { "2021-09-30T12:05:59Z".to_datetime }
