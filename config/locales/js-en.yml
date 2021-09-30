@@ -645,6 +645,8 @@ en:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
