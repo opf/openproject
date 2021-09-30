@@ -762,6 +762,9 @@ en:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
         user_preference:
           attributes:
+            workdays:
+              iso_workday: "can only contain numbers between 1-7."
+              no_duplicates: "must not contain any duplicates."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:

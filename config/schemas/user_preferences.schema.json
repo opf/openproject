@@ -23,10 +23,7 @@
                     "type": "boolean"
                 },
                 "workdays": {
-                  "type": "array",
-                  "items": {
-                    "type": "number"
-                  }
+                  "type": "array"
                 },
                 "daily_reminders": {
                     "$ref": "#/definitions/DailyReminders"

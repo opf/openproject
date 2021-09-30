@@ -236,4 +236,26 @@ describe UserPreferences::UpdateContract do
 
     it_behaves_like 'contract is invalid', time_zone: :inclusion
   end
+
+  describe 'workdays' do
+    context 'with duplicate entries' do
+      let(:settings) do
+        {
+          workdays: [1, 1]
+        }
+      end
+
+      it_behaves_like 'contract is invalid', workdays: :no_duplicates
+    end
+
+    context 'with non-iso entries' do
+      let(:settings) do
+        {
+          workdays: [nil, 'foo', :bar, 21345, 2.0]
+        }
+      end
+
+      it_behaves_like 'contract is invalid', workdays: :iso_workday
+    end
+  end
 end
