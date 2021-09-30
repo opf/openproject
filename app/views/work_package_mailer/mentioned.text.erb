@@ -8,6 +8,6 @@
 <%= "=" * (('# ' + @work_package.id.to_s + @work_package.subject).length + 4) %>
 
 <%= I18n.t(:label_comment_added) %>:
-<%= @journal.notes %>
+<%= strip_tags @journal.notes %>
 
 <%= "-" * 100 %>

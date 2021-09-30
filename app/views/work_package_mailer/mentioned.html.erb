@@ -15,15 +15,15 @@
       <%= render layout: 'mailer/notification_row',
                  locals: {
                    work_package: @work_package,
-                   unique_reasons: [I18n.t(:'mail.work_packages.reason.mentioned')],
+                   unique_reasons: [:mentioned],
                    show_count: false
                  } do %>
         <table <%= placeholder_table_styles %>>
-            <tr>
-              <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
-                <%= @journal.notes.html_safe %>
-              </td>
-            </tr>
+          <tr>
+            <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
+              <%= simple_format @journal.notes %>
+            </td>
+          </tr>
         </table>
       <% end %>
 
