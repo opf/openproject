@@ -24,6 +24,7 @@ export const ianMenuSelector = 'op-ian-menu';
 export class IanMenuComponent implements OnInit {
   baseMenuItems = [
     {
+      key: 'inbox',
       title: this.I18n.t('js.notifications.menu.inbox'),
       icon: 'inbox',
       href: this.getHrefForFilters({}),
@@ -57,6 +58,13 @@ export class IanMenuComponent implements OnInit {
     },
   ];
 
+  baseMenuItemNotifications$ = this.ianMenuService.query.baseMenuItemNotifications$.pipe(
+    map((items) => this.baseMenuItems.map((baseItem) => ({
+      ...items.find((item) => item.value === baseItem.key),
+      ...baseItem,
+    }))),
+  );
+
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
     map((items) => items
       .map((item) => ({
@@ -81,11 +89,12 @@ export class IanMenuComponent implements OnInit {
   );
 
   menuItems$ = combineLatest([
+    this.baseMenuItemNotifications$,
     this.notificationsByProject$,
     this.notificationsByReason$,
   ]).pipe(
-    map(([byProject, byReason]) => [
-      ...this.baseMenuItems,
+    map(([baseMenu, byProject, byReason]) => [
+      ...baseMenu,
       {
         title: this.I18n.t('js.notifications.menu.by_reason'),
         collapsible: true,

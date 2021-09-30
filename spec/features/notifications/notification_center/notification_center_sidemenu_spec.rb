@@ -1,7 +1,6 @@
 require 'spec_helper'
-require 'support/components/notifications/center'
 
-describe "Notification center sidemenu", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe "Notification center sidemenu", type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
   shared_let(:project2) { FactoryBot.create :project }
   shared_let(:project3) { FactoryBot.create :project, parent: project2 }
@@ -18,7 +17,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
   shared_let(:work_package3) { FactoryBot.create :work_package, project: project3, author: other_user }
   shared_let(:work_package4) { FactoryBot.create :work_package, project: project3, author: other_user }
 
-  shared_let(:notification) do
+  let!(:notification) do
     FactoryBot.create :notification,
                       recipient: recipient,
                       project: project,
@@ -26,7 +25,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
                       reason_ian: :watched
   end
 
-  shared_let(:notification2) do
+  let!(:notification2) do
     FactoryBot.create :notification,
                       recipient: recipient,
                       project: project2,
@@ -34,7 +33,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
                       reason_ian: :assigned
   end
 
-  shared_let(:notification3) do
+  let!(:notification3) do
     FactoryBot.create :notification,
                       recipient: recipient,
                       project: project3,
@@ -42,7 +41,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
                       reason_ian: :responsible
   end
 
-  shared_let(:notification4) do
+  let!(:notification4) do
     FactoryBot.create :notification,
                       recipient: recipient,
                       project: project3,
@@ -87,7 +86,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
       # ... and show only those projects with a notification
       side_menu.expect_item_not_visible project.name
       side_menu.expect_item_with_count project2.name, 1
-      side_menu.expect_item_with_count project3.name, 2
+      side_menu.expect_item_with_count "... #{project3.name}", 2
 
       # Marking all as read
       center.mark_all_read
@@ -99,7 +98,7 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
 
       side_menu.expect_item_not_visible project.name
       side_menu.expect_item_not_visible project2.name
-      side_menu.expect_item_not_visible project3.name
+      side_menu.expect_item_not_visible "... #{project3.name}"
     end
 
     it 'updates the content when a filter is clicked' do
@@ -108,36 +107,43 @@ describe "Notification center sidemenu", type: :feature, js: true, with_settings
 
       # Filter for "Watching"
       side_menu.click_item 'Watching'
+      side_menu.finished_loading
       center.expect_work_package_item notification
       center.expect_no_item notification2, notification3, notification4
 
       # Filter for "Assignee"
-      side_menu.click_item 'Assignee'
+      side_menu.click_item 'Assigned'
+      side_menu.finished_loading
       center.expect_work_package_item notification2
       center.expect_no_item notification, notification3, notification4
 
-      # Filter for "Responsible"
-      side_menu.click_item 'Responsible'
+      # Filter for "Accountable"
+      side_menu.click_item 'Accountable'
+      side_menu.finished_loading
       center.expect_work_package_item notification3
       center.expect_no_item notification, notification2, notification4
 
       # Filter for "@mentioned"
       side_menu.click_item '@mentioned'
+      side_menu.finished_loading
       center.expect_work_package_item notification4
       center.expect_no_item notification, notification2, notification3
 
       # Filter for project1
       side_menu.click_item project.name
+      side_menu.finished_loading
       center.expect_work_package_item notification
       center.expect_no_item notification2, notification3, notification4
 
       # Filter for project3
-      side_menu.click_item project3.name
+      side_menu.click_item "... #{project3.name}"
+      side_menu.finished_loading
       center.expect_work_package_item notification3, notification4
       center.expect_no_item notification, notification2
 
       # Reset by clicking on the Inbox
       side_menu.click_item 'Inbox'
+      side_menu.finished_loading
       center.expect_work_package_item notification, notification2, notification3, notification4
     end
   end

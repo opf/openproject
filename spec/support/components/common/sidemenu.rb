@@ -43,21 +43,25 @@ module Components
       end
 
       def expect_item_with_count(item, count)
-        within "[data-qa-selector='op-sidemenu--item-action--#{item.delete(' ')}']" do
+        within item_action_selector(item) do
           expect(page).to have_text item
           expect_count(count)
         end
       end
 
       def expect_item_with_no_count(item)
-        within "[data-qa-selector='op-sidemenu--item-action--#{item.delete(' ')}']" do
+        within item_action_selector(item) do
           expect(page).to have_text item
           expect_no_count
         end
       end
 
       def click_item(item)
-        page.find(item_selector, text: item).click
+        page.find(item_action_selector(item), text: item).click
+      end
+
+      def finished_loading
+        expect(page).to have_no_selector('.op-ian-center--loading-indicator')
       end
 
       private
@@ -68,6 +72,10 @@ module Components
 
       def expect_no_count
         expect(page).to have_no_selector('.op-bubble')
+      end
+
+      def item_action_selector(item)
+        "[data-qa-selector='op-sidemenu--item-action--#{item.delete(' ')}']"
       end
 
       def item_selector

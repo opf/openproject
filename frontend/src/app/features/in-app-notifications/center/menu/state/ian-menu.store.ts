@@ -12,7 +12,13 @@ export interface IanMenuGroupingData {
   };
 }
 
+export interface BaseMenuItemData {
+  value:string;
+  count:number;
+}
+
 export interface IanMenuState {
+  baseMenuItemNotifications:BaseMenuItemData[]
   notificationsByProject:IanMenuGroupingData[],
   notificationsByReason:IanMenuGroupingData[],
   projectsFilter:Apiv3ListParameters,
@@ -30,8 +36,14 @@ export const IAN_MENU_REASON_FILTERS:Apiv3ListParameters = {
   filters: [['read_ian', '=', false]],
 };
 
+export const IAN_MENU_INBOX_FILTER:Apiv3ListParameters = {
+  pageSize: 0,
+  filters: [['read_ian', '=', false]],
+};
+
 export function createInitialState():IanMenuState {
   return {
+    baseMenuItemNotifications: [],
     notificationsByProject: [],
     notificationsByReason: [],
     projectsFilter: {},
