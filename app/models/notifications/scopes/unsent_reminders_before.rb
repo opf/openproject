@@ -27,13 +27,20 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
 
-describe OpenProject::Notifiable do
-  describe '#all' do
-    it 'includes document_added' do
-      expect(described_class.all.map(&:name))
-        .to include('document_added')
+module Notifications::Scopes
+  module UnsentRemindersBefore
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Return notifications for the user for who email reminders shall be sent and that were created before
+      # the specified time.
+      def unsent_reminders_before(recipient:, time:)
+        where(Notification.arel_table[:created_at].lteq(time))
+          .where(recipient: recipient)
+          .where("read_ian IS NULL OR read_ian IS FALSE")
+          .where(read_mail_digest: false)
+      end
     end
   end
 end

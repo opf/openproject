@@ -27,27 +27,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'spec_helper'
 
-module OpenProject
-  NOTIFIABLE = [
-    %w(news_added),
-    %w(news_comment_added),
-    %w(message_posted),
-    %w(wiki_content_added),
-    %w(wiki_content_updated),
-    %w(membership_added),
-    %w(membership_updated)
-  ].freeze
+describe Notification,
+         type: :model do
+  describe '.save' do
+    context 'for a non existing journal (e.g. because it has been deleted)' do
+      let(:notification) { FactoryBot.build(:notification, journal_id: 55) }
 
-  Notifiable = Struct.new(:name) do
-    def to_s
-      name
-    end
-
-    # TODO: Plugin API for adding a new notification?
-    def self.all
-      OpenProject::NOTIFIABLE.map do |event_strings|
-        Notifiable.new(*event_strings)
+      it 'raises an error' do
+        expect { notification.save }
+          .to raise_error ActiveRecord::InvalidForeignKey
       end
     end
   end

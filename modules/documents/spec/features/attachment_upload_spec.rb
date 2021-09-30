@@ -33,7 +33,6 @@ describe 'Upload attachment to documents',
          js: true,
          with_settings: {
            journal_aggregation_time_minutes: 0,
-           notified_events: %w(document_added)
          } do
   let!(:user) do
     FactoryBot.create :user,

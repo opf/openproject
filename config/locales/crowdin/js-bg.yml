@@ -186,6 +186,8 @@ bg:
         new_group: 'Нова група'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
@@ -590,6 +592,18 @@ bg:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Добавени новини'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki страница добавена'
+          wiki_page_updated: 'Wiki страница обновена'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "Сигурни ли сте?"
     text_data_lost: "All entered data will be lost."

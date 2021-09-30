@@ -57,7 +57,7 @@ describe Mails::MemberCreatedJob, type: :model do
 
           expect(MemberMailer)
             .to have_received(:added_project)
-            .with(current_user, group_user_member, message)
+                  .with(current_user, group_user_member, message)
         end
       end
 
@@ -98,7 +98,7 @@ describe Mails::MemberCreatedJob, type: :model do
 
           expect(MemberMailer)
             .to have_received(:updated_project)
-            .with(current_user, group_user_member, message)
+                  .with(current_user, group_user_member, message)
         end
       end
     end

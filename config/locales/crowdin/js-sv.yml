@@ -185,6 +185,8 @@ sv:
         new_group: 'Ny grupp'
         reset_to_defaults: 'Återställ standardinställningar'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Bekräftelse av e-postadress"
           confirmation_info: >
@@ -589,6 +591,18 @@ sv:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Nyheter tillagda'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki-sidan tillagd'
+          wiki_page_updated: 'Wiki-sidan uppdaterad'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "Är du säker?"
     text_data_lost: "All entered data will be lost."

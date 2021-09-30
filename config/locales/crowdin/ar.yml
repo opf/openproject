@@ -641,6 +641,10 @@ ar:
               no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -861,7 +865,6 @@ ar:
     firstname: "الاسم الأول"
     group: "مجموعة"
     groups: "المجموعات"
-    name: "الاسم"
     id: "الهوية المُعَرِّفة"
     is_default: "القيمة الافتراضية"
     is_for_all: "لكافة المشاريع"
@@ -871,6 +874,7 @@ ar:
     lastname: "الاسم الأخير"
     login: "Username"
     mail: "البريد الإكتروني"
+    name: "الاسم"
     password: "كلمة المرور"
     priority: "الأولوية"
     project: "مشروع"
@@ -1982,8 +1986,13 @@ ar:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          zero: 'There are %{count} more work packages with notifications.'
+          one: 'There is 1 more work package with notifications.'
+          two: 'There are %{count} more work packages with notifications.'
+          few: 'There are %{count} more work packages with notifications.'
+          many: 'There are %{count} more work packages with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2427,7 +2436,6 @@ ar:
   setting_enabled_scm: "تمكين SCM"
   setting_enabled_projects_columns: "Visible in project list"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "تمكين التغذية"
   setting_feeds_limit: "حد محتوى تغذية"
   setting_file_max_size_displayed: "عرض الحد الأقصى لحجم الملفات النصية المضمنة في السطر"
@@ -2502,8 +2510,8 @@ ar:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2614,7 +2622,6 @@ ar:
   text_regexp_info: "على سبيل المثال. ^[A-Z0-9] + $"
   text_regexp_multiline: 'يتم تطبيق التعبير الاعتيادي في وضع متعدد الأسطر. على سبيل المثال: ^---\s+'
   text_repository_usernames_mapping: "قم باختيار أو تحديث مستخدم \"OpenProject: المشروع المفتوح\" الذي تم تعيينه لكل اسم مستخدم وُجِد في سجل المستودع.\nالمستخدمون الذين لديهم نفس اسم المستخدم أو عنوان البريد الإلكتروني في المشروع المفتوح OpenProject والمستودع يتم تعيينهم تلقائيًّا."
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "تطبيق التغييرات %{value}."
   text_table_difference_description: "في هذا الجدول يتم إظهار %{entries} الفردية. تستطيع أن تشاهد الفرق بين أي اثنين من المدخلات بواسطة اختيار الخانات المتوافقة في الجدول أولًا. عند الضغط على الزر في أسفل الجدول، سيتم عرض الاختلافات."
   text_time_logged_by_changeset: "تطبيق التغييرات %{value}."

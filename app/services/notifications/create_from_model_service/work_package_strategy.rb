@@ -30,7 +30,7 @@
 
 module Notifications::CreateFromModelService::WorkPackageStrategy
   def self.reasons
-    %i(mentioned assigned responsible watched subscribed commented created processed prioritized scheduled)
+    %i(mentioned assigned responsible watched commented created processed prioritized scheduled)
   end
 
   def self.permission
@@ -47,10 +47,6 @@ module Notifications::CreateFromModelService::WorkPackageStrategy
 
   def self.supports_mail?
     true
-  end
-
-  def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
   end
 
   def self.watcher_users(journal)

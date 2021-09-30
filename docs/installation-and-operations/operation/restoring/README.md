@@ -125,11 +125,15 @@ If you are using docker-compose this is what you do after you started everything
 
 1. Stop the OpenProject container using `docker-compose stop web worker`.
 2. Drop the existing, seeded database using `docker exec -it db_1 psql -U postgres -c 'drop database openproject;'`
-3. Recreate the database using `docker exec -it db_1 psql -U postgres -c 'create database openproject owner openproject;'`
+3. Recreate the database using `docker exec -it db_1 psql -U postgres -c 'create database openproject owner openproject;'`<sup>*</sup>
 4. Copy the dump onto the container: `docker cp openproject.sql db_1:/`
-5. Source the dump with psql on the container: `docker exec -it db_1 psql -U postgres` followed by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
+5. Source the dump with psql on the container: `docker exec -it db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
 6. Delete the dump on the container: `docker exec -it db_1 rm openproject.sql`
 7. Restart the web and worker processes: `docker-compose start web worker`
+
+_\* If your database doesn't have an OpenProject user you either have to create one or use which ever user you used before._
+
+* * *
 
 This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
 

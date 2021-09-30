@@ -124,6 +124,8 @@ export class CurrentUserService {
             // The current page is the only page, return the results.
             return of(data.elements);
           }),
+          // Elements may incorrectly be undefined here due to the way the representer works
+          map((elements) => elements || []),
         )
         .subscribe((capabilities) => {
           this.currentUserStore.update((state) => ({

@@ -185,6 +185,8 @@ de:
         new_group: 'Neue Gruppe'
         reset_to_defaults: 'Auf Standardwerte zurücksetzen'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "E-Mail-Adresse bestätigen"
           confirmation_info: >
@@ -589,6 +591,18 @@ de:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Nachricht hinzugefügt'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Die Wiki-Seite wurde erfolgreich hinzugefügt.'
+          wiki_page_updated: 'Die Wiki-Seite wurde erfolgreich aktualisiert.'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."

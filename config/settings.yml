@@ -233,16 +233,6 @@ user_format:
 cross_project_work_package_relations:
   default: 1
   format: boolean
-notified_events:
-  serialized: true
-  default:
-  - news_added
-  - news_comment_added
-  - message_posted
-  - wiki_content_added
-  - wiki_content_updated
-  - membership_added
-  - membership_updated
 mail_handler_body_delimiters:
   default: ''
 mail_handler_ignore_filenames:
@@ -382,5 +372,6 @@ apiv3_docs_enabled:
 notification_retention_period_days:
   default: 30
   format: int
-notification_email_digest_time:
-  default: '08:00'
+attachment_whitelist:
+  serialized: true
+  default: []

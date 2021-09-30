@@ -127,7 +127,7 @@ es:
       preview: 'Alternar modo de vista previa'
       source_code: 'Alternar modo de visualización de Markdown'
       error_saving_failed: 'No se pudo guardar el documento debido al siguiente error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'Se ha producido un error dentro de CKEditor'
       mode:
         manual: 'Cambiar a visualización de Markdown'
         wysiwyg: 'Cambiar a editor WYSIWYG'
@@ -186,6 +186,8 @@ es:
         new_group: 'Nuevo grupo'
         reset_to_defaults: 'Restablecer valores predeterminados'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
@@ -479,8 +481,8 @@ es:
         next: 'Siguiente'
         got_it: 'Entendido'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
+        help_menu: 'El menú Ayuda (?) proporciona <b>recursos de ayuda adicionales</b>. Aquí puedes encontrar una guía de usuario y vídeos explicativos y más. <br> ¡Disfruta de tu trabajo con OpenProject!'
+        members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
@@ -590,6 +592,18 @@ es:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Noticias añadidas'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Página wiki añadida'
+          wiki_page_updated: 'Página wiki actualizada'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."

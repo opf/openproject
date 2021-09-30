@@ -30,6 +30,8 @@
 
 // tooltips used for arbitrary elements
 
+@use "sass:math"
+
 $tooltip--background-color: #e3f5ff
 $tooltip--border: none
 $tooltip--height: 22px
@@ -56,7 +58,7 @@ $advanced-tooltip--border: 1px solid #a7cbe1
   &:before
     margin-bottom: $tooltip--arrow-size * -1 + 1
   &:after
-    margin-bottom: $tooltip--height/-1.5
+    margin-bottom: math.div($tooltip--height, -1.5)
 
   &.-multiline
     &:before, &:after
@@ -86,9 +88,9 @@ $advanced-tooltip--border: 1px solid #a7cbe1
 
 %tooltip--after
   height: $tooltip--height
-  padding: $tooltip--height/2 $tooltip--height/2 0 $tooltip--height/2
+  padding: $tooltip--height*0.5 $tooltip--height*0.5 0 $tooltip--height*0.5
   font-size: 13px
-  line-height: $tooltip--height/2
+  line-height: $tooltip--height*0.5
   white-space: nowrap
   content: attr(data-tooltip)
   border: $tooltip--border
@@ -125,7 +127,7 @@ $advanced-tooltip--border: 1px solid #a7cbe1
     &:after
       height: auto
       width: 150px
-      padding: $tooltip--height/2
+      padding: $tooltip--height*0.5
       line-height: $tooltip--height - 3px
       white-space: normal
       text-align: left

@@ -110,10 +110,14 @@ class Journal < ApplicationRecord
   private
 
   def predecessor
-    @predecessor ||= self.class
-                     .where(journable_type: journable_type, journable_id: journable_id)
-                     .where("#{self.class.table_name}.version < ?", version)
-                     .order("#{self.class.table_name}.version DESC")
-                     .first
+    @predecessor ||= if initial?
+                       nil
+                     else
+                       self.class
+                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where("#{self.class.table_name}.version < ?", version)
+                         .order(version: :desc)
+                         .first
+                     end
   end
 end

@@ -76,8 +76,6 @@ describe Notifications::MailService, type: :model do
 
     before do
       mail
-
-      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
     it 'sends a mail' do
@@ -90,17 +88,6 @@ describe Notifications::MailService, type: :model do
 
       expect(mail)
         .to have_received(:deliver_later)
-    end
-
-    context 'with the event being disabled' do
-      let(:notification_setting) { %w(wiki_content_updated) }
-
-      it 'sends no mail' do
-        call
-
-        expect(DocumentsMailer)
-          .not_to have_received(:document_added)
-      end
     end
 
     context 'with the notification read in app already' do

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications::Scopes
-  module MailDigestBefore
-    extend ActiveSupport::Concern
+module Bim::Bcf
+  module Comments
+    class CreateContract < ::Bim::Bcf::Comments::BaseContract
+      attribute :journal
 
-    class_methods do
-      # Return notifications of the user for which mail digest is to be sent and that is created before
-      # the specified time.
-      def mail_digest_before(recipient:, time:)
-        where(Notification.arel_table[:created_at].lteq(time))
-          .where(recipient: recipient)
-          .where(read_mail_digest: false)
+      validate :validate_journal
+
+      private
+
+      def validate_journal
+        errors.add(:base, :invalid) if model.journal.journable != model.issue.work_package
       end
     end
   end

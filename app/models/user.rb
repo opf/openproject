@@ -76,7 +76,9 @@ class User < Principal
   scopes :find_by_login,
          :newest,
          :notified_on_all,
-         :watcher_recipients
+         :notified_globally,
+         :watcher_recipients,
+         :having_reminder_mail_to_send
 
   def self.create_blocked_scope(scope, blocked)
     scope.where(blocked_condition(blocked))

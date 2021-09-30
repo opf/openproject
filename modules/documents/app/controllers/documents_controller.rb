@@ -102,36 +102,9 @@ class DocumentsController < ApplicationController
     redirect_to controller: '/documents', action: 'index', project_id: @project
   end
 
-  def add_attachment
-    current_attachments = @document.attachments.pluck(:id)
-    call = attachable_update_call ::Documents::UpdateService,
-                                  model: @document,
-                                  args: document_params
-
-    if call.success? && Setting.notified_events.include?('document_added')
-      added = call.result
-                  .attachments
-                  .reject { |a| current_attachments.include?(a.id) }
-
-      notify_attachments added
-    end
-
-    redirect_to action: 'show', id: @document
-  end
-
   private
 
   def document_params
     params.fetch(:document, {}).permit('category_id', 'title', 'description')
   end
-
-  def notify_attachments(added)
-    return if added.empty?
-
-    users = added.first.container.recipients
-    users.each do |user|
-      UserMailer.attachments_added(user, added).deliver_later
-    end
-  end
-
 end

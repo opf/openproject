@@ -186,6 +186,8 @@ ko:
         new_group: '새 그룹'
         reset_to_defaults: '기본값으로 초기화'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "이메일 주소 확인"
           confirmation_info: >
@@ -589,6 +591,18 @@ ko:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: '뉴스 추가됨'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: '위키 페이지 추가됨'
+          wiki_page_updated: '위키 페이지 업데이트됨'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "계속하시겠습니까?"
     text_data_lost: "All entered data will be lost."

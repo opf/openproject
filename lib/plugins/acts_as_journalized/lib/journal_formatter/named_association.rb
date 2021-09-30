@@ -69,7 +69,7 @@ module JournalFormatter
     def associated_object(klass, id, options = {})
       cache = options[:cache]
 
-      if cache && cache.is_a?(Acts::Journalized::JournalObjectCache)
+      if cache.is_a?(Acts::Journalized::JournalObjectCache)
         cache.fetch(klass, id) do |k, i|
           k.find_by(id: i)
         end
@@ -85,9 +85,7 @@ module JournalFormatter
     def class_from_field(field)
       association = @journal.journable.class.reflect_on_association(field)
 
-      if association
-        association.class_name.constantize
-      end
+      association&.class_name&.constantize
     end
   end
 end

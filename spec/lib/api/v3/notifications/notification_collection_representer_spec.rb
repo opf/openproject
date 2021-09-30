@@ -63,6 +63,13 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
 
   include API::V3::Utilities::PathHelper
 
+  before do
+    allow(API::V3::Notifications::NotificationEagerLoadingWrapper)
+      .to receive(:wrap)
+            .with(notifications)
+            .and_return(notifications)
+  end
+
   describe 'generation' do
     subject(:collection) { representer.to_json }
 

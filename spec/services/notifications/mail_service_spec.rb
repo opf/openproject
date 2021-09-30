@@ -79,8 +79,6 @@ describe Notifications::MailService, type: :model do
 
     before do
       mail
-
-      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
     context 'with the notification being for an initial journal' do
@@ -100,18 +98,6 @@ describe Notifications::MailService, type: :model do
       end
     end
 
-    context 'with the notification being for an initial journal but the event is disabled' do
-      let(:journal_initial) { true }
-      let(:notification_setting) { %w(wiki_content_updated) }
-
-      it 'sends no mail' do
-        call
-
-        expect(UserMailer)
-          .not_to have_received(:wiki_content_added)
-      end
-    end
-
     context 'with the notification being for an update journal' do
       let(:journal_initial) { false }
 
@@ -126,18 +112,6 @@ describe Notifications::MailService, type: :model do
 
         expect(mail)
           .to have_received(:deliver_later)
-      end
-    end
-
-    context 'with the notification being for an update journal but the event is disabled' do
-      let(:journal_initial) { false }
-      let(:notification_setting) { %w(wiki_content_added) }
-
-      it 'sends no mail' do
-        call
-
-        expect(UserMailer)
-          .not_to have_received(:wiki_content_updated)
       end
     end
 
@@ -170,7 +144,6 @@ describe Notifications::MailService, type: :model do
                                recipient: recipient,
                                actor: actor)
     end
-    let(:notification_setting) { %w(news_added) }
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
 
@@ -187,8 +160,6 @@ describe Notifications::MailService, type: :model do
 
     before do
       mail
-
-      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
     context 'with the notification being for an initial journal' do
@@ -205,18 +176,6 @@ describe Notifications::MailService, type: :model do
 
         expect(mail)
           .to have_received(:deliver_later)
-      end
-    end
-
-    context 'with the notification being for an initial journal but the event is disabled' do
-      let(:journal_initial) { true }
-      let(:notification_setting) { %w() }
-
-      it 'sends no mail' do
-        call
-
-        expect(UserMailer)
-          .not_to have_received(:news_added)
       end
     end
 
@@ -248,7 +207,6 @@ describe Notifications::MailService, type: :model do
                                actor: actor,
                                read_ian: read_ian)
     end
-    let(:notification_setting) { %w(message_posted) }
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
 
@@ -264,8 +222,6 @@ describe Notifications::MailService, type: :model do
 
     before do
       mail
-
-      allow(Setting).to receive(:notified_events).and_return(notification_setting)
     end
 
     it 'sends a mail' do
@@ -279,17 +235,6 @@ describe Notifications::MailService, type: :model do
 
       expect(mail)
         .to have_received(:deliver_later)
-    end
-
-    context 'with the event being disabled' do
-      let(:notification_setting) { %w(wiki_content_updated) }
-
-      it 'sends no mail' do
-        call
-
-        expect(UserMailer)
-          .not_to have_received(:message_posted)
-      end
     end
 
     context 'with the notification read in app already' do

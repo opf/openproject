@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe Mails::DigestJob, type: :model do
+describe Mails::ReminderJob, type: :model do
   subject(:job) { described_class.perform_now(recipient) }
 
   let(:recipient) do
@@ -46,7 +46,7 @@ describe Mails::DigestJob, type: :model do
               .and_return(Time.current)
 
       allow(Notification)
-        .to receive(:mail_digest_before)
+        .to receive(:unsent_reminders_before)
               .with(recipient: recipient, time: Time.current)
               .and_return(notifications)
 

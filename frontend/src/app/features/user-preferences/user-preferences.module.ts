@@ -16,6 +16,7 @@ import { NotificationSettingsTableComponent } from './notifications-settings/tab
 import { ReminderSettingsPageComponent } from './reminder-settings/page/reminder-settings-page.component';
 import { ReminderSettingsDailyTimeComponent } from 'core-app/features/user-preferences/reminder-settings/reminder-time/reminder-settings-daily-time.component';
 import { ImmediateReminderSettingsComponent } from 'core-app/features/user-preferences/reminder-settings/immediate-reminders/immediate-reminder-settings.component';
+import { EmailAlertsSettingsComponent } from 'core-app/features/user-preferences/reminder-settings/email-alerts/email-alerts-settings.component';
 
 @NgModule({
   providers: [
@@ -29,6 +30,7 @@ import { ImmediateReminderSettingsComponent } from 'core-app/features/user-prefe
     ReminderSettingsPageComponent,
     ReminderSettingsDailyTimeComponent,
     ImmediateReminderSettingsComponent,
+    EmailAlertsSettingsComponent,
   ],
   imports: [
     CommonModule,

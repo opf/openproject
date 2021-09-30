@@ -632,6 +632,10 @@ zh-CN:
               no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -832,7 +836,6 @@ zh-CN:
     firstname: "名字"
     group: "组"
     groups: "组"
-    name: "名称"
     id: "ID"
     is_default: "默认值"
     is_for_all: "为所有项目"
@@ -842,6 +845,7 @@ zh-CN:
     lastname: "姓氏"
     login: "用户名"
     mail: "电子邮件"
+    name: "名称"
     password: "密码"
     priority: "优先级"
     project: "项目"
@@ -1893,8 +1897,8 @@ zh-CN:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2332,7 +2336,6 @@ zh-CN:
   setting_enabled_scm: "启用 SCM"
   setting_enabled_projects_columns: "在项目列表中可见"
   setting_notification_retention_period_days: "通知保留期限"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "启用Feeds"
   setting_feeds_limit: "Feed内容限制"
   setting_file_max_size_displayed: "内联显示的文本文件的最大文件大小"
@@ -2407,8 +2410,8 @@ zh-CN:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，也必须设置另一选项以避免前端不一致。
@@ -2519,7 +2522,6 @@ zh-CN:
   text_regexp_info: "例如 ^ [A-Z0-9]+$"
   text_regexp_multiline: '以多行模式应用正则表达式，如 ^---\s+'
   text_repository_usernames_mapping: "选择或更新每个在代码库日志中发现的用户名所映射到的 OpenProject 用户。\n使用相同 OpenProject 和代码库用户名或电子邮件的用户已被自动映射。"
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "被实施在变更集 %{value} 中。"
   text_table_difference_description: "此表单展现了单个%{entries}。您可以先选择多选框，再点击表单下方的按钮来比较两项之间的差异。"
   text_time_logged_by_changeset: "被实施在变更集 %{value} 中。"

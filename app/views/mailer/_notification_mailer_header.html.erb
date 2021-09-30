@@ -1,30 +1,57 @@
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-bottom: 1px solid #cccccc; margin-bottom: 32px;">
+<table <%= placeholder_table_styles(width:'100%',style: "width:100%;min-width:100%") %>>
   <tr>
-    <td width="100%" style="padding-top: 8px; padding-left: 12px;">
-      <table>
+    <td>
+      <table <%= placeholder_table_styles %>>
         <tr>
-          <td style="font-size: 24px; color: #333333; padding-bottom: 5px;">
-            <%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+          <%= placeholder_cell('12px', vertical: true) %>
+          <td>
+            <table <%= placeholder_table_styles(width:'100%',style: "width:100%") %>>
+              <tr>
+                <td>
+                  <span style="font-size: 24px; color: #333333;">
+                    <%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('8px', vertical: false) %>
+              </tr>
+              <tr>
+                <td>
+                  <span style="font-size:16px; color: #1A67A3; font-weight: bold;">
+                     <%= summary %>
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('24px', vertical: false) %>
+              </tr>
+              <tr>
+                <td>
+                  <a href="<%= notifications_center_url %>"
+                     target="_blank"
+                     style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;font-size: 14px;">
+                    <%= I18n.t(:'mail.notification.center') %>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <%= placeholder_cell('40px', vertical: false) %>
+              </tr>
+            </table>
           </td>
-        </tr>
-        <tr>
-          <td style="font-size:16px; color: #1A67A3; font-weight: bold; padding-bottom: 10px;">
-            <%= summary %>
-          </td>
-        </tr>
-        <tr>
-          <td style="padding: 10px 0 32px 0;">
-            <a href="<%= notifications_center_url %>"
-               target="_blank"
-               style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;">
-              <%= I18n.t(:'mail.notification.center') %>
-            </a>
+          <%= placeholder_cell('16px', vertical: true) %>
+          <td style="vertical-align: top;">
+            <table <%= placeholder_table_styles %>>
+              <tr>
+                <td style="width: 96px; height: 96px;">
+                  <%= logo_tag({ alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;max-width: 240px;"}) %>
+                </td>
+              </tr>
+            </table>
           </td>
         </tr>
       </table>
-    </td>
-    <td style="width: 96px; height: 96px; vertical-align: top;">
-      <%= logo_tag({ alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;"}) %>
     </td>
   </tr>
 </table>
