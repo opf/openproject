@@ -291,7 +291,7 @@ ko:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>BIM: IFC 모델 뷰어의 성능 개선.</li> <li>BIM: 이제 IFC 뷰어에서 배정밀도 모델을 지원합니다. 이 모델은 교량, 도로 등과 같은 대규모 건설 현장에 적합합니다.</li> <li>BIM: 원근 모드와 직교 모드 간에 전환하기 위한 토글 버튼.</li> <li>BIM: 단면 평면 편집, 삭제 또는 뒤집기 메뉴.</li> <li>프로젝트, 사용자 및 작업 패키지를 생성하기 위한 헤더 탐색의 새로운 버튼.</li> <li>사용자, 그룹 및 자리 표시자 사용자에 대한 새로운 초대 모달을 사용하면 새로운 사용자를 쉽게 추가하거나 초대하고 작업 패키지에 할당할 수 있습니다.</li> <li>그룹용 API v3 확장 기능 등. 예: API를 통해 그룹 및 그룹 구성원 생성, 읽기, 업데이트 및 삭제.</li> <li>유형 목록의 프로젝트 사용자 지정 필드에 대한 다중 선택.</li> <li>웹 인터페이스에서 백업 생성.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
