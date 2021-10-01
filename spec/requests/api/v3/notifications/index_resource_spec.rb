@@ -216,6 +216,25 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
     end
 
+    context 'with a non ian notification' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page_with_content) }
+
+      let(:non_ian_notification) do
+        FactoryBot.create :notification,
+                          read_ian: nil,
+                          recipient: recipient,
+                          resource: wiki_page,
+                          project: wiki_page.wiki.project,
+                          journal: wiki_page.content.journals.first
+      end
+
+      let(:notifications) { [notification2, notification1, non_ian_notification] }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
     context 'with a reason groupBy' do
       let(:responsible_notification) do
         FactoryBot.create :notification,

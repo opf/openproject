@@ -59,7 +59,7 @@ describe Notifications::CreateFromModelService, 'news', with_settings: { journal
         it_behaves_like 'creates notification' do
           let(:notification_channel_reasons) do
             {
-              read_ian: false,
+              read_ian: nil,
               reason: :subscribed,
               mail_reminder_sent: nil,
               mail_alert_sent: false
