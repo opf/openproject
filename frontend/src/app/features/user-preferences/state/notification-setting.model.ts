@@ -1,10 +1,7 @@
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
-export type NotificationSettingChannel = 'mail'|'mail_digest'|'in_app';
-
 export interface NotificationSetting {
   _links:{ project:HalSourceLink };
-  channel:NotificationSettingChannel;
   watched:boolean;
   involved:boolean;
   mentioned:boolean;
@@ -21,7 +18,6 @@ export interface NotificationSetting {
   wikiPageUpdated:boolean;
   membershipAdded:boolean;
   membershipUpdated:boolean;
-  all:boolean;
 }
 
 export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<NotificationSetting>):NotificationSetting {
@@ -48,8 +44,6 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     wikiPageUpdated: true,
     membershipAdded: true,
     membershipUpdated: true,
-    all: false,
-    channel: 'in_app',
     ...params,
   };
 }

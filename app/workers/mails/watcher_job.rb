@@ -61,10 +61,9 @@ class Mails::WatcherJob < Mails::DeliverJob
                .user
                .notification_settings
                .applicable(watcher.watchable.project)
-               .mail
                .first
 
-    settings.watched || settings.all
+    settings.watched
   end
 
   def self_watching?

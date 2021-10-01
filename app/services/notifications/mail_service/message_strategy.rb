@@ -35,7 +35,7 @@ module Notifications::MailService::MessageStrategy
           notification.resource,
           notification.actor || DeletedUser.first
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

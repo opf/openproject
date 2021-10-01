@@ -35,7 +35,7 @@ module Notifications::MailService::CommentStrategy
           notification.resource,
           notification.resource.author || DeletedUser.first
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

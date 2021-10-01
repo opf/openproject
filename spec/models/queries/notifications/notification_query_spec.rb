@@ -135,7 +135,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
         expected = <<~SQL.squish
           SELECT "notifications".* FROM "notifications"
           WHERE "notifications"."recipient_id" = #{recipient.id}
-          ORDER BY "notifications"."reason_ian" DESC, "notifications"."id" DESC
+          ORDER BY "notifications"."reason" DESC, "notifications"."id" DESC
         SQL
 
         expect(instance.results.to_sql).to eql expected
@@ -171,10 +171,10 @@ describe Queries::Notifications::NotificationQuery, type: :model do
     describe '#results' do
       it 'is the same as handwriting the query' do
         expected = <<~SQL.squish
-          SELECT "notifications"."reason_ian", COUNT(*) FROM "notifications"
+          SELECT "notifications"."reason", COUNT(*) FROM "notifications"
           WHERE "notifications"."recipient_id" = #{recipient.id}
-          GROUP BY "notifications"."reason_ian"
-          ORDER BY "notifications"."reason_ian" ASC
+          GROUP BY "notifications"."reason"
+          ORDER BY "notifications"."reason" ASC
         SQL
 
         expect(instance.groups.to_sql).to eql expected

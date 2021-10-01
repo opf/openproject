@@ -36,7 +36,7 @@ module Notifications::MailService::WikiContentStrategy
               notification.recipient,
               notification.journal.journable,
               notification.journal.user || DeletedUser.first)
-        .deliver_later
+        .deliver_now
     end
 
     private

@@ -33,17 +33,27 @@ describe 'messages', type: :feature, js: true do
     FactoryBot.create(:forum)
   end
 
+  let(:notification_settings_all_false) do
+    NotificationSetting
+      .all_settings
+      .index_with(false)
+  end
+
   let(:user) do
     FactoryBot.create :user,
                       member_in_project: forum.project,
                       member_through_role: role,
-                      notification_settings: [FactoryBot.build(:notification_setting, all: false)]
+                      notification_settings: [
+                        FactoryBot.build(:notification_setting, **notification_settings_all_false, watched: true)
+                      ]
   end
   let(:other_user) do
     FactoryBot.create(:user,
                       member_in_project: forum.project,
                       member_through_role: role,
-                      notification_settings: [FactoryBot.build(:notification_setting, all: false)]).tap do |u|
+                      notification_settings: [
+                        FactoryBot.build(:notification_setting, **notification_settings_all_false, watched: true)
+                      ]).tap do |u|
       forum.watcher_users << u
     end
   end

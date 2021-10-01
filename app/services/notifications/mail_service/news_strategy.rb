@@ -37,7 +37,7 @@ module Notifications::MailService::NewsStrategy
           notification.journal.journable,
           notification.journal.user || DeletedUser.first
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

@@ -31,7 +31,7 @@
 module API
   module Decorators
     module PolymorphicResource
-      # Dynamically derive a linked resource from the given polymporphic resource
+      # Dynamically derive a linked resource from the given polymorphic resource
       def polymorphic_resource(name,
                                as: nil,
                                skip_render: ->(*) { false },

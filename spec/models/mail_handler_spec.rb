@@ -453,9 +453,7 @@ describe MailHandler, type: :model do
           assignee = FactoryBot.create(:user,
                                        member_in_project: project,
                                        member_with_permissions: %i(view_work_packages),
-                                       notification_settings: [FactoryBot.build(:mail_notification_setting,
-                                                                                all: false,
-                                                                                involved: true)])
+                                       notification_settings: [FactoryBot.build(:notification_setting, involved: true)])
 
           work_package.update_column(:assigned_to_id, assignee.id)
 

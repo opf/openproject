@@ -55,7 +55,7 @@ module MailNotificationHelper
 
   def unique_reasons_of_notifications(notifications)
     notifications
-      .map(&:reason_mail_digest)
+      .map(&:reason)
       .uniq
   end
 

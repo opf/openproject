@@ -36,6 +36,6 @@ class Queries::Notifications::GroupBys::GroupByReason < Queries::GroupBys::Base
   end
 
   def name
-    :reason_ian
+    :reason
   end
 end
