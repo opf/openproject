@@ -23,28 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe Notifications::Scopes::UnreadMail, type: :model do
-  describe '.unread_mail' do
-    subject(:scope) { ::Notification.unread_mail }
-
-    let(:no_mail_notification) { FactoryBot.create(:notification, read_mail: nil) }
-    let(:unread_mail_notification) { FactoryBot.create(:notification, read_mail: false) }
-    let(:read_mail_notification) { FactoryBot.create(:notification, read_mail: true) }
-
-    before do
-      no_mail_notification
-      unread_mail_notification
-      read_mail_notification
-    end
-
-    it 'contains the notifications with read_mail: false' do
-      expect(scope)
-        .to match_array([unread_mail_notification])
+module Attachments
+  class BaseService < ::BaseServices::Create
+    ##
+    # Create an attachment service bypassing the user-provided whitelist
+    # for internal purposes such as exporting data.
+    #
+    # @param user The user to call the service with
+    # @param whitelist A custom whitelist to validate with, or empty to disable validation
+    #
+    # Warning: When passing an empty whitelist, this results in no validations on the content type taking place.
+    def self.bypass_whitelist(user:, whitelist: [])
+      new(user: user, contract_options: { whitelist: whitelist.map(&:to_s) })
     end
   end
 end

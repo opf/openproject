@@ -34,7 +34,7 @@ module Notifications::MailService::MessageStrategy
           notification.recipient,
           notification.resource
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

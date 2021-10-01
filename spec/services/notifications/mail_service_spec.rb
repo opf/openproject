@@ -57,13 +57,13 @@ describe Notifications::MailService, type: :model do
       end
     end
     let(:read_ian) { false }
-    let(:reason_ian) { :mentioned }
+    let(:reason) { :mentioned }
     let(:notification) do
       FactoryBot.build_stubbed(:notification,
                                journal: journal,
                                recipient: recipient,
                                actor: actor,
-                               reason_ian: reason_ian,
+                               reason: reason,
                                read_ian: read_ian)
     end
     let(:journal_initial) { false }
@@ -113,7 +113,7 @@ describe Notifications::MailService, type: :model do
     end
 
     context 'with the notification not mentioning the user' do
-      let(:reason_ian) { false }
+      let(:reason) { false }
 
       it_behaves_like 'sends no mentioned mail'
     end
@@ -155,7 +155,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -177,7 +177,7 @@ describe Notifications::MailService, type: :model do
                       journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -193,7 +193,7 @@ describe Notifications::MailService, type: :model do
                       journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -234,7 +234,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -256,7 +256,7 @@ describe Notifications::MailService, type: :model do
                       journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -296,7 +296,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -314,7 +314,7 @@ describe Notifications::MailService, type: :model do
                     journal.journable)
 
       expect(mail)
-        .to have_received(:deliver_later)
+        .to have_received(:deliver_now)
     end
 
     context 'with the notification read in app already' do

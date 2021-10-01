@@ -28,14 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Return mail notifications that are unread (have read_mail: false)
-module Notifications::Scopes
-  module UnreadMail
+# Because we mark the notifications as read even though they in fact aren't, we do it in a transaction
+# so that the change is rolled back in case of an error.
+module Notifications
+  module WithMarkedNotifications
     extend ActiveSupport::Concern
 
-    class_methods do
-      def unread_mail
-        where(read_mail: false)
+    included do
+      private
+
+      def with_marked_notifications(notification_ids)
+        Notification.transaction do
+          mark_notifications_sent(notification_ids)
+
+          yield
+        end
+      end
+
+      def mark_notifications_sent(notification_ids)
+        Notification
+          .where(id: Array(notification_ids))
+          .update_all(notification_marked_attribute => true, updated_at: Time.current)
       end
     end
   end

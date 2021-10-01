@@ -36,7 +36,7 @@ module Notifications::MailService::NewsStrategy
           notification.recipient,
           notification.journal.journable
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

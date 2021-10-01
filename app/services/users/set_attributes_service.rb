@@ -54,9 +54,7 @@ module Users
     end
 
     def initialize_notification_settings
-      NotificationSetting.channels.each_key do |channel|
-        model.notification_settings.build(channel: channel, involved: true, mentioned: true, watched: true)
-      end
+      model.notification_settings.build(involved: true, mentioned: true, watched: true)
     end
   end
 end

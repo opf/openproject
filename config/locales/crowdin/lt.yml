@@ -636,8 +636,8 @@ lt:
             reason_mail_digest:
               no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Turi būti tik viena globali pranešimų eilutė.'
+          email_alerts_global: 'E-pašto pranešimų pasirinkimus galima nustatyti tik globaliai.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:

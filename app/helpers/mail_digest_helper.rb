@@ -52,7 +52,7 @@ module MailDigestHelper
   end
 
   def digest_comment_text(notification)
-    if notification.reason_mail_digest === "mentioned"
+    if notification.reason_mentioned?
       sanitize I18n.t(:'mail.work_packages.mentioned')
     else
       sanitize I18n.t(:'mail.work_packages.comment_added')
@@ -66,10 +66,10 @@ module MailDigestHelper
     if extended
       sanitize(
         "#{I18n.t(:"mail.work_packages.#{value}")} #{I18n.t(:"mail.work_packages.#{value}_at",
-                                                                    user: user,
-                                                                    timestamp: journal.created_at.strftime(
-                                                                      I18n.t(:'time.formats.time')
-                                                                    ))}"
+                                                            user: user,
+                                                            timestamp: journal.created_at.strftime(
+                                                              I18n.t(:'time.formats.time')
+                                                            ))}"
       )
     else
       sanitize(I18n.t(:"mail.work_packages.#{value}_at",

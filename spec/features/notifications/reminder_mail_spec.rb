@@ -90,7 +90,7 @@ describe "Reminder email", type: :feature, js: true do
           }
         },
         notification_settings: [
-          FactoryBot.build(:mail_digest_notification_setting,
+          FactoryBot.build(:notification_setting,
                            involved: true,
                            watched: true,
                            mentioned: true,
@@ -98,8 +98,7 @@ describe "Reminder email", type: :feature, js: true do
                            work_package_created: true,
                            work_package_processed: true,
                            work_package_prioritized: true,
-                           work_package_scheduled: true,
-                           all: false)
+                           work_package_scheduled: true)
         ]
       )
     end

@@ -88,7 +88,7 @@ describe Users::SetAttributesService, type: :model do
 
     it 'initalizes the notification settings' do
       expect(call.result.notification_settings.length)
-        .to eql(3) # one for every channel
+        .to be 1
 
       expect(call.result.notification_settings)
         .to(all(be_a(NotificationSetting).and(be_new_record)))

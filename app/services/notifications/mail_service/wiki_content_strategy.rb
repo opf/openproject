@@ -35,7 +35,7 @@ module Notifications::MailService::WikiContentStrategy
         .send(method,
               notification.recipient,
               notification.journal.journable)
-        .deliver_later
+        .deliver_now
     end
 
     private

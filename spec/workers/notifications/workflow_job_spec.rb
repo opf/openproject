@@ -38,13 +38,13 @@ describe Notifications::WorkflowJob, type: :model do
   let(:send_notification) { true }
 
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification, reason_ian: :assigned, reason_mail: :assigned),
+    [FactoryBot.build_stubbed(:notification, reason: :assigned),
      mentioned_notification,
-     FactoryBot.build_stubbed(:notification, reason_ian: :watched, reason_mail: :watched)]
+     FactoryBot.build_stubbed(:notification, reason: :watched)]
   end
 
   let(:mentioned_notification) do
-    FactoryBot.build_stubbed(:notification, reason_ian: :mentioned, reason_mail: :mentioned)
+    FactoryBot.build_stubbed(:notification, reason: :mentioned)
   end
 
   describe '#perform' do
@@ -133,7 +133,7 @@ describe Notifications::WorkflowJob, type: :model do
       end
 
       before do
-        scope = class_double(Notification, unread_mail: [notifications.first])
+        scope = class_double(Notification, mail_alert_unsent: [notifications.first])
 
         allow(Notification)
           .to receive(:where)

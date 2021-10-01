@@ -34,7 +34,7 @@ module Notifications::MailService::CommentStrategy
           notification.recipient,
           notification.resource
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

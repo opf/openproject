@@ -41,24 +41,18 @@ describe Notifications::CreateContract do
   let(:notification_resource) { FactoryBot.build_stubbed(:journal) }
   let(:notification_recipient) { FactoryBot.build_stubbed(:user) }
   let(:notification_subject) { 'Some text' }
-  let(:notification_reason_ian) { :mentioned }
-  let(:notification_reason_mail) { :assigned }
-  let(:notification_reason_mail_digest) { :watched }
+  let(:notification_reason) { :mentioned }
   let(:notification_read_ian) { false }
-  let(:notification_read_mail) { false }
-  let(:notification_read_mail_digest) { false }
+  let(:notification_mail_reminder_sent) { false }
 
   let(:notification) do
     Notification.new(project: notification_context,
                      recipient: notification_recipient,
                      subject: notification_subject,
-                     reason_ian: notification_reason_ian,
-                     reason_mail: notification_reason_mail,
-                     reason_mail_digest: notification_reason_mail_digest,
+                     reason: notification_reason,
                      resource: notification_resource,
                      read_ian: notification_read_ian,
-                     read_mail: notification_read_mail,
-                     read_mail_digest: notification_read_mail_digest)
+                     mail_reminder_sent: notification_mail_reminder_sent)
   end
 
   let(:contract) { described_class.new(notification, current_user) }
@@ -72,47 +66,10 @@ describe Notifications::CreateContract do
       it_behaves_like 'contract is invalid', recipient: :blank
     end
 
-    context 'without a reason for IAN with read_ian false' do
-      let(:notification_reason_ian) { nil }
-      let(:notification_read_ian) { false }
+    context 'without a reason' do
+      let(:notification_reason) { nil }
 
-      it_behaves_like 'contract is invalid', reason_ian: :no_notification_reason
-    end
-
-    context 'without a reason for IAN with read_ian nil' do
-      let(:notification_reason_ian) { nil }
-      let(:notification_read_ian) { nil }
-
-      it_behaves_like 'contract is valid'
-    end
-
-    context 'without a reason for mail with read_mail false' do
-      let(:notification_reason_mail) { nil }
-      let(:notification_read_mail) { false }
-
-      it_behaves_like 'contract is invalid', reason_mail: :no_notification_reason
-    end
-
-    context 'without a reason for mail with read_mail nil' do
-      let(:notification_reason_mail) { nil }
-      let(:notification_read_mail) { nil }
-
-      it_behaves_like 'contract is valid'
-    end
-
-
-    context 'without a reason for mail_digest with read_mail_digest false' do
-      let(:notification_reason_mail_digest) { nil }
-      let(:notification_read_mail_digest) { false }
-
-      it_behaves_like 'contract is invalid', reason_mail_digest: :no_notification_reason
-    end
-
-    context 'without a reason for mail_digest with read_mail_digest nil' do
-      let(:notification_reason_mail_digest) { nil }
-      let(:notification_read_mail_digest) { nil }
-
-      it_behaves_like 'contract is valid'
+      it_behaves_like 'contract is invalid', reason: :no_notification_reason
     end
 
     context 'without a subject' do
@@ -127,30 +84,16 @@ describe Notifications::CreateContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'with all channels nil' do
-      let(:notification_read_ian) { nil }
-      let(:notification_read_mail) { nil }
-      let(:notification_read_mail_digest) { nil }
-
-      it_behaves_like 'contract is invalid', base: :at_least_one_channel
-    end
-
     context 'with read_ian true' do
       let(:notification_read_ian) { true }
 
       it_behaves_like 'contract is invalid', read_ian: :read_on_creation
     end
 
-    context 'with read_mail true' do
-      let(:notification_read_mail) { true }
+    context 'with mail_reminder_sent true' do
+      let(:notification_mail_reminder_sent) { true }
 
-      it_behaves_like 'contract is invalid', read_mail: :read_on_creation
-    end
-
-    context 'with read_mail_digest true' do
-      let(:notification_read_mail_digest) { true }
-
-      it_behaves_like 'contract is invalid', read_mail_digest: :read_on_creation
+      it_behaves_like 'contract is invalid', mail_reminder_sent: :set_on_creation
     end
   end
 end

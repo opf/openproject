@@ -28,27 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Return all users who want to be notified on every activity within a project.
-# If there is only the global notification setting in place, that one is authoritative.
-# If there is a project specific setting in place, it is the project specific setting instead.
-module Users::Scopes
-  module NotifiedOnAll
+# Return alert mail notifications that are unread (have mail_alert_sent: false)
+module Notifications::Scopes
+  module MailAlertUnsent
     extend ActiveSupport::Concern
 
     class_methods do
-      def notified_on_all(project)
-        global_settings = NotificationSetting
-                          .where(all: true, project: nil)
-        project_settings_not_all = NotificationSetting
-                                   .where(project: project)
-                                   .group(:user_id)
-                                   .having('NOT bool_or("all")')
-        project_settings = NotificationSetting
-                           .where(all: true, project: project)
-
-        where(id: global_settings.select(:user_id))
-          .where.not(id: project_settings_not_all.select(:user_id))
-          .or(User.where(id: project_settings.select(:user_id)))
+      def mail_alert_unsent
+        where(mail_alert_sent: false)
       end
     end
   end

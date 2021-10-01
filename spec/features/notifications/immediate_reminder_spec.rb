@@ -63,9 +63,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
           }
         },
         notification_settings: [
-          FactoryBot.build(:in_app_notification_setting,
-                           mentioned: true),
-          FactoryBot.build(:mail_notification_setting,
+          FactoryBot.build(:notification_setting,
                            mentioned: true)
         ],
         member_in_project: project,

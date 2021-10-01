@@ -37,6 +37,7 @@ module Pages
 
       def initialize(user)
         @user = user
+        super()
       end
 
       def path
@@ -44,7 +45,7 @@ module Pages
       end
 
       def expect_represented
-        user.notification_settings.where(channel: :in_app).each do |setting|
+        user.notification_settings.each do |setting|
           expect_global_represented(setting)
           # expect_project_represented(setting)
         end

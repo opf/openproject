@@ -89,7 +89,7 @@ describe Mails::ReminderJob, type: :model do
 
         expect(notifications)
           .to have_received(:update_all)
-                .with(read_mail_digest: true, updated_at: Time.current)
+                .with(mail_reminder_sent: true, updated_at: Time.current)
       end
 
       it 'impersonates the recipient' do

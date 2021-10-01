@@ -26,45 +26,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Notifications::MailService
-  def initialize(notification)
-    self.notification = notification
-  end
+module Notifications
+  class MailService
+    include WithMarkedNotifications
 
-  def call
-    return unless supported?
-    return if ian_read?
+    def initialize(notification)
+      self.notification = notification
+    end
 
-    strategy.send_mail(notification)
-  end
+    def call
+      return unless supported?
+      return if ian_read?
 
-  private
+      with_marked_notifications(notification.id) do
+        strategy.send_mail(notification)
+      end
+    end
 
-  attr_accessor :notification
+    private
 
-  def ian_read?
-    notification.read_ian
-  end
+    attr_accessor :notification
 
-  def strategy
-    @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
-                    "#{self.class}::#{strategy_model}Strategy".constantize
-                  end
-  end
+    def ian_read?
+      notification.read_ian
+    end
 
-  def strategy_model
-    journal&.journable_type || resource&.class
-  end
+    def strategy
+      @strategy ||= if self.class.const_defined?("#{strategy_model}Strategy")
+                      "#{self.class}::#{strategy_model}Strategy".constantize
+                    end
+    end
 
-  def journal
-    notification.journal
-  end
+    def strategy_model
+      journal&.journable_type || resource&.class
+    end
 
-  def resource
-    notification.resource
-  end
+    def journal
+      notification.journal
+    end
 
-  def supported?
-    strategy.present?
+    def resource
+      notification.resource
+    end
+
+    def supported?
+      strategy.present?
+    end
+
+    def notification_marked_attribute
+      :mail_alert_sent
+    end
   end
 end

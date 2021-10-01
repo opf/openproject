@@ -1,10 +1,6 @@
 // -------------------------- GENERIC --------------------------
 .op-ifc-viewer--toolbar-container
-  position: absolute
-  width: 100%
-  padding: 0px 6px
   pointer-events: none
-  z-index: 2
 
   button
     pointer-events: all
@@ -89,8 +85,14 @@
 // -------------------------- MOBILE specific --------------------------
 
 @media only screen and (max-width: 679px)
-  .op-ifc-viewer--toolbar-container
+  .op-ifc-viewer--toolbar
     padding-right: 15px
+
+    .xeokit-toolbar
+      flex-wrap: nowrap
+
+      .xeokit-btn-group
+        white-space: nowrap
 
   .op-ifc-viewer--focus-warning,
   .op-ifc-viewer--toolbar-container

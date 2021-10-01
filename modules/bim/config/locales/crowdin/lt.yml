@@ -42,7 +42,7 @@ lt:
         invalid_priorities_found: 'Rastas neteisingas prioriteto pavadinimas'
         invalid_emails_found: 'Rastas neteisingas el. pašto adresas'
         unknown_emails_found: 'Rasti nežinomi el. pašto adresai'
-        unknown_property: 'Nežinoma sąvybė'
+        unknown_property: 'Nežinoma savybė'
         non_members_found: 'Rasti ne projekto nariai'
         import_types_as: 'Nustatyti visus šiuos tipus į'
         import_statuses_as: 'Nustatyti visas būsenas į'

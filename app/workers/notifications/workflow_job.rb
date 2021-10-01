@@ -56,10 +56,10 @@ class Notifications::WorkflowJob < ApplicationJob
                          .new(resource)
                          .call(send_notification)
                          .all_results
-                         .partition(&:mail_mentioned?)
+                         .partition(&:reason_mentioned?)
 
     mentioned
-      .select { |n| n.read_mail == false }
+      .select { |n| n.mail_alert_sent == false }
       .each do |notification|
       Notifications::MailService
         .new(notification)
@@ -76,11 +76,11 @@ class Notifications::WorkflowJob < ApplicationJob
 
     Notification
       .where(id: notification_ids)
-      .unread_mail
+      .mail_alert_unsent
       .each do |notification|
-        Notifications::MailService
-          .new(notification)
-          .call
-      end
+      Notifications::MailService
+        .new(notification)
+        .call
+    end
   end
 end
