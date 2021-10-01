@@ -185,8 +185,8 @@ de:
         new_group: 'Neue Gruppe'
         reset_to_defaults: 'Auf Standardwerte zurücksetzen'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} Tage bis zum Ende der Übergangsperiode"
+        text_expired: "abgelaufen"
         trial:
           confirmation: "E-Mail-Adresse bestätigen"
           confirmation_info: >
@@ -291,7 +291,7 @@ de:
           bim:
             learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
             current_new_feature_html: >
-              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
+              Dieses Release enthält eine Reihe neuer Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Probieren Sie unser <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a>! Damit können Sie direkt in Revit BCF-Arbeitspakete erstellen, koordinieren und abarbeiten.</li> <li>Das Erkunden und Kopieren von einzelnen Elementen im IFC-Modell war nie einfacher. Denn IFC-Attribute haben nun ihren eigenen Platz erhalten.</li> <li>Bei Anlegen von Schnitten im Modell haben wir im darunterliegenden Datenmodell (BCF-Viewpoint) die Seiten vertauscht, sodass nun die andere Seite versteckt wird. Damit ist OpenProject in dem Punkt mit dem neuen BCF 3.0 Standard konform, was übrigens auch bereits der gelebte Standard bei Anbietern wie Solibri ist. <li>Die Bedienung des IFC-Modell-Viewers mit dem Mobiltelefon wurde massiv überarbeitet.</li> <li>Der Export von Arbeitspaket-Ansichten mit der Spalte "BCF-Snapshot" wurde gefixt.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"

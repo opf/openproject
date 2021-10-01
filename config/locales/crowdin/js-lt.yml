@@ -292,7 +292,7 @@ lt:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BIM: Pagerinta IFC modelių peržiūros greitaveika.</li> <li>BIM: IFC peržiūros programa pradėjo palaikyti dvigubo tikslumo modelius, kas naudinga didelėse statybos aikštelėse, tokiose kaip tiltai, keliai ir pan.</li> <li>BIM: Perjungimo mygtukas perspektyvos ir ortogonaliam režimui perjungti.</li> <li>BIM: Meniu redagavimui, šalinimui ar sekcijos plokštumų apvertimui.</li> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> </ul>
+              Šioje laidoje rasite įvairias naujas funkcijas ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>Pasidomėkite mūsų <a href="https://github.com/opf/openproject-revit-add-in">priedu Revit</a>, kuris leidžia dirbti su BCF darbo paketais tiesiai Revit'e.</li> <li>IFC savybės gavo savo atskirą skydelį. GUID kopijavimas niekada nebuvo lengvesnis.</li> <li>Atgalinės plokštumos karpymo krypties BCF vaizdas ir suderinamumas su būsima BCF 3.0 (Dabar tokia patik kryptis, kaip ir Solibri). <li>Pataisyta IFC modelių peržiūra mobiliuose.</li> <li>Pataisytas darbo paketų vaizdo su BCF nuotraukų stulpeliu eksportas.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -595,17 +595,17 @@ lt:
           title: 'Siųsti man e-pašto priminimą'
           mentioned: 'Iš karto, kai kažkas @pamini mane'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'E-pašto pranešimai kitiems (ne darbo paketų) elementams'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            Šiandien pranešimai galimi tik darbų paketams. Jūs galite pasirinkti gauti įspėjimus laiškais apie šiuos įvykius, kol jie dar įtraukiami į pranešimus:
           news_added: 'Pridėta naujiena'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: 'Komentuoti naujienų elementą'
+          document_added: 'Dokumentai pridėti'
+          forum_messages: 'Nauji forumo pranešimai'
           wiki_page_added: 'Wiki puslapis pridėtas'
           wiki_page_updated: 'Wiki puslapis atnaujintas'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
+          membership_added: 'Narystė pridėta'
+          membership_updated: 'Narystė atnaujinta'
         title: 'El.pašto priminimai'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Įvesta informacija bus prarasta"
@@ -635,7 +635,7 @@ lt:
       hours: 'Valandų'
       title: 'Registruoti laiką'
     two_factor_authentication:
-      label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
+      label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
