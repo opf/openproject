@@ -72,10 +72,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
               public ifcData:IfcModelsDataService,
-              private ifcViewer:IFCViewerService,
+              private ifcViewerService:IFCViewerService,
               private currentUserService:CurrentUserService,
               private currentProjectService:CurrentProjectService) {
-    this.inspectorVisible$ = this.ifcViewer.inspectorVisible$;
+    this.inspectorVisible$ = this.ifcViewerService.inspectorVisible$;
   }
 
   ngOnInit():void {
@@ -97,9 +97,9 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
         this.currentProjectService.id as string,
       )
       .subscribe((manageIfcModelsAllowed) => {
-        this.ifcViewer.newViewer(
+        this.ifcViewerService.newViewer(
           {
-            canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
+            canvasElement: this.modelCanvas.nativeElement, // WebGL canvas
             explorerElement: jQuery('.op-ifc-viewer--tree-panel')[0], // Left panel
             toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
             inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
@@ -110,29 +110,30 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
           this.ifcData.projects,
         );
       });
+
   }
 
   ngOnDestroy():void {
-    this.ifcViewer.destroy();
+    this.ifcViewerService.destroy();
   }
 
   toggleInspector() {
-    this.ifcViewer.inspectorVisible$.next(!this.inspectorVisible$.getValue());
+    this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
   @HostListener('mousedown')
   enableKeyBoard() {
     if (this.modelCount) {
       this.keyboardEnabled = true;
-      this.ifcViewer.setKeyboardEnabled(true);
+      this.ifcViewerService.setKeyboardEnabled(true);
     }
   }
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element) {
-    if (this.modelCount && !this.outerContainer.nativeElement!.contains(target)) {
+    if (this.modelCount && !this.outerContainer.nativeElement?.contains(target)) {
       this.keyboardEnabled = false;
-      this.ifcViewer.setKeyboardEnabled(false);
+      this.ifcViewerService.setKeyboardEnabled(false);
     }
   }
 
