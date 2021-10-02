@@ -513,7 +513,6 @@ hu:
           timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
     notifications:
       title: "Értesítések"
-      channel: "Csatorna"
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
         mentioned: 'megemlített'
@@ -545,7 +544,7 @@ hu:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:

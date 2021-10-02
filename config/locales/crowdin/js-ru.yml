@@ -508,7 +508,6 @@ ru:
           timeline: 'Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, этапы, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время.'
     notifications:
       title: "Уведомления"
-      channel: "Канал"
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
         mentioned: 'упомянутый'
@@ -542,7 +541,7 @@ ru:
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
           work_package_processed: 'Все изменения статуса'
-          work_package_prioritized: 'все приоритетные изменения'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'Все изменения даты'
         global:
           immediately:

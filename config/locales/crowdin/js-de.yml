@@ -508,7 +508,6 @@ de:
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
     notifications:
       title: "Benachrichtigungen"
-      channel: "Kanal"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'erwähnt'
@@ -540,7 +539,7 @@ de:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:

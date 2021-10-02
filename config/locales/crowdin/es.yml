@@ -624,14 +624,10 @@ es:
           attributes:
             read_ian:
               read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            read_mail:
-              read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            read_mail_digest:
-              read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:

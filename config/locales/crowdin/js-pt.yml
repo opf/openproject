@@ -508,7 +508,6 @@ pt:
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
     notifications:
       title: "Notificações"
-      channel: "Canal"
       no_unread: "Nenhuma notificação não lida"
       reasons:
         mentioned: 'mencionado'
@@ -540,7 +539,7 @@ pt:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:

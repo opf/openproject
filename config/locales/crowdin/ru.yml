@@ -628,14 +628,10 @@ ru:
           attributes:
             read_ian:
               read_on_creation: 'невозможно установить истину при создании уведомления.'
-            read_mail:
-              read_on_creation: 'невозможно установить истину при создании уведомления.'
-            read_mail_digest:
-              read_on_creation: 'невозможно установить истину при создании уведомления.'
-            reason_ian:
-              no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
-            reason_mail:
-              no_notification_reason: 'не может быть пустым, так как почта выбрана как канал.'
+            mail_reminder_sent:
+              set_on_creation: 'невозможно установить истину при создании уведомления.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
         notification_settings:

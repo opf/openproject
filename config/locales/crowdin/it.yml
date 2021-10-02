@@ -623,14 +623,10 @@ it:
           attributes:
             read_ian:
               read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            read_mail:
-              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            read_mail_digest:
-              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            reason_ian:
-              no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
-            reason_mail:
-              no_notification_reason: 'non può essere vuoto perché la posta è scelta come canale.'
+            mail_reminder_sent:
+              set_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
         notification_settings:

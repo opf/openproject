@@ -509,7 +509,6 @@ lt:
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
     notifications:
       title: "Pranešimai"
-      channel: "Kanalas"
       no_unread: "Nėra neperskaitytų pranešimų"
       reasons:
         mentioned: 'paminėtas'
@@ -543,7 +542,7 @@ lt:
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
           work_package_processed: 'Visi būsenų pakeitimai'
-          work_package_prioritized: 'visi prioritetų pakeitimai'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'Visi datų pakeitimai'
         global:
           immediately:
