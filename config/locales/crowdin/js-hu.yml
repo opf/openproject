@@ -293,7 +293,7 @@ hu:
               A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> Új meghívó a modális felhasználóknak, csoportoknak és teszt felhasználóknak lehetővé teszi új felhasználók hozzáadását vagy meghívását, valamint munkacsomagok hozzárendelését. </li> <li> GitHub integráció az OpenProject -be. </li> <li> API v3 kiterjesztések csoportokhoz és egyebek, azaz csoportokat és csoporttagokat hozhat létre, olvashat, frissíthet és törölhet az API-n keresztül. </li> <li> Többszörös kiválasztás a projekt egyedi típusmezői mezőihez. </li> <li> Biztonsági mentés létrehozása a webes felületről. < /li> </ul>
 
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Aktivál"
