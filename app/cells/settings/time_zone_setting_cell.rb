@@ -63,7 +63,7 @@ module Settings
     end
 
     # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
-    # one return the one that is the namesake.
+    # only return the one that is the namesake.
     def namesake_time_zone(time_zones)
       if time_zones.length == 1
         time_zones.first
