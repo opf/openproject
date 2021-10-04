@@ -14,6 +14,7 @@ export interface UserPreferencesModel {
   hideMail:boolean;
   timeZone:string|null;
   warnOnLeavingUnsaved:boolean;
+  workdays:number[];
   notifications:NotificationSetting[];
   dailyReminders:DailyRemindersSettings;
   immediateReminders:ImmediateRemindersSettings;

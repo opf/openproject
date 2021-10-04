@@ -34,8 +34,8 @@ lt:
     label_device: "2FA įrenginys"
     label_devices: "2FA įrenginiai"
     label_one_time_password: 'Vienkartinis slaptažodis'
-    label_2fa_enabled: 'Dviejų veiksnių autentikacija aktyvi'
-    label_2fa_disabled: 'Dviejų veiksnių autentikacija neaktyvi'
+    label_2fa_enabled: 'Dviejų veiksnių autentifikacija aktyvi'
+    label_2fa_disabled: 'Dviejų veiksnių autentifikacija neaktyvi'
     text_otp_delivery_message_sms: "Jūsų %{app_title} vienkartinis slaptažodis yra %{token}"
     text_otp_delivery_message_voice: "Jūsų %{app_title} vienkartinis slaptažodis yra: %{pause} %{token}. %{pause} Aš kartoju: %{pause} %{token}"
     text_enter_2fa: 'Prašome įvesti vienkartinį slaptažodį iš jūsų įrenginio.'
@@ -43,7 +43,7 @@ lt:
     text_2fa_disabled: 'Norėdami įjungti dviejų veiksnių autentikaciją, naudokite aukščiau esantį mygtuką, kad priregistruotumėte naują 2FA įrenginį. Jei jau turite įrenginį, jums reikia jį padaryti numatytuoju.'
     login:
       enter_backup_code_title: Įveskite atsarginį kodą
-      enter_backup_code_text: Prašome įvesti atsarginį kodą iš jūsų kodų sąrašą, jei daugiau nebeturite prieigos prie jūsų registruotų 2FA įrenginių.
+      enter_backup_code_text: Prašome įvesti atsarginį kodą iš jūsų kodų sąrašo, jei daugiau nebeturite prieigos prie jūsų registruotų 2FA įrenginių.
       other_device: 'Naudoti kitą įrenginį ar atsarginį kodą'
     settings:
       title: '2FA nustatymai'
@@ -72,8 +72,8 @@ lt:
       text_2fa_enabled: 'Kiekvieną kartą prisijungiant, naudotojo bus paprašoma įvesti OTB žetoną iš jo numatytojo 2FA įrenginio.'
       text_2fa_disabled: "Naudotojas nenustatė savo 2FA įrenginio savo „Mano paskyros puslapyje“"
     upsale:
-      title: 'Dviejų veiksnių autentikacija yra mokama savybė'
-      description: 'Sustiprinkite jūsų vidinės ir išorinės autentikacijos mechanizmus antru veiksniu.'
+      title: 'Dviejų veiksnių autentifikacija yra mokama savybė'
+      description: 'Sustiprinkite jūsų vidinės ir išorinės autentifikacijos mechanizmus antru veiksniu.'
     backup_codes:
       none_found: Ši paskyra neturi atsarginių kodų.
       singular: Atsarginis kodas

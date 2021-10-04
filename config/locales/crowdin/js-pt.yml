@@ -289,7 +289,7 @@ pt:
             current_new_feature_html: >
               A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Novo botão na navegação do cabeçalho para criar pacotes de projetos, de usuários e de trabalho.</li> <li>Um novo convite restrito para usuários, usuários de espaço reservado e grupos facilita a adição e convite de novos usuários e a atribuição de pacotes de trabalho para eles.</li> <li>A integração do GitHub no OpenProject.</li> <li>Extensões v3 de API para grupos e mais, ou seja, criação, leitura, atualização e exclusão de grupos e membros de grupo através de API.</li> <li>Multi-seleção para campos de personalização de projetos da lista de tipos.</li> <li>Criação de backup para a interface da web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Ativar"
@@ -508,7 +508,6 @@ pt:
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
     notifications:
       title: "Notificações"
-      channel: "Canal"
       no_unread: "Nenhuma notificação não lida"
       reasons:
         mentioned: 'mencionado'
@@ -540,7 +539,7 @@ pt:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:

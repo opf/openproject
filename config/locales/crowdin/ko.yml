@@ -625,14 +625,10 @@ ko:
           attributes:
             read_ian:
               read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail_digest:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:

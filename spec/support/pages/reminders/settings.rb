@@ -86,8 +86,30 @@ module Pages
         end
       end
 
+      def expect_workdays(days)
+        days.each do |name|
+          expect(page).to have_checked_field(name)
+        end
+      end
+
+      def expect_non_workdays(days)
+        days.each do |name|
+          expect(page).to have_unchecked_field(name)
+        end
+      end
+
+      def set_workdays(days)
+        days.each do |name, enabled|
+          if enabled
+            page.check name
+          else
+            page.uncheck name
+          end
+        end
+      end
+
       def save
-        click_button 'Save'
+        click_button I18n.t(:button_save)
       end
     end
   end

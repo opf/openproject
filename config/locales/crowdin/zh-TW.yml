@@ -626,14 +626,10 @@ zh-TW:
           attributes:
             read_ian:
               read_on_creation: '在創建通知時不能設置為 true'
-            read_mail:
-              read_on_creation: '在創建通知時不能設置為 true'
-            read_mail_digest:
-              read_on_creation: '在創建通知時不能設置為 true'
-            reason_ian:
-              no_notification_reason: '當 IAN 被選為管道時不能為空'
-            reason_mail:
-              no_notification_reason: '當郵件被選為管道時不能為空'
+            mail_reminder_sent:
+              set_on_creation: '在創建通知時不能設置為 true'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
         notification_settings:

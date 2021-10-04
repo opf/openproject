@@ -625,14 +625,10 @@ lt:
           attributes:
             read_ian:
               read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
-            read_mail:
-              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
-            read_mail_digest:
-              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
-            reason_ian:
-              no_notification_reason: 'negali būti tuščias, nes IAN yra pasirinktas kaip informavimo kanalas.'
-            reason_mail:
-              no_notification_reason: 'negali būti tuščias, nes el.paštas yra pasirinktas kaip informavimo kanalas.'
+            mail_reminder_sent:
+              set_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
+            reason:
+              no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:
               no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
         notification_settings:

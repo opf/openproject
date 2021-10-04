@@ -289,7 +289,7 @@ ru:
             current_new_feature_html: >
               Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая кнопка навигации в заголовке для создания проектов, пользователей и пакетов работ.</li> <li>Новый способ приглашения пользователей, групп и заполнителей позволяет легко добавлять или приглашать новых пользователей и прикреплять их к рабочим пакетам.</li> <li>Интеграция GitHub в OpenProject.</li> <li>Расширения API v3 для групп и более, в т.ч. создание, чтение, обновление и удаление групп и членов групп через API.</li> <li>Множественный выбор пользовательских для настраиваемых полей типового списка.</li> <li>Создание резервной копии из веб-интерфейса.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Активировать"
@@ -508,7 +508,6 @@ ru:
           timeline: 'Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, этапы, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время.'
     notifications:
       title: "Уведомления"
-      channel: "Канал"
       no_unread: "Нет непрочитанных уведомлений"
       reasons:
         mentioned: 'упомянутый'
@@ -542,7 +541,7 @@ ru:
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
           work_package_processed: 'Все изменения статуса'
-          work_package_prioritized: 'все приоритетные изменения'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'Все изменения даты'
         global:
           immediately:

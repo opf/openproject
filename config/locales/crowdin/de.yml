@@ -622,14 +622,10 @@ de:
           attributes:
             read_ian:
               read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            read_mail:
-              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            read_mail_digest:
-              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            reason_ian:
-              no_notification_reason: 'darf nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
-            reason_mail:
-              no_notification_reason: 'darf nicht leer sein, da E-Mail als Kanal ausgewählt ist.'
+            mail_reminder_sent:
+              set_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
         notification_settings:

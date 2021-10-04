@@ -81,6 +81,8 @@ module API
 
         property :immediate_reminders
 
+        property :workdays
+
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,

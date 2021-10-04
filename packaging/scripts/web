@@ -11,3 +11,4 @@ if [ "$USE_PUMA" = "true" ]; then
 else
   bundle exec unicorn --config-file config/unicorn.rb --host $HOST --port $PORT --env $RAILS_ENV
 fi
+

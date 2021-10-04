@@ -627,14 +627,10 @@ hu:
           attributes:
             read_ian:
               read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            read_mail:
-              read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            read_mail_digest:
-              read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            reason_ian:
-              no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
-            reason_mail:
-              no_notification_reason: "nem lehet üres, mivel a levelezést választották csatornának.\n"
+            mail_reminder_sent:
+              set_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
         notification_settings:

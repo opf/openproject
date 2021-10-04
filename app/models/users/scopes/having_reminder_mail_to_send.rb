@@ -70,11 +70,19 @@ module Users::Scopes
         # * any of the configured reminder time is the local time
         # If no time zone is present, utc is assumed.
         # If no reminder settings are present, sending a reminder at 08:00 local time is assumed.
+        times_sql = arel_table
+                      .grouping(Arel::Nodes::ValuesList.new(local_times))
+                      .as('t(time, zone, workday)')
         <<~SQL.squish
-          JOIN (
-           SELECT * FROM #{arel_table.grouping(Arel::Nodes::ValuesList.new(local_times)).as('t(time, zone)').to_sql}
-          ) AS local_times
+          JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
           ON COALESCE(user_preferences.settings->>'time_zone', 'UTC') = local_times.zone
+          AND (
+            user_preferences.settings->'workdays' @> to_jsonb(local_times.workday)
+            OR (
+              user_preferences.settings->'workdays' IS NULL
+              AND local_times.workday BETWEEN 1 AND 5
+            )
+          )
           AND (
             (
               user_preferences.settings->'daily_reminders'->'times' IS NULL
@@ -99,16 +107,20 @@ module Users::Scopes
         ActiveSupport::TimeZone
           .all
           .map do |z|
-            times.map do |time|
-              local_time = time.in_time_zone(z)
+          times.map do |time|
+            local_time = time.in_time_zone(z)
 
-              # Since only full hours can be configured, we can disregard any local time that is not
-              # a full hour.
-              next if local_time.min != 0
+            # Get the iso weekday of the current time to check
+            # which users have it enabled as a workday
+            workday = local_time.to_date.cwday
 
-              [local_time.strftime('%H:00:00+00:00'), z.name.gsub("'", "''")]
-            end
+            # Since only full hours can be configured, we can disregard any local time that is not
+            # a full hour.
+            next if local_time.min != 0
+
+            [local_time.strftime('%H:00:00+00:00'), z.name.gsub("'", "''"), workday]
           end
+        end
           .flatten(1)
           .compact
       end
