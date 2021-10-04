@@ -170,6 +170,34 @@ module OpenProject
         val.presence || {}
       end
 
+      def web_workers
+        Integer(web['workers'].presence)
+      end
+
+      def web_timeout
+        Integer(web['timeout'].presence)
+      end
+
+      def web_wait_timeout
+        Integer(web['wait_timeout'].presence)
+      end
+
+      def web_min_threads
+        Integer(ENV['RAILS_MIN_THREADS'].presence || web['min_threads'].presence)
+      end
+
+      def web_max_threads
+        Integer(ENV['RAILS_MAX_THREADS'].presence || web['max_threads'].presence)
+      end
+
+      def statsd_host
+        ENV['STATSD_HOST'].presence || statsd['host'].presence
+      end
+
+      def statsd_port
+        Integer(ENV['STATSD_PORT'].presence || statsd['port'].presence)
+      end
+
       private
 
       ##

@@ -167,6 +167,19 @@
 default:
   log_level: info
 
+  # web server configuration
+  # web:
+  #   workers: 2
+  #   timeout: 60
+  #   wait_timeout: 10
+  #   min_threads: 4
+  #   max_threads: 16
+
+  # statsd configuration
+  # statsd:
+  #   host: 127.0.0.1
+  #   port: 8125
+
   # Outgoing emails configuration (see examples above)
   email_delivery_method: :smtp
   smtp_address: smtp.example.net
