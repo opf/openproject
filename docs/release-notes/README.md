@@ -19,6 +19,13 @@ Release date: 2021-10-04
 [Release Notes](11-4-0/)
 
 
+## 11.3.5
+
+Release date: 2021-09-13
+
+[Release Notes](11-3-5/)
+
+
 ## 11.3.4
 
 Release date: 2021-07-29
