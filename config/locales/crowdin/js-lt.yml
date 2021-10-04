@@ -542,7 +542,7 @@ lt:
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
           work_package_processed: 'Visi būsenų pakeitimai'
-          work_package_prioritized: 'All priority changes'
+          work_package_prioritized: 'Visi prioritetų pakeitimai'
           work_package_scheduled: 'Visi datų pakeitimai'
         global:
           immediately:

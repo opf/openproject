@@ -628,7 +628,7 @@ lt:
             mail_reminder_sent:
               set_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:
               no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
         notification_settings:
