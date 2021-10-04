@@ -25,11 +25,18 @@
 //
 // See docs/COPYRIGHT.rdoc for more details.
 //++
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { States } from '../../../states.service';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { TimelineViewParameters } from '../wp-timeline';
-import { TimelineStaticElement, timelineStaticElementCssClassname } from './timeline-static-element';
+import {
+  TimelineStaticElement,
+  timelineStaticElementCssClassname,
+} from './timeline-static-element';
 import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
@@ -38,9 +45,9 @@ import { TodayLineElement } from './wp-timeline.today-line';
 })
 export class WorkPackageTableTimelineStaticElements implements OnInit {
 
-  public $element:JQuery;
+  public $element:HTMLElement;
 
-  private container:JQuery;
+  private container:HTMLElement;
 
   private elements:TimelineStaticElement[];
 
@@ -48,7 +55,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
               public states:States,
               public workPackageTimelineTableController:WorkPackageTimelineTableController) {
 
-    this.$element = jQuery(elementRef.nativeElement);
+    this.$element = elementRef.nativeElement;
 
     this.elements = [
       new TodayLineElement()
@@ -56,7 +63,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   }
 
   ngOnInit() {
-    this.container = this.$element.find('.wp-table-timeline--static-elements');
+    this.container = this.$element.querySelector('.wp-table-timeline--static-elements') as HTMLElement;
     this.workPackageTimelineTableController
       .onRefreshRequested('static elements', (vp:TimelineViewParameters) => this.update(vp));
   }
@@ -67,12 +74,15 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   }
 
   private removeAllVisibleElements() {
-    jQuery('.' + timelineStaticElementCssClassname).remove();
+    this
+      .container
+      .querySelectorAll('.' + timelineStaticElementCssClassname)
+      .forEach((el) => el.remove());
   }
 
   private renderElements(vp:TimelineViewParameters) {
     for (const e of this.elements) {
-      this.container[0].appendChild(e.render(vp));
+      this.container.appendChild(e.render(vp));
     }
   }
 }
