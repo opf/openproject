@@ -54,7 +54,10 @@ module UserPreferences
     protected
 
     def time_zone_correctness
-      errors.add(:time_zone, :inclusion) if model.time_zone.present? && model.canonical_time_zone.nil?
+      if model.time_zone.present? &&
+         ActiveSupport::TimeZone[model.time_zone]&.tzinfo&.canonical_identifier != model.time_zone
+        errors.add(:time_zone, :inclusion)
+      end
     end
 
     ##

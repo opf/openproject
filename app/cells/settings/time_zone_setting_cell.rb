@@ -48,8 +48,28 @@ module Settings
 
     ##
     # Returns time zone (label, value) tuples to be used for a select field.
+    # As we only store tzinfo compatible data we only provide options, for which the
+    # values can later on be retrieved unambiguously. This is not always the case
+    # for values in ActiveSupport::TimeZone since multiple AS zones map to single tzinfo zones.
     def time_zone_entries
-      time_zones.map { |tz| [tz.to_s, tz.name] }
+      time_zones
+        .group_by { |tz| tz.tzinfo.name }
+        .values
+        .map do |zones|
+        tz = namesake_time_zone(zones)
+
+        [tz.to_s, tz.tzinfo.canonical_identifier]
+      end
+    end
+
+    # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
+    # one return the one that is the namesake.
+    def namesake_time_zone(time_zones)
+      if time_zones.length == 1
+        time_zones.first
+      else
+        time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
+      end
     end
   end
 end

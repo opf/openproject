@@ -50,8 +50,9 @@ describe UserPreferences::UpdateContract do
         enabled: true,
         times: %w[08:00:00+00:00 12:00:00+00:00]
       },
-      time_zone: 'Brasilia',
-      warn_on_leaving_unsaved: true
+      time_zone: 'America/Sao_Paulo',
+      warn_on_leaving_unsaved: true,
+      workdays: [1, 2, 4, 6]
     }
   end
   let(:contract) { described_class.new(user_preference, current_user) }
@@ -237,36 +238,34 @@ describe UserPreferences::UpdateContract do
     it_behaves_like 'contract is invalid', time_zone: :inclusion
   end
 
-  describe 'workdays' do
-    context 'with valid entries' do
-      let(:settings) do
-        {
-          workdays: [1, 2, 4, 6]
-        }
-      end
-
-      it_behaves_like 'contract is valid'
+  context 'with a non tzinfo time_zone' do
+    let(:settings) do
+      {
+        time_zone: 'Brasilia'
+      }
     end
 
-    context 'with duplicate entries' do
-      let(:settings) do
-        {
-          workdays: [1, 1]
-        }
-      end
+    it_behaves_like 'contract is invalid', time_zone: :inclusion
+  end
 
-      it_behaves_like 'contract is invalid', workdays: :no_duplicates
+  context 'with duplicate workday entries' do
+    let(:settings) do
+      {
+        workdays: [1, 1]
+      }
     end
 
-    context 'with non-iso entries' do
-      let(:settings) do
-        {
-          workdays: [nil, 'foo', :bar, 21345, 2.0]
-        }
-      end
+    it_behaves_like 'contract is invalid', workdays: :no_duplicates
+  end
 
-      it_behaves_like 'contract is invalid', workdays: %i[invalid type_mismatch_nested
-                                                          type_mismatch_nested type_mismatch_nested]
+  context 'with non-iso workday entries' do
+    let(:settings) do
+      {
+        workdays: [nil, 'foo', :bar, 21345, 2.0]
+      }
     end
+
+    it_behaves_like 'contract is invalid', workdays: %i[invalid type_mismatch_nested
+                                                        type_mismatch_nested type_mismatch_nested]
   end
 end
