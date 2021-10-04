@@ -74,7 +74,7 @@ export class PathHelperService {
     let path = `${this.projectPath(projectIdentifier)}/bcf/split/details/${workPackageId}`;
 
     if (viewpoint !== null) {
-      path += `?viewpoint=${viewpoint}`;
+      path += `?query_props=%7B"t"%3A"id%3Adesc"%7D&viewpoint=${viewpoint}`;
     }
 
     return path;
