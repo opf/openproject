@@ -48,7 +48,7 @@ module UserPreferences
     validate :full_hour_reminder_time,
              if: -> { model.daily_reminders.present? }
 
-    validate :workdays_are_iso,
+    validate :no_duplicate_workdays,
              if: -> { model.workdays.present? }
 
     protected
@@ -72,11 +72,7 @@ module UserPreferences
       end
     end
 
-    def workdays_are_iso
-      unless model.workdays.all? { |workday| workday.is_a?(Integer) && (1..7).include?(workday) }
-        errors.add :workdays, :iso_workday
-      end
-
+    def no_duplicate_workdays
       unless model.workdays.uniq.length == model.workdays.length
         errors.add :workdays, :no_duplicates
       end

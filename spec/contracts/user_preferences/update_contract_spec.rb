@@ -238,6 +238,16 @@ describe UserPreferences::UpdateContract do
   end
 
   describe 'workdays' do
+    context 'with valid entries' do
+      let(:settings) do
+        {
+          workdays: [1, 2, 4, 6]
+        }
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
     context 'with duplicate entries' do
       let(:settings) do
         {
@@ -255,7 +265,8 @@ describe UserPreferences::UpdateContract do
         }
       end
 
-      it_behaves_like 'contract is invalid', workdays: :iso_workday
+      it_behaves_like 'contract is invalid', workdays: %i[invalid type_mismatch_nested
+                                                          type_mismatch_nested type_mismatch_nested]
     end
   end
 end

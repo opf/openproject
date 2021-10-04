@@ -112,7 +112,7 @@ module Users::Scopes
 
             # Get the iso weekday of the current time to check
             # which users have it enabled as a workday
-            workday = Time.now.in_time_zone(z).to_date.cwday
+            workday = local_time.to_date.cwday
 
             # Since only full hours can be configured, we can disregard any local time that is not
             # a full hour.
