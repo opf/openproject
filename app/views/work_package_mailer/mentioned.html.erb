@@ -18,10 +18,10 @@
                    unique_reasons: [:mentioned],
                    show_count: false
                  } do %>
-        <table <%= placeholder_table_styles %>>
+        <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
           <tr>
-            <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
-              <%= simple_format @journal.notes %>
+            <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal; overflow: hidden; max-width: 100%; width: 100%;">
+              <%= format_text @journal.notes, only_path: false %>
             </td>
           </tr>
         </table>
