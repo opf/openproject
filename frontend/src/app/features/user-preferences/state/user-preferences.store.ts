@@ -49,6 +49,10 @@ function createInitialState():UserPreferencesModel {
     immediateReminders: {
       mentioned: false,
     },
+    pauseReminders: {
+      enabled: false,
+      time: '',
+    },
   };
 }
 

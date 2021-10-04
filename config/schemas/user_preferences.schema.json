@@ -35,6 +35,9 @@
                 },
                 "immediate_reminders": {
                   "$ref": "#/definitions/ImmediateReminders"
+                },
+                "pause_reminders": {
+                  "$ref": "#/definitions/PauseReminders"
                 }
             },
             "title": "UserPreferences"
@@ -72,6 +75,27 @@
             "mentioned"
           ],
           "title": "ImmediateReminders"
+        },
+        "PauseReminders": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "first_day": {
+              "type": "string",
+              "format": "date"
+            },
+            "last_day": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "required": [
+            "enabled"
+          ],
+          "title": "PauseReminders"
         }
     }
 }

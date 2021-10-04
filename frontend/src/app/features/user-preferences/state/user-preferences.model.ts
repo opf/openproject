@@ -8,6 +8,11 @@ export interface ImmediateRemindersSettings {
   mentioned:boolean;
 }
 
+export interface PauseRemindersSettings {
+  enabled:boolean;
+  time:string;
+}
+
 export interface UserPreferencesModel {
   autoHidePopups:boolean;
   commentSortDescending:boolean;
@@ -18,4 +23,5 @@ export interface UserPreferencesModel {
   notifications:NotificationSetting[];
   dailyReminders:DailyRemindersSettings;
   immediateReminders:ImmediateRemindersSettings;
+  pauseReminders:PauseRemindersSettings;
 }

@@ -675,6 +675,8 @@ en:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
 
 
     text_are_you_sure: "Are you sure?"
@@ -976,6 +978,7 @@ en:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"

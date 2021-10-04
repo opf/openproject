@@ -54,11 +54,17 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       preferences: {
         time_zone: "Europe/Paris",
         workdays: paris_user_workdays,
+        pause_reminders: paris_user_pause_reminders,
         daily_reminders: paris_user_daily_reminders
       }
     )
   end
   let(:paris_user_workdays) { [1, 2, 3, 4, 5] }
+  let(:paris_user_pause_reminders) do
+    {
+      enabled: false
+    }
+  end
   let(:paris_user_daily_reminders) do
     {
       enabled: true,
@@ -87,6 +93,51 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     it 'is empty' do
       expect(scope)
         .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is matching but the reminders are paused' do
+    let(:paris_user_pause_reminders) do
+      {
+        enabled: true,
+        first_day: '2021-09-20',
+        last_day: '2021-10-05'
+      }
+    end
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is matching but the reminders are paused until today' do
+    let(:paris_user_pause_reminders) do
+      {
+        enabled: true,
+        first_day: '2021-09-10',
+        last_day: '2021-09-30'
+      }
+    end
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is matching and the pause reminders is expired' do
+    let(:paris_user_pause_reminders) do
+      {
+        enabled: true,
+        first_day: '2021-09-10',
+        last_day: '2021-09-29'
+      }
+    end
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([paris_user])
     end
   end
 

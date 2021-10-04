@@ -74,7 +74,7 @@ module Users::Scopes
         # If no workdays are specified, 1 - 5 is assumed which is represents Monday to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
-                      .as('t(time, zone, workday)')
+                      .as('t(today_utc, hours, zone, workday)')
 
         default_timezone = Setting.user_default_timezone.present? ? "'#{Setting.user_default_timezone}'" : 'NULL'
 
@@ -91,12 +91,27 @@ module Users::Scopes
           AND (
             (
               user_preferences.settings->'daily_reminders'->'times' IS NULL
-              AND local_times.time = '08:00:00+00:00'
+              AND local_times.hours = '08:00:00+00:00'
             )
             OR
             (
               (user_preferences.settings->'daily_reminders'->'enabled')::boolean
-              AND user_preferences.settings->'daily_reminders'->'times' ? local_times.time
+              AND user_preferences.settings->'daily_reminders'->'times' ? local_times.hours
+            )
+          )
+          AND (
+            (
+              user_preferences.settings->'pause_reminders' IS NULL
+              OR (user_preferences.settings->'pause_reminders'->'enabled')::boolean = false
+            )
+            OR
+            (
+              (user_preferences.settings->'pause_reminders'->'enabled')::boolean
+              AND (
+               local_times.today_utc::date
+               NOT BETWEEN (user_preferences.settings->'pause_reminders'->>'first_day')::date
+               AND (user_preferences.settings->'pause_reminders'->>'last_day')::date
+              )
             )
           )
         SQL
@@ -112,20 +127,29 @@ module Users::Scopes
         UserPreferences::UpdateContract
           .assignable_time_zones
           .map do |z|
-            times.map do |time|
-              local_time = time.in_time_zone(z)
+          times.map do |time|
+            local_time = time.in_time_zone(z)
 
-              # Get the iso weekday of the current time to check
-              # which users have it enabled as a workday
-              workday = local_time.to_date.cwday
+            # Get the iso weekday of the current time to check
+            # which users have it enabled as a workday
+            workday = local_time.to_date.cwday
 
-              # Since only full hours can be configured, we can disregard any local time that is not
-              # a full hour.
-              next if local_time.min != 0
+            # Get the corresponding "UTC" date by conversion
+            # to compare them with pause_reminder dates which are derived from UTC
+            utc_date = local_time.utc.to_date
 
-              [local_time.strftime('%H:00:00+00:00'), z.tzinfo.canonical_zone.name, workday]
-            end
+            # Since only full hours can be configured, we can disregard any local time that is not
+            # a full hour.
+            next if local_time.min != 0
+
+            [
+              utc_date,
+              local_time.strftime('%H:00:00+00:00'),
+              z.tzinfo.canonical_zone.name,
+              workday
+            ]
           end
+        end
           .flatten(1)
           .compact
       end

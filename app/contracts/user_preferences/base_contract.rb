@@ -51,6 +51,9 @@ module UserPreferences
     validate :no_duplicate_workdays,
              if: -> { model.workdays.present? }
 
+    validate :valid_pause_days,
+             if: -> { model.pause_reminders.present? && model.pause_reminders[:enabled] }
+
     class << self
       ##
       # Returns time zones supported by OpenProject. Those include only the subset of all the
@@ -116,6 +119,20 @@ module UserPreferences
     def no_duplicate_workdays
       unless model.workdays.uniq.length == model.workdays.length
         errors.add :workdays, :no_duplicates
+      end
+    end
+
+    def valid_pause_days
+      first = model.pause_reminders[:first_day]
+      last = model.pause_reminders[:last_day]
+
+      unless first && last
+        errors.add :pause_reminders, :presence
+        return
+      end
+
+      unless last.to_date >= first.to_date
+        errors.add :pause_reminders, :invalid_range
       end
     end
   end

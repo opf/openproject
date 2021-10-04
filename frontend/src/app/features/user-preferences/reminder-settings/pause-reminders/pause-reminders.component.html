@@ -1,0 +1,17 @@
+<div
+  class="op-pause-reminders"
+  [formGroup]="form"
+>
+  <input
+    type="checkbox"
+    formControlName="enabled"
+    id="op-pause-reminders-enabled"
+    class="op-pause-reminders--enabled"
+  />
+  <label
+    class="op-reminder-settings-daily-time--label"
+    [textContent]="text.label"
+    for="op-pause-reminders-enabled"
+  >
+  </label>
+</div>

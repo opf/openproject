@@ -295,4 +295,84 @@ describe UserPreferences::UpdateContract do
         .to match_array([ActiveSupport::TimeZone['London'], ActiveSupport::TimeZone['Zurich']])
     end
   end
+
+  describe 'puase_reminders' do
+    context 'with enabled false' do
+      let(:settings) do
+        {
+          pause_reminders: { enabled: false }
+        }
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'with enabled true but and valid range' do
+      let(:settings) do
+        {
+          pause_reminders: {
+            enabled: true,
+            first_day: '2021-10-05',
+            last_day: '2021-10-10'
+          }
+        }
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+
+    context 'with empty object' do
+      let(:settings) do
+        {
+          pause_reminders: {}
+        }
+      end
+
+      it_behaves_like 'contract is invalid', pause_reminders: :blank_nested
+    end
+
+    context 'with enabled true but no days' do
+      let(:settings) do
+        {
+          pause_reminders: { enabled: true }
+        }
+      end
+
+      it_behaves_like 'contract is invalid', pause_reminders: :presence
+    end
+
+    context 'with enabled true but invalid dates' do
+      let(:settings) do
+        {
+          pause_reminders: {
+            enabled: true,
+            first_day: '2021-10-05T08:21:35Z',
+            last_day: '2021-10-05T08:21:35Z'
+          }
+        }
+      end
+
+      it_behaves_like 'contract is invalid', pause_reminders: %i[format_nested format_nested]
+    end
+
+    context 'with enabled true but only first day' do
+      let(:settings) do
+        {
+          pause_reminders: { enabled: true, first_day: '2021-10-05' }
+        }
+      end
+
+      it_behaves_like 'contract is invalid', pause_reminders: :presence
+    end
+
+    context 'with enabled true but only last day' do
+      let(:settings) do
+        {
+          pause_reminders: { enabled: true, last_day: '2021-10-05' }
+        }
+      end
+
+      it_behaves_like 'contract is invalid', pause_reminders: :presence
+    end
+  end
 end

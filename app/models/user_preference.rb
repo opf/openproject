@@ -126,6 +126,10 @@ class UserPreference < ApplicationRecord
     super.presence || { mentioned: false }.with_indifferent_access
   end
 
+  def pause_reminders
+    super.presence || { enabled: false }.with_indifferent_access
+  end
+
   def workdays
     super.presence || [1, 2, 3, 4, 5]
   end
