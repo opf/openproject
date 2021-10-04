@@ -626,16 +626,16 @@ zh-TW:
           attributes:
             read_ian:
               read_on_creation: '在創建通知時不能設置為 true'
-            read_mail:
-              read_on_creation: '在創建通知時不能設置為 true'
-            read_mail_digest:
-              read_on_creation: '在創建通知時不能設置為 true'
-            reason_ian:
-              no_notification_reason: '當 IAN 被選為管道時不能為空'
-            reason_mail:
-              no_notification_reason: '當郵件被選為管道時不能為空'
+            mail_reminder_sent:
+              set_on_creation: '在創建通知時不能設置為 true'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -2413,6 +2413,7 @@ zh-TW:
       retention_text: >
         設定用戶的通知事件（應用程式內通知的來源）將保留在系統中的天數。任何早於此時間的事件都將被刪除
       events_explanation: '控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2523,7 +2524,6 @@ zh-TW:
   text_regexp_info: "例如: ^[A-Z0-9]+$"
   text_regexp_multiline: '這個正規表達式被套用在多行模式'
   text_repository_usernames_mapping: "選擇或更新與版本庫中的帳號所對應的OpenProject使用者。\n版本庫中與OpenProject的使用者具有相同名稱或email將被自動對應。"
-  text_select_notifications: "選擇應發送通知的操作"
   text_status_changed_by_changeset: "已套用至變更列表 %{value} 中。"
   text_table_difference_description: "此表格展示了單個%{entries}。您可以先選擇複選框，再點擊表格下方的按鈕來比較兩項之間的差異。"
   text_time_logged_by_changeset: "已套用至變更列表 %{value} 中。"

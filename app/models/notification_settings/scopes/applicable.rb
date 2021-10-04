@@ -45,8 +45,7 @@ module NotificationSettings::Scopes
                     .where(global_notifications[:project_id].eq(nil))
                     .join(project_notifications, Arel::Nodes::OuterJoin)
                     .on(project_notifications[:project_id].eq(project.id),
-                        global_notifications[:user_id].eq(project_notifications[:user_id]),
-                        global_notifications[:channel].eq(project_notifications[:channel]))
+                        global_notifications[:user_id].eq(project_notifications[:user_id]))
                     .project(global_notifications.coalesce(project_notifications[:id], global_notifications[:id]))
 
         where(global_notifications[:id].in(subselect))

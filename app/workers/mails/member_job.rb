@@ -90,7 +90,7 @@ class Mails::MemberJob < ApplicationJob
     return false if message.present?
 
     NotificationSetting
-      .where(project_id: nil, user_id: user_id, channel: NotificationSetting.channels[:mail])
+      .where(project_id: nil, user_id: user_id)
       .exists?("membership_#{setting}" => false)
   end
 end

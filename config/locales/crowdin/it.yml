@@ -623,16 +623,16 @@ it:
           attributes:
             read_ian:
               read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            read_mail:
-              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            read_mail_digest:
-              read_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
-            reason_ian:
-              no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
-            reason_mail:
-              no_notification_reason: 'non può essere vuoto perché la posta è scelta come canale.'
+            mail_reminder_sent:
+              set_on_creation: 'non può essere impostato su vero nella creazione delle notifiche.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -2429,6 +2429,7 @@ it:
       retention_text: >
         Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.
@@ -2539,7 +2540,6 @@ it:
   text_regexp_info: "es. ^[A-Z0-9]+$"
   text_regexp_multiline: 'L''espressione regolare viene applicata in modalità multi-linea. ad esempio, ^---\s+'
   text_repository_usernames_mapping: "Seleziona o aggiorna l'utente OpenProject mappato per ogni nome utente trovato nel registro dell'archivio. Gli utenti con lo stesso nome utente e repository OpenProject o e-mail vengono mappati automaticamente."
-  text_select_notifications: "Seleziona le azioni per le quali le notifiche devono essere inviate."
   text_status_changed_by_changeset: "Stato variato a partire dalla modifica %{value}."
   text_table_difference_description: "In questa tabella sono mostrate le singole %{entries}. È possibile visualizzare le differenze tra due voci selezionando prima le corrispondenti caselle di controllo nella tabella. Cliccando sul pulsante sotto la tabella saranno mostrate le differenze."
   text_time_logged_by_changeset: "Stato variato a partire dalla modifica %{value}."

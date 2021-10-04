@@ -43,8 +43,7 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     context 'when only global settings exist' do
       let(:notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: nil),
-          FactoryBot.build(:in_app_notification_setting, project: nil)
+          FactoryBot.build(:notification_setting, project: nil)
         ]
       end
 
@@ -57,14 +56,12 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
     context 'when global and project settings exist' do
       let(:project_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: project),
-          FactoryBot.build(:in_app_notification_setting, project: project)
+          FactoryBot.build(:notification_setting, project: project)
         ]
       end
       let(:global_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting),
-          FactoryBot.build(:in_app_notification_setting)
+          FactoryBot.build(:notification_setting)
         ]
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }
@@ -79,14 +76,12 @@ describe NotificationSettings::Scopes::Applicable, type: :model do
       let(:other_project) { FactoryBot.create(:project) }
       let(:project_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting, project: other_project),
-          FactoryBot.build(:in_app_notification_setting, project: other_project)
+          FactoryBot.build(:notification_setting, project: other_project)
         ]
       end
       let(:global_notification_settings) do
         [
-          FactoryBot.build(:mail_notification_setting),
-          FactoryBot.build(:in_app_notification_setting)
+          FactoryBot.build(:notification_setting)
         ]
       end
       let(:notification_settings) { project_notification_settings + global_notification_settings }

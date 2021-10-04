@@ -290,9 +290,9 @@ pl:
             current_new_feature_html: >
               Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Nowy przycisk w nawigacji nagłówka, pozwalający tworzyć projekty, użytkowników i pakiety robocze.</li> <li>Nowe okno modalne zaproszenia dla użytkowników, grup i użytkowników zastępczych umożliwia łatwe dodawanie lub zapraszanie nowych użytkowników i przypisywanie ich do pakietów roboczych.</li> <li>Integracja GitHub z OpenProject.</li> <li>Rozszerzenia API v3 dla grup i więcej, np. tworzenie, odczyt, aktualizowanie i usuwanie grup i członków grup za pomocą interfejsu API.</li> <li>Wielokrotny wybór niestandardowych pól projektu z listy typów.</li> <li>Tworzenie kopii zapasowej z interfejsu przeglądarkowego.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>BIM: poprawa wydajności przeglądarki modeli IFC.</li> <li>BIM: przeglądarka IFC obsługuje obecnie modele o podwójnej precyzji, które są świetne do dużych obiektów budowlanych, takich jak mosty, drogi itp.</li> <li>BIM: przycisk przełączający między trybem perspektywy i trybem ortogonalnym.</li> <li>BIM: menu edycji, usuwania lub przerzucania płaszczyzn sekcji.</li> <li>Nowy przycisk w nawigacji nagłówka, pozwalający tworzyć projekty, użytkowników i pakiety robocze.</li> <li>Nowe okno modalne zaproszenia dla użytkowników, grup i użytkowników zastępczych, umożliwiające łatwe dodawanie lub zaproszenie nowych użytkowników i przypisywanie ich do pakietów roboczych.</li> <li>Rozszerzenia API v3 dla grup itd. np. tworzenie, odczyta, aktualizowanie i usuwanie grup i członków grup za pomocą interfejsu API.</li> <li>Wielokrotny wybór niestandardowych pól projektu z listy typów.</li> <li>Tworzenie kopii zapasowej z interfejsu przeglądarkowego.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Aktywuj"
     label_add_column_after: "Dodaj kolumnę po"
     label_add_column_before: "Dodaj kolumnę przed"
@@ -509,7 +509,6 @@ pl:
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
-      channel: "Channel"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
@@ -543,7 +542,7 @@ pl:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
@@ -594,6 +593,18 @@ pl:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Wiadomość dodana'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Dodano stronę wiki'
+          wiki_page_updated: 'Zaktualizowano stronę wiki'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "Jesteś pewien?"
     text_data_lost: "All entered data will be lost."

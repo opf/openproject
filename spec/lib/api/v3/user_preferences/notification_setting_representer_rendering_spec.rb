@@ -69,10 +69,6 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         .not_to have_json_path('_type')
     end
 
-    it_behaves_like 'property', :channel do
-      let(:value) { notification_setting.channel }
-    end
-
     NotificationSetting.all_settings.each do |property|
       it_behaves_like 'property', property.to_s.camelize(:lower) do
         let(:value) { notification_setting.send property }

@@ -40,6 +40,7 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'ifc-viewer',
@@ -62,6 +63,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   keyboardEnabled = false;
 
+  public inspectorVisible$:BehaviorSubject<boolean>;
+
   @ViewChild('outerContainer') outerContainer:ElementRef;
 
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
@@ -69,9 +72,10 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   constructor(private I18n:I18nService,
     private elementRef:ElementRef,
     public ifcData:IfcModelsDataService,
-    private ifcViewer:IFCViewerService,
+    private ifcViewerService:IFCViewerService,
     private currentUserService:CurrentUserService,
     private currentProjectService:CurrentProjectService) {
+    this.inspectorVisible$ = this.ifcViewerService.inspectorVisible$;
   }
 
   ngOnInit():void {
@@ -91,12 +95,14 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
           'ifc_models/destroy',
         ],
         this.currentProjectService.id as string,
-      ).subscribe((manageIfcModelsAllowed) => {
-        this.ifcViewer.newViewer(
+      )
+      .subscribe((manageIfcModelsAllowed) => {
+        this.ifcViewerService.newViewer(
           {
-            canvasElement: element.find('[data-qa-selector="op-ifc-viewer--model-canvas"]')[0], // WebGL canvas
+            canvasElement: this.modelCanvas.nativeElement, // WebGL canvas
             explorerElement: jQuery('[data-qa-selector="op-ifc-viewer--tree-panel"]')[0], // Left panel
             toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
+            inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
             navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
             busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
             enableEditModels: manageIfcModelsAllowed,
@@ -104,29 +110,34 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
           this.ifcData.projects,
         );
       });
+
   }
 
   ngOnDestroy():void {
-    this.ifcViewer.destroy();
+    this.ifcViewerService.destroy();
+  }
+
+  toggleInspector():void {
+    this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
   @HostListener('mousedown')
-  enableKeyBoard() {
+  enableKeyBoard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
-      this.ifcViewer.setKeyboardEnabled(true);
+      this.ifcViewerService.setKeyboardEnabled(true);
     }
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element) {
+  disableKeyboard(target:Element):void {
     if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
-      this.ifcViewer.setKeyboardEnabled(false);
+      this.ifcViewerService.setKeyboardEnabled(false);
     }
   }
 
-  enableFromIcon(event:MouseEvent) {
+  enableFromIcon(event:MouseEvent):boolean {
     this.enableKeyBoard();
 
     // Focus on the canvas

@@ -625,16 +625,16 @@ ko:
           attributes:
             read_ian:
               read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail_digest:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -2411,6 +2411,7 @@ ko:
       retention_text: >
         사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         "%{day_of_week_setting_name}"이나 "%{first_week_setting_name}" 중 하나가 설정되었다면, 프론트엔드 충돌을 방지하기 위해 나머지 하나도 설정되어야 합니다.
@@ -2521,7 +2522,6 @@ ko:
   text_regexp_info: "예: ^[A-Z0-9]+$"
   text_regexp_multiline: '멀티라인 모드에서 정규식이 적용됩니다. 예, e.g., ^---\s+'
   text_repository_usernames_mapping: "리포지토리 로그에 있는 각 사용자 이름에 매핑된 OpenProject 사용자를 선택하거나 업데이트하세요.\n동일한 OpenProject 및 리포지토리 사용자 이름이나 이메일을 가진 사용자가 자동으로 매핑됩니다."
-  text_select_notifications: "알림을 보낼 작업을 선택하세요."
   text_status_changed_by_changeset: "변경 집합 %{value}에 적용되었습니다."
   text_table_difference_description: "이 테이블에서 단일 %{entries}이(가) 표시됩니다. 먼저 테이블의 해당 확인란을 선택하여 두 항목 사이의 차이를 볼 수 있습니다. 테이블 아래 버튼을 클릭하면 차이가 표시됩니다."
   text_time_logged_by_changeset: "변경 집합 %{value}에 적용되었습니다."

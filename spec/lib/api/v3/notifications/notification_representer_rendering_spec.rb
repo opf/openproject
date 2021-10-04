@@ -107,7 +107,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     it_behaves_like 'property', :reason do
-      let(:value) { notification.reason_ian }
+      let(:value) { notification.reason }
     end
 
     it_behaves_like 'datetime property', :createdAt do

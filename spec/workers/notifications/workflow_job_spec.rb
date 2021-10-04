@@ -109,7 +109,7 @@ describe Notifications::WorkflowJob, type: :model do
       end
 
       before do
-        scope = class_double(Notification, unread_mail: [notifications.first])
+        scope = class_double(Notification, mail_alert_unsent: [notifications.first])
 
         allow(Notification)
           .to receive(:where)

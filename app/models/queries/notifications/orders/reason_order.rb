@@ -36,6 +36,6 @@ class Queries::Notifications::Orders::ReasonOrder < Queries::Orders::Base
   end
 
   def name
-    :reason_ian
+    :reason
   end
 end

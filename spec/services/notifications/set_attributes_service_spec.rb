@@ -58,9 +58,7 @@ describe Notifications::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:reason_ian) { :mentioned }
-  let(:reason_mail) { :assigned }
-  let(:reason_mail_digest) { :watched }
+  let(:reason) { :mentioned }
   let(:journal) { FactoryBot.build_stubbed(:journal, journable: journable, data: journal_data) }
   let(:journable) { nil }
   let(:journal_data) { nil }
@@ -71,9 +69,7 @@ describe Notifications::SetAttributesService, type: :model do
     let(:call_attributes) do
       {
         recipient_id: recipient_id,
-        reason_ian: reason_ian,
-        reason_mail: reason_mail,
-        reason_mail_digest: reason_mail_digest,
+        reason: reason,
         resource: journable,
         journal: journal,
         subject: event_subject,
@@ -99,15 +95,12 @@ describe Notifications::SetAttributesService, type: :model do
         expect(event.attributes.compact.symbolize_keys)
           .to eql({
                     project_id: project.id,
-                    reason_ian: 'mentioned',
-                    reason_mail: 'assigned',
-                    reason_mail_digest: 'watched',
+                    reason: 'mentioned',
                     journal_id: journal.id,
                     recipient_id: 1,
                     subject: event_subject,
                     read_ian: false,
-                    read_mail: false,
-                    read_mail_digest: false
+                    mail_reminder_sent: false
                   })
       end
 
@@ -125,9 +118,7 @@ describe Notifications::SetAttributesService, type: :model do
         let(:call_attributes) do
           {
             recipient_id: recipient_id,
-            reason_ian: reason_ian,
-            reason_mail: reason_mail,
-            reason_mail_digest: reason_mail_digest,
+            reason: reason,
             journal: journal,
             resource: journable,
           }
@@ -139,16 +130,13 @@ describe Notifications::SetAttributesService, type: :model do
           expect(event.attributes.compact.symbolize_keys)
             .to eql({
                       project_id: project.id,
-                      reason_ian: 'mentioned',
-                      reason_mail: 'assigned',
-                      reason_mail_digest: 'watched',
+                      reason: 'mentioned',
                       resource_id: journable.id,
                       resource_type: 'WorkPackage',
                       journal_id: journal.id,
                       recipient_id: 1,
                       read_ian: false,
-                      read_mail: false,
-                      read_mail_digest: false
+                      mail_reminder_sent: false
                     })
         end
       end

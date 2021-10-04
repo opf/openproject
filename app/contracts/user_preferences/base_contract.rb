@@ -48,6 +48,9 @@ module UserPreferences
     validate :full_hour_reminder_time,
              if: -> { model.daily_reminders.present? }
 
+    validate :no_duplicate_workdays,
+             if: -> { model.workdays.present? }
+
     protected
 
     def time_zone_correctness
@@ -66,6 +69,12 @@ module UserPreferences
     def full_hour_reminder_time
       unless model.daily_reminders[:times].all? { |time| time.match?(/00:00\+00:00\z/) }
         errors.add :daily_reminders, :full_hour
+      end
+    end
+
+    def no_duplicate_workdays
+      unless model.workdays.uniq.length == model.workdays.length
+        errors.add :workdays, :no_duplicates
       end
     end
   end

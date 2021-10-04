@@ -68,7 +68,7 @@ class DigestMailer < ApplicationMailer
     @mentioned_count = @aggregated_notifications
                          .values
                          .flatten
-                         .map(&:reason_mail_digest)
+                         .map(&:reason)
                          .compact
                          .count("mentioned")
 

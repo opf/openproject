@@ -62,11 +62,9 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :subscribed,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -75,9 +73,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -87,9 +83,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -116,11 +110,9 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
-              reason_ian: false,
-              read_mail: false,
-              reason_mail: :subscribed,
-              read_mail_digest: nil,
-              reason_mail_digest: false
+              reason: :subscribed,
+              mail_alert_sent: false,
+              mail_reminder_sent: nil
             }
           end
         end
@@ -129,9 +121,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false.merge(involved: true)),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false.merge(involved: true))
+            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -141,9 +131,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:mail_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:in_app_notification_setting, **notification_settings_all_false),
-            FactoryBot.build(:mail_digest_notification_setting, **notification_settings_all_false)
+            FactoryBot.build(:notification_setting, **notification_settings_all_false)
           ]
         end
 

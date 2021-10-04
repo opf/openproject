@@ -31,6 +31,7 @@ The package is available for the following Linux distributions:
 | [Ubuntu 20.04 Focal](#ubuntu-2004)          |
 | [Ubuntu 18.04 Bionic Beaver](#ubuntu-1804)  |
 | [Ubuntu 16.04 Xenial Xerus](#ubuntu-1604)   |
+| [Debian 11 Bullseye](#debian-11)              |
 | [Debian 10 Buster](#debian-10)              |
 | [Debian 9 Stretch](#debian-9)               |
 | [CentOS/RHEL 8.x](#centos-8--rhel-8)                    |
@@ -126,6 +127,30 @@ sudo apt-get install openproject
 Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
 ## Debian Installation
+
+### Debian 11
+
+Import the PGP key used to sign our packages:
+
+```bash
+wget -qO- https://dl.packager.io/srv/opf/openproject/key | sudo apt-key add -
+```
+
+Add the OpenProject package source:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/openproject.list \
+  https://dl.packager.io/srv/opf/openproject/stable/11/installer/debian/11.repo
+```
+
+Download the OpenProject package:
+
+```bash
+sudo apt-get update
+sudo apt-get install openproject
+```
+
+Then finish the installation by reading the [*Initial configuration*][initial-config] section.
 
 ### Debian 10
 
@@ -293,6 +318,7 @@ This wizard step is only available on the following distributions:
 * Ubuntu 20.04
 * Ubuntu 18.04
 * Debian 10
+* Debian 11
 
 On older distributions, this wizard step won't be displayed, and the installation will default to the default edition.
 </div>

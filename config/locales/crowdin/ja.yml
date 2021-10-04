@@ -622,16 +622,16 @@ ja:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -2410,6 +2410,7 @@ ja:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
@@ -2521,7 +2522,6 @@ ja:
   text_regexp_info: "例) ^[A-Z0-9]+$"
   text_regexp_multiline: '正規表現は、複数行モードで適用されます。例えば、^---\s+'
   text_repository_usernames_mapping: "リポジトリのログから検出されたユーザ名をどのOpenProjectユーザに関連づけるかを選択してください。\nログ上のユーザ名またはメールアドレスがOpenProjectのユーザと一致する場合は自動的に関連づけます。"
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "変更履歴%{value}で適用されました。"
   text_table_difference_description: "この表には、単一の %{entries} が表示されています。 まず、表の対応するチェックボックスを選択して、両者の項目の違いを見ることができます。 表の下のボタンをクリックすると、違いが表示されます。"
   text_time_logged_by_changeset: "変更履歴%{value}で適用されました。"

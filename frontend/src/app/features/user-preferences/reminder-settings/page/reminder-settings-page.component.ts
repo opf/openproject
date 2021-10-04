@@ -35,6 +35,7 @@ interface IReminderSettingsFormValue {
   immediateReminders:ImmediateRemindersSettings,
   dailyReminders:DailyRemindersSettings,
   emailAlerts:Record<EmailAlertType, boolean>;
+  workdays:boolean[];
 }
 
 @Component({
@@ -54,6 +55,15 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
       enabled: this.fb.control(false),
       times: this.fb.array([]),
     }),
+    workdays: this.fb.array([
+      this.fb.control(false),
+      this.fb.control(true),
+      this.fb.control(true),
+      this.fb.control(true),
+      this.fb.control(true),
+      this.fb.control(true),
+      this.fb.control(false),
+    ]),
     emailAlerts: this.fb.group({
       newsAdded: this.fb.control(false),
       newsCommented: this.fb.control(false),
@@ -72,6 +82,9 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     daily: {
       title: this.I18n.t('js.reminders.settings.daily.title'),
       explanation: this.I18n.t('js.reminders.settings.daily.explanation'),
+    },
+    workdays: {
+      title: this.I18n.t('js.reminders.settings.workdays.title'),
     },
     immediate: {
       title: this.I18n.t('js.reminders.settings.immediate.title'),
@@ -126,6 +139,12 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
 
         dailyReminderTimes.enable({ emitEvent: true });
 
+        const workdays = this.form.get('workdays') as FormArray;
+        for (let i = 0; i <= 6; i++) {
+          const control = workdays.at(i);
+          control.setValue(settings.workdays.includes(i + 1));
+        }
+
         emailAlerts.forEach((alert) => {
           this.form.get(`emailAlerts.${alert}`)?.setValue(globalSetting[alert]);
         });
@@ -140,9 +159,11 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     const globalNotifications = prefs.notifications.filter((notification) => !notification._links.project.href);
     const projectNotifications = prefs.notifications.filter((notification) => !!notification._links.project.href);
     const reminderSettings = (this.form.value as IReminderSettingsFormValue);
+    const workdays = ReminderSettingsPageComponent.buildWorkdays(reminderSettings.workdays);
 
     this.storeService.update(this.userId, {
       ...prefs,
+      workdays,
       dailyReminders: reminderSettings.dailyReminders,
       immediateReminders: reminderSettings.immediateReminders,
       notifications: [
@@ -155,5 +176,19 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
         ...projectNotifications,
       ],
     });
+  }
+
+  private static buildWorkdays(formValues:boolean[]):number[] {
+    return formValues
+      .reduce(
+        (result, val, index) => {
+          if (val) {
+            return result.concat([index + 1]);
+          }
+
+          return result;
+        },
+        [] as number[],
+      );
   }
 }

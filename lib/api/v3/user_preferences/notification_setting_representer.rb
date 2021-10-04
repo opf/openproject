@@ -34,7 +34,6 @@ module API
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        property :channel
         NotificationSetting.all_settings.each do |setting|
           property setting
         end

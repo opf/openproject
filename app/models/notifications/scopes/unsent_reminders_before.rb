@@ -39,7 +39,7 @@ module Notifications::Scopes
         where(Notification.arel_table[:created_at].lteq(time))
           .where(recipient: recipient)
           .where("read_ian IS NULL OR read_ian IS FALSE")
-          .where(read_mail_digest: false)
+          .where(mail_reminder_sent: false)
       end
     end
   end
