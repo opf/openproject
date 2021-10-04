@@ -718,7 +718,7 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (2.3.3)
       rack (>= 1.2.0)
-    rack-oauth2 (1.18.0)
+    rack-oauth2 (1.19.0)
       activesupport
       attr_required
       httpclient
@@ -821,16 +821,16 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.10.2)
-    rubocop (1.21.0)
+    rubocop (1.22.1)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.9.1, < 2.0)
+      rubocop-ast (>= 1.12.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.11.0)
+    rubocop-ast (1.12.0)
       parser (>= 3.0.1.1)
     rubocop-rails (2.12.2)
       activesupport (>= 4.2.0)
@@ -906,7 +906,7 @@ GEM
     stringex (2.8.5)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
-    swd (1.2.0)
+    swd (1.3.0)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.4)
@@ -953,7 +953,7 @@ GEM
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (>= 3.0, < 4.0)
-    webfinger (1.1.0)
+    webfinger (1.2.0)
       activesupport
       httpclient (>= 2.4)
     webmock (3.14.0)
