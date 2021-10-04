@@ -44,8 +44,6 @@ export class IanMenuQuery extends Query<IanMenuState> {
 
   notificationsByReason$ = this.select('notificationsByReason');
 
-  baseMenuItemNotifications$ = this.select('baseMenuItemNotifications');
-
   constructor(
     protected store:IanMenuStore,
     protected resourceService:InAppNotificationsResourceService,

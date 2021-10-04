@@ -18,7 +18,6 @@ import {
   IanMenuStore,
   IAN_MENU_PROJECT_FILTERS,
   IAN_MENU_REASON_FILTERS,
-  IAN_MENU_INBOX_FILTER,
 } from './ian-menu.store';
 
 @Injectable()
@@ -68,9 +67,5 @@ export class IanMenuService {
     this.ianResourceService.fetchNotifications(IAN_MENU_REASON_FILTERS)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       .subscribe((data) => this.store.update({ notificationsByReason: data.groups }));
-
-    this.ianResourceService.fetchNotifications(IAN_MENU_INBOX_FILTER)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      .subscribe((data) => this.store.update({ baseMenuItemNotifications: [{ value: 'inbox', count: data.total }] }));
   }
 }

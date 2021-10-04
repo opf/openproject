@@ -58,13 +58,6 @@ export class IanMenuComponent implements OnInit {
     },
   ];
 
-  baseMenuItemNotifications$ = this.ianMenuService.query.baseMenuItemNotifications$.pipe(
-    map((items) => this.baseMenuItems.map((baseItem) => ({
-      ...items.find((item) => item.value === baseItem.key),
-      ...baseItem,
-    }))),
-  );
-
   notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
     map((items) => items
       .map((item) => ({
@@ -89,12 +82,14 @@ export class IanMenuComponent implements OnInit {
   );
 
   menuItems$ = combineLatest([
-    this.baseMenuItemNotifications$,
     this.notificationsByProject$,
     this.notificationsByReason$,
   ]).pipe(
-    map(([baseMenu, byProject, byReason]) => [
-      ...baseMenu,
+    map(([byProject, byReason]) => [
+      ...this.baseMenuItems.map((baseMenuItem) => ({
+        ...baseMenuItem,
+        count: byReason.reduce((a, b) => a + (b.count || 0), 0),
+      })),
       {
         title: this.I18n.t('js.notifications.menu.by_reason'),
         collapsible: true,
