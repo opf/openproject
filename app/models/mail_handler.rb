@@ -254,34 +254,33 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  def add_attachments(obj)
-    create_attachments_from_mail(obj)
-      .each do |attachment|
-        obj.attachments << attachment
-      end
-  end
-
-  def create_attachments_from_mail(container = nil)
+  def add_attachments(container)
     return [] unless email.attachments&.present?
 
     email
       .attachments
       .reject { |attachment| ignored_filename?(attachment.filename) }
-      .map do |attachment|
-      file = OpenProject::Files.create_uploaded_file(
-        name: attachment.filename,
-        content_type: attachment.mime_type,
-        content: attachment.decoded,
-        binary: true
-      )
+      .map { |attachment| create_attachment(attachment, container) }
+      .compact
+  end
 
-      Attachment.create(
-        container: container,
-        file: file,
-        author: user,
-        content_type: attachment.mime_type
-      )
+  def create_attachment(attachment, container)
+    file = OpenProject::Files.create_uploaded_file(
+      name: attachment.filename,
+      content_type: attachment.mime_type,
+      content: attachment.decoded,
+      binary: true
+    )
+
+    call = ::Attachments::CreateService
+      .new(user: user)
+      .call(container: container, filename: attachment.filename, file: file)
+
+    call.on_failure do
+      log "Failed to add attachment #{attachment.filename} for [#{sender_email}]: #{call.message}"
     end
+
+    call.result
   end
 
   # Adds To and Cc as watchers of the given object if the sender has the
@@ -548,7 +547,7 @@ class MailHandler < ActionMailer::Base
 
   def update_work_package(work_package)
     attributes = collect_wp_attributes_from_email_on_update(work_package)
-    attributes[:attachment_ids] = work_package.attachment_ids + create_attachments_from_mail.map(&:id)
+    attributes[:attachment_ids] = work_package.attachment_ids + add_attachments(work_package).map(&:id)
 
     service_call = WorkPackages::UpdateService
                    .new(user: user,

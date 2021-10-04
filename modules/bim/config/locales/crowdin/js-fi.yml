@@ -12,6 +12,8 @@ fi:
       show_viewpoint: 'Näytä näkymä'
       delete_viewpoint: 'Poista näkymä'
       management: 'BCF:n hallinnointi'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Tässä projektissa ei ole vielä IFC mallia."
       use_this_link_to_manage: "Tuo ja hallitse IFC malleja."

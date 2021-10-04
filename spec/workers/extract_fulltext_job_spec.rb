@@ -31,86 +31,89 @@
 require 'spec_helper'
 
 describe ExtractFulltextJob, type: :job do
-  # These jobs only get created when TSVector is supported by the DB.
-  if OpenProject::Database.allows_tsv?
-    let(:text) { 'lorem ipsum' }
-    let(:attachment) do
-      FactoryBot.create(:attachment).tap do |attachment|
-        expect(ExtractFulltextJob)
-          .to have_been_enqueued
-          .with(attachment.id)
+  let(:text) { 'lorem ipsum' }
+  let(:attachment) do
+    FactoryBot.create(:attachment).tap do |attachment|
+      expect(ExtractFulltextJob)
+        .to have_been_enqueued
+        .with(attachment.id)
+    end
+  end
 
-        perform_enqueued_jobs
+  let(:subject) do
+    perform_enqueued_jobs
 
-        attachment.reload
-      end
+    attachment.reload
+  end
+
+  before do
+    allow(Attachment).to receive(:find_by).with(id: attachment.id).and_return(attachment)
+  end
+
+  context "with successful text extraction" do
+    before do
+      allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
     end
 
-    context "with successful text extraction" do
+    context 'attachment is readable' do
       before do
-        allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return(text)
+        allow(attachment).to receive(:readable?).and_return(true)
+        subject
       end
 
-      context 'attachment is readable' do
-        before do
-          allow(attachment).to receive(:readable?).and_return(true)
-          attachment.reload
-        end
-
-        it 'updates the attachment\'s DB record with fulltext, fulltext_tsv, and file_tsv' do
-          expect(attachment.fulltext).to eq text
-          expect(attachment.fulltext_tsv.size).to be > 0
-          expect(attachment.file_tsv.size).to be > 0
-        end
-
-        # shared_examples 'no fulltext but file name saved as TSV' do
-        # end
-
-        context 'No content was extracted' do
-          let(:text) { nil }
-
-          # include_examples 'no fulltext but file name saved as TSV'
-          it 'updates the attachment\'s DB record with file_tsv' do
-            expect(attachment.fulltext).to be_blank
-            expect(attachment.fulltext_tsv).to be_blank
-            expect(attachment.file_tsv.size).to be > 0
-          end
-        end
-      end
-    end
-
-    shared_examples 'only file name indexed' do
-      it 'updates the attachment\'s DB record with file_tsv' do
-        expect(attachment.fulltext).to be_blank
-        expect(attachment.fulltext_tsv).to be_blank
+      it 'updates the attachment\'s DB record with fulltext, fulltext_tsv, and file_tsv' do
+        expect(attachment.fulltext).to eq text
+        expect(attachment.fulltext_tsv.size).to be > 0
         expect(attachment.file_tsv.size).to be > 0
       end
-    end
 
-    context 'file not readable' do
-      before do
-        allow(attachment).to receive(:readable?).and_return(false)
-        attachment.reload
+      # shared_examples 'no fulltext but file name saved as TSV' do
+      # end
+
+      context 'No content was extracted' do
+        let(:text) { nil }
+
+        # include_examples 'no fulltext but file name saved as TSV'
+        it 'updates the attachment\'s DB record with file_tsv' do
+          expect(attachment.fulltext).to be_blank
+          expect(attachment.fulltext_tsv).to be_blank
+          expect(attachment.file_tsv.size).to be > 0
+        end
       end
+    end
+  end
 
-      include_examples 'only file name indexed'
+  shared_examples 'only file name indexed' do
+    it 'updates the attachment\'s DB record with file_tsv' do
+      expect(attachment.fulltext).to be_blank
+      expect(attachment.fulltext_tsv).to be_blank
+      expect(attachment.file_tsv.size).to be > 0
+    end
+  end
+
+  context 'file not readable' do
+    before do
+      allow(attachment).to receive(:readable?).and_return(false)
+      subject
     end
 
-    context 'with exception in extraction' do
-      let(:exception_message) { 'boom-internal-error' }
-      let(:logger) { Rails.logger }
+    include_examples 'only file name indexed'
+  end
 
-      before do
-        allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_raise(exception_message)
+  context 'with exception in extraction' do
+    let(:exception_message) { 'boom-internal-error' }
+    let(:logger) { Rails.logger }
 
-        # This line is actually part of the test. `expect` call needs to go so far up here, as we want to verify that a message gets logged.
-        expect(logger).to receive(:error).with(/boom-internal-error/)
+    before do
+      allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_raise(exception_message)
 
-        allow(attachment).to receive(:readable?).and_return(true)
-        attachment.reload
-      end
+      # This line is actually part of the test. `expect` call needs to go so far up here, as we want to verify that a message gets logged.
+      expect(logger).to receive(:error).with(/boom-internal-error/)
 
-      include_examples 'only file name indexed'
+      allow(attachment).to receive(:readable?).and_return(true)
+      subject
     end
+
+    include_examples 'only file name indexed'
   end
 end

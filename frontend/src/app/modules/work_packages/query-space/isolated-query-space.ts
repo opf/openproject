@@ -7,14 +7,13 @@ import { GroupObject, WorkPackageCollectionResource } from 'core-app/modules/hal
 import { QueryFormResource } from "core-app/modules/hal/resources/query-form-resource";
 import { QueryColumn } from "core-components/wp-query/query-column";
 import { RenderedWorkPackage } from "core-app/modules/work_packages/render-info/rendered-work-package.type";
+import { QuerySortByResource } from "core-app/modules/hal/resources/query-sort-by-resource";
+import { QueryGroupByResource } from "core-app/modules/hal/resources/query-group-by-resource";
+import { QueryFilterInstanceSchemaResource } from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
+import { WorkPackageDisplayRepresentationValue } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
-
-  constructor() {
-    super();
-  }
-
   name = 'IsolatedQuerySpace';
 
   // The query that results in this table state
@@ -55,4 +54,22 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // Input state that emits whenever table services have initialized
   initialized = input<unknown>();
+
+  // Available states
+  available = {
+    // Available columns
+    columns: input<QueryColumn[]>(),
+
+    // Available SortBy Columns
+    sortBy: input<QuerySortByResource[]>(),
+
+    // Available GroupBy columns
+    groupBy: input<QueryGroupByResource[]>(),
+
+    // Available filter schemas (derived from their schema)
+    filters: input<QueryFilterInstanceSchemaResource[]>(),
+
+    // Display of the WP results
+    displayRepresentation: input<WorkPackageDisplayRepresentationValue|null>(),
+  };
 }

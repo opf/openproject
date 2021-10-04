@@ -12,6 +12,8 @@ el:
       show_viewpoint: 'Εμφάνιση viewpoint'
       delete_viewpoint: 'Διαγραφή viewpoint'
       management: 'Διαχείριση BCF'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Αυτό το έργο δεν έχει ακόμη κανένα μοντέλο IFC."
       use_this_link_to_manage: "Χρησιμοποιήστε αυτό το σύνδεσμο για να ανεβάσετε και να διαχειριστείτε τα μοντέλα IFC σας"

@@ -167,6 +167,8 @@ zh-CN:
     enabled_in_project: '已在项目中启用'
     contained_in_type: '已包含在类型中'
     confirm_destroy_option: "删除某个选项将会删除其所有实例 (例如, 在工作包中)。确定要删除？"
+    reorder_alphabetical: "按字母顺序重新排序"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -551,6 +553,7 @@ zh-CN:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支持的协议（允许：%{allowed_schemes}）。'
         less_than_or_equal_to: "必须小于或等于 %{count}。"
+        not_available: "is not available due to a system configuration."
         not_deletable: "无法删除。"
         not_current_user: "不是当前用户。"
         not_a_date: "不是有效的日期。"
@@ -570,6 +573,10 @@ zh-CN:
         unremovable: "不能删除。"
         wrong_length: "长度不正确 (应该是 %{count} 个字符)。"
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: '全局'
@@ -1192,6 +1199,7 @@ zh-CN:
   export:
     your_work_packages_export: "您的工作包导出"
     succeeded: "导出已成功完成。"
+    failed: "导出失败: %{message}"
     format:
       atom: "原子"
       csv: "CSV"
@@ -1394,6 +1402,7 @@ zh-CN:
   label_deleted: "已删除"
   label_deleted_custom_field: "（删除自定义字段）"
   label_deleted_custom_option: "（删除的选项）"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降序"
   label_details: "详细信息"
   label_development_roadmap: "发展蓝图"
@@ -2207,6 +2216,7 @@ zh-CN:
   setting_apiv3_cors_origins: "API V3 跨源资源共享 (CORS) 允许的源"
   setting_apiv3_cors_origins_text_html: >
     如果启用了 CORS ，这些是允许访问 OpenProject API 的源。<br/>请查看<a href="%{origin_link}" target="_blank">有关“源”标题的文档</a>，了解如何指定预期值。
+  setting_attachment_whitelist: "附件上传白名单"
   setting_email_delivery_method: "电子邮件发送方法"
   setting_sendmail_location: "Sendmail 的执行位置"
   setting_smtp_enable_starttls_auto: "如果可用，自动使用 STARTTLS"
@@ -2321,6 +2331,13 @@ zh-CN:
     passwords: "密码"
     session: "会话"
     brute_force_prevention: "自动化的用户阻止"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         如果设置了选项“%{day_of_week_setting_name}”或“%{first_week_setting_name}”，也必须设置另一选项以避免前端不一致。

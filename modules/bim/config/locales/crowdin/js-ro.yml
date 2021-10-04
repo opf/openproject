@@ -12,6 +12,8 @@ ro:
       show_viewpoint: 'Arată punctul de vedere'
       delete_viewpoint: 'Ștergeți punctul de vedere'
       management: 'Managementul BCF'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Acest proiect nu are încă niciun model IFC."
       use_this_link_to_manage: "Utilizați acest link pentru a încărca și gestiona modelele IFC"

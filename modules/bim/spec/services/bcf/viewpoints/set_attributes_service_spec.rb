@@ -60,6 +60,13 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
     Bim::Bcf::Viewpoint.new
   end
 
+  before do
+    allow(viewpoint)
+      .to receive(:attachments_addable?)
+      .with(user, any_args)
+      .and_return true
+  end
+
   describe 'call' do
     # We only expect the service to be called for new records. As viewpoints
     # are immutable.
@@ -113,7 +120,7 @@ describe Bim::Bcf::Viewpoints::SetAttributesService, type: :model do
         expect(viewpoint.attachments.first.file.read)
           .to eql 'Hello World!'
 
-        expect(viewpoint.attachments.first.file.filename)
+        expect(viewpoint.attachments.first.filename)
           .to eql 'snapshot.png'
       end
 

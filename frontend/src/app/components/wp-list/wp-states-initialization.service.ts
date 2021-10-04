@@ -91,10 +91,10 @@ export class WorkPackageStatesInitializationService {
     this.wpTableFilters.initializeFilters(query, schema);
     this.querySpace.queryForm.putValue(form);
 
-    this.states.queries.columns.putValue(schema.columns.allowedValues);
-    this.states.queries.sortBy.putValue(schema.sortBy.allowedValues);
-    this.states.queries.groupBy.putValue(schema.groupBy.allowedValues);
-    this.states.queries.displayRepresentation.putValue(schema.displayRepresentation.allowedValues);
+    this.querySpace.available.columns.putValue(schema.columns.allowedValues);
+    this.querySpace.available.sortBy.putValue(schema.sortBy.allowedValues);
+    this.querySpace.available.groupBy.putValue(schema.groupBy.allowedValues);
+    this.querySpace.available.displayRepresentation.putValue(schema.displayRepresentation.allowedValues);
   }
 
   public updateQuerySpace(query:QueryResource, results:WorkPackageCollectionResource) {

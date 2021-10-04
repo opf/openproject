@@ -57,6 +57,7 @@ class WikiController < ApplicationController
   before_action :handle_new_wiki_page, only: %i[show]
   before_action :build_wiki_page_and_content, only: %i[new create]
 
+  include AttachableServiceCall
   include AttachmentsHelper
   include PaginationHelper
   include Redmine::MenuManager::WikiMenuHelper
@@ -105,17 +106,18 @@ class WikiController < ApplicationController
   end
 
   def create
-    @page.attributes = permitted_params.wiki_page
+    call = attachable_create_call ::WikiPages::CreateService,
+                                  args: permitted_params.wiki_page_with_content.to_h.merge(wiki: @wiki)
 
-    @content.attributes = permitted_params.wiki_content
-    @content.author = User.current
-    @page.attach_files(permitted_params.attachments.to_h)
+    @page = call.result
+    @content = @page.content
 
-    if @page.save
+    if call.success?
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
+      @errors = call.errors
       render action: 'new'
     end
   end
@@ -165,22 +167,21 @@ class WikiController < ApplicationController
       return
     end
 
-    @content = @page.content || @page.build_content
     return if locked?
 
-    @page.attach_files(permitted_params.attachments.to_h)
+    call = attachable_update_call ::WikiPages::UpdateService,
+                                  model: @page,
+                                  args: permitted_params.wiki_page_with_content.to_h
 
-    @page.title = permitted_params.wiki_page[:title]
-    @page.parent_id = permitted_params.wiki_page[:parent_id].presence
-    @content.attributes = permitted_params.wiki_content
-    @content.author = User.current
-    @content.add_journal User.current, params['content']['comments']
+    @page = call.result
+    @content = @page.content
 
-    if @page.save_with_content
+    if call.success?
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
+      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError

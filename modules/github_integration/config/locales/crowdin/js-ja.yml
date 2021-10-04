@@ -28,12 +28,12 @@ ja:
         title: "プルリクエスト"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: git スニペットをクリップボードにコピー
         git_actions:
           branch_name: ブランチ名
           commit_message: コミットメッセージ
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          cmd: 空のコミットでブランチを作成
+          title: Git 用のクイックスニペットです。
           copy_success: '✅ コピーしました！'
           copy_error: '❌ コピーに失敗しました！'
       tab_prs:

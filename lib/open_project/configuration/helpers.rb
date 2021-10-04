@@ -41,17 +41,27 @@ module OpenProject
         (self['attachments_storage'] || 'file').to_sym
       end
 
+      def direct_uploads
+        return false unless direct_uploads_supported?
+
+        self['direct_uploads']
+      end
+
       ##
       # We only allow direct uploads to S3 as we are using the carrierwave_direct
       # gem which only supports S3 for the time being.
       #
       # Do not allow direct uploads when using IAM-profile-based authorization rather
       # than access-key-based ones since carrierwave_direct does not support that.
-      def direct_uploads
-        return false unless remote_storage? && remote_storage_aws?
-        return false if use_iam_profile?
-
-        self['direct_uploads']
+      #
+      # We also don't support direct uploads for S3-compatible object storage services
+      # as we haven't tested it with any of them and it doesn't work anyway as far
+      # as we know.
+      #
+      # Note: If we do want to support other services than AWS we would also have
+      # to make `remote_storage_upload_host` and `remote_storage_download_host` configurable.
+      def direct_uploads_supported?
+        remote_storage? && remote_storage_aws? && !use_iam_profile? && fog_credentials[:host].blank?
       end
 
       def direct_uploads?
@@ -92,7 +102,11 @@ module OpenProject
       end
 
       def remote_storage_hosts
-        [remote_storage_upload_host, remote_storage_download_host].compact
+        [
+          fog_credentials[:host],
+          remote_storage_upload_host,
+          remote_storage_download_host
+        ].compact
       end
 
       def attachments_storage_path

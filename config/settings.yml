@@ -381,3 +381,6 @@ apiv3_cors_enabled:
 apiv3_cors_origins:
   serialized: true
   default: []
+attachment_whitelist:
+  serialized: true
+  default: []

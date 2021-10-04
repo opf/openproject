@@ -12,6 +12,8 @@ da:
       show_viewpoint: 'Vis synsvinkel'
       delete_viewpoint: 'Slet synsvinkel'
       management: 'BCF håndtering'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Dette projekt har endnu ikke nogen IFC-modeller."
       use_this_link_to_manage: "Brug dette link til at uploade og administrere dine IFC-modeller"

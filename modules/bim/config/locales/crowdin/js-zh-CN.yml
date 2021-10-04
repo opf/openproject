@@ -12,6 +12,8 @@ zh-CN:
       show_viewpoint: '显示视点'
       delete_viewpoint: '删除视点'
       management: 'BCF 管理'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "此项目还没有任何 IFC 模型。"
       use_this_link_to_manage: "使用此链接上传和管理您的 IFC 模型"

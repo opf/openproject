@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -27,31 +29,10 @@
 #++
 
 require 'spec_helper'
+require 'services/base_services/behaves_like_update_service'
 
-describe 'direct IFC upload', type: :feature, js: true, with_direct_uploads: :redirect, with_config: { edition: 'bim' } do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim] }
-  let(:ifc_fixture) { ::UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
-
-  before do
-    login_as user
-
-    allow_any_instance_of(Bim::IfcModels::BaseContract).to receive(:ifc_attachment_is_ifc).and_return true
-  end
-
-  it 'should work' do
-    visit new_bcf_project_ifc_model_path(project_id: project.identifier)
-
-    page.attach_file("file", ifc_fixture.path, visible: :all)
-
-    click_on "Create"
-
-    expect(page).to have_content("Upload succeeded")
-
-    expect(Attachment.count).to eq 1
-    expect(Attachment.first[:file]).to eq 'model.ifc'
-
-    expect(Bim::IfcModels::IfcModel.count).to eq 1
-    expect(Bim::IfcModels::IfcModel.first.title).to eq "minimal.ifc"
+describe MeetingContents::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service' do
+    let(:factory) { :meeting_agenda }
   end
 end

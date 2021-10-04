@@ -54,7 +54,7 @@ module Pages
       end
 
       def model_viewer_visible(visible)
-        selector = '.ifc-model-viewer--model-canvas'
+        selector = '.op-ifc-viewer--model-canvas'
         expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
       end
 
@@ -62,12 +62,12 @@ module Pages
         selector = '.xeokit-btn'
 
         if visible
-          within ('.ifc-model-viewer--toolbar-container') do
+          within ('.op-ifc-viewer--toolbar') do
             expect(page).to have_selector(selector, count: 9)
           end
         else
           expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('.ifc-model-viewer--toolbar-container')
+          expect(page).to have_no_selector('.op-ifc-viewer--toolbar')
         end
       end
 
@@ -83,6 +83,14 @@ module Pages
 
       def page_shows_a_filter_button(visible)
         expect(page).to have_conditional_selector(visible, '.toolbar-item', text: 'Filter')
+      end
+
+      def page_shows_a_refresh_button(visible)
+        expect(page).to have_conditional_selector(visible, '.toolbar-item a.refresh-button')
+      end
+
+      def click_refresh_button
+        page.find('.toolbar-item a.refresh-button').click
       end
 
       def switch_view(value)

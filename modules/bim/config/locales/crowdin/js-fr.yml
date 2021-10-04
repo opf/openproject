@@ -12,6 +12,8 @@ fr:
       show_viewpoint: 'Afficher le point de vue'
       delete_viewpoint: 'Supprimer le point de vue'
       management: 'Gestion BCF'
+      refresh: 'Refresh'
+      refresh_work_package: 'Refresh work package'
     ifc_models:
       empty_warning: "Ce projet n'a encore de modèle IFC pour le moment"
       use_this_link_to_manage: "Utilisez ce lien pour téléverser et gérer vos modèles IFC"

@@ -23,18 +23,6 @@ module OpenProject
           @sentry_dsn ||= OpenProject::Configuration.sentry_dsn.presence || ENV["SENTRY_DSN"].presence
         end
 
-        ##
-        # The active set of callback handlers
-        def scope_extenders
-          @scope_extenders ||= []
-        end
-
-        ##
-        # Register a new context builder callback
-        def register_scope(&block)
-          scope_extenders << block
-        end
-
         private
 
         ##
@@ -68,14 +56,12 @@ module OpenProject
             sentry_scope.set_fingerprint [ref]
           end
 
-          if (extra = log_context[:extra])
-            sentry_scope.set_extras extra
-          end
+          sentry_scope.set_tags code_origin: 'backend'
 
-          # Collect additional data to send
-          scope_extenders.each do |builder|
-            builder.call(sentry_scope, log_context)
-          end
+          # Collect extra information from payload extender
+          # e.g., with saas tenant information
+          extra = ::OpenProject::Logging.extend_payload! log_context[:extra] || {}, { sentry_scope: sentry_scope }
+          sentry_scope.set_extras extra
         end
 
         def filter_params(params)
@@ -84,7 +70,7 @@ module OpenProject
 
           # make sure to return plain hash rather than ActionController::Parameters
           res.respond_to?(:to_unsafe_h) ? res.to_unsafe_h : res.to_h
-        rescue => e
+        rescue StandardError => e
           { filter_failed: e.message }
         end
       end
