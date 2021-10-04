@@ -1,0 +1,18 @@
+<ng-container [formGroup]="formGroup.control">
+  <div *ngFor="let workday of localeWorkdays; let i = index"
+       formArrayName="workdays"
+  >
+    <op-checkbox-field
+      [control]="controlForLocalWorkday(workday)"
+    >
+      <input
+        slot="input"
+        type="checkbox"
+        [formControlName]="indexOfLocalWorkday(workday)"
+      />
+      <p slot="description"
+         [textContent]="workday">
+      </p>
+    </op-checkbox-field>
+  </div>
+</ng-container>

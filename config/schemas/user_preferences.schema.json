@@ -22,6 +22,14 @@
                 "auto_hide_popups": {
                     "type": "boolean"
                 },
+                "workdays": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 7
+                  }
+                },
                 "daily_reminders": {
                     "$ref": "#/definitions/DailyReminders"
                 },
