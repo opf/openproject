@@ -51,24 +51,42 @@ module UserPreferences
     validate :no_duplicate_workdays,
              if: -> { model.workdays.present? }
 
-    ##
-    # Returns time zones supported by OpenProject. Those include only the subset of all the
-    # TZInfo timezones also handled by ActiveSupport::TimeZone.
-    # The reason for this is currently:
-    #   * the reminder mail implementation which could be amended
-    #   * the select in the form which only displays ActiveSupport::TimeZone as they are more
-    #     user friendly.
-    # As we only store tzinfo compatible data we only provide options, for which the
-    # values can later on be retrieved unambiguously. This is not always the case
-    # for values in ActiveSupport::TimeZone since multiple AS zones map to single tzinfo zones.
-    def assignable_time_zones
-      ActiveSupport::TimeZone
-        .all
-        .group_by { |tz| tz.tzinfo.name }
-        .values
-        .map do |zones|
-        namesake_time_zone(zones)
+    class << self
+      ##
+      # Returns time zones supported by OpenProject. Those include only the subset of all the
+      # TZInfo timezones also handled by ActiveSupport::TimeZone.
+      # The reason for this is currently:
+      #   * the reminder mail implementation which could be amended
+      #   * the select in the form which only displays ActiveSupport::TimeZone as they are more
+      #     user friendly.
+      # As we only store tzinfo compatible data we only provide options, for which the
+      # values can later on be retrieved unambiguously. This is not always the case
+      # for values in ActiveSupport::TimeZone since multiple AS zones map to single tzinfo zones.
+      def assignable_time_zones
+        ActiveSupport::TimeZone
+          .all
+          .group_by { |tz| tz.tzinfo.name }
+          .values
+          .map do |zones|
+          namesake_time_zone(zones)
+        end
       end
+
+      private
+
+      # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
+      # only return the one that is the namesake.
+      def namesake_time_zone(time_zones)
+        if time_zones.length == 1
+          time_zones.first
+        else
+          time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
+        end
+      end
+    end
+
+    def assignable_time_zones
+      self.class.assignable_time_zones
     end
 
     protected
@@ -98,16 +116,6 @@ module UserPreferences
     def no_duplicate_workdays
       unless model.workdays.uniq.length == model.workdays.length
         errors.add :workdays, :no_duplicates
-      end
-    end
-
-    # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
-    # only return the one that is the namesake.
-    def namesake_time_zone(time_zones)
-      if time_zones.length == 1
-        time_zones.first
-      else
-        time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
       end
     end
   end

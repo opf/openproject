@@ -43,17 +43,11 @@ module Settings
     end
 
     def time_zone_entries
-      contract
+      UserPreferences::UpdateContract
         .assignable_time_zones
         .map do |tz|
         [tz.to_s, tz.tzinfo.canonical_identifier]
       end
-    end
-
-    private
-
-    def contract
-      @contract ||= UserPreferences::UpdateContract.new(form.object, User.current)
     end
   end
 end

@@ -14,17 +14,17 @@ describe "Reminder email sending", type: :feature, js: true do
   # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
   # The job is scheduled to run every 15 min so the run_at will in production always move between the quarters of an hour.
   # The current time can be way behind that.
-  let(:current_utc_time) { ActiveSupport::TimeZone['Hawaii'].parse("08:34:10").utc }
-  let(:job_run_at) { ActiveSupport::TimeZone['Hawaii'].parse("08:00").utc }
+  let(:current_utc_time) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("08:34:10").utc }
+  let(:job_run_at) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("08:00").utc }
 
   current_user do
     FactoryBot.create(
       :user,
       preferences: {
-        time_zone: "Hawaii",
+        time_zone: 'Pacific/Honolulu',
         daily_reminders: {
           enabled: true,
-          times: [hitting_reminder_slot_for("Hawaii", current_utc_time)]
+          times: [hitting_reminder_slot_for('Pacific/Honolulu', current_utc_time)]
         }
       },
       notification_settings: [
