@@ -2,7 +2,7 @@ import { ID } from '@datorama/akita';
 import {
   HalResourceLink,
   HalResourceLinks,
-  CustomText,
+  Formattable,
 } from 'core-app/core/state/hal-resource';
 
 export const PROJECTS_MAX_SIZE = 100;
@@ -22,8 +22,8 @@ export interface Project {
   name:string;
   public:boolean;
   active:boolean;
-  statusExplanation:CustomText;
-  description:CustomText;
+  statusExplanation:Formattable;
+  description:Formattable;
 
   createdAt:string;
   updatedAt:string;

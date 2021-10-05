@@ -10,10 +10,10 @@ export interface HalResourceLink {
  */
 export type HalResourceLinks = Record<string, HalResourceLink|HalResourceLink[]>;
 
-export type CustomTextFormat = 'markdown'|'custom';
+export type FormattableFormat = 'markdown'|'custom';
 
-export interface CustomText {
-  format:CustomTextFormat;
+export interface Formattable {
+  format:FormattableFormat;
   raw:string;
   html:string;
 }

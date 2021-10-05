@@ -2,7 +2,7 @@ import { ID } from '@datorama/akita';
 import {
   HalResourceLink,
   HalResourceLinks,
-  CustomText,
+  Formattable,
 } from 'core-app/core/state/hal-resource';
 
 export const NOTIFICATIONS_MAX_SIZE = 100;
@@ -23,7 +23,7 @@ export interface InAppNotification {
   readIAN:boolean|null;
   readEmail:boolean|null;
 
-  details?:CustomText[];
+  details?:Formattable[];
   // Mark a notification to be kept in the center even though it was saved as "read".
   keep?:boolean;
   // Show message of a notification?

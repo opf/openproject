@@ -27,7 +27,7 @@ import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { CustomText } from 'core-app/core/state/hal-resource';
+import { Formattable } from 'core-app/core/state/hal-resource';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
@@ -50,10 +50,10 @@ export class InAppNotificationEntryComponent implements OnInit {
   loading$ = this.storeService.query.selectLoading();
 
   // Formattable body, if any
-  body:CustomText[];
+  body:Formattable[];
 
   // custom rendered details, if any
-  details:CustomText[];
+  details:Formattable[];
 
   // Whether body and details are empty
   unexpandable = false;
