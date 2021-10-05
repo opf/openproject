@@ -42,34 +42,18 @@ module Settings
       )
     end
 
-    def time_zones
-      ActiveSupport::TimeZone.all
-    end
-
-    ##
-    # Returns time zone (label, value) tuples to be used for a select field.
-    # As we only store tzinfo compatible data we only provide options, for which the
-    # values can later on be retrieved unambiguously. This is not always the case
-    # for values in ActiveSupport::TimeZone since multiple AS zones map to single tzinfo zones.
     def time_zone_entries
-      time_zones
-        .group_by { |tz| tz.tzinfo.name }
-        .values
-        .map do |zones|
-        tz = namesake_time_zone(zones)
-
+      contract
+        .assignable_time_zones
+        .map do |tz|
         [tz.to_s, tz.tzinfo.canonical_identifier]
       end
     end
 
-    # If there are multiple AS::TimeZones for a single TZInfo::Timezone, we
-    # only return the one that is the namesake.
-    def namesake_time_zone(time_zones)
-      if time_zones.length == 1
-        time_zones.first
-      else
-        time_zones.detect { |tz| tz.tzinfo.name.include?(tz.name.gsub(' ', '_')) }
-      end
+    private
+
+    def contract
+      @contract ||= UserPreferences::UpdateContract.new(form.object, User.current)
     end
   end
 end
