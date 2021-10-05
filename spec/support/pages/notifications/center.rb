@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Components
+module Pages
   module Notifications
-    class Center
-      include Capybara::DSL
-      include RSpec::Matchers
-
-      def initialize; end
+    class Center < ::Pages::Page
 
       def open
         bell_element.click
         expect_open
+      end
+
+      def path
+        notifications_center_path
       end
 
       def close

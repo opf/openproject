@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/components/notifications/center'
 
 describe "Split screen in the notification center", type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
@@ -26,7 +25,7 @@ describe "Split screen in the notification center", type: :feature, js: true do
                       journal: second_work_package.journals.last
   end
 
-  let(:center) { ::Components::Notifications::Center.new }
+  let(:center) { ::Pages::Notifications::Center.new }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 
   describe 'basic use case' do
