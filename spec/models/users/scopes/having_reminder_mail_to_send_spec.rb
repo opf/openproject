@@ -521,6 +521,31 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  context 'for a user without a time zone and a default time zone configured',
+          with_settings: { user_default_timezone: 'Europe/Moscow' } do
+    let(:moscow_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Europe/Moscow',
+        preferences: {
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Europe/Moscow", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [moscow_user] }
+
+    it 'is including the configured default timezone is assumed' do
+      expect(scope)
+        .to match_array([moscow_user])
+    end
+  end
+
   context 'when the provided scope_time is after the current time' do
     let(:scope_time) { Time.current + 1.minute }
 

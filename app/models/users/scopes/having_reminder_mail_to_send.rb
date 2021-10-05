@@ -75,9 +75,12 @@ module Users::Scopes
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
                       .as('t(time, zone, workday)')
+
+        default_timezone = Setting.user_default_timezone.present? ? "'#{Setting.user_default_timezone}'" : 'NULL'
+
         <<~SQL.squish
           JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
-          ON COALESCE(user_preferences.settings->>'time_zone', 'Etc/UTC') = local_times.zone
+          ON COALESCE(user_preferences.settings->>'time_zone', #{default_timezone}, 'Etc/UTC') = local_times.zone
           AND (
             user_preferences.settings->'workdays' @> to_jsonb(local_times.workday)
             OR (

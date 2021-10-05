@@ -37,9 +37,9 @@ describe User, "default time zone" do
     end
   end
 
-  context "with a system default set", with_settings: { user_default_timezone: "Edinburgh" } do
+  context "with a system default set", with_settings: { user_default_timezone: "Europe/London" } do
     it "is set to the default" do
-      expect(user.pref.time_zone).to eq "Edinburgh"
+      expect(user.pref.time_zone).to eq "Europe/London"
     end
   end
 end
