@@ -31,14 +31,11 @@ module Notifications::MailService::WikiContentStrategy
     def send_mail(notification)
       method = mailer_method(notification)
 
-      return if notification_disabled?(method.to_s)
-
       UserMailer
         .send(method,
               notification.recipient,
-              notification.journal.journable,
-              notification.journal.user || DeletedUser.first)
-        .deliver_later
+              notification.journal.journable)
+        .deliver_now
     end
 
     private
@@ -49,10 +46,6 @@ module Notifications::MailService::WikiContentStrategy
       else
         :wiki_content_updated
       end
-    end
-
-    def notification_disabled?(name)
-      Setting.notified_events.exclude?(name)
     end
   end
 end

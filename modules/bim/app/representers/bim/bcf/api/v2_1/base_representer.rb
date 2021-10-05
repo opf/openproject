@@ -33,5 +33,9 @@ module Bim::Bcf::API::V2_1
     include Representable::JSON
 
     defaults render_nil: true
+
+    def datetime_formatter
+      ::API::V3::Utilities::DateTimeFormatter
+    end
   end
 end

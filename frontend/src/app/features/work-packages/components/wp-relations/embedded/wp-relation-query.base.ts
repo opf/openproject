@@ -47,7 +47,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
   public hidden = false;
 
   /** Reference to the embedded table instance */
-  @ViewChild('embeddedTable') protected embeddedTable:WorkPackageEmbeddedTableComponent;
+  @ViewChild('embeddedTable') protected embeddedTable?:WorkPackageEmbeddedTableComponent;
 
   constructor(protected queryUrlParamsHelper:UrlParamsHelperService) {
     super();
@@ -57,7 +57,7 @@ export abstract class WorkPackageRelationQueryBase extends UntilDestroyedMixin {
    * Request to refresh the results of the embedded table
    */
   public refreshTable() {
-    this.embeddedTable.isInitialized && this.embeddedTable.loadQuery(true, false);
+    this.embeddedTable?.isInitialized && this.embeddedTable.loadQuery(true, false);
   }
 
   /**

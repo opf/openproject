@@ -69,44 +69,10 @@ describe ::API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering'
         .not_to have_json_path('_type')
     end
 
-    it_behaves_like 'property', :channel do
-      let(:value) { notification_setting.channel }
-    end
-
-    it_behaves_like 'property', :watched do
-      let(:value) { notification_setting.watched }
-    end
-
-    it_behaves_like 'property', :involved do
-      let(:value) { notification_setting.involved }
-    end
-
-    it_behaves_like 'property', :mentioned do
-      let(:value) { notification_setting.mentioned }
-    end
-
-    it_behaves_like 'property', :all do
-      let(:value) { notification_setting.all }
-    end
-
-    it_behaves_like 'property', :workPackageCommented do
-      let(:value) { notification_setting.work_package_commented }
-    end
-
-    it_behaves_like 'property', :workPackageCreated do
-      let(:value) { notification_setting.work_package_created }
-    end
-
-    it_behaves_like 'property', :workPackageProcessed do
-      let(:value) { notification_setting.work_package_processed }
-    end
-
-    it_behaves_like 'property', :workPackagePrioritized do
-      let(:value) { notification_setting.work_package_prioritized }
-    end
-
-    it_behaves_like 'property', :workPackageScheduled do
-      let(:value) { notification_setting.work_package_scheduled }
+    NotificationSetting.all_settings.each do |property|
+      it_behaves_like 'property', property.to_s.camelize(:lower) do
+        let(:value) { notification_setting.send property }
+      end
     end
   end
 

@@ -49,7 +49,7 @@ module BaseServices
       service_result
     end
 
-    def before_perform(params)
+    def before_perform(params, _service_result)
       set_attributes(params)
     end
 

@@ -375,8 +375,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
-  "/api/v3/work_packages/{id}/relations/form":
-    "$ref": "./paths/work_package_relations_form.yml"
   "/api/v3/work_packages/{id}/revisions":
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":

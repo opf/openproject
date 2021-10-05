@@ -125,7 +125,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         work_package2.journals.last.notifications.first
       end
       let(:notification4) do
-        work_package.subject = 'Changing the subject'
+        work_package.journal_notes = 'Another notification is created here on wp 1'
         work_package.save!
 
         # Will have been created via the JOURNAL_CREATED event listeners

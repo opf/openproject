@@ -186,6 +186,8 @@ zh-CN:
         new_group: '新的组'
         reset_to_defaults: '重置为默认值'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "确认电子邮件地址"
           confirmation_info: >
@@ -288,9 +290,9 @@ zh-CN:
             current_new_feature_html: >
               该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>标题导航中提供了用于创建项目、用户和工作包的新按钮。</li> <li>新的用户、群组和占位符用户邀请模式，可轻松添加或邀请新用户并将其分配至工作包。</li> <li>GitHub 集成到 OpenProject 中。</li> <li>适用于群组等内容的 API v3 扩展，即通过 API 创建、读取、更新和删除群组和群组成员。</li> <li>项目自定义字段类型列表支持多选。</li> <li>从网页界面创建备份。</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>BIM：改进了 IFC 模型查看器的性能。</li> <li>BIM：IFC 查看器现已支持双精度模型，非常适合桥梁、道路等大型施工场地。</li> <li>BIM：用于在透视和正交模式之间切换的切换按钮。</li> <li>BIM：用于编辑 、删除或翻转剖面的菜单。</li> <li>标题导航中提供了用于创建项目、用户和工作包的新按钮。</li> <li>新的用户、群组和占位符用户邀请模式，可轻松添加或邀请新用户并将其分配至工作包。</li> <li>适用于群组等内容的 API v3 扩展，即通过 API 创建、读取、更新和删除群组和群组成员。</li> <li>项目自定义字段类型列表支持多选。</li> <li>从网页界面创建备份。</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -507,7 +509,6 @@ zh-CN:
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
-      channel: "Channel"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
@@ -538,7 +539,7 @@ zh-CN:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
@@ -589,6 +590,18 @@ zh-CN:
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: '添加新闻'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: '添加 Wiki 页面'
+          wiki_page_updated: '更新 Wiki 页面'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
         title: 'Email reminders'
     text_are_you_sure: "是否确定？"
     text_data_lost: "All entered data will be lost."

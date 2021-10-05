@@ -29,21 +29,12 @@
 module Notifications::MailService::MessageStrategy
   class << self
     def send_mail(notification)
-      return if notification_disabled?
-
       UserMailer
         .message_posted(
           notification.recipient,
-          notification.resource,
-          notification.actor || DeletedUser.first
+          notification.resource
         )
-        .deliver_later
-    end
-
-    private
-
-    def notification_disabled?
-      Setting.notified_events.exclude?('message_posted')
+        .deliver_now
     end
   end
 end

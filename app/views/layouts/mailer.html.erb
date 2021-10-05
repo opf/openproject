@@ -68,22 +68,48 @@ See COPYRIGHT and LICENSE files for more details.
         margin-left: 2.4em;
         padding-left: 0.6em;
       }
+      pre {
+        white-space: normal;
+      }
+      img {
+        width: 100%;
+      }
       .footer {
         font-size: 0.8em;
         font-style: italic;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+        border-top-width: 1px;
+        border-top-color: #ccc;
+        border-top-style: solid;
       }
       a.user-mention:before {
         content: '@';
         color: #878787;
       }
     </style>
+
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="viewport" content="initial-scale=1.0">
   </head>
-  <body>
-      <span class="header"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %></span>
+  <body style="padding: 0">
+      <table class="header">
+        <tr>
+          <td>
+            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %>
+          </td>
+        </tr>
+      </table>
       <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
       <%= yield %>
       <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
-      <hr />
-      <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
+      <table class="footer">
+        <tr>
+          <td>
+            <%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %>
+          </td>
+        </tr>
+      </table>
   </body>
 </html>

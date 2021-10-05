@@ -43,8 +43,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       {
         'notifications' => [
           {
-            'channel' => 'in_app',
-            'all' => true,
+            'involved' => true,
             '_links' => {
               'project' => {
                 'href' => '/api/v3/projects/1'
@@ -52,8 +51,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
             }
           },
           {
-            'channel' => 'email',
-            'all' => false,
+            'involved' => false,
             'mentioned' => true,
             '_links' => {
               'project' => {
@@ -71,12 +69,11 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       in_project, global = subject.notification_settings
 
       expect(in_project[:project_id]).to eq "1"
-      expect(in_project[:channel]).to eq 'in_app'
-      expect(in_project[:all]).to be_truthy
+      expect(in_project[:involved]).to be_truthy
+      expect(in_project[:mentioned]).to be_nil
 
       expect(global[:project_id]).to eq nil
-      expect(global[:channel]).to eq 'email'
-      expect(global[:all]).to eq false
+      expect(global[:involved]).to eq false
       expect(global[:mentioned]).to eq true
     end
   end

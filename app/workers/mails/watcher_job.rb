@@ -38,11 +38,11 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def render_mail
-    UserMailer
-      .work_package_watcher_changed(watcher.watchable,
-                                    recipient,
-                                    sender,
-                                    action)
+    WorkPackageMailer
+      .watcher_changed(watcher.watchable,
+                       recipient,
+                       sender,
+                       action)
   end
 
   private
@@ -61,10 +61,9 @@ class Mails::WatcherJob < Mails::DeliverJob
                .user
                .notification_settings
                .applicable(watcher.watchable.project)
-               .mail
                .first
 
-    settings.watched || settings.all
+    settings.watched
   end
 
   def self_watching?

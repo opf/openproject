@@ -35,8 +35,6 @@ module Admin::Settings
     end
 
     def show
-      @notifiables = OpenProject::Notifiable.all
-
       respond_to :html
     end
 

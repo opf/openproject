@@ -37,6 +37,7 @@ module Pages
 
       def initialize(user)
         @user = user
+        super()
       end
 
       def path

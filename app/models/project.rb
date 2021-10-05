@@ -44,7 +44,7 @@ class Project < ApplicationRecord
 
   has_many :members, -> {
     # TODO: check whether this should
-    # remaint to be limited to User only
+    # remain to be limited to User only
     includes(:principal, :roles)
       .merge(Principal.not_locked.user)
       .references(:principal, :roles)

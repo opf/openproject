@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/base_contract'
-
 module WorkPackages
   class UpdateContract < BaseContract
     include UnchangedProject

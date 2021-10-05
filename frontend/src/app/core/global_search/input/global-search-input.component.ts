@@ -161,7 +161,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
         this.toggleMobileSearch();
         // open ng-select menu on default
         jQuery('.ng-input input').focus();
-      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm.length === 0) {
+      } else if (this.ngSelectComponent.ngSelectInstance.searchTerm?.length === 0) {
         this.ngSelectComponent.ngSelectInstance.focus();
       } else {
         this.submitNonEmptySearch();

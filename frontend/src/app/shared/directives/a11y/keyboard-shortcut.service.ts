@@ -87,6 +87,13 @@ export class KeyboardShortcutService {
   public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
     const key = accessKeys[keyName];
     return () => {
+      // Guard: When the focus is on the IFC viewer, pressing the key "S" shall control the viewer as part of its
+      //        WASD navigation. So dismiss that shortcuts and let the event pass on to the IFC viewer.
+      if (key === 4 &&
+        document.activeElement?.getAttribute('data-qa-selector') === 'op-ifc-viewer--model-canvas') {
+        return;
+      }
+
       // eslint-disable-next-line no-useless-concat
       const elem:HTMLElement = document.querySelectorAll("[accesskey='" + `${key}` + "']")[0] as HTMLElement;
       if (elem instanceof HTMLInputElement || elem.id === 'global-search-input') {

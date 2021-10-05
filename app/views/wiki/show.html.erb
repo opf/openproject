@@ -65,11 +65,9 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       </li>
     <% end %>
-    <% if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
-      <li class="toolbar-item hidden-for-mobile">
-        <%= watcher_link(@page, User.current) %>
-      </li>
-    <% end %>
+    <li class="toolbar-item hidden-for-mobile">
+      <%= watcher_link(@page, User.current) %>
+    </li>
     <% if @content.version != @page.content.version %>
       <li class="toolbar-item  hidden-for-mobile">
         <%= link_to(t(:label_history), {action: 'history', id: @page}, class: 'button icon-wiki') %>

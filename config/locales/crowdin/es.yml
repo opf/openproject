@@ -532,7 +532,7 @@ es:
         before: "debe ser antes de %{date}."
         before_or_equal_to: "debe ser antes o igual a %{date}."
         blank: "no puede estar en blanco."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "necesita tener la propiedad '%{property}' definida."
         cant_link_a_work_package_with_a_descendant: "Un paquete de trabajo no puede ser vinculado a una de sus subtareas."
         circular_dependency: "Esta relación podría crear una dependencia circular."
         confirmation: "no coincide con %{attribute}."
@@ -546,19 +546,19 @@ es:
         even: "debe ser incluido."
         exclusion: "está reservado."
         file_too_large: "es demasiado grande (el tamaño máximo es de %{count} Bytes)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "no coincide con el formato esperado '%{expected}'."
+        format_nested: "no coincide con el formato esperado '%{expected}' en la ruta '%{path}'."
         greater_than: "debe ser mayor que %{count}."
         greater_than_or_equal_to: "debe ser mayor o igual a %{count}."
         greater_than_or_equal_to_start_date: "debe ser mayor o igual a la fecha de inicio."
         greater_than_start_date: "debe ser mayor que la fecha de inicio."
         inclusion: "no está establecido a uno de los valores permitidos."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "no está establecido en uno de los valores permitidos en la ruta '%{path}'."
         invalid: "no es válido."
         invalid_url: 'no es una URL válida.'
         invalid_url_scheme: 'no es un protocolo admitido (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "debe ser menor o igual a %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "no está disponible debido a una configuración del sistema."
         not_deletable: "no se puede eliminar."
         not_current_user: "no es el usuario actual."
         not_a_date: "no es una fecha válida."
@@ -624,16 +624,16 @@ es:
           attributes:
             read_ian:
               read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            read_mail:
-              read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            read_mail_digest:
-              read_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -838,7 +838,6 @@ es:
     firstname: "Nombre"
     group: "Grupo"
     groups: "Grupos"
-    name: "Nombre"
     id: "ID"
     is_default: "Valor predeterminado"
     is_for_all: "Para todos los proyectos"
@@ -848,6 +847,7 @@ es:
     lastname: "Apellido"
     login: "Nombre usuario"
     mail: "Correo electrónico"
+    name: "Nombre"
     password: "Contraseña"
     priority: "Prioridad"
     project: "Proyecto"
@@ -1911,8 +1911,9 @@ es:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2354,7 +2355,6 @@ es:
   setting_enabled_scm: "SCM activado"
   setting_enabled_projects_columns: "Visible en la lista de proyectos"
   setting_notification_retention_period_days: "Período de retención de notificación"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Activar Feeds"
   setting_feeds_limit: "Limite de contenido de feed"
   setting_file_max_size_displayed: "Tamaño máximo de archivos de texto mostrado en linea"
@@ -2429,8 +2429,8 @@ es:
     notifications:
       retention_text: >
         Establecer el número de días que los eventos de notificación para los usuarios (la fuente de las notificaciones dentro de la aplicación) se mantendrá en el sistema. Cualquier evento anterior a este tiempo será eliminado.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
@@ -2541,7 +2541,6 @@ es:
   text_regexp_info: "eg. ^[A-Z0-9]+$"
   text_regexp_multiline: 'La expresión regular se aplica en modo multilínea. Por ejemplo, ^---\s+'
   text_repository_usernames_mapping: "Seleccione o actualize el usuario de OpenProject asignado a cada nombre en el registro del repositorio. Los usuarios con el mismo nombre o email serán mapeados automáticamente."
-  text_select_notifications: "Seleccione las acciones para las que se enviarán las notificaciones."
   text_status_changed_by_changeset: "Aplicado en el conjunto de cambios %{value}."
   text_table_difference_description: "En esta tabla, se muestran %{entries} individuales. Puede ver la diferencia entre dos entradas cualesquiera seleccionando primero los cuadros de verificación adecuados en la tabla. Al hacer clic en el botón bajo la tabla, se muestran las diferencias."
   text_time_logged_by_changeset: "Aplicado en el conjunto de cambios %{value}."

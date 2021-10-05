@@ -109,8 +109,7 @@ describe News, type: :model do
     end
   end
 
-  describe '#save',
-           with_settings: { notified_events: %w(news_added) } do
+  describe '#save' do
     it 'sends email notifications when created' do
       FactoryBot.create(:user,
                         member_in_project: project,

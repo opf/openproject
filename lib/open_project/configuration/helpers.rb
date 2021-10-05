@@ -41,17 +41,27 @@ module OpenProject
         (self['attachments_storage'] || 'file').to_sym
       end
 
+      def direct_uploads
+        return false unless direct_uploads_supported?
+
+        self['direct_uploads']
+      end
+
       ##
       # We only allow direct uploads to S3 as we are using the carrierwave_direct
       # gem which only supports S3 for the time being.
       #
       # Do not allow direct uploads when using IAM-profile-based authorization rather
       # than access-key-based ones since carrierwave_direct does not support that.
-      def direct_uploads
-        return false unless remote_storage? && remote_storage_aws?
-        return false if use_iam_profile?
-
-        self['direct_uploads']
+      #
+      # We also don't support direct uploads for S3-compatible object storage services
+      # as we haven't tested it with any of them and it doesn't work anyway as far
+      # as we know.
+      #
+      # Note: If we do want to support other services than AWS we would also have
+      # to make `remote_storage_upload_host` and `remote_storage_download_host` configurable.
+      def direct_uploads_supported?
+        remote_storage? && remote_storage_aws? && !use_iam_profile? && fog_credentials[:host].blank?
       end
 
       def direct_uploads?
@@ -158,6 +168,34 @@ module OpenProject
       def ldap_tls_options
         val = self['ldap_tls_options']
         val.presence || {}
+      end
+
+      def web_workers
+        Integer(web['workers'].presence)
+      end
+
+      def web_timeout
+        Integer(web['timeout'].presence)
+      end
+
+      def web_wait_timeout
+        Integer(web['wait_timeout'].presence)
+      end
+
+      def web_min_threads
+        Integer(ENV['RAILS_MIN_THREADS'].presence || web['min_threads'].presence)
+      end
+
+      def web_max_threads
+        Integer(ENV['RAILS_MAX_THREADS'].presence || web['max_threads'].presence)
+      end
+
+      def statsd_host
+        ENV['STATSD_HOST'].presence || statsd['host'].presence
+      end
+
+      def statsd_port
+        Integer(ENV['STATSD_PORT'].presence || statsd['port'].presence)
       end
 
       private

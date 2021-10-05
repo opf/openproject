@@ -1,35 +1,18 @@
 @import "src/assets/sass/helpers"
 
 .op-ifc-viewer
+  display: flex
+  justify-content: stretch
   height: 100%
 
   .notification-box
     position: absolute
     right: 10px
 
-  &--nav-cube-canvas
-    position: absolute
-    width: 200px
-    height: 200px
-    bottom: 0
-    right: 0
-    z-index: 10
-
-  &--section-planes-overview-canvas
-    position: absolute
-    width: 250px
-    height: 250px
-    top: 50px
-    right: 50px
-    z-index: 2000
-
   &--container
-    position: relative
-    width: 100%
-    height: 100%
-    padding-bottom: 10px
+    flex-grow: 1
+    padding-bottom: 24px
     overflow: hidden
-    min-width: 420px
 
   &--model-canvas
     width: 100%
@@ -38,19 +21,48 @@
     &:focus
       outline: none
 
+    &-overlay
+      position: absolute
+      z-index: 2
+
+  // toolbar overlays model canvas
+  &--nav-cube-canvas
+    bottom: 0
+    right: 0
+    width: 200px
+    height: 200px
+
+  // toolbar overlays model canvas
+  &--toolbar
+    top: 0
+    right: 0
+    display: flex
+    justify-content: flex-end
+    margin: 0.5em
+
+    &-info-button
+      margin-left: 0.5em
+
+  &--inspector-container
+    width: 380px
+    border-left: 2px solid #eee
+    border-top: 2px solid #eee
+
+    @media only screen and (max-width: 679px)
+      width: 300px
+      border-bottom: 2px solid #eee
+
+    &-hidden
+      display: none
+
+  // focus warning icon overlays model canvas
   &--focus-warning
     @include without-link-styling
-    position: absolute
-    top: 6px
-    right: 395px
+    left: 68px
+    bottom: 68px
 
   &--keyboard-disabled-icon
-    font-size: 20px
-
-  &--toolbar-container,
-  &--focus-warning
-    margin-top: 10px
-    margin-right: 5px
+    font-size: 42px
 
   &--nav-cube-canvas,
   &--focus-warning

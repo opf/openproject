@@ -3,6 +3,8 @@
 // foundation.zurb.com
 // Licensed under MIT Open Source
 
+@use "sass:math";
+
 $include-css: () !default;
 $modules: () !default;
 $rem-base: 16px !default;
@@ -296,7 +298,7 @@ $rem-base: 16px !default;
 ///
 /// @return The same number, sans unit.
 @function strip-unit($num) {
-  @return $num / ($num * 0 + 1);
+  @return math.div($num, $num * 0 + 1);
 }
 
 /// Turn to Degrees
@@ -316,7 +318,7 @@ $rem-base: 16px !default;
 ///
 /// @return A number in rems, calculated based on the given value and the base pixel value.
 @function convert-to-rem($value, $base-value: $rem-base)  {
-  $value: strip-unit($value) / strip-unit($base-value) * 1rem;
+  $value: math.div(strip-unit($value), strip-unit($base-value)) * 1rem;
   @if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
   @return $value;
 }

@@ -50,27 +50,5 @@ See COPYRIGHT and LICENSE files for more details.
     </span>
   </div>
 
-  <fieldset id="notified_events" class="form--fieldset">
-    <legend class="form--fieldset-legend">
-      <%= t(:text_select_notifications) %>
-    </legend>
-    <div class="form--toolbar">
-      <span class="form--toolbar-item">
-        (<%= check_all_links 'notified_events' %>)
-      </span>
-    </div>
-    <%= hidden_field_tag 'settings[notified_events][]', '' %>
-    <div class="form--field">
-      <div class="form--field-container -vertical">
-        <% @notifiables.each do |notifiable| %>
-          <%= notification_field notifiable %>
-        <% end %>
-      </div>
-      <span class="form--field-instructions -no-margin">
-        <%= t(:'settings.notifications.events_explanation') %>
-      </span>
-    </div>
-  </fieldset>
-
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

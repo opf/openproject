@@ -46,8 +46,7 @@ module API
         property :read_ian,
                  as: :readIAN
 
-        property :reason_ian,
-                 as: :reason
+        property :reason
 
         date_time_property :created_at
 

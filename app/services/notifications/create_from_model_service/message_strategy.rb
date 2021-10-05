@@ -50,7 +50,11 @@ module Notifications::CreateFromModelService::MessageStrategy
   end
 
   def self.subscribed_users(journal)
-    User.notified_on_all(journal.data.project)
+    User.notified_globally subscribed_notification_reason(journal)
+  end
+
+  def self.subscribed_notification_reason(_journal)
+    NotificationSetting::FORUM_MESSAGES
   end
 
   def self.watcher_users(journal)

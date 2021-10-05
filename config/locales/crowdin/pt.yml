@@ -625,16 +625,16 @@ pt:
           attributes:
             read_ian:
               read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            read_mail:
-              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            read_mail_digest:
-              read_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
-            reason_ian:
-              no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
-            reason_mail:
-              no_notification_reason: 'não pode ficar em branco porque o e-mail foi escolhido como canal.'
+            mail_reminder_sent:
+              set_on_creation: 'não pode ser definido como verdadeiro na criação da notificação.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -839,7 +839,6 @@ pt:
     firstname: "Nome"
     group: "Grupo"
     groups: "Grupos"
-    name: "Nome"
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
@@ -849,6 +848,7 @@ pt:
     lastname: "Sobrenome"
     login: "Nome de usuário"
     mail: "E-mail"
+    name: "Nome"
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
@@ -1912,8 +1912,9 @@ pt:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2355,7 +2356,6 @@ pt:
   setting_enabled_scm: "SCM habilitado"
   setting_enabled_projects_columns: "Visível na lista de projetos"
   setting_notification_retention_period_days: "Período de retenção de notificação"
-  setting_notification_email_digest_time: "Resumo do tempo do email "
   setting_feeds_enabled: "Habilitar Feeds"
   setting_feeds_limit: "Limite de conteúdo de feed"
   setting_file_max_size_displayed: "Tamanho máximo de arquivos de texto exibidos em linha"
@@ -2430,8 +2430,8 @@ pt:
     notifications:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
-      email_digest_explanation: "Uma vez por dia, um e-mail resumo  pode ser enviado contendo uma coleção de todas as notificações que os usuários assinaram. A configuração é relativa ao fuso horário de cada usuário configurado, por exemplo, 8:00 será executado às 7:00 UTC para usuários em UTC + 1 e 9:00 UTC para aqueles em UTC-1. "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2542,7 +2542,6 @@ pt:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'A expressão regular é aplicada no modo multilinha. Por exemplo: ^---\s+'
   text_repository_usernames_mapping: "Selecionar ou atualizar o usuário do OpenProject mapeado para cada nome de usuário encontrado no log do repositório. Os usuários com o mesmo nome de usuário OpenProject e repositório ou e-mail serão mapeados automaticamente."
-  text_select_notifications: "Selecione as ações para as quais as notificações devem ser enviadas. "
   text_status_changed_by_changeset: "Aplicado no conjunto de alterações %{value}."
   text_table_difference_description: "Nesta tabela, os únicos %{entries} são mostrados. Você pode ver a diferença entre quaisquer duas entradas selecionando primeiro as caixas de seleção correspondentes na tabela. Ao clicar no botão abaixo da tabela são mostradas as diferenças."
   text_time_logged_by_changeset: "Aplicado no conjunto de alterações %{value}."

@@ -262,44 +262,4 @@ important text</textarea>
     it_behaves_like 'labelled'
     it_behaves_like 'not wrapped in container'
   end
-
-  describe '#notification_field' do
-    before do
-      allow(Setting).to receive(:notified_events).and_return(%w(interesting_stuff))
-    end
-
-    subject(:output) do
-      helper.notification_field(notifiable, options)
-    end
-
-    context 'when setting includes option' do
-      let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }
-
-      it 'should have a label' do
-        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
-      end
-
-      it_behaves_like 'wrapped in container', 'check-box-container'
-
-      it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
-        expect(output).to have_checked_field 'Interesting stuff'
-      end
-    end
-
-    context 'when setting does not include option' do
-      let(:notifiable) { OpenStruct.new(name: 'boring_stuff') }
-
-      it 'should have a label' do
-        expect(output).to have_selector 'label.form--label-with-check-box', count: 1
-      end
-
-      it_behaves_like 'wrapped in container', 'check-box-container'
-
-      it 'should output element' do
-        expect(output).to have_selector 'input[type="checkbox"].form--check-box'
-        expect(output).to have_unchecked_field 'Boring stuff'
-      end
-    end
-  end
 end

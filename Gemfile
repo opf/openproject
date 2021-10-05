@@ -112,7 +112,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.13.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.7.4'
+gem 'delayed_cron_job', '~> 0.8.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
@@ -142,7 +142,7 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 11.0.0', require: false
+gem 'airbrake', '~> 12.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
@@ -156,22 +156,17 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem 'dalli', '~> 2.7.10'
-
-  # Unicorn worker killer to restart unicorn child workers
-  gem 'unicorn-worker-killer', require: false
 end
 
 gem 'i18n-js', '~> 3.9.0'
 gem 'rails-i18n', '~> 6.0.0'
 gem 'sprockets', '~> 3.7.0'
 
-# required by Procfile, for deployment on heroku or packaging with packager.io.
-# also, better than thin since we can control worker concurrency.
-gem 'unicorn'
+gem 'puma', '~> 5.5'
+gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
+gem 'puma-plugin-statsd', '~> 2.0'
 
-gem 'puma', '~> 5.4.0' # used for development and optionally for production
-
-gem 'nokogiri', '~> 1.12.0'
+gem 'nokogiri', '~> 1.12.5'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -181,7 +176,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.1.1'
+gem 'openproject-token', '~> 2.2.0'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -289,7 +284,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.8.0', require: false
+gem 'bootsnap', '~> 1.9.1', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'

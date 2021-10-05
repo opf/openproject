@@ -54,12 +54,7 @@ module OpenProject
       end
 
       def revision
-        cached_or_block(:@revision) do
-          revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
-          if revision.present?
-            revision.strip[0..8]
-          end
-        end
+        revision_from_core_version || revision_from_git
       end
 
       def product_version
@@ -112,6 +107,21 @@ module OpenProject
         cached_or_block(:@release_date_from_git) do
           date, = Open3.capture3('git', 'log', '-1', '--format=%cd', '--date=short')
           Date.parse(date) if date
+        end
+      end
+
+      def revision_from_core_version
+        return unless core_version.is_a?(String)
+
+        core_version.split.first
+      end
+
+      def revision_from_git
+        cached_or_block(:@revision) do
+          revision, = Open3.capture3('git', 'rev-parse', 'HEAD')
+          if revision.present?
+            revision.strip[0..8]
+          end
         end
       end
 

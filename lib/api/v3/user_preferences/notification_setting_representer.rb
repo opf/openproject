@@ -34,16 +34,9 @@ module API
       class NotificationSettingRepresenter < ::API::Decorators::Single
         include API::Decorators::LinkedResource
 
-        property :channel
-        property :watched
-        property :involved
-        property :mentioned
-        property :work_package_created
-        property :work_package_commented
-        property :work_package_processed
-        property :work_package_prioritized
-        property :work_package_scheduled
-        property :all
+        NotificationSetting.all_settings.each do |setting|
+          property setting
+        end
 
         associated_resource :project,
                             skip_render: ->(*) { true },

@@ -628,16 +628,16 @@ ro:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "Mesaj"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -846,7 +846,6 @@ ro:
     firstname: "Prenume"
     group: "Grup"
     groups: "Grupuri"
-    name: "Nume"
     id: "ID"
     is_default: "Valoare implicită"
     is_for_all: "Pentru toate proiectele"
@@ -856,6 +855,7 @@ ro:
     lastname: "Nume"
     login: "Utilizator"
     mail: "E-mail"
+    name: "Nume"
     password: "Parolă"
     priority: "Prioritate"
     project: "Proiect"
@@ -1931,8 +1931,10 @@ ro:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          one: 'There is 1 more work package with notifications.'
+          few: 'There are %{count} more work packages with notifications.'
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2374,7 +2376,6 @@ ro:
   setting_enabled_scm: "SCM activat"
   setting_enabled_projects_columns: "Vizibil în lista de proiecte"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_digest_time: "Email digest time"
   setting_feeds_enabled: "Activare fluxuri"
   setting_feeds_limit: "Limită conținut flux"
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
@@ -2449,8 +2450,8 @@ ro:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      email_digest_explanation: "Once a day, an email digest can be sent out containing a collection of all the notification users subscribed to. The setting is relative to each users configured time zone, so e.g. 8:00 will be executed at 7:00 UTC for users in UTC+1 and 9:00 UTC for those in UTC-1."
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
@@ -2561,7 +2562,6 @@ ro:
   text_regexp_info: "ex. ^[A-Z0-9]+$"
   text_regexp_multiline: 'Formula regex este aplicată într-un mod multilinie - de exemplu: ^---\s+'
   text_repository_usernames_mapping: "Selectați sau modificați contul OpenProject mapat la fiecare cont din istoricul repo-ului.\nUtilizatorii cu cont sau e-mail identic în OpenProject și repo sunt echivalați automat."
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "Aplicat prin editarea %{value}."
   text_table_difference_description: "În acest tabel este prezentat un singur %{entries}. Puteți vizualiza diferența dintre oricare două intrări selectând mai întâi casetele de selectare corespunzătoare din tabel. Când faceți clic pe butonul de sub tabel, se afișează diferențele."
   text_time_logged_by_changeset: "Aplicat prin editarea %{value}."

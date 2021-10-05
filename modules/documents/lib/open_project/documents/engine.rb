@@ -46,7 +46,7 @@ module OpenProject::Documents
       project_module :documents do |_map|
         permission :view_documents, documents: %i[index show download]
         permission :manage_documents, {
-          documents: %i[new create edit update destroy add_attachment]
+          documents: %i[new create edit update destroy]
         }, require: :loggedin
       end
 
@@ -56,7 +56,6 @@ module OpenProject::Documents
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
     patches %i[CustomFieldsHelper Project]
-    patch_with_namespace :OpenProject, :Notifiable
 
     add_api_path :documents do
       "#{root}/documents"

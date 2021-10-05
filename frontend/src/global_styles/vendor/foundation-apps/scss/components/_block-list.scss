@@ -224,7 +224,7 @@ $blocklist-check-icons: true !default;
     + get-side($blocklist-item-padding, top);
 
   $icon-height: $item-height * $blocklist-item-icon-size;
-  $icon-offset: ($item-height - $icon-height) / 2;
+  $icon-offset: ($item-height - $icon-height) * 0.5;
 
   #{$item-selector} {
     > a, > span, > label {

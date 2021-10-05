@@ -4,8 +4,10 @@
 
 /// @Foundation.settings
 // Label
+@use "sass:math";
+
 $label-fontsize: 0.8rem !default;
-$label-padding: ($global-padding / 3) ($global-padding / 2) !default;
+$label-padding: math.div($global-padding, 3) ($global-padding * 0.5) !default;
 $label-radius: 0 !default;
 $label-background: $primary-color !default;
 $label-color: isitlight($primary-color) !default;

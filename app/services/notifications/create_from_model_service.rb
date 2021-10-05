@@ -48,8 +48,8 @@ class Notifications::CreateFromModelService
 
     return result if result.failure?
 
-    notification_receivers.each do |recipient_id, channel_reasons|
-      call = create_notification(recipient_id, channel_reasons)
+    notification_receivers.each do |recipient_id, reasons|
+      call = create_notification(recipient_id, reasons)
       result.add_dependent!(call)
     end
 
@@ -60,45 +60,22 @@ class Notifications::CreateFromModelService
 
   attr_accessor :model
 
-  def create_notification(recipient_id, channel_reasons)
+  def create_notification(recipient_id, reasons)
     notification_attributes = {
       recipient_id: recipient_id,
       project: project,
       resource: resource,
       journal: journal,
-      actor: user_with_fallback
-    }.merge(channel_attributes(channel_reasons))
+      actor: user_with_fallback,
+      reason: reasons.first,
+      read_ian: strategy.supports_ian? ? false : nil,
+      mail_reminder_sent: strategy.supports_mail_digest? ? false : nil,
+      mail_alert_sent: strategy.supports_mail? ? false : nil
+    }
 
     Notifications::CreateService
       .new(user: user_with_fallback)
       .call(notification_attributes)
-  end
-
-  def channel_attributes(channel_reasons)
-    channel_attributes_mail(channel_reasons)
-      .merge(channel_attributes_mail_digest(channel_reasons))
-      .merge(channel_attributes_ian(channel_reasons))
-  end
-
-  def channel_attributes_mail(channel_reasons)
-    {
-      read_mail: strategy.supports_mail? && channel_reasons.keys.include?('mail') ? false : nil,
-      reason_mail: strategy.supports_mail? && channel_reasons['mail']&.first
-    }
-  end
-
-  def channel_attributes_mail_digest(channel_reasons)
-    {
-      read_mail_digest: strategy.supports_mail_digest? && channel_reasons.keys.include?('mail_digest') ? false : nil,
-      reason_mail_digest: strategy.supports_mail_digest? && channel_reasons['mail_digest']&.first
-    }
-  end
-
-  def channel_attributes_ian(channel_reasons)
-    {
-      read_ian: strategy.supports_ian? && channel_reasons.keys.include?('in_app') ? false : nil,
-      reason_ian: strategy.supports_ian? && channel_reasons['in_app']&.first
-    }
   end
 
   def notification_receivers
@@ -118,65 +95,66 @@ class Notifications::CreateFromModelService
   end
 
   def settings_of_mentioned
-    applicable_settings(mentioned_ids,
-                        project,
-                        :mentioned)
+    project_applicable_settings(mentioned_ids,
+                                project,
+                                NotificationSetting::MENTIONED)
   end
 
   def settings_of_assigned
-    applicable_settings(User.where(id: group_or_user_ids(journal.data.assigned_to)),
-                        project,
-                        :involved)
+    project_applicable_settings(User.where(id: group_or_user_ids(journal.data.assigned_to)),
+                                project,
+                                NotificationSetting::INVOLVED)
   end
 
   def settings_of_responsible
-    applicable_settings(User.where(id: group_or_user_ids(journal.data.responsible)),
-                        project,
-                        :involved)
+    project_applicable_settings(User.where(id: group_or_user_ids(journal.data.responsible)),
+                                project,
+                                NotificationSetting::INVOLVED)
   end
 
   def settings_of_subscribed
-    applicable_settings(strategy.subscribed_users(model),
-                        project,
-                        :all)
+    # Subscribed is a collection of events for non-work packages
+    # which currently ignore project-specific overrides
+    settings_for_allowed_users(strategy.subscribed_users(model),
+                               strategy.subscribed_notification_reason(model))
   end
 
   def settings_of_watched
-    applicable_settings(strategy.watcher_users(model),
-                        project,
-                        :watched)
+    project_applicable_settings(strategy.watcher_users(model),
+                                project,
+                                NotificationSetting::WATCHED)
   end
 
   def settings_of_commented
     return NotificationSetting.none unless journal.notes?
 
-    applicable_settings(User.all,
-                        project,
-                        :work_package_commented)
+    project_applicable_settings(User.all,
+                                project,
+                                NotificationSetting::WORK_PACKAGE_COMMENTED)
   end
 
   def settings_of_created
     return NotificationSetting.none unless journal.initial?
 
-    applicable_settings(User.all,
-                        project,
-                        :work_package_created)
+    project_applicable_settings(User.all,
+                                project,
+                                NotificationSetting::WORK_PACKAGE_CREATED)
   end
 
   def settings_of_processed
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:status_id)
 
-    applicable_settings(User.all,
-                        project,
-                        :work_package_processed)
+    project_applicable_settings(User.all,
+                                project,
+                                NotificationSetting::WORK_PACKAGE_PROCESSED)
   end
 
   def settings_of_prioritized
     return NotificationSetting.none unless !journal.initial? && journal.details.has_key?(:priority_id)
 
-    applicable_settings(User.all,
-                        project,
-                        :work_package_prioritized)
+    project_applicable_settings(User.all,
+                                project,
+                                NotificationSetting::WORK_PACKAGE_PRIORITIZED)
   end
 
   def settings_of_scheduled
@@ -184,14 +162,18 @@ class Notifications::CreateFromModelService
       return NotificationSetting.none
     end
 
-    applicable_settings(User.all,
-                        project,
-                        :work_package_scheduled)
+    project_applicable_settings(User.all,
+                                project,
+                                NotificationSetting::WORK_PACKAGE_SCHEDULED)
   end
 
-  def applicable_settings(user_scope, project, reason)
-    NotificationSetting
+  def project_applicable_settings(user_scope, project, reason)
+    settings_for_allowed_users(user_scope, reason)
       .applicable(project)
+  end
+
+  def settings_for_allowed_users(user_scope, reason)
+    NotificationSetting
       .where(reason => true)
       .where(user: user_scope.where(id: User.allowed(strategy.permission, project)))
   end
@@ -269,7 +251,7 @@ class Notifications::CreateFromModelService
 
   def add_receiver(receivers, collection, reason)
     collection.each do |notification|
-      receivers[notification.user_id][notification.channel] << reason
+      receivers[notification.user_id] << reason
     end
   end
 
@@ -279,9 +261,7 @@ class Notifications::CreateFromModelService
 
   def receivers_hash
     Hash.new do |hash, user|
-      hash[user] = Hash.new do |channel_hash, channel|
-        channel_hash[channel] = []
-      end
+      hash[user] = []
     end
   end
 

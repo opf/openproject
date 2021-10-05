@@ -622,16 +622,16 @@ ja:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -832,7 +832,6 @@ ja:
     firstname: "名前"
     group: "グループ"
     groups: "グループ"
-    name: "名称"
     id: "ID"
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
@@ -842,6 +841,7 @@ ja:
     lastname: "苗字"
     login: "ユーザー名"
     mail: "電子メールアドレス"
+    name: "名称"
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"
@@ -1893,8 +1893,8 @@ ja:
         created_at: 'at %{timestamp} by %{user} '
         login_to_see_all: 'Log in to see all notifications.'
         mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see_singular: 'There is 1 more work package with notifications.'
-        more_to_see_plural: 'There are %{number} more work packages with notifications.'
+        more_to_see:
+          other: 'There are %{count} more work packages with notifications.'
         reason:
           watched: 'Watched'
           assigned: 'Assigned'
@@ -2335,7 +2335,6 @@ ja:
   setting_enabled_scm: "使用するバージョン管理システム"
   setting_enabled_projects_columns: "プロジェクトリストに表示する"
   setting_notification_retention_period_days: "Notification retention period"
-  setting_notification_email_digest_time: "メールダイジェストの時刻"
   setting_feeds_enabled: "フィードを有効にする"
   setting_feeds_limit: "フィードの項目数の上限"
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
@@ -2410,8 +2409,8 @@ ja:
     notifications:
       retention_text: >
         Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
-      email_digest_explanation: "1日に1回、ユーザーが講読しているすべての通知をまとめたダイジェストメールを送信できます。 設定は、各ユーザーの設定されたタイムゾーンに関連しているため、例えば 8:00 は、UTC+1 のユーザーの場合は 7:00 UTC に実行され、UTC-1 のユーザーの場合は 9:00 UTC に実行されます。 "
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         オプション "%{day_of_week_setting_name}" または "%{first_week_setting_name}" が設定されている場合、フロントエンドでの不整合を避けるために、もう一方も設定する必要があります。
@@ -2523,7 +2522,6 @@ ja:
   text_regexp_info: "例) ^[A-Z0-9]+$"
   text_regexp_multiline: '正規表現は、複数行モードで適用されます。例えば、^---\s+'
   text_repository_usernames_mapping: "リポジトリのログから検出されたユーザ名をどのOpenProjectユーザに関連づけるかを選択してください。\nログ上のユーザ名またはメールアドレスがOpenProjectのユーザと一致する場合は自動的に関連づけます。"
-  text_select_notifications: "Select actions for which notifications should be sent."
   text_status_changed_by_changeset: "変更履歴%{value}で適用されました。"
   text_table_difference_description: "この表には、単一の %{entries} が表示されています。 まず、表の対応するチェックボックスを選択して、両者の項目の違いを見ることができます。 表の下のボタンをクリックすると、違いが表示されます。"
   text_time_logged_by_changeset: "変更履歴%{value}で適用されました。"

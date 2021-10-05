@@ -30,7 +30,7 @@ es:
       error_loading_the_list: "Error al cargar la lista: %{error_message}"
       error_permission_missing: "Falta el permiso para crear consultas públicas"
       error_cannot_move_into_self: "No se puede mover un paquete de trabajo a su propia columna."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      text_hidden_list_warning: "No todas las listas son desplegadas debido a su falta de permiso. Contacte a su administrador para más información."
       click_to_remove_list: "Haga clic para quitar esta lista"
       board_type:
         text: 'Tipo de panel'

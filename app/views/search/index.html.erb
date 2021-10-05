@@ -63,10 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= link_to highlight_tokens(truncate(e.event_title, escape: false, length: 255), @tokens), with_notes_anchor(e, @tokens) %>
         </dt>
         <dd>
-          <span class="description"><%= highlight_first([last_journal(e).try(:notes),
-                                                         attachment_fulltexts(e),
-                                                         attachment_filenames(e),
-                                                         e.event_description], @tokens) %></span>
+          <span class="description"><%= highlight_tokens_in_event(e, @tokens) %></span>
           <span class="author"><%= format_time(e.event_datetime) %></span>
         </dd>
       <% end %>

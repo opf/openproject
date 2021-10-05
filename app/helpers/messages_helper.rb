@@ -34,4 +34,8 @@ module MessagesHelper
                                           current_user: current_user,
                                           embed_links: true)
   end
+
+  def message_url(message)
+    topic_url(message.root, r: message.id, anchor: "message-#{message.id}")
+  end
 end
