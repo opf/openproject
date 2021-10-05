@@ -1,11 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   HostBinding,
   Input,
   OnInit,
-  Output,
   ViewEncapsulation,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -27,7 +25,6 @@ import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
-import { Formattable } from 'core-app/core/state/hal-resource';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 
@@ -48,15 +45,6 @@ export class InAppNotificationEntryComponent implements OnInit {
   workPackage$:Observable<WorkPackageResource>|null = null;
 
   loading$ = this.storeService.query.selectLoading();
-
-  // Formattable body, if any
-  body:Formattable[];
-
-  // custom rendered details, if any
-  details:Formattable[];
-
-  // Whether body and details are empty
-  unexpandable = false;
 
   // The actor, if any
   actors:PrincipalLike[] = [];
@@ -95,7 +83,6 @@ export class InAppNotificationEntryComponent implements OnInit {
   ngOnInit():void {
     this.buildTranslatedReason();
     this.buildActors();
-    this.buildDetails();
     this.buildTime();
     this.buildProject();
     this.loadWorkPackage();
@@ -114,13 +101,6 @@ export class InAppNotificationEntryComponent implements OnInit {
     }
   }
 
-  private buildDetails() {
-    const details = this.notification.details || [];
-    this.body = details.filter((el) => el.format === 'markdown');
-    this.details = details.filter((el) => el.format === 'custom');
-    this.unexpandable = this.body.length === 0 && this.details.length === 0;
-  }
-
   private buildTime() {
     this.fixedTime = this.timezoneService.formattedDatetime(this.notification.createdAt);
     this.relativeTime$ = timer(0, 10000)
@@ -133,7 +113,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   }
 
   showDetails():void {
-    if (this.unexpandable || !this.workPackage$) {
+    if (!this.workPackage$) {
       return;
     }
 
