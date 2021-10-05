@@ -42,14 +42,12 @@ module Settings
       )
     end
 
-    def time_zones
-      ActiveSupport::TimeZone.all
-    end
-
-    ##
-    # Returns time zone (label, value) tuples to be used for a select field.
     def time_zone_entries
-      time_zones.map { |tz| [tz.to_s, tz.name] }
+      UserPreferences::UpdateContract
+        .assignable_time_zones
+        .map do |tz|
+        [tz.to_s, tz.tzinfo.canonical_identifier]
+      end
     end
   end
 end

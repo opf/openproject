@@ -59,7 +59,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
   it { expect(subject).to have_json_path('autoHidePopups') }
 
   describe 'timeZone' do
-    context 'no time zone set' do
+    context 'without a timezone set' do
       let(:preference) { FactoryBot.build(:user_preference, time_zone: '') }
 
       it 'shows the timeZone as nil' do
@@ -67,15 +67,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
       end
     end
 
-    context 'short timezone set' do
-      let(:preference) { FactoryBot.build(:user_preference, time_zone: 'Berlin') }
-
-      it 'shows the canonical time zone' do
-        expect(subject).to be_json_eql('Europe/Berlin'.to_json).at_path('timeZone')
-      end
-    end
-
-    context 'canonical timezone set' do
+    context 'with a timezone set' do
       let(:preference) { FactoryBot.build(:user_preference, time_zone: 'Europe/Paris') }
 
       it 'shows the canonical time zone' do

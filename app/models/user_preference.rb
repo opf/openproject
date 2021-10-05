@@ -130,13 +130,6 @@ class UserPreference < ApplicationRecord
     super.presence || [1, 2, 3, 4, 5]
   end
 
-  def canonical_time_zone
-    return if time_zone.nil?
-
-    zone = ActiveSupport::TimeZone.new(time_zone)
-    zone&.tzinfo&.canonical_identifier
-  end
-
   private
 
   def to_boolean(value)

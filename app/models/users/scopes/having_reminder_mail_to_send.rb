@@ -68,14 +68,19 @@ module Users::Scopes
         # Joins the times local to the user preferences and then checks whether:
         # * reminders are enabled
         # * any of the configured reminder time is the local time
+        # * the local workday is enabled to receive a reminder on
         # If no time zone is present, utc is assumed.
         # If no reminder settings are present, sending a reminder at 08:00 local time is assumed.
+        # If no workdays are specified, 1 - 5 is assumed which is represents Monday to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
                       .as('t(time, zone, workday)')
+
+        default_timezone = Setting.user_default_timezone.present? ? "'#{Setting.user_default_timezone}'" : 'NULL'
+
         <<~SQL.squish
           JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
-          ON COALESCE(user_preferences.settings->>'time_zone', 'UTC') = local_times.zone
+          ON COALESCE(user_preferences.settings->>'time_zone', #{default_timezone}, 'Etc/UTC') = local_times.zone
           AND (
             user_preferences.settings->'workdays' @> to_jsonb(local_times.workday)
             OR (
@@ -104,23 +109,23 @@ module Users::Scopes
       end
 
       def times_for_zones(times)
-        ActiveSupport::TimeZone
-          .all
+        UserPreferences::UpdateContract
+          .assignable_time_zones
           .map do |z|
-          times.map do |time|
-            local_time = time.in_time_zone(z)
+            times.map do |time|
+              local_time = time.in_time_zone(z)
 
-            # Get the iso weekday of the current time to check
-            # which users have it enabled as a workday
-            workday = local_time.to_date.cwday
+              # Get the iso weekday of the current time to check
+              # which users have it enabled as a workday
+              workday = local_time.to_date.cwday
 
-            # Since only full hours can be configured, we can disregard any local time that is not
-            # a full hour.
-            next if local_time.min != 0
+              # Since only full hours can be configured, we can disregard any local time that is not
+              # a full hour.
+              next if local_time.min != 0
 
-            [local_time.strftime('%H:00:00+00:00'), z.name.gsub("'", "''"), workday]
+              [local_time.strftime('%H:00:00+00:00'), z.tzinfo.canonical_zone.name, workday]
+            end
           end
-        end
           .flatten(1)
           .compact
       end
