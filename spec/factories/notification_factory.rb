@@ -8,12 +8,15 @@ FactoryBot.define do
     recipient factory: :user
     project { association :project }
     resource { association :work_package, project: project }
-    actor { journal.try(:user) }
+    actor { nil }
 
-    transient { journal }
+    transient do
+      journal { nil }
+    end
 
     callback(:after_create) do |notification, evaluator|
-      notification.journal = evaluator.journal || notification.work_package.journals.last
+      notification.journal = evaluator.journal || notification.resource.journals.last
+      notification.actor ||= notification.journal.try(:user)
       notification.save!
     end
   end

@@ -22,7 +22,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
                       recipient: recipient,
                       project: project,
                       resource: work_package,
-                      reason_ian: :watched
+                      reason: :watched
   end
 
   let!(:notification2) do
@@ -30,7 +30,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
                       recipient: recipient,
                       project: project2,
                       resource: work_package2,
-                      reason_ian: :assigned
+                      reason: :assigned
   end
 
   let!(:notification3) do
@@ -38,7 +38,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
                       recipient: recipient,
                       project: project3,
                       resource: work_package3,
-                      reason_ian: :responsible
+                      reason: :responsible
   end
 
   let!(:notification4) do
@@ -46,7 +46,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
                       recipient: recipient,
                       project: project3,
                       resource: work_package4,
-                      reason_ian: :mentioned
+                      reason: :mentioned
   end
 
   let(:center) { ::Components::Notifications::Center.new }
