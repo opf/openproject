@@ -35,7 +35,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
-    <op-date-picker
+    <op-single-date-picker
         tabindex="-1"
         (onChange)="onValueSelected($event)"
         (onCancel)="onCancel()"
@@ -44,7 +44,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
         [disabled]="inFlight"
         [id]="handler.htmlId"
         classes="inline-edit--field">
-    </op-date-picker>
+    </op-single-date-picker>
   `,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {

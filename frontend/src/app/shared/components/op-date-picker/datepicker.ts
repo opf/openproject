@@ -32,6 +32,7 @@ import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import DateOption = flatpickr.Options.DateOption;
+import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
@@ -72,6 +73,7 @@ export class DatePicker {
         },
         firstDayOfWeek,
         weekAbbreviation: I18n.t('date.abbr_week'),
+        rangeSeparator: ` ${rangeSeparator} `,
       },
     });
 
@@ -122,7 +124,7 @@ export class DatePicker {
     // multiple scrolls event when it is open
     const target = event.target! as HTMLInputElement;
 
-    if (target?.classList?.contains('flatpickr-monthDropdown-months')) {
+    if (target?.classList?.contains('flatpickr-monthDropdown-months') || target?.classList?.contains('flatpickr-input')) {
       return;
     }
 

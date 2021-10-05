@@ -26,76 +26,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
+import { Component, Input, Output } from '@angular/core';
 import { Instance } from 'flatpickr/dist/types/instance';
-import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { AbstractDatePickerDirective } from 'core-app/shared/components/op-date-picker/date-picker.directive';
+import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
+import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 
 @Component({
-  selector: 'op-date-picker',
-  templateUrl: './op-date-picker.component.html',
+  selector: 'op-single-date-picker',
+  templateUrl: './op-single-date-picker.component.html',
 })
-export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
+export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
   @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
 
-  @Output() public onCancel = new EventEmitter<string>();
+  @Input() public initialDate:string = '';
 
-  @Input() public initialDate = '';
-
-  @Input() public appendTo?:HTMLElement;
-
-  @Input() public classes = '';
-
-  @Input() public id = '';
-
-  @Input() public name = '';
-
-  @Input() public required = false;
-
-  @Input() public size = 20;
-
-  @Input() public disabled = false;
-
-  @ViewChild('dateInput') dateInput:ElementRef;
-
-  protected datePickerInstance:DatePicker;
-
-  public constructor(protected timezoneService:TimezoneService) {
-    super();
-
-    if (!this.id) {
-      this.id = `datepicker-input-${Math.floor(Math.random() * 1000).toString(3)}`;
-    }
-  }
-
-  ngAfterViewInit():void {
-    this.initializeDatepicker();
-  }
-
-  ngOnDestroy() {
-    this.datePickerInstance && this.datePickerInstance.destroy();
-  }
-
-  openOnClick() {
-    if (!this.disabled) {
-      this.datePickerInstance.show();
-    }
-  }
-
-  onInputChange(_event:KeyboardEvent) {
+  onInputChange(_event:KeyboardEvent):void {
     if (this.inputIsValidDate()) {
       this.onChange.emit(this.currentValue);
     } else {
@@ -103,35 +51,12 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     }
   }
 
-  closeOnOutsideClick(event:any) {
-    if (!(event.relatedTarget
-      && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
-      this.close();
-    }
-  }
-
-  close() {
-    this.datePickerInstance.hide();
-  }
-
-  protected isEmpty():boolean {
-    return this.currentValue.trim() === '';
-  }
-
-  protected get currentValue():string {
-    return this.inputElement?.value || '';
-  }
-
-  protected get inputElement():HTMLInputElement {
-    return this.dateInput?.nativeElement;
-  }
-
   protected inputIsValidDate():boolean {
     return (/\d{4}-\d{2}-\d{2}/.exec(this.currentValue)) !== null;
   }
 
-  protected initializeDatepicker() {
-    const options:any = {
+  protected initializeDatepicker():void {
+    const options = {
       allowInput: true,
       appendTo: this.appendTo,
       onChange: (selectedDates:Date[], dateStr:string) => {
@@ -145,7 +70,7 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
         this.onChange.emit(val);
       },
       onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
-        if (data.which == KeyCodes.ESCAPE) {
+        if (data.which === KeyCodes.ESCAPE) {
           this.onCancel.emit();
         }
       },
