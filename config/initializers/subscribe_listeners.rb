@@ -57,6 +57,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_REMOVED) do |p
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberCreatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],

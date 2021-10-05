@@ -142,6 +142,10 @@ describe 'Projects copy',
       editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
+      # Deactivate sending of mails during copying
+      click_on 'Copy options'
+      uncheck 'Send email notifications during the project copy'
+
       click_button 'Save'
 
       expect(page).to have_text 'The job has been queued and will be processed shortly.'
@@ -155,7 +159,7 @@ describe 'Projects copy',
         .to be_present
 
       # Will redirect to the new project automatically once the copy process is done
-      expect(page).to have_current_path("#{project_path(copied_project)}/")
+      expect(page).to have_current_path(Regexp.new("#{project_path(copied_project)}/?"))
 
       copied_settings_page = Pages::Projects::Settings.new(copied_project)
       copied_settings_page.visit!
