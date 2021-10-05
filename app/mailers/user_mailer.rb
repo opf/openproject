@@ -29,39 +29,25 @@
 #++
 
 class UserMailer < ApplicationMailer
+  include MessagesHelper
+
+  helper_method :message_url
+
   def test_mail(user)
     @welcome_url = url_for(controller: '/homescreen')
 
-    headers['X-OpenProject-Type'] = 'Test'
+    open_project_headers 'Type' => 'Test'
 
-    with_locale_for(user) do
-      mail to: "\"#{user.name}\" <#{user.mail}>", subject: 'OpenProject Test'
-    end
-  end
-
-  def work_package_watcher_changed(work_package, user, watcher_changer, action)
-    User.execute_as user do
-      @issue = work_package
-      @watcher_changer = watcher_changer
-      @action = action
-
-      set_work_package_headers(work_package)
-      message_id work_package, user
-      references work_package, user
-
-      with_locale_for(user) do
-        mail to: user.mail, subject: subject_for_work_package(work_package)
-      end
-    end
+    send_mail(user,
+              'OpenProject Test')
   end
 
   def backup_ready(user)
     User.execute_as user do
       @download_url = admin_backups_url
 
-      with_locale_for(user) do
-        mail to: user.mail, subject: I18n.t("mail_subject_backup_ready")
-      end
+      send_mail(recipient,
+                I18n.t("mail_subject_backup_ready"))
     end
   end
 
@@ -71,9 +57,8 @@ class UserMailer < ApplicationMailer
     @waiting_period = waiting_period
 
     User.execute_as recipient do
-      with_locale_for(recipient) do
-        mail to: recipient.mail, subject: I18n.t("mail_subject_backup_token_reset")
-      end
+      send_mail(recipient,
+                I18n.t("mail_subject_backup_token_reset"))
     end
   end
 
@@ -87,14 +72,11 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    user = @token.user
-    with_locale_for(user) do
-      subject = t(:mail_subject_lost_password, value: Setting.app_title)
-      mail to: user.mail, subject: subject
-    end
+    send_mail(token.user,
+              t(:mail_subject_lost_password, value: Setting.app_title))
   end
 
-  def news_added(user, news, author)
+  def news_added(user, news)
     @news = news
 
     open_project_headers 'Type'    => 'News'
@@ -102,11 +84,10 @@ class UserMailer < ApplicationMailer
 
     message_id @news, user
 
-    with_locale_for(user) do
-      subject = "#{News.model_name.human}: #{@news.title}"
-      subject = "[#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
-    end
+    subject = "#{News.model_name.human}: #{@news.title}"
+    subject = "[#{@news.project.name}] #{subject}" if @news.project
+
+    send_mail(user, subject)
   end
 
   def user_signed_up(token)
@@ -120,14 +101,11 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    user = token.user
-    with_locale_for(user) do
-      subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
-    end
+    send_mail(token.user,
+              t(:mail_subject_register, value: Setting.app_title))
   end
 
-  def news_comment_added(user, comment, author)
+  def news_comment_added(user, comment)
     @comment = comment
     @news    = @comment.commented
 
@@ -136,29 +114,23 @@ class UserMailer < ApplicationMailer
     message_id @comment, user
     references @news, user
 
-    with_locale_for(user) do
-      subject = "#{News.model_name.human}: #{@news.title}"
-      subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
-      mail_for_author author, to: user.mail, subject: subject
-    end
+    subject = "#{News.model_name.human}: #{@news.title}"
+    subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
+
+    send_mail(user, subject)
   end
 
-  def wiki_content_added(user, wiki_content, author)
+  def wiki_content_added(user, wiki_content)
     @wiki_content = wiki_content
 
-    open_project_headers 'Project' => @wiki_content.project.identifier,
-                         'Wiki-Page-Id' => @wiki_content.page.id,
-                         'Type' => 'Wiki'
-
+    open_project_wiki_headers @wiki_content
     message_id @wiki_content, user
 
-    with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
-    end
+    send_mail(user,
+              "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_content.page.title)}")
   end
 
-  def wiki_content_updated(user, wiki_content, author)
+  def wiki_content_updated(user, wiki_content)
     @wiki_content  = wiki_content
     @wiki_diff_url = url_for(controller: '/wiki',
                              action: :diff,
@@ -166,33 +138,22 @@ class UserMailer < ApplicationMailer
                              id: wiki_content.page.slug,
                              version: wiki_content.version)
 
-    open_project_headers 'Project' => @wiki_content.project.identifier,
-                         'Wiki-Page-Id' => @wiki_content.page.id,
-                         'Type' => 'Wiki'
-
+    open_project_wiki_headers @wiki_content
     message_id @wiki_content, user
 
-    with_locale_for(user) do
-      subject = "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}"
-      mail_for_author author, to: user.mail, subject: subject
-    end
+    send_mail(user,
+              "[#{@wiki_content.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_content.page.title)}")
   end
 
-  def message_posted(user, message, author)
-    @message     = message
-    @message_url = topic_url(@message.root, r: @message.id, anchor: "message-#{@message.id}")
+  def message_posted(user, message)
+    @message = message
 
-    open_project_headers 'Project' => @message.project.identifier,
-                         'Wiki-Page-Id' => @message.parent_id || @message.id,
-                         'Type' => 'Forum'
-
+    open_project_message_headers(@message)
     message_id @message, user
     references @message.parent, user if @message.parent
 
-    with_locale_for(user) do
-      subject = "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}"
-      mail_for_author author, to: user.mail, subject: subject
-    end
+    send_mail(user,
+              "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}")
   end
 
   def account_activated(user)
@@ -200,10 +161,8 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    with_locale_for(user) do
-      subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
-    end
+    send_mail(user,
+              t(:mail_subject_register, value: Setting.app_title))
   end
 
   def account_information(user, password)
@@ -212,10 +171,8 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    with_locale_for(user) do
-      subject = t(:mail_subject_register, value: Setting.app_title)
-      mail to: user.mail, subject: subject
-    end
+    send_mail(user,
+              t(:mail_subject_register, value: Setting.app_title))
   end
 
   def account_activation_requested(admin, user)
@@ -227,10 +184,8 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    with_locale_for(admin) do
-      subject = t(:mail_subject_account_activation_request, value: Setting.app_title)
-      mail to: admin.mail, subject: subject
-    end
+    send_mail(admin,
+              t(:mail_subject_account_activation_request, value: Setting.app_title))
   end
 
   def reminder_mail(user, issues, days, group = nil)
@@ -250,14 +205,13 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Issue'
 
-    with_locale_for(user) do
-      subject = if @group
-                  t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.name)
-                else
-                  t(:mail_subject_reminder, count: @issues.size, days: @days)
-                end
-      mail to: user.mail, subject: subject
-    end
+    subject = if @group
+                t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.name)
+              else
+                t(:mail_subject_reminder, count: @issues.size, days: @days)
+              end
+
+    send_mail(user, subject)
   end
 
   ##
@@ -268,74 +222,21 @@ class UserMailer < ApplicationMailer
   def activation_limit_reached(user_email, admin)
     @email = user_email
 
-    with_locale_for(admin) do
-      mail to: admin.mail, subject: t("mail_user_activation_limit_reached.subject")
-    end
+    send_mail(admin, t("mail_user_activation_limit_reached.subject"))
   end
 
   private
 
-  def subject_for_work_package(wp)
-    "#{wp.project.name} - #{wp.status.name} #{wp.type.name} ##{wp.id}: #{wp.subject}"
+  def open_project_wiki_headers(wiki_content)
+    open_project_headers 'Project' => wiki_content.project.identifier,
+                         'Wiki-Page-Id' => wiki_content.page.id,
+                         'Type' => 'Wiki'
   end
 
-  # like #mail, but contains special author based filters
-  # currently only:
-  #  - remove_self_notifications
-  # might be refactored at a later time to be as generic as Interceptors
-  def mail_for_author(author, headers = {}, &block)
-    message = mail headers, &block
-
-    self.class.remove_self_notifications(message, author)
-
-    message
-  end
-
-  def references(object, user)
-    headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
-  end
-
-  def set_work_package_headers(work_package)
-    open_project_headers 'Project' => work_package.project.identifier,
-                         'Issue-Id' => work_package.id,
-                         'Issue-Author' => work_package.author.login,
-                         'Type' => 'WorkPackage'
-
-    if work_package.assigned_to
-      open_project_headers 'Issue-Assignee' => work_package.assigned_to.login
-    end
+  def open_project_message_headers(message)
+    open_project_headers 'Project' => message.project.identifier,
+                         'Message-Id' => message.parent_id || message.id,
+                         'Type' => 'Forum'
   end
 end
 
-##
-# Interceptors
-#
-# These are registered in config/initializers/register_mail_interceptors.rb
-#
-# Unfortunately, this results in changes on the interceptor classes during development mode
-# not being reflected until a server restart.
-
-class DefaultHeadersInterceptor
-  def self.delivering_email(mail)
-    mail.headers(default_headers)
-  end
-
-  def self.default_headers
-    {
-      'X-Mailer' => 'OpenProject',
-      'X-OpenProject-Host' => Setting.host_name,
-      'X-OpenProject-Site' => Setting.app_title,
-      'Precedence' => 'bulk',
-      'Auto-Submitted' => 'auto-generated'
-    }
-  end
-end
-
-class DoNotSendMailsWithoutReceiverInterceptor
-  def self.delivering_email(mail)
-    receivers = [mail.to, mail.cc, mail.bcc]
-    # the above fields might be empty arrays (if entries have been removed
-    # by another interceptor) or nil, therefore checking for blank?
-    mail.perform_deliveries = false if receivers.all?(&:blank?)
-  end
-end

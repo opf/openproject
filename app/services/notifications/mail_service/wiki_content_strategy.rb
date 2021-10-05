@@ -34,8 +34,7 @@ module Notifications::MailService::WikiContentStrategy
       UserMailer
         .send(method,
               notification.recipient,
-              notification.journal.journable,
-              notification.journal.user || DeletedUser.first)
+              notification.journal.journable)
         .deliver_now
     end
 

@@ -15,7 +15,7 @@
     <%= digest_notification_timestamp_text(
           notification,
           html: false,
-          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.digests.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
+          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
 
     <% journal = notification.journal %>
     <% if journal.notes.present? %>
@@ -36,5 +36,5 @@
 <% if @aggregated_notifications.length > DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
 <% number_of_overflowing_work_packages = @aggregated_notifications.length - DigestMailer::MAX_SHOWN_WORK_PACKAGES %>
 <% count = number_of_overflowing_work_packages === 1 ? 'one' : 'other' %>
-<%= I18n.t(:"mail.digests.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
+<%= I18n.t(:"mail.work_packages.more_to_see.#{count}", count: number_of_overflowing_work_packages) %>
 <% end %>

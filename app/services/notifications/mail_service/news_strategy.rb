@@ -34,8 +34,7 @@ module Notifications::MailService::NewsStrategy
       UserMailer
         .news_added(
           notification.recipient,
-          notification.journal.journable,
-          notification.journal.user || DeletedUser.first
+          notification.journal.journable
         )
         .deliver_now
     end

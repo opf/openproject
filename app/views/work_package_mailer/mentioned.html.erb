@@ -1,0 +1,55 @@
+<table <%= placeholder_table_styles %>>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
+
+<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;margin-left:auto;margin-right:auto') %>>
+  <tr>
+    <td>
+      <%= render partial: 'mailer/notification_mailer_header',
+                 locals: {
+                   summary: "#{I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user)}"
+                 } %>
+
+      <%= render layout: 'mailer/notification_row',
+                 locals: {
+                   work_package: @work_package,
+                   unique_reasons: [:mentioned],
+                   show_count: false
+                 } do %>
+        <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+          <tr>
+            <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal; overflow: hidden; max-width: 100%; width: 100%;">
+              <%= format_text @journal.notes, only_path: false %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
+        <tr>
+          <td>
+            <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
+              <tr>
+                <td>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <%= placeholder_cell('10px', vertical: true) %>
+          <td>
+            <%= render partial: 'mailer/notification_settings_button' %>
+          </td>
+        </tr>
+      </table>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('20px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+

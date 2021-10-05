@@ -70,6 +70,12 @@ FactoryBot.define do
       end
     end
 
+    callback(:after_stub) do |user, evaluator|
+      if evaluator.preferences.present?
+        user.preference = FactoryBot.build_stubbed(:user_preference, user: user, settings: evaluator.preferences)
+      end
+    end
+
     factory :admin do
       firstname { 'OpenProject' }
       sequence(:lastname) { |n| "Admin#{n}" }
