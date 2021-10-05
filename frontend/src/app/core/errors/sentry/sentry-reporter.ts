@@ -93,7 +93,7 @@ export class SentryReporter implements ErrorReporter {
       sentry.init({
         dsn,
         debug: !environment.production,
-        release: `op-frontend@${version}`,
+        release: version,
         environment: environment.production ? 'production' : 'development',
 
         // Integrations
