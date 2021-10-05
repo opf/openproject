@@ -9,15 +9,11 @@ FactoryBot.define do
     project { association :project }
     resource { association :work_package, project: project }
     actor { nil }
+    journal { nil }
 
-    transient do
-      journal { nil }
-    end
-
-    callback(:after_create) do |notification, evaluator|
-      notification.journal = evaluator.journal || notification.resource.journals.last
+    callback(:after_build) do |notification, _|
+      notification.journal ||= notification.resource.journals.last
       notification.actor ||= notification.journal.try(:user)
-      notification.save!
     end
   end
 end
