@@ -4,13 +4,13 @@ export interface DailyRemindersSettings {
   enabled:boolean;
   times:string[];
 }
-export interface ImmediateRemindersSettings {
-  mentioned:boolean;
-}
-
 export interface PauseRemindersSettings {
   enabled:boolean;
-  time:string;
+  firstDay?:string;
+  lastDay?:string;
+}
+export interface ImmediateRemindersSettings {
+  mentioned:boolean;
 }
 
 export interface UserPreferencesModel {
@@ -23,5 +23,5 @@ export interface UserPreferencesModel {
   notifications:NotificationSetting[];
   dailyReminders:DailyRemindersSettings;
   immediateReminders:ImmediateRemindersSettings;
-  pauseReminders:PauseRemindersSettings;
+  pauseReminders:Partial<PauseRemindersSettings>;
 }

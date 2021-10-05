@@ -2,16 +2,25 @@
   class="op-pause-reminders"
   [formGroup]="form"
 >
-  <input
-    type="checkbox"
-    formControlName="enabled"
-    id="op-pause-reminders-enabled"
-    class="op-pause-reminders--enabled"
-  />
-  <label
-    class="op-reminder-settings-daily-time--label"
-    [textContent]="text.label"
-    for="op-pause-reminders-enabled"
+  <op-checkbox-field
+    class="op-pause-reminders--checkbox"
+    [control]="form.get('enabled')"
   >
-  </label>
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="enabled"
+      data-qa-immediate-reminder="mentioned"
+    />
+    <p slot="description">{{ text.label }}</p>
+  </op-checkbox-field>
+
+  <op-range-date-picker
+    [size]="23"
+    [required]="enabled$ | async"
+    [disabled]="!(enabled$ | async)"
+    (changed)="setDates($event)"
+    [initialDates]="selectedDates$ | async"
+  >
+  </op-range-date-picker>
 </div>

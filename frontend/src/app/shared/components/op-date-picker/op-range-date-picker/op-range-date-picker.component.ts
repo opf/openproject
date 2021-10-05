@@ -26,11 +26,12 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
 
   constructor(protected timezoneService:TimezoneService) {
     super(timezoneService);
-
-    this.initialValue = this.resolveDateArrayToString(this.initialDates);
   }
 
   protected initializeDatepicker():void {
+    this.initialDates = this.initialDates || [];
+    this.initialValue = this.resolveDateArrayToString(this.initialDates);
+
     const options = {
       allowInput: true,
       appendTo: this.appendTo,

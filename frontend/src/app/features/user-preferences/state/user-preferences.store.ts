@@ -51,7 +51,6 @@ function createInitialState():UserPreferencesModel {
     },
     pauseReminders: {
       enabled: false,
-      time: '',
     },
   };
 }

@@ -677,6 +677,8 @@ en:
         title: 'Email reminders'
         pause:
           label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
 
 
     text_are_you_sure: "Are you sure?"

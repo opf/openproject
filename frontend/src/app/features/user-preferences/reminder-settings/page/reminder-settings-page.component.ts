@@ -17,6 +17,7 @@ import {
 import {
   DailyRemindersSettings,
   ImmediateRemindersSettings,
+  PauseRemindersSettings,
   UserPreferencesModel,
 } from 'core-app/features/user-preferences/state/user-preferences.model';
 import {
@@ -36,6 +37,7 @@ export const myReminderPageComponentSelector = 'op-reminders-page';
 interface IReminderSettingsFormValue {
   immediateReminders:ImmediateRemindersSettings,
   dailyReminders:DailyRemindersSettings,
+  pauseReminders:Partial<PauseRemindersSettings>,
   emailAlerts:Record<EmailAlertType, boolean>;
   workdays:boolean[];
 }
@@ -59,7 +61,8 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     }),
     pauseReminders: this.fb.group({
       enabled: this.fb.control(false),
-      time: this.fb.control(''),
+      firstDay: this.fb.control(''),
+      lastDay: this.fb.control(''),
     }),
     workdays: this.fb.array([
       this.fb.control(false),
@@ -157,12 +160,15 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     const projectNotifications = prefs.notifications.filter((notification) => !!notification._links.project.href);
     const reminderSettings = (this.form.value as IReminderSettingsFormValue);
     const workdays = ReminderSettingsPageComponent.buildWorkdays(reminderSettings.workdays);
+    const pauseReminders = ReminderSettingsPageComponent.buildPauses(reminderSettings.pauseReminders);
+    const { dailyReminders, immediateReminders } = reminderSettings;
 
     this.storeService.update(this.userId, {
       ...prefs,
       workdays,
-      dailyReminders: reminderSettings.dailyReminders,
-      immediateReminders: reminderSettings.immediateReminders,
+      dailyReminders,
+      immediateReminders,
+      pauseReminders,
       notifications: [
         ...globalNotifications.map((notification) => (
           {
@@ -187,5 +193,13 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
         },
         [] as number[],
       );
+  }
+
+  private static buildPauses(formValues:Partial<PauseRemindersSettings>):Partial<PauseRemindersSettings> {
+    if (formValues.enabled) {
+      return formValues;
+    }
+
+    return { enabled: false };
   }
 }
