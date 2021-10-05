@@ -62,7 +62,11 @@ export class IanMenuService {
           notificationsByProject: data.groups,
           projectsFilter,
         });
-        this.projectsResourceService.fetchProjects(projectsFilter).subscribe();
+
+        // Only request if there are any groups
+        if (data.groups && data.groups.length > 0) {
+          this.projectsResourceService.fetchProjects(projectsFilter).subscribe();
+        }
       });
     this.ianResourceService.fetchNotifications(IAN_MENU_REASON_FILTERS)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
