@@ -9,10 +9,10 @@
     <div class="work-package--watchers form--selected-value--list"
          [ngClass]="{'-read-only': !allowedToRemove}">
 
-      <wp-watcher-entry
+      <op-wp-watcher-entry
                   *ngFor="let watcher of watching; trackBy:trackByHref"
                   [watcher]="watcher">
-      </wp-watcher-entry>
+      </op-wp-watcher-entry>
     </div>
     <div class="work-package--watchers-lookup hide-when-print"
          [hidden]="!allowedToAdd">
