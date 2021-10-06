@@ -73,6 +73,16 @@ describe Group, type: :model do
 
   describe '#group_users' do
     context 'when adding a user' do
+      context 'which does not exist' do
+        it 'does not create a group user' do
+          count = group.group_users.count
+          gu = group.group_users.create user_id: User.maximum(:id).to_i + 1
+
+          expect(gu).not_to be_valid
+          expect(group.group_users.count).to eq count
+        end
+      end
+
       it 'updates the timestamp' do
         updated_at = group.updated_at
         group.group_users.create(user: user)
