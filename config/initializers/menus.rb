@@ -115,6 +115,12 @@ Redmine::MenuManager.map :application_menu do |menu|
             last: true
 end
 
+Redmine::MenuManager.map :notifications_menu do |menu|
+  menu.push :notification_grouping_select,
+            { controller: '/my', action: 'notifications' },
+            partial: 'notifications/menu_notification_center'
+end
+
 Redmine::MenuManager.map :my_menu do |menu|
   menu.push :account,
             { controller: '/my', action: 'account' },

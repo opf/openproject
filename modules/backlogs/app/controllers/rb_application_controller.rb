@@ -36,7 +36,7 @@ class RbApplicationController < ApplicationController
 
   # Render angular layout to handle CSS loading
   # from the frontend
-  layout 'angular'
+  layout 'angular/angular'
 
   private
 

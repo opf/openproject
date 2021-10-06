@@ -82,6 +82,7 @@ import { OpCheckboxFieldComponent } from './components/forms/checkbox-field/chec
 import { OpFormFieldComponent } from './components/forms/form-field/form-field.component';
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
+import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -184,6 +185,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+    OpSidemenuComponent,
   ],
   declarations: [
     OpDateTimeComponent,
@@ -236,6 +238,7 @@ export function bootstrapModule(injector:Injector) {
     OpFormFieldComponent,
     OpFormBindingDirective,
     OpOptionListComponent,
+    OpSidemenuComponent,
   ],
 })
 export class OPSharedModule {

@@ -33,10 +33,15 @@ import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notif
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 
+export interface INotificationPageQueryParameters {
+  filter?:string;
+  name?:string;
+}
+
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'notifications',
-    url: '/notifications',
+    url: '/notifications?{filter:string}&{name:string}',
     data: {
       bodyClasses: 'router--work-packages-base',
     },

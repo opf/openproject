@@ -10,6 +10,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { IAN_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center.component';
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
+import { IanMenuComponent } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { DynamicModule } from 'ng-dynamic-component';
 import { InAppNotificationStatusComponent } from './entry/status/in-app-notification-status.component';
@@ -28,6 +29,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
     NotificationSettingsButtonComponent,
     ActivateFacetButtonComponent,
     MarkAllAsReadButtonComponent,
+    IanMenuComponent,
   ],
   imports: [
     OPSharedModule,

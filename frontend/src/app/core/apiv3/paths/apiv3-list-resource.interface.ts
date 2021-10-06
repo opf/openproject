@@ -35,6 +35,7 @@ export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 export interface Apiv3ListParameters {
   filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
+  groupBy?:string;
   pageSize?:number;
   offset?:number;
 }
@@ -48,6 +49,10 @@ export function listParamsString(params?:Apiv3ListParameters):string {
 
   if (params && params.sortBy) {
     queryProps.push(`sortBy=${JSON.stringify(params.sortBy)}`);
+  }
+
+  if (params && params.groupBy) {
+    queryProps.push(`groupBy=${params.groupBy}`);
   }
 
   // 0 should not be treated as false

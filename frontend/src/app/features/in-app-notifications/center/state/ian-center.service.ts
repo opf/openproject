@@ -3,14 +3,15 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  IanCenterStore,
-  InAppNotificationFacet,
-} from './ian-center.store';
-import {
   map,
   switchMap,
   take,
 } from 'rxjs/operators';
+import { from } from 'rxjs';
+import {
+  ID,
+  setLoading,
+} from '@datorama/akita';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -18,19 +19,19 @@ import {
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
 import {
-  ID,
-  setLoading,
-} from '@datorama/akita';
-import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { from } from 'rxjs';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
+import {
+  IanCenterStore,
+  InAppNotificationFacet,
+} from './ian-center.store';
 
 @Injectable()
 @EffectHandler
@@ -49,9 +50,14 @@ export class IanCenterService {
   ) {
   }
 
+  setFilters(filters:INotificationPageQueryParameters):void {
+    this.store.update({ filters });
+    this.debouncedReload();
+  }
+
   setFacet(facet:InAppNotificationFacet):void {
     this.store.update({ activeFacet: facet });
-    this.reload();
+    this.debouncedReload();
   }
 
   markAsRead(notifications:ID[]):void {
@@ -80,9 +86,11 @@ export class IanCenterService {
         .resourceService
         .removeFromCollection(this.query.params, action.notifications);
     } else {
-      this.reload();
+      this.debouncedReload();
     }
   }
+
+  private debouncedReload = _.debounce(() => { this.reload(); });
 
   private reload() {
     this.resourceService
