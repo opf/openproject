@@ -290,7 +290,7 @@ fr:
             current_new_feature_html: >
               Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des paquets de travail.</li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Intégration de GitHub dans OpenProject. </li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection multiple pour les champs personnalisés du projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Activer"
