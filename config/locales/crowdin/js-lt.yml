@@ -224,19 +224,19 @@ lt:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
             high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
-            installation: "Instaliavimo pagalba"
-            installation_text: "Patyręs programų inžinierius ves jus per visą instaliavimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
+            installation: "Diegimo pagalba"
+            installation_text: "Patyręs programų inžinierius ves jus per visą diegimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
             premium_features: "„Premium“ funkcijos"
             premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
             professional_support: "Profesionali pagalba"
-            professional_support_text: "Gaukite patikimą, artimą pagalbą iš vyresnių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
+            professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
           text: >
-            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrindinai orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
+            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
           you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     custom_actions:
