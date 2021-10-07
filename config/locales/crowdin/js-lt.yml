@@ -225,19 +225,19 @@ lt:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
             high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
-            installation: "Instaliavimo pagalba"
-            installation_text: "Patyręs programų inžinierius ves jus per visą instaliavimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
+            installation: "Diegimo pagalba"
+            installation_text: "Patyręs programų inžinierius ves jus per visą diegimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
             premium_features: "„Premium“ funkcijos"
             premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
             professional_support: "Profesionali pagalba"
-            professional_support_text: "Gaukite patikimą, artimą pagalbą iš vyresnių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
+            professional_support_text: "Gaukite patikimą, artimą pagalbą iš patyrusių pagalbos inžinierių su ekspertinėmis žiniomis apie OpenProject naudojimą verslui kritinėse aplinkose."
           button_start_trial: "Pradėti bandomąjį laikotarpį"
           button_book_now: "Užsakyti dabar"
           confidence: >
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
           text: >
-            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrindinai orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
+            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
           you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     custom_actions:
@@ -290,7 +290,7 @@ lt:
             current_new_feature_html: >
               Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
               Šioje laidoje rasite įvairias naujas funkcijas ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>Pasidomėkite mūsų <a href="https://github.com/opf/openproject-revit-add-in">priedu Revit</a>, kuris leidžia dirbti su BCF darbo paketais tiesiai Revit'e.</li> <li>IFC savybės gavo savo atskirą skydelį. GUID kopijavimas niekada nebuvo lengvesnis.</li> <li>Atgalinės plokštumos karpymo krypties BCF vaizdas ir suderinamumas su būsima BCF 3.0 (Dabar tokia patik kryptis, kaip ir Solibri). <li>Pataisyta IFC modelių peržiūra mobiliuose.</li> <li>Pataisytas darbo paketų vaizdo su BCF nuotraukų stulpeliu eksportas.</li> </ul>
     label_activate: "Aktyvuoti"
@@ -303,7 +303,7 @@ lt:
     label_add_row_before: "Pridėti eilutę prieš"
     label_add_selected_columns: "Pridėti pažymėtus stulpelius"
     label_added_by: "pridėta"
-    label_added_time_by: "Pridėjo <a href=%{authorLink}>%{author}</a> prieš %{age}"
+    label_added_time_by: "<a href=%{authorLink}>%{author}</a> pridėjo prieš %{age}"
     label_ago: "dienų prieš"
     label_all: "visi"
     label_all_work_packages: "visi darbų paketai"
@@ -528,6 +528,17 @@ lt:
         mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_selection: "Click on a notification to view all activity details."
+      menu:
+        accountable: 'Atsakingas'
+        assigned: 'Paskirtas'
+        by_project: 'By Project'
+        by_reason: 'By Reason'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
       settings:
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
@@ -590,6 +601,8 @@ lt:
           explanation: 'Jūs gausite priminimus tik apie neskaitytus pranešimus ir tiktai jūsų nurodytomis valandomis.'
           time_label: 'Laikas %{counter}:'
           title: 'Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus'
+        workdays:
+          title: 'Gauti e-pašto priminimus šiomis dienomis'
         immediate:
           title: 'Siųsti man e-pašto priminimą'
           mentioned: 'Iš karto, kai kažkas @pamini mane'

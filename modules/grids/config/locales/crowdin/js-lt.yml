@@ -37,7 +37,7 @@ lt:
           not_set: 'Nenustatyta'
         subprojects:
           title: 'Sub-projektai'
-          no_results: 'Nėra su-projektų.'
+          no_results: 'Nėra subprojektų.'
         time_entries_current_user:
           title: 'Mano sugaištas laikas'
           displayed_days: 'Valdiklyje rodomos dienos:'

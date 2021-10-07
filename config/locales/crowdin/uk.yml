@@ -1942,33 +1942,36 @@ uk:
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
-      work_packages:
-        comment_added: '<b>Comment</b> added'
-        created: 'Створено'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see:
-          one: 'There is 1 more work package with notifications.'
-          few: 'There are %{count} more work packages with notifications.'
-          many: 'There are %{count} more work packages with notifications.'
-          other: 'There are %{count} more work packages with notifications.'
-        reason:
-          watched: 'Watched'
-          assigned: 'Assigned'
-          responsible: 'Відповідальний'
-          mentioned: 'Mentioned'
-          subscribed: 'всі'
-          prefix: 'Received because of the notification setting: %{reason}'
-        see_all: 'See all'
-        updated: 'Оновлено'
-        updated_at: 'at %{timestamp} by %{user}'
       you_have: 'You have'
     logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: 'Створено'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        few: 'There are %{count} more work packages with notifications.'
+        many: 'There are %{count} more work packages with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Відповідальний'
+        mentioned: 'Mentioned'
+        subscribed: 'всі'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: 'Оновлено'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Новий користувач (%{value}) зареєструвався. Його обліковий запис чекає на ваше підтвердження:"
   mail_body_account_information: "Інформація по Вашому обліковому запису"
   mail_body_account_information_external: "Ви можете використовувати ваш %{value} обліковий запис для входу."
