@@ -105,7 +105,7 @@ Congratulations! You can now synchronize your data between Excel and OpenProject
 
 To add or edit a new parent-child relation, you have two possibilities:
 
-**A)** You can add a child to a work package when you  enter 4 empty spaces (press 4x Shift) before typing the subject of the  child work package.
+**A)** You can add a child to a work package when you enter 4 empty spaces (press 4x Space) before typing the subject of the child work package.
 
 ![insert-children](Insert-children-1024x605.png)
 
