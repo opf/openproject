@@ -113,10 +113,10 @@ lt:
         OpenProject ieškos naudotojų tik šio submedžio ribose.
         Pavyzdys: ou=users,dc=example,dc=com
       filter_string: |
-        Pridėkite nebūtiną RFC4515 filtrą, kuris bus naudojamas riboti perduodamų iš LDAP vartotojų sąrašą.
-        Jis gali būti naudojamas norint sumažinti aibę vartotojų, kuriuos OpenProject ras ir galės naudoti autentifikavimui ir grupių sinchronizavimui.
+        Pridėkite nebūtiną RFC4515 filtrą, kuris bus naudojamas riboti perduodamų iš LDAP naudotojų sąrašą.
+        Jis gali būti naudojamas norint sumažinti aibę naudotojų, kuriuos OpenProject ras ir galės naudoti autentifikavimui ir grupių sinchronizavimui.
       filter_string_concat: |
-        OpenProject įrašų identifikavimui visada naudos login atributą su vartotojo pateiktais duomenimis. Jei jūs čia nurodysite filtrą, jis prie kitų filtrų bus prijungtas naudojant AND. Nenurodžius, bus naudojamas viską apimantis filtras (objectClass=*).
+        OpenProject įrašų identifikavimui visada naudos login atributą su naudotojo pateiktais duomenimis. Jei jūs čia nurodysite filtrą, jis prie kitų filtrų bus prijungtas naudojant AND. Nenurodžius, bus naudojamas viską apimantis filtras (objectClass=*).
       onthefly_register: |
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
@@ -241,8 +241,8 @@ lt:
       no_results_content_text: Pridėti kaip naujieną
   users:
     groups:
-      member_in_these_groups: 'Šis vartotojas šiuo metu yra narys šiose grupėse:'
-      no_results_title_text: Šis vartotojas nėra jokios grupės narys.
+      member_in_these_groups: 'Šis naudotojas šiuo metu yra šių grupių narys:'
+      no_results_title_text: Šis naudotojas nėra jokios grupės narys.
     memberships:
       no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
   placeholder_users:
@@ -386,7 +386,7 @@ lt:
         attr_mail: "El. paštos atributas"
         base_dn: "Bazinis DN"
         host: "Hostas"
-        onthefly: "Automatinis vartotojų kūrimas"
+        onthefly: "Automatinis naudotojų kūrimas"
         port: "Jungtis"
       changeset:
         repository: "Repozitorija"
