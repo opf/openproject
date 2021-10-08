@@ -78,7 +78,7 @@ lt:
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
   attribute_help_texts:
-    note_public: 'Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems vartotojams!'
+    note_public: 'Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems naudotojams!'
     text_overview: 'Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo.'
     label_plural: 'Atributų pagalbos tekstai'
     show_preview: 'Peržiūrėti tekstą'
@@ -102,7 +102,7 @@ lt:
       host: LDAP serverio vardas arba IP adresas
       login_map: LDAP atributo, kuris naudojamas vienareikšmiškai nustatyti besijungiantį asmenį, pavadinimas. Dažniausiai tai būna `uid` arba `samAccountName`.
       generic_map: LDAP atributo pavadinimas, kuris bus susietas su OpenProject atributu `%{attribute}`
-      admin_map_html: "Pasirinktinis: LDAP atributas, kuris <strong>jei bus nustatytas</strong> pažymi, kad vartotojas yra OpenProject administratorius. Jei abejojate, palikite tuščią."
+      admin_map_html: "Pasirinktinis: LDAP atributas, kuris <strong>jei bus nustatytas</strong> pažymi, kad naudotojas yra OpenProject administratorius. Jei abejojate, palikite tuščią."
       system_user_dn_html: |
         Įveskite sisteminio naudotojo, naudojamos tik skaitymo teisėmis jugtis prie LDAP, DN.
         <br/>
@@ -118,7 +118,7 @@ lt:
       filter_string_concat: |
         OpenProject įrašų identifikavimui visada naudos login atributą su naudotojo pateiktais duomenimis. Jei jūs čia nurodysite filtrą, jis prie kitų filtrų bus prijungtas naudojant AND. Nenurodžius, bus naudojamas viską apimantis filtras (objectClass=*).
       onthefly_register: |
-        Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie vartotojai pirmą kartą prisijungs prie OpenProject.
+        Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie naudotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
     system_account: 'Sistemos paskyra'
@@ -185,7 +185,7 @@ lt:
       no_results_title_text: Nėra jokių grupių.
       no_results_content_text: Sukurti naują grupę
     users:
-      no_results_title_text: Nėra šios grupės vartotojų.
+      no_results_title_text: Nėra šios grupės naudotojų.
     memberships:
       no_results_title_text: Nėra projektų šiai grupei.
   incoming_mails:
@@ -244,18 +244,18 @@ lt:
       member_in_these_groups: 'Šis naudotojas šiuo metu yra šių grupių narys:'
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
     memberships:
-      no_results_title_text: Šis vartotojas šiuo metu nėra projekto narys.
+      no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
   placeholder_users:
     right_to_manage_members_missing: >
-      Jums neleidžiama ištrinti statytinio vartotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis vartotojas yra narys.
-    delete_tooltip: "Pašalinti statytinį vartotoją"
+      Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
+    delete_tooltip: "Pašalinti statytinį naudotoją"
     deletion_info:
-      heading: "Pašalinti statytinį vartotoją %{name}"
+      heading: "Pašalinti statytinį naudotoją %{name}"
       data_consequences: >
-        Visose vietose, kur naudojamas statytinis vartotojas (t.y. kaip paskirtas, atsakingas ar kitose vartotojo vietose) jis bus pakeistas į vartotoją „Deleted user“.
-        Kadangi visų ištrintų vartotojų visi duomenys yra priskiriami šiam vartotojui, nebebus galima atskirti šio vartotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti vartotojai.
+        Visose vietose, kur naudojamas statytinis naudotojas (t.y. kaip paskirtas, atsakingas ar kitose naudotojo vietose) jis bus pakeistas į naudotoją „Ištrintas naudotojas“.
+        Kadangi visų ištrintų naudotojų visi duomenys yra priskiriami šiam naudotojui, nebebus galima atskirti šio naudotojo sukurtų duomenų, nuo tų, kuriuos sukūrė kiti ištrinti naudotojai.
       irreversible: "Šis veiksmas negrįžtamas"
-      confirmation: "Naikinimo patvirtinimui įveskite statytinio vartotojo vardą %{name}."
+      confirmation: "Naikinimo patvirtinimui įveskite statytinio naudotojo vardą %{name}."
     upsale:
       title: Priskirkite darbus žmonėms, kurie nėra projekto nariai.
       description: >
@@ -341,24 +341,24 @@ lt:
     deleted: "Paskyrą sėkmingai ištrinta"
     deletion_info:
       data_consequences:
-        other: "Vartotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų vartotojų darbo. Taigi, tokie duomenys priskiriami ištrinto vartotojo paskyrai „Deleted user“. Kadangi kiekvieno ištrinto vartotojo duomenys priskiriami tam vartotojui, nėra įmanoma išskirti atskirų ištrintų vartotojų duomenų."
-        self: "Jūsų vartotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų vartotojų darbo. Taigi, tokie duomenys priskiriami ištrinto vartotojo paskyrai „Deleted user“. Kadangi kiekvieno ištrinto vartotojo duomenys priskiriami tam vartotojui, nebus įmanoma išskirti jūsų ir kito ištrinto vartotojo duomenų."
+        other: "Naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nėra įmanoma išskirti atskirų ištrintojo naudotojo duomenų."
+        self: "Jūsų naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nebus įmanoma išskirti jūsų ir kitų ištrintų naudotojų duomenų."
       heading: "Ištrinti paskyrą %{name}"
       info:
         other: "Paskyros ištrynimas yra negrįžtamas veiksmas."
         self: "Jūsų paskyros ištrynimas yra negrįžtamas veiksmas."
       login_consequences:
-        other: "Paskyra bus ištrinta iš aplikacijos. Vartotojas nebegalės prisijungti su savo prisijungimo duomenimis. Jis gali pasirinkti galimybę vėl tapti šios aplikacijos vartotoju pasinaudodamas suteikta galimybe."
-        self: "Jūsų paskyra bus ištrinta iš sistemos. Jūs nebegalėsite prisijungti su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos vartotoju, galite pasinaudoti suteikta galimybe."
+        other: "Paskyra bus ištrinta iš aplikacijos. Naudotojas nebegalės prisijungti su savo prisijungimo duomenimis. Jis gali pasirinkti galimybę vėl tapti šios aplikacijos naudotoju pasinaudodamas suteikta galimybe."
+        self: "Jūsų paskyra bus ištrinta iš sistemos. Jūs nebegalėsite prisijungti su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos naudotojų, galite pasinaudoti suteikta galimybe."
       login_verification:
-        other: "Įveskite prisijungimo %{name}, kad patvirtintumėte naikinimą. Nurodžius, jūsų paprašys patvirtinti jūsų slaptažodį."
+        other: "Įveskite prisijungimą %{name}, kad patvirtintumėte naikinimą. Nurodžius, jūsų paprašys patvirtinti jūsų slaptažodį."
         self: "Įveskite jūsų prisijungimo %{name}, kad patvirtintumėte naikinimą. Įvedus, jūsų bus paprašyta patvirtinti jūsų slaptažodį."
     error_inactive_activation_by_mail: >
       Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti, paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
     error_inactive_manual_activation: >
       Jūsų paskyra neaktyvuota. Prašome palaukti, kol administratorius patvirtins Jūsų registraciją.
     error_self_registration_disabled: >
-      Vartotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
+      Naudotojų registracija išjungta šioje sistemoje. Susisiekite su administratoriumi, kad jis sukurtų Jūsų asmeninę paskyrą.
     login_with_auth_provider: "arba prisijunkite su jau turima paskyra"
     signup_with_auth_provider: "arba prisiregistruokite naudodami"
     auth_source_login: Prisijunkite kaip <em>%{login}</em>, norėdami aktyvuoti savo paskyrą.
@@ -414,7 +414,7 @@ lt:
         expires_at: "Nustoja galioti"
         subscriber: "Prenumeruotojas"
         encoded_token: "„Enterprise“ paramos raktas"
-        active_user_count_restriction: "Maksimalus aktyvių vartotojų skaičius"
+        active_user_count_restriction: "Maksimalus aktyvių naudotojų skaičius"
       grids/grid:
         page: "Puslapis"
         row_count: "Eilučių skaičius"
@@ -457,7 +457,7 @@ lt:
       repository:
         url: "URL"
       role:
-        assignable: "Darbų paketai gali būti priskirti vartotojams ir grupėms pagal rolės vaidmenį atitinkamame projekte"
+        assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal rolės vaidmenį atitinkamame projekte"
       time_entry:
         activity: "Veikla"
         hours: "Valandų"
@@ -561,7 +561,7 @@ lt:
         less_than_or_equal_to: "turi būti mažesnis arba lygus %{count}."
         not_available: "yra nepasiekiamas dėl sistemos konfigūracijos"
         not_deletable: "negali būti pašalintas."
-        not_current_user: "nėra dabartinis vartotojas"
+        not_current_user: "nėra dabartinis naudotojas"
         not_a_date: "nėra tinkama data."
         not_a_datetime: "nėra tinkama data ir laikas."
         not_a_number: "nėra skaičius."
@@ -720,7 +720,7 @@ lt:
             start_date:
               violates_relationships: "negali būti nustatyta į %{soonest_start} ar vėliau, kad nepažeistų darbų paketo ryšių."
             status_id:
-              status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamoms vartotojų rolėms."
+              status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamoms naudotojų rolėms."
               status_invalid_in_type: "yra netinkamas, nes dabartinė būsena neegzistuoja šiame tipe."
             type:
               cannot_be_milestone_due_to_children: "negali būti etapas, nes šis darbo paketas turi vaikų."
@@ -756,11 +756,11 @@ lt:
                 confirm: "Patvirtinkite naują slaptažodį."
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu į laukelį „Naujas slaptažodis“."
             status:
-              invalid_on_create: "yra netinkama naujų vartotojų būsena."
+              invalid_on_create: "yra netinkama naujų naudotojų būsena."
             auth_source:
               error_not_found: "nerasta"
         member:
-          principal_blank: "Prašome pasirinkti bent vieną vartotoją ar grupę."
+          principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
           role_blank: "turi būti priskirtas."
           attributes:
             roles:
@@ -795,16 +795,16 @@ lt:
         few: "Pranešimai"
         many: "Pranešimo"
         other: "Pranešimų"
-      placeholder_user: "Statytinis vartotojas"
+      placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
-      query: "Vartotojo užklausa"
+      query: "Sava užklausa"
       role:
         one: "Rolė"
         few: "Rolės (-ė, -ių)"
         many: "Rolės (-ė, -ių)"
         other: "Rolės (-ė, -ių)"
       type: "Tipas"
-      user: "Vartotojas"
+      user: "Naudotojas"
       version: "Versija"
       wiki: "Wiki"
       wiki_page: "Wiki puslapis"
@@ -873,7 +873,7 @@ lt:
     updated_at: "Atnaujinta"
     updated_on: "Atnaujinta"
     uploader: "Įkėlėjas"
-    user: "Vartotojas"
+    user: "Naudotojas"
     version: "Versija"
     work_package: "Darbų paketas"
   backup:
@@ -881,16 +881,16 @@ lt:
     label_create_token: "Sukurti atsarginės kopijos žetoną"
     label_delete_token: "Pašalinti atsarginės kopijos žetoną"
     label_reset_token: "Atstatyti atsarginės kopijos žetoną"
-    label_token_users: "Šie vartotojai turi atsarginės kopijos žetonus"
+    label_token_users: "Šie naudotojai turi atsarginės kopijos žetonus"
     reset_token:
       action_create: Sukurti
       action_reset: Nustatyti iš naujo
       heading_reset: "Atstatyti atsarginės kopijos žetoną"
       heading_create: "Sukurti atsarginės kopijos žetoną"
       implications: >
-        Atsarginių kopijų įgalinimas leis bet kuriam vartotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juos bus ir visų kitų vartotojų duomenys.
+        Atsarginių kopijų įgalinimas leis bet kuriam naudotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juose bus ir visų kitų naudotojų duomenys.
       info: >
-        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš vartotojo teisę daryti atsargines kopijas.
+        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš naudotojo teisę daryti atsargines kopijas.
       verification: >
         Įveskite %{word} norėdami patvirtinti veiksmą su atsarginės kopijos žetonu: %{action}.
       verification_word_reset: atstatyti
@@ -972,7 +972,7 @@ lt:
   consent:
     checkbox_label: Perskaičiau ir sutinku su tekstu aukščiau.
     failure_message: Sutikimas negautas. Tęsti negalima.
-    title: Vartotojo sutikimas
+    title: Naudotojo sutikimas
     decline_warning_message: Jūs nesutikote su sąlygomis, todėl buvote atjungtas nuo sistemos.
     user_has_consented: Naudotojas sutiko su jūsų sukonfigūruotu teiginiu nurodytu metu.
     not_yet_consented: Naudotojas dar nesutiko, jo bus paklausta kito prisijungimo metu.
@@ -1315,7 +1315,7 @@ lt:
     additional:
       projects: "Naujausi matomi projektai."
       no_visible_projects: "Šiame egzemplioriuje nėra matomų projektų."
-      users: "Naujausi registruoti vartotojai."
+      users: "Naujausi registruoti naudotojai."
     blocks:
       community: "OpenProject community"
       upsale:
@@ -1433,7 +1433,7 @@ lt:
   label_calendar: "Kalendorius"
   label_calendar_show: "Rodyti kalendorių"
   label_category: "Kategorija"
-  label_consent_settings: "Vartotojo sutikimas"
+  label_consent_settings: "Naudotojo sutikimas"
   label_wiki_menu_item: Wiki meniu punktas
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: "Pasirinkti projektą"
@@ -1524,7 +1524,7 @@ lt:
   label_enumeration_value: "Enumeracijos reikšmė"
   label_enumerations: "Enumeratoriai"
   label_enterprise: "Enterprise"
-  label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami vartotojai"
+  label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
   label_enterprise_edition: "„Enterprise Edition“"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
@@ -1692,9 +1692,9 @@ lt:
   label_permissions: "Leidimai"
   label_permissions_report: "Leidimų ataskaita"
   label_personalize_page: "Suasmeninti šį puslapį"
-  label_placeholder_user: "Statytinis vartotojas"
-  label_placeholder_user_new: "Naujas statytinis vartotojas"
-  label_placeholder_user_plural: "Statytiniai vartotojai"
+  label_placeholder_user: "Statytinis naudotojas"
+  label_placeholder_user_new: "Naujas statytinis naudotojas"
+  label_placeholder_user_plural: "Statytiniai naudotojai"
   label_planning: "Planavimas"
   label_please_login: "Prašome prisijungti"
   label_plugins: "Papildiniai"
@@ -1725,7 +1725,7 @@ lt:
   label_project_hide_details: "Slėpti detalią projekto informaciją"
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
-  label_query_plural: "Vartotojo užklausos"
+  label_query_plural: "Naudotojo užklausos"
   label_query_menu_item: "Užklausos meniu punktas"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
@@ -1770,7 +1770,7 @@ lt:
   label_role_search: "Priskirti rolę naujiems nariams"
   label_scm: "SCM"
   label_search: "Paieška"
-  label_send_information: "Nusiųsti vartotojui paskyros informaciją"
+  label_send_information: "Nusiųsti naudotojui paskyros informaciją"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
@@ -1823,7 +1823,7 @@ lt:
   label_used_by: "Naudotas"
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
-  label_user: "Vartotojas"
+  label_user: "Naudotojas"
   label_user_and_permission: "Naudotojai ir leidimai"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
@@ -1835,7 +1835,7 @@ lt:
   label_user_mail_option_only_owner: "Tiktai dalykams, kurių šeimininkas esu aš"
   label_user_mail_option_selected: "Bet kokiam įvykiui tiktai pasirinktuose projektuose"
   label_user_new: "Naujas vartotojas"
-  label_user_plural: "Vartotojai"
+  label_user_plural: "Naudotojai"
   label_user_search: "Ieškoti vartotojo"
   label_user_settings: "Naudotojo nustatymai"
   label_version_new: "Nauja versija"
@@ -1972,7 +1972,7 @@ lt:
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
   mail_body_backup_ready: "Jūsų prašyta atsarginė kopija yra paruošta. Ją galite parsisiųsti čia:"
-  mail_body_backup_token_reset_admin_info: Atsarginės kopijos žetonas vartotojui '%{user}' buvo atstatytas.
+  mail_body_backup_token_reset_admin_info: Atsarginės kopijos žetonas naudotojui „%{user}“ buvo atstatytas.
   mail_body_backup_token_reset_user_info: Jūsų atsarginės kopijos žetonas buvo atstatytas.
   mail_body_backup_token_info: Ankstesnis žetonas nebegalioja.
   mail_body_backup_waiting_period: Naujas atsarginės kopijos žetonas bus tinkamas po %{hours} valandų.
@@ -2072,7 +2072,7 @@ lt:
   notice_locking_conflict_additional_information: "%{users} vartotojas (-ai) pateikė atnaujinimų."
   notice_locking_conflict_reload_page: "Įkelkite puslapį iš naujo, peržiūrėkite pakeitimus ir pateikite savo atnaujinimus."
   notice_member_added: Pridėtas %{name} prie projekto.
-  notice_members_added: Pridėta %{number} vartotojai (-as, -ų) prie projekto.
+  notice_members_added: Prie projekto pridėti %{number} naudotojai.
   notice_member_removed: "Pašalintas %{user} iš projekto."
   notice_member_deleted: "%{user} buvo pašalintas iš projekto ir ištrintas."
   notice_no_principals_found: "Rezultatų nerasta."
@@ -2129,8 +2129,8 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
-  permission_manage_user: "Kurti ir keisti vartotojus"
-  permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius vartotojus"
+  permission_manage_user: "Kurti ir keisti naudotojus"
+  permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius naudotojus"
   permission_add_subprojects: "Sukurti sub-projektus"
   permission_add_work_package_watchers: "Pridėti stebėtojus"
   permission_assign_versions: "Priskirti versijas"
@@ -2406,7 +2406,7 @@ lt:
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_export_limit: "Darbų paketų eksportavimo limitas"
-  setting_journal_aggregation_time_minutes: "Laikais, per kurį įvykę vartotojo veiksmai yra grupuojami"
+  setting_journal_aggregation_time_minutes: "Laikais, per kurį įvykę naudotojo veiksmai yra grupuojami"
   setting_log_requesting_user: "Įrašyti vartotojo vardą, prisijungimo vardą, e. pašto adresą visiems prašymams"
   setting_login_required: "Reikalinga autentifikacija"
   setting_mail_from: "Išsiuntimo el. pašto adresas"
@@ -2449,7 +2449,7 @@ lt:
   setting_user_format: "Vartotojo atvaizdavimo formatas"
   setting_user_default_timezone: "Numatytoji vartotojo laiko juosta"
   setting_users_deletable_by_admins: "Administratoriai gali ištrinti vartotojų paskyras"
-  setting_users_deletable_by_self: "Vartotojai gali ištrinti savo paskyras"
+  setting_users_deletable_by_self: "Naudotojai gali ištrinti savo paskyras"
   setting_welcome_text: "Pasisveikinimo bloko tekstas"
   setting_welcome_title: "Pasisveikinimo bloko pavadinimas"
   setting_welcome_on_homescreen: "Rodyti pasisveikinimo bloką namų lange"
@@ -2467,11 +2467,11 @@ lt:
     notifications:
       retention_text: >
         Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
-      events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam vartotojui pranešimai gali būti sukonfigūruoti individualiai.'
+      events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
     display:
       first_date_of_week_and_year_set: >
-        Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų vartotojo sąsajoje.
+        Jei vienas iš „%{day_of_week_setting_name}“ ir „%{first_week_setting_name}“ yra nustatytas, tai kitas taip pat turi būti nustatytas vengiant netikslumų naudotojo sąsajoje.
       first_week_of_year_text: >
         Pasirinkite sausio datą, kuri yra pirmoje metų savaitėje. Ši reikšmė kartu su savaitės pirmos dienos nustatymu lemia savaičių skaičių metuose.
     projects:
@@ -2549,7 +2549,7 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_aggregation_time_explanation: "Visi atskiri vartotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius."
+  text_journal_aggregation_time_explanation: "Visi atskiri naudotojo veiksmai (t.y. darbų paketo atnaujinimas du kartus) yra sugrupuojami į vieną veiksmą, jei laiko tarpas tarp jų yra mažesnis už šį nustatymą. Programoje jie bus rodomi kaip vienas veiksmas. Tiek pat bus pavėlinti ir pranešimai. Dėl to sumažės siunčiamų el.laiškų skaičius."
   text_journal_changed_html: "%{label} pakeista iš %{old} %{linebreak}<strong>į</strong> %{new}"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
@@ -2578,7 +2578,7 @@ lt:
   text_reassign: "Iš naujo priskirti darbų paketui:"
   text_regexp_info: "pvz., ^[A-Z0-9]+$"
   text_regexp_multiline: 'Reguliarioji išraiška yra pritaikoma daug eilučių režime, pvz., ^---\s+'
-  text_repository_usernames_mapping: "Parinkite ar atnaujinkite OpenProject vartotoją, kuris paminėtas repozitorijos žurnale.\nVartotojai, turintys tą patį OpenProject ir repozitorijos vardą ar el. paštą yra automatiškai surišti."
+  text_repository_usernames_mapping: "Parinkite ar atnaujinkite OpenProject naudotoją, kuris paminėtas repozitorijos žurnale.\nNaudotojai, turintys tą patį OpenProject ir repozitorijos vardą ar el. paštą yra automatiškai surišti."
   text_status_changed_by_changeset: "Atlikta pakeitimų pakete %{value}."
   text_table_difference_description: "Šioje lentelėje pavieniai %{entries} yra rodomi. Jūs galite palyginti skirtumus tarp bet kutių dviejų įrašų pasirinkdami atitinkamus žymėtinus laukelius lentelėje. Vėliau paspaudus ant mygtuko apačioje parodomi skirtumai."
   text_time_logged_by_changeset: "Atlikta pakeitimų pakete %{value}."
@@ -2818,13 +2818,13 @@ lt:
   warning: Įspėjimas
   warning_attachments_not_saved: "%{count} failas (-ai, -ų) negali būti išsaugotas (-i)."
   warning_imminent_user_limit: >
-    Jūs pakvietėte daugiau vartotojų, nei palaikoma jūsų dabartis planas. Pakviestiems vartotojams gali nepavykti prisijungti prie jūsų OpenProject aplinkos. <a href="%{upgrade_url}">Atnaujinkite savo planą</a> arba blokuokite esamus vartotojus, kad pakviesti ir registruoti vartotojai galėtų prisijungti.
+    Jūs pakvietėte daugiau naudotojų, nei palaiko jūsų dabartis planas. Pakviestiems naudotojams gali nepavykti prisijungti prie jūsų OpenProject aplinkos. <a href="%{upgrade_url}">Atnaujinkite savo planą</a> arba blokuokite esamus naudotojus, kad pakviesti ir registruoti vartotojai galėtų prisijungti.
   warning_registration_token_expired: |
     Aktyvavimo el. laiško galiojimas pasibaigė. Išsiuntėme jums naują %{email}. Paspauskite laiške duotą nuorodą, kad aktyvuotumėte savo paskyrą.
   warning_user_limit_reached: >
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
-    Jūs pasiekėte vartotojų ribą (%{current}/%{max} aktyvūs vartotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų vartotojų.
+    Jūs pasiekėte naudotojų ribą (%{current}/%{max} aktyvūs naudotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų naudotojų.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -201,7 +201,7 @@ lt:
             label_last_name: "Pavardė"
             label_domain: "Domenas"
             label_subscriber: "Prenumeruotojas"
-            label_maximum_users: "Maksimalus aktyvių vartotojų skaičius"
+            label_maximum_users: "Maksimalus aktyvių naudotojų skaičius"
             label_starts_at: "Prasideda nuo"
             label_expires_at: "Nustoja galioti"
             receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
@@ -288,7 +288,7 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną audotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
@@ -427,7 +427,7 @@ lt:
     label_today: "Šiandien"
     label_time_entry_plural: "Praleista laiko"
     label_up: "Aukštyn"
-    label_user_plural: "Vartotojai"
+    label_user_plural: "Naudotojai"
     label_activity_show_only_comments: "Rodyti veiklą tik su komentarais"
     label_activity_show_all: "Rodyti visus atributus"
     label_total_progress: "%{percent} % įvykdyta"
@@ -481,7 +481,7 @@ lt:
         next: 'Kitas'
         got_it: 'Supratau'
       steps:
-        help_menu: 'Help (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti vartotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
+        help_menu: 'Help (?) meniu yra <b>papildomi pagalbos resursai</b>. Čia jūs galite rasti naudotojo vadovą, naudingus video kaip atlikti veiksmus ir dar daugiau. <br>Sėkmės naudojant OpenProject!'
         members: 'Pakvieskite naujus <b>narius</b> prisijungti prie projekto.'
         project_selection: 'Prašome paspausti ant vieno iš demo projektų kuriuos mes paruošėme. Demonstraciniai duomenys yra tik anglų kalba. <br> <b>Demo project</b> geriausiai tinka klasikiniam projektų valdymui, o <b>Scrum project</b> labiau tinka Agile projektų valdymui.'
         quick_add_button: 'Paspauskite plius (+) ženklą navigacijos antraštėje ir <b>sukursite naują projektą</b> arba </b>pakviesite bendradarbius</b>.'
@@ -529,16 +529,16 @@ lt:
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "Panašu, kad jūs pilnai pasivijote."
+          no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'
-        by_project: 'By Project'
-        by_reason: 'By Reason'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        by_project: 'Pagal projektą'
+        by_reason: 'Pagal priežastį'
+        inbox: 'Gauti'
+        mentioned: '@paminėtas'
+        watching: 'Stebima'
       settings:
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
@@ -1086,29 +1086,29 @@ lt:
       title:
         invite: 'Pakviesti vartotoją'
         invite_to_project: 'Pakviesti %{type} į %{project}'
-        User: 'vartotojas'
+        User: 'naudotojas'
         Group: 'grupė'
-        PlaceholderUser: 'statytinis vartotojas'
+        PlaceholderUser: 'statytinis naudotojas'
         invite_principal_to_project: 'Pakviesti %{principal} į %{project}'
       project:
         label: 'Projektas'
         required: 'Pasirinkite projektą'
-        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti vartotojus.'
-        lacking_permission_info: 'Jums trūksta teisių priskirti vartotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
+        lacking_permission: 'Prašome pasirinkti kitą projektą, nes dabar pasirinktame jūs neturite teisių priskirti naudotojus.'
+        lacking_permission_info: 'Jums trūksta teisių priskirti naudotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
         no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
       type:
         required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:
-          title: 'Vartotojas'
+          title: 'Naudotojas'
           description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
         group:
           title: 'Grupė'
           description: 'Teisės, suteiktos pagal pasirinktame projekte turimą rolę'
         placeholder:
-          title: 'Statytinis vartotojas'
-          title_no_ee: 'Statytiniai vartotojai (galimybė pasiekiama tik Enterprise Edition)'
+          title: 'Statytinis naudotojas'
+          title_no_ee: 'Statytiniai naudotojai (galimybė pasiekiama tik Enterprise Edition)'
           description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
           description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Patikrinkite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
@@ -1116,15 +1116,15 @@ lt:
           name_or_email: 'Vardas arba elektroninio pašto adresas'
           name: 'Vardas'
         already_member_message: 'Jau yra %{project} narys'
-        no_results_user: 'Nerasta jokių vartotojų.'
+        no_results_user: 'Nerasta jokių naudotojų.'
         invite_user: 'Pakviesti:'
-        no_results_placeholder: 'Nerasta jokių statytinių vartotojų.'
-        create_new_placeholder: 'Sukurkite naują statytinį vartotoją:'
+        no_results_placeholder: 'Nerasta jokių statytinių naudotojų.'
+        create_new_placeholder: 'Sukurkite naują statytinį naudotoją:'
         no_results_group: 'Nerasta jokių grupių.'
         next_button: 'Kitas'
         required:
           user: 'Pasirinkite naudotoją'
-          placeholder: 'Prašome pasirinkti statytinį vartotoją'
+          placeholder: 'Prašome pasirinkti statytinį naudotoją'
           group: 'Prašome pasirinkti grupę'
       role:
         label: 'Rolė projekte %{project}'
@@ -1141,8 +1141,8 @@ lt:
       success:
         title: '%{principal} buvo pakviestas!'
         description:
-          user: 'Vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
-          placeholder: 'Statytinis vartotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo vartotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          user: 'Naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis.'
+          placeholder: 'Statytinis naudotojas gali prisijungti ir pasiekti %{project}. Tuo pačiu, jūs jau galite planuoti darbus su šiuo naudotoju ir pavyzdžiui priskirti jam darbo užduotis.'
           group: 'Grupė jau tapo %{project} dalimi. Tuo pačiu, jūs jau galite planuoti darbus su šia grupe ir pavyzdžiui priskirti jai darbo užduotis.'
         next_button: 'Tęsti'
     forms:
