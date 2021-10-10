@@ -31,9 +31,9 @@ nl:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Projectstatus'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
+          on_track: 'Op schema'
+          off_track: 'Buiten schema'
+          at_risk: 'In gevaar'
           not_set: 'Not set'
         subprojects:
           title: 'Subprojecten'

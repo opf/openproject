@@ -55,7 +55,7 @@ nl:
     button_back_to_list_view: "Terug naar het overzicht"
     button_cancel: "Annuleren"
     button_close: "Sluiten"
-    button_change_project: "Change project"
+    button_change_project: "Project wisselen"
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
@@ -78,8 +78,8 @@ nl:
     button_open_details: "Open detailweergave"
     button_close_details: "Sluit detailweergave"
     button_open_fullscreen: "Open volledig scherm"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
+    button_show_cards: "Toon kaartweergave"
+    button_show_list: "Toon lijstweergave"
     button_quote: "Citeer"
     button_save: "Opslaan"
     button_settings: "Instellingen"
@@ -90,7 +90,7 @@ nl:
     button_create: "Maken"
     calendar:
       title: 'Kalender'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      too_many: 'Er zijn in totaal %{count} werkpakketten, maar alleen %{max} kan worden getoond.'
     card:
       add_new: 'Nieuwe kaart toevoegen'
       highlighting:
@@ -102,24 +102,24 @@ nl:
       browser_error: "Uw browser ondersteunt kopiëren naar het klembord niet. Kopieer de geselecteerde tekst handmatig."
       copied_successful: "Successfully copied to clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Grafiek type'
+      axis_criteria: 'As criteria'
+      modal_title: 'Werkpakket grafiek configuratie'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
+        line: 'Lijn'
+        horizontal_bar: 'Horizontale balk'
+        bar: 'Balk'
+        pie: 'Taart'
+        doughnut: 'Donut'
         radar: 'Radar'
-        polar_area: 'Polar area'
+        polar_area: 'Poolstreek'
       tabs:
         graph_settings: 'Algemeen'
         dataset: 'Dataset %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+        could_not_load: 'Kon gegevens om de grafiek weer te geven niet laden. Mogelijk ontbreken de benodigde machtigingen.'
     description_available_columns: "Beschikbare kolommen"
-    description_current_position: "You are here: "
+    description_current_position: "U bent hier: "
     description_select_work_package: "Selecteer werk pakket #%{id}"
     description_selected_columns: "Geselecteerde kolommen"
     description_subwork_package: "Kind van werkpakket #%{id}"
@@ -127,7 +127,7 @@ nl:
       preview: 'Voorbeeld modus wijzigen'
       source_code: 'Wissel Markdown bronmodus'
       error_saving_failed: 'Het opslaan van het document is mislukt met de volgende foutmelding:%{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'Er is een fout opgetreden in CKEditor'
       mode:
         manual: 'Schakel naar de bron van het Markdown'
         wysiwyg: 'Schakel over naar de WYSIWYG-Editor'
@@ -182,12 +182,12 @@ nl:
         drag_to_activate: "Sleep velden uit hier om ze te activeren"
         add_group: "Toevoegen van nieuwe attribuutgroepen"
         add_table: "Tabel van verwante werkpakketten toevoegen"
-        edit_query: 'Edit query'
+        edit_query: 'Zoekopdracht bewerken'
         new_group: 'Nieuwe groep'
         reset_to_defaults: 'Standaardinstellingen herstellen'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} dagen tot het einde van de genadeperiode"
+        text_expired: "verlopen"
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
@@ -275,24 +275,24 @@ nl:
     general_text_Yes: "Ja"
     hal:
       error:
-        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
-        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        update_conflict_refresh: "Klik hier om de bron te vernieuwen en bij te werken naar de nieuwste versie."
+        edit_prohibited: "Het bewerken van %{attribute} is geblokkeerd voor deze bron. Dit attribuut is afgeleid van relaties (bijv. kinderen) of anders niet configureerbaar."
         format:
           date: "%{attribute} is geen geldige datum - JJJJ-MM-DD verwacht."
         general: "Er is een fout opgetreden."
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          text_new_features: "Lees over nieuwe functies en product-updates."
+          learn_about: "Meer informatie over de nieuwe functies"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
+              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Nieuwe knop in de koptekstnavigatie om projecten, gebruikers en werkpakketten te creëren.</li> <li>Een nieuwe uitnodigingsmodus voor gebruikers, groepen en placeholder gebruikers laat toe eenvoudig nieuwe gebruikers toe te voegen of uit te nodigen en toe te wijzen aan werkpakketten.</li> <li>GitHub integratie in OpenProject.</li> <li>API v3 extensies voor groepen en meer, i. e. maak, lees, update en verwijder groepen en groepsleden via de API.</li> <li>Multi-selectie voor project aangepaste velden van het type lijst.</li> <li>Maken van back-up vanuit de webinterface.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Neem een kijkje op onze <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> waarmee u direct in Revit aan BCF werkpakketten kunt werken.</li> <li>IFC-eigenschappen kregen een eigen venster. GUIDs kopiëren is nooit zo eenvoudig geweest.</li> <li>Omgekeerd knipvlak richting in BCF gezichtspunt en compatibel worden met toekomstige BCF 3.0 (Nu dezelfde richting als Solibri). <li>Probleem opgelost met mobiel bekijken IFC-modellen.</li> <li>Vaste export van werkpakket weergaven met BCF momentopname kolom.</li> </ul>
     label_activate: "Activeren"
     label_add_column_after: "Kolom toevoegen na"
     label_add_column_before: "Kolom toevoegen voor"
@@ -363,7 +363,7 @@ nl:
     label_in_more_than: "in meer dan"
     label_incoming_emails: "Inkomende e-mails"
     label_information_plural: "Informatie"
-    label_import: "Import"
+    label_import: "Importeren"
     label_latest_activity: "Laatste Activiteit"
     label_last_updated_on: "Laatst geüpdatet op"
     label_learn_more_link: "Meer informatie"
@@ -433,7 +433,7 @@ nl:
     label_total_progress: "%{percent}% totale vooruitgang"
     label_total_amount: "Totaal: %{amount}"
     label_updated_on: "bijgewerkt op"
-    label_value_derived_from_children: "(value derived from children)"
+    label_value_derived_from_children: "(waarde afgeleid van kinderen)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Waarschuwing"
     label_work_package: "Werkpakket"
@@ -472,7 +472,7 @@ nl:
     label_upload_counter: "%{done} van %{count} bestanden afgerond"
     label_validation_error: "Het werkpakket kon niet worden opgeslagen vanwege de volgende fouten:"
     label_version_plural: "Versies"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "Deze weergave heeft niet-opgeslagen wijzigingen. Klik om ze op te slaan."
     help_texts:
       show_modal: 'Toon kenmerk help tekstinvoer'
     onboarding:
@@ -481,90 +481,90 @@ nl:
         next: 'Volgende'
         got_it: 'Begrepen'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        help_menu: 'Het Help (?) menu biedt <b>extra hulpbronnen</b>. Hier kunt u een gebruikershandleiding en handige how-to videos en meer vinden. <br> Veel plezier met uw werk met OpenProject!'
+        members: 'Nodig nieuwe <b>leden</b> uit om deel te nemen aan uw project.'
+        project_selection: 'Klik a.u.b. op een van de demoprojecten die we hebben voorbereid. Demogegevens zijn momenteel alleen beschikbaar in het Engels. <br> Het algemene <b>demo project</b> past het beste bij klassiek projectbeheer. terwijl het <b>Scrum-project</b> beter is voor agile projectbeheer.'
+        quick_add_button: 'Klik op het plus (+) pictogram in de koptekst navigatie om <b>een nieuw project te maken</b> of <b>collega''s uit te nodigen</b>.'
+        sidebar_arrow: "Gebruik de terug pijl in de linkerbovenhoek om terug te keren naar het project <b>hoofdmenu</b>."
         welcome: 'Neem drie minuten introductie rondleiding om de meeste <b>belangrijke kenmerken </b> te leren. <br> het is raadzaam de stappen uit te voeren tot het einde. U kunt de tour ieder moment opnieuw doen.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: 'Binnen de <b>wiki</b> kunt u kennis delen en documenteren met uw team.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+          overview: "Beheer uw werk in de <b>backlogs</b> weergave."
+          sprints: "Aan de rechterkant hebt u de product backlog en de bug backlog, aan de linkerkant de respectievelijke sprints. Hier kunt u <b>epics, user stories en bugs</b> maken, prioriteren door ze te slepen en ze toevoegen aan een sprint."
+          task_board_arrow: 'Om uw <b>taakbord</b>te zien, opent u de sprint drop-down...'
+          task_board_select: '...en selecteer het <b>taakbord</b> item.'
+          task_board: "Het taakbord geeft de <b>vooruitgang voor deze sprint</b> weer. Klik op het plus (+) pictogram naast een verhaal om nieuwe taken of belemmeringen toe te voegen. <br> De status kan worden bijgewerkt door slepen en neerzetten."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: 'Selecteer <b>borden</b> om het overzicht te verschuiven en uw project te beheren met behulp van de agile borden weergave.'
+          lists: 'Hier kunt u meerdere lijsten (kolommen) binnen uw bord maken. Met deze functie kunt u bijvoorbeeld een <b>Kanban board</b>maken.'
+          add: 'Klik op het plus (+) icoon om <b>een nieuwe kaart te creëren</b> of <b>een bestaande kaart  toe te voegen</b> aan de lijst op het bord.'
+          drag: 'Sleep uw kaarten in een bepaalde lijst om ze te rangschikken of om ze naar een andere lijst te verplaatsen. <br> U kunt op het info pictogram (i) in de rechterbovenhoek klikken of dubbelklikken op een kaart om de details te openen.'
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          toggler: "Laten we nu een kijkje nemen in de sectie <b>werkpakket</b> die u een meer gedetailleerde weergave van uw werk geeft."
+          list: 'Dit <b>werk</b> pakket overzicht biedt een overzicht van al het werk in uw project, zoals taken, mijlpalen, fases en meer. <br> Werkpakketten kunnen direct vanuit deze weergave worden gemaakt en bewerkt. Om toegang te krijgen tot de details van een bepaald werkpakket, dubbelklik gewoon op de rij.'
+          full_view: 'De <b>werkpakket details</b> weergave biedt alle relevante informatie over een bepaald werkpakket. zoals z''n beschrijving, status, prioriteit, activiteiten, afhankelijkheden en opmerkingen.'
+          back_button: 'Gebruik de terug pijl in de linkerbovenhoek om af te sluiten en terug te gaan naar de werkpakketlijst.'
+          create_button: 'De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.'
+          timeline_button: 'U kunt de <b>Gantt-grafiek</b> weergave activeren om een tijdlijn voor uw project te maken.'
+          timeline: 'Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.'
     notifications:
-      title: "Notifications"
-      no_unread: "No unread notifications"
+      title: "Meldingen"
+      no_unread: "Geen ongelezen meldingen"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        mentioned: 'vermeld'
+        watched: 'bekeken'
+        assigned: 'toegewezen'
+        responsible: 'verantwoordelijk'
       facets:
-        unread: 'Unread'
+        unread: 'Ongelezen'
         all: 'Alle'
       center:
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
-        text_update_date: "%{date} by"
-        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+          one: 'en 1 ander'
+          other: 'en %{count} anderen'
+        mark_all_read: 'Alles als gelezen markeren'
+        mark_as_read: 'Als gelezen markeren'
+        text_update_date: "%{date} door"
+        total_count_warning: "De %{newest_count} meest recente meldingen weergeven. %{more_count} meer worden niet weergegeven."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "Het lijkt erop dat u helemaal bij bent."
+          no_selection: "Klik op een melding om alle activiteit details te bekijken."
       menu:
         accountable: 'Verantwoording afleggen'
-        assigned: 'Assigned'
-        by_project: 'By Project'
-        by_reason: 'By Reason'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        assigned: 'Toegewezen'
+        by_project: 'Op Project'
+        by_reason: 'Op Reden'
+        inbox: 'Inkomend'
+        mentioned: '@vermeld'
+        watching: 'Bekijken'
       settings:
-        title: "Notification settings"
-        notify_me: "Notify me"
+        title: "Instellingen voor meldingen"
+        notify_me: "Waarschuw mij"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Ik ben @vermeld'
+            description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Toegewezen aan mij of verantwoordelijk'
+            description: 'Meldingen ontvangen voor alle activiteiten op werkpakketten waarvoor ik uitvoerder of verantwoordelijke ben.'
+          watched: 'Updates van bekeken artikelen'
+          work_package_commented: 'Alle nieuwe reacties'
+          work_package_created: 'Nieuwe werkpakketten'
+          work_package_processed: 'Alle statuswijzigingen'
+          work_package_prioritized: 'Alle prioriteitswijzigingen'
+          work_package_scheduled: 'Alle datum wijzigingen '
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Waarschuw mij onmiddellijk'
+            description: 'Deze instellingen gelden voor alle projecten. U kunt hieronder project-specifieke uitzonderingen maken.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Informeer mij ook voor'
+            description: 'Ontvang meldingen voor deze activiteiten op werkpakketten in alle projecten:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: 'Project-specifieke meldingsinstellingen'
+          description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'
+          add: 'Instelling voor project toevoegen'
+          already_selected: 'Dit project is al geselecteerd'
     password_confirmation:
       field_description: 'U moet uw wachtwoord invoeren om deze wijziging te bevestigen.'
       title: 'Voer uw wachtwoord in om door te gaan'
@@ -580,7 +580,7 @@ nl:
       relation_description: 'Klik om een beschrijving voor deze relatie toe te voegen'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+        Kies een project om het werkpakket in te creëren om alle attributen te zien. U kunt alleen projecten selecteren waarvan het type hierboven is geactiveerd.
       context: 'Context van het project'
       work_package_belongs_to: 'Dit werkpakket behoort tot project %{projectname}.'
       click_to_switch_context: 'Open dit werkpakket in dat project.'
@@ -594,31 +594,31 @@ nl:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Tijd toevoegen'
+          enable: 'Dagelijkse e-mailherinneringen inschakelen'
+          explanation: 'U ontvangt deze herinneringen alleen voor ongelezen meldingen en slechts op uren die u opgeeft.'
+          time_label: 'Tijd %{counter}:'
+          title: 'Stuur me dagelijkse herinneringen voor ongelezen meldingen'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Ontvang herinneringen per e-mail op deze dagen'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: 'Stuur me een e-mail herinnering'
+          mentioned: 'Onmiddellijk wanneer iemand @vermeldt'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'E-mail meldingen voor andere items (die geen werkpakketten zijn)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            Meldingen vandaag zijn beperkt tot werkpakketten. U kunt ervoor kiezen om e-mailmeldingen voor deze gebeurtenissen te blijven ontvangen totdat ze zijn opgenomen in meldingen:
           news_added: 'Nieuws toegevoegd'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: 'Reageer op een nieuwsitem'
+          document_added: 'Documenten toegevoegd'
+          forum_messages: 'Nieuwe forumberichten'
           wiki_page_added: 'Wiki-pagina toegevoegd'
           wiki_page_updated: 'Wiki-pagina bijgewerkt'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          membership_added: 'Lidmaatschap toegevoegd'
+          membership_updated: 'Lidmaatschap bijgewerkt'
+        title: 'E-mail herinneringen'
     text_are_you_sure: "Weet u het zeker?"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."
@@ -631,13 +631,13 @@ nl:
         more_information: "Meer informatie"
         nevermind: "Geen aandacht"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Formulier configuratie"
         projects: "Projecten"
         settings: "Instellingen"
     time_entry:
       project: 'Project'
       work_package: 'Werkpakket'
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Vereist eerst een werkpakket te selecteren.'
       activity: 'Activiteit'
       comment: 'Commentaar'
       duration: 'Duur'
@@ -676,8 +676,8 @@ nl:
       set_parent: "Stel bovenliggend in"
       change_parent: "Wijzig bovenliggende pagina"
       remove_parent: "Verwijder bovenliggende map"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
+      hierarchy_indent: "Inspringen hiërarchie"
+      hierarchy_outdent: "Uitspringen hiërarchie"
       group_by_wp_type: "Groep per werkpakkettype"
       group_by_relation_type: "Groep per relatietype"
       add_parent: "Voeg bestaande ouder toe"
@@ -697,12 +697,12 @@ nl:
       save: "Sla relatie op"
       abort: "Annuleren"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Typ om te zoeken"
+      parent_placeholder: "Kies nieuwe ouder of druk op escape om te annuleren."
     autocompleter:
-      placeholder: "Type to search"
-      notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      placeholder: "Typ om te zoeken"
+      notFoundText: "Geen items gevonden"
+      typeToSearchText: "Typ om te zoeken"
     repositories:
       select_tag: 'Selecteer label'
       select_branch: 'Selecteer pad'
@@ -802,7 +802,7 @@ nl:
       image: "Afbeelding"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
+        move: 'Bulk verandering van project'
         edit: 'Aanpassen in bulk'
         copy: 'Selectie kopiëren'
         delete: 'Selectie verwijderen'
@@ -828,7 +828,7 @@ nl:
       message_successful_show_in_fullscreen: "Klik hier om dit werkpakket te openen in volledig scherm."
       message_view_spent_time: "Toon bestede tijd voor dit werkpakket"
       message_work_package_read_only: "Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      message_work_package_status_blocked: "Werkpakket status is niet schrijfbaar vanwege gesloten status en gesloten toegewezen versie."
       placeholder_filter_by_text: "Betreft, beschrijving, commentaar, ..."
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
@@ -853,7 +853,7 @@ nl:
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Kan alleen %{count} werkpakketten weergeven in handmatige sorteermodus. Verminder a.u.b. de resultaten door te filteren.
       property_groups:
         details: "Details"
         people: "Mensen"
@@ -896,7 +896,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
-        formattable: "%{name}: Click to edit..."
+        formattable: "%{name}: Klik om te bewerken..."
       query:
         column_names: "Kolommen"
         group_by: "Groepeer resultaten op"
@@ -914,9 +914,9 @@ nl:
         confirm_edit_cancel: "Weet u zeker dat u wilt stoppen met het bewerken van de naam van deze weergave? De Titel zal terug naar vorige waarde worden ingesteld."
         click_to_edit_query_name: "Klik om de titel van de weergave te bewerken."
         rename_query_placeholder: "Naam van deze weergave"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        star_text: "Markeer deze weergave als favoriet en voeg toe aan de opgeslagen weergaven zijbalk links."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publiceer deze weergave zodat andere gebruikers er toegang tot hebben. Gebruikers met de 'Openbare weergave beheren' rechten kunnen openbare query wijzigen of verwijderen. Dit heeft geen invloed op de zichtbaarheid van werkpakket resultaten in die weergave en afhankelijk van hun permissies, kunnen gebruikers verschillende resultaten zien.
         errors:
           unretrievable_query: "Het is onmogelijk om de weergave van de url op te halen"
           not_found: "Deze weergave bestaat niet"
@@ -954,17 +954,17 @@ nl:
           priority: 'Prioriteit'
           type: 'Type'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          description: 'Kies de modus om uw werkpakketten te sorteren:'
+          automatic: 'Automatisch'
+          manually: 'Handmatig'
+          warning: 'U verliest uw vorige sortering bij activeren van de automatische sorteringsmodus.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
           attribute_highlighting: 'Moeten bepaalde werkpakketten te onderscheiden zijn van de massa?'
           relation_columns: 'Nodig om te zien van betrekkingen in de pakketlijst werk?'
           check_out_link: 'Bekijk de Enterprise Edition.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filter werkpakketten op relatietype'
       tabs:
         overview: Overzicht
         activity: Activiteit
@@ -1071,8 +1071,8 @@ nl:
         project_and_subprojects: "en alle subprojecten"
         search_for: "Zoeken naar"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Kaarten'
+      list: 'Tabel'
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Terug'

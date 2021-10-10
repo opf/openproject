@@ -291,7 +291,7 @@ ru:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Взгляните на наш <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> , который позволяет работать на рабочих пакетах BCF прямо в Revit.</li> <li>Свойства IFC получили выделенную панель. Копирование GUIDs никогда не было проще.</li> <li>Направление обратной плоскости отсечения в точке зрения BCF и соответствует будущему BCF 3.0 (теперь такое же направление, как и Solibri). <li>Исправлен просмотр моделей IFC на мобильном телефоне.</li> <li>Фиксированный экспорт просмотра пакета работ с помощью снимка BCF.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
@@ -528,16 +528,16 @@ ru:
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "Похоже, вы все поймали."
+          no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
       menu:
         accountable: 'Подотчетный'
-        assigned: 'Assigned'
-        by_project: 'By Project'
-        by_reason: 'By Reason'
-        inbox: 'Inbox'
+        assigned: 'Назначено'
+        by_project: 'По проекту'
+        by_reason: 'По причинам'
+        inbox: 'Входящие'
         mentioned: '@mentioned'
-        watching: 'Watching'
+        watching: 'Смотрит'
       settings:
         title: "Настройки уведомлений"
         notify_me: "Уведомить меня"
@@ -552,7 +552,7 @@ ru:
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
           work_package_processed: 'Все изменения статуса'
-          work_package_prioritized: 'All priority changes'
+          work_package_prioritized: 'Все приоритетные изменения'
           work_package_scheduled: 'Все изменения даты'
         global:
           immediately:
@@ -601,22 +601,22 @@ ru:
           time_label: 'Время %{counter}:'
           title: 'Посылать мне ежедневные напоминания по электронной почте для непрочитанных уведомлений'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Получать напоминания по электронной почте в эти дни'
         immediate:
           title: 'Отправить мне напоминание по электронной почте'
           mentioned: 'Сразу же когда кто-то @упоминает меня'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'Уведомления по электронной почте для других элементов (которые не являются пакетами работ)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            Уведомления сегодня ограничены пакетами работ. Вы можете продолжать получать уведомления по электронной почте об этих событиях до тех пор, пока они не будут включены в уведомления:
           news_added: 'Новость добавлена'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: 'Комментарий к новости'
+          document_added: 'Добавлены документы'
+          forum_messages: 'Новые сообщения форума'
           wiki_page_added: 'Wiki-страница добавлена'
           wiki_page_updated: 'Wiki-страница обновлена'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
+          membership_added: 'Членство добавлено'
+          membership_updated: 'Членство обновлено'
         title: 'Почтовые напоминания'
     text_are_you_sure: "Вы уверены?"
     text_data_lost: "Все введенные данные будут потеряны."

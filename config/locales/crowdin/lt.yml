@@ -1987,7 +1987,7 @@ lt:
     <br />
     Jei turėsite papildomų klausimų, pažiūrėkite mūsų dokumentaciją (%{documentation_link}) arba susisiekite su jūsų administratoriumi.
   mail_body_register_closing: "Jūsų OpenProject komanda"
-  mail_body_register_ending: "Likit prisijungę! Su geriausiais linkėjimais,"
+  mail_body_register_ending: "Likite prisijungę! Su geriausiais linkėjimais,"
   mail_body_reminder: "%{count} darbų paketai, kurie yra jums priskirti, baigiasi per artimiausias %{days} dienų (-ą, -as):"
   mail_body_group_reminder: "%{count} darbo paketas(ai), kurie priskirti grupei „%{group}“ turi būti baigti per kitas %{days} dienas:"
   mail_body_wiki_content_added: "%{author} pridėjo '%{id}' wiki puslapį."
@@ -2335,8 +2335,8 @@ lt:
     warnings:
       cannot_annotate: "Šis failas negali turėti pastabų."
   scheduling:
-    activated: 'aktyvuotas'
-    deactivated: 'deaktyvuotas'
+    activated: 'aktyvus'
+    deactivated: 'neaktyvus'
   search_input_placeholder: "Paieška..."
   setting_apiv3_cors_enabled: "Įgalinti CORS"
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) leidžiami kilmės domenai"

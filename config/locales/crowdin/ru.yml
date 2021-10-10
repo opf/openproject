@@ -631,12 +631,12 @@ ru:
             mail_reminder_sent:
               set_on_creation: 'невозможно установить истину при создании уведомления.'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
+          email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -1944,33 +1944,33 @@ ru:
       you_have: 'У вас'
     logo_alt_text: 'Логотип'
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
       center: 'В центр уведомлений'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Привет, %{user}!'
     work_packages:
-      comment_added: '<b>Comment</b> added'
+      comment_added: '<b>Комментарий</b> добавлен'
       created: 'Создан'
-      created_at: 'at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: 'в %{timestamp} от %{user} '
+      login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
+      mentioned: 'Вы были <b>упомянуты в комментариях</b>'
+      mentioned_by: '%{user} упомянул вас в комментарии'
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        few: 'There are %{count} more work packages with notifications.'
-        many: 'There are %{count} more work packages with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
+        one: 'Есть еще 1 пакет работ с уведомлениями.'
+        few: 'Есть еще %{count} пакетов работ с уведомлениями.'
+        many: 'Есть еще %{count} пакетов работ с уведомлениями.'
+        other: 'Есть еще %{count} пакетов работ с уведомлениями.'
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: 'Просмотрено'
+        assigned: 'Назначено'
         responsible: 'Подотчетный'
-        mentioned: 'Mentioned'
+        mentioned: 'Упомянутые'
         subscribed: 'все'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        prefix: 'Получено из-за настройки уведомления: %{reason}'
+      see_all: 'Показать все'
       updated: 'Обновлено'
-      updated_at: 'at %{timestamp} by %{user}'
+      updated_at: 'в %{timestamp} от %{user}'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
