@@ -69,7 +69,8 @@ module LdapGroups
     ##
     # Create or update the synchronized group item
     def create_or_update_sync_group(dn)
-      LdapGroups::SynchronizedGroup.find_or_initialize_by(dn: dn).tap do |sync|
+      group = LdapGroups::SynchronizedGroup
+        .find_or_initialize_by(dn: dn).tap do |sync|
         # Always set the filter and auth source, in case multiple filters match the same group
         # they are simply being re-assigned to the latest one
         sync.filter_id = filter.id
@@ -78,6 +79,8 @@ module LdapGroups
         # Tell the group to synchronize users if the filter has requested it to
         sync.sync_users = filter.sync_users
       end
+
+      group.tap { group.save! if group.persisted? }
     end
 
     ##
