@@ -94,15 +94,6 @@ sudo zypper remove postgresql-10 # sles
 
 [pg_upgrade]: https://www.postgresql.org/docs/10/pgupgrade.html
 
-### Debian/Ubuntu
-
-Refresh your package list:
-
-```bash
-apt-get update
-apt-get -y install postgresql-13
-```
-
 [package-based-installation]: ../../installation/packaged/
 
 ## Compose-based docker installation
