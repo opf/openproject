@@ -47,7 +47,8 @@ class Members::CreateService < ::BaseServices::Create
   def send_notification(member)
     OpenProject::Notifications.send(OpenProject::Events::MEMBER_CREATED,
                                     member: member,
-                                    message: params[:notification_message])
+                                    message: params[:notification_message],
+                                    send_notifications: params.fetch(:send_notifications, true))
   end
 
   def add_group_memberships(member)
@@ -59,6 +60,6 @@ class Members::CreateService < ::BaseServices::Create
   end
 
   def set_attributes_params(params)
-    super.except(:notification_message)
+    super.except(:notification_message, :send_notifications)
   end
 end

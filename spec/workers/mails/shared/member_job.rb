@@ -149,6 +149,12 @@ shared_examples 'member job' do
         it_behaves_like 'sends no mail'
       end
     end
+
+    context 'with the current user being the membership user' do
+      let(:user) { current_user }
+
+      it_behaves_like 'sends no mail'
+    end
   end
 
   context 'with a user membership' do
@@ -160,6 +166,12 @@ shared_examples 'member job' do
           .to have_received(user_project_mail_method)
                 .with(current_user, member, message)
       end
+    end
+
+    context 'with the current user being the member user' do
+      let(:user) { current_user }
+
+      it_behaves_like 'sends no mail'
     end
   end
 end

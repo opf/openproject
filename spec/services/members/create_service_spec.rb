@@ -34,7 +34,13 @@ require 'services/base_services/behaves_like_create_service'
 describe Members::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:call_attributes) do
-      { project_id: "1", user_id: "2", role_ids: ["2"], notification_message: "Wish you where **here**." }
+      {
+        project_id: "1",
+        user_id: "2",
+        role_ids: ["2"],
+        notification_message: "Wish you where **here**.",
+        send_notifications: true
+      }
     end
 
     let!(:allow_notification_call) do
@@ -48,7 +54,8 @@ describe Members::CreateService, type: :model do
           .to receive(:send)
           .with(OpenProject::Events::MEMBER_CREATED,
                 member: model_instance,
-                message: call_attributes[:notification_message])
+                message: call_attributes[:notification_message],
+                send_notifications: true)
 
         subject
       end
