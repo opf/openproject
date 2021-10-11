@@ -42,7 +42,7 @@
 require 'mini_magick'
 require 'open3'
 
-class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
+class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
@@ -51,6 +51,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
                 :options
 
   WORK_PACKAGES_PER_BATCH = 100
+
+  def self.key
+    :pdf
+  end
 
   def initialize(object, options = {})
     super
@@ -290,7 +294,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   end
 
   def make_column_value(work_package, column)
-    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
+    formatter = ::WorkPackage::Exports::Formatters.for_column(column)
 
     pdf.make_cell formatter.format(work_package, column),
                   padding: cell_padding

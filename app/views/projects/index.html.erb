@@ -73,6 +73,16 @@ See COPYRIGHT and LICENSE files for more details.
       <li>
         <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings'  %>
       </li>
+      <section data-augmented-model-wrapper
+               data-modal-class-name="project-export---modal">
+        <li>
+          <%= link_to I18n.t('js.label_export'),
+                      '',
+                      title: I18n.t('js.label_export'),
+                      class: 'modal-delivery-element--activation-link icon-context icon-export' %>
+        </li>
+        <%= render partial: 'project_export_modal' %>
+      </section>
     </ul>
   </li>
   <% end %>

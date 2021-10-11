@@ -28,19 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::Exporter::PDF < WorkPackage::Exporter::Base
-  # Returns a PDF string of a list of work_packages
-  def list
-    yield ::WorkPackage::PDFExport::WorkPackageListToPdf
-      .new(query,
-           options)
-      .render!
-  end
-
-  # Returns a PDF string of a single work_package
-  def single
-    yield ::WorkPackage::PDFExport::WorkPackageToPdf
-      .new(work_package)
-      .render!
+module Exports
+  class ExportError < StandardError
   end
 end

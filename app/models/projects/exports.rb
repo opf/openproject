@@ -28,14 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::Exporter::Result::Error < WorkPackage::Exporter::Result
-  attr_accessor :message
+module Projects::Exports
+  register = ::Exports::Register
 
-  def initialize(message)
-    self.message = message
-  end
-
-  def error?
-    true
-  end
+  register.list(Project, Projects::Exports::CSV)
 end

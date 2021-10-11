@@ -28,12 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::PDFExport::WorkPackageToPdf < WorkPackage::Exporter::Base
+class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments
 
   attr_accessor :pdf, :columns
+
+  self.model = WorkPackage
+
+  def self.key
+    :pdf
+  end
 
   def initialize(work_package)
     super

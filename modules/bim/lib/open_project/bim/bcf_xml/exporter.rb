@@ -1,8 +1,7 @@
 require 'fileutils'
 
 module OpenProject::Bim::BcfXml
-  class Exporter < ::WorkPackage::Exporter::Base
-    include Redmine::I18n
+  class Exporter < ::Exports::Exporter
 
     def initialize(object, options = {})
       object.add_filter('bcf_issue_associated', '=', ['t'])

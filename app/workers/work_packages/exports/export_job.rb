@@ -29,17 +29,22 @@ module WorkPackages
       private
 
       def export_work_packages(export, mime_type, query, options)
-        exporter = WorkPackage::Exporter.for_list(mime_type)
-        exporter.list(query, options) do |export_result|
-          if export_result.error?
-            raise export_result.message
-          elsif export_result.content.is_a? File
-            store_attachment(export, export_result.content)
-          elsif export_result.content.is_a? Tempfile
-            store_from_tempfile(export, export_result)
-          else
-            store_from_string(export, export_result)
-          end
+        ::Exports::Register
+          .list_exporter(WorkPackage, mime_type)
+          .new(query, options)
+          .export! do |result|
+          handle_export_result(export, result)
+        end
+      end
+
+      def handle_export_result(export, result)
+        case result.content
+        when File
+          store_attachment(export, result.content)
+        when Tempfile
+          store_from_tempfile(export, result)
+        else
+          store_from_string(export, result)
         end
       end
 
@@ -90,8 +95,8 @@ module WorkPackages
 
       def store_attachment(container, file)
         call = Attachments::CreateService
-          .bypass_whitelist(user: User.current)
-          .call(container: container, file: file, filename: File.basename(file), description: '')
+                 .bypass_whitelist(user: User.current)
+                 .call(container: container, file: file, filename: File.basename(file), description: '')
 
         call.on_success do
           download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)

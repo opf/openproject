@@ -1,7 +1,5 @@
 module XlsExport::WorkPackage::Exporter
-  class XLS < WorkPackage::Exporter::Base
-    include Redmine::I18n
-
+  class XLS < WorkPackage::Exports::QueryExporter
     def current_user
       User.current
     end
@@ -23,16 +21,16 @@ module XlsExport::WorkPackage::Exporter
       singleton_class.prepend singleton_module
     end
 
-    def list
+    def render!
       enable! WithTimeZone
       enable! WithDescription if with_descriptions
       enable! WithRelations if with_relations
 
-      yield success(spreadsheet.xls)
+      success(spreadsheet.xls)
     end
 
     def success(content)
-      WorkPackage::Exporter::Result::Success
+      ::Exports::Result
         .new format: :xls,
              content: content,
              title: xls_export_filename,
@@ -76,29 +74,18 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def column_value(column, work_package)
-      value = format_column_value column, work_package
+      value = format_attribute work_package, column.name
 
       value.respond_to?(:name) ? value.name : value
     end
 
-    def format_column_value(column, work_package)
-      ::WorkPackage::Exporter::Formatters
-        .for_column(column)
-        .format(work_package, column)
-    end
-
     def set_column_format_options!(spreadsheet)
       columns.each_with_index do |column, i|
-        options = ::WorkPackage::Exporter::Formatters
-          .for_column(column)
-          .format_options column
+        options = formatter_for(column.name)
+          .format_options
 
         spreadsheet.add_format_option_to_column i, options
       end
-    end
-
-    def columns
-      @columns ||= valid_export_columns
     end
 
     def spreadsheet_builder

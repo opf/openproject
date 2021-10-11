@@ -51,7 +51,7 @@ class WorkPackagesController < ApplicationController
                layout: 'angular/angular'
       end
 
-      format.any(*WorkPackage::Exporter.single_formats) do
+      format.any(*supported_single_formats) do
         export_single(request.format.symbol)
       end
 
@@ -73,7 +73,7 @@ class WorkPackagesController < ApplicationController
                layout: 'angular/angular'
       end
 
-      format.any(*WorkPackage::Exporter.list_formats) do
+      format.any(*supported_list_formats) do
         export_list(request.format.symbol)
       end
 
@@ -136,7 +136,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def protect_from_unauthorized_export
-    if supported_export_formats.include?(params[:format]) &&
+    if (supported_list_formats + %w[atom]).include?(params[:format]) &&
        !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
@@ -144,8 +144,12 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def supported_export_formats
-    %w[atom] + WorkPackage::Exporter.list_formats.map(&:to_s)
+  def supported_list_formats
+    ::Exports::Register.list_formats(WorkPackage).map(&:to_s)
+  end
+
+  def supported_single_formats
+    ::Exports::Register.single_formats(WorkPackage).map(&:to_s)
   end
 
   def load_and_validate_query

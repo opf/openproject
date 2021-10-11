@@ -27,38 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackage::Exports
+  module Formatters
+    class Costs < ::Exports::Formatters::Default
+      def self.apply?(column)
+        column.is_a? ::Costs::QueryCurrencyColumn
+      end
 
-module WorkPackage::Exporter
-  def self.for_list(type)
-    @for_list[type]
+      def format_options
+        { number_format: number_format_string }
+      end
+
+      def number_format_string
+        # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
+        curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.plugin_costs['costs_currency'])
+        format = ERB::Util.h Setting.plugin_costs['costs_currency_format']
+        number = '#,##0.00'
+
+        format.gsub("%n", number).gsub("%u", curr)
+      end
+    end
   end
-
-  def self.register_for_list(type, exporter)
-    @for_list ||= {}
-
-    @for_list[type] = exporter
-  end
-
-  def self.list_formats
-    @for_list.keys
-  end
-
-  def self.for_single(type)
-    @for_single[type]
-  end
-
-  def self.register_for_single(type, exporter)
-    @for_single ||= {}
-
-    @for_single[type] = exporter
-  end
-
-  def self.single_formats
-    @for_single.keys
-  end
-
-  register_for_list(:csv, WorkPackage::Exporter::CSV)
-  register_for_list(:pdf, WorkPackage::Exporter::PDF)
-
-  register_for_single(:pdf, WorkPackage::Exporter::PDF)
 end

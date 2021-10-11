@@ -1,22 +1,28 @@
-module WorkPackage::Exporter
+module Exports
   module Formatters
     class Default
       include Redmine::I18n
 
+      attr_reader :attribute
+
+      def initialize(attribute)
+        @attribute = attribute
+      end
+
       ##
-      # Takes a QueryColumn and returns true if this formatter should be used to handle it.
-      def self.apply?(column)
+      # Checks if this column is applicable for this column
+      def self.apply?(_attribute)
         false
       end
 
       def self.key
-        self.name.demodulize.underscore.to_sym
+        name.demodulize.underscore.to_sym
       end
 
       ##
-      # Takes a WorkPackage and a QueryColumn and returns the value to be exported.
-      def format(work_package, column, **options)
-        value = column.value work_package
+      # Takes a WorkPackage and an attribute and returns the value to be exported.
+      def format(object, **options)
+        value = object.try(attribute)
 
         case value
         when Date
@@ -35,8 +41,8 @@ module WorkPackage::Exporter
       end
 
       ##
-      # Takes a QueryColumn and returns format options for it.
-      def format_options(_column)
+      # Takes an attribute and returns format options for it.
+      def format_options
         {}
       end
     end

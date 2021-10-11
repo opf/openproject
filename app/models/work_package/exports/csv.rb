@@ -28,16 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::Exporter::Result::Success < WorkPackage::Exporter::Result
-  attr_accessor :format,
-                :title,
-                :content,
-                :mime_type
+module WorkPackage::Exports
+  class CSV < QueryExporter
+    include ::Exports::Concerns::CSV
 
-  def initialize(format:, title:, mime_type:, content: nil)
-    self.format = format
-    self.title = title
-    self.content = content
-    self.mime_type = mime_type
+    alias :records :work_packages
+
+    def initialize
+      super
+
+      @columns = columns.map { |c| { name: c.name, caption: c.caption } }
+    end
+
+    private
+
+    def title
+      title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
+
+      "#{title}.csv"
+    end
+
+    def csv_headers
+      super + WorkPackage.human_attribute_name(:description)
+    end
+
+    # fetch all row values
+    def csv_row(work_package)
+      super.tap do |row|
+        if row.any?
+          row << if work_package.description
+                   work_package.description.squish
+                 else
+                   ''
+                 end
+        end
+      end
+    end
   end
 end
