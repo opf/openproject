@@ -9,6 +9,7 @@
   [disabled]="disabled"
   (click)="openOnClick()"
   (keydown.escape)="close()"
+  (keydown)="onKeyDown()"
   (blur)="closeOnOutsideClick($event)"
   type="text"
 >

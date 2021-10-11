@@ -67,6 +67,12 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
   }
 
   // eslint-disable-next-line class-methods-use-this
+  onKeyDown():boolean {
+    // Disable any manual user input as it most likely return in a wrong format
+    return false;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
   private resolveDateStringToArray(dates:string):string[] {
     return dates.split(` ${rangeSeparator} `).map((date) => date.trim());
   }
