@@ -14,6 +14,11 @@ import { IanMenuService } from './state/ian-menu.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
+const getUiLinkForFilters = (filters:INotificationPageQueryParameters = {}) => ({
+  uiSref: 'notifications.center.show',
+  uiParams: filters,
+});
+
 @Component({
   selector: ianMenuSelector,
   templateUrl: './menu.component.html',
@@ -27,7 +32,7 @@ export class IanMenuComponent implements OnInit {
       key: 'inbox',
       title: this.I18n.t('js.notifications.menu.inbox'),
       icon: 'inbox',
-      href: this.getHrefForFilters({}),
+      ...getUiLinkForFilters({ filter: '', name: '' }),
     },
   ];
 
@@ -36,25 +41,25 @@ export class IanMenuComponent implements OnInit {
       key: 'mentioned',
       title: this.I18n.t('js.notifications.menu.mentioned'),
       icon: 'mention',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'mentioned' }),
+      ...getUiLinkForFilters({ filter: 'reason', name: 'mentioned' }),
     },
     {
       key: 'assigned',
       title: this.I18n.t('js.notifications.menu.assigned'),
       icon: 'assigned',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'assigned' }),
+      ...getUiLinkForFilters({ filter: 'reason', name: 'assigned' }),
     },
     {
       key: 'responsible',
       title: this.I18n.t('js.notifications.menu.accountable'),
       icon: 'accountable',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'responsible' }),
+      ...getUiLinkForFilters({ filter: 'reason', name: 'responsible' }),
     },
     {
       key: 'watched',
       title: this.I18n.t('js.notifications.menu.watching'),
       icon: 'watching',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'watched' }),
+      ...getUiLinkForFilters({ filter: 'reason', name: 'watched' }),
     },
   ];
 
@@ -63,7 +68,7 @@ export class IanMenuComponent implements OnInit {
       .map((item) => ({
         ...item,
         title: (item.projectHasParent ? '... ' : '') + item.value,
-        href: this.getHrefForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
+        ...getUiLinkForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
       }))
       .sort((a, b) => {
         if (b.projectHasParent && !a.projectHasParent) {
@@ -121,9 +126,5 @@ export class IanMenuComponent implements OnInit {
 
   ngOnInit():void {
     this.ianMenuService.reload();
-  }
-
-  private getHrefForFilters(filters:INotificationPageQueryParameters = {}) {
-    return this.state.href('notifications', filters);
   }
 }

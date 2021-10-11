@@ -11,7 +11,9 @@ export interface IOpSidemenuItem {
   title:string;
   icon?:string;
   count?:number;
-  href:string;
+  href?:string;
+  uiSref?:string;
+  uiParams?:unknown;
   children?:IOpSidemenuItem[];
   collapsible?:boolean;
 }
@@ -36,7 +38,8 @@ export class OpSidemenuComponent {
   constructor(
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
-  ) { }
+  ) {
+  }
 
   toggleCollapsed():void {
     this.collapsed = !this.collapsed;
