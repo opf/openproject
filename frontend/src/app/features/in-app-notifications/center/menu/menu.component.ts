@@ -27,8 +27,7 @@ export class IanMenuComponent implements OnInit {
       key: 'inbox',
       title: this.I18n.t('js.notifications.menu.inbox'),
       icon: 'inbox',
-      uiSref: 'notifications.center.show',
-      uiParams: { filter: '', name: '' },
+      ...this.getUiLinkForFilters({ filter: '', name: '' }),
     },
   ];
 
