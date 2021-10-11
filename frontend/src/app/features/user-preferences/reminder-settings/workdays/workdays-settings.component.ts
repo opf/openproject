@@ -9,6 +9,7 @@ import {
   FormGroupDirective,
 } from '@angular/forms';
 import * as moment from 'moment';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   selector: 'op-workdays-settings',
@@ -34,7 +35,12 @@ export class WorkdaysSettingsComponent implements OnInit {
    */
   private isoWorkdays:string[] = WorkdaysSettingsComponent.buildISOWeekdays();
 
+  text = {
+    title: this.I18n.t('js.reminders.settings.workdays.title'),
+  };
+
   constructor(
+    private I18n:I18nService,
     readonly formGroup:FormGroupDirective,
   ) {
   }

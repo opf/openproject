@@ -1,20 +1,23 @@
-<ng-container *ngIf="(selectedTimes$ | async) as selectedTimes"
-              [formGroup]="form"
+<ng-container
+  *ngIf="(selectedTimes$ | async) as selectedTimes"
+  [formGroup]="form"
 >
-  <op-checkbox-field
-          [control]="form.get('enabled')"
-  >
+  <h5 [textContent]="text.title"></h5>
+  <p [textContent]="text.explanation"></p>
+
+  <op-checkbox-field [control]="form.get('enabled')">
     <input
-            slot="input"
-            type="checkbox"
-            formControlName="enabled"
+      slot="input"
+      type="checkbox"
+      formControlName="enabled"
     />
     <p slot="description">{{ text.enable }}</p>
   </op-checkbox-field>
 
-  <div *ngFor="let time of selectedTimes; index as i; trackBy: index"
-    class="op-reminder-settings-daily-time--row">
-
+  <div
+    *ngFor="let time of selectedTimes; index as i; trackBy: index"
+    class="op-reminder-settings-daily-time--row"
+  >
     <input
       *ngIf="(activeTimes$ | async) as activeTimes"
       type="checkbox"

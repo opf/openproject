@@ -85,21 +85,6 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
   text = {
     title: this.I18n.t('js.reminders.settings.title'),
     save: this.I18n.t('js.button_save'),
-    daily: {
-      title: this.I18n.t('js.reminders.settings.daily.title'),
-      explanation: this.I18n.t('js.reminders.settings.daily.explanation'),
-    },
-    workdays: {
-      title: this.I18n.t('js.reminders.settings.workdays.title'),
-    },
-    immediate: {
-      title: this.I18n.t('js.reminders.settings.immediate.title'),
-      explanation: this.I18n.t('js.reminders.settings.immediate.explanation'),
-    },
-    alerts: {
-      title: this.I18n.t('js.reminders.settings.alerts.title'),
-      explanation: this.I18n.t('js.reminders.settings.alerts.explanation'),
-    },
   };
 
   formInitialized = false;

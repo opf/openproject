@@ -19,6 +19,8 @@ export class ImmediateReminderSettingsComponent implements OnInit {
   form:FormGroup;
 
   text = {
+    title: this.I18n.t('js.reminders.settings.immediate.title'),
+    explanation: this.I18n.t('js.reminders.settings.immediate.explanation'),
     mentioned: this.I18n.t('js.reminders.settings.immediate.mentioned'),
   };
 

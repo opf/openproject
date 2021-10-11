@@ -8,29 +8,11 @@
   (ngSubmit)="saveChanges()"
   class="op-form"
 >
-  <section class="form--section">
-    <h5 [textContent]="text.immediate.title"></h5>
-    <op-immediate-reminder-settings></op-immediate-reminder-settings>
-  </section>
-  <section class="form--section">
-    <h5 [textContent]="text.daily.title"></h5>
-    <p [textContent]="text.daily.explanation"></p>
+  <op-immediate-reminder-settings class="op-form--fieldset"></op-immediate-reminder-settings>
+  <op-reminder-settings-daily-time class="op-form--fieldset"></op-reminder-settings-daily-time>
+  <op-workdays-settings class="op-form--fieldset"></op-workdays-settings>
+  <op-email-alerts-settings class="op-form--fieldset"></op-email-alerts-settings>
 
-    <op-reminder-settings-daily-time>
-    </op-reminder-settings-daily-time>
-  </section>
-  <section class="form--section">
-    <h5 [textContent]="text.workdays.title"></h5>
-    <op-workdays-settings></op-workdays-settings>
-  </section>
-  <section class="form--section">
-    <op-pause-reminders></op-pause-reminders>
-  </section>
-  <section class="form--section">
-    <h5 [textContent]="text.alerts.title"></h5>
-    <p [textContent]="text.alerts.explanation"></p>
-    <op-email-alerts-settings></op-email-alerts-settings>
-  </section>
   <div class="form--space">
     <button
             class="button -highlight"

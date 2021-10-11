@@ -36,6 +36,8 @@ export class EmailAlertsSettingsComponent implements OnInit {
   alerts:EmailAlertType[] = emailAlerts;
 
   text = {
+    title: this.I18n.t('js.reminders.settings.alerts.title'),
+    explanation: this.I18n.t('js.reminders.settings.alerts.explanation'),
     newsAdded: this.I18n.t('js.reminders.settings.alerts.news_added'),
     newsCommented: this.I18n.t('js.reminders.settings.alerts.news_commented'),
     documentAdded: this.I18n.t('js.reminders.settings.alerts.document_added'),
