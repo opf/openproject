@@ -129,7 +129,7 @@ shared_examples 'member job' do
       let(:principal) do
         FactoryBot.create :user,
                           notification_settings: [
-                            FactoryBot.build(:mail_notification_setting,
+                            FactoryBot.build(:notification_setting,
                                              NotificationSetting::MEMBERSHIP_ADDED => false,
                                              NotificationSetting::MEMBERSHIP_UPDATED => false)
                           ]

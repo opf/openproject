@@ -39,11 +39,32 @@ module OpenProject::Bim::BcfXml
       end
     end
 
+    def import!(options = {})
+      User.execute_as(current_user) do
+        perform_import(options)
+      end
+    end
+
     def aggregations
       @aggregations ||= Aggregations.new(extractor_list, @project)
     end
 
-    def import!(options = {})
+    def bcf_version_valid?
+      Zip::File.open(@file) do |zip|
+        zip_entry = zip.find { |entry| entry.name.end_with?('bcf.version') }
+        markup = zip_entry.get_input_stream.read
+        doc = Nokogiri::XML(markup, nil, 'UTF-8')
+        bcf_version = doc.xpath('/Version').first['VersionId']
+        return Gem::Version.new(bcf_version) >= Gem::Version.new(MINIMUM_BCF_VERSION)
+      end
+    rescue StandardError => _e
+      # The uploaded file could be anything.
+      false
+    end
+
+    private
+
+    def perform_import(options)
       options = DEFAULT_IMPORT_OPTIONS.merge(options)
       Zip::File.open(@file) do |zip|
         create_or_add_missing_members(options)
@@ -60,21 +81,6 @@ module OpenProject::Bim::BcfXml
       Rails.logger.debug { e.backtrace.join("\n") }
       raise
     end
-
-    def bcf_version_valid?
-      Zip::File.open(@file) do |zip|
-        zip_entry = zip.find { |entry| entry.name.end_with?('bcf.version') }
-        markup = zip_entry.get_input_stream.read
-        doc = Nokogiri::XML(markup, nil, 'UTF-8')
-        bcf_version = doc.xpath('/Version').first['VersionId']
-        return Gem::Version.new(bcf_version) >= Gem::Version.new(MINIMUM_BCF_VERSION)
-      end
-    rescue StandardError => e
-      # The uploaded file could be anything.
-      false
-    end
-
-    private
 
     def create_or_add_missing_members(options)
       treat_invalid_people(options)

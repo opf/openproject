@@ -15,6 +15,7 @@ import {
   InAppNotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
+import { UIRouterGlobals } from '@uirouter/core';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -75,10 +76,15 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
+    readonly uiRouterGlobals:UIRouterGlobals,
   ) {
   }
 
   ngOnInit():void {
     this.storeService.setFacet('unread');
+    this.storeService.setFilters({
+      filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      name: this.uiRouterGlobals.params.name, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+    });
   }
 }

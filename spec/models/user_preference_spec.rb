@@ -165,20 +165,6 @@ describe UserPreference do
     end
   end
 
-  describe 'time_zone' do
-    it 'allows to save short time zones' do
-      subject.time_zone = 'Berlin'
-      expect(subject.time_zone).to eq('Berlin')
-      expect(subject.canonical_time_zone).to eq('Europe/Berlin')
-    end
-
-    it 'allows to set full time zones' do
-      subject.time_zone = 'Europe/Paris'
-      expect(subject.time_zone).to eq('Europe/Paris')
-      expect(subject.canonical_time_zone).to eq('Europe/Paris')
-    end
-  end
-
   describe '[]=' do
     let(:user) { FactoryBot.create(:user) }
 

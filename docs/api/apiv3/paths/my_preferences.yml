@@ -23,33 +23,24 @@ get:
                 timeZone: "Europe/Berlin"
                 warnOnLeavingUnsaved: true
                 notifications:
-                  - channel: "mail"
-                    watched: false
-                    involved: true
-                    mentioned: false
-                    all: false
-                    workPackageCommented: false
-                    _links:
-                      project:
-                        href: null
-                  - channel: "in_app"
-                    watched: true
-                    involved: true
-                    mentioned: true
-                    all: false
-                    workPackageCommented: false
-                    _links:
-                      project:
-                        href: null
-                  - channel: "mail_digest"
-                    watched: true
-                    involved: true
-                    mentioned: true
-                    all: true,
-                    workPackageCommented: true
-                    _links:
-                      project:
-                        href: null
+                  watched: false
+                  involved: true
+                  mentioned: false
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
+                  workPackageCommented: false
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
+                  _links:
+                    project:
+                      href: null
           schema:
             "$ref": "../components/schemas/user_preferences_model.yml"
       description: OK
@@ -93,30 +84,21 @@ patch:
                 timeZone: Europe/Berlin
                 warnOnLeavingUnsaved: true
                 notifications:
-                - channel: "mail"
                   watched: false
                   involved: true
                   mentioned: false
-                  all: false
+                  newsAdded: false,
+                  newsCommented: false
+                  documentAdded: false
+                  forumMessages: false
+                  wikiPageAdded: false
+                  wikiPageUpdated: false
+                  membershipAdded: false
+                  membershipUpdated: false
                   workPackageCommented: false
-                  _links:
-                    project:
-                      href: null
-                - channel: "in_app"
-                  watched: true
-                  involved: true
-                  mentioned: true
-                  all: false
-                  workPackageCommented: false
-                  _links:
-                    project:
-                      href: null
-                - channel: "mail_digest"
-                  watched: true
-                  involved: true
-                  mentioned: true
-                  all: true,
-                  workPackageCommented: true
+                  workPackageProcessed: false
+                  workPackagePrioritized: false
+                  workPackageScheduled: false
                   _links:
                     project:
                       href: null

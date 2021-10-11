@@ -59,11 +59,11 @@ module UserPreferences
 
     def persist_notifications
       global, project = notifications
-        .map { |item| item.merge(user_id: model.user_id) }
-        .partition { |setting| setting[:project_id].nil? }
+                          .map { |item| item.merge(user_id: model.user_id) }
+                          .partition { |setting| setting[:project_id].nil? }
 
-      global_ids = upsert_notifications(global, %i[user_id channel], 'project_id IS NULL')
-      project_ids = upsert_notifications(project, %i[user_id channel project_id], 'project_id IS NOT NULL')
+      global_ids = upsert_notifications(global, %i[user_id], 'project_id IS NULL')
+      project_ids = upsert_notifications(project, %i[user_id project_id], 'project_id IS NOT NULL')
 
       global_ids + project_ids
     end
@@ -106,8 +106,7 @@ module UserPreferences
                         wiki_page_added
                         wiki_page_updated
                         membership_added
-                        membership_updated
-                        all]
+                        membership_updated]
           },
           validate: false
         ).ids

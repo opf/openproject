@@ -88,35 +88,91 @@ describe 'search/index', type: :helper do
     end
   end
 
-  describe '#highlight_first' do
-    let(:tokens) { %w(token) }
+  describe '#highlight_tokens_in_event' do
+    let(:journal_notes) { "Journals notes" }
+    let(:event_description) { "The description of the event" }
+    let(:attachment_fulltext) { "The fulltext of the attachment" }
+    let(:attachment_filename) { "attachment_filename.txt" }
+    let(:journal) { FactoryBot.build_stubbed(:work_package_journal, notes: journal_notes) }
+    let(:event) do
+      instance_double('WorkPackage',
+                      last_journal: journal,
+                      last_loaded_journal: journal,
+                      event_description: event_description,
+                      attachment_ids: [42],
+                      attachments: [FactoryBot.build_stubbed(:attachment, filename: attachment_filename)]).tap do |e|
+        scope = instance_double(ActiveRecord::Relation)
 
-    subject { helper.highlight_first titles, tokens }
+        allow(Attachment)
+          .to receive(:where)
+                .with(id: e.attachment_ids)
+                .and_return(scope)
 
-    context 'when first is matched' do
-      let(:first) { 'This is a token' }
-      let(:second) { 'I have some token for you' }
-      let(:titles) { [first, second] }
-      let(:first_highlighted) { 'This is a <span class="search-highlight token-0">token</span>' }
-
-      it { is_expected.to eq first_highlighted }
+        allow(scope)
+          .to receive(:pluck)
+                .with(:fulltext)
+                .and_return [attachment_fulltext]
+      end
     end
 
-    context 'when first is not matched' do
-      let(:first) { 'This is a book' }
-      let(:second) { 'I have some token for you' }
-      let(:titles) { [first, second] }
-      let(:second_highlighted) { 'I have some <span class="search-highlight token-0">token</span> for you' }
-
-      it { is_expected.to eq second_highlighted }
+    before do
+      with_enterprise_token :attachment_filters
     end
 
-    context 'when both first and second is not matched' do
-      let(:first) { 'This is a book' }
-      let(:second) { 'I have some book for you' }
-      let(:titles) { [first, second] }
+    context 'with the token in the journal notes' do
+      let(:tokens) { %w(journals) }
 
-      it { is_expected.to eq second }
+      it 'shows the text in the notes' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql '<span class="search-highlight token-0">Journals</span> notes'
+
+      end
+    end
+
+    context 'with the token in the description' do
+      let(:tokens) { %w(description) }
+
+      it 'shows the text in the description' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql 'The <span class="search-highlight token-0">description</span> of the event'
+      end
+    end
+
+    context 'with the token in the description and empty journal notes' do
+      let(:tokens) { %w(description) }
+      let(:journal_notes) { "" }
+
+      it 'shows the text in the description' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql 'The <span class="search-highlight token-0">description</span> of the event'
+      end
+    end
+
+    context 'with the token in the attachment text' do
+      let(:tokens) { %w(fulltext) }
+
+      it 'shows the text in the fulltext' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql 'The <span class="search-highlight token-0">fulltext</span> of the attachment'
+      end
+    end
+
+    context 'with the token in the attachment filename' do
+      let(:tokens) { %w(filename) }
+
+      it 'shows the text in the fulltext' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql 'attachment_<span class="search-highlight token-0">filename</span>.txt'
+      end
+    end
+
+    context 'with the token in neither' do
+      let(:tokens) { %w(bogus) }
+
+      it 'shows the description (without highlight)' do
+        expect(helper.highlight_tokens_in_event(event, tokens))
+          .to eql 'The description of the event'
+      end
     end
   end
 end

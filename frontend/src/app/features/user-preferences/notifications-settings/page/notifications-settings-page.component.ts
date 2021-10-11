@@ -159,7 +159,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
     const globalPrefs:NotificationSetting = {
       ...globalNotification,
       _links: { project: { href: null } },
-      channel: 'in_app',
       watched: true,
       mentioned: true,
       involved: notificationSettings.involved,
@@ -168,12 +167,10 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: notificationSettings.workPackageScheduled,
       workPackagePrioritized: notificationSettings.workPackagePrioritized,
       workPackageCommented: notificationSettings.workPackageCommented,
-      all: false,
     };
 
     const projectPrefs:NotificationSetting[] = notificationSettings.projectSettings.map((settings) => ({
       _links: { project: { href: settings.project.href } },
-      channel: 'in_app',
       watched: true,
       mentioned: true,
       involved: settings.involved,
@@ -182,7 +179,6 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       workPackageScheduled: settings.workPackageScheduled,
       workPackagePrioritized: settings.workPackagePrioritized,
       workPackageCommented: settings.workPackageCommented,
-      all: false,
       newsAdded: false,
       newsCommented: false,
       documentAdded: false,
@@ -198,12 +194,7 @@ export class NotificationsSettingsPageComponent extends UntilDestroyedMixin impl
       notifications: [
         globalPrefs,
         ...projectPrefs,
-      ].reduce((total, next) => [
-        ...total,
-        next,
-        { ...next, channel: 'mail' },
-        { ...next, channel: 'mail_digest' },
-      ], []),
+      ],
     });
   }
 }

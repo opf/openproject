@@ -627,14 +627,10 @@ hu:
           attributes:
             read_ian:
               read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            read_mail:
-              read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            read_mail_digest:
-              read_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
-            reason_ian:
-              no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
-            reason_mail:
-              no_notification_reason: "nem lehet üres, mivel a levelezést választották csatornának.\n"
+            mail_reminder_sent:
+              set_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
         notification_settings:
@@ -1916,31 +1912,34 @@ hu:
       including_mention_plural: 'beleértve az %{number_mentioned} említéseket is'
       unread_notification_singular: '1 olvasatlan értesítés'
       unread_notification_plural: '%{number_unread} olvasatlan értesítések'
-      work_packages:
-        comment_added: '<b>Comment</b> hozzáadva'
-        created: 'Létrehoz'
-        created_at: 'a %{timestamp} a%{user} által'
-        login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
-        mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
-        more_to_see:
-          one: 'There is 1 more work package with notifications.'
-          other: 'There are %{count} more work packages with notifications.'
-        reason:
-          watched: 'Megfigyelt'
-          assigned: 'Assigned'
-          responsible: 'Felelős'
-          mentioned: 'Megemlített'
-          subscribed: 'mind'
-          prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
-        see_all: 'Mutasd mindet'
-        updated: 'Frissítve'
-        updated_at: 'a %{timestamp} a%{user} által'
       you_have: 'Neked van'
     logo_alt_text: 'Logó'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: "Az értesítési központba\n"
       settings: "E-mail beállítások módosítása\n"
     salutation: 'Helló %{user}!'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: 'Létrehoz'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Felelős'
+        mentioned: 'Mentioned'
+        subscribed: 'mind'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: 'Frissítve'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
   mail_body_account_information_external: "A %{value} fiók használatával jelentkezzen be."

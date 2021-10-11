@@ -68,7 +68,9 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       'remove-child-action',
       this.I18n.t('js.relation_buttons.remove_child'),
       (child:WorkPackageResource) => {
-        this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        if (this.embeddedTable) {
+          this.embeddedTable.loadingIndicator = this.wpRelationsHierarchyService.removeChild(child);
+        }
       },
       (child:WorkPackageResource) => !!child.changeParent,
     ),
@@ -111,7 +113,7 @@ export class WorkPackageChildrenQueryComponent extends WorkPackageRelationQueryB
       .id(this.workPackage)
       .observe()
       .pipe(
-        filter(() => this.embeddedTable && this.embeddedTable.isInitialized),
+        filter(() => !!this.embeddedTable?.isInitialized),
         this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());

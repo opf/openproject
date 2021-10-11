@@ -73,12 +73,6 @@ class ApplicationMailer < ActionMailer::Base
       "#{hash}@#{host}"
     end
 
-    def remove_self_notifications(message, author)
-      if author.pref && message.to.present?
-        message.to = message.to.reject { |address| address == author.mail }
-      end
-    end
-
     def mail_timestamp(object)
       object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     end
@@ -114,6 +108,10 @@ class ApplicationMailer < ActionMailer::Base
     headers['Message-ID'] = "<#{self.class.generate_message_id(object, user)}>"
   end
 
+  def references(object, user)
+    headers['References'] = "<#{self.class.generate_message_id(object, user)}>"
+  end
+
   # Prepends given fields with 'X-OpenProject-' to save some duplication
   def open_project_headers(hash)
     hash.each { |key, value| headers["X-OpenProject-#{key}"] = value.to_s }
@@ -124,5 +122,44 @@ class ApplicationMailer < ActionMailer::Base
   def default_formats_for_setting(format)
     format.html unless Setting.plain_text_mail?
     format.text
+  end
+
+  def send_mail(user, subject)
+    with_locale_for(user) do
+      mail to: user.mail, subject: subject
+    end
+  end
+end
+
+##
+# Interceptors
+#
+# These are registered in config/initializers/register_mail_interceptors.rb
+#
+# Unfortunately, this results in changes on the interceptor classes during development mode
+# not being reflected until a server restart.
+
+class DefaultHeadersInterceptor
+  def self.delivering_email(mail)
+    mail.headers(default_headers)
+  end
+
+  def self.default_headers
+    {
+      'X-Mailer' => 'OpenProject',
+      'X-OpenProject-Host' => Setting.host_name,
+      'X-OpenProject-Site' => Setting.app_title,
+      'Precedence' => 'bulk',
+      'Auto-Submitted' => 'auto-generated'
+    }
+  end
+end
+
+class DoNotSendMailsWithoutReceiverInterceptor
+  def self.delivering_email(mail)
+    receivers = [mail.to, mail.cc, mail.bcc]
+    # the above fields might be empty arrays (if entries have been removed
+    # by another interceptor) or nil, therefore checking for blank?
+    mail.perform_deliveries = false if receivers.all?(&:blank?)
   end
 end

@@ -36,6 +36,7 @@ import { environment } from '../../../../environments/environment';
 import { EventHint } from '@sentry/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { HalError } from 'core-app/features/hal/services/hal-error';
 
 export type ScopeCallback = (scope:Scope) => void;
 export type MessageSeverity = 'fatal'|'error'|'warning'|'log'|'info'|'debug';
@@ -93,7 +94,7 @@ export class SentryReporter implements ErrorReporter {
       sentry.init({
         dsn,
         debug: !environment.production,
-        release: `op-frontend@${version}`,
+        release: version,
         environment: environment.production ? 'production' : 'development',
 
         // Integrations
@@ -103,10 +104,10 @@ export class SentryReporter implements ErrorReporter {
           switch (samplingContext.transactionContext.op) {
             case 'op':
             case 'navigation':
-            // Trace 1% of page loads and navigation events
+              // Trace 1% of page loads and navigation events
               return Math.min(0.01 * traceFactor, 1.0);
             default:
-            // Trace 0.1% of requests
+              // Trace 0.1% of requests
               return Math.min(0.001 * traceFactor, 1.0);
           }
         },
@@ -215,8 +216,13 @@ export class SentryReporter implements ErrorReporter {
     // avoid duplicate requests on thrown angular errors, they
     // are handled by the hal error handler
     // https://github.com/getsentry/sentry-javascript/issues/2532#issuecomment-875428325
-    if (hint?.originalException instanceof HttpErrorResponse) {
-      return null;
+    const exception = hint?.originalException;
+    if (exception instanceof HttpErrorResponse) {
+      return SentryReporter.filterHttpError(event, exception);
+    }
+
+    if (exception instanceof HalError) {
+      return SentryReporter.filterHttpError(event, exception.httpError);
     }
 
     const unsupportedBrowser = document.body.classList.contains('-unsupported-browser');
@@ -226,5 +232,19 @@ export class SentryReporter implements ErrorReporter {
     }
 
     return event;
+  }
+
+  /**
+   * Filter http errors before sending to sentry. For now, we only want 5xx+ errors
+   * @param event
+   * @param exception
+   * @private
+   */
+  private static filterHttpError(event:SentryEvent, exception:HttpErrorResponse):SentryEvent|null {
+    if (exception.status >= 500) {
+      return event;
+    }
+
+    return null;
   }
 }

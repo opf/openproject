@@ -35,7 +35,7 @@ export class HalAwareErrorHandler extends ErrorHandler {
     if (error instanceof HalError) {
       console.error('Returned HTTP HAL error resource %O', error.message);
       message = error.httpError?.status >= 500 ? `${message} ${error.message}` : error.message;
-      HalAwareErrorHandler.captureHttpError(error.httpError);
+      HalAwareErrorHandler.captureError(error.httpError);
     } else if (error instanceof ErrorResource) {
       console.error('Returned error resource %O', error);
       message += ` ${error.errorMessages.join('\n')}`;
@@ -43,9 +43,9 @@ export class HalAwareErrorHandler extends ErrorHandler {
       console.error('Returned hal resource %O', error);
       message += `Resource returned ${error.name}`;
     } else if (error instanceof Error) {
-      HalAwareErrorHandler.reportError(error);
+      window.ErrorReporter.captureException(error);
     } else if (error instanceof HttpErrorResponse) {
-      HalAwareErrorHandler.captureHttpError(error);
+      HalAwareErrorHandler.captureError(error);
       message = error.message;
     } else if (typeof error === 'string') {
       window.ErrorReporter.captureMessage(error);
@@ -55,18 +55,14 @@ export class HalAwareErrorHandler extends ErrorHandler {
     super.handleError(message);
   }
 
-  private static reportError(error:Error):void {
-    window.ErrorReporter.captureException(error);
-  }
-
   /**
-   * Report any 5xx errors to sentry, if configured.
-   * @param httpError
+   * Report any errors to sentry, if configured.
+   * Sentry will filter according to their error status
+   *
+   * @param error
    * @private
    */
-  private static captureHttpError(httpError:HttpErrorResponse):void {
-    if (httpError.status >= 500) {
-      HalAwareErrorHandler.reportError(httpError);
-    }
+  private static captureError(error:Error|HttpErrorResponse):void {
+    window.ErrorReporter.captureException(error);
   }
 }

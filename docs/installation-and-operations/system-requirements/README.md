@@ -70,6 +70,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 | Ubuntu 20.04 Focal              |
 | Ubuntu 18.04 Bionic Beaver      |
 | Ubuntu 16.04 Xenial Xerus       |
+| Debian 11 Bullseye              |
 | Debian 10 Buster                |
 | Debian 9 Stretch                |
 | CentOS/RHEL 8.x                 |

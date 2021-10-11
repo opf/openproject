@@ -172,6 +172,11 @@ import {
   InAppNotificationBellComponent,
   opInAppNotificationBellSelector,
 } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
+import {
+  IanMenuComponent,
+  ianMenuSelector,
+} from 'core-app/features/in-app-notifications/center/menu/menu.component';
+
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -221,4 +226,5 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: slideToggleSelector, cls: SlideToggleComponent },
   { selector: backupSelector, cls: BackupComponent },
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
+  { selector: ianMenuSelector, cls: IanMenuComponent },
 ];

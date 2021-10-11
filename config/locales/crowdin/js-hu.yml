@@ -294,10 +294,9 @@ hu:
               A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> Új meghívó a modális felhasználóknak, csoportoknak és teszt felhasználóknak lehetővé teszi új felhasználók hozzáadását vagy meghívását, valamint munkacsomagok hozzárendelését. </li> <li> GitHub integráció az OpenProject -be. </li> <li> API v3 kiterjesztések csoportokhoz és egyebek, azaz csoportokat és csoporttagokat hozhat létre, olvashat, frissíthet és törölhet az API-n keresztül. </li> <li> Többszörös kiválasztás a projekt egyedi típusmezői mezőihez. </li> <li> Biztonsági mentés létrehozása a webes felületről. < /li> </ul>
 
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> BIM: Az IFC modellnéző teljesítményének javítása. </li> <li> BIM: Az IFC megjelenítő mostantól támogatja kettős pontosságú modellek, amelyek nagyszerű építkezéseken, például hidakon, utakon használhatók. </li> <li> BIM: Váltógomb a perspektivikus és az ortogonális mód közötti váltáshoz. </li> <li> BIM: Szerkesztési menü , a metszősíkok törlése vagy megfordítása. </li> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> A felhasználók, csoportok és helyőrzők számára létrehozott új meghívási mód lehetővé teszi a könnyű hozzáadást vagy meghívhat új felhasználókat, és hozzárendelheti őket munkacsomagokhoz. </li> <li> API v3 kiterjesztések csoportokhoz és egyebekhez, azaz csoportok és csoporttagok létrehozása, olvasása, frissítése és törlése az API -n keresztül. </li> <li> Több -kiválasztás a projekt egyéni mezőtípuslistájára. </li> <li> Biztonsági mentés létrehozása a webes felületről. </li> </ul>
-
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
@@ -514,7 +513,6 @@ hu:
           timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
     notifications:
       title: "Értesítések"
-      channel: "Csatorna"
       no_unread: "Nincs olvasatlan értesítés"
       reasons:
         mentioned: 'megemlített'
@@ -532,6 +530,17 @@ hu:
         mark_as_read: 'Megjelölés olvasottként'
         text_update_date: "%{date} szerint"
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_selection: "Click on a notification to view all activity details."
+      menu:
+        accountable: 'Felelős'
+        assigned: 'Assigned'
+        by_project: 'By Project'
+        by_reason: 'By Reason'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
       settings:
         title: "Értesítési beállítások"
         notify_me: "Notify me"
@@ -546,7 +555,7 @@ hu:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
@@ -595,6 +604,8 @@ hu:
           explanation: "Ezeket az emlékeztetőket csak az olvasatlan értesítésekről kapja, és csak az Ön által megadott időpontokban.\n"
           time_label: 'Idő%{counter}:'
           title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
+        workdays:
+          title: 'Receive email reminders on these days'
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'

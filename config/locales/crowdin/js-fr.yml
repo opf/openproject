@@ -290,9 +290,9 @@ fr:
             current_new_feature_html: >
               Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des paquets de travail.</li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Intégration de GitHub dans OpenProject. </li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection multiple pour les champs personnalisés du projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>BIM : Amélioration des performances de la visionneuse de modèles IFC.</li> <li>BIM : La visionneuse IFC prend désormais en charge les modèles de double précision, ce qui est idéal pour les grands chantiers tels que les ponts, les routes, etc.</li> <li>BIM : interrupteur pour basculer entre le mode perspective et le mode orthogonal.</li> <li>BIM : Un menu pour modifier, supprimer ou retourner les plans de section.</li> <li>Nouveau bouton dans la navigation d'en-tête pour créer des projets, des utilisateurs et des lots de travaux. </li> <li>Une nouvelle modale d'invitation pour les utilisateurs, les groupes et les utilisateurs fictifs permet d'ajouter ou d'inviter facilement de nouveaux utilisateurs et de les affecter à des lots de travaux.</li> <li>Extensions de l'API v3 pour les groupes et plus encore pour créer, lire, mettre à jour et supprimer des groupes et des membres de groupes par le biais de l'API, entre autres.</li> <li>Sélection pour les champs personnalisés de projet de liste de type.</li> <li>Création de sauvegardes à partir de l'interface web.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Activer"
     label_add_column_after: "Ajouter une colonne après"
     label_add_column_before: "Ajouter une colonne avant"
@@ -509,7 +509,6 @@ fr:
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
       title: "Notifications"
-      channel: "Channel"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
@@ -527,6 +526,17 @@ fr:
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_selection: "Click on a notification to view all activity details."
+      menu:
+        accountable: 'Responsable'
+        assigned: 'Assigned'
+        by_project: 'By Project'
+        by_reason: 'By Reason'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
       settings:
         title: "Notification settings"
         notify_me: "Notify me"
@@ -541,7 +551,7 @@ fr:
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
-          work_package_prioritized: 'all priority changes'
+          work_package_prioritized: 'All priority changes'
           work_package_scheduled: 'All date changes'
         global:
           immediately:
@@ -589,6 +599,8 @@ fr:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
         immediate:
           title: 'Send me an email reminder'
           mentioned: 'Immediately when someone @mentions me'

@@ -57,7 +57,6 @@ module API
 
         property :hide_mail
         property :time_zone,
-                 getter: ->(*) { canonical_time_zone },
                  render_nil: true
 
         property :warn_on_leaving_unsaved
@@ -80,6 +79,8 @@ module API
                  end
 
         property :immediate_reminders
+
+        property :workdays
 
         property :notification_settings,
                  as: :notifications,

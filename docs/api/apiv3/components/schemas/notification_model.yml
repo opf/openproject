@@ -12,10 +12,6 @@ properties:
     type: string
     description: The subject of the notification
     readOnly: true
-  details:
-    type: Array
-    description: An array of formattable details
-    readOnly: true
   reason:
     type: string
     description: The reason for the notification (such as mentioned, involved, watched)

@@ -209,6 +209,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
       end
     end
 
+    # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'project search' do
       let(:subproject) { FactoryBot.create :project, parent: project }
       let!(:other_work_package) do
@@ -337,7 +338,44 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         filters.expect_no_filter_by 'subprojectId', 'subprojectId'
       end
     end
+
+    context 'for a project search with attachments' do
+      let!(:attachment) do
+        FactoryBot.create(:attachment,
+                          container: work_packages[9]).tap do |a|
+          Attachment
+            .where(id: a.id)
+            .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?)',
+                         attachment_text,
+                         'english',
+                         attachment_text])
+        end
+      end
+      let(:query) { "word" }
+      let(:attachment_text) { "A text with the #{query} included" }
+
+      it 'finds work packages with attachments' do
+        with_enterprise_token :attachment_filters
+
+        global_search.search query
+        global_search.submit_in_project_and_subproject_scope
+
+        expect(page)
+          .to have_content attachment_text
+
+        expect(page)
+          .to have_selector(".search-highlight", text: query)
+
+        page.find('[data-qa-tab-id="work_packages"]').click
+
+        table = Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container'))
+        table.ensure_work_package_not_listed!(work_packages[0])
+        table.ensure_work_package_not_listed!(work_packages[1])
+        table.expect_work_package_listed(work_packages[9])
+      end
+    end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'search for projects' do
     let!(:searched_for_project) { FactoryBot.create(:project, name: 'Searched for project') }

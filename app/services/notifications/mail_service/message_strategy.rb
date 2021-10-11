@@ -32,10 +32,9 @@ module Notifications::MailService::MessageStrategy
       UserMailer
         .message_posted(
           notification.recipient,
-          notification.resource,
-          notification.actor || DeletedUser.first
+          notification.resource
         )
-        .deliver_later
+        .deliver_now
     end
   end
 end

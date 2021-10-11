@@ -86,6 +86,8 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   ngOnInit():void {
+    let initialized = false;
+
     this
       .apiV3Service
       .work_packages
@@ -97,14 +99,22 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
         void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
           this.updateActivities(activities);
           this.cdRef.detectChanges();
-          this.storeService.query.hasNotifications$
-            .pipe(take(1))
-            .subscribe((hasNotification) => {
-              if (hasNotification) {
-                this.scrollToUnreadNotification();
-              }
-            });
+
+          if (!initialized) {
+            initialized = true;
+            this.scrollIfNotificationPresent();
+          }
         });
+      });
+  }
+
+  private scrollIfNotificationPresent() {
+    this.storeService.query.hasNotifications$
+      .pipe(take(1))
+      .subscribe((hasNotification) => {
+        if (hasNotification) {
+          this.scrollToUnreadNotification();
+        }
       });
   }
 

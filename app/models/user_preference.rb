@@ -126,11 +126,8 @@ class UserPreference < ApplicationRecord
     super.presence || { mentioned: false }.with_indifferent_access
   end
 
-  def canonical_time_zone
-    return if time_zone.nil?
-
-    zone = ActiveSupport::TimeZone.new(time_zone)
-    zone&.tzinfo&.canonical_identifier
+  def workdays
+    super.presence || [1, 2, 3, 4, 5]
   end
 
   private

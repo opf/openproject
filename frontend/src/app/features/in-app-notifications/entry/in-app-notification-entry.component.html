@@ -1,6 +1,5 @@
 <div
   class="op-ian-item--row"
-  [class.op-ian-item--row_unexpandable]="unexpandable"
   (click)="showDetails()"
 >
   <ng-container *ngIf="workPackage$ && (workPackage$ | async) as workPackage; else workPackageLoading">

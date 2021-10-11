@@ -30,26 +30,27 @@
                   <%= placeholder_cell('8px', vertical: true) %>
                   <td width="100%" style="color: #878787;">
                     #<%= work_package.id %> - <%= work_package.project %>
-                    <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
                     <%=  ' - ' unless unique_reasons.length === 1 && unique_reasons.first.nil? %>
                     <% unique_reasons.each_with_index do |reason, index| %>
                       <%= I18n.t(
-                            :"mail.digests.work_packages.reason.#{reason || :unknown}",
+                            :"mail.work_packages.reason.#{reason || :unknown}",
                             default: '') %><%= ', ' unless unique_reasons.size-1 == index  %>
                     <% end %>
                   </td>
                   <td>
                     <table <%= placeholder_table_styles %>>
                       <tr>
-                        <td style="background-color: #00A3FF;
-                          color: white;
-                          border-radius: 10px;
-                          padding: 2px 8px;
-                          font-size: 14px;
-                          height: 18px;
-                          line-height: 18px;">
-                          <%= notifications_by_work_package.length %>
-                        </td>
+                        <% if show_count  %>
+                          <td style="background-color: #00A3FF;
+                            color: white;
+                            border-radius: 10px;
+                            padding: 2px 8px;
+                            font-size: 14px;
+                            height: 18px;
+                            line-height: 18px;">
+                            <%= count %>
+                          </td>
+                        <% end %>
                       </tr>
                     </table>
                   </td>

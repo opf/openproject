@@ -622,14 +622,10 @@ de:
           attributes:
             read_ian:
               read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            read_mail:
-              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            read_mail_digest:
-              read_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
-            reason_ian:
-              no_notification_reason: 'darf nicht leer sein, da In-App-Benachrichtigung als Kanal ausgewählt ist.'
-            reason_mail:
-              no_notification_reason: 'darf nicht leer sein, da E-Mail als Kanal ausgewählt ist.'
+            mail_reminder_sent:
+              set_on_creation: 'kann bei der Erstellung von Benachrichtigungen nicht auf true gesetzt werden.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'darf nicht leer sein, da tägliche E-Mail-Übersicht als Kanal ausgewählt ist.'
         notification_settings:
@@ -1907,31 +1903,34 @@ de:
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
-      work_packages:
-        comment_added: '<b>Comment</b> added'
-        created: 'Angelegt am'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see:
-          one: 'There is 1 more work package with notifications.'
-          other: 'There are %{count} more work packages with notifications.'
-        reason:
-          watched: 'Watched'
-          assigned: 'Assigned'
-          responsible: 'Verantwortlich'
-          mentioned: 'Mentioned'
-          subscribed: 'alle'
-          prefix: 'Erhalten aufgrund der Benachrichtigungseinstellung: %{reason}'
-        see_all: 'See all'
-        updated: 'Aktualisiert'
-        updated_at: 'at %{timestamp} by %{user}'
       you_have: 'You have'
     logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: 'Angelegt am'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Verantwortlich'
+        mentioned: 'Mentioned'
+        subscribed: 'alle'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: 'Aktualisiert'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Ein neuer Benutzer (%{value}) hat sich registriert. Sein Konto wartet auf Ihre Genehmigung:"
   mail_body_account_information: "Ihre Konto-Informationen"
   mail_body_account_information_external: "Sie können sich mit Ihrem Konto %{value} anmelden."

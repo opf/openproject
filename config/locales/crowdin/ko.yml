@@ -625,14 +625,10 @@ ko:
           attributes:
             read_ian:
               read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            read_mail_digest:
-              read_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: '알림 생성 시 ture 로 설정할 수 없습니다.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:
@@ -1894,30 +1890,33 @@ ko:
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
-      work_packages:
-        comment_added: '<b>Comment</b> added'
-        created: '생성됨'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see:
-          other: 'There are %{count} more work packages with notifications.'
-        reason:
-          watched: 'Watched'
-          assigned: 'Assigned'
-          responsible: '담당'
-          mentioned: 'Mentioned'
-          subscribed: '모두'
-          prefix: 'Received because of the notification setting: %{reason}'
-        see_all: 'See all'
-        updated: '업데이트됨'
-        updated_at: 'at %{timestamp} by %{user}'
       you_have: 'You have'
     logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: '생성됨'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: '담당'
+        mentioned: 'Mentioned'
+        subscribed: '모두'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: '업데이트됨'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
   mail_body_account_information: "계정 정보"
   mail_body_account_information_external: "%{value} 계정을 사용하여 로그인할 수 있습니다."

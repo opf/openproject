@@ -21,7 +21,7 @@ RSpec.configure do |_config|
     Capybara.server_host = ip_address
     Capybara.app_host = "http://#{hostname}"
   else
-    Capybara.server_host = ENV.fetch('CAPYBARA_APP_HOSTNAME', '0.0.0.0')
+    Capybara.server_host = ENV.fetch('CAPYBARA_APP_HOSTNAME', 'localhost')
   end
 end
 

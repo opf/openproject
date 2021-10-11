@@ -34,12 +34,96 @@ describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user)
+    FactoryBot.build_stubbed(:user,
+                             preference: FactoryBot.build_stubbed(:user_preference,
+                                                                  settings: {
+                                                                    immediate_reminders: {
+                                                                      mentioned: immediate_reminders_mentioned
+                                                                    }
+                                                                  }))
   end
   let(:actor) do
     FactoryBot.build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
+  let(:immediate_reminders_mentioned) { true }
+
+  context 'with a work package journal notification' do
+    let(:journal) do
+      FactoryBot.build_stubbed(:work_package_journal).tap do |j|
+        allow(j)
+          .to receive(:initial?)
+                .and_return(journal_initial)
+      end
+    end
+    let(:read_ian) { false }
+    let(:reason) { :mentioned }
+    let(:notification) do
+      FactoryBot.build_stubbed(:notification,
+                               journal: journal,
+                               recipient: recipient,
+                               actor: actor,
+                               reason: reason,
+                               read_ian: read_ian)
+    end
+    let(:journal_initial) { false }
+
+    let(:mail) do
+      mail = instance_double(ActionMailer::MessageDelivery)
+
+      allow(WorkPackageMailer)
+        .to receive(:mentioned)
+              .and_return(mail)
+
+      allow(mail)
+        .to receive(:deliver_later)
+
+      mail
+    end
+
+    before do
+      mail
+    end
+
+    shared_examples_for 'sends a mentioned mail' do
+      it 'sends a mail' do
+        call
+
+        expect(WorkPackageMailer)
+          .to have_received(:mentioned)
+                .with(recipient,
+                      journal)
+
+        expect(mail)
+          .to have_received(:deliver_later)
+      end
+    end
+
+    shared_examples_for 'sends no mentioned mail' do
+      it 'sends no mail' do
+        call
+
+        expect(WorkPackageMailer)
+          .not_to have_received(:mentioned)
+      end
+    end
+
+    context 'with the notification mentioning the user' do
+      it_behaves_like 'sends a mentioned mail'
+    end
+
+    context 'with the notification not mentioning the user' do
+      let(:reason) { false }
+
+      it_behaves_like 'sends no mentioned mail'
+    end
+
+    context 'with the notification mentioning the user but with the recipient having deactivated the mail' do
+      let(:immediate_reminders_mentioned) { false }
+
+      it_behaves_like 'sends no mentioned mail'
+    end
+  end
 
   context 'with a wiki_content journal notification' do
     let(:journal) do
@@ -71,7 +155,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -90,11 +174,10 @@ describe Notifications::MailService, type: :model do
         expect(UserMailer)
           .to have_received(:wiki_content_added)
                 .with(recipient,
-                      journal.journable,
-                      journal.user)
+                      journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -107,11 +190,10 @@ describe Notifications::MailService, type: :model do
         expect(UserMailer)
           .to have_received(:wiki_content_updated)
                 .with(recipient,
-                      journal.journable,
-                      journal.user)
+                      journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -152,7 +234,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -171,11 +253,10 @@ describe Notifications::MailService, type: :model do
         expect(UserMailer)
           .to have_received(:news_added)
                 .with(recipient,
-                      journal.journable,
-                      journal.user)
+                      journal.journable)
 
         expect(mail)
-          .to have_received(:deliver_later)
+          .to have_received(:deliver_now)
       end
     end
 
@@ -215,7 +296,7 @@ describe Notifications::MailService, type: :model do
               .and_return(mail)
 
       allow(mail)
-        .to receive(:deliver_later)
+        .to receive(:deliver_now)
 
       mail
     end
@@ -230,11 +311,10 @@ describe Notifications::MailService, type: :model do
       expect(UserMailer)
         .to have_received(:message_posted)
               .with(recipient,
-                    journal.journable,
-                    actor)
+                    journal.journable)
 
       expect(mail)
-        .to have_received(:deliver_later)
+        .to have_received(:deliver_now)
     end
 
     context 'with the notification read in app already' do

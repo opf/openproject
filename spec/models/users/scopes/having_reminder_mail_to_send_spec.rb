@@ -35,32 +35,40 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     described_class.having_reminder_mail_to_send(scope_time)
   end
 
-  # As it is hard to mock PostgreSQL's "now()" method, in the specs here we need to adopt the slot time
-  # relative to the local time of the user that we want to hit.
-  let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:10:59") }
-  let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("08:00") }
+  # Fix the time of the specs to ensure a consistent run
+  around do |example|
+    Timecop.travel(current_time) do
+      example.run
+    end
+  end
+
+  # Let the date be one where workdays are enabled by default
+  # to avoid specifying them explictly
+  let(:current_time) { "2021-09-30T08:10:59Z".to_datetime }
+  let(:scope_time) { "2021-09-30T08:00:00Z".to_datetime }
 
   let(:paris_user) do
     FactoryBot.create(
       :user,
-      firstname: 'Paris',
+      firstname: 'Europe/Paris',
       preferences: {
-        time_zone: "Paris",
+        time_zone: "Europe/Paris",
+        workdays: paris_user_workdays,
         daily_reminders: paris_user_daily_reminders
       }
     )
   end
+  let(:paris_user_workdays) { [1, 2, 3, 4, 5] }
   let(:paris_user_daily_reminders) do
     {
       enabled: true,
-      times: [hitting_reminder_slot_for("Paris", current_utc_time)]
+      times: [hitting_reminder_slot_for("Europe/Paris", current_time)]
     }
   end
   let(:notifications) { FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago) }
   let(:users) { [paris_user] }
 
   before do
-    allow(Time).to receive(:current).and_return(current_utc_time)
     notifications
     users
   end
@@ -72,9 +80,9 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
-  context 'for a user whose local time is not matching the configured time' do
-    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:20:59") }
-    let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("08:15") }
+  context 'for a user whose local time is matching but the workday is disabled' do
+    # Configured date is a thursday = 4
+    let(:paris_user_workdays) { [1, 2] }
 
     it 'is empty' do
       expect(scope)
@@ -82,16 +90,103 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  context 'for a user whose local time is not matching the configured time' do
+    let(:current_time) { "2021-09-30T08:20:59Z".to_datetime }
+    let(:scope_time) { "2021-09-30T08:15:00Z".to_datetime }
+
+    it 'is empty' do
+      expect(scope)
+        .to be_empty
+    end
+  end
+
+  context 'for a user whose local time is on the previous workday' do
+    # 8:00 thursday Etc/UTC = 22:00 wednesday Pacific/Honolulu
+    let(:hawaii_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Pacific/Honolulu',
+        preferences: {
+          time_zone: "Pacific/Honolulu",
+          workdays: hawaii_user_workdays,
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Pacific/Honolulu", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [hawaii_user] }
+    let(:hawaii_user_workdays) { paris_user_workdays }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([hawaii_user])
+    end
+
+    context 'when the user disables Wednesday as a workday' do
+      let(:hawaii_user_workdays) { [1, 2, 4, 5, 6, 7] }
+
+      it 'is empty' do
+        expect(scope)
+          .to be_empty
+      end
+    end
+  end
+
+  context 'for a user whose local time is on the next workday' do
+    # 12:00 thursday Etc/UTC = 03:00 friday @ Pacific/Apia
+    let(:current_time) { "2021-09-30T12:05:59Z".to_datetime }
+    let(:scope_time) { "2021-09-30T12:00:00Z".to_datetime }
+
+    let(:samoa_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Pacific/Apia',
+        preferences: {
+          time_zone: "Pacific/Apia",
+          workdays: samoa_user_workdays,
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Pacific/Apia", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: samoa_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [samoa_user] }
+    let(:samoa_user_workdays) { paris_user_workdays }
+
+    it 'contains the user' do
+      expect(scope)
+        .to match_array([samoa_user])
+    end
+
+    context 'when the user disables Wednesday as a workday' do
+      let(:samoa_user_workdays) { [1, 2, 3, 4, 6, 7] }
+
+      it 'is empty' do
+        expect(scope)
+          .to be_empty
+      end
+    end
+  end
+
   context 'for a user whose local time is matching the configured time (in a non CET time zone)' do
     let(:moscow_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Moscow',
+        firstname: 'Europe/Moscow',
         preferences: {
-          time_zone: "Moscow",
+          time_zone: "Europe/Moscow",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Moscow", current_utc_time)]
+            times: [hitting_reminder_slot_for("Europe/Moscow", current_time)]
           }
         }
       )
@@ -112,9 +207,9 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Paris", current_utc_time - 3.hours),
-          hitting_reminder_slot_for("Paris", current_utc_time),
-          hitting_reminder_slot_for("Paris", current_utc_time + 3.hours)
+          hitting_reminder_slot_for("Europe/Paris", current_time - 3.hours),
+          hitting_reminder_slot_for("Europe/Paris", current_time),
+          hitting_reminder_slot_for("Europe/Paris", current_time + 3.hours)
         ]
       }
     end
@@ -130,12 +225,12 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Paris", current_utc_time - 2.hours),
-          hitting_reminder_slot_for("Paris", current_utc_time + 3.hours)
+          hitting_reminder_slot_for("Europe/Paris", current_time - 2.hours),
+          hitting_reminder_slot_for("Europe/Paris", current_time + 3.hours)
         ]
       }
     end
-    let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("06:00") }
+    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("06:00") }
 
     it 'contains the user' do
       expect(scope)
@@ -148,12 +243,12 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       {
         enabled: true,
         times: [
-          hitting_reminder_slot_for("Paris", current_utc_time - 3.hours),
-          hitting_reminder_slot_for("Paris", current_utc_time + 1.hour)
+          hitting_reminder_slot_for("Europe/Paris", current_time - 3.hours),
+          hitting_reminder_slot_for("Europe/Paris", current_time + 1.hour)
         ]
       }
     end
-    let(:scope_time) { current_utc_time - 2.hours }
+    let(:scope_time) { current_time - 2.hours }
 
     it 'is empty' do
       expect(scope)
@@ -176,7 +271,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user_daily_reminders) do
       {
         enabled: false,
-        times: [hitting_reminder_slot_for("Paris", current_utc_time)]
+        times: [hitting_reminder_slot_for("Europe/Paris", current_time)]
       }
     end
 
@@ -190,14 +285,14 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Paris',
+        firstname: 'Europe/Paris',
         preferences: {
-          time_zone: "Paris"
+          time_zone: "Europe/Paris"
         }
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['Paris'].parse("08:09").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Paris'].parse("08:00") }
+    let(:current_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T08:09").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T08:00") }
 
     it 'contains the user' do
       expect(scope)
@@ -209,14 +304,14 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Paris',
+        firstname: 'Europe/Paris',
         preferences: {
-          time_zone: "Paris"
+          time_zone: "Europe/Paris"
         }
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['Paris'].parse("10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Paris'].parse("10:00") }
+    let(:current_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Europe/Paris'].parse("2021-09-30T10:00") }
 
     it 'is empty' do
       expect(scope)
@@ -228,18 +323,18 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:kathmandu_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Kathmandu',
+        firstname: 'Asia/Kathmandu',
         preferences: {
-          time_zone: "Kathmandu",
+          time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_utc_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
           }
         }
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("08:10").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("08:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:10").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:00").utc }
     let(:notifications) do
       FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
@@ -256,18 +351,18 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:kathmandu_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Kathmandu',
+        firstname: 'Asia/Kathmandu',
         preferences: {
-          time_zone: "Kathmandu",
+          time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_utc_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
           }
         }
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("08:40").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("08:30").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:40").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T08:30").utc }
     let(:notifications) do
       FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
@@ -284,18 +379,18 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:kathmandu_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Kathmandu',
+        firstname: 'Asia/Kathmandu',
         preferences: {
-          time_zone: "Kathmandu",
+          time_zone: "Asia/Kathmandu",
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_utc_time)]
+            times: [hitting_reminder_slot_for("Asia/Kathmandu", current_time)]
           }
         }
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("07:55").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("07:45").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:55").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Asia/Kathmandu'].parse("2021-09-30T07:45").utc }
     let(:notifications) do
       FactoryBot.create(:notification, recipient: kathmandu_user, created_at: 5.minutes.ago)
     end
@@ -321,7 +416,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
 
   context 'for a user whose local time is matching the configured time but with an already read notification (reminder)' do
     let(:notifications) do
-      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, read_mail_digest: true)
+      FactoryBot.create(:notification, recipient: paris_user, created_at: 5.minutes.ago, mail_reminder_sent: true)
     end
 
     it 'is empty' do
@@ -349,7 +444,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
-        times: [hitting_reminder_slot_for("Paris", current_utc_time + 1.hour)]
+        times: [hitting_reminder_slot_for("Europe/Paris", current_time + 1.hour)]
       }
     end
 
@@ -363,7 +458,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user_daily_reminders) do
       {
         enabled: true,
-        times: [hitting_reminder_slot_for("Paris", current_utc_time - 1.hour)]
+        times: [hitting_reminder_slot_for("Europe/Paris", current_time - 1.hour)]
       }
     end
 
@@ -377,17 +472,17 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Paris',
+        firstname: 'Europe/Paris',
         preferences: {
           daily_reminders: {
             enabled: true,
-            times: [hitting_reminder_slot_for("UTC", current_utc_time)]
+            times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
           }
         }
       )
     end
 
-    it 'is including the user as UTC is assumed' do
+    it 'is including the user as Etc/UTC is assumed' do
       expect(scope)
         .to match_array([paris_user])
     end
@@ -397,13 +492,13 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Paris',
+        firstname: 'Europe/Paris',
         preferences: {}
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
 
-    it 'is including the user as UTC at 08:00 is assumed' do
+    it 'is including the user as Etc/UTC at 08:00 is assumed' do
       expect(scope)
         .to match_array([paris_user])
     end
@@ -413,16 +508,41 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     let(:paris_user) do
       FactoryBot.create(
         :user,
-        firstname: 'Paris',
+        firstname: 'Europe/Paris',
         preferences: {}
       )
     end
-    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
 
-    it 'is empty as UTC at 08:00 is assumed' do
+    it 'is empty as Etc/UTC at 08:00 is assumed' do
       expect(scope)
         .to be_empty
+    end
+  end
+
+  context 'for a user without a time zone and a default time zone configured',
+          with_settings: { user_default_timezone: 'Europe/Moscow' } do
+    let(:moscow_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Europe/Moscow',
+        preferences: {
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Europe/Moscow", current_time)]
+          }
+        }
+      )
+    end
+    let(:notifications) do
+      FactoryBot.create(:notification, recipient: moscow_user, created_at: 5.minutes.ago)
+    end
+    let(:users) { [moscow_user] }
+
+    it 'is including the configured default timezone is assumed' do
+      expect(scope)
+        .to match_array([moscow_user])
     end
   end
 
@@ -436,28 +556,28 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   end
 
   context 'for a user without preferences at 08:00' do
-    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("08:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("08:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T08:00").utc }
 
     before do
       paris_user.pref.destroy
     end
 
-    it 'is including the user as UTC at 08:00 is assumed' do
+    it 'is including the user as Etc/UTC at 08:00 is assumed' do
       expect(scope)
         .to match_array([paris_user])
     end
   end
 
   context 'for a user without preferences at 10:00' do
-    let(:current_utc_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
-    let(:scope_time) { ActiveSupport::TimeZone['UTC'].parse("10:00").utc }
+    let(:current_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
+    let(:scope_time) { ActiveSupport::TimeZone['Etc/UTC'].parse("2021-09-30T10:00").utc }
 
     before do
       paris_user.pref.destroy
     end
 
-    it 'is empty as UTC at 08:00 is assumed' do
+    it 'is empty as Etc/UTC at 08:00 is assumed' do
       expect(scope)
         .to be_empty
     end

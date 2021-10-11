@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/components/notifications/center'
 
 describe "Notification center navigation", type: :feature, js: true do
   shared_let(:project) { FactoryBot.create :project }
@@ -26,7 +25,7 @@ describe "Notification center navigation", type: :feature, js: true do
                       journal: second_work_package.journals.last
   end
 
-  let(:center) { ::Components::Notifications::Center.new }
+  let(:center) { ::Pages::Notifications::Center.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 

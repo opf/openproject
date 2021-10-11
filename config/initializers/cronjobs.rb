@@ -6,6 +6,7 @@ OpenProject::Application.configure do |application|
                               ::Cron::ClearTmpCacheJob,
                               ::Cron::ClearUploadedFilesJob,
                               ::OAuth::CleanupJob,
-                              ::Attachments::CleanupUncontaineredJob
+                              ::Attachments::CleanupUncontaineredJob,
+                              ::Notifications::ScheduleReminderMailsJob
   end
 end

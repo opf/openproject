@@ -42,7 +42,7 @@ lt:
         invalid_priorities_found: 'Rastas neteisingas prioriteto pavadinimas'
         invalid_emails_found: 'Rastas neteisingas el. pašto adresas'
         unknown_emails_found: 'Rasti nežinomi el. pašto adresai'
-        unknown_property: 'Nežinoma sąvybė'
+        unknown_property: 'Nežinoma savybė'
         non_members_found: 'Rasti ne projekto nariai'
         import_types_as: 'Nustatyti visus šiuos tipus į'
         import_statuses_as: 'Nustatyti visas būsenas į'
@@ -101,7 +101,7 @@ lt:
           snapshot_data_blank: "būtina pateikti snapshot_data."
           unsupported_key: "Įtraukta nepalaikoma json savybė."
         bim/bcf/issue:
-          uuid_already_taken: "Negaliu suimportuoti BCF trūkumo, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF trūkumas jau buvo importuota į kitą projektą?"
+          uuid_already_taken: "Negaliu suimportuoti BCF problemos, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF problema jau buvo importuota į kitą projektą?"
   ifc_models:
     label_ifc_models: 'IFC modeliai'
     label_new_ifc_model: 'Naujas IFC modelis'

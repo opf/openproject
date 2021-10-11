@@ -33,6 +33,6 @@ class WorkPackages::CalendarsController < ApplicationController
   before_action :find_optional_project
 
   def index
-    render layout: 'angular'
+    render layout: 'angular/angular'
   end
 end

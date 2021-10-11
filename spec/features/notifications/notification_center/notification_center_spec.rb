@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'support/components/notifications/center'
 
 describe "Notification center", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
@@ -29,7 +28,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     work_package2.journals.first.notifications.first
   end
 
-  let(:center) { ::Components::Notifications::Center.new }
+  let(:center) { ::Pages::Notifications::Center.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 

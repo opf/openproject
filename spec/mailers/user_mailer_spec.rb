@@ -29,6 +29,7 @@
 #++
 
 require 'spec_helper'
+require_relative './shared_examples'
 
 describe UserMailer, type: :mailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }
@@ -59,50 +60,6 @@ describe UserMailer, type: :mailer do
     allow(Setting).to receive(:host_name).and_return('mydomain.foo')
     allow(Setting).to receive(:protocol).and_return('http')
     allow(Setting).to receive(:default_language).and_return('en')
-  end
-
-  shared_examples_for 'mail is sent' do
-    let(:letters_sent_count) { 1 }
-    let(:mail) { deliveries.first }
-    let(:html_body) { mail.body.parts.detect { |p| p.content_type.include? 'text/html' }.body.encoded }
-
-    it 'actually sends a mail' do
-      expect(deliveries.size).to eql(letters_sent_count)
-    end
-
-    it 'is sent to the recipient' do
-      expect(deliveries.first.to).to include(recipient.mail)
-    end
-
-    it 'is sent from the configured address' do
-      expect(deliveries.first.from).to match_array([Setting.mail_from])
-    end
-  end
-
-  shared_examples_for 'multiple mails are sent' do |set_letters_sent_count|
-    it_behaves_like 'mail is sent' do
-      let(:letters_sent_count) { set_letters_sent_count }
-    end
-  end
-
-  shared_examples_for 'mail is not sent' do
-    it 'sends no mail' do
-      expect(deliveries).to be_empty
-    end
-  end
-
-  shared_examples_for 'does not send mails to author' do
-    let(:user) { FactoryBot.build_stubbed(:user) }
-
-    context 'when mail is for another user' do
-      it_behaves_like 'mail is sent'
-    end
-
-    context 'when mail is for author' do
-      let(:recipient) { user }
-
-      it_behaves_like 'mail is not sent'
-    end
   end
 
   describe '#with_deliveries' do
@@ -156,38 +113,21 @@ describe UserMailer, type: :mailer do
     end
   end
 
-  describe '#work_package_watcher_changed' do
-    let(:watcher_changer) { user }
-
-    before do
-      described_class.work_package_watcher_changed(work_package, recipient, watcher_changer, 'added').deliver_now
-      described_class.work_package_watcher_changed(work_package, recipient, watcher_changer, 'removed').deliver_now
-    end
-
-    include_examples 'multiple mails are sent', 2
-
-    it 'contains the WP subject in the mail subject' do
-      expect(deliveries.first.subject).to include(work_package.subject)
-    end
-  end
-
   describe '#wiki_content_added' do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      described_class.wiki_content_added(recipient, wiki_content, user).deliver_now
+      described_class.wiki_content_added(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#wiki_content_updated' do
     let(:wiki_content) { FactoryBot.create(:wiki_content) }
 
     before do
-      described_class.wiki_content_updated(recipient, wiki_content, user).deliver_now
+      described_class.wiki_content_updated(recipient, wiki_content).deliver_now
     end
 
     it_behaves_like 'mail is sent'
@@ -195,8 +135,6 @@ describe UserMailer, type: :mailer do
     it 'links to the latest version diff page' do
       expect(deliveries.first.body.encoded).to include 'diff/1'
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#message_posted' do
@@ -209,7 +147,7 @@ describe UserMailer, type: :mailer do
     end
 
     before do
-      described_class.message_posted(recipient, message, user).deliver_now
+      described_class.message_posted(recipient, message).deliver_now
     end
 
     it_behaves_like 'mail is sent' do
@@ -229,8 +167,6 @@ describe UserMailer, type: :mailer do
                         href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
       end
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#account_information' do
@@ -252,7 +188,7 @@ describe UserMailer, type: :mailer do
     let(:news) { FactoryBot.build_stubbed(:news) }
 
     before do
-      described_class.news_added(recipient, news, user).deliver_now
+      described_class.news_added(recipient, news).deliver_now
     end
 
     it_behaves_like 'mail is sent' do
@@ -261,8 +197,6 @@ describe UserMailer, type: :mailer do
           .to eql(described_class.generate_message_id(news, recipient))
       end
     end
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#news_comment_added' do
@@ -270,12 +204,10 @@ describe UserMailer, type: :mailer do
     let(:comment) { FactoryBot.build_stubbed(:comment, commented: news) }
 
     before do
-      described_class.news_comment_added(recipient, comment, user).deliver_now
+      described_class.news_comment_added(recipient, comment).deliver_now
     end
 
     it_behaves_like 'mail is sent'
-
-    it_behaves_like 'does not send mails to author'
   end
 
   describe '#password_lost' do
@@ -332,12 +264,11 @@ describe UserMailer, type: :mailer do
                 .and_return project
       end
     end
-    let(:author) { FactoryBot.build_stubbed(:user) }
 
     describe 'same user' do
       subject do
         message_ids = [message, message2].map do |m|
-          described_class.message_posted(user, m, author).message_id
+          described_class.message_posted(user, m).message_id
         end
 
         message_ids.uniq.count
@@ -351,7 +282,7 @@ describe UserMailer, type: :mailer do
 
       subject do
         message_ids = [user, user2].map do |user|
-          described_class.message_posted(user, message, author).message_id
+          described_class.message_posted(user, message).message_id
         end
 
         message_ids.uniq.count

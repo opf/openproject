@@ -36,6 +36,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= Meeting.human_attribute_name(:participants_attended) %>: <%= @meeting.participants.attended.sort.join("; ") %>
 
 <%=t(:"text_review_#{@content_type}",
-     :author => User.current,
+     :author => @author,
      :link => t(:"text_#{@content_type}_for_meeting",
                 :meeting => @meeting.title) + " (#{meeting_url(@meeting)})") %>

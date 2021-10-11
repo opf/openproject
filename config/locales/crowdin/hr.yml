@@ -628,14 +628,10 @@ hr:
           attributes:
             read_ian:
               read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            read_mail_digest:
-              read_on_creation: 'cannot be set to true on notification creation.'
-            reason_ian:
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
-            reason_mail:
-              no_notification_reason: 'cannot be blank as mail is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
         notification_settings:
@@ -1929,32 +1925,35 @@ hr:
       including_mention_plural: 'including %{number_mentioned} mentions'
       unread_notification_singular: '1 unread notification'
       unread_notification_plural: '%{number_unread} unread notifications'
-      work_packages:
-        comment_added: '<b>Comment</b> added'
-        created: 'Kreirano'
-        created_at: 'at %{timestamp} by %{user} '
-        login_to_see_all: 'Log in to see all notifications.'
-        mentioned: 'You have been <b>mentioned in a comment</b>'
-        more_to_see:
-          one: 'There is 1 more work package with notifications.'
-          few: 'There are %{count} more work packages with notifications.'
-          other: 'There are %{count} more work packages with notifications.'
-        reason:
-          watched: 'Watched'
-          assigned: 'Assigned'
-          responsible: 'Accountable'
-          mentioned: 'Mentioned'
-          subscribed: 'sve'
-          prefix: 'Received because of the notification setting: %{reason}'
-        see_all: 'See all'
-        updated: 'Updated'
-        updated_at: 'at %{timestamp} by %{user}'
       you_have: 'You have'
     logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: 'Kreirano'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        few: 'There are %{count} more work packages with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Accountable'
+        mentioned: 'Mentioned'
+        subscribed: 'sve'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: 'Updated'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"
   mail_body_account_information: "Informacije o vašem korisničkom računu"
   mail_body_account_information_external: "Možete koristiti vaš %{value} korisnički račun za pristup sustavu."

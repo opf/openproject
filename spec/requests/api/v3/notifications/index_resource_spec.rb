@@ -81,15 +81,6 @@ describe ::API::V3::Notifications::NotificationsAPI,
 
     it_behaves_like 'API V3 collection response', 2, 2, 'Notification'
 
-    context 'with a digest notification' do
-      let(:digest_notification) { FactoryBot.create :notification, recipient: recipient, reason_ian: nil }
-      let(:notifications) { [notification1, notification2, digest_notification] }
-
-      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
-        let(:elements) { [notification2, notification1] }
-      end
-    end
-
     context 'with a readIAN filter' do
       let(:nil_notification) { FactoryBot.create :notification, recipient: recipient, read_ian: nil }
 
@@ -171,7 +162,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
     context 'with a reason filter' do
       let(:notification3) do
         FactoryBot.create :notification,
-                          reason_ian: :assigned,
+                          reason: :assigned,
                           recipient: recipient,
                           resource: work_package,
                           project: work_package.project,
@@ -179,7 +170,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
       let(:notification4) do
         FactoryBot.create :notification,
-                          reason_ian: :responsible,
+                          reason: :responsible,
                           recipient: recipient,
                           resource: work_package,
                           project: work_package.project,
@@ -192,7 +183,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
           {
             'reason' => {
               'operator' => '=',
-              'values' => [notification1.reason_ian.to_s, notification4.reason_ian.to_s]
+              'values' => [notification1.reason.to_s, notification4.reason.to_s]
             }
           }
         ]
@@ -225,11 +216,30 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
     end
 
+    context 'with a non ian notification' do
+      let(:wiki_page) { FactoryBot.create(:wiki_page_with_content) }
+
+      let(:non_ian_notification) do
+        FactoryBot.create :notification,
+                          read_ian: nil,
+                          recipient: recipient,
+                          resource: wiki_page,
+                          project: wiki_page.wiki.project,
+                          journal: wiki_page.content.journals.first
+      end
+
+      let(:notifications) { [notification2, notification1, non_ian_notification] }
+
+      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+        let(:elements) { [notification2, notification1] }
+      end
+    end
+
     context 'with a reason groupBy' do
       let(:responsible_notification) do
         FactoryBot.create :notification,
                           recipient: recipient,
-                          reason_ian: :responsible,
+                          reason: :responsible,
                           resource: work_package,
                           project: work_package.project,
                           journal: work_package.journals.first
@@ -263,7 +273,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
                           resource: work_package2,
                           project: work_package2.project,
                           recipient: recipient,
-                          reason_ian: :responsible,
+                          reason: :responsible,
                           journal: work_package2.journals.first
       end
 

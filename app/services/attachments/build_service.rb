@@ -27,7 +27,7 @@
 #++
 
 module Attachments
-  class BuildService < ::BaseServices::Create
+  class BuildService < BaseService
     private
 
     def persist(service_result)

@@ -107,7 +107,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     it_behaves_like 'property', :reason do
-      let(:value) { notification.reason_ian }
+      let(:value) { notification.reason }
     end
 
     it_behaves_like 'datetime property', :createdAt do
@@ -200,26 +200,6 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
             .to be_json_eql('Activity'.to_json)
                   .at_path("_embedded/activity/_type")
         end
-      end
-
-      it 'renders details of journal' do
-        allow(journal).to receive(:initial?).and_return false
-
-        expect(generated)
-          .to have_json_size(10)
-                .at_path('details')
-      end
-
-      it 'renders a placeholder if journal is initial' do
-        allow(journal).to receive(:initial?).and_return true
-
-        details = [
-          { format: 'markdown', raw: '', html: '' },
-          { format: 'custom', raw: "The work package was created.", html: "<em>The work package was created.</em>" }
-        ]
-        expect(generated)
-          .to be_json_eql(details.to_json)
-                .at_path('details')
       end
     end
   end

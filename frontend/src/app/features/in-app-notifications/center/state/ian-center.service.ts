@@ -3,10 +3,6 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  IanCenterStore,
-  InAppNotificationFacet,
-} from './ian-center.store';
-import {
   distinctUntilChanged,
   map,
   pluck,
@@ -15,6 +11,11 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
+import { from } from 'rxjs';
+import {
+  ID,
+  setLoading,
+} from '@datorama/akita';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -22,23 +23,23 @@ import {
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
 import {
-  ID,
-  setLoading,
-} from '@datorama/akita';
-import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { from } from 'rxjs';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
+import {
+  IanCenterStore,
+  InAppNotificationFacet,
+} from './ian-center.store';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { UIRouterGlobals } from '@uirouter/core';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Injectable()
 @EffectHandler
@@ -71,9 +72,14 @@ export class IanCenterService extends UntilDestroyedMixin {
     super();
   }
 
+  setFilters(filters:INotificationPageQueryParameters):void {
+    this.store.update({ filters });
+    this.debouncedReload();
+  }
+
   setFacet(facet:InAppNotificationFacet):void {
     this.store.update({ activeFacet: facet });
-    this.reload().subscribe();
+    this.debouncedReload();
   }
 
   markAsRead(notifications:ID[]):void {
@@ -94,8 +100,8 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   openSplitScreen(wpId:string|null):void {
     void this.state.go(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      `${(this.state.current.data).baseRoute}.details.tabs`,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      `${this.state.current.data.baseRoute}.details.tabs`,
       { workPackageId: wpId, tabIdentifier: 'activity' },
     );
   }
@@ -109,11 +115,13 @@ export class IanCenterService extends UntilDestroyedMixin {
       ).subscribe((notifications) => {
         if (notifications.length <= 0) {
           void this.state.go(
-            `${(this.state.current.data).baseRoute}`,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+            `${this.state.current.data.baseRoute}`,
           );
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource!.href);
           this.openSplitScreen(wpId);
         }
@@ -129,16 +137,18 @@ export class IanCenterService extends UntilDestroyedMixin {
       this
         .resourceService
         .removeFromCollection(this.query.params, action.notifications);
-        this.showNextNotification();
+      this.showNextNotification();
     } else {
-      this.reload().subscribe(() => {
-        this.showNextNotification();
-      });
+      this.debouncedReload(this.showNextNotification.bind(this));
     }
   }
 
+  private debouncedReload(execFn:Function = () => {}) {
+    _.debounce(() => { this.reload().subscribe(execFn()); });
+  }
+
   private reload() {
-     return this.resourceService
+    return this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
         setLoading(this.store),

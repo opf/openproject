@@ -162,7 +162,7 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
         end
       end
 
-      context 'with full time zone' do
+      context 'with valid time zone' do
         let(:params) do
           { timeZone: 'Europe/Paris' }
         end
@@ -170,18 +170,6 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
         it 'responds with a UserPreferences representer' do
           expect(subject.body).to be_json_eql('Europe/Paris'.to_json).at_path('timeZone')
           expect(preference.time_zone).to eq('Europe/Paris')
-        end
-      end
-
-      context 'with short time zone' do
-        let(:params) do
-          { timeZone: 'Hawaii' }
-        end
-
-        it 'responds with a UserPreferences representer' do
-          expect(subject.body).to be_json_eql('Pacific/Honolulu'.to_json).at_path('timeZone')
-          expect(preference.time_zone).to eq('Hawaii')
-          expect(preference.canonical_time_zone).to eq('Pacific/Honolulu')
         end
       end
     end

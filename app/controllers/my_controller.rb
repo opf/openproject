@@ -85,7 +85,7 @@ class MyController < ApplicationController
   # Configure user's in app notifications
   def notifications
     render html: '',
-           layout: 'angular',
+           layout: 'angular/angular',
            locals: {
              menu_name: :my_menu,
              page_title: [I18n.t(:label_my_account), I18n.t('js.notifications.settings.title')]
@@ -95,7 +95,7 @@ class MyController < ApplicationController
   # Configure user's mail reminders
   def reminders
     render html: '',
-           layout: 'angular',
+           layout: 'angular/angular',
            locals: { menu_name: :my_menu }
   end
 

@@ -65,7 +65,7 @@ class CostReportsController < ApplicationController
 
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
-  layout 'angular'
+  layout 'angular/angular'
 
   # Checks if custom fields have been updated, added or removed since we
   # last saw them, to rebuild the filters and group bys.

@@ -39,7 +39,7 @@ module UserPreferences
     protected
 
     def only_one_global_setting
-      if has_more_than_one_global_channel?
+      if global_notifications.count > 1
         errors.add :notification_settings, :only_one_global_setting
       end
     end
@@ -56,12 +56,6 @@ module UserPreferences
       NotificationSetting.email_settings.any? do |setting|
         notification_setting[setting] == true
       end
-    end
-
-    def has_more_than_one_global_channel?
-      global_notifications
-        .group_by { |notification| notification[:channel] }
-        .any? { |_, items| items.count > 1 }
     end
 
     def global_notifications

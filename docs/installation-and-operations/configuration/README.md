@@ -48,6 +48,8 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`enterprise_limits`](#enterprise-limits)
 * [`backup_enabled`](#backup-enabled)
 * [`show_community_links`](#show-community-links)
+* [`web`](#web) (nested configuration)
+* [`statsd`](#statsd) (nested configuration)
 
 ## Setting session options
 
@@ -423,6 +425,54 @@ If you would like to hide the homescreen links to the OpenProject community, you
 
 ```
 OPENPROJECT_SHOW__COMMUNITY__LINKS=false
+```
+
+### Web
+
+Configuration of the main ruby web server (currently puma). Sensible defaults are provided.
+
+```
+web:
+  workers: 2 # number of server processes
+  timeout: 60 # seconds before a request times out
+  wait_timeout: 10 # seconds before a request waiting to be served times out
+  min_threads: 4
+  max_threads: 16
+```
+
+**Note:** Timeouts only are supported when using at least 2 workers.
+
+As usual these values can be overriden via the environment.
+
+```
+OPENPROJECT_WEB_WORKERs=2
+OPENPROJECT_WEB_TIMEOUT=60 # overriden by: RACK_TIMEOUT_SERVICE_TIMEOUT
+OPENPROJECT_WEB_WAIT__TIMEOUT=10 # overriden by: RACK_TIMEOUT_WAIT_TIMEOUT
+OPENPROJECT_WEB_MIN__THREADS=4 # overriden by: RAILS_MIN_THREADS
+OPENPROJECT_WEB_MAX__THREADS=16 # overriden by: RAILS_MAX_THREADS
+```
+
+### statsd
+
+*default: { host: nil, port: 8125 }*
+
+OpenProject can push metrics to [statsd](https://github.com/statsd/statsd).
+Currently these are simply the metrics for the puma server
+but this may include more in the future.
+
+This is disabled by default unless a host configured.
+
+```
+statsd:
+  host: 127.0.0.1
+  port: 8125
+```
+
+Or via the environment:
+
+```
+OPENPROJECT_STATSD_HOST=127.0.0.1 # overriden by: STATSD_HOST
+OPENPRJOECT_STATSD_PORT=8125 # overriden by: STATSD_PORT
 ```
 
 | ----------- | :---------- |

@@ -31,6 +31,7 @@ require 'icalendar/tzinfo'
 
 class MeetingMailer < UserMailer
   def content_for_review(content, content_type, user)
+    @author = User.current
     @meeting = content.meeting
     @content_type = content_type
 

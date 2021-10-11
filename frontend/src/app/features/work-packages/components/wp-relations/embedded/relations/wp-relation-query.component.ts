@@ -27,7 +27,10 @@
 //++
 
 import {
-  Component, Inject, Input, OnInit,
+  Component,
+  Inject,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -65,6 +68,10 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
       'remove-relation-action',
       this.I18n.t('js.relation_buttons.remove'),
       (relatedTo:WorkPackageResource) => {
+        if (!this.embeddedTable) {
+          return;
+        }
+
         this.embeddedTable.loadingIndicator = this.wpRelations.require(relatedTo.id!)
           .then(() => this.wpInlineCreate.remove(this.workPackage, relatedTo))
           .then(() => this.refreshTable())
@@ -77,12 +84,12 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
   public idFromLink = idFromLink;
 
   constructor(protected readonly PathHelper:PathHelperService,
-    @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
-    protected readonly wpRelations:WorkPackageRelationsService,
-    protected readonly halEvents:HalEventsService,
-    protected readonly queryUrlParamsHelper:UrlParamsHelperService,
-    protected readonly notificationService:WorkPackageNotificationService,
-    protected readonly I18n:I18nService) {
+              @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateService,
+              protected readonly wpRelations:WorkPackageRelationsService,
+              protected readonly halEvents:HalEventsService,
+              protected readonly queryUrlParamsHelper:UrlParamsHelperService,
+              protected readonly notificationService:WorkPackageNotificationService,
+              protected readonly I18n:I18nService) {
     super(queryUrlParamsHelper);
   }
 

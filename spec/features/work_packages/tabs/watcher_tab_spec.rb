@@ -34,17 +34,17 @@ describe 'Watcher tab', js: true, selenium: true do
     it 'watching the WP modifies the watcher list' do
       # Expect WP watch button is in not-watched state
       expect_button_is_not_watching
-      expect(page).to have_no_selector('.work-package--watcher-name')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
       watch_button.click
 
       # Expect WP watch button causes watcher list to add user
       expect_button_is_watching
-      expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
+      expect(page).to have_selector('[data-qa-selector="op-wp-watcher-name"]', count: 1, text: user.name)
 
       # Expect WP unwatch button causes watcher list to remove user
       watch_button.click
       expect_button_is_not_watching
-      expect(page).to have_no_selector('.work-package--watcher-name')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
     end
   end
 
@@ -64,21 +64,21 @@ describe 'Watcher tab', js: true, selenium: true do
                           select_text: user.name
 
       # Expect the addition of the user to toggle WP watch button
-      expect(page).to have_selector('.work-package--watcher-name', count: 1, text: user.name)
+      expect(page).to have_selector('[data-qa-selector="op-wp-watcher-name"]', count: 1, text: user.name)
       expect_button_is_watching
 
       # Expect watchers counter to increase
       tabs.expect_counter(watchers_tab, 1)
 
       # Remove watcher from list
-      page.find('wp-watcher-entry', text: user.name).hover
+      page.find('[data-qa-selector="op-wp-watcher-name"]', text: user.name).hover
       page.find('.form--selected-value--remover').click
 
       # Watchers counter should not be displayed
       tabs.expect_no_counter(watchers_tab)
 
       # Expect the removal of the user to toggle WP watch button
-      expect(page).to have_no_selector('.work-package--watcher-name')
+      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
       expect_button_is_not_watching
     end
 

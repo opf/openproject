@@ -70,6 +70,7 @@ sudo su - postgres <<CMD
   --old-options '-c config_file=/etc/postgresql/10/main/postgresql.conf' \
   --new-options '-c config_file=/etc/postgresql/13/main/postgresql.conf'
 CMD
+```
 
 5. Make PostgreSQL v13 the new default server to run on port 45432:
 
@@ -92,15 +93,6 @@ sudo zypper remove postgresql-10 # sles
 ```
 
 [pg_upgrade]: https://www.postgresql.org/docs/10/pgupgrade.html
-
-### Debian/Ubuntu
-
-Refresh your package list:
-
-```bash
-apt-get update
-apt-get -y install postgresql-13
-```
 
 [package-based-installation]: ../../installation/packaged/
 

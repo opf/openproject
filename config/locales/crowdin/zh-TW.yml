@@ -626,14 +626,10 @@ zh-TW:
           attributes:
             read_ian:
               read_on_creation: '在創建通知時不能設置為 true'
-            read_mail:
-              read_on_creation: '在創建通知時不能設置為 true'
-            read_mail_digest:
-              read_on_creation: '在創建通知時不能設置為 true'
-            reason_ian:
-              no_notification_reason: '當 IAN 被選為管道時不能為空'
-            reason_mail:
-              no_notification_reason: '當郵件被選為管道時不能為空'
+            mail_reminder_sent:
+              set_on_creation: '在創建通知時不能設置為 true'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
         notification_settings:
@@ -1895,30 +1891,33 @@ zh-TW:
       including_mention_plural: '包括 %{number_mentioned} 提醒'
       unread_notification_singular: '1 條未讀通知'
       unread_notification_plural: '%{number_unread} 條未讀通知'
-      work_packages:
-        comment_added: '<b>評論</b>已添加'
-        created: '已建立'
-        created_at: '由 %{user} 在 %{timestamp} '
-        login_to_see_all: '登入以查看所有通知'
-        mentioned: '您已在<b>評論中被提醒</b>'
-        more_to_see:
-          other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
-        reason:
-          watched: '監看'
-          assigned: '指派'
-          responsible: '可信賴的'
-          mentioned: '提醒'
-          subscribed: '所有'
-          prefix: '因為通知設定而收到：%{reason}'
-        see_all: '全部顯示'
-        updated: '已更新'
-        updated_at: '由 %{user} 在 %{timestamp} '
       you_have: '你擁有'
     logo_alt_text: '商標'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: '顯示通知中心'
       settings: '更改電子郵件設定'
     salutation: '嘿 %{user}'
+    work_packages:
+      comment_added: '<b>Comment</b> added'
+      created: '已建立'
+      created_at: 'at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: '可信賴的'
+        mentioned: 'Mentioned'
+        subscribed: '所有'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated: '已更新'
+      updated_at: 'at %{timestamp} by %{user}'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"
