@@ -11,14 +11,15 @@
       </select>
   </span>
   <span class="form--text-field-container -slim" *ngIf="valueVisible">
-    <op-single-date-picker (onChange)="updateField($event)"
-                    [id]="fieldId + '_visible'"
-                    [name]="fieldId + '_input'"
-                    [initialDate]="fieldValue"
-                    classes="form--text-field">
+    <op-single-date-picker
+      [id]="fieldId + '_visible'"
+      [name]="fieldId + '_input'"
+      [initialDate]="fieldValue"
+      (changed)="updateField($event)"
+      classes="form--text-field">
     </op-single-date-picker>
   </span>
   <input type="hidden"
          [name]="fieldName"
-         [value]="fieldValue" />
+         [value]="fieldValue"/>
 </div>
