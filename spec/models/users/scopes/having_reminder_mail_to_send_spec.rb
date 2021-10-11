@@ -35,7 +35,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     described_class.having_reminder_mail_to_send(scope_time)
   end
 
-  # Fix the time of the specs to ensure a consistent
+  # Fix the time of the specs to ensure a consistent run
   around do |example|
     Timecop.travel(current_time) do
       example.run
