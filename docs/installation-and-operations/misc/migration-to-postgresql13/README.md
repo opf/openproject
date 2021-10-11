@@ -70,6 +70,7 @@ sudo su - postgres <<CMD
   --old-options '-c config_file=/etc/postgresql/10/main/postgresql.conf' \
   --new-options '-c config_file=/etc/postgresql/13/main/postgresql.conf'
 CMD
+```
 
 5. Make PostgreSQL v13 the new default server to run on port 45432:
 
