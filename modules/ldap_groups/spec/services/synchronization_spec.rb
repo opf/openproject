@@ -188,7 +188,6 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
           let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
 
-
           context 'and users sync in the groups enabled' do
             let(:sync_users) { true }
 
@@ -220,7 +219,6 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
           let(:onthefly_register) { true }
           let(:user_aa729) { User.find_by login: 'aa729' }
           let(:user_bb459) { User.find_by login: 'bb459' }
-
 
           context 'and users sync in the groups enabled' do
             let(:sync_users) { true }
@@ -309,7 +307,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
       let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
-      let(:manager)   { FactoryBot.create :role, name: 'Manager' }
+      let(:manager) { FactoryBot.create :role, name: 'Manager' }
       let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
 
       before do
@@ -372,6 +370,20 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
         expect(synced_foo.users).to be_empty
         expect(group_foo.users).to eq([])
       end
+    end
+  end
+
+  context 'when one user does not match case' do
+    before do
+      group_foo
+      synced_foo
+      user_aa729.update_attribute(:login, 'Aa729')
+    end
+
+    it 'synchronized the membership of aa729 to foo' do
+      subject
+      expect(synced_foo.users.count).to eq(1)
+      expect(group_foo.users).to eq([user_aa729])
     end
   end
 end
