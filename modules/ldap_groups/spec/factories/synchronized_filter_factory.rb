@@ -5,5 +5,6 @@ FactoryBot.define do
     group_name_attribute { 'cn' }
     base_dn { 'dc=example,dc=com' }
     auth_source factory: :ldap_auth_source
+    sync_users { true }
   end
 end
