@@ -263,14 +263,13 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
       it 'sends a mail notifying of the added project memberships to the added user' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 2
+          .to eql 1
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array another_user.mail
 
         expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
-          .to match_array [I18n.t(:'mail_member_added_project.subject', project: other_project.name),
-                           I18n.t(:'mail_member_updated_project.subject', project: project.name)]
+          .to match_array [I18n.t(:'mail_member_updated_project.subject', project: project.name)]
       end
     end
 
