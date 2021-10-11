@@ -29,8 +29,12 @@
   >
     <a
       class="op-sidemenu--item-action"
+      uiSrefActive="op-sidemenu--item-action_active-child"
+      uiSrefActiveEq="op-sidemenu--item-action_active"
       [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [href]="item.href"
+      [uiSref]="item.uiSref"
+      [uiParams]="item.uiParams"
       *ngIf="!item.children"
     >
       <span

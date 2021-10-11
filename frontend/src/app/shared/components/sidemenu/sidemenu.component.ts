@@ -11,7 +11,9 @@ export interface IOpSidemenuItem {
   title:string;
   icon?:string;
   count?:number;
-  href:string;
+  href?:string;
+  uiSref?:string;
+  uiParams?:any;
   children?:IOpSidemenuItem[];
   collapsible?:boolean;
 }

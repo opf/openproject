@@ -27,7 +27,8 @@ export class IanMenuComponent implements OnInit {
       key: 'inbox',
       title: this.I18n.t('js.notifications.menu.inbox'),
       icon: 'inbox',
-      href: this.getHrefForFilters({}),
+      uiSref: 'notifications.center.show',
+      uiParams: { filter: '', name: '' },
     },
   ];
 
@@ -36,25 +37,25 @@ export class IanMenuComponent implements OnInit {
       key: 'mentioned',
       title: this.I18n.t('js.notifications.menu.mentioned'),
       icon: 'mention',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'mentioned' }),
+      ...this.getUiLinkForFilters({ filter: 'reason', name: 'mentioned' }),
     },
     {
       key: 'assigned',
       title: this.I18n.t('js.notifications.menu.assigned'),
       icon: 'assigned',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'assigned' }),
+      ...this.getUiLinkForFilters({ filter: 'reason', name: 'assigned' }),
     },
     {
       key: 'responsible',
       title: this.I18n.t('js.notifications.menu.accountable'),
       icon: 'accountable',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'responsible' }),
+      ...this.getUiLinkForFilters({ filter: 'reason', name: 'responsible' }),
     },
     {
       key: 'watched',
       title: this.I18n.t('js.notifications.menu.watching'),
       icon: 'watching',
-      href: this.getHrefForFilters({ filter: 'reason', name: 'watched' }),
+      ...this.getUiLinkForFilters({ filter: 'reason', name: 'watched' }),
     },
   ];
 
@@ -63,7 +64,7 @@ export class IanMenuComponent implements OnInit {
       .map((item) => ({
         ...item,
         title: (item.projectHasParent ? '... ' : '') + item.value,
-        href: this.getHrefForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
+        ...this.getUiLinkForFilters({ filter: 'project', name: idFromLink(item._links.valueLink[0].href) }),
       }))
       .sort((a, b) => {
         if (b.projectHasParent && !a.projectHasParent) {
@@ -123,7 +124,10 @@ export class IanMenuComponent implements OnInit {
     this.ianMenuService.reload();
   }
 
-  private getHrefForFilters(filters:INotificationPageQueryParameters = {}) {
-    return this.state.href('notifications', filters);
+  private getUiLinkForFilters(filters:INotificationPageQueryParameters = {}) {
+    return {
+      uiSref: 'notifications.center.show',
+      uiParams: filters,
+    };
   }
 }
