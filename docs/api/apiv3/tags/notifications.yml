@@ -23,7 +23,6 @@ description: |-
   | :----------: | --------------------------------------------------------- | --------      | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
   | id           | Primary key                                               | Integer       |                                                      | READ                 |                                                             |
   | subject      | The subject of the notification                           | String        |                                                      | READ                 |                                                             |
-  | details      | Array of formattable details                              | []Formattable |                                                      | READ                 |                                                             |
   | reason       | The reason causing the notification                       | String        |                                                      | READ                 |                                                             |
   | readIAN      | Whether the notification is read                          | Boolean       |                                                      | READ                 |                                                             |
 name: Notifications
