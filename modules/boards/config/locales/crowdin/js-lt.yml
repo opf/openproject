@@ -29,11 +29,11 @@ lt:
       error_attribute_not_writable: "Negalima perkelti darbų paketo, %{attribute} negali būti įrašytas."
       error_loading_the_list: "Sąrašo užkrovimo klaida: %{error_message}"
       error_permission_missing: "Trūksta teisių kurti viešas užklausas"
-      error_cannot_move_into_self: "Negalite perkelti darbo paketo į jo pačio stulpelį."
+      error_cannot_move_into_self: "Negalite perkelti darbo paketo į jo paties stulpelį."
       click_to_remove_list: "Spustelėkite sąrašo ištrynimui"
       board_type:
         text: 'Lentos tipas'
-        free: 'Pagrindinis'
+        free: 'bazinis'
         select_board_type: 'Prašome pasirinkti reikalingą lentos tipą.'
         free_text: >
           Pradėkite iš pradžių nuo tuščios lentos. Rankiniu būdu pridėkite korteles ir stulpelius į šią lentą.
@@ -68,7 +68,7 @@ lt:
       add_list_modal:
         labels:
           assignee: Pasirinkite naudotoją, kuris bus pridėtas į naują „paskirtųjų“ sąrašą
-          status: Pasirinkite statusą, kuris bus pridėtas į naują sąrašą
+          status: Pasirinkite būseną, kuri bus pridėta į naują sąrašą
           version: Pasirinkite versiją, kuri bus pridėta į naują sąrašą
           subproject: Pasirinkite subprojektą, kuris bus pridėtas į naują sąrašą
           subtasks: Pasirinkite darbų paketą, kuris bus pridėtas į naują sąrašą

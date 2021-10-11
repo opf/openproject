@@ -290,7 +290,7 @@ ru:
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+              Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Взгляните на наш <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> , который позволяет работать на рабочих пакетах BCF прямо в Revit.</li> <li>Свойства IFC получили выделенную панель. Копирование GUIDs никогда не было проще.</li> <li>Направление обратной плоскости отсечения в точке зрения BCF и соответствует будущему BCF 3.0 (теперь такое же направление, как и Solibri). <li>Исправлен просмотр моделей IFC на мобильном телефоне.</li> <li>Фиксированный экспорт просмотра пакета работ с помощью снимка BCF.</li> </ul>
     label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
