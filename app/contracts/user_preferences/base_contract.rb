@@ -126,7 +126,7 @@ module UserPreferences
       first = model.pause_reminders[:first_day]
       last = model.pause_reminders[:last_day]
 
-      unless first && last
+      if first.blank? || last.blank?
         errors.add :pause_reminders, :presence
         return
       end

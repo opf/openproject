@@ -1,7 +1,9 @@
 require 'spec_helper'
 
-describe "Immediate reminder settings", type: :feature, js: true do
-  shared_examples 'immediate reminder settings' do
+describe "Pause reminder settings", type: :feature, js: true do
+  shared_examples 'pause reminder settings' do
+    let(:first) { Time.zone.today.beginning_of_month }
+    let(:last) { (Time.zone.today.beginning_of_month + 10.days) }
     it 'allows to configure the reminder settings' do
       # Save prefs so we can reload them later
       pref.save!
@@ -9,11 +11,14 @@ describe "Immediate reminder settings", type: :feature, js: true do
       # Configure the reminders
       reminders_settings_page.visit!
 
-      # By default the immediate reminder is unchecked
-      expect(pref.immediate_reminders[:mentioned]).to eq false
-      reminders_settings_page.expect_immediate_reminder :mentioned, false
+      # By default the pause reminder is unchecked
+      reminders_settings_page.expect_paused false
 
-      reminders_settings_page.set_immediate_reminder :mentioned, true
+      reminders_settings_page.set_paused true,
+                                         first: first,
+                                         last: last
+
+      sleep 2
 
       reminders_settings_page.save
 
@@ -21,9 +26,14 @@ describe "Immediate reminder settings", type: :feature, js: true do
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_immediate_reminder :mentioned, true
+      reminders_settings_page.expect_paused true,
+                                            first: first,
+                                            last: last
 
-      expect(pref.reload.immediate_reminders[:mentioned]).to eq true
+      pref.reload
+      expect(pref.pause_reminders[:enabled]).to eq true
+      expect(pref.pause_reminders[:first_day]).to eq first.iso8601
+      expect(pref.pause_reminders[:last_day]).to eq last.iso8601
     end
   end
 
@@ -35,7 +45,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
       FactoryBot.create :user
     end
 
-    it_behaves_like 'immediate reminder settings'
+    it_behaves_like 'pause reminder settings'
   end
 
   context 'with the user administration page' do
@@ -48,56 +58,6 @@ describe "Immediate reminder settings", type: :feature, js: true do
       FactoryBot.create :admin
     end
 
-    it_behaves_like 'immediate reminder settings'
-  end
-
-  describe 'email sending', js: false do
-    let(:project) { FactoryBot.create(:project) }
-    let(:work_package) { FactoryBot.create(:work_package, project: project) }
-    let(:receiver) do
-      FactoryBot.create(
-        :user,
-        preferences: {
-          immediate_reminders: {
-            mentioned: true
-          }
-        },
-        notification_settings: [
-          FactoryBot.build(:notification_setting,
-                           mentioned: true)
-        ],
-        member_in_project: project,
-        member_with_permissions: %i[view_work_packages]
-      )
-    end
-
-    current_user do
-      FactoryBot.create(:user)
-    end
-
-    it 'sends a mail to the mentioned user immediately' do
-      perform_enqueued_jobs do
-        note = <<~NOTE
-          Hey <mention class=\"mention\"
-                       data-id=\"#{receiver.id}\"
-                       data-type=\"user\"
-                       data-text=\"@#{receiver.name}\">
-                @#{receiver.name}
-              </mention>
-        NOTE
-
-        work_package.add_journal(current_user, note)
-        work_package.save!
-      end
-
-      expect(ActionMailer::Base.deliveries.length)
-        .to be 1
-
-      expect(ActionMailer::Base.deliveries.first.subject)
-        .to eql I18n.t(:'mail.mention.subject',
-                       user_name: current_user.name,
-                       id: work_package.id,
-                       subject: work_package.subject)
-    end
+    it_behaves_like 'pause reminder settings'
   end
 end
