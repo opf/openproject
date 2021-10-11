@@ -55,7 +55,7 @@ export class DatePickerAdapterComponent extends OpSingleDatePickerComponent impl
     });
   }
 
-  onInputChange(_event:KeyboardEvent) {
+  onInputChange():void {
     if (this.isEmpty()) {
       this.datePickerInstance.clear();
     } else if (this.inputIsValidDate()) {

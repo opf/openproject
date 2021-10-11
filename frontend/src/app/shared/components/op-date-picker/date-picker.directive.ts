@@ -42,7 +42,7 @@ import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker
 
 @Directive()
 export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
-  @Output() public onCancel = new EventEmitter<string>();
+  @Output() public canceled = new EventEmitter<string>();
 
   @Input() public appendTo?:HTMLElement;
 

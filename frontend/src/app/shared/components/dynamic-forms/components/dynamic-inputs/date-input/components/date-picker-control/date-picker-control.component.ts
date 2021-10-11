@@ -58,7 +58,7 @@ export class DatePickerControlComponent extends OpSingleDatePickerComponent impl
     });
   }
 
-  onInputChange(_event:KeyboardEvent) {
+  onInputChange():void {
     const valueToEmit = this.inputIsValidDate()
       ? this.parser(this.currentValue)
       : '';

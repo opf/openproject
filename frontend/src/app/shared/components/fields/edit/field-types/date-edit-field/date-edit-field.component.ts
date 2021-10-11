@@ -37,8 +37,8 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
   template: `
     <op-single-date-picker
         tabindex="-1"
-        (onChange)="onValueSelected($event)"
-        (onCancel)="onCancel()"
+        (changed)="onValueSelected($event)"
+        (canceled)="onCancel()"
         [initialDate]="formatter(value)"
         [required]="required"
         [disabled]="inFlight"

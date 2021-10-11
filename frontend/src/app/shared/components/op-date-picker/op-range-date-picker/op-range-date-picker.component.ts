@@ -18,7 +18,7 @@ export const rangeSeparator = '-';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
-  @Output() public onChange = new DebouncedEventEmitter<Date[]>(componentDestroyed(this));
+  @Output() public changed = new DebouncedEventEmitter<string[]>(componentDestroyed(this));
 
   @Input() public initialDates:string[] = [];
 
@@ -42,12 +42,12 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
 
         this.inputElement.value = dateStr;
         if (selectedDates.length === 2) {
-          this.onChange.emit(selectedDates);
+          this.changed.emit(this.resolveDateStringToArray(dateStr));
         }
       },
       onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
         if (data.which === KeyCodes.ESCAPE) {
-          this.onCancel.emit();
+          this.canceled.emit();
         }
       },
     };
@@ -66,10 +66,12 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private resolveDateStringToArray(dates:string):string[] {
     return dates.split(` ${rangeSeparator} `).map((date) => date.trim());
   }
 
+  // eslint-disable-next-line class-methods-use-this
   private resolveDateArrayToString(dates:string[]):string {
     return dates.join(` ${rangeSeparator} `);
   }

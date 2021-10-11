@@ -1,5 +1,5 @@
 <div class="inline-label" id="div-values-{{filter.id}}">
-  <op-single-date-picker (onChange)="value = isoDateParser($event)"
+  <op-single-date-picker (changed)="value = isoDateParser($event)"
                   [initialDate]="isoDateFormatter(value)"
                   [opAutofocus]="shouldFocus"
                   required="true"

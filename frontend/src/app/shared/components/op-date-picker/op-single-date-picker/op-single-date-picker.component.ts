@@ -39,15 +39,15 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
   templateUrl: './op-single-date-picker.component.html',
 })
 export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
-  @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
+  @Output() public changed = new DebouncedEventEmitter<string>(componentDestroyed(this));
 
-  @Input() public initialDate:string = '';
+  @Input() public initialDate = '';
 
-  onInputChange(_event:KeyboardEvent):void {
+  onInputChange():void {
     if (this.inputIsValidDate()) {
-      this.onChange.emit(this.currentValue);
+      this.changed.emit(this.currentValue);
     } else {
-      this.onChange.emit('');
+      this.changed.emit('');
     }
   }
 
@@ -67,11 +67,11 @@ export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
         }
 
         this.inputElement.value = val;
-        this.onChange.emit(val);
+        this.changed.emit(val);
       },
       onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
         if (data.which === KeyCodes.ESCAPE) {
-          this.onCancel.emit();
+          this.canceled.emit();
         }
       },
     };

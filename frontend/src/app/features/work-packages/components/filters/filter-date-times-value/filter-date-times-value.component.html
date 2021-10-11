@@ -1,5 +1,5 @@
 <div id="div-values-{{filter.id}}" class="inline-label">
-  <op-single-date-picker (onChange)="begin = isoDateParser($event)"
+  <op-single-date-picker (changed)="begin = isoDateParser($event)"
                   [initialDate]="isoDateFormatter(begin)"
                   [opAutofocus]="shouldFocus"
                   required="true"
@@ -12,7 +12,7 @@
   <span class="advanced-filters--affix" [textContent]="text.spacer">
   </span>
 
-  <op-single-date-picker (onChange)="end = isoDateParser($event)"
+  <op-single-date-picker (changed)="end = isoDateParser($event)"
                   [initialDate]="isoDateFormatter(end)"
                   [id]="'values-' + filter.id + '-end'"
                   [name]="'v[' + filter.id + ']-end'"
