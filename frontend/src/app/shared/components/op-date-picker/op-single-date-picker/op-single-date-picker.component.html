@@ -2,7 +2,7 @@
   #dateInput
   [id]="id"
   [name]="name"
-  [value]="initialDate"
+  [value]="initialDate || ''"
   [ngClass]="classes + ' op-input'"
   [size]="size"
   [required]="required"
@@ -10,6 +10,6 @@
   (click)="openOnClick()"
   (keydown.escape)="close()"
   (blur)="closeOnOutsideClick($event)"
-  (input)="onInputChange($event)"
+  (input)="onInputChange()"
   type="text"
 >

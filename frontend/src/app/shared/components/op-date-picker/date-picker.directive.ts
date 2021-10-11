@@ -28,7 +28,7 @@
 
 import {
   AfterViewInit,
-  Component,
+  Directive,
   ElementRef,
   EventEmitter,
   Input,
@@ -36,24 +36,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { Instance } from 'flatpickr/dist/types/instance';
-import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
-import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 
-@Component({
-  selector: 'op-date-picker',
-  templateUrl: './op-date-picker.component.html',
-})
-export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
-  @Output() public onChange = new DebouncedEventEmitter<string>(componentDestroyed(this));
-
-  @Output() public onCancel = new EventEmitter<string>();
-
-  @Input() public initialDate = '';
+@Directive()
+export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
+  @Output() public canceled = new EventEmitter<string>();
 
   @Input() public appendTo?:HTMLElement;
 
@@ -85,32 +74,26 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     this.initializeDatepicker();
   }
 
-  ngOnDestroy() {
-    this.datePickerInstance && this.datePickerInstance.destroy();
+  ngOnDestroy():void {
+    if (this.datePickerInstance) {
+      this.datePickerInstance.destroy();
+    }
   }
 
-  openOnClick() {
+  openOnClick():void {
     if (!this.disabled) {
       this.datePickerInstance.show();
     }
   }
 
-  onInputChange(_event:KeyboardEvent) {
-    if (this.inputIsValidDate()) {
-      this.onChange.emit(this.currentValue);
-    } else {
-      this.onChange.emit('');
-    }
-  }
-
-  closeOnOutsideClick(event:any) {
+  closeOnOutsideClick(event:any):void {
     if (!(event.relatedTarget
       && this.datePickerInstance.datepickerInstance.calendarContainer.contains(event.relatedTarget))) {
       this.close();
     }
   }
 
-  close() {
+  close():void {
     this.datePickerInstance.hide();
   }
 
@@ -126,42 +109,5 @@ export class OpDatePickerComponent extends UntilDestroyedMixin implements OnDest
     return this.dateInput?.nativeElement;
   }
 
-  protected inputIsValidDate():boolean {
-    return (/\d{4}-\d{2}-\d{2}/.exec(this.currentValue)) !== null;
-  }
-
-  protected initializeDatepicker() {
-    const options:any = {
-      allowInput: true,
-      appendTo: this.appendTo,
-      onChange: (selectedDates:Date[], dateStr:string) => {
-        const val:string = dateStr;
-
-        if (this.isEmpty()) {
-          return;
-        }
-
-        this.inputElement.value = val;
-        this.onChange.emit(val);
-      },
-      onKeyDown: (selectedDates:Date[], dateStr:string, instance:Instance, data:KeyboardEvent) => {
-        if (data.which == KeyCodes.ESCAPE) {
-          this.onCancel.emit();
-        }
-      },
-    };
-
-    let initialValue;
-    if (this.isEmpty() && this.initialDate) {
-      initialValue = this.timezoneService.parseISODate(this.initialDate).toDate();
-    } else {
-      initialValue = this.currentValue;
-    }
-
-    this.datePickerInstance = new DatePicker(
-      `#${this.id}`,
-      initialValue,
-      options,
-    );
-  }
+  protected abstract initializeDatepicker():void;
 }

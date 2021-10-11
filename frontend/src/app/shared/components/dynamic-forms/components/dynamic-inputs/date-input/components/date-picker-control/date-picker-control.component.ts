@@ -4,11 +4,11 @@ import {
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-date-picker.component';
+import { OpSingleDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-single-date-picker/op-single-date-picker.component';
 
 @Component({
   selector: 'op-date-picker-control',
-  templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
+  templateUrl: '../../../../../../op-date-picker/op-single-date-picker/op-single-date-picker.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,7 +17,7 @@ import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker
     },
   ],
 })
-export class DatePickerControlComponent extends OpDatePickerComponent implements ControlValueAccessor, AfterViewInit {
+export class DatePickerControlComponent extends OpSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   // Avoid Angular warning (It looks like you're using the disabled attribute with a reactive form directive...)
   @Input('disable') disabled:boolean;
 
@@ -58,7 +58,7 @@ export class DatePickerControlComponent extends OpDatePickerComponent implements
     });
   }
 
-  onInputChange(_event:KeyboardEvent) {
+  onInputChange():void {
     const valueToEmit = this.inputIsValidDate()
       ? this.parser(this.currentValue)
       : '';

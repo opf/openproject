@@ -1,14 +1,14 @@
 import {
   AfterViewInit, ChangeDetectorRef, Component, forwardRef, NgZone,
 } from '@angular/core';
-import { OpDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-date-picker.component';
+import { OpSingleDatePickerComponent } from 'core-app/shared/components/op-date-picker/op-single-date-picker/op-single-date-picker.component';
 import * as moment from 'moment';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   selector: 'op-date-picker-adapter',
-  templateUrl: '../../../../../../op-date-picker/op-date-picker.component.html',
+  templateUrl: '../../../../../../op-date-picker/op-single-date-picker/op-single-date-picker.component.html',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -17,7 +17,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
     },
   ],
 })
-export class DatePickerAdapterComponent extends OpDatePickerComponent implements AfterViewInit {
+export class DatePickerAdapterComponent extends OpSingleDatePickerComponent implements AfterViewInit {
   onControlChange = (_:any) => { };
 
   onControlTouch = () => { };
@@ -55,7 +55,7 @@ export class DatePickerAdapterComponent extends OpDatePickerComponent implements
     });
   }
 
-  onInputChange(_event:KeyboardEvent) {
+  onInputChange():void {
     if (this.isEmpty()) {
       this.datePickerInstance.clear();
     } else if (this.inputIsValidDate()) {

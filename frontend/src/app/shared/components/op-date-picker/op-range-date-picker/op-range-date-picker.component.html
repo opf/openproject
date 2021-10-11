@@ -1,0 +1,15 @@
+<input
+  #dateInput
+  [id]="id"
+  [name]="name"
+  [value]="initialValue"
+  [ngClass]="classes + ' op-input'"
+  [size]="size"
+  [required]="required"
+  [disabled]="disabled"
+  (click)="openOnClick()"
+  (keydown.escape)="close()"
+  (keydown)="onKeyDown()"
+  (blur)="closeOnOutsideClick($event)"
+  type="text"
+>

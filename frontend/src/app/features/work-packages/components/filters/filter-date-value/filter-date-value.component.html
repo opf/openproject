@@ -1,5 +1,5 @@
 <div id="div-values-{{filter.id}}">
-  <op-date-picker (onChange)="value = parser($event)"
+  <op-single-date-picker (changed)="value = parser($event)"
                   [initialDate]="formatter(value)"
                   [opAutofocus]="shouldFocus"
                   required="true"
@@ -7,5 +7,5 @@
                   [name]="'v[' + filter.id + ']'"
                   classes="advanced-filters--date-field"
                   size="10">
-  </op-date-picker>
+  </op-single-date-picker>
 </div>
