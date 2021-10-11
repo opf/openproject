@@ -50,6 +50,8 @@ describe MeetingMailer, type: :mailer do
   end
 
   before do
+    User.current = author
+
     meeting.participants.merge([meeting.participants.build(user: watcher1, invited: true, attended: false),
                                 meeting.participants.build(user: watcher2, invited: true, attended: false)])
     meeting.save!
@@ -159,7 +161,9 @@ describe MeetingMailer, type: :mailer do
 
       it 'renders the mail with the correcet locale' do
         expect(mail.text_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+        expect(mail.text_part.body).to include("#{author.name} has put the")
         expect(mail.html_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
+        expect(mail.html_part.body).to include("#{author.name} has put the")
 
         expect(mail.to).to match_array([watcher1.mail])
       end
