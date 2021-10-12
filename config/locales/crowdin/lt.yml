@@ -1231,7 +1231,7 @@ lt:
   error_menu_item_not_saved: Meniu punktas negali būti išsaugotas
   error_wiki_root_menu_item_conflict: >
     Negalima pervadinti „%{old_name}“ į „%{new_name}“ dėl konflikto su esamu meniu punktu „%{existing_caption}“ (%{existing_identifier}).
-  error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentikacijai. Bandykite dar kartą."
+  error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentifikacijai. Bandykite dar kartą."
   error_attribute_not_highlightable: "Atributai, kurių negalima paryškinti: %{attributes}"
   events:
     project: 'Projektas redaguotas'
@@ -1853,7 +1853,7 @@ lt:
     other: "%{count} uždaryti (-as, -ų)"
     zero: "0 uždarytų"
   label_x_comments:
-    one: "1 komentatas"
+    one: "1 komentaras"
     other: "%{count} komentarai (-as, -ų)"
     zero: "nėra komentarų"
   label_x_open_work_packages_abbr:
