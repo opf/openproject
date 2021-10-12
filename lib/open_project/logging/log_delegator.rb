@@ -73,14 +73,6 @@ module OpenProject
           @handlers[key] = handler
         end
 
-        ##
-        # Create a payload for lograge from a controller request line
-        def controller_payload_hash(_controller)
-          {
-            user: User.current.try(:id)
-          }
-        end
-
         private
 
         def default_handlers
@@ -100,16 +92,9 @@ module OpenProject
         ##
         # Create a context string
         def context_string(context)
-          %i[current_user project reference]
-            .map do |key|
-              value = context[key]
-
-              if value
-                "[#{key}=#{value}]"
-              end
-            end
-            .compact
-            .join(' ')
+          payload = context.slice(%i[current_user project reference]).compact
+          extended = OpenProject::Logging.extend_payload!(payload, context)
+          OpenProject::Logging.formatter.call extended
         end
       end
     end

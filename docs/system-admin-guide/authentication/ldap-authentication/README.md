@@ -103,7 +103,11 @@ Next you can define what sections OpenProject will look for in the LDAP and also
 - **Filter string**: Enter an optional [LDAP RFC4515 filter string](https://tools.ietf.org/search/rfc4515) to further reduce the returned set of users. This allows you to restrict access to OpenProject with a very flexible filter. For group synchronization, only users matching this filter will be added as well.
 - **Automatic user creation:** Check to automatically  create users in OpenProject when they first login in OpenProject. It  will use the LDAP attribute mapping below to fill out required  attributes. The user will be forwarded to a registration screen to  complete required attributes if they are missing in the LDAP.
 
+##### Filter Examples
 
+```
+(memberof=CN=OpenProject,OU=Rollen,OU=Gruppen,DC=intern)
+```
 
 #### Attribute mapping
 

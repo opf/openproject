@@ -24,7 +24,7 @@ lt:
       import_update_comment: '(Atnaujinta BCF importo metu)'
       import_failed: 'Negaliu importuoti BCF failo: %{error}'
       import_failed_unsupported_bcf_version: 'Nepavyko perskaityti BCF failo: Nepalaikoma BCF versija. Įsitikinkite, kad versija yra bent %{minimal_version} ar aukštesnė.'
-      import_successful: 'Importuota %{count} BCF trūkumų'
+      import_successful: 'Importuota %{count} BCF problemų'
       import_canceled: 'BCF-XML importas nutrauktas.'
       type_not_active: "Trūkumo tipas nėra įjungtas šiam projektui."
       import:
@@ -42,7 +42,7 @@ lt:
         invalid_priorities_found: 'Rastas neteisingas prioriteto pavadinimas'
         invalid_emails_found: 'Rastas neteisingas el. pašto adresas'
         unknown_emails_found: 'Rasti nežinomi el. pašto adresai'
-        unknown_property: 'Nežinoma sąvybė'
+        unknown_property: 'Nežinoma savybė'
         non_members_found: 'Rasti ne projekto nariai'
         import_types_as: 'Nustatyti visus šiuos tipus į'
         import_statuses_as: 'Nustatyti visas būsenas į'

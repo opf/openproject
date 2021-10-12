@@ -185,6 +185,8 @@ es:
         new_group: 'Nuevo grupo'
         reset_to_defaults: 'Restablecer valores predeterminados'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "Confirmación de dirección de correo electrónico"
           confirmation_info: >
@@ -287,9 +289,9 @@ es:
             current_new_feature_html: >
               Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>Nuevo botón en el menú de navegación del encabezado para crear proyectos, usuarios y paquetes de trabajo.</li> <li>Un nuevo cuadro de diálogo modal para invitar a usuarios, grupos y usuarios de marcador de posición que permite añadir o invitar fácilmente a nuevos usuarios y asignarlos a paquetes de trabajo.</li> <li>Integración de GitHub con OpenProject.</li> <li>Extensiones de la API v3 para grupos y más (por ejemplo, para crear, leer, actualizar y eliminar grupos y miembros del grupo mediante la API).</li> <li>Selección múltiple para campos personalizados del proyecto de tipo lista.</li> <li>Creación de copias de seguridad desde la interfaz web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              Esta versión contiene nuevas mejoras y características: <br> <ul class="%{list_styling_class}"> <li>BIM: mejora del rendimiento del visor de modelos IFC.</li> <li>BIM: el visor de IFC ahora es compatible con modelos de precisión doble, lo que resulta ideal para grandes obras de construcción, como puentes, carreteras, etc.</li> <li>BIM: botón de alternancia para cambiar entre el modo ortogonal y de perspectiva.</li> <li>BIM: menú para editar, eliminar o voltear planos de sección.</li> <li>Nuevo botón en el menú de navegación del encabezado para crear proyectos, usuarios y paquetes de trabajo.</li> <li>Un nuevo cuadro de diálogo modal para invitar a usuarios, grupos y usuarios de marcador de posición que permite añadir o invitar fácilmente a nuevos usuarios y asignarlos a paquetes de trabajo.</li> <li>Extensiones de la API v3 para grupos y más (por ejemplo, para crear, leer, actualizar y eliminar grupos y miembros del grupo mediante la API).</li> <li>Selección múltiple para campos personalizados del proyecto de tipo lista.</li> <li>Creación de copias de seguridad desde la interfaz web.</li> </ul>
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Activar"
     label_add_column_after: "Añadir columna a la derecha"
     label_add_column_before: "Añadir columna a la izquierda"

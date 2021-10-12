@@ -170,7 +170,7 @@ gem 'unicorn'
 
 gem 'puma', '~> 5.3.0' # used for development and optionally for production
 
-gem 'nokogiri', '~> 1.11.0'
+gem 'nokogiri', '~> 1.12.5'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -180,7 +180,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.1.1'
+gem 'openproject-token', '~> 2.2'
 
 gem 'plaintext', '~> 0.3.2'
 
@@ -295,6 +295,7 @@ gem 'bootsnap', '~> 1.7.0', require: false
 
 # API gems
 gem 'grape', '~> 1.5.0'
+gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.1.0'
 
 # CORS for API

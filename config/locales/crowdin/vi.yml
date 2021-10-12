@@ -172,6 +172,8 @@ vi:
     enabled_in_project: 'Đã bật trong dự án'
     contained_in_type: 'Contained in type'
     confirm_destroy_option: "Xóa một tùy chọn sẽ xóa tất cả các sự kiện của nó (ví dụ như trong các gói công việc). Bạn có chắc bạn muốn xóa bỏ nó?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
       no_results_content_text: Tạo trường tùy chỉnh mới
@@ -557,6 +559,7 @@ vi:
         invalid_url: 'không phải là một URL hợp lệ.'
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
         less_than_or_equal_to: "phải nhỏ hơn hoặc bằng %{count}"
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "không phải là ngày hợp lệ"
@@ -576,6 +579,10 @@ vi:
         unremovable: "không thể gỡ bỏ."
         wrong_length: "độ dài không đúng (phải là %{count} ký tự)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
@@ -1198,6 +1205,7 @@ vi:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1400,6 +1408,7 @@ vi:
   label_deleted: "đã xóa"
   label_deleted_custom_field: "(đã xóa các mục tùy chỉnh)"
   label_deleted_custom_option: "(tùy chọn đã xóa)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Giảm dần"
   label_details: "Chi tiết"
   label_development_roadmap: "Lộ trình phát triển"
@@ -2217,6 +2226,7 @@ vi:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Cách gửi email"
   setting_sendmail_location: "Vị trí của tệp thực thi sendmail (đường dẫn)"
   setting_smtp_enable_starttls_auto: "Tự động sử dụng STARTTLS nếu hiện hữu"
@@ -2331,6 +2341,13 @@ vi:
     passwords: "Passwords"
     session: "Session"
     brute_force_prevention: "Automated user blocking"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

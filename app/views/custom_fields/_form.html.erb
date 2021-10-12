@@ -67,6 +67,16 @@ See docs/COPYRIGHT.rdoc for more details.
 
     <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
+      <% if @custom_field.persisted? %>
+        <div class="form--toolbar">
+          <span class="form--toolbar-item">
+            <%= link_to t('custom_fields.reorder_alphabetical'),
+                        { action: :reorder_alphabetical },
+                        method: :post,
+                        data: { confirm: t('custom_fields.reorder_confirmation') } %>
+          </span>
+        </div>
+      <% end %>
       <div class="form--field">
         <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
         <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>

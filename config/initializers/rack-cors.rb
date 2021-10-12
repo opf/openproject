@@ -35,5 +35,11 @@ Rails.application.config.middleware.insert_after Rails::Rack::Logger, Rack::Cors
              methods: :any,
              credentials: true,
              if: proc { ::API::V3::CORS.enabled? }
+
+    resource '/oauth/*',
+             headers: :any,
+             methods: :any,
+             credentials: true,
+             if: proc { ::API::V3::CORS.enabled? }
   end
 end

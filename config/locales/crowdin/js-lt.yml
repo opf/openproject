@@ -71,15 +71,15 @@ lt:
     button_collapse_all: "Sutraukti visus"
     button_expand_all: "Išskleisti visus"
     button_advanced_filter: "Sudėtingesnis filtras"
-    button_list_view: "Sąrašo rodinys"
-    button_show_view: "Viso ekrano rodinys"
+    button_list_view: "Sąrašo vaizdas"
+    button_show_view: "Viso ekrano vaizdas"
     button_log_time: "Registruoti laiką"
     button_more: "Daugiau"
     button_open_details: "Atidaryti detalesnį vaizdą"
     button_close_details: "Uždaryti detalų vaizdavimą"
-    button_open_fullscreen: "Atidaryti viso ekrano rodinį"
-    button_show_cards: "Rodyti kortelių rodinį"
-    button_show_list: "Rodyti sąrašo rodinį"
+    button_open_fullscreen: "Atidaryti viso ekrano vaizdą"
+    button_show_cards: "Rodyti kortelių vaizdą"
+    button_show_list: "Rodyti sąrašo vaizdą"
     button_quote: "Cituoti"
     button_save: "Išsaugoti"
     button_settings: "Nustatymai"
@@ -153,7 +153,7 @@ lt:
           macros: 'Makrokomandos'
           chose_macro: 'Pasirinkite makrokomandą'
         toc: 'Turinys'
-        toolbar_help: 'Spauskite, kad parinktum4te valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
+        toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
           button: 'Įterpti kito wiki puslapio turinį'
           text: '[Placeholder] Įterptas wiki puslapis'
@@ -185,6 +185,8 @@ lt:
         new_group: 'Nauja grupė'
         reset_to_defaults: 'Atkurti į numatytuosius'
       enterprise:
+        text_reprieve_days_left: "%{days} dienos iki lengvatos pabaigos"
+        text_expired: "nebegalioja"
         trial:
           confirmation: "Patvirtinti el. pašto adresą"
           confirmation_info: >
@@ -215,9 +217,9 @@ lt:
           status_confirmed: "patvirtinta"
           status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
           test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
-          quick_overview: "Gauti greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Tapti didvyriu!"
+          become_hero: "Tapkite didvyriu!"
           benefits:
             description: "Kokie yra Enterprise on-premises Edition privalumai?"
             high_security: "Saugumo funkcijos"
@@ -244,8 +246,8 @@ lt:
     error:
       internal: "Įvyko vidinė klaida."
       cannot_save_changes_with_message: "Nepavyko įrašyti jūsų pakeitimų dėl šios klaidos: %{error}"
-      query_saving: "Nepavyko įrašyti rodinio."
-      embedded_table_loading: "Nepavyko įkelti įdėti rodinio: %{message}"
+      query_saving: "Nepavyko įrašyti vaizdo."
+      embedded_table_loading: "Nepavyko įkelti įdėto vaizdo: %{message}"
     enumeration_activities: "Veikla (laiko sekimas)"
     enumeration_doc_categories: "Dokumentų kategorijos"
     enumeration_work_package_priorities: "Darbų paketo prioritetai"
@@ -273,7 +275,7 @@ lt:
     hal:
       error:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
-        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas atsiradęs iš ryšių (pvz., vaiko ryšio), arba jis nėra galimas konfigūruoti."
+        edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas kilęs iš ryšių (pvz., vaiko ryšio), arba jis nėra konfigūruojamas."
         format:
           date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
         general: "Įvyko klaida."
@@ -281,15 +283,15 @@ lt:
       blocks:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
-          learn_about: "Sužinokite apie naujas galimybes"
+          learn_about: "Sužinokite daugiau apie naujas galimybes"
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
               Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>BIM: Pagerinta IFC modelių peržiūros greitaveika.</li> <li>BIM: IFC peržiūros programa pradėjo palaikyti dvigubo tikslumo modelius, kas naudinga didelėse statybos aikštelėse, tokiose kaip tiltai, keliai ir pan.</li> <li>BIM: Perjungimo mygtukas perspektyvos ir ortogonaliam režimui perjungti.</li> <li>BIM: Meniu redagavimui, šalinimui ar sekcijos plokštumų apvertimui.</li> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, vartotojus ir darbų paketus.</li> <li>Naujas modalinis langas vartotojams, grupėms ir statytiniams vartotojams kurti leidžia lengvai pridėti vartotojus ir priskirti juos darbų paketams.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną variantą projekto sąrašo tipo vartotojo laukuose.</li> </ul>
+              Šioje laidoje rasite įvairias naujas funkcijas ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>Pasidomėkite mūsų <a href="https://github.com/opf/openproject-revit-add-in">priedu Revit</a>, kuris leidžia dirbti su BCF darbo paketais tiesiai Revit'e.</li> <li>IFC savybės gavo savo atskirą skydelį. GUID kopijavimas niekada nebuvo lengvesnis.</li> <li>Atgalinės plokštumos karpymo krypties BCF vaizdas ir suderinamumas su būsima BCF 3.0 (Dabar tokia patik kryptis, kaip ir Solibri). <li>Pataisyta IFC modelių peržiūra mobiliuose.</li> <li>Pataisytas darbo paketų vaizdo su BCF nuotraukų stulpeliu eksportas.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -405,7 +407,7 @@ lt:
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"
     label_show_attributes: "Rodyti visus atributus"
-    label_show_in_menu: "Rodyti rodinį meniu"
+    label_show_in_menu: "Rodyti vaizdą meniu"
     label_sort_by: "Rūšiuoti pagal"
     label_sorted_by: "surikiuota pagal"
     label_sort_higher: "Perkelti aukštyn"
@@ -468,7 +470,7 @@ lt:
     label_upload_counter: "%{done} iš %{count} failų sudoroti"
     label_validation_error: "Darbų paketas negali būti įrašyti dėl šių klaidų:"
     label_version_plural: "Versijos"
-    label_view_has_changed: "Šiame rodinyje yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
+    label_view_has_changed: "Šiame vaizde yra neįrašytų pakeitimų. Spauskite, kad juos įrašytumėte."
     help_texts:
       show_modal: 'Rodyti atributo pagalbos teksto įrašą'
     onboarding:
@@ -555,7 +557,7 @@ lt:
       hours: 'Valandų'
       title: 'Registruoti laiką'
     two_factor_authentication:
-      label_two_factor_authentication: 'Dviejų veiksnių autentikavimas'
+      label_two_factor_authentication: 'Dviejų veiksnių autentifikavimas'
     watchers:
       label_loading: Įkeliami stebėtojai...
       label_error_loading: Įkeliant stebėtojus įvyko klaida
@@ -571,8 +573,8 @@ lt:
       duplicated: "Dubliuotas"
       blocks: "Blokai"
       blocked: "Blokuojamas"
-      precedes: "Ankstesnė"
-      follows: "Seka"
+      precedes: "Prieš"
+      follows: "Po"
       includes: "Turi savyje"
       partof: "Dalis"
       requires: "Reikalingas"
@@ -820,9 +822,9 @@ lt:
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
         click_to_edit_query_name: "Paspauskite norėdami keisti vaizdo pavadinimą."
         rename_query_placeholder: "Vaizdo pavadinimas"
-        star_text: "Pažymėti šį rodinį kaip mėgstamiausią ir pridėti į įrašytų rodinių dėklą kairėje."
+        star_text: "Pažymėti šį vaizdą kaip mėgstamiausią ir pridėti į įrašytų vaizdų dėklą kairėje."
         public_text: >
-          Publikuoti šį rodinį, leidžiant kitiems naudotojams prieigą prie jūsų rodinio. Naudotojai su teise „Valdyti viešus rodinius“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo rodinyje ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
+          Publikuoti šį vaizdą, leidžiant kitiems naudotojams prieigą prie jūsų vaizdo. Naudotojai su teise „Valdyti viešus vaizdus“ galės keisti ar išimti viešą užklausą. Tai neįtakoja darbo paketo rezultatų matomumo vaizde ir priklausomai nuo teisių, naudotojai gali matyti kitokius rezultatus.
         errors:
           unretrievable_query: "Nepavyksta gauti vaizdo iš URL"
           not_found: "Nėra tokio vaizdo"
@@ -868,7 +870,7 @@ lt:
         upsale:
           attribute_highlighting: 'Reikia išskirti tam tikrus darbo paketus iš didelės masės?'
           relation_columns: 'Ar reikia matyti ryšius darbų paketų sąraše?'
-          check_out_link: 'Patikrinkite Enterprise Edition.'
+          check_out_link: 'Pabandykite Enterprise Edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtruokite darbo paketus pagal sąryšio tipą'
       tabs:
@@ -922,7 +924,7 @@ lt:
       destroy_time_entry:
         title: "Patvirtinkite laiko įrašo trynimą."
         text: "Ar Jūs tikrai norite ištrinti šį laiko įrašą?"
-    notice_no_results_to_display: "Nėra rezultatų."
+    notice_no_results_to_display: "Nėra matomų rezultatų."
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingai atnaujinta."
@@ -950,7 +952,7 @@ lt:
         messages_on_field: 'Šio laukelio reikšmė netinkama: %{messages}'
     error_could_not_resolve_version_name: "Nepavyko nustatyti versijos pavadinimo"
     error_could_not_resolve_user_name: "Nepavyko nustatyti vartotojo vardo"
-    error_attachment_upload: "Nepavyko įkelti: %{error}"
+    error_attachment_upload: "Nepavyko įkelti failo: %{error}"
     error_attachment_upload_permission: "Jūs neturite teisės įkelti failus į šį resursą."
     units:
       workPackage:
@@ -966,7 +968,7 @@ lt:
       hour:
         one: "1 val."
         other: "%{count} val"
-        zero: "0 h"
+        zero: "0 val"
     zen_mode:
       button_activate: 'Įjungti Zen režimą'
       button_deactivate: 'Išjungti Zen režimą'

@@ -31,22 +31,8 @@
 require 'spec_helper'
 
 shared_examples_for 'ifc model contract' do
-  let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && model_project == permission_project
-      end
-    end
-  end
-  let(:other_user) do
-    FactoryBot.build_stubbed(:user) do |user|
-      allow(user)
-        .to receive(:allowed_to?) do |permission, permission_project|
-        permissions.include?(permission) && model_project == permission_project
-      end
-    end
-  end
+  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:model_project) { FactoryBot.build_stubbed(:project) }
   let(:ifc_attachment) { FactoryBot.build_stubbed(:attachment, author: model_user) }
   let(:model_user) { current_user }
@@ -56,6 +42,16 @@ shared_examples_for 'ifc model contract' do
     allow(ifc_model)
       .to receive(:ifc_attachment)
       .and_return(ifc_attachment)
+
+    allow(other_user)
+      .to receive(:allowed_to?) do |permission, permission_project|
+      permissions.include?(permission) && model_project == permission_project
+    end
+
+    allow(current_user)
+      .to receive(:allowed_to?) do |permission, permission_project|
+      permissions.include?(permission) && model_project == permission_project
+    end
   end
 
   def expect_valid(valid, symbols = {})
@@ -109,10 +105,10 @@ shared_examples_for 'ifc model contract' do
   context 'if the new ifc file is no valid ifc file' do
     let(:ifc_file) { FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true }
     let(:ifc_attachment) do
-      User.execute_as current_user do
-        ifc_model.attach_files('first' => { 'file' => ifc_file, 'description' => 'ifc' })
-        ifc_model.attachments.last
-      end
+      ::Attachments::BuildService
+        .bypass_whitelist(user: current_user)
+        .call(file: ifc_file, filename: 'model.ifc')
+        .result
     end
 
     it 'is invalid' do
@@ -125,10 +121,10 @@ shared_examples_for 'ifc model contract' do
       FileHelpers.mock_uploaded_file name: "model.ifc", content_type: 'application/binary', binary: true, content: "ISO-10303-21;"
     end
     let(:ifc_attachment) do
-      User.execute_as current_user do
-        ifc_model.attach_files('first' => { 'file' => ifc_file, 'description' => 'ifc' })
-        ifc_model.attachments.last
-      end
+      ::Attachments::BuildService
+        .bypass_whitelist(user: current_user)
+        .call(file: ifc_file, filename: 'model.ifc')
+        .result
     end
 
     it_behaves_like 'is valid'

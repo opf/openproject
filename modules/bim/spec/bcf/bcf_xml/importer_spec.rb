@@ -40,6 +40,7 @@ describe ::OpenProject::Bim::BcfXml::Importer do
   let(:project) do
     FactoryBot.create(:project,
                       identifier: 'bim_project',
+                      enabled_module_names: %w[bim work_package_tracking],
                       types: [type])
   end
   let(:member_role) do
@@ -72,7 +73,6 @@ describe ::OpenProject::Bim::BcfXml::Importer do
     workflow
     priority
     bcf_manager_member
-    login_as(bcf_manager)
   end
 
   describe '#to_listing' do
@@ -97,6 +97,22 @@ describe ::OpenProject::Bim::BcfXml::Importer do
 
       expect(::Bim::Bcf::Issue.count).to be_eql 2
       expect(WorkPackage.count).to be_eql 2
+    end
+  end
+
+  context 'with a viewpoint and snapshot' do
+    let(:filename) { 'issue-with-viewpoint.bcf' }
+
+    it 'imports that viewpoint successfully' do
+      expect(subject.import!).to be_present
+
+      expect(::Bim::Bcf::Issue.count).to eq 1
+      issue = ::Bim::Bcf::Issue.last
+      expect(issue.viewpoints.count).to eq 1
+
+      viewpoint = issue.viewpoints.first
+      expect(viewpoint.attachments.count).to eq 1
+      expect(viewpoint.snapshot).to be_present
     end
   end
 end

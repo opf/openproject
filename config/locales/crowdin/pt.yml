@@ -169,6 +169,8 @@ pt:
     enabled_in_project: 'Habilitado no projeto'
     contained_in_type: 'Contido no tipo'
     confirm_destroy_option: "Removendo uma opção removerá todas as suas ocorrências (ex. em pacotes de trabalho). Tem certeza que você quer removê-la?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Atualmente, não há campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -554,6 +556,7 @@ pt:
         invalid_url: 'não é um URL válido.'
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "deve ser menor ou igual a %{count}."
+        not_available: "não está disponível devido a uma configuração do sistema."
         not_deletable: "não pode ser excluído."
         not_current_user: "não é o usuário atual."
         not_a_date: "não é uma data válida."
@@ -573,6 +576,10 @@ pt:
         unremovable: "não pode ser removido."
         wrong_length: "é o tamanho errado (deve ser %{count} caracteres)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "está configurado para '%{value}', que não está na lista de permissões para upload. "
         capability:
           context:
             global: 'Global'
@@ -1210,6 +1217,7 @@ pt:
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
+    failed: "A exportação falhou: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1412,6 +1420,7 @@ pt:
   label_deleted: "excluído"
   label_deleted_custom_field: "(campo personalizado excluído)"
   label_deleted_custom_option: "(opção excluída)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Decrescente"
   label_details: "Detalhes"
   label_development_roadmap: "Planejamento do desenvolvimento"
@@ -2229,6 +2238,7 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_attachment_whitelist: "Lista de permissões de envio de anexos "
   setting_email_delivery_method: "Método de entrega de e-mail"
   setting_sendmail_location: "Localização do executável do sendmail"
   setting_smtp_enable_starttls_auto: "Automaticamente usar STARTTLS, se disponível"
@@ -2343,6 +2353,13 @@ pt:
     passwords: "Senhas"
     session: "Sessão"
     brute_force_prevention: "Bloqueio automatizado de usuário"
+    attachments:
+      whitelist_text_html: >
+        Defina uma lista de extensões de arquivo válidas e/ou tipos MIME para arquivos carregados. <br/> Insira as extensões de arquivo  (e.x., <code>%{ext_example}</code>) ou tipos de míme (e.x., <code>%{mime_example}</code>). <br/> Deixe em branco para permitir que qualquer tipo de arquivo seja carregado. Vários valores permitidos (uma linha para cada valor). 
+    notifications:
+      retention_text: >
+        Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.

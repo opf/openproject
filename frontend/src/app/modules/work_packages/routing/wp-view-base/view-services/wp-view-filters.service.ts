@@ -92,7 +92,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   }
 
   public get availableState():InputState<QueryFilterInstanceSchemaResource[]> {
-    return this.states.queries.filters;
+    return this.querySpace.available.filters;
   }
 
   /** Return whether the filters the user is working on are incomplete */
