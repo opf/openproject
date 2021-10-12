@@ -115,10 +115,17 @@ $subject-font-size: 14px
     &_shown-on-focus
       @include show-on-focus
 
-  &--loading
+  &--loading-indicator
     height: 100%
     display: block
+    grid-area: loadingIndicator
 
     svg
       // Height - padding
       height: calc(#{$ian-height} - 30px)
+
+  &--loading
+    display: grid
+    grid-template-columns: max-content auto minmax(20px, max-content)
+    grid-template-areas: "loadingIndicator count buttons"
+    grid-column-gap: 5px
