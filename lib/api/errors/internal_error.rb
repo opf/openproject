@@ -34,7 +34,7 @@ module API
       identifier 'InternalServerError'
       code 500
 
-      def initialize(error_message = nil)
+      def initialize(error_message = nil, **)
         error = I18n.t('api_v3.errors.code_500')
 
         if error_message

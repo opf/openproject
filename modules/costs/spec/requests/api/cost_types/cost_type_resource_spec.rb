@@ -61,7 +61,7 @@ describe 'API v3 Cost Type resource' do
       context 'cost type deleted' do
         let!(:cost_type) { FactoryBot.create(:cost_type, :deleted) }
 
-        it_behaves_like 'not found' do
+        it_behaves_like 'not found', 'Cost type' do
           let(:id) { cost_type.id }
         end
       end

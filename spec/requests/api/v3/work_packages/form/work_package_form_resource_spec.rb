@@ -77,7 +77,8 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
         let(:current_user) { unauthorized_user }
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'user with all edit permissions' do

@@ -181,7 +181,8 @@ describe 'API v3 Work package resource',
       context 'requesting nonexistent work package' do
         let(:get_path) { api_v3_paths.work_package 909090 }
 
-        it_behaves_like 'not found'
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
     end
 
@@ -191,7 +192,8 @@ describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'when acting as an anonymous user' do
@@ -200,7 +202,8 @@ describe 'API v3 Work package resource',
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
   end
 end

@@ -100,7 +100,7 @@ describe 'API v3 Budget resource' do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found', 'User'
     end
   end
 end
