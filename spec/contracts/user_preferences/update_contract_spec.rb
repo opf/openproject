@@ -296,7 +296,7 @@ describe UserPreferences::UpdateContract do
     end
   end
 
-  describe 'puase_reminders' do
+  describe 'pause_reminders' do
     context 'with enabled false' do
       let(:settings) do
         {
