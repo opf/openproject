@@ -204,14 +204,25 @@ module Bim
       end
 
       def persist_file
-        @bcf_attachment = Attachment.create!(file: params[:bcf_file],
-                                             description: params[:bcf_file].original_filename,
-                                             author: current_user)
+        @bcf_attachment = create_attachment
         @bcf_xml_file = File.new(@bcf_attachment.local_path)
         session[:bcf_file_id] = @bcf_attachment.id
       rescue StandardError => e
         flash[:error] = "Failed to persist BCF file: #{e.message}"
         redirect_to action: :upload
+      end
+
+      def create_attachment
+        filename = params[:bcf_file].original_filename
+        call = Attachments::CreateService
+          .bypass_whitelist(user: current_user, whitelist: %w[application/zip])
+          .call(file: params[:bcf_file],
+                filename: filename,
+                description: filename)
+
+        call.on_failure { raise e.message }
+
+        call.result
       end
 
       def check_file_param

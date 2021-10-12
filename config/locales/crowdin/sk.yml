@@ -170,6 +170,8 @@ sk:
     enabled_in_project: 'Povolené v projekte'
     contained_in_type: 'Obsiahnuté v type'
     confirm_destroy_option: "Odstránením hodnoty sa odstránia všetky predtým nastavené hodnoty (napríklad pre pracovné balíčky). Naozaj chcete odstrániť hodnotu?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Momentálne nie sú k dispozícií žiadne vlastné polia.
       no_results_content_text: Vytvoriť nové vlastné pole
@@ -558,6 +560,7 @@ sk:
         invalid_url: 'nie je platnou URL adresou.'
         invalid_url_scheme: 'nie je podporovaný protokol (povolené: %{allowed_schemes}).'
         less_than_or_equal_to: "musí byť menšie alebo rovné ako %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "nie je platný dátum."
@@ -577,6 +580,10 @@ sk:
         unremovable: "nie je možné zmazať."
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Globálna'
@@ -1244,6 +1251,7 @@ sk:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1446,6 +1454,7 @@ sk:
   label_deleted: "odstránené"
   label_deleted_custom_field: "(odstrániť vlastné pole)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Zostupne"
   label_details: "Podrobnosti"
   label_development_roadmap: "Plán vývoja"
@@ -2265,6 +2274,7 @@ sk:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Spôsob doručenia e-mailu"
   setting_sendmail_location: "Umiestnenie sendmail spustiteľného programu"
   setting_smtp_enable_starttls_auto: "Automaticky použiť STARTTLS, ak je k dispozícii"
@@ -2379,6 +2389,13 @@ sk:
     passwords: "Heslá"
     session: "Relácie"
     brute_force_prevention: "Automatizované blokovanie používateľa"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

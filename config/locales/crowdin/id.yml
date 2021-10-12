@@ -36,23 +36,23 @@ id:
         primary-color: "Primer"
         primary-color-dark: "Primer (gelap)"
         header-bg-color: "Latar Belakang Header"
-        header-item-bg-hover-color: "Header background on hover"
+        header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
-        header-item-font-hover-color: "Header font on hover"
-        header-border-bottom-color: "Header border"
+        header-item-font-hover-color: "Font header melayang"
+        header-border-bottom-color: "Batas header"
         main-menu-bg-color: "latar belakang menu utama"
         main-menu-bg-selected-background: "Menu utama ketika dipilih"
-        main-menu-bg-hover-background: "Main menu on hover"
-        main-menu-font-color: "Main menu font"
-        main-menu-selected-font-color: "Main menu font when selected"
-        main-menu-hover-font-color: "Main menu font on hover"
-        main-menu-border-color: "Main menu border"
+        main-menu-bg-hover-background: "Menu utama melayang"
+        main-menu-font-color: "Font menu utama"
+        main-menu-selected-font-color: "Font menu utama ketika dipilih"
+        main-menu-hover-font-color: "Font menu utama melayang"
+        main-menu-border-color: "Batas menu utama"
       custom_colors: "Warna kostum"
       customize: "Sesuaikan instalasi OpenProject anda dengan logo Anda sendiri. Catatan: Logo ini dapat diakses secara publik."
       enterprise_notice: "Sebagai 'Terima Kasih' spesial untuk finansial konstributor untuk mengembangkan OpenProject, fitur kecil ini hanya akan tersedia untuk Enterprise Edition dukungan pelanggan."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
         content-link-color: "Warna font sebagian besar tautan."
         primary-color: "Warna utama."
         primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
@@ -61,7 +61,7 @@ id:
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-border-bottom-color: "Garis tipis di bawah header. Biarkan filed ini kosong jika Anda tidak ingin garis apapun."
         main-menu-bg-color: "Warna latar belakang menu sisi kiri."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+      theme_warning: mengubah tema akan mengubah custom style anda. Desain akan menghilang. Apakah anda ingin melanjutkannya?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Unggah sebuah token bantuan edisi enterprise"
@@ -94,24 +94,22 @@ id:
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
-      <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Nama arbitary koneksi LDAP
+      host: Nama host LDAP atau alamat IP
+      login_map: Kunci atribut pada LDAP digunakan untuk mengidentifikasi pengguna unik yang masuk. Biasanya akan menjadi 'uid' atau 'samAccountName'.
+      generic_map: Kunci atribut pada LDAP dipetakan ke atribut '%{attribute}' OpenProject
+      admin_map_html: "Opsional: Kunci atribut pada LDAP yang <strong>jika ada</strong> akan menandai pengguna OpenProject sebagai admin. Biarkan kososng jika ragu."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
+        Masukan DN pengguna sistem hanya digunakan untuk akses membaca.
         <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        contoh: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Masukan password yang terikat dengan pengguna sistem
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Masukan Base DN dari subtree LDAP yang anda inginkan agar OpenProject dapat melihat pengguna dan grup.
+        OpenProject akan memfilter username pada subtree saja.
+        Contoh: users,dc=example,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -119,16 +117,15 @@ id:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        Jika anda ceklis box ini, OpenProject akan secara otomatis membuat pengguna baru dari seluruh LDAP saat pertamakali autentikasi dengan OpenProject.
+        Biarkan tidak terceklis untuk mengizinkan akun yang ada di OpenProject untuk mengautentikasi melalui LDAP!
     connection_encryption: 'Enkripsi sambungan'
-    system_account: 'System account'
+    system_account: 'Akun sistem'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
+      OpenProject membutuhkan akses hanya baca melalui akun sistem untuk melihat pengguna dan grup pada pohon LDAP anda.
+      Harap tentukan kredensial pengikatan untuk pengguna sistem tersebut di bagian berikut.
     ldap_details: 'detil dari LDAP'
-    user_settings: 'Attribute mapping'
+    user_settings: 'Pemetaan atribut'
     user_settings_legend: |
       The following fields are related to how users are created in OpenProject from LDAP entries and
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
@@ -170,6 +167,8 @@ id:
     enabled_in_project: 'Diaktifkan pada proyek'
     contained_in_type: 'Terkandung dalam jenis'
     confirm_destroy_option: "Menghapus sebuah pilihan akan menghapus semua kemunculan yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
@@ -554,6 +553,7 @@ id:
         invalid_url: 'bukanlah URL yang Valid.'
         invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan: %{allowed_schemes}).'
         less_than_or_equal_to: "harus kurang dari atau sama dengan %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "bukan tanggal yang valid."
@@ -573,6 +573,10 @@ id:
         unremovable: "tidak bisa dihapus."
         wrong_length: "panjang tidak sesuai (harus %{count} karakter)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
@@ -1195,6 +1199,7 @@ id:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1397,6 +1402,7 @@ id:
   label_deleted: "dihapus"
   label_deleted_custom_field: "(isian kustom dihapus)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Deskending"
   label_details: "Detil"
   label_development_roadmap: "Development roadmap"
@@ -2212,6 +2218,7 @@ id:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Email delivery method"
   setting_sendmail_location: "Location of the sendmail executable"
   setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
@@ -2326,6 +2333,13 @@ id:
     passwords: "Password"
     session: "Sesi"
     brute_force_prevention: "Pemblokiran otomatis user"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

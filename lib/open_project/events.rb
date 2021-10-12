@@ -40,6 +40,8 @@ module OpenProject
     AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready".freeze
     AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready".freeze
 
+    ATTACHMENT_CREATED = 'attachment_created'.freeze
+
     JOURNAL_CREATED = 'journal_created'.freeze
 
     MEMBER_CREATED = 'member_created'.freeze

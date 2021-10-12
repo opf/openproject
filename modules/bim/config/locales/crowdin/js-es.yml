@@ -12,6 +12,8 @@ es:
       show_viewpoint: 'Mostrar área de visualización'
       delete_viewpoint: 'Eliminar área de visualización'
       management: 'Administración de BCF'
+      refresh: 'Refrescar'
+      refresh_work_package: 'Refrescar paquete de trabajo'
     ifc_models:
       empty_warning: "Este proyecto aún no tiene ningún modelo IFC."
       use_this_link_to_manage: "Use este enlace para cargar y administrar sus modelos IFC"

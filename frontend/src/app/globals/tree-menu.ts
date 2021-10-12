@@ -37,7 +37,7 @@
       if (selectedPage) {
         const selected = $('[slug="' + selectedPage + '"]', tree);
         selected.toggleClass('-selected', true);
-        if (selected.length > 1) {
+        if (selected.length > 0) {
           selected[0].scrollIntoView();
         }
       }

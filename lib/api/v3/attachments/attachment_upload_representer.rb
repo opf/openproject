@@ -69,7 +69,7 @@ module API
 
         attr_reader :form_url, :form_fields, :attachment
 
-        def initialize(attachment, current_user:)
+        def initialize(attachment, current_user:, embed_links: false)
           super
 
           fog_hash = DirectFogUploader.direct_fog_hash attachment: attachment

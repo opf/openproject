@@ -29,20 +29,26 @@
 
 require 'spec_helper'
 
-describe Attachments::CreateService, 'integration' do
-  let(:user) { FactoryBot.create(:user) }
+describe Attachments::CreateService, 'integration', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:description) { 'a fancy description' }
 
-  subject { described_class.new(container, author: user) }
+  subject { described_class.new(user: user) }
 
   describe '#call' do
     def call_tested_method
-      subject.call uploaded_file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
+      subject.call container: container,
+                   file: FileHelpers.mock_uploaded_file(name: 'foobar.txt'),
+                   filename: 'foobar.txt',
                    description: description
     end
 
     context 'when journalized' do
-      let(:container) { FactoryBot.create(:work_package) }
+      shared_let(:container) { FactoryBot.create(:work_package) }
+      shared_let(:user) do
+        FactoryBot.create :user,
+                          member_in_project: container.project,
+                          member_with_permissions: %i[view_work_packages edit_work_packages]
+      end
 
       shared_examples 'successful creation' do
         it 'saves the attachment' do
@@ -90,26 +96,22 @@ describe Attachments::CreateService, 'integration' do
       end
 
       context 'with an invalid attachment', with_settings: { attachment_max_size: 0 } do
-        it 'raises the exception' do
+        it 'does not raise exceptions' do
           expect { call_tested_method }
-            .to raise_exception ActiveRecord::RecordInvalid
-        end
+            .not_to raise_exception ActiveRecord::RecordInvalid
 
-        it 'does not create the attachment' do
-          begin
-            call_tested_method
-          rescue ActiveRecord::RecordInvalid
-            # expected
-          end
-
-          expect(Attachment.count)
-            .to eq 0
+          expect(call_tested_method.errors[:file]).to include "is too large (maximum size is 0 Bytes)."
         end
       end
     end
 
     context 'when not journalized' do
-      let(:container) { FactoryBot.create(:message) }
+      shared_let(:container) { FactoryBot.create(:message) }
+      shared_let(:user) do
+        FactoryBot.create :user,
+                          member_in_project: container.forum.project,
+                          member_with_permissions: %i[add_messages edit_messages]
+      end
 
       shared_examples 'successful creation' do
         it 'saves the attachment' do
@@ -158,6 +160,7 @@ describe Attachments::CreateService, 'integration' do
 
     context "when uncontainered" do
       let(:container) { nil }
+      let(:user) { FactoryBot.create :admin }
 
       before do
         call_tested_method
@@ -167,6 +170,18 @@ describe Attachments::CreateService, 'integration' do
         attachment = Attachment.first
         expect(attachment.filename).to eq 'foobar.txt'
         expect(attachment.description).to eq description
+      end
+    end
+
+    context "when user with no permissions" do
+      let(:container) { nil }
+      let(:user) { FactoryBot.build_stubbed :user }
+
+      it 'does not save an attachment' do
+        expect do
+          expect(call_tested_method).to be_failure
+          expect(call_tested_method.errors[:base]).to include 'may not be accessed.'
+        end.not_to change { Attachment.count }
       end
     end
   end

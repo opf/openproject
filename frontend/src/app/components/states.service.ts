@@ -1,23 +1,19 @@
-import { ProjectResource } from 'core-app/modules/hal/resources/project-resource';
-import { SchemaResource } from 'core-app/modules/hal/resources/schema-resource';
-import { TypeResource } from 'core-app/modules/hal/resources/type-resource';
-import { RoleResource } from 'core-app/modules/hal/resources/role-resource';
-import { UserResource } from 'core-app/modules/hal/resources/user-resource';
-import { PlaceholderUserResource } from 'core-app/modules/hal/resources/placeholder-user-resource';
-import { WorkPackageResource } from 'core-app/modules/hal/resources/work-package-resource';
-import { input, InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
-import { QueryColumn } from './wp-query/query-column';
-import { PostResource } from 'core-app/modules/hal/resources/post-resource';
-import { HalResource } from 'core-app/modules/hal/resources/hal-resource';
+import { InputState, multiInput, MultiInputState, StatesGroup } from 'reactivestates';
+import { Subject } from 'rxjs';
+import { ProjectResource } from "core-app/modules/hal/resources/project-resource";
+import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
+import { PostResource } from "core-app/modules/hal/resources/post-resource";
+import { SchemaResource } from "core-app/modules/hal/resources/schema-resource";
+import { TypeResource } from "core-app/modules/hal/resources/type-resource";
 import { StatusResource } from "core-app/modules/hal/resources/status-resource";
-import { QueryFilterInstanceSchemaResource } from "core-app/modules/hal/resources/query-filter-instance-schema-resource";
-import { Subject } from "rxjs";
-import { QuerySortByResource } from "core-app/modules/hal/resources/query-sort-by-resource";
-import { QueryGroupByResource } from "core-app/modules/hal/resources/query-group-by-resource";
-import { VersionResource } from "core-app/modules/hal/resources/version-resource";
-import { WorkPackageDisplayRepresentationValue } from "core-app/modules/work_packages/routing/wp-view-base/view-services/wp-view-display-representation.service";
 import { TimeEntryResource } from "core-app/modules/hal/resources/time-entry-resource";
 import { CapabilityResource } from "core-app/modules/hal/resources/capability-resource";
+import { VersionResource } from "core-app/modules/hal/resources/version-resource";
+import { UserResource } from "core-app/modules/hal/resources/user-resource";
+import { PlaceholderUserResource } from "core-app/modules/hal/resources/placeholder-user-resource";
+import { RoleResource } from "core-app/modules/hal/resources/role-resource";
+import { HalResource } from "core-app/modules/hal/resources/hal-resource";
+
 
 export class States extends StatesGroup {
   name = 'MainStore';
@@ -58,10 +54,6 @@ export class States extends StatesGroup {
   /* /api/v3/roles */
   roles = multiInput<RoleResource>();
 
-
-  // Work Package query states
-  queries = new QueryAvailableDataStates();
-
   // Global events to isolated changes
   changes = new GlobalStateChanges();
 
@@ -75,11 +67,11 @@ export class States extends StatesGroup {
       state = this.additional[stateName] = multiInput<T>();
     }
 
-    return state as any;
+    return state;
   }
 
   forResource<T extends HalResource = HalResource>(resource:T):InputState<T>|undefined {
-    const stateName = _.camelCase(resource._type) + 's';
+    const stateName = `${_.camelCase(resource._type)}s`;
     const state = this.forType<T>(stateName);
 
     return state && state.get(resource.id!);
@@ -93,21 +85,4 @@ export class States extends StatesGroup {
 export class GlobalStateChanges {
   // Global subject on changes to the given query ID
   queries = new Subject();
-}
-
-export class QueryAvailableDataStates {
-  // Available columns
-  columns = input<QueryColumn[]>();
-
-  // Available SortBy Columns
-  sortBy = input<QuerySortByResource[]>();
-
-  // Available GroupBy columns
-  groupBy = input<QueryGroupByResource[]>();
-
-  // Available filter schemas (derived from their schema)
-  filters = input<QueryFilterInstanceSchemaResource[]>();
-
-  // Display of the WP results
-  displayRepresentation = input<WorkPackageDisplayRepresentationValue|null>();
 }

@@ -170,6 +170,8 @@ fil:
     enabled_in_project: 'Pinagana sa proyekto'
     contained_in_type: 'Naglaman ng uri'
     confirm_destroy_option: "Kapag nagbubura ng opsyon ay makakabura sa lahat ng mga pangyayari nito (e.g. sa mga package na trabaho). Sigurado ka bang gusto mong burahin ito?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Sa kasalukuyan ay walang mga custom field.
       no_results_content_text: Gumawa ng bagong patlang na custom
@@ -556,6 +558,7 @@ fil:
         invalid_url: 'ay hindi balidong URL.'
         invalid_url_scheme: 'ay hindi suportado ng protocol (pinahintulutan: %{allowed_schemes}).'
         less_than_or_equal_to: "dapat ay hindi baba o katumbas sa %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "ay hindi balido ang petsa."
@@ -575,6 +578,10 @@ fil:
         unremovable: "cannot be removed."
         wrong_length: "ay ang maling haba (dapat ay %{count} ang mga karakter)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
@@ -1212,6 +1219,7 @@ fil:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1414,6 +1422,7 @@ fil:
   label_deleted: "binura"
   label_deleted_custom_field: "(binurang custom field)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Pababa"
   label_details: "Mga detalye"
   label_development_roadmap: "Kaunlaran ng roadmao"
@@ -2230,6 +2239,7 @@ fil:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Pamaraan ng paghahatid ng email"
   setting_sendmail_location: "Lokasyon ng sendmail na pagpapatupad"
   setting_smtp_enable_starttls_auto: "Automatikong gagamitin ang STARTTLS kung magagamit"
@@ -2344,6 +2354,13 @@ fil:
     passwords: "Ang mga password"
     session: "Sesyon"
     brute_force_prevention: "Naka-automate na user block"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

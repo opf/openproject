@@ -27,6 +27,8 @@
 #++
 
 class BudgetsController < ApplicationController
+  include AttachableServiceCall
+
   before_action :find_budget, only: %i[show edit update copy]
   before_action :find_budgets, only: :destroy
   before_action :find_project, only: %i[new create update_material_budget_item update_labor_budget_item]
@@ -85,11 +87,12 @@ class BudgetsController < ApplicationController
   def copy
     source = Budget.find(params[:id].to_i)
 
-    @budget = if source
-                Budget.new_copy(source)
-              else
-                Budget.new
-              end
+    @budget =
+      if source
+        Budget.new_copy(source)
+      else
+        Budget.new
+      end
 
     @budget.fixed_date ||= Date.today
 
@@ -97,23 +100,15 @@ class BudgetsController < ApplicationController
   end
 
   def create
-    @budget = Budget.new
-    @budget.project_id = @project.id
+    call = attachable_create_call ::Budgets::CreateService,
+                                  args: permitted_params.budget.merge(project: @project)
+    @budget = call.result
 
-    # fixed_date must be set before material_budget_items and labor_budget_items
-    @budget.fixed_date = if params[:budget] && params[:budget][:fixed_date]
-                           params[:budget].delete(:fixed_date)
-                         else
-                           Date.today
-                         end
-
-    @budget.attributes = permitted_params.budget
-    @budget.attach_files(permitted_params.attachments.to_h)
-
-    if @budget.save
+    if call.success?
       flash[:notice] = t(:notice_successful_create)
       redirect_to(params[:continue] ? { action: 'new' } : { action: 'show', id: @budget })
     else
+      @errors = call.errors
       render action: 'new', layout: !request.xhr?
     end
   end
@@ -123,20 +118,16 @@ class BudgetsController < ApplicationController
   end
 
   def update
-    @budget.attributes = permitted_params.budget if params[:budget]
-    if params[:budget][:existing_material_budget_item_attributes].nil?
-      @budget.existing_material_budget_item_attributes = ({})
-    end
-    if params[:budget][:existing_labor_budget_item_attributes].nil?
-      @budget.existing_labor_budget_item_attributes = ({})
-    end
+    call = attachable_update_call ::Budgets::UpdateService,
+                                  model: @budget,
+                                  args: permitted_params.budget
 
-    @budget.attach_files(permitted_params.attachments.to_h)
-
-    if @budget.save
+    if call.success?
       flash[:notice] = t(:notice_successful_update)
       redirect_to(params[:back_to] || { action: 'show', id: @budget })
     else
+      @budget = call.result
+      @errors = call.errors
       render action: 'edit'
     end
   rescue ActiveRecord::StaleObjectError

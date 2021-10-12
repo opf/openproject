@@ -186,6 +186,8 @@ hu:
         new_group: 'Új csoport'
         reset_to_defaults: 'Alapbeállítások visszaállítása'
       enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
         trial:
           confirmation: "E-mail cím megerősítése"
           confirmation_info: >
@@ -291,10 +293,9 @@ hu:
               A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> Új meghívó a modális felhasználóknak, csoportoknak és teszt felhasználóknak lehetővé teszi új felhasználók hozzáadását vagy meghívását, valamint munkacsomagok hozzárendelését. </li> <li> GitHub integráció az OpenProject -be. </li> <li> API v3 kiterjesztések csoportokhoz és egyebek, azaz csoportokat és csoporttagokat hozhat létre, olvashat, frissíthet és törölhet az API-n keresztül. </li> <li> Többszörös kiválasztás a projekt egyedi típusmezői mezőihez. </li> <li> Biztonsági mentés létrehozása a webes felületről. < /li> </ul>
 
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              A kiadás számos új funkciót és fejlesztést tartalmaz: <br> <ul class = "%{list_styling_class}"> <li> BIM: Az IFC modellnéző teljesítményének javítása. </li> <li> BIM: Az IFC megjelenítő mostantól támogatja kettős pontosságú modellek, amelyek nagyszerű építkezéseken, például hidakon, utakon használhatók. </li> <li> BIM: Váltógomb a perspektivikus és az ortogonális mód közötti váltáshoz. </li> <li> BIM: Szerkesztési menü , a metszősíkok törlése vagy megfordítása. </li> <li> Új gomb a fejléc navigációjában projektek, felhasználók és munkacsomagok létrehozásához. </li> <li> A felhasználók, csoportok és helyőrzők számára létrehozott új meghívási mód lehetővé teszi a könnyű hozzáadást vagy meghívhat új felhasználókat, és hozzárendelheti őket munkacsomagokhoz. </li> <li> API v3 kiterjesztések csoportokhoz és egyebekhez, azaz csoportok és csoporttagok létrehozása, olvasása, frissítése és törlése az API -n keresztül. </li> <li> Több -kiválasztás a projekt egyéni mezőtípuslistájára. </li> <li> Biztonsági mentés létrehozása a webes felületről. </li> </ul>
-
+              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Aktivál"
     label_add_column_after: "Oszlop hozzáadása utána"
     label_add_column_before: "Oszlop hozzáadása előtte"
