@@ -1,3 +1,5 @@
+@import "helpers"
+
 .op-ian-center
   display: grid
   grid-template-rows: 1fr auto
@@ -8,6 +10,7 @@
 
   &--viewport
     height: 100%
+    @include styled-scroll-bar
 
   &--max-warning
     margin-bottom: 0
