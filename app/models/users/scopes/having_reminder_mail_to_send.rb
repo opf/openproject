@@ -126,32 +126,33 @@ module Users::Scopes
       def times_for_zones(times)
         UserPreferences::UpdateContract
           .assignable_time_zones
-          .map do |z|
-          times.map do |time|
-            local_time = time.in_time_zone(z)
-
-            # Get the iso weekday of the current time to check
-            # which users have it enabled as a workday
-            workday = local_time.to_date.cwday
-
-            # Get the corresponding "UTC" date by conversion
-            # to compare them with pause_reminder dates which are derived from UTC
-            utc_date = local_time.utc.to_date
-
-            # Since only full hours can be configured, we can disregard any local time that is not
-            # a full hour.
-            next if local_time.min != 0
-
-            [
-              utc_date,
-              local_time.strftime('%H:00:00+00:00'),
-              z.tzinfo.canonical_zone.name,
-              workday
-            ]
-          end
-        end
-          .flatten(1)
+          .flat_map { |zone| build_local_times(times, zone) }
           .compact
+      end
+
+      def build_local_times(times, zone)
+        times.map do |time|
+          local_time = time.in_time_zone(zone)
+
+          # Get the iso weekday of the current time to check
+          # which users have it enabled as a workday
+          workday = local_time.to_date.cwday
+
+          # Get the corresponding "UTC" date by conversion
+          # to compare them with pause_reminder dates which are derived from UTC
+          utc_date = local_time.utc.to_date
+
+          # Since only full hours can be configured, we can disregard any local time that is not
+          # a full hour.
+          next if local_time.min != 0
+
+          [
+            utc_date,
+            local_time.strftime('%H:00:00+00:00'),
+            zone.tzinfo.canonical_zone.name,
+            workday
+          ]
+        end
       end
 
       def quarters_between_earliest_and_now(earliest_time)
