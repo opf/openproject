@@ -9,7 +9,6 @@ import {
   share,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { from } from 'rxjs';
 import {
@@ -56,7 +55,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.untilDestroyed(),
     pluck('workPackageId'),
     distinctUntilChanged(),
-    tap(() => this.updateSelectedNotificationIndex()),
     map((workPackageId:string) => (workPackageId ? this.apiV3Service.work_packages.id(workPackageId).path : undefined)),
     share(),
   );
@@ -70,6 +68,12 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly state:StateService,
   ) {
     super();
+
+    if (this.stateChanged$) {
+      this.stateChanged$.subscribe(() => {
+        this.updateSelectedNotificationIndex();
+      });
+    }
   }
 
   setFilters(filters:INotificationPageQueryParameters):void {
@@ -121,8 +125,7 @@ export class IanCenterService extends UntilDestroyedMixin {
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource!.href);
+          const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource.href);
           this.openSplitScreen(wpId);
         }
       });
@@ -133,23 +136,13 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    if (action.origin === this.id) {
-      this
-        .resourceService
-        .removeFromCollection(this.query.params, action.notifications);
-      this.showNextNotification();
-    } else {
-      this.reloadAndShowNextNotification();
-    }
+    this
+      .resourceService
+      .removeFromCollection(this.query.params, action.notifications);
+    this.showNextNotification();
   }
 
   private debouncedReload = _.debounce(() => { this.reload().subscribe(); });
-
-  private reloadAndShowNextNotification = _.debounce(() => {
-    this.reload().subscribe(() => {
-      this.showNextNotification();
-    });
-  });
 
   private reload() {
     return this.resourceService
@@ -196,7 +189,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       ).subscribe((notifications:InAppNotification[][]) => {
         for (let i = 0; i < notifications.length; ++i) {
           if (notifications[i][0]._links.resource
-            && idFromLink(notifications[i][0]._links.resource!.href) === this.uiRouterGlobals.params.workPackageId) { // eslint-disable-line @typescript-eslint/no-non-null-assertion
+            && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
             this.selectedNotificationIndex = i;
             return;
           }
