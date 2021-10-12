@@ -35,7 +35,7 @@ ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 ENV DATABASE_URL=postgres://app:p4ssw0rd@127.0.0.1/app
-ENV PGVERSION=13
+ENV PGVERSION=9.6
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
