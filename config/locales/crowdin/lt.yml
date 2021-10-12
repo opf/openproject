@@ -540,6 +540,7 @@ lt:
         error_enterprise_only: "yra galimas tik OpenProject Enterprise Edition"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
+        email: "nėra tinkamas el. pašto adresas."
         empty: "negali būti tuščia."
         even: "turi būti lyginis."
         exclusion: "yra rezervuotas."
@@ -2003,7 +2004,7 @@ lt:
   notice_successful_connection: "Sėkmingas susijungimas."
   notice_successful_create: "Sėkmingas sukūrimas."
   notice_successful_delete: "Sėkmingas panaikinimas."
-  notice_successful_update: "Sėkmingas atnaujinimas."
+  notice_successful_update: "Sėkmingai atnaujinta."
   notice_to_many_principals_to_display: "Per daug rezultatų. Susiaurinkite paiešką pradėdami įvesti naujo nario (ar grupės) pavadinimą."
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio ar kitokio būdo prisijungimui.
   notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.

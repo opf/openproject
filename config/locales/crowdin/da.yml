@@ -540,6 +540,7 @@ da:
         error_enterprise_only: "er kun tilgængelig i OpenProject Enterprise Edition"
         error_unauthorized: "kan muligvis ikke tilgås."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "må ikke være tomt."
         even: "skal være lige."
         exclusion: "er reserveret."

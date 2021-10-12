@@ -28,11 +28,11 @@ hr:
   enumeration_doc_categories: "Kategorije dokumenata"
   enumeration:
     document_category:
-      documentation: Documentation
+      documentation: Dokumentacija
       specification: Specifikacija
       other: Ostalo
   documents:
-    label_attachment_author: "Attachment author"
+    label_attachment_author: "Autor privitka"
   label_document_added: "Dokument dodan"
   label_document_new: "Novi dokument"
   label_document_plural: "Dokumenti"

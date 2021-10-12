@@ -538,6 +538,7 @@ it:
         error_enterprise_only: "è disponibile solo in OpenProject Enterprise Edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
+        email: "non è un indirizzo email valido"
         empty: "non può essere vuoto."
         even: "deve essere pari."
         exclusion: "è riservato."
