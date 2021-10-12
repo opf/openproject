@@ -190,8 +190,14 @@ module OpenProject
       # set to n >= 1 to enable n times the default tracing
       'sentry_frontend_trace_factor' => 0,
 
+<<<<<<< HEAD
       # Allow connection to Augur
       'enterprise_trial_creation_host' => '',
+=======
+      # Allow connections for trial creation and booking
+      'enterprise_chargebee_site' => 'openproject-enterprise',
+      'enterprise_plan' => 'enterprise-on-premises---euro---1-year',
+>>>>>>> 5be82c4f69365e4d00909b8278923fb9848324b4
 
       # Allow override of LDAP options
       'ldap_auth_source_tls_options' => nil,

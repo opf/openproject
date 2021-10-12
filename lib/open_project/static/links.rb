@@ -110,6 +110,9 @@ module OpenProject
               href: 'https://www.openproject.org/operations/migration-guides/migrating-packaged-openproject-database-postgresql/',
               label: :'homescreen.links.postgres_migration'
             },
+            postgres_13_upgrade: {
+              href: 'https://docs.openproject.org/installation-and-operations/misc/migration-to-postgresql13/'
+            },
             configuration_guide: {
               href: 'https://www.openproject.org/operations/configuration/',
               label: 'links.configuration_guide'

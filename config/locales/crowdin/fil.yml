@@ -23,7 +23,7 @@ fil:
   no_results_title_text: Sa kasalukuyan ay walang maipakita.
   activities:
     index:
-      no_results_title_text: There has not been any activity for the project within this time frame.
+      no_results_title_text: May mga walang mga pagkikilos sa proyekto sa panahong ito.
   admin:
     plugins:
       no_results_title_text: Sa kasalukuyan ay walang mga plugin na available.
@@ -542,6 +542,7 @@ fil:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
         empty: "hindi pwedeng blanko."
         even: "dapat ay kapareho."
         exclusion: "ay nakareserba."

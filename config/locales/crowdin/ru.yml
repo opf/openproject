@@ -543,6 +543,7 @@ ru:
         error_enterprise_only: "доступен только в корпоративной версии OpenProject"
         error_unauthorized: "не доступен."
         error_readonly: "запись не разрешена."
+        email: "неверный адрес электронной почты."
         empty: "не может быть пустым."
         even: "должно быть чётным."
         exclusion: "зарезервировано."

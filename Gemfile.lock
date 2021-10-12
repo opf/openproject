@@ -445,6 +445,8 @@ GEM
       eventmachine (>= 1.0.0.beta.4)
     em-synchrony (1.0.6)
       eventmachine (>= 1.0.0.beta.1)
+    email_validator (2.2.3)
+      activemodel
     equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erbse (0.1.4)
@@ -995,6 +997,7 @@ DEPENDENCIES
   delayed_job_active_record (~> 4.1.5)
   disposable (~> 0.4.7)
   doorkeeper (~> 5.5.0)
+  email_validator (~> 2.2.3)
   equivalent-xml (~> 0.6)
   escape_utils (~> 1.0)
   factory_bot (~> 6.2.0)

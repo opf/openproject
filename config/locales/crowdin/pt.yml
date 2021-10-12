@@ -540,6 +540,7 @@ pt:
         error_enterprise_only: "só está disponível no OpenProject Enterprise Edition"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
+        email: "não é um endereço de e-mail válido."
         empty: "não pode ser vazio."
         even: "deve ser par."
         exclusion: "está reservado."

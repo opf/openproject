@@ -280,9 +280,19 @@ class Setting < ApplicationRecord
   end
 
   def self.cache_key
-    RequestStore.store[:settings_updated_at] ||= Setting.column_names.include?(:updated_at) && Setting.maximum(:updated_at)
-    most_recent_settings_change = (RequestStore.store[:settings_updated_at] || Time.now.utc).to_i
+    most_recent_settings_change = (settings_updated_at || Time.now.utc).to_i
+
     "/openproject/settings/all/#{most_recent_settings_change}"
+  end
+
+  def self.settings_updated_at
+    RequestStore.store[:settings_updated_at] ||= has_updated_at_column? && Setting.maximum(:updated_at)
+  end
+
+  def self.has_updated_at_column?
+    return @has_updated_at_column unless @has_updated_at_column.nil?
+
+    @has_updated_at_column = Setting.column_names.map(&:to_sym).include?(:updated_at)
   end
 
   def self.settings_table_exists_yet?
