@@ -541,6 +541,7 @@ sv:
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."
+        email: "is not a valid email address."
         empty: "kan inte vara tomt."
         even: "måste vara jämn."
         exclusion: "är reserverat."

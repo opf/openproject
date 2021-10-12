@@ -28,7 +28,7 @@ See docs/COPYRIGHT.rdoc for more details.
 ++#%>
 <% content_for :header_tags do %>
   <script src="<%= OpenProject::Static::Links.links[:chargebee][:href] %>"
-          data-cb-site="openproject-enterprise-test">
+          data-cb-site="<%= OpenProject::Configuration.enterprise_chargebee_site %>">
   </script>
 <% end %>
 
@@ -41,7 +41,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <a href="#"
        class="button -highlight-inverted"
        data-cb-type="checkout"
-       data-cb-plan-id="enterprise-edition---annual-user-license">
+       data-cb-plan-id="<%= OpenProject::Configuration.enterprise_plan %>">
       <%= t('admin.enterprise.book_now') %>
     </a>
 

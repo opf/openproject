@@ -36,7 +36,7 @@ hu:
               can_only_contain_work_packages_of_current_sprint: "csak a jelenlegi sprint munkacsomagjainak azonosítóit tartalmazhatja."
               must_block_at_least_one_work_package: "legalább egy munkacsomag azonosítóját tartalmaznia kell."
             parent_id:
-              parent_child_relationship_across_projects: "érvénytelen, mert a munka csomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
+              parent_child_relationship_across_projects: "érvénytelen, mert a munkacsomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
               type_must_be_one_of_the_following: "A következő típusok egyikének kell lennie: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
@@ -99,7 +99,7 @@ hu:
   backlogs_empty_title: "No versions are defined to be used in backlogs"
   backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Edit wiki page"
-  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_backlogs_task_cannot_be_story: "A beállítások érvénytelenek. A kiválasztott feladattípus nem lehet sztori típus is."
   error_intro_plural: "The following errors were encountered:"
   error_intro_singular: "The following error was encountered:"
   error_outro: "Please correct the above errors before submitting again."

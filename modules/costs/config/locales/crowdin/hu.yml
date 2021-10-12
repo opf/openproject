@@ -80,7 +80,7 @@ hu:
   label_costlog: "Naplózott fajlagos költségek"
   label_cost_plural: "Költségek"
   label_cost_type_plural: "Költségtípusok"
-  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_cost_type_specific: "Költség típus%{id}%{name}"
   label_costs_per_page: "Költések oldalanként"
   label_currency: "Pénznem"
   label_currency_format: "Pénznem formátuma"
