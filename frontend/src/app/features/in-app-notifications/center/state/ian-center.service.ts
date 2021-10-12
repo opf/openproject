@@ -112,7 +112,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications) => {
+      ).subscribe((notifications:InAppNotification[][]) => {
         if (notifications.length <= 0) {
           void this.state.go(
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
@@ -139,13 +139,17 @@ export class IanCenterService extends UntilDestroyedMixin {
         .removeFromCollection(this.query.params, action.notifications);
       this.showNextNotification();
     } else {
-      this.debouncedReload(this.showNextNotification.bind(this));
+      this.reloadAndShowNextNotification();
     }
   }
 
-  private debouncedReload(execFn:Function = () => {}) {
-    _.debounce(() => { this.reload().subscribe(execFn()); });
-  }
+  private debouncedReload = _.debounce(() => { this.reload().subscribe(); });
+
+  private reloadAndShowNextNotification = _.debounce(() => {
+    this.reload().subscribe(() => {
+      this.showNextNotification();
+    });
+  });
 
   private reload() {
     return this.resourceService
@@ -189,7 +193,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications) => {
+      ).subscribe((notifications:InAppNotification[][]) => {
         for (let i = 0; i < notifications.length; ++i) {
           if (notifications[i][0]._links.resource
             && idFromLink(notifications[i][0]._links.resource!.href) === this.uiRouterGlobals.params.workPackageId) { // eslint-disable-line @typescript-eslint/no-non-null-assertion

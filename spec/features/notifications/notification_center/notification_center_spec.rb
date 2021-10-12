@@ -31,6 +31,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
   let(:center) { ::Pages::Notifications::Center.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
+  let(:split_screen2) { ::Pages::SplitWorkPackage.new work_package2 }
 
   let(:notifications) do
     [notification, notification2]
@@ -114,6 +115,39 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       center.expect_work_package_item notification2
     end
 
+    it 'opens the next notification after marking one as read' do
+      visit home_path
+      center.expect_bell_count 2
+      center.open
+
+      center.click_item notification
+      split_screen.expect_open
+
+      # Marking the first notification as read (via icon on the notification row)
+      center.mark_notification_as_read notification
+      retry_block do
+        notification.reload
+        raise "Expected notification to be marked read" unless notification.read_ian
+      end
+
+      # The second is automatically opened in the split screen
+      split_screen2.expect_open
+
+      # When marking the second as closed (via the icon in the split screen)
+      # the empty state is shown
+      split_screen2.mark_notifications_as_read
+
+      retry_block do
+        notification.reload
+        raise "Expected notification to be marked read" unless notification.read_ian
+      end
+
+      center.expect_no_item notification
+      center.expect_no_item notification2
+
+      center.expect_empty
+    end
+
     context 'with multiple notifications per work package' do
       # In this context we have four notifications for two work packages.
       let(:notification3) do
@@ -130,7 +164,6 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         # Will have been created via the JOURNAL_CREATED event listeners
         work_package.journals.last.notifications.first
       end
-      let(:split_screen2) { ::Pages::SplitWorkPackage.new work_package2 }
 
       let(:notifications) do
         [notification, notification2, notification3, notification4]
