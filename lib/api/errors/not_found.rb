@@ -34,10 +34,21 @@ module API
       identifier 'NotFound'
       code 404
 
-      def initialize(*args)
-        opts = args.last.is_a?(Hash) ? args.last : {}
+      def initialize(exception = nil)
+        message = better_model_message(exception) || I18n.t('api_v3.errors.code_404')
+        super message
+      end
 
-        super opts[:message] || I18n.t('api_v3.errors.code_404')
+      private
+
+      def better_model_message(exception)
+        return unless exception&.model && Kernel.const_defined?(exception.model)
+
+        model_class = exception.model.constantize
+        I18n.t('api_v3.errors.code_404_with_model', model_name: model_class.model_name.human)
+      rescue StandardError => e
+        Rails.logger.debug { "Failed to get better error message for #{exception.message}: #{e.message}"}
+        nil
       end
     end
   end
