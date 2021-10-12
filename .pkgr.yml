@@ -41,7 +41,7 @@ installer: https://github.com/pkgr/installer.git
 wizards:
   - https://github.com/pkgr/addon-legacy-installer.git
   - ./packaging/addons/openproject-edition
-  - https://github.com/opf/addon-postgres
+  - https://github.com/pkgr/addon-postgres
   - https://github.com/pkgr/addon-apache2.git
   - ./packaging/addons/repositories
   - https://github.com/pkgr/addon-smtp.git
