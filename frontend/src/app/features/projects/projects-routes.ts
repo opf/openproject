@@ -6,13 +6,13 @@ import { CopyProjectComponent } from 'core-app/features/projects/components/copy
 export const PROJECTS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'project_settings',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/settings/generic/',
     component: ProjectsComponent,
   },
   {
     name: 'project_copy',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/copy',
     component: CopyProjectComponent,
   },

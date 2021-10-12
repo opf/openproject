@@ -120,7 +120,9 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
         this.cdRef.detectChanges();
       },
-      (error) => this.notificationService.handleRawError(error));
+      (error) => {
+        this.handleLoadingError(error);
+      });
   }
 
   /**
@@ -168,6 +170,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .subscribe((tabs:any) => {
         this.updateFocusAnchorLabel(tabs.active);
       });
+  }
+
+  protected handleLoadingError(error:unknown):void {
+    this.notificationService.handleRawError(error);
   }
 
   /**

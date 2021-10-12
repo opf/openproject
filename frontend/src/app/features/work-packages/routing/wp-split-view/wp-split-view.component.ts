@@ -115,4 +115,14 @@ export class WorkPackageSplitViewComponent extends WorkPackageSingleViewBase imp
   backToList():void {
     this.backRouting.goToBaseState();
   }
+
+  protected handleLoadingError(error:unknown):void {
+    const message = this.notificationService.retrieveErrorMessage(error);
+
+    // Go back to the base route, closing this split view
+    void this.$state.go(
+      this.baseRoute,
+      { flash_message: { type: 'error', message } },
+    );
+  }
 }

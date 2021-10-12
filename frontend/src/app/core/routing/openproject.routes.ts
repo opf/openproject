@@ -27,14 +27,27 @@
 //++
 
 import {
-  StateDeclaration, StateService, Transition, TransitionService, UIRouter,
+  StateDeclaration,
+  StateService,
+  Transition,
+  TransitionService,
+  UIRouter,
 } from '@uirouter/core';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import {
+  INotification,
+  NotificationsService,
+} from 'core-app/shared/components/notifications/notifications.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
-import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
-import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
+import {
+  Ng2StateDeclaration,
+  StatesModule,
+} from '@uirouter/angular';
+import {
+  appBaseSelector,
+  ApplicationBaseComponent,
+} from 'core-app/core/routing/base/application-base.component';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
@@ -48,70 +61,80 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'root',
-    url: '/{projects}/{projectPath}',
+    abstract: true,
+    url: '',
     component: ApplicationBaseComponent,
+    params: {
+      // Allow passing of flash messages after routes load
+      flash_message: { dynamic: true, value: null, inherit: false },
+    },
+  },
+  {
+    name: 'optional_project',
+    parent: 'root',
+    url: '/{projects}/{projectPath}',
     abstract: true,
     params: {
       // value: null makes the parameter optional
       // squash: true avoids duplicate slashes when the parameter is not provided
       projectPath: { type: 'path', value: null, squash: true },
       projects: { type: 'path', value: null, squash: true },
-
-      // Allow passing of flash messages after routes load
-      flash_message: { dynamic: true, value: null, inherit: false },
+    },
+    views: {
+      '!$default': { component: ApplicationBaseComponent },
     },
   },
   {
     name: 'api-docs.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/api/docs',
     loadChildren: () => import('../../features/api-docs/openproject-api-docs.module').then((m) => m.OpenprojectApiDocsModule),
   },
   {
     name: 'boards.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/boards',
     loadChildren: () => import('../../features/boards/openproject-boards.module').then((m) => m.OpenprojectBoardsModule),
   },
   {
     name: 'bim.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/bcf',
     loadChildren: () => import('../../features/bim/ifc_models/openproject-ifc-models.module').then((m) => m.OpenprojectIFCModelsModule),
   },
   {
     name: 'backlogs.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/backlogs',
     loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
     name: 'backlogs_sprint.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/sprints',
     loadChildren: () => import('../../features/backlogs/openproject-backlogs.module').then((m) => m.OpenprojectBacklogsModule),
   },
   {
     name: 'reporting.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/cost_reports',
     loadChildren: () => import('../../features/reporting/openproject-reporting.module').then((m) => m.OpenprojectReportingModule),
   },
   {
     name: 'job-statuses.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/job_statuses',
     loadChildren: () => import('../../features/job-status/openproject-job-status.module').then((m) => m.OpenProjectJobStatusModule),
   },
   {
     name: 'project_settings.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/settings/generic',
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   {
     name: 'project_copy.**',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/copy',
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },

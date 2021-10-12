@@ -37,7 +37,7 @@ const menuItemClass = 'dashboards-menu-item';
 export const DASHBOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'dashboards',
-    parent: 'root',
+    parent: 'optional_project',
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
     url: '/dashboards/',
