@@ -27,9 +27,17 @@
 //++
 
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { input, State } from 'reactivestates';
+import {
+  input,
+  State,
+} from 'reactivestates';
 import { Injectable } from '@angular/core';
 import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
+import {
+  IHalErrorBase,
+  IHalMultipleError,
+} from 'core-app/features/hal/resources/error-resource';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -83,9 +91,18 @@ export class NotificationsService {
     return notification;
   }
 
-  public addError(message:INotification|string, errors:any[]|string = []) {
-    if (!Array.isArray(errors)) {
-      errors = [errors];
+  public addError(obj:HttpErrorResponse|INotification|string, additionalErrors:unknown[]|string = []) {
+    let message:INotification|string;
+    let errors = [...additionalErrors];
+
+    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded.errors) {
+      errors = [
+        ...additionalErrors,
+        ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
+      ];
+      message = obj.message;
+    } else {
+      message = obj as INotification|string;
     }
 
     const notification:INotification = this.createNotification(message, 'error');
