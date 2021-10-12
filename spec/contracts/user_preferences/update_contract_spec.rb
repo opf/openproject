@@ -338,7 +338,7 @@ describe UserPreferences::UpdateContract do
         }
       end
 
-      it_behaves_like 'contract is invalid', pause_reminders: :presence
+      it_behaves_like 'contract is invalid', pause_reminders: :blank
     end
 
     context 'with enabled true but invalid dates' do
@@ -362,7 +362,7 @@ describe UserPreferences::UpdateContract do
         }
       end
 
-      it_behaves_like 'contract is invalid', pause_reminders: :presence
+      it_behaves_like 'contract is invalid', pause_reminders: :blank
     end
 
     context 'with enabled true but only last day' do
@@ -372,7 +372,7 @@ describe UserPreferences::UpdateContract do
         }
       end
 
-      it_behaves_like 'contract is invalid', pause_reminders: :presence
+      it_behaves_like 'contract is invalid', pause_reminders: :blank
     end
   end
 end
