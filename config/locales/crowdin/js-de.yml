@@ -184,6 +184,8 @@ de:
         new_group: 'Neue Gruppe'
         reset_to_defaults: 'Auf Standardwerte zurücksetzen'
       enterprise:
+        text_reprieve_days_left: "%{days} Tage bis zum Ende der Übergangsperiode"
+        text_expired: "abgelaufen"
         trial:
           confirmation: "E-Mail-Adresse bestätigen"
           confirmation_info: >
@@ -286,9 +288,9 @@ de:
             current_new_feature_html: >
               Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
+            learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
-              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
+              Dieses Release enthält eine Reihe neuer Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Probieren Sie unser <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a>! Damit können Sie direkt in Revit BCF-Arbeitspakete erstellen, koordinieren und abarbeiten.</li> <li>Das Erkunden und Kopieren von einzelnen Elementen im IFC-Modell war nie einfacher. Denn IFC-Attribute haben nun ihren eigenen Platz erhalten.</li> <li>Bei Anlegen von Schnitten im Modell haben wir im darunterliegenden Datenmodell (BCF-Viewpoint) die Seiten vertauscht, sodass nun die andere Seite versteckt wird. Damit ist OpenProject in dem Punkt mit dem neuen BCF 3.0 Standard konform, was übrigens auch bereits der gelebte Standard bei Anbietern wie Solibri ist. <li>Die Bedienung des IFC-Modell-Viewers mit dem Mobiltelefon wurde massiv überarbeitet.</li> <li>Der Export von Arbeitspaket-Ansichten mit der Spalte "BCF-Snapshot" wurde gefixt.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -484,21 +486,21 @@ de:
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
-          overview: "Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Bugs (Fehler)</b> anlegen und mit Drag and Drop priorisieren und einem Sprint zuweisen."
+          overview: "Sie können Anforderungen in der <b>Backlogs Ansicht</b> verwalten. <br> Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Fehler</b> anlegen und mit Drag & Drop priorisieren und einem Sprint zuweisen."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
-          task_board: "Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie können neue Aufgaben oder Sprint-Hindernisse mit dem Plus (+) Knopf einer User Story hinzufügen, einer Person zuweisen und mit Drag and Drop aktualisieren."
+          task_board: "Im <b>Taskboard</b> sehen Sie die Aufgaben eines Sprints. Sie können neue Aufgaben oder Sprint-Hindernisse mit dem + Icon einer User Story hinzufügen, einer Person zuweisen und mit Drag & Drop aktualisieren."
         boards:
-          overview: 'Wählen Sie links im Menü <b>Boards</b> aus, um Ihre Arbeit in einer agilen Board-Ansicht zu verwalten.'
-          lists: 'Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht erstellen, z.B. um ein Kanban-Board zu erstellen.'
-          add: 'Mit dem Plus (+) Knopf, können sie entweder eine <b>neue Karte</b> oder eine schon <b>existierende Karte</b> zu Ihrem Board hinzuzufügen. '
+          overview: 'Verwalten Sie Ihre Arbeit in einer intuitiven <b>Boards</b> -Ansicht.'
+          lists: 'Sie können mehrere Listen (Spalten) innerhalb einer Board-Ansicht erstellen, z.B. um ein KANBAN-Board zu erstellen.'
+          add: 'Klicken Sie + um <b>eine neue Karte</b> zur Liste eines Boards hinzuzufügen.'
           drag: 'Ziehen Sie Ihre Karten in eine Liste, um diese zu sortieren oder weisen Sie diese einer anderen Liste zu. Ein Doppelklick auf eine Karte öffnet die Detailansicht.'
         wp:
           toggler: "Hier sind die <b>Arbeitspakete</b>, die Ihnen eine detailliertere Sicht auf die Arbeit in Ihrem Projekt geben."
           list: 'Dies ist die Liste der wichtigen <b>Arbeitspakete</b> in Ihrem Projekt, z.B. Aufgaben, Funktionen, Meilensteine, Fehler, und Vieles mehr. <br> Sie können neue Arbeitspakete direkt in der Liste anlegen und bearbeiten. Ein Doppelklick auf eine Zeile öffnet die Detailansicht.'
           full_view: 'In der <b>Arbeitspaket-Detailansicht</b> finden Sie alle wichtigen Informationen, wie Beschreibung, Status und Priorität, Aktivitäten, Abhängigkeiten oder Kommentare.'
           back_button: 'Mit dem Pfeil kommen Sie zurück in die Listenansicht.'
-          create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
+          create_button: 'Mit <b>Anlegen</b> Können Sie neue Arbeitspakete Ihrem Projekt hinzufügen.'
           timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
     password_confirmation:

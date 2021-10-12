@@ -92,6 +92,7 @@ module BaseServices
       # nothing for now but subclasses can override
       call
     end
+
     alias_method :after_save, :after_perform
 
     def persist(call)

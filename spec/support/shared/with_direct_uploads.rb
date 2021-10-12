@@ -78,14 +78,13 @@ class WithDirectUploads
   end
 
   def mock_attachment
-    allow(Attachment).to receive(:create) do |*args|
+    allow_any_instance_of(::Attachments::PrepareUploadService)
+      .to receive(:instance) do
       # We don't use create here because this would cause an infinite loop as FogAttachment's #create
       # uses the base class's #create which is what we are mocking here. All this is necessary to begin
       # with because the Attachment class is initialized with the LocalFileUploader before this test
       # is ever run and we need remote attachments using the FogFileUploader in this scenario.
-      record = FogAttachment.new *args
-      record.save
-      record
+      FogAttachment.new
     end
 
     # This is so the uploaded callback works. Since we can't actually substitute the Attachment class

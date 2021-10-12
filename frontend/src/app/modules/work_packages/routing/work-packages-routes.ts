@@ -70,7 +70,8 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       baseRoute: 'work-packages',
       allowMovingInEditMode: true,
       bodyClasses: 'router--work-packages-full-create',
-      menuItem: menuItemClass
+      menuItem: menuItemClass,
+      successState: 'work-packages.show',
     },
   },
   {

@@ -23,6 +23,7 @@ import { ExternalRelationQueryConfigurationService } from "core-components/wp-ta
 import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 import { APIV3Service } from "core-app/modules/apiv3/api-v3.service";
 import { ConfigurationService } from "core-app/modules/common/config/configuration.service";
+import { DomAutoscrollService } from "core-app/modules/common/drag-and-drop/dom-autoscroll.service";
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -65,7 +66,8 @@ export class OpenProjectPluginContext {
       dynamicContent: DynamicContentModal,
     },
     HalResource: HalResource,
-    DisplayField: DisplayField
+    DisplayField: DisplayField,
+    DomAutoscrollService,
   };
 
   // Hooks

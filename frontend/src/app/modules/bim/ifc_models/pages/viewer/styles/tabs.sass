@@ -1,5 +1,5 @@
 // -------------------------- GENERIC --------------------------
-.ifc-model-viewer--tree-panel
+.op-ifc-viewer--tree-panel
   padding: 0 15px
   color: var(--main-menu-font-color)
 
@@ -38,7 +38,8 @@
     .xeokit-models,
     .xeokit-objects,
     .xeokit-classes,
-    .xeokit-storeys
+    .xeokit-storeys,
+    .xeokit-properties
       overflow: hidden !important
 
     .xeokit-btn-group
@@ -62,6 +63,56 @@
     &:focus
       outline: none
 
+  .xeokit-propertiesTab
+    padding: 0 15px
+
+    a.xeokit-tab-btn
+      text-decoration: none
+      color: var(--body-font-color)
+      line-height: var(--main-menu-item-height)
+      height: var(--main-menu-item-height)
+      font-family: var(--body-font-family)
+      font-size: var(--main-menu-font-size)
+      font-style: normal
+
+    &.active a.xeokit-tab-btn
+      color: var(--content-link-color)
+      border-bottom-color: var(--content-link-color)
+
+    .xeokit-tab-content
+      position: relative
+      padding: 1.5em 0
+      color: var(--body-font-color)
+
+      p
+        font-size: 0.9rem
+
+    .xeokit-no-prop-set-warning
+      visibility: hidden
+
+    .xeokit-table
+      width: 100%
+
+      tr:first-child
+        border-top: 1px solid var(--table-row-border-color)
+
+      tr
+        border-bottom: 1px solid var(--table-row-border-color)
+
+      td:first-child
+        font-weight: bold
+
+      td:last-child
+        overflow-wrap: anywhere
+
+      td
+        text-align: left
+        font-size: 0.9rem
+        line-height: 1.6
+        padding-top: 0.5rem
+        padding-bottom: 0.5rem
+        vertical-align: top
+
 // Hightlighted list items shall look like a "pill", similarly to the selected tree item in the wiki menu.
 $pill-padding-left: 8px
 
@@ -70,9 +121,11 @@ $pill-padding-left: 8px
     list-style: none
     padding-left: 30px
     margin-left: -1 * $pill-padding-left
+
     li
       line-height: 30px
       padding-left: $pill-padding-left
+
       a
         display: inline-block
         line-height: 30px
@@ -95,6 +148,7 @@ $pill-padding-left: 8px
 
         &.plus:before
           @include icon-mixin-arrow-right2
+
         &.minus:before
           @include icon-mixin-arrow-down1
 
@@ -110,9 +164,10 @@ $pill-padding-left: 8px
       span
         cursor: pointer
         vertical-align: middle
+
         &:hover
           vertical-align: middle
-        
+
   .xeokit-tree-panel > ul
     padding-left: 0
 

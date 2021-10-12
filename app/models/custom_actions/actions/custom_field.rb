@@ -90,7 +90,9 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
       CustomActions::Actions::Strategies::Date
     when 'bool'
       CustomActions::Actions::Strategies::Boolean
-    when 'list', 'version', 'user'
+    when 'user'
+      CustomActions::Actions::Strategies::UserCustomField
+    when 'list', 'version'
       CustomActions::Actions::Strategies::AssociatedCustomField
     end
   end

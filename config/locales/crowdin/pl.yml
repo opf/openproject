@@ -167,6 +167,8 @@ pl:
     enabled_in_project: 'Włączone w projekcie'
     contained_in_type: 'Zawartość'
     confirm_destroy_option: "Usunięcie tej opcji spowoduje usunięcie wszystkich powiązanych wystąpień (np. w Work Package). Czy na pewno chcesz to usunąć?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
@@ -555,6 +557,7 @@ pl:
         invalid_url: 'nie jest poprawnym adresem URL.'
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: "musi być mniejsze niż lub równe %{count}."
+        not_available: "is not available due to a system configuration."
         not_deletable: "— nie można usunąć."
         not_current_user: "nie jest bieżącym użytkownikiem."
         not_a_date: "nie jest poprawną datą."
@@ -574,6 +577,10 @@ pl:
         unremovable: "nie można usunąć."
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Globalna'
@@ -1241,6 +1248,7 @@ pl:
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1443,6 +1451,7 @@ pl:
   label_deleted: "Usunięty"
   label_deleted_custom_field: "(usunięte pole niestandardowe)"
   label_deleted_custom_option: "(opcja usunięta)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Malejąco"
   label_details: "Szczegóły"
   label_development_roadmap: "Droga rozwoju"
@@ -2260,6 +2269,7 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Metoda dostarczenia maila"
   setting_sendmail_location: "Lokalizacja pliku wykonywalnego sendmail"
   setting_smtp_enable_starttls_auto: "Automatycznie użyj STARTTLS, jeśli jest dostępny"
@@ -2374,6 +2384,13 @@ pl:
     passwords: "Hasła"
     session: "Sesja"
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Jeśli ustawiona jest opcja „%{day_of_week_setting_name}” albo „%{first_week_setting_name}”, druga musi zostać ustawiona w taki sposób, aby uniknąć niespójności we frontendzie.

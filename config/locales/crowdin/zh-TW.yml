@@ -170,6 +170,8 @@ zh-TW:
     enabled_in_project: '已在專案中啟用'
     contained_in_type: '已包含在類型中'
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -555,6 +557,7 @@ zh-TW:
         invalid_url: '不是有效的 URL。'
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
+        not_available: "由於系統配置所以不可用"
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "不是有效的日期。"
@@ -574,6 +577,10 @@ zh-TW:
         unremovable: "無法移除"
         wrong_length: "長度錯誤 (應該要有 %{count} 個字元)"
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "設置為 '%{value}'，未列入上傳白名單"
         capability:
           context:
             global: '全域設定'
@@ -1196,6 +1203,7 @@ zh-TW:
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
+    failed: "匯出失敗：%{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1398,6 +1406,7 @@ zh-TW:
   label_deleted: "刪除線"
   label_deleted_custom_field: "(已刪除的自訂欄位)"
   label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降冪"
   label_details: "詳細資料"
   label_development_roadmap: "發展路徑圖"
@@ -2214,6 +2223,7 @@ zh-TW:
   setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
   setting_apiv3_cors_origins_text_html: >
     If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_attachment_whitelist: "附件上傳白名單"
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_sendmail_location: "Sendmail 的執行位置"
   setting_smtp_enable_starttls_auto: "如果可用將自動使用 STARTTLS"
@@ -2328,6 +2338,13 @@ zh-TW:
     passwords: "密碼"
     session: "Session"
     brute_force_prevention: "自動禁止使用者"
+    attachments:
+      whitelist_text_html: >
+        為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。
+    notifications:
+      retention_text: >
+        設定用戶的通知事件（應用程式內通知的來源）將保留在系統中的天數。任何早於此時間的事件都將被刪除
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.

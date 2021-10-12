@@ -167,6 +167,8 @@ es:
     enabled_in_project: 'Activado en el proyecto'
     contained_in_type: 'Incluido en el tipo'
     confirm_destroy_option: "Al eliminar una opción, se eliminarán todas las repeticiones (por ejemplo, en paquetes de trabajo). ¿Está seguro de que desea eliminarla?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -553,6 +555,7 @@ es:
         invalid_url: 'no es una URL válida.'
         invalid_url_scheme: 'no es un protocolo admitido (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: "debe ser menor o igual a %{count}."
+        not_available: "no está disponible debido a una configuración del sistema."
         not_deletable: "no se puede eliminar."
         not_current_user: "no es el usuario actual."
         not_a_date: "no es una fecha válida."
@@ -572,6 +575,10 @@ es:
         unremovable: "no puede ser eliminado."
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
+        attachment:
+          attributes:
+            content_type:
+              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
         capability:
           context:
             global: 'Global'
@@ -1209,6 +1216,7 @@ es:
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
+    failed: "The export has failed: %{message}"
     format:
       atom: "Atomo"
       csv: "CSV"
@@ -1411,6 +1419,7 @@ es:
   label_deleted: "borrado"
   label_deleted_custom_field: "(campo personalizado borrado)"
   label_deleted_custom_option: "(opción eliminada)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "Descendente"
   label_details: "Detalles"
   label_development_roadmap: "Itinerario de desarrollo"
@@ -2229,6 +2238,7 @@ es:
   setting_apiv3_cors_origins: "Orígenes permitidos de la API de CORS (uso compartido de recursos entre orígenes) V3"
   setting_apiv3_cors_origins_text_html: >
     Si CORS está habilitado, estos son los orígenes que tienen permiso para acceder a la API de OpenProject. <br/> Consulte la <a href="%{origin_link}" target="_blank">documentación sobre el encabezado Origin</a> para obtener información sobre cómo especificar los valores esperados.
+  setting_attachment_whitelist: "Attachment upload whitelist"
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2343,6 +2353,13 @@ es:
     passwords: "Contraseñas"
     session: "Sesión"
     brute_force_prevention: "Bloqueo automático de usuarios"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Establecer el número de días que los eventos de notificación para los usuarios (la fuente de las notificaciones dentro de la aplicación) se mantendrá en el sistema. Cualquier evento anterior a este tiempo será eliminado.
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
       first_date_of_week_and_year_set: >
         Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.

@@ -82,7 +82,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   protected get availableState() {
-    return this.states.queries.groupBy;
+    return this.querySpace.available.groupBy;
   }
 
   public get isEnabled():boolean {

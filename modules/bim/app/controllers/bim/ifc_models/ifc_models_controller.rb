@@ -176,18 +176,25 @@ module Bim
       private
 
       def prepare_form(ifc_model)
-        if OpenProject::Configuration.direct_uploads?
-          @pending_upload = Attachment.create_pending_direct_upload(file_name: "model.ifc", author: current_user)
-          @form = DirectFogUploader.direct_fog_hash(
-            attachment: @pending_upload,
-            success_action_redirect: direct_upload_finished_bcf_project_ifc_models_url
-          )
-          session[:pending_ifc_model_ifc_model_id] = ifc_model.id unless ifc_model.new_record?
-        end
+        return unless OpenProject::Configuration.direct_uploads?
+
+        call = ::Attachments::PrepareUploadService
+                 .new(user: current_user)
+                 .call(filename: "model.ifc", filesize: 0)
+
+        call.on_failure { flash[:error] = call.message }
+
+        @pending_upload = call.result
+        @form = DirectFogUploader.direct_fog_hash(
+          attachment: @pending_upload,
+          success_action_redirect: direct_upload_finished_bcf_project_ifc_models_url
+        )
+        session[:pending_ifc_model_ifc_model_id] = ifc_model.id unless ifc_model.new_record?
       end
 
       def frontend_redirect(model_ids)
-        redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)))
+        redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
+                                              query_props: '{"t":"id:desc"}')
       end
 
       def find_all_ifc_models

@@ -91,7 +91,15 @@ export class KeyboardShortcutService {
 
   public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
     var key = accessKeys[keyName];
+
     return () => {
+      // Guard: When the focus is on the IFC viewer, pressing the key "S" shall control the viewer as part of its
+      //        WASD navigation. So dismiss that shortcuts and let the event pass on to the IFC viewer.
+      if (key === 4 &&
+        document.activeElement?.getAttribute('data-qa-selector') === 'op-ifc-viewer--model-canvas') {
+        return;
+      }
+
       var elem = jQuery('[accesskey=' + key + ']:first');
       if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
