@@ -95,18 +95,18 @@ module Users::Scopes
             )
             OR
             (
-              (user_preferences.settings->'daily_reminders'->'enabled')::boolean
+              (user_preferences.settings->'daily_reminders'->>'enabled')::boolean
               AND user_preferences.settings->'daily_reminders'->'times' ? local_times.hours
             )
           )
           AND (
             (
               user_preferences.settings->'pause_reminders' IS NULL
-              OR (user_preferences.settings->'pause_reminders'->'enabled')::boolean = false
+              OR (user_preferences.settings->'pause_reminders'->>'enabled')::boolean = false
             )
             OR
             (
-              (user_preferences.settings->'pause_reminders'->'enabled')::boolean
+              (user_preferences.settings->'pause_reminders'->>'enabled')::boolean
               AND (
                local_times.today_utc::date
                NOT BETWEEN (user_preferences.settings->'pause_reminders'->>'first_day')::date
