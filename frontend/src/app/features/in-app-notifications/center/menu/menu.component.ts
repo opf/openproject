@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  HostBinding,
 } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -27,6 +28,8 @@ const getUiLinkForFilters = (filters:INotificationPageQueryParameters = {}) => (
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IanMenuComponent implements OnInit {
+  @HostBinding('class.op-ian-menu') className = true;
+
   baseMenuItems = [
     {
       key: 'inbox',
