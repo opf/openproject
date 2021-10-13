@@ -74,7 +74,7 @@ module Users::Scopes
         # If no workdays are specified, 1 - 5 is assumed which is represents Monday to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
-                      .as('t(today_utc, hours, zone, workday)')
+                      .as('t(today_local, hours, zone, workday)')
 
         default_timezone = Setting.user_default_timezone.present? ? "'#{Setting.user_default_timezone}'" : 'NULL'
 
@@ -108,7 +108,7 @@ module Users::Scopes
             (
               (user_preferences.settings->'pause_reminders'->>'enabled')::boolean
               AND (
-               local_times.today_utc::date
+               local_times.today_local::date
                NOT BETWEEN (user_preferences.settings->'pause_reminders'->>'first_day')::date
                AND (user_preferences.settings->'pause_reminders'->>'last_day')::date
               )
@@ -138,16 +138,16 @@ module Users::Scopes
           # which users have it enabled as a workday
           workday = local_time.to_date.cwday
 
-          # Get the corresponding "UTC" date by conversion
-          # to compare them with pause_reminder dates which are derived from UTC
-          utc_date = local_time.utc.to_date
+          # Get the corresponding date by conversion
+          # to compare them with pause_reminder dates input from the users' frontend local times.
+          local_date = local_time.to_date
 
           # Since only full hours can be configured, we can disregard any local time that is not
           # a full hour.
           next if local_time.min != 0
 
           [
-            utc_date,
+            local_date,
             local_time.strftime('%H:00:00+00:00'),
             zone.tzinfo.canonical_zone.name,
             workday
