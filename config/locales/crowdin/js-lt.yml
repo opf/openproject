@@ -266,7 +266,7 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, patikrinkite"
+      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, išbandykite"
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
     general_text_yes: "taip"
@@ -966,7 +966,7 @@ lt:
         many: "%{count} darbų paketo vaikai"
         other: "%{count} darbų paketo vaikai"
       hour:
-        one: "1 val."
+        one: "1 val"
         other: "%{count} val"
         zero: "0 val"
     zen_mode:

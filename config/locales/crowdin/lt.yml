@@ -856,15 +856,15 @@ lt:
       heading_reset: "Atstatyti atsarginės kopijos žetoną"
       heading_create: "Sukurti atsarginės kopijos žetoną"
       implications: >
-        Atsarginių kopijų įgalinimas leis bet kuriam naudotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juose bus ir visų kitų naudotojų duomenys.
+        Atsarginių kopijų įgalinimas leis bet kuriam naudotojui su priskirtomis teisėmis ir šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją, turinčią visus šio OpenProject egzemplioriaus duomenis. Juose bus ir visų kitų naudotojų duomenys.
       info: >
-        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš naudotojo teisę daryti atsargines kopijas.
+        Norint sukurti atsarginę kopiją jums reikės sugeneruoti atsarginės kopijos žetoną. Kaskart, kai jūs norėsite sukurti atsarginę kopiją, turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš naudotojo teisę daryti atsargines kopijas.
       verification: >
         Įveskite %{word} norėdami patvirtinti veiksmą su atsarginės kopijos žetonu: %{action}.
       verification_word_reset: atstatyti
       verification_word_create: sukurti
       warning: >
-        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko galėsite užsakyti atsarginę kopiją bet kuriuo metu panaudoję šį žetoną.
+        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko, pateikę žetoną galėsite bet kuriuo metu užsakyti atsarginę kopiją.
     text_token_deleted: Atsarginės kopijos žetonas ištrintas. Atsarginės kopijos dabar atjungtos.
     error:
       invalid_token: Nepateiktas arba neteisingas žetonas.
