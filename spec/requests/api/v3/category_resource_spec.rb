@@ -74,10 +74,7 @@ describe 'API v3 Category resource' do
         get get_path
       end
 
-      it_behaves_like 'not found' do
-        let(:id) { private_project.id.to_s }
-        let(:type) { 'Project' }
-      end
+      it_behaves_like 'not found'
     end
   end
 

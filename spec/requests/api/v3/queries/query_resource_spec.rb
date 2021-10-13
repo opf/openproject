@@ -260,10 +260,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
       let(:query_id) { 1337 } # could be anything as long as we do not create an actual query
       let(:path) { api_v3_paths.query query_id }
 
-      it_behaves_like 'not found' do
-        let(:id) { query_id }
-        let(:type) { 'Query' }
-      end
+      it_behaves_like 'not found'
     end
   end
 
@@ -333,10 +330,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         context 'when trying to star nonexistent query' do
           let(:star_path) { api_v3_paths.query_star 999 }
 
-          it_behaves_like 'not found' do
-            let(:id) { 999 }
-            let(:type) { 'Query' }
-          end
+          it_behaves_like 'not found'
         end
       end
 
@@ -423,10 +417,7 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
             patch unstar_path
           end
 
-          it_behaves_like 'not found' do
-            let(:id) { 999 }
-            let(:type) { 'Query' }
-          end
+          it_behaves_like 'not found'
         end
       end
 

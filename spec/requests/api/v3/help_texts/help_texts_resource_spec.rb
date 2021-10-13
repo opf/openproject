@@ -103,10 +103,7 @@ describe 'API v3 Help texts resource' do
           # cf not visible to the user
           let(:help_text) { help_texts.last }
 
-          it_behaves_like 'not found' do
-            let(:id) { help_text.id }
-            let(:type) { 'HelpText' }
-          end
+          it_behaves_like 'not found'
         end
       end
     end

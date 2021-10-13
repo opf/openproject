@@ -959,10 +959,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'if lacking the view permissions' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found' do
-        let(:id) { member.id }
-        let(:type) { 'Membership' }
-      end
+      it_behaves_like 'not found'
     end
   end
 
@@ -993,10 +990,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       context 'for a non-existent version' do
         let(:path) { api_v3_paths.membership 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Membership' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

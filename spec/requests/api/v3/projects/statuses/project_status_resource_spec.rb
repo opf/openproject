@@ -66,10 +66,7 @@ describe 'API v3 Project status resource', type: :request, content_type: :json d
           response
         end
 
-        it_behaves_like 'not found' do
-          let(:id) { 'bogus' }
-          let(:type) { 'ProjectStatus' }
-        end
+        it_behaves_like 'not found'
       end
     end
   end

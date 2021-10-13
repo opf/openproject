@@ -88,10 +88,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     context 'requesting nonexistent group' do
       let(:get_path) { api_v3_paths.group 9999 }
 
-      it_behaves_like 'not found' do
-        let(:id) { 9999 }
-        let(:type) { 'Group' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'not having the necessary permission to see any group' do
@@ -380,10 +377,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       context 'for a non-existent group' do
         let(:path) { api_v3_paths.group 11111337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 11111337 }
-          let(:type) { 'Group' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

@@ -113,10 +113,7 @@ describe 'API v3 Version resource', content_type: :json do
         get get_path
       end
 
-      it_behaves_like 'not found' do
-        let(:id) { version_in_project.id }
-        let(:type) { 'Version' }
-      end
+      it_behaves_like 'not found'
     end
   end
 
@@ -248,10 +245,7 @@ describe 'API v3 Version resource', content_type: :json do
     context 'if lacking the manage permissions' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found' do
-        let(:id) { version.id }
-        let(:type) { 'Version' }
-      end
+      it_behaves_like 'not found'
     end
 
     context 'if having the manage permission in a different project' do
@@ -455,10 +449,7 @@ describe 'API v3 Version resource', content_type: :json do
       context 'for a non-existent version' do
         let(:path) { api_v3_paths.version 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Version' }
-        end
+        it_behaves_like 'not found'
       end
     end
 

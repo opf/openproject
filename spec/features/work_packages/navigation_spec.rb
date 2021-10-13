@@ -150,7 +150,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     page404.expect_notification type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
-    page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.code_404')
+    page404.expect_and_dismiss_notification type: :error, message: I18n.t('api_v3.errors.not_found.work_package')
   end
 
   # Regression #29994

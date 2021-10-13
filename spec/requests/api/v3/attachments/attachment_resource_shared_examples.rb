@@ -216,19 +216,14 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'requesting nonexistent attachment' do
         let(:get_path) { api_v3_paths.attachment 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'requesting attachments without sufficient permissions' do
         let(:current_user) { missing_permissions_user }
         let(:permissions) { all_permissions - Array(read_permission) }
 
-        it_behaves_like 'not found' do
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
     end
   end
@@ -367,10 +362,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       context 'for a non-existent attachment' do
         let(:path) { api_v3_paths.attachment 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'Attachment' }
-        end
+        it_behaves_like 'not found'
       end
     end
 
