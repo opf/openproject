@@ -73,7 +73,7 @@ export class NotificationsService {
     return this.stack;
   }
 
-  public add(notification:INotification, timeoutAfter = 5000) {
+  public add(notification:INotification, timeoutAfter = 5000):INotification {
     // Remove flash messages
     removeSuccessFlashMessages();
 
@@ -91,7 +91,7 @@ export class NotificationsService {
     return notification;
   }
 
-  public addError(obj:HttpErrorResponse|INotification|string, additionalErrors:unknown[]|string = []) {
+  public addError(obj:HttpErrorResponse|INotification|string, additionalErrors:unknown[]|string = []):INotification {
     let message:INotification|string;
     let errors = [...additionalErrors];
 
@@ -111,30 +111,30 @@ export class NotificationsService {
     return this.add(notification);
   }
 
-  public addWarning(message:INotification|string) {
+  public addWarning(message:INotification|string):INotification {
     return this.add(this.createNotification(message, 'warning'));
   }
 
-  public addSuccess(message:INotification|string) {
+  public addSuccess(message:INotification|string):INotification {
     return this.add(this.createNotification(message, 'success'));
   }
 
-  public addNotice(message:INotification|string) {
+  public addNotice(message:INotification|string):INotification {
     return this.add(this.createNotification(message, 'info'));
   }
 
-  public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]) {
+  public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]):INotification {
     return this.add(this.createAttachmentUploadNotification(message, uploads));
   }
 
-  public remove(notification:INotification) {
+  public remove(notification:INotification):void {
     this.stack.doModify((current) => {
       _.remove(current, (n) => n === notification);
       return current;
     });
   }
 
-  public clear() {
+  public clear():void {
     this.stack.putValue([]);
   }
 
