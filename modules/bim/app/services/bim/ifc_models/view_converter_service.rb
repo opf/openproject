@@ -60,12 +60,22 @@ module Bim
         Dir.mktmpdir do |dir|
           self.working_directory = dir
 
+          ifc_model.processing!
+
           perform_conversion!
+
+          ifc_model.conversion_status= ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
+          ifc_model.conversion_error_message = nil
 
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
         end
       rescue StandardError => e
         OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
+
+        ifc_model.conversion_status= ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        ifc_model.conversion_error_message = e.message
+        ifc_model.save
+
         ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil

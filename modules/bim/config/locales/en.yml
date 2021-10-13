@@ -120,10 +120,12 @@ en:
       check_1: 'Check that you have uploaded at least one IFC model.'
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
-    processing_state:
+    conversion_status:
       label: 'Processing?'
-      in_progress: 'In progress'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Completed'
+      error: 'Error'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:
