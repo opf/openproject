@@ -86,6 +86,10 @@ module API
                  end,
                  setter: ->(fragment:, **) do
                    self.pause_reminders = fragment.transform_keys(&:underscore)
+
+                   if pause_reminders['last_day'].blank? && pause_reminders['first_day']
+                     pause_reminders['last_day'] = pause_reminders['first_day']
+                   end
                  end
 
         property :workdays

@@ -96,4 +96,58 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                 })
     end
   end
+
+  describe 'pause_reminders' do
+    let(:request_body) do
+      {
+        "pauseReminders" => {
+          "enabled" => true,
+          "firstDay" => first_day,
+          "lastDay" => last_day
+        }
+      }
+    end
+
+    context 'with all set' do
+      let(:first_day) { '2021-10-10' }
+      let(:last_day) { '2021-10-20' }
+
+      it 'sets both dates' do
+        expect(parsed.pause_reminders)
+          .to eql({
+                    "enabled" => true,
+                    "first_day" => first_day,
+                    "last_day" => last_day
+                  })
+      end
+    end
+
+    context 'with first only set' do
+      let(:first_day) { '2021-10-10' }
+      let(:last_day) { nil }
+
+      it 'uses the first day for the last day' do
+        expect(parsed.pause_reminders)
+          .to eql({
+                    "enabled" => true,
+                    "first_day" => first_day,
+                    "last_day" => first_day
+                  })
+      end
+    end
+
+    context 'with last only set' do
+      let(:first_day) { nil }
+      let(:last_day) { '2021-10-10' }
+
+      it 'uses the first day for the last day' do
+        expect(parsed.pause_reminders)
+          .to eql({
+                    "enabled" => true,
+                    "first_day" => nil,
+                    "last_day" => last_day
+                  })
+      end
+    end
+  end
 end
