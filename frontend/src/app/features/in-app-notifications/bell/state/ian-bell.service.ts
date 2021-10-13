@@ -5,6 +5,7 @@ import { IAN_FACET_FILTERS } from 'core-app/features/in-app-notifications/center
 import {
   map,
   tap,
+  skip,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IanBellQuery } from 'core-app/features/in-app-notifications/bell/state/ian-bell.query';
@@ -12,24 +13,27 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { notificationsMarkedRead } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
+import { notificationsMarkedRead, notificationCountIncreased } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 @Injectable()
 @EffectHandler
 export class IanBellService {
-  readonly id = 'ian-center';
+  readonly id = 'ian-bell';
 
   readonly store = new IanBellStore();
 
   readonly query = new IanBellQuery(this.store);
 
-  unread$ = this.query.select('totalUnread');
+  unread$ = this.query.unread$;
 
   constructor(
     readonly actions$:ActionsService,
     readonly resourceService:InAppNotificationsResourceService,
   ) {
+    this.query.unreadCountIncreased$.pipe(skip(1)).subscribe((count) => {
+      this.actions$.dispatch(notificationCountIncreased({ origin: this.id, count }))
+    });
   }
 
   fetchUnread():Observable<number> {

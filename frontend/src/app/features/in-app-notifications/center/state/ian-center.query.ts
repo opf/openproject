@@ -1,5 +1,6 @@
 import { Query } from '@datorama/akita';
 import {
+  tap,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -14,7 +15,7 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
+import { selectEntitiesFromIDCollection } from 'core-app/core/state/collection-store';
 
 export class IanCenterQuery extends Query<IanCenterState> {
   activeFacet$ = this.select('activeFacet');
@@ -23,10 +24,12 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   paramsChanges$ = this.select(['params', 'activeFacet']);
 
+  activeCollection$ = this.select('activeCollection');
+
   selectNotifications$ = this
-    .paramsChanges$
+    .activeCollection$
     .pipe(
-      switchMap(() => selectCollectionAsEntities$<InAppNotification>(this.resourceService, this.params)),
+      map((collection) => selectEntitiesFromIDCollection(this.resourceService, collection)),
     );
 
   aggregatedCenterNotifications$ = this

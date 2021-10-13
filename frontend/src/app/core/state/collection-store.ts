@@ -3,6 +3,7 @@ import {
   ID,
   QueryEntity,
 } from '@datorama/akita';
+import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
   Apiv3ListParameters,
   listParamsString,
@@ -28,6 +29,12 @@ export interface CollectionService<T> {
 
 export interface CollectionItem {
   id:ID;
+}
+
+export function mapHALCollectionToIDCollection<T extends CollectionItem>(collection:IHALCollection<T>):CollectionResponse {
+  return {
+    ids: collection._embedded.elements.map((el) => el.id)
+  };
 }
 
 /**
@@ -67,6 +74,20 @@ export function selectCollectionAsHrefs$<T extends CollectionItem>(service:Colle
 }
 
 /**
+ * Retrieve the entities from the collection a given the ID collection
+ *
+ * @param service
+ * @param collection
+ */
+export function selectEntitiesFromIDCollection<T extends CollectionItem>(service:CollectionService<T>, collection:CollectionResponse) {
+  const ids = collection?.ids || [];
+
+  return ids
+    .map((id) => service.query.getEntity(id))
+    .filter((item) => !!item) as T[];
+}
+
+/**
  * Retrieve the entities from the collection a given parameter set produces.
  *
  * @param service
@@ -81,11 +102,7 @@ export function selectCollectionAsEntities$<T extends CollectionItem>(service:Co
     .pipe(
       map((state) => {
         const collection = state.collections[key];
-        const ids = collection?.ids || [];
-
-        return ids
-          .map((id) => service.query.getEntity(id))
-          .filter((item) => !!item) as T[];
+        return selectEntitiesFromIDCollection(service, collection);
       }),
     );
 }
