@@ -43,10 +43,7 @@ shared_examples 'deletion allowed' do
   context 'with a non-existent user' do
     let(:path) { api_v3_paths.placeholder_user 1337 }
 
-    it_behaves_like 'not found' do
-      let(:id) { 1337 }
-      let(:type) { 'PlaceholderUser' }
-    end
+    it_behaves_like 'not found'
   end
 end
 

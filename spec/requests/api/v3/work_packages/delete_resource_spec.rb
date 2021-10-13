@@ -76,17 +76,16 @@ describe 'API v3 Work package resource',
       context 'for a non-existent work package' do
         let(:path) { api_v3_paths.work_package 1337 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 1337 }
-          let(:type) { 'WorkPackage' }
-        end
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
     end
 
     context 'without permission to see work packages' do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
 
     context 'without permission to delete work packages' do
