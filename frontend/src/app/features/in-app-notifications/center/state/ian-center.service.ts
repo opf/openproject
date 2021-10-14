@@ -14,6 +14,7 @@ import {
   ID,
   setLoading,
 } from '@datorama/akita';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
 import {
   markNotificationsAsRead,
@@ -64,6 +65,7 @@ export class IanCenterService {
   );
 
   constructor(
+    readonly I18n:I18nService,
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
@@ -125,9 +127,9 @@ export class IanCenterService {
 
       this.notificationsService.add({
         type: 'info',
-        message: 'There are new notifications.',
+        message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
-          text: 'Click here to load them',
+          text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
           target: () => {
             this.store.update({ activeCollection: collection });
           },

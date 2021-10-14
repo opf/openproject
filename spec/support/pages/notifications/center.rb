@@ -133,6 +133,14 @@ module Pages
       def bell_element
         page.find('op-in-app-notification-bell [data-qa-selector="op-ian-bell"]')
       end
+
+      def open_filtered(name)
+        page.find('.op-sidemenu--item-title', text: text, exact_text: true).click
+      end
+
+      def expect_toaster
+        expect(page).to have_selector('.notification-box.-info', wait: 20)
+      end
     end
   end
 end

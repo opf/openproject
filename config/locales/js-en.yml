@@ -579,6 +579,9 @@ en:
         empty_state:
           no_notification: "Looks like you're all caught up."
           no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
       menu:
         accountable: 'Accountable'
         assigned: 'Assigned'

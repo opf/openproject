@@ -114,6 +114,23 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       center.expect_work_package_item notification2
     end
 
+    it 'can filter by project' do
+      visit home_path
+      center.expect_bell_count 2
+      center.open
+      center.expect_number_of_notifications 2
+      center.open_filtered("My Project No. 1")
+      center.expect_number_of_notifications 2
+      byebug
+    end
+
+    context "with a new notification" do
+      it "opens a toaster if the notification is part of the current filters" do
+        visit home_path
+        center.open
+      end
+    end
+
     context 'with multiple notifications per work package' do
       # In this context we have four notifications for two work packages.
       let(:notification3) do
