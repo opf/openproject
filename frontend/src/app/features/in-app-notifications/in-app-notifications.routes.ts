@@ -42,12 +42,15 @@ export interface INotificationPageQueryParameters {
 export const IAN_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'notifications',
+    parent: 'root',
     url: '/notifications?{filter:string}&{name:string}',
     data: {
       bodyClasses: 'router--work-packages-base',
     },
-    component: WorkPackagesBaseComponent,
     redirectTo: 'notifications.center.show',
+    views: {
+      '!$default': { component: WorkPackagesBaseComponent },
+    },
   },
   {
     name: 'notifications.center',
