@@ -531,8 +531,8 @@ zh-CN:
       menu:
         accountable: '负责'
         assigned: 'Assigned'
-        by_project: 'By Project'
-        by_reason: 'By Reason'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
         inbox: 'Inbox'
         mentioned: '@mentioned'
         watching: 'Watching'

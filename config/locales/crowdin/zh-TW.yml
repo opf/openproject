@@ -2807,6 +2807,8 @@ zh-TW:
       code_409: "由於修改衝突, 無法更新資源。"
       code_429: "Too many requests. Please try again later."
       code_500: "發生內部錯誤。"
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
         duration: "ISO 8601 持續時間"

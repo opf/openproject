@@ -2838,6 +2838,8 @@ hu:
       code_409: "Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt."
       code_429: "Túl sok próbálkozás, próbáld meg később"
       code_500: "Belső hiba történt."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)"
         duration: "ISO 8601 időtartam"

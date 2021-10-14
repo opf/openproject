@@ -533,8 +533,8 @@ ru:
       menu:
         accountable: 'Подотчетный'
         assigned: 'Назначено'
-        by_project: 'По проекту'
-        by_reason: 'По причинам'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
         inbox: 'Входящие'
         mentioned: '@mentioned'
         watching: 'Смотрит'

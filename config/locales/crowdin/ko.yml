@@ -2805,6 +2805,8 @@ ko:
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
         duration: "ISO 8601 기간"

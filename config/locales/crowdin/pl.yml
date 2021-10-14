@@ -2865,6 +2865,8 @@ pl:
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
         duration: "Czas trwania ISO 8601"
