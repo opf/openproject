@@ -106,6 +106,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
             navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
             busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
             enableEditModels: manageIfcModelsAllowed,
+            keyboardEventsElement: this.modelCanvas.nativeElement, // WebGL canvas
           },
           this.ifcData.projects,
         );
@@ -119,6 +120,14 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   toggleInspector() {
     this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
+  }
+
+  // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
+  // pressing the S-key shall not trigger the global search which listens on `document`.
+  @HostListener('keydown')
+  @HostListener('keyup')
+  cancelAllKeyEvents(event:KeyboardEvent) {
+    event.stopPropagation();
   }
 
   @HostListener('mousedown')
