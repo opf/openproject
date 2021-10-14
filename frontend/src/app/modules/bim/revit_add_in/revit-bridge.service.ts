@@ -70,7 +70,7 @@ export class RevitBridgeService extends ViewerBridgeService {
           // at this point snapshot data should be sent as a base64 string
           viewpointJson.snapshot = {
             snapshot_type: 'png',
-            snapshot_data: viewpointJson.snapshot as any,
+            snapshot_data: viewpointJson.snapshot as unknown as string,
           };
 
           return viewpointJson;
