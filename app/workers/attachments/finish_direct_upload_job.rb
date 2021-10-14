@@ -77,13 +77,16 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   end
 
   def validate_attachment(attachment)
-    contract = ::Attachments::CreateContract
-                 .new(attachment, attachment.author)
+    contract = create_contract attachment
 
     unless contract.valid?
       errors = contract.errors.full_messages.join(", ")
       raise "Failed to validate attachment #{attachment.id}: #{errors}"
     end
+  end
+
+  def create_contract(attachment)
+    ::Attachments::CreateContract.new(attachment, attachment.author)
   end
 
   def journalize_container(attachment)
