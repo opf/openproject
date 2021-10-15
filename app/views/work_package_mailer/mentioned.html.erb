@@ -6,6 +6,7 @@
 
 <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;margin-left:auto;margin-right:auto') %>>
   <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
     <td>
       <%= render layout: 'mailer/notification_mailer_header',
                  locals: {
@@ -56,6 +57,6 @@
         </tr>
       </table>
     </td>
+    <%= placeholder_cell('12px', vertical: true) %>
   </tr>
 </table>
-
