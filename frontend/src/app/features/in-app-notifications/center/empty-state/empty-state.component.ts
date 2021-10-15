@@ -28,11 +28,14 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { IanCenterService } from '../state/ian-center.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   templateUrl: './empty-state.component.html',
@@ -40,10 +43,11 @@ import { IanCenterService } from '../state/ian-center.service';
   styleUrls: ['./empty-state.component.sass'],
   selector: 'op-empty-state',
 })
-export class EmptyStateComponent {
+export class EmptyStateComponent implements OnInit {
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
+    loading: imagePath('notification-center/notification_loading.gif'),
   };
 
   text = {
@@ -51,11 +55,26 @@ export class EmptyStateComponent {
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
-  hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications:boolean;
+
+  loading = true;
+
+  private hasNotifications$ = this.storeService.query.hasNotifications$;
 
   constructor(
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
+  }
+
+  ngOnInit():void {
+    this.hasNotifications$.pipe(
+      debounceTime(700),
+    ).subscribe((val:boolean) => {
+      this.loading = false;
+      this.hasNotifications = val;
+      this.cdRef.detectChanges();
+    });
   }
 }
