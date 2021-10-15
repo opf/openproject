@@ -1979,6 +1979,7 @@ en:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
+      see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
