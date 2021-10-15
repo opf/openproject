@@ -2,6 +2,8 @@
 
 $ian-bg-color: #FFFFFF
 $ian-bg-hover-color: var(--gray-light)
+$ian-bg-read-color: #F3F3F3
+$ian-bg-read-hover-color: darken($ian-bg-read-color, 2)
 $ian-bg-selected-color: #D1E5F5
 $ian-bg-selected-hover-color: darken($ian-bg-selected-color, 2)
 // This needs to be set in the itemSize of
@@ -27,9 +29,13 @@ $subject-font-size: 14px
 
   &_selected
     background: $ian-bg-selected-color
-
     &:hover
       background: $ian-bg-selected-hover-color
+
+  &_read
+    background: $ian-bg-read-color
+    &:hover
+      background: $ian-bg-read-hover-color
 
   &--row
     @include unset-button-styles
