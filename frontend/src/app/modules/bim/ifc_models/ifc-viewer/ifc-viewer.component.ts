@@ -124,10 +124,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
   // pressing the S-key shall not trigger the global search which listens on `document`.
-  @HostListener('keydown')
-  @HostListener('keyup')
-  cancelAllKeyEvents(event:KeyboardEvent) {
-    event.stopPropagation();
+  @HostListener('keydown', ['$event'])
+  @HostListener('keyup', ['$event'])
+  @HostListener('keypress', ['$event'])
+  cancelAllKeyEvents($event:KeyboardEvent) {
+    $event.stopPropagation();
   }
 
   @HostListener('mousedown')
