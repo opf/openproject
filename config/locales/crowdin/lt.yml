@@ -1933,8 +1933,8 @@ lt:
     body:
       added_by:
         without_message: "%{user} pridėjo jus kaip narį į projektą '%{project}'."
-        with_message: "%{user} pridėjo jus kaip narį į projektą '%{project}' su prierašu:"
-      roles: "Jūs turite tokias roles"
+        with_message: "%{user} pridėjo jus kaip narį į projektą „%{project}“ su prierašu:"
+      roles: "Jūs turite tokias roles:"
   mail_member_updated_project:
     subject: "%{project} - Jūsų rolės buvo atnaujintos"
     body:
