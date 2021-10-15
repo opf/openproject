@@ -28,24 +28,12 @@
                      count: notifications_by_work_package.length
                    } do %>
           <table <%= placeholder_table_styles %>>
-            <% notifications_by_work_package.each do | notification | %>
-              <% if notification.journal.notes.present? %>
-                <tr>
-                  <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
-                    <%= digest_comment_text(notification) %>
-                    <%= digest_notification_timestamp_text(notification) %>
-                  </td>
-                </tr>
-              <% end %>
-              <% notification.journal.details.each do |detail| %>
-                <tr>
-                  <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
-                    <%= notification.journal.render_detail(detail, only_path: false) %>
-                    <%= digest_notification_timestamp_text(notification) %>
-                  </td>
-                </tr>
-              <% end %>
-            <% end %>
+            <tr>
+              <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
+                <%= digest_notification_timestamp_text(notifications_by_work_package.first) %>
+                <%= digest_additional_author_text(notifications_by_work_package) %>
+              </td>
+            </tr>
           </table>
         <% end %>
       <% end %>

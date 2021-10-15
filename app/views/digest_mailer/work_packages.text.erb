@@ -7,28 +7,11 @@
   <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
   = #<%= work_package.id %> <%= work_package.subject %> =
   <%= "=" * (('# ' + work_package.id.to_s + work_package.subject).length + 4) %>
+  
+  <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
+  <% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>: <%= digest_notification_timestamp_text(notifications_by_work_package.first, html: false) %>
+  <%= digest_additional_author_text(notifications_by_work_package) %>
 
-  <% notifications_by_work_package.each do | notification | %>
-    <%= "-" * 20 %>
-
-    <% unique_reasons = unique_reasons_of_notifications(notifications_by_work_package) %>
-    <%= digest_notification_timestamp_text(
-          notification,
-          html: false,
-          extended_text: true) %> (<% unique_reasons.each_with_index do |reason, index| %><%= I18n.t(:"mail.work_packages.reason.#{reason || :unknown}", default: '-') %><%= ', ' unless unique_reasons.size-1 == index  %><% end %>)
-
-    <% journal = notification.journal %>
-    <% if journal.notes.present? %>
-      <%= I18n.t(:label_comment_added) %>:
-      <%= journal.notes %>
-
-    <% end %>
-    <% journal.details.each do |detail| %>
-      * <%= journal.render_detail(detail, only_path: false, no_html: true) %>
-    <% end %>
-
-    <%= "-" * 20 %>
-  <% end %>
 <% end %>
 
 <%= "-" * 100 %>
