@@ -45,7 +45,7 @@ lt:
       options: Nustatymai
       include_attachments: Įtraukti priedus
       download_backup: Atsiųsti atsarginę kopiją
-      request_backup: Prašyti atsarginės kppijos
+      request_backup: Prašyti atsarginės kopijos
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -534,8 +534,8 @@ lt:
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_project: 'Neperskaityti pagal projektą'
+        by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
         mentioned: '@paminėtas'
         watching: 'Stebima'

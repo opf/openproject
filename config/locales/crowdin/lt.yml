@@ -2865,7 +2865,7 @@ lt:
       code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 trukmė"
