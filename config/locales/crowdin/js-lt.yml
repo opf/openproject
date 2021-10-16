@@ -761,7 +761,7 @@ lt:
       no_results:
         title: Nėra rodytinų darbų paketų.
         description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbų paketai. Prašome sumažinti rezultatų skaičių filtrais arba persijunkite į automatinį rikiavimą.
       property_groups:
         details: "Detali informacija"
         people: "Žmonės"
@@ -928,7 +928,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingai atnaujinta."
-    notice_job_started: "užduoties vykdymas pradėtas."
+    notice_job_started: "darbas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -1003,7 +1003,7 @@ lt:
         lacking_permission_info: 'Jums trūksta teisių priskirti naudotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
-        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
+        no_invite_rights: 'Jums neleidžiama kviesti narių į projektą'
       type:
         required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:
@@ -1016,7 +1016,7 @@ lt:
           title: 'Statytinis naudotojas'
           title_no_ee: 'Statytiniai naudotojai (galimybė pasiekiama tik Enterprise Edition)'
           description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
-          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Patikrinkite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Pabandykite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
           name_or_email: 'Vardas arba elektroninio pašto adresas'
@@ -1040,7 +1040,7 @@ lt:
         next_button: 'Kitas'
       message:
         label: 'Kvietimo pranešimas'
-        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas galėtų būti naudingas gavėjui. Arba šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
+        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
         next_button: 'Peržiūrėti kvietimą'
       summary:
         next_button: 'Siųsti pakvietimą'
