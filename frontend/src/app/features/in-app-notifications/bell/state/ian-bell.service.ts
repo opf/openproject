@@ -32,7 +32,7 @@ export class IanBellService {
     readonly resourceService:InAppNotificationsResourceService,
   ) {
     this.query.unreadCountIncreased$.pipe(skip(1)).subscribe((count) => {
-      this.actions$.dispatch(notificationCountIncreased({ origin: this.id, count }))
+      this.actions$.dispatch(notificationCountIncreased({ origin: this.id, count }));
     });
   }
 

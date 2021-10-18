@@ -7,10 +7,11 @@ import {
 
 export class IanBellQuery extends Query<IanBellState> {
   unread$ = this.select('totalUnread');
+
   unreadCountIncreased$ = this.unread$.pipe(
     pairwise(),
     filter(([last, curr]) => curr > last),
-    map(([_, curr]) => curr),
+    map(([, curr]) => curr),
   );
 
   constructor(protected store:IanBellStore) {

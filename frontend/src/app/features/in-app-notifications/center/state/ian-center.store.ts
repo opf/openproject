@@ -1,5 +1,4 @@
 import { Store, StoreConfig } from '@datorama/akita';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { CollectionResponse } from 'core-app/core/state/collection-store';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -33,7 +32,7 @@ export function createInitialState():IanCenterState {
       page: 1,
     },
     filters: {},
-    activeCollection:{ ids: [] },
+    activeCollection: { ids: [] },
     activeFacet: 'unread',
     notLoaded: 0,
   };

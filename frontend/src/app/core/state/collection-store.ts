@@ -33,7 +33,7 @@ export interface CollectionItem {
 
 export function mapHALCollectionToIDCollection<T extends CollectionItem>(collection:IHALCollection<T>):CollectionResponse {
   return {
-    ids: collection._embedded.elements.map((el) => el.id)
+    ids: collection._embedded.elements.map((el) => el.id),
   };
 }
 
@@ -79,7 +79,7 @@ export function selectCollectionAsHrefs$<T extends CollectionItem>(service:Colle
  * @param service
  * @param collection
  */
-export function selectEntitiesFromIDCollection<T extends CollectionItem>(service:CollectionService<T>, collection:CollectionResponse) {
+export function selectEntitiesFromIDCollection<T extends CollectionItem>(service:CollectionService<T>, collection:CollectionResponse):T[] {
   const ids = collection?.ids || [];
 
   return ids

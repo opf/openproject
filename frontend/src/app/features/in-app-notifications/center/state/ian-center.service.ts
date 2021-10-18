@@ -18,7 +18,7 @@ import {
   setLoading,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from "core-app/shared/components/notifications/notifications.service";
+import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -55,9 +55,10 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly query = new IanCenterQuery(this.store, this.resourceService);
 
   private reload = new ReplaySubject(1);
+
   private onReload = this.reload.pipe(
     debounceTime(0),
-    switchMap(()=> this.resourceService
+    switchMap(() => this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
         setLoading(this.store),
@@ -65,10 +66,10 @@ export class IanCenterService extends UntilDestroyedMixin {
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
             .pipe(
               mapTo(mapHALCollectionToIDCollection(results)),
-            )
+            ),
         ),
       ),
-    )
+    ),
   );
 
   public selectedNotificationIndex = 0;
@@ -166,11 +167,10 @@ export class IanCenterService extends UntilDestroyedMixin {
    * Check for updates after bell count increased
    */
   @EffectCallback(notificationCountIncreased)
-  private checkForNewNotifications(action:ReturnType<typeof notificationsMarkedRead>) {
-    console.log('new notifications!');
+  private checkForNewNotifications() {
     this.reload.next(0);
     this.onReload.pipe(take(1)).subscribe((collection) => {
-      const activeCollection = this.query.getValue().activeCollection;
+      const { activeCollection } = this.query.getValue();
       const hasNewNotifications = !collection.ids.reduce(
         (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
         true,

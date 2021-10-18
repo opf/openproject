@@ -45,7 +45,7 @@ export class IanMenuService {
    * Check for updates after bell count increased
    */
   @EffectCallback(notificationCountIncreased)
-  private checkForNewNotifications(action:ReturnType<typeof notificationsMarkedRead>) {
+  private checkForNewNotifications() {
     this.reload();
   }
 
