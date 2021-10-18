@@ -43,7 +43,7 @@ describe User, '.having_reminder_mail_to_send', type: :model do
   end
 
   # Let the date be one where workdays are enabled by default
-  # to avoid specifying them explictly
+  # to avoid specifying them explicitly
   let(:current_time) { "2021-09-30T08:10:59Z".to_datetime }
   let(:scope_time) { "2021-09-30T08:00:00Z".to_datetime }
 
@@ -163,9 +163,15 @@ describe User, '.having_reminder_mail_to_send', type: :model do
           daily_reminders: {
             enabled: true,
             times: [hitting_reminder_slot_for("Pacific/Honolulu", current_time)]
-          }
+          },
+          pause_reminders: hawaii_user_pause_reminders
         }
       )
+    end
+    let(:hawaii_user_pause_reminders) do
+      {
+        enabled: false
+      }
     end
     let(:notifications) do
       FactoryBot.create(:notification, recipient: hawaii_user, created_at: 5.minutes.ago)
@@ -184,6 +190,38 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       it 'is empty' do
         expect(scope)
           .to be_empty
+      end
+    end
+
+    context 'with local date range for pausing' do
+      context 'that includes scope_time' do
+        let(:hawaii_user_pause_reminders) do
+          {
+            enabled: true,
+            first_day: '2021-09-29',
+            last_day: '2021-09-29'
+          }
+        end
+
+        it 'is empty' do
+          expect(scope)
+            .to be_empty
+        end
+      end
+
+      context 'that excludes scope_time' do
+        let(:hawaii_user_pause_reminders) do
+          {
+            enabled: true,
+            first_day: '2021-09-30',
+            last_day: '2021-09-30'
+          }
+        end
+
+        it 'contains the user' do
+          expect(scope)
+            .to match_array([hawaii_user])
+        end
       end
     end
   end
