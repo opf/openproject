@@ -193,35 +193,33 @@ describe User, '.having_reminder_mail_to_send', type: :model do
       end
     end
 
-    context 'with local date range for pausing' do
-      context 'that includes scope_time' do
-        let(:hawaii_user_pause_reminders) do
-          {
-            enabled: true,
-            first_day: '2021-09-29',
-            last_day: '2021-09-29'
-          }
-        end
-
-        it 'is empty' do
-          expect(scope)
-            .to be_empty
-        end
+    context 'with local date range for pausing that includes scope_time' do
+      let(:hawaii_user_pause_reminders) do
+        {
+          enabled: true,
+          first_day: '2021-09-29',
+          last_day: '2021-09-29'
+        }
       end
 
-      context 'that excludes scope_time' do
-        let(:hawaii_user_pause_reminders) do
-          {
-            enabled: true,
-            first_day: '2021-09-30',
-            last_day: '2021-09-30'
-          }
-        end
+      it 'is empty' do
+        expect(scope)
+          .to be_empty
+      end
+    end
 
-        it 'contains the user' do
-          expect(scope)
-            .to match_array([hawaii_user])
-        end
+    context 'with local date range for pausing that excludes scope_time' do
+      let(:hawaii_user_pause_reminders) do
+        {
+          enabled: true,
+          first_day: '2021-09-30',
+          last_day: '2021-09-30'
+        }
+      end
+
+      it 'contains the user' do
+        expect(scope)
+          .to match_array([hawaii_user])
       end
     end
   end
