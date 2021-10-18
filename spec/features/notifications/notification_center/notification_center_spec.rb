@@ -117,7 +117,6 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       center.expect_work_package_item notification2
     end
 
-<<<<<<< HEAD
     context "with a new notification" do
       let(:notification3) { FactoryBot.create :notification,
                             reason: :mentioned,
@@ -154,7 +153,8 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         sleep 15
         center.expect_no_toaster
       end
-=======
+    end
+
     it 'opens the next notification after marking one as read' do
       visit home_path
       center.expect_bell_count 2
@@ -186,7 +186,6 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       center.expect_no_item notification2
 
       center.expect_empty
->>>>>>> dev
     end
 
     context 'with multiple notifications per work package' do
