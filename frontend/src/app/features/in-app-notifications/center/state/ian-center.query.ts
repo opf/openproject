@@ -1,5 +1,6 @@
 import { Query } from '@datorama/akita';
 import {
+  distinctUntilChanged,
   map,
   switchMap,
 } from 'rxjs/operators';
@@ -46,6 +47,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
   hasNotifications$ = this
     .notifications$
     .pipe(
+      distinctUntilChanged(),
       map((items) => items.length > 0),
     );
 

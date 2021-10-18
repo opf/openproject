@@ -35,7 +35,12 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { IanCenterService } from '../state/ian-center.service';
-import { debounceTime } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   templateUrl: './empty-state.component.html',
@@ -52,29 +57,50 @@ export class EmptyStateComponent implements OnInit {
 
   text = {
     no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
+    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter'),
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
   hasNotifications:boolean;
 
+  notificationsFiltered = false;
+
   loading = true;
 
   private hasNotifications$ = this.storeService.query.hasNotifications$;
 
+  private totalCount$ = this.bellService.unread$;
+
   constructor(
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
+    readonly bellService:IanBellService,
     readonly cdRef:ChangeDetectorRef,
   ) {
   }
 
   ngOnInit():void {
-    this.hasNotifications$.pipe(
-      debounceTime(700),
-    ).subscribe((val:boolean) => {
-      this.loading = false;
-      this.hasNotifications = val;
-      this.cdRef.detectChanges();
-    });
+    combineLatest([
+      this.hasNotifications$,
+      this.totalCount$,
+    ])
+      .pipe(
+        distinctUntilChanged(),
+        debounceTime(250),
+      )
+      .subscribe(([hasNotification, total]) => {
+        this.loading = false;
+        this.hasNotifications = hasNotification;
+
+        if (!hasNotification && total > 0) {
+          this.notificationsFiltered = true;
+        }
+
+        this.cdRef.detectChanges();
+      });
+  }
+
+  noNotificationText():string {
+    return this.notificationsFiltered ? this.text.no_notification_with_current_filter : this.text.no_notification;
   }
 }

@@ -19,6 +19,7 @@ import { ActivateFacetButtonComponent } from './center/toolbar/facet/activate-fa
 import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,9 @@ import { EmptyStateComponent } from './center/empty-state/empty-state.component'
     OpenprojectWorkPackagesModule,
     OpenprojectContentLoaderModule,
     ScrollingModule,
+  ],
+  providers: [
+    IanBellService,
   ],
 })
 export class OpenProjectInAppNotificationsModule {

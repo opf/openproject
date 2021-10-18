@@ -25,9 +25,6 @@ const POLLING_INTERVAL = 10000;
   templateUrl: './in-app-notification-bell.component.html',
   styleUrls: ['./in-app-notification-bell.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    IanBellService,
-  ],
 })
 export class InAppNotificationBellComponent {
   polling$ = timer(10, POLLING_INTERVAL).pipe(
