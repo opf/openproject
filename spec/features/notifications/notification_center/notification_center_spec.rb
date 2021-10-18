@@ -118,12 +118,13 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     end
 
     context "with a new notification" do
-      let(:notification3) do FactoryBot.create :notification,
-                                               reason: :mentioned,
-                                               recipient: recipient,
-                                               project: project1,
-                                               actor: other_user,
-                                               read_ian: true
+      let(:notification3) do
+        FactoryBot.create :notification,
+                          reason: :mentioned,
+                          recipient: recipient,
+                          project: project1,
+                          actor: other_user,
+                          read_ian: true
       end
 
       it "opens a toaster if the notification is part of the current filters" do

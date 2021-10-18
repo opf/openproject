@@ -68,8 +68,7 @@ export class IanCenterService extends UntilDestroyedMixin {
               mapTo(mapHALCollectionToIDCollection(results)),
             ),
         ),
-      ),
-    ),
+      )),
   );
 
   public selectedNotificationIndex = 0;
@@ -198,7 +197,7 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    const activeCollection = this.query.getValue().activeCollection;
+    const { activeCollection } = this.query.getValue();
     this.store.update({
       activeCollection: {
         ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
