@@ -42,6 +42,7 @@
       </div>
 
       <span
+        *ngIf="!notification.readIAN"
         class="op-ian-item--reason-count"
         [textContent]="aggregatedNotifications.length"
       ></span>
