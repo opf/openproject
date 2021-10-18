@@ -54,7 +54,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'will not show all details of the journal' do
       visit home_path
-      center.expect_bell_count 3
+      center.expect_bell_count 2
       center.open
 
       center.expect_work_package_item notification
@@ -71,7 +71,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'can see the notification and dismiss it' do
       visit home_path
-      center.expect_bell_count 3
+      center.expect_bell_count 2
       center.open
 
       center.expect_work_package_item notification
@@ -92,7 +92,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'can open the split screen of the notification' do
       visit home_path
-      center.expect_bell_count 3
+      center.expect_bell_count 2
       center.open
 
       center.click_item notification
@@ -109,7 +109,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       end
 
       center.close
-      center.expect_bell_count 2
+      center.expect_bell_count 1
 
       center.open
       center.expect_no_item notification
