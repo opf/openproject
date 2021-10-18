@@ -3,21 +3,22 @@ require 'spec_helper'
 describe "Notification center", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
-  let!(:project) { FactoryBot.create :project }
+  let!(:project1) { FactoryBot.create :project }
+  let!(:project2) { FactoryBot.create :project }
   let!(:recipient) do
     # Needs to take place before the work package is created so that the notification listener is set up
     FactoryBot.create :user,
-                      member_in_project: project,
+                      member_in_projects: [project1, project2],
                       member_with_permissions: %i[view_work_packages]
   end
   let!(:other_user) do
     FactoryBot.create(:user)
   end
   let(:work_package) do
-    FactoryBot.create :work_package, project: project, author: other_user
+    FactoryBot.create :work_package, project: project1, author: other_user
   end
   let(:work_package2) do
-    FactoryBot.create :work_package, project: project, author: other_user
+    FactoryBot.create :work_package, project: project2, author: other_user
   end
   let(:notification) do
     # Will have been created via the JOURNAL_CREATED event listeners
@@ -29,6 +30,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
   end
 
   let(:center) { ::Pages::Notifications::Center.new }
+  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
   let(:split_screen) { ::Pages::SplitWorkPackage.new work_package }
 
@@ -52,7 +54,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'will not show all details of the journal' do
       visit home_path
-      center.expect_bell_count 2
+      center.expect_bell_count 3
       center.open
 
       center.expect_work_package_item notification
@@ -69,7 +71,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'can see the notification and dismiss it' do
       visit home_path
-      center.expect_bell_count 2
+      center.expect_bell_count 3
       center.open
 
       center.expect_work_package_item notification
@@ -90,7 +92,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     it 'can open the split screen of the notification' do
       visit home_path
-      center.expect_bell_count 2
+      center.expect_bell_count 3
       center.open
 
       center.click_item notification
@@ -107,27 +109,48 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
       end
 
       center.close
-      center.expect_bell_count 1
+      center.expect_bell_count 2
 
       center.open
       center.expect_no_item notification
       center.expect_work_package_item notification2
     end
 
-    it 'can filter by project' do
-      visit home_path
-      center.expect_bell_count 2
-      center.open
-      center.expect_number_of_notifications 2
-      center.open_filtered("My Project No. 1")
-      center.expect_number_of_notifications 2
-      byebug
-    end
-
     context "with a new notification" do
+      let(:notification3) { FactoryBot.create :notification,
+                            reason: :mentioned,
+                            recipient: recipient,
+                            project: project1,
+                            actor: other_user,
+                            read_ian: true }
+
       it "opens a toaster if the notification is part of the current filters" do
         visit home_path
         center.open
+        center.expect_bell_count 2
+        center.expect_work_package_item notification
+        center.expect_work_package_item notification2
+        center.expect_no_toaster
+        notification3.update(read_ian: false)
+        center.expect_toaster
+        center.update_via_toaster
+        center.expect_no_toaster
+        center.expect_work_package_item notification
+        center.expect_work_package_item notification2
+        center.expect_work_package_item notification3
+      end
+
+      it "does not open a toaster if the notification is not part of the current filters" do
+        visit home_path
+        center.open
+        center.expect_bell_count 2
+        side_menu.click_item '@mentioned'
+        side_menu.finished_loading
+        center.expect_no_toaster
+        notification3.update(read_ian: false)
+        # We need to wait for the bell to poll for updates
+        sleep 15
+        center.expect_no_toaster
       end
     end
 
