@@ -120,7 +120,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
     context "with a new notification" do
       let(:notification3) do
         FactoryBot.create :notification,
-                          reason: :mentioned,
+                          reason: :commented,
                           recipient: recipient,
                           project: project1,
                           actor: other_user,
