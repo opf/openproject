@@ -287,7 +287,7 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną audotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną naudotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
