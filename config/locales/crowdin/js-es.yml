@@ -485,7 +485,7 @@ es:
         members: 'Invitar a nuevos <b>miembros</b> a unirse a tu proyecto.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        sidebar_arrow: "Usa la flecha de retorno en la esquina superior izquierda para regresar al <b>menú principal</b> del proyecto."
         welcome: 'Realice un paseo de introducción de tres minutos para conocer las <b>características más importantes</b>. <br> Le recomendamos que complete todos los pasos. Puede volver a iniciar el paseo en cualquier momento.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:

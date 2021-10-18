@@ -2867,7 +2867,7 @@ ru:
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
         date: "ГГГГ-мм-дд (только для даты ISO 8601)"
         duration: "ISO 8601 продолжительность"

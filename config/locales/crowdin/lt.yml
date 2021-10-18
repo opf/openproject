@@ -548,13 +548,13 @@ lt:
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
         format: "neatitinka laukiamo formato '%{expected}'."
-        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje '%{path}'."
+        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje „%{path}“."
         greater_than: "turi būti didesnis už %{count}."
         greater_than_or_equal_to: "turi būti didesnis arba lygus %{count}."
         greater_than_or_equal_to_start_date: "turi būti didesnis arba lygus už pradžios datą."
         greater_than_start_date: "turi būti didesnis už pradžios datą."
         inclusion: "nenustatyta kaip viena iš leidžiamų reikšmių."
-        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje '%{path}'."
+        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje „%{path}“."
         invalid: " neteisingas."
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
@@ -575,24 +575,24 @@ lt:
         taken: "jau užimtas."
         too_long: "yra per ilgas (daugiausiai galima %{count} simbolių)."
         too_short: "yra per trumpas (mažiausiai %{count} simbolių)."
-        type_mismatch: "yra ne tipo '%{type}'"
-        type_mismatch_nested: "yra ne  tipo '%{type}' kelyje '%{path}'"
+        type_mismatch: "yra ne tipo „%{type}“"
+        type_mismatch_nested: "yra ne  tipo „%{type}“ kelyje „%{path}“"
         unchangeable: "negali būti pakeistas."
         unknown_property: "yra nežinoma savybė."
-        unknown_property_nested: "yra nežinomas kelias '%{path}'."
+        unknown_property_nested: "yra nežinomas kelias „%{path}“."
         unremovable: "negali būti pašalintas."
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "turi reikšmę '%{value}', kurios nėra leidžiamų įkelti tipų sąraše."
+              not_whitelisted: "turi reikšmę „%{value}“, kurios nėra leidžiamų įkelti tipų sąraše."
         capability:
           context:
             global: 'Globali'
           query:
             filters:
-              minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su '=' operatoriumi."
+              minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su „=“ operatoriumi."
         custom_field:
           at_least_one_custom_option: "Turi būti prieinama bent viena savybė."
         custom_actions:
@@ -621,12 +621,12 @@ lt:
           outside: 'yra už tinklelio.'
           end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'
         notifications:
-          at_least_one_channel: 'Bent vienas kanalas pranešimų siuntimui turi būti nurodytas.'
+          at_least_one_channel: 'Turi būti nurodytas bent vienas kanalas pranešimų siuntimui.'
           attributes:
             read_ian:
-              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
+              read_on_creation: 'kuriant informavimo pranešimą negali būti nustatytas į true.'
             mail_reminder_sent:
-              set_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
+              set_on_creation: 'kuriant informavimo pranešimą negali būti nustatytas į true.'
             reason:
               no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:

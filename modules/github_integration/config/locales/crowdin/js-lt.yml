@@ -28,7 +28,7 @@ lt:
         title: "Įtraukimo užklausos"
         copy_menu:
           label: Git fragmentai
-          description: Nukopijuoti git fragmentus į iškarpinę
+          description: Kopijuoti git fragmentus į iškarpinę
         git_actions:
           branch_name: Šakos pavadinimas
           commit_message: Commit pranešimas
