@@ -28,9 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
@@ -48,7 +46,7 @@ import { combineLatest } from 'rxjs';
   styleUrls: ['./empty-state.component.sass'],
   selector: 'op-empty-state',
 })
-export class EmptyStateComponent implements OnInit {
+export class EmptyStateComponent {
   image = {
     no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
     no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
@@ -61,46 +59,27 @@ export class EmptyStateComponent implements OnInit {
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
-  hasNotifications:boolean;
-
-  notificationsFiltered = false;
-
-  loading = true;
-
   private hasNotifications$ = this.storeService.query.hasNotifications$;
 
   private totalCount$ = this.bellService.unread$;
+
+  dataChanged$ = combineLatest([
+    this.hasNotifications$,
+    this.totalCount$,
+  ])
+    .pipe(
+      distinctUntilChanged(),
+      debounceTime(350),
+    );
 
   constructor(
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
     readonly bellService:IanBellService,
-    readonly cdRef:ChangeDetectorRef,
   ) {
   }
 
-  ngOnInit():void {
-    combineLatest([
-      this.hasNotifications$,
-      this.totalCount$,
-    ])
-      .pipe(
-        distinctUntilChanged(),
-        debounceTime(250),
-      )
-      .subscribe(([hasNotification, total]) => {
-        this.loading = false;
-        this.hasNotifications = hasNotification;
-
-        if (!hasNotification && total > 0) {
-          this.notificationsFiltered = true;
-        }
-
-        this.cdRef.detectChanges();
-      });
-  }
-
-  noNotificationText():string {
-    return this.notificationsFiltered ? this.text.no_notification_with_current_filter : this.text.no_notification;
+  noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
+    return (!hasNotifications && totalNotifications > 0) ? this.text.no_notification_with_current_filter : this.text.no_notification;
   }
 }
