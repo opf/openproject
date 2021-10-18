@@ -103,9 +103,11 @@ module API
         end
       end
 
-      def initialize(message)
+      def initialize(message, **)
         @message = message
         @errors = []
+
+        super message: message
       end
     end
   end

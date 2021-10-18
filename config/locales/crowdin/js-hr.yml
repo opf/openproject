@@ -533,8 +533,8 @@ hr:
       menu:
         accountable: 'Accountable'
         assigned: 'Assigned'
-        by_project: 'By Project'
-        by_reason: 'By Reason'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
         inbox: 'Inbox'
         mentioned: '@mentioned'
         watching: 'Watching'

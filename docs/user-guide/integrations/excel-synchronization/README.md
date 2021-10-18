@@ -28,6 +28,28 @@ See how to synchronize work package hierarchies in OpenProject with MS Excel.
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-synchronization-3.-hierarchies.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
+### Synchronize relations
+
+The OpenProject Excel synchronization also supports relations. To update the relations try the following steps:
+
+1. Open the Excel file.
+2. Prepare the headline (choose "*Relations" from drop-down).
+3. Close the file (don't forget to save before).
+4. Open the file and download the work packages.
+
+You will then get the relations in your Excel file.
+
+**Syntax:**
+{type of relation} {id}, {type of relation} {id}, etc.
+
+**Example:**
+"follows 12345, precedes 45678"
+
+Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: https://www.openproject.org/docs/api/endpoints/relations/#relation-edit-form
+
+![allowd-values](image-20211014153150017.png)
+
+
 
 ## Step-by-step guide
 

@@ -37,7 +37,7 @@ const menuItemClass = 'overview-menu-item';
 export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'overview',
-    parent: 'root',
+    parent: 'optional_project',
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
     url: '/',

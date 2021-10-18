@@ -77,7 +77,8 @@ describe 'API v3 Work package resource',
 
         include_context 'patch request'
 
-        it_behaves_like 'not found'
+        it_behaves_like 'not found',
+                        I18n.t('api_v3.errors.not_found.work_package')
       end
 
       context 'no permission to edit the work package' do

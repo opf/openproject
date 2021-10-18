@@ -47,7 +47,7 @@
     </a>
 
     <op-sidemenu
-      *ngIf="item.children"
+      *ngIf="item.children && item.children.length"
       [title]="item.title"
       [items]="item.children"
       [collapsible]="item.collapsible"

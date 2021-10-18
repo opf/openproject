@@ -2869,6 +2869,8 @@ cs:
       code_409: "Zdroj nelze aktualizovat kvůli konfliktním změnám."
       code_429: "Too many requests. Please try again later."
       code_500: "Došlo k vnitřní chybě."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (pouze ISO 8601 datum)"
         duration: "Doba trvání ISO 8601"

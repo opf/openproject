@@ -2871,6 +2871,8 @@ sk:
       code_409: "Nepodarilo sa aktualizovať zdroj kvôli konfliktným úpravám."
       code_429: "Too many requests. Please try again later."
       code_500: "Vyskytla sa vnútorná chyba."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "RRRR-MM-DD (len dátumu ISO 8601)"
         duration: "ISO 8601 trvanie"

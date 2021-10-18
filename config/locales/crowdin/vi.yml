@@ -2809,6 +2809,8 @@ vi:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Quá nhiều yêu cầu. Vui lòng thử lại sau."
       code_500: "Lỗi nội bộ đã xảy ra."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (chỉ nhận ISO 8601)"
         duration: "ISO 8601 duration"

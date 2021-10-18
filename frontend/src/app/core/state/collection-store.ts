@@ -91,18 +91,12 @@ export function selectEntitiesFromIDCollection<T extends CollectionItem>(service
  * Retrieve the entities from the collection a given parameter set produces.
  *
  * @param service
+ * @param state
  * @param params
  */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<T[]> {
+export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, state:CollectionState<T>, params:Apiv3ListParameters):T[] {
   const key = collectionKey(params);
+  const collection = state.collections[key];
 
-  return service
-    .query
-    .select()
-    .pipe(
-      map((state) => {
-        const collection = state.collections[key];
-        return selectEntitiesFromIDCollection(service, collection);
-      }),
-    );
+  return selectEntitiesFromIDCollection(service, collection);
 }

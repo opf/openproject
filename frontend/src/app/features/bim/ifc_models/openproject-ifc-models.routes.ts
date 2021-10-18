@@ -39,7 +39,7 @@ import { WorkPackageNewFullViewComponent } from 'core-app/features/work-packages
 export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/bcf?query_props&models&viewpoint',
     abstract: true,
     component: WorkPackagesBaseComponent,

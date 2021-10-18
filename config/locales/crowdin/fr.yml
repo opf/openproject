@@ -2827,6 +2827,8 @@ fr:
       code_409: "Impossible de mettre à jour la ressource en raison de modifications conflictuelles."
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-JJ (date ISO 8601 uniquement)"
         duration: "durée ISO 8601"

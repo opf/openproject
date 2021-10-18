@@ -123,10 +123,7 @@ export class InAppNotificationEntryComponent implements OnInit {
         take(1),
       )
       .subscribe((wp) => {
-        void this.state.go(
-          `${(this.state.current.data as BackRouteOptions).baseRoute}.details.tabs`,
-          { workPackageId: wp.id, tabIdentifier: 'activity' },
-        );
+        this.storeService.openSplitScreen(wp.id);
       });
   }
 

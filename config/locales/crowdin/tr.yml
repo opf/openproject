@@ -2828,6 +2828,8 @@ tr:
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
       code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-AA-GG (ISO 8601 sadece tarih)"
         duration: "ISO 8601 süre"

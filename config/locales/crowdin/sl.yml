@@ -2868,6 +2868,8 @@ sl:
       code_409: "Vira ni bilo mogoče posodobiti zaradi nasprotujočih si sprememb."
       code_429: "Preveč zahtev. Prosimo, poskusite kasneje."
       code_500: "Prišlo je do notranje napake."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "LLLL-MM-DD (ISO 8601 le datum)"
         duration: "ISO 8601 trajanje"

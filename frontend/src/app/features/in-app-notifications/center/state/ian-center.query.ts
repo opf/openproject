@@ -1,9 +1,5 @@
 import { Query } from '@datorama/akita';
-import {
-  tap,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -14,7 +10,6 @@ import {
   Apiv3ListParameters,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { selectEntitiesFromIDCollection } from 'core-app/core/state/collection-store';
 
 export class IanCenterQuery extends Query<IanCenterState> {

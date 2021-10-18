@@ -3,8 +3,11 @@ import {
   Injector,
 } from '@angular/core';
 import {
+  distinctUntilChanged,
   map,
   mapTo,
+  pluck,
+  share,
   switchMap,
   take,
   debounceTime,
@@ -37,10 +40,14 @@ import {
   IanCenterStore,
   InAppNotificationFacet,
 } from './ian-center.store';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { UIRouterGlobals } from '@uirouter/core';
+import { StateService } from '@uirouter/angular';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 @EffectHandler
-export class IanCenterService {
+export class IanCenterService extends UntilDestroyedMixin {
   readonly id = 'ian-center';
 
   readonly store = new IanCenterStore();
@@ -64,6 +71,16 @@ export class IanCenterService {
     )
   );
 
+  public selectedNotificationIndex = 0;
+
+  stateChanged$ = this.uiRouterGlobals.params$?.pipe(
+    this.untilDestroyed(),
+    pluck('workPackageId'),
+    distinctUntilChanged(),
+    map((workPackageId:string) => (workPackageId ? this.apiV3Service.work_packages.id(workPackageId).path : undefined)),
+    share(),
+  );
+
   constructor(
     readonly I18n:I18nService,
     readonly injector:Injector,
@@ -71,8 +88,17 @@ export class IanCenterService {
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
     readonly notificationsService:NotificationsService,
+    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly state:StateService,
   ) {
+    super();
     this.reload.subscribe();
+
+    if (this.stateChanged$) {
+      this.stateChanged$.subscribe(() => {
+        this.updateSelectedNotificationIndex();
+      });
+    }
   }
 
   setFilters(filters:INotificationPageQueryParameters):void {
@@ -104,6 +130,35 @@ export class IanCenterService {
       )
       .subscribe((collection) => {
         this.markAsRead(collection.ids);
+      });
+  }
+
+  openSplitScreen(wpId:string|null):void {
+    void this.state.go(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+      `${this.state.current.data.baseRoute}.details.tabs`,
+      { workPackageId: wpId, tabIdentifier: 'activity' },
+    );
+  }
+
+  showNextNotification():void {
+    void this
+      .query
+      .notifications$
+      .pipe(
+        take(1),
+      ).subscribe((notifications:InAppNotification[][]) => {
+        if (notifications.length <= 0) {
+          void this.state.go(
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+            `${this.state.current.data.baseRoute}`,
+          );
+          return;
+        }
+        if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
+          const wpId = idFromLink(notifications[this.selectedNotificationIndex >= notifications.length ? 0 : this.selectedNotificationIndex][0]._links.resource.href);
+          this.openSplitScreen(wpId);
+        }
       });
   }
 
@@ -149,6 +204,7 @@ export class IanCenterService {
         ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
       },
     });
+    this.showNextNotification();
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
@@ -174,5 +230,22 @@ export class IanCenterService {
     });
 
     return promise;
+  }
+
+  private updateSelectedNotificationIndex() {
+    this
+      .query
+      .notifications$
+      .pipe(
+        take(1),
+      ).subscribe((notifications:InAppNotification[][]) => {
+        for (let i = 0; i < notifications.length; ++i) {
+          if (notifications[i][0]._links.resource
+            && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
+            this.selectedNotificationIndex = i;
+            return;
+          }
+        }
+      });
   }
 }

@@ -169,10 +169,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request, content_type: :json
       context 'requesting nonexistent activity' do
         let(:get_path) { api_v3_paths.activity 9999 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Journal' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'without sufficient permissions' do

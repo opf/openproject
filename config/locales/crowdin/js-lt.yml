@@ -45,7 +45,7 @@ lt:
       options: Nustatymai
       include_attachments: Įtraukti priedus
       download_backup: Atsiųsti atsarginę kopiją
-      request_backup: Prašyti atsarginės kppijos
+      request_backup: Prašyti atsarginės kopijos
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
@@ -267,7 +267,7 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, patikrinkite"
+      upsale_for_more: "Norėdami naudoti daugiau papildomų filtrų, išbandykite"
       upsale_link: '„Enterprise Edition“.'
     general_text_no: "ne"
     general_text_yes: "taip"
@@ -288,7 +288,7 @@ lt:
           standard:
             learn_about_link: https://www.openproject.org/openproject-11-3-release
             current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną audotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
+              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną naudotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
             learn_about_link: https://www.openproject.org/openproject-11-4-release
             current_new_feature_html: >
@@ -534,8 +534,8 @@ lt:
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'
-        by_project: 'Pagal projektą'
-        by_reason: 'Pagal priežastį'
+        by_project: 'Neperskaityti pagal projektą'
+        by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'
         mentioned: '@paminėtas'
         watching: 'Stebima'
@@ -1022,7 +1022,7 @@ lt:
     notice_successful_create: "Sėkmingas sukūrimas."
     notice_successful_delete: "Sėkmingas panaikinimas."
     notice_successful_update: "Sėkmingai atnaujinta."
-    notice_job_started: "užduoties vykdymas pradėtas."
+    notice_job_started: "darbas pradėtas."
     notice_bad_request: "Netinkama užklausa."
     relations:
       empty: Nėra jokių ryšių
@@ -1060,7 +1060,7 @@ lt:
         many: "%{count} darbų paketo vaikai"
         other: "%{count} darbų paketo vaikai"
       hour:
-        one: "1 val."
+        one: "1 val"
         other: "%{count} val"
         zero: "0 val"
     zen_mode:
@@ -1097,7 +1097,7 @@ lt:
         lacking_permission_info: 'Jums trūksta teisių priskirti naudotojus projekte, kuriame dabar esate. Turėtumėte pasirinkti kitą projektą.'
         next_button: 'Kitas'
         no_results: 'Nerasta jokių projektų'
-        no_invite_rights: 'Jums neleidžiama kviesti narius į projektą'
+        no_invite_rights: 'Jums neleidžiama kviesti narių į projektą'
       type:
         required: 'Prašome pasirinkti kokio tipo dalyvį kviesti'
         user:
@@ -1110,7 +1110,7 @@ lt:
           title: 'Statytinis naudotojas'
           title_no_ee: 'Statytiniai naudotojai (galimybė pasiekiama tik Enterprise Edition)'
           description: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti.'
-          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Patikrinkite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Neturi prieigos prie projekto ir jokie el. pašto laiškai nebuvo išsiųsti. <br>Pabandykite <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
           name_or_email: 'Vardas arba elektroninio pašto adresas'
@@ -1134,7 +1134,7 @@ lt:
         next_button: 'Kitas'
       message:
         label: 'Kvietimo pranešimas'
-        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas galėtų būti naudingas gavėjui. Arba šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
+        description: 'Mes siųsime el. pašto laišką %{principal}, į kurį jūs galite pridėti asmeninį pranešimą. Paaiškinimas, kodėl šis pranešimas buvo atsiųstas, galėtų būti naudingas gavėjui. Taipogi šiek tiek informacijos apie projektą galbūt galėtų padėti pradėti darbą su projektu.'
         next_button: 'Peržiūrėti kvietimą'
       summary:
         next_button: 'Siųsti pakvietimą'
