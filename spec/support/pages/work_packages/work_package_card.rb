@@ -46,7 +46,7 @@ module Pages
     end
 
     def expect_selected
-      expect(page).to have_selector("#{card_selector}.-checked")
+      expect(page).to have_selector("#{card_selector}[data-qa-checked='true']")
     end
 
     def expect_type(name)
