@@ -760,7 +760,7 @@ ru:
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Только %{count} пакетов работ могут быть показаны в режиме ручной сортировки. Уменьшите результаты фильтрации или переключитесь на автоматическую сортировку.
       property_groups:
         details: "Детали"
         people: "Люди"

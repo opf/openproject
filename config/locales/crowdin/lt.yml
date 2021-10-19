@@ -579,7 +579,7 @@ lt:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "turi reikšmę '%{value}', kurios nėra leidžiamų įkelti tipų sąraše."
+              not_whitelisted: "turi reikšmę „%{value}“, kurios nėra leidžiamų įkelti tipų sąraše."
         capability:
           context:
             global: 'Globali'

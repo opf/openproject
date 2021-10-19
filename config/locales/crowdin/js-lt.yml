@@ -761,7 +761,7 @@ lt:
       no_results:
         title: Nėra rodytinų darbų paketų.
         description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
-      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbų paketai. Prašome sumažinti rezultatų skaičių filtrais arba persijunkite į automatinį rikiavimą.
+      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbų paketai. Prašome sumažinti rezultatų skaičių filtrais arba persijungti į automatinį rikiavimą.
       property_groups:
         details: "Detali informacija"
         people: "Žmonės"
