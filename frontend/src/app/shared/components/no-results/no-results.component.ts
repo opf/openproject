@@ -38,5 +38,7 @@ export class NoResultsComponent {
 
   @Input() description:string;
 
+  @Input() showIcon = true;
+
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;
 }

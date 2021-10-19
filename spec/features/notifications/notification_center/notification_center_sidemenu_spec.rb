@@ -68,7 +68,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
     it 'still shows the sidebar and a placeholder' do
       side_menu.expect_open
 
-      expect(page).to have_text 'No unread notifications'
+      expect(page).to have_text 'New notifications will appear here when there is activity that concerns you'
 
       center.expect_no_notification
 
@@ -110,7 +110,14 @@ describe "Notification center sidemenu", type: :feature, js: true do
     side_menu.expect_item_with_count project2.name, 1
     side_menu.expect_item_with_count "... #{project3.name}", 2
 
+    # Empty filter sets have a separate message
+    side_menu.click_item 'Watching'
+    side_menu.finished_loading
+    expect(page).to have_text 'There are no notifications in this view at the moment'
+
     # Marking all as read
+    side_menu.click_item 'Inbox'
+    side_menu.finished_loading
     center.mark_all_read
     side_menu.expect_item_with_no_count 'Inbox'
     side_menu.expect_item_with_no_count 'Assigned'
