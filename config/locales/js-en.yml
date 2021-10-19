@@ -572,6 +572,9 @@ en:
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
@@ -589,10 +592,11 @@ en:
         mentioned: '@mentioned'
         watching: 'Watching'
       settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
         notify_me: "Notify me"
-        reasons: 
-          mentioned: 
+        reasons:
+          mentioned:
             title: 'I am @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:

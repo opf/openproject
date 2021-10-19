@@ -22,6 +22,8 @@ import {
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -40,12 +42,12 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
 
   loading$ = this.storeService.query.selectLoading();
 
+  private totalCount$ = this.bellService.unread$;
+
   noResultText$ = this
-    .storeService
-    .query
-    .activeFacet$
+    .totalCount$
     .pipe(
-      map((facet:'unread'|'all') => this.text.no_results[facet] || this.text.no_results.unread),
+      map((count:number) => (count > 0 ? this.text.no_results.with_current_filter : this.text.no_results.at_all)),
     );
 
   totalCountWarning$ = this
@@ -75,11 +77,15 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
     .join(',');
 
   text = {
+    change_notification_settings: this.I18n.t(
+      'js.notifications.settings.change_notification_settings',
+      { url: this.pathService.myNotificationsSettingsPath() },
+    ),
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),
     no_results: {
-      unread: this.I18n.t('js.notifications.no_unread'),
-      all: this.I18n.t('js.notice_no_results_to_display'),
+      at_all: this.I18n.t('js.notifications.center.no_results.at_all'),
+      with_current_filter: this.I18n.t('js.notifications.center.no_results.with_current_filter'),
     },
   };
 
@@ -90,9 +96,11 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
+    readonly bellService:IanBellService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
     readonly apiV3:APIV3Service,
+    readonly pathService:PathHelperService,
   ) {
     super();
   }
