@@ -6,20 +6,21 @@ import {
 import {
   filter,
   map,
-  switchMap,
 } from 'rxjs/operators';
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { combineLatest } from 'rxjs';
 
 export class WpSingleViewQuery extends Query<WpSingleViewState> {
-  selectNotifications$ = this
-    .select((state) => state.notifications.filters)
-    .pipe(
-      filter((filters) => filters.length > 0),
-      switchMap((filters) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, { filters })),
-    );
+  selectNotifications$ = combineLatest([
+    this.select((state) => state.notifications.filters),
+    this.resourceService.query.select(),
+  ]).pipe(
+    filter((filters) => filters.length > 0),
+    map(([filters, state]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, state, { filters })),
+  );
 
   selectNotificationsCount$ = this
     .selectNotifications$

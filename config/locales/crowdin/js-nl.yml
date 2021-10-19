@@ -532,8 +532,8 @@ nl:
       menu:
         accountable: 'Verantwoording afleggen'
         assigned: 'Toegewezen'
-        by_project: 'Op Project'
-        by_reason: 'Op Reden'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
         inbox: 'Inkomend'
         mentioned: '@vermeld'
         watching: 'Bekijken'

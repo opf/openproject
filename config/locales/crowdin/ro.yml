@@ -2849,6 +2849,8 @@ ro:
       code_409: "Nu s-a putut actualiza resursa din cauza unor modificări conflictuale."
       code_429: "Prea multe solicitări. Vă rugăm încercați mai târziu."
       code_500: "A apărut o eroare internă."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "AAAA-MM-ZZ (doar formate ISO 8601)"
         duration: "Durată ISO 8601"

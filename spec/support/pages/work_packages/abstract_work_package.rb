@@ -285,6 +285,10 @@ module Pages
       find('.work-packages-back-button').click
     end
 
+    def mark_notifications_as_read
+      find('[data-qa-selector="mark-notification-read-button"]').click
+    end
+
     private
 
     def create_page(_args)

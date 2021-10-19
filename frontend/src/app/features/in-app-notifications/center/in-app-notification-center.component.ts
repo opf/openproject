@@ -7,11 +7,8 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  distinctUntilChanged,
   filter,
   map,
-  pluck,
-  share,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import { UIRouterGlobals } from '@uirouter/core';
@@ -20,7 +17,6 @@ import {
   InAppNotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
@@ -31,7 +27,7 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
   styleUrls: ['./in-app-notification-center.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InAppNotificationCenterComponent extends UntilDestroyedMixin implements OnInit {
+export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
   hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
@@ -62,13 +58,7 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
       )),
     );
 
-  stateChanged$ = this.uiRouterGlobals.params$?.pipe(
-    this.untilDestroyed(),
-    pluck('workPackageId'),
-    distinctUntilChanged(),
-    map((workPackageId:string) => (workPackageId ? this.apiV3.work_packages.id(workPackageId).path : undefined)),
-    share(),
-  );
+  stateChanged$ = this.storeService.stateChanged$;
 
   originalOrder = ():number => 0;
 
@@ -89,8 +79,6 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
     },
   };
 
-  selectedNotification:InAppNotification|undefined;
-
   constructor(
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
@@ -102,7 +90,6 @@ export class InAppNotificationCenterComponent extends UntilDestroyedMixin implem
     readonly apiV3:APIV3Service,
     readonly pathService:PathHelperService,
   ) {
-    super();
   }
 
   ngOnInit():void {

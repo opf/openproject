@@ -37,7 +37,7 @@ export const JOB_STATUS_ROUTE:Ng2StateDeclaration[] = [
   {
     name: 'job-statuses',
     url: '/job_statuses/{jobId:[a-z0-9-]+}',
-    parent: 'root',
+    parent: 'optional_project',
     component: DisplayJobPageComponent,
     data: {
       bodyClasses: 'router--job-statuses',

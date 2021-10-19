@@ -548,13 +548,13 @@ lt:
         exclusion: "yra rezervuotas."
         file_too_large: "per didelis (didžiausias leistinas dydis yra %{count} baitų)."
         format: "neatitinka laukiamo formato '%{expected}'."
-        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje '%{path}'."
+        format_nested: "neatitinka laukiamo formato '%{expected}' kelyje „%{path}“."
         greater_than: "turi būti didesnis už %{count}."
         greater_than_or_equal_to: "turi būti didesnis arba lygus %{count}."
         greater_than_or_equal_to_start_date: "turi būti didesnis arba lygus už pradžios datą."
         greater_than_start_date: "turi būti didesnis už pradžios datą."
         inclusion: "nenustatyta kaip viena iš leidžiamų reikšmių."
-        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje '%{path}'."
+        inclusion_nested: "nėra nustatytas į vieną iš leidžiamų reikšmių kelyje „%{path}“."
         invalid: " neteisingas."
         invalid_url: 'nėra tinkamas URL.'
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
@@ -575,24 +575,24 @@ lt:
         taken: "jau užimtas."
         too_long: "yra per ilgas (daugiausiai galima %{count} simbolių)."
         too_short: "yra per trumpas (mažiausiai %{count} simbolių)."
-        type_mismatch: "yra ne tipo '%{type}'"
-        type_mismatch_nested: "yra ne  tipo '%{type}' kelyje '%{path}'"
+        type_mismatch: "yra ne tipo „%{type}“"
+        type_mismatch_nested: "yra ne  tipo „%{type}“ kelyje „%{path}“"
         unchangeable: "negali būti pakeistas."
         unknown_property: "yra nežinoma savybė."
-        unknown_property_nested: "yra nežinomas kelias '%{path}'."
+        unknown_property_nested: "yra nežinomas kelias „%{path}“."
         unremovable: "negali būti pašalintas."
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "turi reikšmę '%{value}', kurios nėra leidžiamų įkelti tipų sąraše."
+              not_whitelisted: "turi reikšmę „%{value}“, kurios nėra leidžiamų įkelti tipų sąraše."
         capability:
           context:
             global: 'Globali'
           query:
             filters:
-              minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su '=' operatoriumi."
+              minimum: "turite įtraukti bent vieną nario, konteksto ar id filtrą su „=“ operatoriumi."
         custom_field:
           at_least_one_custom_option: "Turi būti prieinama bent viena savybė."
         custom_actions:
@@ -621,12 +621,12 @@ lt:
           outside: 'yra už tinklelio.'
           end_before_start: 'pabaigos reikšmė turi būti didesnė už pradžios reikšmę.'
         notifications:
-          at_least_one_channel: 'Bent vienas kanalas pranešimų siuntimui turi būti nurodytas.'
+          at_least_one_channel: 'Turi būti nurodytas bent vienas kanalas pranešimų siuntimui.'
           attributes:
             read_ian:
-              read_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
+              read_on_creation: 'kuriant informavimo pranešimą negali būti nustatytas į true.'
             mail_reminder_sent:
-              set_on_creation: 'negali būti nustatytas į true kuriant informavimo pranešimą.'
+              set_on_creation: 'kuriant informavimo pranešimą negali būti nustatytas į true.'
             reason:
               no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:
@@ -793,7 +793,7 @@ lt:
       notification:
         one: "Pranešimas"
         few: "Pranešimai"
-        many: "Pranešimo"
+        many: "Pranešimų"
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
@@ -888,15 +888,15 @@ lt:
       heading_reset: "Atstatyti atsarginės kopijos žetoną"
       heading_create: "Sukurti atsarginės kopijos žetoną"
       implications: >
-        Atsarginių kopijų įgalinimas leis bet kuriam naudotojui su priskirtomis teisėmis iš šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją turinčią visus šios OpenProject instaliacijos duomenis. Juose bus ir visų kitų naudotojų duomenys.
+        Atsarginių kopijų įgalinimas leis bet kuriam naudotojui su priskirtomis teisėmis ir šiuo atsarginės kopijos žetonu parsisiųsti atsarginę kopiją, turinčią visus šio OpenProject egzemplioriaus duomenis. Juose bus ir visų kitų naudotojų duomenys.
       info: >
-        Jums reikės sugeneruoti atsarginės kopijos žetoną norint sukurti atsarginę kopiją. Kaskart, kai jūs norėsite sukurti atsarginę kopiją turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš naudotojo teisę daryti atsargines kopijas.
+        Norint sukurti atsarginę kopiją jums reikės sugeneruoti atsarginės kopijos žetoną. Kaskart, kai jūs norėsite sukurti atsarginę kopiją, turėsite pateikti šį žetoną. Jūs galite ištrinti žetoną ir taip atimsite iš naudotojo teisę daryti atsargines kopijas.
       verification: >
         Įveskite %{word} norėdami patvirtinti veiksmą su atsarginės kopijos žetonu: %{action}.
       verification_word_reset: atstatyti
       verification_word_create: sukurti
       warning: >
-        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko galėsite užsakyti atsarginę kopiją bet kuriuo metu panaudoję šį žetoną.
+        Kai jūs sukuriate atsarginės kopijos žetoną, daryti atsargines kopijas jums bus leista po 24 valandų. Tai apsauga. Po šio laiko, pateikę žetoną galėsite bet kuriuo metu užsakyti atsarginę kopiją.
     text_token_deleted: Atsarginės kopijos žetonas ištrintas. Atsarginės kopijos dabar atjungtos.
     error:
       invalid_token: Nepateiktas arba neteisingas žetonas.
@@ -1344,7 +1344,7 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      incoming_outgoing: "Įeinantis iš Išeinantis"
+      incoming_outgoing: "Įeinantis ir išeinantis"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
@@ -2006,8 +2006,8 @@ lt:
     body:
       added_by:
         without_message: "%{user} pridėjo jus kaip narį į projektą '%{project}'."
-        with_message: "%{user} pridėjo jus kaip narį į projektą '%{project}' su prierašu:"
-      roles: "Jūs turite tokias roles"
+        with_message: "%{user} pridėjo jus kaip narį į projektą „%{project}“ su prierašu:"
+      roles: "Jūs turite tokias roles:"
   mail_member_updated_project:
     subject: "%{project} - Jūsų rolės buvo atnaujintos"
     body:
@@ -2864,6 +2864,8 @@ lt:
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
       code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
+      not_found:
+        work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         duration: "ISO 8601 trukmė"

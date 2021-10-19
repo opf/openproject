@@ -70,22 +70,15 @@ export function selectCollectionAsHrefs$<T extends CollectionItem>(service:Colle
  * Retrieve the entities from the collection a given parameter set produces.
  *
  * @param service
+ * @param state
  * @param params
  */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<T[]> {
+export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, state:CollectionState<T>, params:Apiv3ListParameters):T[] {
   const key = collectionKey(params);
+  const collection = state.collections[key];
+  const ids = collection?.ids || [];
 
-  return service
-    .query
-    .select()
-    .pipe(
-      map((state) => {
-        const collection = state.collections[key];
-        const ids = collection?.ids || [];
-
-        return ids
-          .map((id) => service.query.getEntity(id))
-          .filter((item) => !!item) as T[];
-      }),
-    );
+  return ids
+    .map((id:string) => service.query.getEntity(id))
+    .filter((item) => !!item) as T[];
 }

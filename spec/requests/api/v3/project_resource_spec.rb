@@ -123,10 +123,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           response
         end
 
-        it_behaves_like 'not found' do
-          let(:id) { 9999 }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'requesting project without sufficient permissions' do
@@ -136,10 +133,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           response
         end
 
-        it_behaves_like 'not found' do
-          let(:id) { another_project.id.to_s }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'not being allowed to see the parent project' do
@@ -883,10 +877,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       context 'for a non-existent project' do
         let(:path) { api_v3_paths.project 0 }
 
-        it_behaves_like 'not found' do
-          let(:id) { 0 }
-          let(:type) { 'Project' }
-        end
+        it_behaves_like 'not found'
       end
 
       context 'for a project which has a version foreign work packages refer to' do

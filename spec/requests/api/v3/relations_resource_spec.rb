@@ -96,7 +96,8 @@ describe 'API v3 Relation resource', type: :request do
         get path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
     end
   end
 end

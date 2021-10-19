@@ -2800,6 +2800,8 @@ zh-CN:
       code_409: "无法更新资源，因为发生冲突的修改。"
       code_429: "请求次数过多，请稍后再试。"
       code_500: "发生了内部错误。"
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD（仅适用于 ISO 8601 日期）"
         duration: "ISO 8601 持续时间"

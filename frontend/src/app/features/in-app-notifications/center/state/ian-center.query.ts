@@ -2,8 +2,8 @@ import { Query } from '@datorama/akita';
 import {
   distinctUntilChanged,
   map,
-  switchMap,
 } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -24,11 +24,12 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   paramsChanges$ = this.select(['params', 'activeFacet']);
 
-  selectNotifications$ = this
-    .paramsChanges$
-    .pipe(
-      switchMap(() => selectCollectionAsEntities$<InAppNotification>(this.resourceService, this.params)),
-    );
+  selectNotifications$ = combineLatest([
+    this.paramsChanges$,
+    this.resourceService.query.select(),
+  ]).pipe(
+    map(([, state]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, state, this.params)),
+  );
 
   aggregatedCenterNotifications$ = this
     .selectNotifications$

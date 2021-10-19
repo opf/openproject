@@ -32,19 +32,19 @@ import { BacklogsPageComponent } from 'core-app/features/backlogs/backlogs-page/
 export const BACKLOGS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'backlogs',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/backlogs',
     component: BacklogsPageComponent,
   },
   {
     name: 'backlogs_sprint',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/sprints/{sprintId:int}/taskboard',
     component: BacklogsPageComponent,
   },
   {
     name: 'backlogs_burndown',
-    parent: 'root',
+    parent: 'optional_project',
     url: '/sprints/{sprintId:int}/burndown_chart',
     component: BacklogsPageComponent,
   },

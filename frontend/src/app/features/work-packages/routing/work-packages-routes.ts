@@ -42,10 +42,12 @@ export const menuItemClass = 'work-packages-menu-item';
 export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'work-packages',
-    parent: 'root',
-    component: WorkPackagesBaseComponent,
+    parent: 'optional_project',
     url: '/work_packages?query_id&query_props&start_onboarding_tour',
     redirectTo: 'work-packages.partitioned.list',
+    views: {
+      '!$default': { component: WorkPackagesBaseComponent },
+    },
     data: {
       bodyClasses: 'router--work-packages-base',
       menuItem: menuItemClass,

@@ -2823,6 +2823,8 @@ nl:
       code_409: "De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen."
       code_429: "Too many requests. Please try again later."
       code_500: "Een interne fout is opgetreden."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "JJJJ-MM-DD (alleen ISO 8601 datum)"
         duration: "Standaard ISO 8601 duur"

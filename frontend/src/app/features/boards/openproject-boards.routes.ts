@@ -39,7 +39,7 @@ export const menuItemClass = 'board-view-menu-item';
 export const BOARDS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'boards',
-    parent: 'root',
+    parent: 'optional_project',
     // The trailing slash is important
     // cf., https://community.openproject.com/wp/29754
     url: '/boards/?query_props',

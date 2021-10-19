@@ -60,7 +60,7 @@ ca:
   label_budget_plural: "Budgets"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'ex. %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "Sí"
   notice_budget_conflict: "WorkPackages must be of the same project."
