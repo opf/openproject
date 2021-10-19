@@ -793,7 +793,7 @@ lt:
       notification:
         one: "Pranešimas"
         few: "Pranešimai"
-        many: "Pranešimo"
+        many: "Pranešimų"
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
@@ -1344,7 +1344,7 @@ lt:
   menus:
     admin:
       mail_notification: "El. pašto priminimai"
-      incoming_outgoing: "Įeinantis iš Išeinantis"
+      incoming_outgoing: "Įeinantis ir išeinantis"
     quick_add:
       label: "Atidaryti greitą pridėjimo meniu"
   my_account:
