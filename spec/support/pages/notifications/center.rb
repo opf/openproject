@@ -118,7 +118,7 @@ module Pages
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
         else
-          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 20)
+          expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count: count, wait: 10)
         end
       end
 
@@ -126,7 +126,7 @@ module Pages
         if count == 0
           expect(page).to have_no_selector('[data-qa-selector="op-ian-notifications-count"]')
         else
-          expect(page).to have_selector('[data-qa-selector="op-ian-notifications-count"]', text: count, wait: 20)
+          expect(page).to have_selector('[data-qa-selector="op-ian-notifications-count"]', text: count, wait: 10)
         end
       end
 
@@ -135,15 +135,15 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).to have_no_selector('.notification-box.-info', wait: 20)
+        expect(page).to have_no_selector('.notification-box.-info', wait: 10)
       end
 
       def expect_toaster
-        expect(page).to have_selector('.notification-box.-info', wait: 30)
+        expect(page).to have_selector('.notification-box.-info', wait: 10)
       end
 
       def update_via_toaster
-        page.find('.notification-box.-info a', wait: 20).click
+        page.find('.notification-box.-info a', wait: 10).click
       end
     end
   end

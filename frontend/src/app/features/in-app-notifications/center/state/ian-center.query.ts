@@ -1,5 +1,5 @@
 import { Query } from '@datorama/akita';
-import { map } from 'rxjs/operators';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -25,6 +25,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
     .activeCollection$
     .pipe(
       map((collection) => selectEntitiesFromIDCollection(this.resourceService, collection)),
+      distinctUntilChanged(),
     );
 
   aggregatedCenterNotifications$ = this
@@ -33,18 +34,21 @@ export class IanCenterQuery extends Query<IanCenterState> {
       map((notifications) => (
         _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
       )),
+      distinctUntilChanged(),
     );
 
   notifications$ = this
     .aggregatedCenterNotifications$
     .pipe(
       map((items) => Object.values(items)),
+      distinctUntilChanged(),
     );
 
   hasNotifications$ = this
     .notifications$
     .pipe(
       map((items) => items.length > 0),
+      distinctUntilChanged(),
     );
 
   hasMoreThanPageSize$ = this
