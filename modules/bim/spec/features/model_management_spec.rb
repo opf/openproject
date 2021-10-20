@@ -136,7 +136,7 @@ describe 'model management',
 
     it "I can't see any models and perform no actions" do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.notification-box.-error', text: expected)
+      expect(page).to have_selector('.toaster-box.-error', text: expected)
 
       index_page.add_model_allowed false
     end

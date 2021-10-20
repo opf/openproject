@@ -97,7 +97,7 @@ describe 'model viewer',
       it 'shows a warning that no IFC models exist yet' do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)
-        expect(page).to have_selector('.notification-box.-info', text: I18n.t('js.ifc_models.empty_warning'))
+        expect(page).to have_selector('.toaster-box.-info', text: I18n.t('js.ifc_models.empty_warning'))
       end
     end
   end
@@ -140,7 +140,7 @@ describe 'model viewer',
 
     it 'shows no viewer' do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.notification-box.-error', text: expected)
+      expect(page).to have_selector('.toaster-box.-error', text: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false

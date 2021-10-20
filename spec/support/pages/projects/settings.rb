@@ -43,8 +43,8 @@ module Pages
         visit "/projects/#{project.identifier}/settings/#{name}"
       end
 
-      # only notice is used as opposed to notification-box
-      def expect_notification(message:, type: :notice)
+      # only notice is used as opposed to toaster-box
+      def expect_toaster(message:, type: :notice)
         expect(page).to have_selector(".flash.#{type}", text: message, wait: 10)
       end
 

@@ -120,7 +120,7 @@ describe 'OAuth authorization code flow',
     login_with user.login, 'adminADMIN!', visit_signin_path: false
 
     # But we got no further
-    expect(page).to have_selector('.notification-box.-error',
+    expect(page).to have_selector('.toaster-box.-error',
                                   text: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.')
 
     # And also have no grant for this application

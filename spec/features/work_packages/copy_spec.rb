@@ -104,7 +104,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
     to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.notification-box--content',
+    expect(page).to have_selector('.toaster-box--content',
                                   text: I18n.t('js.notice_successful_create'))
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first
@@ -158,7 +158,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
     to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
     to_copy_work_package_page.save!
 
-    expect(page).to have_selector('.notification-box--content',
+    expect(page).to have_selector('.toaster-box--content',
                                   text: I18n.t('js.notice_successful_create'))
 
     copied_work_package = WorkPackage.order(created_at: 'desc').first

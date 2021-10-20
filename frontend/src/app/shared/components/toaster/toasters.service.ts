@@ -35,84 +35,84 @@ export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
-export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
-export const OPNotificationEvent = 'op:notifications:add';
+export type ToasterType = 'success'|'error'|'warning'|'info'|'upload';
+export const OPToasterEvent = 'op:toasters:add';
 
-export interface INotification {
+export interface IToaster {
   message:string;
   link?:{ text:string, target:Function };
-  type:NotificationType;
+  type:ToasterType;
   data?:any;
 }
 
 @Injectable({ providedIn: 'root' })
-export class NotificationsService {
-  // The current stack of notifications
-  private stack = input<INotification[]>([]);
+export class ToastersService {
+  // The current stack of toasters
+  private stack = input<IToaster[]>([]);
 
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
-      .on(OPNotificationEvent,
-        (event:JQuery.TriggeredEvent, notification:INotification) => {
-          this.add(notification);
+      .on(OPToasterEvent,
+        (event:JQuery.TriggeredEvent, toaster:IToaster) => {
+          this.add(toaster);
         });
   }
 
   /**
-   * Get a read-only view of the current stack of notifications.
+   * Get a read-only view of the current stack of toasters.
    */
-  public get current():State<INotification[]> {
+  public get current():State<IToaster[]> {
     return this.stack;
   }
 
-  public add(notification:INotification, timeoutAfter = 5000) {
+  public add(toaster:IToaster, timeoutAfter = 5000) {
     // Remove flash messages
     removeSuccessFlashMessages();
 
     this.stack.doModify((current) => {
-      const nextValue = [notification].concat(current);
+      const nextValue = [toaster].concat(current);
       _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
       return nextValue;
     });
 
     // auto-hide if success
-    if (notification.type === 'success' && this.configurationService.autoHidePopups()) {
-      setTimeout(() => this.remove(notification), timeoutAfter);
+    if (toaster.type === 'success' && this.configurationService.autoHidePopups()) {
+      setTimeout(() => this.remove(toaster), timeoutAfter);
     }
 
-    return notification;
+    return toaster;
   }
 
-  public addError(message:INotification|string, errors:any[]|string = []) {
+  public addError(message:IToaster|string, errors:any[]|string = []) {
     if (!Array.isArray(errors)) {
       errors = [errors];
     }
 
-    const notification:INotification = this.createNotification(message, 'error');
-    notification.data = errors;
+    const toaster:IToaster = this.createToaster(message, 'error');
+    toaster.data = errors;
 
-    return this.add(notification);
+    return this.add(toaster);
   }
 
-  public addWarning(message:INotification|string) {
-    return this.add(this.createNotification(message, 'warning'));
+  public addWarning(message:IToaster|string) {
+    return this.add(this.createToaster(message, 'warning'));
   }
 
-  public addSuccess(message:INotification|string) {
-    return this.add(this.createNotification(message, 'success'));
+  public addSuccess(message:IToaster|string) {
+    return this.add(this.createToaster(message, 'success'));
   }
 
-  public addNotice(message:INotification|string) {
-    return this.add(this.createNotification(message, 'info'));
+  public addNotice(message:IToaster|string) {
+    return this.add(this.createToaster(message, 'info'));
   }
 
-  public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]) {
-    return this.add(this.createAttachmentUploadNotification(message, uploads));
+  public addAttachmentUpload(message:IToaster|string, uploads:UploadInProgress[]) {
+    return this.add(this.createAttachmentUploadToaster(message, uploads));
   }
 
-  public remove(notification:INotification) {
+  public remove(toaster:IToaster) {
     this.stack.doModify((current) => {
-      _.remove(current, (n) => n === notification);
+      _.remove(current, (n) => n === toaster);
       return current;
     });
   }
@@ -121,7 +121,7 @@ export class NotificationsService {
     this.stack.putValue([]);
   }
 
-  private createNotification(message:INotification|string, type:NotificationType):INotification {
+  private createToaster(message:IToaster|string, type:ToasterType):IToaster {
     if (typeof message === 'string') {
       return { message, type };
     }
@@ -130,14 +130,14 @@ export class NotificationsService {
     return message;
   }
 
-  private createAttachmentUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
+  private createAttachmentUploadToaster(message:IToaster|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
-      throw new Error('Cannot create an upload notification without uploads!');
+      throw new Error('Cannot create an upload toaster without uploads!');
     }
 
-    const notification = this.createNotification(message, 'upload');
-    notification.data = uploads;
+    const toaster = this.createToaster(message, 'upload');
+    toaster.data = uploads;
 
-    return notification;
+    return toaster;
   }
 }

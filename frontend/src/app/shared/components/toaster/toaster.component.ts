@@ -31,39 +31,39 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  INotification,
-  NotificationsService,
-  NotificationType,
-} from 'core-app/shared/components/notifications/notifications.service';
+  IToaster,
+  ToastersService,
+  ToasterType,
+} from 'core-app/shared/components/toasters/toasters.service';
 
 @Component({
-  templateUrl: './notification.component.html',
+  templateUrl: './toaster.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'notification',
+  selector: 'toaster',
 })
-export class NotificationComponent implements OnInit {
-  @Input() public notification:INotification;
+export class ToasterComponent implements OnInit {
+  @Input() public toaster:IToaster;
 
   public text = {
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  public type:NotificationType;
+  public type:ToasterType;
 
   public uploadCount = 0;
 
   public show = false;
 
   constructor(readonly I18n:I18nService,
-    readonly notificationsService:NotificationsService) {
+    readonly toastersService:ToastersService) {
   }
 
   ngOnInit() {
-    this.type = this.notification.type;
+    this.type = this.toaster.type;
   }
 
   public get data() {
-    return this.notification.data;
+    return this.toaster.data;
   }
 
   public canBeHidden() {
@@ -71,20 +71,20 @@ export class NotificationComponent implements OnInit {
   }
 
   public removable() {
-    return this.notification.type !== 'upload';
+    return this.toaster.type !== 'upload';
   }
 
   public remove() {
-    this.notificationsService.remove(this.notification);
+    this.toastersService.remove(this.toaster);
   }
 
   /**
    * Execute the link callback from content.link.target
-   * and close this notification.
+   * and close this toaster.
    */
   public executeTarget() {
-    if (this.notification.link) {
-      this.notification.link.target();
+    if (this.toaster.link) {
+      this.toaster.link.target();
       this.remove();
     }
   }

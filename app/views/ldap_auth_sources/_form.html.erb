@@ -35,9 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for :auth_source %>
 
 <% if @auth_source.new_record? %>
-  <div class="notification-box -info">
-    <a title="close" class="notification-box--close icon-context icon-close"></a>
-    <div class="notification-box--content">
+  <div class="toaster-box -info">
+    <a title="close" class="toaster-box--close icon-context icon-close"></a>
+    <div class="toaster-box--content">
       <%= t('ldap_auth_sources.technical_warning_html') %>
     </div>
   </div>

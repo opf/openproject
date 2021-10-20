@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2021 the OpenProject GmbH
 //
@@ -26,9 +26,43 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-@include breakpoint(680px down)
-  .notification-box--wrapper,
-  .flash,
-  #errorExplanation
-    left: 20px !important
-    right: 20px !important
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
+} from '@angular/core';
+import { IToaster, ToastersService } from 'core-app/shared/components/toasters/toasters.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+
+export const toastersContainerSelector = 'toasters-container';
+
+@Component({
+  template: `
+    <div class="toaster-box--wrapper">
+      <div class="toaster-box--casing">
+        <toaster [toaster]="toaster" *ngFor="let toaster of stack"></toaster>
+      </div>
+    </div>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: toastersContainerSelector,
+})
+export class ToastersContainerComponent extends UntilDestroyedMixin implements OnInit {
+  public stack:IToaster[] = [];
+
+  constructor(readonly toastersService:ToastersService,
+    readonly cdRef:ChangeDetectorRef) {
+    super();
+  }
+
+  ngOnInit():void {
+    this.toastersService
+      .current
+      .values$('Subscribing to changes in the toaster stack')
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe((stack) => {
+        this.stack = stack;
+        this.cdRef.detectChanges();
+      });
+  }
+}

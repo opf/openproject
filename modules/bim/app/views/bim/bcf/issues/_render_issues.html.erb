@@ -13,8 +13,8 @@
           <% end %>
         </p>
         <% if issue.errors.present? %>
-          <div class="notification-box -error">
-            <div class="notification-box--content">
+          <div class="toaster-box -error">
+            <div class="toaster-box--content">
               <% issue.errors.full_messages.each do |message| %>
                 <p><%= message %></p>
               <% end %>

@@ -59,7 +59,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .to have_selector('.notification-box.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
+          .to have_selector('.toaster-box.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
       end
     end
 

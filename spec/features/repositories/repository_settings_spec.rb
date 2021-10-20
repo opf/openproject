@@ -84,7 +84,7 @@ describe 'Repository Settings', type: :feature, js: true do
       else
         SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
-        expect(page).to have_selector('.notification-box.-warning')
+        expect(page).to have_selector('.toaster-box.-warning')
         SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end

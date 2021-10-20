@@ -91,9 +91,9 @@ export function setupServerResponse() {
 }
 
 function flashCloseHandler() {
-  jQuery('body').on('click keydown touchend', '.close-handler,.notification-box--close', function (e) {
+  jQuery('body').on('click keydown touchend', '.close-handler,.toaster-box--close', function (e) {
     if (e.type === 'click' || e.which === 13) {
-      jQuery(this).parent('.flash, .errorExplanation, .notification-box')
+      jQuery(this).parent('.flash, .errorExplanation, .toaster-box')
         .not('.persistent-toggle--notification')
         .remove();
     }
@@ -102,7 +102,7 @@ function flashCloseHandler() {
 
 function autoHideFlashMessage() {
   setTimeout(() => {
-    jQuery('.flash.autohide-notification').remove();
+    jQuery('.flash.autohide-toaster').remove();
   }, 5000);
 }
 
