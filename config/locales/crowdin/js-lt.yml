@@ -524,12 +524,16 @@ lt:
           few: 'ir dar %{count}'
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
       menu:
         accountable: 'Atsakingas'
@@ -540,6 +544,7 @@ lt:
         mentioned: '@paminėtas'
         watching: 'Stebima'
       settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
         reasons:
@@ -1150,5 +1155,3 @@ lt:
       load_error_message: 'Įkeliant formą įvyko klaida'
       validation_error_message: 'Prašome ištaisyti klaidas formoje'
       advanced_settings: 'Išplėstiniai nustatymai'
-
-

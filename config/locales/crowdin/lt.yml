@@ -1951,7 +1951,7 @@ lt:
       created: 'Sukurta'
       created_at: '%{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
-      mentioned: 'Jus<b>paminėjo komentare</b>'
+      mentioned: 'Jus <b>paminėjo komentare</b>'
       mentioned_by: '%{user} paminėjo jus komentare'
       more_to_see:
         one: 'Yra dar 1 darbų paketas su pranešimais.'

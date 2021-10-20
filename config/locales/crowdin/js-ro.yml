@@ -522,12 +522,16 @@ ro:
           one: 'and 1 other'
           few: 'and %{count} others'
           other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
       menu:
         accountable: 'Responsabil'
@@ -538,6 +542,7 @@ ro:
         mentioned: '@mentioned'
         watching: 'Watching'
       settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
         notify_me: "Notify me"
         reasons:
@@ -1146,5 +1151,3 @@ ro:
       load_error_message: 'A apărut o eroare la încărcarea formularului'
       validation_error_message: 'Vă rugăm să remediaţi erorile existente în formular'
       advanced_settings: 'Setări avansate'
-
-
