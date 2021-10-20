@@ -42,28 +42,51 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
       return Rails.logger.error("File for attachment #{attachment_id} was not uploaded.")
     end
 
-    begin
-      set_attributes_from_file(attachment, local_file)
-      save_attachment(attachment)
-      journalize_container(attachment)
-    ensure
-      File.unlink(local_file.path) if File.exist?(local_file.path)
+    User.execute_as(attachment.author) do
+      attach_uploaded_file(attachment, local_file)
     end
   end
 
   private
 
+  def attach_uploaded_file(attachment, local_file)
+    set_attributes_from_file(attachment, local_file)
+    validate_attachment(attachment)
+    save_attachment(attachment)
+    journalize_container(attachment)
+    attachment_created_event(attachment)
+  rescue StandardError => e
+    ::OpenProject.logger.error e
+    attachment.destroy
+  ensure
+    File.unlink(local_file.path) if File.exist?(local_file.path)
+  end
+
   def set_attributes_from_file(attachment, local_file)
-    attachment.downloads = 0
-    attachment.set_file_size local_file
-    attachment.set_content_type local_file
-    attachment.set_digest local_file
+    attachment.extend(OpenProject::ChangedBySystem)
+    attachment.change_by_system do
+      attachment.downloads = 0
+      attachment.set_file_size local_file
+      attachment.set_content_type local_file
+      attachment.set_digest local_file
+    end
   end
 
   def save_attachment(attachment)
-    User.execute_as(attachment.author) do
-      attachment.save! if attachment.changed?
+    attachment.save! if attachment.changed?
+  end
+
+  def validate_attachment(attachment)
+    contract = create_contract attachment
+
+    unless contract.valid?
+      errors = contract.errors.full_messages.join(", ")
+      raise "Failed to validate attachment #{attachment.id}: #{errors}"
     end
+  end
+
+  def create_contract(attachment)
+    ::Attachments::CreateContract.new(attachment, attachment.author)
   end
 
   def journalize_container(attachment)
@@ -92,5 +115,12 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
 
     timestamps = attributes.index_with { Time.now }
     journable.update_columns(timestamps) if timestamps.any?
+  end
+
+  def attachment_created_event(attachment)
+    OpenProject::Notifications.send(
+      OpenProject::Events::ATTACHMENT_CREATED,
+      attachment: attachment
+    )
   end
 end
