@@ -107,7 +107,7 @@ describe MemberMailer, type: :mailer do
 
       expect(body)
         .to be_html_eql(expected)
-        .at_path('body/ul')
+        .at_path('body/table/tr/td/ul')
     end
 
     context 'with a custom message' do

@@ -4,13 +4,20 @@
   </tr>
 </table>
 
-<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;margin-left:auto;margin-right:auto') %>>
+<table <%= placeholder_table_styles(width:'100%',style: 'width:100%;max-width:700px;') %>>
   <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render partial: 'mailer/notification_mailer_header',
+      <%= render layout: 'mailer/notification_mailer_header',
                  locals: {
                    summary: "#{I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user)}"
-                 } %>
+                 } do %>
+          <a href="<%= notifications_path(@work_package.id) %>"
+             target="_blank"
+             style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;font-size: 14px;">
+            <%= I18n.t(:'mail.notification.see_in_center') %>
+          </a>
+        <% end %>
 
       <%= render layout: 'mailer/notification_row',
                  locals: {
@@ -50,6 +57,6 @@
         </tr>
       </table>
     </td>
+    <%= placeholder_cell('12px', vertical: true) %>
   </tr>
 </table>
-
