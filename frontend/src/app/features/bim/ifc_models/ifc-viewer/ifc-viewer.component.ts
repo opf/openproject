@@ -42,7 +42,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { take } from "rxjs/operators";
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'op-ifc-viewer',
@@ -80,11 +80,11 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
   constructor(private I18n:I18nService,
-              private elementRef:ElementRef,
-              public ifcData:IfcModelsDataService,
-              private ifcViewerService:IFCViewerService,
-              private currentUserService:CurrentUserService,
-              private currentProjectService:CurrentProjectService) {
+    private elementRef:ElementRef,
+    public ifcData:IfcModelsDataService,
+    private ifcViewerService:IFCViewerService,
+    private currentUserService:CurrentUserService,
+    private currentProjectService:CurrentProjectService) {
   }
 
   ngOnInit():void {
@@ -132,7 +132,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.ifcViewerService.destroy();
   }
 
-  toggleInspector() {
+  toggleInspector():void {
     this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
@@ -141,6 +141,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   @HostListener('keydown', ['$event'])
   @HostListener('keyup', ['$event'])
   @HostListener('keypress', ['$event'])
+  // eslint-disable-next-line class-methods-use-this
   cancelAllKeyEvents($event:KeyboardEvent):void {
     $event.stopPropagation();
   }
@@ -155,7 +156,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element):void {
-    if (this.modelCount && !this.outerContainer.nativeElement?.contains(target)) {
+    if (this.modelCount && !(this.outerContainer.nativeElement as HTMLElement).contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewerService.setKeyboardEnabled(false);
     }
@@ -165,7 +166,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enableKeyBoard();
 
     // Focus on the canvas
-    this.modelCanvas.nativeElement.focus();
+    (this.modelCanvas.nativeElement as HTMLElement).focus();
 
     // Ensure we don't bubble this event to the window:mousedown handler
     // as the target will already be removed from the DOM by angular

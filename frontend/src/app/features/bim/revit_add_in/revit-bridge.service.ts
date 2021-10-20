@@ -1,6 +1,36 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injectable, Injector } from '@angular/core';
-import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import {
+  distinctUntilChanged, filter, first, map,
+} from 'rxjs/operators';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -16,12 +46,20 @@ declare global {
   }
 }
 
+type RevitBridgeMessage = {
+  messageType:string,
+  trackingId:string,
+  messagePayload:BcfViewpointInterface
+};
+
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
   public shouldShowViewer = false;
+
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
-  private revitMessageReceivedSource =
-    new Subject<{ messageType:string, trackingId:string, messagePayload:BcfViewpointInterface }>();
+
+  private revitMessageReceivedSource = new Subject<RevitBridgeMessage>();
+
   private trackingIdNumber = 0;
 
   @InjectField() viewpointsService:ViewpointsService;
@@ -52,7 +90,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     return this.revitMessageReceived$
       .pipe(
         distinctUntilChanged(),
-        filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
+        filter((message) => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
         first(),
         map((message) => {
           // FIXME: Deprecated code
@@ -60,8 +98,8 @@ export class RevitBridgeService extends ViewerBridgeService {
           // newer versions the message payload is sent correctly and needs no special treatment
           const viewpointJson = message.messagePayload;
 
-          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') &&
-            viewpointJson.snapshot.hasOwnProperty('snapshot_data')) {
+          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') // eslint-disable-line no-prototype-builtins
+            && viewpointJson.snapshot.hasOwnProperty('snapshot_data')) { // eslint-disable-line no-prototype-builtins
             // already correctly formatted payload
             return viewpointJson;
           }
@@ -80,13 +118,9 @@ export class RevitBridgeService extends ViewerBridgeService {
   public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointInterface) =>
-        this.sendMessageToRevit(
-          'ShowViewpoint',
-          this.newTrackingId(),
-          JSON.stringify(viewpoint),
-        ),
-      );
+      .subscribe((viewpoint:BcfViewpointInterface) => this.sendMessageToRevit(
+        'ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint),
+      ));
   }
 
   sendMessageToRevit(messageType:string, trackingId:string, messagePayload:string):void {
@@ -99,22 +133,23 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   private hookUpRevitListener() {
     window.RevitBridge.sendMessageToOpenProject = (messageString:string) => {
-      const message = JSON.parse(messageString);
-      const messageType = message.messageType;
-      const trackingId = message.trackingId;
-      const messagePayload = JSON.parse(message.messagePayload);
+      const { messageType, trackingId, messagePayload } = JSON.parse(messageString) as {
+        messageType:string,
+        trackingId:string,
+        messagePayload:string
+      };
 
       this.revitMessageReceivedSource.next({
-        messageType: messageType,
-        trackingId: trackingId,
-        messagePayload: messagePayload,
+        messageType,
+        trackingId,
+        messagePayload: JSON.parse(messagePayload) as BcfViewpointInterface,
       });
     };
     this.viewerVisible$.next(true);
   }
 
   newTrackingId():string {
-    this.trackingIdNumber = this.trackingIdNumber + 1;
+    this.trackingIdNumber += 1;
     return String(this.trackingIdNumber);
   }
 }

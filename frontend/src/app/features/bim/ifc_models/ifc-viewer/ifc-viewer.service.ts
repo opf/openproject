@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injectable, Injector } from '@angular/core';
 import { XeokitServer } from 'core-app/features/bim/ifc_models/xeokit/xeokit-server';
 import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
@@ -10,6 +38,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -71,7 +100,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:any[]):void {
-    import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
+    void import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
@@ -174,7 +203,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        workPackage.project.idFromLink,
+        idFromLink(workPackage.project.href),
         workPackage.id!,
         index,
       );
