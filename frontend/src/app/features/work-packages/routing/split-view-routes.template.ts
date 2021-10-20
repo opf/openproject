@@ -53,12 +53,12 @@ import { WorkPackageCopySplitViewComponent } from 'core-app/features/work-packag
  */
 export function makeSplitViewRoutes(baseRoute:string,
   menuItemClass:string|undefined,
-  showComponent:ComponentType<any>,
-  newComponent:ComponentType<any> = WorkPackageNewSplitViewComponent,
+  showComponent:ComponentType<unknown>,
+  newComponent:ComponentType<unknown> = WorkPackageNewSplitViewComponent,
   makeFullWidth?:boolean,
   routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
-  const views:any = makeFullWidth
+  const views:{ [content:string]:{ component:ComponentType<unknown>; }; } = makeFullWidth
     ? { 'content-left@^.^': { component: showComponent } }
     : { 'content-right@^.^': { component: showComponent } };
   const partition = makeFullWidth ? '-left-only' : '-split';
@@ -82,6 +82,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         newRoute: `${routeName}.new`,
         partition,
+        mobileAlternative: 'work-packages.show',
       },
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
@@ -95,6 +96,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         menuItem: menuItemClass,
         parent: `${routeName}.details`,
+        mobileAlternative: 'work-packages.show',
       },
     },
     // Split create route
@@ -109,6 +111,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         // Remember the base route so we can route back to it anywhere
         baseRoute,
         parent: baseRoute,
+        mobileAlternative: 'work-packages.show',
       },
       views: {
         // Retarget and by that override the grandparent views
@@ -131,6 +134,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         bodyClasses: 'router--work-packages-partitioned-split-view',
         menuItem: menuItemClass,
         partition: '-split',
+        mobileAlternative: 'work-packages.show',
       },
     },
   ];
