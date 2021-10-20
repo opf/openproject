@@ -53,47 +53,47 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
         switchMap(this.uploadToExternal(file, method, responseType)),
-        share(),
+        share()
       );
 
     return [file, observable] as UploadInProgress;
   }
 
   private uploadToExternal(file:UploadFile|UploadBlob, method:string, responseType:string):(result:PrepareUploadResult) => Observable<HttpEvent<unknown>> {
-    return (result) => {
+    return result => {
       result.form.append('file', file, file.customName || file.name);
 
       return this
         .http
         .request<HalResource>(
-        method,
-        result.url,
-        {
-          body: result.form,
-          // Observe the response, not the body
-          observe: 'events',
-          // This is important as the CORS policy for the bucket is * and you can't use credentals then,
-          // besides we don't need them here anyway.
-          withCredentials: false,
-          responseType: responseType as any,
-          // Subscribe to progress events. subscribe() will fire multiple times!
-          reportProgress: true,
-        },
-      )
+          method,
+          result.url,
+          {
+            body: result.form,
+            // Observe the response, not the body
+            observe: 'events',
+            // This is important as the CORS policy for the bucket is * and you can't use credentals then,
+            // besides we don't need them here anyway.
+            withCredentials: false,
+            responseType: responseType as any,
+            // Subscribe to progress events. subscribe() will fire multiple times!
+            reportProgress: true
+          }
+        )
         .pipe(switchMap(this.finishUpload(result)));
     };
   }
 
   private finishUpload(result:PrepareUploadResult):(result:HttpEvent<unknown>) => Observable<HttpEvent<unknown>> {
-    return (event) => {
+    return event => {
       if (event instanceof HttpResponse) {
         return this
           .http
           .get(
             result.response._links.completeUpload.href,
             {
-              observe: 'response',
-            },
+              observe: 'response'
+            }
           );
       }
 
@@ -102,13 +102,16 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
     };
   }
 
-  public getDirectUploadFormFrom(url:string, file:UploadFile|UploadBlob):Promise<PrepareUploadResult> {
+  public async getDirectUploadFormFrom(url:string, file:UploadFile|UploadBlob):Promise<PrepareUploadResult> {
+    const fileName = file.customName || file.name;
+    const contentType = file.type || (fileName && mime.getType(fileName)) || '';
+
     const formData = new FormData();
     const metadata = {
       description: file.description,
-      fileName: file.customName || file.name,
+      fileName: fileName,
       fileSize: file.size,
-      contentType: file.type,
+      contentType: contentType,
     };
 
     /*
@@ -123,28 +126,25 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
       JSON.stringify(metadata),
     );
 
-    const result = this
+    const result = await this
       .http
       .request<HalResource>(
-      'post',
-      url,
-      {
-        body: formData,
-        withCredentials: true,
-        responseType: 'json' as any,
-      },
-    )
-      .toPromise()
-      .then((res) => {
-        const form = new FormData();
+        'post',
+        url,
+        {
+          body: formData,
+          withCredentials: true,
+          responseType: 'json' as any,
+        },
+      )
+      .toPromise();
 
-        _.each(res._links.addAttachment.form_fields, (value, key) => {
-          form.append(key, value);
-        });
+    const form = new FormData();
 
-        return { url: res._links.addAttachment.href, form, response: res };
-      });
+    _.each(result._links.addAttachment.form_fields, (value, key) => {
+      form.append(key, value);
+    });
 
-    return result;
+    return { url: result._links.addAttachment.href, form, response: result };
   }
 }

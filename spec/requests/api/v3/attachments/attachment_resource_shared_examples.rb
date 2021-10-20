@@ -154,6 +154,34 @@ shared_examples 'it supports direct uploads' do
           end
         end
       end
+
+      context 'with an attachment whitelist', with_settings: { attachment_whitelist: ['text/csv'] } do
+        context 'with an allowed content type' do
+          let(:metadata) { { fileName: 'cats.csv', fileSize: file.size, contentType: 'text/csv' } }
+
+          it 'should succeed' do
+            expect(subject.status).to eq 201
+          end
+        end
+
+        context 'with a forbidden content type' do
+          let(:metadata) { { fileName: 'cats.txt', fileSize: file.size, contentType: 'text/plain' } }
+
+          it 'should fail' do
+            expect(subject.status).to eq 422
+            expect(subject.body).to include "not whitelisted"
+          end
+        end
+
+        context 'with a non-specific content type not on the whitelist' do
+          let(:metadata) { { fileName: 'cats.bin', fileSize: file.size, contentType: 'application/binary' } }
+
+           # the actual whitelist check will be performed in the FinishDirectUpload job in this case
+          it 'should still succeed' do
+            expect(subject.status).to eq 201
+          end
+        end
+      end
     end
   end
 end

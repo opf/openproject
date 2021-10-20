@@ -10,7 +10,6 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -20,6 +19,7 @@ export interface XeokitElements {
   navCubeCanvasElement:HTMLElement;
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
+  keyboardEventsElement?:HTMLElement;
 }
 
 /**
@@ -71,7 +71,7 @@ export class IFCViewerService extends ViewerBridgeService {
   }
 
   public newViewer(elements:XeokitElements, projects:any[]):void {
-    void import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
+    import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
       const server = new XeokitServer(this.pathHelper);
       const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
 
@@ -174,7 +174,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        idFromLink(workPackage.project.href),
+        workPackage.project.idFromLink,
         workPackage.id!,
         index,
       );

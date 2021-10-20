@@ -54,8 +54,12 @@ module Pages
       end
 
       def model_viewer_visible(visible)
-        selector = '[data-qa-selector="op-ifc-viewer--model-canvas"]'
-        expect(page).to (visible ? have_selector(selector, wait: 10) : have_no_selector(selector, wait: 10))
+        # Ensure the canvas is present
+        canvas_selector = '.op-ifc-viewer--model-canvas'
+        expect(page).to (visible ? have_selector(canvas_selector, wait: 10) : have_no_selector(canvas_selector, wait: 10))
+        # Ensure Xeokit is initialized. Only then the toolbar is generated.
+        toolbar_selector = '.xeokit-toolbar'
+        expect(page).to (visible ? have_selector(toolbar_selector, wait: 10) : have_no_selector(toolbar_selector, wait: 10))
       end
 
       def model_viewer_shows_a_toolbar(visible)

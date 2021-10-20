@@ -39,16 +39,19 @@ const accessKeys = {
   projectSearch: 5,
   help: 6,
   moreMenu: 7,
-  details: 8,
+  details: 8
 };
 
 // this could be extracted into a separate component if it grows
-const accessibleListSelector = 'generic-table keyboard-accessible-list';
+const accessibleListSelector = 'table.keyboard-accessible-list';
+const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
+
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class KeyboardShortcutService {
+
   // maybe move it to a .constant
   private shortcuts:any = {
     '?': () => this.showHelpModal(),
@@ -64,110 +67,114 @@ export class KeyboardShortcutService {
     'g e': this.accessKey('edit'),
     'g p': this.accessKey('preview'),
     'd w p': this.accessKey('details'),
-    m: this.accessKey('moreMenu'),
-    p: this.accessKey('projectSearch'),
-    s: this.accessKey('quickSearch'),
-    k: () => this.focusPrevItem(),
-    j: () => this.focusNextItem(),
+    'm': this.accessKey('moreMenu'),
+    'p': this.accessKey('projectSearch'),
+    's': this.accessKey('quickSearch'),
+    'k': () => this.focusPrevItem(),
+    'j': () => this.focusNextItem()
   };
 
+
   constructor(private readonly PathHelper:PathHelperService,
-    private readonly FocusHelper:FocusHelperService,
-    private readonly currentProject:CurrentProjectService) {
+              private readonly FocusHelper:FocusHelperService,
+              private readonly currentProject:CurrentProjectService) {
     this.register();
   }
 
   /**
    * Register the keyboard shortcuts.
    */
-  public register():void {
+  public register() {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
-    const key = accessKeys[keyName];
-    return () => {
-      // Guard: When the focus is on the IFC viewer, pressing the key "S" shall control the viewer as part of its
-      //        WASD navigation. So dismiss that shortcuts and let the event pass on to the IFC viewer.
-      if (key === 4 &&
-        document.activeElement?.getAttribute('data-qa-selector') === 'op-ifc-viewer--model-canvas') {
-        return;
-      }
+  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
+    var key = accessKeys[keyName];
 
-      // eslint-disable-next-line no-useless-concat
-      const elem:HTMLElement = document.querySelectorAll("[accesskey='" + `${key}` + "']")[0] as HTMLElement;
-      if (elem instanceof HTMLInputElement || elem.id === 'global-search-input') {
+    return () => {
+      var elem = jQuery('[accesskey=' + key + ']:first');
+      if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
-        setTimeout(() => this.FocusHelper.focus(jQuery(elem)), 200);
-      } else if (elem.getAttribute('href')) {
-        this.clickLink(elem);
+        setTimeout(() => this.FocusHelper.focus(elem), 200);
+      } else if (elem.is('[href]')) {
+        this.clickLink(elem[0]);
       } else {
-        elem.click();
+        elem[0].click();
       }
     };
   }
 
-  public globalAction(action:keyof PathHelperService):() => void {
+  public globalAction(action:keyof PathHelperService) {
     return () => {
-      const url = (this.PathHelper[action] as any)();
+      var url = (this.PathHelper[action] as any)();
       window.location.href = url;
     };
   }
 
-  public projectScoped(action:keyof PathHelperService):() => void {
+  public projectScoped(action:keyof PathHelperService) {
     return () => {
-      const projectIdentifier = this.currentProject.identifier;
+      var projectIdentifier = this.currentProject.identifier;
       if (projectIdentifier) {
-        const url = (this.PathHelper[action] as any)(projectIdentifier);
+        var url = (this.PathHelper[action] as any)(projectIdentifier);
         window.location.href = url;
       }
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  clickLink(link:HTMLElement):void {
-    if (!link.getAttribute('href')) {
-      return;
-    }
-
+  clickLink(link:any) {
     const event = new MouseEvent('click', {
       view: window,
       bubbles: true,
-      cancelable: true,
+      cancelable: true
     });
     const cancelled = !link.dispatchEvent(event);
 
     if (!cancelled) {
-      window.location.href = link.getAttribute('href') as string;
+      window.location.href = link.href;
     }
   }
 
-  showHelpModal():void {
+  showHelpModal() {
     window.open(this.PathHelper.keyboardShortcutsHelpPath());
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  focusItemOffset(offset:number):void {
-    const list = document.getElementsByClassName(accessibleListSelector)[0];
+  findListInPage() {
+    const domLists = jQuery(accessibleListSelector);
+    const focusElements:any = [];
+    domLists.find('tbody tr').each(function (index, tr) {
+      var firstLink = jQuery(tr).find(':visible:tabbable')[0];
+      if (firstLink !== undefined) {
+        focusElements.push(firstLink);
+      }
+    });
+    return focusElements;
+  }
+
+  focusItemOffset(offset:number) {
+    const list = this.findListInPage();
+    let index;
+
     if (list === null) {
       return;
     }
 
-    const rows:Element[] = Array.from(list.querySelectorAll('tbody > tr'));
-    let index:number;
-    if (document.activeElement) {
-      index = rows.indexOf(document.activeElement);
-      const target = rows[index + offset] as HTMLElement;
-      target.focus();
-    }
+    index = list.indexOf(
+      jQuery(document.activeElement!)
+        .closest(accessibleRowSelector)
+        .find(':visible:tabbable')[0]
+    );
+
+    const target = jQuery(list[(index + offset + list.length) % list.length]);
+    target.focus();
+
   }
 
-  focusNextItem():void {
+  focusNextItem() {
     this.focusItemOffset(1);
   }
 
-  focusPrevItem():void {
+  focusPrevItem() {
     this.focusItemOffset(-1);
   }
 }

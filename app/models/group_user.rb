@@ -32,4 +32,7 @@ class GroupUser < ApplicationRecord
   belongs_to :group,
              touch: true
   belongs_to :user
+
+  validates_presence_of :group
+  validates_presence_of :user
 end
