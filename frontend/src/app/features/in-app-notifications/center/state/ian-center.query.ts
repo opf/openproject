@@ -1,5 +1,8 @@
 import { Query } from '@datorama/akita';
-import { map, distinctUntilChanged } from 'rxjs/operators';
+import {
+  map,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -55,6 +58,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
     .notLoaded$
     .pipe(
       map((notLoaded) => notLoaded > 0),
+      distinctUntilChanged(),
     );
 
   get params():Apiv3ListParameters {

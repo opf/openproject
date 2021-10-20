@@ -12,7 +12,7 @@ import {
   take,
   debounceTime,
 } from 'rxjs/operators';
-import { ReplaySubject, from } from 'rxjs';
+import { Subject, from } from 'rxjs';
 import {
   ID,
   setLoading,
@@ -54,14 +54,15 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
 
-  private reload = new ReplaySubject(1);
+  private reload = new Subject();
 
   private onReload = this.reload.pipe(
     debounceTime(0),
-    switchMap(() => this.resourceService
+    switchMap((setToLoading) => this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
-        setLoading(this.store),
+        // We don't want to set loading if the request is sent in the background
+        setToLoading ? setLoading(this.store) : map(res => res),
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
             .pipe(
@@ -103,18 +104,18 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   setFilters(filters:INotificationPageQueryParameters):void {
     this.store.update({ filters });
-    this.reload.next(0);
     this.onReload.pipe(take(1)).subscribe((collection) => {
       this.store.update({ activeCollection: collection });
     });
+    this.reload.next(true);
   }
 
   setFacet(facet:InAppNotificationFacet):void {
     this.store.update({ activeFacet: facet });
-    this.reload.next(0);
     this.onReload.pipe(take(1)).subscribe((collection) => {
       this.store.update({ activeCollection: collection });
     });
+    this.reload.next(true);
   }
 
   markAsRead(notifications:ID[]):void {
@@ -167,7 +168,6 @@ export class IanCenterService extends UntilDestroyedMixin {
    */
   @EffectCallback(notificationCountIncreased)
   private checkForNewNotifications() {
-    this.reload.next(0);
     this.onReload.pipe(take(1)).subscribe((collection) => {
       const { activeCollection } = this.query.getValue();
       const hasNewNotifications = !collection.ids.reduce(
@@ -190,6 +190,7 @@ export class IanCenterService extends UntilDestroyedMixin {
         },
       });
     });
+    this.reload.next(false);
   }
 
   /**

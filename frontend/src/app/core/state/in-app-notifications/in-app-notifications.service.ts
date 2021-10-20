@@ -64,6 +64,7 @@ export class InAppNotificationsResourceService {
                 collections: {
                   ...collections,
                   [collectionURL]: {
+                    ...collections[collectionURL],
                     ids: events._embedded.elements.map((el) => el.id),
                   },
                 },

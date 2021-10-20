@@ -11,7 +11,6 @@ import {
 import { Observable } from 'rxjs';
 import {
   filter,
-  map,
 } from 'rxjs/operators';
 
 export interface CollectionResponse {
