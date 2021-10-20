@@ -108,7 +108,6 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
 
   public async getDirectUploadFormFrom(url:string, file:UploadFile|UploadBlob):Promise<PrepareUploadResult> {
     const fileName = file.customName || file.name;
-    // TODO: Where is this `mime` variable coming from? It needs typing, is it even a codepath that gets triggered?
     const contentType = (file.type || (fileName && getType(fileName)) || '' as string);
 
     const formData = new FormData();
