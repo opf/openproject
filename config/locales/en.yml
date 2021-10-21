@@ -341,8 +341,8 @@ en:
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
 
   versions:
     overview:
@@ -934,7 +934,7 @@ en:
     user: "User"
     version: "Version"
     work_package: "Work package"
-  
+
   backup:
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
@@ -3125,5 +3125,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
-  
+
   you: you
