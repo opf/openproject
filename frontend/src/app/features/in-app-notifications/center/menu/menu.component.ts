@@ -10,12 +10,12 @@ import { map } from 'rxjs/operators';
 import { StateService } from '@uirouter/core';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
+import { IToastPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
-const getUiLinkForFilters = (filters:INotificationPageQueryParameters = {}) => ({
+const getUiLinkForFilters = (filters:IToastPageQueryParameters = {}) => ({
   uiSref: 'notifications.center.show',
   uiParams: filters,
 });

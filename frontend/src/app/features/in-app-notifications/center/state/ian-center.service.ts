@@ -30,7 +30,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
-import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
+import { IToastPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IanCenterStore,
   InAppNotificationFacet,
@@ -76,7 +76,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  setFilters(filters:INotificationPageQueryParameters):void {
+  setFilters(filters:IToastPageQueryParameters):void {
     this.store.update({ filters });
     this.debouncedReload();
   }

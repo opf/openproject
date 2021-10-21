@@ -29,10 +29,10 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
 } from '@angular/core';
-import { IToaster, ToastersService } from 'core-app/shared/components/toasters/toasters.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IToast, ToastService } from './toast.service';
 
-export const toastersContainerSelector = 'toasters-container';
+export const toastsContainerSelector = 'toasts-container';
 
 @Component({
   template: `
@@ -43,12 +43,12 @@ export const toastersContainerSelector = 'toasters-container';
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: toastersContainerSelector,
+  selector: toastsContainerSelector,
 })
-export class ToastersContainerComponent extends UntilDestroyedMixin implements OnInit {
-  public stack:IToaster[] = [];
+export class ToastsContainerComponent extends UntilDestroyedMixin implements OnInit {
+  public stack:IToast[] = [];
 
-  constructor(readonly toastersService:ToastersService,
+  constructor(readonly toastersService:ToastService,
     readonly cdRef:ChangeDetectorRef) {
     super();
   }

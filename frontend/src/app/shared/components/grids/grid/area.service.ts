@@ -6,7 +6,7 @@ import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget-changeset';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BehaviorSubject } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -37,7 +37,7 @@ export class GridAreaService {
   public helpMode = false;
 
   constructor(private apiV3Service:APIV3Service,
-    private notification:NotificationsService,
+    private notification:ToastService,
     private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {

@@ -13,7 +13,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
 import { FormGroup } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -216,7 +216,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     private _dynamicFieldsService:DynamicFieldsService,
     private _I18n:I18nService,
     private _pathHelperService:PathHelperService,
-    private _notificationsService:NotificationsService,
+    private _toastService:ToastService,
     private _changeDetectorRef:ChangeDetectorRef,
     private _confirmDialogService:ConfirmDialogService,
   ) {
@@ -275,7 +275,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         },
         (error:HttpErrorResponse) => {
           this.errored.emit(error?.error || error);
-          this.showNotifications && this._notificationsService.addError(error?.error?.message || error?.message);
+          this.showNotifications && this._toastService.addError(error?.error?.message || error?.message);
         },
       );
   }
@@ -351,7 +351,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       .getSettingsFromBackend$(formEndpoint, resourceId, payload)
       .pipe(
         catchError((error) => {
-          this._notificationsService.addError(this.text.load_error_message);
+          this._toastService.addError(this.text.load_error_message);
           throw error;
         }),
       )
@@ -397,6 +397,6 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       submit_message = this.formHttpMethod === 'patch' ? this.text.successful_update : this.text.successful_create;
     }
 
-    this._notificationsService.addSuccess(submit_message);
+    this._toastService.addSuccess(submit_message);
   }
 }

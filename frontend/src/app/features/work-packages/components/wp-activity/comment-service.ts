@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { Subject } from 'rxjs';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -43,7 +43,7 @@ export class CommentService {
   constructor(
     readonly I18n:I18nService,
     private workPackageNotificationService:WorkPackageNotificationService,
-    private NotificationsService:NotificationsService,
+    private ToastService:ToastService,
   ) {
   }
 
@@ -68,7 +68,7 @@ export class CommentService {
       { comment },
       { 'Content-Type': 'application/json; charset=UTF-8' },
     ).then((activity:HalResource) => {
-      this.NotificationsService.addSuccess(
+      this.ToastService.addSuccess(
         this.I18n.t('js.work_packages.comment_updated'),
       );
 

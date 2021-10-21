@@ -33,7 +33,7 @@ import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { from, Observable, of } from 'rxjs';
 import { input } from 'reactivestates';
@@ -84,7 +84,7 @@ export class WorkPackagesListService {
       share(),
     );
 
-  constructor(protected NotificationsService:NotificationsService,
+  constructor(protected ToastService:ToastService,
     readonly I18n:I18nService,
     protected UrlParamsHelper:UrlParamsHelperService,
     protected authorisationService:AuthorisationService,
@@ -238,7 +238,7 @@ export class WorkPackagesListService {
 
     promise
       .then((query) => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
+        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).subscribe(() => {
@@ -266,7 +266,7 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_delete'));
+        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
         let id;
         if (query.project) {
@@ -295,13 +295,13 @@ export class WorkPackagesListService {
 
     promise
       .then(() => {
-        this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
+        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
         this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
-        this.NotificationsService.addError(error.message);
+        this.ToastService.addError(error.message);
       });
 
     return promise;
@@ -316,7 +316,7 @@ export class WorkPackagesListService {
     promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
 
-      this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
+      this.ToastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.states.changes.queries.next(query.id!);
     });
@@ -351,7 +351,7 @@ export class WorkPackagesListService {
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
-    this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    this.ToastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
       this

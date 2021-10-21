@@ -35,25 +35,25 @@ export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
-export type ToasterType = 'success'|'error'|'warning'|'info'|'upload';
-export const OPToasterEvent = 'op:toasters:add';
+export type ToastType = 'success'|'error'|'warning'|'info'|'upload';
+export const OPToastEvent = 'op:toasters:add';
 
-export interface IToaster {
+export interface IToast {
   message:string;
   link?:{ text:string, target:Function };
-  type:ToasterType;
+  type:ToastType;
   data?:any;
 }
 
 @Injectable({ providedIn: 'root' })
-export class ToastersService {
+export class ToastService {
   // The current stack of toasters
-  private stack = input<IToaster[]>([]);
+  private stack = input<IToast[]>([]);
 
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
-      .on(OPToasterEvent,
-        (event:JQuery.TriggeredEvent, toaster:IToaster) => {
+      .on(OPToastEvent,
+        (event:JQuery.TriggeredEvent, toaster:IToast) => {
           this.add(toaster);
         });
   }
@@ -61,11 +61,11 @@ export class ToastersService {
   /**
    * Get a read-only view of the current stack of toasters.
    */
-  public get current():State<IToaster[]> {
+  public get current():State<IToast[]> {
     return this.stack;
   }
 
-  public add(toaster:IToaster, timeoutAfter = 5000) {
+  public add(toaster:IToast, timeoutAfter = 5000) {
     // Remove flash messages
     removeSuccessFlashMessages();
 
@@ -83,34 +83,34 @@ export class ToastersService {
     return toaster;
   }
 
-  public addError(message:IToaster|string, errors:any[]|string = []) {
+  public addError(message:IToast|string, errors:any[]|string = []) {
     if (!Array.isArray(errors)) {
       errors = [errors];
     }
 
-    const toaster:IToaster = this.createToaster(message, 'error');
+    const toaster:IToast = this.createToast(message, 'error');
     toaster.data = errors;
 
     return this.add(toaster);
   }
 
-  public addWarning(message:IToaster|string) {
-    return this.add(this.createToaster(message, 'warning'));
+  public addWarning(message:IToast|string) {
+    return this.add(this.createToast(message, 'warning'));
   }
 
-  public addSuccess(message:IToaster|string) {
-    return this.add(this.createToaster(message, 'success'));
+  public addSuccess(message:IToast|string) {
+    return this.add(this.createToast(message, 'success'));
   }
 
-  public addNotice(message:IToaster|string) {
-    return this.add(this.createToaster(message, 'info'));
+  public addNotice(message:IToast|string) {
+    return this.add(this.createToast(message, 'info'));
   }
 
-  public addAttachmentUpload(message:IToaster|string, uploads:UploadInProgress[]) {
-    return this.add(this.createAttachmentUploadToaster(message, uploads));
+  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]) {
+    return this.add(this.createAttachmentUploadToast(message, uploads));
   }
 
-  public remove(toaster:IToaster) {
+  public remove(toaster:IToast) {
     this.stack.doModify((current) => {
       _.remove(current, (n) => n === toaster);
       return current;
@@ -121,7 +121,7 @@ export class ToastersService {
     this.stack.putValue([]);
   }
 
-  private createToaster(message:IToaster|string, type:ToasterType):IToaster {
+  private createToast(message:IToast|string, type:ToastType):IToast {
     if (typeof message === 'string') {
       return { message, type };
     }
@@ -130,12 +130,12 @@ export class ToastersService {
     return message;
   }
 
-  private createAttachmentUploadToaster(message:IToaster|string, uploads:UploadInProgress[]) {
+  private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
       throw new Error('Cannot create an upload toaster without uploads!');
     }
 
-    const toaster = this.createToaster(message, 'upload');
+    const toaster = this.createToast(message, 'upload');
     toaster.data = uploads;
 
     return toaster;

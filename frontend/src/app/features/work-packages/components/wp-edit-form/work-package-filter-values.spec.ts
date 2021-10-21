@@ -41,7 +41,7 @@ import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { HttpClientModule } from '@angular/common/http';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UIRouterModule } from '@uirouter/angular';
@@ -86,7 +86,7 @@ describe('WorkPackageFilterValues', () => {
         OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         HalResourceService,
-        NotificationsService,
+        ToastService,
         HalResourceNotificationService,
         SchemaCacheService,
         WorkPackageNotificationService,

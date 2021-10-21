@@ -16,7 +16,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageCreateService } from 'core-app/features/work-packages/components/wp-new/wp-create.service';
 import { BcfAuthorizationService } from 'core-app/features/bim/bcf/api/bcf-authorization.service';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
@@ -119,7 +119,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     readonly viewerBridge:ViewerBridgeService,
     readonly apiV3Service:APIV3Service,
     readonly wpCreate:WorkPackageCreateService,
-    readonly notifications:NotificationsService,
+    readonly notifications:ToastService,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly viewpointsService:ViewpointsService) {

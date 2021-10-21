@@ -34,7 +34,7 @@ import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-n
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 
-export interface INotificationPageQueryParameters {
+export interface IToastPageQueryParameters {
   filter?:string;
   name?:string;
 }

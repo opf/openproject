@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { Apiv3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
@@ -17,7 +17,7 @@ export class UserPreferencesService {
   constructor(
     private http:HttpClient,
     private apiV3Service:APIV3Service,
-    private notifications:NotificationsService,
+    private notifications:ToastService,
     private I18n:I18nService,
   ) {
   }

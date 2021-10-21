@@ -31,31 +31,31 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
-  IToaster,
-  ToastersService,
-  ToasterType,
-} from 'core-app/shared/components/toasters/toasters.service';
+  IToast,
+  ToastService,
+  ToastType,
+} from './toast.service';
 
 @Component({
-  templateUrl: './toaster.component.html',
+  templateUrl: './toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'toaster',
 })
-export class ToasterComponent implements OnInit {
-  @Input() public toaster:IToaster;
+export class ToastComponent implements OnInit {
+  @Input() public toaster:IToast;
 
   public text = {
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  public type:ToasterType;
+  public type:ToastType;
 
   public uploadCount = 0;
 
   public show = false;
 
   constructor(readonly I18n:I18nService,
-    readonly toastersService:ToastersService) {
+    readonly toastersService:ToastService) {
   }
 
   ngOnInit() {

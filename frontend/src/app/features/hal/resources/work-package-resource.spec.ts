@@ -30,7 +30,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -53,7 +53,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 describe('WorkPackage', () => {
   let halResourceService:HalResourceService;
   let injector:Injector;
-  let notificationsService:NotificationsService;
+  let toastService:ToastService;
   let halResourceNotification:HalResourceNotificationService;
 
   let source:any;
@@ -75,7 +75,7 @@ describe('WorkPackage', () => {
         States,
         TimezoneService,
         WorkPackagesActivityService,
-        NotificationsService,
+        ToastService,
         ConfigurationService,
         OpenProjectFileUploadService,
         OpenProjectDirectFileUploadService,
@@ -94,7 +94,7 @@ describe('WorkPackage', () => {
       .then(() => {
         halResourceService = TestBed.inject(HalResourceService);
         injector = TestBed.inject(Injector);
-        notificationsService = injector.get(NotificationsService);
+        toastService = injector.get(ToastService);
         halResourceNotification = injector.get(HalResourceNotificationService);
 
         halResourceService.registerResource('WorkPackage', { cls: WorkPackageResource });

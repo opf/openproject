@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
@@ -74,7 +74,7 @@ export class SaveQueryModalComponent extends OpModalComponent {
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
     readonly cdRef:ChangeDetectorRef,
-    readonly notificationsService:NotificationsService) {
+    readonly toastService:ToastService) {
     super(locals, cdRef, elementRef);
   }
 

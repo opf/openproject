@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FormGroup } from '@angular/forms';
 import { input } from 'reactivestates';
 
@@ -51,7 +51,7 @@ export class EnterpriseTrialService {
   constructor(readonly I18n:I18nService,
     protected http:HttpClient,
     readonly pathHelper:PathHelperService,
-    protected notificationsService:NotificationsService) {
+    protected toastService:ToastService) {
     const { gon } = window as any;
     this.baseUrlAugur = gon.augur_url;
     this.tokenVersion = gon.token_version;
@@ -81,7 +81,7 @@ export class EnterpriseTrialService {
         if (error.status === 422 || error.status === 400) {
           this.error = error;
         } else {
-          this.notificationsService.addWarning(error.error.description || I18n.t('js.error.internal'));
+          this.toastService.addWarning(error.error.description || I18n.t('js.error.internal'));
         }
       });
   }
@@ -115,9 +115,9 @@ export class EnterpriseTrialService {
           this.setMailSubmittedStatus();
           this.confirmed = false;
         } else if (_.get(error, 'error._type') === 'Error') {
-          this.notificationsService.addError(error.error.message);
+          this.toastService.addError(error.error.message);
         } else {
-          this.notificationsService.addError(error.error || I18n.t('js.error.internal'));
+          this.toastService.addError(error.error || I18n.t('js.error.internal'));
         }
       });
   }
@@ -135,7 +135,7 @@ export class EnterpriseTrialService {
     )
       .toPromise()
       .catch((e:any) => {
-        this.notificationsService.addError(e.error.message || e.message || e);
+        this.toastService.addError(e.error.message || e.message || e);
       });
   }
 
@@ -165,7 +165,7 @@ export class EnterpriseTrialService {
           )
           .toPromise();
 
-        this.notificationsService.addError(error.error.description || I18n.t('js.error.internal'));
+        this.toastService.addError(error.error.description || I18n.t('js.error.internal'));
       });
   }
 

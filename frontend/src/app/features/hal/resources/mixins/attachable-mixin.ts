@@ -28,7 +28,7 @@
 
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -44,7 +44,7 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
   return class extends Base {
     public attachments:AttachmentCollectionResource;
 
-    private NotificationsService:NotificationsService;
+    private ToastService:ToastService;
 
     private halNotification:HalResourceNotificationService;
 
@@ -145,11 +145,11 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       const { uploads, finished } = this.performUpload(files);
 
       const message = I18n.t('js.label_upload_notification');
-      const notification = this.NotificationsService.addAttachmentUpload(message, uploads);
+      const notification = this.ToastService.addAttachmentUpload(message, uploads);
 
       return finished
         .then((result:{ response:HalResource, uploadUrl:string }[]) => {
-          setTimeout(() => this.NotificationsService.remove(notification), 700);
+          setTimeout(() => this.ToastService.remove(notification), 700);
 
           this.attachments.count += result.length;
           result.forEach((r) => {
@@ -210,8 +210,8 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     }
 
     public $initialize(source:any) {
-      if (!this.NotificationsService) {
-        this.NotificationsService = this.injector.get(NotificationsService);
+      if (!this.ToastService) {
+        this.ToastService = this.injector.get(ToastService);
       }
       if (!this.halNotification) {
         this.halNotification = this.injector.get(HalResourceNotificationService);

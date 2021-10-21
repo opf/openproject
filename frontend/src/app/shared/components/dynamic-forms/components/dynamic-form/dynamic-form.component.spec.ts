@@ -13,7 +13,7 @@ import { DynamicFormService } from 'core-app/shared/components/dynamic-forms/ser
 import { DynamicFieldsService } from 'core-app/shared/components/dynamic-forms/services/dynamic-fields/dynamic-fields.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { TextInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/text-input/text-input.component';
 import { IntegerInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/integer-input/integer-input.component';
 import { SelectInputComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-inputs/select-input/select-input.component';
@@ -269,11 +269,11 @@ describe('DynamicFormComponent', () => {
   };
   const apiV3Base = 'http://www.openproject.com/api/v3/';
   const IPathHelperServiceStub = { api: { v3: { apiV3Base } } };
-  let notificationsService:jasmine.SpyObj<NotificationsService>;
+  let toastService:jasmine.SpyObj<ToastService>;
   let dynamicFormService:jasmine.SpyObj<DynamicFormService>;
 
   beforeEach(async () => {
-    const notificationsServiceSpy = jasmine.createSpyObj('NotificationsService', ['addError', 'addSuccess']);
+    const toastServiceSpy = jasmine.createSpyObj('ToastService', ['addError', 'addSuccess']);
     const dynamicFormServiceSpy = jasmine.createSpyObj('DynamicFormService', ['getSettings', 'getSettingsFromBackend$', 'registerForm', 'submit$']);
     const confirmDialogServiceSpy = jasmine.createSpyObj('ConfirmDialogService', ['confirm']);
 
@@ -323,7 +323,7 @@ describe('DynamicFormComponent', () => {
           DynamicFieldsService,
           { provide: I18nService, useValue: I18nServiceStub },
           { provide: PathHelperService, useValue: IPathHelperServiceStub },
-          { provide: NotificationsService, useValue: notificationsServiceSpy },
+          { provide: ToastService, useValue: toastServiceSpy },
           { provide: ConfirmDialogService, useValue: confirmDialogServiceSpy },
         ],
       })
@@ -350,7 +350,7 @@ describe('DynamicFormComponent', () => {
 
     fixture = TestBed.createComponent(DynamicFormComponent);
     component = fixture.componentInstance;
-    notificationsService = fixture.debugElement.injector.get(NotificationsService) as jasmine.SpyObj<NotificationsService>;
+    toastService = fixture.debugElement.injector.get(ToastService) as jasmine.SpyObj<ToastService>;
     dynamicFormService = fixture.debugElement.injector.get(DynamicFormService) as jasmine.SpyObj<DynamicFormService>;
   });
 
@@ -429,7 +429,7 @@ describe('DynamicFormComponent', () => {
     flush();
 
     expect(dynamicFormService.submit$).toHaveBeenCalled();
-    expect(notificationsService.addSuccess).not.toHaveBeenCalled();
+    expect(toastService.addSuccess).not.toHaveBeenCalled();
 
     // Should not show notifications when showNotifications === true
     component.showNotifications = true;
@@ -442,7 +442,7 @@ describe('DynamicFormComponent', () => {
     flush();
 
     expect(dynamicFormService.submit$).toHaveBeenCalled();
-    expect(notificationsService.addSuccess).toHaveBeenCalled();
+    expect(toastService.addSuccess).toHaveBeenCalled();
 
     dynamicFormService.submit$.and.returnValue(defer(() => {
       throw new Error('Error');
@@ -452,7 +452,7 @@ describe('DynamicFormComponent', () => {
 
     flush();
 
-    expect(notificationsService.addError).toHaveBeenCalled();
+    expect(toastService.addError).toHaveBeenCalled();
 
     dynamicFormService.submit$.and.returnValue(defer(() => Promise.resolve('ok')));
   }));

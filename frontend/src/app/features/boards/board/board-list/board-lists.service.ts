@@ -5,7 +5,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Board } from 'core-app/features/boards/board/board';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
@@ -18,7 +18,7 @@ export class BoardListsService {
     private readonly pathHelper:PathHelperService,
     private readonly apiV3Service:APIV3Service,
     private readonly halResourceService:HalResourceService,
-    private readonly notifications:NotificationsService,
+    private readonly notifications:ToastService,
     private readonly I18n:I18nService) {
 
   }

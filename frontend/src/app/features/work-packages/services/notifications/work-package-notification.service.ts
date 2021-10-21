@@ -27,7 +27,7 @@
 //++
 
 import { Injectable, Injector } from '@angular/core';
-import { INotification } from 'core-app/shared/components/notifications/notifications.service';
+import { IToast } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -46,12 +46,12 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
 
     this.addWorkPackageFullscreenLink(message, resource as any);
 
-    this.NotificationsService.addSuccess(message);
+    this.ToastService.addSuccess(message);
   }
 
   protected showCustomError(errorResource:any, resource:WorkPackageResource):boolean {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:UpdateConflict') {
-      this.NotificationsService.addError({
+      this.ToastService.addError({
         message: errorResource.message,
         type: 'error',
         link: {
@@ -66,7 +66,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     return super.showCustomError(errorResource, resource);
   }
 
-  private addWorkPackageFullscreenLink(message:INotification, resource:WorkPackageResource) {
+  private addWorkPackageFullscreenLink(message:IToast, resource:WorkPackageResource) {
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = {

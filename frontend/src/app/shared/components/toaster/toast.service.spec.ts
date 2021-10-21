@@ -27,13 +27,13 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ToastersService } from 'core-app/shared/components/toasters/toasters.service';
+import { ToastService } from 'core-app/shared/components/toasters/toasters.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
-describe('ToastersService', () => {
-  let toastersService:ToastersService;
+describe('ToastService', () => {
+  let toastersService:ToastService;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -44,12 +44,12 @@ describe('ToastersService', () => {
       providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
-        ToastersService,
+        ToastService,
       ],
     })
       .compileComponents()
       .then(() => {
-        toastersService = TestBed.inject(ToastersService);
+        toastersService = TestBed.inject(ToastService);
       });
   }));
 
@@ -100,7 +100,7 @@ describe('ToastersService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second success toaster',
     () => {
-      const firstToaster = toastersService.addSuccess('blubs');
+      const firstToast = toastersService.addSuccess('blubs');
       expect(toastersService.current.value!.length).toEqual(1);
 
       toastersService.addSuccess('blubs2');
@@ -109,7 +109,7 @@ describe('ToastersService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second error toaster',
     () => {
-      const firstToaster = toastersService.addSuccess('blubs');
+      const firstToast = toastersService.addSuccess('blubs');
       toastersService.addError('blubs2');
 
       expect(toastersService.current.value!.length).toEqual(1);

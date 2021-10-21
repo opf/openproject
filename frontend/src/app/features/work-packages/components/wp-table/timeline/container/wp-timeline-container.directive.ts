@@ -30,7 +30,7 @@ import {
   AfterViewInit, Component, ElementRef, Injector,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import * as moment from 'moment';
 import { Moment } from 'moment';
@@ -90,7 +90,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   public timelineBody:JQuery;
 
-  private selectionParams:{ notification:INotification|null } = {
+  private selectionParams:{ notification:IToast|null } = {
     notification: null,
   };
 
@@ -124,7 +124,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     private elementRef:ElementRef,
     private states:States,
     public wpTableComponent:WorkPackagesTableComponent,
-    private NotificationsService:NotificationsService,
+    private ToastService:ToastService,
     private wpTableTimeline:WorkPackageViewTimelineService,
     private notificationService:WorkPackageNotificationService,
     private wpRelations:WorkPackageRelationsService,
@@ -315,7 +315,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this._viewParameters.selectionModeStart = null;
 
     if (this.selectionParams.notification) {
-      this.NotificationsService.remove(this.selectionParams.notification);
+      this.ToastService.remove(this.selectionParams.notification);
     }
 
     Mousetrap.unbind('esc');
@@ -335,7 +335,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     this._viewParameters.selectionModeStart = start;
     Mousetrap.bind('esc', () => this.resetSelectionMode());
-    this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
+    this.selectionParams.notification = this.ToastService.addNotice(this.text.selectionMode);
 
     this.$element.addClass('active-selection-mode');
 

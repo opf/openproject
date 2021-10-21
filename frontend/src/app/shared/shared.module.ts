@@ -64,9 +64,9 @@ import {
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
-import { NotificationComponent } from './components/notifications/notification.component';
-import { NotificationsContainerComponent } from './components/notifications/notifications-container.component';
-import { UploadProgressComponent } from './components/notifications/upload-progress.component';
+import { ToastComponent } from './components/toaster/toast.component';
+import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
+import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
 import { CollapsibleSectionComponent } from './components/collapsible-section/collapsible-section.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
@@ -149,9 +149,8 @@ export function bootstrapModule(injector:Injector) {
     FocusModule,
     OpDateTimeComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 
@@ -190,9 +189,8 @@ export function bootstrapModule(injector:Injector) {
   declarations: [
     OpDateTimeComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 

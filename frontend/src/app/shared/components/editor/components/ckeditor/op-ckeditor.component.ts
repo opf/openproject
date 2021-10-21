@@ -29,7 +29,7 @@
 import {
   Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
 } from '@angular/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
@@ -109,7 +109,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   private $element:JQuery;
 
   constructor(private readonly elementRef:ElementRef,
-    private readonly Notifications:NotificationsService,
+    private readonly Notifications:ToastService,
     private readonly I18n:I18nService,
     private readonly configurationService:ConfigurationService,
     private readonly ckEditorSetup:CKEditorSetupService) {
