@@ -2832,8 +2832,7 @@
     "@types/mime": {
       "version": "2.0.3",
       "resolved": "https://registry.npmjs.org/@types/mime/-/mime-2.0.3.tgz",
-      "integrity": "sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==",
-      "dev": true
+      "integrity": "sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q=="
     },
     "@types/minimatch": {
       "version": "3.0.3",
