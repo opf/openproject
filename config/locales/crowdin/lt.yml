@@ -1944,12 +1944,11 @@ lt:
       subject: "%{user_name} paminėjo jus #%{id} - %{subject}"
     notification:
       center: 'Į pranešimų centrą'
+      see_in_center: 'See comment in notification center'
       settings: 'Keisti e-pašto nustatymus'
     salutation: 'Labas, %{user}!'
     work_packages:
-      comment_added: 'Pridėtas <b>komentaras</b>'
-      created: 'Sukurta'
-      created_at: '%{user} %{timestamp} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
       mentioned: 'Jus <b>paminėjo komentare</b>'
       mentioned_by: '%{user} paminėjo jus komentare'
@@ -1966,8 +1965,7 @@ lt:
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
       see_all: 'Žiūrėti visus'
-      updated: 'Atnaujinta'
-      updated_at: '%{timestamp} %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."
@@ -2466,7 +2464,7 @@ lt:
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
     notifications:
       retention_text: >
-        Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
+        Nustatykite, kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas, bus pašalinti.
       events_explanation: 'Valdo, kuriems įvykiams yra siunčiami el.laiškai. Darbų paketai nepatenka į šį sąrašą, nes kiekvienam naudotojui pranešimai gali būti sukonfigūruoti individualiai.'
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
     display:

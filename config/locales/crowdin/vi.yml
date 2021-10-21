@@ -1899,12 +1899,11 @@ vi:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
+      see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
-      comment_added: '<b>Comment</b> added'
-      created: 'Đã tạo'
-      created_at: 'at %{timestamp} by %{user} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
       mentioned: 'You have been <b>mentioned in a comment</b>'
       mentioned_by: '%{user} mentioned you in a comment'
@@ -1918,8 +1917,7 @@ vi:
         subscribed: 'tất cả'
         prefix: 'Received because of the notification setting: %{reason}'
       see_all: 'See all'
-      updated: 'Updated'
-      updated_at: 'at %{timestamp} by %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"
   mail_body_account_information_external: "You can use your %{value} account to log in."

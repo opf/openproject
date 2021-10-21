@@ -1910,12 +1910,11 @@ nl:
       subject: "%{user_name} heeft je genoemd in #%{id} - %{subject}"
     notification:
       center: 'Naar meldingscentrum'
+      see_in_center: 'See comment in notification center'
       settings: 'E-mailinstellingen wijzigen'
     salutation: 'Hey %{user}!'
     work_packages:
-      comment_added: '<b>Commentaar</b> toegevoegd'
-      created: 'Gemaakt'
-      created_at: 'om %{timestamp} door %{user} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in om alle meldingen te zien.'
       mentioned: 'U bent <b>genoemd in een opmerking</b>'
       mentioned_by: '%{user} heeft u genoemd in een reactie'
@@ -1930,8 +1929,7 @@ nl:
         subscribed: 'alle'
         prefix: 'Ontvangen vanwege de meldingsinstelling: %{reason}'
       see_all: 'Alles bekijken'
-      updated: 'Updated'
-      updated_at: 'om %{timestamp} door %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Het account wacht op uw goedkeuring:"
   mail_body_account_information: "Uw accountinformatie"
   mail_body_account_information_external: "U kunt uw account %{value} gebruiken om in te loggen."

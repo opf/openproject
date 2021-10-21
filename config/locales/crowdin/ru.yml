@@ -1947,12 +1947,11 @@ ru:
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
       center: 'В центр уведомлений'
+      see_in_center: 'See comment in notification center'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Привет, %{user}!'
     work_packages:
-      comment_added: '<b>Комментарий</b> добавлен'
-      created: 'Создан'
-      created_at: 'в %{timestamp} от %{user} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
       mentioned: 'Вы были <b>упомянуты в комментариях</b>'
       mentioned_by: '%{user} упомянул вас в комментарии'
@@ -1969,8 +1968,7 @@ ru:
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
       see_all: 'Показать все'
-      updated: 'Обновлено'
-      updated_at: 'в %{timestamp} от %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."

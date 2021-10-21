@@ -1893,12 +1893,11 @@ zh-CN:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
+      see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
-      comment_added: '<b>Comment</b> added'
-      created: '已创建'
-      created_at: 'at %{timestamp} by %{user} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
       mentioned: 'You have been <b>mentioned in a comment</b>'
       mentioned_by: '%{user} mentioned you in a comment'
@@ -1912,8 +1911,7 @@ zh-CN:
         subscribed: '所有'
         prefix: 'Received because of the notification setting: %{reason}'
       see_all: 'See all'
-      updated: '已更新'
-      updated_at: 'at %{timestamp} by %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "一个新的用户 (%{value}) 注册。该帐户正在等待您的批准："
   mail_body_account_information: "您的帐户信息"
   mail_body_account_information_external: "你可以使用 %{value} 帐号登录。"
