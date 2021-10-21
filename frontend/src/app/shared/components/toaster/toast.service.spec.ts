@@ -27,7 +27,7 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ToastService } from 'core-app/shared/components/toasters/toasters.service';
+import { ToastService } from 'core-app/shared/components/toasters/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
