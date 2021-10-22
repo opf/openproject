@@ -934,7 +934,7 @@ en:
     user: "User"
     version: "Version"
     work_package: "Work package"
-  
+
   backup:
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
@@ -1237,7 +1237,9 @@ en:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
-  error_can_not_delete_type: "This type contains work packages and cannot be deleted."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "This role is in use and cannot be deleted."
@@ -3125,5 +3127,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
-  
+
   you: you
