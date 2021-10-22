@@ -11,7 +11,8 @@
       </div>
 
       <a
-        class="op-ian-item--work-package-id-link"
+        class="op-ian-item--work-package-id-link op-link"
+        [class.op-link_inactive]="isMobile()"
         [attr.title]="workPackage.subject"
         uiSref="work-packages.show"
         [uiParams]="{workPackageId: workPackage.id}"
@@ -23,7 +24,9 @@
         class="op-ian-item--project"
       >
         - <a
-        class="op-ian-item--project-link" [href]="project.showUrl"
+        class="op-ian-item--project-link"
+        [class.op-link_inactive]="isMobile()"
+        [href]="project.showUrl"
         [textContent]="project.title"
         (click)="projectClicked($event)"
         target="_blank"
@@ -94,6 +97,7 @@
           [principal]="actors[0]"
           [hide-name]="false"
           [hide-avatar]="true"
+          [link]="!isMobile()"
         ></op-principal>
         <span
           *ngIf="actors.length > 1"
