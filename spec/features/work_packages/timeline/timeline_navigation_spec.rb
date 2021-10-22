@@ -174,7 +174,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     # Save
     wp_timeline.save
-    wp_timeline.expect_and_dismiss_notification message: 'Successful update'
+    wp_timeline.expect_and_dismiss_toaster message: 'Successful update'
 
     query.reload
     expect(query.timeline_zoom_level).to eq 'auto'

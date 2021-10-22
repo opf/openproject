@@ -59,8 +59,8 @@ describe 'Work Package table hierarchy', js: true do
       subject = wp_table.edit_field wp_inter, :subject
       subject.update 'New subject'
 
-      wp_table.expect_notification message: 'Successful update.'
-      wp_table.dismiss_notification!
+      wp_table.expect_toaster message: 'Successful update.'
+      wp_table.dismiss_toaster!
 
       hierarchy.expect_hierarchy_at(wp_root, wp_inter)
       hierarchy.expect_leaf_at(wp_leaf, wp_other)

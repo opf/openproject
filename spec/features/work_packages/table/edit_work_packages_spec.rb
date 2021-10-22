@@ -63,7 +63,7 @@ describe 'Inline editing work packages', js: true do
       subject_field.save!
       subject_field.expect_text('New subject!')
 
-      wp_table.expect_notification(
+      wp_table.expect_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -79,9 +79,9 @@ describe 'Inline editing work packages', js: true do
       subject_field.set_value('Other subject!')
       subject_field.save!
 
-      wp_table.expect_notification(message: 'Successful update')
-      wp_table.dismiss_notification!
-      wp_table.expect_no_notification(message: 'Successful update')
+      wp_table.expect_toaster(message: 'Successful update')
+      wp_table.dismiss_toaster!
+      wp_table.expect_no_toaster(message: 'Successful update')
 
       status_field.activate!
       status_field.set_value(status2.name)
@@ -92,9 +92,9 @@ describe 'Inline editing work packages', js: true do
       subject_field.expect_text('Other subject!')
       status_field.expect_text(status2.name)
 
-      wp_table.expect_notification(message: 'Successful update')
-      wp_table.dismiss_notification!
-      wp_table.expect_no_notification(message: 'Successful update')
+      wp_table.expect_toaster(message: 'Successful update')
+      wp_table.dismiss_toaster!
+      wp_table.expect_no_toaster(message: 'Successful update')
 
       work_package.reload
       expect(work_package.subject).to eq('Other subject!')
@@ -168,7 +168,7 @@ describe 'Inline editing work packages', js: true do
       # Should raise two errors
       cf_list_name = custom_fields.first.name
       cf_text_name = custom_fields.last.name
-      wp_table.expect_notification(
+      wp_table.expect_toaster(
         type: :error,
         message: "#{cf_list_name} can't be blank.\n#{cf_text_name} can't be blank."
       )
@@ -188,7 +188,7 @@ describe 'Inline editing work packages', js: true do
       cf_text.expect_inactive!
       cf_list.expect_inactive!
 
-      wp_table.expect_notification(
+      wp_table.expect_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 

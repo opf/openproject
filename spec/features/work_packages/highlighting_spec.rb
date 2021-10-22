@@ -133,7 +133,7 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:status)
 
@@ -165,7 +165,7 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:priority)
 
@@ -183,7 +183,7 @@ describe 'Work Package highlighting fields',
 
     # Save query
     wp_table.save
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     query.reload
     expect(query.highlighting_mode).to eq(:none)
 
@@ -211,7 +211,7 @@ describe 'Work Package highlighting fields',
     prio_wp1.update priority_no_color.name
     prio_wp1.expect_state_text priority_no_color.name
 
-    wp_table.expect_and_dismiss_notification message: 'Successful update.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful update.'
     wp_1.reload
     expect(wp_1.priority).to eq priority_no_color
 

@@ -22,7 +22,7 @@ describe 'Closed status and version in full view', js: true do
     status = page.find('[data-qa-selector="op-wp-status-button"] button:not([disabled])')
     status.click
 
-    wp_page.expect_and_dismiss_notification type: :error,
+    wp_page.expect_and_dismiss_toaster type: :error,
                                             message: I18n.t('js.work_packages.message_work_package_status_blocked')
 
     expect(page).to have_selector('[data-qa-selector="op-wp-status-button"] button[disabled]')

@@ -77,7 +77,7 @@ describe 'Update status from WP card', type: :feature, js: true do
     status_button = wp_card_view.status_button(work_package)
     status_button.update status2.name
 
-    wp_card_view.expect_and_dismiss_notification message: 'Successful update.'
+    wp_card_view.expect_and_dismiss_toaster message: 'Successful update.'
     status_button.expect_text status2.name
 
     work_package.reload

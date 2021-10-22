@@ -62,7 +62,7 @@ describe 'show default model',
 
     it 'shows an error loading the page' do
       show_default_page.visit!
-      show_default_page.expect_notification(type: :error, message: 'Your view is erroneous and could not be processed')
+      show_default_page.expect_toaster(type: :error, message: 'Your view is erroneous and could not be processed')
     end
   end
 
@@ -100,7 +100,7 @@ describe 'show default model',
 
     it 'renders a notification' do
       show_default_page
-        .expect_notification(type: :info,
+        .expect_toaster(type: :info,
                              message: I18n.t(:'ifc_models.processing_notice.processing_default'))
     end
   end

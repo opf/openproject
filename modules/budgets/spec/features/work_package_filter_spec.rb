@@ -82,7 +82,7 @@ describe 'Filter by budget', js: true do
 
     wp_table.save_as('Some query name')
 
-    wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+    wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
     filters.remove_filter 'budget'
 

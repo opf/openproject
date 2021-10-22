@@ -61,7 +61,7 @@ describe 'Upload attachment to forum message', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('toasters-upload-progress')
 
     show_page = create_page.click_save
 
@@ -81,7 +81,7 @@ describe 'Upload attachment to forum message', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
-    expect(page).not_to have_selector('notification-upload-progress')
+    expect(page).not_to have_selector('toasters-upload-progress')
 
     show_page.click_save
 
