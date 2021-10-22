@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,6 +29,14 @@
 module Bim::Bcf
   module Viewpoints
     class CreateService < ::BaseServices::Create
+      protected
+
+      def persist(service_result)
+        # snapshot base64 data must not get stored
+        service_result.result.json_viewpoint['snapshot']&.delete('snapshot_data')
+
+        super(service_result)
+      end
     end
   end
 end
