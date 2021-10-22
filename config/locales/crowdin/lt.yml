@@ -2389,7 +2389,7 @@ lt:
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
     notifications:
       retention_text: >
-        Nustatykite kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas bus pašalinti.
+        Nustatykite, kiek dienų saugoti pranešimų įvykius sistemoje (tuos, kurie bus rodomi kaip programos pranešimai). Visi įvykiai, senesni nei šis laikas, bus pašalinti.
       delay_minutes_explanation: "El.laiškų siuntimas gali būti užlaikytas, kad būtų leista naudotojams, kurie yra susikonfigūravę gauti pranešimus tiesiai programoje, patvirtinti iki to, kol bus išsiųstas laiškas. Naudotojai, kurie perskaitė pranešimus programoje, negaus tų laiškų, kurių pranešimus jau bus perskaitę."
     display:
       first_date_of_week_and_year_set: >
