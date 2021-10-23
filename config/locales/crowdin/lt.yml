@@ -1944,11 +1944,11 @@ lt:
       subject: "%{user_name} paminėjo jus #%{id} - %{subject}"
     notification:
       center: 'Į pranešimų centrą'
-      see_in_center: 'See comment in notification center'
+      see_in_center: 'Žiūrėkite komentarą pranešimų centre'
       settings: 'Keisti e-pašto nustatymus'
     salutation: 'Labas, %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
+      created_at: 'Sukūrė %{user} %{timestamp} '
       login_to_see_all: 'Prisijunkite, norėdami pamatyti visus pranešimus.'
       mentioned: 'Jus <b>paminėjo komentare</b>'
       mentioned_by: '%{user} paminėjo jus komentare'
@@ -1965,7 +1965,7 @@ lt:
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
       see_all: 'Žiūrėti visus'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+      updated_at: 'Pakeitė %{user} %{timestamp}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
   mail_body_account_information: "Informacija apie Jūsų paskyrą"
   mail_body_account_information_external: "Norėdami prisijungti Jūs galite naudoti savo %{value} paskyrą."

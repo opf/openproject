@@ -808,7 +808,7 @@ ru:
         other: "Роль"
       type: "Тип"
       user: "Пользователь"
-      version: "Стадия"
+      version: "Этапы"
       wiki: "Wiki"
       wiki_page: "Wiki-страница"
       workflow: "Рабочий поток"
@@ -877,7 +877,7 @@ ru:
     updated_on: "Обновлено"
     uploader: "Кто загрузил"
     user: "Пользователь"
-    version: "Стадия"
+    version: "Этапы"
     work_package: "Пакет работ"
   backup:
     label_backup_token: "Маркер резервного копирования"
@@ -1947,11 +1947,11 @@ ru:
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
       center: 'В центр уведомлений'
-      see_in_center: 'See comment in notification center'
+      see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Привет, %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
+      created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
       mentioned: 'Вы были <b>упомянуты в комментариях</b>'
       mentioned_by: '%{user} упомянул вас в комментарии'
@@ -1968,7 +1968,7 @@ ru:
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
       see_all: 'Показать все'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+      updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."
