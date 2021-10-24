@@ -23,5 +23,5 @@ ru:
   js:
     work_packages:
       properties:
-        storyPoints: "Баллы описаний"
+        storyPoints: "Исторические точки"
         remainingTime: "Оставшиеся часы"
