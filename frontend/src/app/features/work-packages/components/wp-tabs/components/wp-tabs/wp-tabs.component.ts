@@ -1,5 +1,10 @@
 import {
-  ChangeDetectionStrategy, Component, Injector, Input, OnInit,
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  Input,
+  OnInit,
+  HostBinding,
 } from '@angular/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { StateService, UIRouterGlobals } from '@uirouter/core';
@@ -14,6 +19,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpTabsComponent implements OnInit {
+  @HostBinding('class.op-wp-tabs') className = true;
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() view:'full'|'split';

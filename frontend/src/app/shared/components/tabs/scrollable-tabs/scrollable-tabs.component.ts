@@ -11,6 +11,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  HostBinding,
 } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
@@ -22,6 +23,13 @@ import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functi
 })
 
 export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
+  @HostBinding('class') get classNames() {
+    return [
+      'op-scrollable-tabs',
+      ...this.classes,
+    ].join(' ');
+  }
+
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
 
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
