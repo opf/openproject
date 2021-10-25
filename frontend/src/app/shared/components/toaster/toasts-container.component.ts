@@ -36,8 +36,8 @@ export const toastsContainerSelector = 'toasts-container';
 
 @Component({
   template: `
-    <div class="toaster-box--wrapper">
-      <div class="toaster-box--casing">
+    <div class="op-toast--wrapper">
+      <div class="op-toast--casing">
         <toaster [toaster]="toaster" *ngFor="let toaster of stack"></toaster>
       </div>
     </div>

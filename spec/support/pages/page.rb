@@ -91,7 +91,7 @@ module Pages
 
     def expect_toaster(message:, type: :success)
       if toaster_type == :angular
-        expect(page).to have_selector(".toaster-box.-#{type}", text: message, wait: 20)
+        expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
       elsif type == :success
@@ -109,7 +109,7 @@ module Pages
 
     def dismiss_toaster!
       if toaster_type == :angular
-        page.find('.toaster-box--close').click
+        page.find('.op-toast--close').click
       else
         page.find('.flash .icon-close').click
       end
@@ -117,9 +117,9 @@ module Pages
 
     def expect_no_toaster(type: :success, message: nil)
       if type.nil?
-        expect(page).to have_no_selector(".toaster-box")
+        expect(page).to have_no_selector(".op-toast")
       else
-        expect(page).to have_no_selector(".toaster-box.-#{type}", text: message)
+        expect(page).to have_no_selector(".op-toast.-#{type}", text: message)
       end
     end
 

@@ -359,8 +359,8 @@ module Pages
 
     def add_list_modal_shows_warning(value, with_link: false)
       within page.find('.op-modal') do
-        warning = '.toaster-box.-warning'
-        link = '.toaster-box--content a'
+        warning = '.op-toast.-warning'
+        link = '.op-toast--content a'
 
         expect(page).to (value ? have_selector(warning) : have_no_selector(warning))
         expect(page).to (with_link ? have_selector(link) : have_no_selector(link))

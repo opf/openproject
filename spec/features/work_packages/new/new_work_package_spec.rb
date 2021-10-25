@@ -232,7 +232,7 @@ describe 'new work package', js: true do
       save_work_package!
 
       wp_page.expect_toaster message: 'Successful creation. Click here to open this work package in fullscreen view.'
-      page.find('.toaster-box--target-link', text: 'Click here to open this work package in fullscreen view.').click
+      page.find('.op-toast--target-link', text: 'Click here to open this work package in fullscreen view.').click
 
       full_page = Pages::FullWorkPackage.new(WorkPackage.last)
       full_page.ensure_page_loaded

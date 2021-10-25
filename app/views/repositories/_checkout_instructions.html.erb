@@ -28,12 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% if @instructions.available? %>
 <div id="repository--checkout-instructions"
-     class="toaster-box -info persistent-toggle--notification"
+     class="op-toast -info persistent-toggle--notification"
      hidden>
   <a title="{{ ::I18n.t('js.close_popup_title') }}"
-     class="toaster-box--close icon-context icon-close">
+     class="op-toast--close icon-context icon-close">
   </a>
-  <div class="toaster-box--content">
+  <div class="op-toast--content">
     <p>
     <%= simple_format instructions.instructions %>
     <% if instructions.manages_permissions? %>
@@ -45,11 +45,11 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </div>
 <% elsif @instructions.supported_but_not_enabled? %>
-<div class="toaster-box -warning">
+<div class="op-toast -warning">
   <a title="{{ ::I18n.t('js.close_popup_title') }}"
-     class="toaster-box--close icon-context icon-close">
+     class="op-toast--close icon-context icon-close">
   </a>
-  <div class="toaster-box--content">
+  <div class="op-toast--content">
     <p><%= t('repositories.checkout.not_available') %></p>
   </div>
 </div>

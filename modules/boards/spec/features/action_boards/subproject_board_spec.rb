@@ -208,7 +208,7 @@ describe 'Subproject action board', type: :feature, js: true do
       board_page.expect_card subproject1.name, work_package.subject
 
       # No error is to be displayed as erroneous columns are filtered out
-      expect(page).not_to have_selector('.toaster-box.-error')
+      expect(page).not_to have_selector('.op-toast.-error')
       board_page.expect_no_list(subproject2.name)
 
       expect(page)

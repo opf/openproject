@@ -81,7 +81,7 @@ describe 'Projects module administration',
     click_button 'Save'
 
     expect(page)
-      .to have_selector '.toaster-box.-error',
+      .to have_selector '.op-toast.-error',
                         text: I18n.t(:'activerecord.errors.models.project.attributes.enabled_modules.dependency_missing',
                                      dependency: 'Work package tracking',
                                      module: 'Calendar')

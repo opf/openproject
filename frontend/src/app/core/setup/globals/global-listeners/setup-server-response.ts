@@ -91,9 +91,9 @@ export function setupServerResponse() {
 }
 
 function flashCloseHandler() {
-  jQuery('body').on('click keydown touchend', '.close-handler,.toaster-box--close', function (e) {
+  jQuery('body').on('click keydown touchend', '.close-handler,.op-toast--close', function (e) {
     if (e.type === 'click' || e.which === 13) {
-      jQuery(this).parent('.flash, .errorExplanation, .toaster-box')
+      jQuery(this).parent('.flash, .errorExplanation, .op-toast')
         .not('.persistent-toggle--notification')
         .remove();
     }

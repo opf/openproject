@@ -1,8 +1,8 @@
 # Notifications
 
 ```
-<div class="toaster-box">
-  <div class="toaster-box--content">
+<div class="op-toast">
+  <div class="op-toast--content">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
   </div>
 </div>
@@ -11,8 +11,8 @@
 ## Info
 
 ```
-<div class="toaster-box -info">
-  <div class="toaster-box--content">
+<div class="op-toast -info">
+  <div class="op-toast--content">
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia laudantium ea delectus incidunt accusantium repudiandae deserunt excepturi non esse vero distinctio et reprehenderit, cupiditate quidem consectetur rerum iste magnam voluptatibus.</p>
   </div>
 </div>
@@ -21,9 +21,9 @@
 ## Error
 
 ```
-<div class="toaster-box -error">
-  <a href="#" title="close" class="toaster-box--close icon-context icon-close"></a>
-  <div class="toaster-box--content">
+<div class="op-toast -error">
+  <a href="#" title="close" class="op-toast--close icon-context icon-close"></a>
+  <div class="op-toast--content">
     <p>An error occured, here are the facts:</p>
     <ul>
       <li>Fact 1: You made a mistake</li>
@@ -38,9 +38,9 @@
 ## Warning
 
 ```
-<div class="toaster-box -warning">
-  <a href="#" title="close" class="toaster-box--close icon-context icon-close"></a>
-  <div class="toaster-box--content">
+<div class="op-toast -warning">
+  <a href="#" title="close" class="op-toast--close icon-context icon-close"></a>
+  <div class="op-toast--content">
     <p>This is a warning. You may ignore it, but bad things might happen.</p>
   </div>
 </div>
@@ -49,9 +49,9 @@
 ## Success
 
 ```
-<div class="toaster-box -success">
-  <a href="#" title="close" class="toaster-box--close icon-context icon-close"></a>
-  <div class="toaster-box--content">
+<div class="op-toast -success">
+  <a href="#" title="close" class="op-toast--close icon-context icon-close"></a>
+  <div class="op-toast--content">
     <p>Successful update. <a href="#">A link to the past</a></p>
   </div>
 </div>
@@ -64,14 +64,14 @@
 <div class="controls">
   <button class="button stuck-message" id="test-notifier">click</button>
 </div>
-<div class="toaster-box--wrapper">
-  <div class="toaster-box--casing"></div>
+<div class="op-toast--wrapper">
+  <div class="op-toast--casing"></div>
 </div>
 
 <script type="text\template" id="warning-message-zx00x">
-  <div class="toaster-box -warning">
-    <a href="#" class="toaster-box--close">&times;</a>
-    <div class="toaster-box--content">
+  <div class="op-toast -warning">
+    <a href="#" class="op-toast--close">&times;</a>
+    <div class="op-toast--content">
       <p>This is a warning. You may ignore it, but bad things might happen. toasterNo {{number}}</p>
     </div>
   </div>
@@ -83,10 +83,10 @@
 ### Upload progress
 
 ```
-<div class="toaster-box -upload">
-  <div class="toaster-box--content">
+<div class="op-toast -upload">
+  <div class="op-toast--content">
     <span>Uploading files...</span>
-    <ul class="toaster-box--uploads">
+    <ul class="op-toast--uploads">
       <toasters-upload-progress>
         <li>
           <span class="filename">Awesome_Landscape.png</span>
@@ -102,12 +102,12 @@
 ### Upload progress done
 
 ```
-<div class="toaster-box -upload">
-  <div class="toaster-box--content">
+<div class="op-toast -upload">
+  <div class="op-toast--content">
     <span>Uploading files...</span>
     <div>
       <div>
-        <ul class="toaster-box--uploads">
+        <ul class="op-toast--uploads">
           <toasters-upload-progress>
             <li>
               <span class="filename">Awesome_Landscape.png</span>
@@ -116,7 +116,7 @@
             <li>
               <span class="filename">Awesome_Landscape2.png</span>
               <span class="upload-completed"><i class="icon-close -error"></i></span>
-              <p class="toaster-box--notice -error">Something went wrong!...</p>
+              <p class="op-toast--notice -error">Something went wrong!...</p>
             </li>
           </toasters-upload-progress>
         </ul>

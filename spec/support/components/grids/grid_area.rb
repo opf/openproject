@@ -134,11 +134,11 @@ module Components
       end
 
       def dismiss_toaster!
-        if page.has_selector?('.toaster-box--close')
-          page.find('.toaster-box--close').click
+        if page.has_selector?('.op-toast--close')
+          page.find('.op-toast--close').click
         end
 
-        expect(page).to have_no_selector('.toaster-box')
+        expect(page).to have_no_selector('.op-toast')
       end
     end
   end

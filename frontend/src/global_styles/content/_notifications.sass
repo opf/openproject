@@ -105,7 +105,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   left: $left
   font-size: $size
 
-.toaster-box
+.op-toast
   @extend %toaster
   z-index: 21
   +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
@@ -120,7 +120,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   & .button
     margin: rem-calc(10px 10px 0 0)
 
-  .toaster-box--close
+  .op-toast--close
     position: absolute
     top: rem-calc(12px)
     right: rem-calc(12px)
@@ -189,7 +189,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-info
     color: $nm-color-info-icon
 
-.toaster-box--wrapper,
+.op-toast--wrapper,
 .flash, #errorExplanation
   position: absolute
   max-width: $nm-toaster-width
@@ -197,20 +197,20 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   left: 10%
   right: 10%
 
-.toaster-box--wrapper
+.op-toast--wrapper
   z-index: 10000 // Higher than loading indicator and modal wrapper!
   top: 4rem
 
-  .toaster-box--casing
+  .op-toast--casing
     position: relative
-    .toaster-box
+    .op-toast
       margin-bottom: rem-calc(3px)
 
 .flash, #errorExplanation
   top: 1rem
 
 // awesome animations
-.toaster-box
+.op-toast
   &.ng-enter
     transition: opacity 0.5s ease
     opacity: 0
@@ -222,7 +222,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.ng-leave.ng-leave-active
     opacity: 0
 
-  .toaster-box--content
+  .op-toast--content
     width: 100%
 
     > p
@@ -250,27 +250,27 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   color: var(--primary-color-dark)
   margin: 0
 
-.toaster-box--toggle-message
+.op-toast--toggle-message
   font-size: rem-calc(16)
   margin: rem-calc(5 0 15 0)
 
-.toaster-box--uploads
+.op-toast--uploads
   list-style: none
   padding: 0
   margin: 0
 
-.toaster-box--uploads-element
+.op-toast--uploads-element
   margin: rem-calc(5 0)
   .filename
     font-weight: bold
   [class^="icon-"]
     font-size: $nm-upload-file-status-icon-size
 
-.toaster-box--upload-status
+.op-toast--upload-status
   font-size: $nm-upload-status-font-size !important
   line-height: $nm-upload-status-font-size !important
 
-.toaster-box--notice
+.op-toast--notice
   border-radius: $nm-border-radius
   border-style: solid
   border-width: rem-calc(1)
@@ -353,7 +353,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 .flash + .flash
   margin-top: 3rem
 
-a.toaster-box--target-link
+a.op-toast--target-link
   cursor: pointer
   text-decoration: underline
 

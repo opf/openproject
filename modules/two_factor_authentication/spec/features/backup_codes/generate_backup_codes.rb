@@ -38,7 +38,7 @@ describe 'Generate 2FA backup codes', with_2fa_ee: true, type: :feature,
     click_on I18n.t('two_factor_authentication.backup_codes.generate.title')
     dialog.confirm_flow_with user_password, should_fail: false
 
-    expect(page).to have_selector('.toaster-box.-warning')
+    expect(page).to have_selector('.op-toast.-warning')
     backup_codes.each do |code|
       expect(page).to have_selector('.two-factor-authentication--backup-codes li', text: code)
     end

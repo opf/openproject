@@ -226,7 +226,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         expect(page).to have_selector('.group--value', text: 'Task (1)')
         expect(page).to have_selector('.group--value', text: 'Bug (3)')
 
-        expect(page).to have_no_selector '.toaster-box.error'
+        expect(page).to have_no_selector '.op-toast.error'
       end
     end
   end

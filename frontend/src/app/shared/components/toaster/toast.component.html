@@ -1,9 +1,9 @@
-<div class="toaster-box -{{ type }}" tabindex="0">
-  <div class="toaster-box--content" role="alert" aria-atomic="true">
+<div class="op-toast -{{ type }}" tabindex="0">
+  <div class="op-toast--content" role="alert" aria-atomic="true">
     <p>
       <span [textContent]="toaster.message"></span>
       <span [textContent]="' '"></span>
-      <a class="toaster-box--target-link"
+      <a class="op-toast--target-link"
          *ngIf="toaster.link"
          (click)="executeTarget($event)"
          [textContent]="toaster.link!.text">
@@ -21,7 +21,7 @@
           <span [textContent]="uploadText"></span>
         </div>
         <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
-          <ul class="toaster-box--uploads" *ngIf="data && data.length > 0">
+          <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
             <toasters-upload-progress
                 *ngFor="let upload of data"
                 [upload]="upload"
@@ -33,7 +33,7 @@
       </div>
       <div *ngSwitchCase="'success'"></div>
       <div *ngSwitchCase="'error'">
-        <ul class="toaster-box--errors">
+        <ul class="op-toast--errors">
           <li *ngFor="let error of data" [textContent]="error"></li>
         </ul>
       </div>
@@ -42,7 +42,7 @@
   <button
       *ngIf="removable()"
       type="button"
-      class="op-link toaster-box--close"
+      class="op-link op-toast--close"
       [title]="text.close_popup"
       (click)="remove()"
   >

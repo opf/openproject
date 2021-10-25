@@ -71,7 +71,7 @@ class WorkPackagesPage
   end
 
   def close_toasters
-    page.all(:css, '.toaster-box--close').each(&:click)
+    page.all(:css, '.op-toast--close').each(&:click)
   end
 
   def select_query(query)

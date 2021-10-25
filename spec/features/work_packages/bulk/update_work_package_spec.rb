@@ -100,9 +100,9 @@ describe 'Bulk update work packages through Rails view', js: true do
           fill_in 'work_package_start_date', with: '123'
           click_on 'Submit'
 
-          expect(page).to have_selector('.toaster-box', text: I18n.t('work_packages.bulk.could_not_be_saved'))
-          expect(page).to have_selector('.toaster-box', text: work_package.id)
-          expect(page).to have_selector('.toaster-box', text: work_package2.id)
+          expect(page).to have_selector('.op-toast', text: I18n.t('work_packages.bulk.could_not_be_saved'))
+          expect(page).to have_selector('.op-toast', text: work_package.id)
+          expect(page).to have_selector('.op-toast', text: work_package2.id)
 
           # Should not update the status
           work_package2.reload

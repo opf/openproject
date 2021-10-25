@@ -67,7 +67,7 @@ export class PersistentToggleComponent implements OnInit {
 
     // Register target toaster close icon
     this.$targetNotification
-      .find('.toaster-box--close')
+      .find('.op-toast--close')
       .on('click', () => this.toggle(true));
   }
 

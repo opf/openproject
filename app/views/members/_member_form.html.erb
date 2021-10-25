@@ -76,8 +76,8 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
     <% if OpenProject::Enterprise.user_limit_reached? %>
-        <div class="toaster-box -warning icon-warning" id="member-user-limit-warning" style="display: none;">
-          <div class="toaster-box--content">
+        <div class="op-toast -warning icon-warning" id="member-user-limit-warning" style="display: none;">
+          <div class="op-toast--content">
             <p><%= I18n.t(:warning_user_limit_reached, upgrade_url: OpenProject::Enterprise.upgrade_path).html_safe %></p>
           </div>
         </div>

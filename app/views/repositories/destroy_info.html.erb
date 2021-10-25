@@ -64,8 +64,8 @@ See COPYRIGHT and LICENSE files for more details.
     </section>
   <% end %>
 <% else %>
-  <div class="toaster-box -warning">
-    <div class="toaster-box--content">
+  <div class="op-toast -warning">
+    <div class="op-toast--content">
       <p><strong><%= t('repositories.destroy.title_not_managed', repository_type: "<em>#{h(@repository.repository_type)} - #{t(:project_module_repository)}</em>").html_safe %></strong><br /></p>
       <p>
         <%= t('repositories.destroy.subtitle_not_managed',

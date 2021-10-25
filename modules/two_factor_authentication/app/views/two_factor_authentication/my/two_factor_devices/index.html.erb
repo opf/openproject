@@ -3,8 +3,8 @@
 
 <% if @has_remember_token_for_user %>
   <section class="account--section" id="two_factor_authentication_remember_cookie">
-    <div class="toaster-box show-when-print -info">
-      <div class="toaster-box--content">
+    <div class="op-toast show-when-print -info">
+      <div class="op-toast--content">
         <p>
           <strong><%= t(:note) %></strong>
           <% if @remember_token %>
