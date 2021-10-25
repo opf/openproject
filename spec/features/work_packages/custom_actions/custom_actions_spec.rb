@@ -449,7 +449,7 @@ describe 'Custom actions', type: :feature, js: true do
 
     wp_page.click_custom_action('Escalate', expect_success: false)
 
-    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
+    wp_page.expect_toaster type: :error, message: I18n.t('api_v3.errors.code_409')
   end
 
   scenario 'editing a current date custom action (Regression #30949)' do

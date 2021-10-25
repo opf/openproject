@@ -49,7 +49,7 @@ describe 'inline create work package', js: true do
         # Callback for adjustments
         callback.call
 
-        wp_table.expect_notification(
+        wp_table.expect_toaster(
           message: 'Successful creation. Click here to open this work package in fullscreen view.'
         )
 
@@ -71,8 +71,8 @@ describe 'inline create work package', js: true do
         expect(page).to have_selector('.wp--row .subject', text: 'Another subject')
 
         # safegurards
-        wp_table.dismiss_notification!
-        wp_table.expect_no_notification(
+        wp_table.dismiss_toaster!
+        wp_table.expect_no_toaster(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
 
@@ -120,7 +120,7 @@ describe 'inline create work package', js: true do
         type_field.openSelectField
         type_field.set_value cf_type.name
 
-        wp_table.expect_notification(
+        wp_table.expect_toaster(
           type: :error,
           message: 'Subject can\'t be blank.'
         )
@@ -130,7 +130,7 @@ describe 'inline create work package', js: true do
         subject_field.set_value 'Some subject'
         subject_field.save!
 
-        wp_table.expect_notification(
+        wp_table.expect_toaster(
           message: 'Successful creation. Click here to open this work package in fullscreen view.'
         )
 

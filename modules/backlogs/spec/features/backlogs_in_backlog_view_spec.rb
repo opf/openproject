@@ -188,7 +188,7 @@ describe 'Backlogs in backlog view',
     click_button 'Save'
 
     backlogs_page
-      .expect_and_dismiss_notification(message: "Successful update.")
+      .expect_and_dismiss_toaster(message: "Successful update.")
 
     backlogs_page
       .expect_backlog(sprint)
@@ -209,7 +209,7 @@ describe 'Backlogs in backlog view',
     click_button 'Save'
 
     backlogs_page
-      .expect_and_dismiss_notification(message: "Successful update.")
+      .expect_and_dismiss_toaster(message: "Successful update.")
 
     # Now works as a sprint instead of a backlog
     backlogs_page
@@ -231,7 +231,7 @@ describe 'Backlogs in backlog view',
     click_button 'Save'
 
     backlogs_page
-      .expect_and_dismiss_notification(message: "Successful update.")
+      .expect_and_dismiss_toaster(message: "Successful update.")
 
     # the disabled backlog/sprint is no longer visible
     expect(page)
@@ -253,7 +253,7 @@ describe 'Backlogs in backlog view',
     click_button 'Save'
 
     backlogs_page
-      .expect_and_dismiss_notification(message: "Successful update.")
+      .expect_and_dismiss_toaster(message: "Successful update.")
 
     # the disabled backlog/sprint is no longer visible
     expect(page)

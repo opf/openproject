@@ -86,7 +86,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       field.save!
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
         expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
@@ -108,7 +108,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         field.save!
       end
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         expect(page)
@@ -123,7 +123,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_selector('.inline-edit--display-field', text: 'My own little text')
       end
 
-      dashboard_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         # adding an image
@@ -143,7 +143,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
         field.save!
       end
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within custom_text_widget.area do
         expect(page)

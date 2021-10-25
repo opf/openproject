@@ -70,7 +70,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
 
       expect(page).to have_text 'New notifications will appear here when there is activity that concerns you'
 
-      center.expect_no_notification
+      center.expect_no_toaster
 
       side_menu.expect_item_with_no_count 'Inbox'
       side_menu.expect_item_with_no_count 'Assigned'

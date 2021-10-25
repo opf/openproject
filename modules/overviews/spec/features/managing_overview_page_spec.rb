@@ -103,7 +103,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # browser can get confused. Therefore we wait.
     sleep(1)
 
-    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     table_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(6)')
     table_area.expect_to_span(1, 1, 2, 2)
@@ -111,13 +111,13 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
     # A useless resizing shows no message and does not alter the size
     table_area.resize_to(1, 1)
 
-    overview_page.expect_no_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
 
     table_area.expect_to_span(1, 1, 2, 2)
 
     table_area.resize_to(1, 2)
 
-    overview_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     # Resizing leads to the table area now spanning a larger area
     table_area.expect_to_span(1, 1, 2, 3)

@@ -57,7 +57,7 @@ describe 'new work package', js: true, with_mail: false do
     end
 
     scroll_to_and_click find('#work-packages--edit-actions-save')
-    wp_page.expect_notification message: 'Successful creation.'
+    wp_page.expect_toaster message: 'Successful creation.'
 
     expect(page).to have_selector('.inline-edit--display-field.description h1', text: 'New Bug template')
   end

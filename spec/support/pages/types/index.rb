@@ -44,11 +44,11 @@ module Pages
       end
 
       def expect_successful_create
-        expect_notification message: I18n.t(:notice_successful_create)
+        expect_toaster message: I18n.t(:notice_successful_create)
       end
 
       def expect_successful_update
-        expect_notification message: I18n.t(:notice_successful_update)
+        expect_toaster message: I18n.t(:notice_successful_update)
       end
 
       def click_new

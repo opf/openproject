@@ -61,7 +61,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
 
     # Save WP
     wp_page.save!
-    wp_page.expect_and_dismiss_notification(message: 'Successful creation.')
+    wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     # Add child
     scroll_to_and_click relations_tab
@@ -70,7 +70,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
     find('#wp-new-inline-edit--field-subject').native.send_keys(:return)
 
     # Expect CF value to be still visible
-    wp_page.expect_and_dismiss_notification(message: 'Successful creation.')
+    wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
     expect(wp_page).to have_selector('[data-qa-selector="tab-count"]', text: "(1)")
     wp_page.expect_attributes "customField#{custom_field.id}": '42'
   end

@@ -144,7 +144,7 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
       to_copy_work_package_page.save!
 
-      to_copy_work_package_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_create')
+      to_copy_work_package_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_create')
     end
   end
 

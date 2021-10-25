@@ -56,7 +56,7 @@ describe 'Resolved status',
     check status.name
     click_button 'Save'
 
-    settings_page.expect_notification(message: 'Successful update')
+    settings_page.expect_toaster(message: 'Successful update')
 
     expect(page)
       .to have_checked_field(status.name)

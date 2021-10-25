@@ -212,7 +212,7 @@ describe 'Version action board', type: :feature, js: true do
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:version).update('Open version')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       work_package.reload
       expect(work_package.version).to eq(open_version)
