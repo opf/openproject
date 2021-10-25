@@ -31,7 +31,7 @@
 class WikiPages::UpdateService < ::BaseServices::Update
   include Attachments::ReplaceAttachments
 
-  private
+  protected
 
   def persist(service_result)
     service_result = super(service_result)

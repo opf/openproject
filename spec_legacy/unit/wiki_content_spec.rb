@@ -39,18 +39,17 @@ describe WikiContent, type: :model do
 
   it 'should create' do
     page = WikiPage.new(wiki: @wiki, title: 'Page')
-    page.content = WikiContent.new(text: 'Content text', author: User.find(1), comments: 'My comment')
+    page.content = WikiContent.new(text: 'Content text', author: User.find(1))
     assert page.save
     page.reload
 
     content = page.content
     assert_kind_of WikiContent, content
     assert_equal 1, content.version
-    assert_equal 1, content.versions.length
+    assert_equal 1, content.journals.length
     assert_equal 'Content text', content.text
-    assert_equal 'My comment', content.versions.last.notes
     assert_equal User.find(1), content.author
-    assert_equal content.text, content.versions.last.data.text
+    assert_equal content.text, content.journals.last.data.text
   end
 
   it 'should update' do
@@ -60,7 +59,7 @@ describe WikiContent, type: :model do
     assert content.save
     content.reload
     assert_equal version_count + 1, content.version
-    assert_equal version_count + 1, content.versions.length
+    assert_equal version_count + 1, content.journals.length
   end
 
   it 'should fetch history' do
@@ -84,7 +83,7 @@ describe WikiContent, type: :model do
 
   specify 'new WikiContent is version 0' do
     page = WikiPage.new(wiki: @wiki, title: 'Page')
-    page.content = WikiContent.new(text: 'Content text', author: User.find(1), comments: 'My comment')
+    page.content = WikiContent.new(text: 'Content text', author: User.find(1))
 
     assert_equal 0, page.content.version
   end

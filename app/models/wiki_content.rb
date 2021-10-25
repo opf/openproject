@@ -33,11 +33,6 @@ class WikiContent < ApplicationRecord
 
   belongs_to :page, class_name: 'WikiPage'
   belongs_to :author, class_name: 'User'
-  validates_length_of :comments, maximum: 255, allow_nil: true
-
-  attr_accessor :comments
-
-  before_save :comments_to_journal_notes
 
   acts_as_journalized
 
@@ -63,9 +58,7 @@ class WikiContent < ApplicationRecord
     page.visible?(user)
   end
 
-  def project
-    page.project
-  end
+  delegate :project, to: :page
 
   def attachments
     page.nil? ? [] : page.attachments
@@ -77,14 +70,7 @@ class WikiContent < ApplicationRecord
 
   deprecated_alias :versions, :journals
 
-  # REVIEW
   def version
     last_journal.nil? ? 0 : last_journal.version
-  end
-
-  private
-
-  def comments_to_journal_notes
-    add_journal author, comments
   end
 end
