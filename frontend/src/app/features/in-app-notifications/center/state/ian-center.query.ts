@@ -3,7 +3,6 @@ import {
   distinctUntilChanged,
   map,
 } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import {
   IAN_FACET_FILTERS,
   IanCenterState,
@@ -14,8 +13,7 @@ import {
   Apiv3ListParameters,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
+import { selectEntitiesFromIDCollection } from 'core-app/core/state/collection-store';
 
 export class IanCenterQuery extends Query<IanCenterState> {
   activeFacet$ = this.select('activeFacet');
@@ -24,12 +22,14 @@ export class IanCenterQuery extends Query<IanCenterState> {
 
   paramsChanges$ = this.select(['params', 'activeFacet']);
 
-  selectNotifications$ = combineLatest([
-    this.paramsChanges$,
-    this.resourceService.query.select(),
-  ]).pipe(
-    map(([, state]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, state, this.params)),
-  );
+  activeCollection$ = this.select('activeCollection');
+
+  selectNotifications$ = this
+    .activeCollection$
+    .pipe(
+      map((collection) => selectEntitiesFromIDCollection(this.resourceService, collection)),
+      distinctUntilChanged(),
+    );
 
   aggregatedCenterNotifications$ = this
     .selectNotifications$
@@ -37,12 +37,14 @@ export class IanCenterQuery extends Query<IanCenterState> {
       map((notifications) => (
         _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
       )),
+      distinctUntilChanged(),
     );
 
   notifications$ = this
     .aggregatedCenterNotifications$
     .pipe(
       map((items) => Object.values(items)),
+      distinctUntilChanged(),
     );
 
   hasNotifications$ = this
@@ -50,12 +52,14 @@ export class IanCenterQuery extends Query<IanCenterState> {
     .pipe(
       distinctUntilChanged(),
       map((items) => items.length > 0),
+      distinctUntilChanged(),
     );
 
   hasMoreThanPageSize$ = this
     .notLoaded$
     .pipe(
       map((notLoaded) => notLoaded > 0),
+      distinctUntilChanged(),
     );
 
   get params():Apiv3ListParameters {

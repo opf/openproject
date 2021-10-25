@@ -2,7 +2,10 @@ import {
   Injectable,
   Injector,
 } from '@angular/core';
-import { notificationsMarkedRead } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
+import {
+  notificationsMarkedRead,
+  notificationCountIncreased,
+} from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import {
   EffectCallback,
   EffectHandler,
@@ -36,6 +39,14 @@ export class IanMenuService {
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
   ) {
+  }
+
+  /**
+   * Check for updates after bell count increased
+   */
+  @EffectCallback(notificationCountIncreased)
+  private checkForNewNotifications() {
+    this.reload();
   }
 
   /**

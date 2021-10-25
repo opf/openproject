@@ -1,4 +1,5 @@
 import { Store, StoreConfig } from '@datorama/akita';
+import { CollectionResponse } from 'core-app/core/state/collection-store';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { NOTIFICATIONS_MAX_SIZE } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
@@ -10,6 +11,8 @@ export interface IanCenterState {
   };
   activeFacet:InAppNotificationFacet;
   filters:INotificationPageQueryParameters;
+
+  activeCollection:CollectionResponse;
 
   /** Number of elements not showing after max values loaded */
   notLoaded:number;
@@ -29,6 +32,7 @@ export function createInitialState():IanCenterState {
       page: 1,
     },
     filters: {},
+    activeCollection: { ids: [] },
     activeFacet: 'unread',
     notLoaded: 0,
   };

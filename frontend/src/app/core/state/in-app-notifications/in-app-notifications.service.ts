@@ -10,8 +10,6 @@ import {
 } from '@datorama/akita';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
-import { InAppNotificationsStore } from './in-app-notifications.store';
-import { InAppNotification } from './in-app-notification.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
@@ -26,6 +24,8 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { InAppNotificationsStore } from './in-app-notifications.store';
+import { InAppNotification } from './in-app-notification.model';
 
 @EffectHandler
 @Injectable()
@@ -64,6 +64,7 @@ export class InAppNotificationsResourceService {
                 collections: {
                   ...collections,
                   [collectionURL]: {
+                    ...collections[collectionURL],
                     ids: events._embedded.elements.map((el) => el.id),
                   },
                 },
