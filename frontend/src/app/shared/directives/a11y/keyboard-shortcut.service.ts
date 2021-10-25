@@ -39,21 +39,20 @@ const accessKeys = {
   projectSearch: 5,
   help: 6,
   moreMenu: 7,
-  details: 8
+  details: 8,
 };
 
 // this could be extracted into a separate component if it grows
 const accessibleListSelector = 'table.keyboard-accessible-list';
 const accessibleRowSelector = 'table.keyboard-accessible-list tbody tr';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class KeyboardShortcutService {
-
   // maybe move it to a .constant
-  private shortcuts:any = {
+  private shortcuts:{ [name:string]:() => void } = {
+    /* eslint-disable quote-props */
     '?': () => this.showHelpModal(),
     'g m': this.globalAction('myPagePath'),
     'g o': this.projectScoped('projectPath'),
@@ -71,34 +70,34 @@ export class KeyboardShortcutService {
     'p': this.accessKey('projectSearch'),
     's': this.accessKey('quickSearch'),
     'k': () => this.focusPrevItem(),
-    'j': () => this.focusNextItem()
+    'j': () => this.focusNextItem(),
+    /* eslint-enable quote-props */
   };
 
-
   constructor(private readonly PathHelper:PathHelperService,
-              private readonly FocusHelper:FocusHelperService,
-              private readonly currentProject:CurrentProjectService) {
+    private readonly FocusHelper:FocusHelperService,
+    private readonly currentProject:CurrentProjectService) {
     this.register();
   }
 
   /**
    * Register the keyboard shortcuts.
    */
-  public register() {
+  public register():void {
     _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
   }
 
-  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details') {
-    var key = accessKeys[keyName];
+  public accessKey(keyName:'preview'|'newWorkPackage'|'edit'|'quickSearch'|'projectSearch'|'help'|'moreMenu'|'details'):() => void {
+    const key = accessKeys[keyName];
 
     return () => {
-      var elem = jQuery('[accesskey=' + key + ']:first');
+      const elem = jQuery(`[accesskey=${key}]:first`);
       if (elem.is('input') || elem.attr('id') === 'global-search-input') {
         // timeout with delay so that the key is not
         // triggered on the input
         setTimeout(() => this.FocusHelper.focus(elem), 200);
       } else if (elem.is('[href]')) {
-        this.clickLink(elem[0]);
+        this.clickLink(elem[0] as HTMLLinkElement);
       } else {
         elem[0].click();
       }
@@ -106,27 +105,26 @@ export class KeyboardShortcutService {
   }
 
   public globalAction(action:keyof PathHelperService) {
-    return () => {
-      var url = (this.PathHelper[action] as any)();
-      window.location.href = url;
+    return ():void => {
+      window.location.href = (this.PathHelper[action] as () => string)();
     };
   }
 
   public projectScoped(action:keyof PathHelperService) {
-    return () => {
-      var projectIdentifier = this.currentProject.identifier;
+    return ():void => {
+      const projectIdentifier = this.currentProject.identifier;
       if (projectIdentifier) {
-        var url = (this.PathHelper[action] as any)(projectIdentifier);
-        window.location.href = url;
+        window.location.href = (this.PathHelper[action] as (identifier:string|null) => string)(projectIdentifier);
       }
     };
   }
 
-  clickLink(link:any) {
+  // eslint-disable-next-line class-methods-use-this
+  clickLink(link:HTMLLinkElement):void {
     const event = new MouseEvent('click', {
       view: window,
       bubbles: true,
-      cancelable: true
+      cancelable: true,
     });
     const cancelled = !link.dispatchEvent(event);
 
@@ -135,15 +133,16 @@ export class KeyboardShortcutService {
     }
   }
 
-  showHelpModal() {
+  showHelpModal():void {
     window.open(this.PathHelper.keyboardShortcutsHelpPath());
   }
 
-  findListInPage() {
+  // eslint-disable-next-line class-methods-use-this
+  findListInPage():HTMLElement[] {
     const domLists = jQuery(accessibleListSelector);
-    const focusElements:any = [];
-    domLists.find('tbody tr').each(function (index, tr) {
-      var firstLink = jQuery(tr).find(':visible:tabbable')[0];
+    const focusElements:HTMLElement[] = [];
+    domLists.find('tbody tr').each((index, tr) => {
+      const firstLink = jQuery(tr).find(':visible:tabbable')[0];
       if (firstLink !== undefined) {
         focusElements.push(firstLink);
       }
@@ -151,30 +150,29 @@ export class KeyboardShortcutService {
     return focusElements;
   }
 
-  focusItemOffset(offset:number) {
+  focusItemOffset(offset:number):void {
     const list = this.findListInPage();
-    let index;
 
     if (list === null) {
       return;
     }
 
-    index = list.indexOf(
+    const index = list.indexOf(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       jQuery(document.activeElement!)
         .closest(accessibleRowSelector)
-        .find(':visible:tabbable')[0]
+        .find(':visible:tabbable')[0] as HTMLElement,
     );
 
     const target = jQuery(list[(index + offset + list.length) % list.length]);
     target.focus();
-
   }
 
-  focusNextItem() {
+  focusNextItem():void {
     this.focusItemOffset(1);
   }
 
-  focusPrevItem() {
+  focusPrevItem():void {
     this.focusItemOffset(-1);
   }
 }
