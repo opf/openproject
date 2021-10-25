@@ -67,7 +67,7 @@ module Pages
 
         if visible
           within('[data-qa-selector="op-ifc-viewer--toolbar-container"]') do
-            expect(page).to have_selector(selector, count: 9)
+            expect(page).to have_selector(selector, count: 8)
           end
         else
           expect(page).to have_no_selector(selector)
