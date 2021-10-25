@@ -522,12 +522,16 @@ es:
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Marcar todos como leído'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
           no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
       menu:
         accountable: 'Responsable'
@@ -538,6 +542,7 @@ es:
         mentioned: '@mentioned'
         watching: 'Watching'
       settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Ajustes de notificación"
         notify_me: "Notify me"
         reasons:
@@ -1144,5 +1149,3 @@ es:
       load_error_message: 'Se produjo un error al cargar el formulario'
       validation_error_message: 'Corrija los errores del formulario'
       advanced_settings: 'Ajustes avanzados'
-
-

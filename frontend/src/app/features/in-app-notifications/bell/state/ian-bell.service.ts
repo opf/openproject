@@ -16,7 +16,12 @@ import {
 import { notificationsMarkedRead, notificationCountIncreased } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
-@Injectable()
+/**
+ * The BellService is injected into root here (and the store is thus made global),
+ * because we are dependent in many places on the information about how many notifications there are in total.
+ * Instead of repeating these requests, we prefer to use the global store for now.
+ */
+@Injectable({ providedIn: 'root' })
 @EffectHandler
 export class IanBellService {
   readonly id = 'ian-bell';

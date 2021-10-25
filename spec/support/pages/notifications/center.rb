@@ -111,7 +111,7 @@ module Pages
       end
 
       def expect_empty
-        expect(page).to have_text 'No unread notifications'
+        expect(page).to have_text 'New notifications will appear here when there is activity that concerns you'
       end
 
       def expect_number_of_notifications(count)

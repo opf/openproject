@@ -1,7 +1,7 @@
 import { Query } from '@datorama/akita';
 import {
-  map,
   distinctUntilChanged,
+  map,
 } from 'rxjs/operators';
 import {
   IAN_FACET_FILTERS,
@@ -50,6 +50,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
   hasNotifications$ = this
     .notifications$
     .pipe(
+      distinctUntilChanged(),
       map((items) => items.length > 0),
       distinctUntilChanged(),
     );

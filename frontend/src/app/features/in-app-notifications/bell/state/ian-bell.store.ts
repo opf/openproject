@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import {
   Store,
   StoreConfig,
@@ -14,7 +13,6 @@ export function createInitialState():IanBellState {
   };
 }
 
-@Injectable({ providedIn: 'root' })
 @StoreConfig({ name: 'ian-bell' })
 export class IanBellStore extends Store<IanBellState> {
   constructor() {

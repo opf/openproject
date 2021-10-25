@@ -11,7 +11,8 @@
       </div>
 
       <a
-        class="op-ian-item--work-package-id-link"
+        class="op-ian-item--work-package-id-link op-link"
+        [class.op-link_inactive]="isMobile()"
         [attr.title]="workPackage.subject"
         uiSref="work-packages.show"
         [uiParams]="{workPackageId: workPackage.id}"
@@ -23,7 +24,9 @@
         class="op-ian-item--project"
       >
         - <a
-        class="op-ian-item--project-link" [href]="project.showUrl"
+        class="op-ian-item--project-link"
+        [class.op-link_inactive]="isMobile()"
+        [href]="project.showUrl"
         [textContent]="project.title"
         (click)="projectClicked($event)"
         target="_blank"
@@ -94,6 +97,7 @@
           [principal]="actors[0]"
           [hide-name]="false"
           [hide-avatar]="true"
+          [link]="!isMobile()"
         ></op-principal>
         <span
           *ngIf="actors.length > 1"
@@ -104,14 +108,22 @@
     </div>
   </ng-container>
   <ng-template #workPackageLoading>
-    <op-content-loader
-      *ngIf="workPackage$"
-      class="op-ian-item--loading"
-      viewBox="0 0 1000 20"
-    >
-      <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
-      <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
-      <svg:rect x="0" y="14" width="100%" height="5" rx="1" />
-    </op-content-loader>
+    <div class="op-ian-item--loading">
+      <op-content-loader
+        *ngIf="workPackage$"
+        class="op-ian-item--loading-indicator"
+        viewBox="0 0 200 20"
+      >
+        <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
+        <svg:rect x="0" y="7" width="100%" height="5" rx="1" />
+        <svg:rect x="0" y="14" width="80%" height="5" rx="1" />
+      </op-content-loader>
+
+      <span class="op-ian-item--reason-count"></span>
+      <div class="op-ian-item--buttons">
+        <i class="op-ian-item--button icon-mark-read">
+        </i>
+      </div>
+    </div>
   </ng-template>
 </div>

@@ -138,11 +138,6 @@ form.project-filters
   .project-description.-expanded
     display: table-row
 
-  // Avoid hover effect
-  .generic-table--sort-header-outer:hover,
-  .generic-table--header-outer:hover
-    background: initial
-
   td.name
     @include text-shortener
     a
@@ -158,8 +153,7 @@ form.project-filters
       @include calc-indentation-description($i)
 
 #project-table--hierarchy-header
-  font-size: 1rem
-  max-width: 0.875rem
+  max-width: 1rem
 
   .generic-table--sort-header
     min-width: 1rem

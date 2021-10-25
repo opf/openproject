@@ -523,12 +523,16 @@ ru:
           few: 'и %{count} других'
           many: 'и %{count} других'
           other: 'и %{count} других'
+        no_results:
+          at_all: 'Новые уведомления по всем действиям, относящимся к Вам, будут отображаться здесь'
+          with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все поймали."
+          no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
       menu:
         accountable: 'Подотчетный'
@@ -539,6 +543,7 @@ ru:
         mentioned: '@mentioned'
         watching: 'Смотрит'
       settings:
+        change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
         title: "Настройки уведомлений"
         notify_me: "Уведомить меня"
         reasons:
@@ -1149,5 +1154,3 @@ ru:
       load_error_message: 'Произошла ошибка при загрузке формы'
       validation_error_message: 'Пожалуйста, исправьте ошибки в форме'
       advanced_settings: 'Расширенные настройки'
-
-

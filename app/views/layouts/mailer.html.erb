@@ -77,12 +77,17 @@ See COPYRIGHT and LICENSE files for more details.
       .footer {
         font-size: 0.8em;
         font-style: italic;
-        max-width: 700px;
-        margin-left: auto;
-        margin-right: auto;
         border-top-width: 1px;
         border-top-color: #ccc;
         border-top-style: solid;
+      }
+      .header,
+      .body,
+      .footer {
+        max-width: 700px;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
       }
       a.user-mention:before {
         content: '@';
@@ -102,7 +107,13 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
       </table>
       <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
-      <%= yield %>
+      <table class="body">
+        <tr>
+          <td>
+            <%= yield %>
+          </td>
+        </tr>
+      </table>
       <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
       <table class="footer">
         <tr>

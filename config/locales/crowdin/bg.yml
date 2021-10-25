@@ -1914,12 +1914,11 @@ bg:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
       center: 'To notification center'
+      see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
-      comment_added: '<b>Comment</b> added'
-      created: 'Създадено'
-      created_at: 'at %{timestamp} by %{user} '
+      created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
       mentioned: 'You have been <b>mentioned in a comment</b>'
       mentioned_by: '%{user} mentioned you in a comment'
@@ -1934,8 +1933,7 @@ bg:
         subscribed: 'всички'
         prefix: 'Received because of the notification setting: %{reason}'
       see_all: 'See all'
-      updated: 'Updated'
-      updated_at: 'at %{timestamp} by %{user}'
+      updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Регистриран е нов потребител (%{value}). Акаунтът очаква Вашето одобрение:"
   mail_body_account_information: "Информация за Вашия акаунт"
   mail_body_account_information_external: "Можете да използвате Вашия %{value} профил за да се впишете."

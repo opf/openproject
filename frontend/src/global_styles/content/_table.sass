@@ -50,7 +50,7 @@ $toolbar-height--mobile: 100px
     display: contents
   .generic-table
     position: relative
-  
+
 .generic-table--container
   position:     relative
   height:       100%
@@ -124,7 +124,7 @@ table.generic-table
         content:  '*'
         color:    var(--primary-color-dark)
         padding:  0 0.2rem
-      
+
       &.-max
         .generic-table--sort-header
           max-width: none
@@ -243,6 +243,11 @@ thead.-sticky th
   &.hover
     background:   #f8f8f8
 
+  &_no-highlighting
+    &:hover,
+    &.hover
+      background: initial
+
 .generic-table--empty-header
   padding:       0 6px
   height:        var(--generic-table--header-height)
@@ -278,9 +283,9 @@ thead.-sticky th
     width: 100%
     font-weight: bold
     @include text-shortener
-    &.-inactive
+    &.op-link_inactive
       color: var(--button--active-font-color)
-      
+
   & > op-icon
     flex: 0 0 0
     padding-left: 15px
@@ -309,7 +314,8 @@ thead.-sticky th
   > i,
   .generic-table--no-results-title
     display:        inline-block
-    font-size:      rem-calc(17)
+    font-size:      1rem
+    font-weight:    bold
     line-height:    1.4
     vertical-align: top
 
@@ -325,7 +331,8 @@ thead.-sticky th
   width:          99%
 
 .generic-table--no-results-description
-  font-size:      rem-calc(15)
+  font-size:      rem-calc(14)
+  font-weight:    normal
   line-height:    1.4
   margin-top:     4px
 

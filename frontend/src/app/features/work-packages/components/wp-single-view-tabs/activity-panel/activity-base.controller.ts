@@ -118,7 +118,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       });
   }
 
-  protected updateActivities(activities:HalResource[]) {
+  protected updateActivities(activities:HalResource[]):void {
     this.unfilteredActivities = activities;
 
     const visible = this.getVisibleActivities();
@@ -126,7 +126,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     this.showToggler = this.shouldShowToggler();
   }
 
-  protected shouldShowToggler() {
+  protected shouldShowToggler():boolean {
     const countAll = this.unfilteredActivities.length;
     const countWithComments = this.getActivitiesWithComments().length;
 
@@ -135,14 +135,14 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       && countWithComments < this.unfilteredActivities.length;
   }
 
-  protected getVisibleActivities() {
+  protected getVisibleActivities():HalResource[] {
     if (!this.onlyComments) {
       return this.unfilteredActivities;
     }
     return this.getActivitiesWithComments();
   }
 
-  protected getActivitiesWithComments() {
+  protected getActivitiesWithComments():HalResource[] {
     return this.unfilteredActivities
       .filter((activity:HalResource) => !!_.get(activity, 'comment.html'));
   }
@@ -169,12 +169,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     const notificationElement = unreadNotifications[this.reverse ? unreadNotifications.length - 1 : 0] as HTMLElement;
     const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
 
-    let scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop;
-    if (!this.reverse) {
-      // In normal order we leave same space for context
-      // In reversed order, the context is below and thus no additional space needed
-      scrollOffset -= this.additionalScrollMargin;
-    }
+    const scrollOffset = notificationElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
     scrollContainer.scrollTop = scrollOffset;
   }
 
@@ -189,7 +184,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     }
   }
 
-  public info(activity:HalResource, index:number) {
+  public info(activity:HalResource, index:number):ActivityEntryInfo {
     return this.wpActivity.info(this.unfilteredActivities, activity, index);
   }
 }
