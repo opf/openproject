@@ -934,7 +934,7 @@ en:
     user: "User"
     version: "Version"
     work_package: "Work package"
-  
+
   backup:
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
@@ -1266,6 +1266,7 @@ en:
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "An error occurred when trying to access the repository: %{value}"
   error_scm_not_found: "The entry or revision was not found in the repository."
   error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
@@ -3125,5 +3126,5 @@ en:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
-  
+
   you: you
