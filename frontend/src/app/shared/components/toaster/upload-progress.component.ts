@@ -36,7 +36,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { UploadFile, UploadHttpEvent, UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
 
 @Component({
-  selector: 'toasters-upload-progress',
+  selector: 'op-toasters-upload-progress',
   template: `
     <li>
       <span class="filename" [textContent]="fileName"></span>

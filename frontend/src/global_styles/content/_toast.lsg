@@ -87,12 +87,12 @@
   <div class="op-toast--content">
     <span>Uploading files...</span>
     <ul class="op-toast--uploads">
-      <toasters-upload-progress>
+      <op-toasters-upload-progress>
         <li>
           <span class="filename">Awesome_Landscape.png</span>
           <progress max="100" value="70">70%</progress>
         </li>
-      </toasters-upload-progress>
+      </op-toasters-upload-progress>
     </ul>
   </div>
 </div>
@@ -108,7 +108,7 @@
     <div>
       <div>
         <ul class="op-toast--uploads">
-          <toasters-upload-progress>
+          <op-toasters-upload-progress>
             <li>
               <span class="filename">Awesome_Landscape.png</span>
               <span class="upload-completed"><i class="icon-checkmark -success"></i></span>
@@ -118,7 +118,7 @@
               <span class="upload-completed"><i class="icon-close -error"></i></span>
               <p class="op-toast--notice -error">Something went wrong!...</p>
             </li>
-          </toasters-upload-progress>
+          </op-toasters-upload-progress>
         </ul>
       </div>
     </div>

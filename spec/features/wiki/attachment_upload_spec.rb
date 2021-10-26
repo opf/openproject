@@ -54,7 +54,7 @@ describe 'Upload attachment to wiki page', js: true do
     editor.drag_attachment image_fixture.path, 'Image uploaded the first time'
 
     expect(page).to have_selector('attachment-list-item', text: 'image.png')
-    expect(page).not_to have_selector('toasters-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
 
     click_on 'Save'
 
@@ -76,7 +76,7 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-    expect(page).not_to have_selector('toasters-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
     expect(page).to have_selector('attachment-list-item', text: 'image.png', count: 2)
 
     editor.in_editor do |container, _|
@@ -115,7 +115,7 @@ describe 'Upload attachment to wiki page', js: true do
     # Upload image to dropzone
     expect(page).to have_no_selector('.work-package--attachments--filename')
     attachments.attach_file_on_input(image_fixture.path)
-    expect(page).not_to have_selector('toasters-upload-progress')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
     expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png')
 
     # Assume we could still save the page with an empty title

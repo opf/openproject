@@ -22,12 +22,12 @@
         </div>
         <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
           <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
-            <toasters-upload-progress
+            <op-toasters-upload-progress
                 *ngFor="let upload of data"
                 [upload]="upload"
                 (onSuccess)="onUploadSuccess()"
                 (onError)="onUploadError($event)">
-            </toasters-upload-progress>
+            </op-toasters-upload-progress>
           </ul>
         </div>
       </div>
