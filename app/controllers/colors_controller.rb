@@ -36,7 +36,7 @@ class ColorsController < ApplicationController
   menu_item :colors
 
   def index
-    @colors = Color.all
+    @colors = Color.all.sort_by(&:name)
     respond_to do |format|
       format.html
     end
