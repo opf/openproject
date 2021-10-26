@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'ifc_models/ifc_models/index', type: :view do
+describe 'bim/ifc_models/ifc_models/index', type: :view do
   let(:project) { FactoryBot.build_stubbed(:project, enabled_module_names: %w(bcf)) }
   let(:ifc_model) do
     FactoryBot.build_stubbed(:ifc_model,
@@ -37,8 +37,8 @@ describe 'ifc_models/ifc_models/index', type: :view do
                              project: project).tap do |model|
       model.extend(OpenProject::ChangedBySystem)
 
-      if changed_by_system
-        changed_by_system do
+      if model.changed_by_system
+        model.changed_by_system do
           model.uploader = uploader_user
         end
       else
@@ -55,20 +55,21 @@ describe 'ifc_models/ifc_models/index', type: :view do
     allow(view)
       .to receive(:current_user)
       .and_return(user)
+    render
   end
 
   context 'with permission manage_ifc_models' do
     it 'lists the IFC model with all three buttons' do
-      expect(page).to have_text('office.ifc')
-      expect(page).to have_link('Download')
-      expect(page).to have_link('Delete')
-      expect(page).to have_link('Edit')
+      expect(view).to have_text('office.ifc')
+      expect(view).to have_link('Download')
+      expect(view).to have_link('Delete')
+      expect(view).to have_link('Edit')
     end
   end
 
   context 'without permission manage_ifc_models' do
     it 'only shows the download button' do
-      expect(page).to have_link('Download')
+      expect(view).to have_link('Download')
     end
   end
 end
