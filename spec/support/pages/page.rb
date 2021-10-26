@@ -90,11 +90,13 @@ module Pages
     end
 
     def expect_toaster(message:, type: :success)
-      if toaster_type == :angular
+      byebug
+      if type == :angular
         expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
       elsif type == :success
+        byebug
         expect(page).to have_selector(".flash.notice", text: message)
       else
         raise NotImplementedError
