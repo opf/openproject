@@ -64,6 +64,8 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
   public nonAddable$:Observable<boolean> = NEVER;
 
   text = {
+    title: this.I18n.t('js.reminders.settings.daily.title'),
+    explanation: this.I18n.t('js.reminders.settings.daily.explanation'),
     timeLabel: (counter:number):string => this.I18n.t('js.reminders.settings.daily.time_label', { counter }),
     addTime: this.I18n.t('js.reminders.settings.daily.add_time'),
     enable: this.I18n.t('js.reminders.settings.daily.enable'),

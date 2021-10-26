@@ -1,0 +1,25 @@
+<div
+  class="op-pause-reminders"
+  [formGroup]="form"
+>
+  <op-checkbox-field
+    class="op-pause-reminders--checkbox"
+    [control]="form.get('enabled')"
+  >
+    <input
+      slot="input"
+      type="checkbox"
+      formControlName="enabled"
+    />
+    <p slot="description">{{ text.label }}</p>
+  </op-checkbox-field>
+
+  <op-range-date-picker
+    [size]="23"
+    [required]="enabled$ | async"
+    [disabled]="!(enabled$ | async)"
+    (changed)="setDates($event)"
+    [initialDates]="selectedDates$ | async"
+  >
+  </op-range-date-picker>
+</div>

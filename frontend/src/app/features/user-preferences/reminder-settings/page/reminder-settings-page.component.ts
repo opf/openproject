@@ -17,6 +17,8 @@ import {
 import {
   DailyRemindersSettings,
   ImmediateRemindersSettings,
+  PauseRemindersSettings,
+  UserPreferencesModel,
 } from 'core-app/features/user-preferences/state/user-preferences.model';
 import {
   emailAlerts,
@@ -28,12 +30,14 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { filterObservable } from 'core-app/shared/helpers/rxjs/filterWith';
+import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
 export const myReminderPageComponentSelector = 'op-reminders-page';
 
 interface IReminderSettingsFormValue {
   immediateReminders:ImmediateRemindersSettings,
   dailyReminders:DailyRemindersSettings,
+  pauseReminders:Partial<PauseRemindersSettings>,
   emailAlerts:Record<EmailAlertType, boolean>;
   workdays:boolean[];
 }
@@ -54,6 +58,11 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     dailyReminders: this.fb.group({
       enabled: this.fb.control(false),
       times: this.fb.array([]),
+    }),
+    pauseReminders: this.fb.group({
+      enabled: this.fb.control(false),
+      firstDay: this.fb.control(''),
+      lastDay: this.fb.control(''),
     }),
     workdays: this.fb.array([
       this.fb.control(false),
@@ -79,21 +88,6 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
   text = {
     title: this.I18n.t('js.reminders.settings.title'),
     save: this.I18n.t('js.button_save'),
-    daily: {
-      title: this.I18n.t('js.reminders.settings.daily.title'),
-      explanation: this.I18n.t('js.reminders.settings.daily.explanation'),
-    },
-    workdays: {
-      title: this.I18n.t('js.reminders.settings.workdays.title'),
-    },
-    immediate: {
-      title: this.I18n.t('js.reminders.settings.immediate.title'),
-      explanation: this.I18n.t('js.reminders.settings.immediate.explanation'),
-    },
-    alerts: {
-      title: this.I18n.t('js.reminders.settings.alerts.title'),
-      explanation: this.I18n.t('js.reminders.settings.alerts.explanation'),
-    },
   };
 
   formInitialized = false;
@@ -127,31 +121,37 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
         filterObservable(this.storeService.query.selectLoading(), (val) => !val),
       )
       .subscribe(([settings, globalSetting]) => {
-        this.form.get('immediateReminders.mentioned')?.setValue(settings.immediateReminders.mentioned);
-
-        this.form.get('dailyReminders.enabled')?.setValue(settings.dailyReminders.enabled);
-
-        const dailyReminderTimes = this.form.get('dailyReminders.times') as FormArray;
-        dailyReminderTimes.clear({ emitEvent: false });
-        settings.dailyReminders.times.forEach((time) => {
-          dailyReminderTimes.push(this.fb.control(time), { emitEvent: false });
-        });
-
-        dailyReminderTimes.enable({ emitEvent: true });
-
-        const workdays = this.form.get('workdays') as FormArray;
-        for (let i = 0; i <= 6; i++) {
-          const control = workdays.at(i);
-          control.setValue(settings.workdays.includes(i + 1));
-        }
-
-        emailAlerts.forEach((alert) => {
-          this.form.get(`emailAlerts.${alert}`)?.setValue(globalSetting[alert]);
-        });
-
-        this.formInitialized = true;
-        this.cdRef.detectChanges();
+        this.buildForm(settings, globalSetting);
       });
+  }
+
+  private buildForm(settings:UserPreferencesModel, globalSetting:NotificationSetting) {
+    this.form.get('immediateReminders.mentioned')?.setValue(settings.immediateReminders.mentioned);
+
+    this.form.get('dailyReminders.enabled')?.setValue(settings.dailyReminders.enabled);
+
+    this.form.get('pauseReminders')?.patchValue(settings.pauseReminders);
+
+    const dailyReminderTimes = this.form.get('dailyReminders.times') as FormArray;
+    dailyReminderTimes.clear({ emitEvent: false });
+    settings.dailyReminders.times.forEach((time) => {
+      dailyReminderTimes.push(this.fb.control(time), { emitEvent: false });
+    });
+
+    dailyReminderTimes.enable({ emitEvent: true });
+
+    const workdays = this.form.get('workdays') as FormArray;
+    for (let i = 0; i <= 6; i++) {
+      const control = workdays.at(i);
+      control.setValue(settings.workdays.includes(i + 1));
+    }
+
+    emailAlerts.forEach((alert) => {
+      this.form.get(`emailAlerts.${alert}`)?.setValue(globalSetting[alert]);
+    });
+
+    this.formInitialized = true;
+    this.cdRef.detectChanges();
   }
 
   public saveChanges():void {
@@ -160,12 +160,15 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
     const projectNotifications = prefs.notifications.filter((notification) => !!notification._links.project.href);
     const reminderSettings = (this.form.value as IReminderSettingsFormValue);
     const workdays = ReminderSettingsPageComponent.buildWorkdays(reminderSettings.workdays);
+    const pauseReminders = ReminderSettingsPageComponent.buildPauses(reminderSettings.pauseReminders);
+    const { dailyReminders, immediateReminders } = reminderSettings;
 
     this.storeService.update(this.userId, {
       ...prefs,
       workdays,
-      dailyReminders: reminderSettings.dailyReminders,
-      immediateReminders: reminderSettings.immediateReminders,
+      dailyReminders,
+      immediateReminders,
+      pauseReminders,
       notifications: [
         ...globalNotifications.map((notification) => (
           {
@@ -190,5 +193,13 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
         },
         [] as number[],
       );
+  }
+
+  private static buildPauses(formValues:Partial<PauseRemindersSettings>):Partial<PauseRemindersSettings> {
+    if (formValues.enabled) {
+      return formValues;
+    }
+
+    return { enabled: false };
   }
 }

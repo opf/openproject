@@ -32,6 +32,26 @@ import { HttpErrorResponse } from '@angular/common/http';
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
 export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
 
+export interface IHalErrorBase {
+  _type:string;
+  message:string;
+  errorIdentifier:string;
+}
+
+export interface IHalSingleError extends IHalErrorBase {
+  _embedded:{
+    details:{
+      attribute:string;
+    }
+  }
+}
+
+export interface IHalMultipleError extends IHalErrorBase {
+  _embedded:{
+    errors:IHalSingleError[];
+  }
+}
+
 export class ErrorResource extends HalResource {
   public errors:any[];
 

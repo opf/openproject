@@ -762,6 +762,8 @@ en:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
