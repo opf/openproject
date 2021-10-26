@@ -66,26 +66,7 @@ class ProjectsController < ApplicationController
     render layout: 'no_menu'
   end
 
-  def update
-    @altered_project = Project.find(@project.id)
-
-    service_call = Projects::UpdateService
-      .new(user: current_user,
-           model: @altered_project)
-      .call(permitted_params.project)
-
-    if service_call.success?
-      flash[:notice] = t(:notice_successful_update)
-      redirect_to settings_generic_project_path(@altered_project)
-    else
-      @errors = service_call.errors
-      render template: 'project_settings/generic'
-    end
-  end
-
-  def copy
-    render
-  end
+  def copy; end
 
   def update_identifier
     service_call = Projects::UpdateService

@@ -207,34 +207,6 @@ describe ProjectsController, type: :controller do
   describe 'with an existing project' do
     let(:project) { FactoryBot.create :project, identifier: 'blog' }
 
-    context 'as manager' do
-      let(:manager_role) do
-        FactoryBot.create(:role, permissions: %i[view_project edit_project])
-      end
-      let(:manager) do
-        FactoryBot.create :user,
-                          member_in_project: project,
-                          member_through_role: manager_role
-      end
-
-      before do
-        login_as manager
-      end
-
-      it 'should update' do
-        put :update,
-            params: {
-              id: project.id,
-              project: {
-                name: 'Test changed name'
-              }
-            }
-
-        expect(response).to redirect_to '/projects/blog/settings/generic'
-        expect(project.reload.name).to eq 'Test changed name'
-      end
-    end
-
     it 'should modules' do
       project.enabled_module_names = %w[work_package_tracking news]
       put :modules, params: {
