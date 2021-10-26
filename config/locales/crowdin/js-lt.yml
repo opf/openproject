@@ -535,6 +535,9 @@ lt:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
           no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'

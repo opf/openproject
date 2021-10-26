@@ -533,6 +533,9 @@ fr:
           no_notification: "Looks like you're all caught up."
           no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
       menu:
         accountable: 'Responsable'
         assigned: 'Assigned'
