@@ -33,8 +33,8 @@ module ProjectSettingsHelper
   def project_settings_tabs
     [
       {
-        name: 'generic',
-        action: { controller: '/project_settings/generic', action: 'show' },
+        name: 'general',
+        action: { controller: '/project_settings/general', action: 'show' },
         label: :label_information_plural
       },
       {

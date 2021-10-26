@@ -28,11 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::GenericController < ProjectSettingsController
-  menu_item :settings_generic
-
-  def show
-    @altered_project = @project
-    render template: 'project_settings/generic'
-  end
+class ProjectSettings::GeneralController < ProjectSettingsController
+  menu_item :settings_general
 end

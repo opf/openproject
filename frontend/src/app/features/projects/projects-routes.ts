@@ -7,7 +7,7 @@ export const PROJECTS_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'project_settings',
     parent: 'optional_project',
-    url: '/settings/generic/',
+    url: '/settings/general/',
     component: ProjectsComponent,
   },
   {
@@ -28,7 +28,7 @@ export function uiRouterProjectsConfiguration(uiRouter:UIRouter) {
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp('^/projects/(.*)/settings/generic$'),
-      (match) => `/projects/${match[1]}/settings/generic/`,
+      new RegExp('^/projects/(.*)/settings/general$'),
+      (match:string[]) => `/projects/${match[1]}/settings/general/`,
     );
 }

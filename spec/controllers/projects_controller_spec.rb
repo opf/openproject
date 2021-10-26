@@ -180,13 +180,18 @@ describe ProjectsController, type: :controller do
 
     before do
       allow(Project).to receive(:find).and_return(project)
-      expect_any_instance_of(::Projects::ScheduleDeletionService)
-        .to receive(:call)
-              .and_return service_result
+      deletion_service = instance_double(::Projects::ScheduleDeletionService,
+                                         call: service_result)
+
+      allow(::Projects::ScheduleDeletionService)
+        .to receive(:new)
+              .with(user: admin, model: project)
+              .and_return(deletion_service)
     end
 
     context 'when service call succeeds' do
       let(:success) { true }
+
       it 'prints success' do
         request
         expect(response).to be_redirect
@@ -196,6 +201,7 @@ describe ProjectsController, type: :controller do
 
     context 'when service call fails' do
       let(:success) { false }
+
       it 'prints fail' do
         request
         expect(response).to be_redirect

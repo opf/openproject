@@ -178,10 +178,16 @@ OpenProject::Application.routes.draw do
   resources :projects, except: %i[show edit create] do
     member do
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
-        get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
-        patch "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'update', as: "update_settings_#{tab[:name]}"
+        get "settings/#{tab[:name]}",
+            controller: "project_settings/#{tab[:name]}",
+            action: :show,
+            as: "settings_#{tab[:name]}"
+        patch "settings/#{tab[:name]}",
+              controller: "project_settings/#{tab[:name]}",
+              action: :update,
+              as: "update_settings_#{tab[:name]}"
       end
-      get "settings"
+      get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
 
       get 'identifier', action: 'identifier'
       patch 'identifier', action: 'update_identifier'

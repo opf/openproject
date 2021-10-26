@@ -52,13 +52,13 @@ describe 'menu permissions', type: :feature, js: true do
       expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
     end
 
-    it 'the parent node directs to the generic settings page' do
+    it 'the parent node directs to the general settings page' do
       # The settings menu item exists
       expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
 
       # Clicking the menu parent item leads to the version page
       find('.main-menu--parent-node', text: 'Project settings').click
-      expect(page).to have_current_path "/projects/#{project.identifier}/settings/generic/"
+      expect(page).to have_current_path "/projects/#{project.identifier}/settings/general/"
     end
   end
 

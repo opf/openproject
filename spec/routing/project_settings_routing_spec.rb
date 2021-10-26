@@ -31,8 +31,8 @@ require 'spec_helper'
 describe ProjectSettingsController, type: :routing do
   describe 'show' do
     it do
-      expect(get('/projects/123/settings/generic')).to route_to(
-        controller: 'project_settings/generic', action: 'show', id: '123'
+      expect(get('/projects/123/settings/general')).to route_to(
+        controller: 'project_settings/general', action: 'show', id: '123'
       )
     end
 
@@ -75,14 +75,6 @@ describe ProjectSettingsController, type: :routing do
     it do
       expect(get('/projects/123/settings/types')).to route_to(
         controller: 'project_settings/types', action: 'show', id: '123'
-      )
-    end
-  end
-
-  describe 'miscellaneous' do
-    it do
-      expect(get('/projects/123/settings')).to route_to(
-        controller: 'projects', action: 'settings', id: '123'
       )
     end
   end
