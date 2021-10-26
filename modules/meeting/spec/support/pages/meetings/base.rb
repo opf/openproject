@@ -34,7 +34,7 @@ module Pages::Meetings
       self.project = project
     end
 
-    def notification_type
+    def toast_type
       :rails
     end
   end

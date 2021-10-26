@@ -182,7 +182,7 @@ module Pages
       @labor_rows ||= 0
     end
 
-    def notification_type
+    def toast_type
       :rails
     end
   end

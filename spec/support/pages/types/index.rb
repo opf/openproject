@@ -85,7 +85,7 @@ module Pages
         type.respond_to?(:name) ? type.name : type
       end
 
-      def notification_type
+      def toast_type
         :rails
       end
     end

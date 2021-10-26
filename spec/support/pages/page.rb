@@ -90,7 +90,7 @@ module Pages
     end
 
     def expect_toaster(message:, type: :success)
-      if toaster_type == :angular
+      if toast_type == :angular
         expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
@@ -109,7 +109,7 @@ module Pages
     end
 
     def dismiss_toaster!
-      if toaster_type == :angular
+      if toast_type == :angular
         page.find('.op-toast--close').click
       else
         page.find('.flash .icon-close').click
@@ -128,7 +128,7 @@ module Pages
       nil
     end
 
-    def toaster_type
+    def toast_type
       :angular
     end
   end

@@ -61,7 +61,7 @@ module Pages
 
       private
 
-      def notification_type
+      def toast_type
         :rails
       end
     end
