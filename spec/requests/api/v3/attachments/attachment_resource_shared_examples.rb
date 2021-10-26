@@ -58,7 +58,7 @@ shared_examples 'it supports direct uploads' do
         request!
       end
 
-      it 'should respond with validation error' do
+      it 'responds with a validation error' do
         expect(subject.status).to eq(422)
       end
 
@@ -76,7 +76,7 @@ shared_examples 'it supports direct uploads' do
         let(:metadata) { { fileName: 'cat.png' } }
         let(:json) { JSON.parse subject.body }
 
-        it 'should respond with 422 due to missing file size metadata' do
+        it 'responds with 422 due to missing file size metadata' do
           expect(subject.status).to eq(422)
           expect(subject.body).to include 'Size'
         end
@@ -89,7 +89,7 @@ shared_examples 'it supports direct uploads' do
       context 'with the correct parameters' do
         let(:json) { JSON.parse subject.body }
 
-        it 'should prepare a direct upload' do
+        it 'prepares a direct upload' do
           expect(subject.status).to eq 201
 
           expect(json["_type"]).to eq "AttachmentUpload"
@@ -117,15 +117,15 @@ shared_examples 'it supports direct uploads' do
                 expect(link).to be_present
               end
 
-              it 'should point to AWS' do
+              it 'points to AWS' do
                 expect(link["href"]).to eq "https://#{MockCarrierwave.bucket}.s3.amazonaws.com/"
               end
 
-              it 'should have the method POST' do
+              it 'has the method POST' do
                 expect(link["method"]).to eq "post"
               end
 
-              it 'should include form fields' do
+              it 'includes form fields' do
                 fields = link["form_fields"]
 
                 expect(fields).to be_present
@@ -140,7 +140,7 @@ shared_examples 'it supports direct uploads' do
                 expect(fields["key"]).to end_with "cat.png"
               end
 
-              it 'should also include the content type and the necessary policy in the form fields' do
+              it 'also includes the content type and the necessary policy in the form fields' do
                 fields = link["form_fields"]
 
                 expect(fields).to include("policy", "Content-Type")
@@ -159,7 +159,7 @@ shared_examples 'it supports direct uploads' do
         context 'with an allowed content type' do
           let(:metadata) { { fileName: 'cats.csv', fileSize: file.size, contentType: 'text/csv' } }
 
-          it 'should succeed' do
+          it 'succeeds' do
             expect(subject.status).to eq 201
           end
         end
@@ -167,7 +167,7 @@ shared_examples 'it supports direct uploads' do
         context 'with a forbidden content type' do
           let(:metadata) { { fileName: 'cats.txt', fileSize: file.size, contentType: 'text/plain' } }
 
-          it 'should fail' do
+          it 'fails' do
             expect(subject.status).to eq 422
             expect(subject.body).to include "not whitelisted"
           end
@@ -176,8 +176,8 @@ shared_examples 'it supports direct uploads' do
         context 'with a non-specific content type not on the whitelist' do
           let(:metadata) { { fileName: 'cats.bin', fileSize: file.size, contentType: 'application/binary' } }
 
-           # the actual whitelist check will be performed in the FinishDirectUpload job in this case
-          it 'should still succeed' do
+          # the actual whitelist check will be performed in the FinishDirectUpload job in this case
+          it 'still succeeds' do
             expect(subject.status).to eq 201
           end
         end
@@ -233,11 +233,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
-      it 'should respond with correct attachment' do
+      it 'responds with correct attachment' do
         expect(subject.body).to be_json_eql(attachment.filename.to_json).at_path('fileName')
       end
 
@@ -272,11 +272,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
 
     subject(:response) { last_response }
 
-    it 'should respond with HTTP Created' do
+    it 'responds with HTTP Created' do
       expect(subject.status).to eq(201)
     end
 
-    it 'should return the new attachment without container' do
+    it 'returns the new attachment without container' do
       expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
       expect(subject.body).to be_json_eql(nil.to_json).at_path('_links/container/href')
     end
@@ -539,7 +539,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         get get_path
       end
 
-      it 'should respond with 200' do
+      it 'responds with 200' do
         expect(subject.status).to eq(200)
       end
 
@@ -558,11 +558,11 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         post request_path, request_parts
       end
 
-      it 'should respond with HTTP Created' do
+      it 'responds with HTTP Created' do
         expect(subject.status).to eq(201)
       end
 
-      it 'should return the new attachment' do
+      it 'returns the new attachment' do
         expect(subject.body).to be_json_eql('Attachment'.to_json).at_path('_type')
       end
 

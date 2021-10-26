@@ -73,7 +73,7 @@ describe Group, type: :model do
 
   describe '#group_users' do
     context 'when adding a user' do
-      context 'which does not exist' do
+      context 'if it does not exist' do
         it 'does not create a group user' do
           count = group.group_users.count
           gu = group.group_users.create user_id: User.maximum(:id).to_i + 1

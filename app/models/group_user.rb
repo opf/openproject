@@ -33,6 +33,6 @@ class GroupUser < ApplicationRecord
              touch: true
   belongs_to :user
 
-  validates_presence_of :group
-  validates_presence_of :user
+  validates :group, presence: true
+  validates :user, presence: true
 end
