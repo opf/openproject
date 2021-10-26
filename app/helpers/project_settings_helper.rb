@@ -85,7 +85,7 @@ module ProjectSettingsHelper
         name: 'storage',
         action: { controller: '/project_settings/storage', action: 'show' },
         label: :label_required_disk_storage
-      },
+      }
     ]
   end
 end

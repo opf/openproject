@@ -30,18 +30,6 @@
 
 require 'open_project/access_control'
 
-def edit_project_hash
-  permissions = {
-    projects: %i[edit update custom_fields],
-    project_settings: [:show]
-  }
-
-  ProjectSettingsHelper.project_settings_tabs.each do |node|
-    permissions["project_settings/#{node[:name]}"] = [:show]
-  end
-  permissions
-end
-
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
     map.permission :add_project,
@@ -86,7 +74,10 @@ OpenProject::AccessControl.map do |map|
                    public: true
 
     map.permission :edit_project,
-                   edit_project_hash,
+                   {
+                     projects: %i[edit update custom_fields],
+                     'project_settings/generic': [:show]
+                   },
                    require: :member,
                    contract_actions: { projects: %i[update] }
 
@@ -107,13 +98,15 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_versions,
                    {
-                     "project_settings/versions": [:show],
+                     'project_settings/versions': [:show],
                      versions: %i[new create edit update close_completed destroy]
                    },
                    require: :member
 
     map.permission :manage_types,
-                   { projects: :types },
+                   {
+                     'project_settings/types': %i[show update]
+                   },
                    require: :member
 
     map.permission :add_subprojects,

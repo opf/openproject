@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index level_list new]
-  before_action :authorize, only: %i[modules types custom_fields copy]
+  before_action :authorize, only: %i[modules custom_fields copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
 
@@ -99,16 +99,6 @@ class ProjectsController < ApplicationController
     else
       render action: 'identifier'
     end
-  end
-
-  def types
-    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
-      flash[:notice] = I18n.t('notice_successful_update')
-    else
-      flash[:error] = @project.errors.full_messages
-    end
-
-    redirect_to settings_types_project_path(@project.identifier)
   end
 
   def modules

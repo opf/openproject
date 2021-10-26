@@ -33,12 +33,4 @@ class ProjectSettingsController < ApplicationController
   before_action :authorize
 
   def show; end
-
-  private
-
-  def find_project
-    @project = Project.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
 end

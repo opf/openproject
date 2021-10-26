@@ -125,101 +125,6 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'settings' do
-    render_views
-
-    describe '#type' do
-      let(:update_service) do
-        service = double('update service')
-
-        allow(UpdateProjectsTypesService).to receive(:new).with(project).and_return(service)
-
-        service
-      end
-      let(:user) { FactoryBot.create(:admin) }
-      let(:project) do
-        project = FactoryBot.build_stubbed(:project)
-
-        allow(Project).to receive(:find).and_return(project)
-
-        project
-      end
-
-      before do
-        allow(User).to receive(:current).and_return user
-      end
-
-      context 'on success' do
-        before do
-          expect(update_service).to receive(:call).with([1, 2, 3]).and_return true
-
-          patch :types, params: { id: project.id, project: { 'type_ids' => ['1', '2', '3'] } }
-        end
-
-        it 'sets a flash message' do
-          expect(flash[:notice]).to eql(I18n.t('notice_successful_update'))
-        end
-
-        it 'redirects to settings#types' do
-          expect(response).to redirect_to(controller: '/project_settings/types', id: project, action: 'show')
-        end
-      end
-
-      context 'on failure' do
-        let(:errors) { ActiveModel::Errors.new(project) }
-        let(:error_message) { 'error message' }
-
-        before do
-          expect(update_service).to receive(:call).with([1, 2, 3]).and_return false
-
-          # acts_as_url tries to access the errors object which we stub here
-          allow(project).to receive(:errors).and_return errors
-          allow(errors).to receive(:full_messages).and_return(error_message)
-
-          patch :types, params: { id: project.id, project: { 'type_ids' => ['1', '2', '3'] } }
-        end
-
-        it 'sets a flash message' do
-          expect(flash[:error]).to eql(error_message)
-        end
-
-        it 'redirects to settings#types' do
-          expect(response).to redirect_to(controller: '/project_settings/types', id: project, action: 'show')
-        end
-      end
-    end
-
-    describe '#destroy' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:request) { delete :destroy, params: { id: project.id } }
-
-      let(:service_result) { ::ServiceResult.new(success: success) }
-
-      before do
-        allow(Project).to receive(:find).and_return(project)
-        expect_any_instance_of(::Projects::ScheduleDeletionService)
-          .to receive(:call)
-                .and_return service_result
-      end
-
-      context 'when service call succeeds' do
-        let(:success) { true }
-        it 'prints success' do
-          request
-          expect(response).to be_redirect
-          expect(flash[:notice]).to be_present
-        end
-      end
-
-      context 'when service call fails' do
-        let(:success) { false }
-        it 'prints fail' do
-          request
-          expect(response).to be_redirect
-          expect(flash[:error]).to be_present
-        end
-      end
-    end
-
     describe '#custom_fields' do
       let(:project) { FactoryBot.create(:project) }
       let(:custom_field_1) { FactoryBot.create(:work_package_custom_field) }
@@ -261,6 +166,40 @@ describe ProjectsController, type: :controller do
                                      "You cannot update the project's available custom fields. The project is invalid:"
                                    )
         end
+      end
+    end
+  end
+
+  describe '#destroy' do
+    render_views
+
+    let(:project) { FactoryBot.build_stubbed(:project) }
+    let(:request) { delete :destroy, params: { id: project.id } }
+
+    let(:service_result) { ::ServiceResult.new(success: success) }
+
+    before do
+      allow(Project).to receive(:find).and_return(project)
+      expect_any_instance_of(::Projects::ScheduleDeletionService)
+        .to receive(:call)
+              .and_return service_result
+    end
+
+    context 'when service call succeeds' do
+      let(:success) { true }
+      it 'prints success' do
+        request
+        expect(response).to be_redirect
+        expect(flash[:notice]).to be_present
+      end
+    end
+
+    context 'when service call fails' do
+      let(:success) { false }
+      it 'prints fail' do
+        request
+        expect(response).to be_redirect
+        expect(flash[:error]).to be_present
       end
     end
   end

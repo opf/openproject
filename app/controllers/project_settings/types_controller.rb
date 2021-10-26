@@ -35,4 +35,14 @@ class ProjectSettings::TypesController < ProjectSettingsController
     @types = ::Type.all
     render template: 'project_settings/types'
   end
+
+  def update
+    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
+      flash[:notice] = I18n.t('notice_successful_update')
+    else
+      flash[:error] = @project.errors.full_messages
+    end
+
+    redirect_to settings_types_project_path(@project.identifier)
+  end
 end
