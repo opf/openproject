@@ -188,7 +188,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
 
     this.viewpointsService
       .deleteViewPoint$(workPackage, index)
-      .subscribe((data) => {
+      .subscribe(() => {
         this.notifications.addSuccess(this.text.notice_successful_delete);
         this.gallery.preview.close();
       });

@@ -1,13 +1,41 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged, filter, first, map,
 } from 'rxjs/operators';
-import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 declare global {
   interface Window {
@@ -45,7 +73,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     return this.viewerVisible$.getValue();
   }
 
-  public getViewpoint$():Observable<BcfViewpointInterface> {
+  public getViewpoint$():Observable<CreateBcfViewpointData> {
     const trackingId = this.newTrackingId();
 
     this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
@@ -73,11 +101,11 @@ export class RevitBridgeService extends ViewerBridgeService {
   public showViewpoint(workPackage:WorkPackageResource, index:number) {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointInterface) =>
+      .subscribe((viewpoint:BcfViewpointData) =>
         this.sendMessageToRevit(
           'ShowViewpoint',
           this.newTrackingId(),
-          JSON.stringify(viewpoint)
+          JSON.stringify(viewpoint),
         )
       );
   }

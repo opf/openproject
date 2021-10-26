@@ -1,9 +1,36 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
 import { BcfWpAttributeGroupComponent } from 'core-app/features/bim/bcf/bcf-wp-attribute-group/bcf-wp-attribute-group.component';
 import { switchMap, take } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { forkJoin } from 'rxjs';
-import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
@@ -12,7 +39,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
   styleUrls: ['./bcf-wp-attribute-group.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponent {
+export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponent implements AfterViewInit {
   galleryViewpoints:BcfViewpointItem[] = [];
 
   ngAfterViewInit():void {
@@ -46,23 +73,24 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
           return forkJoin(observables);
         }),
       )
-      .subscribe((viewpoints:BcfViewpointInterface[]) => {
+      .subscribe(() => {
         this.showIndex = this.galleryViewpoints.length - 1;
       });
   }
 
   // Disable show viewpoint functionality
-  showViewpoint(workPackage:WorkPackageResource, index:number) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  showViewpoint(workPackage:WorkPackageResource, index:number):void {
 
   }
 
-  deleteViewpoint(workPackage:WorkPackageResource, index:number) {
+  deleteViewpoint(workPackage:WorkPackageResource, index:number):void {
     this.galleryViewpoints = this.galleryViewpoints.filter((_, i) => i !== index);
 
     this.setViewpointsOnGallery(this.galleryViewpoints);
   }
 
-  saveViewpoint() {
+  saveViewpoint():void {
     this.viewerBridge
       .getViewpoint$()
       .subscribe((viewpoint) => {
@@ -84,11 +112,11 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
       });
   }
 
-  shouldShowGroup() {
+  shouldShowGroup():boolean {
     return this.createAllowed && this.viewerVisible;
   }
 
-  protected actions() {
+  protected actions():{ icon:string, onClick:(evt:any, index:number) => void, titleText:string }[] {
     // Show only delete button
     return super
       .actions()
