@@ -39,10 +39,10 @@ import {
 @Component({
   templateUrl: './toast.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'toaster',
+  selector: 'op-toast',
 })
 export class ToastComponent implements OnInit {
-  @Input() public toaster:IToast;
+  @Input() public toast:IToast;
 
   public text = {
     close_popup: this.I18n.t('js.close_popup_title'),
@@ -59,11 +59,11 @@ export class ToastComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.type = this.toaster.type;
+    this.type = this.toast.type;
   }
 
   public get data() {
-    return this.toaster.data;
+    return this.toast.data;
   }
 
   public canBeHidden() {
@@ -71,11 +71,11 @@ export class ToastComponent implements OnInit {
   }
 
   public removable() {
-    return this.toaster.type !== 'upload';
+    return this.toast.type !== 'upload';
   }
 
   public remove() {
-    this.toastersService.remove(this.toaster);
+    this.toastersService.remove(this.toast);
   }
 
   /**
@@ -83,8 +83,8 @@ export class ToastComponent implements OnInit {
    * and close this toaster.
    */
   public executeTarget() {
-    if (this.toaster.link) {
-      this.toaster.link.target();
+    if (this.toast.link) {
+      this.toast.link.target();
       this.remove();
     }
   }

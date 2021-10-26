@@ -1,12 +1,12 @@
 <div class="op-toast -{{ type }}" tabindex="0">
   <div class="op-toast--content" role="alert" aria-atomic="true">
     <p>
-      <span [textContent]="toaster.message"></span>
+      <span [textContent]="toast.message"></span>
       <span [textContent]="' '"></span>
       <a class="op-toast--target-link"
-         *ngIf="toaster.link"
+         *ngIf="toast.link"
          (click)="executeTarget($event)"
-         [textContent]="toaster.link!.text">
+         [textContent]="toast.link!.text">
       </a>
     </p>
     <div [ngSwitch]="type">
