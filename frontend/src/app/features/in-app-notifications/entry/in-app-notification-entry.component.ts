@@ -27,6 +27,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   selector: 'op-in-app-notification-entry',
@@ -77,6 +78,7 @@ export class InAppNotificationEntryComponent implements OnInit {
     readonly timezoneService:TimezoneService,
     readonly pathHelper:PathHelperService,
     readonly state:StateService,
+    readonly deviceService:DeviceService,
   ) {
   }
 
@@ -144,6 +146,10 @@ export class InAppNotificationEntryComponent implements OnInit {
       hint = this.text.and_other_plural(number);
     }
     return hint;
+  }
+
+  isMobile():boolean {
+    return this.deviceService.isMobile;
   }
 
   private buildActors() {

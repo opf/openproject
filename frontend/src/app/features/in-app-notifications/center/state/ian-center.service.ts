@@ -5,19 +5,24 @@ import {
 import {
   distinctUntilChanged,
   map,
+  mapTo,
   pluck,
   share,
   switchMap,
   take,
+  debounceTime,
 } from 'rxjs/operators';
-import { from } from 'rxjs';
+import { Subject, from } from 'rxjs';
 import {
   ID,
   setLoading,
 } from '@datorama/akita';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
+  notificationCountIncreased,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
@@ -29,8 +34,8 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
-import { IToastPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
+import { mapHALCollectionToIDCollection, selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IanCenterStore,
   InAppNotificationFacet,
@@ -49,6 +54,24 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
 
+  private reload = new Subject();
+
+  private onReload = this.reload.pipe(
+    debounceTime(0),
+    switchMap((setToLoading) => this.resourceService
+      .fetchNotifications(this.query.params)
+      .pipe(
+        // We don't want to set loading if the request is sent in the background
+        setToLoading ? setLoading(this.store) : map((res) => res),
+        switchMap(
+          (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
+            .pipe(
+              mapTo(mapHALCollectionToIDCollection(results)),
+            ),
+        ),
+      )),
+  );
+
   public selectedNotificationIndex = 0;
 
   stateChanged$ = this.uiRouterGlobals.params$?.pipe(
@@ -60,14 +83,17 @@ export class IanCenterService extends UntilDestroyedMixin {
   );
 
   constructor(
+    readonly I18n:I18nService,
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
+    readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
   ) {
     super();
+    this.reload.subscribe();
 
     if (this.stateChanged$) {
       this.stateChanged$.subscribe(() => {
@@ -76,14 +102,20 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  setFilters(filters:IToastPageQueryParameters):void {
+  setFilters(filters:INotificationPageQueryParameters):void {
     this.store.update({ filters });
-    this.debouncedReload();
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      this.store.update({ activeCollection: collection });
+    });
+    this.reload.next(true);
   }
 
   setFacet(facet:InAppNotificationFacet):void {
     this.store.update({ activeFacet: facet });
-    this.debouncedReload();
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      this.store.update({ activeCollection: collection });
+    });
+    this.reload.next(true);
   }
 
   markAsRead(notifications:ID[]):void {
@@ -132,27 +164,47 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   /**
+   * Check for updates after bell count increased
+   */
+  @EffectCallback(notificationCountIncreased)
+  private checkForNewNotifications() {
+    this.onReload.pipe(take(1)).subscribe((collection) => {
+      const { activeCollection } = this.query.getValue();
+      const hasNewNotifications = !collection.ids.reduce(
+        (allInOldCollection, id) => allInOldCollection && activeCollection.ids.includes(id),
+        true,
+      );
+
+      if (!hasNewNotifications) {
+        return;
+      }
+
+      this.toastService.add({
+        type: 'info',
+        message: this.I18n.t('js.notifications.center.new_notifications.message'),
+        link: {
+          text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
+          target: () => {
+            this.store.update({ activeCollection: collection });
+          },
+        },
+      });
+    });
+    this.reload.next(false);
+  }
+
+  /**
    * Reload after notifications were successfully marked as read
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead(action:ReturnType<typeof notificationsMarkedRead>) {
-    this
-      .resourceService
-      .removeFromCollection(this.query.params, action.notifications);
+    const { activeCollection } = this.query.getValue();
+    this.store.update({
+      activeCollection: {
+        ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
+      },
+    });
     this.showNextNotification();
-  }
-
-  private debouncedReload = _.debounce(() => { this.reload().subscribe(); });
-
-  private reload() {
-    return this.resourceService
-      .fetchNotifications(this.query.params)
-      .pipe(
-        setLoading(this.store),
-        switchMap((results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))),
-        switchMap(() => this.query.notifications$),
-        take(1),
-      );
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {

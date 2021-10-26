@@ -27,9 +27,17 @@
 //++
 
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { input, State } from 'reactivestates';
+import {
+  input,
+  State,
+} from 'reactivestates';
 import { Injectable } from '@angular/core';
 import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
+import {
+  IHalErrorBase,
+  IHalMultipleError,
+} from 'core-app/features/hal/resources/error-resource';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
@@ -53,8 +61,8 @@ export class ToastService {
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
       .on(OPToastEvent,
-        (event:JQuery.TriggeredEvent, toaster:IToast) => {
-          this.add(toaster);
+        (event:JQuery.TriggeredEvent, toast:IToast) => {
+          this.add(toast);
         });
   }
 
@@ -65,59 +73,68 @@ export class ToastService {
     return this.stack;
   }
 
-  public add(toaster:IToast, timeoutAfter = 5000) {
+  public add(toast:IToast, timeoutAfter = 5000):IToast {
     // Remove flash messages
     removeSuccessFlashMessages();
 
     this.stack.doModify((current) => {
-      const nextValue = [toaster].concat(current);
+      const nextValue = [toast].concat(current);
       _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
       return nextValue;
     });
 
     // auto-hide if success
-    if (toaster.type === 'success' && this.configurationService.autoHidePopups()) {
-      setTimeout(() => this.remove(toaster), timeoutAfter);
+    if (toast.type === 'success' && this.configurationService.autoHidePopups()) {
+      setTimeout(() => this.remove(toast), timeoutAfter);
     }
 
-    return toaster;
+    return toast;
   }
 
-  public addError(message:IToast|string, errors:any[]|string = []) {
-    if (!Array.isArray(errors)) {
-      errors = [errors];
+  public addError(obj:HttpErrorResponse|IToast|string, additionalErrors:unknown[]|string = []):IToast {
+    let message:IToast|string;
+    let errors = [...additionalErrors];
+
+    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded.errors) {
+      errors = [
+        ...additionalErrors,
+        ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
+      ];
+      message = obj.message;
+    } else {
+      message = obj as IToast|string;
     }
 
-    const toaster:IToast = this.createToast(message, 'error');
-    toaster.data = errors;
+    const toast:IToast = this.createToast(message, 'error');
+    toast.data = errors;
 
-    return this.add(toaster);
+    return this.add(toast);
   }
 
-  public addWarning(message:IToast|string) {
+  public addWarning(message:IToast|string):IToast {
     return this.add(this.createToast(message, 'warning'));
   }
 
-  public addSuccess(message:IToast|string) {
+  public addSuccess(message:IToast|string):IToast {
     return this.add(this.createToast(message, 'success'));
   }
 
-  public addNotice(message:IToast|string) {
+  public addNotice(message:IToast|string):IToast {
     return this.add(this.createToast(message, 'info'));
   }
 
-  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]) {
+  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {
     return this.add(this.createAttachmentUploadToast(message, uploads));
   }
 
-  public remove(toaster:IToast) {
+  public remove(toast:IToast):void {
     this.stack.doModify((current) => {
-      _.remove(current, (n) => n === toaster);
+      _.remove(current, (n) => n === toast);
       return current;
     });
   }
 
-  public clear() {
+  public clear():void {
     this.stack.putValue([]);
   }
 
@@ -132,12 +149,12 @@ export class ToastService {
 
   private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
-      throw new Error('Cannot create an upload toaster without uploads!');
+      throw new Error('Cannot create an upload toast without uploads!');
     }
 
-    const toaster = this.createToast(message, 'upload');
-    toaster.data = uploads;
+    const toast = this.createToast(message, 'upload');
+    toast.data = uploads;
 
-    return toaster;
+    return toast;
   }
 }

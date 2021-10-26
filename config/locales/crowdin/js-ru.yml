@@ -470,7 +470,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
-    label_version_plural: "Этапы"
+    label_version_plural: "Версии"
     label_view_has_changed: "У этого представления есть несохранённые изменения. Нажмите, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -524,16 +524,19 @@ ru:
           many: 'и %{count} других'
           other: 'и %{count} других'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: 'Новые уведомления по всем действиям, относящимся к Вам, будут отображаться здесь'
+          with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
           no_notification: "Похоже, вы все поймали."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
       menu:
         accountable: 'Подотчетный'
         assigned: 'Назначено'
@@ -543,7 +546,7 @@ ru:
         mentioned: '@mentioned'
         watching: 'Смотрит'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
         title: "Настройки уведомлений"
         notify_me: "Уведомить меня"
         reasons:

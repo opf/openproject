@@ -440,7 +440,7 @@ ru:
         parent: "Подпроект"
         queries: "Запросы"
         types: "Типы"
-        versions: "Этапы"
+        versions: "Версии"
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
@@ -808,7 +808,7 @@ ru:
         other: "Роль"
       type: "Тип"
       user: "Пользователь"
-      version: "Стадия"
+      version: "Этапы"
       wiki: "Wiki"
       wiki_page: "Wiki-страница"
       workflow: "Рабочий поток"
@@ -877,7 +877,7 @@ ru:
     updated_on: "Обновлено"
     uploader: "Кто загрузил"
     user: "Пользователь"
-    version: "Стадия"
+    version: "Этапы"
     work_package: "Пакет работ"
   backup:
     label_backup_token: "Маркер резервного копирования"
@@ -1842,7 +1842,7 @@ ru:
   label_user_search: "Найти пользователя"
   label_user_settings: "Настройки пользователя"
   label_version_new: "Новый этап"
-  label_version_plural: "Этапы"
+  label_version_plural: "Версии"
   label_version_sharing_descendants: "С подпроэктами"
   label_version_sharing_hierarchy: "С иерархией проектов"
   label_version_sharing_none: "Не используется другими"
@@ -1947,12 +1947,11 @@ ru:
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
       center: 'В центр уведомлений'
+      see_in_center: 'Смотрите комментарий в центре уведомлений'
       settings: 'Изменить настройки электронной почты'
     salutation: 'Привет, %{user}!'
     work_packages:
-      comment_added: '<b>Комментарий</b> добавлен'
-      created: 'Создан'
-      created_at: 'в %{timestamp} от %{user} '
+      created_at: 'Создано %{timestamp} пользователем %{user} '
       login_to_see_all: 'Войдите, чтобы увидеть все уведомления.'
       mentioned: 'Вы были <b>упомянуты в комментариях</b>'
       mentioned_by: '%{user} упомянул вас в комментарии'
@@ -1969,8 +1968,7 @@ ru:
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
       see_all: 'Показать все'
-      updated: 'Обновлено'
-      updated_at: 'в %{timestamp} от %{user}'
+      updated_at: 'Обновлено в %{timestamp} пользователем %{user}'
   mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрирован. Учетная запись ожидает вашего подтверждения:"
   mail_body_account_information: "Информация о вашей учетной записи"
   mail_body_account_information_external: "Вы можете использовать учетную запись %{value} для входа."

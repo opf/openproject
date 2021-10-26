@@ -2,7 +2,6 @@ import { ID } from '@datorama/akita';
 import {
   HalResourceLink,
   HalResourceLinks,
-  Formattable,
 } from 'core-app/core/state/hal-resource';
 
 export const NOTIFICATIONS_MAX_SIZE = 100;

@@ -15,8 +15,6 @@ import { HttpClient } from '@angular/common/http';
 import { InAppNotificationsQuery } from 'core-app/core/state/in-app-notifications/in-app-notifications.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { collectionKey } from 'core-app/core/state/collection-store';
-import { InAppNotificationsStore } from './in-app-notifications.store';
-import { InAppNotification } from './in-app-notification.model';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -26,6 +24,8 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { InAppNotificationsStore } from './in-app-notifications.store';
+import { InAppNotification } from './in-app-notification.model';
 
 @EffectHandler
 @Injectable()
@@ -64,6 +64,7 @@ export class InAppNotificationsResourceService {
                 collections: {
                   ...collections,
                   [collectionURL]: {
+                    ...collections[collectionURL],
                     ids: events._embedded.elements.map((el) => el.id),
                   },
                 },

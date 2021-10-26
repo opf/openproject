@@ -243,6 +243,11 @@ thead.-sticky th
   &.hover
     background:   #f8f8f8
 
+  &_no-highlighting
+    &:hover,
+    &.hover
+      background: initial
+
 .generic-table--empty-header
   padding:       0 6px
   height:        var(--generic-table--header-height)
@@ -278,7 +283,7 @@ thead.-sticky th
     width: 100%
     font-weight: bold
     @include text-shortener
-    &.-inactive
+    &.op-link_inactive
       color: var(--button--active-font-color)
 
   & > op-icon
