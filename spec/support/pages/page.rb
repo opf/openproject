@@ -90,8 +90,7 @@ module Pages
     end
 
     def expect_toaster(message:, type: :success)
-      byebug
-      if type == :angular
+      if toaster_type == :angular
         expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
