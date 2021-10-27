@@ -20,7 +20,7 @@ module Exports
       end
 
       ##
-      # Takes a WorkPackage and an attribute and returns the value to be exported.
+      # Takes a resource and an attribute and returns the value to be exported.
       def format(object, **options)
         value = object.try(attribute)
 

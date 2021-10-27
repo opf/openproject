@@ -12,6 +12,7 @@ OpenProject::Application.configure do |application|
 
       list Project, Projects::Exports::CSV
       formatter Project, Exports::Formatters::CustomField
+      formatter Project, Projects::Exports::Formatters::Status
     end
   end
 end
