@@ -440,7 +440,7 @@ ru:
         parent: "Подпроект"
         queries: "Запросы"
         types: "Типы"
-        versions: "Этапы"
+        versions: "Версии"
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
@@ -1800,7 +1800,7 @@ ru:
   label_user_search: "Найти пользователя"
   label_user_settings: "Настройки пользователя"
   label_version_new: "Новый этап"
-  label_version_plural: "Этапы"
+  label_version_plural: "Версии"
   label_version_sharing_descendants: "С подпроэктами"
   label_version_sharing_hierarchy: "С иерархией проектов"
   label_version_sharing_none: "Не используется другими"
