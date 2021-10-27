@@ -76,7 +76,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :edit_project,
                    {
                      projects: %i[custom_fields],
-                     'project_settings/general': %i[show],
+                     'projects/settings/general': %i[show],
                      'projects/templated': %i[create destroy]
                    },
                    require: :member,

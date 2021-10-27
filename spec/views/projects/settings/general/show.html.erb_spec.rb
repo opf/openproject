@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'project_settings/general/show', type: :view do
+describe 'projects/settings/general/show', type: :view do
   let(:project) { FactoryBot.build_stubbed(:project) }
 
   describe 'project copy permission' do

@@ -34,13 +34,12 @@ module ProjectSettingsHelper
     [
       {
         name: 'general',
-        action: { controller: '/project_settings/general', action: 'show' },
+        action: { controller: '/projects/settings/general', action: 'show' },
         label: :label_information_plural
       },
       {
         name: 'modules',
         action: { controller: '/projects/settings/modules', action: 'show' },
-        if: ->(project) { User.current.allowed_to?(:select_project_modules, project) },
         label: :label_module_plural
       },
       {

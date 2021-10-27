@@ -50,10 +50,10 @@ class Projects::TemplatedController < ApplicationController
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to settings_general_project_path(@project)
+      redirect_to general_settings_project_path(@project)
     else
       @errors = service_call.errors
-      render template: 'project_settings/general'
+      render template: 'projects/settings/general'
     end
   end
 end

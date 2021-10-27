@@ -184,7 +184,7 @@ OpenProject::Application.routes.draw do
         namespace 'settings' do
           ProjectSettingsHelper
             .project_settings_tabs
-            .select { |s| s[:name] == 'modules' }
+            .select { |s| %w[modules general].include?(s[:name]) }
             .each do |tab|
             get tab[:name],
                 controller: tab[:name],
@@ -198,7 +198,7 @@ OpenProject::Application.routes.draw do
 
       ProjectSettingsHelper
         .project_settings_tabs
-        .reject { |s| s[:name] == 'modules' }
+        .reject { |s| %w[modules general].include?(s[:name]) }
         .each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",

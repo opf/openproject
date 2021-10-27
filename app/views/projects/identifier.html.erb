@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= f.submit t(:button_update), class: 'button -highlight -with-icon icon-checkmark' %>
       </span>
       <span>
-        <%= link_to settings_general_project_path(@project), class: 'button' do %>
+        <%= link_to general_settings_project_path(@project), class: 'button' do %>
           <%= op_icon('button--icon icon-cancel') %> 
           <span class="button--text"><%= t(:button_cancel) %></span>
         <% end %>

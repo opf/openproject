@@ -38,7 +38,7 @@ describe 'Project templates', type: :feature, js: true do
     end
 
     it 'can make the project a template from settings' do
-      visit settings_general_project_path(project)
+      visit general_settings_project_path(project)
 
       # Make a template
       find('.button', text: 'Set as template').click
