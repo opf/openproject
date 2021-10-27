@@ -100,7 +100,7 @@ describe 'BIM navigation spec',
         details_view.go_back
 
         details_view.expect_closed
-        card_view.expect_work_package_listed work_package
+        card_view.expect_work_package_listed(work_package)
 
         # Go to viewer only
         model_page.switch_view 'Viewer'
