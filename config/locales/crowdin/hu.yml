@@ -299,7 +299,8 @@ hu:
       query_group_placeholder: "Adja meg a tábla nevét"
       reset: "Alapbeállítások visszaállítása"
       type_color_text: |
-        Kattintson az adott típus színének hozzárendeléséhez vagy megváltoztatásához. A kiválasztott szín különbözteti meg a feladatcsoportokat a Gantt-diagramokban. Élénk színek használata javasolt.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt feladatcsoportok.
@@ -703,6 +704,8 @@ hu:
               day_limit: "túl magas, mivel dátumonként legfeljebb 24 óra naplózható."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "csak teljes órában történő kézbesítésre konfigurálható.\n"
         wiki_page:
@@ -1224,6 +1227,7 @@ hu:
   error_no_type_in_project: "Nincs típus hozzárendelve ehhez a projekthez. Kérjük, ellenőrizze a projekt beállításait."
   error_omniauth_registration_timed_out: "A regisztráció egy külső hitelesítés-szolgáltatón keresztül túllépte az időkorlátot. Kérjük, próbálja meg újra."
   error_omniauth_invalid_auth: "Az azonosító szolgáltatótól visszaadott hitelesítési adatok érvénytelenek. További segítségért lépjen kapcsolatba rendszergazdájával.\n"
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Hiba mikor kipróbáláshoz el akarja érni a repository: %{value}"
   error_scm_not_found: "A bejegyzés vagy a revízió  a csomagtárolóban  nem található."
   error_unable_delete_status: "A munka csomag állapot nem törölhető, mivel legalább egy munka csomag használja."

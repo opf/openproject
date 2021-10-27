@@ -624,6 +624,10 @@ id:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Anda yakin?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -903,6 +907,7 @@ id:
         label_content: "Klik di sini untuk melompati menu dan langsung ke isi"
       placeholders:
         default: "Hapus nilai"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Kolom"

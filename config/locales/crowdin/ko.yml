@@ -297,8 +297,8 @@ ko:
       query_group_placeholder: "테이블에 이름 지정"
       reset: "기본값으로 초기화"
       type_color_text: |
-        클릭하여 이 유형의 색상을 할당하거나 변경하십시오. 선택한 색상은 Gantt 차트에서 작업 패키지를 구분합니다.
-        따라서 뚜렷한 색상을 사용하는 것이 좋습니다.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 이 버전에 할당된 작업 패키지가 없습니다.
@@ -701,6 +701,8 @@ ko:
               day_limit: "하루 최대 24시간을 기록할 수 있으므로 너무 높습니다."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1202,6 +1204,7 @@ ko:
   error_no_type_in_project: "이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요."
   error_omniauth_registration_timed_out: "외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요."
   error_omniauth_invalid_auth: "ID 공급자로부터 반환된 인증 정보가 잘못되었습니다. 관리자에게 문의하여 추가적인 도움을 받으세요."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "리포지토리에 액세스하는 중에 오류가 발생했습니다. %{value}"
   error_scm_not_found: "항목 또는 수정 사항을 리포지토리에서 찾지 못했습니다."
   error_unable_delete_status: "하나 이상의 작업 패키지에 의해 사용되므로 작업 패키지 상태를 삭제할 수 없습니다."

@@ -625,6 +625,10 @@ ro:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -904,6 +908,7 @@ ro:
         label_content: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "Dă clic pentru a edita acest meniu."
       query:
         column_names: "Coloane"

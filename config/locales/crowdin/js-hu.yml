@@ -630,6 +630,10 @@ hu:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'E-mail emlékeztetők'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
     types:
@@ -910,6 +914,7 @@ hu:
         label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: kattints a módosításhoz!"
       query:
         column_names: "Oszlopok"

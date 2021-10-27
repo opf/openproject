@@ -626,6 +626,10 @@ hr:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Da li ste sigurni?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -905,6 +909,7 @@ hr:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stupci"

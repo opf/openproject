@@ -625,6 +625,10 @@ nl:
           membership_added: 'Lidmaatschap toegevoegd'
           membership_updated: 'Lidmaatschap bijgewerkt'
         title: 'E-mail herinneringen'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
@@ -904,6 +908,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Klik om te bewerken..."
       query:
         column_names: "Kolommen"

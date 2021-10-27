@@ -625,6 +625,10 @@ tr:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Emin misiniz?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -904,6 +908,7 @@ tr:
         label_content: "Menüyü geçerek içeriği görmek için tıklayın"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"

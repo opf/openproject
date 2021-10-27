@@ -625,6 +625,10 @@ ja:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "よろしいですか？"
     text_data_lost: "All entered data will be lost."
     types:
@@ -906,6 +910,7 @@ ja:
         label_content: "ここをクリックすると、メニューをスキップして、コンテンツへ移動します"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: クリックして編集..."
       query:
         column_names: "列"

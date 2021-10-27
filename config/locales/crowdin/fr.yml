@@ -298,7 +298,8 @@ fr:
       query_group_placeholder: "Donner un nom au tableau"
       reset: "Rétablir les valeurs par défaut"
       type_color_text: |
-        Cliquez pour assigner ou modifier la couleur de ce type. La couleur sélectionnée distingue les lots de travaux dans les diagrammes de Gantt. Il est donc recommandé d'utiliser une couleur forte.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Il n'y a actuellement aucun lot de travaux assigné à cette version.
@@ -702,6 +703,8 @@ fr:
               day_limit: "est trop élevé car un maximum de 24 heures peut être enregistré par date."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1219,6 +1222,7 @@ fr:
   error_no_type_in_project: "Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet."
   error_omniauth_registration_timed_out: "L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau."
   error_omniauth_invalid_auth: "Les informations d'authentification retournées par le fournisseur d'identité n'étaient pas valides. Veuillez contacter votre administrateur pour plus d'aide."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Une erreur s'est produite en essayant d'accéder au dépôt: %{value}"
   error_scm_not_found: "L'entrée ou la révision n'a pas été trouvée dans le dépôt."
   error_unable_delete_status: "Le statut de lot de travaux ne peut pas être supprimé tant qu'il est utilisé par au moins un lot de travaux."

@@ -536,8 +536,8 @@ lt:
           no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Yra naujų pranešimų.'
+          link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'
@@ -627,8 +627,12 @@ lt:
           membership_added: 'Narystė pridėta'
           membership_updated: 'Narystė atnaujinta'
         title: 'El.pašto priminimai'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ar esate įsitikinę?"
-    text_data_lost: "Įvesta informacija bus prarasta"
+    text_data_lost: "Visa įvesta informacija bus prarasta."
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
@@ -906,6 +910,7 @@ lt:
         label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Redagavimui spustelėkite..."
       query:
         column_names: "Stulpeliai"

@@ -625,6 +625,10 @@ es:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."
     types:
@@ -904,6 +908,7 @@ es:
         label_content: "Haga clic aquí para saltar el menú e ir al contenido"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: haga clic para editar…"
       query:
         column_names: "Columnas"

@@ -295,7 +295,8 @@ it:
       query_group_placeholder: "Assegnare un nome alla tabella"
       reset: "Ripristino predefinite"
       type_color_text: |
-        Clicca per assegnare o cambiare il colore di questo tipo. Il colore selezionato distingue le macro-attività nei diagrammi di Gantt. Ti consigliamo di utilizzare un colore forte.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
@@ -699,6 +700,8 @@ it:
               day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1216,6 +1219,7 @@ it:
   error_no_type_in_project: "Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto."
   error_omniauth_registration_timed_out: "La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova."
   error_omniauth_invalid_auth: "Le informazioni di autenticazione restituite dal provider d'identità non sono valide. Contatta il tuo amministratore per ulteriori informazioni."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Si è verificato un errore durante il tentativo di accesso all'archivio: %{value}"
   error_scm_not_found: "La voce o la revisione non è stata trovata nell'archivio."
   error_unable_delete_status: "Lo stato della macro-attività non può essere eliminato poiché è utilizzato da almeno una macro-attività."

@@ -624,6 +624,10 @@ sv:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Är du säker?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -903,6 +907,7 @@ sv:
         label_content: "Klicka här för att hoppa över menyn och gå till innehållet"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Klicka för att redigera..."
       query:
         column_names: "Kolumner"

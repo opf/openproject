@@ -627,6 +627,10 @@ uk:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -906,6 +910,7 @@ uk:
         label_content: "Натисніть тут, щоб пропустити меню та перейти до вмісту"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Стовпці"

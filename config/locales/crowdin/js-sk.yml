@@ -627,6 +627,10 @@ sk:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ste si istí?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -906,6 +910,7 @@ sk:
         label_content: "Kliknite tu pre preskočenie menu a prejdite na obsah"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Stĺpce"

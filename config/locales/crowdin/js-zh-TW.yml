@@ -623,6 +623,10 @@ zh-TW:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "是否確定？"
     text_data_lost: "All entered data will be lost."
     types:
@@ -902,6 +906,7 @@ zh-TW:
         label_content: "點擊此處跳過功能表直接轉到內容"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "欄"

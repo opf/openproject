@@ -625,6 +625,10 @@ fi:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Oletko varma?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -904,6 +908,7 @@ fi:
         label_content: "Paina tästä siirtyäksesi suoraan sisältöön"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Muokkaa klikkaamalla..."
       query:
         column_names: "Sarakkeet"

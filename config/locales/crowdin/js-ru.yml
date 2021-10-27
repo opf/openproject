@@ -535,8 +535,8 @@ ru:
           no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Есть новые уведомления.'
+          link_text: 'Нажмите здесь для их загрузки'
       menu:
         accountable: 'Подотчетный'
         assigned: 'Назначено'
@@ -626,6 +626,10 @@ ru:
           membership_added: 'Членство добавлено'
           membership_updated: 'Членство обновлено'
         title: 'Почтовые напоминания'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Вы уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
     types:
@@ -905,6 +909,7 @@ ru:
         label_content: "Кликните здесь, чтобы пропустить меню и перейти к содержанию"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Нажмите для редактирования..."
       query:
         column_names: "Столбцы"

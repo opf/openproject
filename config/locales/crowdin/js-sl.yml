@@ -626,6 +626,10 @@ sl:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ste prepričani?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -905,6 +909,7 @@ sl:
         label_content: "Kliknite tukaj za preskok menija na vsebino"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Kliknite za urejanje..."
       query:
         column_names: "Stolpci"

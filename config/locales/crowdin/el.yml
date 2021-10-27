@@ -294,7 +294,8 @@ el:
       query_group_placeholder: "Δώστε το όνομα του πίνακα"
       reset: "Επαναφορά στα προεπιλεγμένα"
       type_color_text: |
-        Κάντε κλικ για να αναθέσετε ή να αλλάξετε το χρώμα αυτού του τύπου. Το επιλεγμένο χρώμα ξεχωρίζει τα πακέτα εργασίας στο διάγραμμα Gantt. Επομένως προτείνεται να χρησιμοποιήσετε ένα ισχυρό χρώμα.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Προς το παρόν δεν έχουν ανατεθεί πακέτα εργασίας σε αυτήν την έκδοση.
@@ -698,6 +699,8 @@ el:
               day_limit: "είναι πολύ υψηλό καθώς το μέγιστο που μπορεί να καταγραφεί ανά ημέρα είναι 24 ώρες."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1215,6 +1218,7 @@ el:
   error_no_type_in_project: "Δεν υπάρχει τύπος που σχετίζεται με αυτό το έργο. Παρακαλώ ελέγξτε τις Ρυθμίσεις του Έργου."
   error_omniauth_registration_timed_out: "Η εγγραφή μέσω ενός εξωτερικού παρόχου ταυτοποίησης έληξε. Παρακαλούμε προσπαθήστε ξανά."
   error_omniauth_invalid_auth: "Οι πληροφορίες ελέγχου ταυτότητας που επιστράφηκαν από τον πάροχο ταυτότητας δεν ήταν έγκυρες. Επικοινωνήστε με το διαχειριστή σας για περαιτέρω βοήθεια."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Παρουσιάστηκε σφάλμα κατά την προσπάθεια πρόσβασης στο αποθετήριο: %{value}"
   error_scm_not_found: "Η καταχώρηση ή η αναθεώρηση δεν βρέθηκε στο αποθετήριο."
   error_unable_delete_status: "Η κατάσταση του πακέτου εργασίας δεν ήταν δυνατό να διαγραφεί καθώς χρησιμοποιείται σε τουλάχιστον ένα πακέτο εργασίας."

@@ -624,6 +624,10 @@ da:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Er du sikker?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -903,6 +907,7 @@ da:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Klik for at redigere..."
       query:
         column_names: "Kolonner"

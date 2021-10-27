@@ -296,8 +296,8 @@ sl:
       query_group_placeholder: "Poimenujte tabelo"
       reset: "Ponastavi na privzete vrednosti"
       type_color_text: |
-        Kliknite, če želite dodeliti ali spremeniti barvo te vrste. Izbrana barva razlikuje opravila
-        v Ganttovih lestvicah, zato je priporočljivo uporabljati močno barvo.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Za to različico trenutno ni opravil
@@ -703,6 +703,8 @@ sl:
               day_limit: "je previsok, saj se lahko na datum prijavi največ 24 ur."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1252,6 +1254,7 @@ sl:
   error_no_type_in_project: "Noben tip ni povezan s tem projektom. Prosimo preverite nastavitve projekta."
   error_omniauth_registration_timed_out: "Registracija preko zunanjega avtentikacijskega ponudnika je potekla. Prosimo poskusite ponovno."
   error_omniauth_invalid_auth: "Avtentikacija ni uspela. Za pomoč se obrnite na skrbnika."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Med vzpostavljem povezave s shrambo je prišlo do napake: %{value}"
   error_scm_not_found: "Vnos ali revizija v shrambi ni bila najdena ."
   error_unable_delete_status: "Stanja delovnega paketa ni mogoče izbrisati, saj ga uporablja vsaj en delovni paket."
