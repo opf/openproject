@@ -50,6 +50,7 @@ export interface XeokitElements {
   navCubeCanvasElement:HTMLElement;
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
+  keyboardEventsElement?:HTMLElement;
 }
 
 /**

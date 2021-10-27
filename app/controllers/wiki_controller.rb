@@ -151,8 +151,6 @@ class WikiController < ApplicationController
     end
 
     @content = @page.content_for_version(params[:version])
-    # don't keep previous comment
-    @content.comments = nil
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.lock_version = @page.content.lock_version

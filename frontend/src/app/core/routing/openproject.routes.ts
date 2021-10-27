@@ -52,6 +52,10 @@ import { BackRoutingService } from 'core-app/features/work-packages/components/b
 import { MY_ACCOUNT_LAZY_ROUTES } from 'core-app/features/user-preferences/user-preferences.lazy-routes';
 import { IAN_LAZY_ROUTES } from 'core-app/features/in-app-notifications/in-app-notifications.lazy-routes';
 import { StateObject } from '@uirouter/core/lib/state/stateObject';
+import {
+  mobileGuardActivated,
+  redirectToMobileAlternative,
+} from 'core-app/shared/helpers/routing/mobile-guard.helper';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -217,6 +221,15 @@ export function initializeUiRouterListeners(injector:Injector) {
   // Uncomment to trace route changes
   // const uiRouter = injector.get(UIRouter);
   // uiRouter.trace.enable();
+
+  // For some pages it makes no sense to display them on mobile (e.g. the split screen).
+  // If a `mobileAlternative` is specified, we redirect there instead.
+  // Actually, this would be solved with an ActiveGuard, but unfortunately ui-router does not support this.
+  // The recommended alternative is this transition hook (compare: https://github.com/angular-ui/ui-router/issues/2964)
+  $transitions.onBefore(
+    { to: (state) => (state ? mobileGuardActivated(state) : false) },
+    (transition) => redirectToMobileAlternative(transition),
+  );
 
   // Apply classes from bodyClasses in each state definition
   // This was defined as onEnter, onExit functions in each state before

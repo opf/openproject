@@ -290,7 +290,7 @@ lt:
             current_new_feature_html: >
               Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną naudotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               Šioje laidoje rasite įvairias naujas funkcijas ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>Pasidomėkite mūsų <a href="https://github.com/opf/openproject-revit-add-in">priedu Revit</a>, kuris leidžia dirbti su BCF darbo paketais tiesiai Revit'e.</li> <li>IFC savybės gavo savo atskirą skydelį. GUID kopijavimas niekada nebuvo lengvesnis.</li> <li>Atgalinės plokštumos karpymo krypties BCF vaizdas ir suderinamumas su būsima BCF 3.0 (Dabar tokia patik kryptis, kaip ir Solibri). <li>Pataisyta IFC modelių peržiūra mobiliuose.</li> <li>Pataisytas darbo paketų vaizdo su BCF nuotraukų stulpeliu eksportas.</li> </ul>
     label_activate: "Aktyvuoti"
@@ -535,6 +535,9 @@ lt:
           no_notification: "Panašu, kad jūs pilnai pasivijote."
           no_notification_with_current_filter: "Keisti įsitraukimą ar grįžti į gautuosius visų pranešimų peržiūrai"
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
+        new_notifications:
+          message: 'Yra naujų pranešimų.'
+          link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
         assigned: 'Paskirtas'
@@ -624,8 +627,12 @@ lt:
           membership_added: 'Narystė pridėta'
           membership_updated: 'Narystė atnaujinta'
         title: 'El.pašto priminimai'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ar esate įsitikinę?"
-    text_data_lost: "Įvesta informacija bus prarasta"
+    text_data_lost: "Visa įvesta informacija bus prarasta."
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
@@ -860,7 +867,7 @@ lt:
       no_results:
         title: Nėra rodytinų darbų paketų.
         description: Arba nebuvo niekas sukurta, arba visi darbų paketai buvo išfiltruoti.
-      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbo paketai. Prašome sumažinti rezultatų skaičių filtruojant.
+      limited_results: Rankinio rikiavimo režime gali būti rodomi tik %{count} darbų paketai. Prašome sumažinti rezultatų skaičių filtrais arba persijungti į automatinį rikiavimą.
       property_groups:
         details: "Detali informacija"
         people: "Žmonės"
@@ -903,6 +910,7 @@ lt:
         label_content: "Paspauskite čia, kad praleistumėte meniu ir pereitumėte prie turinio"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Redagavimui spustelėkite..."
       query:
         column_names: "Stulpeliai"

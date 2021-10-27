@@ -295,7 +295,8 @@ nl:
       query_group_placeholder: "Geef de tabel een naam"
       reset: "Standaardinstellingen herstellen"
       type_color_text: |
-        Klik om de kleur van dit type toe te wijzen of te wijzigen. De geselecteerde kleur onderscheidt werkpakketten in de Gantt-grafieken. Daarom is het raadzaam om een sterke kleur te gebruiken.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze versie.
@@ -699,6 +700,8 @@ nl:
               day_limit: "is te hoog omdat maximaal 24 uur kan worden gelogd per datum."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "kan alleen worden geconfigureerd voor levering op een volledig uur."
         wiki_page:
@@ -1216,6 +1219,7 @@ nl:
   error_no_type_in_project: "Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen."
   error_omniauth_registration_timed_out: "De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Er is een fout opgetreden tijdens het proberen om toegang te krijgen tot de repository: %{value}"
   error_scm_not_found: "De vermelding of de herziening werd niet gevonden in de repository."
   error_unable_delete_status: "De status van het werkpakket kan niet worden verwijderd omdat het door minstens één werkpakket wordt gebruikt."

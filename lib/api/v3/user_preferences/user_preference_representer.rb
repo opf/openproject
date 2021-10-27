@@ -80,6 +80,18 @@ module API
 
         property :immediate_reminders
 
+        property :pause_reminders,
+                 getter: ->(*) do
+                   pause_reminders.transform_keys { |k| k.camelize(:lower) }
+                 end,
+                 setter: ->(fragment:, **) do
+                   self.pause_reminders = fragment.transform_keys(&:underscore)
+
+                   if pause_reminders['last_day'].blank? && pause_reminders['first_day']
+                     pause_reminders['last_day'] = pause_reminders['first_day']
+                   end
+                 end
+
         property :workdays
 
         property :notification_settings,

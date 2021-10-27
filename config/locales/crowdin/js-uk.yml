@@ -290,7 +290,7 @@ uk:
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Активувати"
@@ -535,6 +535,9 @@ uk:
           no_notification: "Looks like you're all caught up."
           no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
       menu:
         accountable: 'Відповідальний'
         assigned: 'Assigned'
@@ -624,6 +627,10 @@ uk:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "All entered data will be lost."
     types:
@@ -860,7 +867,7 @@ uk:
       no_results:
         title: Немає пакетів робіт для показу.
         description: Або нічого не було створено, або всі пакети робіт відфільтровані.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Детальніше"
         people: "Люди"
@@ -903,6 +910,7 @@ uk:
         label_content: "Натисніть тут, щоб пропустити меню та перейти до вмісту"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Стовпці"

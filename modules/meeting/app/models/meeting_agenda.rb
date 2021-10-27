@@ -27,16 +27,15 @@
 #++
 
 class MeetingAgenda < MeetingContent
-  # TODO: internationalize the comments
   def lock!(user = User.current)
-    self.comment = 'Agenda closed'
+    self.journal_notes = I18n.t('events.meeting_agenda_closed')
     self.author = user
     self.locked = true
     save
   end
 
   def unlock!(user = User.current)
-    self.comment = 'Agenda opened'
+    self.journal_notes = I18n.t('events.meeting_agenda_opened')
     self.author = user
     self.locked = false
     save

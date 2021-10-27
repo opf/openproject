@@ -88,7 +88,7 @@ An invoice will be sent via email to the Billing email address.
 
 ### Is there an advantage of the annual over the monthly OpenProject plan?
 
-Yes, your subscription gets cheaper the longer the duration you choose. Please check our current pricing [here](/pricing/).
+Yes, your subscription gets cheaper the longer the duration you choose. Please check our current pricing [here](https://www.openproject.org/pricing/).
 
 ### Additional questions
 

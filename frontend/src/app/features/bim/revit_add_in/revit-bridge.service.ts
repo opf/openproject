@@ -39,9 +39,18 @@ import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/
 
 declare global {
   interface Window {
-    RevitBridge:any;
+    RevitBridge:{
+      sendMessageToRevit:(messageType:string, trackingId:string, payload:string) => void,
+      sendMessageToOpenProject:(message:string) => void
+    };
   }
 }
+
+type RevitBridgeMessage = {
+  messageType:string,
+  trackingId:string,
+  messagePayload:CreateBcfViewpointData
+};
 
 @Injectable()
 export class RevitBridgeService extends ViewerBridgeService {
@@ -49,7 +58,7 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
 
-  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
+  private revitMessageReceivedSource = new Subject<RevitBridgeMessage>();
 
   private trackingIdNumber = 0;
 
@@ -69,7 +78,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     }
   }
 
-  public viewerVisible() {
+  public viewerVisible():boolean {
     return this.viewerVisible$.getValue();
   }
 
@@ -83,14 +92,22 @@ export class RevitBridgeService extends ViewerBridgeService {
         distinctUntilChanged(),
         filter((message) => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
         first(),
-      )
-      .pipe(
         map((message) => {
+          // FIXME: Deprecated code
+          // the handling of the message payload is only needed to be compatible to the revit add-in <= 2.3.2. In
+          // newer versions the message payload is sent correctly and needs no special treatment
           const viewpointJson = message.messagePayload;
 
+          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') // eslint-disable-line no-prototype-builtins
+            && viewpointJson.snapshot.hasOwnProperty('snapshot_data')) { // eslint-disable-line no-prototype-builtins
+            // already correctly formatted payload
+            return viewpointJson;
+          }
+
+          // at this point snapshot data should be sent as a base64 string
           viewpointJson.snapshot = {
             snapshot_type: 'png',
-            snapshot_data: viewpointJson.snapshot,
+            snapshot_data: viewpointJson.snapshot as unknown as string,
           };
 
           return viewpointJson;
@@ -98,38 +115,34 @@ export class RevitBridgeService extends ViewerBridgeService {
       );
   }
 
-  public showViewpoint(workPackage:WorkPackageResource, index:number) {
+  public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointData) =>
-        this.sendMessageToRevit(
-          'ShowViewpoint',
-          this.newTrackingId(),
-          JSON.stringify(viewpoint),
-        )
-      );
+      .subscribe((viewpoint:BcfViewpointData) => this.sendMessageToRevit(
+        'ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint),
+      ));
   }
 
-  sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
+  sendMessageToRevit(messageType:string, trackingId:string, messagePayload:string):void {
     if (!this.viewerVisible()) {
       return;
     }
 
-    const jsonPayload = messagePayload != null ? JSON.stringify(messagePayload) : null;
-    window.RevitBridge.sendMessageToRevit(messageType, trackingId, jsonPayload);
+    window.RevitBridge.sendMessageToRevit(messageType, trackingId, messagePayload);
   }
 
   private hookUpRevitListener() {
     window.RevitBridge.sendMessageToOpenProject = (messageString:string) => {
-      const message = JSON.parse(messageString);
-      const { messageType } = message;
-      const { trackingId } = message;
-      const messagePayload = JSON.parse(message.messagePayload);
+      const { messageType, trackingId, messagePayload } = JSON.parse(messageString) as {
+        messageType:string,
+        trackingId:string,
+        messagePayload:string
+      };
 
       this.revitMessageReceivedSource.next({
         messageType,
         trackingId,
-        messagePayload,
+        messagePayload: JSON.parse(messagePayload) as CreateBcfViewpointData,
       });
     };
     this.viewerVisible$.next(true);

@@ -37,6 +37,11 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
                       member_in_project: project,
                       member_through_role: role
   end
+  let(:other_user) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_through_role: role
+  end
   let(:role) do
     FactoryBot.create(:role,
                       permissions: %i[view_wiki_pages
@@ -50,6 +55,12 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
   end
   let(:content_second_version) do
     'The new content, second version'
+  end
+  let(:content_third_version) do
+    'The new content, third version'
+  end
+  let(:other_user_comment) do
+    'Other users`s comment'
   end
 
   before do
@@ -120,5 +131,30 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
 
     expect(page).to have_selector('.wiki-version--details', text: 'Version 2/2')
     expect(page).to have_selector('.wiki-content', text: content_second_version)
+
+    login_as other_user
+
+    visit project_wiki_path(project, 'new page')
+
+    within '.toolbar-items' do
+      SeleniumHubWaiter.wait
+      click_on "Edit"
+    end
+
+    find('.ck-content').set(content_third_version)
+
+    fill_in 'Journal notes', with: other_user_comment
+
+    SeleniumHubWaiter.wait
+    click_button 'Save'
+
+    within '.toolbar-items' do
+      SeleniumHubWaiter.wait
+      click_on 'More'
+      click_on 'History'
+    end
+
+    expect(page).to have_selector('tr.wiki-page-version:last-of-type .author', text: other_user.name)
+    expect(page).to have_selector('tr.wiki-page-version:last-of-type .comments', text: other_user_comment)
   end
 end

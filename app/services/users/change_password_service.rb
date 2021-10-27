@@ -52,7 +52,7 @@ module Users
           log_failure
           ::ServiceResult.new success: false,
                               result: current_user,
-                              message: I18n.t(:notice_can_t_change_password),
+                              message: I18n.t(:error_password_change_failed),
                               errors: current_user.errors
         end
       end

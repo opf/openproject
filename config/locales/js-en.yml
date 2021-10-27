@@ -329,7 +329,7 @@ en:
                 <li>Creation of backup from the web interface.</li>
               </ul>
           bim:
-            learn_about_link:  https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br>
               <ul class="%{list_styling_class}">
@@ -683,6 +683,10 @@ en:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
 
 
     text_are_you_sure: "Are you sure?"
@@ -941,7 +945,7 @@ en:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered out.
       limited_results:
-        Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering.
+        Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
         people: "People"
@@ -984,6 +988,7 @@ en:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
         column_names: "Columns"

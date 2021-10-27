@@ -298,8 +298,8 @@ zh-TW:
       query_group_placeholder: "給表格命名"
       reset: "重設為預設值"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 目前沒有工作包分配給此版本。
@@ -702,6 +702,8 @@ zh-TW:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "只能配置在一個小時整內交付"
         wiki_page:
@@ -1203,6 +1205,7 @@ zh-TW:
   error_no_type_in_project: "這個專案沒有關聯的類型，請檢查專案設定。"
   error_omniauth_registration_timed_out: "外部身份驗證註冊逾時，請再試一次。"
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "嘗試存取版本庫的時候發生錯誤: %{value}"
   error_scm_not_found: "在版本庫中找不到項目或修訂"
   error_unable_delete_status: "工作項目狀態無法刪除，因為它被至少一個工作項目使用了。"

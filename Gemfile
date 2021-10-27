@@ -150,12 +150,12 @@ gem 'prawn-markup', '~> 0.3.0'
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.0.9'
 
-gem 'meta-tags', '~> 2.15.0'
+gem 'meta-tags', '~> 2.16.0'
 
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  gem 'dalli', '~> 2.7.10'
+  gem 'dalli', '~> 3.0.3'
 end
 
 gem 'i18n-js', '~> 3.9.0'
@@ -220,8 +220,8 @@ group :test do
 
   gem 'capybara', '~> 3.35.0'
   gem 'capybara-screenshot', '~> 1.0.17'
-  gem 'selenium-webdriver', '~> 3.14'
-  gem 'webdrivers', '~> 4.6.0'
+  gem 'selenium-webdriver', '~> 4.0'
+  gem 'webdrivers', '~> 5.0.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -287,7 +287,7 @@ end
 gem 'bootsnap', '~> 1.9.1', require: false
 
 # API gems
-gem 'grape', '~> 1.5.0'
+gem 'grape', '~> 1.6.0'
 gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.1.0'
 

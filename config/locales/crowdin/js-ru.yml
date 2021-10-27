@@ -289,7 +289,7 @@ ru:
             current_new_feature_html: >
               Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Новая кнопка навигации в заголовке для создания проектов, пользователей и пакетов работ.</li> <li>Новый способ приглашения пользователей, групп и заполнителей позволяет легко добавлять или приглашать новых пользователей и прикреплять их к рабочим пакетам.</li> <li>Интеграция GitHub в OpenProject.</li> <li>Расширения API v3 для групп и более, в т.ч. создание, чтение, обновление и удаление групп и членов групп через API.</li> <li>Множественный выбор пользовательских для настраиваемых полей типового списка.</li> <li>Создание резервной копии из веб-интерфейса.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Взгляните на наш <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> , который позволяет работать на рабочих пакетах BCF прямо в Revit.</li> <li>Свойства IFC получили выделенную панель. Копирование GUIDs никогда не было проще.</li> <li>Направление обратной плоскости отсечения в точке зрения BCF и соответствует будущему BCF 3.0 (теперь такое же направление, как и Solibri). <li>Исправлен просмотр моделей IFC на мобильном телефоне.</li> <li>Фиксированный экспорт просмотра пакета работ с помощью снимка BCF.</li> </ul>
     label_activate: "Активировать"
@@ -470,7 +470,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
-    label_version_plural: "Этапы"
+    label_version_plural: "Версии"
     label_view_has_changed: "У этого представления есть несохранённые изменения. Нажмите, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -534,6 +534,9 @@ ru:
           no_notification: "Похоже, вы все поймали."
           no_notification_with_current_filter: "Измените параметры фильтра или вернитесь в папку \"Входящие\" для просмотра уведомлений"
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали активности."
+        new_notifications:
+          message: 'Есть новые уведомления.'
+          link_text: 'Нажмите здесь для их загрузки'
       menu:
         accountable: 'Подотчетный'
         assigned: 'Назначено'
@@ -623,6 +626,10 @@ ru:
           membership_added: 'Членство добавлено'
           membership_updated: 'Членство обновлено'
         title: 'Почтовые напоминания'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Вы уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
     types:
@@ -859,7 +866,7 @@ ru:
       no_results:
         title: Нет пакетов работ для показа.
         description: Ничего не найдено.
-      limited_results: В ручной сортировке можно отобразить только %{count} рабочих пакетов. Пожалуйста, уменьшите результаты фильтрацией.
+      limited_results: Только %{count} пакетов работ могут быть показаны в режиме ручной сортировки. Уменьшите результаты фильтрации или переключитесь на автоматическую сортировку.
       property_groups:
         details: "Детали"
         people: "Люди"
@@ -902,6 +909,7 @@ ru:
         label_content: "Кликните здесь, чтобы пропустить меню и перейти к содержанию"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Нажмите для редактирования..."
       query:
         column_names: "Столбцы"

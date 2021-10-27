@@ -68,7 +68,7 @@ class MeetingsController < ApplicationController
     if params[:copied_from_meeting_id].present? && params[:copied_meeting_agenda_text].present?
       @meeting.agenda = MeetingAgenda.new(
         text: params[:copied_meeting_agenda_text],
-        comment: "Copied from Meeting ##{params[:copied_from_meeting_id]}"
+        journal_notes: I18n.t('meeting.copied', id: params[:copied_from_meeting_id])
       )
       @meeting.agenda.author = User.current
     end

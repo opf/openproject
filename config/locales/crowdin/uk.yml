@@ -298,8 +298,8 @@ uk:
       query_group_placeholder: "Найменувати таблицю"
       reset: "Скинути на типові значення"
       type_color_text: |
-        Натисніть, щоб призначити або змінити колір цього типу. Вибраний колір відрізняє робочі пакети
-        у діаграмах Ганта. Тому рекомендується використовувати темний колір.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
@@ -705,6 +705,8 @@ uk:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1254,6 +1256,7 @@ uk:
   error_no_type_in_project: "З цим проектом не асоційовано жодного типу. Перевірте налаштування проекту."
   error_omniauth_registration_timed_out: "Реєстрація через зовнішнього постачальника аутентифікації закінчилася. Будь ласка спробуйте ще раз."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Помилка доступу до сховища: %{value}"
   error_scm_not_found: "Запис або ревізію (версію) не знайдено у репозиторії."
   error_unable_delete_status: "Робота статус пакет не може бути видалено оскільки він використовується щонайменше один пакет робіт."

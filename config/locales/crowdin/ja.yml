@@ -294,8 +294,8 @@ ja:
       query_group_placeholder: "テーブルに名前を付けます"
       reset: "デフォルトに戻す"
       type_color_text: |
-        クリックして、このタイプの色を割り当てたり、変更したりします。選択した色は、ガントチャートのワークパッケージを区別します。
-        このため、はっきりした色を使用することをお勧めします。
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: このバージョンに割り当てられているワークパッケージはありません。
@@ -698,6 +698,8 @@ ja:
               day_limit: "1日あたり最大24時間まで記録できます。"
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1199,6 +1201,7 @@ ja:
   error_no_type_in_project: "このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。"
   error_omniauth_registration_timed_out: "外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。"
   error_omniauth_invalid_auth: "IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください"
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "「%{value}」リポジトリにアクセスしようとしてエラーが発生しました。"
   error_scm_not_found: "リポジトリに、エントリ/リビジョンが存在しません。"
   error_unable_delete_status: "一つ以上のワークパッケージによって使用されているため、ステータスを削除できません。"

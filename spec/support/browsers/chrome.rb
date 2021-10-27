@@ -33,7 +33,7 @@ def register_chrome(language, name: :"chrome_#{language}")
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
     capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      loggingPrefs: { browser: 'ALL' }
+      'goog:loggingPrefs': { browser: 'ALL' }
     )
 
     yield(options, capabilities) if block_given?
@@ -46,9 +46,8 @@ def register_chrome(language, name: :"chrome_#{language}")
 
     driver_opts = {
       browser: is_grid ? :remote : :chrome,
-      desired_capabilities: capabilities,
-      http_client: client,
-      options: options,
+      capabilities: [capabilities, options],
+      http_client: client
     }
 
     if is_grid

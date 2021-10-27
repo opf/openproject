@@ -295,7 +295,8 @@ zh-CN:
       query_group_placeholder: "为表命名"
       reset: "重置为默认值"
       type_color_text: |
-        单击可以分配或更改此类型的颜色。选定颜色可区分甘特图中的工作包。因此，建议使用深色。
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: 目前没有工作包分配给此版本。
@@ -698,6 +699,8 @@ zh-CN:
               day_limit: "过高，因为每天最多可以记录 24 小时。"
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1199,6 +1202,7 @@ zh-CN:
   error_no_type_in_project: "没有类型与此项目关联。请检查的项目设置。"
   error_omniauth_registration_timed_out: "通过外部身份验证提供程序注册超时。请再试一次。"
   error_omniauth_invalid_auth: "从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。"
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "当试图访问该代码库时出现错误: %{value}"
   error_scm_not_found: "在代码库中未找到的条目或修正版本。"
   error_unable_delete_status: "不能删除工作包的状态，因为它由至少一个工作包使用。"
