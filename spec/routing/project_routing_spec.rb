@@ -79,6 +79,22 @@ describe ProjectsController, type: :routing do
     end
   end
 
+  describe 'templated' do
+    it do
+      expect(delete('/projects/123/templated'))
+        .to route_to(
+              controller: 'projects/templated', action: 'destroy', id: '123'
+            )
+    end
+
+    it do
+      expect(post('/projects/123/templated'))
+        .to route_to(
+              controller: 'projects/templated', action: 'create', id: '123'
+            )
+    end
+  end
+
   describe 'miscellaneous' do
     it do
       expect(put('projects/123/modules')).to route_to(

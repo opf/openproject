@@ -65,7 +65,9 @@ class ProjectsController < ApplicationController
     render layout: 'no_menu'
   end
 
-  def copy; end
+  def copy
+    render
+  end
 
   def update_identifier
     service_call = Projects::UpdateService

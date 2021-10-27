@@ -175,8 +175,13 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
-  resources :projects, except: %i[show edit create] do
+  resources :projects, except: %i[show edit create update] do
     member do
+      scope module: 'projects' do
+        post :templated, controller: 'templated', action: :create
+        delete :templated, controller: 'templated', action: :destroy
+      end
+
       ProjectSettingsHelper.project_settings_tabs.each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",
@@ -199,8 +204,6 @@ OpenProject::Application.routes.draw do
       put :archive
       put :unarchive
       patch :types
-
-      get 'column_sums', controller: 'work_packages'
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
