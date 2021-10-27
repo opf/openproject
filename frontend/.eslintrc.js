@@ -133,8 +133,7 @@ module.exports = {
         //////////////////////////////////////////////////////////////////////
 
         // It's common in Angular to wrap even pure functions in classes for injection purposes
-        // TODO: Should probably be turned off and pure unit tests should be used at some point
-        "class-methods-use-this": "warn",
+        "class-methods-use-this": "off",
       }
     },
     {
