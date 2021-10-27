@@ -12,6 +12,7 @@ import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.i
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
+  centerUpdatedInPlace,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
@@ -84,6 +85,14 @@ export class WpSingleViewService {
    */
   @EffectCallback(notificationsMarkedRead)
   private reloadOnNotificationRead() {
+    this.reload();
+  }
+
+  /**
+   * Reload after notifications were successfully marked as read
+   */
+  @EffectCallback(centerUpdatedInPlace)
+  private reloadOnCenterUpdate() {
     this.reload();
   }
 }

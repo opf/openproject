@@ -96,7 +96,7 @@ export class IanMenuComponent implements OnInit {
     map(([byProject, byReason]) => [
       ...this.baseMenuItems.map((baseMenuItem) => ({
         ...baseMenuItem,
-        count: byReason.reduce((a, b) => a + (b.count || 0), 0),
+        count: byProject.reduce((a, b) => a + (b.count || 0), 0),
       })),
       {
         title: this.I18n.t('js.notifications.menu.by_reason'),
