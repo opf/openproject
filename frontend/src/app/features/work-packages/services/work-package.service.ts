@@ -45,7 +45,7 @@ export class WorkPackageService {
     private readonly $state:StateService,
     private readonly PathHelper:PathHelperService,
     private readonly UrlParamsHelper:UrlParamsHelperService,
-    private readonly ToastService:ToastService,
+    private readonly toastService:ToastService,
     private readonly I18n:I18nService,
     private readonly halEvents:HalEventsService) {
   }
@@ -64,7 +64,7 @@ export class WorkPackageService {
     if (defaultHandling) {
       promise
         .then(() => {
-          this.ToastService.addSuccess(this.text.successful_delete);
+          this.toastService.addSuccess(this.text.successful_delete);
 
           ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' } as HalDeletedEvent));
 

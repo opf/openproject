@@ -43,7 +43,7 @@ export class CommentService {
   constructor(
     readonly I18n:I18nService,
     private workPackageNotificationService:WorkPackageNotificationService,
-    private ToastService:ToastService,
+    private toastService:ToastService,
   ) {
   }
 
@@ -68,7 +68,7 @@ export class CommentService {
       { comment },
       { 'Content-Type': 'application/json; charset=UTF-8' },
     ).then((activity:HalResource) => {
-      this.ToastService.addSuccess(
+      this.toastService.addSuccess(
         this.I18n.t('js.work_packages.comment_updated'),
       );
 

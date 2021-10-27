@@ -53,7 +53,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     readonly $state:StateService,
     protected workPackageNotificationService:WorkPackageNotificationService,
     protected halEditing:HalResourceEditingService,
-    protected notificationService:ToastService,
+    protected toastService:ToastService,
     protected I18n:I18nService,
     protected halEvents:HalEventsService) {
     super(elementRef, opContextMenu);
@@ -68,7 +68,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
       const { writable } = change.schema.status;
       if (!writable) {
-        this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
+        this.toastService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
         this.opContextMenu.show(this, evt);
       }

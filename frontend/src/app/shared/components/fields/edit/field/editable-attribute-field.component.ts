@@ -98,7 +98,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     protected schemaCache:SchemaCacheService,
     // Get parent field group from injector if we're in a form
     @Optional() protected editForm:EditFormComponent,
-    protected ToastService:ToastService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService) {
     super();

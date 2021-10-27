@@ -89,7 +89,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected loadingIndicator:LoadingIndicatorService,
     protected apiV3Service:APIV3Service,
     protected workPackageNotificationService:WorkPackageNotificationService,
-    protected ToastService:ToastService,
+    protected toastService:ToastService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService) {
     super(elementRef, injector);
@@ -150,7 +150,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
         this.active = false;
-        this.ToastService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
+        this.toastService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         void this.wpLinkedActivities.require(this.workPackage, true);
         void this
@@ -167,7 +167,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         if (error instanceof HalError) {
           this.workPackageNotificationService.showError(error.resource, this.workPackage);
         } else {
-          this.ToastService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
+          this.toastService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       });
 

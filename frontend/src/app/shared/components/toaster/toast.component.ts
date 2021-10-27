@@ -55,7 +55,7 @@ export class ToastComponent implements OnInit {
   public show = false;
 
   constructor(readonly I18n:I18nService,
-    readonly toastersService:ToastService) {
+    readonly toastService:ToastService) {
   }
 
   ngOnInit() {
@@ -75,7 +75,7 @@ export class ToastComponent implements OnInit {
   }
 
   public remove() {
-    this.toastersService.remove(this.toast);
+    this.toastService.remove(this.toast);
   }
 
   /**

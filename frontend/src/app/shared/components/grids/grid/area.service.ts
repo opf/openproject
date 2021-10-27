@@ -37,7 +37,7 @@ export class GridAreaService {
   public helpMode = false;
 
   constructor(private apiV3Service:APIV3Service,
-    private notification:ToastService,
+    private toastService:ToastService,
     private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {
@@ -158,7 +158,7 @@ export class GridAreaService {
       .patch(resource, schema)
       .subscribe((updatedGrid) => {
         this.assignAreasWidget(updatedGrid);
-        this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
+        this.toastService.addSuccess(this.i18n.t('js.notice_successful_update'));
       });
   }
 

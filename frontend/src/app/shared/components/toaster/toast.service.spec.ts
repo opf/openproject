@@ -33,7 +33,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
 describe('ToastService', () => {
-  let toastersService:ToastService;
+  let toastService:ToastService;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -49,18 +49,18 @@ describe('ToastService', () => {
     })
       .compileComponents()
       .then(() => {
-        toastersService = TestBed.inject(ToastService);
+        toastService = TestBed.inject(ToastService);
       });
   }));
 
   it('should be able to create warnings', () => {
-    const toaster = toastersService.addWarning('warning!');
+    const toaster = toastService.addWarning('warning!');
 
     expect(toaster).toEqual({ message: 'warning!', type: 'warning' });
   });
 
   it('should be able to create error messages with errors', () => {
-    const toaster = toastersService.addError('a super cereal error', ['fooo', 'baarr']);
+    const toaster = toastService.addError('a super cereal error', ['fooo', 'baarr']);
     expect(toaster).toEqual({
       message: 'a super cereal error',
       data: ['fooo', 'baarr'],
@@ -69,7 +69,7 @@ describe('ToastService', () => {
   });
 
   it('should be able to create error messages with only a message', () => {
-    const toaster = toastersService.addError('a super cereal error');
+    const toaster = toastService.addError('a super cereal error');
     expect(toaster).toEqual({
       message: 'a super cereal error',
       data: [],
@@ -78,7 +78,7 @@ describe('ToastService', () => {
   });
 
   it('should be able to create upload messages with uploads', () => {
-    const toaster = toastersService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
+    const toaster = toastService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
     expect(toaster).toEqual({
       message: 'uploading...',
       type: 'upload',
@@ -88,30 +88,30 @@ describe('ToastService', () => {
 
   it('should throw an Error if trying to create an upload with uploads = null', () => {
     expect(() => {
-      toastersService.addAttachmentUpload('themUploads', null as any);
+      toastService.addAttachmentUpload('themUploads', null as any);
     }).toThrow();
   });
 
   it('should throw an Error if trying to create an upload without uploads', () => {
     expect(() => {
-      toastersService.addAttachmentUpload('themUploads', []);
+      toastService.addAttachmentUpload('themUploads', []);
     }).toThrow();
   });
 
   it('sends a broadcast to remove the first toaster upon adding a second success toaster',
     () => {
-      const firstToast = toastersService.addSuccess('blubs');
-      expect(toastersService.current.value!.length).toEqual(1);
+      const firstToast = toastService.addSuccess('blubs');
+      expect(toastService.current.value!.length).toEqual(1);
 
-      toastersService.addSuccess('blubs2');
-      expect(toastersService.current.value!.length).toEqual(1);
+      toastService.addSuccess('blubs2');
+      expect(toastService.current.value!.length).toEqual(1);
     });
 
   it('sends a broadcast to remove the first toaster upon adding a second error toaster',
     () => {
-      const firstToast = toastersService.addSuccess('blubs');
-      toastersService.addError('blubs2');
+      const firstToast = toastService.addSuccess('blubs');
+      toastService.addError('blubs2');
 
-      expect(toastersService.current.value!.length).toEqual(1);
+      expect(toastService.current.value!.length).toEqual(1);
     });
 });

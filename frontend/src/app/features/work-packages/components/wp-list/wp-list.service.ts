@@ -84,7 +84,8 @@ export class WorkPackagesListService {
       share(),
     );
 
-  constructor(protected ToastService:ToastService,
+  constructor(
+    protected toastService:ToastService,
     readonly I18n:I18nService,
     protected UrlParamsHelper:UrlParamsHelperService,
     protected authorisationService:AuthorisationService,
@@ -96,8 +97,8 @@ export class WorkPackagesListService {
     protected configuration:ConfigurationService,
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpStatesInitialization:WorkPackageStatesInitializationService,
-    protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService) {
-  }
+    protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
+  ) { }
 
   /**
    * Stream a query request as a HTTP observable. Each request to this method will
@@ -236,9 +237,9 @@ export class WorkPackagesListService {
       .post(query, form)
       .toPromise();
 
-    promise
+    void promise
       .then((query) => {
-        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_create'));
+        this.toastService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
         this.reloadQuery(query).subscribe(() => {
@@ -264,9 +265,9 @@ export class WorkPackagesListService {
       .delete()
       .toPromise();
 
-    promise
+    void promise
       .then(() => {
-        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_delete'));
+        this.toastService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
         let id;
         if (query.project) {
@@ -293,15 +294,15 @@ export class WorkPackagesListService {
       .patch(query, form)
       .toPromise();
 
-    promise
+    void promise
       .then(() => {
-        this.ToastService.addSuccess(this.I18n.t('js.notice_successful_update'));
+        this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
         this.states.changes.queries.next(query!.id!);
       })
       .catch((error:ErrorResource) => {
-        this.ToastService.addError(error.message);
+        this.toastService.addError(error.message);
       });
 
     return promise;
@@ -313,10 +314,10 @@ export class WorkPackagesListService {
       .queries
       .toggleStarred(query);
 
-    promise.then((query:QueryResource) => {
+    void promise.then((query:QueryResource) => {
       this.querySpace.query.putValue(query);
 
-      this.ToastService.addSuccess(this.I18n.t('js.notice_successful_update'));
+      this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.states.changes.queries.next(query.id!);
     });
@@ -337,7 +338,7 @@ export class WorkPackagesListService {
   }
 
   private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
-    promise
+    void promise
       .then((query) => {
         this.wpStatesInitialization.initialize(query, query.results);
         return query;
@@ -351,7 +352,7 @@ export class WorkPackagesListService {
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
-    this.ToastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
       this

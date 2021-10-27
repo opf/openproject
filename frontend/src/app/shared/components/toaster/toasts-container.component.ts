@@ -48,13 +48,15 @@ export const toastsContainerSelector = 'op-toasts-container';
 export class ToastsContainerComponent extends UntilDestroyedMixin implements OnInit {
   public stack:IToast[] = [];
 
-  constructor(readonly toastersService:ToastService,
-    readonly cdRef:ChangeDetectorRef) {
+  constructor(
+    readonly toastService:ToastService,
+    readonly cdRef:ChangeDetectorRef
+  ) {
     super();
   }
 
   ngOnInit():void {
-    this.toastersService
+    this.toastService
       .current
       .values$('Subscribing to changes in the toaster stack')
       .pipe(

@@ -67,7 +67,7 @@ describe('WorkPackageFilterValues', () => {
 
   function setupTestBed() {
     // noinspection JSIgnoredPromiseFromCall
-    TestBed.configureTestingModule({
+    void TestBed.configureTestingModule({
       imports: [
         UIRouterModule.forRoot({}),
         HttpClientModule,

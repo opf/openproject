@@ -44,11 +44,12 @@ export class CopyToClipboardDirective implements OnInit {
 
   private target:JQuery;
 
-  constructor(readonly ToastService:ToastService,
+  constructor(
+    readonly toastService:ToastService,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly ConfigurationService:ConfigurationService) {
-  }
+    readonly ConfigurationService:ConfigurationService,
+  ) { }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
@@ -63,10 +64,10 @@ export class CopyToClipboardDirective implements OnInit {
   }
 
   addNotification(type:'addSuccess'|'addError', message:string) {
-    const notification = this.ToastService[type](message);
+    const notification = this.toastService[type](message);
 
     // Remove the notification some time later
-    setTimeout(() => this.ToastService.remove(notification), 5000);
+    setTimeout(() => this.toastService.remove(notification), 5000);
   }
 
   onClick($event:JQuery.TriggeredEvent) {

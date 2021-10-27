@@ -53,7 +53,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
     readonly httpClient:HttpClient,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly loadingIndicator:LoadingIndicatorService,
-    readonly notifications:ToastService) {
+    readonly toastService:ToastService) {
     super(locals, cdRef, elementRef);
   }
 
@@ -119,7 +119,7 @@ export class WpTableExportModalComponent extends OpModalComponent implements OnI
   }
 
   private showError(error:HttpErrorResponse) {
-    this.notifications.addError(error.message || this.I18n.t('js.error.internal'));
+    this.toastService.addError(error.message || this.I18n.t('js.error.internal'));
   }
 
   private addColumnsToHref(href:string) {

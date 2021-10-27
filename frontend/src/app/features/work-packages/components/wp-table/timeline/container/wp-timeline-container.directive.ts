@@ -124,7 +124,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     private elementRef:ElementRef,
     private states:States,
     public wpTableComponent:WorkPackagesTableComponent,
-    private ToastService:ToastService,
+    private toastService:ToastService,
     private wpTableTimeline:WorkPackageViewTimelineService,
     private notificationService:WorkPackageNotificationService,
     private wpRelations:WorkPackageRelationsService,
@@ -315,7 +315,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this._viewParameters.selectionModeStart = null;
 
     if (this.selectionParams.notification) {
-      this.ToastService.remove(this.selectionParams.notification);
+      this.toastService.remove(this.selectionParams.notification);
     }
 
     Mousetrap.unbind('esc');
@@ -335,7 +335,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     this._viewParameters.selectionModeStart = start;
     Mousetrap.bind('esc', () => this.resetSelectionMode());
-    this.selectionParams.notification = this.ToastService.addNotice(this.text.selectionMode);
+    this.selectionParams.notification = this.toastService.addNotice(this.text.selectionMode);
 
     this.$element.addClass('active-selection-mode');
 

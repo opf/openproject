@@ -152,7 +152,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       return;
     }
 
-    const formattedModel = this._dynamicFormService.formatModelToEdit(payload);
+    const formattedModel = this.dynamicFormService.formatModelToEdit(payload);
 
     this.form.patchValue(formattedModel);
   }
@@ -186,12 +186,12 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   inFlight:boolean;
 
   text = {
-    save: this._I18n.t('js.button_save'),
-    cancel: this._I18n.t('js.button_cancel'),
-    load_error_message: this._I18n.t('js.forms.load_error_message'),
-    successful_update: this._I18n.t('js.notice_successful_update'),
-    successful_create: this._I18n.t('js.notice_successful_create'),
-    job_started: this._I18n.t('js.notice_job_started'),
+    save: this.I18n.t('js.button_save'),
+    cancel: this.I18n.t('js.button_cancel'),
+    load_error_message: this.I18n.t('js.forms.load_error_message'),
+    successful_update: this.I18n.t('js.notice_successful_update'),
+    successful_create: this.I18n.t('js.notice_successful_create'),
+    job_started: this.I18n.t('js.notice_job_started'),
   };
 
   noSettingsSourceErrorMessage = `DynamicFormComponent needs a settings, formUrl or resourcePath @Input
@@ -208,17 +208,17 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
 
   @ViewChild(FormlyForm)
   set dynamicForm(dynamicForm:FormlyForm) {
-    this._dynamicFormService.registerForm(dynamicForm);
+    this.dynamicFormService.registerForm(dynamicForm);
   }
 
   constructor(
-    private _dynamicFormService:DynamicFormService,
-    private _dynamicFieldsService:DynamicFieldsService,
-    private _I18n:I18nService,
-    private _pathHelperService:PathHelperService,
-    private _toastService:ToastService,
-    private _changeDetectorRef:ChangeDetectorRef,
-    private _confirmDialogService:ConfirmDialogService,
+    private dynamicFormService:DynamicFormService,
+    private dynamicFieldsService:DynamicFieldsService,
+    private I18n:I18nService,
+    private pathHelperService:PathHelperService,
+    private toastService:ToastService,
+    private changeDetectorRef:ChangeDetectorRef,
+    private confirmDialogService:ConfirmDialogService,
   ) {
     super();
   }
@@ -263,7 +263,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     this.inFlight = true;
-    this._dynamicFormService
+    this.dynamicFormService
       .submit$(form, this.formEndpoint, this.resourceId, this.formHttpMethod)
       .pipe(
         finalize(() => this.inFlight = false),
@@ -275,7 +275,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         },
         (error:HttpErrorResponse) => {
           this.errored.emit(error?.error || error);
-          this.showNotifications && this._toastService.addError(error?.error?.message || error?.message);
+          this.showNotifications && this.toastService.addError(error?.error?.message || error?.message);
         },
       );
   }
@@ -285,15 +285,15 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
       throw new Error(this.noPathToSubmitToError);
     }
 
-    return this._dynamicFormService.validateForm$(this.form, this.formEndpoint);
+    return this.dynamicFormService.validateForm$(this.form, this.formEndpoint);
   }
 
   handleCancel() {
     if (this.form.dirty) {
-      this._confirmDialogService.confirm({
+      this.confirmDialogService.confirm({
         text: {
-          title: this._I18n.t('js.text_are_you_sure'),
-          text: this._I18n.t('js.text_data_lost'),
+          title: this.I18n.t('js.text_are_you_sure'),
+          text: this.I18n.t('js.text_data_lost'),
         },
       }).then(() => {
         this.goBack();
@@ -347,11 +347,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
   }
 
   private setupDynamicFormFromBackend(formEndpoint?:string, resourceId?:string, payload?:Object) {
-    this._dynamicFormService
+    this.dynamicFormService
       .getSettingsFromBackend$(formEndpoint, resourceId, payload)
       .pipe(
         catchError((error) => {
-          this._toastService.addError(this.text.load_error_message);
+          this.toastService.addError(this.text.load_error_message);
           throw error;
         }),
       )
@@ -365,7 +365,7 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
         schema: settings?.schema,
       },
     };
-    const dynamicFormSettings = this._dynamicFormService.getSettings(formattedSettings);
+    const dynamicFormSettings = this.dynamicFormService.getSettings(formattedSettings);
 
     this.setupDynamicForm(dynamicFormSettings);
   }
@@ -376,27 +376,27 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     }
 
     if (this.fieldGroups) {
-      fields = this._dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
+      fields = this.dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
     }
 
     this.fields = fields;
     this.innerModel = model;
     this.form = this.dynamicFormGroup || form;
 
-    this._changeDetectorRef.detectChanges();
+    this.changeDetectorRef.detectChanges();
   }
 
   private showSuccessNotification(formResponse:HalSource|any):void {
-    let submit_message;
+    const submitMessage = (() => {
+      if (formResponse?.jobId) {
+        const title = formResponse?.payload?.title;
 
-    if (formResponse?.jobId) {
-      const title = formResponse?.payload?.title;
+        return `${title || ''} ${this.text.job_started}`;
+      } else {
+        return this.formHttpMethod === 'patch' ? this.text.successful_update : this.text.successful_create;
+      }
+    })();
 
-      submit_message = `${title || ''} ${this.text.job_started}`;
-    } else {
-      submit_message = this.formHttpMethod === 'patch' ? this.text.successful_update : this.text.successful_create;
-    }
-
-    this._toastService.addSuccess(submit_message);
+    this.toastService.addSuccess(submitMessage);
   }
 }
