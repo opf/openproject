@@ -108,7 +108,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_types,
                    {
-                     'project_settings/types': %i[show update]
+                     'projects/settings/types': %i[show update]
                    },
                    require: :member
 

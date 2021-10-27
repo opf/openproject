@@ -31,12 +31,13 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'projects/form/toolbar', locals: { form_name: "types-form" } %>
 <% end %>
 
-<% if  Type.all.any? %>
+<% if Type.any? %>
   <%= form_for @project,
-               url: { controller: '/project_settings/types', action: 'update', id: @project },
+               url: types_settings_project_path(@project),
                method: :patch,
                html: { id: 'types-form' } do |f| %>
-    <%= render partial: 'projects/form/types', locals: { f: f, project: @project } %>
+    <%= render partial: 'form',
+               locals: { f: f, project: @project } %>
 
   <% end %>
 

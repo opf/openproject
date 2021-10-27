@@ -28,12 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::TypesController < ProjectSettingsController
+class Projects::Settings::TypesController < ProjectSettingsController
   menu_item :settings_types
 
   def show
     @types = ::Type.all
-    render template: 'project_settings/types'
   end
 
   def update
@@ -43,6 +42,6 @@ class ProjectSettings::TypesController < ProjectSettingsController
       flash[:error] = @project.errors.full_messages
     end
 
-    redirect_to settings_types_project_path(@project.identifier)
+    redirect_to types_settings_project_path(@project.identifier)
   end
 end

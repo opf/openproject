@@ -44,7 +44,7 @@ module ProjectSettingsHelper
       },
       {
         name: 'types',
-        action: { controller: '/project_settings/types', action: 'show' },
+        action: { controller: '/projects/settings/types', action: 'show' },
         label: :label_work_package_types
       },
       {
