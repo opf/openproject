@@ -38,6 +38,7 @@ import { BcfTopicResource } from 'core-app/features/bim/bcf/api/topics/bcf-topic
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class ViewpointsService {
@@ -53,7 +54,7 @@ export class ViewpointsService {
   }
 
   public getViewPointResource(workPackage:WorkPackageResource, index:number):BcfViewpointPaths {
-    const viewpointHref = workPackage.bcfViewpoints[index].href as string;
+    const viewpointHref = (workPackage.bcfViewpoints as HalResource[])[index].href as string;
 
     return this.bcfApi.parse<BcfViewpointPaths>(viewpointHref);
   }
@@ -90,7 +91,8 @@ export class ViewpointsService {
   }
 
   public saveViewpoint$(workPackage:WorkPackageResource, viewpoint?:CreateBcfViewpointData):Observable<CreateBcfViewpointData> {
-    const wpProjectId = idFromLink(workPackage.project.href);
+    const projectLink = (workPackage.project as HalResource).href;
+    const wpProjectId = idFromLink(projectLink);
     const topicUUID$ = this.setBcfTopic$(workPackage);
     // Default to the current viewer's viewpoint
     const viewpoint$ = viewpoint
@@ -116,9 +118,9 @@ export class ViewpointsService {
     if (this.topicUUID) {
       return of(this.topicUUID);
     }
-    const topicHref = workPackage.bcfTopic?.href;
+    const topicHref = (workPackage.bcfTopic as HalResource)?.href;
     const topicUUID$ = topicHref
-      ? of(this.bcfApi.parse<BcfViewpointPaths>(topicHref)!.id)
+      ? of(this.bcfApi.parse<BcfViewpointPaths>(topicHref).id)
       : this.createBcfTopic$(workPackage);
 
     return topicUUID$.pipe(
