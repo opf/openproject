@@ -67,7 +67,6 @@ module ProjectSettingsHelper
       {
         name: 'repository',
         action: { controller: '/project_settings/repository', action: 'show' },
-        if: ->(project) { project.enabled_module_names.include? 'repository' },
         label: :label_repository
       },
       {
