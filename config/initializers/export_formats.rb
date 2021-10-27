@@ -8,8 +8,10 @@ OpenProject::Application.configure do |application|
 
       formatter WorkPackage, WorkPackage::Exports::Formatters::Costs
       formatter WorkPackage, WorkPackage::Exports::Formatters::EstimatedHours
+      formatter WorkPackage, Exports::Formatters::CustomField
 
       list Project, Projects::Exports::CSV
+      formatter Project, Exports::Formatters::CustomField
     end
   end
 end

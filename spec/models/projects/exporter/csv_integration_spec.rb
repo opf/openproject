@@ -35,7 +35,41 @@ describe Projects::Exports::CSV, 'integration', type: :model do
     login_as current_user
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  shared_let(:version_cf) { FactoryBot.create(:version_project_custom_field) }
+  shared_let(:bool_cf) { FactoryBot.create(:bool_project_custom_field) }
+  shared_let(:user_cf) { FactoryBot.create(:user_project_custom_field) }
+  shared_let(:int_cf) { FactoryBot.create(:int_project_custom_field) }
+  shared_let(:float_cf) { FactoryBot.create(:float_project_custom_field) }
+  shared_let(:text_cf) { FactoryBot.create(:text_project_custom_field) }
+  shared_let(:string_cf) { FactoryBot.create(:string_project_custom_field) }
+  shared_let(:date_cf) { FactoryBot.create(:date_project_custom_field) }
+
+  shared_let(:system_version) { FactoryBot.create(:version, sharing: 'system') }
+
+  shared_let(:role) do
+    FactoryBot.create(:role)
+  end
+
+  shared_let(:other_user) do
+    FactoryBot.create(:user,
+                      firstname: 'Other',
+                      lastname: 'User')
+  end
+
+  shared_let(:project) do
+    FactoryBot.create(:project, members: { other_user => role }).tap do |p|
+      p.send(:"custom_field_#{int_cf.id}=", 5)
+      p.send(:"custom_field_#{bool_cf.id}=", true)
+      p.send(:"custom_field_#{version_cf.id}=", system_version)
+      p.send(:"custom_field_#{float_cf.id}=", 4.5)
+      p.send(:"custom_field_#{text_cf.id}=", 'Some **long** text')
+      p.send(:"custom_field_#{string_cf.id}=", 'Some small text')
+      p.send(:"custom_field_#{date_cf.id}=", Date.today)
+      p.send(:"custom_field_#{user_cf.id}=", other_user)
+
+      p.save!(validate: false)
+    end
+  end
 
   let(:current_user) do
     FactoryBot.create(:user,
@@ -47,31 +81,62 @@ describe Projects::Exports::CSV, 'integration', type: :model do
     described_class.new(query)
   end
 
-  it 'performs a successful export' do
+  let(:custom_fields) { project.available_custom_fields }
+
+  let(:output) do
     data = ''
 
     instance.export! do |result|
       data = result.content
     end
-    data = CSV.parse(data)
 
-    expect(data.size).to eq(2)
-    expect(data.last).to eq [project.id.to_s, project.identifier, project.name, '', 'false']
+    data
+  end
+
+  let(:parsed) do
+    CSV.parse(output)
+  end
+
+  let(:header) { parsed.first }
+
+  let(:rows) { parsed.drop(1) }
+
+  it 'performs a successful export' do
+    expect(parsed.size).to eq(2)
+    expect(parsed.last).to eq [project.id.to_s, project.identifier, project.name, '', 'false']
+  end
+
+  describe 'custom field columns selected' do
+    before do
+      Setting.enabled_projects_columns += custom_fields.map { |cf| "cf_#{cf.id}" }
+    end
+
+    context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do
+      it 'renders all those columns' do
+        expect(parsed.size).to eq 2
+
+        cf_names = custom_fields.map(&:name)
+        expect(header).to eq ['id', 'Identifier', 'Name', 'Status', 'Public', *cf_names]
+
+        custom_values = custom_fields.map { |cf| project.formatted_custom_value_for(cf) }
+        expect(rows.first)
+          .to eq [project.id.to_s, project.identifier, project.name, '', 'false', *custom_values]
+      end
+    end
+
+    context 'when ee not enabled' do
+      it 'renders only the default columns' do
+        expect(header).to eq %w[id Identifier Name Status Public]
+      end
+    end
   end
 
   context 'with no project visible' do
     let(:current_user) { User.anonymous }
 
     it 'does not include the project' do
-      data = ''
-
-      instance.export! do |result|
-        data = result.content
-      end
-      expect(data).not_to include project.identifier
-
-      data = CSV.parse(data)
-      expect(data.size).to eq(1)
+      expect(output).not_to include project.identifier
+      expect(parsed.size).to eq(1)
     end
   end
 end
