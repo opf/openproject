@@ -124,10 +124,6 @@ export class IFCViewerService extends ViewerBridgeService {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const viewerUI = new BIMViewer(server, elements) as BimViewer;
 
-    viewerUI.on('queryPicked', (event:{ objectName:string, objectType:string, objectId:string }) => {
-      alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
-    });
-
     viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
 
     viewerUI.loadProject(projects[0].id);

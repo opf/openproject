@@ -116,7 +116,7 @@ export class BcfNewWpAttributeGroupComponent extends BcfWpAttributeGroupComponen
     return this.createAllowed && this.viewerVisible;
   }
 
-  protected actions():{ icon:string, onClick:(evt:any, index:number) => void, titleText:string }[] {
+  protected actions():{ icon:string, onClick:(evt:unknown, index:number) => void, titleText:string }[] {
     // Show only delete button
     return super
       .actions()
