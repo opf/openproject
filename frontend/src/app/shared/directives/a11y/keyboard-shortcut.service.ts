@@ -137,35 +137,19 @@ export class KeyboardShortcutService {
     window.open(this.PathHelper.keyboardShortcutsHelpPath());
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  findListInPage():HTMLElement[] {
-    const domLists = jQuery(accessibleListSelector);
-    const focusElements:HTMLElement[] = [];
-    domLists.find('tbody tr').each((index, tr) => {
-      const firstLink = jQuery(tr).find(':visible:tabbable')[0];
-      if (firstLink !== undefined) {
-        focusElements.push(firstLink);
-      }
-    });
-    return focusElements;
-  }
-
   focusItemOffset(offset:number):void {
-    const list = this.findListInPage();
-
-    if (list === null) {
+    const list = document.querySelector(accessibleListSelector);
+    if (!list) {
       return;
     }
 
-    const index = list.indexOf(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      jQuery(document.activeElement!)
-        .closest(accessibleRowSelector)
-        .find(':visible:tabbable')[0] as HTMLElement,
-    );
-
-    const target = jQuery(list[(index + offset + list.length) % list.length]);
-    target.focus();
+    const rows:HTMLElement[] = Array.from(list.querySelectorAll('tbody > tr'));
+    let index:number;
+    if (document.activeElement) {
+      index = rows.indexOf(document.activeElement);
+      const target = rows[index + offset];
+      target?.focus();
+    }
   }
 
   focusNextItem():void {
