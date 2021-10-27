@@ -34,13 +34,15 @@ module Exports
     include ActionView::Helpers::NumberHelper
 
     attr_accessor :object,
-                  :options
+                  :options,
+                  :current_user
 
     class_attribute :model
 
-    def initialize(object, options = {})
+    def initialize(object, current_user: User.current, **options)
       self.object = object
       self.options = options
+      self.current_user = current_user
     end
 
     def self.key

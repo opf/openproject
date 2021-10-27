@@ -1,7 +1,14 @@
 module XlsExport::WorkPackage::Exporter
   class XLS < WorkPackage::Exports::QueryExporter
-    def current_user
-      User.current
+    include ::XlsExport::Concerns::SpreadsheetBuilder
+
+    def records
+      work_packages
+        .includes(:assigned_to, :type, :priority, :category, :version)
+    end
+
+    def spreadsheet_title
+      I18n.t(:label_work_package_plural)
     end
 
     def with_descriptions
@@ -10,11 +17,6 @@ module XlsExport::WorkPackage::Exporter
 
     def with_relations
       options[:show_relations]
-    end
-
-    def work_packages
-      super
-        .includes(:assigned_to, :type, :priority, :category, :version)
     end
 
     def enable!(singleton_module)
@@ -27,80 +29,6 @@ module XlsExport::WorkPackage::Exporter
       enable! WithRelations if with_relations
 
       success(spreadsheet.xls)
-    end
-
-    def success(content)
-      ::Exports::Result
-        .new format: :xls,
-             content: content,
-             title: xls_export_filename,
-             mime_type: 'application/vnd.ms-excel'
-    end
-
-    def spreadsheet
-      sb = spreadsheet_builder
-
-      add_headers! sb
-      add_rows! sb
-      set_column_format_options! sb
-
-      sb
-    end
-
-    def add_headers!(spreadsheet)
-      spreadsheet.add_headers headers, 0
-    end
-
-    def add_rows!(spreadsheet)
-      rows.each do |row|
-        spreadsheet.add_row row
-      end
-    end
-
-    def rows
-      work_packages.map do |work_package|
-        row work_package
-      end
-    end
-
-    def row(work_package)
-      column_values(work_package)
-    end
-
-    def column_values(work_package)
-      columns.collect do |column|
-        column_value column, work_package
-      end
-    end
-
-    def column_value(column, work_package)
-      value = format_attribute work_package, column.name
-
-      value.respond_to?(:name) ? value.name : value
-    end
-
-    def set_column_format_options!(spreadsheet)
-      columns.each_with_index do |column, i|
-        options = formatter_for(column.name)
-          .format_options
-
-        spreadsheet.add_format_option_to_column i, options
-      end
-    end
-
-    def spreadsheet_builder
-      OpenProject::XlsExport::SpreadsheetBuilder.new I18n.t(:label_work_package_plural)
-    end
-
-    def headers
-      columns.map(&:caption)
-    end
-
-    def xls_export_filename
-      sane_filename(
-        "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
-        #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
-      )
     end
   end
 

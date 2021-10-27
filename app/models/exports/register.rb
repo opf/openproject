@@ -42,7 +42,7 @@ module Exports
           hash[model_key] = []
         end
 
-        @lists[model.to_s] << exporter
+        @lists[model.to_s] << exporter unless @lists[model.to_s].include?(exporter)
       end
 
       def list_formats(model)
@@ -54,7 +54,7 @@ module Exports
           hash[model_key] = []
         end
 
-        @singles[model.to_s] << exporter
+        @singles[model.to_s] << exporter unless @singles[model.to_s].include?(exporter)
       end
 
       def single_formats(model)

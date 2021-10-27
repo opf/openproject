@@ -37,6 +37,7 @@ module OpenProject::XlsExport
     config.to_prepare do
       ::Exports::Register.register do
         list(::WorkPackage, XlsExport::WorkPackage::Exporter::XLS)
+        list(::Project, XlsExport::Project::Exporter::XLS)
       end
     end
   end
