@@ -33,6 +33,10 @@ module Exports
     class << self
       attr_reader :lists, :singles, :formatters
 
+      def register(&block)
+        instance_exec(&block)
+      end
+
       def list(model, exporter)
         @lists ||= Hash.new do |hash, model_key|
           hash[model_key] = []

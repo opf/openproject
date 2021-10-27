@@ -87,9 +87,9 @@ class WorkPackagesController < ApplicationController
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
-                     .new(user: current_user)
-                     .call(query: @query, mime_type: mime_type, params: params)
-                     .result
+               .new(user: current_user)
+               .call(query: @query, mime_type: mime_type, params: params)
+               .result
 
     if request.headers['Accept']&.include?('application/json')
       render json: { job_id: job_id }
@@ -99,9 +99,17 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_single(mime_type)
-    exporter = WorkPackage::Exporter.for_single(mime_type)
-    exporter.single(work_package, params) do |export|
-      render_export_response export, fallback_path: work_package_path(work_package)
+    exporter = Exports::Register
+                 .single_exporter(WorkPackage, mime_type)
+                 .new(work_package, params)
+
+    exporter.export! do |export|
+      send_data(export.content,
+                type: export.mime_type,
+                filename: export.title)
+    rescue ::Exports::ExportError => e
+      flash[:error] = e.message
+      redirect_back(fallback_location: work_package_path(work_package))
     end
   end
 
@@ -120,24 +128,13 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def render_export_response(export, fallback_path:)
-    if export.error?
-      flash[:error] = export.message
-      redirect_back(fallback_location: fallback_path)
-    else
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
-    end
-  end
-
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
   end
 
   def protect_from_unauthorized_export
     if (supported_list_formats + %w[atom]).include?(params[:format]) &&
-       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -183,19 +180,19 @@ class WorkPackagesController < ApplicationController
 
   def journals
     @journals ||= begin
-      order =
-        if current_user.wants_comments_in_reverse_order?
-          Journal.arel_table['created_at'].desc
-        else
-          Journal.arel_table['created_at'].asc
-        end
+                    order =
+                      if current_user.wants_comments_in_reverse_order?
+                        Journal.arel_table['created_at'].desc
+                      else
+                        Journal.arel_table['created_at'].asc
+                      end
 
-      work_package
-        .journals
-        .changing
-        .includes(:user)
-        .order(order).to_a
-    end
+                    work_package
+                      .journals
+                      .changing
+                      .includes(:user)
+                      .order(order).to_a
+                  end
   end
 
   def index_redirect_path

@@ -43,13 +43,15 @@ See COPYRIGHT and LICENSE files for more details.
 
   <div class="op-modal--body">
     <ul class="op-export-options">
-      <li class="op-export-options--option">
-        <%= link_to url_for(action: 'index', format: 'csv'),
-                    class: 'op-export-options--option-link' do %>
-          <%= op_icon('icon-big icon-export-csv') %>
-          <span class="op-export-options--option-label"><%= t('export.format.csv') %></span>
-        <% end %>
-      </li>
+      <% supported_export_formats.each do |key| %>
+        <li class="op-export-options--option">
+          <%= link_to url_for(action: 'index', format: key),
+                      class: 'op-export-options--option-link' do %>
+            <%= op_icon("icon-big icon-export-#{key}") %>
+            <span class="op-export-options--option-label"><%= t("export.format.#{key}") %></span>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>

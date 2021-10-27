@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::Exports::CleanupOutdatedJob < ApplicationJob
+class Exports::CleanupOutdatedJob < ApplicationJob
   queue_with_priority :low
 
   def self.perform_after_grace
@@ -36,18 +36,8 @@ class WorkPackages::Exports::CleanupOutdatedJob < ApplicationJob
   end
 
   def perform
-    WorkPackages::Export
-      .where(too_old)
+    Export
+      .where('created_at <= ?', Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
       .destroy_all
-  end
-
-  private
-
-  def too_old
-    table = WorkPackages::Export.arel_table
-
-    table[:created_at]
-      .lteq(Time.now - OpenProject::Configuration.attachments_grace_period.minutes)
-      .to_sql
   end
 end

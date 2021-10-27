@@ -56,7 +56,23 @@ class ProjectsController < ApplicationController
     @projects = load_projects query
     @orders = set_sorting query
 
-    render layout: 'no_menu'
+    respond_to do |format|
+      format.html do
+        render layout: 'no_menu'
+      end
+
+      format.any(*supported_export_formats) do
+        export_list(request.format.symbol)
+      end
+
+      format.atom do
+        atom_list
+      end
+    end
+  end
+
+  current_menu_item :index do
+    :list_projects
   end
 
   def new
@@ -70,8 +86,8 @@ class ProjectsController < ApplicationController
   # Delete @project
   def destroy
     service_call = ::Projects::ScheduleDeletionService
-      .new(user: current_user, model: @project)
-      .call
+                     .new(user: current_user, model: @project)
+                     .call
 
     if service_call.success?
       flash[:notice] = I18n.t('projects.delete.scheduled')
@@ -135,7 +151,20 @@ class ProjectsController < ApplicationController
     @query
   end
 
-  protected
+  def export_list(mime_type)
+    job = Projects::ExportJob.perform_later(
+      export: Projects::Export.create,
+      user: current_user,
+      mime_type: mime_type,
+      query: Marshal.dump(@query)
+    )
+
+    if request.headers['Accept']&.include?('application/json')
+      render json: { job_id: job.job_id }
+    else
+      redirect_to job_status_path(job.job_id)
+    end
+  end
 
   def load_projects(query)
     query
@@ -149,4 +178,10 @@ class ProjectsController < ApplicationController
   def set_sorting(query)
     query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
   end
+
+  def supported_export_formats
+    ::Exports::Register.list_formats(Project).map(&:to_s)
+  end
+
+  helper_method :supported_export_formats
 end

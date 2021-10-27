@@ -35,9 +35,9 @@ module OpenProject::XlsExport
     class_inflection_override('xls' => 'XLS')
 
     config.to_prepare do
-      register = ::Exports::Register
-
-      register.list(WorkPackage, XlsExport::WorkPackage::Exporter::XLS)
+      ::Exports::Register.register do
+        list(::WorkPackage, XlsExport::WorkPackage::Exporter::XLS)
+      end
     end
   end
 end

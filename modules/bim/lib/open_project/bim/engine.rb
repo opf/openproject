@@ -209,10 +209,10 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      register = ::Exports::Register
-
-      register.list(WorkPackage, OpenProject::Bim::BcfXml::Exporter)
-      register.formatter(WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail)
+      ::Exports::Register.register do
+        list ::WorkPackage, OpenProject::Bim::BcfXml::Exporter
+        formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
+      end
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn

@@ -28,8 +28,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::Exports
-  register = ::Exports::Register
+require 'spec_helper'
 
-  register.list(Project, Projects::Exports::CSV)
+describe Projects::Exports::CSV, 'integration', type: :model do
+  before do
+    login_as current_user
+  end
+
+  let(:project) { FactoryBot.create(:project) }
+
+  let(:current_user) do
+    FactoryBot.create(:user,
+                      member_in_project: project,
+                      member_with_permissions: %i(view_projects))
+  end
+  let(:query) { Queries::Projects::ProjectQuery.new }
+  let(:instance) do
+    described_class.new(query)
+  end
+
+  it 'performs a successful export' do
+    data = ''
+
+    instance.export! do |result|
+      data = result.content
+    end
+    data = CSV.parse(data)
+
+    expect(data.size).to eq(2)
+    expect(data.last).to eq [project.id.to_s, project.identifier, project.name, '', 'false']
+  end
+
+  context 'with no project visible' do
+    let(:current_user) { User.anonymous }
+
+    it 'does not include the project' do
+      data = ''
+
+      instance.export! do |result|
+        data = result.content
+      end
+      expect(data).not_to include project.identifier
+
+      data = CSV.parse(data)
+      expect(data.size).to eq(1)
+    end
+  end
 end

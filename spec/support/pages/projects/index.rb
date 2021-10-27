@@ -128,6 +128,13 @@ module Pages
         click_button('Show/hide filters')
       end
 
+      def click_more_menu_item(item)
+        page.find('[data-qa-selector="project-more-dropdown-menu"]').click
+        page.within('.menu-drop-down-container') do
+          click_link(item)
+        end
+      end
+
       def click_menu_item_of(title, project)
         activate_menu_of(project) do
           click_link title
