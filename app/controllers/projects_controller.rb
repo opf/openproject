@@ -33,7 +33,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index level_list new]
-  before_action :authorize, only: %i[modules custom_fields copy]
+  before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
 
@@ -81,20 +81,6 @@ class ProjectsController < ApplicationController
     else
       render action: 'identifier'
     end
-  end
-
-  def custom_fields
-    Project.transaction do
-      @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
-      if @project.save
-        flash[:notice] = t(:notice_successful_update)
-      else
-        flash[:error] = t(:notice_project_cannot_update_custom_fields,
-                          errors: @project.errors.full_messages.join(', '))
-        raise ActiveRecord::Rollback
-      end
-    end
-    redirect_to settings_custom_fields_project_path(@project)
   end
 
   def archive

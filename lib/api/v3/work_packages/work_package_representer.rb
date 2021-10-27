@@ -147,7 +147,7 @@ module API
           next if represented.project.nil?
 
           {
-            href: settings_custom_fields_project_path(represented.project.identifier),
+            href: custom_fields_settings_project_path(represented.project.identifier),
             type: 'text/html',
             title: "Custom fields"
           }

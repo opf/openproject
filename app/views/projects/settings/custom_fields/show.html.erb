@@ -43,18 +43,17 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<% if  @wp_custom_fields.any? %>
+<% if @wp_custom_fields.any? %>
   <%= labelled_tabular_form_for @project,
-                                url: { controller: '/projects', action: 'custom_fields', id: @project },
-                                method: :put,
+                                url: custom_fields_settings_project_path(@project),
                                 html: { id: 'modules-form' } do |form| %>
 
-    <%= render  partial: "projects/form/custom_fields",
-                locals: {
-                  project: @project,
-                  form: form,
-                  work_package_custom_fields: @wp_custom_fields
-                } %>
+    <%= render partial: 'form',
+               locals: {
+                 project: @project,
+                 form: form,
+                 work_package_custom_fields: @wp_custom_fields
+               } %>
 
     <div class="generic-table--action-buttons">
       <%= form.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>

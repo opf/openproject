@@ -124,52 +124,6 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  describe 'settings' do
-    describe '#custom_fields' do
-      let(:project) { FactoryBot.create(:project) }
-      let(:custom_field_1) { FactoryBot.create(:work_package_custom_field) }
-      let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
-
-      let(:params) do
-        {
-          id: project.id,
-          project: {
-            work_package_custom_field_ids: [custom_field_1.id, custom_field_2.id]
-          }
-        }
-      end
-
-      let(:request) { put :custom_fields, params: params }
-
-      context 'with valid project' do
-        before do
-          request
-        end
-
-        it { expect(response).to redirect_to(controller: '/project_settings/custom_fields', id: project, action: 'show') }
-
-        it 'sets flash[:notice]' do
-          expect(flash[:notice]).to eql(I18n.t(:notice_successful_update))
-        end
-      end
-
-      context 'with invalid project' do
-        before do
-          allow_any_instance_of(Project).to receive(:save).and_return(false)
-          request
-        end
-
-        it { expect(response).to redirect_to(controller: '/project_settings/custom_fields', id: project, action: 'show') }
-
-        it 'sets flash[:error]' do
-          expect(flash[:error]).to include(
-                                     "You cannot update the project's available custom fields. The project is invalid:"
-                                   )
-        end
-      end
-    end
-  end
-
   describe '#destroy' do
     render_views
 

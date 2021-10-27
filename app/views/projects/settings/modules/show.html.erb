@@ -34,8 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for_contract(@project, @errors) %>
 
 <%= labelled_tabular_form_for @project,
-                              url: modules_settings_project_path(@project),
-                              method: :patch do |form| %>
+                              url: modules_settings_project_path(@project) do |form| %>
 
   <%= render partial: "form",
              locals: { form: form } %>

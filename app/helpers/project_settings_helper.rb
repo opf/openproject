@@ -49,7 +49,7 @@ module ProjectSettingsHelper
       },
       {
         name: 'custom_fields',
-        action: { controller: '/project_settings/custom_fields', action: 'show' },
+        action: { controller: '/projects/settings/custom_fields', action: 'show' },
         label: :label_custom_field_plural
       },
       {

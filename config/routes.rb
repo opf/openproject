@@ -184,7 +184,7 @@ OpenProject::Application.routes.draw do
         namespace 'settings' do
           ProjectSettingsHelper
             .project_settings_tabs
-            .select { |s| %w[modules general types].include?(s[:name]) }
+            .select { |s| %w[modules general types custom_fields].include?(s[:name]) }
             .each do |tab|
             get tab[:name],
                 controller: tab[:name],
@@ -198,7 +198,7 @@ OpenProject::Application.routes.draw do
 
       ProjectSettingsHelper
         .project_settings_tabs
-        .reject { |s| %w[modules general types].include?(s[:name]) }
+        .reject { |s| %w[modules general types custom_fields].include?(s[:name]) }
         .each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",
@@ -216,7 +216,6 @@ OpenProject::Application.routes.draw do
 
       get :copy
 
-      put :custom_fields
       put :archive
       put :unarchive
       patch :types

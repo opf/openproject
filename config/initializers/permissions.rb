@@ -112,6 +112,12 @@ OpenProject::AccessControl.map do |map|
                    },
                    require: :member
 
+    map.permission :select_custom_fields,
+                   {
+                     'projects/settings/custom_fields': %i[show update]
+                   },
+                   require: :member
+
     map.permission :add_subprojects,
                    { projects: %i[new] },
                    require: :member

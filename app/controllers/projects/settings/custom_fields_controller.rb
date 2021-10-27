@@ -28,11 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::CustomFieldsController < ProjectSettingsController
+class Projects::Settings::CustomFieldsController < ProjectSettingsController
   menu_item :settings_custom_fields
 
   def show
-    @wp_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    render template: 'project_settings/custom_fields'
+    @wp_custom_fields = WorkPackageCustomField.order(:position)
+  end
+
+  def update
+    Project.transaction do
+      if update_custom_fields
+        flash[:notice] = t(:notice_successful_update)
+      else
+        flash[:error] = t(:notice_project_cannot_update_custom_fields,
+                          errors: @project.errors.full_messages.join(', '))
+        raise ActiveRecord::Rollback
+      end
+    end
+
+    redirect_to custom_fields_settings_project_path(@project)
+  end
+
+  private
+
+  def update_custom_fields
+    @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
+    @project.save
   end
 end
