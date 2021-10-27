@@ -146,7 +146,7 @@ export class KeyboardShortcutService {
     const rows:HTMLElement[] = Array.from(list.querySelectorAll('tbody > tr'));
     let index:number;
     if (document.activeElement) {
-      index = rows.indexOf(document.activeElement);
+      index = rows.indexOf(document.activeElement as HTMLElement);
       const target = rows[index + offset];
       target?.focus();
     }
