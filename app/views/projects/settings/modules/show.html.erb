@@ -34,10 +34,10 @@ See COPYRIGHT and LICENSE files for more details.
 <%= error_messages_for_contract(@project, @errors) %>
 
 <%= labelled_tabular_form_for @project,
-                              url: settings_modules_project_path(@project),
+                              url: modules_settings_project_path(@project),
                               method: :patch do |form| %>
 
-  <%= render partial: "/projects/form/modules",
+  <%= render partial: "form",
              locals: { form: form } %>
 
   <p><%= form.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %></p>

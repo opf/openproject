@@ -47,7 +47,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :manage_user,
                    {
                      users: %i[index show new create edit update resend_invitation],
-                     "users/memberships": %i[create update destroy],
+                     'users/memberships': %i[create update destroy],
                      admin: %i[index]
                    },
                    require: :loggedin,
@@ -57,7 +57,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :manage_placeholder_user,
                    {
                      placeholder_users: %i[index show new create edit update deletion_info destroy],
-                     "placeholder_users/memberships": %i[create update destroy],
+                     'placeholder_users/memberships': %i[create update destroy],
                      admin: %i[index]
                    },
                    require: :loggedin,
@@ -85,7 +85,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :select_project_modules,
                    {
                      projects: :modules,
-                     'project_settings/modules': %i[show update]
+                     'projects/settings/modules': %i[show update]
                    },
                    require: :member,
                    dependencies: :edit_project

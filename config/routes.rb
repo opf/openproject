@@ -180,9 +180,26 @@ OpenProject::Application.routes.draw do
       scope module: 'projects' do
         post :templated, controller: 'templated', action: :create
         delete :templated, controller: 'templated', action: :destroy
+
+        namespace 'settings' do
+          ProjectSettingsHelper
+            .project_settings_tabs
+            .select { |s| s[:name] == 'modules' }
+            .each do |tab|
+            get tab[:name],
+                controller: tab[:name],
+                action: :show
+            patch tab[:name],
+                  controller: tab[:name],
+                  action: :update
+          end
+        end
       end
 
-      ProjectSettingsHelper.project_settings_tabs.each do |tab|
+      ProjectSettingsHelper
+        .project_settings_tabs
+        .reject { |s| s[:name] == 'modules' }
+        .each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",
             action: :show,

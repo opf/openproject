@@ -28,12 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::ModulesController < ProjectSettingsController
+class Projects::Settings::ModulesController < ProjectSettingsController
   menu_item :settings_modules
-
-  def show
-    render template: 'project_settings/modules'
-  end
 
   def update
     call = Projects::EnabledModulesService
@@ -43,10 +39,10 @@ class ProjectSettings::ModulesController < ProjectSettingsController
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
 
-      redirect_to settings_modules_project_path(@project)
+      redirect_to modules_settings_project_path(@project)
     else
       @errors = call.errors
-      render 'project_settings/modules'
+      render 'show'
     end
   end
 end
