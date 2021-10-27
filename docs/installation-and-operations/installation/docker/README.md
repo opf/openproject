@@ -428,7 +428,7 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 
 ##### Attachments
 
-**NFS**
+###### NFS
 
 If you are using NFS to share attachments use a mounted docker volume to share the attachments folder.
 
@@ -453,23 +453,41 @@ You can either change this to a path in your mounted NFS folder or just create a
 ln -s /mnt/openproject/assets /var/openproject/assets
 ```
 
-**S3**
+###### AWS S3
 
-If you want to use S3 you will have to add the respective configuration to the `stack.yml`'s environment section for the `app`.
+If you want to use S3 you will need to add the following configuration to the `app` section of `stack.yml`.
 
-```
+```yaml
 x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    # ...
-    # ADD THIS FOR S3 attachments substituting the respective credentials:
-    - "OPENPROJECT_ATTACHMENTS__STORAGE=fog"
-    - "OPENPROJECT_FOG_DIRECTORY="<bucket-name>"
-    - "OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS"
-    - "OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID=<access-key-id>"
-    - "OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY=<secret-access-key>"
-    - "OPENPROJECT_FOG_CREDENTIALS_REGION=us-east-1"
+    ...
+    OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
+    OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
+    OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "AWS"
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_REGION: "«us-east-1»" # Must be the region that you created your bucket in
+```
+
+###### MinIO S3
+
+If you want to use MinIO as a self-hosted S3-compliant storage backend you will need to add the following configuration to the `app` section of `stack.yml`.
+
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    ...
+    OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
+    OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
+    OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "aws" # Minio is S3 compliant, so we can use the AWS provider
+    OPENPROJECT_FOG_CREDENTIALS_ENDPOINT: "«https://minio-host.domain.tld»" # URI for your MinIO instance
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_PATH__STYLE: "true"
 ```
 
 ##### Database
