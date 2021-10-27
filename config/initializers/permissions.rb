@@ -87,8 +87,7 @@ OpenProject::AccessControl.map do |map|
                      projects: :modules,
                      'projects/settings/modules': %i[show update]
                    },
-                   require: :member,
-                   dependencies: :edit_project
+                   require: :member
 
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
