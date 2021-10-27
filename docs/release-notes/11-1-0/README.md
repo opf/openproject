@@ -1,7 +1,7 @@
 ---
 title: OpenProject 11.1.0
 sidebar_navigation:
-title: 11.1.0
+    title: 11.1.0
 release_version: 11.1.0
 release_date: 2020-12-17
 ---

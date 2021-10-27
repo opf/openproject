@@ -100,7 +100,7 @@ In order to view the work packages of the parent project as well as the subproje
 
 
 
-To view all work packages across all projects, please refer to the [global work package list](../projects/#global-work-packages-list).
+To view all work packages across all projects, please refer to the [global work package list](../../projects/#global-work-packages-list).
 
 ### Filtering by ID or work package name
 
