@@ -31,13 +31,7 @@ class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-
-  attr_accessor :comment
-
-  validates_length_of :comment, maximum: 255, allow_nil: true
-
-  before_save :comment_to_journal_notes
+  belongs_to :author, class_name: 'User'
 
   acts_as_attachable(
     after_remove: :attachments_changed,
@@ -77,13 +71,5 @@ class MeetingContent < ApplicationRecord
   end
 
   # Show the project on activity and search views
-  def project
-    meeting.project
-  end
-
-  private
-
-  def comment_to_journal_notes
-    add_journal(author, comment) unless changes.empty?
-  end
+  delegate :project, to: :meeting
 end

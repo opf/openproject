@@ -72,6 +72,6 @@ class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
   end
 
   def content_attribute?(name)
-    WikiContent.column_names.include?(name) || name.to_s == 'comments'
+    WikiContent.column_names.include?(name) || name.to_s == 'journal_notes'
   end
 end

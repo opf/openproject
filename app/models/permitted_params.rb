@@ -601,9 +601,9 @@ class PermittedParams
           redirect_existing_links
         ),
         wiki_content: %i(
-          comments
           text
           lock_version
+          journal_notes
         ),
         move_to: [:move_to]
       }

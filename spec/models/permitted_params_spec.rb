@@ -890,7 +890,7 @@ describe PermittedParams, type: :model do
     let (:attribute) { :wiki_content }
 
     describe 'title' do
-      let(:hash) { { 'comments' => 'blubs' } }
+      let(:hash) { { 'journal_notes' => 'blubs' } }
 
       it_behaves_like 'allows params'
     end

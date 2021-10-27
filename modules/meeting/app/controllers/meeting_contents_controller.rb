@@ -138,6 +138,6 @@ class MeetingContentsController < ApplicationController
   end
 
   def content_params
-    params.require(@content_type).permit(:text, :lock_version, :comment)
+    params.require(@content_type).permit(:text, :lock_version, :journal_notes)
   end
 end
