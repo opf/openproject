@@ -199,7 +199,6 @@ OpenProject::Application.routes.draw do
 
       get :copy
 
-      put :modules
       put :custom_fields
       put :archive
       put :unarchive

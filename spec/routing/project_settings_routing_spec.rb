@@ -43,6 +43,13 @@ describe ProjectSettingsController, type: :routing do
     end
 
     it do
+      expect(patch('/projects/123/settings/modules'))
+        .to route_to(
+          controller: 'project_settings/modules', action: 'update', id: '123'
+        )
+    end
+
+    it do
       expect(get('/projects/123/settings/custom_fields')).to route_to(
         controller: 'project_settings/custom_fields', action: 'show', id: '123'
       )

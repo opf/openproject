@@ -83,7 +83,10 @@ OpenProject::AccessControl.map do |map|
                    contract_actions: { projects: %i[update] }
 
     map.permission :select_project_modules,
-                   { projects: :modules },
+                   {
+                     projects: :modules,
+                     'project_settings/modules': %i[show update]
+                   },
                    require: :member,
                    dependencies: :edit_project
 

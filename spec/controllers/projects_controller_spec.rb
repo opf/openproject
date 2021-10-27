@@ -213,18 +213,6 @@ describe ProjectsController, type: :controller do
   describe 'with an existing project' do
     let(:project) { FactoryBot.create :project, identifier: 'blog' }
 
-    it 'should modules' do
-      project.enabled_module_names = %w[work_package_tracking news]
-      put :modules, params: {
-        id: project.id,
-        project: {
-          enabled_module_names: %w[work_package_tracking repository]
-        }
-      }
-      expect(response).to redirect_to '/projects/blog/settings/modules'
-      expect(project.reload.enabled_module_names.sort).to eq %w[repository work_package_tracking]
-    end
-
     it 'should get destroy info' do
       get :destroy_info, params: { id: project.id }
       expect(response).to be_successful

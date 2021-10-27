@@ -83,21 +83,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def modules
-    call = Projects::EnabledModulesService
-           .new(model: @project, user: current_user)
-           .call(enabled_modules: permitted_params.project[:enabled_module_names])
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-
-      redirect_to settings_modules_project_path(@project)
-    else
-      @errors = call.errors
-      render 'project_settings/modules'
-    end
-  end
-
   def custom_fields
     Project.transaction do
       @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]

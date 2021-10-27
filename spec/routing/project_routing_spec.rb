@@ -97,12 +97,6 @@ describe ProjectsController, type: :routing do
 
   describe 'miscellaneous' do
     it do
-      expect(put('projects/123/modules')).to route_to(
-        controller: 'projects', action: 'modules', id: '123'
-      )
-    end
-
-    it do
       expect(put('projects/123/custom_fields')).to route_to(
         controller: 'projects', action: 'custom_fields', id: '123'
       )
