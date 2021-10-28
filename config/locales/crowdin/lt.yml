@@ -309,10 +309,10 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     x_descendants:
-      one: 'Vienas pasekėjas darbo paketas'
-      few: '%{count} pasekėjai darbo paketai'
-      many: '%{count} pasekėjų darbo paketų'
-      other: '%{count} pasekėjų darbo paketų'
+      one: 'Vieno pasekėjo darbo paketas'
+      few: '%{count} darbo paketo pasekėjai'
+      many: '%{count} darbo paketo pasekėjų'
+      other: '%{count} darbo paketo pasekėjas'
     bulk:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
     move:
