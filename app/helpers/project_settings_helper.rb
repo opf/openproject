@@ -54,7 +54,7 @@ module ProjectSettingsHelper
       },
       {
         name: 'versions',
-        action: { controller: '/project_settings/versions', action: 'show' },
+        action: { controller: '/projects/settings/versions', action: 'show' },
         label: :label_version_plural
       },
       {

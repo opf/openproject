@@ -171,8 +171,8 @@ OpenProject::Application.routes.draw do
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
   scope ':object_type/:object_id', constraints: OpenProject::Acts::Watchable::Routes do
-    match '/watch' => 'watchers#watch', via: :post
-    match '/unwatch' => 'watchers#unwatch', via: :delete
+    post '/watch' => 'watchers#watch'
+    delete '/unwatch' => 'watchers#unwatch'
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -184,7 +184,7 @@ OpenProject::Application.routes.draw do
         namespace 'settings' do
           ProjectSettingsHelper
             .project_settings_tabs
-            .select { |s| %w[modules general types custom_fields].include?(s[:name]) }
+            .select { |s| %w[modules general types custom_fields versions].include?(s[:name]) }
             .each do |tab|
             get tab[:name],
                 controller: tab[:name],
@@ -198,7 +198,7 @@ OpenProject::Application.routes.draw do
 
       ProjectSettingsHelper
         .project_settings_tabs
-        .reject { |s| %w[modules general types custom_fields].include?(s[:name]) }
+        .reject { |s| %w[modules general types custom_fields versions].include?(s[:name]) }
         .each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",
@@ -239,7 +239,7 @@ OpenProject::Application.routes.draw do
     # this is only another name for versions#index
     # For nice "road in the url for the index action
     # this could probably be rewritten with a resource as: 'roadmap'
-    match '/roadmap' => 'versions#index', via: :get
+    get '/roadmap' => 'versions#index'
 
     resources :news, only: %i[index new create]
 

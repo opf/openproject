@@ -101,7 +101,7 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_versions,
                    {
-                     'project_settings/versions': [:show],
+                     'projects/settings/versions': [:show],
                      versions: %i[new create edit update close_completed destroy]
                    },
                    require: :member

@@ -28,12 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::VersionsController < ProjectSettingsController
+class Projects::Settings::VersionsController < ProjectSettingsController
   menu_item :settings_versions
 
   def show
     @versions = @project.shared_versions.order_by_semver_name
-
-    render template: 'project_settings/versions'
   end
 end

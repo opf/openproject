@@ -68,7 +68,7 @@ describe ProjectSettingsController, type: :routing do
     it do
       expect(get('/projects/123/settings/versions'))
         .to route_to(
-          controller: 'project_settings/versions', action: 'show', id: '123'
+          controller: 'projects/settings/versions', action: 'show', id: '123'
         )
     end
 

@@ -43,7 +43,7 @@ describe 'menu permissions', type: :feature, js: true do
       login_as(admin)
 
       # Allowed to see the settings version page
-      visit settings_versions_project_path(project)
+      visit versions_settings_project_path(project)
     end
 
     it 'I can see all menu entries' do
@@ -67,7 +67,7 @@ describe 'menu permissions', type: :feature, js: true do
       login_as(user)
 
       # Allowed to see the settings version page
-      visit settings_versions_project_path(project)
+      visit versions_settings_project_path(project)
     end
 
     it 'I can only see the version settings page' do
@@ -82,7 +82,7 @@ describe 'menu permissions', type: :feature, js: true do
 
       # Clicking the menu parent item leads to the version page
       find('.main-menu--parent-node', text: 'Project settings').click
-      expect(page).to have_current_path(settings_versions_project_path(project))
+      expect(page).to have_current_path(versions_settings_project_path(project))
     end
   end
 end

@@ -228,7 +228,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.add_list_with_new_value 'Completely new version'
       board_page.expect_list 'Completely new version'
 
-      visit settings_versions_project_path(project)
+      visit versions_settings_project_path(project)
       expect(page).to have_content 'Completely new version'
       expect(page).to have_content 'Closed version'
 
