@@ -50,9 +50,7 @@ export class BcfViewpointPaths extends BcfResourcePath {
     return this.bcfViewpointsService
       .request('delete', this.toPath(), {}, headers)
       .pipe(
-        map(() => {
-          // no expected response payload after delete
-        }),
+        map(() => { }),
       );
   }
 }

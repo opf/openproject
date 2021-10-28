@@ -41,6 +41,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IfcProjectDefinition } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { BIMViewer } from '@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -226,8 +227,7 @@ export class IFCViewerService extends ViewerBridgeService {
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        idFromLink(workPackage.project.href),
+        idFromLink((workPackage.project as HalResource).href),
         workPackage.id,
         index,
       );

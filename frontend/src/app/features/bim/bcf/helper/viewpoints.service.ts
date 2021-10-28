@@ -50,8 +50,7 @@ export class ViewpointsService {
 
   @InjectField() apiV3Service:APIV3Service;
 
-  constructor(readonly injector:Injector) {
-  }
+  constructor(readonly injector:Injector) { }
 
   public getViewPointResource(workPackage:WorkPackageResource, index:number):BcfViewpointPaths {
     const viewpointHref = (workPackage.bcfViewpoints as HalResource[])[index].href as string;
