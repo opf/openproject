@@ -139,7 +139,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     readonly cdRef:ChangeDetectorRef,
     readonly transitions:TransitionService,
     readonly boardFilters:BoardFiltersService,
-    readonly notifications:ToastService,
+    readonly toastService:ToastService,
     readonly querySpace:IsolatedQuerySpace,
     readonly halNotification:HalResourceNotificationService,
     readonly halEvents:HalEventsService,
@@ -296,7 +296,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe(
         () => {
           this.inFlight = false;
-          this.notifications.addSuccess(this.text.updateSuccessful);
+          this.toastService.addSuccess(this.text.updateSuccessful);
         },
         (_error) => this.inFlight = false,
       );

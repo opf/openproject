@@ -75,7 +75,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   constructor(readonly I18n:I18nService,
     readonly state:StateService,
-    readonly notifications:ToastService,
+    readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly boardComponent:BoardPartitionedPageComponent,
     readonly BoardList:BoardListsService,
@@ -179,7 +179,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   private showError(text = this.text.loadingError) {
-    this.notifications.addError(text);
+    this.toastService.addError(text);
   }
 
   private requestRefreshOfUpdatedLists(queries:QueryResource[]) {

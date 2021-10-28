@@ -18,7 +18,7 @@ export class BoardListsService {
     private readonly pathHelper:PathHelperService,
     private readonly apiV3Service:APIV3Service,
     private readonly halResourceService:HalResourceService,
-    private readonly notifications:ToastService,
+    private readonly toastService:ToastService,
     private readonly I18n:I18nService) {
 
   }
@@ -88,7 +88,7 @@ export class BoardListsService {
       const resource = this.halResourceService.createHalResourceOfClass(GridWidgetResource, source);
       board.addQuery(resource);
     } catch (e) {
-      this.notifications.addError(e);
+      this.toastService.addError(e);
       console.error(e);
     }
     return board;

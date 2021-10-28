@@ -59,7 +59,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   constructor(private readonly boardService:BoardService,
     private readonly apiV3Service:APIV3Service,
     private readonly I18n:I18nService,
-    private readonly notifications:ToastService,
+    private readonly toastService:ToastService,
     private readonly opModalService:OpModalService,
     private readonly loadingIndicatorService:LoadingIndicatorService,
     private readonly authorisationService:AuthorisationService,
@@ -94,9 +94,9 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     this.boardService
       .delete(board)
       .then(() => {
-        this.notifications.addSuccess(this.text.deleteSuccessful);
+        this.toastService.addSuccess(this.text.deleteSuccessful);
       })
-      .catch((error) => this.notifications.addError(`Deletion failed: ${error}`));
+      .catch((error) => this.toastService.addError(`Deletion failed: ${error}`));
   }
 
   public showBoardIndexView() {

@@ -141,7 +141,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly cdRef:ChangeDetectorRef,
     readonly $transitions:TransitionService,
     readonly state:StateService,
-    readonly notifications:ToastService,
+    readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
@@ -158,7 +158,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       .observe(componentDestroyed(this))
       .subscribe(
         () => {
-          this.notifications.addSuccess(this.text.updateSuccessful);
+          this.toastService.addSuccess(this.text.updateSuccessful);
         },
         (error:unknown) => this.halNotification.handleRawError(error),
       );

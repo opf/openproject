@@ -34,7 +34,7 @@ export class ProjectsResourceService {
   constructor(
     private http:HttpClient,
     private apiV3Service:APIV3Service,
-    private notifications:ToastService,
+    private toastService:ToastService,
   ) {
   }
 
@@ -61,7 +61,7 @@ export class ProjectsResourceService {
           });
         }),
         catchError((error) => {
-          this.notifications.addError(error);
+          this.toastService.addError(error);
           throw error;
         }),
       );

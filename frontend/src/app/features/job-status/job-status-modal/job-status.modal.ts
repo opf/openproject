@@ -72,7 +72,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:APIV3Service,
     readonly loadingIndicator:LoadingIndicatorService,
-    readonly notifications:ToastService,
+    readonly toastService:ToastService,
     readonly httpClient:HttpClient) {
     super(locals, cdRef, elementRef);
 
@@ -186,7 +186,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
 
     this.statusIcon = 'icon-error';
     this.message = error?.message || this.I18n.t('js.error.internal');
-    this.notifications.addError(this.message);
+    this.toastService.addError(this.message);
   }
 
   private get jobUrl():string {

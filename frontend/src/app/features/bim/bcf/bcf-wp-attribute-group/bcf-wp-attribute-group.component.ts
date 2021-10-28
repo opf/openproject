@@ -119,7 +119,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     readonly viewerBridge:ViewerBridgeService,
     readonly apiV3Service:APIV3Service,
     readonly wpCreate:WorkPackageCreateService,
-    readonly notifications:ToastService,
+    readonly toastService:ToastService,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly viewpointsService:ViewpointsService) {
@@ -189,7 +189,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     this.viewpointsService
       .deleteViewPoint$(workPackage, index)
       .subscribe((data) => {
-        this.notifications.addSuccess(this.text.notice_successful_delete);
+        this.toastService.addSuccess(this.text.notice_successful_delete);
         this.gallery.preview.close();
       });
   }
@@ -198,7 +198,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
     this.viewpointsService
       .saveViewpoint$(workPackage)
       .subscribe((viewpoint) => {
-        this.notifications.addSuccess(this.text.notice_successful_create);
+        this.toastService.addSuccess(this.text.notice_successful_create);
         this.showIndex = this.viewpoints.length;
       });
   }
