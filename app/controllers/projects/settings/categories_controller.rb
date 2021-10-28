@@ -28,10 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::CategoriesController < ProjectSettingsController
+class Projects::Settings::CategoriesController < ProjectSettingsController
   menu_item :settings_categories
-
-  def show
-    render template: 'project_settings/categories'
-  end
 end

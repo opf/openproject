@@ -177,7 +177,7 @@ OpenProject::AccessControl.map do |map|
     # WorkPackage categories
     wpt.permission :manage_categories,
                    {
-                     "project_settings/categories": [:show],
+                     'projects/settings/categories': [:show],
                      categories: %i[new create edit update destroy]
                    },
                    require: :member

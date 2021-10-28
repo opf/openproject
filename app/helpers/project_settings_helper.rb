@@ -59,7 +59,7 @@ module ProjectSettingsHelper
       },
       {
         name: 'categories',
-        action: { controller: '/project_settings/categories', action: 'show' },
+        action: { controller: '/projects/settings/categories', action: 'show' },
         label: :label_work_package_category_plural,
         last: true
       },
