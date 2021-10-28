@@ -114,7 +114,6 @@ describe 'Meetings new', type: :feature do
 
       new_page = index_page.click_create_new
 
-      byebug
       new_page.set_title 'Some title'
 
       show_page = new_page.click_create
