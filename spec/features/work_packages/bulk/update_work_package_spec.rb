@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'features/page_objects/toast'
+require 'features/page_objects/notification'
 
 describe 'Bulk update work packages through Rails view', js: true do
   let(:dev_role) do
