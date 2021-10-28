@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
-require 'features/page_objects/toaster'
+require 'features/page_objects/toast'
 
 describe 'new work package', js: true do
   let(:type_task) { FactoryBot.create(:type_task) }
