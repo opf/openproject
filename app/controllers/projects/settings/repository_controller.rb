@@ -28,12 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::RepositoryController < ProjectSettingsController
+class Projects::Settings::RepositoryController < ProjectSettingsController
   menu_item :settings_repository
 
   def show
     @repository = @project.repository || new_repository
-    render template: 'repositories/project_settings'
   end
 
   private

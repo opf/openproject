@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%# Show (selected) type options %>
   <% unless @repository.nil? %>
-      <%= render partial: "/repositories/settings/vendor_form",
+      <%= render partial: "projects/settings/repository/vendor_form",
                  locals: { form: f, repository: @repository } %>
   <% end %>
 
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <%# Hide the save button for existing managed repositories %>
   <% if show_settings_save_button?(@repository) %>
-    <%= render partial: "/repositories/settings/submit",
+    <%= render partial: "projects/settings/repository/submit",
                locals: { form: f, is_creation_form: is_creation_form, project: @project } %>
   <% end %>
 </fieldset>

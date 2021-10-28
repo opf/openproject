@@ -76,7 +76,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to(controller: '/projects/settings/repository', id: project.identifier, action: 'show')
       end
     end
 
@@ -86,7 +86,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to(controller: '/projects/settings/repository', id: project.identifier, action: 'show')
       end
     end
 
@@ -102,7 +102,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to(controller: '/projects/settings/repository', id: project.identifier, action: 'show')
       end
     end
   end

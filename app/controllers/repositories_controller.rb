@@ -58,7 +58,7 @@ class RepositoriesController < ApplicationController
     @repository = @project.repository
     update_repository(params.fetch(:repository, {}))
 
-    redirect_to helpers.settings_repository_tab_path
+    redirect_to repository_settings_project_path(@project)
   end
 
   def create
@@ -71,7 +71,7 @@ class RepositoriesController < ApplicationController
       flash[:error] = service.build_error
     end
 
-    redirect_to helpers.settings_repository_tab_path
+    redirect_to repository_settings_project_path(@project)
   end
 
   def committers
@@ -95,7 +95,7 @@ class RepositoriesController < ApplicationController
 
   def destroy_info
     @repository = @project.repository
-    @back_link = helpers.settings_repository_tab_path
+    repository_settings_project_path(@project)
   end
 
   def destroy
@@ -105,7 +105,7 @@ class RepositoriesController < ApplicationController
     else
       flash[:error] = repository.errors.full_messages
     end
-    redirect_to helpers.settings_repository_tab_path
+    redirect_to repository_settings_project_path(@project)
   end
 
   def show

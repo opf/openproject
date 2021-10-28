@@ -65,7 +65,7 @@ module ProjectSettingsHelper
       },
       {
         name: 'repository',
-        action: { controller: '/project_settings/repository', action: 'show' },
+        action: { controller: '/projects/settings/repository', action: 'show' },
         label: :label_repository
       },
       {

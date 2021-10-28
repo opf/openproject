@@ -303,7 +303,7 @@ OpenProject::AccessControl.map do |map|
     repo.permission :manage_repository,
                     {
                       repositories: %i[edit create update committers destroy_info destroy],
-                      'project_settings/repository': :show
+                      'projects/settings/repository': :show
                     },
                     require: :member
 
