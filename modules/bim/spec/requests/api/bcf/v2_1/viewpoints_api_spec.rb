@@ -267,6 +267,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
         params
           .merge(guid: new_viewpoint.uuid)
+          .merge("snapshot" => { "snapshot_type" => "png" })
       end
 
       let(:expected_status) { 201 }
@@ -274,10 +275,10 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
     it 'creates the viewpoint with an attachment for the snapshot' do
       expect(Bim::Bcf::Viewpoint.count)
-        .to eql 2
+        .to be 2
 
       expect(Bim::Bcf::Viewpoint.last.attachments.count)
-        .to eql 1
+        .to be 1
     end
 
     context 'lacking permission to see project' do
@@ -331,7 +332,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
 
       it 'creates the viewpoint with an attachment for the snapshot' do
         expect(Bim::Bcf::Viewpoint.count)
-          .to eql 2
+          .to be 2
       end
     end
 
