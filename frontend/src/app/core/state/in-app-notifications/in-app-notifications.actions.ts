@@ -21,5 +21,5 @@ export const notificationCountIncreased = action(
 
 export const centerUpdatedInPlace = action(
   '[IAN] The notification center updated the notification list without a full page refresh',
-  props<{ origin:string  }>(),
+  props<{ origin:string }>(),
 );
