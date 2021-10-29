@@ -39,9 +39,7 @@ class ProjectsController < ApplicationController
 
   include SortHelper
   include PaginationHelper
-  include CustomFieldsHelper
   include QueriesHelper
-  include RepositoriesHelper
   include ProjectsHelper
 
   current_menu_item :index do
