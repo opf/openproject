@@ -42,6 +42,6 @@ class Projects::Settings::TypesController < ProjectSettingsController
       flash[:error] = @project.errors.full_messages
     end
 
-    redirect_to types_settings_project_path(@project.identifier)
+    redirect_to project_settings_types_path(@project.identifier)
   end
 end

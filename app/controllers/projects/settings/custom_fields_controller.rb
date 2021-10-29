@@ -46,7 +46,7 @@ class Projects::Settings::CustomFieldsController < ProjectSettingsController
       end
     end
 
-    redirect_to custom_fields_settings_project_path(@project)
+    redirect_to project_settings_custom_fields_path(@project)
   end
 
   private

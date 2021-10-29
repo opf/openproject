@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'projects/settings/form_toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
 <% end %>
 
-<%= styled_form_tag(backlogs_settings_project_path(@project),
+<%= styled_form_tag(project_settings_backlogs_path(@project),
                     method: :patch,
                     id: "edit_project_#{@project.id}") do %>
 

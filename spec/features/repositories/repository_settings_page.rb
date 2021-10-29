@@ -35,6 +35,6 @@ class RepositorySettingsPage
   end
 
   def visit_repository_settings
-    visit repository_settings_project_path(@project.id)
+    visit project_settings_repository_path(@project.id)
   end
 end

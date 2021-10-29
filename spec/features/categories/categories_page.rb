@@ -35,6 +35,6 @@ class CategoriesPage
   end
 
   def visit_settings
-    visit(categories_settings_project_path(@project))
+    visit(project_settings_categories_path(@project))
   end
 end

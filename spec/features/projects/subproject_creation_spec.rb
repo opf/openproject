@@ -49,7 +49,7 @@ describe 'Subproject creation', type: :feature, js: true do
   end
 
   before do
-    visit general_settings_project_path(parent_project)
+    visit project_settings_general_path(parent_project)
   end
 
   it 'can create a subproject' do

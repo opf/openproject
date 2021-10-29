@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if @wp_custom_fields.any? %>
   <%= labelled_tabular_form_for @project,
-                                url: custom_fields_settings_project_path(@project),
+                                url: project_settings_custom_fields_path(@project),
                                 html: { id: 'modules-form' } do |form| %>
 
     <%= render partial: 'form',

@@ -480,12 +480,20 @@ Redmine::MenuManager.map :project_menu do |menu|
             icon: 'icon2 icon-settings2',
             allow_deeplink: true
 
-  ProjectSettingsHelper.project_settings_tabs.each do |node|
-    menu.push :"settings_#{node[:name]}",
-              node[:action],
-              caption: node[:label],
-              parent: :settings,
-              last: node[:last],
-              if: node[:if]
+  {
+    general: :label_information_plural,
+    modules: :label_module_plural,
+    types: :label_work_package_types,
+    custom_fields: :label_custom_field_plural,
+    versions: :label_version_plural,
+    categories: :label_work_package_category_plural,
+    repository: :label_repository,
+    time_entry_activities: :enumeration_activities,
+    storage: :label_required_disk_storage
+  }.each do |key, caption|
+    menu.push :"settings_#{key}",
+              { controller: "/projects/settings/#{key}", action: 'show' },
+              caption: caption,
+              parent: :settings
   end
 end

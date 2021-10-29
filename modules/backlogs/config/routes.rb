@@ -55,8 +55,17 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  scope 'projects/:project_id', as: 'project', module: 'projects' do
+    namespace 'settings' do
+      resource :backlogs, only: %i[show update] do
+        member do
+          post 'rebuild_positions' => 'backlogs#rebuild_positions'
+        end
+      end
+    end
+  end
+
   get 'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post 'projects/:id/settings/rebuild_positions' => 'projects/settings/backlogs#rebuild_positions'
 
   scope 'admin' do
     resource :backlogs,

@@ -176,25 +176,22 @@ OpenProject::Application.routes.draw do
   end
 
   resources :projects, except: %i[show edit create update] do
-    member do
-      scope module: 'projects' do
-        post :templated, controller: 'templated', action: :create
-        delete :templated, controller: 'templated', action: :destroy
-
-        namespace 'settings' do
-          ProjectSettingsHelper
-            .project_settings_tabs
-            .each do |tab|
-            get tab[:name],
-                controller: tab[:name],
-                action: :show
-            patch tab[:name],
-                  controller: tab[:name],
-                  action: :update
-          end
-        end
+    scope module: 'projects' do
+      namespace 'settings' do
+        resource :general, only: %i[show], controller: 'general'
+        resource :modules, only: %i[show update]
+        resource :types, only: %i[show update]
+        resource :custom_fields, only: %i[show update]
+        resource :repository, only: %i[show], controller: 'repository'
+        resource :versions, only: %i[show]
+        resource :categories, only: %i[show update]
+        resource :storage, only: %i[show], controller: 'storage'
       end
 
+      resource :templated, only: %i[create destroy], controller: 'templated'
+    end
+
+    member do
       get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
 
       get 'identifier', action: 'identifier'

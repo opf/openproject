@@ -35,6 +35,12 @@ OpenProject::Application.routes.draw do
     end
   end
 
+  scope 'projects/:project_id', as: 'project', module: 'projects' do
+    namespace 'settings' do
+      resource :time_entry_activities, only: %i[show update]
+    end
+  end
+
   scope 'work_packages/:work_package_id', as: 'work_packages' do
     resources :cost_entries, controller: 'costlog', only: %i[new]
   end

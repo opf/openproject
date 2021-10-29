@@ -97,7 +97,7 @@ module OpenProject::Backlogs
         permission :update_sprints,
                    {
                      rb_sprints: %i[edit update],
-                     rb_wikis: %i[edit update],
+                     rb_wikis: %i[edit update]
                    },
                    require: :member
       end
@@ -109,6 +109,13 @@ module OpenProject::Backlogs
            before: :calendar,
            param: :project_id,
            icon: 'icon2 icon-backlogs'
+
+      menu :project_menu,
+           :settings_backlogs,
+           { controller: '/projects/settings/backlogs', action: :show },
+           caption: :label_backlogs,
+           parent: :settings,
+           before: :settings_storage
     end
 
     # We still override version and project settings views from the core! URH

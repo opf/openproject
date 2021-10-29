@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if TimeEntryActivity.any? %>
   <%= labelled_tabular_form_for @project,
-                                url: time_entry_activities_settings_project_path(@project) do %>
+                                url: project_settings_time_entry_activities_path(@project) do %>
 
     <%= render partial: '/projects/settings/time_entry_activities/activities',
                locals: { project: @project } %>

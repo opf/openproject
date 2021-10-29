@@ -197,7 +197,7 @@ describe VersionsController, type: :controller do
         post :create, params: { project_id: project.id, version: { name: 'test_add_version' } }
       end
 
-      it { expect(response).to redirect_to(versions_settings_project_path(project)) }
+      it { expect(response).to redirect_to(project_settings_versions_path(project)) }
 
       it 'generates the new version' do
         version = Version.find_by(name: 'test_add_version')
@@ -231,7 +231,7 @@ describe VersionsController, type: :controller do
       put :close_completed, params: { project_id: project.id }
     end
 
-    it { expect(response).to redirect_to(versions_settings_project_path(project)) }
+    it { expect(response).to redirect_to(project_settings_versions_path(project)) }
     it { expect(Version.find_by(status: 'closed')).to eq(version3) }
   end
 
@@ -251,7 +251,7 @@ describe VersionsController, type: :controller do
         patch :update, params: params
       end
 
-      it { expect(response).to redirect_to(versions_settings_project_path(project)) }
+      it { expect(response).to redirect_to(project_settings_versions_path(project)) }
       it { expect(Version.find_by(name: 'New version name')).to eq(version1) }
       it { expect(version1.reload.effective_date).to eq(Date.today) }
     end
@@ -297,7 +297,7 @@ describe VersionsController, type: :controller do
     end
 
     it 'redirects to projects versions and the version is deleted' do
-      expect(response).to redirect_to(versions_settings_project_path(project))
+      expect(response).to redirect_to(project_settings_versions_path(project))
       expect { Version.find(@deleted) }.to raise_error ActiveRecord::RecordNotFound
     end
   end

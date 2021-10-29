@@ -39,7 +39,7 @@ class Projects::Settings::ModulesController < ProjectSettingsController
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
 
-      redirect_to modules_settings_project_path(@project)
+      redirect_to project_settings_modules_path(@project)
     else
       @errors = call.errors
       render 'show'

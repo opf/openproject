@@ -44,7 +44,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
   end
 
   it 'hides the field whose functionality is presented otherwise' do
-    visit general_settings_project_path(project.id)
+    visit project_settings_general_path(project.id)
 
     expect(page).to have_no_text :all, 'Active'
     expect(page).to have_no_text :all, 'Identifier'
@@ -99,7 +99,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
       project.custom_field_values.last.value = 'FOO'
       project.save!
 
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       expect(page).to have_text 'Optional Foo'
       expect(page).to have_text 'Required Foo'
@@ -118,7 +118,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     let(:foo_field) { ::FormFields::InputFormField.new required_custom_field }
 
     it 'shows the errors of that field when saving (Regression #33766)' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       expect(page).to have_content 'Foo'
 
@@ -141,7 +141,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     let(:form_field) { ::FormFields::SelectFormField.new list_custom_field }
 
     it 'can select multiple values' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       form_field.select_option 'A', 'B'
 
@@ -162,7 +162,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     let(:form_field) { ::FormFields::InputFormField.new date_custom_field }
 
     it 'can save and remove the date (Regression #37459)' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       form_field.set_value '2021-05-26'
       form_field.send_keys :escape
@@ -189,7 +189,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     end
 
     it 'can update the project without destroying the relation to the parent' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       fill_in 'Name', with: 'New project name'
 

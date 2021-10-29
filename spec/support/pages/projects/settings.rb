@@ -93,7 +93,7 @@ module Pages
       end
 
       def path
-        general_settings_project_path(project)
+        project_settings_general_path(project)
       end
     end
   end

@@ -50,7 +50,7 @@ describe 'Time entry activity', type: :feature do
     expect(page)
       .to have_content('A new activity')
 
-    visit general_settings_project_path(project)
+    visit project_settings_general_path(project)
 
     click_on "Time tracking activities"
 

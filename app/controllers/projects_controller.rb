@@ -77,7 +77,7 @@ class ProjectsController < ApplicationController
 
     if service_call.success?
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to general_settings_project_path(@project)
+      redirect_to project_settings_general_path(@project)
     else
       render action: 'identifier'
     end

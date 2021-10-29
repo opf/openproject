@@ -29,7 +29,7 @@
 #++
 
 class Projects::TemplatedController < ApplicationController
-  before_action :find_project
+  before_action :find_project_by_project_id
   before_action :authorize
 
   def create
@@ -50,7 +50,7 @@ class Projects::TemplatedController < ApplicationController
 
     if service_call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to general_settings_project_path(@project)
+      redirect_to project_settings_general_path(@project)
     else
       @errors = service_call.errors
       render template: 'projects/settings/general'

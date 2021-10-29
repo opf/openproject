@@ -73,7 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
                 { repository: @repository, project: @project, repository_empty: empty }) %>
   <% if User.current.allowed_to?(:manage_repository, @project) %>
     <li class="toolbar-item -icon-only">
-      <%= link_to repository_settings_project_path(@project),
+      <%= link_to project_settings_repository_path(@project),
           class: 'button', title: t(:label_setting_plural) do %>
         <%= op_icon('button--icon icon-settings') %>
       <% end %>

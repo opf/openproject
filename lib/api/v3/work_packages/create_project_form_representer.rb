@@ -69,7 +69,7 @@ module API
              current_user_allowed_to(:edit_project,
                                      context: represented.project)
             {
-              href: custom_fields_settings_project_path(represented.project.identifier),
+              href: project_settings_custom_fields_path(represented.project.identifier),
               type: 'text/html',
               title: I18n.t('label_custom_field_plural')
             }

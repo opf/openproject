@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if Type.any? %>
   <%= form_for @project,
-               url: types_settings_project_path(@project),
+               url: project_settings_types_path(@project),
                method: :patch,
                html: { id: 'types-form' } do |f| %>
     <%= render partial: 'form',

@@ -87,7 +87,7 @@ module ProjectsHelper
   def project_more_menu_settings_item(project)
     if User.current.allowed_to?({ controller: '/projects/settings/general', action: 'show' }, project)
       [t(:label_project_settings),
-       general_settings_project_path(project),
+       project_settings_general_path(project),
        { class: 'icon-context icon-settings',
          title: t(:label_project_settings) }]
     end

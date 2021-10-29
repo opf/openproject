@@ -92,7 +92,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
       created_project = Project.last
 
-      visit general_settings_project_path(created_project)
+      visit project_settings_general_path(created_project)
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value 'Overwritten'
@@ -107,7 +107,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let(:editor) { ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
       expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
@@ -156,7 +156,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit general_settings_project_path(project)
+        visit project_settings_general_path(project)
         float_field.expect_value '10000.55'
       end
     end
@@ -181,7 +181,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit general_settings_project_path(project)
+        visit project_settings_general_path(project)
         # The field renders in german locale, but there's no way to test that
         # as the internal value is always english locale
         float_field.expect_value '10000.55'
@@ -195,7 +195,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     end
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit general_settings_project_path(project.id)
+      visit project_settings_general_path(project.id)
       field = page.find(identifier)
       expect(field).not_to be_checked
 

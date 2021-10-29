@@ -64,7 +64,7 @@ class Projects::Settings::BacklogsController < ProjectSettingsController
   private
 
   def redirect_to_backlogs_settings
-    redirect_to backlogs_settings_project_path(@project)
+    redirect_to project_settings_backlogs_path(@project)
   end
 
   def log_rebuild_position_error
