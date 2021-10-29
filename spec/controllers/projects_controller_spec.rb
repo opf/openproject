@@ -174,20 +174,6 @@ describe ProjectsController, type: :controller do
 
       expect { project.reload }.not_to raise_error
     end
-
-    it 'should archive' do
-      put :archive, params: { id: project.id }
-
-      expect(project.reload).to be_archived
-    end
-
-    it 'should unarchive' do
-      project.update(active: false)
-      put :unarchive, params: { id: project.id }
-
-      expect(project.reload).to be_active
-      expect(project).not_to be_archived
-    end
   end
 
   describe '#copy' do

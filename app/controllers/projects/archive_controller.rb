@@ -28,27 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class UnarchiveService < ::BaseServices::BaseContracted
-    include Contracted
-    include Projects::Concerns::UpdateDemoData
+class Projects::ArchiveController < ApplicationController
+  before_action :find_project_by_project_id
+  before_action :require_admin
 
-    def initialize(user:, model:, contract_class: Projects::UnarchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
+  def create
+    change_status_action(:archive)
+  end
+
+  def destroy
+    change_status_action(:unarchive)
+  end
+
+  private
+
+  def change_status_action(status)
+    service_call = change_status(status)
+
+    if service_call.success?
+      redirect_to(project_path_with_status)
+    else
+      flash[:error] = t(:"error_can_not_#{status}_project",
+                        errors: service_call.errors.full_messages.join(', '))
+      redirect_back fallback_location: project_path_with_status
     end
+  end
 
-    private
+  def change_status(status)
+    "Projects::#{status.to_s.camelcase}Service"
+      .constantize
+      .new(user: current_user, model: @project)
+      .call
+  end
 
-    def persist(service_call)
-      activate_project(model)
+  def project_path_with_status
+    acceptable_params = params.permit(:status).to_h.compact.select { |_, v| v.present? }
 
-      service_call
-    end
-
-    def activate_project(project)
-      # We do not care for validations but want the timestamps to be updated
-      project.update_attribute(:active, true)
-    end
+    projects_path(acceptable_params)
   end
 end

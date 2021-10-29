@@ -96,9 +96,9 @@ module ProjectsHelper
   def project_more_menu_archive_item(project)
     if User.current.admin? && project.active?
       [t(:button_archive),
-       archive_project_path(project, status: params[:status]),
+       project_archive_path(project, status: params[:status]),
        { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-         method: :put,
+         method: :post,
          class: 'icon-context icon-locked',
          title: t(:button_archive) }]
     end
@@ -107,8 +107,8 @@ module ProjectsHelper
   def project_more_menu_unarchive_item(project)
     if User.current.admin? && !project.active? && (project.parent.nil? || project.parent.active?)
       [t(:button_unarchive),
-       unarchive_project_path(project, status: params[:status]),
-       { method: :put,
+       project_archive_path(project, status: params[:status]),
+       { method: :delete,
          class: 'icon-context icon-unlocked',
          title: t(:button_unarchive) }]
     end

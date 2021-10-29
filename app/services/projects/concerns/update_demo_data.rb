@@ -28,27 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class UnarchiveService < ::BaseServices::BaseContracted
-    include Contracted
-    include Projects::Concerns::UpdateDemoData
-
-    def initialize(user:, model:, contract_class: Projects::UnarchiveContract)
-      super(user: user, contract_class: contract_class)
-      self.model = model
-    end
-
+module Projects::Concerns
+  module UpdateDemoData
     private
 
-    def persist(service_call)
-      activate_project(model)
+    def after_perform(call)
+      project = call.result
 
-      service_call
-    end
+      # e.g. when one of the demo projects gets deleted or archived
+      if %w[your-scrum-project demo-project].include?(project.identifier)
+        Setting.demo_projects_available = !project.destroyed? && !project.archived?
+      end
 
-    def activate_project(project)
-      # We do not care for validations but want the timestamps to be updated
-      project.update_attribute(:active, true)
+      super
     end
   end
 end

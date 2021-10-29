@@ -55,9 +55,9 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <% if User.current.admin? %>
     <li class="toolbar-item hidden-for-mobile">
-      <%= link_to(archive_project_path(@project, status: '', name: @project.name),
+      <%= link_to(project_archive_path(@project, status: '', name: @project.name),
                   data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
-                  method: :put,
+                  method: :post,
                   title: t(:label_archive_project),
                   class: 'button') do %>
         <%= op_icon('button--icon icon-locked') %>

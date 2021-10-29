@@ -189,6 +189,7 @@ OpenProject::Application.routes.draw do
       end
 
       resource :templated, only: %i[create destroy], controller: 'templated'
+      resource :archive, only: %i[create destroy], controller: 'archive'
     end
 
     member do
@@ -199,8 +200,6 @@ OpenProject::Application.routes.draw do
 
       get :copy
 
-      put :archive
-      put :unarchive
       patch :types
 
       # Destroy uses a get request to prompt the user before the actual DELETE request

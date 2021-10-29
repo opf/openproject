@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
   before_action :find_project, except: %i[index level_list new]
   before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
-  before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
+  before_action :require_admin, only: %i[destroy destroy_info]
 
   include SortHelper
   include PaginationHelper
@@ -83,14 +83,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def archive
-    change_status_action(:archive)
-  end
-
-  def unarchive
-    change_status_action(:unarchive)
-  end
-
   # Delete @project
   def destroy
     service_call = ::Projects::ScheduleDeletionService
@@ -104,7 +96,6 @@ class ProjectsController < ApplicationController
     end
 
     redirect_to project_path_with_status
-    update_demo_project_settings @project, false
   end
 
   def destroy_info
@@ -130,26 +121,6 @@ class ProjectsController < ApplicationController
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def change_status_action(status)
-    service_call = change_status(status)
-
-    if service_call.success?
-      update_demo_project_settings @project, status == :archive
-      redirect_to(project_path_with_status)
-    else
-      flash[:error] = t(:"error_can_not_#{status}_project",
-                        errors: service_call.errors.full_messages.join(', '))
-      redirect_back fallback_location: project_path_with_status
-    end
-  end
-
-  def change_status(status)
-    "Projects::#{status.to_s.camelcase}Service"
-      .constantize
-      .new(user: current_user, model: @project)
-      .call
   end
 
   def redirect_work_packages_or_overview
@@ -193,12 +164,5 @@ class ProjectsController < ApplicationController
 
   def set_sorting(query)
     query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-  end
-
-  def update_demo_project_settings(project, value)
-    # e.g. when one of the demo projects gets deleted or a archived
-    if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
-      Setting.demo_projects_available = value
-    end
   end
 end
