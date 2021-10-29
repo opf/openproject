@@ -63,6 +63,8 @@ nl:
   label_version: "Versie"
   label_time_zone: "Tijdzone"
   label_start_date: "Startdatum"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notificatie succesvol verzonden"
   notice_timezone_missing: Geen tijdzone is ingesteld en %{zone} is aangenomen. Om uw tijdzone te kiezen, klik dan hier.
   permission_create_meetings: "Creëer vergaderingen"

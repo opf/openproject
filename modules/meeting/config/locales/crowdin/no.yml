@@ -63,6 +63,8 @@
   label_version: "Versjon"
   label_time_zone: "Tidssone"
   label_start_date: "Startdato"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"

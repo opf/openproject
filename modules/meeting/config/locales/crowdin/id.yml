@@ -63,6 +63,8 @@ id:
   label_version: "Versi"
   label_time_zone: "Time Zone"
   label_start_date: "Tanggal start"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Berhasil mengirim notifikasi"
   notice_timezone_missing: Tidak ada zona waktu yang ditetapkan sehingga diasumsikan %{zone}. Untuk memilih zona waktu, silakan mengeklik di sini.
   permission_create_meetings: "Membuat rapat"

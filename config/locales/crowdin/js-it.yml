@@ -290,7 +290,7 @@ it:
             current_new_feature_html: >
               Il rilascio contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Nuovo pulsante nella navigazione dell'intestazione per creare progetti, utenti e macro attività.</li> <li>Un nuovo invito per utenti, gruppi e utenti segnaposto che permette di aggiungere o invitare facilmente nuovi utenti e assegnarli a macro attività.</li> <li>Integrazione di GitHub in OpenProject.</li> <li>Estensioni API v3 per gruppi e altro, come creare, leggere, aggiornare ed eliminare i gruppi e i membri del gruppo attraverso le API.</li> <li>Selezione multipla di campi personalizzati di progetto di per il tipo lista.</li> <li>Creazione di backup dall'interfaccia web.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
     label_activate: "Attiva"
@@ -526,21 +526,21 @@ it:
           at_all: 'New notifications will appear here when there is activity that concerns you'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Segna tutti come letti'
-        mark_as_read: 'Mark as read'
-        text_update_date: "%{date} by"
+        mark_as_read: 'Segna come letto'
+        text_update_date: "%{date} da"
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
         empty_state:
           no_notification: "Looks like you're all caught up."
           no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
+          message: 'Ci sono nuove notifiche.'
           link_text: 'Click here to load them'
       menu:
         accountable: 'Responsabile'
         assigned: 'Assigned'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Coinvolgimento'
         inbox: 'Inbox'
         mentioned: '@mentioned'
         watching: 'Watching'
@@ -556,7 +556,7 @@ it:
             title: 'Assigned to me or accountable'
             description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
           watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
+          work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
           work_package_prioritized: 'All priority changes'
@@ -865,7 +865,7 @@ it:
       no_results:
         title: Nessuna macro-attività da visualizzare.
         description: E' possibile che non ne sia stata creata alcuna o che tutte le macro-attività vengano filtrate.
-      limited_results: Solo %{count} macro-attività possono essere visualizzate nella modalità di ordinamento manuale. Riduci i risultati filtrando.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Dettagli"
         people: "Persone"

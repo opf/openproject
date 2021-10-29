@@ -63,6 +63,8 @@ lt:
   label_version: "Versija"
   label_time_zone: "Laiko juosta"
   label_start_date: "Pradžios data"
+  meeting:
+    copied: "Nukopijuota iš susitikimo #%{id}"
   notice_successful_notification: "Pranešimas sėkmingai išsiųstas"
   notice_timezone_missing: Laiko zona nenustatyta ir %{zone} zona yra rekomenduojama. Kad pasirinktumėte laiko zoną, paspauskite čia.
   permission_create_meetings: "Sukurti pasitarimus"

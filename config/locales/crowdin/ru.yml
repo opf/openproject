@@ -297,8 +297,8 @@ ru:
       query_group_placeholder: "Дайте таблице название"
       reset: "Восстановить значения по умолчанию"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Выбранный цвет выделяет разные типы
+        в диаграммах Гантта или таблицах рабочих пакетов. Поэтому рекомендуется использовать сильный цвет.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -705,7 +705,7 @@ ru:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "может быть только допустимым интервалом дат."
             daily_reminders:
               full_hour: "может быть настроен только на доставку в полный час."
         wiki_page:
@@ -1255,7 +1255,7 @@ ru:
   error_no_type_in_project: "Тип не связан с этим проектом. Пожалуйста, проверьте параметры проекта."
   error_omniauth_registration_timed_out: "Время регистрации через провайдера истекло. Пожалуйста, попробуйте еще раз."
   error_omniauth_invalid_auth: "Информация аутентификации, полученная от поставщика идентификационных данных, является недействительной. Пожалуйста, обратитесь к администратору за дальнейшей помощью."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: 'Произошла ошибка при попытке изменить пароль.'
   error_scm_command_failed: "Произошла ошибка при попытке доступа к хранилищу: %{value}"
   error_scm_not_found: "Ни статья, ни ее исправленная версия в репозитории не найдены."
   error_unable_delete_status: "Состояние работы пакета удалить нельзя, так как оно используется по крайней мере одним рабочим пакетом."

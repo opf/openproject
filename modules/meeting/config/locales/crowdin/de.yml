@@ -63,6 +63,8 @@ de:
   label_version: "Version"
   label_time_zone: "Zeitzone"
   label_start_date: "Anfangstermin"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"

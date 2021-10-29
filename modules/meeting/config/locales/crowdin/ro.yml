@@ -63,6 +63,8 @@ ro:
   label_version: "Versiune"
   label_time_zone: "Fus orar"
   label_start_date: "Data de început"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notificare trimisă cu succes"
   notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.
   permission_create_meetings: "Creați întâlniri"

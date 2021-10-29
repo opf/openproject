@@ -63,6 +63,8 @@ ru:
   label_version: "Стадия"
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
+  meeting:
+    copied: "Скопировано со встречи #%{id}"
   notice_successful_notification: "Уведомление успешно отправленно"
   notice_timezone_missing: Не установлен часовой пояс и применена %{zone}. Чтобы выбрать часовой пояс, пожалуйста, нажмите сюда.
   permission_create_meetings: "Создание совещания"
