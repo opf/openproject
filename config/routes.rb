@@ -184,7 +184,7 @@ OpenProject::Application.routes.draw do
         namespace 'settings' do
           ProjectSettingsHelper
             .project_settings_tabs
-            .select { |s| %w[modules general types custom_fields versions categories repository].include?(s[:name]) }
+            .select { |s| %w[modules general types custom_fields versions categories repository time_entry_activities].include?(s[:name]) }
             .each do |tab|
             get tab[:name],
                 controller: tab[:name],
@@ -198,7 +198,7 @@ OpenProject::Application.routes.draw do
 
       ProjectSettingsHelper
         .project_settings_tabs
-        .reject { |s| %w[modules general types custom_fields versions categories repository].include?(s[:name]) }
+        .reject { |s| %w[modules general types custom_fields versions categories repository time_entry_activities].include?(s[:name]) }
         .each do |tab|
         get "settings/#{tab[:name]}",
             controller: "project_settings/#{tab[:name]}",
@@ -227,8 +227,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :level_list
     end
-
-    resource :time_entry_activities, controller: 'projects/time_entry_activities', only: %i[update]
 
     resources :versions, only: %i[new create] do
       collection do

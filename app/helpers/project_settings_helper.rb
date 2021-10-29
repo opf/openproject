@@ -69,8 +69,8 @@ module ProjectSettingsHelper
         label: :label_repository
       },
       {
-        name: 'activities',
-        action: { controller: '/project_settings/activities', action: 'show' },
+        name: 'time_entry_activities',
+        action: { controller: '/projects/settings/time_entry_activities', action: 'show' },
         label: :enumeration_activities
       },
       {

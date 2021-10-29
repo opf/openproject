@@ -87,9 +87,9 @@ describe ProjectSettingsController, type: :routing do
     end
 
     it do
-      expect(get('/projects/123/settings/activities'))
+      expect(get('/projects/123/settings/time_entry_activities'))
         .to route_to(
-          controller: 'project_settings/activities', action: 'show', id: '123'
+          controller: 'projects/settings/time_entry_activities', action: 'show', id: '123'
         )
     end
 

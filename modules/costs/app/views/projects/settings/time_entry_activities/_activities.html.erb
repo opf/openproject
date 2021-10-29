@@ -27,13 +27,23 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="form--field">
-  <%= styled_label_tag 'from_template', t('project.template.use_template') %>
-  <div class="form--field-container">
-    <%= styled_select_tag :from_template,
-                          options_for_select(project_options_for_templated, @template_project&.id),
-                          id: 'project-select-template',
-                          prompt: "(#{t(:label_none)})",
-                          container_class: '-wide' %>
+<% TimeEntryActivity
+   .includes(:time_entry_activities_projects)
+   .order(:name)
+   .each do |activity| %>
+  <div class="form--field">
+    <%= styled_label_tag "time_entry_activities_project_#{activity.id}_active", activity.name %>
+    <div class="form--field-container" >
+      <%= hidden_field_tag "time_entry_activities_project[][activity_id]",
+                           activity.id %>
+      <%= styled_check_box_tag "time_entry_activities_project[][active]",
+                               1,
+                               activity.active_in_project?(@project),
+                               id: "time_entry_activities_project_#{activity.id}_active" %>
+    </div>
   </div>
+<% end %>
+
+<div class="generic-table--action-buttons">
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 </div>

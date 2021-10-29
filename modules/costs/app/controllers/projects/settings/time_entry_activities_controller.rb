@@ -28,15 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::TimeEntryActivitiesController < ApplicationController
-  before_action :find_project_by_project_id
-  before_action :authorize
+class Projects::Settings::TimeEntryActivitiesController < ProjectSettingsController
+  menu_item :settings_time_entry_activities
 
   def update
     TimeEntryActivitiesProject.upsert_all(update_params, unique_by: %i[project_id activity_id])
     flash[:notice] = t(:notice_successful_update)
 
-    redirect_to settings_activities_project_path(@project)
+    redirect_to time_entry_activities_settings_project_path(@project)
   end
 
   private
