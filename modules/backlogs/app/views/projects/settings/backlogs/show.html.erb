@@ -31,7 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render partial: 'projects/form/toolbar', locals: { form_name: "edit_project_#{@project.id}" } %>
 <% end %>
 
-<%= styled_form_tag({controller: '/projects', action: "project_done_statuses", id: @project}, id: "edit_project_#{@project.id}") do %>
+<%= styled_form_tag(backlogs_settings_project_path(@project),
+                    method: :patch,
+                    id: "edit_project_#{@project.id}") do %>
 
 <div class="generic-table--container">
   <div class="generic-table--results-container">
@@ -87,6 +89,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h3><%=t('backlogs.rebuild_positions')%></h3>
 
-<%= styled_form_tag(:controller => '/projects', :action => "rebuild_positions", :id => @project) do %>
+<%= styled_form_tag(controller: '/projects/settings/backlogs', action: "rebuild_positions", id: @project) do %>
   <p><%= styled_button_tag t('backlogs.rebuild'), class: '-highlight' %></p>
 <% end %>

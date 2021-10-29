@@ -184,7 +184,6 @@ OpenProject::Application.routes.draw do
         namespace 'settings' do
           ProjectSettingsHelper
             .project_settings_tabs
-            .select { |s| %w[modules general types custom_fields versions categories repository time_entry_activities].include?(s[:name]) }
             .each do |tab|
             get tab[:name],
                 controller: tab[:name],
@@ -196,19 +195,6 @@ OpenProject::Application.routes.draw do
         end
       end
 
-      ProjectSettingsHelper
-        .project_settings_tabs
-        .reject { |s| %w[modules general types custom_fields versions categories repository time_entry_activities].include?(s[:name]) }
-        .each do |tab|
-        get "settings/#{tab[:name]}",
-            controller: "project_settings/#{tab[:name]}",
-            action: :show,
-            as: "settings_#{tab[:name]}"
-        patch "settings/#{tab[:name]}",
-              controller: "project_settings/#{tab[:name]}",
-              action: :update,
-              as: "update_settings_#{tab[:name]}"
-      end
       get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
 
       get 'identifier', action: 'identifier'

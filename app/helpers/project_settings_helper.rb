@@ -75,9 +75,8 @@ module ProjectSettingsHelper
       },
       {
         name: :backlogs,
-        action: { controller: '/backlogs_project_settings', action: 'show' },
+        action: { controller: '/projects/settings/backlogs', action: 'show' },
         label: :label_backlogs,
-        if: ->(project) { project.module_enabled?('backlogs') }
       },
       {
         name: 'storage',

@@ -56,9 +56,7 @@ OpenProject::Application.routes.draw do
   end
 
   get 'projects/:project_id/versions/:id/edit' => 'version_settings#edit'
-  post 'projects/:id/project_done_statuses' => 'projects#project_done_statuses'
-  post 'projects/:id/rebuild_positions' => 'projects#rebuild_positions'
-  get 'projects/:id/settings/backlogs', controller: 'backlogs_project_settings', action: 'show', as: 'settings_backlogs'
+  post 'projects/:id/settings/rebuild_positions' => 'projects/settings/backlogs#rebuild_positions'
 
   scope 'admin' do
     resource :backlogs,
