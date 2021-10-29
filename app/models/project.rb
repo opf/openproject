@@ -265,18 +265,6 @@ class Project < ApplicationRecord
     end
   end
 
-  # Returns users that should be always notified on project events
-  def recipients
-    notified_users
-  end
-
-  # Return all users who want to be notified on every event within a project.
-  # If there is only the global notification setting in place, that one is authoritative.
-  # If there is a project specific setting in place, it is the project specific setting instead.
-  def notified_users
-    User.notified_on_all(self)
-  end
-
   # Returns an array of all custom fields enabled for project issues
   # (explicitly associated custom fields and custom fields enabled for all projects)
   #
