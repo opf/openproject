@@ -68,16 +68,14 @@ describe Notifications::ScheduleReminderMailsJob, type: :job do
           .to change(Delayed::Job, :count)
                 .by(2)
 
-        jobs = Delayed::Job.all.map do |job|
-          YAML.safe_load(job.handler, permitted_classes: [ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper])
-        end
+        jobs = Delayed::Job.all.map(&:handler)
 
-        reminder_jobs = jobs.select { |job| job.job_data['job_class'] == "Mails::ReminderJob" }
+        reminder_jobs = jobs.select { |job| job['job_class'] == "Mails::ReminderJob" }
 
-        expect(reminder_jobs[0].job_data['arguments'])
+        expect(reminder_jobs[0]['arguments'])
           .to match_array([23])
 
-        expect(reminder_jobs[1].job_data['arguments'])
+        expect(reminder_jobs[1]['arguments'])
           .to match_array([42])
       end
 

@@ -70,7 +70,7 @@ module Cron
 
       def delayed_job
         Delayed::Job
-          .where('handler LIKE ?', "%job_class: #{name}%")
+          .where("delayed_jobs.handler -> 'job_class' ? :name", name: name)
           .first
       end
     end
