@@ -75,8 +75,8 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :edit_project,
                    {
-                     projects: %i[custom_fields],
                      'projects/settings/general': %i[show],
+                     'projects/settings/storage': %i[show],
                      'projects/templated': %i[create destroy]
                    },
                    require: :member,
@@ -84,7 +84,6 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :select_project_modules,
                    {
-                     projects: :modules,
                      'projects/settings/modules': %i[show update]
                    },
                    require: :member

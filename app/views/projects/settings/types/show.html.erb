@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= toolbar title: t(:label_work_package_types), html: { class: '-minimum-title' } do -%>
-  <%= render partial: 'projects/form/toolbar', locals: { form_name: "types-form" } %>
+  <%= render partial: 'projects/settings/form_toolbar', locals: { form_name: "types-form" } %>
 <% end %>
 
 <% if Type.any? %>

@@ -28,11 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettings::StorageController < ProjectSettingsController
+class Projects::Settings::StorageController < ProjectSettingsController
   menu_item :settings_storage
 
   def show
-    render template: 'project_settings/storage',
-           locals: { storage: @project.count_required_storage }
+    render locals: { storage: @project.count_required_storage }
   end
 end
