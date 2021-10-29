@@ -77,7 +77,8 @@ OpenProject::AccessControl.map do |map|
                    {
                      'projects/settings/general': %i[show],
                      'projects/settings/storage': %i[show],
-                     'projects/templated': %i[create destroy]
+                     'projects/templated': %i[create destroy],
+                     'projects/identifier': %i[show update]
                    },
                    require: :member,
                    contract_actions: { projects: %i[update] }

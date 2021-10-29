@@ -69,20 +69,6 @@ class ProjectsController < ApplicationController
     render
   end
 
-  def update_identifier
-    service_call = Projects::UpdateService
-      .new(user: current_user,
-           model: @project)
-      .call(permitted_params.project)
-
-    if service_call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to project_settings_general_path(@project)
-    else
-      render action: 'identifier'
-    end
-  end
-
   # Delete @project
   def destroy
     service_call = ::Projects::ScheduleDeletionService

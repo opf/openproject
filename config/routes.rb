@@ -190,13 +190,11 @@ OpenProject::Application.routes.draw do
 
       resource :templated, only: %i[create destroy], controller: 'templated'
       resource :archive, only: %i[create destroy], controller: 'archive'
+      resource :identifier, only: %i[show update], controller: 'identifier'
     end
 
     member do
       get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
-
-      get 'identifier', action: 'identifier'
-      patch 'identifier', action: 'update_identifier'
 
       get :copy
 

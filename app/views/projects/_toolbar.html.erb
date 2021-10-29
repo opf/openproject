@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
     </li>
   <% end %>
   <li class="toolbar-item hidden-for-mobile">
-    <%= link_to identifier_project_path(@project), class: 'button' do %>
+    <%= link_to project_identifier_path(@project), class: 'button' do %>
       <%= op_icon('button--icon icon-edit') %>
       <span class="button--text"><%= t('projects.settings.change_identifier') %></span>
     <% end %>

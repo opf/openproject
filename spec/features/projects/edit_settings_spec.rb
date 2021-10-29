@@ -72,7 +72,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     end
 
     it 'displays error messages on invalid input' do
-      visit identifier_project_path(project)
+      visit project_identifier_path(project)
 
       fill_in 'project[identifier]', with: 'FOOO'
       click_on 'Update'

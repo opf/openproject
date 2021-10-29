@@ -29,7 +29,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for @project %>
 
-<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form -vertical' } do |f| %>
+<%= form_for @project,
+             url: project_identifier_path(@project),
+             html: { class: 'danger-zone form -vertical' } do |f| %>
   <section class="form--section">
     <h3 class="form--section-title">
       <%= t('project.identifier.title') %>
@@ -56,7 +58,6 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       </span>
     </div>
-
 
     <br>
 
