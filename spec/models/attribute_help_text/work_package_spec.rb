@@ -96,8 +96,8 @@ describe AttributeHelpText::WorkPackage, type: :model do
       end
     end
 
-    context 'user having the `edit_projects` permission' do
-      let(:permissions) { [:edit_projects] }
+    context 'user having the `select_custom_fields` permission' do
+      let(:permissions) { [:select_custom_fields] }
 
       it 'returns the help text for the static and cf attribute' do
         is_expected
