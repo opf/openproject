@@ -60,7 +60,7 @@ describe 'Work Package budget fields', type: :feature, js: true do
 
     create_page.save!
 
-    view_page.expect_toaster(message: "Successful creation.")
+    view_page.expect_toast(message: "Successful creation.")
 
     view_page.edit_field(:budget).expect_display_value budget.name
   end

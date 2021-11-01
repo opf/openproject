@@ -89,7 +89,7 @@ describe 'Copying a budget', type: :feature, js: true do
 
     click_button 'Create'
 
-    budget_page.expect_toaster message: 'Successful creation.'
+    budget_page.expect_toast message: 'Successful creation.'
 
     expect(page)
       .to have_selector('.author', text: current_user.name)

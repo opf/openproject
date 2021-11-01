@@ -70,7 +70,7 @@ describe 'filter me value', js: true do
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
-        wp_table.expect_toaster(type: :error,
+        wp_table.expect_toast(type: :error,
                                      message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end
@@ -176,7 +176,7 @@ describe 'filter me value', js: true do
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
-        wp_table.expect_toaster(type: :error,
+        wp_table.expect_toast(type: :error,
                                      message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end

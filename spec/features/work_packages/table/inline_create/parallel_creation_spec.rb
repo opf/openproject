@@ -61,7 +61,7 @@ describe 'Parallel work package creation spec', js: true do
     expect(page).to have_selector('.wp--row', count: 1)
     expect(page).to have_no_selector('.wp-inline-create-row')
 
-    wp_table.expect_toaster(
+    wp_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
     )
     wp_table.dismiss_toaster!
@@ -92,7 +92,7 @@ describe 'Parallel work package creation spec', js: true do
     subject_field.expect_value 'New subject'
     subject_field.save!
 
-    wp_table.expect_toaster(
+    wp_table.expect_toast(
       message: 'Successful creation.'
     )
     wp_table.dismiss_toaster!

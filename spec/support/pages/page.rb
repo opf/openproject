@@ -89,7 +89,7 @@ module Pages
       expect(current_path).to eql expected_path
     end
 
-    def expect_toaster(message:, type: :success)
+    def expect_toast(message:, type: :success)
       if toast_type == :angular
         expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
@@ -102,7 +102,7 @@ module Pages
     end
 
     def expect_and_dismiss_toaster(message:, type: :success)
-      expect_toaster(type: type, message: message)
+      expect_toast(type: type, message: message)
       dismiss_toaster!
       expect_no_toaster(type: type, message: message)
     end

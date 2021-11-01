@@ -135,7 +135,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
         center.expect_work_package_item notification2
         center.expect_no_toaster
         notification3.update(read_ian: false)
-        center.expect_toaster
+        center.expect_toast
         center.update_via_toaster
         center.expect_no_toaster
         center.expect_work_package_item notification

@@ -296,7 +296,7 @@ module Pages
     end
 
     def ensure_no_conflicting_modifications
-      expect_toaster(message: 'Successful update')
+      expect_toast(message: 'Successful update')
       dismiss_toaster!
       expect_no_toaster(message: 'Successful update')
     end

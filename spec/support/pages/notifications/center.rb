@@ -138,7 +138,7 @@ module Pages
         expect(page).to have_no_selector('.op-toast.-info', wait: 10)
       end
 
-      def expect_toaster
+      def expect_toast
         expect(page).to have_selector('.op-toast.-info', wait: 10)
       end
 

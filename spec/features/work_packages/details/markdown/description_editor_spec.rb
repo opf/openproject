@@ -100,7 +100,7 @@ describe 'description inplace editor', js: true, selenium: true do
       field.expect_save_button(enabled: true)
       field.submit_by_click
 
-      wp_page.expect_toaster message: I18n.t('js.notice_successful_update')
+      wp_page.expect_toast message: I18n.t('js.notice_successful_update')
       field.expect_state_text 'A new hope ...'
     end
   end

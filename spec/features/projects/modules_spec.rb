@@ -65,7 +65,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_toaster message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'
@@ -90,7 +90,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_toaster message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'

@@ -141,7 +141,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       subject_field.set_value 'Foobar!'
       subject_field.submit_by_enter
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
       wp_table.dismiss_toaster!
@@ -171,7 +171,7 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
         click_button 'Save'
       end
 
-      wp_table.expect_toaster(message: 'Successful creation.')
+      wp_table.expect_toast(message: 'Successful creation.')
 
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Split Foobar!'

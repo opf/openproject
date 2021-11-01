@@ -117,7 +117,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         type_field.activate!
         type_field.set_value type2.name
 
-        wp_page.expect_toaster message: "#{custom_field.name} can't be blank.",
+        wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                                     type: 'error'
 
         cf_field = wp_page.edit_field("customField#{custom_field.id}")
@@ -127,7 +127,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         cf_field.set_value 'my value'
         cf_field.save!
 
-        wp_page.expect_toaster message: "Successful update.",
+        wp_page.expect_toast message: "Successful update.",
                                     type: 'success'
 
         wp.reload

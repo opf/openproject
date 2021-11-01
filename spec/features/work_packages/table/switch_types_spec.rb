@@ -70,7 +70,7 @@ describe 'Switching types in work package table', js: true do
       text_field.set_value 'Foobar'
       text_field.save!
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
       # safegurards
@@ -83,7 +83,7 @@ describe 'Switching types in work package table', js: true do
       type_field.activate!
       type_field.set_value type_bug.name
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
@@ -99,7 +99,7 @@ describe 'Switching types in work package table', js: true do
       req_text_field.set_value 'Required'
       req_text_field.save!
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
       # safegurards
@@ -113,7 +113,7 @@ describe 'Switching types in work package table', js: true do
       type_field.activate!
       type_field.set_value type_task.name
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
       # safegurards
@@ -131,7 +131,7 @@ describe 'Switching types in work package table', js: true do
       type_field.activate!
       type_field.set_value type_bug.name
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
@@ -150,7 +150,7 @@ describe 'Switching types in work package table', js: true do
       type_field.openSelectField
       type_field.set_value type_task.name
 
-      wp_table.expect_toaster(
+      wp_table.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
       # safegurards
@@ -173,7 +173,7 @@ describe 'Switching types in work package table', js: true do
         type_field.activate!
         type_field.set_value type_bug.name
 
-        wp_table.expect_toaster(
+        wp_table.expect_toast(
           type: :error,
           message: "#{cf_req_text.name} can't be blank."
         )
@@ -195,7 +195,7 @@ describe 'Switching types in work package table', js: true do
         # Set the value now
         req_text_field.update 'foobar'
 
-        wp_table.expect_toaster(
+        wp_table.expect_toast(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
         # safegurards
@@ -249,7 +249,7 @@ describe 'Switching types in work package table', js: true do
       type_field.update type_bug.name
 
       # safegurards
-      wp_page.expect_toaster message: 'Successful update.'
+      wp_page.expect_toast message: 'Successful update.'
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster message: 'Successful update.'
 
@@ -334,7 +334,7 @@ describe 'Switching types in work package table', js: true do
 
       wp_page.save!
 
-      wp_page.expect_toaster(
+      wp_page.expect_toast(
         message: 'Successful creation.'
       )
 

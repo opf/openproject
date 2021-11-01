@@ -159,7 +159,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
     type_field.openSelectField
     type_field.set_value type.name
 
-    embedded_table.expect_toaster(
+    embedded_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
     )
 
@@ -192,7 +192,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
     assigned_area.resize_to(1, 2)
 
-    my_page.expect_toaster(message: I18n.t('js.notice_successful_update'))
+    my_page.expect_toast(message: I18n.t('js.notice_successful_update'))
 
     assigned_area.expect_to_span(1, 1, 2, 3)
     # has been moved down by resizing

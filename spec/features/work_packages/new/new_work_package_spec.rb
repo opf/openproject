@@ -231,7 +231,7 @@ describe 'new work package', js: true do
       create_work_package(type_task, project.name)
       save_work_package!
 
-      wp_page.expect_toaster message: 'Successful creation. Click here to open this work package in fullscreen view.'
+      wp_page.expect_toast message: 'Successful creation. Click here to open this work package in fullscreen view.'
       page.find('.op-toast--target-link', text: 'Click here to open this work package in fullscreen view.').click
 
       full_page = Pages::FullWorkPackage.new(WorkPackage.last)
@@ -261,7 +261,7 @@ describe 'new work package', js: true do
       table_subject.submit_by_enter
       table_subject.expect_state_text new_subject
 
-      wp_page.expect_toaster(
+      wp_page.expect_toast(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -373,7 +373,7 @@ describe 'new work package', js: true do
     it 'shows a 403 error on creation paths' do
       paths.each do |path|
         visit path
-        wp_page.expect_toaster(type: :error, message: I18n.t('api_v3.errors.code_403'))
+        wp_page.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_403'))
       end
     end
   end
