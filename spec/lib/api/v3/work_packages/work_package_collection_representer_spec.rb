@@ -397,7 +397,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when passing groups' do
     let(:groups) do
-      group = { 'custom': 'object' }
+      group = { 'custom' => 'object' }
       allow(group).to receive(:has_sums?).and_return false
       [group]
     end
@@ -409,7 +409,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   context 'when passing groups with sums' do
     let(:groups) do
-      group = { 'sums': {} }
+      group = { 'sums' => {} }
       allow(group).to receive(:has_sums?).and_return true
       [group]
     end
@@ -431,9 +431,9 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     let(:total_sums) { OpenStruct.new(estimated_hours: 1) }
 
     it 'renders the groups object as json' do
-      expected = { 'estimatedTime': 'PT1H',
-                   'remainingTime': nil,
-                   'storyPoints': nil }
+      expected = { 'estimatedTime' => 'PT1H',
+                   'remainingTime' => nil,
+                   'storyPoints' => nil }
       expect(collection).to be_json_eql(expected.to_json).at_path('totalSums')
     end
 

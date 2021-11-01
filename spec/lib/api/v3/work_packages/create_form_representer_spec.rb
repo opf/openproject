@@ -112,7 +112,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
                 .and_return(true)
       end
 
-      context 'valid work package' do
+      context 'for a valid work package' do
         it 'links to the work package create api' do
           expect(generated)
             .to be_json_eql(api_v3_paths.work_packages.to_json)
@@ -126,7 +126,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
       end
 
-      context 'invalid work package' do
+      context 'for an invalid work package' do
         let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
 
         it 'has no link' do
@@ -134,7 +134,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         end
       end
 
-      context 'user with insufficient permissions' do
+      context 'for a user with insufficient permissions' do
         before do
           allow(current_user)
             .to receive(:allowed_to?)
@@ -178,7 +178,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
 
       context 'without the permission to select custom fields' do
         it 'has no link to set the custom fields for that project' do
-          expect(generated).to_not have_json_path('_links/customFields')
+          expect(generated).not_to have_json_path('_links/customFields')
         end
       end
     end
@@ -188,53 +188,50 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
         allow(current_user).to receive(:allowed_to?).and_return(true)
       end
 
-      context "as admin" do
+      context 'for an admin and with type' do
+        let(:type) { FactoryBot.build_stubbed(:type) }
         let(:current_user) { FactoryBot.build_stubbed(:admin) }
-
-        context 'with type' do
-          let(:type) { FactoryBot.build_stubbed(:type) }
-          let(:work_package) do
-            FactoryBot.build(:work_package,
-                             id: 42,
-                             created_at: DateTime.now,
-                             updated_at: DateTime.now,
-                             type: type)
-          end
-
-          before do
-            allow(current_user).to receive(:allowed_to?)
-              .with(:edit_project, work_package.project)
-              .and_return(false)
-          end
-
-          it 'has a link to configure the form' do
-            expected = {
-              href: "/types/#{type.id}/edit?tab=form_configuration",
-              type: "text/html",
-              title: "Configure form"
-            }
-
-            expect(generated)
-              .to be_json_eql(expected.to_json)
-              .at_path('_links/configureForm')
-          end
+        let(:work_package) do
+          FactoryBot.build(:work_package,
+                           id: 42,
+                           created_at: DateTime.now,
+                           updated_at: DateTime.now,
+                           type: type)
         end
 
-        context 'without type' do
-          before do
-            allow(work_package).to receive(:type).and_return(nil)
-            allow(work_package).to receive(:type_id).and_return(nil)
-          end
+        before do
+          allow(current_user).to receive(:allowed_to?)
+            .with(:edit_project, work_package.project)
+            .and_return(false)
+        end
 
-          it 'has no link to configure the form' do
-            expect(generated).to_not have_json_path('_links/configureForm')
-          end
+        it 'has a link to configure the form' do
+          expected = {
+            href: "/types/#{type.id}/edit?tab=form_configuration",
+            type: "text/html",
+            title: "Configure form"
+          }
+
+          expect(generated)
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/configureForm')
         end
       end
 
-      context 'not being admin' do
+      context 'for an admin and without type' do
+        before do
+          allow(work_package).to receive(:type).and_return(nil)
+          allow(work_package).to receive(:type_id).and_return(nil)
+        end
+
         it 'has no link to configure the form' do
-          expect(generated).to_not have_json_path('_links/configureForm')
+          expect(generated).not_to have_json_path('_links/configureForm')
+        end
+      end
+
+      context 'for a nonadmin' do
+        it 'has no link to configure the form' do
+          expect(generated).not_to have_json_path('_links/configureForm')
         end
       end
     end

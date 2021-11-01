@@ -143,7 +143,7 @@ module API
         end
 
         link :customFields,
-             cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
+             cache_if: -> { current_user_allowed_to(:select_custom_fields, context: represented.project) } do
           next if represented.project.nil?
 
           {
