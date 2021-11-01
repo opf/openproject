@@ -56,7 +56,7 @@ shared_context 'with a project with an arrangement of custom fields' do
       p.send(:"custom_field_#{float_cf.id}=", 4.5)
       p.send(:"custom_field_#{text_cf.id}=", 'Some **long** text')
       p.send(:"custom_field_#{string_cf.id}=", 'Some small text')
-      p.send(:"custom_field_#{date_cf.id}=", Date.today)
+      p.send(:"custom_field_#{date_cf.id}=", Time.zone.today)
       p.send(:"custom_field_#{user_cf.id}=", other_user)
 
       p.build_status(code: :off_track)

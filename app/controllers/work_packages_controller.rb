@@ -87,9 +87,9 @@ class WorkPackagesController < ApplicationController
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
-               .new(user: current_user)
-               .call(query: @query, mime_type: mime_type, params: params)
-               .result
+      .new(user: current_user)
+      .call(query: @query, mime_type: mime_type, params: params)
+      .result
 
     if request.headers['Accept']&.include?('application/json')
       render json: { job_id: job_id }
@@ -100,8 +100,8 @@ class WorkPackagesController < ApplicationController
 
   def export_single(mime_type)
     exporter = Exports::Register
-                 .single_exporter(WorkPackage, mime_type)
-                 .new(work_package, params)
+      .single_exporter(WorkPackage, mime_type)
+      .new(work_package, params)
 
     export = exporter.export!
     send_data(export.content, type: export.mime_type, filename: export.title)
@@ -131,7 +131,7 @@ class WorkPackagesController < ApplicationController
 
   def protect_from_unauthorized_export
     if (supported_list_formats + %w[atom]).include?(params[:format]) &&
-      !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
+       !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
@@ -177,19 +177,19 @@ class WorkPackagesController < ApplicationController
 
   def journals
     @journals ||= begin
-                    order =
-                      if current_user.wants_comments_in_reverse_order?
-                        Journal.arel_table['created_at'].desc
-                      else
-                        Journal.arel_table['created_at'].asc
-                      end
+      order =
+        if current_user.wants_comments_in_reverse_order?
+          Journal.arel_table['created_at'].desc
+        else
+          Journal.arel_table['created_at'].asc
+        end
 
-                    work_package
-                      .journals
-                      .changing
-                      .includes(:user)
-                      .order(order).to_a
-                  end
+      work_package
+        .journals
+        .changing
+        .includes(:user)
+        .order(order).to_a
+    end
   end
 
   def index_redirect_path
@@ -202,14 +202,15 @@ class WorkPackagesController < ApplicationController
 
   def load_work_packages
     @results = @query.results
-    @work_packages = if @query.valid?
-                       @results
-                         .work_packages
-                         .page(page_param)
-                         .per_page(per_page_param)
-                     else
-                       []
-                     end
+    @work_packages =
+      if @query.valid?
+        @results
+          .work_packages
+          .page(page_param)
+          .per_page(per_page_param)
+      else
+        []
+      end
   end
 
   def login_back_url_params

@@ -61,7 +61,7 @@ module Exports
 
       # fetch all headers
       def csv_headers
-        headers = columns.map { |c| c[:caption] }
+        headers = columns.pluck(:caption)
 
         # because of
         # https://support.microsoft.com/en-us/help/323626/-sylk-file-format-is-not-valid-error-message-when-you-open-file

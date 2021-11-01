@@ -85,7 +85,7 @@ module Exports
     end
 
     def with_tempfile(title, content)
-      name_parts = [title[0..title.rindex('.') - 1], title[title.rindex('.')..-1]]
+      name_parts = [title[0..title.rindex('.') - 1], title[title.rindex('.')..]]
 
       Tempfile.create(name_parts, encoding: content.encoding) do |file|
         file.write content

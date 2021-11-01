@@ -16,12 +16,6 @@ describe "WorkPackageXlsExport Custom Fields" do
     )
   end
 
-  def custom_values_for(*values)
-    values.map do |str|
-      custom_field.custom_options.find { |co| co.value == str }.try(:id)
-    end
-  end
-
   let(:work_package1) do
     wp = FactoryBot.create :work_package, project: project, type: type
     wp.custom_field_values = {
@@ -64,6 +58,12 @@ describe "WorkPackageXlsExport Custom Fields" do
 
     io = StringIO.new(export.export!.content)
     Spreadsheet.open(io).worksheets.first
+  end
+
+  def custom_values_for(*values)
+    values.map do |str|
+      custom_field.custom_options.find { |co| co.value == str }.try(:id)
+    end
   end
 
   it 'produces the valid XLS result' do

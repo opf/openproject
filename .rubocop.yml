@@ -26,6 +26,10 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
+# Rubymine doesn't support the same indentation style
+# and will auto-format against it with our editorconfig
+Layout/MultilineOperationIndentation:
+  Enabled: false
 
 Lint/AmbiguousOperator:
   Enabled: false

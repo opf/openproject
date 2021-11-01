@@ -50,9 +50,9 @@ describe 'project export', type: :feature, js: true do
     DownloadList.clear
   end
 
-  subject { @download_list.refresh_from(page).latest_downloaded_content }
+  subject { @download_list.refresh_from(page).latest_downloaded_content } # rubocop:disable RSpec/InstanceVariable
 
-  def export!(expect_success = true)
+  def export!(expect_success: true)
     index_page.click_more_menu_item 'Export'
     click_on export_type
 

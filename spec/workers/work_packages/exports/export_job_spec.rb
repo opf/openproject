@@ -64,7 +64,7 @@ describe WorkPackages::Exports::ExportJob do
                           mime_type: "application/octet-stream")
     end
 
-    let(:service) { double('attachments create service') }
+    let(:service) { double('attachments create service') } # rubocop:disable RSpec/VerifiedDoubles
     let(:exporter_instance) { instance_double(exporter) }
 
     it 'exports' do
@@ -106,7 +106,7 @@ describe WorkPackages::Exports::ExportJob do
       let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
       it 'updates the query from attributes' do
-        expect(exporter)
+        allow(exporter)
           .to receive(:new) do |query, _options|
           expect(query.group_by).to eq 'assigned_to'
         end
