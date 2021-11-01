@@ -38,9 +38,8 @@ module Exports
     end
 
     def export!
-      exporter_instance.export! do |result|
-        handle_export_result(export, result)
-      end
+      result = exporter_instance.export!
+      handle_export_result(export, result)
     end
 
     def exporter_instance

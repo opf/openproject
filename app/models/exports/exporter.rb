@@ -60,7 +60,7 @@ module Exports
 
     # Run the export, yielding the result of the render output
     def export!
-      yield render!
+      raise NotImplementedError
     end
 
     protected

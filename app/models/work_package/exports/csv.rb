@@ -34,12 +34,6 @@ module WorkPackage::Exports
 
     alias :records :work_packages
 
-    def initialize
-      super
-
-      @columns = columns.map { |c| { name: c.name, caption: c.caption } }
-    end
-
     private
 
     def title
@@ -49,7 +43,7 @@ module WorkPackage::Exports
     end
 
     def csv_headers
-      super + WorkPackage.human_attribute_name(:description)
+      super + [WorkPackage.human_attribute_name(:description)]
     end
 
     # fetch all row values

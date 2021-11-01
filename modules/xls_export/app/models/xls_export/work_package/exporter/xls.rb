@@ -23,7 +23,7 @@ module XlsExport::WorkPackage::Exporter
       singleton_class.prepend singleton_module
     end
 
-    def render!
+    def export!
       enable! WithTimeZone
       enable! WithDescription if with_descriptions
       enable! WithRelations if with_relations

@@ -33,13 +33,14 @@ module WorkPackage::Exports
 
     alias :query :object
 
-    attr_reader :columns, :work_packages
+    attr_reader :column_objects, :columns, :work_packages
 
-    def initialize
+    def initialize(object, **options)
       super
 
-      @columns = set_columns
-      @work_packages = set_work_packages
+      @column_objects = get_columns
+      @columns = column_objects.map { |c| { name: c.name, caption: c.caption } }
+      @work_packages = get_work_packages
     end
 
     def get_columns

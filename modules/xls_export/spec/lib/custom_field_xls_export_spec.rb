@@ -53,31 +53,17 @@ describe "WorkPackageXlsExport Custom Fields" do
     query
   end
 
+  let(:export) do
+    XlsExport::WorkPackage::Exporter::XLS.new query
+  end
+
   let(:sheet) do
     login_as(current_user)
     work_packages
     query
 
-    load_sheet export
-  end
-
-  let(:export) do
-    XlsExport::WorkPackage::Exporter::XLS.new query
-  end
-
-  def load_sheet(export)
-    f = Tempfile.new 'result.xls'
-    begin
-      f.binmode
-      f.write export.list(&:content)
-    ensure
-      f.close
-    end
-
-    sheet = Spreadsheet.open(f.path).worksheets.first
-    f.unlink
-
-    sheet
+    io = StringIO.new(export.export!.content)
+    Spreadsheet.open(io).worksheets.first
   end
 
   it 'produces the valid XLS result' do

@@ -50,7 +50,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
     configure_markup
   end
 
-  def render!
+  def export!
     write_attributes!
     write_changesets!
     write_history!

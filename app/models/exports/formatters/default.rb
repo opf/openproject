@@ -22,7 +22,7 @@ module Exports
       ##
       # Takes a resource and an attribute and returns the value to be exported.
       def format(object, **options)
-        value = object.try(attribute)
+        value = retrieve_value(object)
 
         case value
         when Date
@@ -44,6 +44,14 @@ module Exports
       # Takes an attribute and returns format options for it.
       def format_options
         {}
+      end
+
+      protected
+
+      # By default, use try as a non-destructive accessor
+      # in case that attribute is not available for the cell
+      def retrieve_value(object)
+        object.try(attribute)
       end
     end
   end

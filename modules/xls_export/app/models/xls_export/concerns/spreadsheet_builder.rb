@@ -9,7 +9,7 @@ module XlsExport
         raise NotImplementedError
       end
 
-      def render!
+      def export!
         success(spreadsheet.xls)
       end
 

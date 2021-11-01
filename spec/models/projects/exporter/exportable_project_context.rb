@@ -84,12 +84,6 @@ shared_context 'with an instance of the described exporter' do
   let(:custom_fields) { project.available_custom_fields }
 
   let(:output) do
-    data = ''
-
-    instance.export! do |result|
-      data = result.content
-    end
-
-    data
+    instance.export!.content
   end
 end

@@ -71,12 +71,7 @@ describe WorkPackage::Exports::CSV, 'integration', type: :model do
   it 'performs a successful export' do
     work_package.reload
 
-    data = ''
-
-    instance.export! do |result|
-      data = result.content
-    end
-    data = CSV.parse(data)
+    data = CSV.parse instance.export!.content
 
     expect(data.size).to eq(2)
     expect(data.last).to include(work_package.subject)

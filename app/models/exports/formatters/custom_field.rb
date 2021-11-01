@@ -9,7 +9,7 @@ module Exports
 
       ##
       # Takes a WorkPackage and an attribute and returns the value to be exported.
-      def format(object, **)
+      def retrieve_value(object)
         return '' if custom_field.nil?
 
         object.formatted_custom_value_for(custom_field)

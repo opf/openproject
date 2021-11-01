@@ -31,7 +31,7 @@
 module Exports
   module Concerns
     module CSV
-      def render!
+      def export!
         serialized = ::CSV.generate(col_sep: I18n.t(:general_csv_separator)) do |csv|
           headers = csv_headers
           csv << encode_csv_columns(headers)

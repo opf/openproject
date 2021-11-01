@@ -1,7 +1,7 @@
 require 'fileutils'
 
 module OpenProject::Bim::BcfXml
-  class Exporter < ::Exports::Exporter
+  class Exporter < ::WorkPackage::Exports::QueryExporter
 
     def initialize(object, options = {})
       object.add_filter('bcf_issue_associated', '=', ['t'])
@@ -16,10 +16,9 @@ module OpenProject::Bim::BcfXml
       :bcf
     end
 
-    def render!
+    def export!
       Dir.mktmpdir do |dir|
         files = create_bcf! dir
-
         zip = zip_folder dir, files
         success(zip)
       end
@@ -50,7 +49,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def zip_folder(dir, files)
-      zip_file = File.join(dir, bcf_filename)
+      zip_file = Tempfile.new bcf_filename
 
       Zip::OutputStream.open(zip_file.path) do |zos|
         files.each do |file|
@@ -60,7 +59,7 @@ module OpenProject::Bim::BcfXml
         end
       end
 
-      File.open(zip_file, 'r')
+      zip_file
     end
 
     def create_bcf!(bcf_folder)

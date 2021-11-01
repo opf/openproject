@@ -64,7 +64,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     setup_page!
   end
 
-  def render!
+  def export!
     return render_batched! if batch_supported?
 
     file = render_work_packages query.results.work_packages
@@ -202,7 +202,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def column_widths
-    widths = valid_export_columns.map do |col|
+    widths = column_objects.map do |col|
       if col.name == :subject || text_column?(col)
         4.0
       else
@@ -215,7 +215,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def formattable_colspan
-    valid_export_columns.size
+    column_objects.size
   end
 
   def text_column?(column)
@@ -229,7 +229,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def data_headers
-    valid_export_columns.map(&:caption).map do |caption|
+    column_objects.map(&:caption).map do |caption|
       pdf.make_cell caption, font_style: :bold, background_color: 'CCCCCC'
     end
   end
@@ -264,7 +264,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_attributes!(work_package)
-    values = valid_export_columns.map do |column|
+    values = column_objects.map do |column|
       make_column_value work_package, column
     end
 
@@ -282,7 +282,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
       label = make_group_label(group)
       group_cell = pdf.make_cell(label,
                                  font_style: :bold,
-                                 colspan: valid_export_columns.size,
+                                 colspan: column_objects.size,
                                  background_color: 'DDDDDD')
 
       pdf.table([[group_cell]], column_widths: column_widths)
