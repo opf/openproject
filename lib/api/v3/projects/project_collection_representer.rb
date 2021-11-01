@@ -36,11 +36,11 @@ require 'roar/json/hal'
 module API
   module V3
     module Projects
-      class ProjectCollectionRepresenter <  ::API::Decorators::OffsetPaginatedCollection
+      class ProjectCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
         self.checked_permissions = ::API::V3::Projects::ProjectRepresenter.checked_permissions
 
-        def initialize(models, **options)
+        def initialize(represented, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
           super
 
           @represented = ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(represented)
