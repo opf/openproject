@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -31,10 +29,14 @@ require_relative 'base_representer'
 
 module Bim::Bcf::API::V2_1::Viewpoints
   class FullRepresenter < BaseRepresenter
+    def self.selector
+      "json_viewpoint - 'components' as json_viewpoint"
+    end
+
     protected
 
     def scope
-      base_scope.select(:json_viewpoint)
+      represented.select(self.class.selector)
     end
   end
 end

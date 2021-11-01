@@ -28,7 +28,6 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { XeokitServer } from 'core-app/features/bim/ifc_models/xeokit/xeokit-server';
-import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -39,6 +38,10 @@ import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.s
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IfcProjectDefinition } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
+import { BIMViewer } from '@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es';
+import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface XeokitElements {
   canvasElement:HTMLElement;
@@ -75,6 +78,24 @@ export interface BCFLoadOptions {
   reverseClippingPlanes?:boolean;
 }
 
+/**
+ * Wrapping type from xeokit module. Can be removed after we get a real type package.
+ */
+type Controller = {
+  on:(event:string, callback:(event:unknown) => void) => string
+};
+
+/**
+ * Wrapping type from xeokit module. Can be removed after we get a real type package.
+ */
+type BimViewer = Controller&{
+  loadProject:(projectId:string) => void,
+  saveBCFViewpoint:(options:BCFCreationOptions) => CreateBcfViewpointData,
+  loadBCFViewpoint:(bcfViewpoint:BcfViewpointData, options:BCFLoadOptions) => void,
+  setKeyboardEnabled:(enabled:boolean) => true,
+  destroy:() => void
+};
+
 @Injectable()
 export class IFCViewerService extends ViewerBridgeService {
   public shouldShowViewer = true;
@@ -83,7 +104,7 @@ export class IFCViewerService extends ViewerBridgeService {
 
   public inspectorVisible$ = new BehaviorSubject<boolean>(false);
 
-  private _viewer:any;
+  private bimViewer:BimViewer|undefined;
 
   @InjectField() pathHelper:PathHelperService;
 
@@ -99,60 +120,55 @@ export class IFCViewerService extends ViewerBridgeService {
     super(injector);
   }
 
-  public newViewer(elements:XeokitElements, projects:any[]):void {
-    void import('@xeokit/xeokit-bim-viewer/dist/xeokit-bim-viewer.es').then((XeokitViewerModule:any) => {
-      const server = new XeokitServer(this.pathHelper);
-      const viewerUI = new XeokitViewerModule.BIMViewer(server, elements);
+  public newViewer(elements:XeokitElements, projects:IfcProjectDefinition[]):void {
+    const server = new XeokitServer(this.pathHelper);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const viewerUI = new BIMViewer(server, elements) as BimViewer;
 
-      viewerUI.on('queryPicked', (event:any) => {
-        alert(`IFC Name = "${event.objectName}"\nIFC class = "${event.objectType}"\nIFC GUID = ${event.objectId}`);
-      });
+    viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
 
-      viewerUI.on('modelLoaded', () => this.viewerVisible$.next(true));
+    viewerUI.loadProject(projects[0].id);
 
-      viewerUI.loadProject(projects[0].id);
-
-      viewerUI.on('addModel', (event:Event) => { // "Add" selected in Models tab's context menu
-        window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
-      });
-
-      viewerUI.on('openInspector', () => {
-        this.inspectorVisible$.next(true);
-      });
-
-      viewerUI.on('editModel', (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
-        window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
-      });
-
-      viewerUI.on('deleteModel', (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
-        // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
-        const formData = new FormData();
-        formData.append(
-          'authenticity_token',
-          jQuery('meta[name=csrf-token]').attr('content') as string,
-        );
-        formData.append(
-          '_method',
-          'delete',
-        );
-
-        this.httpClient.post(
-          this.pathHelper.ifcModelsDeletePath(
-            this.currentProjectService.identifier as string, event.modelId,
-          ),
-          formData,
-        )
-          .subscribe()
-          .add(() => {
-            // Ensure we reload after every request.
-            // We need to reload to get a fresh CSRF token for a successive
-            // model deletion placed as a META element into the HTML HEAD.
-            window.location.reload();
-          });
-      });
-
-      this.viewer = viewerUI;
+    viewerUI.on('addModel', () => { // "Add" selected in Models tab's context menu
+      window.location.href = this.pathHelper.ifcModelsNewPath(this.currentProjectService.identifier as string);
     });
+
+    viewerUI.on('openInspector', () => {
+      this.inspectorVisible$.next(true);
+    });
+
+    viewerUI.on('editModel', (event:{ modelId:number|string }) => { // "Edit" selected in Models tab's context menu
+      window.location.href = this.pathHelper.ifcModelsEditPath(this.currentProjectService.identifier as string, event.modelId);
+    });
+
+    viewerUI.on('deleteModel', (event:{ modelId:number|string }) => { // "Delete" selected in Models tab's context menu
+      // We don't have an API for IFC models yet. We need to use the normal Rails form posts for deletion.
+      const formData = new FormData();
+      formData.append(
+        'authenticity_token',
+        jQuery('meta[name=csrf-token]').attr('content') as string,
+      );
+      formData.append(
+        '_method',
+        'delete',
+      );
+
+      this.httpClient.post(
+        this.pathHelper.ifcModelsDeletePath(
+          this.currentProjectService.identifier as string, event.modelId,
+        ),
+        formData,
+      )
+        .subscribe()
+        .add(() => {
+          // Ensure we reload after every request.
+          // We need to reload to get a fresh CSRF token for a successive
+          // model deletion placed as a META element into the HTML HEAD.
+          window.location.reload();
+        });
+    });
+
+    this.viewer = viewerUI;
   }
 
   public destroy():void {
@@ -166,24 +182,28 @@ export class IFCViewerService extends ViewerBridgeService {
     this.viewer = undefined;
   }
 
-  public get viewer():any {
-    return this._viewer;
+  public get viewer():BimViewer|undefined {
+    return this.bimViewer;
   }
 
-  public set viewer(viewer:any) {
-    this._viewer = viewer;
+  public set viewer(viewer:BimViewer|undefined) {
+    this.bimViewer = viewer;
   }
 
   public setKeyboardEnabled(val:boolean):void {
-    this.viewer.setKeyboardEnabled(val);
+    this.viewer?.setKeyboardEnabled(val);
   }
 
-  public getViewpoint$():Observable<BcfViewpointInterface> {
+  public getViewpoint$():Observable<CreateBcfViewpointData> {
+    if (!this.viewer) {
+      return of();
+    }
+
     const opts:BCFCreationOptions = { spacesVisible: true, reverseClippingPlanes: true };
     const viewpoint = this.viewer.saveBCFViewpoint(opts);
 
     // The backend rejects viewpoints with bitmaps
-    delete viewpoint.bitmaps;
+    viewpoint.bitmaps = null;
 
     return of(viewpoint);
   }
@@ -196,15 +216,19 @@ export class IFCViewerService extends ViewerBridgeService {
         const opts:BCFLoadOptions = { updateCompositeObjects: true, reverseClippingPlanes: true };
         this.viewpointsService
           .getViewPoint$(workPackage, index)
-          .subscribe(viewpoint => this.viewer.loadBCFViewpoint(viewpoint, opts));
+          .subscribe((viewpoint) => this.viewer?.loadBCFViewpoint(viewpoint, opts));
       }
     } else {
+      if (!workPackage.id) {
+        return;
+      }
+
       // Reload the whole app to get the correct menus and GON data
       // and redirect to a route with a place to show viewer
       // ('bim.partitioned.split')
       window.location.href = this.pathHelper.bimDetailsPath(
-        idFromLink(workPackage.project.href),
-        workPackage.id!,
+        idFromLink((workPackage.project as HalResource).href),
+        workPackage.id,
         index,
       );
     }

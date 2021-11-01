@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -30,12 +28,6 @@
 
 module Bim::Bcf::API::V2_1
   class Viewpoints::BaseRepresenter < BaseRepresenter
-    attr_reader :base_scope
-
-    def initialize(base_scope)
-      @base_scope = base_scope
-    end
-
     def to_json(*_args)
       row = scope.first
       raise ::ActiveRecord::RecordNotFound unless row
