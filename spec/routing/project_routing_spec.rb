@@ -82,25 +82,25 @@ describe ProjectsController, type: :routing do
   describe 'templated' do
     it do
       expect(delete('/projects/123/templated'))
-        .to route_to(controller: 'projects/templated', action: 'destroy', id: '123')
+        .to route_to(controller: 'projects/templated', action: 'destroy', project_id: '123')
     end
 
     it do
       expect(post('/projects/123/templated'))
-        .to route_to(controller: 'projects/templated', action: 'create', id: '123')
+        .to route_to(controller: 'projects/templated', action: 'create', project_id: '123')
     end
   end
 
   describe 'miscellaneous' do
     it do
-      expect(put('projects/123/archive')).to route_to(
-        controller: 'projects', action: 'archive', id: '123'
+      expect(post('projects/123/archive')).to route_to(
+        controller: 'projects/archive', action: 'create', project_id: '123'
       )
     end
 
     it do
-      expect(put('projects/123/unarchive')).to route_to(
-        controller: 'projects', action: 'unarchive', id: '123'
+      expect(delete('projects/123/archive')).to route_to(
+        controller: 'projects/archive', action: 'destroy', project_id: '123'
       )
     end
 

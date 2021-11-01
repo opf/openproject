@@ -73,7 +73,7 @@ describe 'Projects status administration', type: :feature, js: true do
     expect(page).to have_current_path /projects\/new-project\/?/
 
     # Check that the status has been set correctly
-    visit project_settings_general_path(id: 'new-project')
+    visit project_settings_general_path(project_id: 'new-project')
 
     status_field.expect_selected 'ON TRACK'
     status_description.expect_value 'Everything is fine at the start'

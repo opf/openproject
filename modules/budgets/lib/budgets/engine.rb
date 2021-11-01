@@ -14,7 +14,6 @@ module Budgets
       menu :project_menu,
            :budgets,
            { controller: '/budgets', action: 'index' },
-           param: :project_id,
            if: ->(project) { project.module_enabled?(:budgets) },
            after: :costs,
            caption: :budgets_title,

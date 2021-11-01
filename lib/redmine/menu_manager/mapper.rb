@@ -38,7 +38,7 @@ class Redmine::MenuManager::Mapper
   @@last_items_count = Hash.new { |h, k| h[k] = 0 }
 
   # Adds an item at the end of the menu. Available options:
-  # * param: the parameter name that is used for the project id (default is :id)
+  # * param: the parameter name that is used for the project id (default is :project_id)
   # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
   # * caption that can be:
   #   * a localized string Symbol

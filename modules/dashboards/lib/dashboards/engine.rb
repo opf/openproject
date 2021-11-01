@@ -15,7 +15,6 @@ module Dashboards
                   caption: :'dashboards.label',
                   after: :work_packages,
                   before: :calendar,
-                  param: :project_id,
                   icon: 'icon2 icon-status',
                   badge: 'dashboards.menu_badge')
       end

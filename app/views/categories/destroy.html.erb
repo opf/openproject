@@ -49,6 +49,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <%= submit_tag t(:button_apply), class: 'button -highlight' %>
-  <%= link_to t(:button_cancel), { controller: '/projects/settings/categories', action: 'show', id: @project },
-      class: 'button' %>
+  <%= link_to t(:button_cancel), project_settings_categories_path(@project), class: 'button' %>
 <% end %>

@@ -68,7 +68,7 @@ end
 Redmine::MenuManager.map :quick_add_menu do |menu|
   menu.push :new_project,
             Proc.new { |project|
-              { controller: '/projects', action: :new, id: nil, parent_id: project&.id }
+              { controller: '/projects', action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(*) { Project.model_name.human },
             icon: "icon-add icon3",
@@ -412,19 +412,16 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :activity,
             { controller: '/activities', action: 'index' },
-            param: :project_id,
             if: Proc.new { |p| p.module_enabled?('activity') },
             icon: 'icon2 icon-checkmark'
 
   menu.push :roadmap,
             { controller: '/versions', action: 'index' },
-            param: :project_id,
             if: Proc.new { |p| p.shared_versions.any? },
             icon: 'icon2 icon-roadmap'
 
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
-            param: :project_id,
             caption: :label_work_package_plural,
             icon: 'icon2 icon-view-timeline',
             html: {
@@ -434,7 +431,6 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :work_packages_query_select,
             { controller: '/work_packages', action: 'index' },
-            param: :project_id,
             parent: :work_packages,
             partial: 'work_packages/menu_query_select',
             last: true,
@@ -442,25 +438,21 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :calendar,
             { controller: '/work_packages/calendars', action: 'index' },
-            param: :project_id,
             caption: :label_calendar,
             icon: 'icon2 icon-calendar'
 
   menu.push :news,
             { controller: '/news', action: 'index' },
-            param: :project_id,
             caption: :label_news_plural,
             icon: 'icon2 icon-news'
 
   menu.push :forums,
             { controller: '/forums', action: 'index', id: nil },
-            param: :project_id,
             caption: :label_forum_plural,
             icon: 'icon2 icon-ticket-note'
 
   menu.push :repository,
             { controller: '/repositories', action: :show },
-            param: :project_id,
             if: Proc.new { |p| p.repository && !p.repository.new_record? },
             icon: 'icon2 icon-folder-open'
 
@@ -468,7 +460,6 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   menu.push :members,
             { controller: '/members', action: 'index' },
-            param: :project_id,
             caption: :label_member_plural,
             before: :settings,
             icon: 'icon2 icon-group'

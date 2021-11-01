@@ -49,13 +49,13 @@ feature 'Quick-add menu', js: true, selenium: true do
 
     context 'with an existing project' do
       let(:project) { FactoryBot.create :project }
+      let(:field) { ::FormFields::SelectFormField.new :parent }
+
       current_user do
         FactoryBot.create :user,
                           member_in_project: project,
                           member_with_permissions: %i[add_subprojects]
       end
-
-      let(:field) { ::FormFields::SelectFormField.new :parent }
 
       it 'moves to a form with parent_id set' do
         visit project_path(project)

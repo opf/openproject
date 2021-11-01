@@ -54,7 +54,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @name = name
     @url = url
     @condition = options[:if]
-    @param = options[:param] || :id
+    @param = options[:param] || :project_id
     @icon = options[:icon]
     @icon_after = options[:icon_after]
     @caption = options[:caption]
