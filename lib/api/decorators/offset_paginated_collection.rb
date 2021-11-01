@@ -93,8 +93,12 @@ module API
         "#{@self_link_base}?#{href_query(page, page_size)}"
       end
 
-      def href_query(page, page_size)
-        @query.merge(offset: page, pageSize: page_size).to_query
+      def href_query(page = @page, page_size = @per_page)
+        query_params(page, page_size).to_query
+      end
+
+      def query_params(page = @page, page_size = @per_page)
+        @query.merge(offset: page, pageSize: page_size)
       end
 
       def paged_models(models)
