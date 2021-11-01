@@ -45,7 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
     <ul class="op-export-options">
       <% supported_export_formats.each do |key| %>
         <li class="op-export-options--option">
-          <%= link_to url_for(action: 'index', format: key),
+          <% filter_params = safe_query_params ['filters'] %>
+          <%= link_to url_for(action: 'index', format: key, **filter_params),
                       class: 'op-export-options--option-link' do %>
             <%= op_icon("icon-big icon-export-#{key}") %>
             <span class="op-export-options--option-label"><%= t("export.format.#{key}") %></span>

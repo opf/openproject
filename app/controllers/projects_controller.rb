@@ -156,7 +156,7 @@ class ProjectsController < ApplicationController
       export: Projects::Export.create,
       user: current_user,
       mime_type: mime_type,
-      query: Marshal.dump(@query)
+      query: @query.to_hash
     )
 
     if request.headers['Accept']&.include?('application/json')

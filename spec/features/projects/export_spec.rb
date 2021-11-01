@@ -30,8 +30,8 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'project export', type: :feature, js: true do
-  shared_let(:project1) { FactoryBot.create :project }
-  shared_let(:project2) { FactoryBot.create :project }
+  shared_let(:important_project) { FactoryBot.create :project, name: 'Important schedule plan' }
+  shared_let(:party_project) { FactoryBot.create :project, name: 'Christmas party' }
   shared_let(:admin) { FactoryBot.create :admin }
 
   let(:index_page) { ::Pages::Projects::Index.new }
@@ -75,11 +75,34 @@ describe 'project export', type: :feature, js: true do
     let(:export_type) { 'CSV' }
 
     it 'exports the visible projects' do
-      expect(page).to have_selector('td.name', text: project1.name)
+      expect(page).to have_selector('td.name', text: important_project.name)
 
       export!
 
-      expect(subject).to have_text(project1.name)
+      expect(subject).to have_text(important_project.name)
+    end
+
+    context 'with a filter set to match only one project' do
+      it 'exports with that filter' do
+        expect(page).to have_text(important_project.name)
+        expect(page).to have_text(party_project.name)
+
+        index_page.open_filters
+
+        index_page.set_filter('name_and_identifier',
+                              'Name or identifier',
+                              'contains',
+                              ['Important'])
+
+        click_on 'Apply'
+        expect(page).to have_text(important_project.name)
+        expect(page).to have_no_text(party_project.name)
+
+        export!
+
+        expect(subject).to have_text(important_project.name)
+        expect(subject).not_to have_text(party_project.name)
+      end
     end
   end
 end

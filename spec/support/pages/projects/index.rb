@@ -125,7 +125,10 @@ module Pages
       end
 
       def open_filters
-        click_button('Show/hide filters')
+        retry_block do
+          click_button('Show/hide filters')
+          page.find_field('Add filter', visible: true)
+        end
       end
 
       def click_more_menu_item(item)
