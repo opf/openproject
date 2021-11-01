@@ -113,7 +113,7 @@ module API
 
         link :customFields do
           if project.present? &&
-             (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
+             current_user_allowed_to(:select_custom_fields, context: project)
             {
               href: project_settings_custom_fields_path(project.identifier),
               type: 'text/html',
