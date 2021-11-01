@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::TimeEntryActivitiesController < ProjectSettingsController
+class Projects::Settings::TimeEntryActivitiesController < Projects::SettingsController
   menu_item :settings_time_entry_activities
 
   def update

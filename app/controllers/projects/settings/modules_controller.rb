@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::ModulesController < ProjectSettingsController
+class Projects::Settings::ModulesController < Projects::SettingsController
   menu_item :settings_modules
 
   def update

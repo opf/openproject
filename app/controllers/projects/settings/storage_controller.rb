@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::StorageController < ProjectSettingsController
+class Projects::Settings::StorageController < Projects::SettingsController
   menu_item :settings_storage
 
   def show

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::VersionsController < ProjectSettingsController
+class Projects::Settings::VersionsController < Projects::SettingsController
   menu_item :settings_versions
 
   def show

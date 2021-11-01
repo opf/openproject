@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectSettingsController < ApplicationController
+class Projects::SettingsController < ApplicationController
   before_action :find_project_by_project_id
   before_action :authorize
 

@@ -28,6 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::GeneralController < ProjectSettingsController
+class Projects::Settings::GeneralController < Projects::SettingsController
   menu_item :settings_general
 end

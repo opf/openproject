@@ -28,6 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::CategoriesController < ProjectSettingsController
+class Projects::Settings::CategoriesController < Projects::SettingsController
   menu_item :settings_categories
 end

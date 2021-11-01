@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::CustomFieldsController < ProjectSettingsController
+class Projects::Settings::CustomFieldsController < Projects::SettingsController
   menu_item :settings_custom_fields
 
   def show

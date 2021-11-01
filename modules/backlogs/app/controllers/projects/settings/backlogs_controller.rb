@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::BacklogsController < ProjectSettingsController
+class Projects::Settings::BacklogsController < Projects::SettingsController
   menu_item :settings_backlogs
 
   def show

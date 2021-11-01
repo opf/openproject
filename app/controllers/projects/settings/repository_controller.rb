@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::RepositoryController < ProjectSettingsController
+class Projects::Settings::RepositoryController < Projects::SettingsController
   menu_item :settings_repository
 
   def show

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::TypesController < ProjectSettingsController
+class Projects::Settings::TypesController < Projects::SettingsController
   menu_item :settings_types
 
   def show
