@@ -63,6 +63,8 @@ sk:
   label_version: "Verzia"
   label_time_zone: "Časové pásmo"
   label_start_date: "Dátum začiatku"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notifikácia úspešne odoslaná"
   notice_timezone_missing: Časové pásmo nebolo špecificky nastavené, použilo sa teda %{zone}. Ak chcete vybrať iné časové pásmo, kliknite prosím tu.
   permission_create_meetings: "Vytvárať stretnutia"

@@ -63,6 +63,8 @@ bg:
   label_version: "Версия"
   label_time_zone: "Часова зона"
   label_start_date: "Начална дата"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
   permission_create_meetings: "Create meetings"

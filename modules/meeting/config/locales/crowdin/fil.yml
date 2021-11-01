@@ -63,6 +63,8 @@ fil:
   label_version: "Bersyon"
   label_time_zone: "Time zone"
   label_start_date: "Petsa ng pagsimula"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Ang abiso ay naipadala ng matagumpay"
   notice_timezone_missing: Walang nakatakdang time zone at ang %{zone} ay ipinagpalagay na siyang time zone. Para piliin ang iyong time zone, mangyaring magclick dito.
   permission_create_meetings: "Lumikha ng mga pulong"

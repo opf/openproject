@@ -63,6 +63,8 @@ uk:
   label_version: "Версія"
   label_time_zone: "Часовий пояс"
   label_start_date: "Початок"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Повідомлення успішно надіслано"
   notice_timezone_missing: Часовий пояс не встановлено і %{zone} передбачається. Щоб вибрати часовий пояс, натисніть тут.
   permission_create_meetings: "Створюйте зустрічі"

@@ -29,11 +29,9 @@
 #++
 
 module ColorsHelper
-  def options_for_colors(colored_thing, allow_bright_colors)
+  def options_for_colors(colored_thing)
     colors = []
     Color.find_each do |c|
-      next if !allow_bright_colors && c.super_bright?
-
       options = {}
       options[:name] = c.name
       options[:value] = c.id

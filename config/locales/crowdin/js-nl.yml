@@ -290,7 +290,7 @@ nl:
             current_new_feature_html: >
               De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Nieuwe knop in de koptekstnavigatie om projecten, gebruikers en werkpakketten te creëren.</li> <li>Een nieuwe uitnodigingsmodus voor gebruikers, groepen en placeholder gebruikers laat toe eenvoudig nieuwe gebruikers toe te voegen of uit te nodigen en toe te wijzen aan werkpakketten.</li> <li>GitHub integratie in OpenProject.</li> <li>API v3 extensies voor groepen en meer, i. e. maak, lees, update en verwijder groepen en groepsleden via de API.</li> <li>Multi-selectie voor project aangepaste velden van het type lijst.</li> <li>Maken van back-up vanuit de webinterface.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Neem een kijkje op onze <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> waarmee u direct in Revit aan BCF werkpakketten kunt werken.</li> <li>IFC-eigenschappen kregen een eigen venster. GUIDs kopiëren is nooit zo eenvoudig geweest.</li> <li>Omgekeerd knipvlak richting in BCF gezichtspunt en compatibel worden met toekomstige BCF 3.0 (Nu dezelfde richting als Solibri). <li>Probleem opgelost met mobiel bekijken IFC-modellen.</li> <li>Vaste export van werkpakket weergaven met BCF momentopname kolom.</li> </ul>
     label_activate: "Activeren"
@@ -625,6 +625,10 @@ nl:
           membership_added: 'Lidmaatschap toegevoegd'
           membership_updated: 'Lidmaatschap bijgewerkt'
         title: 'E-mail herinneringen'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:
@@ -861,7 +865,7 @@ nl:
       no_results:
         title: Geen werkpakketten om te tonen.
         description: Ofwel zijn er geen gecreëerd ofwel zijn alle werkpakketten uitgefilterd.
-      limited_results: Kan alleen %{count} werkpakketten weergeven in handmatige sorteermodus. Verminder a.u.b. de resultaten door te filteren.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
         people: "Mensen"
@@ -904,6 +908,7 @@ nl:
         label_content: "Klik hier om het menu overslaan en ga naar de inhoud"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Klik om te bewerken..."
       query:
         column_names: "Kolommen"

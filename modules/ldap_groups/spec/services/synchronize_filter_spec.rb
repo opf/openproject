@@ -28,12 +28,20 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
   let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
 
   let(:synced_foo) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=groups,dc=example,dc=com', group: group_foo,
-                                                auth_source: auth_source
+    FactoryBot.create(
+      :ldap_synchronized_group,
+      dn: 'cn=foo,ou=groups,dc=example,dc=com',
+      group: group_foo,
+      auth_source: auth_source
+    )
   end
   let(:synced_bar) do
-    FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=groups,dc=example,dc=com', group: group_bar,
-                                                auth_source: auth_source
+    FactoryBot.create(
+      :ldap_synchronized_group,
+      dn: 'cn=bar,ou=groups,dc=example,dc=com',
+      group: group_bar,
+      auth_source: auth_source
+    )
   end
 
   let(:filter_foo_bar) { FactoryBot.create :ldap_synchronized_filter, auth_source: auth_source }
@@ -80,6 +88,33 @@ describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
 
       synced_foo.reload
       expect(synced_foo.filter).to eq filter_foo_bar
+    end
+  end
+
+  describe 'when one group already exists with different settings' do
+    let(:synced_foo) do
+      FactoryBot.create :ldap_synchronized_group,
+                        dn: 'cn=foo,ou=groups,dc=example,dc=com',
+                        group: group_foo,
+                        sync_users: false,
+                        auth_source: auth_source
+    end
+    let(:filter_foo_bar) do
+      FactoryBot.create :ldap_synchronized_filter,
+                        sync_users: true,
+                        auth_source: auth_source
+    end
+
+    before do
+      synced_foo
+    end
+
+    it 'the group receives the value of the filter' do
+      expect(synced_foo.sync_users).to eq false
+      expect { subject }.not_to raise_error
+
+      synced_foo.reload
+      expect(synced_foo.sync_users).to eq true
     end
   end
 

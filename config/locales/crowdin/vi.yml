@@ -300,8 +300,8 @@ vi:
       query_group_placeholder: "Đặt tên cho bảng"
       reset: "Đặt lại về mặc định"
       type_color_text: |
-        Click to assign or change the color of this type. The selected color distinguishes work packages
-        in Gantt charts. It is therefore recommended to use a strong color.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this version.
@@ -704,6 +704,8 @@ vi:
               day_limit: "Tối đa một ngày chỉ có 24 giờ."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1205,6 +1207,7 @@ vi:
   error_no_type_in_project: "Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần \"Thiết Lập Dự Án\"."
   error_omniauth_registration_timed_out: "Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Lỗi xảy ra khi truy cập vào kho lưu trữ: %{value}"
   error_scm_not_found: "Mục hay revision không được tìm thấy trong kho."
   error_unable_delete_status: "Trạng thái work package không thể bị xóa vì nó được sử dụng bởi ít nhất 1 work package."

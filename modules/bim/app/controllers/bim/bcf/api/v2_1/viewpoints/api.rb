@@ -36,7 +36,8 @@ module Bim::Bcf::API::V2_1
         get do
           @issue
             .viewpoints
-            .pluck(:json_viewpoint)
+            .select(::Bim::Bcf::API::V2_1::Viewpoints::FullRepresenter.selector)
+            .map(&:json_viewpoint)
         end
 
         post &::Bim::Bcf::API::V2_1::Endpoints::Create
@@ -54,18 +55,16 @@ module Bim::Bcf::API::V2_1
             namespace = key == :/ ? :Full : key.to_s.camelize
 
             get key, &::Bim::Bcf::API::V2_1::Endpoints::Show
-              .new(model: Bim::Bcf::Viewpoint,
-                   api_name: 'Viewpoints',
-                   render_representer: "::Bim::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
-                   instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
-              .mount
+                        .new(model: Bim::Bcf::Viewpoint,
+                             render_representer: "::Bim::Bcf::API::V2_1::Viewpoints::#{namespace}Representer".constantize,
+                             instance_generator: ->(*) { @issue.viewpoints.where(uuid: params[:viewpoint_uuid]) })
+                        .mount
           end
 
           delete &::Bim::Bcf::API::V2_1::Endpoints::Delete
-                   .new(model: Bim::Bcf::Viewpoint,
-                        api_name: 'Viewpoints',
-                        instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
-                   .mount
+                    .new(model: Bim::Bcf::Viewpoint,
+                         instance_generator: ->(*) { @issue.viewpoints.find_by!(uuid: params[:viewpoint_uuid]) })
+                    .mount
 
           get :bitmaps do
             raise NotImplementedError, 'Bitmaps are not yet implemented.'

@@ -63,6 +63,8 @@ fi:
   label_version: "Versio"
   label_time_zone: "Aikavyöhyke"
   label_start_date: "Aloituspäivä"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Ilmoituksen lähettäminen onnistui"
   notice_timezone_missing: Aikavyöhykettä ei ole määritetty, joten oletuksena on %{zone}. Valitaksesi aikavyöhykkeen, klikkaa tästä.
   permission_create_meetings: "Luo kokouksia"

@@ -1,6 +1,6 @@
 #English strings go here
 ar:
-  label_avatar: "الصورةالرمزية"
+  label_avatar: "الصورة الرمزية"
   label_avatar_plural: "الصور الرمزية"
   label_current_avatar: "الصورة الرمزية الحالية"
   label_choose_avatar: "قم باختيار صورة رمزية من الملف"
@@ -14,7 +14,7 @@ ar:
   wrong_file_format: "التنسيقات المتاحة للصور هي jpg و png و gif."
   empty_file_error: "يرجى تحميل الصورة الصحيحة ووفقًا للتنسيقات (jpg, png, gif)"
   avatars:
-    label_avatar: "الصورةالرمزية"
+    label_avatar: "الصورة الرمزية"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'الصورة الرمزية الحالية'
     label_local_avatar: 'الصورة الرمزية المخصصة'

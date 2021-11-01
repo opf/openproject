@@ -295,7 +295,8 @@ lt:
       query_group_placeholder: "Pavadinti lentelę"
       reset: "Atkurti į numatytuosius"
       type_color_text: |
-        Spauskite, kad priskirtumėte arba pakeistumėte šio tipo spalvą. Parinkta spalva išskiria darbo paketus Gantt diagramose. Todėl rekomenduojama naudoti stiprią spalvą.
+        Parinkta spalva išskiria skirtingus tipus
+        Gantt diagramoje ar darbo paketų lentelėse. Todėl rekomenduojama naudoti ryškią spalvą.
   versions:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
@@ -309,10 +310,10 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     x_descendants:
-      one: 'Vienas pasekėjas darbo paketas'
-      few: '%{count} pasekėjai darbo paketai'
-      many: '%{count} pasekėjų darbo paketų'
-      other: '%{count} pasekėjų darbo paketų'
+      one: 'Vieno pasekėjo darbo paketas'
+      few: '%{count} darbo paketo pasekėjai'
+      many: '%{count} darbo paketo pasekėjų'
+      other: '%{count} darbo paketo pasekėjas'
     bulk:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
     move:
@@ -701,6 +702,8 @@ lt:
               day_limit: "yra per didelis, nes per parą gali būti užregistruotos daugiausiai 24 valandos."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "gali būti tik tinkamas datų diapazonas."
             daily_reminders:
               full_hour: "gali būti sukonfigūruotas tik pristatymui lygią valandą."
         wiki_page:
@@ -1250,6 +1253,7 @@ lt:
   error_no_type_in_project: "Joks tipas nepriskirtas šiam projektui. Prašome patikrinti projekto nustatymus."
   error_omniauth_registration_timed_out: "Registracijos, naudojant išorinį autentifikacijos teikėją, laikas pasibaigė. Bandykite dar kartą."
   error_omniauth_invalid_auth: "Autentifikavimo informacija, atėjusi iš tapatybės tiekėjo, buvo neteisinga. Dėl tolesnės pagalbos prašome kreiptis į savo administratorių."
+  error_password_change_failed: 'Bandant pakeisti slaptažodį įvyko klaida.'
   error_scm_command_failed: "Įvyko klaida jungiantis prie repozitorijos: %{value}"
   error_scm_not_found: "Toks įrašas ar revizija nebuvo rasti repozitorijoje."
   error_unable_delete_status: "Darbų paketo būsena negali būti ištrinta tol, kol yra naudojama bent viename darbų pakete."

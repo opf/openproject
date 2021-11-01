@@ -13,7 +13,9 @@
   --op-uc-heading-base: 1.8rem
   --op-uc-heading-falloff: 0.85
   display: block
-  overflow: hidden
+  overflow-x: hidden
+  overflow-y: auto
+  @include styled-scroll-bar
   font-size: var(--wiki-default-font-size)
   z-index: 0
   padding-bottom: 1rem
@@ -28,4 +30,3 @@
 
   &_no-permalinks *:hover .op-uc-link_permalink
     display: none
-

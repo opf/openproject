@@ -295,8 +295,8 @@ es:
       query_group_placeholder: "Asigne un nombre a la tabla"
       reset: "Restablecer valores predeterminados"
       type_color_text: |
-        Haga clic para asignar o cambiar el color de este tipo. El color seleccionado permite distinguir los paquetes de trabajo
-        en los diagramas de Gantt. Por lo tanto, se recomienda usar un color fuerte.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta versión.
@@ -700,6 +700,8 @@ es:
               day_limit: "es demasiado alto, ya que solo puede registrarse un máximo de 24 horas por fecha."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1217,6 +1219,7 @@ es:
   error_no_type_in_project: "Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto."
   error_omniauth_registration_timed_out: "El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente."
   error_omniauth_invalid_auth: "La información de autenticación proporcionada por el proveedor de identidades no era válida. Póngase en contacto con el administrador para obtener ayuda."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."

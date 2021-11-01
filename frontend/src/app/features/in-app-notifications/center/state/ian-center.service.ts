@@ -23,6 +23,7 @@ import {
   markNotificationsAsRead,
   notificationsMarkedRead,
   notificationCountIncreased,
+  centerUpdatedInPlace,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
@@ -186,6 +187,7 @@ export class IanCenterService extends UntilDestroyedMixin {
           text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
           target: () => {
             this.store.update({ activeCollection: collection });
+            this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
           },
         },
       });

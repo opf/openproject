@@ -63,6 +63,8 @@ zh-TW:
   label_version: "版本"
   label_time_zone: "時區"
   label_start_date: "起始日期"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "通知傳送成功"
   notice_timezone_missing: 沒有設定時區，預設時區為 %{zone} 。請按這裡選擇您的時區。
   permission_create_meetings: "建立會議"

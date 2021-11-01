@@ -289,7 +289,7 @@ de:
             current_new_feature_html: >
               Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
           bim:
-            learn_about_link: https://www.openproject.org/openproject-11-4-release
+            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
             current_new_feature_html: >
               Dieses Release enthält eine Reihe neuer Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Probieren Sie unser <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a>! Damit können Sie direkt in Revit BCF-Arbeitspakete erstellen, koordinieren und abarbeiten.</li> <li>Das Erkunden und Kopieren von einzelnen Elementen im IFC-Modell war nie einfacher. Denn IFC-Attribute haben nun ihren eigenen Platz erhalten.</li> <li>Bei Anlegen von Schnitten im Modell haben wir im darunterliegenden Datenmodell (BCF-Viewpoint) die Seiten vertauscht, sodass nun die andere Seite versteckt wird. Damit ist OpenProject in dem Punkt mit dem neuen BCF 3.0 Standard konform, was übrigens auch bereits der gelebte Standard bei Anbietern wie Solibri ist. <li>Die Bedienung des IFC-Modell-Viewers mit dem Mobiltelefon wurde massiv überarbeitet.</li> <li>Der Export von Arbeitspaket-Ansichten mit der Spalte "BCF-Snapshot" wurde gefixt.</li> </ul>
     label_activate: "Aktiviere"
@@ -624,6 +624,10 @@ de:
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."
     types:
@@ -860,7 +864,7 @@ de:
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.
-      limited_results: Nur %{count} Arbeitspakete können im manuellen Sortiermodus angezeigt werden. Bitte reduzieren Sie die Ergebnisse durch Filtern.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
         people: "Personen"
@@ -903,6 +907,7 @@ de:
         label_content: "Klicken Sie hier, um über das Menü zu überspringen und zum Inhalt zu gelangen"
       placeholders:
         default: "-"
+        date: "Select date"
         formattable: "%{name}: Klicken zum Bearbeiten..."
       query:
         column_names: "Spalten"

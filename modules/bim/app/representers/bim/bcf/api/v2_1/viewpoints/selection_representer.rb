@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -35,7 +33,7 @@ module Bim::Bcf::API::V2_1::Viewpoints
     protected
 
     def scope
-      base_scope
+      represented
         .select "jsonb_build_object('selection', json_viewpoint #> '{components, selection}') as json_viewpoint"
     end
   end

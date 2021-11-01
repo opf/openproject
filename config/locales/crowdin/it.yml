@@ -167,8 +167,8 @@ it:
     enabled_in_project: 'Abilitato nel progetto'
     contained_in_type: 'Contenuto nel tipo'
     confirm_destroy_option: "L'eliminazione di un'opzione eliminerà tutte le sue occorrenze (ad es. nelle macro-attività). Procedere all'eliminazione?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Riordina i valori alfabeticamente"
+    reorder_confirmation: "Attenzione: l'ordine corrente dei valori disponibili sarà perso. Continuare?"
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
@@ -295,7 +295,8 @@ it:
       query_group_placeholder: "Assegnare un nome alla tabella"
       reset: "Ripristino predefinite"
       type_color_text: |
-        Clicca per assegnare o cambiare il colore di questo tipo. Il colore selezionato distingue le macro-attività nei diagrammi di Gantt. Ti consigliamo di utilizzare un colore forte.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Al momento non vi è alcuna macro-attività assegnata a questa versione.
@@ -576,7 +577,7 @@ it:
         type_mismatch: "is not of type '%{type}'"
         type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
         unchangeable: "non può essere modificato."
-        unknown_property: "is not a known property."
+        unknown_property: "non è una proprietà conosciuta."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "non può essere rimosso."
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
@@ -699,6 +700,8 @@ it:
               day_limit: "è troppo alto: puoi registrare fino a 24 ore al giorno."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1216,6 +1219,7 @@ it:
   error_no_type_in_project: "Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto."
   error_omniauth_registration_timed_out: "La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova."
   error_omniauth_invalid_auth: "Le informazioni di autenticazione restituite dal provider d'identità non sono valide. Contatta il tuo amministratore per ulteriori informazioni."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Si è verificato un errore durante il tentativo di accesso all'archivio: %{value}"
   error_scm_not_found: "La voce o la revisione non è stata trovata nell'archivio."
   error_unable_delete_status: "Lo stato della macro-attività non può essere eliminato poiché è utilizzato da almeno una macro-attività."
@@ -1912,11 +1916,11 @@ it:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Ciao %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
+      created_at: 'Creato il %{timestamp} da %{user} '
+      login_to_see_all: 'Accedi per visualizzare tutte le notifiche.'
+      mentioned: 'You have been <b>menzionato in un commento</b>'
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
         one: 'There is 1 more work package with notifications.'
@@ -2430,7 +2434,7 @@ it:
       retention_text: >
         Impostare il numero di giorni di notifica per gli utenti (la fonte per le notifiche in-app) sarà mantenuto nel sistema. Eventuali eventi più vecchi verranno eliminati.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      delay_minutes_explanation: "L'invio di e-mail può essere ritardato per consentire agli utenti con la notifica in-app configurata di confermare la notifica all'interno dell'applicazione prima che la mail venga inviata. Gli utenti che leggono una notifica all'interno dell'applicazione non riceveranno un'email per la notifica già letta."
     display:
       first_date_of_week_and_year_set: >
         Se le opzioni "%{day_of_week_setting_name}" o "%{first_week_setting_name}" sono impostate, dev'esser impostata anche l'altra per evitare incoerenze in vetrina.

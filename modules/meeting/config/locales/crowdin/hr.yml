@@ -63,6 +63,8 @@ hr:
   label_version: "Verzija"
   label_time_zone: "Vremenska zona"
   label_start_date: "Datum Početka"
+  meeting:
+    copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notifikacija uspješno poslana"
   notice_timezone_missing: Vremenska zona nije postavljena na osnovu zamišljene %{zone} zone. Da bi ste odabrali vremensku zonu molim vas kliknite ovdje.
   permission_create_meetings: "Dodaj sastanke"

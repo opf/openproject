@@ -293,8 +293,8 @@ de:
       query_group_placeholder: "Benennen Sie die Tabelle"
       reset: "Auf Standardwerte zurücksetzen"
       type_color_text: |
-        Klicken, um die Farbe dieses Typs zu zuweisen oder zu ändern. Die ausgewählte Farbe unterscheidet Arbeitspakete
-        in Gantt-Diagrammen. Es wird daher empfohlen, eine starke Farbe zu verwenden.
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
   versions:
     overview:
       no_results_title_text: Derzeit sind keine Arbeitspakete dieser Version zugewiesen.
@@ -698,6 +698,8 @@ de:
               day_limit: "ist zu hoch, da maximal 24 Stunden pro Tag protokolliert werden können."
         user_preference:
           attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
         wiki_page:
@@ -1215,6 +1217,7 @@ de:
   error_no_type_in_project: "Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen."
   error_omniauth_registration_timed_out: "Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut."
   error_omniauth_invalid_auth: "Die vom Identity Provider zurückgegebenen Authentifizierungsdaten sind ungültig. Bitte kontaktieren Sie Ihren Adminstrator für weitere Hilfe."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
   error_scm_command_failed: "Beim Zugriff auf das Projektarchiv ist ein Fehler aufgetreten: %{value}"
   error_scm_not_found: "Eintrag und/oder Revision existiert nicht im Projektarchiv."
   error_unable_delete_status: "Der Arbeitspaket-Status kann nicht gelöscht werden, da er von mindestens einem Arbeitspaket genutzt wird."
