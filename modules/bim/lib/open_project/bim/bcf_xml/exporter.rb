@@ -12,23 +12,16 @@ module OpenProject::Bim::BcfXml
       User.current
     end
 
-    def list
+    def self.key
+      :bcf
+    end
+
+    def render!
       Dir.mktmpdir do |dir|
         files = create_bcf! dir
 
         zip = zip_folder dir, files
-        yield success(zip)
-      end
-    rescue StandardError => e
-      Rails.logger.error "Failed to export work package list #{e} #{e.message}"
-      raise e
-    end
-
-    def list_from_api
-      Dir.mktmpdir do |dir|
-        files = create_bcf! dir
-
-        zip_folder dir, files
+        success(zip)
       end
     rescue StandardError => e
       Rails.logger.error "Failed to export work package list #{e} #{e.message}"
@@ -36,7 +29,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def success(zip)
-      WorkPackage::Exporter::Result::Success
+      Exports::Result
         .new format: :xls,
              content: zip,
              title: bcf_filename,
@@ -59,10 +52,11 @@ module OpenProject::Bim::BcfXml
     def zip_folder(dir, files)
       zip_file = File.join(dir, bcf_filename)
 
-      Zip::File.open(zip_file, Zip::File::CREATE) do |zip|
+      Zip::OutputStream.open(zip_file.path) do |zos|
         files.each do |file|
           name = file.sub("#{dir}/", "")
-          zip.add name, file
+          zos.put_next_entry(name)
+          zos.print File.read(file)
         end
       end
 

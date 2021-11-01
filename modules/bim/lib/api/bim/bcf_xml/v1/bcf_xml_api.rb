@@ -73,7 +73,7 @@ module API
                   exporter = ::OpenProject::Bim::BcfXml::Exporter.new(updated_query.result)
                   header['Content-Disposition'] = "attachment; filename=\"#{exporter.bcf_filename}\""
                   env['api.format'] = :binary
-                  exporter.list_from_api.read
+                  exporter.render!.content.read
                 end
 
                 post do
