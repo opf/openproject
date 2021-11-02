@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob do
+describe WorkPackages::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
@@ -57,30 +57,31 @@ describe WorkPackages::Exports::ExportJob do
   describe '#perform' do
     context 'with the bcf mime type' do
       let(:mime_type) { :bcf }
+      let(:exporter) { OpenProject::Bim::BcfXml::Exporter }
+      let(:exporter_instance) { instance_double(exporter) }
 
       it 'issues an OpenProject::Bim::BcfXml::Exporter export' do
-        result = WorkPackage::Exporter::Result::Success.new(format: 'blubs',
-                                                            title: "some_title.#{mime_type}",
-                                                            content: 'some content',
-                                                            mime_type: "application/octet-stream")
+        result = Exports::Result.new(format: 'blubs',
+                                     title: "some_title.#{mime_type}",
+                                     content: 'some content',
+                                     mime_type: "application/octet-stream")
 
         service = double('attachments create service')
 
         expect(Attachments::CreateService)
           .to receive(:bypass_whitelist)
-          .with(user: user)
-          .and_return(service)
+                .with(user: user)
+                .and_return(service)
 
-        expect(WorkPackages::Exports::CleanupOutdatedJob)
+        expect(Exports::CleanupOutdatedJob)
           .to receive(:perform_after_grace)
 
         expect(service)
           .to(receive(:call))
           .and_return(ServiceResult.new(result: attachment, success: true))
 
-        allow(OpenProject::Bim::BcfXml::Exporter)
-          .to receive(:list)
-          .and_yield(result)
+        allow(exporter).to receive(:new).and_return(exporter_instance)
+        allow(exporter_instance).to receive(:export!).and_return(result)
 
         # expect to create a status
         expect(subject.job_status).to be_present

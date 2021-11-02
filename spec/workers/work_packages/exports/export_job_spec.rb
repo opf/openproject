@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob do
+describe WorkPackages::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
@@ -73,7 +73,7 @@ describe WorkPackages::Exports::ExportJob do
               .with(user: user)
               .and_return(service)
 
-      expect(WorkPackages::Exports::CleanupOutdatedJob)
+      expect(Exports::CleanupOutdatedJob)
         .to receive(:perform_after_grace)
 
       expect(service)
@@ -89,7 +89,7 @@ describe WorkPackages::Exports::ExportJob do
 
       allow(exporter).to receive(:new).and_return exporter_instance
 
-      allow(exporter_instance).to receive(:export!).and_yield(result)
+      allow(exporter_instance).to receive(:export!).and_return(result)
 
       # expect to create a status
       expect(subject.job_status).to be_present
