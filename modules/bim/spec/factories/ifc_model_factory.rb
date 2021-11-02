@@ -68,4 +68,11 @@ FactoryBot.define do
       end
     end
   end
+
+  factory :ifc_model_without_ifc_attachment, class: '::Bim::IfcModels::IfcModel' do
+    sequence(:title) { |n| "Model without ifc_attachment #{n}" }
+    project factory: :project
+    uploader factory: :user
+    is_default { true }
+  end
 end

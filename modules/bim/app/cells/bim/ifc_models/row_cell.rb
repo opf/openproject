@@ -45,7 +45,6 @@ module Bim
 
       def button_links
         links = []
-
         # Seeded IFC models currently actually only have the XKT and NOT(!) the IFC original seeded
         if model.ifc_attachment
           links << download_link
