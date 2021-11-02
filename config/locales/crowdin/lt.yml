@@ -296,7 +296,7 @@ lt:
       reset: "Atkurti į numatytuosius"
       type_color_text: |
         Parinkta spalva išskiria skirtingus tipus
-        Gantt diagramoje ar darbo paketų lentelėse. Todėl rekomenduojama naudoti stiprią spalvą.
+        Gantt diagramoje ar darbo paketų lentelėse. Todėl rekomenduojama naudoti ryškią spalvą.
   versions:
     overview:
       no_results_title_text: Šiuo metu nėra šiai versijai priskirtų darbų paketų.
