@@ -35,7 +35,7 @@ module WorkPackage::Exports
 
     attr_reader :column_objects, :columns, :work_packages
 
-    def initialize(object, **options)
+    def initialize(object, options = {})
       super
 
       @column_objects = get_columns

@@ -7,7 +7,7 @@ module Exports
       self.current_user = user
       self.mime_type = mime_type
       self.query = query
-      self.options = options
+      self.options = options.with_indifferent_access
 
       User.execute_as(user) do
         prepare!

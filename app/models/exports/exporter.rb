@@ -39,10 +39,10 @@ module Exports
 
     class_attribute :model
 
-    def initialize(object, current_user: User.current, **options)
+    def initialize(object, options = {})
       self.object = object
       self.options = options
-      self.current_user = current_user
+      self.current_user = options.fetch(:current_user) { User.current }
     end
 
     def self.key

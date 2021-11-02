@@ -264,8 +264,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_attributes!(work_package)
-    values = column_objects.map do |column|
-      make_column_value work_package, column
+    values = columns.map do |column|
+      make_column_value work_package, column[:name]
     end
 
     pdf.table([values], column_widths: column_widths)
@@ -294,9 +294,9 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def make_column_value(work_package, column)
-    formatter = ::WorkPackage::Exports::Formatters.for_column(column)
+    formatter = formatter_for(column)
 
-    pdf.make_cell formatter.format(work_package, column),
+    pdf.make_cell formatter.format(work_package),
                   padding: cell_padding
   end
 
