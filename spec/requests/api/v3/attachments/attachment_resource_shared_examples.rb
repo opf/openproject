@@ -299,7 +299,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+        let(:message) { "The content type of the file cannot be blank" }
       end
     end
 
@@ -586,7 +586,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:request_parts) { { metadata: metadata.to_json, wrongFileSection: file } }
 
         it_behaves_like 'constraint violation' do
-          let(:message) { "Content type #{I18n.t('activerecord.errors.messages.blank')}" }
+          let(:message) { "The content type of the file cannot be blank." }
         end
       end
 
