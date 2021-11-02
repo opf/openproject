@@ -47,7 +47,13 @@ module XlsExport
         end
       end
 
+      # Forwards to column_values by default
+      # but allows for extensions
       def row(object)
+        column_values(object)
+      end
+
+      def column_values(object)
         columns.collect do |column|
           format_attribute(object, column[:name])
         end
