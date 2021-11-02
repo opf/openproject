@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= op_icon('button--icon icon-delete') %>
             <span class="button--text"><%= t(:button_delete) %></span>
         <% end %>
-        <%= link_to settings_repository_tab_path,
+        <%= link_to project_settings_repository_path(@project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>
@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= op_icon('button--icon icon-remove') %>
           <span class="button--text"><%= t(:button_remove) %></span>
         <% end %>
-        <%= link_to settings_repository_tab_path,
+        <%= link_to project_settings_repository_path(@project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>

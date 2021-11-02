@@ -38,7 +38,6 @@ module OpenProject::Documents
       menu :project_menu,
            :documents,
            { controller: '/documents', action: 'index' },
-           param: :project_id,
            caption: :label_document_plural,
            before: :members,
            icon: 'icon2 icon-notes'

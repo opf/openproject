@@ -233,18 +233,12 @@ class Project < ApplicationRecord
 
   # Returns a scope of the Versions on subprojects
   def rolled_up_versions
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: self_and_descendants.select(:id) })
+    Version.rolled_up(self)
   end
 
   # Returns a scope of the Versions used by the project
   def shared_versions
-    if persisted?
-      shared_versions_on_persisted
-    else
-      shared_versions_by_system
-    end
+    Version.shared_with(self)
   end
 
   # Returns all versions a work package can be assigned to.  Opposed to
@@ -257,7 +251,7 @@ class Project < ApplicationRecord
   # reduce the number of db queries when performing operations including the
   # project's versions.
   def assignable_versions
-    @all_shared_versions ||= shared_versions.with_status_open.order_by_semver_name.to_a
+    @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
   end
 
   # Returns a hash of project users grouped by role
@@ -269,18 +263,6 @@ class Project < ApplicationRecord
       end
       h
     end
-  end
-
-  # Returns users that should be always notified on project events
-  def recipients
-    notified_users
-  end
-
-  # Return all users who want to be notified on every event within a project.
-  # If there is only the global notification setting in place, that one is authoritative.
-  # If there is a project specific setting in place, it is the project specific setting instead.
-  def notified_users
-    User.notified_on_all(self)
   end
 
   # Returns an array of all custom fields enabled for project issues
@@ -453,50 +435,6 @@ class Project < ApplicationRecord
     @actions_allowed ||= allowed_permissions
                          .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
                          .flatten
-  end
-
-  protected
-
-  def shared_versions_on_persisted
-    shared_versions_base_scope
-      .where(projects: { id: id })
-      .or(shared_versions_by_system)
-      .or(shared_versions_by_tree)
-      .or(shared_versions_by_hierarchy_or_descendants)
-      .or(shared_versions_by_hierarchy)
-  end
-
-  def shared_versions_by_tree
-    r = root? ? self : root
-
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: r.self_and_descendants.select(:id) })
-      .where(sharing: 'tree')
-  end
-
-  def shared_versions_by_hierarchy_or_descendants
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(projects: { id: ancestors.select(:id) })
-      .where(sharing: %w(hierarchy descendants))
-  end
-
-  def shared_versions_by_hierarchy
-    rolled_up_versions
-      .where(sharing: 'hierarchy')
-  end
-
-  def shared_versions_by_system
-    shared_versions_base_scope
-      .merge(Project.active)
-      .where(sharing: 'system')
-  end
-
-  def shared_versions_base_scope
-    Version
-      .includes(:project)
-      .references(:projects)
   end
 
   def remove_white_spaces_from_project_name

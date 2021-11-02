@@ -133,7 +133,7 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'project_settings.**',
     parent: 'optional_project',
-    url: '/settings/generic',
+    url: '/settings/general',
     loadChildren: () => import('../../features/projects/openproject-projects.module').then((m) => m.OpenprojectProjectsModule),
   },
   {

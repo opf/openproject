@@ -48,7 +48,9 @@ class Version < ApplicationRecord
   validates_inclusion_of :status, in: VERSION_STATUSES
   validate :validate_start_date_before_effective_date
 
-  scopes :order_by_semver_name
+  scopes :order_by_semver_name,
+         :rolled_up,
+         :shared_with
 
   scope :visible, ->(*args) {
     joins(:project)

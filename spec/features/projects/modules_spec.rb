@@ -111,7 +111,7 @@ describe 'Projects module administration',
 
     before do
       login_as user_without_permission
-      settings_page.visit_tab!('generic')
+      settings_page.visit_tab!('general')
     end
 
     it "I can't see the modules menu item" do

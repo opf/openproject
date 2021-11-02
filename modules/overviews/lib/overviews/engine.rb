@@ -9,7 +9,6 @@ module Overviews
         menu.push(:overview,
                   { controller: '/overviews/overviews', action: 'show' },
                   caption: :'overviews.label',
-                  param: :project_id,
                   first: true,
                   icon: 'icon2 icon-info1')
       end

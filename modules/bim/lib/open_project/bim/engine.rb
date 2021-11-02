@@ -82,14 +82,12 @@ module OpenProject::Bim
         menu.push(:ifc_models,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
                   caption: :'bcf.label_bcf',
-                  param: :project_id,
                   after: :work_packages,
                   icon: 'icon2 icon-bcf',
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
-                  param: :project_id,
                   parent: :ifc_models,
                   partial: '/bim/ifc_models/ifc_models/panels'
       end

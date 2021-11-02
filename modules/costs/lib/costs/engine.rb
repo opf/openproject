@@ -60,7 +60,7 @@ module Costs
                    require: :loggedin
 
         permission :manage_project_activities,
-                   { 'projects/time_entry_activities': %i[update] },
+                   { 'projects/settings/time_entry_activities': %i[show update] },
                    require: :member
         permission :view_own_hourly_rate, {}
         permission :view_hourly_rates, {}

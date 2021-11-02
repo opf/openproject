@@ -48,7 +48,7 @@ feature 'project settings index', type: :feature do
 
   @javascript
   scenario 'see versions listed in semver order' do
-    visit settings_versions_project_path(project)
+    visit project_settings_versions_path(project)
 
     names_in_order = page.all('.version .name').map { |el| el.text.strip }
 

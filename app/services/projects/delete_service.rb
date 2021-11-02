@@ -30,6 +30,8 @@
 
 module Projects
   class DeleteService < ::BaseServices::Delete
+    include Projects::Concerns::UpdateDemoData
+
     def call(*)
       super.tap do |service_call|
         notify(service_call.success?)

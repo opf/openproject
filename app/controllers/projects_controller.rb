@@ -33,18 +33,19 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index level_list new]
-  before_action :authorize, only: %i[modules types custom_fields copy]
+  before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
-  before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
+  before_action :require_admin, only: %i[destroy destroy_info]
 
   include SortHelper
   include PaginationHelper
-  include CustomFieldsHelper
   include QueriesHelper
-  include RepositoriesHelper
   include ProjectsHelper
 
-  # Lists visible projects
+  current_menu_item :index do
+    :list_projects
+  end
+
   def index
     query = load_query
 
@@ -58,94 +59,12 @@ class ProjectsController < ApplicationController
     render layout: 'no_menu'
   end
 
-  current_menu_item :index do
-    :list_projects
-  end
-
   def new
     render layout: 'no_menu'
   end
 
-  def update
-    @altered_project = Project.find(@project.id)
-
-    service_call = Projects::UpdateService
-      .new(user: current_user,
-           model: @altered_project)
-      .call(permitted_params.project)
-
-    if service_call.success?
-      flash[:notice] = t(:notice_successful_update)
-      redirect_to settings_generic_project_path(@altered_project)
-    else
-      @errors = service_call.errors
-      render template: 'project_settings/generic'
-    end
-  end
-
   def copy
     render
-  end
-
-  def update_identifier
-    service_call = Projects::UpdateService
-      .new(user: current_user,
-           model: @project)
-      .call(permitted_params.project)
-
-    if service_call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to settings_generic_project_path(@project)
-    else
-      render action: 'identifier'
-    end
-  end
-
-  def types
-    if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
-      flash[:notice] = I18n.t('notice_successful_update')
-    else
-      flash[:error] = @project.errors.full_messages
-    end
-
-    redirect_to settings_types_project_path(@project.identifier)
-  end
-
-  def modules
-    call = Projects::EnabledModulesService
-           .new(model: @project, user: current_user)
-           .call(enabled_modules: permitted_params.project[:enabled_module_names])
-
-    if call.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
-
-      redirect_to settings_modules_project_path(@project)
-    else
-      @errors = call.errors
-      render 'project_settings/modules'
-    end
-  end
-
-  def custom_fields
-    Project.transaction do
-      @project.work_package_custom_field_ids = permitted_params.project[:work_package_custom_field_ids]
-      if @project.save
-        flash[:notice] = t(:notice_successful_update)
-      else
-        flash[:error] = t(:notice_project_cannot_update_custom_fields,
-                          errors: @project.errors.full_messages.join(', '))
-        raise ActiveRecord::Rollback
-      end
-    end
-    redirect_to settings_custom_fields_project_path(@project)
-  end
-
-  def archive
-    change_status_action(:archive)
-  end
-
-  def unarchive
-    change_status_action(:unarchive)
   end
 
   # Delete @project
@@ -161,7 +80,6 @@ class ProjectsController < ApplicationController
     end
 
     redirect_to project_path_with_status
-    update_demo_project_settings @project, false
   end
 
   def destroy_info
@@ -178,12 +96,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  ##
-  # Redirect as action as routes can only redirect by full path
-  def settings
-    redirect_to settings_generic_project_path(@project)
-  end
-
   private
 
   def find_optional_project
@@ -193,26 +105,6 @@ class ProjectsController < ApplicationController
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def change_status_action(status)
-    service_call = change_status(status)
-
-    if service_call.success?
-      update_demo_project_settings @project, status == :archive
-      redirect_to(project_path_with_status)
-    else
-      flash[:error] = t(:"error_can_not_#{status}_project",
-                        errors: service_call.errors.full_messages.join(', '))
-      redirect_back fallback_location: project_path_with_status
-    end
-  end
-
-  def change_status(status)
-    "Projects::#{status.to_s.camelcase}Service"
-      .constantize
-      .new(user: current_user, model: @project)
-      .call
   end
 
   def redirect_work_packages_or_overview
@@ -256,12 +148,5 @@ class ProjectsController < ApplicationController
 
   def set_sorting(query)
     query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-  end
-
-  def update_demo_project_settings(project, value)
-    # e.g. when one of the demo projects gets deleted or a archived
-    if project.identifier == 'your-scrum-project' || project.identifier == 'demo-project'
-      Setting.demo_projects_available = value
-    end
   end
 end
