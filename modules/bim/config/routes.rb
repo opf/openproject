@@ -41,10 +41,6 @@ OpenProject::Application.routes.draw do
       # IFC viewer frontend
       get 'bcf(/*state)', to: 'bim/ifc_models/ifc_viewer#show', as: :frontend
 
-      get 'ifc_models/:id/download', to: 'bim/ifc_models/ifc_models#model_download',
-          as: 'ifc_model_download',
-          constraints: { filename: /[^\/]*/ }
-
       # IFC model management
       resources :ifc_models, controller: 'bim/ifc_models/ifc_models' do
         collection do

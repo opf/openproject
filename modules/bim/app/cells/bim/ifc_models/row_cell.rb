@@ -69,9 +69,10 @@ module Bim
 
       def download_link
         link_to '',
-                bcf_project_ifc_model_download_path(model.project, model),
+                API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(model.ifc_attachment&.id),
                 class: 'icon icon-download',
-                title: I18n.t(:button_download)
+                title: I18n.t(:button_download),
+                download: true
       end
 
       def edit_link

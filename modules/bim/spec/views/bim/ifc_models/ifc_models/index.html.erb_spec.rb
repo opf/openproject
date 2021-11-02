@@ -35,15 +35,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
                              uploader: uploader_user,
                              title: "office.ifc",
                              project: project).tap do |model|
-      model.extend(OpenProject::ChangedBySystem)
-
-      if model.changed_by_system
-        model.changed_by_system do
-          model.uploader = uploader_user
-        end
-      else
-        model.uploader = uploader_user
-      end
+      model.uploader = uploader_user
     end
   end
   let(:user) { FactoryBot.build_stubbed(:user) }
