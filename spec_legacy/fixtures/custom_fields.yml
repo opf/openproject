@@ -97,18 +97,6 @@ custom_fields_006:
   is_required: false
   field_format: float
   editable: true
-custom_fields_007:
-  name: "Billable"
-  min_length: 0
-  regexp: ""
-  is_for_all: false
-  is_filter: true
-  type: TimeEntryActivityCustomField
-  max_length: 0
-  id: 7
-  is_required: false
-  field_format: bool
-  editable: true
 custom_fields_008:
   name: "Custom date"
   min_length: 0
