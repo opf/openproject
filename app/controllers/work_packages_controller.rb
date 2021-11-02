@@ -103,14 +103,11 @@ class WorkPackagesController < ApplicationController
                  .single_exporter(WorkPackage, mime_type)
                  .new(work_package, params)
 
-    exporter.export! do |export|
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
-    rescue ::Exports::ExportError => e
-      flash[:error] = e.message
-      redirect_back(fallback_location: work_package_path(work_package))
-    end
+    export = exporter.export!
+    send_data(export.content, type: export.mime_type, filename: export.title)
+  rescue ::Exports::ExportError => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: work_package_path(work_package))
   end
 
   def atom_journals

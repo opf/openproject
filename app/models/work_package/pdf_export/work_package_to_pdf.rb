@@ -37,11 +37,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
 
   self.model = WorkPackage
 
+  alias :work_package :object
+
   def self.key
     :pdf
   end
 
-  def initialize(work_package)
+  def initialize(work_package, _options = {})
     super
 
     self.pdf = get_pdf(current_language)
@@ -91,8 +93,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
     )
 
     column = columns.find { |col| col.name == attribute.to_sym }
-    formatter = ::WorkPackage::Exporter::Formatters.for_column(column)
-    value_content = formatter.format(work_package, column)
+    formatter = formatter_for(column.name)
+    value_content = formatter.format(work_package)
     value = pdf.make_cell(value_content.to_s, value_options)
 
     [label, value]

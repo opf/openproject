@@ -297,7 +297,7 @@ describe WorkPackagesController, type: :controller do
                             title: expected_name,
                             mime_type: expected_type)
 
-        allow(exporter_instance).to receive(:export!).and_yield(pdf_result)
+        allow(exporter_instance).to receive(:export!).and_return(pdf_result)
         expect(controller).to receive(:send_data).with(pdf_data,
                                                        type: expected_type,
                                                        filename: expected_name) do |*_args|
