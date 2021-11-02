@@ -46,7 +46,7 @@ module API
         full_self_link = make_page_link(page: @page, page_size: @per_page)
         paged = paged_models(models)
 
-        super(paged, models.count, self_link: full_self_link, current_user: current_user, groups: groups)
+        super(paged, total_count(models), self_link: full_self_link, current_user: current_user, groups: groups)
       end
 
       link :jumpTo do
@@ -86,6 +86,12 @@ module API
       property :offset,
                exec_context: :decorator,
                getter: ->(*) { @page }
+
+      protected
+
+      def total_count(models)
+        models.count(:id)
+      end
 
       private
 

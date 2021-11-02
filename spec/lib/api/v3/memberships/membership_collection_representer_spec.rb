@@ -41,6 +41,10 @@ describe ::API::V3::Memberships::MembershipCollectionRepresenter do
         .to receive(:page)
         .with(page)
         .and_return(members)
+
+      allow(members)
+        .to receive(:count)
+        .and_return(3)
     end
   end
   let(:current_user) { FactoryBot.build_stubbed(:user) }

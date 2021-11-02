@@ -43,6 +43,10 @@ describe ::API::V3::Notifications::NotificationCollectionRepresenter do
         .to receive(:page)
               .with(page)
               .and_return(items)
+
+      allow(items)
+        .to receive(:count)
+              .and_return(total)
     end
   end
   let(:current_user) { FactoryBot.build_stubbed(:user) }
