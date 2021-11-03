@@ -29,7 +29,7 @@
     (search)="search($event)"
     (open)="openCloseMenu(currentValue)"
     (close)="select.searchTerm = currentValue"
-    (change)="followSelectedItem()"
+    (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
     (keydown.escape)="blur()"
     (clear)="clearSearch()"
