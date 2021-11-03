@@ -568,4 +568,20 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
       it_behaves_like 'non ar filter'
     end
   end
+
+  describe 'is_filter control' do
+    context 'when enabled' do
+      it 'is available' do
+        custom_field.is_filter = true
+        expect(instance).to be_available
+      end
+    end
+
+    context 'when disabled' do
+      it 'is available' do
+        custom_field.is_filter = false
+        expect(instance).not_to be_available
+      end
+    end
+  end
 end

@@ -55,7 +55,7 @@ module Queries::Filters::Shared
       end
 
       def available?
-        custom_field.present?
+        custom_field.present? && custom_field.is_filter
       end
 
       def order
