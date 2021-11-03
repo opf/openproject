@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { PrincipalLike } from './principal-types';
 import { PrincipalHelper } from './principal-helper';
@@ -35,7 +33,7 @@ export class PrincipalRendererService {
     name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
-  ) {
+  ):void {
     container.classList.add('op-principal');
     const list = document.createElement('span');
 
@@ -66,7 +64,7 @@ export class PrincipalRendererService {
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
     container.classList.add('op-principal');
-    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
+    const type = PrincipalHelper.typeFromHref(principal.href || '') as PrincipalType;
 
     if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
@@ -123,9 +121,10 @@ export class PrincipalRendererService {
     image.src = url;
     image.title = principal.name;
     image.alt = principal.name;
-    image.onload = function () {
+    image.onload = () => {
       fallback.replaceWith(image);
-      (fallback as any) = undefined;
+      // eslint-disable-next-line no-param-reassign
+      (fallback as unknown) = undefined;
     };
   }
 
@@ -151,18 +150,22 @@ export class PrincipalRendererService {
     return span;
   }
 
-  private principalURL(principal:PrincipalLike, type:PrincipalType) {
+  private principalURL(principal:PrincipalLike, type:PrincipalType):string {
+    const id = principal.id || (principal.href ? idFromLink(principal.href) : '');
+
     switch (type) {
       case 'group':
-        return this.pathHelper.groupPath(principal.id || '');
+        return this.pathHelper.groupPath(id);
       case 'placeholder_user':
-        return this.pathHelper.placeholderUserPath(principal.id || '');
+        return this.pathHelper.placeholderUserPath(id);
       case 'user':
-        return this.pathHelper.userPath(principal.id || '');
+        return this.pathHelper.userPath(id);
+      default:
+        throw new Error('Invalid principal type provided');
     }
   }
 
-  private getInitials(name:string) {
+  private getInitials(name:string):string {
     const characters = [...name];
     const lastSpace = name.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();
