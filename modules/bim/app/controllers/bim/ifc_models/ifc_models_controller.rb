@@ -78,8 +78,8 @@ module Bim
         attachment = Attachment.pending_direct_uploads.where(id: id).first
         if attachment.nil? # this should not happen
           flash[:error] = "Direct upload failed."
-
           redirect_to action: :new
+          return
         end
 
         params = {
@@ -179,7 +179,7 @@ module Bim
         return unless OpenProject::Configuration.direct_uploads?
 
         call = ::Attachments::PrepareUploadService
-                 .new(user: current_user)
+                 .bypass_whitelist(user: current_user)
                  .call(filename: "model.ifc", filesize: 0)
 
         call.on_failure { flash[:error] = call.message }
