@@ -139,6 +139,7 @@ FactoryBot.define do
     factory :wp_custom_field, class: 'WorkPackageCustomField' do
       sequence(:name) { |n| "Work package custom field #{n}" }
       type { 'WorkPackageCustomField' }
+      is_filter { true }
 
       factory :list_wp_custom_field do
         sequence(:name) { |n| "List CF #{n}" }

@@ -224,9 +224,8 @@ class CustomField < ApplicationRecord
   end
 
   # to move in project_custom_field
-  def self.for_all(options = {})
+  def self.for_all
     where(is_for_all: true)
-      .includes(options[:include])
       .order("#{table_name}.position")
   end
 

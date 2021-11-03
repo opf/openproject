@@ -129,9 +129,8 @@ describe 'filter me value', js: true do
   describe 'custom_field of type user' do
     let(:custom_field) do
       FactoryBot.create(
-        :work_package_custom_field,
+        :user_wp_custom_field,
         name: 'CF user',
-        field_format: 'user',
         is_required: false
       )
     end
