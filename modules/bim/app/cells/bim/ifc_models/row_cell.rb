@@ -31,8 +31,15 @@ module Bim
 
       def processing
         content_tag(:span) do
-          content = content_tag(:span, I18n.t("ifc_models.conversion_status.#{model.conversion_status.to_s}"))
-          content << content_tag(:span, model.conversion_error_message) if model.conversion_error_message
+          content = content_tag(:span,
+                                I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
+                                class: "ifc-models--conversion-status")
+          if model.conversion_error_message || true
+            content << ': '
+            content << content_tag(:span,
+                                   class: "ifc-models--conversion-status-error",
+                                   title: model.conversion_error_message)
+          end
           content.html_safe
         end
       end

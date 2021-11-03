@@ -64,7 +64,7 @@ module Bim
 
           perform_conversion!
 
-          ifc_model.conversion_status= ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
+          ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
           ifc_model.conversion_error_message = nil
 
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
@@ -72,7 +72,7 @@ module Bim
       rescue StandardError => e
         OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
 
-        ifc_model.conversion_status= ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
         ifc_model.conversion_error_message = e.message
         ifc_model.save
 
