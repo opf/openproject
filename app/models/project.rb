@@ -265,22 +265,12 @@ class Project < ApplicationRecord
     end
   end
 
-  # Returns an array of all custom fields enabled for project issues
+  # Returns an AR scope of all custom fields enabled for project's work packages
   # (explicitly associated custom fields and custom fields enabled for all projects)
-  #
-  # Supports the :include option.
-  def all_work_package_custom_fields(options = {})
-    @all_work_package_custom_fields ||= (
-      WorkPackageCustomField.for_all(options) + (
-        if options.include? :include
-          WorkPackageCustomField.joins(:projects)
-            .where(projects: { id: id })
-            .includes(options[:include]) # use #preload instead of #includes if join gets too big
-        else
-          work_package_custom_fields
-        end
-      )
-    ).uniq.sort
+  def all_work_package_custom_fields
+    WorkPackageCustomField
+      .for_all
+      .or(WorkPackageCustomField.where(id: work_package_custom_fields))
   end
 
   def project
