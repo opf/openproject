@@ -32,9 +32,9 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
   let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
     FactoryBot.create(:ifc_model,
-                             uploader: uploader_user,
-                             title: "office.ifc",
-                             project: project).tap do |model|
+                      uploader: uploader_user,
+                      title: "office.ifc",
+                      project: project).tap do |model|
       model.uploader = uploader_user
     end
   end
@@ -80,7 +80,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
 
       it 'lists the IFC model with all but the download button' do
         expect(rendered).to have_text('office.ifc')
-        expect(rendered).to_not have_link('Download')
+        expect(rendered).not_to have_link('Download')
         expect(rendered).to have_link('Delete')
         expect(rendered).to have_link('Edit')
       end
