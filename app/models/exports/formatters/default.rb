@@ -9,8 +9,6 @@ module Exports
         @attribute = attribute
       end
 
-      ##
-      # Checks if this column is applicable for this column
       def self.apply?(_attribute)
         false
       end

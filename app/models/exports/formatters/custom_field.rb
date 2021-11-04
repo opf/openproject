@@ -1,8 +1,6 @@
 module Exports
   module Formatters
     class CustomField < Default
-      ##
-      # Checks if this column is applicable for this column
       def self.apply?(attribute)
         attribute.start_with?('cf_')
       end

@@ -43,9 +43,11 @@ module Projects::Exports
 
     def projects
       @projects ||= query
-                      .results
-                      .page(page)
-                      .per_page(Setting.work_packages_export_limit.to_i)
+        .results
+        .with_required_storage
+        .with_latest_activity
+        .page(page)
+        .per_page(Setting.work_packages_export_limit.to_i)
     end
 
     private
