@@ -81,7 +81,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
-        call.apply_flash_message!(flash)
+        call.apply_flash_message!(flash) if call.errors.empty?
 
         if call.success?
           @token.destroy
