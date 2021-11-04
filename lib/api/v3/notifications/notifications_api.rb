@@ -44,7 +44,7 @@ module API
 
             def notification_scope
               ::Notification
-                .recipient(current_user)
+                .visible(current_user)
                 .includes(NotificationRepresenter.to_eager_load)
                 .where
                 .not(read_ian: nil)
