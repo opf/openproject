@@ -92,6 +92,11 @@ module Pages
           .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
+      def expect_item_selected(notification)
+        expect(page)
+          .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
+      end
+
       def expect_work_package_item(*notifications)
         notifications.each do |notification|
           work_package = notification.resource

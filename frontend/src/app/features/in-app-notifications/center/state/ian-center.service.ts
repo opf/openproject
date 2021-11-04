@@ -3,16 +3,19 @@ import {
   Injector,
 } from '@angular/core';
 import {
+  debounceTime,
   distinctUntilChanged,
   map,
   mapTo,
   pluck,
-  share,
+  shareReplay,
   switchMap,
   take,
-  debounceTime,
 } from 'rxjs/operators';
-import { Subject, from } from 'rxjs';
+import {
+  from,
+  Subject,
+} from 'rxjs';
 import {
   ID,
   setLoading,
@@ -20,10 +23,10 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
-  markNotificationsAsRead,
-  notificationsMarkedRead,
-  notificationCountIncreased,
   centerUpdatedInPlace,
+  markNotificationsAsRead,
+  notificationCountIncreased,
+  notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
@@ -35,7 +38,10 @@ import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { mapHALCollectionToIDCollection, selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import {
+  mapHALCollectionToIDCollection,
+  selectCollectionAsHrefs$,
+} from 'core-app/core/state/collection-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IanCenterStore,
@@ -80,7 +86,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     pluck('workPackageId'),
     distinctUntilChanged(),
     map((workPackageId:string) => (workPackageId ? this.apiV3Service.work_packages.id(workPackageId).path : undefined)),
-    share(),
+    shareReplay(),
   );
 
   constructor(
