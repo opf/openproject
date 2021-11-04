@@ -11,7 +11,19 @@ module Exports
         custom_field = find_custom_field(object)
         return '' if custom_field.nil?
 
-        object.formatted_custom_value_for(custom_field)
+        format_for_export(object, custom_field)
+      end
+
+      ##
+      # Print the value meant for export.
+      # For boolean values, don't use the Yes/No formatting for the UI
+      def format_for_export(object, custom_field)
+        case custom_field.field_format
+        when 'bool'
+          object.typed_custom_value_for(custom_field)
+        else
+          object.formatted_custom_value_for(custom_field)
+        end
       end
 
       ##

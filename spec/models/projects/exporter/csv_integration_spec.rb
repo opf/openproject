@@ -60,7 +60,13 @@ describe Projects::Exports::CSV, 'integration', type: :model do
         cf_names = custom_fields.map(&:name)
         expect(header).to eq ['id', 'Identifier', 'Name', 'Status', 'Public', *cf_names]
 
-        custom_values = custom_fields.map { |cf| project.formatted_custom_value_for(cf) }
+        custom_values = custom_fields.map do |cf|
+          if cf == bool_cf
+            'true'
+          else
+            project.formatted_custom_value_for(cf)
+          end
+        end
         expect(rows.first)
           .to eq [project.id.to_s, project.identifier, project.name, 'Off track', 'false', *custom_values]
       end
