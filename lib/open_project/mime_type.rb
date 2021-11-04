@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Redmine
+module OpenProject
   module MimeType
     MIME_TYPES = {
       'text/plain' => 'txt,tpl,properties,patch,diff,ini,readme,install,upgrade',
@@ -79,14 +79,31 @@ module Redmine
       'video/mpeg' => 'mpeg,mpg,mpe',
       'video/mp4' => 'mp4',
       'video/x-ms-wmv' => 'wmv',
+      'video/webm' => 'webm',
       'video/quicktime' => 'qt,mov',
       'video/vnd.vivo' => 'viv,vivo',
       'video/x-msvideo' => 'avi'
     }.freeze
 
+    PLAIN_TEXT_TYPES = %w[text/plain].freeze
+    INLINE_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/apng image/tiff image/bmp image/webp].freeze
+    INLINE_MOVIE_TYPES = %w[video/x-msvideo video/quicktime video/mpeg video/mp4 video/webm video/x-ms-wmv].freeze
+
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
       exts.split(',').each { |ext| map[ext.strip] = type }
       map
+    end
+
+    def self.movie?(mime_type)
+      INLINE_MOVIE_TYPES.include?(mime_type)
+    end
+
+    def self.image?(mime_type)
+      INLINE_IMAGE_TYPES.include?(mime_type)
+    end
+
+    def self.plain_text?(mime_type)
+      PLAIN_TEXT_TYPES.include?(mime_type)
     end
 
     # returns mime type for name or nil if unknown

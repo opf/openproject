@@ -199,7 +199,7 @@ class RepositoriesController < ApplicationController
     # UTF-16 contains "\x00".
     # It is very strict that file contains less than 30% of ascii symbols
     # in non Western Europe.
-    return true if Redmine::MimeType.is_type?('text', path)
+    return true if OpenProject::MimeType.is_type?('text', path)
     # Ruby 1.8.6 has a bug of integer divisions.
     # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
     if ent.respond_to?('is_binary_data?') && ent.is_binary_data? # Ruby 1.8.x and <1.9.2
@@ -481,7 +481,7 @@ class RepositoriesController < ApplicationController
   def send_raw(content, path)
     # Force the download
     send_opt = { filename: filename_for_content_disposition(path.split('/').last) }
-    send_type = Redmine::MimeType.of(path)
+    send_type = OpenProject::MimeType.of(path)
     send_opt[:type] = send_type.to_s if send_type
     send_data content, send_opt
   end
