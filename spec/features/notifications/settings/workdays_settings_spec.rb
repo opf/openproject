@@ -28,7 +28,7 @@ describe "Workday notification settings", type: :feature, js: true do
 
         settings_page.save
 
-        settings_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_update'))
+        settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
         settings_page.reload!
 
@@ -62,7 +62,7 @@ describe "Workday notification settings", type: :feature, js: true do
 
         settings_page.save
 
-        settings_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+        settings_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
         settings_page.reload!
 

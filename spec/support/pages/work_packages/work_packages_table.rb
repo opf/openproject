@@ -251,7 +251,7 @@ module Pages
 
       click_button 'Save'
 
-      expect_notification message: 'Successful creation.'
+      expect_toast message: 'Successful creation.'
       expect_title name
     end
 

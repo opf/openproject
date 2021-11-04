@@ -34,9 +34,9 @@ import {
   globalSearchWorkPackagesSelectorEntry,
 } from 'core-app/core/global_search/global-search-work-packages-entry.component';
 import {
-  NotificationsContainerComponent,
-  notificationsContainerSelector,
-} from 'core-app/shared/components/notifications/notifications-container.component';
+  ToastsContainerComponent,
+  toastsContainerSelector,
+} from 'core-app/shared/components/toaster/toasts-container.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -193,7 +193,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
   { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
-  { selector: notificationsContainerSelector, cls: NotificationsContainerComponent },
+  { selector: toastsContainerSelector, cls: ToastsContainerComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },

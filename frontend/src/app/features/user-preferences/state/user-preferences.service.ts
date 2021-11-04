@@ -1,7 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { Apiv3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
@@ -15,9 +14,8 @@ export class UserPreferencesService {
   readonly query = new UserPreferencesQuery(this.store);
 
   constructor(
-    private http:HttpClient,
     private apiV3Service:APIV3Service,
-    private notifications:NotificationsService,
+    private toastService:ToastService,
     private I18n:I18nService,
   ) {
   }
@@ -28,7 +26,7 @@ export class UserPreferencesService {
       .get()
       .subscribe(
         (prefs) => this.store.update(prefs),
-        (error) => this.notifications.addError(error),
+        (error) => this.toastService.addError(error),
       )
       .add(
         () => this.store.setLoading(false),
@@ -43,9 +41,9 @@ export class UserPreferencesService {
       .subscribe(
         (prefs) => {
           this.store.update(prefs);
-          this.notifications.addSuccess(this.I18n.t('js.notice_successful_update'));
+          this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         },
-        (error) => this.notifications.addError(error),
+        (error) => this.toastService.addError(error),
       )
       .add(() => this.store.setLoading(false));
   }

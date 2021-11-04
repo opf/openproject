@@ -10,7 +10,7 @@ import {
 } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
 import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
@@ -34,7 +34,7 @@ export class ProjectsResourceService {
   constructor(
     private http:HttpClient,
     private apiV3Service:APIV3Service,
-    private notifications:NotificationsService,
+    private toastService:ToastService,
   ) {
   }
 
@@ -61,7 +61,7 @@ export class ProjectsResourceService {
           });
         }),
         catchError((error) => {
-          this.notifications.addError(error);
+          this.toastService.addError(error);
           throw error;
         }),
       );

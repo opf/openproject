@@ -32,7 +32,7 @@ import {
 } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -80,7 +80,7 @@ export class BackupComponent implements AfterViewInit {
     readonly elementRef:ElementRef,
     public injector:Injector,
     protected i18n:I18nService,
-    protected notificationsService:NotificationsService,
+    protected toastService:ToastService,
     protected opModalService:OpModalService,
     protected pathHelper:PathHelperService,
   ) {
@@ -126,7 +126,7 @@ export class BackupComponent implements AfterViewInit {
         this.opModalService.show(JobStatusModalComponent, 'global', { jobId: resp.jobStatusId });
       })
       .catch((error:HttpErrorResponse) => {
-        this.notificationsService.addError(error.error);
+        this.toastService.addError(error.error);
       });
   }
 }

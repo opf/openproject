@@ -81,8 +81,8 @@ module Components
         expect(page)
             .to have_selector('figure img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        expect(page).not_to have_selector('notification-upload-progress')
-        sleep 0.5
+        sleep 3
+        expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
         # two uploaded images, from the perspective of the user, we do it by getting

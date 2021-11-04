@@ -29,34 +29,36 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
 } from '@angular/core';
-import { INotification, NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { IToast, ToastService } from './toast.service';
 
-export const notificationsContainerSelector = 'notifications-container';
+export const toastsContainerSelector = 'op-toasts-container';
 
 @Component({
   template: `
-    <div class="notification-box--wrapper">
-      <div class="notification-box--casing">
-        <notification [notification]="notification" *ngFor="let notification of stack"></notification>
+    <div class="op-toast--wrapper">
+      <div class="op-toast--casing">
+        <op-toast [toast]="toast" *ngFor="let toast of stack"></op-toast>
       </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: notificationsContainerSelector,
+  selector: toastsContainerSelector,
 })
-export class NotificationsContainerComponent extends UntilDestroyedMixin implements OnInit {
-  public stack:INotification[] = [];
+export class ToastsContainerComponent extends UntilDestroyedMixin implements OnInit {
+  public stack:IToast[] = [];
 
-  constructor(readonly notificationsService:NotificationsService,
-    readonly cdRef:ChangeDetectorRef) {
+  constructor(
+    readonly toastService:ToastService,
+    readonly cdRef:ChangeDetectorRef
+  ) {
     super();
   }
 
   ngOnInit():void {
-    this.notificationsService
+    this.toastService
       .current
-      .values$('Subscribing to changes in the notification stack')
+      .values$('Subscribing to changes in the toaster stack')
       .pipe(
         this.untilDestroyed(),
       )

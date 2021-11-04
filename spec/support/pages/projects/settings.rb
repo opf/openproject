@@ -43,8 +43,8 @@ module Pages
         visit "/projects/#{project.identifier}/settings/#{name}"
       end
 
-      # only notice is used as opposed to notification-box
-      def expect_notification(message:, type: :notice)
+      # only notice is used as opposed to op-toast
+      def expect_toast(message:, type: :notice)
         expect(page).to have_selector(".flash.#{type}", text: message, wait: 10)
       end
 
@@ -88,7 +88,7 @@ module Pages
 
       private
 
-      def notification_type
+      def toast_type
         :rails
       end
 

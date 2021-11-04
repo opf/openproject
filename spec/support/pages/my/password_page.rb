@@ -45,12 +45,12 @@ module Pages
       end
 
       def expect_password_reuse_error_message(count)
-        expect_notification(type: :error,
+        expect_toast(type: :error,
                             message: I18n.t(:'activerecord.errors.models.user.attributes.password.reused', count: count))
       end
 
       def expect_password_weak_error_message
-        expect_notification(type: :error,
+        expect_toast(type: :error,
                             message: "Password Must contain characters of the following classes (at least 2 of 3): lowercase (e.g. 'a'), uppercase (e.g. 'A'), numeric (e.g. '1').")
       end
 
@@ -61,7 +61,7 @@ module Pages
 
       private
 
-      def notification_type
+      def toast_type
         :rails
       end
     end

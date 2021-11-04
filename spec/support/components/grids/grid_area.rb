@@ -22,8 +22,8 @@ module Components
       end
 
       def click_menu_item(text)
-        # Ensure there are no active notifications
-        dismiss_notification!
+        # Ensure there are no active toasters
+        dismiss_toaster!
 
         open_menu
 
@@ -133,12 +133,12 @@ module Components
         action.perform
       end
 
-      def dismiss_notification!
-        if page.has_selector?('.notification-box--close')
-          page.find('.notification-box--close').click
+      def dismiss_toaster!
+        if page.has_selector?('.op-toast--close')
+          page.find('.op-toast--close').click
         end
 
-        expect(page).to have_no_selector('.notification-box')
+        expect(page).to have_no_selector('.op-toast')
       end
     end
   end

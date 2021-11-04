@@ -11,7 +11,7 @@ import * as moment from 'moment';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
@@ -96,7 +96,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     readonly titleService:OpTitleService,
     private element:ElementRef,
     readonly i18n:I18nService,
-    readonly notificationsService:NotificationsService,
+    readonly toastService:ToastService,
     private sanitizer:DomSanitizer,
     private configuration:ConfigurationService) {
     super();
@@ -332,7 +332,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     }
 
     if (this.tooManyResultsText && !this.static) {
-      this.notificationsService.addNotice(this.tooManyResultsText);
+      this.toastService.addNotice(this.tooManyResultsText);
     }
   }
 

@@ -1,5 +1,5 @@
 import { ApplicationRef, Injector, NgZone } from '@angular/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -45,7 +45,7 @@ export class OpenProjectPluginContext {
     halResource: this.injector.get<HalResourceService>(HalResourceService),
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
-    notifications: this.injector.get<NotificationsService>(NotificationsService),
+    notifications: this.injector.get<ToastService>(ToastService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
     opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),

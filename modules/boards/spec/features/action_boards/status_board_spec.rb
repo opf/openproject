@@ -164,7 +164,7 @@ describe 'Status action board', type: :feature, js: true do
 
       # Try to drag to whatever, which has no workflow
       board_page.move_card(0, from: 'Closed', to: 'Whatever')
-      board_page.expect_and_dismiss_notification(
+      board_page.expect_and_dismiss_toaster(
         type: :error,
         message: "Status is invalid because no valid transition exists from old to new status for the current user's roles."
       )
@@ -227,7 +227,7 @@ describe 'Status action board', type: :feature, js: true do
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:status).update('Open')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       wp.reload
       expect(wp.status).to eq(open_status)

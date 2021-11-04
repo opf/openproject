@@ -210,7 +210,7 @@ describe 'edit work package', js: true do
       type_field.activate!
       type_field.set_value type2.name
 
-      wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+      wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                                   type: 'error'
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
@@ -227,7 +227,7 @@ describe 'edit work package', js: true do
 
     wp_page.save_comment
 
-    wp_page.expect_notification(message: 'The comment was successfully added.')
+    wp_page.expect_toast(message: 'The comment was successfully added.')
     wp_page.expect_comment text: 'hallo welt'
   end
 
@@ -253,7 +253,7 @@ describe 'edit work package', js: true do
     field = wp_page.work_package_field(:subject)
     field.update(too_long, expect_failure: true)
 
-    wp_page.expect_notification message: 'Subject is too long (maximum is 255 characters)',
+    wp_page.expect_toast message: 'Subject is too long (maximum is 255 characters)',
                                 type: 'error'
   end
 
@@ -267,7 +267,7 @@ describe 'edit work package', js: true do
     it 'submits the edit mode when pressing enter' do
       subject_field.input_element.send_keys(:return)
 
-      wp_page.expect_notification(message: 'Successful update')
+      wp_page.expect_toast(message: 'Successful update')
       subject_field.expect_inactive!
       subject_field.expect_state_text 'My new subject!'
     end
@@ -275,7 +275,7 @@ describe 'edit work package', js: true do
     it 'submits the edit mode when changing the focus' do
       page.find("body").click
 
-      wp_page.expect_notification(message: 'Successful update')
+      wp_page.expect_toast(message: 'Successful update')
       subject_field.expect_inactive!
       subject_field.expect_state_text 'My new subject!'
     end

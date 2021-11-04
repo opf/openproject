@@ -101,8 +101,8 @@ describe 'Activity tab notifications', js: true, selenium: true do
       full_view.visit_tab! 'activity'
       full_view.ensure_page_loaded
 
-      full_view.expect_no_notification type: :error, message: 'Http failure response for'
-      full_view.expect_no_notification
+      full_view.expect_no_toaster type: :error, message: 'Http failure response for'
+      full_view.expect_no_toaster
     end
   end
 end

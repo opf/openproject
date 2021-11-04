@@ -30,7 +30,7 @@ require 'support/pages/page'
 
 module Pages::Messages
   class Base < ::Pages::Page
-    def notification_type
+    def toast_type
       :rails
     end
   end

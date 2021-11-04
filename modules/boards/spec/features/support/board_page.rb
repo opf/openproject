@@ -204,7 +204,7 @@ module Pages
 
     def save
       page.find('.editable-toolbar-title--save').click
-      expect_and_dismiss_notification message: 'Successful update.'
+      expect_and_dismiss_toaster message: 'Successful update.'
     end
 
     def expect_changed
@@ -231,7 +231,7 @@ module Pages
       click_list_dropdown name, 'Delete list'
 
       accept_alert_dialog!
-      expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       expect(page).to have_no_selector list_selector(name)
     end
@@ -272,7 +272,7 @@ module Pages
       click_dropdown_entry 'Delete'
 
       accept_alert_dialog!
-      expect_and_dismiss_notification message: I18n.t('js.notice_successful_delete')
+      expect_and_dismiss_toaster message: I18n.t('js.notice_successful_delete')
     end
 
     def back_to_index
@@ -306,7 +306,7 @@ module Pages
         end
       end
 
-      expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       page.within('.toolbar-container') do
         expect(page).to have_field('editable-toolbar-title', with: new_name)
@@ -323,7 +323,7 @@ module Pages
       input.set to
       input.send_keys :enter
 
-      expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
     end
 
     def expect_query(name, editable: true)
@@ -359,8 +359,8 @@ module Pages
 
     def add_list_modal_shows_warning(value, with_link: false)
       within page.find('.op-modal') do
-        warning = '.notification-box.-warning'
-        link = '.notification-box--content a'
+        warning = '.op-toast.-warning'
+        link = '.op-toast--content a'
 
         expect(page).to (value ? have_selector(warning) : have_no_selector(warning))
         expect(page).to (with_link ? have_selector(link) : have_no_selector(link))

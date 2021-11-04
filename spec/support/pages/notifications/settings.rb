@@ -97,7 +97,7 @@ module Pages
 
       def save
         click_button 'Save'
-        expect_notification message: 'Successful update.'
+        expect_toast message: 'Successful update.'
       end
     end
   end

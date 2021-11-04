@@ -65,7 +65,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_notification message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'
@@ -81,7 +81,7 @@ describe 'Projects module administration',
     click_button 'Save'
 
     expect(page)
-      .to have_selector '.notification-box.-error',
+      .to have_selector '.op-toast.-error',
                         text: I18n.t(:'activerecord.errors.models.project.attributes.enabled_modules.dependency_missing',
                                      dependency: 'Work package tracking',
                                      module: 'Calendar')
@@ -90,7 +90,7 @@ describe 'Projects module administration',
 
     click_button 'Save'
 
-    settings_page.expect_notification message: I18n.t(:notice_successful_update)
+    settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
     expect(page)
       .to have_checked_field 'Activity'

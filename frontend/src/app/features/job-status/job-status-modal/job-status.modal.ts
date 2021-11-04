@@ -14,7 +14,7 @@ import {
 } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { JobStatusEnum, JobStatusInterface } from 'core-app/features/job-status/job-status.interface';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
@@ -72,7 +72,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:APIV3Service,
     readonly loadingIndicator:LoadingIndicatorService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly httpClient:HttpClient) {
     super(locals, cdRef, elementRef);
 
@@ -186,7 +186,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
 
     this.statusIcon = 'icon-error';
     this.message = error?.message || this.I18n.t('js.error.internal');
-    this.notifications.addError(this.message);
+    this.toastService.addError(this.message);
   }
 
   private get jobUrl():string {

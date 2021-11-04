@@ -9,7 +9,7 @@ import {
 import { StateService, TransitionService } from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { Board } from 'core-app/features/boards/board/board';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
@@ -141,7 +141,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly cdRef:ChangeDetectorRef,
     readonly $transitions:TransitionService,
     readonly state:StateService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
@@ -158,7 +158,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
       .observe(componentDestroyed(this))
       .subscribe(
         () => {
-          this.notifications.addSuccess(this.text.updateSuccessful);
+          this.toastService.addSuccess(this.text.updateSuccessful);
         },
         (error:unknown) => this.halNotification.handleRawError(error),
       );

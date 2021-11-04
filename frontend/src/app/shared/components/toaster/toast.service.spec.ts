@@ -27,13 +27,13 @@
 //++
 
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
-describe('NotificationsService', () => {
-  let notificationsService:NotificationsService;
+describe('ToastService', () => {
+  let toastService:ToastService;
 
   beforeEach(waitForAsync(() => {
     // noinspection JSIgnoredPromiseFromCall
@@ -44,24 +44,24 @@ describe('NotificationsService', () => {
       providers: [
         { provide: ConfigurationService, useValue: { autoHidePopups: () => true } },
         I18nService,
-        NotificationsService,
+        ToastService,
       ],
     })
       .compileComponents()
       .then(() => {
-        notificationsService = TestBed.inject(NotificationsService);
+        toastService = TestBed.inject(ToastService);
       });
   }));
 
   it('should be able to create warnings', () => {
-    const notification = notificationsService.addWarning('warning!');
+    const toaster = toastService.addWarning('warning!');
 
-    expect(notification).toEqual({ message: 'warning!', type: 'warning' });
+    expect(toaster).toEqual({ message: 'warning!', type: 'warning' });
   });
 
   it('should be able to create error messages with errors', () => {
-    const notification = notificationsService.addError('a super cereal error', ['fooo', 'baarr']);
-    expect(notification).toEqual({
+    const toaster = toastService.addError('a super cereal error', ['fooo', 'baarr']);
+    expect(toaster).toEqual({
       message: 'a super cereal error',
       data: ['fooo', 'baarr'],
       type: 'error',
@@ -69,8 +69,8 @@ describe('NotificationsService', () => {
   });
 
   it('should be able to create error messages with only a message', () => {
-    const notification = notificationsService.addError('a super cereal error');
-    expect(notification).toEqual({
+    const toaster = toastService.addError('a super cereal error');
+    expect(toaster).toEqual({
       message: 'a super cereal error',
       data: [],
       type: 'error',
@@ -78,8 +78,8 @@ describe('NotificationsService', () => {
   });
 
   it('should be able to create upload messages with uploads', () => {
-    const notification = notificationsService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
-    expect(notification).toEqual({
+    const toaster = toastService.addAttachmentUpload('uploading...', [0, 1, 2] as any);
+    expect(toaster).toEqual({
       message: 'uploading...',
       type: 'upload',
       data: [0, 1, 2],
@@ -88,30 +88,30 @@ describe('NotificationsService', () => {
 
   it('should throw an Error if trying to create an upload with uploads = null', () => {
     expect(() => {
-      notificationsService.addAttachmentUpload('themUploads', null as any);
+      toastService.addAttachmentUpload('themUploads', null as any);
     }).toThrow();
   });
 
   it('should throw an Error if trying to create an upload without uploads', () => {
     expect(() => {
-      notificationsService.addAttachmentUpload('themUploads', []);
+      toastService.addAttachmentUpload('themUploads', []);
     }).toThrow();
   });
 
-  it('sends a broadcast to remove the first notification upon adding a second success notification',
+  it('sends a broadcast to remove the first toaster upon adding a second success toaster',
     () => {
-      const firstNotification = notificationsService.addSuccess('blubs');
-      expect(notificationsService.current.value!.length).toEqual(1);
+      const firstToast = toastService.addSuccess('blubs');
+      expect(toastService.current.value!.length).toEqual(1);
 
-      notificationsService.addSuccess('blubs2');
-      expect(notificationsService.current.value!.length).toEqual(1);
+      toastService.addSuccess('blubs2');
+      expect(toastService.current.value!.length).toEqual(1);
     });
 
-  it('sends a broadcast to remove the first notification upon adding a second error notification',
+  it('sends a broadcast to remove the first toaster upon adding a second error toaster',
     () => {
-      const firstNotification = notificationsService.addSuccess('blubs');
-      notificationsService.addError('blubs2');
+      const firstToast = toastService.addSuccess('blubs');
+      toastService.addError('blubs2');
 
-      expect(notificationsService.current.value!.length).toEqual(1);
+      expect(toastService.current.value!.length).toEqual(1);
     });
 });

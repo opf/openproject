@@ -13,7 +13,6 @@ import {
   StateService,
   TransitionService,
 } from '@uirouter/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
@@ -85,7 +84,6 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     readonly cdRef:ChangeDetectorRef,
     readonly $transitions:TransitionService,
     readonly state:StateService,
-    readonly notifications:NotificationsService,
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
     readonly backRoutingService:BackRoutingService,

@@ -27,7 +27,7 @@
 //++
 
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -44,11 +44,12 @@ export class CopyToClipboardDirective implements OnInit {
 
   private target:JQuery;
 
-  constructor(readonly NotificationsService:NotificationsService,
+  constructor(
+    readonly toastService:ToastService,
     readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly ConfigurationService:ConfigurationService) {
-  }
+    readonly ConfigurationService:ConfigurationService,
+  ) { }
 
   ngOnInit() {
     const element = this.elementRef.nativeElement;
@@ -63,10 +64,10 @@ export class CopyToClipboardDirective implements OnInit {
   }
 
   addNotification(type:'addSuccess'|'addError', message:string) {
-    const notification = this.NotificationsService[type](message);
+    const notification = this.toastService[type](message);
 
     // Remove the notification some time later
-    setTimeout(() => this.NotificationsService.remove(notification), 5000);
+    setTimeout(() => this.toastService.remove(notification), 5000);
   }
 
   onClick($event:JQuery.TriggeredEvent) {

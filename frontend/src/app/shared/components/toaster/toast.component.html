@@ -1,12 +1,12 @@
-<div class="notification-box -{{ type }}" tabindex="0">
-  <div class="notification-box--content" role="alert" aria-atomic="true">
+<div class="op-toast -{{ type }}" tabindex="0">
+  <div class="op-toast--content" role="alert" aria-atomic="true">
     <p>
-      <span [textContent]="notification.message"></span>
+      <span [textContent]="toast.message"></span>
       <span [textContent]="' '"></span>
-      <a class="notification-box--target-link"
-         *ngIf="notification.link"
+      <a class="op-toast--target-link"
+         *ngIf="toast.link"
          (click)="executeTarget($event)"
-         [textContent]="notification.link!.text">
+         [textContent]="toast.link!.text">
       </a>
     </p>
     <div [ngSwitch]="type">
@@ -21,19 +21,19 @@
           <span [textContent]="uploadText"></span>
         </div>
         <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
-          <ul class="notification-box--uploads" *ngIf="data && data.length > 0">
-            <notifications-upload-progress
+          <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
+            <op-toasters-upload-progress
                 *ngFor="let upload of data"
                 [upload]="upload"
                 (onSuccess)="onUploadSuccess()"
                 (onError)="onUploadError($event)">
-            </notifications-upload-progress>
+            </op-toasters-upload-progress>
           </ul>
         </div>
       </div>
       <div *ngSwitchCase="'success'"></div>
       <div *ngSwitchCase="'error'">
-        <ul class="notification-box--errors">
+        <ul class="op-toast--errors">
           <li *ngFor="let error of data" [textContent]="error"></li>
         </ul>
       </div>
@@ -42,7 +42,7 @@
   <button
       *ngIf="removable()"
       type="button"
-      class="op-link notification-box--close"
+      class="op-link op-toast--close"
       [title]="text.close_popup"
       (click)="remove()"
   >

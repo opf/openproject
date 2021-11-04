@@ -29,8 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 <% if @entries.truncated? %>
   <tr class="<%= h params[:parent_id] %> entry file truncation-warning">
     <td colspan="7" style="padding-left: <%= 18 * params[:depth].to_i %>px;">
-      <div class="notification-box -warning">
-        <div class="notification-box--content">
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
           <%= I18n.t "repositories.truncated", limit: @limit, truncated: @entries.truncated %>
         </div>
       </div>

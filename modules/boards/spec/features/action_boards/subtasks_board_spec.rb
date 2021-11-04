@@ -169,7 +169,7 @@ describe 'Subtasks action board', type: :feature, js: true do
       # Try to move child to itself
       board_page.move_card(0, from: 'Parent WP', to: 'Child WP')
 
-      board_page.expect_and_dismiss_notification type: :error,
+      board_page.expect_and_dismiss_toaster type: :error,
                                                  message: I18n.t('js.boards.error_cannot_move_into_self')
 
       child.reload

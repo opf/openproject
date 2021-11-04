@@ -30,9 +30,9 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_bulk_edit_selected_work_packages) %>
 
 <% if @bulk_errors.present? %>
-  <div class="notification-box -error">
-    <a title="close" class="notification-box--close icon-context icon-close"></a>
-    <div class="notification-box--content">
+  <div class="op-toast -error">
+    <a title="close" class="op-toast--close icon-context icon-close"></a>
+    <div class="op-toast--content">
       <p><strong><%= t('work_packages.bulk.could_not_be_saved') %></strong></p>
 
       <ul>

@@ -20,7 +20,7 @@ import { NotificationSetting } from 'core-app/features/user-preferences/state/no
 
 export const myNotificationsPageComponentSelector = 'op-notifications-page';
 
-interface INotificationSettingsValue {
+interface IToastSettingsValue {
   involved:boolean;
   workPackageCreated:boolean;
   workPackageProcessed:boolean;
@@ -29,14 +29,14 @@ interface INotificationSettingsValue {
   workPackageCommented:boolean;
 }
 
-interface IProjectNotificationSettingsValue extends INotificationSettingsValue {
+interface IProjectNotificationSettingsValue extends IToastSettingsValue {
   project:{
     title:string;
     href:string;
   };
 }
 
-interface IFullNotificationSettingsValue extends INotificationSettingsValue {
+interface IFullNotificationSettingsValue extends IToastSettingsValue {
   projectSettings:IProjectNotificationSettingsValue[];
 }
 

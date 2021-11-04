@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -75,7 +75,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   constructor(readonly I18n:I18nService,
     readonly state:StateService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly boardComponent:BoardPartitionedPageComponent,
     readonly BoardList:BoardListsService,
@@ -179,7 +179,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   private showError(text = this.text.loadingError) {
-    this.notifications.addError(text);
+    this.toastService.addError(text);
   }
 
   private requestRefreshOfUpdatedLists(queries:QueryResource[]) {

@@ -18,7 +18,7 @@ import {
   setLoading,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   markNotificationsAsRead,
   notificationsMarkedRead,
@@ -89,7 +89,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
     readonly apiV3Service:APIV3Service,
-    readonly notificationsService:NotificationsService,
+    readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
   ) {
@@ -180,7 +180,7 @@ export class IanCenterService extends UntilDestroyedMixin {
         return;
       }
 
-      this.notificationsService.add({
+      this.toastService.add({
         type: 'info',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {

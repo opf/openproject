@@ -111,7 +111,7 @@ describe 'scheduling mode',
     combined_field.toggle_scheduling_mode
     combined_field.update(%w[2016-01-05 2016-01-10])
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Changing the scheduling mode is journalized
     work_packages_page.expect_activity_message("Manual scheduling activated")
@@ -144,7 +144,7 @@ describe 'scheduling mode',
     combined_field.expect_parent_notification
     combined_field.save!
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Moved forward again as the child determines the dates again
     expect_dates(wp, '2016-01-01', '2016-01-05')
@@ -176,7 +176,7 @@ describe 'scheduling mode',
     # Increasing the duration while at it
     combined_field.update(%w[2015-12-20 2015-12-31])
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     expect_dates(wp, '2015-12-20', '2015-12-31')
     expect(wp.schedule_manually).to be_truthy
@@ -206,7 +206,7 @@ describe 'scheduling mode',
     combined_field.expect_parent_notification
     combined_field.save!
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     # Moved backwards again as the child determines the dates again
     expect_dates(wp, '2016-01-01', '2016-01-05')

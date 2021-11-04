@@ -291,7 +291,7 @@ module Pages
       "#story_#{story.id}"
     end
 
-    def notification_type
+    def toast_type
       :ruby
     end
   end

@@ -43,56 +43,56 @@ export function removeSuccessFlashMessages() {
   jQuery('.flash.notice').remove();
 }
 
-export type NotificationType = 'success'|'error'|'warning'|'info'|'upload';
-export const OPNotificationEvent = 'op:notifications:add';
+export type ToastType = 'success'|'error'|'warning'|'info'|'upload';
+export const OPToastEvent = 'op:toasters:add';
 
-export interface INotification {
+export interface IToast {
   message:string;
   link?:{ text:string, target:Function };
-  type:NotificationType;
+  type:ToastType;
   data?:any;
 }
 
 @Injectable({ providedIn: 'root' })
-export class NotificationsService {
-  // The current stack of notifications
-  private stack = input<INotification[]>([]);
+export class ToastService {
+  // The current stack of toasters
+  private stack = input<IToast[]>([]);
 
   constructor(readonly configurationService:ConfigurationService) {
     jQuery(window)
-      .on(OPNotificationEvent,
-        (event:JQuery.TriggeredEvent, notification:INotification) => {
-          this.add(notification);
+      .on(OPToastEvent,
+        (event:JQuery.TriggeredEvent, toast:IToast) => {
+          this.add(toast);
         });
   }
 
   /**
-   * Get a read-only view of the current stack of notifications.
+   * Get a read-only view of the current stack of toasters.
    */
-  public get current():State<INotification[]> {
+  public get current():State<IToast[]> {
     return this.stack;
   }
 
-  public add(notification:INotification, timeoutAfter = 5000):INotification {
+  public add(toast:IToast, timeoutAfter = 5000):IToast {
     // Remove flash messages
     removeSuccessFlashMessages();
 
     this.stack.doModify((current) => {
-      const nextValue = [notification].concat(current);
+      const nextValue = [toast].concat(current);
       _.remove(nextValue, (n, i) => i > 0 && (n.type === 'success' || n.type === 'error'));
       return nextValue;
     });
 
     // auto-hide if success
-    if (notification.type === 'success' && this.configurationService.autoHidePopups()) {
-      setTimeout(() => this.remove(notification), timeoutAfter);
+    if (toast.type === 'success' && this.configurationService.autoHidePopups()) {
+      setTimeout(() => this.remove(toast), timeoutAfter);
     }
 
-    return notification;
+    return toast;
   }
 
-  public addError(obj:HttpErrorResponse|INotification|string, additionalErrors:unknown[]|string = []):INotification {
-    let message:INotification|string;
+  public addError(obj:HttpErrorResponse|IToast|string, additionalErrors:unknown[]|string = []):IToast {
+    let message:IToast|string;
     let errors = [...additionalErrors];
 
     if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded.errors) {
@@ -102,34 +102,34 @@ export class NotificationsService {
       ];
       message = obj.message;
     } else {
-      message = obj as INotification|string;
+      message = obj as IToast|string;
     }
 
-    const notification:INotification = this.createNotification(message, 'error');
-    notification.data = errors;
+    const toast:IToast = this.createToast(message, 'error');
+    toast.data = errors;
 
-    return this.add(notification);
+    return this.add(toast);
   }
 
-  public addWarning(message:INotification|string):INotification {
-    return this.add(this.createNotification(message, 'warning'));
+  public addWarning(message:IToast|string):IToast {
+    return this.add(this.createToast(message, 'warning'));
   }
 
-  public addSuccess(message:INotification|string):INotification {
-    return this.add(this.createNotification(message, 'success'));
+  public addSuccess(message:IToast|string):IToast {
+    return this.add(this.createToast(message, 'success'));
   }
 
-  public addNotice(message:INotification|string):INotification {
-    return this.add(this.createNotification(message, 'info'));
+  public addNotice(message:IToast|string):IToast {
+    return this.add(this.createToast(message, 'info'));
   }
 
-  public addAttachmentUpload(message:INotification|string, uploads:UploadInProgress[]):INotification {
-    return this.add(this.createAttachmentUploadNotification(message, uploads));
+  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {
+    return this.add(this.createAttachmentUploadToast(message, uploads));
   }
 
-  public remove(notification:INotification):void {
+  public remove(toast:IToast):void {
     this.stack.doModify((current) => {
-      _.remove(current, (n) => n === notification);
+      _.remove(current, (n) => n === toast);
       return current;
     });
   }
@@ -138,7 +138,7 @@ export class NotificationsService {
     this.stack.putValue([]);
   }
 
-  private createNotification(message:INotification|string, type:NotificationType):INotification {
+  private createToast(message:IToast|string, type:ToastType):IToast {
     if (typeof message === 'string') {
       return { message, type };
     }
@@ -147,14 +147,14 @@ export class NotificationsService {
     return message;
   }
 
-  private createAttachmentUploadNotification(message:INotification|string, uploads:UploadInProgress[]) {
+  private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
     if (!uploads.length) {
-      throw new Error('Cannot create an upload notification without uploads!');
+      throw new Error('Cannot create an upload toast without uploads!');
     }
 
-    const notification = this.createNotification(message, 'upload');
-    notification.data = uploads;
+    const toast = this.createToast(message, 'upload');
+    toast.data = uploads;
 
-    return notification;
+    return toast;
   }
 }

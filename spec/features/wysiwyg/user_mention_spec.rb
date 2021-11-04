@@ -80,7 +80,7 @@ describe 'Wysiwyg work package user mentions',
 
     comment_field.submit_by_click if comment_field.active?
 
-    wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+    wp_page.expect_and_dismiss_toaster message: "The comment was successfully added."
 
     expect(page)
       .to have_selector('a.user-mention', text: 'Foo Bar')
@@ -99,7 +99,7 @@ describe 'Wysiwyg work package user mentions',
 
     comment_field.submit_by_click if comment_field.active?
 
-    wp_page.expect_and_dismiss_notification message: "The comment was successfully added."
+    wp_page.expect_and_dismiss_toaster message: "The comment was successfully added."
 
     expect(page)
       .to have_selector('a.user-mention', text: 'Foogroup')

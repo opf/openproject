@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { Board } from 'core-app/features/boards/board/board';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { NewBoardModalComponent } from 'core-app/features/boards/new-board-modal/new-board-modal.component';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
@@ -59,7 +59,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   constructor(private readonly boardService:BoardService,
     private readonly apiV3Service:APIV3Service,
     private readonly I18n:I18nService,
-    private readonly notifications:NotificationsService,
+    private readonly toastService:ToastService,
     private readonly opModalService:OpModalService,
     private readonly loadingIndicatorService:LoadingIndicatorService,
     private readonly authorisationService:AuthorisationService,
@@ -94,9 +94,9 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
     this.boardService
       .delete(board)
       .then(() => {
-        this.notifications.addSuccess(this.text.deleteSuccessful);
+        this.toastService.addSuccess(this.text.deleteSuccessful);
       })
-      .catch((error) => this.notifications.addError(`Deletion failed: ${error}`));
+      .catch((error) => this.toastService.addError(`Deletion failed: ${error}`));
   }
 
   public showBoardIndexView() {

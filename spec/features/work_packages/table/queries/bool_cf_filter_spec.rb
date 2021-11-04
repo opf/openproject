@@ -93,7 +93,7 @@ describe 'Work package filtering by bool custom field', js: true do
 
     wp_table.save_as('Saved query')
 
-    wp_table.expect_and_dismiss_notification(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     # Revisit query
     wp_table.visit_query Query.last

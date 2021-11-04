@@ -235,7 +235,7 @@ module Pages
       end
 
       if expect_success
-        expect_and_dismiss_notification message: 'Successful update'
+        expect_and_dismiss_toaster message: 'Successful update'
         sleep 1
       end
     end
@@ -296,9 +296,9 @@ module Pages
     end
 
     def ensure_no_conflicting_modifications
-      expect_notification(message: 'Successful update')
-      dismiss_notification!
-      expect_no_notification(message: 'Successful update')
+      expect_toast(message: 'Successful update')
+      dismiss_toaster!
+      expect_no_toaster(message: 'Successful update')
     end
   end
 end

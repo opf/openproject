@@ -34,9 +34,9 @@ import {
   UIRouter,
 } from '@uirouter/core';
 import {
-  INotification,
-  NotificationsService,
-} from 'core-app/shared/components/notifications/notifications.service';
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
@@ -209,7 +209,7 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
 export function initializeUiRouterListeners(injector:Injector) {
   const $transitions:TransitionService = injector.get(TransitionService);
   const stateService = injector.get(StateService);
-  const notificationsService:NotificationsService = injector.get(NotificationsService);
+  const toastService:ToastService = injector.get(ToastService);
   const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
   const firstRoute:FirstRouteService = injector.get(FirstRouteService);
   const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
@@ -314,12 +314,12 @@ export function initializeUiRouterListeners(injector:Injector) {
 
     // Clear all notifications when actually moving between states.
     if (transition.to().name !== transition.from().name) {
-      notificationsService.clear();
+      toastService.clear();
     }
 
     // Add new notifications if passed to params
     if (toParams.flash_message) {
-      notificationsService.add(toParams.flash_message as INotification);
+      toastService.add(toParams.flash_message as IToast);
     }
 
     return true;

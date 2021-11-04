@@ -108,7 +108,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       expect(page).to have_selector('.editable-toolbar-title--save')
       wp_table.save_as "My sorted query"
 
-      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = nil
       retry_block do
@@ -207,7 +207,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         group_by.enable_via_menu 'Type'
 
         wp_table.save_as 'Type query'
-        wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+        wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
         expect(page).to have_selector('.group--value', text: 'Task (2)')
         expect(page).to have_selector('.group--value', text: 'Bug (2)')
@@ -226,7 +226,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
         expect(page).to have_selector('.group--value', text: 'Task (1)')
         expect(page).to have_selector('.group--value', text: 'Bug (3)')
 
-        expect(page).to have_no_selector '.notification-box.error'
+        expect(page).to have_no_selector '.op-toast.error'
       end
     end
   end
@@ -260,7 +260,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
       subject_field.set_value 'Foobar!'
       subject_field.submit_by_enter
 
-      wp_table.expect_and_dismiss_notification(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
 
@@ -304,7 +304,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       wp_table.expect_work_package_order work_package_1, work_package_3, work_package_2, work_package_4
 
-      wp_table.expect_and_dismiss_notification message: 'Successful update.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful update.'
 
       retry_block do
         query.reload
@@ -333,7 +333,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       wp_table.save_as 'Manual sorted query'
 
-      wp_table.expect_and_dismiss_notification message: 'Successful creation.'
+      wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
 
       query = Query.last
       expect(query.name).to eq 'Manual sorted query'

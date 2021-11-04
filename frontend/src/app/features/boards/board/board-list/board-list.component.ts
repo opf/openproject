@@ -19,7 +19,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { BoardInlineCreateService } from 'core-app/features/boards/board/board-list/board-inline-create.service';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Board } from 'core-app/features/boards/board/board';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
@@ -139,7 +139,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     readonly cdRef:ChangeDetectorRef,
     readonly transitions:TransitionService,
     readonly boardFilters:BoardFiltersService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly querySpace:IsolatedQuerySpace,
     readonly halNotification:HalResourceNotificationService,
     readonly halEvents:HalEventsService,
@@ -296,7 +296,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe(
         () => {
           this.inFlight = false;
-          this.notifications.addSuccess(this.text.updateSuccessful);
+          this.toastService.addSuccess(this.text.updateSuccessful);
         },
         (_error) => this.inFlight = false,
       );
