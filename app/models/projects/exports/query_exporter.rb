@@ -27,27 +27,47 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Projects::Exports
+  class QueryExporter < Exports::Exporter
+    self.model = Project
 
-class WorkPackages::Exports::CleanupOutdatedJob < ApplicationJob
-  queue_with_priority :low
+    alias :query :object
 
-  def self.perform_after_grace
-    set(wait: OpenProject::Configuration.attachments_grace_period.minutes).perform_later
-  end
+    def columns
+      @columns ||= (forced_columns + selected_columns)
+    end
 
-  def perform
-    WorkPackages::Export
-      .where(too_old)
-      .destroy_all
-  end
+    def page
+      options[:page] || 1
+    end
 
-  private
+    def projects
+      @projects ||= query
+        .results
+        .with_required_storage
+        .with_latest_activity
+        .includes(:custom_values, :status)
+        .page(page)
+        .per_page(Setting.work_packages_export_limit.to_i)
+    end
 
-  def too_old
-    table = WorkPackages::Export.arel_table
+    private
 
-    table[:created_at]
-      .lteq(Time.now - OpenProject::Configuration.attachments_grace_period.minutes)
-      .to_sql
+    def forced_columns
+      [
+        { name: :id, caption: Project.human_attribute_name(:id) },
+        { name: :identifier, caption: Project.human_attribute_name(:identifier) },
+        { name: :name, caption: Project.human_attribute_name(:name) }
+      ]
+    end
+
+    def selected_columns
+      ::Projects::TableCell
+        .new(nil, current_user: User.current)
+        .all_columns
+        .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
+        .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
+        .map { |name, options| { name: name, caption: options[:caption] } }
+    end
   end
 end

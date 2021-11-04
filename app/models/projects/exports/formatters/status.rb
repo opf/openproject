@@ -27,38 +27,27 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module Projects::Exports
+  module Formatters
+    class Status < ::Exports::Formatters::Default
+      def self.apply?(attribute)
+        %i[project_status status].include?(attribute.to_sym)
+      end
 
-module WorkPackage::Exporter
-  def self.for_list(type)
-    @for_list[type]
+      ##
+      # Takes a project and returns the localized status code
+      def format(project, **)
+        code = project.status&.code
+        return '' unless code
+
+        translate_code code
+      end
+
+      private
+
+      def translate_code(enum_name)
+        I18n.t("activerecord.attributes.projects/status.codes.#{enum_name}")
+      end
+    end
   end
-
-  def self.register_for_list(type, exporter)
-    @for_list ||= {}
-
-    @for_list[type] = exporter
-  end
-
-  def self.list_formats
-    @for_list.keys
-  end
-
-  def self.for_single(type)
-    @for_single[type]
-  end
-
-  def self.register_for_single(type, exporter)
-    @for_single ||= {}
-
-    @for_single[type] = exporter
-  end
-
-  def self.single_formats
-    @for_single.keys
-  end
-
-  register_for_list(:csv, WorkPackage::Exporter::CSV)
-  register_for_list(:pdf, WorkPackage::Exporter::PDF)
-
-  register_for_single(:pdf, WorkPackage::Exporter::PDF)
 end

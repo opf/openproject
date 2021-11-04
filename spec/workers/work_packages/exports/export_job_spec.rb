@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob do
+describe WorkPackages::ExportJob do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
@@ -57,22 +57,23 @@ describe WorkPackages::Exports::ExportJob do
   end
 
   shared_examples_for 'exporter returning string' do
+    let(:result) do
+      Exports::Result.new(format: 'blubs',
+                          title: "some_title.#{mime_type}",
+                          content: 'some string',
+                          mime_type: "application/octet-stream")
+    end
+
+    let(:service) { double('attachments create service') } # rubocop:disable RSpec/VerifiedDoubles
+    let(:exporter_instance) { instance_double(exporter) }
+
     it 'exports' do
-      content = 'some string'
-
-      result = WorkPackage::Exporter::Result::Success.new(format: 'blubs',
-                                                          title: "some_title.#{mime_type}",
-                                                          content: content,
-                                                          mime_type: "application/octet-stream")
-
-      service = double('attachments create service')
-
       expect(Attachments::CreateService)
         .to receive(:bypass_whitelist)
-        .with(user: user)
-        .and_return(service)
+              .with(user: user)
+              .and_return(service)
 
-      expect(WorkPackages::Exports::CleanupOutdatedJob)
+      expect(Exports::CleanupOutdatedJob)
         .to receive(:perform_after_grace)
 
       expect(service)
@@ -86,9 +87,9 @@ describe WorkPackages::Exports::ExportJob do
         ServiceResult.new(result: attachment, success: true)
       end
 
-      allow("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
-        .to receive(:list)
-        .and_yield(result)
+      allow(exporter).to receive(:new).and_return exporter_instance
+
+      allow(exporter_instance).to receive(:export!).and_return(result)
 
       # expect to create a status
       expect(subject.job_status).to be_present
@@ -102,12 +103,14 @@ describe WorkPackages::Exports::ExportJob do
     context 'passing in group_by through attributes' do
       let(:query_attributes) { { group_by: 'assigned_to' } }
       let(:mime_type) { :pdf }
+      let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
       it 'updates the query from attributes' do
-        expect("WorkPackage::Exporter::#{mime_type.upcase}".constantize)
-          .to receive(:list) do |query, _options|
+        allow(exporter)
+          .to receive(:new) do |query, _options|
           expect(query.group_by).to eq 'assigned_to'
         end
+          .and_call_original
 
         subject
       end
@@ -117,14 +120,14 @@ describe WorkPackages::Exports::ExportJob do
   describe '#perform' do
     context 'with the pdf mime type' do
       let(:mime_type) { :pdf }
+      let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }
 
       it_behaves_like 'exporter returning string'
     end
-  end
 
-  describe '#perform' do
     context 'with the csv mime type' do
       let(:mime_type) { :csv }
+      let(:exporter) { WorkPackage::Exports::CSV }
 
       it_behaves_like 'exporter returning string'
     end

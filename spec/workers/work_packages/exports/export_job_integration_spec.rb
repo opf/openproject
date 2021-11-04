@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob, 'Integration' do
+describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:user,

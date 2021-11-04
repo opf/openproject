@@ -27,54 +27,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackage::Exports
+  module Formatters
+    class Costs < ::Exports::Formatters::Default
+      def self.apply?(column)
+        column.is_a? ::Costs::QueryCurrencyColumn
+      end
 
-class WorkPackage::Exporter::Base
-  attr_accessor :object,
-                :options
+      def format_options
+        { number_format: number_format_string }
+      end
 
-  def initialize(object, options = {})
-    self.object = object
-    self.options = options
-  end
+      def number_format_string
+        # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
+        curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.plugin_costs['costs_currency'])
+        format = ERB::Util.h Setting.plugin_costs['costs_currency_format']
+        number = '#,##0.00'
 
-  def self.list(query, options = {}, &block)
-    new(query, options).list(&block)
-  end
-
-  def self.single(work_package, options = {}, &block)
-    new(work_package, options).single(&block)
-  end
-
-  # Provide means to clean up after the export
-  def cleanup; end
-
-  def page
-    options[:page] || 1
-  end
-
-  def valid_export_columns
-    query.columns.reject do |c|
-      c.is_a?(Queries::WorkPackages::Columns::RelationColumn)
+        format.gsub("%n", number).gsub("%u", curr)
+      end
     end
-  end
-
-  alias :query :object
-  alias :work_package :object
-
-  # Remove characters that could cause problems on popular OSses
-  def sane_filename(name)
-    parts = name.split /(?<=.)\.(?=[^.])(?!.*\.[^.])/m
-
-    parts.map! { |s| s.gsub /[^a-z0-9\-]+/i, '_' }
-
-    parts.join '.'
-  end
-
-  def work_packages
-    @work_packages ||= query
-                       .results
-                       .work_packages
-                       .page(page)
-                       .per_page(Setting.work_packages_export_limit.to_i)
   end
 end

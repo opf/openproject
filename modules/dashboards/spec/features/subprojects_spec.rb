@@ -82,6 +82,9 @@ describe 'Subprojects widget on dashboard', type: :feature, js: true do
 
     subprojects_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
+    expect(page)
+      .to have_link(child_project.name, wait: 10)
+
     within(subprojects_widget.area) do
       expect(page)
         .to have_link(child_project.name)

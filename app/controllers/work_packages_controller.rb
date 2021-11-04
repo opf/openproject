@@ -51,7 +51,7 @@ class WorkPackagesController < ApplicationController
                layout: 'angular/angular'
       end
 
-      format.any(*WorkPackage::Exporter.single_formats) do
+      format.any(*supported_single_formats) do
         export_single(request.format.symbol)
       end
 
@@ -73,7 +73,7 @@ class WorkPackagesController < ApplicationController
                layout: 'angular/angular'
       end
 
-      format.any(*WorkPackage::Exporter.list_formats) do
+      format.any(*supported_list_formats) do
         export_list(request.format.symbol)
       end
 
@@ -87,9 +87,9 @@ class WorkPackagesController < ApplicationController
 
   def export_list(mime_type)
     job_id = WorkPackages::Exports::ScheduleService
-                     .new(user: current_user)
-                     .call(query: @query, mime_type: mime_type, params: params)
-                     .result
+      .new(user: current_user)
+      .call(query: @query, mime_type: mime_type, params: params)
+      .result
 
     if request.headers['Accept']&.include?('application/json')
       render json: { job_id: job_id }
@@ -99,10 +99,15 @@ class WorkPackagesController < ApplicationController
   end
 
   def export_single(mime_type)
-    exporter = WorkPackage::Exporter.for_single(mime_type)
-    exporter.single(work_package, params) do |export|
-      render_export_response export, fallback_path: work_package_path(work_package)
-    end
+    exporter = Exports::Register
+      .single_exporter(WorkPackage, mime_type)
+      .new(work_package, params)
+
+    export = exporter.export!
+    send_data(export.content, type: export.mime_type, filename: export.title)
+  rescue ::Exports::ExportError => e
+    flash[:error] = e.message
+    redirect_back(fallback_location: work_package_path(work_package))
   end
 
   def atom_journals
@@ -120,23 +125,12 @@ class WorkPackagesController < ApplicationController
 
   private
 
-  def render_export_response(export, fallback_path:)
-    if export.error?
-      flash[:error] = export.message
-      redirect_back(fallback_location: fallback_path)
-    else
-      send_data(export.content,
-                type: export.mime_type,
-                filename: export.title)
-    end
-  end
-
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
   end
 
   def protect_from_unauthorized_export
-    if supported_export_formats.include?(params[:format]) &&
+    if (supported_list_formats + %w[atom]).include?(params[:format]) &&
        !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
@@ -144,8 +138,12 @@ class WorkPackagesController < ApplicationController
     end
   end
 
-  def supported_export_formats
-    %w[atom] + WorkPackage::Exporter.list_formats.map(&:to_s)
+  def supported_list_formats
+    ::Exports::Register.list_formats(WorkPackage).map(&:to_s)
+  end
+
+  def supported_single_formats
+    ::Exports::Register.single_formats(WorkPackage).map(&:to_s)
   end
 
   def load_and_validate_query
@@ -204,14 +202,15 @@ class WorkPackagesController < ApplicationController
 
   def load_work_packages
     @results = @query.results
-    @work_packages = if @query.valid?
-                       @results
-                         .work_packages
-                         .page(page_param)
-                         .per_page(per_page_param)
-                     else
-                       []
-                     end
+    @work_packages =
+      if @query.valid?
+        @results
+          .work_packages
+          .page(page_param)
+          .per_page(per_page_param)
+      else
+        []
+      end
   end
 
   def login_back_url_params

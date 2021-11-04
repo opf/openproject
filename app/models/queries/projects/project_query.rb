@@ -27,6 +27,8 @@
 #++
 
 class Queries::Projects::ProjectQuery < Queries::BaseQuery
+  include Queries::Serialization::Hash
+
   def self.model
     Project
   end

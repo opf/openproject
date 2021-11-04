@@ -28,8 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackage::PDFExport::ToPdfHelper
-  def get_pdf(_language)
-    ::WorkPackage::PDFExport::View.new(current_language)
+module Projects::Exports
+  class CSV < QueryExporter
+    include ::Exports::Concerns::CSV
+
+    alias :records :projects
+
+    def title
+      I18n.t(:label_project_plural)
+    end
   end
 end

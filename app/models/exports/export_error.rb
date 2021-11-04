@@ -28,16 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::Exporter::Result::Success < WorkPackage::Exporter::Result
-  attr_accessor :format,
-                :title,
-                :content,
-                :mime_type
-
-  def initialize(format:, title:, mime_type:, content: nil)
-    self.format = format
-    self.title = title
-    self.content = content
-    self.mime_type = mime_type
+module Exports
+  class ExportError < StandardError
   end
 end
