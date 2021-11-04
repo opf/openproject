@@ -58,16 +58,32 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
     controller.request.path_parameters[:project_id] = project.id
 
     allow(User).to receive(:current).and_return(user)
-    render
   end
 
   context 'with permission manage_ifc_models' do
     context 'with ifc_attachment' do
       it 'lists the IFC model with all three buttons' do
+        render
         expect(rendered).to have_text('office.ifc')
         expect(rendered).to have_link('Download')
         expect(rendered).to have_link('Delete')
         expect(rendered).to have_link('Edit')
+        expect(rendered).to have_text('Pending')
+      end
+    end
+
+    %w[processing completed error].each do |state|
+      context "with conversion_status '#{state}'" do
+        before do
+          ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[state.to_sym]
+          ifc_model.conversion_error_message = "Conversion went wrong" if state == 'error'
+          render
+        end
+
+        it 'renders the conversion status to be "Processing"' do
+          expect(rendered).to have_text(state.capitalize)
+          expect(rendered).to have_text('Conversion went wrong') if state == 'error'
+        end
       end
     end
 
@@ -79,6 +95,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
       end
 
       it 'lists the IFC model with all but the download button' do
+        render
         expect(rendered).to have_text('office.ifc')
         expect(rendered).not_to have_link('Download')
         expect(rendered).to have_link('Delete')
@@ -89,6 +106,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
 
   context 'without permission manage_ifc_models' do
     it 'only shows the download button' do
+      render
       expect(rendered).to have_link('Download')
     end
   end
