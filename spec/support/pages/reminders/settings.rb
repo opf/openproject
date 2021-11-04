@@ -110,9 +110,9 @@ module Pages
 
       def expect_paused(paused, first: nil, last: nil)
         if paused
-          expect(page).to have_field 'Temporarily pause daily email reminders'
+          expect(page).to have_checked_field 'Temporarily pause daily email reminders'
         else
-          expect(page).to have_no_field 'Temporarily pause daily email reminders'
+          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
         end
 
         if first && last
