@@ -109,6 +109,10 @@ class Attachment < ApplicationRecord
     end
   end
 
+  def prepared?
+    downloads == -1
+  end
+
   # images are sent inline
   def inlineable?
     is_plain_text? || is_image? || is_pdf?
