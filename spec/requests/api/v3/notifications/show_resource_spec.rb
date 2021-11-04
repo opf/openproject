@@ -32,11 +32,18 @@ require_relative './show_resource_examples'
 
 describe ::API::V3::Notifications::NotificationsAPI,
          'show',
+         content_type: :json,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:project) { FactoryBot.create :project }
+  shared_let(:recipient) do
+    FactoryBot.create :user
+  end
+  shared_let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
+  shared_let(:project) do
+    FactoryBot.create :project,
+                      members: { recipient => role }
+  end
   shared_let(:resource) { FactoryBot.create :work_package, project: project }
   shared_let(:notification) do
     FactoryBot.create :notification,
@@ -47,11 +54,8 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   let(:send_request) do
-    header "Content-Type", "application/json"
     get api_v3_paths.notification(notification.id)
   end
-
-  let(:parsed_response) { JSON.parse(last_response.body) }
 
   before do
     login_as current_user
