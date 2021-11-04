@@ -55,12 +55,13 @@ module Bim
       end
 
       def call
+        ifc_model.processing!
+
         validate!
 
         Dir.mktmpdir do |dir|
           self.working_directory = dir
 
-          ifc_model.processing!
 
           perform_conversion!
 

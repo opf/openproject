@@ -48,6 +48,10 @@ describe Bim::IfcModels::ViewConverterService do
   end
 
   describe '#call' do
+    before do
+      expect(model).to receive(:processing!).and_call_original
+    end
+
     context 'if not available?' do
       include_context 'available pipeline commands', false
 
@@ -55,6 +59,10 @@ describe Bim::IfcModels::ViewConverterService do
         expect(described_class).not_to be_available
         result = subject.call
         expect(result.errors[:base].first).to include 'The following IFC converter commands are missing'
+
+        # Expect that the model's conversion status gets updated
+        expect(model.error?).to be_truthy
+        expect(model.conversion_error_message).to include('The following IFC converter commands are missing')
       end
     end
 
@@ -71,6 +79,9 @@ describe Bim::IfcModels::ViewConverterService do
 
         allow(subject).to receive(:ifc_model_path).and_return(ifc_model_path)
         allow(subject).to receive(:working_directory).and_return(working_directory)
+
+        model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        model.conversion_error_message = "Some message"
       end
 
       after do
@@ -123,6 +134,10 @@ describe Bim::IfcModels::ViewConverterService do
         expect(model).to receive(:save).and_return(true)
 
         expect(subject.call).to be_success
+
+        # Expect that the model's conversion status gets updated
+        expect(model.completed?).to be_truthy
+        expect(model.conversion_error_message).to be_nil
       end
 
       it 'calls the conversion and returns error' do

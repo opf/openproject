@@ -34,9 +34,10 @@ module Bim
           content = content_tag(:span,
                                 I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
                                 class: "ifc-models--conversion-status")
-          if model.conversion_error_message || true
+          if model.conversion_error_message
             content << ': '
             content << content_tag(:span,
+                                   model.conversion_error_message,
                                    class: "ifc-models--conversion-status-error",
                                    title: model.conversion_error_message)
           end
