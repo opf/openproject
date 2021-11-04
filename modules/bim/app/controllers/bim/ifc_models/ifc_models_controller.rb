@@ -110,7 +110,8 @@ module Bim
         session.delete :pending_ifc_model_ifc_model_id
 
         if service_result.success?
-          ::Attachments::FinishDirectUploadJob.perform_later attachment.id
+          ::Attachments::FinishDirectUploadJob.perform_later attachment.id,
+                                                             whitelist: false
 
           flash[:notice] = if new_model
                              t('ifc_models.flash_messages.upload_successful')
