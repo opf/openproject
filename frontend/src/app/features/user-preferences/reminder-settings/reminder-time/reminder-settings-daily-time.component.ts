@@ -21,6 +21,7 @@ import {
   FormGroup,
   FormGroupDirective,
 } from '@angular/forms';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'op-reminder-settings-daily-time',
@@ -65,7 +66,8 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
 
   text = {
     title: this.I18n.t('js.reminders.settings.daily.title'),
-    explanation: this.I18n.t('js.reminders.settings.daily.explanation'),
+    explanation: this.I18n.t('js.reminders.settings.daily.explanation',
+      { no_time_zone: this.configurationService.isTimezoneSet() ? '' : this.I18n.t('js.reminders.settings.daily.no_time_zone') }),
     timeLabel: (counter:number):string => this.I18n.t('js.reminders.settings.daily.time_label', { counter }),
     addTime: this.I18n.t('js.reminders.settings.daily.add_time'),
     enable: this.I18n.t('js.reminders.settings.daily.enable'),
@@ -75,6 +77,7 @@ export class ReminderSettingsDailyTimeComponent implements OnInit {
     private I18n:I18nService,
     private storeService:UserPreferencesService,
     private rootFormGroup:FormGroupDirective,
+    private configurationService:ConfigurationService,
   ) {
   }
 
