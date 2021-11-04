@@ -37,9 +37,7 @@ module WorkPackage::Exports
     private
 
     def title
-      title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
-
-      "#{title}.csv"
+      query.new_record? ? I18n.t(:label_work_package_plural) : query.name
     end
 
     def csv_headers

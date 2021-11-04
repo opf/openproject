@@ -54,7 +54,7 @@ module Exports
       def success(serialized)
         ::Exports::Result
           .new format: :csv,
-               title: title,
+               title: csv_export_filename,
                content: serialized,
                mime_type: 'text/csv'
       end
@@ -81,6 +81,13 @@ module Exports
 
       def format_csv(record, attribute)
         format_attribute(record, attribute, array_separator: '; ')
+      end
+
+      def csv_export_filename
+        sane_filename(
+          "#{Setting.app_title} #{title} \
+          #{format_time_as_date(Time.zone.now, '%Y-%m-%d')}.xls"
+        )
       end
     end
   end

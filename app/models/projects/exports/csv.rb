@@ -35,7 +35,7 @@ module Projects::Exports
     alias :records :projects
 
     def title
-      "#{I18n.t(:label_project_plural)}.csv"
+      I18n.t(:label_project_plural)
     end
   end
 end

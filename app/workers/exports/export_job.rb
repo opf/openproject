@@ -51,7 +51,7 @@ module Exports
     def handle_export_result(export, result)
       case result.content
       when File
-        store_attachment(export, result.content)
+        store_attachment(export, result.content, result)
       when Tempfile
         store_from_tempfile(export, result)
       else
@@ -63,24 +63,27 @@ module Exports
       renamed_file_path = target_file_name(export_result)
       File.rename(export_result.content.path, renamed_file_path)
       file = File.open(renamed_file_path)
-      store_attachment(export, file)
+      store_attachment(export, file, export_result)
       file.close
     end
 
     ##
     # Create a target file name, replacing any invalid characters
     def target_file_name(export_result)
-      target_name = ActiveStorage::Filename.new(export_result.title).sanitized
-      File.join(File.dirname(export_result.content.path), target_name)
+      File.join(File.dirname(export_result.content.path), clean_filename(export_result))
     end
 
     def schedule_cleanup
       CleanupOutdatedJob.perform_after_grace
     end
 
+    def clean_filename(export_result)
+      ActiveStorage::Filename.new(export_result.title).sanitized
+    end
+
     def store_from_string(export, export_result)
       with_tempfile(export_result.title, export_result.content) do |file|
-        store_attachment(export, file)
+        store_attachment(export, file, export_result)
       end
     end
 
@@ -94,10 +97,12 @@ module Exports
       end
     end
 
-    def store_attachment(container, file)
+    def store_attachment(container, file, export_result)
+      filename = clean_filename(export_result)
+
       call = Attachments::CreateService
                .bypass_whitelist(user: User.current)
-               .call(container: container, file: file, filename: File.basename(file), description: '')
+               .call(container: container, file: file, filename: filename, description: '')
 
       call.on_success do
         download_url = ::API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(call.result.id)
