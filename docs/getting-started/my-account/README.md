@@ -11,16 +11,17 @@ keywords: my account, account settings, change language, Deutsch
 
 Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Open My account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject?           |
-| [Change password](#change-password)                          | How to change my password?                                   |
-| [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject?      |
-| [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject? |
-| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication?                   |
-| [Email notifications](#email-notifications)                  | How to change email notifications sent by OpenProject?       |
-| [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture? |
-| [Delete account](#delete-account)                            | How to delete my own account?                                |
+| Topic                                    | Content                                  |
+| ---------------------------------------- | ---------------------------------------- |
+| [Open My account settings](#open-my-account-settings) | How to open your personal settings in OpenProject |
+| [Change password](#change-password)      | How to change my password                |
+| [Edit your user information](#edit-your-user-information) | How to change the name or email address in OpenProject |
+| [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
+| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication |
+| [In-app notiications](#in-app-notifications) | How to change in-app notifications in OpenProject |
+| [Email reminders](#email-reminders)      | How to change email reminders sent by OpenProject |
+| [Set an Avatar](#set-an-avatar)          | How to set an avatar in OpenProject and change the profile picture? |
+| [Delete account](#delete-account)        | How to delete my own account?            |
 
 ## Open My account settings
 
@@ -139,33 +140,59 @@ Click the blue **Continue** button to finish the registration.
 
 
 
-## Email notifications
+## In-App Notifications
 
-To configure the email notifications which you receive from the system, navigate to **My account** and choose **Email notifications** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
+Whenever you are getting in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it )
+
+![notifications](IaN-1.PNG)
+
+To view the notifications, please left-click on the bell symbol. Here you can view all notifications, filter for "Unread" or "All" (Read and Unread) notifications, and "Mark all as read". Please note that the "Mark all as read" button only marks notifications that are currently in view. You may have to ultimately press "Mark all as read" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
+
+![notifications](IaN-2.PNG)
+
+## In-App Notifications Settings
+
+To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side.
+
+![notifications](IaN-3.PNG)
+
+In the "Notification settings" you can fine-tune what you are notified about:
+
+- **I am @mentioned**: You can switch notification on/off  when somebody tags you in a comment (i.e. @YOU)
+- **Assigned to me or accountable:** You can switch notification on/off when you are either assigned or made accountable for a task, for example.
+- **Also notify me for:** Here you can further finetune under what circumstances you would like to be notified, or not:
+  - Updates on watched items:
+  - New work packages
+  - All status changes
+  - All date changes
+  - All priority changes
+  - All new comments
+
+When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notification-mention) you (@xxx) in e.g. a work package description or comment you will receive an in-app notification if you are a member of the respective project as long as you did not choose to opt-out of receiving notifications in your settings.
+
+By default you do not receive any notifications about your own changes. In addition to the in-app notifications, you will also get a once-a-day summary of all notifications as **Email reminders**. 
+
+## Email reminders
+
+To configure the email reminders which you receive from the system, navigate to **My account** and choose **Email reminders** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
 
 You can choose between several email notifications.
-**Default: Send email notifications Only for things I watch or I'm involved in.**
+**Default: Enable daily email reminders: 2am, Monday - Friday.**
 
-You can choose to receive emails for any events in certain projects or for no events at all.
+You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all. 
 
-![Email notifications](1571835165758.png)
+![Email reminders](EmailNotificationsv12.PNG)
 
-The following options are available for the email notifications (ranging from receiving emails on a lot of events to receiving no emails at all):
+You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
-- **For any event on all my projects** - When selecting this option you receive an email for any action in the projects you are a member of (independent of whether or not you are involved in this action). This can be useful for managers who want to always stay up to date of all developments without having to log into OpenProject. This setting will typically lead to receiving a lot of emails.
-- **For any event on the selected projects only** - This option lets you choose the projects for which you receive all email updates. In addition, you receive email notifications from other projects about activities you watch or are involved in (e.g. when you are the author, assignee or responsible of a work package.). This is useful for project managers who need to be informed about any change in the project(s) they manage but who want to only receive email notifications from other projects if the activities directly affect them.
-- **Only for things I watch or I am involved in** - This is the default option for new users (unless configured differently in the [administration (email notification settings)](../../system-admin-guide/email)). Users with this setting receive emails for activities in which they are involved (i.e. if they are the author, assignee or responsible or are set as watcher). This option is usually the best option since users only get email updates about activities in which they are involved therefore reducing the number of emails they receive. No emails are sent to users who only added a comment or changed the work package.
-- **Only for things I am assigned to** - With this email setting you only receive email updates of activities to which you are assigned (e.g. work packages). This is useful for users who want to only be notified via email if they are actively working on a task, not if they are responsible for or watching the activity.
-- **Only for things I am the owner of** - When you select this setting you only receive email updates for activities which you created (e.g. work packages, wiki pages). This makes sense if you are not actively involved in a project but want to only be notified if your activities are updated.
-- **No event** - With this setting you receive no emails at all. You need to log into OpenProject to verify the status of your tasks. Unless you check the status within OpenProject very frequently or are not actively involved in any project, this setting is typically too restrictive.
-
-When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notification-mention) you in e.g. a work package description or comment you will only receive a notification if you are a member of the respective project and did not choose "No event" as notification setting.
-
-By default you do not receive any email notifications about your own changes. If you want to receive emails for your own changes (e.g. to make sure that emails for changes you made have been sent), activate the check-box **I want to be notified of changes that I make myself**.
-
-Please read [these instructions](../../system-admin-guide/email) to learn about the global settings for email notifications and [these FAQ](../../system-admin-guide/email/email-faq) if you have questions.
-
-
+- **News added** - ...adds or updates news in the [News Page](../user-guide/news)
+- **Comment on a news item** - ...adds a comment on a news item
+- **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
+- **New forum message** - ...sends a new message into the [forum](../user-guide/forums/)
+- **Wiki page added** - ...adds a new [Wiki page](../user-guide/wiki)
+- **Wiki page updated** - ...updates a [Wiki page](../user-guide/wiki)
+- **Membership added** - ...adds you to a new work package
+- **Membership updates** - ...updates your membership associations
 
 ## Set an avatar
 

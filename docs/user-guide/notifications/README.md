@@ -45,7 +45,7 @@ In the "Notification settings" you can fine-tune what you are notified about:
   - All new comments
 
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Notifications, [click here](../../getting-started/my-account#email-notifications)
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../../getting-started/my-account#email-reminders)
 
 ___
 
