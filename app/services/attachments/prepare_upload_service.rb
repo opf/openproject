@@ -27,7 +27,7 @@
 #++
 
 module Attachments
-  class PrepareUploadService < ::BaseServices::Create
+  class PrepareUploadService < BaseService
     def persist(call)
       attachment = call.result
 
