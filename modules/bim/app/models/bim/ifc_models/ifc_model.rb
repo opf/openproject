@@ -38,13 +38,6 @@ module Bim
         xkt_attachment.present?
       end
 
-      ##
-      # Test if the ifc attachment is readable.
-      # Note that it has to access the diskfile and potentially download from storage for that(!)
-      def ifc_attachment_ready?
-        !ifc_attachment.prepared? && ifc_attachment.diskfile.present?
-      end
-
       private
 
       ##
