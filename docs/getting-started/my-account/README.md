@@ -186,7 +186,7 @@ You can choose to receive emails immediately, or only on certain days and times,
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
-- **News added** - ...adds or updates news in the [News Page](../user-guide/news)
+- **News added** - ...adds or updates news in the [News Page](/docs/user-guide/news)
 - **Comment on a news item** - ...adds a comment on a news item
 - **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
 - **New forum message** - ...sends a new message into the [forum](/docs/user-guide/forums/)
