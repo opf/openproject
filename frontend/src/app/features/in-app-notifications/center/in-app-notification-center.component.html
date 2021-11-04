@@ -20,6 +20,7 @@
             [aggregatedNotifications]="records"
             attr.data-qa-selector="op-ian-notification-item-{{records[0].id}}"
             [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
+            [attr.data-qa-ian-selected]="(stateChanged$ | async) === records[0]._links.resource.href"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>

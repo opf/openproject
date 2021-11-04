@@ -24,7 +24,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { take } from 'rxjs/internal/operators/take';
 import { StateService } from '@uirouter/angular';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { BackRouteOptions } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
@@ -46,6 +45,8 @@ export class InAppNotificationEntryComponent implements OnInit {
   workPackage$:Observable<WorkPackageResource>|null = null;
 
   loading$ = this.storeService.query.selectLoading();
+
+  stateChanged$ = this.storeService.stateChanged$;
 
   // The actor, if any
   actors:PrincipalLike[] = [];
