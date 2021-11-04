@@ -174,9 +174,10 @@ By default you do not receive any notifications about your own changes. In addit
 
 ## Email reminders
 
-To configure the email reminders which you receive from the system, navigate to **My account** and choose **Email reminders** in the menu. Your system administrator can also set them for you or [change](../../system-admin-guide/email/#email-notifications-settings) the global default settings.
+To configure the email reminders which you receive from the system, navigate to **My account** and choose **Email reminders** in the menu. Your system administrator can also set them for you or change the global default settings.
 
-You can choose between several email notifications.
+You can choose between several email reminders. 
+
 **Default: Enable daily email reminders: 2am, Monday - Friday.**
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all. 
@@ -185,12 +186,12 @@ You can choose to receive emails immediately, or only on certain days and times,
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
-- **News added** - ...adds or updates news in the [News Page](../user-guide/news)
+- **News added** - ...adds or updates news in the [News Page](../.../user-guide/news)
 - **Comment on a news item** - ...adds a comment on a news item
 - **Documents added** - ...adds a document somewhere in the project (i.e. a work package)
-- **New forum message** - ...sends a new message into the [forum](../user-guide/forums/)
-- **Wiki page added** - ...adds a new [Wiki page](../user-guide/wiki)
-- **Wiki page updated** - ...updates a [Wiki page](../user-guide/wiki)
+- **New forum message** - ...sends a new message into the [forum](../../user-guide/forums/)
+- **Wiki page added** - ...adds a new [Wiki page](../../user-guide/wiki)
+- **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki)
 - **Membership added** - ...adds you to a new work package
 - **Membership updates** - ...updates your membership associations
 
