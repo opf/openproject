@@ -8,48 +8,31 @@
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render layout: 'mailer/notification_mailer_header',
+      <%= render partial: 'mailer/notification_mailer_header',
                  locals: {
-                   summary: "#{I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user)}"
-                 } do %>
-          <a href="<%= notifications_path(@work_package.id) %>"
-             target="_blank"
-             style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none;font-size: 14px;">
-            <%= I18n.t(:'mail.notification.see_in_center') %>
-          </a>
-        <% end %>
+                   summary: I18n.t(:'mail.work_packages.mentioned_by', user: @journal.user),
+                   button_href: notifications_path(@work_package.id),
+                   button_text: I18n.t(:'mail.notification.see_in_center'),
+                   user: @user
+                 } %>
 
       <%= render layout: 'mailer/notification_row',
                  locals: {
                    work_package: @work_package,
                    unique_reasons: [:mentioned],
-                   show_count: false
+                   show_count: false,
+                   user: @user
                  } do %>
         <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
           <tr>
-            <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal; overflow: hidden; max-width: 100%; width: 100%;">
+            <td style="<%= placeholder_text_styles %>">
               <%= format_text @journal.notes, only_path: false %>
             </td>
           </tr>
         </table>
       <% end %>
 
-      <table <%= placeholder_table_styles(style: 'font-size:14px;') %>>
-        <tr>
-          <td>
-            <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;') %>>
-              <tr>
-                <td>
-                </td>
-              </tr>
-            </table>
-          </td>
-          <%= placeholder_cell('10px', vertical: true) %>
-          <td>
-            <%= render partial: 'mailer/notification_settings_button' %>
-          </td>
-        </tr>
-      </table>
+      <%= render partial: 'mailer/notification_settings_table' %>
 
       <table>
         <tr>

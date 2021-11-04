@@ -43,7 +43,7 @@ module MailNotificationHelper
       suffix = "svg+xml"
     end
 
-    email_image_tag(logo, suffix, options)
+    email_image_tag(logo, suffix, **options)
   end
 
   def email_image_tag(image, suffix, **options)
@@ -82,6 +82,20 @@ module MailNotificationHelper
     }
 
     default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
+  end
+
+  def placeholder_text_styles(**overwrites)
+    {
+      color: '#878787',
+      'line-height': '24px',
+      'font-size': '14px',
+      'white-space': 'normal',
+      overflow: 'hidden',
+      'max-width': '100%',
+      width: '100%'
+    }.merge(overwrites)
+     .map { |k, v| "#{k}: #{v}" }
+     .join('; ')
   end
 
   def placeholder_cell(number, vertical:)
