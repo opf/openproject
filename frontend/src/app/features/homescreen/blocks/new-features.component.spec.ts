@@ -58,7 +58,7 @@ describe('shows edition-specific content', () => {
     fixture.detectChanges();
 
     // checking for missing translation key as translations are not loaded in specs
-    expect(element.nativeElement.textContent).toContain('.bim.current_new_feature_html');
+    expect(element.nativeElement.textContent).toContain('.bim.new_features_html');
   }));
 
   it('should render standard text for standard edition', fakeAsync(() => {
@@ -67,6 +67,6 @@ describe('shows edition-specific content', () => {
     fixture.detectChanges();
 
     // checking for missing translation key as translations are not loaded in specs
-    expect(element.nativeElement.textContent).toContain('.standard.current_new_feature_html');
+    expect(element.nativeElement.textContent).toContain('.standard.new_features_html');
   }));
 });
