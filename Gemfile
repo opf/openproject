@@ -148,7 +148,7 @@ gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
 
 gem 'cells-erb', '~> 0.1.0'
-gem 'cells-rails', '~> 0.0.9'
+gem 'cells-rails', '~> 0.1.4'
 
 gem 'meta-tags', '~> 2.16.0'
 
