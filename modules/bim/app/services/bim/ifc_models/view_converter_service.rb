@@ -125,6 +125,8 @@ module Bim
                           '--use-element-guids',
                           '--no-progress',
                           '--verbose',
+                          '--threads',
+                          '4',
                           ifc_filepath,
                           target_file,
                           '--exclude',
