@@ -170,6 +170,7 @@ describe Attachment, type: :model do
 
   describe 'two attachments with same file name' do
     let(:second_file) { FactoryBot.create :uploaded_jpg, name: file.original_filename }
+
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
                               file: file,
@@ -205,6 +206,7 @@ describe Attachment, type: :model do
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
     let(:author) { FactoryBot.create :user }
 
@@ -265,6 +267,17 @@ describe Attachment, type: :model do
       end
     end
 
+    describe 'for a video file' do
+      let(:attachment) { described_class.new }
+
+      it 'assumes it to be inlineable' do
+        %w[video/webm video/mp4 video/quicktime].each do |content_type|
+          attachment.content_type = content_type
+          expect(attachment).to be_inlineable, "#{content_type} should be inlineable"
+        end
+      end
+    end
+
     describe "for a binary file" do
       before { binary_attachment.save! }
 
@@ -274,6 +287,7 @@ describe Attachment, type: :model do
       end
     end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do

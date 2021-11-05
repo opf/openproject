@@ -27,50 +27,59 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative '../../../legacy_spec_helper'
+require 'spec_helper'
 
-describe Redmine::MimeType do
-  it 'should of' do
+describe OpenProject::MimeType do
+  describe '#of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text/plain',
                 'test.c' => 'text/x-c' }
     to_test.each do |name, expected|
-      assert_equal expected, Redmine::MimeType.of(name)
+      it do
+        expect(described_class.of(name)).to eq expected
+      end
     end
   end
 
-  it 'should css class of' do
+  describe '#css_class_of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text-plain',
                 'test.c' => 'text-x-c' }
     to_test.each do |name, expected|
-      assert_equal expected, Redmine::MimeType.css_class_of(name)
+      it do
+        expect(described_class.css_class_of(name)).to eq expected
+      end
     end
   end
 
-  it 'should main mimetype of' do
+  describe '#main_mimetype_of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text',
                 'test.c' => 'text' }
     to_test.each do |name, expected|
-      assert_equal expected, Redmine::MimeType.main_mimetype_of(name)
+      it do
+        expect(described_class.main_mimetype_of(name)).to eq expected
+      end
     end
   end
 
-  it 'should is type' do
+  describe '#is_type?' do
     to_test = { ['text', 'test.unk'] => false,
                 ['text', 'test.txt'] => true,
                 ['text', 'test.c'] => true }
+
     to_test.each do |args, expected|
-      assert_equal expected, Redmine::MimeType.is_type?(*args)
+      it do
+        expect(described_class.is_type?(*args)).to eq expected
+      end
     end
   end
 
-  it 'should narrow type for equal main type' do
-    assert_equal 'text/x-ruby', Redmine::MimeType.narrow_type('rubyfile.rb', 'text/plain')
+  it 'equals the main type for the narrow type' do
+    expect(described_class.narrow_type('rubyfile.rb', 'text/plain')).to eq 'text/x-ruby'
   end
 
-  it 'should use original type if main type differs' do
-    assert_equal 'application/zip', Redmine::MimeType.narrow_type('rubyfile.rb', 'application/zip')
+  it 'uses original type if main type differs' do
+    expect(described_class.narrow_type('rubyfile.rb', 'application/zip')).to eq 'application/zip'
   end
 end

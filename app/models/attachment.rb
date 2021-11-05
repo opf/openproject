@@ -31,8 +31,6 @@
 require 'digest/md5'
 
 class Attachment < ApplicationRecord
-  ALLOWED_TEXT_TYPES = %w[text/plain].freeze
-  ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
@@ -115,15 +113,20 @@ class Attachment < ApplicationRecord
 
   # images are sent inline
   def inlineable?
-    is_plain_text? || is_image? || is_pdf?
+    is_plain_text? || is_image? || is_movie? || is_pdf?
   end
 
+  # rubocop:disable Naming/PredicateName
   def is_plain_text?
-    ALLOWED_TEXT_TYPES.include?(content_type)
+    OpenProject::MimeType.plain_text?(content_type)
   end
 
   def is_image?
-    ALLOWED_IMAGE_TYPES.include?(content_type)
+    OpenProject::MimeType.image?(content_type)
+  end
+
+  def is_movie?
+    OpenProject::MimeType.movie?(content_type)
   end
 
   # backwards compatibility for plugins
@@ -140,6 +143,7 @@ class Attachment < ApplicationRecord
   def is_diff?
     is_text? && filename =~ /\.(patch|diff)\z/i
   end
+  # rubocop:enable Naming/PredicateName
 
   # Returns true if the file is readable
   def readable?
@@ -200,7 +204,7 @@ class Attachment < ApplicationRecord
   end
 
   def self.content_type_for(file_path, fallback = OpenProject::ContentTypeDetector::SENSIBLE_DEFAULT)
-    content_type = Redmine::MimeType.narrow_type file_path, OpenProject::ContentTypeDetector.new(file_path).detect
+    content_type = OpenProject::MimeType.narrow_type file_path, OpenProject::ContentTypeDetector.new(file_path).detect
     content_type || fallback
   end
 
