@@ -8,7 +8,7 @@ describe Bim::IfcModels::ViewConverterService do
     described_class.instance_variable_set(:@available_commands, nil)
   end
 
-  shared_context 'available pipeline commands' do |available|
+  shared_context 'with available pipeline commands' do |available|
     before do
       # Mock the call to Open3 to test available commands
       allow(Open3)
@@ -31,7 +31,7 @@ describe Bim::IfcModels::ViewConverterService do
     subject { described_class }
 
     context 'with only one available command' do
-      include_context 'available pipeline commands', %w[IfcConvert]
+      include_context 'with available pipeline commands', %w[IfcConvert]
 
       it 'is not available' do
         expect(subject).not_to be_available
@@ -39,7 +39,7 @@ describe Bim::IfcModels::ViewConverterService do
     end
 
     context 'with all available commands' do
-      include_context 'available pipeline commands', described_class::PIPELINE_COMMANDS
+      include_context 'with available pipeline commands', described_class::PIPELINE_COMMANDS
 
       it 'is available' do
         expect(subject).to be_available
@@ -49,19 +49,20 @@ describe Bim::IfcModels::ViewConverterService do
 
   describe '#call' do
     before do
-      expect(model).to receive(:processing!).and_call_original
+      allow(model).to receive(:processing!).and_call_original
     end
 
     context 'if not available?' do
-      include_context 'available pipeline commands', false
+      include_context 'with available pipeline commands', false
 
       it 'returns an error' do
+        expect(model).to receive(:processing!).and_call_original
         expect(described_class).not_to be_available
         result = subject.call
         expect(result.errors[:base].first).to include 'The following IFC converter commands are missing'
 
         # Expect that the model's conversion status gets updated
-        expect(model.error?).to be_truthy
+        expect(model).to be_error
         expect(model.conversion_error_message).to include('The following IFC converter commands are missing')
       end
     end
@@ -89,6 +90,8 @@ describe Bim::IfcModels::ViewConverterService do
       end
 
       it 'performs the conversion and returns the save result' do
+        allow(model).to receive(:processing!).and_call_original
+
         # mocking all convert! calls so they do nothing but create an empty dummy result file
         allow(subject).to receive(:convert!) do |source_file, ext|
           expect(File.exists?(source_file)).to be_truthy, "Expected #{source_file} to exist."
@@ -136,7 +139,7 @@ describe Bim::IfcModels::ViewConverterService do
         expect(subject.call).to be_success
 
         # Expect that the model's conversion status gets updated
-        expect(model.completed?).to be_truthy
+        expect(model).to be_completed
         expect(model.conversion_error_message).to be_nil
       end
 
@@ -156,7 +159,7 @@ describe Bim::IfcModels::ViewConverterService do
   describe '#change_basename' do
     it "should return the new basename" do
       path = "/tmp/file.xml"
-      new_path = subject.change_basename path, "/home/model.xml", ".json"
+      new_path = subject.send(:change_basename, path, "/home/model.xml", ".json")
 
       expect(new_path.to_s).to eq "/tmp/model.json"
     end

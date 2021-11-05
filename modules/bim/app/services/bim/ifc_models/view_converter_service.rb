@@ -62,7 +62,6 @@ module Bim
         Dir.mktmpdir do |dir|
           self.working_directory = dir
 
-
           perform_conversion!
 
           ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
@@ -81,6 +80,8 @@ module Bim
       ensure
         self.working_directory = nil
       end
+
+      private
 
       def perform_conversion!
         # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
@@ -214,8 +215,6 @@ module Bim
 
         Pathname(from).parent.join(to.basename.to_s.sub(to.extname, ext))
       end
-
-      private
 
       def working_directory=(dir)
         @working_directory = dir
