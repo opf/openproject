@@ -585,7 +585,9 @@ es:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -668,7 +670,6 @@ es:
           filters:
             custom_fields:
               inexistent: "No hay ningún campo personalizado para el filtro."
-              invalid: "El campo personalizado no es válido en el contexto válido."
         queries/filters/base:
           attributes:
             values:
@@ -1190,7 +1191,9 @@ es:
   error_can_not_archive_project: "Este proyecto no se puede archivar: %{errors}"
   error_can_not_delete_entry: "No se puede eliminar la entrada"
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
-  error_can_not_delete_type: "Este tipo contiene paquetes de trabajo y no se puede eliminar."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
@@ -2142,6 +2145,7 @@ es:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renombrar páginas wiki"
   permission_save_queries: "Guardar vistas"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_manage_types: "Seleccionar Tipos"
   permission_view_calendar: "Ver calendario"

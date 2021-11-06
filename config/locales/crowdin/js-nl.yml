@@ -604,7 +604,8 @@ nl:
         daily:
           add_time: 'Tijd toevoegen'
           enable: 'Dagelijkse e-mailherinneringen inschakelen'
-          explanation: 'U ontvangt deze herinneringen alleen voor ongelezen meldingen en slechts op uren die u opgeeft.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Tijd %{counter}:'
           title: 'Stuur me dagelijkse herinneringen voor ongelezen meldingen'
         workdays:

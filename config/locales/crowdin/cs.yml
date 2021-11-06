@@ -590,7 +590,9 @@ cs:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globální'
@@ -673,7 +675,6 @@ cs:
           filters:
             custom_fields:
               inexistent: "Pro filtr neexistuje žádné vlastní pole."
-              invalid: "Vlastní pole není v daném kontextu platné."
         queries/filters/base:
           attributes:
             values:
@@ -1227,7 +1228,9 @@ cs:
   error_can_not_archive_project: "Tento projekt nelze archivovat: %{errors}"
   error_can_not_delete_entry: "Nelze odstranit položku"
   error_can_not_delete_custom_field: "Nelze odstranit vlastní pole"
-  error_can_not_delete_type: "Tento typ obsahuje pracovní balíčky a nedá sa odstrániť."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standartní typy se nedají odstranit."
   error_can_not_invite_user: "Nepodařilo se odeslat pozvání uživateli."
   error_can_not_remove_role: "Tato role je používána a nelze ji odstranit."
@@ -2182,6 +2185,7 @@ cs:
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
   permission_save_queries: "Uložit pohled"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
   permission_view_calendar: "Zobrazit kalendář"

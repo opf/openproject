@@ -588,7 +588,9 @@ tr:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Küresel'
@@ -671,7 +673,6 @@ tr:
           filters:
             custom_fields:
               inexistent: "Hiçbir özel alan filtresi yok."
-              invalid: "Verilen içerikteki özel alan filitresi geçerli değil."
         queries/filters/base:
           attributes:
             values:
@@ -1193,7 +1194,9 @@ tr:
   error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"
   error_can_not_delete_entry: "Girdi silinemiyor"
   error_can_not_delete_custom_field: "Özel alan silinemiyor"
-  error_can_not_delete_type: "Bu tür iş paketleri içeriyor ve silinemez."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standart türler silinemez."
   error_can_not_invite_user: "Kullanıcı daveti gönderemedi."
   error_can_not_remove_role: "Bu rol kullanımda ve silinemez."
@@ -2145,6 +2148,7 @@ tr:
   permission_protect_wiki_pages: "Wiki sayfalarını koruma"
   permission_rename_wiki_pages: "Wiki sayfalarını yeniden adlandır"
   permission_save_queries: "Görünüm kaydetmek"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
   permission_view_calendar: "Takvimi görüntülemek"

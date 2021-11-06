@@ -588,7 +588,9 @@ sl:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globalno'
@@ -671,7 +673,6 @@ sl:
           filters:
             custom_fields:
               inexistent: "Za filter ni polja po meri."
-              invalid: "Polje po meri v danem kontekstu ni veljavno."
         queries/filters/base:
           attributes:
             values:
@@ -1225,7 +1226,9 @@ sl:
   error_can_not_archive_project: "Ta projekt ne more biti arhiviran: %{errors}"
   error_can_not_delete_entry: "Izbris poizvedbe ni mogoč"
   error_can_not_delete_custom_field: "Polja po meri ni mogoče izbrisati"
-  error_can_not_delete_type: "Ta vrsta vsebuje delovne pakete in ni jih mogoče izbrisati."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardnih vrst ni mogoče izbrisati."
   error_can_not_invite_user: "Povabila uporabniku ni bilo mogoče poslati."
   error_can_not_remove_role: "Ta vloga je v uporabi in je ni mogoče izbrisati."
@@ -2181,6 +2184,7 @@ sl:
   permission_protect_wiki_pages: "Zaščiti wiki strani"
   permission_rename_wiki_pages: "Preimenujte wiki strani"
   permission_save_queries: "Shrani poglede …"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Izberi module projekta"
   permission_manage_types: "Izberi vrste"
   permission_view_calendar: "Poglej koledar"

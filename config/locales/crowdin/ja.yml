@@ -583,7 +583,9 @@ ja:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: '全般'
@@ -666,7 +668,6 @@ ja:
           filters:
             custom_fields:
               inexistent: "フィルターのカスタムフィールドはありません。"
-              invalid: "カスタムフィールドは、指定されたコンテキストでは無効です。"
         queries/filters/base:
           attributes:
             values:
@@ -1172,7 +1173,9 @@ ja:
   error_can_not_archive_project: "このプロジェクトはアーカイブできません: %{errors}"
   error_can_not_delete_entry: "エントリを削除できません"
   error_can_not_delete_custom_field: "カスタムフィールドを削除できません。"
-  error_can_not_delete_type: "この種類のワークパッケージが存在するため、削除できません。"
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "標準型は削除できません。"
   error_can_not_invite_user: "ユーザーへの招待状の送信に失敗しました。"
   error_can_not_remove_role: "このロールは使用されています。削除できません。"
@@ -2122,6 +2125,7 @@ ja:
   permission_protect_wiki_pages: "Wikiページの凍結"
   permission_rename_wiki_pages: "Wikiページ名の変更"
   permission_save_queries: "ビューを保存"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "プロジェクトでモジュールの選択"
   permission_manage_types: "ワークパッケージのタイプを選択"
   permission_view_calendar: "カレンダーの閲覧"

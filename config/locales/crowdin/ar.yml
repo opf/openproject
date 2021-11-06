@@ -592,7 +592,9 @@ ar:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'عالمي'
@@ -675,7 +677,6 @@ ar:
           filters:
             custom_fields:
               inexistent: "لا يوجد أي حقل مخصص لعامل التصفية."
-              invalid: "الحقل المخصص غير صحيح في هذا السياق."
         queries/filters/base:
           attributes:
             values:
@@ -1261,7 +1262,9 @@ ar:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "غير قادر على حذف الحقل المخصص"
-  error_can_not_delete_type: "هذا النوع يحتوي على مجموعة عمل ولا يمكن حذفه."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "لا بمكن حذف الانماط القياسية."
   error_can_not_invite_user: "فشل في إرسال دعوة للمستخدم."
   error_can_not_remove_role: "هذا الدور هو قيد الاستخدام ولا يمكن حذفه."
@@ -2221,6 +2224,7 @@ ar:
   permission_protect_wiki_pages: "حماية صفحات wiki"
   permission_rename_wiki_pages: "قم بإعادة تسمية صفحات wiki"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "حدد وحدات المشروع"
   permission_manage_types: "حدد أنواع"
   permission_view_calendar: "عرض التقويم"

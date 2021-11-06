@@ -589,7 +589,9 @@ hr:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globalne'
@@ -672,7 +674,6 @@ hr:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -1210,7 +1211,9 @@ hr:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Nije moguće izbrisati prilagođeno polje"
-  error_can_not_delete_type: "Ovaj tip sadrži radni paket i ne može biti izbrisan."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardni tipovi ne mogu biti izbrisani."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Ova rola se koristi i ne može biti izbrisana."
@@ -2164,6 +2167,7 @@ hr:
   permission_protect_wiki_pages: "Zaštiti wiki stranice"
   permission_rename_wiki_pages: "Preimenuj wiki stranice"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Odaberi module projekta"
   permission_manage_types: "Odaberi tipove"
   permission_view_calendar: "Prikaži kalendar"

@@ -137,6 +137,7 @@ zh-CN:
   label_wiki: "Wiki"
   permission_view_master_backlog: "查看主待办清单"
   permission_view_taskboards: "查看任务板"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "更新冲刺 (sprint)"
   points_accepted: "点数已接受"
   points_committed: "点数已确认"

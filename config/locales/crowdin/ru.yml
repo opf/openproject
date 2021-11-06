@@ -589,7 +589,9 @@ ru:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "установлено в '%{value}', который не является белым списком для загрузки."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Глобальная'
@@ -672,7 +674,6 @@ ru:
           filters:
             custom_fields:
               inexistent: "Для этого фильтра нет настраиваемого поля."
-              invalid: "В этом контексте настраиваемое поле неприменимо."
         queries/filters/base:
           attributes:
             values:
@@ -1226,7 +1227,9 @@ ru:
   error_can_not_archive_project: "Этот проект невозможно заархивировать: %{errors}"
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
-  error_can_not_delete_type: "Этот тип содержит пакет работ и не может быть удален."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
   error_can_not_invite_user: "Не удалось отправить приглашение пользователю."
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."
@@ -2181,6 +2184,7 @@ ru:
   permission_protect_wiki_pages: "Защитить wiki-страницы"
   permission_rename_wiki_pages: "Переименование wiki-страниц"
   permission_save_queries: "Сохранить представления"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Выбор модулей проекта"
   permission_manage_types: "Выберите типы"
   permission_view_calendar: "Календарь"

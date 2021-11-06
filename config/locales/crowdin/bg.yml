@@ -588,7 +588,9 @@ bg:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -671,7 +673,6 @@ bg:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -1193,7 +1194,9 @@ bg:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Не може да изтриете това потребителско поле"
-  error_can_not_delete_type: "Този тип съдържа работни пакети и не може да бъде изтрит."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартни типове не могат да бъдат изтрити."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Тази роля се използва и не може да бъде изтрита."
@@ -2145,6 +2148,7 @@ bg:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
   permission_view_calendar: "Преглед на календара"

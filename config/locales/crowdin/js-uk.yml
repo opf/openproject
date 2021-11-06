@@ -606,7 +606,8 @@ uk:
         daily:
           add_time: 'Add time'
           enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
         workdays:

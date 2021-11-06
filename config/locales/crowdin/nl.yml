@@ -585,7 +585,9 @@ nl:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is ingesteld op '%{value}', wat niet op de whitelist staat voor het uploaden."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globaal'
@@ -668,7 +670,6 @@ nl:
           filters:
             custom_fields:
               inexistent: "Er is geen aangepast veld voor dit filter."
-              invalid: "Het aangepaste veld is niet geldig in deze context."
         queries/filters/base:
           attributes:
             values:
@@ -1190,7 +1191,9 @@ nl:
   error_can_not_archive_project: "Dit project kan niet worden gearchiveerd: %{errors}"
   error_can_not_delete_entry: "Niet in staat om ingave te verwijderen"
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
-  error_can_not_delete_type: "Dit type bevat werkpakketten en kan niet worden verwijderd."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standaard types kunnen niet worden verwijderd."
   error_can_not_invite_user: "Het versturen van de uitnodiging naar de gebruiker is mislukt."
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."
@@ -2141,6 +2144,7 @@ nl:
   permission_protect_wiki_pages: "Wiki-pagina's beveiligen"
   permission_rename_wiki_pages: "Wiki-pagina's wijzigen"
   permission_save_queries: "Weergaves opslaan"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecteer project modules"
   permission_manage_types: "Selecteer typen"
   permission_view_calendar: "Weergave agenda"

@@ -587,7 +587,9 @@ pl:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globalna'
@@ -670,7 +672,6 @@ pl:
           filters:
             custom_fields:
               inexistent: "Brak pola niestandardowego dla tego filtra."
-              invalid: "Pole niestandardowe jest nieprawidłowe w danym kontekście."
         queries/filters/base:
           attributes:
             values:
@@ -1224,7 +1225,9 @@ pl:
   error_can_not_archive_project: "Tego projektu nie można zarchiwizować: %{errors}"
   error_can_not_delete_entry: "Nie można usunąć wpisu"
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
-  error_can_not_delete_type: "Ten typ zawiera pakiety robocze i nie może zostać usunięty."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Nie można usunąć standardowych typów."
   error_can_not_invite_user: "Nie można wysłać zaproszenia do użytkownika."
   error_can_not_remove_role: "Ta Rola jest używana i nie można jej usunąć."
@@ -2179,6 +2182,7 @@ pl:
   permission_protect_wiki_pages: "Blokowanie stron wiki"
   permission_rename_wiki_pages: "Zmiana nazw strony wiki"
   permission_save_queries: "Zapisz widoki"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
   permission_view_calendar: "Widok kalendarza"

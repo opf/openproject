@@ -586,7 +586,9 @@ ko:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: '글로벌'
@@ -669,7 +671,6 @@ ko:
           filters:
             custom_fields:
               inexistent: "필터에 대한 사용자 지정 필드가 없습니다."
-              invalid: "사용자 지정 필드가 지정된 컨텍스트에서 유효하지 않습니다."
         queries/filters/base:
           attributes:
             values:
@@ -1175,7 +1176,9 @@ ko:
   error_can_not_archive_project: "이 프로젝트는 보관할 수 없습니다: %{errors}"
   error_can_not_delete_entry: "항목을 삭제할 수 없습니다."
   error_can_not_delete_custom_field: "사용자 지정 필드를 삭제할 수 없습니다."
-  error_can_not_delete_type: "이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "표준 유형은 삭제할 수 없습니다."
   error_can_not_invite_user: "사용자에게 초대장을 보내지 못했습니다."
   error_can_not_remove_role: "이 역할은 현재 사용 중이며 삭제할 수 없습니다."
@@ -2125,6 +2128,7 @@ ko:
   permission_protect_wiki_pages: "위키 페이지 보호"
   permission_rename_wiki_pages: "위키 페이지 이름 바꾸기"
   permission_save_queries: "보기 저장"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_manage_types: "유형 선택"
   permission_view_calendar: "달력 보기"

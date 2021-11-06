@@ -137,6 +137,7 @@ sk:
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Aktualizácia šprinty"
   points_accepted: "body prijaté"
   points_committed: "body odovzdané"

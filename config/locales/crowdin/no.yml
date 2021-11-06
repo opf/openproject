@@ -588,7 +588,9 @@
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -671,7 +673,6 @@
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -1193,7 +1194,9 @@
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Kan ikke slette oppføring"
   error_can_not_delete_custom_field: "Kunne ikke slette det egendefinerte feltet"
-  error_can_not_delete_type: "Denne typen inneholder arbeidspakker og kan ikke slettes."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardtyper kan ikke slettes."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Denne rollen er i bruk og kan ikke slettes."
@@ -2145,6 +2148,7 @@
   permission_protect_wiki_pages: "Beskytt wiki-sider"
   permission_rename_wiki_pages: "Gi nytt navn til wiki-sider"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Velg prosjektmoduler"
   permission_manage_types: "Velg typer"
   permission_view_calendar: "Vis kalender"

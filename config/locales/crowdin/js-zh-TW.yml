@@ -602,7 +602,8 @@ zh-TW:
         daily:
           add_time: '添加時間'
           enable: '啟用每日電子郵件提醒'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: '時間 %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
         workdays:

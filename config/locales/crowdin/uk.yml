@@ -590,7 +590,9 @@ uk:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Глобальний'
@@ -673,7 +675,6 @@ uk:
           filters:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
-              invalid: "Спеціальне поле не є дійсним у даному контексті."
         queries/filters/base:
           attributes:
             values:
@@ -1227,7 +1228,9 @@ uk:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Неможливо видалити запис"
   error_can_not_delete_custom_field: "Неможливо видалити спеціальне поле"
-  error_can_not_delete_type: "Цей тип містить робочі пакети і не може бути видалений."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартні типи неможливо видалити."
   error_can_not_invite_user: "Не вдалося надіслати запрошення користувачеві."
   error_can_not_remove_role: "Ця роль використовується і не може бути видалений."
@@ -2183,6 +2186,7 @@ uk:
   permission_protect_wiki_pages: "Захист wiki-сторінок"
   permission_rename_wiki_pages: "Перейменування wiki-сторінок"
   permission_save_queries: "Зберегти перегляди"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Вибір модулів проекту"
   permission_manage_types: "Виберіть типи"
   permission_view_calendar: "Перегляд календаря"

@@ -137,6 +137,7 @@ ca:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Veure el backlog mestre"
   permission_view_taskboards: "Veure taulers"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Actualitzar esprints"
   points_accepted: "punts acceptats"
   points_committed: "punts compromesos"

@@ -609,7 +609,8 @@ hu:
         daily:
           add_time: "Idő hozzáadása\n"
           enable: "Napi e-mail emlékeztetők engedélyezése\n"
-          explanation: "Ezeket az emlékeztetőket csak az olvasatlan értesítésekről kapja, és csak az Ön által megadott időpontokban.\n"
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Idő%{counter}:'
           title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
         workdays:

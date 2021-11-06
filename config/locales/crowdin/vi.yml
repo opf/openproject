@@ -589,7 +589,9 @@ vi:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -672,7 +674,6 @@ vi:
           filters:
             custom_fields:
               inexistent: "Không có trường tùy chỉnh cho bộ lọc."
-              invalid: "Trường tùy chỉnh không hợp lệ trong ngữ cảnh nhất định."
         queries/filters/base:
           attributes:
             values:
@@ -1178,7 +1179,9 @@ vi:
   error_can_not_archive_project: "Dự án này không thể lưu trữ: %{errors}"
   error_can_not_delete_entry: "Không thể xoá"
   error_can_not_delete_custom_field: "Không thể xóa mục tùy biến"
-  error_can_not_delete_type: "Kiểu này chứa các work package và không thể bị xóa."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Kiểu chuẩn không thể bị xóa."
   error_can_not_invite_user: "Gửi lời mời không thành công."
   error_can_not_remove_role: "Vai trò này đang được sử dụng và không thể bị xóa."
@@ -2128,6 +2131,7 @@ vi:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Lưu các chế độ xem"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
   permission_view_calendar: "View calendar"

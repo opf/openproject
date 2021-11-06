@@ -584,7 +584,9 @@ el:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Καθολικό'
@@ -667,7 +669,6 @@ el:
           filters:
             custom_fields:
               inexistent: "Δεν υπάρχει προσαρμοσμένο πεδίο για το φίλτρο."
-              invalid: "Το προσαρμοσμένο πεδίο δεν είναι έγκυρο στο δοσμένο πλαίσιο."
         queries/filters/base:
           attributes:
             values:
@@ -1189,7 +1190,9 @@ el:
   error_can_not_archive_project: "Αυτό το έργο δεν μπορεί να αρχειοθετηθεί: %{errors}"
   error_can_not_delete_entry: "Δεν είναι δυνατή η διαγραφή καταχώρησης"
   error_can_not_delete_custom_field: "Δεν είναι δυνατή η διαγραφή του προσαρμοσμένου πεδίου"
-  error_can_not_delete_type: "Αυτός ο τύπος περιέχει πακέτα εργασίας που δεν μπορούν να διαγραφούν."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Οι κανονικοί τύποι δεν μπορούν να διαγραφούν."
   error_can_not_invite_user: "Αποτυχία αποστολής πρόσκλησης στο χρήστη."
   error_can_not_remove_role: "Αυτός ο ρόλος χρησιμοποιείται και δεν μπορεί να διαγραφεί."
@@ -2140,6 +2143,7 @@ el:
   permission_protect_wiki_pages: "Προστατέψτε τις σελίδες wiki"
   permission_rename_wiki_pages: "Μετονομασία σελίδων wiki"
   permission_save_queries: "Αποθήκευση προβολών"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_manage_types: "Επιλέξτε τύπους"
   permission_view_calendar: "Προβολή ημερολογίου"

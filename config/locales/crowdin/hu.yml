@@ -589,7 +589,9 @@ hu:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "'%{value}'-re van állítva, ami nem szerepel a feltöltés fehér listáján.\n"
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}\n"
         capability:
           context:
             global: 'Globális'
@@ -672,7 +674,6 @@ hu:
           filters:
             custom_fields:
               inexistent: "Nincs egyedi mező ehhez a szűrőhöz."
-              invalid: "Az egyéni mező érvénytelen az adott környezetben."
         queries/filters/base:
           attributes:
             values:
@@ -1198,7 +1199,9 @@ hu:
   error_can_not_archive_project: "Ezt a projektet nem lehet archiválni: %{errors}"
   error_can_not_delete_entry: "Bejegyzését nem lehet törölni"
   error_can_not_delete_custom_field: "Nem törölhető az egyéni mező"
-  error_can_not_delete_type: "Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Alap típusokat nem lehet törölni."
   error_can_not_invite_user: "A meghívó küldése sikertelen a felhasználó részére."
   error_can_not_remove_role: "Ez a szerepkör használatban van, nem lehet törölni"
@@ -2149,6 +2152,7 @@ hu:
   permission_protect_wiki_pages: "Védett wiki oldalak"
   permission_rename_wiki_pages: "Wiki oldalak átnevezése"
   permission_save_queries: "Nézet mentése"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_manage_types: "Jelölje ki a típust"
   permission_view_calendar: "A naptár megtekintése"

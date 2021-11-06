@@ -590,7 +590,9 @@ sk:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globálna'
@@ -673,7 +675,6 @@ sk:
           filters:
             custom_fields:
               inexistent: "Neexistuje žiadne vlastné pole pre filter."
-              invalid: "Vlastné pole je v tomto kontexte neplatné."
         queries/filters/base:
           attributes:
             values:
@@ -1227,7 +1228,9 @@ sk:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Záznam sa nedá odstrániť"
   error_can_not_delete_custom_field: "Nepodarilo sa odstrániť vlastné pole"
-  error_can_not_delete_type: "Tento typ obsahuje pracovné balíky a nedá sa odstrániť."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Štandardné typy sa nedjú odstrániť."
   error_can_not_invite_user: "Nepodarilo sa odoslať pozvanie používateľovi."
   error_can_not_remove_role: "Táto rola sa používa a nedá sa odstrániť."
@@ -2182,6 +2185,7 @@ sk:
   permission_protect_wiki_pages: "Ochrana wikistránok"
   permission_rename_wiki_pages: "Premenovanie wikistránok"
   permission_save_queries: "Uložiť zobrazenia"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_manage_types: "Vyberte typy"
   permission_view_calendar: "Zobrazenie kalendára"

@@ -587,7 +587,9 @@ sv:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -670,7 +672,6 @@ sv:
           filters:
             custom_fields:
               inexistent: "Det finns inget anpassat fält för filtret."
-              invalid: "Det anpassade fältet är inte giltigt i detta sammanhang."
         queries/filters/base:
           attributes:
             values:
@@ -1192,7 +1193,9 @@ sv:
   error_can_not_archive_project: "Det här projektet kan inte arkiveras: %{errors}"
   error_can_not_delete_entry: "Kunde inte ta bort inlägg"
   error_can_not_delete_custom_field: "Det går inte att ta bort anpassat fält"
-  error_can_not_delete_type: "Denna typ innehåller arbetspaket och kan inte tas bort."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardtyper kan inte tas bort."
   error_can_not_invite_user: "Det gick inte att skicka inbjudan till användare."
   error_can_not_remove_role: "Denna roll används och kan inte tas bort."
@@ -2144,6 +2147,7 @@ sv:
   permission_protect_wiki_pages: "Skydda wiki-sidor"
   permission_rename_wiki_pages: "Byt namn på wiki-sidor"
   permission_save_queries: "Spara vyer"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Välj projektmoduler"
   permission_manage_types: "Välj typer"
   permission_view_calendar: "Visa kalender"

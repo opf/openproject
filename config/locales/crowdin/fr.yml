@@ -588,7 +588,9 @@ fr:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -671,7 +673,6 @@ fr:
           filters:
             custom_fields:
               inexistent: "Il n’y a pas de champ personnalisé pour le filtre."
-              invalid: "Le champ personnalisé n’est pas valide dans le contexte donné."
         queries/filters/base:
           attributes:
             values:
@@ -1193,7 +1194,9 @@ fr:
   error_can_not_archive_project: "Ce projet ne peut être archivé : %{errors}"
   error_can_not_delete_entry: "Impossible de supprimer l’élément"
   error_can_not_delete_custom_field: "Impossible de supprimer le champ personnalisé"
-  error_can_not_delete_type: "Ce type contient des Lots de Travaux et ne peut être supprimé."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Les types standards ne peuvent pas être supprimés."
   error_can_not_invite_user: "Échec de l'envoi de l'invitation à l'utilisateur."
   error_can_not_remove_role: "Ce rôle est utilisé et ne peut être supprimé."
@@ -2145,6 +2148,7 @@ fr:
   permission_protect_wiki_pages: "Protéger les pages wiki"
   permission_rename_wiki_pages: "Renommer les pages wiki"
   permission_save_queries: "Enregistrer les vues"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Sélectionner modules de projet"
   permission_manage_types: "Sélectionner types"
   permission_view_calendar: "Voir le calendrier"

@@ -137,6 +137,7 @@ es:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Ver backlog maestro"
   permission_view_taskboards: "Ver paneles de tareas"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Actualizar sprints"
   points_accepted: "puntos aceptados"
   points_committed: "puntos comprometidos"

@@ -587,7 +587,9 @@ zh-TW:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "設置為 '%{value}'，未列入上傳白名單"
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: '全域設定'
@@ -670,7 +672,6 @@ zh-TW:
           filters:
             custom_fields:
               inexistent: "篩選器沒有自訂欄位。"
-              invalid: "自訂欄位在指定的上下文中無效。"
         queries/filters/base:
           attributes:
             values:
@@ -1176,7 +1177,9 @@ zh-TW:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "無法刪除項目"
   error_can_not_delete_custom_field: "無法刪除自訂欄位"
-  error_can_not_delete_type: "這個類型還有工作項目在使用，無法刪除。"
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "標準類型無法刪除"
   error_can_not_invite_user: "無法向用戶發送邀請。"
   error_can_not_remove_role: "這個角色正在使用中，無法刪除。"
@@ -2125,6 +2128,7 @@ zh-TW:
   permission_protect_wiki_pages: "專案維基頁面"
   permission_rename_wiki_pages: "重新命名維基頁面"
   permission_save_queries: "保存視圖"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
   permission_manage_types: "選擇類型"
   permission_view_calendar: "檢視行事曆"

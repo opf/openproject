@@ -137,6 +137,7 @@ lt:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Peržiūrėti pagrindinį darbų sąrašą"
   permission_view_taskboards: "Peržiūrėti užduočių lentas"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Atnaujinti sprintus"
   points_accepted: "taškai priimti"
   points_committed: "taškai patvirtinti"

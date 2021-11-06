@@ -583,7 +583,9 @@ de:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "ist auf '%{value}' gesetzt, was nicht Teil der Positivliste für Dateiuploads ist."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -666,7 +668,6 @@ de:
           filters:
             custom_fields:
               inexistent: "Es existiert kein benutzerdefiniertes Feld für diesen Filter."
-              invalid: "Das benutzerdefinierte Feld ist in diesem Kontext ungültig."
         queries/filters/base:
           attributes:
             values:
@@ -1188,7 +1189,9 @@ de:
   error_can_not_archive_project: "Dieses Projekt kann nicht archiviert werden: %{errors}"
   error_can_not_delete_entry: "Eintrag kann nicht gelöscht werden"
   error_can_not_delete_custom_field: "Benutzerdefiniertes Feld kann nicht gelöscht werden."
-  error_can_not_delete_type: "Dieser Typ enthält Arbeitspakete und kann nicht gelöscht werden."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardtypen können nicht gelöscht werden."
   error_can_not_invite_user: "Versand der Einland an Nutzer ist fehlgeschlagen."
   error_can_not_remove_role: "Diese Rolle wird verwendet und kann nicht gelöscht werden."
@@ -2140,6 +2143,7 @@ de:
   permission_protect_wiki_pages: "Wiki-Seiten schützen"
   permission_rename_wiki_pages: "Wiki-Seiten umbenennen"
   permission_save_queries: "Ansichten speichern"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projektmodule auswählen"
   permission_manage_types: "Typen auswählen"
   permission_view_calendar: "Kalender ansehen"

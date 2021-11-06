@@ -589,7 +589,9 @@ ro:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "Mesaj"
         capability:
           context:
             global: 'Global'
@@ -672,7 +674,6 @@ ro:
           filters:
             custom_fields:
               inexistent: "Nu există un câmp personalizat pentru filtru."
-              invalid: "Câmpul personalizat nu este valabil în contextul dat."
         queries/filters/base:
           attributes:
             values:
@@ -1210,7 +1211,9 @@ ro:
   error_can_not_archive_project: "Acest proiect nu poate fi arhivat: %{errors}"
   error_can_not_delete_entry: "Nu se poate șterge intrarea"
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
-  error_can_not_delete_type: "Acest tip conține pachete de lucru și nu poate fi șters."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
   error_can_not_invite_user: "Nu s-a reușit trimiterea invitației către utilizator."
   error_can_not_remove_role: "Acest rol este utilizat și nu poate fi șters."
@@ -2163,6 +2166,7 @@ ro:
   permission_protect_wiki_pages: "Protejare pagini wiki"
   permission_rename_wiki_pages: "Redenumire pagini wiki"
   permission_save_queries: "Salvați vizualizările"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
   permission_view_calendar: "Vizualizare calendar"
