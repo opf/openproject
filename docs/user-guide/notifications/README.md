@@ -1,24 +1,24 @@
 ---
 sidebar_navigation:
-  title: In-app Notifications
-  priority: 990
-description: Notifications
+  title: Notifications
+  priority: 590
+description: In-app notifications in OpenProject
 robots: index, follow
 keywords: notifications
 ---
-# In-App Notifications
+# In-app notifications
 
 This section will introduce in-app notifications and explain how to work with them. 
 
 
 
-## Overview of In-App Notifications in OpenProject
+## Overview of in-app notifications in OpenProject
 
 In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notification, or be used in parallel. This feature is enabled by default.
 
-## Accessing In-App Notifications
+## Accessing in-app notifications
 
-Whenever you are getting in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it )
+Whenever you are getting in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it).
 
 ![notifications](IaN-1.PNG)
 
@@ -26,9 +26,9 @@ To view the notifications, please left-click on the bell symbol. Here you can vi
 
 ![notifications](IaN-2.PNG)
 
-## In-App Notifications Settings
+## Notification settings
 
-To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side.
+To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side or naviagate via **My account > Notfication settings**.
 
 ![notifications](IaN-3.PNG)
 
@@ -45,7 +45,7 @@ In the "Notification settings" you can fine-tune what you are notified about:
   - All new comments
 
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../../getting-started/my-account#email-reminders)
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../../getting-started/my-account#email-reminders).
 
 ___
 
