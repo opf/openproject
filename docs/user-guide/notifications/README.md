@@ -32,7 +32,7 @@ By default, messages are grouped by work package, and the number in the blue cir
 
 To make viewing notifications more manageable, OpenProject includes several ways to filter or group notifications.
 
-![In-app Notifications 4](In-app Notifications 4-16363899013582.PNG)
+![IaN4](IaN4.PNG)
 
 You can filter or group the notifications using the two areas in the left menu bar (1 and 2), or bulk edit notifications by selecting options in the top right (3) of the screen:
 
