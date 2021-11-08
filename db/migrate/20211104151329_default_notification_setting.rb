@@ -10,6 +10,7 @@ class DefaultNotificationSetting < ActiveRecord::Migration[6.1]
         id, true, true, true
       FROM
         users
+      WHERE type = 'User'
     SQL
   end
 
