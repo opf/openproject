@@ -24,8 +24,9 @@ In the "Notification settings" you can fine-tune what you are notified about:
   - All priority changes
   - All new comments
 
+When someone [mentions](../../user-guide/work-packages/edit-work-package/#-notification-mention) you (@xxx) in e.g. a work package description or comment you will receive an in-app notification if you are a member of the respective project as long as you did not choose to opt-out of receiving notifications in your settings.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../../../getting-started/my-account#email-reminders).
+By default you do not receive any notifications about your own changes. In addition to the in-app notifications, you will also get a once-a-day summary of all notifications as **[Email reminders](../../../getting-started/my-account#email-reminders)**. 
 
 ___
 
