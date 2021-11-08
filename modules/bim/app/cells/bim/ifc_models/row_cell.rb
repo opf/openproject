@@ -30,10 +30,19 @@ module Bim
       end
 
       def processing
-        if still_processing?
-          I18n.t('ifc_models.processing_state.in_progress')
-        else
-          I18n.t('ifc_models.processing_state.completed')
+        content_tag(:span) do
+          content = content_tag(:span,
+                                I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
+                                class: "ifc-models--conversion-status")
+
+          if model.conversion_error_message
+            content << ': '.html_safe
+            content << content_tag(:span,
+                                   model.conversion_error_message,
+                                   class: "ifc-models--conversion-status-error",
+                                   title: model.conversion_error_message)
+          end
+          content
         end
       end
 
