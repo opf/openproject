@@ -1,6 +1,7 @@
 // Let board list span whole screen
 .router--boards-full-view
-  @include extended-content--left
+  @media only screen and (min-width: 680px)
+    @include extended-content--left
 
   #content
     height: 100%
