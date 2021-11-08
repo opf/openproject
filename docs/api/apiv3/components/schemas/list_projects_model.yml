@@ -6,13 +6,13 @@ example:
     self:
       href: "/api/v3/projects"
     representations:
-      - href: "/projects.csv?filters=%5B%7B%22nameAndIdentifier%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22open%22%5D%7D%7D%5D&offset=1&pageSize=50",
-        identifier: "csv",
-        type: "text/csv",
+      - href: "/projects.csv?filters=%5B%7B%22nameAndIdentifier%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22open%22%5D%7D%7D%5D&offset=1&pageSize=50"
+        identifier: "csv"
+        type: "text/csv"
         title: "CSV"
-      - href: "/projects.xls?filters=%5B%7B%22nameAndIdentifier%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22open%22%5D%7D%7D%5D&offset=1&pageSize=50",
-        identifier: "xls",
-        type: "application/vnd.ms-excel",
+      - href: "/projects.xls?filters=%5B%7B%22nameAndIdentifier%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%22open%22%5D%7D%7D%5D&offset=1&pageSize=50"
+        identifier: "xls"
+        type: "application/vnd.ms-excel"
         title: "XLS"
   _type: Collection
   total: 2
