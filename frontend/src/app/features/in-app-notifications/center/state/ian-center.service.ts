@@ -21,7 +21,7 @@ import {
   setLoading,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
@@ -60,6 +60,8 @@ export class IanCenterService extends UntilDestroyedMixin {
   readonly store = new IanCenterStore();
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
+
+  private activeReloadToast:IToast|null = null;
 
   private reload = new Subject();
 
@@ -186,7 +188,12 @@ export class IanCenterService extends UntilDestroyedMixin {
         return;
       }
 
-      this.toastService.add({
+      if (this.activeReloadToast) {
+        this.toastService.remove(this.activeReloadToast);
+        this.activeReloadToast = null;
+      }
+
+      this.activeReloadToast = this.toastService.add({
         type: 'info',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
@@ -194,6 +201,7 @@ export class IanCenterService extends UntilDestroyedMixin {
           target: () => {
             this.store.update({ activeCollection: collection });
             this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+            this.activeReloadToast = null;
           },
         },
       });
