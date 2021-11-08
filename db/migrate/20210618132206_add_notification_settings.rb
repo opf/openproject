@@ -23,6 +23,7 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
     end
 
     remove_column :members, :mail_notification
+    remove_column :users, :mail_notification
   end
 
   def down
