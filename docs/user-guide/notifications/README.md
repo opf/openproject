@@ -41,7 +41,7 @@ You can filter or group the notifications using the two areas in the left menu b
 - **3**: You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
 - **4:** When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../docs/user-guide/notifications/notification_settings).
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](../../docs/user-guide/notifications/notification_settings/).
 
 ___
 
