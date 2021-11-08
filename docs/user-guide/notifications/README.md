@@ -26,7 +26,7 @@ To view the notifications, please left-click on the bell symbol. By default, you
 
 This will then take you to the **notification center**.
 
-By default, messages are grouped by work package, and the number in the blue circle next to each work package displays the number of related messages that are associated with each work package.
+By default, messages are grouped by work package, and the number in the blue bubble next to each work package displays the number of related messages that are associated with each work package. 
 
 <img src="In-app Notifications 6.PNG" alt="In-app Notifications 6" style="zoom:50%;" />
 
@@ -39,7 +39,7 @@ You can filter or group the notifications using the two areas in the left menu b
 - **1**: You can filter by your **involvement**, for example filter for notifications that originated from mentions (@mentioned), from work packages you were assigned to or were accountable for or are simply watching.
 - **2**: You can filter by **project**, for example filter for notifications that originated from a specific project.
 - **3**: You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
-- **4:** When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package.
+- **4:** When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. 
 
 In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To finetune Email Reminders, [click here](notification_settings/).
 
