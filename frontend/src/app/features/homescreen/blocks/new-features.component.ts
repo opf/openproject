@@ -33,6 +33,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
+// The key used in the I18n files to distinguish between versions.
+const OpVersionI18n = '12_0';
 
 @Component({
   template: `
@@ -82,16 +84,11 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   public get currentNewFeatureHtml():string {
-    return this.translated('current_new_feature_html');
+    return this.translated('new_features_html');
   }
 
   private translated(key:string):string {
-    return this.i18n.t(`${this.i18nBase + this.i18nPrefix}.${key}`, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
-  }
-
-  private i18nBase = 'js.homescreen.blocks.new_features.';
-
-  private get i18nPrefix():string {
-    return this.isStandardEdition ? 'standard' : 'bim';
+    return this.i18n.t(`js.homescreen.blocks.new_features.${OpVersionI18n}.${this.isStandardEdition ? 'standard' : 'bim'}.${key}`,
+      { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
   }
 }
