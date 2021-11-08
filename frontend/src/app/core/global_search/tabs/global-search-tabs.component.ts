@@ -31,6 +31,7 @@ import {
   Component,
   OnDestroy,
   Injector,
+  ElementRef,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -52,11 +53,12 @@ export class GlobalSearchTabsComponent extends ScrollableTabsComponent implement
   public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
   constructor(
+    readonly container:ElementRef,
     readonly globalSearchService:GlobalSearchService,
     public injector:Injector,
     cdRef:ChangeDetectorRef,
   ) {
-    super(cdRef, injector);
+    super(container, cdRef, injector);
   }
 
   ngOnInit() {

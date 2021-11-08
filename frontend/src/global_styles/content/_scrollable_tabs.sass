@@ -4,6 +4,7 @@
   margin-bottom: 1rem
   overflow: hidden
   width: 100%
+  position: relative
 
   &--tab-container
     flex: 1
@@ -11,6 +12,7 @@
     overflow-y: hidden
     box-sizing: content-box
     height: 40px
+    @include styled-scroll-bar
 
   &--actions
     margin: 0 0 0 10px
@@ -21,23 +23,31 @@
     display: flex
     align-items: center
 
-  &--button
+  &::before,
+  &::after
+    content: ''
     display: block
     width: 20px
     position: absolute
     top: 0px
-    line-height: 38px
+    bottom: 0px
     background: white
-    color: var(--light-gray)
-    font-size: 0.7rem
-    &_left
-      left: 0
-      box-shadow: 0px 0px 10px 10px white
-      text-align: left
-    &_right
-      right: 0
-      text-align: right
-      box-shadow: 0px 0px 10px 10px white
-    &:hover
-      color: var(--content-link-color)
-      cursor: pointer
+    pointer-events: none
+    opacity: 1
+    transition: opacity 0.2s ease
+
+  &::before
+    left: 0
+    box-shadow: 0px 0px 10px 10px white
+    text-align: left
+
+  &_is-on-left::before
+    opacity: 0
+
+  &::after
+    right: 0
+    text-align: right
+    box-shadow: 0px 0px 10px 10px white
+
+  &_is-on-right::after
+    opacity: 0

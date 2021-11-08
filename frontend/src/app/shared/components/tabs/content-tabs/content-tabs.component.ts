@@ -64,7 +64,7 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
     readonly I18n:I18nService,
     public injector:Injector,
   ) {
-    super(cdRef, injector);
+    super(elementRef, cdRef, injector);
 
     const gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
     const currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);
