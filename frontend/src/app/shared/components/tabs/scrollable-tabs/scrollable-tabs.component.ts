@@ -23,7 +23,7 @@ import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functi
 })
 
 export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
-  @HostBinding('class') get classNames() {
+  @HostBinding('class') get classNames():string {
     return [
       'op-scrollable-tabs',
       (this.isOnLeft ? 'op-scrollable-tabs_is-on-left' : ''),
@@ -88,7 +88,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private determineScrollButtonVisibility() {
     this.isOnLeft = this.pane.scrollLeft <= 0;
-    this.isOnRight = (this.pane.scrollWidth - this.pane.scrollLeft <= this.container.nativeElement.clientWidth);
+    this.isOnRight = (this.pane.scrollWidth - this.pane.scrollLeft <= (this.container.nativeElement as HTMLElement).clientWidth);
 
     this.cdRef.detectChanges();
   }
