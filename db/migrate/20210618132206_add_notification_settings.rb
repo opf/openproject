@@ -30,5 +30,8 @@ class AddNotificationSettings < ActiveRecord::Migration[6.1]
     add_column :users, :mail_notification, :string, default: '', null: false
 
     drop_table :notification_settings
+
+    User.reset_column_information
+    User.update_all(mail_notification: 'only_assigned')
   end
 end
