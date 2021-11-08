@@ -77,6 +77,8 @@ info:
     You can then use one the following guides to perform the supported OAuth 2.0 flows:
 
     - [Authorization code flow](https://oauth.net/2/grant-types/authorization-code)
+    
+    - [Authorization code flow with PKCE](https://doorkeeper.gitbook.io/guides/ruby-on-rails/pkce-flow), recommended for clients unable to keep the client_secret confidential.
 
     - [Client credentials](https://oauth.net/2/grant-types/client-credentials/) - Requires an application to be bound to an impersonating user for non-public access
 
