@@ -47,6 +47,12 @@ describe MemberMailer, type: :mailer do
   let(:roles) { [FactoryBot.build_stubbed(:role), FactoryBot.build_stubbed(:role)] }
   let(:message) { nil }
 
+  around do |example|
+    Timecop.freeze(Time.current) do
+      example.run
+    end
+  end
+
   shared_examples_for 'has a subject' do |key|
     it "has a subject" do
       if project
@@ -82,7 +88,7 @@ describe MemberMailer, type: :mailer do
   shared_examples_for 'sets the expected message_id header' do
     it 'sets the expected message_id header' do
       expect(subject['Message-ID'].value)
-        .to eql "<openproject.member-#{current_user.id}-#{member.id}.#{member.created_at.strftime('%Y%m%d%H%M%S')}@example.net>"
+        .to eql "<op.member-#{member.id}.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{current_user.id}@example.net>"
     end
   end
 

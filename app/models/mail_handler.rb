@@ -136,12 +136,12 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)-(\d+)-(\d+)\.\d+@}
-  ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
-  MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
+  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}.freeze
+  ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}.freeze
+  MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}.freeze
 
   def dispatch
-    if (m, object_id = dispatch_target_from_message_id)
+    if (m, object_id = dispatch_target_from_header)
       m.call(object_id)
     elsif (m = email.subject.match(ISSUE_REPLY_SUBJECT_RE))
       receive_work_package_reply(m[1].to_i)
@@ -171,12 +171,13 @@ class MailHandler < ActionMailer::Base
   end
 
   ##
-  # Find a matching method to dispatch to given the mail's message ID
-  def dispatch_target_from_message_id
-    headers = [email.references, email.in_reply_to].flatten.compact
-    if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
+  # Find a matching method to dispatch to given the mail's references header.
+  # We set this header in outgoing emails to include an encoded reference to the object
+  def dispatch_target_from_header
+    headers = [email.references].flatten.compact
+    if headers.reverse.detect { |h| h.to_s =~ REFERENCES_RE }
       klass = $1
-      object_id = $3.to_i
+      object_id = $2.to_i
       method_name = :"receive_#{klass}_reply"
       if self.class.private_instance_methods.include?(method_name)
         return method(method_name), object_id
@@ -199,7 +200,12 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  alias :receive_issue :receive_work_package
+  def receive_journal_reply(journal_id)
+    journal = Journal.find_by(id: journal_id)
+    return unless journal
+
+    send(:"receive_#{journal.journable_type.underscore}_reply", journal.journable_id)
+  end
 
   # Adds a note to an existing work package
   def receive_work_package_reply(work_package_id)
@@ -217,16 +223,6 @@ class MailHandler < ActionMailer::Base
     else
       log "work_package could not be updated by #{user} due to ##{result.full_messages}", :error
       false
-    end
-  end
-
-  alias :receive_issue_reply :receive_work_package_reply
-
-  # Reply will be added to the issue
-  def receive_issue_journal_reply(journal_id)
-    journal = Journal.find_by(id: journal_id)
-    if journal and journal.journable.is_a? WorkPackage
-      receive_work_package_reply(journal.journable_id)
     end
   end
 
@@ -351,7 +347,7 @@ class MailHandler < ActionMailer::Base
   end
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
-  def issue_attributes_from_keywords(issue)
+  def wp_attributes_from_keywords(issue)
     assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
     project = issue.project
 
@@ -542,7 +538,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def collect_wp_attributes_from_email_on_create(work_package)
-    attributes = issue_attributes_from_keywords(work_package)
+    attributes = wp_attributes_from_keywords(work_package)
     attributes
       .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
              'subject' => email.subject.to_s.chomp[0, 255] || '(no subject)',
@@ -567,7 +563,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def collect_wp_attributes_from_email_on_update(work_package)
-    attributes = issue_attributes_from_keywords(work_package)
+    attributes = wp_attributes_from_keywords(work_package)
     attributes
       .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
              'journal_notes' => cleaned_up_text_body)

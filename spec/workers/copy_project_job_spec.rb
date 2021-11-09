@@ -230,10 +230,11 @@ describe CopyProjectJob, type: :model do
 
         it "notifies the user of the success" do
           mail = ActionMailer::Base.deliveries
-                   .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
         end
       end
 
@@ -263,10 +264,11 @@ describe CopyProjectJob, type: :model do
 
         it "notifies the user of the success" do
           mail = ActionMailer::Base.deliveries
-            .find { |m| m.message_id.start_with? "openproject.project-#{user.id}-#{subject.id}" }
+                                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
+          expect(mail.to).to eq [user.mail]
         end
       end
     end
