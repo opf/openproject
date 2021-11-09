@@ -8,7 +8,7 @@
               <tr>
                 <td>
                   <span style="font-size: 24px; color: #333333;">
-                    <%= I18n.t(:'mail.salutation', user: @user.firstname) %>
+                    <%= I18n.t(:'mail.salutation', user: user.firstname) %>
                   </span>
                 </td>
               </tr>
@@ -25,11 +25,17 @@
               <tr>
                 <%= placeholder_cell('24px', vertical: false) %>
               </tr>
-              <tr>
-                <td>
-                  <%= yield %>
-                </td>
-              </tr>
+              <% if defined?(button_href) && defined?(button_text) %>
+                <tr>
+                  <td>
+                    <a href="<%= button_href %>"
+                       target="_blank"
+                       style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none; font-size: 14px;">
+                      <%= button_text %>
+                    </a>
+                  </td>
+                </tr>
+              <% end %>
               <tr>
                 <%= placeholder_cell('40px', vertical: false) %>
               </tr>
@@ -40,7 +46,7 @@
             <table <%= placeholder_table_styles %>>
               <tr>
                 <td style="width: 96px; height: 96px;">
-                  <%= logo_tag({ alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;max-width: 240px;"}) %>
+                  <%= logo_tag(alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;max-width: 240px;") %>
                 </td>
               </tr>
             </table>

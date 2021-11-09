@@ -267,13 +267,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
 
-  /*
-   * Show two column layout for new WP per default, but disable in MS Edge (#29941)
-   */
-  public get enableTwoColumnLayout() {
-    return this.workPackage.isNew && !this.browserDetector.isEdge;
-  }
-
   private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
     if (!attributeGroups) {
       return [];

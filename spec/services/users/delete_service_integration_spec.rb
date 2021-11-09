@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,34 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      # don't use "locked!" handle as it will raise on invalid users
-      user_object.update_column(:status, User.statuses[:locked])
-      ::Principals::DeleteJob.perform_later(user_object)
+require 'spec_helper'
 
-      logout! if self_delete?
+describe ::Users::DeleteService, 'Integration', type: :model do
+  let(:input_user) { FactoryBot.create(:user) }
+  let(:actor) { FactoryBot.build_stubbed(:admin) }
 
-      true
+  let(:instance) { described_class.new(model: input_user, user: actor) }
+
+  subject { instance.call }
+
+  context 'when input user is invalid',
+          with_settings: { users_deletable_by_admins: true } do
+    before do
+      input_user.update_column(:mail, '')
     end
 
-    private
+    it 'can still delete the user' do
+      expect(input_user).not_to be_valid
 
-    def self_delete?
-      user == model
-    end
+      expect(subject).to be_success
 
-    def logout!
-      User.current = nil
+      expect(Principals::DeleteJob).to have_been_enqueued.with(input_user)
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,34 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      # don't use "locked!" handle as it will raise on invalid users
-      user_object.update_column(:status, User.statuses[:locked])
-      ::Principals::DeleteJob.perform_later(user_object)
+# Sends mails for announcements.
+# For now, it cannot handle sending events on any Announcement model but is rather focused
+# on handing very simple mails where only the recipient, subject and body is provided.
 
-      logout! if self_delete?
+class AnnouncementMailer < ApplicationMailer
+  include OpenProject::StaticRouting::UrlHelpers
+  include OpenProject::TextFormatting
+  helper :mail_notification
 
-      true
-    end
+  def announce(user, subject:, body:, body_header: nil, body_subheader: nil)
+    with_locale_for(user) do
+      mail to: user.mail,
+           subject: subject do |format|
+        locals = {
+          body: body,
+          user: user,
+          header_summary: subject,
+          body_header: body_header,
+          body_subheader: body_subheader
+        }
 
-    private
-
-    def self_delete?
-      user == model
-    end
-
-    def logout!
-      User.current = nil
+        format.html { render locals: locals }
+        format.text { render locals: locals }
+      end
     end
   end
 end

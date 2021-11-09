@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,34 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Implements the deletion of a user.
-module Users
-  class DeleteService < ::BaseServices::Delete
-    ##
-    # Deletes the given user if allowed.
-    #
-    # @return True if the user deletion has been initiated, false otherwise.
-    def destroy(user_object)
-      # as destroying users is a lengthy process we handle it in the background
-      # and lock the account now so that no action can be performed with it
-      # don't use "locked!" handle as it will raise on invalid users
-      user_object.update_column(:status, User.statuses[:locked])
-      ::Principals::DeleteJob.perform_later(user_object)
+require 'spec_helper'
 
-      logout! if self_delete?
+describe AnnouncementMailer, type: :mailer do
+  let(:announcement_subject) { 'Some subject' }
+  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:announcement_body) { 'Some body text' }
 
-      true
+  describe '#announce' do
+    subject(:mail) do
+      described_class.announce(recipient,
+                               subject: announcement_subject,
+                               body: announcement_body)
     end
 
-    private
-
-    def self_delete?
-      user == model
+    it "has a subject" do
+      expect(mail.subject)
+        .to eq announcement_subject
     end
 
-    def logout!
-      User.current = nil
+    it 'includes the body' do
+      expect(mail.body.encoded)
+        .to include(announcement_body)
+    end
+
+    it "includes the subject in the body as well" do
+      expect(mail.body.encoded)
+        .to include announcement_subject
+    end
+
+    it 'sends to the recipient' do
+      expect(mail.to)
+        .to match_array [recipient.mail]
     end
   end
 end
