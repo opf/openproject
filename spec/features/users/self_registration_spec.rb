@@ -80,7 +80,7 @@ describe 'user self registration', type: :feature, js: true do
       end
 
       expect(page)
-        .to have_content('Confirmation doesn\'t match Password')
+        .to have_content('Password confirmation does not match password.')
 
       # correcting password
       within '.registration-modal' do
