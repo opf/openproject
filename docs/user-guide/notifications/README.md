@@ -28,7 +28,7 @@ To view the notifications, please left-click on the bell symbol. Here you can vi
 
 ## Notification settings
 
-To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side or naviagate via **My account > Notfication settings**.
+To access the in-app notification settings. Please left-click the "Notification settings" button in the upper right side or navigate via **My account > Notfication settings**.
 
 ![notifications](IaN-3.PNG)
 
