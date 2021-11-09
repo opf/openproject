@@ -1,6 +1,7 @@
 @import "src/assets/sass/helpers"
 
 .work-packages-partitioned-query-space--container
+  position: relative
   height: 100%
   overflow: hidden
   display: grid
@@ -40,3 +41,18 @@
       min-width: initial
       max-width: 100vw
       max-height: 100%
+
+    .toolbar
+      display: grid
+      grid-template-columns: 1fr auto
+      grid-template-rows: auto auto
+
+      .op-back-button
+        grid-column: 1 / 3
+        grid-row: 1 / 2
+      .title-container
+        grid-column: 1 / 2
+        grid-row: 2 / 3
+      .toolbar-items
+        grid-column: 2 / 3
+        grid-row: 2 / 3
