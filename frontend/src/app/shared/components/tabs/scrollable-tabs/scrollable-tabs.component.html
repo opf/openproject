@@ -50,7 +50,24 @@
       </a>
     </li>
   </ul>
-</div>
+  <button
+    #scrollLeftBtn
+    [hidden]="hideLeftButton"
+    class="op-scrollable-tabs--button op-scrollable-tabs--button_left"
+    (click)="scrollLeft()"
+    type="button"
+  >
+    <span class="icon-arrow-left2"></span>
+  </button>
+  <button
+    #scrollRightBtn
+    [hidden]="hideRightButton"
+    class="op-scrollable-tabs--button op-scrollable-tabs--button_right"
+    (click)="scrollRight()"
+    type="button"
+  >
+    <span class="icon-arrow-right2"></span>
+  </button>
 <ul class="op-scrollable-tabs--actions">
   <ng-content select="[slot=actions]"></ng-content>
 </ul>

@@ -26,8 +26,6 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   @HostBinding('class') get classNames():string {
     return [
       'op-scrollable-tabs',
-      (this.isOnLeft ? 'op-scrollable-tabs_is-on-left' : ''),
-      (this.isOnRight ? 'op-scrollable-tabs_is-on-right' : ''),
       ...this.classes,
     ].join(' ');
   }
@@ -50,9 +48,9 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   private pane:Element;
 
-  private isOnLeft = true;
+  public hideLeftButton = true;
 
-  private isOnRight = false;
+  public hideRightButton = true;
 
   constructor(
     readonly container:ElementRef,
@@ -62,12 +60,19 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit():void {
     this.pane = this.scrollPane.nativeElement;
-    setTimeout(() => this.determineScrollButtonVisibility());
+    setTimeout(() => this.updateScrollableArea());
   }
 
   ngOnChanges(changes:SimpleChanges):void {
     if (this.pane) {
-      this.determineScrollButtonVisibility();
+      this.updateScrollableArea();
+    }
+  }
+
+  private updateScrollableArea() {
+    this.determineScrollButtonVisibility();
+    if (this.currentTabId != null) {
+      this.scrollIntoVisibleArea(this.currentTabId);
     }
   }
 
@@ -87,13 +92,31 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
   }
 
   private determineScrollButtonVisibility() {
-    this.isOnLeft = this.pane.scrollLeft <= 0;
-    this.isOnRight = (this.pane.scrollWidth - this.pane.scrollLeft <= (this.container.nativeElement as HTMLElement).clientWidth);
+    this.hideLeftButton = this.pane.scrollLeft <= 0;
+    this.hideRightButton = (this.pane.scrollWidth - this.pane.scrollLeft <= (this.container.nativeElement as HTMLElement).clientWidth);
 
     this.cdRef.detectChanges();
   }
 
+  public scrollRight():void {
+    this.pane.scrollLeft += (this.container.nativeElement as HTMLElement).clientWidth;
+  }
+
+  public scrollLeft():void {
+    this.pane.scrollLeft -= (this.container.nativeElement as HTMLElement).clientWidth;
+  }
+
   public tabTitle(tab:TabDefinition):string {
     return (typeof tab.disable === 'string') ? tab.disable : tab.name;
+  }
+
+  private scrollIntoVisibleArea(tabId:string) {
+    const tab = this.pane.querySelectorAll(`[data-tab-id=${tabId}]`)[0] as HTMLElement;
+
+    const tabRightBorderAt:number = tab.offsetLeft + tab.offsetWidth;
+
+    if (this.pane.scrollLeft + (this.container.nativeElement as HTMLElement).clientWidth < tabRightBorderAt) {
+      this.pane.scrollLeft = tabRightBorderAt - (this.container.nativeElement.clientWidth).clientWidth + 40; // 40px to not overlap by buttons
+    }
   }
 }

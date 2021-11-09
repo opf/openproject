@@ -23,31 +23,29 @@
     display: flex
     align-items: center
 
-  &::before,
-  &::after
-    content: ''
+
+  &--button
     display: block
     width: 20px
     position: absolute
     top: 0px
+    line-height: 38px
     bottom: 0px
     background: white
-    pointer-events: none
-    opacity: 1
-    transition: opacity 0.2s ease
+    color: var(--light-gray)
+    font-size: 0.7rem
+    border: 0
 
-  &::before
-    left: 0
-    box-shadow: 0px 0px 10px 10px white
-    text-align: left
+    &_left
+      left: 0
+      box-shadow: 0px 0px 10px 10px white
+      text-align: left
 
-  &_is-on-left::before
-    opacity: 0
+    &_right
+      right: 0
+      text-align: right
+      box-shadow: 0px 0px 10px 10px white
 
-  &::after
-    right: 0
-    text-align: right
-    box-shadow: 0px 0px 10px 10px white
-
-  &_is-on-right::after
-    opacity: 0
+    &:hover
+      color: var(--content-link-color)
+      cursor: pointer
