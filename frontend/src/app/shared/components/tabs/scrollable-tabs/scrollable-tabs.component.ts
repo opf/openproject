@@ -114,6 +114,7 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
     const tab = this.pane.querySelectorAll(`[data-tab-id=${tabId}]`)[0] as HTMLElement;
 
     const tabRightBorderAt:number = tab.offsetLeft + tab.offsetWidth;
+    console.log(tab, tab.offsetLeft, tab.offsetWidth);
 
     if (this.pane.scrollLeft + (this.container.nativeElement as HTMLElement).clientWidth < tabRightBorderAt) {
       this.pane.scrollLeft = tabRightBorderAt - (this.container.nativeElement.clientWidth).clientWidth + 40; // 40px to not overlap by buttons
