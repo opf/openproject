@@ -1,6 +1,6 @@
 <div *ngIf="workPackage"
-     class="work-package--single-view"
-     [ngClass]="{'-can-have-columns' : enableTwoColumnLayout }">
+     class="work-package--single-view work-package--single-view_with-columns"
+     data-selector="wp-single-view">
   <div class="wp-new--subject-wrapper"
        *ngIf="isNewResource(workPackage)">
     <editable-attribute-field [resource]="workPackage"
