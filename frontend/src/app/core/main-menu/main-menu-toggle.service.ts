@@ -163,11 +163,8 @@ export class MainMenuToggleService {
     this.htmlNode.style.setProperty('--main-menu-width', `${this.elementWidth}px`);
 
     // Send change event when size of menu is changing (menu toggled or resized)
-    // Event should only be fired, when transition is finished
     const changeEvent = jQuery.Event('change');
-    jQuery('#content-wrapper').on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', () => {
-      this.changeData.next(changeEvent);
-    });
+    this.changeData.next(changeEvent);
   }
 
   public get showNavigation():boolean {
