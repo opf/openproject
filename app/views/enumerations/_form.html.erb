@@ -48,8 +48,4 @@ See COPYRIGHT and LICENSE files for more details.
                    label: @enumeration.color_label
                }  %>
   <% end %>
-
-  <% @enumeration.custom_field_values.each do |value| %>
-    <div class="form--field"><%= custom_field_tag_with_label :enumeration, value %></div>
-  <% end %>
 </section>
