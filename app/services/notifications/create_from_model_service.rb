@@ -95,6 +95,8 @@ class Notifications::CreateFromModelService
   end
 
   def settings_of_mentioned
+    return NotificationSetting.none if has_aggregated_notification?(journal)
+
     project_applicable_settings(mentioned_ids,
                                 project,
                                 NotificationSetting::MENTIONED)
@@ -257,6 +259,14 @@ class Notifications::CreateFromModelService
 
   def remove_self_recipient(receivers)
     receivers.delete(user_with_fallback.id)
+  end
+
+  ##
+  # If the journal has any mentioned notification
+  # then the mention was aggregated to a new journal
+  # by +Notifications::AggregatedJournalService+
+  def has_aggregated_notification?(journal)
+    Notification.exists?(journal_id: journal.id, reason: :mentioned)
   end
 
   def receivers_hash
