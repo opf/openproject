@@ -97,21 +97,26 @@ class User < Principal
 
   attr_accessor :password, :password_confirmation, :last_before_login_on
 
-  validates_presence_of :login,
+  validates :login,
                         :firstname,
                         :lastname,
                         :mail,
-                        unless: Proc.new { |user| user.builtin? }
+                        presence: { unless: Proc.new { |user| user.builtin? } }
 
-  validates_uniqueness_of :login, if: Proc.new { |user| !user.login.blank? }, case_sensitive: false
-  validates_uniqueness_of :mail, allow_blank: true, case_sensitive: false
+  validates :login, uniqueness: { if: Proc.new { |user| !user.login.blank? }, case_sensitive: false }
+  validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
-  validates_format_of :login, with: /\A[a-z0-9_\-@.+ ]*\z/i
-  validates_length_of :login, maximum: 256
-  validates_length_of :firstname, :lastname, maximum: 256
+  validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
+  validates :login, length: { maximum: 256 }
+  validates :firstname, :lastname, length: { maximum: 256 }
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
-  validates_length_of :mail, maximum: 256, allow_nil: true
-  validates_confirmation_of :password, allow_nil: true
+  validates :mail, length: { maximum: 256, allow_nil: true }
+
+  validates :password,
+            confirmation: {
+              allow_nil: true,
+              message: ->(*) { I18n.t('activerecord.errors.models.user.attributes.password_confirmation.confirmation') }
+            }
 
   auto_strip_attributes :login, nullify: false
   auto_strip_attributes :mail, nullify: false
