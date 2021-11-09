@@ -27,6 +27,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 | [Archive a project](#archive-a-project)                      | Find out how to archive completed projects.                  |
 | [Delete a project](#delete-a-project)                        | How to delete a project?                                     |
 | [Global projects overview](#global-projects-overview---view-all-projects) | Get an overview of all your projects in the projects overview list ("View all projects"). |
+| [Export project list](#export-projects)                      | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports)  | How to create project overarching reports across multiple projects? |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Projects-Introduction.mp4" type="video/mp4" controls="" style="width:100%"></video>
@@ -229,6 +230,18 @@ The Gantt chart view can be configured in the [System settings](../../system-adm
 
 ![open-global-gantt-chart](image-20201007161248903.png)
 
+## Export projects
+
+You can export the project list by selecting the **View all projects** list from the drop-down.
+To export the project list, click on the three dots in the upper right hand corner and select > **Export**.
+
+![Export projects](image-20211109114709826.png)
+
+Next, you can select the format in which you want to export the project list.
+
+It can be exported as .xls or .csv.
+
+![Export project list formats](image-20211109114816611.png)
 
 
 
