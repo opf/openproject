@@ -24,10 +24,10 @@ OpenProject with Docker can be launched in two ways:
 
 ### Quick Start
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/11/compose) repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/12/compose) repository:
 
 ```bash
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/11 openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/12 openproject
 ```
 
 Then, go into the compose folder:
