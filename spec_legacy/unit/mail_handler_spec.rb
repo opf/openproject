@@ -242,7 +242,7 @@ describe MailHandler, type: :model do
   end
 
   it 'should ignore emails from locked users' do
-    User.find(2).lock!
+    User.find(2).locked!
 
     expect_any_instance_of(MailHandler).to receive(:dispatch).never
     assert_no_difference 'WorkPackage.count' do

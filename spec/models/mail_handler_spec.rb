@@ -102,7 +102,7 @@ describe MailHandler, type: :model do
     end
   end
 
-  shared_context 'wp create with cc' do
+  shared_context 'with wp create with cc' do
     let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
     let!(:user) do
       FactoryBot.create(:user,
@@ -390,12 +390,13 @@ describe MailHandler, type: :model do
         it 'rejects if unknown_user=accept and permission check is present' do
           expected =
             'MailHandler: work_package could not be created by Anonymous due to ' \
-          '#["may not be accessed.", "Type was attempted to be written but is not writable.", ' \
-          '"Project was attempted to be written but is not writable.", ' \
-          '"Subject was attempted to be written but is not writable.", ' \
-          '"Description was attempted to be written but is not writable."]'
+            '#["may not be accessed.", ' \
+            '"Type was attempted to be written but is not writable.", ' \
+            '"Project was attempted to be written but is not writable.", ' \
+            '"Subject was attempted to be written but is not writable.", ' \
+            '"Description was attempted to be written but is not writable."]'
 
-          expect(Rails.logger)
+          allow(Rails.logger)
             .to receive(:error)
             .with(expected)
 
@@ -404,6 +405,10 @@ describe MailHandler, type: :model do
                                 unknown_user: 'accept'
 
           expect(result).to eq false
+
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(expected)
         end
 
         it 'accepts if unknown_user=accept and no_permission_check' do
@@ -475,7 +480,7 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with cc' do
-        include_context 'wp create with cc'
+        include_context 'with wp create with cc'
 
         it_behaves_like 'work package created'
 
@@ -521,7 +526,7 @@ describe MailHandler, type: :model do
           work_package.reload
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          # Mail with two attachments, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           expect(work_package.attachments.length).to eq 2
@@ -620,15 +625,15 @@ describe MailHandler, type: :model do
 
           allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
 
-          expect(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
-          expect(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
+          allow(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
+          allow(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
         end
 
         context 'of type text' do
           let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
 
           before do
-            submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'wp_reply_with_text_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
@@ -644,7 +649,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
-            submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'wp_reply_with_list_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
