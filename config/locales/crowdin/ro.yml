@@ -298,8 +298,8 @@ ro:
       query_group_placeholder: "Dați un nume tabelului"
       reset: "Resetare AVATAR implicit"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Culoarea selectată distinge diferite tipuri
+        în graficele Gantt sau tabelele pachetelor de lucru. Prin urmare, este recomandat să folosiți o culoare puternică.
   versions:
     overview:
       no_results_title_text: În acest moment nu există pachete de lucru alocate acestei versiuni.
@@ -536,7 +536,7 @@ ro:
         before: "trebuie să fie înainte de %{date}."
         before_or_equal_to: "trebuie să fie înainte sau în %{date}."
         blank: "nu poate fi gol."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "trebuie să aibă setul '%{property}' al proprietății."
         cant_link_a_work_package_with_a_descendant: "Un pachet de lucru nu poate fi legat de una din sub-activitățile sale."
         circular_dependency: "Această relație ar crea o dependință circulară."
         confirmation: "nu se potrivește cu %{attribute}."
@@ -550,19 +550,19 @@ ro:
         even: "trebuie să fie par."
         exclusion: "este rezervat."
         file_too_large: "este prea mare (dimensiunea maximă este %{count} Octeți)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "nu se potrivește cu formatul așteptat '%{expected}'."
+        format_nested: "nu se potrivește cu formatul preconizat '%{expected}' la calea '%{path}'."
         greater_than: "trebuie să fie mai mare de %{count}."
         greater_than_or_equal_to: "trebuie să fie mai mare sau egal cu %{count}."
         greater_than_or_equal_to_start_date: "trebuie să fie după sau la fel cu data de începere."
         greater_than_start_date: "trebuie să fie după data de începere."
         inclusion: "nu este setată la una din valorile permise."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "nu este setată la una dintre valorile permise la calea '%{path}'."
         invalid: "este invalid."
         invalid_url: 'nu este o adresa URL validă.'
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "trebuie să fie mai mic sau egal cu %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "nu este disponibil din cauza unei configurații a sistemului."
         not_deletable: "%s nu poate fi șters."
         not_current_user: "nu este utilizatorul curent."
         not_a_date: "Acest câmp trebuie să conțină o dată validă."
@@ -578,11 +578,11 @@ ro:
         taken: "a fost luat deja."
         too_long: "este prea lung (maximul admis este de %{count} caractere)."
         too_short: "este prea scurt (minimum admis este de %{count} caractere)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "nu este de tipul '%{type}'"
+        type_mismatch_nested: "nu este de tip '%{type}' la calea '%{path}'"
         unchangeable: "nu poate fi modificat."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "nu este o proprietate cunoscută."
+        unknown_property_nested: "are calea necunoscută '%{path}'."
         unremovable: "nu poate fi îndepărtată."
         wrong_length: "nu are lungimea corectă (ar trebui să fie de %{count} characters)."
       models:
@@ -597,7 +597,7 @@ ro:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "trebuie să includeți cel puțin un filtru pentru principal, context sau id cu operatorul \"=\"."
         custom_field:
           at_least_one_custom_option: "Cel puțin o opțiune trebuie să fie disponibilă."
         custom_actions:
@@ -626,19 +626,19 @@ ro:
           outside: 'se află în afara rețelei.'
           end_before_start: 'valoarea finală trebuie să fie mai mare decât valoarea inițială.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'Trebuie specificat cel puţin un canal pentru trimiterea notificărilor.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'nu poate fi setat la adevărat la crearea notificărilor.'
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: 'nu poate fi setat la adevărat la crearea notificărilor.'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Trebuie să existe o singură setare globală de notificare.'
+          email_alerts_global: 'Setările de notificare prin e-mail pot fi setate doar la nivel global.'
           format: "Mesaj"
         parse_schema_filter_params_service:
           attributes:
@@ -706,9 +706,9 @@ ro:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "poate fi doar un interval de date valid."
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "poate fi configurat să fie livrat la o oră întreagă."
         wiki_page:
           attributes:
             slug:
@@ -720,7 +720,7 @@ ro:
               not_start_date: "nu este în data de început, deși acest lucru este necesar pentru repere de etapă."
             parent:
               cannot_be_milestone: "nu poate fi un reper de etapă."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "nu poate fi atribuit singur."
               cannot_be_in_another_project: "nu poate fi într-un alt proiect."
               not_a_valid_parent: "este invalid."
             start_date:
@@ -747,6 +747,9 @@ ro:
               group_without_name: "Grupurile fără nume nu sunt permise."
         user:
           attributes:
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "Mesaj"
             password:
               weak: "Trebuie să conțină caractere din următoarele clase (cel puțin %{min_count} din %{all_count}): %{rules}."
               lowercase: "litere mici (ex. 'a')"
@@ -795,9 +798,9 @@ ro:
       member: "Membru"
       news: "Noutăţi"
       notification:
-        one: "Notification"
-        few: "Notifications"
-        other: "Notifications"
+        one: "Notificari"
+        few: "Notificări"
+        other: "Notificări"
       placeholder_user: "Utilizator Placeholder"
       project: "Proiect"
       query: "Interogare personalizată"
@@ -1242,7 +1245,7 @@ ro:
   error_no_type_in_project: "Nu există un tip asociat cu proiectul. Verificați setările proiectului."
   error_omniauth_registration_timed_out: "Înregistrarea prin intermediul unui furnizor de autentificare extern a expirat. Vă rugăm să încercaţi din nou."
   error_omniauth_invalid_auth: "Informațiile de autentificare returnate de la furnizorul de identitate nu erau valide. Vă rugăm să contactați administratorul dumneavoastră pentru ajutor suplimentar."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: 'Eroare la încercarea de a schimba parola.'
   error_scm_command_failed: "A intervenit o eroare la accesarea repo-ului: %{value}"
   error_scm_not_found: "Nu am găsit articolul sau revizia în repo."
   error_unable_delete_status: "Starea pachetului de lucru nu poate fi ștearsă deoarece este folosită de cel puțin un pachet de lucru."
@@ -1272,7 +1275,7 @@ ro:
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
-    failed: "The export has failed: %{message}"
+    failed: "Exportul a eșuat: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1337,7 +1340,7 @@ ro:
   menus:
     admin:
       mail_notification: "Notificări prin e-mail"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "De intrare vs Efectuate"
     quick_add:
       label: "Deschideți meniul de adăugare rapidă"
   my_account:
@@ -1351,15 +1354,32 @@ ro:
         expiration: "Expirare"
       indefinite_expiration: "Niciodată"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
       subject:
-        created: "The work package was created."
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "Pachetul de lucru a fost creat."
+        assigned: "Ai fost atribuit %{work_package}"
+        subscribed: "Te-ai abonat la %{work_package}"
+        mentioned: "Ai fost menționat în %{work_package}"
+        responsible: "Ați devenit responsabil pentru %{work_package}"
+        watched: "Urmăriți %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing Notification Center. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving Notification Center.
+
+        This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button bellow.
+
+        We hope you find Notification Center useful and that it makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Noutăţi'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Accesibilitate"
   label_account: "Cont"
   label_active: "Activ"
@@ -1445,7 +1465,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Întâi cele mai vechi"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -1748,7 +1768,7 @@ ro:
   label_required: 'obligatoriu'
   label_requires: 'Această caracteristică necesită un cont la'
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Întâi cele mai noi"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"
@@ -1927,22 +1947,22 @@ ro:
   mail:
     actions: 'Acțiuni'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: 'inclusiv o mențiune'
+      including_mention_plural: 'inclusiv %{number_mentioned} menționări'
+      unread_notification_singular: '1 notificare necitită'
+      unread_notification_plural: '%{number_unread} notificări necitite'
+      you_have: 'Aveți'
+    logo_alt_text: 'Logo-ul'
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "%{user_name} te-a menționat în #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: 'Centrul de notificare'
+      see_in_center: 'Vezi comentariul în centrul de notificări'
+      settings: 'Modificare setări e-mail'
+    salutation: 'Salut %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
+      created_at: 'Creat la %{timestamp} de %{user} '
+      login_to_see_all: 'Autentifică-te pentru a vedea toate notificările.'
       mentioned: 'You have been <b>mentioned in a comment</b>'
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:

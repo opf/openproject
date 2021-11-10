@@ -127,7 +127,7 @@ ko:
       preview: '미리 보기 모드 토글'
       source_code: 'Markdown 소스 모드 토글'
       error_saving_failed: '다음 오류로 인해 문서를 저장하지 못했습니다: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor에서 오류가 발생했습니다'
       mode:
         manual: 'Markdown 소스로 전환'
         wysiwyg: 'WYSIWYG 편집기로 전환'
@@ -186,8 +186,8 @@ ko:
         new_group: '새 그룹'
         reset_to_defaults: '기본값으로 초기화'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "유예 기간 종료까지 %{days}일"
+        text_expired: "만료됨"
         trial:
           confirmation: "이메일 주소 확인"
           confirmation_info: >
@@ -285,14 +285,17 @@ ko:
         new_features:
           text_new_features: "새로운 기능 및 제품 업데이트에 대해 읽어보십시오."
           learn_about: "새로운 기능에 대해 자세히 알아보기"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>프로젝트, 사용자 및 작업 패키지를 생성하기 위한 헤더 탐색의 새로운 버튼.</li> <li>사용자, 그룹 및 자리 표시자 사용자에 대한 새로운 초대 모달을 사용하면 새로운 사용자를 쉽게 추가하거나 초대하고 작업 패키지에 할당할 수 있습니다.</li> <li>OpenProject에 GitHub 통합.</li> <li>그룹용 API v3 확장 기능 등. 예: API를 통해 그룹 및 그룹 구성원 생성, 읽기, 업데이트 및 삭제.</li> <li>유형 목록의 프로젝트 사용자 지정 필드에 대한 다중 선택.</li> <li>웹 인터페이스에서 백업 생성.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 <b>인앱 알림</b>으로 모든 중요 업데이트를 애플리케이션에서 직접 받으므로 더 이상 수많은 이메일을 받지 않게 됩니다.</li> <li>새로운 <b>알림 센터</b>는 알림 이유 또는 프로젝트 등 직관적인 필터 옵션을 비롯한, 모든 변경 사항을 표시합니다. 분할 보기에서 직접 편집도 가능합니다.</li> <li>개선된 <b>알림 설정</b>을 통해 알림을 받고 싶은 작업과 프로젝트를 미세 조정할 수 있습니다.</li> <li><b>이메일 미리 알림</b>은 일일 이메일 요약을 통해 중요 업데이트를 받도록 구성할 수 있습니다.</li> <li>이제 관계에 대한 작업 패키지 자동 완성 도구는 해당 작업 패키지를 쉽게 식별할 수 있는 추가 정보(프로젝트 이름, 상태...)도 표시합니다.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>알림 센터: 수신하는 메일 수를 줄입니다. 대신 센터 한 곳에서 모든 관련 알림을 찾고 조치를 취할 수 있습니다.</li> <li>이제 업로드된 모든 IFC 파일도 다운로드할 수 있습니다.</li> <li>IFC 업로드 및 처리가 더욱 빨라졌으며 개선된 오류 메시지를 받게 됩니다.</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 추가 기능</a>에서 많은 버그가 수정되었습니다.</li> </ul>
     label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
@@ -481,97 +484,97 @@ ko:
         next: '다음'
         got_it: '확인'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾을 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
+        members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
+        project_selection: '준비된 데모 프로젝트 중 하나를 클릭하세요. 데모 데이터는 현재 영어로만 제공됩니다. <br> 일반 <b>데모 프로젝트</b>는 클래식 프로젝트 관리에 최적이지만, 애자일 프로젝트 관리에는 <b>스크럼 프로젝트</b>가 더 적합합니다.'
+        quick_add_button: '헤더 탐색에서 더하기(+) 아이콘을 클릭하여 <b>새 프로젝트를 생성</b>하거나 <b>동료를 초대</b>하세요.'
+        sidebar_arrow: "프로젝트의 <b>기본 메뉴</b>로 돌아가려면 왼쪽 상단의 뒤로 화살표를 사용하세요."
         welcome: '3분 소개 투어를 보고 가장 <b>중요한 기능</b>에 대해 알아보세요. <br> 끝까지 단계를 완료하는 것이 좋습니다. 언제든지 투어를 다시 시작할 수 있습니다.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: '<b>Wiki</b>에서 문서화하고 팀과 함께 지식을 공유할 수 있습니다.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+          overview: "<b>백로그</b> 보기에서 작업을 관리하세요."
+          sprints: "오른쪽에 제품 백로그 및 버그 백로그가 있고, 왼쪽에 해당 스프린트가 있습니다. 여기에서 <b>에픽, 사용자 이야기 및 버그</b>를 작성하고 드래그 앤 드롭으로 우선 순위를 정하고 스프린트에 추가할 수 있습니다."
+          task_board_arrow: '<b>작업 보드</b>를 보려면 스프린트 드롭다운을 여세요...'
+          task_board_select: '...그리고 <b>작업보드</b> 항목을 선택하세요.'
+          task_board: "작업 보드는 <b>이 스프린트의 진행률</b>을 시각화합니다. 사용자 이야기 옆에 있는 더하기(+) 아이콘을 클릭하여 새 작업이나 제한을 추가하세요. <br> 드래그 앤 드롭으로 상태를 업데이트할 수 있습니다."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: '<b>보드</b>를 선택하여 보기를 전환하고 애자일 보드 보기를 사용하여 프로젝트를 관리하세요.'
+          lists: '여기에서 보드 내 여러 목록(열)을 만들 수 있습니다. 예를 들어, 이 기능을 사용하면 <b>Kanban 보드</b>를 만들 수 있습니다.'
+          add: '더하기(+) 아이콘을 클릭하여 <b>새 카드를 생성</b>하거나 보드의 목록에 <b>기존 카드를 추가</b>합니다.'
+          drag: '지정된 목록에서 카드를 드래그 앤 드롭하여 재정렬하거나 카드를 다른 목록으로 이동합니다. <br> 오른쪽 상단 모서리의 정보(i) 아이콘을 클릭하거나 카드를 두 번 클릭하면 세부 정보를 열 수 있습니다.'
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          toggler: "이제 <b>작업 패키지</b> 섹션을 살펴보겠습니다. 이 섹션에서는 작업에 대한 자세한 보기가 제공됩니다."
+          list: '이 <b>작업</b> 패키지 개요는 작업, 마일스톤, 단계 등과 같은 프로젝트의 모든 작업 목록을 제공합니다. <br> 이 보기에서 작업 패키지를 바로 만들고 편집할 수 있습니다. 특정 작업 패키지의 세부 정보에 액세스하려면 행을 두 번 클릭하면 됩니다.'
+          full_view: '<b>작업 패키지 세부 정보</b> 보기는 설명, 상태, 우선 순위, 활동, 종속성 및 코멘트 등 지정된 작업 패키지와 관련된 모든 관련 정보를 제공합니다.'
+          back_button: '왼쪽 상단 모서리에 있는 뒤로 화살표를 사용하여 종료하고 작업 패키지 목록으로 돌아갑니다.'
+          create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
+          timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
+          timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
     notifications:
       title: "알림"
-      no_unread: "No unread notifications"
+      no_unread: "읽지 않는 알림 없음"
       reasons:
         mentioned: '멘션 된'
         watched: '지켜본'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        assigned: '할당됨'
+        responsible: '담당'
       facets:
         unread: '읽지 않음'
         all: '모두'
       center:
         and_more_users:
-          other: 'and %{count} others'
+          other: '외 %{count}건'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: '나와 관련된 활동이 있으면 새 알림이 여기에 표시됩니다.'
+          with_current_filter: '현재 이 보기에는 알림이 없습니다.'
         mark_all_read: '모두 읽은 상태로 표시'
-        mark_as_read: 'Mark as read'
-        text_update_date: "%{date} by"
+        mark_as_read: '읽음으로 표시'
+        text_update_date: "%{date} -"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "모두 확인하신 것 같습니다."
+          no_notification_with_current_filter: "알림을 보려면 참여를 변경하거나 받은 편지함으로 돌아가세요"
+          no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: '새 알림이 있습니다.'
+          link_text: '로드하려면 여기를 클릭하세요'
       menu:
         accountable: '담당'
-        assigned: 'Assigned'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        assigned: '할당됨'
+        by_project: '프로젝트 기준 읽지 않음'
+        by_reason: '참여'
+        inbox: '받은 편지함'
+        mentioned: '@멘션됨'
+        watching: '지켜보는 중'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: '알림 설정을 보고 변경하려면 <a target="_blank" href="%{url}">여기를 클릭</a>하세요.'
         title: "알림 설정"
-        notify_me: "Notify me"
+        notify_me: "알림 받기"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: '내가 @멘션되었습니다'
+            description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: '내게 할당되거나 내가 담당함'
+            description: '내게 할당되거나 내가 담당하는 작업 패키지의 모든 활동에 대한 알림을 받습니다.'
+          watched: '지켜보는 항목에 대한 업데이트'
+          work_package_commented: '모든 새로운 코멘트'
+          work_package_created: '새 작업 패키지'
+          work_package_processed: '모든 상태 변경 사항'
+          work_package_prioritized: '모든 우선 순위 변경 사항'
+          work_package_scheduled: '모든 날짜 변경 사항'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: '즉시 내게 알림'
+            description: '해당 설정은 모든 프로젝트에 적용됩니다. 아래에서 프로젝트별 예외를 생성할 수 있습니다.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: '다음과 같은 사항도 내게 알림:'
+            description: '모든 프로젝트에서 작업 패키지의 해당 활동에 대한 알림을 받습니다:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: '프로젝트별 알림 설정'
+          description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'
+          add: '프로젝트에 대한 설정 추가'
+          already_selected: '이 프로젝트는 이미 선택되었습니다.'
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'
@@ -601,36 +604,36 @@ ko:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: '시간 추가'
+          enable: '일일 이메일 미리 알림 사용'
+          explanation: '읽지 않은 알림에 대해서만 그리고 지정된 시간에만, 이러한 미리 알림이 전송됩니다. %{no_time_zone}'
+          no_time_zone: '계정의 시간대를 구성할 때까지 시간이 UTC로 표시됩니다.'
+          time_label: '시간 %{counter}:'
+          title: '읽지 않은 알림에 대해 내게 일일 이메일 미리 알림 보내기'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: '해당 요일에 이메일 미리 알림 받기'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: '내게 이메일 미리 알림 보내기'
+          mentioned: '누군가 나를 @멘션할 때 즉시'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: '기타 항목에 대한 이메일 알림(작업 패키지 외)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            오늘 알림은 작업 패키지로 제한됩니다. 알림에 포함될 때까지 이러한 이벤트에 대한 이메일 알림을 계속 받도록 선택할 수 있습니다.
           news_added: '뉴스 추가됨'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: '뉴스 항목의 코멘트'
+          document_added: '문서 추가됨'
+          forum_messages: '새 포럼 메시지'
           wiki_page_added: '위키 페이지 추가됨'
           wiki_page_updated: '위키 페이지 업데이트됨'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          membership_added: '멤버십 추가됨'
+          membership_updated: '멤버십 업데이트됨'
+        title: '이메일 미리 알림'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: '임시로 일일 이메일 미리 알림 일시 중지'
+          first_day: '첫날'
+          last_day: '마지막 날'
     text_are_you_sure: "계속하시겠습니까?"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "입력한 모든 데이터가 손실됩니다."
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."
@@ -865,7 +868,7 @@ ko:
       no_results:
         title: 표시할 작업 패키지가 없습니다.
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: 수동 정렬 모드에서는 %{count}개 작업 패키지만 표시할 수 있습니다. 필터링으로 결과를 줄이거나 자동 정렬로 전환하세요.
       property_groups:
         details: "세부 정보"
         people: "사용자"
@@ -908,7 +911,7 @@ ko:
         label_content: "메뉴를 건너뛰고 내용으로 이동하려면 여기를 클릭하세요."
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "날짜 선택"
         formattable: "%{name}: 클릭하여 편집..."
       query:
         column_names: "컬럼"

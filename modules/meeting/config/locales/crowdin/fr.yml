@@ -64,7 +64,7 @@ fr:
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Copié depuis la réunion #%{id}"
   notice_successful_notification: "Notification envoyée avec succès"
   notice_timezone_missing: Aucun fuseau horaire n'est défini et %{zone} est supposé. Pour choisir votre fuseau horaire, veuillez cliquer ici.
   permission_create_meetings: "Créer des réunions"

@@ -2,7 +2,7 @@
 sl:
   permission_show_board_views: "Prikaži table"
   permission_manage_board_views: "Upravljaj table"
-  project_module_board_view: "Boardi"
+  project_module_board_view: "Deske"
   boards:
     label_board: "Board"
-    label_boards: "Boardi"
+    label_boards: "Deske"

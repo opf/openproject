@@ -137,7 +137,7 @@ it:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Visualizza il master backlog"
   permission_view_taskboards: "Visualizza i pannelli delle attività"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Seleziona gli stati terminati"
   permission_update_sprints: "Aggiorna gli sprint"
   points_accepted: "punti accettati"
   points_committed: "punti acquisiti"

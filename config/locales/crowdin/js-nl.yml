@@ -285,14 +285,17 @@ nl:
         new_features:
           text_new_features: "Lees over nieuwe functies en product-updates."
           learn_about: "Meer informatie over de nieuwe functies"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Nieuwe knop in de koptekstnavigatie om projecten, gebruikers en werkpakketten te creëren.</li> <li>Een nieuwe uitnodigingsmodus voor gebruikers, groepen en placeholder gebruikers laat toe eenvoudig nieuwe gebruikers toe te voegen of uit te nodigen en toe te wijzen aan werkpakketten.</li> <li>GitHub integratie in OpenProject.</li> <li>API v3 extensies voor groepen en meer, i. e. maak, lees, update en verwijder groepen en groepsleden via de API.</li> <li>Multi-selectie voor project aangepaste velden van het type lijst.</li> <li>Maken van back-up vanuit de webinterface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Neem een kijkje op onze <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> waarmee u direct in Revit aan BCF werkpakketten kunt werken.</li> <li>IFC-eigenschappen kregen een eigen venster. GUIDs kopiëren is nooit zo eenvoudig geweest.</li> <li>Omgekeerd knipvlak richting in BCF gezichtspunt en compatibel worden met toekomstige BCF 3.0 (Nu dezelfde richting als Solibri). <li>Probleem opgelost met mobiel bekijken IFC-modellen.</li> <li>Vaste export van werkpakket weergaven met BCF momentopname kolom.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Activeren"
     label_add_column_after: "Kolom toevoegen na"
     label_add_column_before: "Kolom toevoegen voor"
