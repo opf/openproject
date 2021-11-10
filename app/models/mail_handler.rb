@@ -136,6 +136,22 @@ class MailHandler < ActionMailer::Base
 
   private
 
+  # Dispatches the mail to the most appropriate method:
+  # * If there is no References header the email is interpreted as a new work package
+  # * If there is a References header the email is interpreted to update an existing entity (e.g. a work package
+  #   or a message)
+  #
+  # OpenProject includes the necessary references in the References header of outgoing mail (see ApplicationMailer).
+  # This stretches the standard in that the values do not reference existing mails but it has the advantage of being able
+  # identify the object the response is destined for without human interference. Email clients will not remove
+  # entries from the References header but only add to it.
+  #
+  # OpenProject also sets the Message-ID header but gateways such as postmark, unless explicitly instructed otherwise,
+  # will use their own Message-ID and overwrite the provided one. As an email client includes the value thereof
+  # in the In-Reply-To and in the References header the Message-ID could also have been used.
+  #
+  # Relying on the subject of the mail, which had been implemented before, is brittle as it relies on the user not altering
+  # the subject. Additionally, the subject structure might change, e.g. via localization changes.
   def dispatch
     if (m, object_id = dispatch_target_from_header)
       m.call(object_id)

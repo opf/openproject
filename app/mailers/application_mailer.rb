@@ -80,10 +80,23 @@ class ApplicationMailer < ActionMailer::Base
     super(headers, &block)
   end
 
+  # Sets a Message-ID header.
+  #
+  # While the value is set in here, email gateways such as postmark, unless instructed explicitly will assign
+  # their own message id overwriting the value calculated in here.
+  #
+  # Because of this, the message id and the value affected by it (In-Reply-To) is not relied upon when an email response
+  # is handled by OpenProject.
   def message_id(object, user)
     headers['Message-ID'] = "<#{message_id_value(object, user)}>"
   end
 
+  # Sets a References header.
+  #
+  # The value is used within the MailHandler to find the appropriate objects for update
+  # when a mail has been received but should also allow mail clients to mails
+  # by the referenced entities. Because of this it might make sense to provide more than one object
+  # of reference. E.g. for a message, the message parent can also be provided.
   def references(*objects)
     refs = objects.map do |object|
       if object.is_a?(Journal)
@@ -148,9 +161,6 @@ class ApplicationMailer < ActionMailer::Base
   # Note that this values, as opposed to the one from #message_id_value is not unique.
   # It in fact is aimed not not so that similar messages (i.e. those belonging to the same
   # work package and journal) end up being grouped together.
-  #
-  # The value is used within the MailHandler to find the appropriate objects for update
-  # when a mail has been received.
   def references_value(object)
     hash = 'op'\
            '.'\
