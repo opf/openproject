@@ -113,10 +113,12 @@ el:
       check_1: 'Ελέγξτε ότι έχετε μεταφορτώσει τουλάχιστον ένα μοντέλο IFC.'
       check_2: 'Ελέγξτε ότι τουλάχιστον ένα μοντέλο IFC είναι ορισμένο ως "Προεπιλογή".'
     no_results: "Δεν υπάρχουν μοντέλα IFC που να έχουν μεταφορτωθεί σε αυτό το έργο."
-    processing_state:
+    conversion_status:
       label: 'Γίνεται επεξεργασία;'
-      in_progress: 'Σε εξέλιξη'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Ολοκληρωμένο'
+      error: 'Σφάλμα'
     processing_notice:
       processing_default: 'Το ακόλουθο προεπιλεγμένο μοντέλο IFC επεξεργάζεται και γι''αυτό δεν είναι διαθέσιμο, ακόμη:'
     flash_messages:

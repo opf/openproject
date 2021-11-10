@@ -51,6 +51,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Injectable()
 @EffectHandler
@@ -100,6 +101,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
+    readonly deviceService:DeviceService,
   ) {
     super();
     this.reload.subscribe();
@@ -220,7 +222,10 @@ export class IanCenterService extends UntilDestroyedMixin {
         ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
       },
     });
-    this.showNextNotification();
+
+    if (!this.deviceService.isMobile) {
+      this.showNextNotification();
+    }
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {

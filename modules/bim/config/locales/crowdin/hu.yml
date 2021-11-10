@@ -113,10 +113,12 @@ hu:
       check_1: 'Ellenőrizze, hogy feltöltött legalább egy IFC-modellt.'
       check_2: 'Ellenőrizze, hogy legalább egy IFC modell "Alapértelmezett" -re van-e állítva'
     no_results: "A projektbe nem töltöttek fel IFC modelleket."
-    processing_state:
+    conversion_status:
       label: 'Indulhat a feldolgozás?'
-      in_progress: 'Folyamatban'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Befejeződött'
+      error: 'Hiba'
     processing_notice:
       processing_default: 'A következő alapértelmezett IFC modellek továbbra is feldolgozás alatt állnak, így ezek még nem állnak rendelkezésre:'
     flash_messages:

@@ -113,10 +113,12 @@ bg:
       check_1: 'Провери дали си качил поне един IFC модел.'
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
-    processing_state:
+    conversion_status:
       label: 'Processing?'
-      in_progress: 'В изпълнение'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Completed'
+      error: 'Грешка'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:

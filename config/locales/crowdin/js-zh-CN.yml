@@ -186,8 +186,8 @@ zh-CN:
         new_group: '新的组'
         reset_to_defaults: '重置为默认值'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "距宽限期结束还有 %{days} 天"
+        text_expired: "已过期"
         trial:
           confirmation: "确认电子邮件地址"
           confirmation_info: >
@@ -285,14 +285,17 @@ zh-CN:
         new_features:
           text_new_features: "了解新功能和产品更新。"
           learn_about: "详细了解新功能"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>标题导航中提供了用于创建项目、用户和工作包的新按钮。</li> <li>新的用户、群组和占位符用户邀请模式，可轻松添加或邀请新用户并将其分配至工作包。</li> <li>GitHub 集成到 OpenProject 中。</li> <li>适用于群组等内容的 API v3 扩展，即通过 API 创建、读取、更新和删除群组和群组成员。</li> <li>项目自定义字段类型列表支持多选。</li> <li>从网页界面创建备份。</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li>借助新的<b>应用内通知</b>，您可以直接在应用程序中接收所有重要更新，不再需要收取大量电子邮件。</li> <li>新的<b>通知中心</b>可以显示所有变更，其中包含了直观的筛选器选项，例如按通知原因或按项目筛选。它甚至支持直接在拆分视图中进行编辑。</li> <li>改进的<b>通知设置</b>使您可以对希望针对哪些操作和要接收通知的项目进行细微调整。</li> <li><b>电子邮件提醒</b>可以配置为通过每日电子邮件摘要的方式接收重要更新。</li> <li>工作包关系自动补全工具现在还会显示附加信息（项目名称、状态等），可以轻松识别相应的工作包。</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                该版本包含多种新增功能和改进：<br> <ul class="%{list_styling_class}"> <li>通知中心：减少您的邮件接收量。取而代之，您可以在一个中心场所查找所有相关通知并采取行动。</li> <li>现在，您也可以下载所有上传的 IFC 文件。</li> <li>IFC 的上传和处理速度更快，并会收到更好的错误消息。</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 插件</a>修复了许多错误。</li> </ul>
     label_activate: "激活"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
@@ -481,97 +484,97 @@ zh-CN:
         next: '下一个'
         got_it: '知道了'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: '帮助 (?) 菜单中提供了<b>其他帮助资源</b>。您可在此找到用户指南和实用的使用方法视频等内容。<br>使用 OpenProject 尽情享受您的工作吧！'
         members: '邀请新<b>成员</b>加入您的项目。'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        project_selection: '请点击我们准备的演示项目之一。演示数据目前仅提供英文版本。<br>一般的<b>演示项目</b>最适合经典项目管理，而 <b>Scrum 项目</b>则更适合敏捷项目管理。'
+        quick_add_button: '点击标题导航中的加号 (+) 图标可<b>创建新项目</b>或<b>邀请同事</b>。'
+        sidebar_arrow: "使用左上角的返回箭头可返回到项目的<b>主菜单</b>。"
         welcome: '通过三分钟的导览了解<b>最重要的功能</b> 。<br>我们建议您完成所有步骤。您可以随时重新浏览介绍。'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: '在 <b>Wiki</b> 中，您可以记录并与您的团队共享知识。'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
-          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
-          task_board_select: '...and select the <b>task board</b> entry.'
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+          overview: "在<b>待办清单</b>视图中管理您的工作。"
+          sprints: "右侧为产品待办清单和错误待办清单，左侧为各自的冲刺 (sprint)。在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (sprint) 中。"
+          task_board_arrow: '要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…'
+          task_board_select: '…并选择<b>任务面板</b>条目。'
+          task_board: "任务面板可以将<b>此冲刺 (sprint) 的进度</b>可视化。点击用户故事旁边的加号 (+) 图标可添加新任务或障碍。<br>状态可以通过拖放更新。"
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          overview: '选择<b>面板</b>以切换视图并使用敏捷面板视图管理您的项目。'
+          lists: '在此，您可以在面板中创建多个列表（列）。例如，此功使让您可以创建<b>看板面板</b>。'
+          add: '点击加号 (+) 图标可<b>创建新卡片</b>或<b>添加现有卡片</b>到面板上的列表中。'
+          drag: '在给定列表中拖放您的卡片以重新排序，或者将卡片移动到其他列表中。<br>您可以点击右上角的信息 (i) 图标或双击卡片可打开其详细信息。'
         wp:
-          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          toggler: "现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。"
+          list: '此<b>工作</b>包概览提供了包含项目中所有工作的列表，例如任务、里程碑、阶段等。<br>可以直接从此视图创建和编辑工作包。要访问特定工作包的详细信息，只需双击该行即可。'
+          full_view: '<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。'
+          back_button: '使用左上角的返回箭头可退出并返回到工作包列表。'
+          create_button: '<b>+ 创建</b>按钮将为您的项目添加一个新工作包。'
+          timeline_button: '您可以激活<b>甘特图</b>视图来为项目创建时间轴。'
+          timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
     notifications:
-      title: "Notifications"
-      no_unread: "No unread notifications"
+      title: "通知"
+      no_unread: "没有未读通知"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        mentioned: '被提及'
+        watched: '已关注'
+        assigned: '已分配'
+        responsible: '负责'
       facets:
-        unread: 'Unread'
+        unread: '未读'
         all: '全部'
       center:
         and_more_users:
-          other: 'and %{count} others'
+          other: '和 %{count} 个其他'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
-        mark_all_read: 'Mark all as read'
-        mark_as_read: 'Mark as read'
-        text_update_date: "%{date} by"
-        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+          at_all: '存在与您有关的活动时会在此显示新通知'
+          with_current_filter: '目前此视图中没有通知'
+        mark_all_read: '全部标记为已读'
+        mark_as_read: '标记为已读'
+        text_update_date: "%{date}，"
+        total_count_warning: "正在显示 %{newest_count} 条最新通知。还有 %{more_count} 条未显示。"
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "看来没有要处理的事务了。"
+          no_notification_with_current_filter: "更改参与或返回收件箱查看通知"
+          no_selection: "点击通知可查看所有活动详细信息。"
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: '有新的通知。'
+          link_text: '点击此处加载'
       menu:
         accountable: '负责'
-        assigned: 'Assigned'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        assigned: '已分配'
+        by_project: '按项目筛选未读通知'
+        by_reason: '参与'
+        inbox: '收件箱'
+        mentioned: '@被提及'
+        watching: '关注中'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
-        title: "Notification settings"
-        notify_me: "Notify me"
+        change_notification_settings: '要查看和更改您的通知设置，请<a target="_blank" href="%{url}">点击此处</a>'
+        title: "通知设置"
+        notify_me: "通知我"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: '我@被提及'
+            description: '每当有人在任何位置提及我时都接收通知'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: '分配给我或负责'
+            description: '针对我具有指定人或负责人身份的工作包，接收所有活动通知。'
+          watched: '关注项更新'
+          work_package_commented: '所有新评论'
+          work_package_created: '新工作包'
+          work_package_processed: '所有状态变更'
+          work_package_prioritized: '所有优先级变更'
+          work_package_scheduled: '所有日期变更'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: '立即通知我'
+            description: '这些设置适用于所有项目。您可以在下方创建特定于项目的例外。'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: '还在以下情况下通知我'
+            description: '针对所有项目中的工作包的以下活动接收通知：'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: '项目特定通知设置'
+          description: '这些项目特定设置会覆盖上方的默认设置'
+          add: '为项目添加设置'
+          already_selected: '此项目已经选定'
     password_confirmation:
       field_description: '输入密码以确认更改'
       title: '输入密码以继续'
@@ -601,36 +604,36 @@ zh-CN:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: '添加时间'
+          enable: '启用每日电子邮件提醒'
+          explanation: '只有存在未读通知时，您才会在指定的时间收到这些提醒。%{no_time_zone}'
+          no_time_zone: '除非您为帐户配置时区，否则将以 UTC 显示时间。'
+          time_label: '时间 %{counter}：'
+          title: '向我发送针对未读通知的每日电子邮件提醒'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: '接收这几天的邮件提醒'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: '向我发送邮件提醒'
+          mentioned: '当有人@提及我时立即'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: '针对其他条目（非工作包）的电子邮件警报'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            今日通知仅限于工作包。您可以选择继续接收针对这些事件的电子邮件警报，直到它们包含在通知中：
           news_added: '添加新闻'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: '新闻条目评论'
+          document_added: '已添加文档'
+          forum_messages: '新的论坛消息'
           wiki_page_added: '添加 Wiki 页面'
           wiki_page_updated: '更新 Wiki 页面'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          membership_added: '已添加成员'
+          membership_updated: '已更新成员'
+        title: '电子邮件提醒'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: '暂时暂停每日电子邮件提醒'
+          first_day: '第一天'
+          last_day: '最后一天'
     text_are_you_sure: "是否确定？"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "输入的所有数据将全部丢失。"
     types:
       attribute_groups:
         error_duplicate_group_name: "名称 %{group} 已多次使用。组名不能重复。"
@@ -865,7 +868,7 @@ zh-CN:
       no_results:
         title: 没有要显示的工作包。
         description: 没有已创建的工作包或所有工作包都被筛选排除。
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: 手动排序模式下只能显示 %{count} 个工作包。请通过筛选减少结果，或者切换到自动排序模式。
       property_groups:
         details: "详细信息"
         people: "人员"
@@ -908,7 +911,7 @@ zh-CN:
         label_content: "单击此处跳过菜单，转到内容"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "选择日期"
         formattable: "%{name}：点击以编辑…"
       query:
         column_names: "列"

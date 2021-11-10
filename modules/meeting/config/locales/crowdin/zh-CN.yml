@@ -64,7 +64,7 @@ zh-CN:
   label_time_zone: "时区"
   label_start_date: "开始日期"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "从会议 #%{id} 复制"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
   permission_create_meetings: "创建会议"

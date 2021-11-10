@@ -64,7 +64,7 @@ es:
   label_time_zone: "Zona horaria"
   label_start_date: "Fecha de inicio"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Copiado de la reunión %{id}"
   notice_successful_notification: "Notificación enviada correctamente"
   notice_timezone_missing: No se ha establecido zona horaria y se asume %{zone}. Para elegir su zona horaria, por favor, haga clic aquí.
   permission_create_meetings: "Crear reuniones"

@@ -34,6 +34,6 @@ namespace 'openproject:cron' do
 
   desc 'Ensure the cron-like background jobs are actively scheduled'
   task schedule: [:environment] do
-    ::Cron::CronJob.registered_jobs.each(&:ensure_scheduled!)
+    ::Cron::CronJob.schedule_registered_jobs!
   end
 end

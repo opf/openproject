@@ -64,7 +64,7 @@ pt:
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Copiado para a Reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

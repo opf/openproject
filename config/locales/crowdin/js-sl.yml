@@ -221,13 +221,13 @@ sl:
         upsale:
           become_hero: "Bodite heroj!"
           benefits:
-            description: "Katere so prednosti Enterprise verzije na lokaciji?"
+            description: "Kakšne so prednosti Podjetniške različice na lokaciji?"
             high_security: "Varnostne funkcije"
             high_security_text: "Enkratna prijava na (SAML, OpenID Connect, CAS), dvofaktorska avtentikacija in samodejna sinhronizacija LDAP skupin."
             installation: "Namestitvena podpora"
             installation_text: "Izkušeni programski inženirji vas vodijo skozi celoten postopek namestitve in nastavitve v lastni infrastrukturi."
             premium_features: "Premium funkcije"
-            premium_features_text: "Kanban table, teme in logotip po meri, grafikoni, inteligentni delovni tokovi z dejanji po meri, iskanje po celotnem besedilu prilog v delovnem paketu in izbira polj po meri."
+            premium_features_text: "Kanban deske, teme in logotip po meri, grafikoni, inteligentni delovni tokovi z dejanji po meri, iskanje po celotnem besedilu prilog v delovnem paketu in izbira polj po meri."
             professional_support: "Strokovna podpora"
             professional_support_text: "Pridobite zanesljivo in visoko dotično podporo starejših podpornih inženirjev s strokovnim znanjem o izvajanju OpenProject-a v poslovnih kritičnih okoljih."
           button_start_trial: "Začnite z brezplačno preizkusno dobo"
@@ -284,14 +284,17 @@ sl:
         new_features:
           text_new_features: "Preberite o novih funkcijah in posodobitvah izdelka."
           learn_about: "Preberite več o novostih"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Aktiviraj"
     label_add_column_after: "Dodaj stolpec za"
     label_add_column_before: "Dodaj stolpec pred"
@@ -313,7 +316,7 @@ sl:
     label_between: "med"
     label_board: "Board"
     label_board_locked: "Zaklenjeno"
-    label_board_plural: "Boardi"
+    label_board_plural: "Deske"
     label_board_sticky: "Lepljivo"
     label_change: "Spremeni"
     label_create: "Ustvari"
@@ -470,7 +473,7 @@ sl:
     label_wait: "Prosimo počakajte za konfiguracijo... "
     label_upload_counter: "%{done} od %{count} datotek je končanih"
     label_validation_error: "Opravila ni bilo mogoče shraniti zaradi naslednjih napak:\n"
-    label_version_plural: "Verzije"
+    label_version_plural: "Različice"
     label_view_has_changed: "Ta pogled ima ne shranjene spremembe. kliknite za shranjevanje. "
     help_texts:
       show_modal: 'Prikaži vnos besedila za pomoč atributu'
@@ -500,12 +503,12 @@ sl:
           drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          list: 'Ta pregled <b>delovnega</b> paketa vsebuje seznam vsega dela v vašem projektu, kot so naloge, mejniki, faze in drugo. <br> Delovne pakete lahko ustvarjate in urejate neposredno iz tega pogleda. Če želite dostopati do podrobnosti določenega delovnega paketa, preprosto dvakrat kliknite njegovo vrstico.'
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
           back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
-          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+          timeline: 'Tu lahko <b>urejate načrt vašega projekta</b>, ustvarjate nove delovne pakete, kot so naloge, mejniki, etape in drugo, ter <b>prilagajate odvisnosti</b>. Vsi člani ekipe lahko kadar koli vidijo in posodobijo najnovejši načrt.'
     notifications:
       title: "Notifications"
       no_unread: "No unread notifications"
@@ -595,7 +598,7 @@ sl:
       click_to_switch_context: 'Odpri ta delovni paket v tistem projektu. '
       confirm_template_load: 'Menjava predloge bo ponovno naložila stran in vsi podatki vnešeni v obrazec bodo izgubljeni. Ali želite nadaljevati?'
       use_template: "Uporabi predlogo"
-      no_template_selected: "(None)"
+      no_template_selected: "(brez)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -641,7 +644,7 @@ sl:
         confirm_reset: >
           Opozorilo: Ali ste prepričani, da želite po nastaviti formo konfiguracije? To bo ponastavilo atribute v njihovo privzeto skupino in onemogočilo vsa polja po meri. 
         upgrade_to_ee: "Nadgradite na Enterprise verzijo na lokaciji"
-        upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete odjemalec Podjetniške verzije?"
+        upgrade_to_ee_text: "Vau! Če potrebujete to funkcijo, ste super profesionalec! Bi bili pripravljeni podpreti OpenSource razvijalce, tako da postanete uporavnik Podjetniške različice?"
         more_information: "Več informacij"
         nevermind: "Pozabi"
       edit:
@@ -715,7 +718,7 @@ sl:
       parent_placeholder: "Izberite novo nadrejeno ali pritisnite izhod za preklic."
     autocompleter:
       placeholder: "Iskalni niz"
-      notFoundText: "No items found"
+      notFoundText: "Ni najdenih elementov"
       typeToSearchText: "Iskalni niz"
     repositories:
       select_tag: 'Izberite oznako'
@@ -797,7 +800,7 @@ sl:
       zooms: "Stopnja povečave"
       outlines: "Stopnja hierarhije"
     upsale:
-      ee_only: 'Podjetniška verzija edina funkcija'
+      ee_only: 'Ta možnost je samo v podjetniški izdaji'
     wiki_formatting:
       strong: "Močno"
       italic: "Nagnjeno"
@@ -874,7 +877,7 @@ sl:
         estimatesAndTime: "Ocene in čas"
         other: "Drugo"
       properties:
-        assignee: "Prenosnik"
+        assignee: "Prevzemnik"
         author: "Avtor"
         createdAt: "Ustvarjeno dne"
         description: "Opis"
@@ -1057,7 +1060,7 @@ sl:
         maxlength: '%{field} ne more vsebovati več kot %{maxLength} znakov'
         minlength: '%{field} ne more vsebovati manj kot %{maxLength} znakov'
         messages_on_field: 'To polje je neveljavno: %{messages}'
-    error_could_not_resolve_version_name: "Ime verzije ni rešeno"
+    error_could_not_resolve_version_name: "Ime različice se ni moglo razrešiti"
     error_could_not_resolve_user_name: "Uporabniškega imena ni bilo mogoče razrešiti"
     error_attachment_upload: "Datoteka ni bila naložena zaradi: %{error}"
     error_attachment_upload_permission: "Nimate dovoljenja za nalaganje datotek v ta vir."
