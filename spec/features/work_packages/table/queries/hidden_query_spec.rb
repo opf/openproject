@@ -16,11 +16,11 @@ describe 'Visiting a hidden query', js: true do
   end
 
   it 'does not render the hidden query' do
-    expect(page).to have_selector('.collapsible-menu--search-ul')
-    expect(page).to have_no_selector('.ui-menu-item', text: 'my hidden query')
+    expect(page).to have_selector('.op-query-select--search-results')
+    expect(page).to have_no_selector('.op-sidemenu--item-action', text: 'my hidden query')
 
     query.update(name: 'my visible query', hidden: false)
     wp_table.visit!
-    expect(page).to have_selector('.ui-menu-item', text: 'my visible query')
+    expect(page).to have_selector('.op-sidemenu--item-action', text: 'my visible query')
   end
 end

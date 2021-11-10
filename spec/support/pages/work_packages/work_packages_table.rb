@@ -124,7 +124,7 @@ module Pages
       page.find('.title-container').click
 
       page.within('#querySelectDropdown') do
-        expect(page).to have_selector('.ui-menu-item', text: name)
+        expect(page).to have_selector('.op-sidemenu--item-action', text: name)
       end
     end
 

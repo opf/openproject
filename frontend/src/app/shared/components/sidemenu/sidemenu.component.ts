@@ -33,6 +33,8 @@ export class OpSidemenuComponent {
 
   @Input() collapsible = false;
 
+  @Input() searchable = false;
+
   public collapsed = false;
 
   constructor(

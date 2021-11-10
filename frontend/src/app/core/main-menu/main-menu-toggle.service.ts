@@ -128,7 +128,7 @@ export class MainMenuToggleService {
   public closeMenu():void {
     this.setWidth(0);
     window.OpenProject.guardedLocalStorage(this.localStorageStateKey, 'true');
-    jQuery('.collapsible-menu--search-input').blur();
+    jQuery('.searchable-menu--search-input').blur();
   }
 
   public closeWhenOnMobile():void {

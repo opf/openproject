@@ -1,28 +1,28 @@
-<div id="querySelectDropdown" class="collapsible-menu--container">
-  <div class="collapsible-menu--search-container">
-    <div class="collapsible-menu--search-bar">
+<div id="querySelectDropdown" class="searchable-menu">
+  <div class="searchable-menu--search-container">
+    <div class="searchable-menu--search-bar">
       <label for="query-title-filter"
              class="hidden-for-sighted"
-             [textContent]="text.label" ></label>
-      <input #wpQueryMenuSearchInput
-             type="text"
-             class="collapsible-menu--search-input ui-autocomplete--input ellipsis"
+             [textContent]="text.label"></label>
+      <input type="text"
+             [(ngModel)]="search"
+             class="searchable-menu--search-input ellipsis"
              name="query-title-filter"
              id="query-title-filter"
-             [attr.placeholder]="text.search" />
-      <i class="icon-search collapsible-menu--search-icon"></i>
+             [attr.placeholder]="text.search"/>
+      <i class="icon-search searchable-menu--search-icon"></i>
     </div>
-    <div #queryResultsContainer class="collapsible-menu--results-container">
-      <p class="collapsible-menu--no-results-container"
-         [hidden]="!noResults || loading"
-         [textContent]="text.no_results"></p>
-      <div class="loading-indicator -compact" *ngIf="loading">
-        <div class="block-1"></div>
-        <div class="block-2"></div>
-        <div class="block-3"></div>
-        <div class="block-4"></div>
-        <div class="block-5"></div>
-      </div>
-    </div>
+
+    <p class="searchable-menu--no-results-container"
+       [hidden]="($queries | async).length > 0"
+       [textContent]="text.no_results"></p>
+
+    <op-sidemenu
+      class="op-query-select--search-results"
+      [items]="$queries | async"
+      [collapsible]="true"
+      [searchable]="true"
+    >
+    </op-sidemenu>
   </div>
 </div>

@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { IAutocompleteItem } from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
+
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Injectable } from '@angular/core';
@@ -33,6 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 
 @Injectable()
 export class WorkPackageStaticQueriesService {
@@ -40,7 +41,7 @@ export class WorkPackageStaticQueriesService {
     private readonly $state:StateService,
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
-    private readonly CurrentUserService:CurrentUserService) {
+    private readonly CurrentUser:CurrentUserService) {
   }
 
   public text = {
@@ -59,71 +60,86 @@ export class WorkPackageStaticQueriesService {
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
   };
 
-  // Create all static queries manually
-  // The query_props configure default values of column names, sorting and applied filters
-  // All queries are sorted by their update or creation time (so the latest is always the first)
-  public get all():IAutocompleteItem[] {
-    let items = [
+  public get all():IOpSidemenuItem[] {
+    let items:IOpSidemenuItem[] = [
       {
-        identifier: 'all_open',
-        label: this.text.all_open,
-        query_props: null,
+        title: this.text.all_open,
+        uiSref: 'work-packages',
+        uiParams: { query_id: '', query_props: '' },
       },
       {
-        identifier: 'latest_activity',
-        label: this.text.latest_activity,
-        query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        title: this.text.latest_activity,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
       },
       {
-        identifier: 'gantt',
-        label: this.text.gantt,
-        query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+        title: this.text.gantt,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
       },
       {
-        identifier: 'recently_created',
-        label: this.text.recently_created,
-        query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        title: this.text.recently_created,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
       },
-    ] as IAutocompleteItem[];
+    ];
 
     const projectIdentifier = this.CurrentProject.identifier;
     if (projectIdentifier) {
       items.push({
-        identifier: 'summary',
-        label: this.text.summary,
-        static_link: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
+        title: this.text.summary,
+        href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
       });
     }
 
-    if (this.CurrentUserService.isLoggedIn) {
-      items = items.concat([
+    if (this.CurrentUser.isLoggedIn) {
+      items = [
+        ...items,
         {
-          identifier: 'created_by_me',
-          label: this.text.created_by_me,
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
+          title: this.text.created_by_me,
+          uiSref: 'work-packages',
+          uiParams: {
+            query_id: '',
+            query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
+          },
         },
         {
-          identifier: 'assigned_to_me',
-          label: this.text.assigned_to_me,
-          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+          title: this.text.assigned_to_me,
+          uiSref: 'work-packages',
+          uiParams: {
+            query_id: '',
+            query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+          },
         },
-      ]);
+      ];
     }
 
     return items;
   }
 
-  public getStaticName(query:QueryResource) {
+  public getStaticName(query:QueryResource):string {
     if (this.$state.params.query_props) {
       const queryProps = JSON.parse(this.$state.params.query_props);
       delete queryProps.pp;
       delete queryProps.pa;
       const queryPropsString = JSON.stringify(queryProps);
 
-      const matched = this.all.find((item) => item.query_props && item.query_props === queryPropsString);
+      const matched = this.all.find((item) => {
+        const uiParams = item.uiParams as { query_id:string, query_props:string };
+        return uiParams && uiParams.query_props === queryPropsString;
+      });
 
       if (matched) {
-        return matched.label;
+        return matched.title;
       }
     }
 

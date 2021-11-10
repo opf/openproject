@@ -20,7 +20,7 @@
 
 <ul
   class="op-sidemenu--items"
-  [ngClass]="{'op-sidemenu--items_collapsed' : collapsed}"
+  [ngClass]="{'op-sidemenu--items_collapsed' : collapsed, 'searchable-menu--search-ul': searchable}"
 >
   <li
     *ngFor="let item of items"
@@ -37,6 +37,7 @@
     <a
       *ngIf="!item.children && item.uiSref"
       class="op-sidemenu--item-action"
+      [class]="{ 'op-sidemenu--item-action_with_icon': !!item.icon }"
       uiSrefActive="op-sidemenu--item-action_active-child"
       uiSrefActiveEq="op-sidemenu--item-action_active"
       [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
@@ -49,6 +50,7 @@
     <a
       *ngIf="!item.children && item.href"
       class="op-sidemenu--item-action"
+      [class]="{ 'op-sidemenu--item-action_with_icon': !!item.icon }"
       [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [href]="item.href"
     >
