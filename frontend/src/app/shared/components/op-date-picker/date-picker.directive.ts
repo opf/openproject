@@ -39,6 +39,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Directive()
 export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin implements OnDestroy, AfterViewInit {
@@ -62,7 +63,10 @@ export abstract class AbstractDatePickerDirective extends UntilDestroyedMixin im
 
   protected datePickerInstance:DatePicker;
 
-  public constructor(protected timezoneService:TimezoneService) {
+  public constructor(
+    protected timezoneService:TimezoneService,
+    protected configurationService:ConfigurationService,
+  ) {
     super();
 
     if (!this.id) {
