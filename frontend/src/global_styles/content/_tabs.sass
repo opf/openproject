@@ -29,21 +29,23 @@
       border-bottom: 0
 
   &--link
-    display: block
+    display: flex
+    align-items: center
     padding-left: 1rem
     padding-right: 1rem
     color: var(--body-font-color)
     text-decoration: none
     font-size: var(--generic-table--header-font-size)
+    border-bottom: 2px solid transparent
+    border-top: 2px solid transparent
+    box-sizing: border-box
 
     &:hover
       text-decoration: none
-      border-bottom: 2px solid
       border-bottom-color: var(--light-gray)
 
     &_selected, &_selected:hover
       color: var(--content-link-color)
-      border-bottom: 2px solid
       border-bottom-color: var(--content-link-color)
 
     &_disabled
@@ -51,3 +53,6 @@
       pointer-events: none
       border-bottom-width: 0
       color: var(--tabs-font-color-disabled)
+
+  &--link-plain-counter
+    margin-left: 5px

@@ -44,6 +44,7 @@
         <ng-container *ngIf="tab.counter(injector) | async as tabCounter">
           <span
             *ngIf="tabCounter > 0 && !tab.showCountAsBubble"
+            class="op-tab-row--link-plain-counter"
             data-qa-selector="tab-count"
           > ({{ tabCounter }})</span>
         </ng-container>
@@ -68,6 +69,8 @@
   >
     <span class="icon-arrow-right2"></span>
   </button>
+</div>
+
 <ul class="op-scrollable-tabs--actions">
   <ng-content select="[slot=actions]"></ng-content>
 </ul>
