@@ -941,18 +941,34 @@ describe Notifications::CreateFromModelService,
       end
     end
 
-    context 'in the journal notes' do
+    describe 'in the journal notes' do
       let(:journal) { journal_2_with_notes }
       let(:journal_2_with_notes) do
         work_package.add_journal author, note
         work_package.save(validate: false)
         work_package.journals.last
       end
+      let(:note) do
+        <<~NOTE
+          Hello <mention class="mention" data-type="user" data-id="#{recipient.id}" data-text="@#{recipient.name}">@#{recipient.name}</mention>
+        NOTE
+      end
 
       it_behaves_like 'mentioned'
+
+      context 'when there is a notification for mentioned on the journal' do
+        let!(:mentioned_notification) do
+          FactoryBot.create :notification,
+                            journal: journal_2_with_notes,
+                            resource: journal_2_with_notes.journable,
+                            reason: :mentioned
+        end
+
+        it_behaves_like 'creates no notification'
+      end
     end
 
-    context 'in the description' do
+    describe 'in the description' do
       let(:journal) { journal_2_with_description }
       let(:journal_2_with_description) do
         work_package.description = note
@@ -963,7 +979,7 @@ describe Notifications::CreateFromModelService,
       it_behaves_like 'mentioned'
     end
 
-    context 'in the subject' do
+    describe 'in the subject' do
       let(:journal) { journal_2_with_subject }
       let(:journal_2_with_subject) do
         work_package.subject = note

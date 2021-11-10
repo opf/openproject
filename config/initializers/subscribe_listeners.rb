@@ -42,6 +42,10 @@ OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_CREATED) do |p
   Journals::CompletedJob.schedule(payload[:journal], payload[:send_notification])
 end
 
+OpenProject::Notifications.subscribe(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY) do |payload|
+  Notifications::AggregatedJournalService.relocate_immediate(**payload.slice(:journal, :predecessor))
+end
+
 OpenProject::Notifications.subscribe(OpenProject::Events::WATCHER_ADDED) do |payload|
   next unless payload[:send_notifications]
 
