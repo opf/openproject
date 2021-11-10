@@ -16,7 +16,7 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
       .then((context) => {
         const datePicker = new DatePicker(
           '.-augmented-datepicker',
-          target.val(),
+          target.val() as string,
           {
             weekNumbers: true,
             allowInput: true,

@@ -87,6 +87,8 @@ export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
       `#${this.id}`,
       initialValue,
       options,
+      null,
+      this.configurationService,
     );
   }
 }
