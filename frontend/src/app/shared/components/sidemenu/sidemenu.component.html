@@ -1,8 +1,8 @@
 <button
+  *ngIf="title && collapsible"
   class="op-sidemenu--title"
   type="button"
   (click)="toggleCollapsed()"
-  *ngIf="title && collapsible"
 >
   <span class="icon3 icon-small"
         [ngClass]="collapsed ? 'icon-arrow-down1' : 'icon-arrow-up1'"
@@ -12,8 +12,8 @@
 </button>
 
 <div
-  class="op-sidemenu--title"
   *ngIf="title && !collapsible"
+  class="op-sidemenu--title"
 >
   {{ title }}
 </div>
@@ -23,34 +23,50 @@
   [ngClass]="{'op-sidemenu--items_collapsed' : collapsed}"
 >
   <li
+    *ngFor="let item of items"
     class="op-sidemenu--item"
     data-qa-selector="op-sidemenu--item"
-    *ngFor="let item of items"
   >
-    <a
-      class="op-sidemenu--item-action"
-      uiSrefActive="op-sidemenu--item-action_active-child"
-      uiSrefActiveEq="op-sidemenu--item-action_active"
-      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
-      [href]="item.href"
-      [uiSref]="item.uiSref"
-      [uiParams]="item.uiParams"
-      *ngIf="!item.children"
-    >
-      <span
-        *ngIf="item.icon"
-        class="op-sidemenu--item-icon"
-        [class]="'icon-' + item.icon"
-      ></span>
-      <span class="op-sidemenu--item-title">{{ item.title }}</span>
-      <span class="op-bubble op-bubble_alt_highlighting" *ngIf="item.count">{{ item.count }}</span>
-    </a>
-
     <op-sidemenu
       *ngIf="item.children && item.children.length"
       [title]="item.title"
       [items]="item.children"
       [collapsible]="item.collapsible"
     ></op-sidemenu>
+
+    <a
+      *ngIf="!item.children && item.uiSref"
+      class="op-sidemenu--item-action"
+      uiSrefActive="op-sidemenu--item-action_active-child"
+      uiSrefActiveEq="op-sidemenu--item-action_active"
+      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
+      [uiSref]="item.uiSref"
+      [uiParams]="item.uiParams"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate; context: { item }"></ng-container>
+    </a>
+
+    <a
+      *ngIf="!item.children && item.href"
+      class="op-sidemenu--item-action"
+      [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
+      [href]="item.href"
+    >
+      <ng-container *ngTemplateOutlet="itemTemplate; context: { item }"></ng-container>
+    </a>
+
   </li>
 </ul>
+
+<ng-template
+  #itemTemplate
+  let-item="item"
+>
+  <span
+    *ngIf="item.icon"
+    class="op-sidemenu--item-icon"
+    [class]="'icon-' + item.icon"
+  ></span>
+  <span class="op-sidemenu--item-title">{{ item.title }}</span>
+  <span class="op-bubble op-bubble_alt_highlighting" *ngIf="item.count">{{ item.count }}</span>
+</ng-template>

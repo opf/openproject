@@ -27,13 +27,13 @@ export interface IOpSidemenuItem {
 export class OpSidemenuComponent {
   @HostBinding('class.op-sidemenu') className = true;
 
-  @HostBinding('class.op-sidemenu_collapsed') collapsed = false;
-
   @Input() items:IOpSidemenuItem[] = [];
 
   @Input() title:string;
 
-  @Input() collapsible = true;
+  @Input() collapsible = false;
+
+  public collapsed = false;
 
   constructor(
     readonly cdRef:ChangeDetectorRef,
