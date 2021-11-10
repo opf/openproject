@@ -32,11 +32,15 @@ require 'features/work_packages/work_packages_page'
 describe 'project export', type: :feature, js: true do
   shared_let(:important_project) { FactoryBot.create :project, name: 'Important schedule plan' }
   shared_let(:party_project) { FactoryBot.create :project, name: 'Christmas party' }
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:user) do
+    FactoryBot.create :user,
+                      member_in_projects: [important_project, party_project],
+                      member_with_permissions: %w[view_project edit_project view_work_packages]
+  end
 
   let(:index_page) { ::Pages::Projects::Index.new }
 
-  let(:current_user) { admin }
+  let(:current_user) { user }
 
   before do
     @download_list = DownloadList.new

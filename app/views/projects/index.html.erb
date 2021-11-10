@@ -64,34 +64,34 @@ See COPYRIGHT and LICENSE files for more details.
       <%= op_icon("button--icon icon-external-link") %>
     <% end %>
   </li>
-  <% if current_user.admin? %>
-    <li class="toolbar-item drop-down">
-      <a
-        href="#"
-        aria-haspopup="true"
-        title="<%= t(:label_more) %>"
-        class="button"
-        data-qa-selector="project-more-dropdown-menu"
-      >
-        <%= op_icon('button--icon icon-show-more') %>
-      </a>
-      <ul style="display:none;" class="menu-drop-down-container">
+  <li class="toolbar-item drop-down">
+    <a
+      href="#"
+      aria-haspopup="true"
+      title="<%= t(:label_more) %>"
+      class="button"
+      data-qa-selector="project-more-dropdown-menu"
+    >
+      <%= op_icon('button--icon icon-show-more') %>
+    </a>
+    <ul style="display:none;" class="menu-drop-down-container">
+      <% if current_user.admin? %>
+      <li>
+        <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings' %>
+      </li>
+      <% end %>
+      <section data-augmented-model-wrapper
+               data-modal-class-name="project-export---modal">
         <li>
-          <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings' %>
+          <%= link_to I18n.t('js.label_export'),
+                      '',
+                      title: I18n.t('js.label_export'),
+                      class: 'modal-delivery-element--activation-link icon-context icon-export' %>
         </li>
-        <section data-augmented-model-wrapper
-                 data-modal-class-name="project-export---modal">
-          <li>
-            <%= link_to I18n.t('js.label_export'),
-                        '',
-                        title: I18n.t('js.label_export'),
-                        class: 'modal-delivery-element--activation-link icon-context icon-export' %>
-          </li>
-          <%= render partial: 'project_export_modal' %>
-        </section>
-      </ul>
-    </li>
-  <% end %>
+        <%= render partial: 'project_export_modal' %>
+      </section>
+    </ul>
+  </li>
 <% end %>
 
 <%= render partial: 'projects/filters/form', locals: { query: @query } %>
