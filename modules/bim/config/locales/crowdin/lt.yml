@@ -113,10 +113,12 @@ lt:
       check_1: 'Patikrinkite, ar įkėlėte bent vieną IFC modelį.'
       check_2: 'Patikrinkite, ar bent vienas IFC modelis buvo nustatytas kaip „Numatytasis“.'
     no_results: "Į projektą nebuvo įkelti jokie IFC modeliai."
-    processing_state:
+    conversion_status:
       label: 'Apdorojamas?'
-      in_progress: 'Vykdoma'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Atliktas'
+      error: 'Klaida'
     processing_notice:
       processing_default: 'Tokie numatytieji IFC modeliai dar yra apdorojami ir todėl dar nėra pasiekiami:'
     flash_messages:

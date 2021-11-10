@@ -589,8 +589,8 @@ ru:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "Тип содержимого файла не может быть пустым."
+              not_whitelisted: "Файл был отклонен автоматическим фильтром. '%{value}' не является белым списком для загрузки."
               format: "%{message}"
         capability:
           context:
@@ -747,6 +747,9 @@ ru:
               group_without_name: "Не именованные группы не допускаются."
         user:
           attributes:
+            password_confirmation:
+              confirmation: "Подтверждение пароля не совпадает с паролем."
+              format: "%{message}"
             password:
               weak: "Должны содержаться символы следующих классов (как минимум %{min_count} из %{all_count}): %{rules}."
               lowercase: "нижний регистр (например «а»)"
@@ -1228,8 +1231,8 @@ ru:
   error_can_not_delete_entry: "Не удается удалить содержимое"
   error_can_not_delete_custom_field: "Не удается удалить настраиваемое поле"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Этот тип содержит пакеты работ и не может быть удален. Вы можете увидеть все затрагиваемые пакеты работ в <a target="_blank" href="%{url}">этом представлении</a>.'
+    archived_projects: 'Также существуют пакеты работ в архивных проектах. Вам нужно сначала активировать следующие проекты, прежде чем вы сможете изменить тип соответствующих пакетов работ: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартные типы не могут быть удалены."
   error_can_not_invite_user: "Не удалось отправить приглашение пользователю."
   error_can_not_remove_role: "Эта роль используется и не может быть удалена."
@@ -1376,6 +1379,23 @@ ru:
         mentioned: "Вы были назначены %{work_package}"
         responsible: "Вы отвечаете за %{work_package}"
         watched: "Вы просматриваете %{work_package}"
+    update_info_mail:
+      body: >
+        Мы рады объявить о выпуске OpenProject 12.0. Это основной релиз, который, как мы надеемся, значительно улучшит процесс использования OpenProject.
+
+        Начиная с этого выпуска, мы представляем Центр уведомлений. Теперь вы будете получать уведомления об обновлениях для рабочих пакетов непосредственно в OpenProject. Вы можете отметить эти уведомления как прочитанные, ответить на комментарий или даже напрямую изменить атрибуты пакетов работ не выходя из Центра уведомлений.
+
+        Это также означает, что мы больше не будем использовать электронные письма для уведомлений. Мы считаем, что Центр уведомлений лучше просматривать и реагировать на эти обновления. Тем не менее, если вы хотите продолжать получать обновления по электронной почте, вы можете ежедневно получать напоминания по электронной почте в определенные моменты по вашему выбору.
+
+        Вы можете установить настройки уведомлений и напоминаний по электронной почте через настройки учетной записи, или оставить их без изменений, чтобы сохранить стандартные. Вы можете сделать это с помощью кнопки «Изменить настройки электронной почты» ниже.
+
+        Мы надеемся, что вы найдете Центр уведомлений полезным и что он сделает вас еще более продуктивным.
+
+        Искренне
+        Команда OpenProject
+      body_header: 'Версия 12.0 с центром уведомлений'
+      body_subheader: 'Новости'
+      subject: 'Важные изменения в уведомлениях с релизом 12.0'
   label_accessibility: "Спец. возможности"
   label_account: "Учетная запись"
   label_active: "Активно"
@@ -2184,7 +2204,7 @@ ru:
   permission_protect_wiki_pages: "Защитить wiki-страницы"
   permission_rename_wiki_pages: "Переименование wiki-страниц"
   permission_save_queries: "Сохранить представления"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
   permission_manage_types: "Выберите типы"
   permission_view_calendar: "Календарь"

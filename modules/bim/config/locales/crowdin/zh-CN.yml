@@ -113,10 +113,12 @@ zh-CN:
       check_1: '检查您已至少上传一个 IFC 模型。'
       check_2: '检查至少有一个 IFC 模型设置为“默认”。'
     no_results: "尚未在此项目中上传 IFC 模型。"
-    processing_state:
+    conversion_status:
       label: '正在处理？'
-      in_progress: '正在处理'
+      pending: '待处理'
+      processing: '正在处理'
       completed: '已完成'
+      error: '错误'
     processing_notice:
       processing_default: '以下默认 IFC 模型仍在处理，因此不可用：'
     flash_messages:

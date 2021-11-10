@@ -113,10 +113,12 @@ tr:
       check_1: 'En az bir IFC modeli yüklediğinizi kontrol edin.'
       check_2: 'En az bir IFC modelinin "Varsayılan" olarak ayarlandığını kontrol edin.'
     no_results: "Bu projeye hiç IFC modeli yüklenmedi."
-    processing_state:
+    conversion_status:
       label: 'İşleme?'
-      in_progress: 'Devam eden'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Tamamlandı'
+      error: 'Hata'
     processing_notice:
       processing_default: 'Aşağıdaki varsayılan IFC modelleri hala işlenmektedir ve bu nedenle henüz kullanılamamaktadır:'
     flash_messages:

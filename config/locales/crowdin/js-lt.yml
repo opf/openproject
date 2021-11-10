@@ -285,14 +285,17 @@ lt:
         new_features:
           text_new_features: "Skaitykite apie naujas savybes ir produkto atnaujinimus."
           learn_about: "Sužinokite daugiau apie naujas galimybes"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              Šioje laidoje yra įvairios naujos galimybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Naujas mygtukas navigacijos antraštėje skirtas kurti naujus projektus, naudotojus ir darbų paketus.</li> <li>Naujas modalinis langas naudotojams, grupėms ir statytiniams naudotojams kurti leidžia lengvai pridėti naudotojus ir priskirti juos darbų paketams.</li> <li>GitHub integracija į OpenProject.</li> <li>API v3 praplėtimai grupėms ir ne tik, t.y. realizuota galimybė kurti, skaityti, atnaujinti ir pašalinti grupes ir grupių narius naudojant API.</li> <li>Galimybė pasirinkti daugiau nei vieną naudotoją projekto sąrašo tipo naudotojo laukuose.</li> <li>Atsarginės kopijos kūrimas iš web sąsajos.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              Šioje laidoje rasite įvairias naujas funkcijas ir patobulinimus: <br> <ul class="%{list_styling_class}"> <li>Pasidomėkite mūsų <a href="https://github.com/opf/openproject-revit-add-in">priedu Revit</a>, kuris leidžia dirbti su BCF darbo paketais tiesiai Revit'e.</li> <li>IFC savybės gavo savo atskirą skydelį. GUID kopijavimas niekada nebuvo lengvesnis.</li> <li>Atgalinės plokštumos karpymo krypties BCF vaizdas ir suderinamumas su būsima BCF 3.0 (Dabar tokia patik kryptis, kaip ir Solibri). <li>Pataisyta IFC modelių peržiūra mobiliuose.</li> <li>Pataisytas darbo paketų vaizdo su BCF nuotraukų stulpeliu eksportas.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"

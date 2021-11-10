@@ -64,7 +64,7 @@ de:
   label_time_zone: "Zeitzone"
   label_start_date: "Anfangstermin"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Kopiert von Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"
   notice_timezone_missing: Keine Zeitzone eingestellt und daher %{zone} angenommen. Um Ihre Zeitzone einzustellen, klicken Sie bitte hier.
   permission_create_meetings: "Besprechungen erstellen"
@@ -85,6 +85,6 @@ de:
   text_meeting_closing_are_you_sure: "Möchten Sie dieses Meeting wirklich schließen?"
   text_meeting_agenda_open_are_you_sure: "Es werden alle Änderungen im Protokoll überschrieben! Wollen Sie fortfahren?"
   text_meeting_minutes_for_meeting: 'Protokoll für die Besprechung "%{meeting}"'
-  text_review_meeting_agenda: "%{author} hat die %{link} zur Einsicht freigegeben."
-  text_review_meeting_minutes: "%{author} hat die %{link} zur Einsicht freigegeben."
+  text_review_meeting_agenda: "%{author} hat das %{link} zur Einsicht freigegeben."
+  text_review_meeting_minutes: "%{author} hat das %{link} zur Einsicht freigegeben."
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"

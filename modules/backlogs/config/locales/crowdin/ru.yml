@@ -137,7 +137,7 @@ ru:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"
   permission_view_taskboards: "Просмотреть панели задач"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Выберите завершенные статусы"
   permission_update_sprints: "Обновить спринты"
   points_accepted: "принятые пункты"
   points_committed: "порученные точки"

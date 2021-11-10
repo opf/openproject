@@ -113,10 +113,12 @@ sl:
       check_1: 'Preverite, ali ste naložili vsaj en model IFC.'
       check_2: 'Preverite, ali je vsaj en model IFC nastavljen na "Privzeto".'
     no_results: "V tem projektu ni bil naložen noben model IFC."
-    processing_state:
+    conversion_status:
       label: 'Obdelovanje?'
-      in_progress: 'V teku'
+      pending: 'Pending'
+      processing: 'Processing'
       completed: 'Zaključeno'
+      error: 'Napaka'
     processing_notice:
       processing_default: 'Naslednji privzeti modeli IFC se še vedno obdelujejo in zato še niso na voljo:'
     flash_messages:

@@ -137,7 +137,7 @@ ko:
   label_wiki: "위키"
   permission_view_master_backlog: "마스터 백로그 보기"
   permission_view_taskboards: "작업 보드 보기"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "완료 상태 선택"
   permission_update_sprints: "스프린트 업데이트"
   points_accepted: "포인트 수락됨"
   points_committed: "포인트 커밋됨"

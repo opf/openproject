@@ -167,8 +167,8 @@ es:
     enabled_in_project: 'Activado en el proyecto'
     contained_in_type: 'Incluido en el tipo'
     confirm_destroy_option: "Al eliminar una opción, se eliminarán todas las repeticiones (por ejemplo, en paquetes de trabajo). ¿Está seguro de que desea eliminarla?"
-    reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    reorder_alphabetical: "Ordenar los valores alfabéticamente"
+    reorder_confirmation: "Advertencia: Se perderá el orden actual de los valores disponibles. ¿Quiere continuar?"
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -295,8 +295,8 @@ es:
       query_group_placeholder: "Asigne un nombre a la tabla"
       reset: "Restablecer valores predeterminados"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        El color seleccionado distingue distintos tipos
+        en los diagramas de Gantt o en las tablas de paquetes de trabajo. Por lo tanto, se recomienda usar un color intenso.
   versions:
     overview:
       no_results_title_text: Actualmente no hay paquetes de trabajo asignados a esta versión.
@@ -574,19 +574,19 @@ es:
         taken: "Ya se ha tomado."
         too_long: "es demasiado largo (el máximo de caracteres es %{count})."
         too_short: "es demasiado corto (el mínimo de caracteres es %{count})."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "no es del tipo «%{type}»"
+        type_mismatch_nested: "no es del tipo «%{type}» en la ruta «%{path}»"
         unchangeable: "no se puede cambiar."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "no es una propiedad conocida."
+        unknown_property_nested: "tiene la ruta de acceso desconocida «%{path}»."
         unremovable: "no puede ser eliminado."
         wrong_length: "la longitud es incorrecta (debe ser %{count} caracteres)."
       models:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "El tipo de contenido del archivo no puede estar en blanco."
+              not_whitelisted: "El archivo se rechazó a causa de un filtro automático. «%{value}» no se incluye en la lista de permitidos para carga."
               format: "%{message}"
         capability:
           context:
@@ -629,12 +629,12 @@ es:
             mail_reminder_sent:
               set_on_creation: 'no puede establecerse a verdadero en la creación de notificaciones.'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Solo puede haber una configuración global de notificaciones.'
+          email_alerts_global: 'La configuración de notificaciones por correo electrónico solo se puede establecer globalmente.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -702,9 +702,9 @@ es:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "solo puede ser un intervalo de fechas válido."
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "solo se puede configurar para la entrega en una hora completa."
         wiki_page:
           attributes:
             slug:
@@ -716,7 +716,7 @@ es:
               not_start_date: "no es en fecha de inicio, aunque esto es necesario para hitos."
             parent:
               cannot_be_milestone: "no puede ser un hito."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "no se puede asignar a su propio usuario."
               cannot_be_in_another_project: "No puede estar en otro proyecto."
               not_a_valid_parent: "no es válido."
             start_date:
@@ -743,6 +743,9 @@ es:
               group_without_name: "No se permiten grupos sin nombre."
         user:
           attributes:
+            password_confirmation:
+              confirmation: "La confirmación de contraseña no coincide con la contraseña."
+              format: "%{message}"
             password:
               weak: "Debe contener caracteres de las siguientes tipos (como mínimo %{min_count} de %{all_count}):%{rules}."
               lowercase: "en minúsculas (por ejemplo 'a')"
@@ -789,7 +792,7 @@ es:
       member: "Miembro"
       news: "Noticias"
       notification:
-        one: "Notification"
+        one: "Notificación"
         other: "Notificaciones"
       placeholder_user: "Usuario de marcador de posición"
       project: "Proyecto"
@@ -1192,8 +1195,8 @@ es:
   error_can_not_delete_entry: "No se puede eliminar la entrada"
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Este tipo contiene paquetes de trabajo y no se puede eliminar. Puede ver todos los paquetes de trabajo afectados en <a target="_blank" href="%{url}">esta vista</a>.'
+    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Para poder cambiar el tipo de los paquetes de trabajo correspondientes, antes necesita reactivar los proyectos siguientes: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
@@ -1222,7 +1225,7 @@ es:
   error_no_type_in_project: "Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto."
   error_omniauth_registration_timed_out: "El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente."
   error_omniauth_invalid_auth: "La información de autenticación proporcionada por el proveedor de identidades no era válida. Póngase en contacto con el administrador para obtener ayuda."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: 'Se produjo un error al intentar cambiar la contraseña.'
   error_scm_command_failed: "Se produjo un error al intentar acceder al repositorio: %{value}"
   error_scm_not_found: "La entrada o la revisión no se encontró en el repositorio."
   error_unable_delete_status: "El estado del paquete de trabajo no se puede eliminar ya que esta siendo utilizado por al menos un paquete de trabajo."
@@ -1252,7 +1255,7 @@ es:
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
-    failed: "The export has failed: %{message}"
+    failed: "Error al exportar: %{message}"
     format:
       atom: "Atomo"
       csv: "CSV"
@@ -1331,15 +1334,32 @@ es:
         expiration: "Expira"
       indefinite_expiration: "Nunca"
   notifications:
-    send_notifications: "Send notifications for this action"
+    send_notifications: "Enviar notificaciones para esta acción"
     work_packages:
       subject:
-        created: "The work package was created."
+        created: "Se creó el paquete de trabajo."
         assigned: "Has sido asignado a %{work_package}"
         subscribed: "Te has suscrito a %{work_package}"
         mentioned: "Has sido mencionado en %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
+        responsible: "Ahora es responsable de %{work_package}"
         watched: "Estás viendo a %{work_package}"
+    update_info_mail:
+      body: >
+        Nos complace anunciar la publicación de OpenProject 12.0. Es una versión principal que esperamos que mejore en gran medida la forma en que usa OpenProject.
+
+        En esta versión, introducimos el Centro de notificaciones. A partir de ahora, recibirá notificaciones de actualizaciones sobre paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, responder a un comentario o incluso modificar directamente los atributos de un paquete de trabajo sin salir del Centro de notificaciones.
+
+        Esto también quiere decir que ya no usaremos correos electrónicos para las notificaciones. Creemos que el Centro de notificaciones es el lugar más adecuado para ver y actuar en estas actualizaciones. Sin embargo, si prefiere seguir recibiendo actualizaciones por correo electrónico, puede elegir recibir recordatorios por correo electrónico diarios en las horas que prefiera.
+
+        Puede establecer preferencias para notificaciones y recordatorios por correo electrónico en la configuración de la cuenta, o bien puede mantener las opciones predeterminadas. Puede hacerlo mediante el botón «Cambiar configuración de correo electrónico» siguiente.
+
+        Esperamos que el Centro de notificaciones le parezca útil y que le permita ser incluso más productivo.
+
+        Atentamente,
+        El equipo de OpenProject
+      body_header: 'Versión 12.0 con el Centro de notificaciones'
+      body_subheader: 'Noticias'
+      subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
   label_accessibility: "Accesibilidad"
   label_account: "Cuenta"
   label_active: "Activo"
@@ -1425,7 +1445,7 @@ es:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar toda la columna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar toda la fila"
   label_child_element: "Elementos secundarios"
-  label_chronological_order: "Oldest first"
+  label_chronological_order: "Antiguos primero"
   label_close_versions: "Cerrar versiones completadas"
   label_closed_work_packages: "cerrado"
   label_collapse: "Colapsar"
@@ -1468,7 +1488,7 @@ es:
   label_deleted: "borrado"
   label_deleted_custom_field: "(campo personalizado borrado)"
   label_deleted_custom_option: "(opción eliminada)"
-  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_missing_or_hidden_custom_option: "(faltan valores o permisos de acceso)"
   label_descending: "Descendente"
   label_details: "Detalles"
   label_development_roadmap: "Itinerario de desarrollo"
@@ -1728,7 +1748,7 @@ es:
   label_required: 'requerido'
   label_requires: 'requiere'
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Recientes primero"
   label_revision: "Revisión"
   label_revision_id: "Revisión %{value}"
   label_revision_plural: "Revisiones"
@@ -1907,36 +1927,36 @@ es:
   mail:
     actions: 'Comportamiento'
     digests:
-      including_mention_singular: 'including a mention'
-      including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
-      you_have: 'You have'
-    logo_alt_text: 'Logo'
+      including_mention_singular: 'incluyendo una mención'
+      including_mention_plural: 'incluyendo %{number_mentioned} menciones'
+      unread_notification_singular: '1 notificación sin leer'
+      unread_notification_plural: '%{number_unread} notificaciones sin leer'
+      you_have: 'Tiene'
+    logo_alt_text: 'Logotipo'
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "%{user_name} le mencionó en %{id}: %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+      center: 'Al centro de notificaciones'
+      see_in_center: 'Ver comentario en el centro de notificaciones'
+      settings: 'Cambiar configuración de correo electrónico'
+    salutation: '¡Hola, %{user}!'
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
-      mentioned_by: '%{user} mentioned you in a comment'
+      created_at: 'Creado a las %{timestamp} por %{user} '
+      login_to_see_all: 'Inicie sesión para ver todas las notificaciones.'
+      mentioned: 'Le han <b>mencionado en un comentario</b>'
+      mentioned_by: '%{user} le mencionó en un comentario'
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
-        other: 'There are %{count} more work packages with notifications.'
+        one: 'Hay un paquete de trabajo más con notificaciones.'
+        other: 'Hay %{count} paquetes de trabajo más con notificaciones.'
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: 'Supervisado'
+        assigned: 'Asignado'
         responsible: 'Responsable'
-        mentioned: 'Mentioned'
+        mentioned: 'Mencionado'
         subscribed: 'todos'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+        prefix: 'Recibido por la configuración de notificaciones: %{reason}'
+      see_all: 'Ver todo'
+      updated_at: 'Actualizado a las %{timestamp} por %{user}'
   mail_body_account_activation_request: "Ha registrado un nuevo usuario (%{value}). La cuenta está pendiente de aprobación:"
   mail_body_account_information: "Información de su cuenta"
   mail_body_account_information_external: "Puede usar su %{value} cuenta para ingresar."
@@ -1951,10 +1971,10 @@ es:
   mail_body_register_header_title: "Correo electrónico de invitación al miembro del proyecto"
   mail_body_register_user: "Estimado/a %{name},"
   mail_body_register_links_html: |
-    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
-    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    Le invitamos a explorar nuestro canal de YouTube (%{youtube_link}), donde encontrará un seminario web (%{webinar_link})
+    y vídeos de introducción (%{get_started_link}) para que empiece a usar OpenProject de la forma más fácil posible.
     <br />
-    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+    Si tiene alguna pregunta, consulte la documentación (%{documentation_link}) o póngase en contacto con el administrador.
   mail_body_register_closing: "Tu equipo de OpenProject"
   mail_body_register_ending: "¡Mantente conectado! Saludos,"
   mail_body_reminder: "%{count} paquete(s) de trabajo que le fueron asignados vencen en los próximos %{days}:"
@@ -2145,7 +2165,7 @@ es:
   permission_protect_wiki_pages: "Proteger páginas wiki"
   permission_rename_wiki_pages: "Renombrar páginas wiki"
   permission_save_queries: "Guardar vistas"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Seleccionar campos personalizados"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_manage_types: "Seleccionar Tipos"
   permission_view_calendar: "Ver calendario"
@@ -2316,7 +2336,7 @@ es:
   setting_apiv3_docs_enabled: "Activar página de documentos"
   setting_apiv3_docs_enabled_instructions_html: >
     Si la página de documentos está habilitada, puede obtener una vista interactiva de la documentación de APIv3 en <a href="%{link}" target="_blank">%{link}</a>.
-  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_attachment_whitelist: "Lista de permitidos de carga de archivos adjuntos"
   setting_email_delivery_method: "Método de envío de correo electrónico"
   setting_sendmail_location: "Ubicación del ejecutable de sendmail"
   setting_smtp_enable_starttls_auto: "Usar STARTTLS automáticamente si está disponible"
@@ -2433,12 +2453,12 @@ es:
     brute_force_prevention: "Bloqueo automático de usuarios"
     attachments:
       whitelist_text_html: >
-        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+        Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
     notifications:
       retention_text: >
         Establecer el número de días que los eventos de notificación para los usuarios (la fuente de las notificaciones dentro de la aplicación) se mantendrá en el sistema. Cualquier evento anterior a este tiempo será eliminado.
-      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      events_explanation: 'Controla para qué evento se envía un correo electrónico. Los paquetes de trabajo se excluyen de esta lista, ya que las notificaciones para estos se pueden configurar específicamente por usuario.'
+      delay_minutes_explanation: "El envío de correos electrónicos se puede retrasar para permitir que los usuarios que reciban notificaciones en la aplicación puedan confirmarlas desde la aplicación antes de que se envíe un correo. Los usuarios que lean notificaciones en la aplicación no recibirán correos electrónicos de las notificaciones ya leídas."
     display:
       first_date_of_week_and_year_set: >
         Si se establece una de las opciones «%{day_of_week_setting_name}» o «%{first_week_setting_name}», también debe establecerse la otra para evitar incoherencias en el front-end.
@@ -2520,8 +2540,8 @@ es:
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
   text_journal_aggregation_time_explanation: "Acciones individuales de un usuario (p. ej. actualizar un paquete de trabajo dos veces) se agregan en una sola acción si su diferencia de edad es menor que el intervalo de tiempo especificado. Se mostrarán como una sola acción dentro de la aplicación. Esto también retrasará las notificaciones en la misma cantidad de tiempo reduciendo el número de correos electrónicos que se envían."
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_html: "%{label} se cambió de %{old} %{linebreak}<strong>a</strong> %{new}"
+  text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
@@ -2831,7 +2851,7 @@ es:
       code_429: "Demasiadas solicitudes. Vuelva a intentarlo más tarde."
       code_500: "Ha ocurrido un error interno."
       not_found:
-        work_package: "The work package you are looking for cannot be found or has been deleted."
+        work_package: "No se encuentra el paquete de trabajo que busca, o bien se ha eliminado."
       expected:
         date: "AAAA-MM-DD (ISO 8601 fecha solamente)"
         duration: "Duración de la ISO 8601"
