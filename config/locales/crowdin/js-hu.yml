@@ -294,7 +294,7 @@ hu:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -560,7 +560,7 @@ hu:
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -579,6 +579,7 @@ hu:
           description: 'These project-specific settings override default settings above'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'A változás megerősítéséhez adja meg jelszavát.'
       title: 'Adja meg a jelszavát a folytatáshoz'

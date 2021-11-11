@@ -291,7 +291,7 @@ nl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -557,7 +557,7 @@ nl:
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           involved:
             title: 'Toegewezen aan mij of verantwoordelijk'
-            description: 'Meldingen ontvangen voor alle activiteiten op werkpakketten waarvoor ik uitvoerder of verantwoordelijke ben.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates van bekeken artikelen'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'
@@ -576,6 +576,7 @@ nl:
           description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'
           add: 'Instelling voor project toevoegen'
           already_selected: 'Dit project is al geselecteerd'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'U moet uw wachtwoord invoeren om deze wijziging te bevestigen.'
       title: 'Voer uw wachtwoord in om door te gaan'

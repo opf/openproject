@@ -115,8 +115,8 @@ lt:
     no_results: "Į projektą nebuvo įkelti jokie IFC modeliai."
     conversion_status:
       label: 'Apdorojamas?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Laukiama'
+      processing: 'Apdorojama'
       completed: 'Atliktas'
       error: 'Klaida'
     processing_notice:

@@ -291,7 +291,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Dzięki nowym <b>powiadomieniom w aplikacji</b> otrzymujesz wszystkie ważne aktualizacje bezpośrednio w aplikacji i nie przychodzi do ciebie ogromna ilość wiadomości e-mail.</li> <li>Nowe <b>Centrum powiadomień</b> pokazuje wszystkie zmiany, w tym intuicyjne opcje filtrowania np. wg przyczyny powiadomienia lub projektów. Umożliwia ono nawet edycję bezpośrednio w widoku podzielonym.</li> <li>Poprawione <b>ustawienia powiadomień</b> pozwalają na dostosowanie dla jakich czynności i w których projektach chcesz otrzymywać powiadomienia.</li> <li><b>Przypomnienia e-mail</b> można skonfigurować tak, aby otrzymywać ważne aktualizacje za pomocą dziennego podsumowania w wiadomości e-mail</li> <li>Auto uzupełnianie pakietu roboczego dla relacji wyświetla teraz również dodatkowe informacje (nazwa projektu, status, itp.), aby łatwo zidentyfikować odpowiedni pakiet roboczy.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -559,7 +559,7 @@ pl:
             description: 'Otrzymuj powiadomienie za każdym razem, gdy pojawi się o tobie wzmianka gdziekolwiek'
           involved:
             title: 'Przypisane do mnie lub moja odpowiedzialność'
-            description: 'Otrzymuj powiadomienia o wszystkich czynnościach w pakietach roboczych, do których jesteś przypisany lub ponosisz odpowiedzialność.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Aktualizacje obserwowanych pozycji'
           work_package_commented: 'Wszystkie nowe komentarze'
           work_package_created: 'Nowe pakiety robocze'
@@ -578,6 +578,7 @@ pl:
           description: 'Te ustawienia dla danego projektu zastępują ustawienia domyślne powyżej'
           add: 'Dodaj ustawienie dla projektu'
           already_selected: 'Ten projekt jest już wybrany'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Musisz wprowadzić hasło do twojego konta aby potwierdzić te zmiany.'
       title: 'Potwierdź hasło aby kontynuować'

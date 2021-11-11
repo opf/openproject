@@ -291,7 +291,7 @@ ko:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>새로운 <b>인앱 알림</b>으로 모든 중요 업데이트를 애플리케이션에서 직접 받으므로 더 이상 수많은 이메일을 받지 않게 됩니다.</li> <li>새로운 <b>알림 센터</b>는 알림 이유 또는 프로젝트 등 직관적인 필터 옵션을 비롯한, 모든 변경 사항을 표시합니다. 분할 보기에서 직접 편집도 가능합니다.</li> <li>개선된 <b>알림 설정</b>을 통해 알림을 받고 싶은 작업과 프로젝트를 미세 조정할 수 있습니다.</li> <li><b>이메일 미리 알림</b>은 일일 이메일 요약을 통해 중요 업데이트를 받도록 구성할 수 있습니다.</li> <li>이제 관계에 대한 작업 패키지 자동 완성 도구는 해당 작업 패키지를 쉽게 식별할 수 있는 추가 정보(프로젝트 이름, 상태...)도 표시합니다.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -556,7 +556,7 @@ ko:
             description: '어디에서든 누군가가 나를 멘션할 때마다 알림 받기'
           involved:
             title: '내게 할당되거나 내가 담당함'
-            description: '내게 할당되거나 내가 담당하는 작업 패키지의 모든 활동에 대한 알림을 받습니다.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: '지켜보는 항목에 대한 업데이트'
           work_package_commented: '모든 새로운 코멘트'
           work_package_created: '새 작업 패키지'
@@ -575,6 +575,7 @@ ko:
           description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'
           add: '프로젝트에 대한 설정 추가'
           already_selected: '이 프로젝트는 이미 선택되었습니다.'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: '이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.'
       title: '계속하려면 암호 확인'

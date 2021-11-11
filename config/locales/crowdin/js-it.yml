@@ -291,8 +291,7 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                La nuova versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Con le nuove <b>notifiche in-app</b> ricevi tutti gli aggiornamenti importanti direttamente nell'applicazione e non riceverai più una marea di email.</li> <li>Il nuovo <b>centro notifiche</b> mostra tutte le modifiche, comprese le opzioni di filtro intuitive, ad es. per motivo di notifica o progetti. Consente anche la modifica direttamente in una vista divisa.</li> <li>Le <b>impostazioni di notifica</b> migliorate consentono di mettere a punto per quali azioni e in quali progetti si desidera ricevere una notifica.</li> <li><b>I promemoria email</b> possono essere configurati per ricevere aggiornamenti importanti tramite un riepilogo email giornaliero</li> <li>Il completamento automatico delle macro-attività per le relazioni ora mostra anche informazioni aggiuntive (nome del progetto, stato, ...) per identificare facilmente la rispettiva macro-attività.</li> </ul>
-
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -558,7 +557,7 @@ it:
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           involved:
             title: 'Assegnato a me o responsabile'
-            description: 'Ricevi notifiche per tutte le attività sui pacchetti di lavoro di cui sei assegnatario o responsabile.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Aggiornamenti sugli elementi osservati'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
@@ -577,6 +576,7 @@ it:
           description: 'Queste impostazioni specifiche di progetto sostituiscono le impostazioni predefinite sopra'
           add: 'Aggiungi impostazione per il progetto'
           already_selected: 'Questo progetto è già selezionato'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'È necessario inserire la password dell''account per confermare la modifica.'
       title: 'Confermare la password per continuare'
