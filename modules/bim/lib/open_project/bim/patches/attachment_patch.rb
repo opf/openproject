@@ -39,13 +39,13 @@ module OpenProject::Bim::Patches::AttachmentPatch
     end
 
     def content_disposition(include_filename: true)
-      return super unless ifc_model? && include_filename
+      return super unless ifc_file? && include_filename
       
       ifc_content_disposition
     end
 
     def ifc_file?
-      container_type == Bim::IfcModels::IfcModel.name && extension == ".ifc" && container.present?
+      container_type == Bim::IfcModels::IfcModel.name && description == "ifc" && container.present?
     end
 
     def ifc_content_disposition
