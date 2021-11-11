@@ -43,6 +43,10 @@ module Bim
           # attachments ourselves
           model.attachments.select(&:marked_for_destruction?).each(&:destroy)
 
+          model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:pending]
+          model.conversion_error_message = nil
+          model.save
+
           if @ifc_attachment_updated
             IfcConversionJob.perform_later(service_result.result)
           end
