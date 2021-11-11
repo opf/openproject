@@ -83,6 +83,7 @@ class UserMailer < ApplicationMailer
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
     message_id @news, user
+    references @news
 
     subject = "#{News.model_name.human}: #{@news.title}"
     subject = "[#{@news.project.name}] #{subject}" if @news.project
@@ -112,7 +113,7 @@ class UserMailer < ApplicationMailer
     open_project_headers 'Project' => @news.project.identifier if @news.project
 
     message_id @comment, user
-    references @news, user
+    references @news, @comment
 
     subject = "#{News.model_name.human}: #{@news.title}"
     subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
@@ -150,7 +151,7 @@ class UserMailer < ApplicationMailer
 
     open_project_message_headers(@message)
     message_id @message, user
-    references @message.parent, user if @message.parent
+    references *[@message.parent, @message].compact
 
     send_mail(user,
               "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}")

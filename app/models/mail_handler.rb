@@ -136,17 +136,25 @@ class MailHandler < ActionMailer::Base
 
   private
 
-  MESSAGE_ID_RE = %r{^<?openproject\.([a-z0-9_]+)-(\d+)-(\d+)\.\d+@}
-  ISSUE_REPLY_SUBJECT_RE = %r{.+? - .+ #(\d+):}
-  MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
-
+  # Dispatches the mail to the most appropriate method:
+  # * If there is no References header the email is interpreted as a new work package
+  # * If there is a References header the email is interpreted to update an existing entity (e.g. a work package
+  #   or a message)
+  #
+  # OpenProject includes the necessary references in the References header of outgoing mail (see ApplicationMailer).
+  # This stretches the standard in that the values do not reference existing mails but it has the advantage of being able
+  # identify the object the response is destined for without human interference. Email clients will not remove
+  # entries from the References header but only add to it.
+  #
+  # OpenProject also sets the Message-ID header but gateways such as postmark, unless explicitly instructed otherwise,
+  # will use their own Message-ID and overwrite the provided one. As an email client includes the value thereof
+  # in the In-Reply-To and in the References header the Message-ID could also have been used.
+  #
+  # Relying on the subject of the mail, which had been implemented before, is brittle as it relies on the user not altering
+  # the subject. Additionally, the subject structure might change, e.g. via localization changes.
   def dispatch
-    if (m, object_id = dispatch_target_from_message_id)
+    if (m, object_id = dispatch_target_from_header)
       m.call(object_id)
-    elsif (m = email.subject.match(ISSUE_REPLY_SUBJECT_RE))
-      receive_work_package_reply(m[1].to_i)
-    elsif (m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE))
-      receive_message_reply(m[1].to_i)
     else
       dispatch_to_default
     end
@@ -170,13 +178,16 @@ class MailHandler < ActionMailer::Base
     receive_work_package
   end
 
+  REFERENCES_RE = %r{^<?op\.([a-z_]+)-(\d+)@}.freeze
+
   ##
-  # Find a matching method to dispatch to given the mail's message ID
-  def dispatch_target_from_message_id
-    headers = [email.references, email.in_reply_to].flatten.compact
-    if headers.detect { |h| h.to_s =~ MESSAGE_ID_RE }
+  # Find a matching method to dispatch to given the mail's references header.
+  # We set this header in outgoing emails to include an encoded reference to the object
+  def dispatch_target_from_header
+    headers = [email.references].flatten.compact
+    if headers.reverse.detect { |h| h.to_s =~ REFERENCES_RE }
       klass = $1
-      object_id = $3.to_i
+      object_id = $2.to_i
       method_name = :"receive_#{klass}_reply"
       if self.class.private_instance_methods.include?(method_name)
         return method(method_name), object_id
@@ -199,7 +210,12 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  alias :receive_issue :receive_work_package
+  def receive_journal_reply(journal_id)
+    journal = Journal.find_by(id: journal_id)
+    return unless journal
+
+    send(:"receive_#{journal.journable_type.underscore}_reply", journal.journable_id)
+  end
 
   # Adds a note to an existing work package
   def receive_work_package_reply(work_package_id)
@@ -217,16 +233,6 @@ class MailHandler < ActionMailer::Base
     else
       log "work_package could not be updated by #{user} due to ##{result.full_messages}", :error
       false
-    end
-  end
-
-  alias :receive_issue_reply :receive_work_package_reply
-
-  # Reply will be added to the issue
-  def receive_issue_journal_reply(journal_id)
-    journal = Journal.find_by(id: journal_id)
-    if journal and journal.journable.is_a? WorkPackage
-      receive_work_package_reply(journal.journable_id)
     end
   end
 
@@ -351,28 +357,20 @@ class MailHandler < ActionMailer::Base
   end
 
   # Returns a Hash of issue attributes extracted from keywords in the email body
-  def issue_attributes_from_keywords(issue)
-    assigned_to = (k = get_keyword(:assigned_to, override: true)) && find_assignee_from_keyword(k, issue)
-    project = issue.project
-
-    attrs = {
-      'type_id' => lookup_case_insensitive_key(project.types, :type),
-      'status_id' => lookup_case_insensitive_key(Status, :status),
-      'parent_id' => (k = get_keyword(:parent)),
-      'priority_id' => lookup_case_insensitive_key(IssuePriority, :priority),
-      'category_id' => lookup_case_insensitive_key(project.categories, :category),
-      'assigned_to_id' => assigned_to.try(:id),
-      'version_id' => lookup_case_insensitive_key(project.shared_versions, :version, Arel.sql("#{Version.table_name}.name")),
-      'start_date' => get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
-      'due_date' => get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}'),
-      'estimated_hours' => get_keyword(:estimated_hours, override: true),
-      'done_ratio' => get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
+  def wp_attributes_from_keywords(work_package)
+    {
+      'type_id' => wp_type_from_keywords(work_package),
+      'status_id' => wp_status_from_keywords,
+      'parent_id' => wp_parent_from_keywords,
+      'priority_id' => wp_priority_from_keywords,
+      'category_id' => wp_category_from_keywords(work_package),
+      'assigned_to_id' => wp_assignee_from_keywords(work_package),
+      'version_id' => wp_version_from_keywords(work_package),
+      'start_date' => wp_start_date_from_keywords,
+      'due_date' => wp_due_date_from_keywords,
+      'estimated_hours' => wp_estimated_hours_from_keywords,
+      'done_ratio' => wp_done_ratio_from_keyword
     }.delete_if { |_, v| v.blank? }
-
-    if issue.new_record? && attrs['type_id'].nil?
-      attrs['type_id'] = issue.project.types.first.try(:id)
-    end
-    attrs
   end
 
   # Returns a Hash of issue custom field values extracted from keywords in the email body
@@ -499,27 +497,6 @@ class MailHandler < ActionMailer::Base
     end
   end
 
-  def find_assignee_from_keyword(keyword, work_package)
-    keyword = keyword.to_s.downcase
-    assignable = Principal.possible_assignee(work_package.project)
-    assignee = nil
-    assignee ||= assignable.detect do |a|
-      [a.mail.to_s.downcase, a.login.to_s.downcase].include?(keyword)
-    end
-    if assignee.nil? && keyword.match(/ /)
-      firstname, lastname = *keyword.split # "First Last Throwaway"
-      assignee ||= assignable.detect do |a|
-        a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
-          a.lastname.to_s.downcase == lastname
-      end
-    end
-    if assignee.nil?
-      assignee ||= assignable.detect { |a| a.is_a?(Group) && a.name.downcase == keyword }
-    end
-
-    assignee
-  end
-
   def create_work_package(project)
     work_package = WorkPackage.new(project: project)
     attributes = collect_wp_attributes_from_email_on_create(work_package)
@@ -542,7 +519,7 @@ class MailHandler < ActionMailer::Base
   end
 
   def collect_wp_attributes_from_email_on_create(work_package)
-    attributes = issue_attributes_from_keywords(work_package)
+    attributes = wp_attributes_from_keywords(work_package)
     attributes
       .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
              'subject' => email.subject.to_s.chomp[0, 255] || '(no subject)',
@@ -567,10 +544,59 @@ class MailHandler < ActionMailer::Base
   end
 
   def collect_wp_attributes_from_email_on_update(work_package)
-    attributes = issue_attributes_from_keywords(work_package)
+    attributes = wp_attributes_from_keywords(work_package)
     attributes
       .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
              'journal_notes' => cleaned_up_text_body)
+  end
+
+  def wp_type_from_keywords(work_package)
+    lookup_case_insensitive_key(work_package.project.types, :type) ||
+      (work_package.new_record? && work_package.project.types.first.try(:id))
+  end
+
+  def wp_status_from_keywords
+    lookup_case_insensitive_key(Status, :status)
+  end
+
+  def wp_parent_from_keywords
+    get_keyword(:parent)
+  end
+
+  def wp_priority_from_keywords
+    lookup_case_insensitive_key(IssuePriority, :priority)
+  end
+
+  def wp_category_from_keywords(work_package)
+    lookup_case_insensitive_key(work_package.project.categories, :category)
+  end
+
+  def wp_assignee_from_keywords(work_package)
+    keyword = get_keyword(:assigned_to, override: true)
+
+    return nil if keyword.blank?
+
+    Principal.possible_assignee(work_package.project).where(id: Principal.like(keyword)).first.try(:id)
+  end
+
+  def wp_version_from_keywords(work_package)
+    lookup_case_insensitive_key(work_package.project.shared_versions, :version, Arel.sql("#{Version.table_name}.name"))
+  end
+
+  def wp_start_date_from_keywords
+    get_keyword(:start_date, override: true, format: '\d{4}-\d{2}-\d{2}')
+  end
+
+  def wp_due_date_from_keywords
+    get_keyword(:due_date, override: true, format: '\d{4}-\d{2}-\d{2}')
+  end
+
+  def wp_estimated_hours_from_keywords
+    get_keyword(:estimated_hours, override: true)
+  end
+
+  def wp_done_ratio_from_keyword
+    get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
   end
 
   def log(message, level = :info)
