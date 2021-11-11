@@ -29,24 +29,6 @@
 require 'spec_helper'
 
 describe UserInvitation do
-  describe '.placeholder_name' do
-    it 'given an email it uses the local part as first and the domain as the last name' do
-      email = 'xxxhunterxxx@openproject.com'
-      first, last = UserInvitation.placeholder_name email
-
-      expect(first).to eq 'xxxhunterxxx'
-      expect(last).to eq '@openproject.com'
-    end
-
-    it 'trims names if they are too long (> 30 characters)' do
-      email = 'hallowurstsalatgetraenkebuechse@veryopensuchproject.openproject.com'
-      first, last = UserInvitation.placeholder_name email
-
-      expect(first).to eq 'hallowurstsalatgetraenkebue...'
-      expect(last).to eq '@veryopensuchproject.openpro...'
-    end
-  end
-
   describe '.reinvite_user' do
     let(:user) { FactoryBot.create :invited_user }
     let!(:token) { FactoryBot.create :invitation_token, user: user }
