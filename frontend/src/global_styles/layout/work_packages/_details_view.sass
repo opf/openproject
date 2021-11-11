@@ -79,51 +79,65 @@ body.router--work-packages-partitioned-split-view-new
   bottom:          55px
   width:           100%
   overflow:        hidden
-  padding:         0 5px 10px 20px
 
-.work-packages--details
+// Fix height of subject row
+.work-packages--subject-element,
+.work-packages--details--subject .inline-edit--field
+  font-size: 1.125rem
+  font-weight: bold
 
-  // Fix height of subject row
-  .work-packages--subject-element,
-  .work-packages--details--subject .inline-edit--field
-    font-size: 1.125rem
-    font-weight: bold
+.work-packages--details--subject
+  overflow: hidden
 
-  .work-packages--details--subject
-    overflow: hidden
+  .inline-edit--field
+    height: 38px
+    line-height: 36px
 
-    .inline-edit--field
-      height: 38px
-      line-height: 36px
+  // Style edit field to look like the display field.
+  // Thus we avoid a visual jump when editing the subject.
+  &.-active input
+    height: 34px
+    line-height: 34px
+    padding: 5px 0 5px 5px
+    font-size: 18px
 
-    // Style edit field to look like the display field.
-    // Thus we avoid a visual jump when editing the subject.
-    &.-active input
-      height: 34px
-      line-height: 34px
-      padding: 5px 0 5px 5px
-      font-size: 18px
+.work-packages--details-form
+  display: flex
+  flex-direction: column
+  height: 100%
+  overflow: hidden
 
-  .work-packages--details-form
-    display: flex
-    flex-direction: column
-    height: 100%
-    overflow: hidden
+.work-packages--details-header
+  display: flex
+  padding: 0 5px 10px 20px
+  border-bottom: 1px solid #ddd
 
-  .work-package-details-tab
-    overflow-y: auto
-    overflow-x: hidden
-    flex-grow: 1
-    @include styled-scroll-bar
+.work-packages--details-header-left
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+  margin-right: 4px
 
-  .work-packages--breadcrumb
-    display: grid
-    grid-template-columns: 1fr auto
-    grid-column-gap: 10px
-    align-items: center
+.work-package-details-tab
+  overflow-y: auto
+  overflow-x: hidden
+  flex-grow: 1
+  padding: 0 5px 10px 20px
+  @include styled-scroll-bar
 
-  .work-packages--details-button button
+.work-packages--breadcrumb
+  margin-bottom: 4px
+
+.work-packages--details-button
+  display: flex
+  align-items: center
+  margin-left: 4px
+
+  button
     margin-bottom: 0
+
+    &:only-child
+      margin-right: 4px
 
 .work-packages--type-selector
   flex-shrink: 0
