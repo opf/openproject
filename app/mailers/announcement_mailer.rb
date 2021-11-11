@@ -37,19 +37,31 @@ class AnnouncementMailer < ApplicationMailer
 
   def announce(user, subject:, body:, body_header: nil, body_subheader: nil)
     with_locale_for(user) do
+      localized_subject = localized(subject)
+
       mail to: user.mail,
-           subject: subject do |format|
+           subject: localized_subject do |format|
         locals = {
-          body: body,
+          body: localized(body),
           user: user,
-          header_summary: subject,
-          body_header: body_header,
-          body_subheader: body_subheader
+          header_summary: localized_subject,
+          body_header: localized(body_header),
+          body_subheader: localized(body_subheader)
         }
 
         format.html { render locals: locals }
         format.text { render locals: locals }
       end
+    end
+  end
+
+  private
+
+  def localized(input)
+    if input.is_a?(Symbol)
+      I18n.t(input)
+    else
+      input
     end
   end
 end
