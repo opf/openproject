@@ -49,6 +49,13 @@ describe UserMailer, type: :mailer do
   end
 
   let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:current_time) { Time.current }
+
+  around do |example|
+    Timecop.freeze(current_time) do
+      example.run
+    end
+  end
 
   before do
     allow(work_package).to receive(:reload).and_return(work_package)
@@ -138,33 +145,62 @@ describe UserMailer, type: :mailer do
   end
 
   describe '#message_posted' do
-    let(:message) do
-      FactoryBot.build_stubbed(:message).tap do |msg|
-        allow(msg)
-          .to receive(:project)
-                .and_return(msg.forum.project)
-      end
-    end
-
     before do
       described_class.message_posted(recipient, message).deliver_now
     end
 
-    it_behaves_like 'mail is sent' do
-      it 'carries a message_id' do
-        expect(deliveries.first.message_id)
-          .to eql(described_class.generate_message_id(message, recipient))
+    context 'for a message without a parent' do
+      let(:message) do
+        FactoryBot.build_stubbed(:message).tap do |msg|
+          allow(msg)
+            .to receive(:project)
+                  .and_return(msg.forum.project)
+        end
       end
 
-      it 'has no references' do
-        expect(deliveries.first.references)
-          .to be_nil
+      it_behaves_like 'mail is sent' do
+        it 'carries a message_id' do
+          expect(deliveries.first.message_id)
+            .to eql "op.message-#{message.id}.#{current_time.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@doe.com"
+        end
+
+        it 'references the message' do
+          expect(deliveries.first.references)
+            .to eql "op.message-#{message.id}@doe.com"
+        end
+
+        it 'includes a link to the message' do
+          expect(html_body)
+            .to have_link(message.subject,
+                          href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
+        end
+      end
+    end
+
+    context 'for a message with a parent' do
+      let(:parent) do
+        FactoryBot.build_stubbed(:message)
       end
 
-      it 'includes a link to the message' do
-        expect(html_body)
-          .to have_link(message.subject,
-                        href: topic_url(message, host: Setting.host_name, r: message.id, anchor: "message-#{message.id}"))
+      let(:message) do
+        FactoryBot.build_stubbed(:message, parent: parent).tap do |msg|
+          allow(msg)
+            .to receive(:project)
+                  .and_return(msg.forum.project)
+        end
+      end
+
+      it_behaves_like 'mail is sent' do
+        it 'carries a message_id' do
+          expect(deliveries.first.message_id)
+            .to eql "op.message-#{message.id}.#{current_time.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@doe.com"
+        end
+
+        it 'references the message' do
+          expect(deliveries.first.references)
+            .to eql %W[op.message-#{parent.id}@doe.com
+                       op.message-#{message.id}@doe.com]
+        end
       end
     end
   end
@@ -194,7 +230,12 @@ describe UserMailer, type: :mailer do
     it_behaves_like 'mail is sent' do
       it 'carries a message_id' do
         expect(mail.message_id)
-          .to eql(described_class.generate_message_id(news, recipient))
+          .to eql "op.news-#{news.id}.#{current_time.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@doe.com"
+      end
+
+      it 'references the news' do
+        expect(deliveries.first.references)
+          .to eql "op.news-#{news.id}@doe.com"
       end
     end
   end
@@ -207,7 +248,13 @@ describe UserMailer, type: :mailer do
       described_class.news_comment_added(recipient, comment).deliver_now
     end
 
-    it_behaves_like 'mail is sent'
+    it_behaves_like 'mail is sent' do
+      it 'references the news and the comment' do
+        expect(deliveries.first.references)
+          .to eql %W[op.news-#{news.id}@doe.com
+                     op.comment-#{comment.id}@doe.com]
+      end
+    end
   end
 
   describe '#password_lost' do
@@ -245,50 +292,6 @@ describe UserMailer, type: :mailer do
           .to have_link(url,
                         href: url)
       end
-    end
-  end
-
-  describe '#message_id' do
-    let(:project) { FactoryBot.build_stubbed(:project) }
-    let(:message) do
-      FactoryBot.build_stubbed(:message).tap do |m|
-        allow(m)
-          .to receive(:project)
-                .and_return project
-      end
-    end
-    let(:message2) do
-      FactoryBot.build_stubbed(:message).tap do |m|
-        allow(m)
-          .to receive(:project)
-                .and_return project
-      end
-    end
-
-    describe 'same user' do
-      subject do
-        message_ids = [message, message2].map do |m|
-          described_class.message_posted(user, m).message_id
-        end
-
-        message_ids.uniq.count
-      end
-
-      it { expect(subject).to eq(2) }
-    end
-
-    describe 'same timestamp' do
-      let(:user2) { FactoryBot.build_stubbed(:user) }
-
-      subject do
-        message_ids = [user, user2].map do |user|
-          described_class.message_posted(user, message).message_id
-        end
-
-        message_ids.uniq.count
-      end
-
-      it { expect(subject).to eq(2) }
     end
   end
 

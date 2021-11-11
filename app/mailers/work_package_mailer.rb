@@ -42,6 +42,7 @@ class WorkPackageMailer < ApplicationMailer
       set_work_package_headers(@work_package)
 
       message_id journal, recipient
+      references journal
 
       with_locale_for(recipient) do
         mail to: recipient.mail,
@@ -61,6 +62,7 @@ class WorkPackageMailer < ApplicationMailer
 
       set_work_package_headers(work_package)
       message_id work_package, user
+      references work_package
 
       with_locale_for(user) do
         mail to: user.mail, subject: subject_for_work_package(work_package)
