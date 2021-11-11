@@ -86,7 +86,7 @@ module Exports
       def csv_export_filename
         sane_filename(
           "#{Setting.app_title} #{title} \
-          #{format_time_as_date(Time.zone.now, '%Y-%m-%d')}.xls"
+          #{format_time_as_date(Time.zone.now, '%Y-%m-%d')}.csv"
         )
       end
     end

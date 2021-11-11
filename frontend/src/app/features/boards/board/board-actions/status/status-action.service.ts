@@ -41,7 +41,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
         .then(() => board));
   }
 
-  public warningTextWhenNoOptionsAvailable() {
+  public warningTextWhenNoOptionsAvailable():Promise<string> {
     return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }
 

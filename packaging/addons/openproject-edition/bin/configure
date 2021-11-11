@@ -17,6 +17,9 @@ supported_distribution() {
 				"10")
 					return 0
 					;;
+				"11")
+					return 0
+					;;
 			esac
 			;;
 		"redhat")

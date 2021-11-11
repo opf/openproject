@@ -67,13 +67,25 @@ class Wiki < ApplicationRecord
   def find_page(title, options = {})
     title = start_page if title.blank?
 
-    page = pages.find_by(slug: WikiPage.slug(title))
+    page = find_matching_slug(title)
+
     if !page && !(options[:with_redirect] == false)
       # search for a redirect
       redirect = matching_redirect(title)
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
     end
     page
+  end
+
+  ##
+  # Find a page by its slug
+  # first trying the english slug, and then the slug for the default language
+  # as that was previous behavior (cf., Bug OP#38606)
+  def find_matching_slug(title)
+    pages
+      .where(slug: WikiPage.slug(title))
+      .or(pages.where(slug: title.to_localized_slug(locale: Setting.default_language)))
+      .first
   end
 
   # Finds a page by title

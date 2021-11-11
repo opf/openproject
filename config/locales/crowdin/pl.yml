@@ -587,8 +587,8 @@ pl:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "Zawartość tego typu zwartości nie może być pusta."
+              not_whitelisted: "Plik został odrzucony przez automatyczny filtr. '%{value}' nie jest na białej liście do przesyłania."
               format: "%{message}"
         capability:
           context:
@@ -746,7 +746,7 @@ pl:
         user:
           attributes:
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
             password:
               weak: "Musi zawierać znaki z następujących klas (co najmniej %{min_count} z %{all_count}): %{rules}."
@@ -1229,8 +1229,8 @@ pl:
   error_can_not_delete_entry: "Nie można usunąć wpisu"
   error_can_not_delete_custom_field: "Nie można usunąć pola niestandardowego"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Ten typ zawiera pakiety robocze i nie może być usunięty. Wszystkie włączone pakiety robocze można zobaczyć w <a target="_blank" href="%{url}">tym widoku</a>.'
+    archived_projects: 'Pakiety robocze istnieją również w zarchiwizowanych projektach. Musisz najpierw reaktywować następujące projekty, zanim będzie można zmienić typ odpowiednich pakietów roboczych: %{archived_projects}'
   error_can_not_delete_standard_type: "Nie można usunąć standardowych typów."
   error_can_not_invite_user: "Nie można wysłać zaproszenia do użytkownika."
   error_can_not_remove_role: "Ta Rola jest używana i nie można jej usunąć."
@@ -1385,15 +1385,15 @@ pl:
 
         This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
 
-        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button bellow.
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button below.
 
         We hope you find Notification Center useful and that it makes you even more productive.
 
         Sincerely,
         The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
+      body_header: 'Wersja 12.0 z Centrum powiadomień'
       body_subheader: 'Aktualności'
-      subject: 'Important changes to notifications with the release of 12.0'
+      subject: 'Ważne zmiany w powiadomieniach w wydaniu 12.0'
   label_accessibility: "Dostępność"
   label_account: "Konto"
   label_active: "Aktywne"
@@ -2202,7 +2202,7 @@ pl:
   permission_protect_wiki_pages: "Blokowanie stron wiki"
   permission_rename_wiki_pages: "Zmiana nazw strony wiki"
   permission_save_queries: "Zapisz widoki"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "Wybierz pola niestandardowe"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
   permission_view_calendar: "Widok kalendarza"

@@ -56,7 +56,9 @@ module OpenProject
         private
 
         def modify_base_url
-          super
+          root = instance.send(settings.attribute_to_urlify).to_s
+          locale = configuration.settings.locale || :en
+          self.base_url = root.to_localized_slug(locale: locale, **configuration.string_extensions_settings)
 
           modify_base_url_custom_rules if base_url.empty?
         end

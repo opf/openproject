@@ -745,7 +745,7 @@ ko:
         user:
           attributes:
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "비밀번호와 비밀번호 확인이 일치하지 않습니다."
               format: "%{message}"
             password:
               weak: "다음과 같은 문자를 포함 해야 합니다 (최소 %{all_count} 중 %{min_count}): %{rules}."
@@ -1330,18 +1330,18 @@ ko:
         watched: "%{work_package}을(를) 지켜 보는 중입니다."
     update_info_mail:
       body: >
-        OpenProject 12.0 릴리스를 발표하게 되어 기쁩니다. 이 메이저 릴리스는 OpenProject를 사용하는 방식을 크게 개선할 것으로 예상됩니다.
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
 
-        이 릴리스부터 알림 센터를 도입합니다. 이제부터 OpenProject에서 작업 패키지 업데이트에 대한 알림을 직접 받게 됩니다. 이러한 알림을 읽음으로 표시하거나, 코멘트에 답하거나, 알림 센터를 나가지 않고도 작업 패키지 특성을 직접 수정할 수도 있습니다.
+        Starting with this release, we are introducing Notification Center. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving Notification Center.
 
-        즉, 더 이상 알림용으로 이메일을 사용하지 않을 것입니다. 알림 센터가 이러한 업데이트를 확인하고 조치를 취하기에 더 좋은 공간이라고 생각합니다. 그러나 이메일로 업데이트를 계속 받으려면 선택한 특정 시간에 매일 이메일 미리 알림을 받도록 선택할 수 있습니다.
+        This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
 
-        계정 설정에서 알림 및 이메일 미리 알림에 대한 기본 설정을 지정하거나, 변경하지 않고 기본값을 유지할 수 있습니다. 아래의 "이메일 설정 변경" 버튼으로 이 작업을 수행할 수 있습니다.
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button below.
 
-        알림 센터가 유용하고 생산성을 더욱 개선하는 데 도움이 되기를 바랍니다.
+        We hope you find Notification Center useful and that it makes you even more productive.
 
-        감사합니다.
-        OpenProject 팀
+        Sincerely,
+        The OpenProject team
       body_header: '버전 12.0, 알림 센터 포함'
       body_subheader: '뉴스'
       subject: '12.0 릴리스의 알림에 대한 중요 변경 사항'

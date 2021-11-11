@@ -37,28 +37,28 @@ import DateOption = flatpickr.Options.DateOption;
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)! ;
+  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier)!;
 
   public datepickerInstance:Instance;
 
   private reshowTimeout:any;
 
   constructor(private datepickerElemIdentifier:string,
-    private date:any,
-    private options:any,
-    private datepickerTarget?:HTMLElement,
-    private configurationService?:ConfigurationService) {
+    private date:Date|Date[]|string[]|string,
+    private options:flatpickr.Options.Options,
+    private datepickerTarget:HTMLElement|null,
+    private configurationService:ConfigurationService) {
     this.initialize(options);
   }
 
-  private initialize(options:any) {
+  private initialize(options:flatpickr.Options.Options) {
     const I18n = new I18nService();
-    const firstDayOfWeek = this.configurationService?.startOfWeekPresent() ? this.configurationService.startOfWeek() : 1;
+    const firstDayOfWeek = this.configurationService.startOfWeek() as number;
 
     const mergedOptions = _.extend({}, options, {
       weekNumbers: true,
       getWeek(dateObj:Date) {
-        return moment(dateObj).week();
+        return moment(dateObj).format('W');
       },
       dateFormat: this.datepickerFormat,
       defaultDate: this.date,
@@ -68,8 +68,8 @@ export class DatePicker {
           longhand: I18n.t('date.day_names'),
         },
         months: {
-          shorthand: (I18n.t('date.abbr_month_names') as any).slice(1),
-          longhand: (I18n.t('date.month_names') as any).slice(1),
+          shorthand: I18n.t<string[]>('date.abbr_month_names').slice(1),
+          longhand: I18n.t<string[]>('date.month_names').slice(1),
         },
         firstDayOfWeek,
         weekAbbreviation: I18n.t('date.abbr_week'),

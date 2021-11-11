@@ -115,8 +115,8 @@ pl:
     no_results: "W tym projekcie nie zostały przesłane żadne modele IFC."
     conversion_status:
       label: 'Przetwarzanie?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Oczekujący'
+      processing: 'Przetwarzanie'
       completed: 'Ukończono'
       error: 'Błąd'
     processing_notice:

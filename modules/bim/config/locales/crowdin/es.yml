@@ -116,7 +116,7 @@ es:
     conversion_status:
       label: '¿Procesándose?'
       pending: 'Pendiente'
-      processing: 'Procesando'
+      processing: 'En proceso'
       completed: 'Completado'
       error: 'Error'
     processing_notice:
