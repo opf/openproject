@@ -28,11 +28,17 @@
               <% if defined?(button_href) && defined?(button_text) %>
                 <tr>
                   <td>
-                    <a href="<%= button_href %>"
-                       target="_blank"
-                       style="background: #D1E5F5; padding: 8px 12px; color: #1A67A3; border: 1px solid #1A67A3; border-radius: 16px; text-decoration: none; font-size: 14px;">
-                      <%= button_text %>
-                    </a>
+                    <table <%= placeholder_table_styles %>>
+                      <tr>
+                        <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
+                          <a href="<%= button_href %>"
+                             target="_blank"
+                             style="color: #1A67A3; text-decoration: none; font-size: 14px;">
+                            <%= button_text %>
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
                   </td>
                 </tr>
               <% end %>
@@ -46,7 +52,7 @@
             <table <%= placeholder_table_styles %>>
               <tr>
                 <td style="width: 96px; height: 96px;">
-                  <%= logo_tag(alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "height: 96px;max-width: 240px;") %>
+                  <%= logo_tag(alt: "#{Setting.app_title} #{I18n.t(:'mail.logo_alt_text')}", style: "width: 96px;max-width: 240px;max-height: 96px;") %>
                 </td>
               </tr>
             </table>

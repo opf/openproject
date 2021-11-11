@@ -49,18 +49,17 @@
               </td>
               <%= placeholder_cell('10px', vertical: true) %>
               <td>
-                <a href="<%= notifications_center_url %>"
-                  target="_blank"
-                  style="background-color: #D1E5F5;
-                       padding: 8px 12px;
-                       color: #1A67A3;
-                       border: 1px solid #1A67A3;
-                       border-radius: 16px;
-                       text-decoration: none;
-                       font-size:14px;
-                       white-space: nowrap;">
-                  <%= I18n.t(:'mail.work_packages.see_all') %>
-                </a>
+                <table <%= placeholder_table_styles %>>
+                  <tr>
+                    <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
+                      <a href="<%= notifications_center_url %>"
+                         target="_blank"
+                         style="color: #1A67A3; text-decoration: none; font-size: 14px;white-space: nowrap;">
+                        <%= I18n.t(:'mail.work_packages.see_all') %>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>
