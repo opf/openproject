@@ -248,7 +248,7 @@ describe Attachment, type: :model do
       before { image_attachment.save! }
 
       it "should make S3 use content_disposition inline" do
-        expect(image_attachment.content_disposition).to eq "inline"
+        expect(image_attachment.content_disposition).to eq "inline; filename=image.png"
         expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
       end
 
@@ -262,7 +262,7 @@ describe Attachment, type: :model do
       before { text_attachment.save! }
 
       it "should make S3 use content_disposition inline" do
-        expect(text_attachment.content_disposition).to eq "inline"
+        expect(text_attachment.content_disposition).to eq "inline; filename=testfile.txt"
         expect(text_attachment.external_url.to_s).to include "response-content-disposition=inline"
       end
     end
@@ -282,7 +282,7 @@ describe Attachment, type: :model do
       before { binary_attachment.save! }
 
       it "should make S3 use content_disposition 'attachment; filename=...'" do
-        expect(binary_attachment.content_disposition).to eq "attachment"
+        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
