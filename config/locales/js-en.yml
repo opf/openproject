@@ -605,7 +605,7 @@ en:
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -624,6 +624,7 @@ en:
           description: 'These project-specific settings override default settings above'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
 
     password_confirmation:
       field_description: 'You need to enter your account password to confirm this change.'
