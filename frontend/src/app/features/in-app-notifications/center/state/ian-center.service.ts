@@ -215,7 +215,7 @@ export class IanCenterService extends UntilDestroyedMixin {
       },
     });
 
-    if (!this.deviceService.isMobile) {
+    if (!this.deviceService.isMobile && this.uiRouterGlobals.current.name?.includes('details')) {
       this.showNextNotification();
     }
   }
