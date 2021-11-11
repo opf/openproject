@@ -11,10 +11,73 @@ release_date: 2021-11-15
 Release date: 2021-11-15
 
 We released [OpenProject 12.0.0](https://community.openproject.com/versions/1478).
-The release contains several bug fixes and we recommend updating to the newest version.
+This release will change the way how you work with OpenProject. We have introduced the concept of in-app notifications. A new notification center in OpenProject will display changes in your projects directly in the application. This reduces the flood of emails in your inbox significantly. Additionally, you can add daily email summaries to keep up to date about latest updates and changes.
 
-<!--more-->
-#### Bug fixes and changes
+## Introducing in-app notifications
+
+The new in-app notifications let you never miss a change in your projects again. Now, you receive all important updates directly in the application and don’t get a flood of emails in your inbox anymore. The new bell symbol in the header navigation displays the number of unread notifications.
+
+![in-app-notifications-header-bell](in-app-notifications-header-bell.png)
+
+Go to our user guide to find out how to [configure in-app notifications](../../user-guide/notifications/).
+
+
+
+## Notification center
+
+The new notification center shows all notifications about changes within your projects, including intuitive filter options in the menu on the left, e.g. by reason for notification or by projects. Clicking on the notification will open the details of a work package. you can directly edit it in a split view. The blue elliptical indicates the number of unread notifications about changes within one work package.
+
+![notification-center](notification-center.PNG)
+
+
+
+## Improved notification settings
+
+The improved notification settings now allow to fine-tune for which actions and in which projects you want to receive a notification. With 12.0 you can now even add project-specific settings for changes you want to be notified about and override the default settings.
+
+![notification-settings](notification-settings.PNG)
+
+
+
+## Email summaries
+
+In addition to the in-app notifications, also email reminders can be configured to receive important updates in a daily (or more often) email summary. These email reminders can be configured to receive also additional notifications about changes in your projects, e.g. new or updated memberships in a project.
+
+![email-summaries](email-summaries.PNG)
+
+
+
+## Improved work packages auto-completer
+
+The work package auto-completer for relations now also shows additional information (project name, status, …). It is now much easier to identify the respective work package.
+
+![work-package-auto-completion](work-package-auto-completion.png)
+
+
+
+## Export of the project list
+
+With OpenProject 12.0 it is now possible to export the project list with all project specific information, incl. project custom fields. You can choose between the formats XLS and CSV export.
+
+![project-list-export](project-list-export.png)
+
+
+
+## Chage of roles and permissions settings
+
+With 12.0 we have added more granular rights for projects, for example the addtional right to configure the project overview page. This way you can even better assign certain permissions to a role in a project.
+
+![project permissions](image-20211111095046645.png)
+
+
+
+## Drop official support for PostgreSQL < 13
+
+OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a warning about the necessary migration to inform users trying to upgrade with an older version. The warning will be shown on startup and on the Administration > Info page. It will not result in a hard error for now.
+
+
+
+## All bug fixes and changes in 12.0
 
 - Changed: Send daily email summaries (email digest) \[[#1899](https://community.openproject.com/wp/1899)\]
 - Changed: Allow author to mute email notification by making him a watcher \[[#27706](https://community.openproject.com/wp/27706)\]
@@ -228,9 +291,26 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Margin in the right side of the notification row \[[#39775](https://community.openproject.com/wp/39775)\]
 - Fixed: Invalid users can not be deleted \[[#39780](https://community.openproject.com/wp/39780)\]
 
-#### Contributions
+## Installation and Updates
+
+To use OpenProject 12.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+
+Prefer to run OpenProject 12.0 in your own infrastructure?
+Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
+
+Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
+
+## Migrating to OpenProject 12.0
+
+Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 12.0. Please note the blue box on top of the page.
+
+We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+
+## Credits and contributions
+
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-
-Tomáš Jukin, C A, Peter Vanhee, Walid Ibrahim, Frank Long, Simon Seiler, Matthew Trescott, Silas Kropf, Kane Z, SO M, Kris M, Christina Vechkanova, Christoph Lechleitner, Daniel Hug, Sven Kunze, Andreas Sturm, broug geo, Jörg Mollowitz, Luca Puchert, David Epping
+- Special thanks for City of Cologne and Autoliv for sponsoring the development of project export and improved auto-completion for work packages.
+- Special thanks for reporting and finding bugs go to Tomáš Jukin, C A, Peter Vanhee, Walid Ibrahim, Frank Long, Simon Seiler, Matthew Trescott, Silas Kropf, Kane Z, SO M, Kris M, Christina Vechkanova, Christoph Lechleitner, Daniel Hug, Sven Kunze, Andreas Sturm, broug geo, Jörg Mollowitz, Luca Puchert, David Epping.
+- Every other dedicated user who has [reported bugs](https://www.openproject-edge.com/docs/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).
