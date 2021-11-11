@@ -76,6 +76,10 @@ class Attachment < ApplicationRecord
     nil
   end
 
+  ##
+  # Do not include the filename in the content disposition as this may break for Unicode file names
+  # specifically when using S3 for attachments. In the case of S3 the file name for the downloaded
+  # file will still be correct as it's part of the URL before the query.
   def external_url_options(expires_in: nil)
     { content_disposition: content_disposition(include_filename: false), expires_in: expires_in }
   end
