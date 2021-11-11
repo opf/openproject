@@ -97,9 +97,13 @@ describe BackupJob, type: :model do
       let(:db_dump_success) { true }
 
       let!(:attachment) { FactoryBot.create :attachment }
+      let!(:pending_direct_upload) { FactoryBot.create :pending_direct_upload }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
-      let(:backed_up_attachment) { "attachment/file/#{attachment.id}/#{attachment.filename}" }
+
+      def backed_up_attachment(attachment)
+        "attachment/file/#{attachment.id}/#{attachment.filename}"
+      end
 
       before { perform }
 
@@ -117,11 +121,16 @@ describe BackupJob, type: :model do
 
       if opts[:include_attachments] != false
         it "includes attachments in the backup" do
-          expect(backup_files).to include backed_up_attachment
+          expect(backup_files).to include backed_up_attachment(attachment)
+        end
+
+        it "does not include pending direct uploads" do
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
         end
       else
         it "does not include attachments in the backup" do
-          expect(backup_files).not_to include backed_up_attachment
+          expect(backup_files).not_to include backed_up_attachment(attachment)
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
         end
       end
     end

@@ -65,6 +65,9 @@ class Attachment < ApplicationRecord
 
   after_commit :extract_fulltext, on: :create
 
+  scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
+  scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }
+
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
   # or nil otherwise.
@@ -280,10 +283,6 @@ class Attachment < ApplicationRecord
     rescue NameError
       false
     end
-  end
-
-  def self.pending_direct_uploads
-    where(digest: "", downloads: -1)
   end
 
   def pending_direct_upload?
