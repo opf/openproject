@@ -33,7 +33,7 @@ module OpenProject::Bim::Patches::AttachmentPatch
 
   module InstanceMethods
     def external_url_options(expires_in: nil)
-      return super unless ifc_model?
+      return super unless ifc_file?
 
       super.merge content_disposition: ifc_content_disposition
     end
@@ -44,8 +44,8 @@ module OpenProject::Bim::Patches::AttachmentPatch
       ifc_content_disposition
     end
 
-    def ifc_model?
-      container_type == Bim::IfcModels::IfcModel.name && container.present?
+    def ifc_file?
+      container_type == Bim::IfcModels::IfcModel.name && extension == ".ifc" && container.present?
     end
 
     def ifc_content_disposition
