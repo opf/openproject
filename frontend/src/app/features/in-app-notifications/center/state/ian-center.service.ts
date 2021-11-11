@@ -40,6 +40,7 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
   mapHALCollectionToIDCollection,
+  selectCollectionAsEntities$,
   selectCollectionAsHrefs$,
 } from 'core-app/core/state/collection-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
@@ -134,13 +135,13 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    selectCollectionAsHrefs$(this.resourceService, this.query.params)
-      .pipe(
-        take(1),
-      )
-      .subscribe((collection) => {
-        this.markAsRead(collection.ids);
-      });
+    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.resourceService.query.getValue(), this.query.params)
+      .filter((notification) => notification.readIAN === false)
+      .map((notification) => notification.id);
+
+    if (ids.length > 0) {
+      this.markAsRead(ids);
+    }
   }
 
   openSplitScreen(wpId:string|null):void {
