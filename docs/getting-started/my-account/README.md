@@ -150,7 +150,7 @@ Please also see our detailed [in-app notifications](../../user-guide/notificatio
 
 ## Email reminders
 
-**My account > Email reminders**.
+**My account > Email reminders**
 
 To configure the email reminders which you receive from the system, navigate to **My account** and choose **Email reminders** in the menu. Your system administrator can also set them for you or change the global default settings.
 
@@ -172,8 +172,6 @@ You can also opt-in to receive **email alerts for other items (that are not work
 - **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki)
 - **Membership added** - ...adds you to a new work package
 - **Membership updates** - ...updates your membership associations
-
-
 
 ## Set an avatar
 
