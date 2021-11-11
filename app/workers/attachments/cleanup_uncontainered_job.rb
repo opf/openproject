@@ -41,7 +41,7 @@ class Attachments::CleanupUncontaineredJob < ::Cron::CronJob
       .destroy_all
 
     Attachment
-      .pending_direct_uploads
+      .pending_direct_upload
       .where(too_old)
       .destroy_all # prepared direct uploads that never finished
   end

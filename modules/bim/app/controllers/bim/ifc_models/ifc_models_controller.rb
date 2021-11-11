@@ -75,7 +75,7 @@ module Bim
 
       def direct_upload_finished
         id = request.params[:key].scan(/\/file\/(\d+)\//).flatten.first
-        attachment = Attachment.pending_direct_uploads.where(id: id).first
+        attachment = Attachment.pending_direct_upload.where(id: id).first
         if attachment.nil? # this should not happen
           flash[:error] = "Direct upload failed."
           redirect_to action: :new

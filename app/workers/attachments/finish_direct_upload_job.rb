@@ -32,7 +32,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
   queue_with_priority :high
 
   def perform(attachment_id, whitelist: true)
-    attachment = Attachment.pending_direct_uploads.find_by(id: attachment_id)
+    attachment = Attachment.pending_direct_upload.find_by(id: attachment_id)
     # An attachment is guaranteed to have a file.
     # But if the attachment is nil the expression attachment&.file will be nil and attachment&.file.local_file
     # will throw a NoMethodError: undefined method local_file' for nil:NilClass`.

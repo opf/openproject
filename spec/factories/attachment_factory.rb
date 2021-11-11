@@ -56,5 +56,11 @@ FactoryBot.define do
     factory :attached_picture do
       content_type { 'image/jpeg' }
     end
+
+    factory :pending_direct_upload do
+      digest { "" }
+      downloads { -1 }
+      created_at { DateTime.now - 2.weeks }
+    end
   end
 end
