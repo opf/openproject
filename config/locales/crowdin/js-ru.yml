@@ -290,7 +290,7 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>С новыми <b>уведомлениями в приложении</b> вы получаете все важные обновления непосредственно в приложении, а не спам.</li> <li>Новый <b>центр уведомлений</b> показывает все изменения, включая интуитивные настройки фильтра, например, по причинам для уведомлений или проектов. Это даже позволяет непосредственное редактирование в раздельном представлении.</li> <li>Улучшенная <b>настройка уведомлений</b> позволяет тонко настраивать, для каких действий и в каких проектах вы хотите получать уведомления.</li> <li><b>Напоминания по электронной почте</b> можно настроить на получение важных обновлений через ежедневную сводку по электронной почте</li> <li>Авто-завершитель отношений пакета работ теперь также показывает дополнительную информацию (название проекта, название проекта, статус, . ) для легкого определения соответствий пакету работ.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -558,7 +558,7 @@ ru:
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня в любом месте'
           involved:
             title: 'Назначен мне или подотчетен'
-            description: 'Получать уведомления о всех видах деятельности в пакетах работ, с которыми я связан.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Обновления просмотренных элементов'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -577,6 +577,7 @@ ru:
           description: 'Эти настройки специфического проекта переопределяют настройки по умолчанию'
           add: 'Добавить настройку для проекта'
           already_selected: 'Этот проект уже выбран'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Необходимо ввести свой пароль для подтверждения изменений.'
       title: 'Для продолжения введите свой пароль'

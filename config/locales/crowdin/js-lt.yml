@@ -291,11 +291,11 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+                Laidoje yra įvairios naujos funkcijos ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Pranešimų centras: Sumažinkite gaunamų e-laiškų skaičių. Vietoje to veikite pagal momentinius pranešimus vienoje centralizuotoje vietoje.</li> <li>Visus įkeltus IFC failus dabar galima ir atsisiųsti.</li> <li>IFC įkėlimas ir apdorojimas pagreitėjo ir gaunami geresni klaidos pranešimai.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit priedas</a> buvo gerokai sutvarkytas.</li> </ul>
     label_activate: "Aktyvuoti"
     label_add_column_after: "Pridėti stulpelį po"
     label_add_column_before: "Pridėti stulpelį prieš"
@@ -559,7 +559,7 @@ lt:
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           involved:
             title: 'Priskirta man arba atsakingas'
-            description: 'Gauti pranešimus apie visus veiksmus su darbų paketais, kuriuose aš arba paskirtasis, arba atsakingas.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Stebimų elementų pakeitimai'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
@@ -578,6 +578,7 @@ lt:
           description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus'
           add: 'Pridėti nustatymą projektui'
           already_selected: 'Šis projektas jau pažymėtas'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'
@@ -609,8 +610,8 @@ lt:
         daily:
           add_time: 'Pridėti laiką'
           enable: 'Įjungti kasdienius el.pašto priminimus'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          explanation: 'Jūs gausite šiuos priminimus tik neskaitytiems pranešimams ir tik jūsų nurodytomis valandomis. %{no_time_zone}'
+          no_time_zone: 'Iki jūs sukonfigūruosite jūsų paskyros laiko juostą, šie laikai bus interpretuojami kaip UTC.'
           time_label: 'Laikas %{counter}:'
           title: 'Siųskite man kasdienius el.pašto priminimus apie neskaitytus pranešimus'
         workdays:
