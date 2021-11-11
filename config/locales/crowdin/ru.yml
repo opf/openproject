@@ -1381,18 +1381,18 @@ ru:
         watched: "Вы просматриваете %{work_package}"
     update_info_mail:
       body: >
-        Мы рады объявить о выпуске OpenProject 12.0. Это основной релиз, который, как мы надеемся, значительно улучшит процесс использования OpenProject.
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
 
-        Начиная с этого выпуска, мы представляем Центр уведомлений. Теперь вы будете получать уведомления об обновлениях для рабочих пакетов непосредственно в OpenProject. Вы можете отметить эти уведомления как прочитанные, ответить на комментарий или даже напрямую изменить атрибуты пакетов работ не выходя из Центра уведомлений.
+        Starting with this release, we are introducing Notification Center. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving Notification Center.
 
-        Это также означает, что мы больше не будем использовать электронные письма для уведомлений. Мы считаем, что Центр уведомлений лучше просматривать и реагировать на эти обновления. Тем не менее, если вы хотите продолжать получать обновления по электронной почте, вы можете ежедневно получать напоминания по электронной почте в определенные моменты по вашему выбору.
+        This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
 
-        Вы можете установить настройки уведомлений и напоминаний по электронной почте через настройки учетной записи, или оставить их без изменений, чтобы сохранить стандартные. Вы можете сделать это с помощью кнопки «Изменить настройки электронной почты» ниже.
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button below.
 
-        Мы надеемся, что вы найдете Центр уведомлений полезным и что он сделает вас еще более продуктивным.
+        We hope you find Notification Center useful and that it makes you even more productive.
 
-        Искренне
-        Команда OpenProject
+        Sincerely,
+        The OpenProject team
       body_header: 'Версия 12.0 с центром уведомлений'
       body_subheader: 'Новости'
       subject: 'Важные изменения в уведомлениях с релизом 12.0'

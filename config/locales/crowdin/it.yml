@@ -744,7 +744,7 @@ it:
         user:
           attributes:
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "Le password non corrispondono."
               format: "%{message}"
             password:
               weak: "Deve contenere caratteri delle seguenti classi (almeno %{min_count} di %{all_count}): %{rules}."
@@ -1345,19 +1345,18 @@ it:
         watched: "Stai guardando il %{work_package}"
     update_info_mail:
       body: >
-        Siamo lieti di annunciare il rilascio di OpenProject 12.0. È una nuova versione importante che si spera migliorerà in modo significativo il modo in cui utilizzi OpenProject.
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
 
-        A partire da questa versione, stiamo introducendo il Centro notifiche. D'ora in poi riceverai le notifiche per gli aggiornamenti delle macro-attività direttamente in OpenProject. Puoi contrassegnare queste notifiche come lette, rispondere a un commento o persino modificare direttamente gli attributi della macro-attività senza uscire dal Centro notifiche. 
+        Starting with this release, we are introducing Notification Center. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving Notification Center.
 
-        Ciò significa anche che non utilizzeremo più le email per le notifiche. Riteniamo che il Centro notifiche sia un posto migliore per visualizzare e agire in base a questi aggiornamenti. Tuttavia, se desideri continuare a ricevere aggiornamenti via email, puoi scegliere di ricevere promemoria email giornalieri in orari particolari a tua scelta.
+        This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
 
-        Puoi impostare le tue preferenze per le notifiche e i promemoria via email tramite le impostazioni del tuo account o lasciarle invariate per mantenere quelle predefinite. Puoi farlo tramite il pulsante "Modifica impostazioni email" qui sotto.
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button below.
 
-        Ci auguriamo che il Centro notifiche ti sia utile e che aumenti ancora di più la tua produttività.
+        We hope you find Notification Center useful and that it makes you even more productive.
 
-        Saluti,
-        Il team di OpenProject
-
+        Sincerely,
+        The OpenProject team
       body_header: 'Versione 12.0 con Centro Notifiche'
       body_subheader: 'Notizie'
       subject: 'Modifiche importanti alle notifiche con il rilascio della versione 12.0'

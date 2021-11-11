@@ -1196,7 +1196,7 @@ es:
   error_can_not_delete_custom_field: "Imposible eliminar el campo seleccionado"
   error_can_not_delete_type:
     explanation: 'Este tipo contiene paquetes de trabajo y no se puede eliminar. Puede ver todos los paquetes de trabajo afectados en <a target="_blank" href="%{url}">esta vista</a>.'
-    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Para poder cambiar el tipo de los paquetes de trabajo correspondientes, antes necesita reactivar los proyectos siguientes: %{archived_projects}'
+    archived_projects: 'Hay paquetes de trabajo en los proyectos archivados. Necesita reactivar los proyectos siguientes para cambiar el tipo de los paquetes de trabajo correspondientes: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipos estándar no se pueden borrar."
   error_can_not_invite_user: "Error al enviar la invitación al usuario."
   error_can_not_remove_role: "Este rol esta en uso y no puede ser eliminado"
@@ -1345,18 +1345,18 @@ es:
         watched: "Estás viendo a %{work_package}"
     update_info_mail:
       body: >
-        Nos complace anunciar la publicación de OpenProject 12.0. Es una versión principal que esperamos que mejore en gran medida la forma en que usa OpenProject.
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
 
-        En esta versión, introducimos el Centro de notificaciones. A partir de ahora, recibirá notificaciones de actualizaciones sobre paquetes de trabajo directamente en OpenProject. Puede marcar estas notificaciones como leídas, responder a un comentario o incluso modificar directamente los atributos de un paquete de trabajo sin salir del Centro de notificaciones.
+        Starting with this release, we are introducing Notification Center. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving Notification Center.
 
-        Esto también quiere decir que ya no usaremos correos electrónicos para las notificaciones. Creemos que el Centro de notificaciones es el lugar más adecuado para ver y actuar en estas actualizaciones. Sin embargo, si prefiere seguir recibiendo actualizaciones por correo electrónico, puede elegir recibir recordatorios por correo electrónico diarios en las horas que prefiera.
+        This also means that we will no longer be using emails for notifications. We think Notification Center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
 
-        Puede establecer preferencias para notificaciones y recordatorios por correo electrónico en la configuración de la cuenta, o bien puede mantener las opciones predeterminadas. Puede hacerlo mediante el botón «Cambiar configuración de correo electrónico» siguiente.
+        You can set your preferences for notifications and email reminders via your account settings, or leave them unchanged to keep the default ones. You can do this through the “Change email settings” button below.
 
-        Esperamos que el Centro de notificaciones le parezca útil y que le permita ser incluso más productivo.
+        We hope you find Notification Center useful and that it makes you even more productive.
 
-        Atentamente,
-        El equipo de OpenProject
+        Sincerely,
+        The OpenProject team
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
       subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
