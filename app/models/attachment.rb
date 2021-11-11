@@ -94,12 +94,12 @@ class Attachment < ApplicationRecord
   end
 
   def content_disposition(include_filename: true)
-    return "inline" if inlineable?
+    disposition = inlineable? ? 'inline' : 'attachment'
 
     if include_filename
-      "attachment; filename=#{attachment.filename}"
+      "#{disposition}; filename=#{filename}"
     else
-      "attachment"
+      disposition
     end
   end
 
