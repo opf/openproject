@@ -1327,18 +1327,18 @@ zh-CN:
         watched: "您正在关注 %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        我们十分高兴地宣布 OpenProject 12.0 现已发布。这一主要版本有望显著改善您使用 OpenProject 的方式。
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        从此版本开始，我们将引入应用内通知。现在起，您将直接在 OpenProject 中接收有关工作软件包更新的通知。您可以将这些通知标记为已读、回复评论甚至直接修改工作软件包特性，而无需离开通知中心。
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        这也意味着我们将不再使用电子邮件进行通知。我们认为新通知中心是查看这些更新并采取行动的最佳场所。不过，如果您想继续通过电子邮件接收更新，可以选择在您选取的特定时间接收每日电子邮件提醒。
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        请确保验证您的新默认通知设置，在帐户设置中对通知和电子邮件提醒进行偏好设置。您可以通过下方的“更改电子邮件设置”按钮执行此操作。
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        我们希望应用内通知能够满足您的使用需求，帮助您提高效率。
 
-        Sincerely,
-        The OpenProject team
+        谨上，
+        OpenProject 团队
       body_header: '包含通知中心的 12.0 版本'
       body_subheader: '新闻'
       subject: '12.0 版本中加入了针对通知的重要变更'

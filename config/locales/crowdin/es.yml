@@ -1345,18 +1345,18 @@ es:
         watched: "Estás viendo a %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        Nos complace anunciar la publicación de la versión OpenProject 12.0. Es una nueva versión con muchos cambios que esperamos simplifiquen y mejoren como utilizas OpenProject.
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        Para empezar, con esta versión introducimos las notificaciones in-app. Des de ahora, vas a recibir notificaciones por actualizaciones en los paquetes de trabajo directamente en OpenProject. Puedes marcar estas notificaciones como leídas, contestar a comentarios o incluso modificar los atributos de un paquete de trabajo sin salir del centro de notificaciones.
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        Esto también supone que no se van a usar más los mails para este tipo de notificaciones. Creemos que el centro de notificaciones es el mejor sitio para ver y realizar cambios después de visualizar notificaciones. No obstante, si desea continuar recibiendo notificaciones vía correo electrónico, puede seleccionar recibir correos recordatorios diarios en horas concretas que tú escojas.
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        Por favor, asegúrate de validar tus nuevas configuraciones de notificaciones que se han reseteado por defecto, a posteriori puedes crear y modificar tus preferencias tanto para las notificaciones in-app como para los recordatorios vía correo electrónico en la configuración de tu cuenta. También puedes hacer estos cambios usando el botón abajo "Cambiar configuración de correo electrónico".
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        Esperamos que las nuevas notificaciones in-app te sean útiles y te ayuden a ser más productivo.
 
-        Sincerely,
-        The OpenProject team
+        Sinceramente,
+        El equipo de OpenProject
       body_header: 'Versión 12.0 con el Centro de notificaciones'
       body_subheader: 'Noticias'
       subject: 'Cambios importantes en las notificaciones con la publicación de la versión 12.0'
