@@ -267,6 +267,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
 
+  showTwoColumnLayout():boolean {
+    return this.$element[0].getBoundingClientRect().width > 750;
+  }
+
   private rebuildGroupedFields(change:WorkPackageChangeset, attributeGroups:any) {
     if (!attributeGroups) {
       return [];

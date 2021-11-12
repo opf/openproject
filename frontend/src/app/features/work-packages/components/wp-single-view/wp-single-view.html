@@ -1,5 +1,6 @@
 <div *ngIf="workPackage"
-     class="work-package--single-view work-package--single-view_with-columns"
+     class="work-package--single-view"
+     [ngClass]="{'work-package--single-view_with-columns': showTwoColumnLayout()}"
      data-selector="wp-single-view">
   <div class="wp-new--subject-wrapper"
        *ngIf="isNewResource(workPackage)">
