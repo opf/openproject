@@ -1343,18 +1343,18 @@ de:
         watched: "Du beobachtest %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        Beginnend mit dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten oder sogar direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        Dies bedeutet auch, dass wir weniger E-Mails für Benachrichtigungen verwenden. Das Benachrichtigungszentrum wird ein besserer Ort werden, um diese Updates anzusehen und zu bearbeiten. Wenn Sie dennoch weiterhin Updates per E-Mail erhalten möchten, können Sie zu wählbaren Zeiten tägliche E-Mail-Erinnerungen erhalten.
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        Sie können Ihre Einstellungen für Benachrichtigungen und E-Mail-Erinnerungen über Ihre Kontoeinstellungen festlegen oder diese unverändert lassen, um die Standardeinstellungen beizubehalten. Sie können dies über die Schaltfläche „E-Mail-Einstellungen ändern“ unten tun.
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Sie noch produktiver macht.
 
-        Sincerely,
-        The OpenProject team
+        Mit freundlichen Grüßen
+        Das OpenProject Team
       body_header: 'Version 12.0 mit Benachrichtigungszentrum'
       body_subheader: 'Nachrichten'
       subject: 'Wichtige Änderungen an Benachrichtigungen mit der Veröffentlichung von 12.0'
@@ -2539,7 +2539,7 @@ de:
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
   text_journal_aggregation_time_explanation: "Individuelle Aktionen eines Benutzers (z. ein Arbeitspaket zweimal aktualisieren) werden zu einer einzigen Aktion zusammengefasst, wenn ihr Altersunterschied kleiner ist als der angegebene Zeitraum. Sie werden als eine einzige Aktion innerhalb der Anwendung angezeigt. Dadurch werden auch Benachrichtigungen um die gleiche Zeit verzögert, wodurch die Anzahl der gesendeten E-Mails verringert wird."
-  text_journal_changed_html: "%{label} von %{old}%{linebreak}<strong>in</strong> %{new} geändert"
+  text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
