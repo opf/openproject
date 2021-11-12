@@ -44,8 +44,9 @@ const OpVersionI18n = '12_0';
       </p>
       <div class="widget-box--description">
         <p [innerHtml]="currentNewFeatureHtml"></p>
-        <img [src]="new_features_image"/>
-        <a class="widget-box--teaser-image op-new-features--teaser-image"></a>
+        <img
+          class="widget-box--teaser-image op-new-features--teaser-image"
+          [src]="new_features_image"/>
       </div>
 
       <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
