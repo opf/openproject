@@ -291,7 +291,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                此版本包含许多新功能和改进：<br> <ul class="%{list_styling_class}"> <li>借助新的<b>应用内通知</b>，您可以直接在应用程序中接收所有重要更新，不再需要收取大量电子邮件。</li> <li>新的<b>通知中心</b>可以显示所有变更，其中包含直观的筛选器选项，例如按通知原因或按项目筛选。它甚至支持直接在拆分视图中进行编辑。</li> <li>改进的<b>通知设置</b>使您可以对希望针对哪些操作和要接收通知的项目进行细微调整。</li> <li><b>电子邮件提醒</b>可以配置为通过每日电子邮件摘要的方式接收重要更新。</li> <li>工作包关系自动补全工具现在还会显示附加信息（项目名称、状态等），可以轻松识别相应的工作包。</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -556,7 +556,7 @@ zh-CN:
             description: '每当有人在任何位置提及我时都接收通知'
           involved:
             title: '分配给我或负责'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            description: '针对我具有指定人或负责人身份的工作包接收所有活动通知'
           watched: '关注项更新'
           work_package_commented: '所有新评论'
           work_package_created: '新工作包'
@@ -575,7 +575,7 @@ zh-CN:
           description: '这些项目特定设置会覆盖上方的默认设置'
           add: '为项目添加设置'
           already_selected: '此项目已经选定'
-          remove: 'Remove project settings'
+          remove: '移除项目设置'
     password_confirmation:
       field_description: '输入密码以确认更改'
       title: '输入密码以继续'

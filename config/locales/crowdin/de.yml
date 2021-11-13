@@ -1343,7 +1343,7 @@ de:
         watched: "Du beobachtest %{work_package}"
     update_info_mail:
       body: >
-        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0 an. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
+        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
 
         Beginnend mit dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten oder sogar direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
 
