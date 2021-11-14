@@ -371,8 +371,8 @@ fi:
       announcements:
         show_until: "Näytä tähän päivään asti"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Liitteen sisältö"
+        attachment_file_name: "Liitteen tiedoston nimi"
         downloads: "Lataukset"
         file: "Tiedosto"
         filename: "Tiedosto"
@@ -441,7 +441,7 @@ fi:
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
-        templated: 'Template project'
+        templated: 'Malliprojekti'
       projects/status:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
@@ -1413,7 +1413,7 @@ fi:
   label_available_project_repositories: 'Available repositories'
   label_api_documentation: "API-dokumentaatio"
   label_backup: "Backup"
-  label_between: "between"
+  label_between: "välillä"
   label_blocked_by: "estänyt"
   label_blocks: "estää"
   label_blog: "Blogi"
@@ -1562,7 +1562,7 @@ fi:
   label_history: "Historia"
   label_hierarchy_leaf: "Hierarchy leaf"
   label_home: "Koti"
-  label_subject_or_id: "Subject or ID"
+  label_subject_or_id: "Aihe tai ID"
   label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
@@ -2220,7 +2220,7 @@ fi:
     active_or_archived: "Active or archived"
     assigned_to_role: "Työn suorittajan rooli"
     member_of_group: "Työn suorittajan ryhmä"
-    assignee_or_group: "Assignee or belonging group"
+    assignee_or_group: "Työn suorittaja tai kuuluu ryhmään"
     subproject_id: "Including Subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
@@ -2651,7 +2651,7 @@ fi:
         explicit_order: "explicit order"
         project_sortation: "Projektien lajitteluperuste"
         date: "date"
-        default: "default"
+        default: "oletus"
       column:
         assigned_to: "Työn suorittaja"
         type: "Tyyppi"
