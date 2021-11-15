@@ -1343,15 +1343,15 @@ de:
         watched: "Du beobachtest %{work_package}"
     update_info_mail:
       body: >
-        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
+        Mit Spannung kündigen wir die Veröffentlichung von OpenProject 12.0 an. Es ist eine wichtige Aktualisierung, die Ihre Arbeit mit OpenProject erheblich verbessern wird.
 
-        Beginnend mit dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten oder sogar direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
+        In dieser Version führen wir eine Benachrichtigungszentrale ein. Von nun an erhalten Sie Benachrichtigungen für Aktualisierungen zu Arbeitspaketen direkt in OpenProject. Sie können diese Benachrichtigungen als gelesen markieren, auf einen Kommentar antworten und direkt die Attribute des Arbeitspakets ändern, ohne das Benachrichtigungszentrum zu verlassen.
 
-        Dies bedeutet auch, dass wir weniger E-Mails für Benachrichtigungen verwenden. Das Benachrichtigungszentrum wird ein besserer Ort werden, um diese Updates anzusehen und zu bearbeiten. Wenn Sie dennoch weiterhin Updates per E-Mail erhalten möchten, können Sie zu wählbaren Zeiten tägliche E-Mail-Erinnerungen erhalten.
+        Das bedeutet auch, dass wir weniger E-Mails für Benachrichtigungen verwenden. Das Benachrichtigungszentrum wird ein besserer Ort werden, um diese Updates anzusehen und zu bearbeiten. Wenn Sie dennoch weiterhin Updates per E-Mail erhalten möchten, können Sie zu wählbaren Zeiten E-Mail-Erinnerungen erhalten.
 
         Sie können Ihre Einstellungen für Benachrichtigungen und E-Mail-Erinnerungen über Ihre Kontoeinstellungen festlegen oder diese unverändert lassen, um die Standardeinstellungen beizubehalten. Sie können dies über die Schaltfläche „E-Mail-Einstellungen ändern“ unten tun.
 
-        Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Sie noch produktiver macht.
+        Wir hoffen, dass Sie das Benachrichtigungszentrum nützlich finden und dass es Ihre Arbeit mit OpenProject produktiver macht.
 
         Mit freundlichen Grüßen
         Das OpenProject Team

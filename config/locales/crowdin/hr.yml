@@ -29,7 +29,7 @@ hr:
       no_results_title_text: Nema dostupnih dodataka.
     custom_styles:
       color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme_custom: "(Prilagođeno)"
       colors:
         alternative-color: "Alternative"
         content-link-color: "Link font"
@@ -859,7 +859,7 @@ hr:
     #kept for backwards compatibility
     issue: "Radni paket"
     lastname: "Prezime"
-    login: "Username"
+    login: "Korisničko ime"
     mail: "Email"
     name: "Naziv"
     password: "Lozinka"
@@ -1403,7 +1403,7 @@ hr:
   label_all: "sve"
   label_all_time: "sve vrijeme"
   label_all_words: "Sve riječi"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "Svi otvoreni"
   label_always_visible: "Uvijek se prikazuje"
   label_announcement: "Obavijest"
   label_api_access_key: "API pristupni ključ"
@@ -1449,13 +1449,13 @@ hr:
   label_consent_settings: "Pristanak korisnika"
   label_wiki_menu_item: Element Wiki izbornika
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
-  label_select_project: "Select a project"
+  label_select_project: "Odaberi projekt"
   label_required_disk_storage: "Potraban diskovni prostor"
   label_send_invitation: Pošalji pozivnicu
   label_change_plural: "Promjene"
   label_change_properties: "Promjeni značajke"
   label_change_status: "Promijeni status"
-  label_change_status_of_user: "Change status of #{username}"
+  label_change_status_of_user: "Promijeni status #{username}"
   label_change_view_all: "Pogledaj sve promjene"
   label_changes_details: "Detalji svih promjena"
   label_changeset: "Changeset"
@@ -1659,7 +1659,7 @@ hr:
   label_name: "Naziv"
   label_never: "Nikad"
   label_new: "Novi"
-  label_new_features: "New features"
+  label_new_features: "Nove značajke"
   label_new_statuses_allowed: "Novi statusi dopušteni"
   label_news_singular: "Vijesti"
   label_news_added: "Vijest dodana"
@@ -2132,7 +2132,7 @@ hr:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Dobrodošli na OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Dodaj bilješke"
   permission_add_work_packages: "Dodaj radne pakete"

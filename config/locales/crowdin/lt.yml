@@ -1379,18 +1379,18 @@ lt:
         watched: "Jūs stebite %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        Mes džiaugiamės galėdami pranešti apie OpenProject 12.0. Tai didelė laida, kuri tikimės stipriai pagerins tai, kaip jūs naudojate OpenProject.
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        Pradedant šia laida mes pristatome Pranešimų Centrą. Nuo dabar jūs galėsite gauti pranešimus apie darbo paketų atnaujinimus tiesiai OpenProject. Jūs galite pažymėti šiuos pranešimus perskaitytais, atsakyti į komentarą ar tiesiogiai pakeisti darbo paketo atributus, nepalikdami Pranešimų Centro.
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        Tai taipogi reiškia, kad jūs daugiau nenaudosite e-pašto pranešimams. Mes galvojame, kad Pranešimų centras yra geresnė vieta peržiūrėti ir imtis veiksmų su atnaujinimais. Kaip bebūtų, jei jūs norėtumėte ir toliau gauti atnaujinimus e-paštu, galite pasirinkti kasdieninius e-pašto priminimus jūsų pasirinktu metu.
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        Prašome nustatyti savo e-pašto priminimo parinktis jūsų paskyros nustatymuose. Galite tai padaryti paspaudę žemiau esantį mygtuką „Keisti e-pašto nustatymus“.
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        Mes tikimės, kad vidiniai pranešimai jums bus naudingi ir, kad jie dar labiau pagerins jūsų produktyvumą.
 
-        Sincerely,
-        The OpenProject team
+        Nuoširdžiai,
+        OpenProject komanda
       body_header: 'Versija 12.0 su Pranešimų centru'
       body_subheader: 'Naujienos'
       subject: 'Svarbūs pranešimų pakeitimai laidoje 12.0'

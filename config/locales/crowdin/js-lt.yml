@@ -291,7 +291,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                Šioje laidoje yra įvairios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Su naujais <b>vidiniais pranešimais</b> jūs gausite visus svarbius pakeitimus tiesiai aplikacijoje, ir jums daugiau nebereikės siųsti krūvos e-laiškų.</li> <li>Naujas <b>pranešimų centras</b> rodo visus pakeitimus, įskaitant intuityvius filtrus, pavyzdžiui pagal pranešimo priežastį ar projektą. Galime net tiesiogiai keisti padalintame vaizde.</li> <li>Pagerinti <b>pranešimų nustatymai</b> leidžia nustatyti, kuriems veiksmams ir kuriuose projekte reikalingi pranešimai.</li> <li><b>E-pašto priminimai</b> gali būti sukonfigūruoti gauti svarbius atnaujinimus kasdienine e-pašto santrauka.</li> <li>Darbo paketų automatinis pabaigimas ryšiams dabar rodo papildomą informaciją (projekto pavadinimą, būseną, ...), taip jums lengviau identifikuoti atitinkamą darbo paketą.</li> </ul>
             bim:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
@@ -559,7 +559,7 @@ lt:
             description: 'Gauti pranešimą kiekvieną kartą, kai kas nors mane bet kur pamini'
           involved:
             title: 'Priskirta man arba atsakingas'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+            description: 'Gauti pranešimus apie visus veiksmus su darbų paketais, kuriuose aš arba paskirtasis, arba atsakingas'
           watched: 'Stebimų elementų pakeitimai'
           work_package_commented: 'Visi nauji komentarai'
           work_package_created: 'Nauji darbų paketai'
@@ -578,7 +578,7 @@ lt:
           description: 'Šie konkrečių projektų nustatymai permuša aukščiau esančius numatytuosius nustatymus'
           add: 'Pridėti nustatymą projektui'
           already_selected: 'Šis projektas jau pažymėtas'
-          remove: 'Remove project settings'
+          remove: 'Išimti projekto nustatymus'
     password_confirmation:
       field_description: 'Norėdami patvirtinti šį pakeitimą turite įvesti savo paskyros slaptažodį.'
       title: 'Norėdami tęsti, patvirtinkite savo slaptažodį'

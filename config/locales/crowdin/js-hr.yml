@@ -283,8 +283,8 @@ hr:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
-          learn_about: "Learn more about the new features"
+          text_new_features: "Informirajte se o novim značajkama i ažuriranjima proizvoda."
+          learn_about: "Saznaj više o novim značajkama"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '12_0':
@@ -903,9 +903,9 @@ hr:
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
-        assigned_to_me: "Assigned to me"
+        assigned_to_me: "Dodijeljeno meni"
         recently_created: "Recently created"
-        all_open: "All open"
+        all_open: "Svi otvoreni"
         summary: "Sažetak"
       jump_marks:
         pagination: "Skok na numeriranje stranica tabele"
