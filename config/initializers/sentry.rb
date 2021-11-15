@@ -24,10 +24,14 @@ if OpenProject::Logging::SentryLogger.enabled?
 
   Sentry.init do |config|
     config.dsn = OpenProject::Logging::SentryLogger.sentry_dsn
-    config.breadcrumbs_logger = [:active_support_logger]
+    config.breadcrumbs_logger = OpenProject::Configuration.sentry_breadcrumb_loggers.map(&:to_sym)
 
-    # Submit events as delayed job
-    config.async = lambda { |event, hint| ::SentryJob.perform_later(event, hint) }
+    # Submit events as delayed job only when requested to do that
+    if ENV['OPENPROJECT_SENTRY_DELAYED_JOB'] == 'true'
+      config.async = lambda do |event, hint|
+        ::SentryJob.perform_later(event, hint)
+      end
+    end
 
     # Don't send loaded modules
     config.send_modules = false
