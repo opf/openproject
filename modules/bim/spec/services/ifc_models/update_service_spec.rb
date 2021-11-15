@@ -24,7 +24,7 @@ describe Bim::IfcModels::UpdateService do
                       errors: set_attributes_errors
   end
   let!(:model) do
-    FactoryBot.build_stubbed(:ifc_model).tap do |m|
+    FactoryBot.create(:ifc_model).tap do |m|
       allow(m)
         .to receive(:save)
         .and_return(model_valid)
