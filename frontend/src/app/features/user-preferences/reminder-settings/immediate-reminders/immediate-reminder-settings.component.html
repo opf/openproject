@@ -1,5 +1,7 @@
 <ng-container [formGroup]="form">
-  <h5 [textContent]="text.title"></h5>
+  <div class="op-form--section-header">
+    <h5 [textContent]="text.title"></h5>
+  </div>
 
   <op-checkbox-field
     [control]="form.get('mentioned')"

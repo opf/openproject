@@ -26,41 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root + 'spec/support/file_helpers'
+module OpenProject::Bim::Patches::AttachmentPatch
+  def self.included(base) # :nodoc:
+    base.prepend InstanceMethods
+  end
 
-FactoryBot.define do
-  factory :attachment do
-    container factory: :work_package
-    author factory: :user
-    description { nil }
+  module InstanceMethods
+    def external_url_options(expires_in: nil)
+      return super unless ifc_file?
 
-    transient do
-      filename { nil }
+      super.merge content_disposition: ifc_content_disposition
     end
 
-    content_type { 'application/binary' }
-    sequence(:file) do |n|
-      FileHelpers.mock_uploaded_file name: filename || "file-#{n}.test",
-                                     content_type: content_type,
-                                     binary: true
+    def content_disposition(include_filename: true)
+      return super unless ifc_file? && include_filename
+      
+      ifc_content_disposition
     end
 
-    callback(:after_build, :after_stub) do |attachment, evaluator|
-      attachment.filename = evaluator.filename if evaluator.filename
+    def ifc_file?
+      container_type == Bim::IfcModels::IfcModel.name && description == "ifc" && container.present?
     end
 
-    factory :wiki_attachment do
-      container factory: :wiki_page_with_content
+    def ifc_content_disposition
+      "attachment; filename=#{ifc_file_name}"
     end
 
-    factory :attached_picture do
-      content_type { 'image/jpeg' }
-    end
+    def ifc_file_name
+      title = container.title.sub /\.ifc\Z/, ''
 
-    factory :pending_direct_upload do
-      digest { "" }
-      downloads { -1 }
-      created_at { DateTime.now - 2.weeks }
+      title.to_localized_slug(locale: :en) + ".ifc"
     end
   end
 end

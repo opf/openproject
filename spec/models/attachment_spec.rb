@@ -244,12 +244,27 @@ describe Attachment, type: :model do
       end
     end
 
+    shared_examples "it uses content disposition inline" do
+      let(:attachment) { raise "define me!" }
+
+      describe 'the external url (for remote attachments)' do
+        it 'contains inline content disposition without the filename' do
+          expect(attachment.external_url.to_s).to include "response-content-disposition=inline&"
+        end
+      end
+
+      describe 'content disposition (for local attachments)' do
+        it 'is inline, including the filename' do
+          expect(attachment.content_disposition).to eq "inline; filename=#{attachment.filename}"
+        end
+      end
+    end
+
     describe "for an image file" do
       before { image_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(image_attachment.content_disposition).to eq "inline"
-        expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { image_attachment }
       end
 
       # this is independent from the type of file uploaded so we just test this for the first one
@@ -261,9 +276,8 @@ describe Attachment, type: :model do
     describe "for a text file" do
       before { text_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(text_attachment.content_disposition).to eq "inline"
-        expect(text_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { text_attachment }
       end
     end
 
@@ -282,7 +296,7 @@ describe Attachment, type: :model do
       before { binary_attachment.save! }
 
       it "should make S3 use content_disposition 'attachment; filename=...'" do
-        expect(binary_attachment.content_disposition).to eq "attachment"
+        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end

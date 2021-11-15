@@ -65,15 +65,26 @@ class Attachment < ApplicationRecord
 
   after_commit :extract_fulltext, on: :create
 
+  scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
+  scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }
+
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
   # or nil otherwise.
   def external_url(expires_in: nil)
-    url = URI.parse file.download_url(content_disposition: content_disposition, expires_in: expires_in) # returns a path if local
+    url = URI.parse file.download_url(external_url_options(expires_in: expires_in)) # returns a path if local
 
     url if url.host
   rescue URI::InvalidURIError
     nil
+  end
+
+  ##
+  # Do not include the filename in the content disposition as this may break for Unicode file names
+  # specifically when using S3 for attachments. In the case of S3 the file name for the downloaded
+  # file will still be correct as it's part of the URL before the query.
+  def external_url_options(expires_in: nil)
+    { content_disposition: content_disposition(include_filename: false), expires_in: expires_in }
   end
 
   def external_storage?
@@ -89,10 +100,14 @@ class Attachment < ApplicationRecord
     container.respond_to?(:project) ? container.project : nil
   end
 
-  def content_disposition
-    # Do not use filename with attachment as this may break for Unicode files
-    # specifically when using S3 for attachments.
-    inlineable? ? "inline" : "attachment"
+  def content_disposition(include_filename: true)
+    disposition = inlineable? ? 'inline' : 'attachment'
+
+    if include_filename
+      "#{disposition}; filename=#{filename}"
+    else
+      disposition
+    end
   end
 
   def visible?(user = User.current)
@@ -268,10 +283,6 @@ class Attachment < ApplicationRecord
     rescue NameError
       false
     end
-  end
-
-  def self.pending_direct_uploads
-    where(digest: "", downloads: -1)
   end
 
   def pending_direct_upload?

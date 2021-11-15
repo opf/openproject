@@ -2,8 +2,10 @@
   *ngIf="(selectedTimes$ | async) as selectedTimes"
   [formGroup]="form"
 >
-  <h5 [textContent]="text.title"></h5>
-  <p [textContent]="text.explanation"></p>
+  <div class="op-form--section-header">
+      <h5 [textContent]="text.title"></h5>
+      <p [textContent]="text.explanation"></p>
+  </div>
 
   <op-checkbox-field [control]="form.get('enabled')">
     <input
