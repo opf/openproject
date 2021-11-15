@@ -1,0 +1,55 @@
+.op-tab-row
+  display: block
+  text-align: left
+  list-style: none
+  margin: 0
+  padding: 0
+  position: relative
+  font-weight: bold
+  text-transform: uppercase
+  overflow-x: auto
+  white-space: nowrap
+  height: 57px
+
+  &::-webkit-scrollbar
+    width: 0
+    background: transparent
+
+  &--tab
+    display: inline-block
+    line-height: 38px
+    margin: 0
+    padding: 0
+    text-align: center
+    cursor: pointer
+
+  &--tab-icon
+    width: 5%
+    .icon-context:before
+      padding-top: 10px
+    &:hover
+      border-bottom: 0
+
+  &--link
+    display: block
+    padding-left: 1rem
+    padding-right: 1rem
+    color: var(--body-font-color)
+    text-decoration: none
+    font-size: var(--generic-table--header-font-size)
+
+    &:hover
+      text-decoration: none
+      border-bottom: 2px solid
+      border-bottom-color: var(--light-gray)
+
+    &_selected, &_selected:hover
+      color: var(--content-link-color)
+      border-bottom: 2px solid
+      border-bottom-color: var(--content-link-color)
+
+    &_disabled
+      cursor: default
+      pointer-events: none
+      border-bottom-width: 0
+      color: var(--tabs-font-color-disabled)

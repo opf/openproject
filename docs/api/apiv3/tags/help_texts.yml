@@ -1,0 +1,18 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link         | Description               | Type          | Constraints | Supported operations |
+  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+  | self          | This help text            | HelpText      | not null    | READ                 |
+  | editText      | Edit the help text entry  | text/htm      | Admin       | READ                 |
+
+  ## Local Properties
+
+  | Property           | Description                 | Type                 | Constraints | Supported operations |
+  | :---------:        | --------------------------- | -------------------- | ----------- | -------------------- |
+  | id                 | Help text id                | Integer              | x > 0       | READ                 |
+  | attribute          | Attribute name              | String               |             | READ                 |
+  | attributeCaption   | Attribute caption           | String               |             | READ                 |
+  | helpText           | Help text content           | Formattable          |             | READ                 |
+name: Help texts

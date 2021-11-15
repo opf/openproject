@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
+
+`npx @redocly/openapi-cli lint #{path}`

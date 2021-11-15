@@ -1,0 +1,13 @@
+id:
+  export_to_excel: "Export XLS"
+  print_with_description: "Print preview with description"
+  sentence_separator_or: "atau"
+  different_formats: Different formats
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS disertai deskripsi"
+      xls_with_relations: "XLS with relations"
+  xls_export:
+    child_of: child of
+    parent_of: parent of

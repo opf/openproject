@@ -1,0 +1,172 @@
+#English strings go here for Rails i18n
+fr:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'Identifiant'
+        default: 'Utiliser par défaut'
+      two_factor_authentication/device/sms:
+        phone_number: "Numéro de téléphone"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'est déjà défini pour un autre appareil OTP.'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "doit être de format +XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "Appareil de 2FA"
+      two_factor_authentication/device/sms: "Téléphone mobile"
+      two_factor_authentication/device/totp: "Application authentificatrice"
+  two_factor_authentication:
+    error_2fa_disabled: "La sortie 2FA a été désactivé."
+    error_no_device: "Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance."
+    error_no_matching_strategy: "Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur."
+    error_is_enforced_not_active: 'Erreur de configuration : l''authentification à deux facteurs à été imposée, mais aucune stratégie active n''existe.'
+    error_invalid_backup_code: 'Code de sauvegarde 2FA non valide'
+    channel_unavailable: "Le canal de livraison %{channel} n’est pas disponible."
+    no_valid_phone_number: "Aucun numéro de téléphone valide n’existe."
+    label_pwd_confirmation: "Mot de passe"
+    notice_pwd_confirmation: "Vous devez confirmer votre mot de passe après avoir modifié ces paramètres."
+    label_device_type: "Type d'appareil"
+    label_default_device: "Appareil 2FA par défaut"
+    label_device: "Appareil de 2FA"
+    label_devices: "Appareils de 2FA"
+    label_one_time_password: 'Mot de passe à usage unique'
+    label_2fa_enabled: 'Authentification à deux facteurs est active'
+    label_2fa_disabled: 'Authentification à deux facteurs non active'
+    text_otp_delivery_message_sms: "Votre mot de passe à usage unique pour %{app_title} est %{token}"
+    text_otp_delivery_message_voice: "Votre mot de passe à usage unique pour %{app_title} est: %{pause} %{token}. %{pause} Je répète: %{pause} %{token}"
+    text_enter_2fa: 'Veuillez entrer le mot de passe unique de votre appareil.'
+    text_2fa_enabled: 'Lors de chaque connexion, il vous sera demandé d’entrer un jeton OTP depuis votre appareil 2FA par défaut.'
+    text_2fa_disabled: 'Pour activer l’authentification à deux facteurs, utilisez le bouton ci-dessus pour inscrire un nouvel appareil 2FA. Si vous avez déjà un dispositif, vous devez en faire un appareil par défaut.'
+    login:
+      enter_backup_code_title: Entrez le code de sauvegarde
+      enter_backup_code_text: Veuillez saisir un code de sauvegarde valide depuis votre liste de codes au cas où vous ne pourriez plus accéder à vos appareils 2FA enregistrés.
+      other_device: 'Utiliser un autre appareil ou code de sauvegarde'
+    settings:
+      title: 'Paramètres 2FA'
+      current_configuration: 'Configuration actuelle'
+      label_active_strategies: 'Stratégies 2FA actives'
+      label_enforced: 'Appliquer 2FA'
+      label_remember: 'Se souvenir du login 2FA'
+      text_configuration: |
+        Remarque : Ces valeurs représentent la configuration actuelle de toute l'application. Vous ne pouvez pas désactiver des paramètres imposés par cette configuration ou changer les stratégies, car cela requiert un redémarrage du serveur.
+      text_configuration_guide: Pour plus d’informations, consultez le guide de configuration.
+      text_enforced: 'Activez ce paramètre pour forcer tous les utilisateurs à enregistrer un appareil 2FA lors de leur prochaine connexion. Ne peut être désactivé que lorsqu''il n''est pas imposé par la configuration.'
+      text_remember: |
+        Indiquez une valeur plus grande que zéro pour permettre aux utilisateurs de se souvenir de l'authentification 2FA pour le nombre de jours donné. Il ne leur sera pas demandé de se ré-authentifier durant cette période. Ne peut être paramétré que lorsqu'il n'est pas imposé par la configuration.
+      error_invalid_settings: 'Les stratégies 2FA que vous avez sélectionnées sont invalides'
+      failed_to_save_settings: 'Echec de la mise à jour des paramètres 2FA: %{message}'
+    admin:
+      self_edit_path: 'Pour ajouter ou modifier vos propres appareils 2FA, veuillez aller à %{self_edit_link}'
+      self_edit_link_name: 'Authentification à deux facteurs sur votre page de compte'
+      self_edit_forbidden: 'Vous ne pouvez pas modifier vos propres appareils 2FA sur ce chemin. Allez dans Mon Compte > Authentification à deux facteurs à la place.'
+      no_devices_for_user: 'Aucun appareil 2FA n’a été enregistré pour cet utilisateur.'
+      all_devices_deleted: 'Tous les appareils 2FA de cet utilisateur ont été supprimés'
+      delete_all_are_you_sure: 'Êtes-vous sûr de vouloir supprimer tous les appareils 2FA pour cet utilisateur?'
+      button_delete_all_devices: 'Supprimer les dispositifs 2FA inscrits'
+      button_register_mobile_phone_for_user: 'Enregistrer un téléphone mobile'
+      text_2fa_enabled: 'Lors de chaque connexion, cet utilisateur sera demandé d’entrer un jeton OTP de son appareil 2FA par défaut.'
+      text_2fa_disabled: "L’utilisateur n’a pas défini un appareil 2FA via sa page \"Mon compte\""
+    upsale:
+      title: 'L''authentification à deux facteurs est une fonctionnalité destinée aux entreprises'
+      description: 'Renforcez vos mécanismes d''authentification interne ou externe avec un deuxième facteur.'
+    backup_codes:
+      none_found: Aucun code de sauvegarde n’existe pour ce compte.
+      singular: Code de sauvegarde
+      plural: Codes de sauvegarde
+      your_codes: pour vos %{app_name} compte %{login}
+      overview_description: |
+        Si vous ne parvenez pas à accéder à vos appareils à deux facteurs, vous pouvez utiliser un code de sauvegarde pour rétablir l’accès à votre compte. Utilisez le bouton suivant pour générer un nouvel ensemble de codes de sauvegarde.
+      generate:
+        title: Générer des codes de sauvegarde
+        keep_safe_as_password: 'Important! Traitez ces codes comme mots de passe.'
+        keep_safe_warning: 'Soit vous les enregistrez dans votre gestionnaire de mot de passe, ou imprimez cette page et la gardez dans un endroit sûr.'
+        regenerate_warning: 'Avertissement: Si vous avez créé des codes de sauvegarde auparavant, ils seront invalidés et ne fonctionneront plus.'
+    devices:
+      add_new: 'Ajouter un nouveau appareil 2FA'
+      register: 'Enregistrer l''appareil'
+      confirm_default: 'Confirmer le changement d''appareil par défaut'
+      confirm_device: 'Confirmez votre appareil'
+      confirm_now: 'Non confirmé, cliquez ici pour l''activer'
+      cannot_delete_default: 'Impossible de supprimer l''appareil par défaut'
+      make_default_are_you_sure: 'Êtes-vous certain de vouloir imposer cet appareil 2FA comme appareil par défaut?'
+      make_default_failed: 'Impossible de mettre à jour l’appareil 2FA par défaut.'
+      deletion_are_you_sure: 'Êtes-vous sûr de vouloir supprimer ce dispositif 2FA ?'
+      registration_complete: 'Inscription de l’appareil 2FA terminée!'
+      registration_failed_token_invalid: 'L’enregistrement du appareil 2FA a échoué, le jeton n’était pas valide.'
+      registration_failed_update: 'L’enregistrement de l''appareil 2FA a échoué, le jeton était valide, mais l’appareil ne pouvait pas être actualisé.'
+      confirm_send_failed: 'La confirmation de votre appareil 2FA a échoué.'
+      button_complete_registration: 'Achever l''inscription 2FA'
+      text_confirm_to_complete_html: "Veuillez compléter l’enregistrement de votre appareil <strong>%{identifier}</strong> en entrant un mot de passe unique depuis votre appareil par défaut."
+      text_confirm_to_change_default_html: "Veuillez confirmer que votre nouvel appareil par défaut est <strong>%{new_identifier}</strong> en entrant un mot de passe à usage unique depuis votre appareil actuel par défaut."
+      text_identifier: 'Vous pouvez donner à l’appareil un identifiant personnalisé à l’aide de ce champ.'
+      failed_to_delete: 'Impossible de supprimer l''appareil 2FA.'
+      is_default_cannot_delete: 'Cet appareil est un appareil par défaut, et ne peut être supprimé à d''une politique de sécurité active. Sélectionnez un autre appareil comme appareil par défaut avant de supprimer l''appareil par défaut actuel.'
+      not_existing: 'Aucun appareil 2FA n’a été enregistré pour votre compte.'
+      request_2fa: Veuillez entrer le code obtenu depuis %{device_name} pour vérifier votre identité.
+      totp:
+        title: 'Utilisez votre authentificateur basé sur l''application'
+        provisioning_uri: 'Provisionnement URI'
+        secret_key: 'Clé secrète'
+        time_based: 'Basé sur le temps'
+        account: 'Nom de compte / émetteur'
+        setup: |
+          Pour mettre en place l’authentification à deux facteurs avec Google Authenticator, téléchargez l’application depuis l’App store d’Apple ou Google Play Store. Après l’ouverture de l’app, vous pouvez scanner le code QR suivant pour vous enregistrer l'appareil.
+        question_cannot_scan: |
+          Impossible de scanner le code à l’aide de votre application?
+        text_cannot_scan: |
+          Si vous ne pouvez pas scanner le code, vous pouvez l'entrer manuellement avec les détails suivants :
+        description: |
+          Inscrivez un authentificateur d'applications à utiliser avec OpenProject en utilisant le mot de passe à usage unique et durée limitée. Des exemples courants sont Google Authenticator ou Authy.
+      sms:
+        title: 'Utilisez votre téléphone mobile'
+        redacted_identifier: 'Appareil mobile (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, nous vous avons envoyé un code d’authentification via %{delivery_channel}'
+        description: |
+          Inscrivez votre numéro de téléphone pour la livraison de mots de passe à usage unique OpenProject.
+    sns:
+      delivery_failed: 'Remise SNS a échoué:'
+    message_bird:
+      sms_delivery_failed: 'La distribution du SMS MessageBird a échoué.'
+      voice_delivery_failed: 'L''appel vocal MessageBird a échoué.'
+    restdt:
+      delivery_failed_with_code: 'Remise du jeton a échoué. (Error code %{code})'
+    strategies:
+      totp: 'Application authentificatrice'
+      sns: 'Amazon SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "Un mot de passe unique a été envoyé à votre téléphone portable."
+    label_two_factor_authentication: 'Authentification à deux facteurs'
+    forced_registration:
+      required_to_add_device: 'Une politique de sécurité active nécessite d’activer l’authentification à deux facteurs. Veuillez utiliser le formulaire ci-dessous pour enregistrer un appareil.'
+    remember:
+      active_session_notice: >
+        Votre compte a un cookie de mémorisation actif valide jusqu'au %{expires_on}. Ce cookie vous permet de vous connecter sans entrer le second facteur de vérification jusqu'à cette date.
+      other_active_session_notice: Votre compte a un cookie de mémorisation actif sur une autre session.
+      label: 'Mémoriser'
+      clear_cookie: 'Cliquez ici pour supprimer toutes les sessions 2FA mémorisées.'
+      cookie_removed: 'Toutes les sessions 2FA mémorisées ont été supprimées.'
+      dont_ask_again: "Créer le cookie de mémorisation de l'authentification 2FA sur ce client pour %{days} jours."
+  field_phone: "Téléphone mobile"
+  field_otp: "Mot de passe à usage unique"
+  notice_account_otp_invalid: "Mot de passe à usage unique non valide."
+  notice_account_otp_expired: "Le mot de passe à usage unique que vous avez renseigné a expiré."
+  notice_developer_strategy_otp: "La stratégie de développement à généré le mot de passe à usage unique suivant : %{token} (Channel: %{channel})"
+  notice_account_otp_send_failed: "Votre mot de passe à usage unique n’a pas pu être envoyé."
+  notice_account_has_no_phone: "Aucun numéro de téléphone cellulaire n’est associé à votre compte."
+  label_expiration_hint: "%{date} ou sur logout"
+  label_actions: 'Actions'
+  label_confirmed: 'Confirmé'
+  button_continue: 'Continuer'
+  button_make_default: 'Marquer par défaut'
+  label_unverified_phone: "Téléphone portable pas encore vérifié"
+  notice_phone_number_format: "Veuillez entrer le nombre dans le format suivant : +XX XXXXXXXX."
+  text_otp_not_receive: "Autres méthodes de vérification"
+  text_send_otp_again: "Ré-envoyer le mot de passe à usage par:"
+  button_resend_otp_form: "Renvoyer"
+  button_otp_by_voice: "Appel vocal"
+  button_otp_by_sms: "SMS"
+  label_otp_channel: "Canal de livraison"

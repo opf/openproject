@@ -1,0 +1,17 @@
+<div
+  class="op-modal op-modal_wide confirm-form-submit--modal loading-indicator--location" 
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.board_type}}</op-modal-header>
+
+  <div class="op-modal--body">
+    <p [textContent]="text.select_board_type"></p>
+    <section class="new-board--section">
+      <tile-view
+      [tiles]="available"
+      [disable]="inFlight"
+      (create)="createBoard($event)">
+      </tile-view>
+    </section>
+  </div>
+</div>

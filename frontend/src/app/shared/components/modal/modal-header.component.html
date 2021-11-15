@@ -1,0 +1,16 @@
+<op-icon
+  *ngIf="icon"
+  icon-classes="{{ icon }} icon-context"
+></op-icon>
+<h1 class="op-modal--title">
+  <ng-content></ng-content>
+</h1>
+<button
+  class="op-modal--close-button"
+  type="button"
+  data-qa-selector="op-modal-close"
+  (click)="close.emit()"
+  [attr.aria-label]="text.closePopup"
+>
+  <op-icon icon-classes="icon-close"></op-icon>
+</button>

@@ -1,0 +1,50 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
+  <div class="id">
+    <div class="t"><%= work_package_link_or_empty(story) %></div>
+    <div class="v"><%= id_or_empty(story) %></div>
+  </div>
+  <div class="story_points editable" fieldname="story_points" fieldorder="4" field_id=<%= story.id %>><%= story_points_or_empty(story) %></div>
+  <div class="status_id editable" fieldtype="select" fieldname="status_id" fieldorder="3" field_id=<%= story.id %>>
+    <div class="t ellipsis" title="<%= status_label_or_default(story) %>"><%= status_label_or_default(story) %></div>
+    <div class="v"><%= status_id_or_default(story) %></div>
+  </div>
+  <div class="type_id editable" fieldtype="select" fieldname="type_id" fieldorder="1" field_id=<%= story.id %>>
+    <div class="t"><%= type_name_or_empty(story) %>: </div>
+    <div class="v"><%= type_id_or_empty(story) %></div>
+  </div>
+  <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>" field_id=<%= story.id %>><%=h story.subject %></div>
+  <div class="version_id"><%= story.version_id %></div>
+  <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
+  <div class="meta">
+    <%= render(:partial => "shared/model_errors", :object => errors) if defined?(errors) && errors.size > 0 %>
+  </div>
+</li>

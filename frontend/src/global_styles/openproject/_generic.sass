@@ -1,0 +1,121 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.no-padding-bottom
+  padding-bottom: 0 !important
+
+.display-inline
+  display: inline !important
+
+.-no-border
+  border: none !important
+
+// Disable user selection
+.-no-text-select
+  user-select: none
+
+// Table borders
+.-table-border-top
+  border-top: 1px solid var(--table-row-border-color)
+.-table-border-bottom
+  border-bottom: 1px solid var(--table-row-border-color)
+.-table-border-left
+  border-left: 1px solid var(--table-row-border-color)
+.-table-border-right
+  border-right: 1px solid var(--table-row-border-color)
+
+.autoscroll
+  overflow-x: auto
+  padding: 1px
+  margin-bottom: 1.2em
+
+.-hidden-overflow
+  overflow: hidden !important
+
+.-visible-overflow
+  overflow: visible !important
+
+.indent
+  padding-left: 10px
+
+.total-hours
+  font-weight: bold
+
+.-break-word
+  word-wrap: break-word
+
+.ellipsis,
+.form--field.ellipsis .form--label
+  @include text-shortener
+
+.other-formats
+  font-size: 0.9em
+  color: var(--gray-dark)
+
+  span + span:before
+    content: "| "
+
+.-bold
+  font-weight: bold
+.-italic
+  font-style: italic
+.-small-font
+  font-size: 12px
+
+.-rtl
+  direction: rtl
+
+  ul, ol
+    margin-left: 0
+    margin-right: 40px
+
+    &.task-list
+      margin-right: 15px
+
+  .-placeholder &
+    direction: ltr
+
+.drop-zone.-dragged-over
+  background-color: #eaeaea60
+
+.-required-highlighting
+  border: 1px solid red
+
+.-no-width
+  display: block
+  width: 0
+
+.-no-height
+  display: block
+  height: 0
+
+.-no-z-index
+  z-index: 0 !important
+
+.-error-font
+  color: var(--content-form-error-color) !important

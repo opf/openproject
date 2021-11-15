@@ -1,0 +1,191 @@
+# Attributes Groups
+
+## Attribute Lists
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">System</h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+      <div class="attributes-key-value--key">Catdoc available (optional)</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <i class="icon-context icon-bug"></i>
+          </span>
+        </div>
+      </div>
+      <div class="attributes-key-value--key">Attachments directory writable</div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <i class="icon-context icon-checkmark"></i>
+          </span>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">Storage filesystem 1</h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">Encompasses storage for</div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>Attachments</span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key">Remaining disk space</div>
+    <div class="attributes-key-value--value-container">
+      <div class="attributes-key-value--value -text">
+        <span>120 GB</span>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Attribute Lists with Inline Edit
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">People</h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">Assignee</div>
+    <div class="attributes-key-value--value-container">
+      <div class="inline-edit--container">
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="Jane Doe">Jane Doe</span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key">
+      <wp-replacement-label>
+        <span class="wp-replacement-label"> Accountable </span>
+      </wp-replacement-label>
+      <attribute-help-text>
+        <a href="#" class="icon icon-help1">
+        </a>
+      </attribute-help-text>
+    </div>
+    <div class="attributes-key-value--value-container">
+      <div class="inline-edit--container">
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="John Doe">John Doe</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">Details</h3>
+    </div>
+  </div>
+
+  <div class="attributes-key-value">
+    <div class="attributes-key-value--key">Progress (%)</div>
+    <div class="attributes-key-value--value-container">
+      <div class="inline-edit--container">
+        <span title="-" class="inline-edit--display-field inline-edit--display-field inplace-edit -placeholder -editable">
+          <span style="width: 80px" class="progress-bar">
+              <span style="width: 60%" class="inner-progress closed"></span>
+              <span style="width: 0%" class="inner-progress done"></span>
+          </span>
+          <span class="progress-bar-legend">60%</span>
+        </span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key">Date</div>
+    <div class="attributes-key-value--value-container">
+      <div class="inline-edit--container">
+          <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="12/06/2018 - no end date">12/06/2018 - no end date</span>
+      </div>
+    </div>
+    <div class="attributes-key-value--key">Priority</div>
+    <div class="attributes-key-value--value-container">
+      <div class="inline-edit--container">
+        <span class="inline-edit--display-field inline-edit--display-field inplace-edit -editable" title="Normal">Normal</span>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Attribute Lists with Toggler
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">Related To</h3>
+    </div>
+    <div class="attributes-group--header-toggle">
+      <a href="#" class="button -small -transparent -with-icon icon-group-by icon-small">Group by work package type</a>
+    </div>
+  </div>
+  <div class="content">
+    <wp-relation-row>
+      <div class="relation-row">
+        <div class="grid-block">
+          <div class="grid-content collapse">
+            <span class="relation-row--type">
+              <span>Task</span>
+            </span>
+          </div>
+          <div class="grid-content collapse">
+            <a href="">Task: Fix bug (#34)</a>
+          </div>
+          <div class="grid-content collapse">
+            <span class="inline-edit--display-field inplace-edit -editable" title="new">new</span>
+          </div>
+          <div class="grid-content collapse wp-relations-controls-section">
+            <a href="" title="Set or update description of this relation">
+              <i class="icon-info1 -padded wp-relations--icon"></i>
+            </a>
+            <a href="" title="Remove relation">
+              <i class="icon-remove -padded wp-relations--icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </wp-relation-row>
+  </div>
+</div>
+```
+
+## with Single Attribute
+
+```
+<div class="attributes-group">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <h3 class="attributes-group--header-text">Description</h3>
+    </div>
+  </div>
+
+  <div class="single-attribute wiki-text">
+    <h2>Capítulo uno</h2>
+    <p>En un lugar <em>de la Mancha</em>, de cuyo nombre no quiero acordarme,
+    no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero,
+    adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca que
+    carnero, salpicón las más noches, duelos y quebrantos los sábados, lantejas
+    los viernes, algún palomino de añadidura los domingos, consumían las tres
+    partes de su hacienda. El resto della concluían sayo de velarte, calzas de
+    velludo para las fiestas, con sus pantuflos de lo mesmo, y los días de
+    entresemana se honraba con su vellorí de lo <strong>más fino</strong>.</p>
+  </div>
+</div>
+```

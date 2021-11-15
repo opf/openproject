@@ -1,0 +1,26 @@
+<div
+  class="op-modal wp-table--configuration-modal loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.label_visibility_settings}}</op-modal-header>
+
+  <query-sharing-form
+      class="op-modal--body"
+      [isSave]="false"
+      (onChange)="setValues($event)"
+      [isStarred]="isStarred"
+      [isPublic]="isPublic">
+  </query-sharing-form>
+
+  <div class="op-modal--footer">
+    <button class="button -highlight -with-icon icon-checkmark"
+            (click)="saveQuery($event)"
+            [textContent]="text.button_save">
+    </button>
+    <button class="button -with-icon icon-cancel"
+            [textContent]="text.button_cancel"
+            [disabled]="isBusy"
+            (click)="closeMe($event)">
+    </button>
+  </div>
+</div>

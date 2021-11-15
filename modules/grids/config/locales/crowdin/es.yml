@@ -1,0 +1,16 @@
+es:
+  grids:
+    label_widget_in_grid: "Widget contenido en la cuadrícula %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Página"
+        row_count: "Número de filas"
+        column_count: "Número de columnas"
+        widgets: "Widgets"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'superpuesto.'
+          outside: 'está fuera de la red.'
+          end_before_start: 'el valor final necesita ser mayor que el valor inicial.'

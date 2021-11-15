@@ -1,0 +1,87 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+
+// Avoid overlapping text selection in FF
+// https://community.openproject.com/work_packages/23742
+.inplace-edit--textarea
+  line-height: normal
+
+.inplace-edit--write-value
+  textarea
+    font-size: 1rem
+    line-height: 1.6
+
+.textarea-wrapper
+  // Leave room below textarea for inplace edit controls
+  position: relative
+  margin-bottom: 50px
+
+  &.inline-label .inplace-edit--controls
+    right: 33px
+
+// Styles for the Save | Cancel controls below textareas
+.inplace-edit--controls
+  width: 80px
+  height: 40px
+  background: var(--inplace-edit--dark-background)
+  border: 1px solid var(--inplace-edit--color--very-dark)
+  box-shadow: 2px 2px 4px var(--inplace-edit--border-color)
+  text-align: center
+  // Align controls via flex
+  display: flex
+  justify-content: space-evenly
+  align-items: center
+  float: right
+
+// Disabled submit styles when not applicable
+.inplace-edit--control[disabled]
+  background-color: var(--inplace-edit--bg-color--disabled)
+  color: var(--inplace-edit--color--disabled)
+  cursor: not-allowed
+
+// A single save/cancel control
+.inplace-edit--control
+  font-size: 0.9rem
+  width: 29px
+  height: 29px
+  background: none
+
+  // Center save/cancel links
+  line-height: 27px
+  border: 1px solid transparent
+  display: inline-block
+  color: var(--body-font-color)
+  text-decoration: none
+
+  &:hover, &:active
+    border-color: var(--inplace-edit--border-color)
+
+  .icon-context:before
+    padding: 0
+

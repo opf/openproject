@@ -1,0 +1,139 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= nonced_javascript_tag do %>
+  jQuery(function ($) {
+    var Burndown = {
+      datasets: <%= dataseries(burndown).to_json.html_safe %> ,
+      previousPoint: null,
+
+      setDatasetColor: function () {
+        var i = 0;
+
+        $.each(Burndown.datasets, function (key, val) {
+          val.color = i;
+          val.points = {show: false, radius: 2};
+          val.lines = {show: true};
+          ++i;
+        });
+      },
+
+      plotAccordingToChoices: function () {
+        var data = [];
+
+        $('.burndown_control').find("input:checked").each(function () {
+          var key = $(this).attr('value');
+
+          if (key && Burndown.datasets[key]) {
+            data.push(Burndown.datasets[key]);
+          }
+        });
+
+        if (data.length === 0) { //in order to render an empty graph if no data is selected
+          data.push({data : []});
+        }
+
+        Burndown.plot(data);
+      },
+
+      plot: function (data) {
+        if (data.length > 0) {
+          $.plot($(".burndown_chart"), data, {
+            yaxis: { min: 0,
+              ticks: [ <%= yaxis_labels(burndown) %> ] },
+            xaxis: {
+              ticks: [ <%= xaxis_labels(burndown) %> ],
+              tickDecimals: 0,
+              max: <%= burndown.days.length + 1 %>,
+              min: 1
+            },
+            grid: { hoverable: true, clickable: true }
+          });
+        }
+      },
+
+      showTooltip: function(x, y, contents) {
+         $('<div id="tooltip">' + contents + '</div>').css( {
+             position: 'absolute',
+             display: 'none',
+             top: y + 5,
+             left: x + 5,
+             border: '1px solid #fdd',
+             padding: '2px',
+             'background-color': '#fee',
+             opacity: 0.80
+         }).appendTo("body").css('z-index', 2000).fadeIn(200);
+      },
+
+
+      showTooltipOnHover: function (event, pos, item) {
+
+        if (item) {
+          if (Burndown.previousPoint != item.dataIndex) {
+            Burndown.previousPoint = item.dataIndex;
+
+            $("#tooltip").remove();
+            var x = item.datapoint[0].toFixed(0),
+                y = item.datapoint[1].toFixed(0);
+
+            Burndown.showTooltip(item.pageX, item.pageY,
+                                 item.series.label + ": " + y);
+          }
+        }
+        else {
+          $("#tooltip").remove();
+          Burndown.previousPoint = null;
+        }
+      },
+
+      init: function () {
+        Burndown.setDatasetColor();
+
+        $('.burndown_control input').click(Burndown.plotAccordingToChoices);
+        $(".burndown_chart").bind("plothover", Burndown.showTooltipOnHover);
+
+        Burndown.plotAccordingToChoices();
+      },
+
+      saveInit: function() {
+        // Ensure $.plot is defined before progressing.
+        // This static page might already be ready but the webpack required
+        // jquery.flot.js file might not be loaded yet.
+
+        if ($.plot) {
+          this.init();
+        } else {
+          setTimeout(() => { this.saveInit()}, 50);
+        }
+      }
+    };
+
+    Burndown.saveInit();
+  });
+<% end %>

@@ -1,0 +1,226 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.router--work-packages-full-view:not(.router--work-packages-full-create)
+  @include extended-content--bottom
+  @include extended-content--right
+  @include extended-content--top
+
+.work-packages--show-view
+  display: flex
+  flex-direction: column
+  height: inherit
+
+  #toolbar
+    display: flex
+    flex-wrap: wrap-reverse
+    justify-content: flex-end
+    @include clearfix
+
+  .toolbar-container
+    @include clearfix
+
+  ul#toolbar-items
+    margin-left: 10px
+    @include clearfix
+
+    li
+      .dropdown
+        top: 100% !important
+        right: 0px !important
+        left: auto !important
+
+        ul li
+          float: none
+
+  .subject-header
+    button
+      margin-right: 0
+
+.work-packages-full-view
+
+  &--split-container
+    display: flex
+    flex-shrink: 8
+    border-top: 1px solid #ccc
+    overflow: visible
+    height: 100%
+    // Important for Firefox to let 'flex-shrink' work correctly.
+    min-height: 0
+
+  &--split-left
+    border-right: 1px solid #ccc
+    overflow-y: auto
+    overflow-x: hidden
+    flex: 2
+    position: relative
+    @include styled-scroll-bar
+
+    .work-packages--panel-inner
+      padding: 0px 5px 20px 0
+      width: 100%
+
+      // These styles were taken over from the details tab styling.
+      // Thus the header and the details tab can be aligned on the same line.
+      .attributes-group:first-of-type
+        margin-top: 0px
+
+        .attributes-group--header-container
+          padding-bottom: 2px
+
+          h3.attributes-group--header-text
+            line-height: calc(var(--work-package-details--tab-height) - 10px)
+
+  &--split-right
+    min-width: 530px
+    overflow-y: hidden
+    overflow-x: auto
+    position: relative
+    @include styled-scroll-bar
+
+    .work-packages--panel-inner
+      display: grid
+      grid-template-rows: auto auto 1fr
+      height: 100%
+      padding: 5px 0 10px 15px
+
+    .tabcontent
+      height: 100%
+      overflow: auto
+      @include styled-scroll-bar
+      padding-right: 5px
+
+    .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
+      padding-left: 0
+
+    .activity-comment
+      margin-top: 15px
+
+    .button.icon-edit.ng-hide
+      display: block !important
+      visibility: hidden
+
+  &--resizer
+    position: sticky
+    top: 50%
+    bottom: 50%
+    width: 18px
+    .work-packages--resizer
+      left: -2px
+      width: 18px
+      &::before
+        left: 0
+
+  &--tab-breadcrumb
+    text-align: right
+    padding-right: 1rem
+    margin-bottom: 5px
+
+.nosidebar
+  ul.subject-header
+    width: 67%
+
+    li
+      &.inline-edit
+        width: 75%
+
+@media only screen and (max-width: 1280px)
+  .work-packages--details
+    @at-root
+      .detailsViewMenuItem
+        display: block
+
+@media only screen and (max-width: 78rem)
+  .work-packages--show-view
+    // Important for Safari
+    height: initial
+  .work-packages-full-view--split-right
+    overflow: visible
+    flex-basis: initial !important
+
+@media only screen and (max-width: 679px)
+  #toolbar
+    #toolbar-items
+      margin-left: 0
+
+    .work-packages-back-button
+      // Move button in the current reverse order to front
+      position: absolute
+      top: 0
+      left: 0
+      z-index: 1
+
+#work-packages-index
+  .op-uc-link_permalink
+    display: none
+
+.work-packages--show-view
+  .wp-show--header-container
+    @media only screen and (max-width: 679px)
+      width: 100%
+    @media only screen and (min-width: 679px)
+      flex: 1 1 auto
+
+  .subject-header
+    .work-packages--subject-element,
+    .work-packages--details--subject .inline-edit--field
+      font-size: 20px
+      font-weight: bold
+      line-height: 34px
+
+    .work-packages--details--subject
+      .inline-edit--field
+        height: 34px
+
+      // Style edit field to look like the display field.
+      // Thus we avoid a visual jump when editing the subject.
+      &.-active input
+        height: 36px
+        line-height: 36px
+        padding: 5px 0 5px 5px
+        font-size: 20px
+
+  > .toolbar-container
+    margin: 10px 0 5px 0
+
+.work-packages--subject-type-row
+  display: flex
+  position: relative
+  line-height: 24px
+
+.work-packages--type-selector:not(.wp-new-top-row--element)
+  .inline-edit--display-field
+    padding-right: 5px !important
+
+  // Remove left padding from type
+  .inline-edit--display-field
+    padding-left: 0 !important
+
+  @media only screen and (min-width: 679px)
+    .inline-edit--container.-active
+      width: 130px

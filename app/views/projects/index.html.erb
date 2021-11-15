@@ -1,0 +1,112 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% content_for :header_tags do %>
+  <meta name="required_script" content="project"/>
+<% end %>
+
+<% html_title(t(:label_project_plural)) -%>
+
+<%= toolbar title: t(:label_project_plural), html: { class: '-with-dropdown' } do %>
+  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_path,
+                  { class: 'button -alt-highlight',
+                    aria: { label: t(:label_project_new) },
+                    title: t(:label_project_new) } do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= Project.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <li class="toolbar-item">
+    <button id="projects-filter-toggle-button" title="<%= t(:label_filters_toggle) %>" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
+      <%= op_icon("icon-filter button--icon") %>
+    </button>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
+  </li>
+  <li class="toolbar-item">
+    <% gantt_project_ids = gantt_portfolio_project_ids(@projects) %>
+    <%= link_to gantt_portfolio_query_link(gantt_project_ids),
+                disabled: gantt_project_ids.empty?,
+                class: "button #{gantt_project_ids.empty? ? '-disabled' : ''}",
+                title: gantt_portfolio_title,
+                target: '_blank' do %>
+      <%= op_icon("button--icon icon-view-timeline") %>
+      <%= t('projects.index.open_as_gantt') %>
+      <%= op_icon("button--icon icon-external-link") %>
+    <% end %>
+  </li>
+  <li class="toolbar-item drop-down">
+    <a
+      href="#"
+      aria-haspopup="true"
+      title="<%= t(:label_more) %>"
+      class="button"
+      data-qa-selector="project-more-dropdown-menu"
+    >
+      <%= op_icon('button--icon icon-show-more') %>
+    </a>
+    <ul style="display:none;" class="menu-drop-down-container">
+      <% if current_user.admin? %>
+      <li>
+        <%= link_to t('button_configure'), admin_settings_projects_path, target: '_blank', class: 'icon-context icon-settings' %>
+      </li>
+      <% end %>
+      <section data-augmented-model-wrapper
+               data-modal-class-name="project-export---modal">
+        <li>
+          <%= link_to I18n.t('js.label_export'),
+                      '',
+                      title: I18n.t('js.label_export'),
+                      class: 'modal-delivery-element--activation-link icon-context icon-export' %>
+        </li>
+        <%= render partial: 'project_export_modal' %>
+      </section>
+    </ul>
+  </li>
+<% end %>
+
+<%= render partial: 'projects/filters/form', locals: { query: @query } %>
+
+<%= rails_cell Projects::TableCell,
+               @projects,
+               current_user: current_user,
+               orders: @orders,
+               params: params %>
+
+<% if User.current.admin? %>
+  <p class="information-section">
+    <%= op_icon('icon-info1') %>
+    <%= t(:label_projects_storage_information,
+          count: Project.count,
+          storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
+  </p>
+<% end %>

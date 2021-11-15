@@ -1,0 +1,15 @@
+Template: server/ssl
+Type: select
+Choices: no, yes
+Translations: No, Yes
+Default: no
+Description: Do you use SSL to access _APP_NAME_
+ Enabling SSL makes your _APP_NAME_ installation more secure.
+ .
+ If you choose YES, the application server will only respond to https. You need to manually configure SSL certificates for your web server.
+
+Template: server/hostname
+Type: string
+Default: www.example.com
+Description: Your fully qualified domain name:
+ Enter the fully qualified domain name (FQDN), where this server can be reached.

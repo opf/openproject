@@ -1,0 +1,191 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+/***** Auto-complete ****
+
+div.autocomplete
+  position: absolute
+  width: 400px
+  margin: 0
+  padding: 0
+  z-index: 500
+  ul
+    list-style-type: none
+    margin: 0
+    padding: 0
+    li
+      list-style-type: none
+      display: block
+      margin: -1px 0 0 0
+      padding: 2px
+      cursor: pointer
+      font-size: 90%
+      border: 1px solid #ccc
+      border-left: 1px solid #ccc
+      border-right: 1px solid #ccc
+      background-color: white
+      &.selected
+        background-color: #ffb
+      span.informal
+        font-size: 80%
+        color: #aaa
+
+#parent_issue_candidates ul li, #related_issue_candidates ul li
+  width: 500px
+
+
+/** jquery-ui autocomplete */
+
+.ui-autocomplete
+  position: absolute
+  top: 0
+  left: 0
+  cursor: default
+  margin: 0
+  list-style: none
+  z-index: 10000
+
+  .ui-menu-item
+    border-bottom: 1px solid var(--content-default-border-color)
+
+  a
+    color: var(--body-font-color)
+    padding-left: 5px
+
+  .ui-menu-item-wrapper
+    word-break: break-word
+    padding: 10px 5px
+
+    // Necessary for iOS to recognize as clickable
+    cursor: pointer
+
+    &.ui-state-active,
+    &.selected
+      border: none
+      a
+        color: var(--drop-down-selected-font-color)
+
+    &.ui-state-active
+      background: var(--drop-down-hover-bg-color)
+    &.selected:not(.ui-state-active)
+      background: var(--drop-down-selected-bg-color)
+
+  &.-inplace
+    position: relative
+    border: none
+    padding-top: 15px
+    line-height: 1.6
+    font-size: 1rem
+
+    .ui-menu-item
+      border-bottom: none
+
+    .ui-menu-item-wrapper
+      padding: 4px 10px
+
+.ui-autocomplete--input
+  // Error highlighting
+  &.-error, &.-error:hover, &.-error:focus
+    background: $nm-color-error-background
+    border-color: var(--content-form-danger-zone-bg-color)
+
+mark.ui-autocomplete-match
+  background: none
+  color: var(--primary-color)
+  text-decoration: underline
+  font-weight: bold !important
+
+// Loading indicator
+.ui-autocomplete--loading
+  background: white
+  z-index: 200
+  border: 1px solid #ccc
+  border-top: none
+  padding: 5px
+  // Position bottom of input
+  position: absolute
+  // With same width as input
+  width: 100%
+
+.ui-autocomplete--category
+  padding: 0
+  font-weight: bold
+  text-transform: uppercase
+
+
+// -------------------------- ng-select --------------------------
+.ng-select
+  width: 100%
+  font-size: 14px
+
+  .ng-value-container
+    width: calc(100% - 30px)
+
+    // Override OPs default padding for inputs which looks strange in the autocompleter
+    input
+      padding-left: 0px
+
+  .ng-select-container
+    z-index: auto !important
+    height: 30px !important
+    min-height: 30px !important
+
+    .ng-value-container
+      overflow: visible !important
+
+      .ng-placeholder
+        top: 1px !important
+
+      input
+        height: 100%
+        padding: 0
+        -webkit-box-sizing: border-box !important
+        -moz-box-sizing: border-box !important
+        box-sizing: border-box !important
+  .ng-value
+    @include text-shortener
+    line-height: 22px
+
+.ng-select.ng-select-multiple .ng-select-container
+  height: initial !important
+  min-height: initial !important
+
+  .ng-value-label
+    display: initial !important
+
+// Ensure dropdown is above modals
+.ng-dropdown-panel
+  z-index: 9500 !important
+
+.ng-option
+  font-size: 14px
+  line-height: 22px
+.work-package-table--container .ng-dropdown-panel
+  z-index: auto !important
+
+

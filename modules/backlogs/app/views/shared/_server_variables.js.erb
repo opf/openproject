@@ -1,0 +1,78 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+if (window.RB === null || window.RB === undefined) {
+  window.RB = {};
+}
+
+
+RB.constants = {
+  project_id: <%= @project.id %>,
+  sprint_id: <%= @sprint ? @sprint.id : "null" %>
+};
+
+RB.i18n = {
+  generating_graph: '<%= j I18n.t("backlogs.generating_chart").html_safe %>',
+  burndown_graph: '<%= j I18n.t("backlogs.burndown_graph").html_safe %>'
+};
+
+RB.urlFor = (function () {
+  var routes = {
+    update_sprint: '<%= backlogs_project_sprint_path(:project_id => @project.identifier, :id => ":id") %>',
+
+    create_story: '<%= backlogs_project_sprint_stories_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>',
+    update_story: '<%= backlogs_project_sprint_story_path(:project_id => @project.identifier, :sprint_id => ":sprint_id", :id => ":id") %>',
+
+    create_task: '<%= backlogs_project_sprint_tasks_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>',
+    update_task: '<%= backlogs_project_sprint_task_path(:project_id => @project.identifier, :sprint_id => ":sprint_id", :id => ":id") %>',
+
+    create_impediment: '<%= backlogs_project_sprint_impediments_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>',
+    update_impediment: '<%= backlogs_project_sprint_impediment_path(:project_id => @project.identifier, :sprint_id => ":sprint_id", :id => ":id") %>',
+
+    show_burndown_chart: '<%= backlogs_project_sprint_burndown_chart_path(:project_id => @project.identifier, :sprint_id => ":sprint_id") %>'
+  };
+
+  return function (routeName, options) {
+    route = routes[routeName];
+
+    if (options){
+      if (options.id) {
+        route = route.replace(":id", options.id);
+      }
+      if (options.project_id){
+        route = route.replace(":project_id", options.project_id);
+      }
+      if(options.sprint_id) {
+        route = route.replace(":sprint_id", options.sprint_id)
+      }
+    }
+
+    return route;
+  }
+}());

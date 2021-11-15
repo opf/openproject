@@ -1,0 +1,33 @@
+<div
+  class="work-package--new-state work-packages--new work-packages--show-view toolbar-container"
+  *ngIf="newWorkPackage">
+  <edit-form [resource]="newWorkPackage"
+             [skippedFields]="['status', 'type']"
+             [inEditMode]="true"
+             (onSaved)="onSaved($event)">
+    <div class="toolbar">
+      <div class="title-container">
+        <wp-type-status [workPackage]="newWorkPackage"></wp-type-status>
+      </div>
+      <ul class="toolbar-items hide-when-print">
+        <li class="toolbar-item hidden-for-mobile">
+          <zen-mode-toggle-button></zen-mode-toggle-button>
+        </li>
+        <li class="toolbar-item hidden-for-mobile">
+          <button id="create-wp-menu-button"
+                  [attr.title]="text.button_settings"
+                  class="button last work-packages-settings-button toolbar-icon"
+                  wpCreateSettingsMenu>
+            <i class="button--icon icon-show-more"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <wp-single-view [workPackage]="newWorkPackage"
+                    [showProject]="copying">
+    </wp-single-view>
+    <wp-edit-actions-bar (onCancel)="cancelAndBackToList()">
+    </wp-edit-actions-bar>
+  </edit-form>
+</div>

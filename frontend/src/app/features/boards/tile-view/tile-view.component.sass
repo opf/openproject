@@ -1,0 +1,44 @@
+.tile-blocks--container
+  display: grid
+  grid-template-rows: repeat(minmax(200px, auto))
+  grid-template-columns: auto auto
+  grid-column-gap: 10px
+  grid-row-gap: 10px
+
+
+.tile-block
+  border-radius: 10px
+  display: grid
+  grid-template: 95px 1fr / 1fr
+  grid-template-columns: auto 1fr auto
+  grid-template-rows: auto
+  grid-row-gap: 5px
+  justify-items: left
+  background: #f7fafc
+  min-height: 150px
+
+  &:hover
+    text-decoration: none
+    border: 1px solid grey
+    border-radius: 10px !important
+    cursor: pointer
+
+.tile-block-image
+  display: block
+  margin-top: auto
+  margin-bottom: auto
+
+.tile-block-title
+  padding-top: 30px
+  padding-bottom: 5px
+  color: var(--primary-color-dark)
+  display: block
+  text-align: left
+  font-weight: bolder
+  font-size: large
+
+.tile-block p
+  text-align: left 
+  width: 90%
+
+

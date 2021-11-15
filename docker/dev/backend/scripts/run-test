@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+set -u
+
+cmd="$@"
+
+chown -R $USER:$USER public/assets
+
+echo 'Waiting for the Grid...'
+while ! curl -sSL "${SELENIUM_GRID_URL}/status" 2>&1 \
+        | jq -r '.value.ready' 2>&1 | grep "true" > /dev/null; do
+    sleep 1
+done
+
+exec su $USER -c $cmd

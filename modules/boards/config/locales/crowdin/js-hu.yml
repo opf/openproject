@@ -1,0 +1,94 @@
+#English strings go here
+hu:
+  js:
+    boards:
+      label_unnamed_board: 'Névtelen tábla'
+      label_unnamed_list: 'Névtelen lista'
+      label_board_type: 'Tábla típus'
+      upsale:
+        teaser_text: 'Javítsa az agilis projektmenedzsmentet ezzel a rugalmas táblák nézettel. Készítsen annyi táblát, amennyit csak akar, bármihez, amelyet nyomon követni szeretne.'
+        upgrade_to_ee_text: 'A táblák egy vállalati szolgáltatás. Kérjük, frissítsen Vállalati OpenProject licencre!'
+        upgrade: 'Frissítés most'
+        personal_demo: 'Keressen fel minket a próbaverzióért'
+      lists:
+        delete: 'Törölt lista'
+      version:
+        is_locked: 'A verzió zárolva van. Nincs elem hozzáadva ehhez a verzióhoz.'
+        is_closed: 'A verzió le van zárva. Nincs az elem hozzáadva ehhez a verzióhoz.'
+        close_version: 'Zárt verzió'
+        open_version: 'Nyílt verzió'
+        lock_version: 'Lezárt verzió'
+        unlock_version: 'Feloldott verzió'
+        edit_version: 'Módosított verzió'
+        show_version: 'Verzió mutatása'
+        locked: 'Zárolt'
+        closed: 'Lezárva'
+      new_board: 'Új tábla'
+      add_list: 'Lista hozzáadása a táblához'
+      add_card: 'Kártya hozzáadása'
+      error_attribute_not_writable: "Nem mozgatható munkacsomag, %{attribute} nem írható."
+      error_loading_the_list: "Betöltési hiba: %{error_message}"
+      error_permission_missing: "Nincs jogosultság a publikus lekérdezés létrehozásához"
+      error_cannot_move_into_self: "Nem mozgatható a munkacsomag a saját sorába."
+      text_hidden_list_warning: "Nem jeleníthető meg az összes lista a jogosultság miatt. További információért lépjen kapcsolatba az adminnal."
+      click_to_remove_list: "Kattints a lista eltávolításához"
+      board_type:
+        text: 'Tábla típus'
+        free: 'alap'
+        select_board_type: "Kérjük, válassza ki a szükséges tábla típusát.\n"
+        free_text: >
+          Kezdje a semmiből egy üres táblával. Kézzel adjon hozzá kártyákat és oszlopokat ehhez a táblához.
+
+        action: 'Akció tábla'
+        action_by_attribute: 'Akció tábla (%{attribute})'
+        action_text: >
+          Tábla szűrt listákkal a %{attribute} attribútumon. Ha áthelyezi a munkacsomagokat más listákra, frissül az attribútumuk.
+
+        action_text_subprojects: >
+          Tábla automatizált oszlopokkal az alprojektekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a(z) (al) projektet.
+
+        action_text_subtasks: >
+          Tábla automatizált oszlopokkal az alelemekhez. A munkacsomagok más listákra húzása ennek megfelelően frissíti a szülőt.
+
+        action_text_status: >
+          Alapvető kanban stílusú tábla oszlopokkal az állapothoz, mint például a Teendő, Folyamatban, Kész.
+
+        action_text_assignee: >
+          Tábla automatikus oszlopokkal a hozzárendelt felhasználók alapján. Ideális munkacsomagok feladásához.
+
+        action_text_version: >
+          Tábla automatikus oszlopokkal a verzióattribútum alapján. Ideális termékfejlesztés tervezéséhez.
+
+        action_type:
+          assignee: felelős
+          status: állapot
+          version: verzió
+          subproject: alprojekt
+          subtasks: szülő-gyerek
+        board_type_title:
+          assignee: Megbízott
+          status: Állapot
+          version: Verzió
+          subproject: Alprojekt
+          subtasks: Szülő-gyerek
+          basic: Alap
+        select_attribute: "Akció attribútum"
+      add_list_modal:
+        labels:
+          assignee: "Válassza ki a felhasználót akit hozzá szeretne adni az új megbízotti listához.\n"
+          status: Státusz hozzáadása az új listához
+          version: Verzió hozzáadása az új listához
+          subproject: Alprojekt hozzáadása az új listához
+          subtasks: "Válassza ki az új listaként hozzáadandó munkacsomagot\n"
+        warning:
+          status: |
+            Jelenleg nincs elérhető állapot. <br>
+            Vagy nincsenek, vagy mindegyik már felkerült a táblába
+          assignee: "Nincs olyan tag, amely megfelelne a szűrő értékének. <br>\n"
+          no_member: "Ennek a projektnek jelenleg nincs hozzáadható tagja. <br>\n"
+          add_members: "\n<a href=\"%{link}\"> Új tag hozzáadása a projekthez </a> a felhasználók újbóli kiválasztásához."
+      configuration_modal:
+        title: 'Konfiguráld a táblát'
+        display_settings:
+          card_mode: "megjelenítés kártyaként"
+          table_mode: "Megjelenítés táblaként"

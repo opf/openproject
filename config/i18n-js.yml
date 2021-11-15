@@ -1,0 +1,4 @@
+fallbacks: :en
+translations:
+  - file: "frontend/src/locales/%{locale}.js"
+    only: ['*.js', '*.number.*', '*.time.*', '*.date.*']

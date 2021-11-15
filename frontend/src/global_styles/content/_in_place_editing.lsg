@@ -1,0 +1,19 @@
+# In place editing
+
+## In place editing: Title
+
+```
+<div class="toolbar-container -editable">
+    <div class="toolbar">
+        <editable-toolbar-title class="title-container">
+          <div class="editable-toolbar-title--container">
+            <input class="wp-query--selectable-title -border-on-hover-only toolbar--editable-toolbar ellipsis"
+                    placeholder="Page title"
+                    aria-label="Page title"
+                    type="text"
+                    name="foobar" />
+          </div>
+        </editable-toolbar-title>
+    </div>
+</div>
+```

@@ -1,0 +1,34 @@
+.wp-timeline-cell:not(.-group-row):hover
+  .show-on-hover.not-empty
+    display: inline-block !important
+
+.wp-timeline-cell.-group-row
+  .timeline-element:hover
+    z-index: 1
+
+    .show-on-hover.not-empty
+      display: inline-block
+
+    .diamond
+      border: 1px solid var(--table-row-border-color)
+
+    .hide-on-hover
+      display: none !important
+
+  .labelRight
+    background-color: white
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+    height: 16px
+    font-size: 8px !important
+    padding: 2px 2px
+    line-height: 1
+    margin-left: 5px !important
+
+  .timeline-element.milestone
+    .labelHoverRight
+      transform: translateX(calc(100% + 5px))
+
+    .labelHoverLeft
+      transform: translateX(calc(-100% - 12px))
+

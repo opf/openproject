@@ -1,0 +1,23 @@
+version: "3.7"
+
+networks:
+  testing:
+
+services:
+  ci:
+    build:
+      context: ./docker/ci/
+      dockerfile: Dockerfile
+    environment:
+      RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
+      JOBS: "${CI_JOBS:-8}"
+      CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
+      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
+    tmpfs:
+      - "/tmp"
+    volumes:
+      - ".:/home/dev/openproject"
+      - "${CI_CACHE_PATH:-/tmp}/op-bundle:/usr/local/bundle"
+      - "${CI_CACHE_PATH:-/tmp}/op-node:/home/dev/openproject/frontend/node_modules"
+    networks:
+      - testing

@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+de:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Verfügbar"
+        budget: "Geplant"
+        budget_ratio: "Verbraucht (Prozent)"
+        description: "Beschreibung"
+        spent: "Verbraucht"
+        status: "Status"
+        subject: "Thema"
+        type: "Kostentyp"
+        labor_budget: "Geplante Personaleinzelkosten"
+        material_budget: "Geplante Stückkosten"
+      work_package:
+        budget_subject: "Budgettitel"
+    models:
+      budget: "Budget"
+      material_budget_item: "Stück"
+  attributes:
+    budget: "Budget"
+  button_add_budget_item: "Budgetposition hinzufügen"
+  button_add_budget: "Neues Budget anlegen"
+  button_add_cost_type: "Kostentyp anlegen"
+  button_cancel_edit_budget: "Budget bearbeiten abbrechen"
+  button_cancel_edit_costs: "Kosten bearbeiten abbrechen"
+  caption_labor: "Personal"
+  caption_labor_costs: "Ist-Personaleinzelkosten"
+  caption_material_costs: "Ist-Stückkosten"
+  budgets_title: "Budgets"
+  events:
+    budget: "Budget bearbeitet"
+  help_click_to_edit: "Hier Klicken zum bearbeiten."
+  help_currency_format: "Format der angezeigten Währungswerte. %n wird mit dem Zahlenwert ersetzt, %u mit der Währung."
+  help_override_rate: "Hier einen Wert eingeben um den Standardwert zu Überschreiben."
+  label_budget: "Budget"
+  label_budget_new: "Neues Budget"
+  label_budget_plural: "Budgets"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Budget"
+  label_example_placeholder: 'z. B. %{decimal}'
+  label_view_all_budgets: "Alle Budgets anzeigen"
+  label_yes: "Ja"
+  notice_budget_conflict: "Tickets müssen im gleichen Projekt sein."
+  notice_no_budgets_available: "Kein Budget verfügbar."
+  permission_edit_budgets: "Budgets bearbeiten"
+  permission_view_budgets: "Budgets ansehen"
+  project_module_budgets: "Budgets"
+  text_budget_reassign_to: "Auf dieses Budget umbuchen:"
+  text_budget_delete: "Budget aus allen Arbeitspaketen löschen"
+  text_budget_destroy_assigned_wp: "Es gibt %{count} Arbeitspakete, die diesem Budget zugewiesen sind. Wie möchten Sie fortfahren?"

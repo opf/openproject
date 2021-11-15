@@ -1,0 +1,29 @@
+#English strings go here
+hu:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importálás'
+      import_bcf_xml_file: "BCF XML fájl importálása (BCF 2.1 verzió)\n"
+      export: 'Exportálás'
+      export_bcf_xml_file: "BCF XML fájl exportálása (BCF 2.1 verzió)\n"
+      viewpoint: 'Nézőpont'
+      add_viewpoint: 'Nézőpont hozzáadása'
+      show_viewpoint: 'Nézőpont megjelenítése'
+      delete_viewpoint: 'Nézőpont törlése'
+      management: "BCF menedzsment\n"
+      refresh: 'Frissítés'
+      refresh_work_package: 'Munkacsomag frissítése'
+    ifc_models:
+      empty_warning: "Ez a projekt nem tartalmaz ICF modellt még"
+      use_this_link_to_manage: "Ezen a linken tudja feltölteni és szerkeszteni az ICF modelleket"
+      keyboard_input_disabled: "A Néző nem rendelkezik billentyűzetvezérléssel. Kattintson a megjelenítőre, hogy billentyűzetvezérlést adjon a nézőnek.\n"
+      models:
+        ifc_models: 'IFC modell'
+      views:
+        viewer: 'Néző'
+        split: 'Néző és tábla'
+        split_cards: 'Néző és kártyák'
+    revit:
+      revit_add_in: "Revit bővítmény\n"
+      revit_add_in_settings: "A Revit bővítmény beállításai\n"

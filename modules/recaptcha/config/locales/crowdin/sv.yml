@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+sv:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Vänligen vänta ...'
+    verify_account: "Bekräfta ditt konto"
+    error_captcha: "Ditt konto kunde inte bekräftas. Kontakta en administratör."
+    settings:
+      website_key: 'Webbplatsens nyckel'
+      website_key_text: 'Ange webbplatsnyckeln du skapade på reCAPTCHA adminkonsolen för denna domän.'
+      secret_key: 'Hemlig nyckel'
+      secret_key_text: 'Ange den hemliga nyckel du skapade på reCAPTCHA administratörskonsolen.'
+      type: 'Använd reCAPTCHA'
+      type_disabled: 'Inaktivera reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA är en gratis tjänst från Google som kan aktiveras för din OpenProject instans. Om aktiverad, kommer ett captcha-formulär att renderas vid inloggning för alla användare som inte har verifierat en captcha ännu. <br/> Se följande länk för mer information om reCAPTCHA och deras versioner, och hur man skapar webbplatsen och hemliga nycklar: %{recaptcha_link}

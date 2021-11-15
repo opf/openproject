@@ -1,0 +1,41 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pl:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Żądania Pull Request"
+        copy_menu:
+          label: Fragmenty git
+          description: Skopiuj fragmenty git do schowka
+        git_actions:
+          branch_name: Nazwa gałęzi
+          commit_message: Wiadomość o zmianach
+          cmd: Utwórz gałąź z pustą zmianą
+          title: Szybkie fragmenty do Git
+          copy_success: '✅ Skopiowano!'
+          copy_error: '❌ Kopiowanie nie powiodło się!'
+      tab_prs:
+        empty: 'Nie ma jeszcze powiązanych żądań Pull Request. Powiąż istniejące PR, używając kodu <code>OP#%{wp_id}</code> w opisie PR lub utwórz nowe PR.'
+      github_actions: Akcje

@@ -1,0 +1,5 @@
+sl:
+  dashboards:
+    label: 'Nadzorna plošča'
+    menu_badge: 'Alfa'
+  project_module_dashboards: 'Nadzorna plošča'

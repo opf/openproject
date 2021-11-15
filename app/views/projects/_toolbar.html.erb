@@ -1,0 +1,86 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= toolbar title: t(:label_information_plural) do %>
+  <% if User.current.allowed_to?(:add_subprojects, @project) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_path(parent_id: @project.id),
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_subproject_new)},
+                    title: t(:label_subproject_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_subproject) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <li class="toolbar-item hidden-for-mobile">
+    <%= link_to project_identifier_path(@project), class: 'button' do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t('projects.settings.change_identifier') %></span>
+    <% end %>
+  </li>
+  <% if @project.copy_allowed? %>
+    <li class="toolbar-item hidden-for-mobile">
+      <%= link_to copy_project_path(@project), class: 'button copy', accesskey: accesskey(:copy) do %>
+        <%= op_icon('button--icon icon-copy') %>
+        <span class="button--text"><%= t(:button_copy) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% if User.current.admin? %>
+    <li class="toolbar-item hidden-for-mobile">
+      <%= link_to(project_archive_path(@project, status: '', name: @project.name),
+                  data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
+                  method: :post,
+                  title: t(:label_archive_project),
+                  class: 'button') do %>
+        <%= op_icon('button--icon icon-locked') %>
+        <span class="button--text"><%= t(:button_archive) %></span>
+      <% end %>
+    </li>
+    <li class="toolbar-item hidden-for-mobile">
+      <% label = @project.templated ? 'remove_from_templates' : 'make_template' %>
+      <%= link_to(project_templated_path(@project),
+                  method: @project.templated ? :delete : :post,
+                  title: t("project.template.#{label}"),
+                  class: 'button') do %>
+        <%= op_icon('button--icon icon-duplicate') unless @project.templated %>
+        <span class="button--text"><%= t("project.template.#{label}") %></span>
+      <% end %>
+    </li>
+    <li class="toolbar-item">
+      <%= link_to confirm_destroy_project_path(@project),
+                  class: 'button delete',
+                  title: t(:label_delete_project) do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>

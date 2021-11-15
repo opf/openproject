@@ -1,0 +1,15 @@
+<widget-header
+    [name]="widgetName"
+    (onRenamed)="renameWidget($event)">
+
+  <widget-menu
+      slot="menu"
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<ng-container wp-isolated-query-space>
+  <wp-calendar
+      [static]="true"
+      [projectIdentifier]="projectIdentifier"></wp-calendar>
+</ng-container>

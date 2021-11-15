@@ -1,0 +1,144 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+cs:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Pracovní balíček"
+        overridden_costs: "Přepsané náklady"
+        spent: "Strávený čas"
+        spent_on: "Datum"
+      cost_type:
+        unit: "Jméno jednotky"
+        unit_plural: "Jméno jednotek (mn.č.)"
+      work_package:
+        costs_by_type: "Strávené jednotky"
+        labor_costs: "Náklady práce"
+        material_costs: "Ceny jednotky"
+        overall_costs: "Celkové náklady"
+        spent_costs: "Utracené náklady"
+        spent_units: "Strávené jednotky"
+      rate:
+        rate: "Kurz"
+      user:
+        default_rates: "Výchozí sazby"
+    models:
+      cost_type:
+        one: "Druh nákladů"
+        few: "Typy nákladů"
+        many: "Typy nákladů"
+        other: "Typy nákladů"
+      rate: "Kurz"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek."
+          nullify_is_not_valid_for_cost_entries: "K projektu nelze přiřadit položky nákladů."
+  attributes:
+    comment: "Komentář"
+    cost_type: "Typ nákladu"
+    costs: "Náklady"
+    current_rate: "Aktuální sazba"
+    hours: "Hodiny"
+    units: "Jednotky"
+    valid_from: "Platné od"
+    fixed_date: "Pevné datum"
+  button_add_rate: "Přidat kurz"
+  button_log_costs: "Logovat jednotkové náklady"
+  caption_booked_on_project: "Rezervováno v projektu"
+  caption_default: "Výchozí"
+  caption_default_rate_history_for: "Výchozí historie kurzů pro %{user}"
+  caption_locked_on: "Uzamčeno"
+  caption_materials: "Jednotky"
+  caption_rate_history: "Historie kurzů"
+  caption_rate_history_for: "Histgoprie kurzů pro %{user}"
+  caption_rate_history_for_project: "Historie kurzů pro %{user} v projektu %{project}"
+  caption_save_rate: "Uložit kurz"
+  caption_set_rate: "Nastavit aktuální sazbu."
+  caption_show_locked: "Zobrazit uzamčené typy"
+  description_date_for_new_rate: "Datum pro nový kurz"
+  group_by_others: "není v žádné skupině"
+  label_between: "mezi"
+  label_cost_filter_add: "Přidat filtr nákladového vstupu"
+  label_costlog: "Logované jednotkové náklady"
+  label_cost_plural: "Náklady"
+  label_cost_type_plural: "Typy nákladů"
+  label_cost_type_specific: "Typ nákladu #%{id}: %{name}"
+  label_costs_per_page: "Náklady na stránku"
+  label_currency: "Měna"
+  label_currency_format: "Formát měny"
+  label_current_default_rate: "Aktuální výchozí sazba"
+  label_date_on: "zapnuto"
+  label_deleted_cost_types: "Odstraněné typy nákladů"
+  label_locked_cost_types: "Uzamčené typy nákladů"
+  label_display_cost_entries: "Zobrazit jednotkové náklady"
+  label_display_time_entries: "Zobrazit nahlášené hodiny"
+  label_display_types: "Typy zobrazení"
+  label_edit: "Upravit"
+  label_generic_user: "Obecný uživatel"
+  label_greater_or_equal: ">="
+  label_group_by: "Seskupit podle"
+  label_group_by_add: "Přidat skupinové pole"
+  label_hourly_rate: "Hodinová sazba"
+  label_include_deleted: "Zahrnout smazané"
+  label_work_package_filter_add: "Přidat filtr pracovního balíčku"
+  label_kind: "Typ"
+  label_less_or_equal: "<="
+  label_log_costs: "Logovat jednotkové náklady"
+  label_no: "Ne"
+  label_option_plural: "Možnosti"
+  label_overall_costs: "Celkové náklady"
+  label_rate: "Kurz"
+  label_rate_plural: "Kurzy"
+  label_status_finished: "Ukončeno"
+  label_units: "Jednotky nákladu"
+  label_user: "Uživatel"
+  label_until: "do"
+  label_valid_from: "Platné od"
+  label_yes: "Ano"
+  notice_something_wrong: "Něco se pokazilo. Zkuste to prosím znovu."
+  notice_successful_restore: "Úspěšně obnoveno."
+  notice_successful_lock: "Úspěšně uzamčeno."
+  notice_cost_logged_successfully: 'Jednotková cena byla úspěšně zaznamenána.'
+  permission_edit_cost_entries: "Upravit rezervované jednotkové náklady"
+  permission_edit_own_cost_entries: "Upravit vlastní rezervované jednotkové náklady"
+  permission_edit_hourly_rates: "Upravit hodinové sazby"
+  permission_edit_own_hourly_rate: "Upravit vlastní hodinové sazby"
+  permission_edit_rates: "Upravit sazby"
+  permission_log_costs: "Jednotkové náklady na knihu"
+  permission_log_own_costs: "Knihovní jednotkové náklady"
+  permission_view_cost_entries: "Zobrazit rezervované náklady"
+  permission_view_cost_rates: "Zobrazit nákladové sazby"
+  permission_view_hourly_rates: "Zobrazit všechny hodinové sazby"
+  permission_view_own_cost_entries: "Zobrazit vlastní rezervované náklady"
+  permission_view_own_hourly_rate: "Zobrazit vlastní hodinovou sazbu"
+  permission_view_own_time_entries: "Zobrazit vlastní strávený čas"
+  project_module_costs: "Čas a náklady"
+  text_assign_time_and_cost_entries_to_project: "Přiřadit nahlášené hodiny a náklady projektu"
+  text_destroy_cost_entries_question: "%{cost_entries} byl nahlášen k pracovním balíčkům, které se chystáte odstranit. Co chcete udělat?"
+  text_destroy_time_and_cost_entries: "Odstranit nahlášené hodiny a náklady"
+  text_destroy_time_and_cost_entries_question: "%{hours} hodin, %{cost_entries} byly nahlášeny v pracovních balíčcích, které se chystáte odstranit. Co chcete udělat?"
+  text_reassign_time_and_cost_entries: "Přiřadit k tomuto pracovnímu balíčku nahlášené hodiny a náklady:"
+  text_warning_hidden_elements: "Některé položky mohly být z agregace vyloučeny."
+  week: "týden"
+  js:
+    text_are_you_sure: "Jste si jisti?"

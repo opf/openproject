@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ro:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Disponibile"
+        budget: "Planificat"
+        budget_ratio: "Cheltuit (raport)"
+        description: "Descriere"
+        spent: "Cheltuit"
+        status: "Stare"
+        subject: "Subiect"
+        type: "Tipul de cost"
+        labor_budget: "Costurile planificate ale forței de muncă"
+        material_budget: "Planificat"
+      work_package:
+        budget_subject: "Titlul bugetului"
+    models:
+      budget: "Buget"
+      material_budget_item: "Unitate"
+  attributes:
+    budget: "Buget"
+  button_add_budget_item: "Adăugați costurile planificate"
+  button_add_budget: "Adăugați bugetul"
+  button_add_cost_type: "Adaugați acest câmp la un pachet de lucru"
+  button_cancel_edit_budget: "Anularea bugetului de editare"
+  button_cancel_edit_costs: "Anularea costurilor de editare"
+  caption_labor: "Muncă"
+  caption_labor_costs: "Costurile reale ale forței de muncă"
+  caption_material_costs: "Costuri unitare reale"
+  budgets_title: "Bugetele"
+  events:
+    budget: "Buget editat"
+  help_click_to_edit: "Câmpul %s este gol. Click aici pentru a-l edita."
+  help_currency_format: "Formatul valorilor valutare afișate. %n este înlocuit cu valoarea monedei, %u este înlocuit cu unitatea monetară."
+  help_override_rate: "Introduceți o valoare aici pentru a înlocui rata implicită."
+  label_budget: "Buget"
+  label_budget_new: "Buget nou"
+  label_budget_plural: "Bugetele"
+  label_budget_id: "Buget #%{id}"
+  label_deliverable: "Buget"
+  label_example_placeholder: 'de exemplu, %{decimal}'
+  label_view_all_budgets: "Vezi toate bugetele"
+  label_yes: "Da"
+  notice_budget_conflict: "Pachetele de lucru trebuie să facă parte din același proiect."
+  notice_no_budgets_available: "Nu există bugete disponibile."
+  permission_edit_budgets: "Editarea bugetelor"
+  permission_view_budgets: "Vezi bugete"
+  project_module_budgets: "Bugetele"
+  text_budget_reassign_to: "Reatribuiți-le acestui buget:"
+  text_budget_delete: "Ștergeți bugetul din toate pachetele de lucru"
+  text_budget_destroy_assigned_wp: "Există %{count} pachete de lucru alocate acestui buget. Ce doriți să faceți?"

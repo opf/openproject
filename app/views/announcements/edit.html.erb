@@ -1,0 +1,26 @@
+<% html_title t(:label_administration), t(:label_announcement) %>
+
+<%= error_messages_for 'announcement' %>
+
+<%= toolbar title: "#{t(:label_announcement)} (#{notice_annoucement_active})" %>
+
+<%= labelled_tabular_form_for @announcement,
+             :url => {:action => :update},
+             :html => {:method => :put} do |f|%>
+  <div class="form--field">
+    <%= f.text_area :text,
+                    :cols => 80,
+                    :rows => 5,
+                    label: t(:label_text),
+                    container_class: '-xxwide',
+                    with_text_formatting: true %>
+  </div>
+  <div class="form--field">
+    <%= f.text_field :show_until, label: t('announcements.show_until'), container_class: '-xslim', class: '-augmented-datepicker' %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :active, label: t(:label_active) %>
+  </div>
+  <hr class="form-separator">
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

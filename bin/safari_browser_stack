@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Sets environment variable OPENPROJECT_DISABLE_DEV_ASSET_PROXY and builds assets manifest
+# Useful for testing Safari on browser stack
+
+yell() { echo -e "$0: $*" >&2; }
+die() { yell "$*"; exit 1; }
+try() { eval "$@" || die "\n\nFailed to run '$*', check log/safari_browser_stack.log for more information."; }
+
+
+echo "Building new assets"
+try 'export OPENPROJECT_DISABLE_DEV_ASSET_PROXY="true"'
+try 'bundle exec rake assets:rebuild_manifest >> log/safari_browser_stack.log'
+
+echo "---------------------------------------"
+echo "Done. Now run the following services"
+echo '- Rails server `RAILS_ENV=development OPENPROJECT_DISABLE_DEV_ASSET_PROXY=true ./bin/rails s`'
+echo '- Angular CLI: `cd frontend && npm run build:watch`'
+echo ''
+echo 'Once you are done: keep in mind to remove the public/assets folder or run the setup_dev script.'
+

@@ -1,0 +1,69 @@
+.timeline-element.milestone
+  position: relative
+  z-index: 0
+
+  .diamond
+    transform: rotate(45deg)
+    transform-origin: center center
+
+    // Fallback color
+    background: #555
+
+  &.-editable
+    cursor: ew-resize
+
+  // Fix top position
+  .labelLeft
+    top: 1px
+
+  // Add more margin to hover right
+  .labelHoverRight
+    transform: translateX(calc(100% + 20px))
+
+.active-selection-mode
+
+  .timeline-element.milestone
+    .diamond.selection-start
+      background: orange !important
+      cursor: not-allowed !important
+
+  .timeline-element.milestone
+    .diamond
+      cursor: pointer !important
+      border: 1px solid orange !important
+
+      background: linear-gradient(270deg, #eeeeee, #bbbbbb)
+      background-size: 400% 400%
+      -webkit-animation: AnimationName 4s ease infinite
+      -moz-animation: AnimationName 4s ease infinite
+      animation: AnimationName 4s ease infinite
+
+      @-webkit-keyframes AnimationName
+        0%
+          background-position: 0% 50%
+        50%
+          background-position: 100% 50%
+        100%
+          background-position: 0% 50%
+
+      @-moz-keyframes AnimationName
+        0%
+          background-position: 0% 50%
+        50%
+          background-position: 100% 50%
+        100%
+          background-position: 0% 50%
+
+      @keyframes AnimationName
+        0%
+          background-position: 0% 50%
+        50%
+          background-position: 100% 50%
+        100%
+          background-position: 0% 50%
+
+
+  .timeline-element.milestone
+    .diamond:hover
+      background: #ffd975 !important
+

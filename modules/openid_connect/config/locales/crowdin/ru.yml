@@ -1,0 +1,19 @@
+ru:
+  logout_warning: >
+    Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Имя
+        display_name: Отображаемое имя
+        identifier: Идентификатор
+        secret: Секретный ключ
+        scope: Область
+  openid_connect:
+    menu_title: Провайдеры OpenID
+    providers:
+      label_add_new: Добавить нового провайдера OpenID
+      label_edit: Редактировать провайдера OpenID %{name}
+      no_results_table: Ни один провайдер еще не был определен.
+      plural: Провайдеры OpenID
+      singular: Провайдер OpenID

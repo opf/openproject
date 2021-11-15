@@ -1,0 +1,37 @@
+<div
+    class="op-modal op-modal_wide wp-table--configuration-modal loading-indicator--location"
+    data-indicator-name="modal"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body">
+
+    <ng-container *ngIf="!!prependModalComponent">
+      <ng-container *ngComponentOutlet="prependModalComponent; injector: injector"></ng-container>
+    </ng-container>
+
+    <op-scrollable-tabs
+        *ngIf="tabPortalHost"
+        [tabs]="availableTabs"
+        [currentTabId]="tabPortalHost.currentTab?.id"
+        (tabSelected)="switchTo($event)"
+        >
+
+    </op-scrollable-tabs>
+    <div class="tab-content" #tabContentOutlet></div>
+  </div>
+  <div class="op-modal--footer">
+    <button
+        class="button -highlight"
+        [textContent]="text.applyButton"
+        (click)="saveChanges()"
+    >
+    </button>
+    <button
+        class="button"
+        [textContent]="text.cancelButton"
+        (click)="closeMe($event)"
+    >
+    </button>
+  </div>
+</div>

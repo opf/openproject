@@ -1,0 +1,73 @@
+# Info boxes
+
+## Simple info boxes
+```
+<div class="info-boxes">
+  <h2 class="info-boxes--title">Heading</h2>
+  <div class="info-boxes--container">
+    <div class="info-boxes--item">
+      <h3 class="info-boxes--item-title">Box 1</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <h3 class="info-boxes--item-title">Box 2</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <h3 class="info-boxes--item-title">Box 3</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+## Centered with image and links
+```
+<div class="info-boxes -centered">
+  <h2 class="info-boxes--title">Heading</h2>
+  <div class="info-boxes--container">
+    <div class="info-boxes--item">
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 1</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 2</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="info-boxes--item">
+      <img src="https://via.placeholder.com/250x200" class="info-boxes--teaser-image">
+      <h3 class="info-boxes--item-title">Box 3</h3>
+      <div class="info-boxes--item-content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <ul class="widget-box--arrow-links">
+          <li>
+            <a href="" target="_blank">Learn more</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+```

@@ -1,0 +1,78 @@
+<edit-form
+  #editForm
+  [resource]="entry"
+  [inEditMode]="inEditMode"
+  (onSaved)="signalModifiedEntry($event)">
+  <div class="attributes-map">
+
+    <div class="attributes-map--key"
+               [ngClass]="{'-required': isRequired('spentOn')}"
+               [textContent]="text.attributes.spentOn">
+    </div>
+    <div class="attributes-map--value">
+      <editable-attribute-field [resource]="entry"
+                                [wrapperClasses]="'-tiny'"
+                                [fieldName]="'spentOn'">
+      </editable-attribute-field>
+    </div>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('hours')}"
+         [textContent]="text.attributes.hours">
+    </div>
+    <div class="attributes-map--value">
+      <editable-attribute-field [resource]="entry"
+                                [wrapperClasses]="'-tiny'"
+                                [fieldName]="'hours'">
+      </editable-attribute-field>
+    </div>
+
+    <div *ngIf="showWorkPackageField"
+         class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('workPackage')}"
+         [textContent]="text.attributes.workPackage">
+    </div>
+    <div *ngIf="showWorkPackageField"
+         class="attributes-map--value">
+      <editable-attribute-field [resource]="entry"
+                                [fieldName]="'workPackage'">
+      </editable-attribute-field>
+    </div>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('activity')}"
+         [textContent]="text.attributes.activity">
+    </div>
+    <div class="attributes-map--value">
+      <editable-attribute-field *ngIf="workPackageSelected"
+                                [resource]="entry"
+                                [fieldName]="'activity'">
+      </editable-attribute-field>
+      <i *ngIf="!workPackageSelected"
+         [textContent]="text.wpRequired">
+      </i>
+    </div>
+
+    <div class="attributes-map--key"
+         [ngClass]="{'-required': isRequired('comment')}"
+         [textContent]="text.attributes.comment">
+    </div>
+    <div class="attributes-map--value">
+      <editable-attribute-field [resource]="entry"
+                                [fieldName]="'comment'">
+      </editable-attribute-field>
+    </div>
+
+    <ng-container *ngFor="let cf of customFields">
+      <div class="attributes-map--key"
+           [ngClass]="{'-required': isRequired(cf.key)}"
+           [textContent]="cf.label">
+      </div>
+      <div class="attributes-map--value">
+        <editable-attribute-field [resource]="entry"
+                                  [fieldName]="cf.key">
+        </editable-attribute-field>
+      </div>
+    </ng-container>
+  </div>
+</edit-form>

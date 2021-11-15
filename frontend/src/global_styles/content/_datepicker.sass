@@ -1,0 +1,121 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+$datepicker--border-radius: 2px
+$datepicker--line-height:   28px
+$datepicker--hover-color:   #DDDDDD
+
+.flatpickr-current-month
+  display: flex !important
+
+.numInputWrapper
+  position: fixed !important
+  left: 65% !important
+
+.flatpickr-calendar.inline
+  width: initial !important
+  top: 0 !important
+  margin: 0 1.5rem
+  padding-top: 10px !important
+  border-top: 1px solid $datepicker--hover-color !important
+  border-radius: 0 !important
+  box-shadow: none !important
+
+  .flatpickr-months
+    min-height: 45px
+    .flatpickr-prev-month,
+    .flatpickr-next-month
+      top: unset
+
+  .flatpickr-monthDropdown-months
+    display: inline-block
+
+  .flatpickr-weekwrapper
+    display: none
+
+  .flatpickr-weekday
+    color: var(--body-font-color)
+    font-size: var(--body-font-size)
+
+  .flatpickr-weekdaycontainer,
+  .flatpickr-days .dayContainer
+    padding: 0.75rem 0.75rem 15px 0.75rem
+
+  .flatpickr-days
+    .dayContainer
+      box-shadow: none
+
+      .flatpickr-day
+        height: $datepicker--line-height
+        line-height: $datepicker--line-height
+        border-radius: $datepicker--border-radius
+
+        &:nth-child(7n+7),
+        &:nth-child(7n+6)
+          background: var(--gray-light)
+          border-radius: 0
+
+        &:nth-child(7n+6)
+          box-shadow: 5px 0 0 var(--gray-light)
+
+        &.today
+          border-color: var(--light-gray) !important
+          &:hover:not(.selected)
+            color: var(--body-font-color)
+
+        &.selected
+          background: var(--primary-color)
+          border-color: var(--primary-color)
+          &.startRange
+            border-radius: 2px 0 0 2px
+          // Workaround to close the gap caused by original styles
+          &.endRange
+            border-radius: 0 2px 2px 0
+            box-shadow: none
+          &:hover
+            background: var(--primary-color-dark)
+            border-color: var(--primary-color-dark)
+
+        &.inRange
+          background: $datepicker--hover-color
+          border-color: $datepicker--hover-color
+          border-radius: 0
+          &:nth-child(7n+7)
+            box-shadow: none
+          &:hover
+            background: var(--light-gray)
+            border-color: var(--light-gray)
+
+        &.inRange:not(:nth-child(7n+7)),
+        &.selected.startRange:not(:nth-child(7n+7))
+          box-shadow: 5px 0 0 $datepicker--hover-color
+
+        &:hover
+          background: $datepicker--hover-color
+          border-color: $datepicker--hover-color
+          border-radius: $datepicker--border-radius

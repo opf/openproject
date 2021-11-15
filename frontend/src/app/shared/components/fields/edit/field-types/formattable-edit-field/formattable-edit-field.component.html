@@ -1,0 +1,18 @@
+<div class="textarea-wrapper">
+  <div class="op-ckeditor--wrapper op-ckeditor-element">
+    <op-ckeditor [context]="ckEditorContext"
+                 [content]="initialContent"
+                 (onContentChange)="onContentChange($event)"
+                 (onInitializationFailed)="initializationError = true"
+                 (onInitialized)="onCkeditorSetup($event)"
+                 >
+    </op-ckeditor>
+  </div>
+  <edit-field-controls *ngIf="!(handler.inEditMode || initializationError)"
+                       [fieldController]="field"
+                       (onSave)="handleUserSubmit()"
+                       (onCancel)="handler.handleUserCancel()"
+                       [saveTitle]="text.save"
+                       [cancelTitle]="text.cancel">
+  </edit-field-controls>
+</div>

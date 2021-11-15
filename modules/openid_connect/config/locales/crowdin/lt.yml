@@ -1,0 +1,19 @@
+lt:
+  logout_warning: >
+    Jūs atsijungėte. Bet kurios siunčiamos formos turinys gali būti prarastas. Prašome [prisijungti].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Vardas
+        display_name: Rodomas vardas
+        identifier: Identifikatorius
+        secret: Paslaptis
+        scope: Apimtis
+  openid_connect:
+    menu_title: OpenID tiekėjai
+    providers:
+      label_add_new: Pridėti naują OpenID tiekėją
+      label_edit: Keisti OpenID tiekėją %{name}
+      no_results_table: Dar neapibrėžtas joks tiekėjas.
+      plural: OpenID tiekėjai
+      singular: OpenID tiekėjas

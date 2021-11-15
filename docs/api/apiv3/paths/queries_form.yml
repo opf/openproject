@@ -1,0 +1,12 @@
+# /api/v3/queries/form
+---
+post:
+  responses:
+    '200':
+      description: OK
+      headers: {}
+  tags:
+  - Queries
+  description: ''
+  operationId: Query_Create_Form
+  summary: Query Create Form

@@ -1,0 +1,23 @@
+# Schema: ConfigurationModel
+---
+type: object
+properties:
+  maximumAttachmentFileSize:
+    type: integer
+    description: The maximum allowed size of an attachment in Bytes
+    readOnly: true
+  perPageOptions:
+    type: integer[]
+    description: Page size steps to be offered in paginated list UI
+example:
+  _type: Configuration
+  _links:
+    self:
+      href: "/api/v3/configuration"
+    userPreferences:
+      href: "/api/v3/my_preferences"
+  maximumAttachmentFileSize: 5242880
+  perPageOptions:
+  - 1
+  - 10
+  - 100

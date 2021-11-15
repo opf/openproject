@@ -1,0 +1,50 @@
+<form
+  class="op-modal "
+  (submit)="applyAndClose($event)"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+
+  <div class="op-modal--body">
+    <textarea name="codemirror-element"
+              id="codemirror-element"
+              [ngModel]="content"
+              #codeMirrorPane></textarea>
+    <hr/>
+    <div class="form--field">
+      <label
+          for="selected-language"
+          [textContent]="text.language"
+          class="form--label hidden-for-sighted">
+      </label>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <input
+              #selectedLanguage
+              tabindex="2"
+              type="text"
+              id="selected-language"
+              name="selected-language"
+              [ngModel]="language"
+              (ngModelChange)="updateLanguage($event)"
+              class="form--select" />
+        </div>
+      </div>
+      <p [textContent]="text.language_hint"></p>
+    </div>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      class="op-modal--cancel-button button"
+      (click)="closeMe($event)"
+      tabindex="4"
+      type="button"
+      [textContent]="text.button_cancel"
+    ></button>
+    <button
+      class="op-modal--submit-button button -highlight"
+      tabindex="3"
+      [textContent]="text.button_save"
+    ></button>
+  </div>
+</form>

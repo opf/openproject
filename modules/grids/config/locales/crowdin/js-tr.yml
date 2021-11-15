@@ -1,0 +1,63 @@
+tr:
+  js:
+    grid:
+      add_widget: 'Widget ekleyin'
+      remove: 'Widget''ı kaldır'
+      configure: 'Widget''ı yapılandır'
+      upsale:
+        text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
+        link: 'kurumsal baskı.'
+      widgets:
+        custom_text:
+          title: 'Özel metin'
+        documents:
+          title: 'Belgeler'
+          no_results: 'Henüz belge yok.'
+        members:
+          title: 'Üyeler'
+          no_results: 'Görünür üye yok.'
+          view_all_members: 'Tüm üyeleri görüntüle'
+          add: 'Üye'
+          too_many: '%{total} üyelerin %{count} sayısını gösteriliyor.'
+        news:
+          title: 'Haberler'
+          at: 'en'
+          no_results: 'Rapor için yeni birşey bulunamadı.'
+        project_description:
+          title: 'Proje tanımı'
+          no_results: "Henüz bir açıklama yazılmadı. Biri 'Proje ayarları' içinde sağlanabilir."
+        project_details:
+          title: 'Proje detayları'
+          no_results: 'Projeler için özel alan tanımlanmadı.'
+        project_status:
+          title: 'Proje Durumu'
+          on_track: 'Takipte'
+          off_track: 'Kapalı parça'
+          at_risk: 'Riskli'
+          not_set: 'Ayarlanmadı'
+        subprojects:
+          title: 'Alt Projeler'
+          no_results: 'Alt proje yok.'
+        time_entries_current_user:
+          title: 'Geçirdiğim zaman'
+          displayed_days: 'Widget''te görüntülenen günler:'
+        time_entries_list:
+          title: 'Harcanan zaman (son 7 gün)'
+          no_results: 'Son 7 güne zaman girişi yok.'
+        work_packages_accountable:
+          title: "Sorumlu olduğum iş paketleri"
+        work_packages_assigned:
+          title: 'Bana atanan iş paketleri'
+        work_packages_created:
+          title: 'Oluşturduğum iş paketleri'
+        work_packages_watched:
+          title: 'İzlediğim iş paketleri'
+        work_packages_table:
+          title: 'İş paketleri tablosu'
+        work_packages_graph:
+          title: 'İş paketleri grafiği'
+        work_packages_calendar:
+          title: 'Takvim'
+        work_packages_overview:
+          title: 'İş paketlerine genel bakış'
+          placeholder: 'Düzenlemek için tıkla ...'

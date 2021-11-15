@@ -1,0 +1,44 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2020 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t("label_placeholder_user_new") %>
+<% local_assigns[:additional_breadcrumb] = t(:label_placeholder_user_new) %>
+<%= render partial: 'toolbar', locals: { new_user: true,
+                                         :@placeholder_user => @placeholder_user } %>
+<%= labelled_tabular_form_for @placeholder_user,
+                              url: { action: "create" },
+                              html: { class: nil, autocomplete: 'off' },
+                              as: :placeholder_user do |f| %>
+  <%= render partial: 'form', locals: { f: f, placeholder_user: @placeholder_user } %>
+
+  <p>
+    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_create_and_continue), name: 'continue', class: '-highlight -with-icon icon-checkmark' %>
+  </p>
+<% end %>

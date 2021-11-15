@@ -1,0 +1,182 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+$widget-box--enumeration-width: 20px
+
+.widget-boxes
+
+  &.-flex
+    display: flex
+    flex-flow: row wrap
+    // cancel the margin of the outer elements to align with the rest of the page
+    margin: 0 -10px
+
+    .widget-box
+      flex: 1
+      flex-basis: 32%
+      display: flex
+      flex-direction: column
+
+    .widget-box--enumeration,
+    .widget-box--arrow-links,
+    .widget-box--feature-list
+      flex-grow: 2
+
+  &.-vertical
+    flex-flow: column wrap
+
+  .icon-context:before
+    padding-right: 5px
+
+  &.grid-content
+    padding-left: 10px
+    padding-right: 10px
+
+    .widget-box
+      margin-left: 0
+      margin-right: 0
+
+  .widget-box
+    position: relative
+    @include widget-box--style
+    padding: 20px
+    min-height: 250px
+    word-wrap: break-word
+    overflow: hidden
+
+    &.-thin
+      min-height: 100px
+    &.-wider
+      flex-grow: 3
+    &.-minimal
+      flex-grow: 0
+    &.-no-border
+      padding: 0
+      border: 0
+
+    &--teaser-image
+      width: 200px
+
+    .widget-box--enumeration
+      margin-left: 1.5rem
+      margin-top: 0.5rem
+
+    .widget-box--feature-list
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+
+      &:last-child
+        margin-bottom: 0
+
+      li:before
+        @include icon-common
+        @include icon-mixin-yes
+        @extend .icon-yes
+        display: inline-block
+        font-size: 0.6rem
+        color: var(--alternative-color)
+        color: var(--alternative-color)
+        width: $widget-box--enumeration-width
+
+    .widget-box--description
+      display: grid
+      grid-template-columns: auto auto
+      grid-column-gap: 20px
+      margin-bottom: 20px
+
+.op-widget-box--header
+  font-weight: bold
+  font-size: 1.25rem
+  display: flex
+  margin-top: 4px
+  margin-bottom: 13px
+  border-bottom: none
+  padding-bottom: 0
+
+.op-widget-box--header-title
+  vertical-align: middle
+  margin-bottom: 0
+  flex-grow: 1
+  align-self: center
+
+  // Ensure style for read-only widget headers
+  .editable-toolbar-title--fixed,
+  .toolbar--editable-toolbar
+    color: #5F5F5F
+    font-size: 16px
+    letter-spacing: 1px
+    text-transform: uppercase
+    font-weight: bold
+
+.widget-box--additional-info
+  font-style: italic
+  margin-bottom: 0.5rem
+
+.widget-box--arrow-links
+  list-style: none
+  margin: 0.5rem 0 1rem 20px
+
+  &:last-child
+    margin-bottom: 0
+
+  li:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right2
+    @extend .icon-context
+    display: inline-block
+    font-size: 0.6rem
+    color: var(--content-icon-link-color)
+    width: $widget-box--enumeration-width
+    margin-left: -20px
+
+  .-widget-box--arrow-multiline
+    &:before
+      line-height: 2
+      float: left
+
+    &:after
+      clear: both
+      content: ""
+      display: table
+
+    > div
+      float: left
+      margin-bottom: 10px
+      //necessary for correct alignment even with long texts
+      width: calc(100% - #{$widget-box--enumeration-width})
+
+
+@include breakpoint(680px down)
+  .widget-boxes
+    &.-flex
+      .widget-box
+        flex-basis: 100%
+
+  .widget-box--arrow-links
+    .-widget-box--arrow-multiline:before
+      padding-top: 0

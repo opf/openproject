@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+sv:
+  activerecord:
+    attributes:
+      budget:
+        author: "Upphovsman"
+        available: "Tillgängliga"
+        budget: "Planerade"
+        budget_ratio: "Spenderade (förhållande)"
+        description: "Beskrivning"
+        spent: "Spenderat"
+        status: "Status"
+        subject: "Ämne"
+        type: "Kostnadstyp"
+        labor_budget: "Planerade arbetskostnader"
+        material_budget: "Planerade enhetskostnader"
+      work_package:
+        budget_subject: "Budgettitel"
+    models:
+      budget: "Budget"
+      material_budget_item: "Enhet"
+  attributes:
+    budget: "Budget"
+  button_add_budget_item: "Lägg till planerade kostnader"
+  button_add_budget: "Lägg till budget"
+  button_add_cost_type: "Lägg till kostnadstyp"
+  button_cancel_edit_budget: "Avbryt redigering av budget"
+  button_cancel_edit_costs: "Avbryt redigering av kostnader"
+  caption_labor: "Arbetskraft"
+  caption_labor_costs: "Faktiska arbetskraftskostnader"
+  caption_material_costs: "Faktiska enhetskostnader"
+  budgets_title: "Budgetar"
+  events:
+    budget: "Budget redigerad"
+  help_click_to_edit: "Klicka här för att redigera."
+  help_currency_format: "Format på visade valutavärden. %n ersätts med valutavärdet, %u ersätts med valutaenheten."
+  help_override_rate: "Ange ett värde här om du vill åsidosätta standardtimpriset."
+  label_budget: "Budget"
+  label_budget_new: "Ny budget"
+  label_budget_plural: "Budgetar"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Budget"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Visa alla budgetar"
+  label_yes: "Ja"
+  notice_budget_conflict: "Arbetspaketen måste tillhöra samma projekt."
+  notice_no_budgets_available: "Inga budgetar tillgängliga."
+  permission_edit_budgets: "Redigera budgetar"
+  permission_view_budgets: "Visa budgetar"
+  project_module_budgets: "Budgetar"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

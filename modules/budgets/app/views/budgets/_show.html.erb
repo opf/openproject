@@ -1,0 +1,410 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <a href="#"><%= t(:caption_materials) %></a>
+  </legend>
+  <div class="grid-block">
+    <div class="grid-content medium-6">
+      <h4><%= Budget.human_attribute_name(:material_budget) %></h4>
+      <div>
+        <div class="generic-table--container -with-footer">
+          <div class="generic-table--results-container">
+            <table class="generic-table material_budget_items">
+              <colgroup>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:comment) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="currency">
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= MaterialBudgetItem.human_attribute_name(:budget) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @budget.material_budget_items.each do |material_budget_item| %>
+                <tr>
+                  <td class="units">
+                    <%= localized_float(material_budget_item.units) %>
+                  </td>
+                  <td><%=h material_budget_item.cost_type.name %></td>
+                  <td class="comments"><%=h material_budget_item.comments %></td>
+                  <td class="currency"><%= material_budget_item.costs_visible_by?(User.current) ? number_to_currency(material_budget_item.costs) : "" %></td>
+                </tr>
+                <% end %>
+              </tbody>
+              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <tfoot>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="currency">
+                    <div class="generic-table--footer-outer">
+                      <strong><%= number_to_currency(@budget.material_budget) %></strong>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              <% end %>
+            </table>
+
+            <div class="generic-table--footer-background"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content medium-6">
+      <h4><%= t(:caption_material_costs) %></h4>
+      <div>
+        <div class="generic-table--container -with-footer">
+          <div class="generic-table--results-container">
+            <table class="generic-table material_budget_items">
+              <colgroup>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+              </colgroup>
+              <thead>
+              <tr>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= MaterialBudgetItem.human_attribute_name(:work_package)%>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= MaterialBudgetItem.human_attribute_name(:units) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th class="currency">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= MaterialBudgetItem.human_attribute_name(:costs) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+                <% @budget.cost_entries.visible(User.current).includes(:cost_type).group_by(&:work_package).each do |work_package, cost_entries|
+                entries = cost_entries.inject(Hash.new)  do |results, entry|
+                  result = results[entry.cost_type.id.to_s]
+                  unless result
+                    result = CostEntry.new(cost_type: entry.cost_type, project: @project, overridden_costs: 0.0, units: 0)
+                    results[entry.cost_type.id.to_s] = result
+                  end
+                    result.overridden_costs += entry.real_costs
+                    result.units += entry.units
+                    results
+                  end.values
+                entries.each do |c|
+                %>
+                  <tr>
+                    <td class="subject"><%= link_to_work_package work_package %></td>
+                    <td>
+                      <%= link_to localized_float(c.units),
+                                  cost_reports_path(work_package.project_id,
+                                                    'fields[]': 'WorkPackageId',
+                                                    'operators[WorkPackageId]': '=',
+                                                    'values[WorkPackageId]': work_package.id,
+                                                    unit: c.cost_type_id,
+                                                    set_filter: 1) %>
+                    </td>
+                    <td><%= c.cost_type %></td>
+                    <td class="currency"><%= c.costs_visible_by?(User.current) ? number_to_currency(c.real_costs) : "" %></td>
+                  </tr>
+                <% end %>
+                <% end %>
+              </tbody>
+              <% if User.current.allowed_to?(:view_cost_rates, @project) %>
+              <tfoot>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="currency">
+                    <div class="generic-table--footer-outer">
+                      <strong><%= number_to_currency(@budget.spent_material) %></strong>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              <% end %>
+            </table>
+
+            <div class="generic-table--footer-background"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend">
+    <a href="#"><%= t(:caption_labor) %></a>
+  </legend>
+  <div class="grid-block">
+    <div class="grid-content medium-6">
+      <h4><%= Budget.human_attribute_name(:labor_budget)%></h4>
+      <div>
+        <div class="generic-table--container -with-footer">
+          <div class="generic-table--results-container">
+            <table class="generic-table labor_budget_items">
+              <colgroup>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= LaborBudgetItem.human_attribute_name(:hours) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= LaborBudgetItem.human_attribute_name(:user) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= LaborBudgetItem.human_attribute_name(:comment) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="currency">
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= LaborBudgetItem.human_attribute_name(:budget) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @budget.labor_budget_items.each do |labor_budget_item| %>
+                <tr>
+                  <td class="hours"><%= l_hours(labor_budget_item.hours) %></td>
+                  <td><%=h user_name(labor_budget_item.principal) %></td>
+                  <td class="comments"><%=h labor_budget_item.comments %></td>
+                  <% if labor_budget_item.costs_visible_by?(User.current) %>
+                    <td class="currency">
+                      <%= number_to_currency(labor_budget_item.costs)%>
+                    </td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                </tr>
+                <% end %>
+              </tbody>
+              <% if User.current.allowed_to?(:view_hourly_rates, @project) || User.current.allowed_to?(:view_own_hourly_rate, @project) %>
+              <tfoot>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="currency">
+                    <div class="generic-table--footer-outer">
+                      <strong><%= number_to_currency(@budget.labor_budget) %></strong>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+              <% end %>
+            </table>
+
+            <div class="generic-table--footer-background"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="grid-content medium-6">
+      <h4><%= t(:caption_labor_costs) %></h4>
+      <div>
+        <div class="generic-table--container -with-footer">
+          <div class="generic-table--results-container">
+            <table class="generic-table labor_budget_items">
+              <colgroup>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+                <col opHighlightCol>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= TimeEntry.human_attribute_name(:work_package) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= TimeEntry.human_attribute_name(:hours) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th>
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= TimeEntry.human_attribute_name(:user) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <th class="currency">
+                    <div class="generic-table--sort-header-outer">
+                      <div class="generic-table--sort-header">
+                        <span>
+                          <%= TimeEntry.human_attribute_name(:costs) %>
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @budget.time_entries.visible(User.current).group_by(&:work_package).each do |work_package, time_entries|
+                entries = time_entries.inject(Hash.new)  do |results, entry|
+                  result = results[entry.user.id.to_s]
+                  unless result
+                    result = TimeEntry.new(:user => entry.user, :overridden_costs => 0)
+                    result.hours = 0
+                    results[entry.user.id.to_s] = result
+                  end
+
+                  result.overridden_costs += entry.real_costs
+                  result.hours += entry.hours
+                  results
+                end.values
+
+                entries.each do |t|
+                %>
+                  <tr>
+                    <td class="subject"><%= link_to_work_package work_package %></td>
+                    <td class="hours"><%= link_to l_hours(t.hours), cost_reports_path(work_package.project_id, 'fields[]': 'WorkPackageId', 'operators[WorkPackageId]': '=', 'values[WorkPackageId]': work_package.id, set_filter: 1) %></td>
+                    <td><%=h t.user.name %></td>
+                    <td class="currency"><%= number_to_currency(t.real_costs) %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3"></td>
+                  <td class="currency">
+                    <div class="generic-table--footer-outer">
+                      <strong><%= number_to_currency(@budget.spent_labor) %></strong>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <div class="generic-table--footer-background"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

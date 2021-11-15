@@ -1,0 +1,539 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2021 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+en:
+  seeders:
+    standard:
+      demo_data:
+        welcome:
+          title: "Welcome to OpenProject!"
+          text: |
+            Select one of the demo projects to get started with some demo data we have prepared for you.
+
+            * [Demo project](%{base_url}/projects/demo-project): to get an overview about classical project management.
+            * [Scrum project](%{base_url}/projects/your-scrum-project): to learn about Agile and Scrum project management.
+
+            Also, you can create a blank [new project](%{base_url}/projects/new).
+
+            Never stop collaborating. With open source and open mind.
+
+            You can change this welcome text [here](%{base_url}/admin/settings/general).
+        projects:
+          demo-project:
+            name: Demo project
+            identifier: demo-project
+            status:
+              code: on_track
+              description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+            description: This is a short summary of the goals of this demo project.
+            timeline:
+              name: Timeline
+            modules:
+              - work_package_tracking
+              - news
+              - wiki
+              - board_view
+            news:
+              - title: Welcome to your demo project
+                summary: >
+                  We are glad you joined.
+                  In this module you can communicate project news to your team members.
+                description: The actual news
+            types:
+              - :default_type_task
+              - :default_type_milestone
+              - :default_type_phase
+            categories:
+              - Category 1 (to be changed in Project settings)
+            queries:
+              - name: Project plan
+                status: open
+                timeline: true
+                sort_by: id
+                hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - subject
+                  - status
+                  - start_date
+                  - due_date
+                  - assigned_to
+              - name: Milestones
+                type: :default_type_milestone
+                timeline: true
+                columns:
+                  - id
+                  - type
+                  - subject
+                  - status
+                  - start_date
+                  - due_date
+                sort_by: id
+              - name: Tasks
+                status: open
+                type: :default_type_task
+                hierarchy: true
+                sort_by: id
+                columns:
+                  - id
+                  - subject
+                  - priority
+                  - status
+                  - assigned_to
+            boards:
+              kanban:
+                name: 'Kanban board'
+                filters:
+                  - type: default_type_task
+              basic:
+                name: 'Basic board'
+              parent_child:
+                name: 'Work breakdown structure'
+            work_packages:
+              - start: 4
+                subject: Start of project
+                description:
+                status: default_status_closed
+                type: default_type_milestone
+                duration: 0
+                schedule_manually: false
+              - start: 5
+                subject: Organize open source conference
+                description:
+                status: default_status_in_progress
+                type: default_type_phase
+                children:
+                  - start: 5
+                    subject: Set date and location of conference
+                    description: ''
+                    status: default_status_in_progress
+                    type: default_type_task
+                    duration: 16
+                    schedule_manually: false
+                  - start: 22
+                    subject: Setup conference website
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 35
+                    relations:
+                      - to: Set date and location of conference
+                        type: follows
+                    :schedule_manually: false
+                  - start: 22
+                    subject: Invite attendees to conference
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 16
+                    relations:
+                      - to: Set date and location of conference
+                        type: follows
+                    schedule_manually: false
+                duration: 70
+                schedule_manually: true
+              - start: 76
+                subject: Conference
+                description:
+                status: default_status_scheduled
+                type: default_type_milestone
+                duration: 0
+                relations:
+                  - to: Organize open source conference
+                    type: follows
+                schedule_manually: false
+              - start: 77
+                subject: Follow-up tasks
+                description:
+                status: default_status_to_be_scheduled
+                type: default_type_phase
+                children:
+                  - start: 77
+                    subject: Upload presentations to website
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 16
+                    schedule_manually: false
+                  - start: 77
+                    subject: Party for conference supporters :-)
+                    description: |-
+                      *   [ ] Beer
+                      *   [ ] Snacks
+                      *   [ ] Music
+                      *   [ ] Even more beer
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 0
+                    schedule_manually: false
+                duration: 16
+                schedule_manually: false
+              - start: 94
+                subject: End of project
+                description:
+                status: default_status_new
+                type: default_type_milestone
+                duration: 0
+                relations:
+                  - to: Follow-up tasks
+                    type: follows
+                schedule_manually: false
+          scrum-project:
+            name: Scrum project
+            identifier: your-scrum-project
+            status:
+              code: on_track
+              description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+            description: This is a short summary of the goals of this demo Scrum project.
+            timeline:
+              name: Timeline
+            modules:
+              - backlogs
+              - news
+              - wiki
+              - work_package_tracking
+              - board_view
+            news:
+              - title: Welcome to your Scrum demo project
+                summary: >
+                  We are glad you joined.
+                  In this module you can communicate project news to your team members.
+                description: This is the news content.
+            versions:
+              - name: Bug Backlog
+                sharing: none
+                status: open
+              - name: Product Backlog
+                sharing: none
+                status: open
+                start: 15
+              - name: Sprint 1
+                sharing: none
+                status: open
+                start: 4
+                duration: 7
+                wiki:
+                  title: Sprint 1
+                  content: |
+                    ### Sprint planning meeting
+
+                    _Please document here topics to the Sprint planning meeting_
+
+                    * Time boxed (8 h)
+                    * Input: Product Backlog
+                    * Output: Sprint Backlog
+
+                    * Divided into two additional time boxes of 4 h:
+
+                        * The Product Owner presents the team the [Product Backlog](%{base_url}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                        * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](%{base_url}/projects/your-scrum-project/backlogs).
+
+
+                    ### Daily Scrum meeting
+
+                    _Please document here topics to the Daily Scrum meeting_
+
+                    * Short, daily status meeting of the team.
+                    * Time boxed (max. 15 min).
+                    * Stand-up meeting to discuss the following topics from the [Task board](##sprint:"Sprint 1").
+                        * What do I plan to do until the next Daily Scrum?
+                        * What has blocked my work (Impediments)?
+                    * Scrum Master moderates and notes down [Sprint Impediments](##sprint:"Sprint 1").
+                    * Product Owner may participate may participate in order to stay informed.
+
+                    ### Sprint Review meeting
+
+                    _Please document here topcis to the Sprint Review meeting_
+
+                    * Time boxed (4 h).
+                    * A maximum of one hour of preparation time per person.
+                    * The team shows the product owner and other interested persons what has been achieved in this sprint.
+                    * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
+                    * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
+                    * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+
+
+                    ### Sprint Retrospective
+
+                    _Please document here topcis to the Sprint Retrospective meeting_
+
+                    * Time boxed (3 h).
+                    * After Sprint Review, will be moderated by Scrum Master.
+                    * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+              - name: Sprint 2
+                sharing: none
+                status: open
+            types:
+              - :default_type_task
+              - :default_type_milestone
+              - :default_type_phase
+              - :default_type_epic
+              - :default_type_user_story
+              - :default_type_bug
+            categories:
+              - Category 1 (to be changed in Project settings)
+            queries:
+              - name: Project plan
+                status: open
+                sort_by: id
+                type:
+                  - :default_type_milestone
+                  - :default_type_phase
+                timeline: true
+              - name: Product backlog
+                status: open
+                version: Product Backlog
+                group_by: status
+                sort_by: status
+                columns:
+                  - id
+                  - type
+                  - subject
+                  - priority
+                  - status
+                  - assigned_to
+                  - story_points
+              - name: Sprint 1
+                status: open
+                version: Sprint 1
+                hierarchy: true
+                columns:
+                  - id
+                  - type
+                  - subject
+                  - priority
+                  - status
+                  - assigned_to
+                  - done_ratio
+                  - story_points
+              - name: Tasks
+                status: open
+                type: :default_type_task
+                hierarchy: true
+            boards:
+              kanban:
+                name: 'Kanban board'
+              basic:
+                name: 'Task board'
+            work_packages:
+              - subject: New login screen
+                status: :default_status_in_specification
+                type: :default_type_user_story
+                version: Product Backlog
+                position: 3
+              - subject: Password reset does not send email
+                status: :default_status_confirmed
+                type: :default_type_bug
+                version: Bug Backlog
+                position: 1
+              - subject: New website
+                status: :default_status_specified
+                type: :default_type_epic
+                start: 26
+                duration: 0
+                children:
+                  - subject: Newsletter registration form
+                    status: :default_status_in_progress
+                    type: :default_type_user_story
+                    version: Product Backlog
+                    position: 6
+                  - subject: Implement product tour
+                    status: :default_status_in_specification
+                    type: :default_type_user_story
+                    version: Product Backlog
+                    position: 4
+                  - subject: New landing page
+                    status: :default_status_specified
+                    type: :default_type_user_story
+                    version: Sprint 1
+                    position: 2
+                    story_points: 3
+                    start: 26
+                    duration: 0
+                    children:
+                      - subject: Create wireframes for new landing page
+                        status: :default_status_in_progress
+                        type: :default_type_task
+                        version: Sprint 1
+                        start: 26
+                        duration: 0
+              - subject: Contact form
+                status: :default_status_specified
+                type: :default_type_user_story
+                version: Sprint 1
+                position: 5
+                start: 21
+                duration: 0
+                story_points: 1
+              - subject: Feature carousel
+                status: :default_status_specified
+                type: :default_type_user_story
+                version: Sprint 1
+                position: 3
+                story_points: 5
+                children:
+                  - subject: Make screenshots for feature tour
+                    status: :default_status_closed
+                    type: :default_type_task
+                    version: Sprint 1
+              - subject: Wrong hover color
+                status: :default_status_rejected
+                type: :default_type_bug
+                version: Sprint 1
+                position: 4
+                story_points: 1
+                start: 21
+                duration: 0
+              - subject: SSL certificate
+                status: :default_status_specified
+                type: :default_type_user_story
+                version: Product Backlog
+                position: 1
+                start: 22
+                duration: 1
+              - subject: Set-up Staging environment
+                status: :default_status_in_specification
+                type: :default_type_user_story
+                version: Product Backlog
+                position: 2
+                start: 23
+                duration: 0
+              - subject: Choose a content management system
+                status: :default_status_specified
+                type: :default_type_user_story
+                version: Product Backlog
+                position: 7
+                start: 24
+                duration: 1
+              - subject: Website navigation structure
+                status: :default_status_specified
+                type: :default_type_user_story
+                version: Sprint 1
+                position: 7
+                story_points: 3
+                start: 25
+                duration: 0
+                children:
+                  - subject: Set up navigation concept for website.
+                    status: :default_status_in_specification
+                    type: :default_type_task
+                    version: Sprint 1
+                    start: 25
+                    duration: 0
+              - subject: Internal link structure
+                status: :default_status_closed
+                type: :default_type_user_story
+                version: Product Backlog
+                position: 5
+                start: 25
+                duration: 0
+              - subject: Develop v1.0
+                status: :default_status_in_progress
+                type: :default_type_phase
+                start: 14
+                duration: 3
+              - subject: Release v1.0
+                status: :default_status_new
+                type: :default_type_milestone
+                start: 18
+                duration: 0
+                relations:
+                  - to: Develop v1.0
+                    type: follows
+              - subject: Develop v1.1
+                status: :default_status_new
+                type: :default_type_phase
+                start: 21
+                duration: 3
+              - subject: Release v1.1
+                status: :default_status_new
+                type: :default_type_milestone
+                start: 25
+                duration: 0
+                relations:
+                  - to: Develop v1.1
+                    type: follows
+              - subject: Develop v2.0
+                status: :default_status_new
+                type: :default_type_phase
+                start: 28
+                duration: 3
+              - subject: Release v2.0
+                status: :default_status_new
+                type: :default_type_milestone
+                start: 32
+                duration: 0
+                relations:
+                  - to: Develop v2.0
+                    type: follows
+            wiki: |
+              ### Sprint planning meeting
+
+              _Please document here topics to the Sprint planning meeting_
+
+              * Time boxed (8 h)
+              * Input: Product Backlog
+              * Output: Sprint Backlog
+
+              * Divided into two additional time boxes of 4 h:
+
+                  * The Product Owner presents the team the [Product Backlog](%{base_url}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                  * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog](%{base_url}/projects/your-scrum-project/backlogs).
+
+
+              ### Daily Scrum meeting
+
+              _Please document here topics to the Daily Scrum meeting_
+
+              * Short, daily status meeting of the team.
+              * Time boxed (max. 15 min).
+              * Stand-up meeting to discuss the following topics from the Task board.
+                  * What do I plan to do until the next Daily Scrum?
+                  * What has blocked my work (Impediments)?
+              * Scrum Master moderates and notes down Sprint Impediments.
+              * Product Owner may participate may participate in order to stay informed.
+
+              ### Sprint Review meeting
+
+              _Please document here topcis to the Sprint Review meeting_
+
+              * Time boxed (4 h).
+              * A maximum of one hour of preparation time per person.
+              * The team shows the product owner and other interested persons what has been achieved in this sprint.
+              * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
+              * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
+              * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+
+
+              ### Sprint Retrospective
+
+              _Please document here topcis to the Sprint Retrospective meeting_
+
+              * Time boxed (3 h).
+              * After Sprint Review, will be moderated by Scrum Master.
+              * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.

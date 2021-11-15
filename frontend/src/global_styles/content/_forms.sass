@@ -1,0 +1,900 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+$form--field-types: (text-field, text-area, select, check-box, radio-button, range-field, search, file)
+
+%input-style
+  border: var(--content-form-input-border)
+  border-radius: 2px
+  font-size: 0.9rem
+
+  &:hover, &:focus
+    border: var(--content-form-input-hover-border)
+
+  vertical-align: middle
+  margin-bottom: 0rem
+
+%label-style
+  text-align: left
+  font-weight: normal
+  vertical-align: middle
+
+%input--sizing
+  height: 40px
+  line-height: 22px
+
+%required-star
+  @include default-transition
+  color: var(--primary-color-dark)
+  content: '*'
+  padding: 0 0.325rem
+
+form
+  display: inline
+
+// A general CSS class to be applied to forms using the above defined form style.
+// We can't define this on form itself as this would break a lot of existing forms.
+//
+// Using this form class allows to easily override defaults defined here with a more
+// specific definition.
+.form
+  display: block
+  position: relative
+
+  .toolbar-items > &
+    display: flex
+    flex-wrap: wrap
+
+  &.-inline
+    display: inline
+
+  &.-bordered
+    padding: 30px 20px
+    background-color: var(--content-form-bg-color)
+    border: var(--content-form-border)
+
+    &.-compressed
+      padding: 10px 20px 0 20px
+
+    &.-medium-compressed
+      padding: 10px 20px 20px 20px
+
+  &.danger-zone
+    border: 1px solid var(--content-form-danger-zone-bg-color)
+    // For correct display in IE
+    border-top: 0px
+
+    .form--section
+      padding-top: 0px
+      margin-bottom: 0px
+
+      & > *
+        padding-left: 1rem
+
+    .form--section-title
+      background-color: var(--content-form-danger-zone-bg-color)
+      color: var(--content-form-danger-zone-font-color) !important
+      padding: 1rem !important
+      margin: 0 0 1rem 0
+
+    input[type=text]
+      margin-bottom: 0
+
+    em
+      font-style: italic
+
+    p.danger-zone--warning
+      font-weight: bold
+      color: var(--content-form-danger-zone-bg-color)
+
+      span.icon,
+      span.icon-context
+        display: inline-block
+        vertical-align: middle
+        // This is an approximation necessary for vertical alignment (especially FF under Windows)
+        // This should be removable once the icon font is updated
+        // see: https://community.openproject.org/work_packages/21589/activity
+        margin-bottom: 0.0625em
+
+        &:before
+          padding-left: 0px
+          color: var(--content-form-danger-zone-bg-color)
+
+    .danger-zone--verification
+      display: flex
+
+      input
+        @extend %input--sizing
+        flex-basis: 50%
+        margin: 0 0.5rem 0 0
+
+      .button
+        @extend %input--sizing
+
+        &.-highlight
+          background: var(--content-form-danger-zone-bg-color)
+          color: var(--content-form-danger-zone-font-color)
+          border-color: var(--content-form-danger-zone-bg-color)
+
+          &.icon:before,
+          &.icon-context:before
+            color: var(--content-form-danger-zone-font-color)
+            padding-left: 0px
+
+    + .form--field-instructions
+      max-width: 100%
+
+    .form--field-instructions
+      margin: 0 0 1rem 0
+
+    .errorSpan
+      flex-basis: 50%
+      margin-right: 0.5rem
+
+  .form--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
+
+  @media screen and (min-width: 70rem)
+    .-columns-2
+      column-count: 2
+
+
+hr
+  width: 100%
+  height: 1px
+  background: #ccc
+  border: 0
+
+  &.form--separator
+    border-bottom: 1px solid var(--content-form-separator-color)
+    margin: 0 0 30px
+    background: none
+
+    &.-invisible
+      border-bottom-width: 0px
+
+.form--space
+  padding-top: 1rem
+
+.form--row
+  @include grid-block
+  @include grid-visible-overflow
+
+.checkbox-label
+  position: relative
+  display: inline-block
+  vertical-align: top
+  line-height: 18px
+  user-select: none
+
+  input[type=checkbox]
+    border: 0
+    clip: rect(0 0 0 0)
+    height: 18px
+    margin: 0 -18px -18px 0
+    overflow: hidden
+    padding: 0
+    position: absolute
+    width: 18px
+    opacity: 0.001
+
+%form--fieldset-or-section
+  padding: 1rem 0 0
+  margin-bottom: 1rem
+  border: 0
+  // Flexbox needs that parents of children with overflow set to have a width:
+  min-width: 0
+  word-break: break-word
+
+
+%form--fieldset-legend-or-section-title
+  color: #4d4d4d
+  font-size: 1rem
+  font-weight: bold
+  line-height: 1.8
+  text-transform: uppercase
+  border-bottom: 1px solid $gray
+
+// HACK. TODO: Remove fieldset element rules in various places.
+.form--fieldset,
+fieldset.form--fieldset
+  @extend %form--fieldset-or-section
+
+  &.-collapsible.collapsed
+    .-hide-when-collapsed
+      display: none
+
+.form--fieldset-legend
+  @extend %form--fieldset-legend-or-section-title
+  width: 100%
+
+  .form--fieldset.-collapsible > &
+    @include without-link-styling
+    cursor: pointer
+
+  &:before
+    @include icon-common
+    font-size: 0.75rem
+
+    .form--fieldset.-collapsible > &
+      @include icon-mixin-arrow-up1
+      padding: 0.625rem 0.25rem 0 0.25rem
+
+    .form--fieldset.-collapsible.-collapsed > &,
+    .form--fieldset.-collapsible.collapsed > &
+      @include icon-mixin-arrow-down1
+      padding: 0.625rem 0.25rem 0 0.25rem
+
+#sidebar .form--fieldset-legend
+  color: var(--main-menu-fieldset-header-color)
+
+.form--toolbar
+  float: right
+  text-align: right
+  color: #4d4d4d
+  font-size: 1rem
+  font-style: italic
+  line-height: 1.8
+  margin-top: -1.8rem
+
+  fieldset > &
+    margin-top: -2.8rem
+
+  a:hover
+    text-decoration: none
+
+.form--toolbar-item
+  padding: 0 0.25rem
+  background-color: inherit
+
+  &.-in-header
+    margin-left: 5px
+    margin-bottom: 5px
+    font-style: italic
+    line-height: 44px
+
+.form--section
+  @extend %form--fieldset-or-section
+
+// HACK. TODO: Remove H3 element rules in various places.
+// See: https://community.openproject.org/work_packages/18330
+.form--section-title,
+#content h3.form--section-title
+  @extend %form--fieldset-legend-or-section-title
+  // properties to reset h3
+  margin: 0
+  padding: 0
+
+  .form--section > &,
+  #content .form--section > &
+    margin-bottom: 1rem
+
+.form--field
+  @include grid-block($wrap: true)
+  @include grid-visible-overflow
+  align-items: center
+  margin-bottom: 0.825rem
+  line-height: 2
+
+  // Extend the overflow: visible from form-field
+  // to the container because it's duplicated there.
+  &.-visible-overflow .form--field-container
+    overflow: visible
+
+  &.-vertical,
+  .form.-vertical &
+    @include grid-orient(vertical)
+
+  .grid-block > &:nth-last-of-type(n+2),
+  .form--row > &:nth-last-of-type(n+2),
+  .form--grouping-row > &:nth-last-of-type(n+2)
+    padding-right: 1rem
+
+  &.-trailing-label
+    .form--label
+      @include grid-order(2)
+      @include grid-size(expand)
+      // override max-width set by including grid-content
+      max-width: 100%
+      padding-left: 0.5rem
+      margin-bottom: 0
+
+    .form--field-container
+      @include grid-order(1)
+      @include grid-size(shrink)
+
+    // FIXME: this will break anything in regards to flex layouting within the container,
+    // e.g. using form--field-inline-action inside -trailing-label
+    .form--label + span.form--field-container
+      display: block
+
+  &.-break-words > .form--label
+    @include text-shortener
+
+  &.-required
+    input.form--text-field:invalid
+      // avoids the box-shadow from Firefox at required input fields
+      box-shadow: none
+
+    .form--label:after
+      @extend %required-star
+
+  &.-reduced-margin
+    margin-bottom: 0.5rem
+
+  &.-no-margin
+    margin-bottom: 0
+
+  &.-indented
+    @extend %form--field-after-container
+
+.form--label
+  @include grid-content(2)
+  @extend %label-style
+  // override max-width set by including grid-content
+  max-width: 100%
+  min-width: 100px
+  flex-grow: 1
+  overflow-x: hidden
+  white-space: normal
+  overflow-y: visible
+  padding: 0 1rem 0 0
+  margin-bottom: 0
+  font-size: $form-label-fontsize
+  line-height: $base-line-height
+  color: $form-label-color
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+  &.-error
+    @extend .icon-error
+    color: var(--content-form-error-color)
+    font-weight: bold
+
+    &::before
+      @include icon-common
+      display: inline-block
+      line-height: $base-line-height
+      padding-right: 0.325rem
+
+  &.-top
+    align-self: flex-start
+    line-height: 2.15rem
+
+  .form--label.-error &
+    color: var(--content-form-error-color)
+
+.form--field-container
+  @include grid-content(10)
+  // override max-width set by including grid-content
+  max-width: 100%
+  overflow: hidden
+  padding: 0
+  display: flex
+  flex-grow: 2
+  align-items: stretch
+
+  &.-wrap-around
+    display: flex
+    flex-wrap: wrap
+
+  &.-vertical
+    display: block
+
+  .form--field.-visible-overflow &
+    overflow: visible
+
+  &:nth-of-type(n+2),
+  .form--field.-no-label &
+    @include grid-offset(2)
+
+  .form--field.-full-width &
+    @include grid-size(12)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+
+  .form.-wide-labels .form--field.-no-label &,
+  .form--field.-wide-label.-no-label &
+    @include grid-offset(4)
+
+  .form--field.-vertical &,
+  .form.-vertical &
+    @include grid-size(shrink)
+    max-width: none
+
+  .destroy_locale
+    display: flex
+
+.form--field-inline-action
+  @include grid-content(shrink)
+  padding: 0 0 0 0.2rem
+  line-height: 2rem
+
+%form--field-after-container
+  @include grid-content(10, 2)
+  padding: 0
+  font-size: $form-label-fontsize
+  line-height: 1.4
+  color: $form-label-color
+
+  .form--field.-full-width &
+    @include grid-size(12)
+    @include grid-offset(0)
+
+  .form.-wide-labels &,
+  .form--field.-wide-label &
+    @include grid-size(8)
+    @include grid-offset(4)
+
+  .form.-vertical &
+    @include grid-size(shrink)
+    @include grid-offset(0)
+    max-width: none
+
+.form--field-instructions
+  @extend %form--field-after-container
+  font-style: italic
+  max-width: 500px
+  // improve readability
+
+  &.-no-margin
+    margin: 0
+
+  &.-no-italic
+    font-style: normal
+
+.form--inline-instructions
+  font-style: italic
+  display: inline
+
+.form--field-extra-actions
+  @extend %form--field-after-container
+  @include grid-visible-overflow
+
+  &.add_locale.icon
+    margin-top: 5px
+
+    &:before
+      padding-left: 0px
+
+%form--field-element-container
+  display: block
+  flex: 1 1
+  max-width: 100%
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+@each $field-type in $form--field-types
+  .form--#{$field-type}-container
+    @extend %form--field-element-container
+
+    &.-tiny
+      max-width: 50px
+
+    &.-xslim
+      max-width: 110px
+
+    &.-slim
+      max-width: 200px
+
+    &.-middle
+      max-width: 350px
+
+    &.-wide
+      max-width: 500px
+
+    &.-xwide
+      max-width: 800px
+
+    &.-xxwide
+      max-width: 1100px
+
+.form--select-container
+  &.-auto
+    select
+      width: auto
+
+.form--text-field
+  @extend %input-style
+
+  &.-number, &.-time
+    text-align: right
+
+.form--text-field,
+#{$text-input-selectors},
+select
+  line-height: 100%
+  margin-bottom: 0rem
+  font-size: 0.9rem
+
+  &:hover, &:focus, &:active
+    border-color: #999
+
+.-hide-placeholder-on-focus
+  &:focus::placeholder
+    opacity: 0
+
+.-border-on-hover-only
+  &:not(.-error)
+    // Reduce padding usually shown
+    padding-left: 1px
+    border-color: transparent
+
+    // Don't show border on focus or active
+    &:focus,
+    &:active
+      border-color: transparent
+
+    // But as an indicator, do show one on hover
+    &:hover
+      border-color: #999
+
+select
+  &[disabled=disabled],
+  &[disabled]
+    background-color: var(--inplace-edit--bg-color--disabled)
+    cursor: not-allowed
+
+input[readonly].-clickable
+  cursor: pointer
+  background: white
+
+.form--select
+  @extend %input-style
+  line-height: normal
+  padding: 3px 24px 3px 3px
+
+  &[multiple]
+    background-image: none
+    padding-right: $form-padding
+    // TODO: this has to be fixed upstream as select are fixed
+    // in height in foundation for apps.
+    height: auto
+    min-width: 40px
+
+.form--inline-select
+  display: inline-block
+  width: initial
+
+.form--text-field,
+.form--select
+  &.-tiny
+    @include form--input-field-mixin--tiny
+
+  &.-small
+    @include form--input-field-mixin--small
+
+  &.-large
+    @include form--input-field-mixin--large
+
+  &.-narrow
+    @include form--input-field-mixin--narrow
+
+  .form &
+    margin-bottom: 0rem
+
+.form--select-autocompleter
+  max-height: 400px
+  overflow-y: auto
+
+.form--selected-value
+  width: calc(100% - 42px)
+  padding: 3px
+  line-height: 2
+
+.form--selected-value--container
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+  position: relative
+
+  &:last-of-type
+    margin-bottom: 0.5rem
+
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: var(--body-font-color)
+    border-color: var(--inplace-edit--border-color)
+
+    .form--selected-value--remover
+      visibility: visible
+
+    a.form--selected-value--remover
+      text-decoration: none
+      color: var(--body-font-color)
+
+.form--selected-value--remover
+  position: absolute
+  height: 100%
+  right: 0
+  text-align: center
+  width: 32px
+  background: #F8F8F8
+  border-left: 1px solid #ddd
+  color: var(--body-font-color)
+  visibility: hidden
+  line-height: 2rem
+
+.form--selected-value--list
+  margin-left: 0rem
+  margin-bottom: 0rem
+
+.form--text-area
+  @extend %input-style
+
+  .form &
+    margin-bottom: 0rem
+
+.form--radio-button-container
+  //prevent radio-buttons from being cut at the border
+  padding: 0 1px
+
+.form--grouping
+  @include grid-block($wrap: true)
+  align-items: center
+
+  .form--grouping-row
+    @include grid-block(10)
+    align-items: baseline
+
+    .form--field-instructions
+      margin-left: 0px
+
+  .form--grouping-row + .form--grouping-row
+    @include grid-offset(2)
+
+.form--grouping-label
+  @include grid-content(2)
+  @include grid-visible-overflow
+  @extend %label-style
+  padding: 0 1rem 0.5rem 0
+  font-size: $form-label-fontsize
+  line-height: $base-line-height
+  color: $form-label-color
+  margin-bottom: 0.8rem
+
+.form--matrix
+  border: var(--content-form-input-border)
+  border-radius: 2px
+  background: none
+  margin: 0 0 2rem 0
+  font-size: 0.9rem
+  line-height: 1.5
+
+.form--matrix-header-row
+  font-weight: bold
+  border-bottom: var(--content-form-input-border)
+  background-color: $gray-light
+
+.form--matrix-header-cell
+  padding: 0 1rem
+
+.form--matrix-row
+
+  &:nth-child(odd)
+    background-color: $gray-light
+
+  &:nth-child(even)
+    background-color: white
+
+.form--matrix-checkbox-cell
+  min-width: 1rem
+  max-width: 4rem
+  text-align: center
+
+.form--column
+  @include grid-block
+  @include grid-orient(vertical)
+  overflow-y: hidden
+  padding-left: 0 !important
+
+  &:nth-last-of-type(n+2)
+    padding-right: $block-padding
+
+  .form--field
+    flex-basis: auto
+
+.inline-label
+  margin: 0rem
+
+  > .form-label.-transparent
+    margin-bottom: 0
+    font-size: 1em
+    background: none
+    border: none
+    line-height: 2
+    margin-right: 5px
+
+  > .form-label
+    line-height: 2rem
+
+    &.-required,
+    .form--field.-required > &
+      &::after
+        @extend %required-star
+
+      &:hover::after
+        color: var(--primary-color)
+
+    > a
+      display: block
+      min-width: 1.5rem
+      text-align: center
+      vertical-align: middle
+
+      .icon
+        display: inline-block
+        line-height: normal
+        vertical-align: middle
+
+        &::before
+          padding: 0
+
+.form--label-with-check-box
+  display: block
+  clear: both
+  line-height: $base-line-height
+  padding: 0 2rem 0 0
+
+  > p
+    display: inline
+
+  &:not(.-no-ellipsis)
+    @include text-shortener
+
+  & > .form--check-box-container
+    display: block
+    float: left
+    padding-right: 0.5rem
+
+    input[type="checkbox"]
+      vertical-align: middle
+
+  &.-required:after
+    @extend %required-star
+    padding: 0 0.325rem 0 0
+
+.form--field-affix
+  flex: 0 0 auto
+  display: flex
+  font-size: 0.9rem
+  background: $inlinelabel-background
+  color: $inlinelabel-color
+  border: var(--content-form-input-border)
+  // OR $inlinelabel-border
+  border-radius: 2px
+  padding: 0 $form-padding
+  margin-bottom: 0rem
+  align-items: center
+  line-height: 1
+
+  &.icon, &.icon-context
+    padding: 5px
+
+    &:before
+      padding: 0
+
+  %form--field-element-container + &
+    margin-left: -1rem
+    border-left: 0
+
+  &.-transparent
+    @include form--field-affix-mixin--transparent
+
+.form--tooltip-container
+  flex: 0 0 auto
+  display: flex
+
+  & > [data-tooltip], & > [class^="tooltip--"]
+    padding-top: 0.6rem
+
+.form--field-inline-buttons-container
+  white-space: nowrap
+  display: flex
+
+  .form--field-inline-button
+    margin-right: 0
+    border: 1px solid var(--button--border-color)
+    border-left-width: 0px
+    border-radius: 0px
+
+    .toolbar &
+      width: auto
+
+    &:first-of-type
+      border-left-width: 1px
+      border-top-left-radius: 2px
+      border-bottom-left-radius: 2px
+    &:last-of-type
+      border-top-right-radius: 2px
+      border-bottom-right-radius: 2px
+
+.form--list
+  display: flex
+  margin: 0
+  @include grid-layout(3)
+
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  @include breakpoint(xlarge)
+    @include grid-layout(6)
+
+  li, div
+    padding: 0
+
+// Text in textareas should look the same as in paragraphs
+// Foundation applies following rule to paragraphs
+textarea
+  text-rendering: optimizeLegibility
+
+// Overwriting Foundation color variables.
+// Unfortunatel I do not know how to get it DRY.
+input[type=range]::-moz-range-thumb
+  background: var(--primary-color)
+
+input[type=range]::-webkit-slider-thumb
+  background: var(--primary-color)
+
+input[type=range]::-ms-thumb
+  background: var(--primary-color)
+
+input[type=range]::-moz-range-thumb:hover
+  background: var(--primary-color-dark)
+
+input[type=range]::-webkit-slider-thumb:hover
+  background: var(--primary-color-dark)
+
+input[type=range]::-ms-thumb:hover
+  background: var(--primary-color-dark)
+
+// Special handling for the permissions_form of Admin/Roles --> permission report
+// Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.
+@supports (-moz-appearance: none)
+  #permissions_form
+    display: inline-block
+    width: 100%
+    overflow: auto

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+set -e
+
+export COMPOSE_DOCKER_CLI_BUILD=1
+export DOCKER_BUILDKIT=1
+
+if [ -f .env ]; then
+  export `grep -v '^#' .env | xargs`
+else
+  export DEV_UID=$(id -u) DEV_GID=$(id -g) LOCAL_DEV_CHECK=1
+fi
+
+COMPOSE_FILE=docker-compose.yml
+
+if [ $# -eq 0 ]; then
+  echo "Usage: bin/compose <command> [args*]"
+  echo
+  echo "Commands:"
+  echo "    setup - Has to be run once initially. Installs backend and frontend dependencies. "
+  echo "    reset - Resets everything by removing all containers and deleting all volumes. You need to run \`setup\` again afterwards. "
+  echo "    start - Starts both backend and frontend in the background. Access via http://localhost:3000/ by default."
+  echo "    run   - Starts the frontend in the background and backend in the foreground. Useful for debugging using pry."
+  echo "    rspec - Runs rspec inside the \`backend-test\` container which will be started if it's not running yet."
+  echo "    *     - Everything else will be passed straight to \`docker-compose\`."
+  echo
+
+  exit 1
+fi
+
+if [ -f config/database.yml ]; then
+  echo
+  printf "\033[0;31mError\033[0m: Found local \`config/database.yml\` - The docker setup will not work with this file present."
+  echo " You could delete it or rename it for the time being."
+
+  exit 1
+fi
+
+if [[ "$@" = "start" ]]; then
+  # backend will be started automatically as a dependency of the frontend
+  docker-compose -f $COMPOSE_FILE up -d frontend
+elif [[ "$@" = "run" ]]; then
+  docker-compose -f $COMPOSE_FILE up -d frontend
+  docker-compose -f $COMPOSE_FILE stop backend
+  docker-compose -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
+  docker-compose -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
+elif [[ "$1" = "setup" ]]; then
+  docker-compose -f $COMPOSE_FILE run backend setup
+  yes no | docker-compose -f $COMPOSE_FILE run frontend npm install
+elif [[ "$1" = "reset" ]]; then
+  docker-compose -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
+elif [[ "$1" = "rspec" ]]; then
+  if ! docker ps | grep ${PWD##*/}_backend-test_1 > /dev/null; then
+    echo "Test backend not running yet. Starting it..."
+
+    docker-compose -f $COMPOSE_FILE up -d backend-test
+
+    while ! docker logs --since 1m ${PWD##*/}_backend-test_1 | grep "Ready for tests" > /dev/null; do
+      sleep 1
+      printf "."
+    done
+
+    echo "Ready for tests"
+  fi
+
+  docker-compose -f $COMPOSE_FILE exec backend-test bundle exec rspec "${@:2}"
+else
+  docker-compose -f $COMPOSE_FILE $*
+fi

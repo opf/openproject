@@ -1,0 +1,102 @@
+// -------------------------- GENERIC --------------------------
+.op-ifc-viewer--toolbar-container
+  pointer-events: none
+
+  button
+    pointer-events: all
+    outline: none
+
+  // Use our own icon font instead of including Xeokit's FontAwesome
+  button[class^="fa-"],
+  button[class*=" fa-"]
+    &::before
+      font-family: "openproject-icon-font" !important
+  .fa-home::before
+    @include icon-mixin-home
+  .fa-crop::before
+    @include icon-mixin-zoom-auto
+  .fa-male::before
+    @include icon-mixin-user
+  .fa-info-circle::before
+    @include icon-mixin-info2
+  .fa-cut::before
+    @include icon-mixin-cut
+  .fa-cube::before
+    @include icon-mixin-modules
+  .fa-eraser::before
+    @include icon-mixin-rubber
+  .fa-mouse-pointer::before
+    @include icon-mixin-cursor
+  .fa-th::before
+    @include icon-mixin-menu
+
+// -------------------------- XEOKIT Section tool ----------------------
+.xeokit-section-counter
+  opacity: 1.0
+  padding: 1px
+  margin: 0
+  margin-left: 10px
+  width: 20px
+  height: 16px
+  float: right
+
+.xeokit-section-menu-button
+  opacity: 1.0
+  border-radius: 5px
+  border: 0
+  padding: 1px
+  margin: 0
+  margin-left: 10px
+  width: 20px
+  height: 16px
+  float: right
+
+.xeokit-arrow-up
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-left: 5px solid transparent
+  border-right: 5px solid transparent
+  border-bottom: 5px solid var(--button--font-color)
+
+  &.active
+    border-bottom-color: var(--button--active-font-color)
+
+.xeokit-arrow-down
+  width: 0
+  height: 0
+  display: inline-block
+  vertical-align: middle
+  border-style: solid
+  border-width: 5px 5px 0 5px
+  border-color: var(--button--font-color) transparent transparent transparent
+
+  &.active
+    border-top-color: var(--button--active-font-color)
+
+// -------------------------- XEOKIT specific --------------------------
+// Move toolbar to the right
+.xeokit-toolbar
+  display: flex
+  flex-wrap: wrap
+  justify-content: flex-end
+
+// -------------------------- MOBILE specific --------------------------
+
+@media only screen and (max-width: 679px)
+  .op-ifc-viewer--toolbar
+    padding-right: 15px
+
+    .xeokit-toolbar
+      flex-wrap: nowrap
+
+      .xeokit-btn-group
+        white-space: nowrap
+
+  .op-ifc-viewer--focus-warning,
+  .op-ifc-viewer--toolbar-container
+    .fa-male,
+    .fa-cut
+      display: none
+

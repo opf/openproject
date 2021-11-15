@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+el:
+  button_save_as: "Αποθήκευση αναφοράς ως..."
+  comments: "Σχόλιο"
+  cost_reports_title: "Χρόνος και κόστος"
+  label_cost_report: "Αναφορά κόστους"
+  label_cost_report_plural: "Αναφορές κόστους"
+  description_drill_down: "Εμφάνιση λεπτομερειών"
+  description_filter_selection: "Επιλογή"
+  description_multi_select: "Εμφάνιση πολλαπλής επιλογής"
+  description_remove_filter: "Αφαίρεση φίλτρου"
+  information_restricted_depending_on_permission: "Ανάλογα με τα δικαιώματα σας, αυτή σελίδα μπορεί να περιέχει περιορισμένες λεπτομέρειες."
+  label_click_to_edit: "Κάντε κλικ για επεξεργασία."
+  label_closed: "κλειστό"
+  label_columns: "Στήλες"
+  label_cost_entry_attributes: "Χαρακτηριστικά καταχώρησης κόστους"
+  label_days_ago: "κατά τη διάρκεια των τελευταίων ημερών"
+  label_entry: "Καταχώρηση κόστους"
+  label_filter_text: "Φιλτράρισμα κειμένου"
+  label_filter_value: "Τιμή"
+  label_filters: "Φίλτρο"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "δεν είναι (περιλαμβάνει υποέργα)"
+  label_is_project_with_subprojects: "είναι (περιλαμβάνει υποέργα)"
+  label_work_package_attributes: "Χαρακτηριστικά πακέτου εργασίας"
+  label_less: "<"
+  label_money: "Αξία μετρητών"
+  label_month_reporting: "Μήνας (Δαπανήθηκε)"
+  label_new_report: "Νέα αναφορά κόστους"
+  label_open: "ανοιχτό"
+  label_operator: "Τελεστής"
+  label_private_report_plural: "Ιδιωτικές αναφορές κόστους"
+  label_progress_bar_explanation: "Δημιουργία αναφοράς..."
+  label_public_report_plural: "Δημόσιες αναφορές κόστους"
+  label_really_delete_question: "Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την αναφορά;"
+  label_rows: "Σειρές"
+  label_saving: "Αποθήκευση ..."
+  label_spent_on_reporting: "Ημερομηνία (Δαπανήθηκε)"
+  label_sum: "Άθροισμα"
+  label_units: "Μονάδες"
+  label_week_reporting: "Εβδομάδα (Δαπανήθηκε)"
+  label_year_reporting: "Έτος (Δαπανήθηκε)"
+  label_count: "Πλήθος"
+  label_filter: "Φίλτρο"
+  label_filter_add: "Προσθήκη Φίλτρου"
+  label_filter_plural: "Φίλτρα"
+  label_group_by: "Ομαδοποίηση κατά"
+  label_group_by_add: "Προσθήκη χαρακτηριστικού Ομαδοποίησης-κατά"
+  label_inactive: "«αδρανές»"
+  label_no: "Όχι"
+  label_none: "(δεν υπάρχουν δεδομένα)"
+  label_no_reports: "Δεν υπάρχουν ακόμη αναφορές κόστους."
+  label_report: "Αναφορά"
+  label_yes: "Ναι"
+  load_query_question: "Η αναφορά θα έχει %{size} κελιά πίνακα και μπορεί να πάρει κάποιο χρόνο για να γίνει. Θέλετε ακόμα να δοκιμάσετε την απόδοση;"
+  permission_save_cost_reports: "Αποθήκευση δημόσιων αναφορών κόστους"
+  permission_save_private_cost_reports: "Αποθήκευση ιδιωτικών αναφορών κόστους"
+  project_module_reporting_module: "Αναφορές κόστους"
+  text_costs_are_rounded_note: "Οι τιμές που εμφανίζονται είναι στρογγυλοποιημένες. Όλοι οι υπολογισμοί είναι με βάση τις μη-στρογγυλοποιημένες τιμές."
+  toggle_multiselect: "ενεργοποίηση/απενεργοποίηση πολλαπλή επιλογής"
+  units: "Μονάδες"
+  validation_failure_date: "δεν είναι έγκυρη ημερομηνία"
+  validation_failure_integer: "δεν είναι έγκυρος ακέραιος αριθμός"
+  reporting:
+    group_by:
+      selected_columns: "Επιλεγμένες στήλες"
+      selected_rows: "Επιλεγμένες σειρές"

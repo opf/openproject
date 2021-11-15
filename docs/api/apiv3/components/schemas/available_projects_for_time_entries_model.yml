@@ -1,0 +1,14 @@
+# Schema: Available_projects_for_time_entriesModel
+---
+type: object
+example:
+  _links:
+    self:
+      href: "/api/v3/time_entries/available_projects"
+  _type: Collection
+  total: 2
+  count: 2
+  _embedded:
+    elements:
+    - _type: Project...
+    - _type: Project...

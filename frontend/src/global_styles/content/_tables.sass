@@ -1,0 +1,175 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+table
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+
+  &.plugins
+    td
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+      &.description, &.url
+        @include text-shortener
+        display: block
+        font-size: 0.9em
+
+  &#time-report
+    tbody tr
+      font-style: italic
+      color: var(--body-font-color)
+      &.last-level
+        font-style: normal
+      &.total
+        font-style: normal
+        font-weight: bold
+        background-color: #EEEEEE
+    .hours-dec
+      font-size: 0.9em
+
+#workflow_form
+  .generic-table--results-container
+    position: relative
+
+  .workflow-table.generic-table
+    // Let space for the turned header
+    margin-left: 30px
+    width: calc(100% - 30px)
+
+    .workflow-table--current-status
+      font-weight: bold
+      text-transform: uppercase
+      font-size: 0.875rem
+
+    tbody
+      span.workflow-table--turned-header
+        white-space: nowrap
+        transform: rotate(270deg)
+        position: absolute
+        top: 235px
+        left: 0px
+        transform-origin: 0 0
+        text-transform: uppercase
+        font-weight: bold
+        max-width: 220px
+        @include text-shortener
+
+    thead
+      th
+        padding: 0 6px
+      .workflow-table--header
+        text-align: right
+        display: flex
+        span
+          flex-basis: 50%
+      .workflow-table--check-all
+        font-size: 12px
+        font-style: italic
+        text-transform: none
+        a:hover
+          text-decoration: underline
+
+    .generic-table--sort-header-outer:hover
+      background: none
+
+tr
+  div.expander
+    cursor: pointer
+    float: left
+    margin-top: 0.1rem
+
+  &.open span .expand, &.closed span .collapse
+    display: none
+
+  [class*=reorder]
+    .icon-context:before
+      padding: 0 0 0 0
+
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 26px
+        &.icon-link:before
+          padding-right: 5px
+          margin-left: -23px
+    td
+      &.date, &.status, &.sharing
+        white-space: nowrap
+
+  &.user
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+
+td.hours
+  font-weight: bold
+  .hours-dec
+    font-size: 0.9em
+
+th.hidden
+  display: none
+
+tr.context-menu-selection,
+tr.-checked
+  background-color: var(--table-row-highlighting-color) !important
+  &[class*=__hl_background]
+    outline: var(--table-row-highlighting-outline-color) solid 2px
+
+  td
+    border-top: 1px solid var(--table-row-highlighting-color) !important
+    border-bottom: 1px solid var(--table-row-highlighting-color) !important
+    color: var(--body-font-color) !important
+    a
+      color: var(--body-font-color) !important
+
+#custom-options-table
+  .custom-option-value
+    display: inline-block
+    width: calc(100% - 5rem)
+  .icon-drag-handle:before
+    vertical-align: middle
+
+// Exceptions for summary reports where multiple tables are used in one view.
+body.action-report
+  .generic-table--container
+    height: auto

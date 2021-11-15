@@ -1,0 +1,45 @@
+
+// overrides for full-calendar so that it looks to belong into OpenProject
+full-calendar
+  .fc-header-toolbar.fc-toolbar
+    .fc-button
+      @extend .button
+      height: 34px
+
+      &.fc-today-button
+        margin-right: 0
+        margin-bottom: 0
+        margin-left: 0.5rem
+
+    // ensure to have higher specificity than above extend
+    .fc-button-group
+      .fc-button
+        margin-right: 0
+        margin-bottom: 0
+        padding: 0.4em 0.65em
+
+        &.fc-button-active
+          @extend .button, .-active
+          margin-right: 0 !important
+
+  // The days in full calendar are anchor elements which we do not
+  // want to like like actual links
+  .fc-col-header-cell a, a.fc-daygrid-day-number
+    color: #000000
+    cursor: default
+
+    &:hover
+      text-decoration: none
+
+  .fc-event-title
+    max-width: 100%
+    @include text-shortener(false)
+
+  .fc-timegrid-event-condensed .fc-event-title-container
+    white-space: nowrap
+    overflow: hidden
+
+  .fc-header-toolbar
+    h2
+      @extend h2
+      font-size: 1.5rem

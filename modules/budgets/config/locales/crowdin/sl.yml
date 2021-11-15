@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+sl:
+  activerecord:
+    attributes:
+      budget:
+        author: "Avtor"
+        available: "Na voljo"
+        budget: "Načrtovano"
+        budget_ratio: "Poraba (razmerje)"
+        description: "Opis"
+        spent: "Porabljeno"
+        status: "Stanje"
+        subject: "Zadeva"
+        type: "Vrsta stroška"
+        labor_budget: "Načrtovani stroški dela"
+        material_budget: "Načrtovani stroški enote"
+      work_package:
+        budget_subject: "Naslov proračuna"
+    models:
+      budget: "Proračun"
+      material_budget_item: "Enota"
+  attributes:
+    budget: "Proračun"
+  button_add_budget_item: "Vnesi planirane stroške"
+  button_add_budget: "Dodaj proračun"
+  button_add_cost_type: "Dodaj vrsto stroška"
+  button_cancel_edit_budget: "Prekliči urejanje proračuna"
+  button_cancel_edit_costs: "Prekliči urejanje stroškov"
+  caption_labor: "Delo"
+  caption_labor_costs: "Dejanski stroški dela"
+  caption_material_costs: "Dejanski stroški enote"
+  budgets_title: "Proračuni"
+  events:
+    budget: "Proračun urejen"
+  help_click_to_edit: "Kliknite tukaj, za urejanje"
+  help_currency_format: "Oblika prikazanih vrednosti valut. %n se nadomesti z vrednostjo valute, %u je zamenjan z enoto valute."
+  help_override_rate: "Vnesite vrednost, da nadomestite privzeto stopnjo."
+  label_budget: "Proračun"
+  label_budget_new: "Nov proračun"
+  label_budget_plural: "Proračuni"
+  label_budget_id: "Proračun #%{id}"
+  label_deliverable: "Proračun"
+  label_example_placeholder: 'npr., %{decimal}'
+  label_view_all_budgets: "Oglejte si vse proračune"
+  label_yes: "Da"
+  notice_budget_conflict: "Delovni paketi morajo biti pd istega projekta."
+  notice_no_budgets_available: "Proračuni niso na voljo."
+  permission_edit_budgets: "Uredi proračun"
+  permission_view_budgets: "Oglejte si proračune"
+  project_module_budgets: "Proračuni"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

@@ -1,0 +1,51 @@
+<div
+  class="op-modal op-modal_autoheight loading-indicator--location"
+  data-indicator-name="modal"
+>
+  <op-modal-header
+    icon="icon-log_time"
+    (close)="closeMe($event)">
+    {{text.title}}
+  </op-modal-header>
+
+  <div class="ngdialog-body op-modal--body">
+    <te-form #editForm
+             [changeset]="changeset"
+             [showWorkPackageField]="showWorkPackageField"
+             (modifiedEntry)="setModifiedEntry($event)">
+    </te-form>
+  </div>
+
+  <div class="op-modal--footer">
+    <button class="button -highlight"
+            *ngIf="saveAllowed"
+            (click)="saveEntry()"
+            [attr.title]="saveText"
+            [disabled]="formInFlight">
+      <op-icon icon-classes="button--icon icon-checkmark"></op-icon>
+      <span class="button--text"
+            [textContent]="saveText"
+            aria-hidden="true"></span>
+    </button>
+
+    <button class="button"
+            *ngIf="saveAllowed"
+            (click)="closeMe($event)"
+            [attr.title]="text.cancel">
+      <op-icon icon-classes="button--icon icon-close"></op-icon>
+      <span class="button--text"
+            [textContent]="text.cancel"
+            aria-hidden="true"></span>
+    </button>
+
+    <button class="button"
+            *ngIf="deleteAllowed"
+            (click)="destroy()"
+            [attr.title]="text.delete">
+      <op-icon icon-classes="button--icon icon-delete"></op-icon>
+      <span class="button--text"
+            [textContent]="text.delete"
+            aria-hidden="true"></span>
+    </button>
+  </div>
+</div>

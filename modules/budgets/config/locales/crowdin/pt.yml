@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pt:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Disponível"
+        budget: "Planejado"
+        budget_ratio: "Gasto (taxa)"
+        description: "Descrição"
+        spent: "Gasto"
+        status: "Status"
+        subject: "Assunto"
+        type: "Tipo de custo"
+        labor_budget: "Custos planejados de trabalho"
+        material_budget: "Custos unitários planejados"
+      work_package:
+        budget_subject: "Título do orçamento"
+    models:
+      budget: "Orçamento"
+      material_budget_item: "Unidade"
+  attributes:
+    budget: "Orçamento"
+  button_add_budget_item: "Adicionar custos planejados"
+  button_add_budget: "Adicionar orçamento"
+  button_add_cost_type: "Adicionar o tipo de custo"
+  button_cancel_edit_budget: "Cancelar a edição de orçamento"
+  button_cancel_edit_costs: "Cancelar edição de custos"
+  caption_labor: "Trabalho"
+  caption_labor_costs: "Custos atuais do trabalho"
+  caption_material_costs: "Custos unitários atuais"
+  budgets_title: "Orçamentos"
+  events:
+    budget: "Orçamento editado"
+  help_click_to_edit: "Clique aqui para editar."
+  help_currency_format: "Formato exibidos de valores de moeda. %n é substituído com o valor da moeda, %u é substituído com a unidade da moeda."
+  help_override_rate: "Insira um valor aqui para substituir a taxa padrão."
+  label_budget: "Orçamento"
+  label_budget_new: "Novo orçamento"
+  label_budget_plural: "Orçamentos"
+  label_budget_id: "Orçamento #%{id}"
+  label_deliverable: "Orçamento"
+  label_example_placeholder: 'ex.: %{decimal}'
+  label_view_all_budgets: "Ver os todos os orçamentos"
+  label_yes: "Sim"
+  notice_budget_conflict: "Pacotes de trabalho devem ser do mesmo projeto."
+  notice_no_budgets_available: "Não há orçamentos disponíveis."
+  permission_edit_budgets: "Editar os orçamentos"
+  permission_view_budgets: "Ver orçamentos"
+  project_module_budgets: "Orçamentos"
+  text_budget_reassign_to: "Reatribuí-los para este orçamento:"
+  text_budget_delete: "Excluir o orçamento de todos os pacotes de trabalho"
+  text_budget_destroy_assigned_wp: "Há %{count} pacotes de trabalho atribuídos a este orçamento. O que você deseja fazer?"

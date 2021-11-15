@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+el:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Εργασία"
+        overridden_costs: "Παράκαμπψη κόστους"
+        spent: "Δαπανήθηκε"
+        spent_on: "Ημερομηνία"
+      cost_type:
+        unit: "Όνομα μονάδας"
+        unit_plural: "Πληθυντικός ονόματος μονάδας"
+      work_package:
+        costs_by_type: "Δαπανημένες μονάδες"
+        labor_costs: "Κόστος εργασίας"
+        material_costs: "Κόστος μονάδας"
+        overall_costs: "Συνολικό κόστος"
+        spent_costs: "Δαπανημένο κόστος"
+        spent_units: "Δαπανημένες μονάδες"
+      rate:
+        rate: "Αμοιβή"
+      user:
+        default_rates: "Προεπιλεγμένη αμοιβή"
+    models:
+      cost_type:
+        one: "Τύπος κόστους"
+        other: "Τύποι κόστους"
+      rate: "Αμοιβή"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Το πακέτο εργασίας #%{id} δεν είναι έγκυρος στόχος για ανάθεση των καταχωρήσεων κόστους."
+          nullify_is_not_valid_for_cost_entries: "Οι καταχωρίσεις κόστους δεν μπορούν να ανατεθούν σε ένα έργο."
+  attributes:
+    comment: "Σχόλιο"
+    cost_type: "Τύπος κόστους"
+    costs: "Κόστος"
+    current_rate: "Τρέχουσα αμοιβή"
+    hours: "Ώρες"
+    units: "Μονάδες"
+    valid_from: "Έγκυρο από"
+    fixed_date: "Καθορισμένη ημερομηνία"
+  button_add_rate: "Προσθήκη αμοιβής"
+  button_log_costs: "Καταγραφή κόστους μονάδας"
+  caption_booked_on_project: "Κλείστηκαν στο έργο"
+  caption_default: "Προεπιλογή"
+  caption_default_rate_history_for: "Προεπιλεγμένο ιστορικό αμοιβής για %{user}"
+  caption_locked_on: "Κλείδωμα στις"
+  caption_materials: "Μονάδες"
+  caption_rate_history: "Ιστορικό αμοιβής"
+  caption_rate_history_for: "Ιστορικό αμοιβής για %{user}"
+  caption_rate_history_for_project: "Ιστορικό αμοιβής για %{user} στο έργο %{project}"
+  caption_save_rate: "Αποθηκεύση αμοιβής"
+  caption_set_rate: "Ορίστε την τρέχουσα αμοιβή"
+  caption_show_locked: "Εμφάνιση κλειδωμένων τύπων"
+  description_date_for_new_rate: "Ημερομηνία για νέα αμοιβή"
+  group_by_others: "δεν είναι σε καμία ομάδα"
+  label_between: "μεταξύ"
+  label_cost_filter_add: "Προσθήκη φίλτρου καταχώρησης κόστους"
+  label_costlog: "Καταγεγραμμένο κόστος μονάδας"
+  label_cost_plural: "Κόστος"
+  label_cost_type_plural: "Τύποι κόστους"
+  label_cost_type_specific: "Τύπος κόστους #%{id}: %{name}"
+  label_costs_per_page: "Κόστος ανά σελίδα"
+  label_currency: "Νόμισμα"
+  label_currency_format: "Μορφοποίηση του νομίσματος"
+  label_current_default_rate: "Τρέχουσα προεπιλεγμένη αμοιβή"
+  label_date_on: "σε"
+  label_deleted_cost_types: "Διαγραμμένοι τύποι κόστους"
+  label_locked_cost_types: "Κλειδωμένοι τύποι κόστους"
+  label_display_cost_entries: "Εμφάνιση μονάδων κόστους"
+  label_display_time_entries: "Εμφάνιση αναφερόμενων ωρών"
+  label_display_types: "Εμφάνιση τύπων"
+  label_edit: "Επεξεργασία"
+  label_generic_user: "Γενικός χρήστης"
+  label_greater_or_equal: ">="
+  label_group_by: "Ομαδοποίηση κατά"
+  label_group_by_add: "Προσθήκη πεδίου ομαδοποίησης"
+  label_hourly_rate: "Ωριαία αμοιβή"
+  label_include_deleted: "Συμπεριλάβετε τα διαγραμμένα"
+  label_work_package_filter_add: "Προσθήκη φίλτρου πακέτου εργασίας"
+  label_kind: "Τύπος"
+  label_less_or_equal: "<="
+  label_log_costs: "Καταγραφή κόστους μονάδας"
+  label_no: "Όχι"
+  label_option_plural: "Επιλογές"
+  label_overall_costs: "Συνολικό κόστος"
+  label_rate: "Αμοιβή"
+  label_rate_plural: "Αμοιβές"
+  label_status_finished: "Ολοκληρωμένο"
+  label_units: "Μονάδες κόστους"
+  label_user: "Χρήστης"
+  label_until: "μέχρι"
+  label_valid_from: "Έγκυρο από"
+  label_yes: "Ναι"
+  notice_something_wrong: "Κάτι πήγε στραβά. Παρακαλούμε προσπαθήστε ξανά."
+  notice_successful_restore: "Επιτυχής επαναφορά."
+  notice_successful_lock: "Κλειδώθηκε επιτυχώς."
+  notice_cost_logged_successfully: 'Η μονάδα κόστους καταγράφηκε επιτυχώς.'
+  permission_edit_cost_entries: "Επεξεργασία κλεισμένου κόστους μονάδας"
+  permission_edit_own_cost_entries: "Επεξεργασία δικού μου κλεισμένου κόστους μονάδας"
+  permission_edit_hourly_rates: "Επεξεργασία ωριαίων αμοιβών"
+  permission_edit_own_hourly_rate: "Επεξεργασία των δικών μου ωριαίων αμοιβών"
+  permission_edit_rates: "Επεξεργασία αμοιβών"
+  permission_log_costs: "Κράτηση κόστους μονάδας"
+  permission_log_own_costs: "Κράτηση κόστους μονάδα για τον εαυτό του"
+  permission_view_cost_entries: "Εμφάνιση κλεισμένου κόστους"
+  permission_view_cost_rates: "Εμφάνιση κόστους αμοιβών"
+  permission_view_hourly_rates: "Εμφάνιση όλων των ωριαίων αμοιβών"
+  permission_view_own_cost_entries: "Εμφάνιση του δικού μου κλεισμένου κόστους"
+  permission_view_own_hourly_rate: "Εμφάνιση των δικών μου ωριαίων αμοιβών"
+  permission_view_own_time_entries: "Προβολή του δικού μου χρόνου που δαπανήθηκε"
+  project_module_costs: "Χρόνος και κόστος"
+  text_assign_time_and_cost_entries_to_project: "Ανάθεση αναφερόμενων ωρών και κόστους στο έργο"
+  text_destroy_cost_entries_question: "%{cost_entries} αναφέρθηκαν στα πακέτα εργασίας που πρόκειται να διαγράψετε. Τι θέλετε να κάνετε;"
+  text_destroy_time_and_cost_entries: "Διαγραφή αναφερόμενων ωρών και κόστους"
+  text_destroy_time_and_cost_entries_question: "%{hours} ώρες, %{cost_entries} αναφέρθηκαν στα πακέτα εργασίας που πρόκειται να διαγράψετε. Τι θέλετε να κάνετε;"
+  text_reassign_time_and_cost_entries: "Επανάθεση αναφερόμενων ωρών και κόστους σε αυτό το πακέτο εργασίας:"
+  text_warning_hidden_elements: "Μερικές καταχωρήσεις μπορεί να έχουν εξαιρεθεί από την συνάθροιση."
+  week: "εβδομάδα"
+  js:
+    text_are_you_sure: "Είστε σίγουρος/η;"

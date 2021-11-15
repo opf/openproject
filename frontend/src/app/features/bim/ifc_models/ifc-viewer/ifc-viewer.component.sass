@@ -1,0 +1,70 @@
+@import "src/assets/sass/helpers"
+
+.op-ifc-viewer
+  display: flex
+  justify-content: stretch
+  height: 100%
+
+  .op-toast
+    position: absolute
+    right: 10px
+
+  &--container
+    flex-grow: 1
+    padding-bottom: 24px
+    overflow: hidden
+
+  &--model-canvas
+    width: 100%
+    height: 100%
+
+    &:focus
+      outline: none
+
+    &-overlay
+      position: absolute
+      z-index: 2
+
+  // toolbar overlays model canvas
+  &--nav-cube-canvas
+    bottom: 0
+    right: 0
+    width: 200px
+    height: 200px
+
+  // toolbar overlays model canvas
+  &--toolbar
+    top: 0
+    right: 0
+    display: flex
+    justify-content: flex-end
+    margin: 0.5em
+
+    &-info-button
+      margin-left: 0.5em
+
+  &--inspector-container
+    width: 380px
+    border-left: 2px solid #eee
+    border-top: 2px solid #eee
+
+    @media only screen and (max-width: 679px)
+      width: 300px
+      border-bottom: 2px solid #eee
+
+    &-hidden
+      display: none
+
+  // focus warning icon overlays model canvas
+  &--focus-warning
+    @include without-link-styling
+    left: 68px
+    bottom: 68px
+
+  &--keyboard-disabled-icon
+    font-size: 42px
+
+  &--nav-cube-canvas,
+  &--focus-warning
+    @media only screen and (max-width: 679px)
+      display: none

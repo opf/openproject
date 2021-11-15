@@ -1,0 +1,38 @@
+<form
+  name="sendUserInviteForm"
+  (submit)="onSubmit($event)"
+  class="op-ium-summary"
+>
+  <op-modal-header (close)="close.emit()">{{ text.title() }}</op-modal-header>
+
+  <div class="op-modal--body op-form">
+    <op-form-field [label]="text.projectLabel">
+      <p slot="input">{{ project.name }}</p>
+    </op-form-field>
+    <div class="op-ium-summary__row">
+      <op-form-field [label]="text.principalLabel[type]">
+        <p slot="input">{{ principal?.name }}</p>
+      </op-form-field>
+      <op-form-field [label]="text.roleLabel()">
+        <p slot="input">{{ role.name }}</p>
+      </op-form-field>
+    </div>
+    <op-form-field
+      [label]="text.messageLabel"
+      *ngIf="type !== PrincipalType.Placeholder && message"
+    >
+      <p slot="input" class="op-ium-summary-message">{{ message }}</p>
+    </op-form-field>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      type="button"
+      class="button"
+      (click)="back.emit()"
+    >{{ text.backButton }}</button>
+    <button
+      class="button -highlight"
+    >{{ text.nextButton() }}</button>
+  </div>
+</form>

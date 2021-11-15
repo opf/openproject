@@ -1,0 +1,15 @@
+#English strings go here
+ca:
+  js:
+    label_preview: 'Previsualitzar'
+    button_update: 'Actualitza'
+    avatars:
+      label_choose_avatar: "Tria un Avatar des d'un fitxer"
+      uploading_avatar: "Carregant el seu avatar."
+      text_upload_instructions: |
+        Puja el teu avatar personalitzat de 128 per 128 pixels. Les imatges més grans es re-dimensionaran i retallaran per encaixar.
+        Una visualització prèvia de l'avatar es mostrarà abans de carregar-la, un cop seleccioni la imatge.
+      error_image_too_large: "La imatge és massa gran."
+      wrong_file_format: "Els formats permesos són jpg, png, gif "
+      empty_file_error: "Si us plau, puja una imatge vàlida (jpg, png, gif)"
+

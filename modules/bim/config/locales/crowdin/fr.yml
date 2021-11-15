@@ -1,0 +1,134 @@
+#English strings go here for Rails i18n
+fr:
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Impossible d''importer les sujets BCF'
+    label_imported_successfully: 'Sujets BCF importés avec succès'
+    issues: "Problèmes"
+    recommended: 'recommandé'
+    not_recommended: 'déconseillé'
+    no_viewpoints: 'Aucun point de vue'
+    new_badge: "nouveau"
+    exceptions:
+      file_invalid: "Fichier BCF invalide"
+    x_bcf_issues:
+      zero: 'Aucun problème BCF'
+      one: 'Un problème BCF'
+      other: '%{count} problèmes BCF'
+    bcf_xml:
+      xml_file: 'Fichier XML BCF'
+      import_title: 'Importer'
+      export: 'Exporter'
+      import_update_comment: '(Mis à jour dans l''importation BCF)'
+      import_failed: 'Impossible d''importer le fichier BCF : %{error}'
+      import_failed_unsupported_bcf_version: 'Impossible de lire le fichier BCF : la version BCF n''est pas prise en charge. Veuillez vous assurer que la version est d''au moins %{minimal_version} ou supérieure.'
+      import_successful: '%{count} problèmes BCF importés'
+      import_canceled: 'Importation BCF-XML annulée.'
+      type_not_active: "Le type de problème n'est pas activé pour ce projet."
+      import:
+        num_issues_found: '%{x_bcf_issues} sont contenus dans le fichier BCF-XML, leurs détails sont repris ci-dessous.'
+        button_prepare: 'Préparer l''importation'
+        button_perform_import: 'Confirmer l''importation'
+        button_proceed: 'Procéder à l''importation'
+        button_back_to_list: 'Retour à la liste'
+        no_permission_to_add_members: 'Vous n''avez pas les autorisations suffisantes pour les ajouter en tant que membres du projet.'
+        contact_project_admin: 'Contactez votre administrateur du projet pour les ajouter en tant que membres et recommencer cette importation.'
+        continue_anyways: 'Voulez-vous quand même continuer et terminer l''importation ?'
+        description: "Fournissez un fichier BCF-XML v2.1 à importer dans ce projet. Vous pouvez examiner son contenu avant d'effectuer l'importation."
+        invalid_types_found: 'Un nom de type de sujet invalide a été trouvé'
+        invalid_statuses_found: 'Un nom de statut invalide a été trouvé'
+        invalid_priorities_found: 'Des noms de priorité invalides ont été trouvés'
+        invalid_emails_found: 'Des adresses e-mail invalides ont été trouvées'
+        unknown_emails_found: 'Des adresses e-mail inconnues ont été trouvées'
+        unknown_property: 'Propriété inconnue'
+        non_members_found: 'Aucun membre du projet n''a été trouvé'
+        import_types_as: 'Définir tous ces types comme'
+        import_statuses_as: 'Définir tous ces statuts comme'
+        import_priorities_as: 'Définir toutes ces priorités comme'
+        invite_as_members_with_role: 'Les inviter en tant que membres du projet "%{project}" avec un rôle'
+        add_as_members_with_role: 'Les ajouter en tant que membres du projet "%{project}" avec un rôle'
+        no_type_provided: 'Aucun type fourni'
+        no_status_provided: 'Aucun statut fourni'
+        no_priority_provided: 'Aucune priorité fournie'
+        perform_description: "Voulez-vous importer ou mettre à jour les problèmes repris ci-dessus ?"
+        replace_with_system_user: 'Les remplacer par l''utilisateur "Système"'
+        import_as_system_user: 'Les importer comme utilisateur "Système".'
+        what_to_do: "Que voulez-vous faire?"
+        work_package_has_newer_changes: "Obsolète ! Ce sujet n'a pas été mis à jour, car les derniers changements sur le serveur étaient plus récents que la \"ModifiedDate\" du sujet importé. Toutefois, les commentaires sur le sujet ont été importés."
+        bcf_file_not_found: "Impossible de localiser le fichier BCF. Veuillez recommencer le processus de téléversement."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "Capture d'écran BCF"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Voir les problèmes BCF"
+  permission_manage_bcf: "Importer et gérer les problèmes BCF"
+  permission_delete_bcf: "Supprimer les problèmes BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Accès complet à l'API BCF v2.1"
+      bcf_v2_1_text: "L'application recevra un accès complet en lecture et écriture à l'API BCF v2.1 de OpenProject pour effectuer des actions en votre nom."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Modèle IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Fichier IFC"
+        is_default: "Modèle par défaut"
+        attachments: "Fichier IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Aucun fichier ifc joint."
+              invalid_ifc_file: "Le fichier fourni n'est pas un fichier IFC valide."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps n'est pas accessible en écriture car il n'est pas encore implémenté."
+          index_not_integer: "l'index n'est pas un entier."
+          invalid_clipping_planes: "clipping_planes n'est pas valide."
+          invalid_components: "les composants sont invalides."
+          invalid_lines: "lines n'est pas valide."
+          invalid_orthogonal_camera: "orthogonal_camera n'est pas valide."
+          invalid_perspective_camera: "perspective_camera n'est pas valide."
+          mismatching_guid: "Le guid dans json_viewpoint ne correspond pas au guid du modèle."
+          no_json: "N'est pas un json bien structuré."
+          snapshot_type_unsupported: "snapshot_type doit être de type 'png' ou 'jpg'."
+          snapshot_data_blank: "snapshot_data doit être fourni."
+          unsupported_key: "Une propriété json non supportée est incluse."
+        bim/bcf/issue:
+          uuid_already_taken: "Impossible d'importer ce problème BCF car il y en a déjà un avec le même GUID. Il est possible que ce problème BCF ait déjà été importé dans un projet différent ?"
+  ifc_models:
+    label_ifc_models: 'Modèles IFC'
+    label_new_ifc_model: 'Nouveau modèle IFC'
+    label_show_defaults: 'Afficher les valeurs par défaut'
+    label_default_ifc_models: 'Modèles IFC par défaut'
+    label_edit_defaults: 'Modifier les valeurs par défaut'
+    no_defaults_warning:
+      title: 'Aucun modèle IFC n''a été défini comme défaut pour ce projet.'
+      check_1: 'Vérifiez que vous avez téléversé au moins un modèle IFC.'
+      check_2: 'Vérifiez qu''au moins un modèle IFC est défini comme « Par défaut ».'
+    no_results: "Aucun modèle IFC n'a été téléversé dans ce projet."
+    conversion_status:
+      label: 'En cours de traitement ?'
+      pending: 'En attente'
+      processing: 'En cours de traitement'
+      completed: 'Terminé'
+      error: 'Erreur'
+    processing_notice:
+      processing_default: 'Les modèles IFC par défaut suivants sont toujours en cours de traitement et ne sont donc pas encore disponibles :'
+    flash_messages:
+      upload_successful: 'Téléversement réussi. Il sera maintenant traité et prêt à être utilisé dans quelques minutes.'
+    conversion:
+      missing_commands: "Les commandes de convertisseur IFC suivantes sont manquantes sur ce système : %{names}"
+  project_module_ifc_models: "Modèles IFC"
+  permission_view_ifc_models: "Voir les modèles IFC"
+  permission_manage_ifc_models: "Importer et gérer les modèles IFC"
+  extraction:
+    available:
+      ifc_convert: "Canal de conversion IFC disponible"
+

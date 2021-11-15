@@ -1,0 +1,42 @@
+# /api/v3/help_texts/{id}
+---
+get:
+  parameters:
+  - description: Help text id
+    example: '1'
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  editText:
+                    href: "/admin/attribute_help_texts/1/edit"
+                    type: text/html
+                  self:
+                    href: "/api/v3/help_texts/1"
+                _type: HelpText
+                attribute: id
+                attributeCaption: ID
+                helpText:
+                  format: markdown
+                  html: "<p>Help text for id attribute.</p>"
+                  raw: Help text for id attribute.
+                id: 1
+                scope: WorkPackage
+          schema:
+            "$ref": "../components/schemas/help_text_model.yml"
+      description: OK
+      headers: {}
+  tags:
+  - Help texts
+  description: ''
+  operationId: View_help_text
+  summary: View help text

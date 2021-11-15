@@ -1,0 +1,76 @@
+.op-uc-h1,
+.op-uc-h2,
+.op-uc-h3,
+.op-uc-h4,
+.op-uc-h5,
+.op-uc-h6
+  --falloff: var(--op-uc-heading-falloff)
+  color: inherit
+  line-height: 1.6em
+  text-transform: none
+  font-weight: bold
+  border-bottom: 0
+  margin: 0
+  padding: 0
+  break-before: auto
+  break-after: avoid
+  break-inside: avoid
+
+  &:hover .op-uc-link_permalink
+    display: inline-flex
+
+.op-uc-h1
+  margin-bottom: 0.5rem
+  border-bottom: 1px solid #dadada
+
+  .op-uc-container_reduced-headings
+    border-bottom: none
+    margin-bottom: 0
+
+.op-uc-h1
+  font-size: var(--op-uc-heading-base)
+.op-uc-h2
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff))
+.op-uc-h3
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff))
+.op-uc-h4
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff) * var(--falloff))
+.op-uc-h5
+  font-size: calc(var(--op-uc-heading-base) * var(--falloff) * var(--falloff) * var(--falloff) * var(--falloff))
+  
+.op-uc-p
+  font: inherit
+  margin: 0
+  line-height: 1.6em
+  color: inherit
+
+.op-uc-blockquote
+  display: block
+  margin: 0
+  border-left: 3px solid #e0e0e0
+  padding: 0.8rem 1.2rem 0 1.2rem
+  overflow: hidden
+  color: #6f6f6f
+
+  @include user-content-children
+
+.op-uc-link
+  color: var(--content-link-color)
+  font-size: 1em
+
+  &:hover
+    color: var(--content-link-hover-active-color)
+
+  &_permalink
+    display: none
+    text-decoration: none
+    align-items: center
+    color: #ccc
+    margin-left: 0.5em
+
+    &::before
+      font-size: 1em
+
+    &:hover
+      color: #aaa
+      text-decoration: none

@@ -1,0 +1,86 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+@include breakpoint(680px down)
+  form
+    .grid-block
+      display: block
+
+      .grid-content
+        padding: 0
+
+    &.-wide-labels .form--field .form--label,
+    .form--field.-wide-label .form--label,
+    .form--label,
+    .form--field-container,
+    .form--select-container
+      @include grid-content(12)
+      display: flex
+      flex: 1
+      margin-left: 0
+      padding: 0
+    .form--field-instructions
+      margin-left: 0
+      flex-basis: 100%
+      max-width: 100%
+
+  #tab-content-info form,
+  .op-modal--body form:not(.-vertical),
+  form.-wide-labels .op-modal--body
+    .form--label,
+    .form--field-container
+      flex-basis: 100% !important
+      max-width: 100% !important
+
+  autocomplete-select-decoration
+    width: 100%
+
+  .form--field-inline-buttons-container
+    .form--field-inline-button
+      width: auto !important
+
+  .-browser-safari
+    // Special rule for mobile safari to prevent zooming into the text field
+    // when focussed.
+    select,
+    textarea,
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="date"],
+    input[type="month"],
+    input[type="time"],
+    input[type="week"],
+    input[type="number"],
+    input[type="email"],
+    input[type="url"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="color"]
+      font-size: 16px !important

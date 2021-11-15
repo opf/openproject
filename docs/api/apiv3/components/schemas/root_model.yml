@@ -1,0 +1,39 @@
+# Schema: RootModel
+---
+type: object
+properties:
+  instanceName:
+    type: string
+    description: The name of the OpenProject instance
+    readOnly: true
+  coreVersion:
+    type: string
+    description: |-
+      The OpenProject core version number for the instance
+
+      # Conditions
+
+      **Permission** requires admin privileges
+example:
+  _links:
+    configuration:
+      href: "/api/v3/configuration"
+    user:
+      href: "/api/v3/users/1"
+      title: John Sheppard
+    userPreferences:
+      href: "/api/v3/my_preferences"
+    priorities:
+      href: "/api/v3/priorities"
+    relations:
+      href: "/api/v3/relations"
+    statuses:
+      href: "/api/v3/statuses"
+    types:
+      href: "/api/v3/types"
+    workPackages:
+      href: "/api/v3/work_packages"
+    users:
+      href: "/api/v3/users"
+  instanceName: My own OpenProject
+  coreVersion: 10.3.0

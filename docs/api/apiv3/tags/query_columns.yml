@@ -1,0 +1,22 @@
+---
+description: |-
+  A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property. QueryColumns exist in three types: `QueryColumn::Property`, `QueryColumn::RelationToType` and `QueryColumn::RelationOfType`.
+
+  ## Actions
+
+  As of now, no actions are defined.
+
+  ## Linked Properties
+
+  | Property         | Description                                            | Type                                                                              | Constraints                                    | Supported operations |
+  | :--------------: | ------------------------------------------------------ | -----------                                                                       | --------------------------------               | -------------------- |
+  | self             | This query column                                      | QueryColumn::Property, QueryColumn::RelationToType or QueryColumn::RelationOfType | not null                                       | READ                 |
+  |  type            | The type relations point to                            | Type                                                                              | not null, exists only on QueryColumn::Relation | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type        | Constraints                      | Supported operations |
+  | :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
+  | id               | Query column id                                        | String      | not null                         | READ                 |
+  | name             | Query column name                                      | String      | not null                         | READ                 |
+name: Query Columns

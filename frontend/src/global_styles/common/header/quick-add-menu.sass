@@ -1,0 +1,21 @@
+$background: var(--button--alt-highlight-background-color)
+$background-hover: var(--button--alt-highlight-background-hover-color)
+$color: var(--button--alt-highlight-font-color)
+
+.op-quick-add-menu
+  @include breakpoint(680px down)
+    display: none
+
+  &--icon::before
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    padding: 1px 8px 0 8px
+    @include button-style($background, $background-hover, $color)
+
+  &:hover &
+    &--icon::before
+      background: var(--button--alt-highlight-background-hover-color)

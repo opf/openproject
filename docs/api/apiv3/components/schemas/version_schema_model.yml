@@ -1,0 +1,92 @@
+# Schema: Version_schemaModel
+---
+type: object
+example:
+  _type: Schema
+  _dependencies: []
+  id:
+    type: Integer
+    name: ID
+    required: true
+    hasDefault: false
+    writable: false
+  name:
+    type: String
+    name: Name
+    required: true
+    hasDefault: false
+    writable: true
+    minLength: 1
+    maxLength: 60
+  description:
+    type: Formattable
+    name: Description
+    required: false
+    hasDefault: false
+    writable: true
+  startDate:
+    type: Date
+    name: Start date
+    required: false
+    hasDefault: false
+    writable: true
+  endDate:
+    type: Date
+    name: Finish date
+    required: false
+    hasDefault: false
+    writable: false
+  status:
+    type: String
+    name: Status
+    required: true
+    hasDefault: false
+    writable: true
+    visibility: default
+    _links: {}
+  sharing:
+    type: String
+    name: Sharing
+    required: true
+    hasDefault: false
+    writable: true
+    visibility: default
+    _links: {}
+  createdAt:
+    type: DateTime
+    name: Created on
+    required: true
+    hasDefault: false
+    writable: false
+  updatedAt:
+    type: DateTime
+    name: Updated on
+    required: true
+    hasDefault: false
+    writable: false
+  definingProject:
+    type: Project
+    name: Project
+    required: true
+    hasDefault: false
+    writable: true
+    _links: {}
+  customField14:
+    type: String
+    name: text CF
+    required: false
+    hasDefault: false
+    writable: true
+    visibility: default
+  customField40:
+    type: CustomOption
+    name: List CF
+    required: false
+    hasDefault: false
+    writable: true
+    location: _links
+    visibility: default
+    _links: {}
+  _links:
+    self:
+      href: "/api/v3/versions/schema"

@@ -1,0 +1,40 @@
+#English strings go here
+ro:
+  label_avatar: "Avatar"
+  label_avatar_plural: "Avataruri"
+  label_current_avatar: "Avatar curent"
+  label_choose_avatar: "Alegeți Avatar din fișier"
+  message_avatar_uploaded: "Avatar schimbat cu succes."
+  error_image_upload: "Eroare de salvare a imaginii."
+  error_image_size: "Imaginea este prea mare."
+  button_change_avatar: "Schimbați avatarul"
+  are_you_sure_delete_avatar: "Ești sigur că vrei să-ți ștergi avatarul?"
+  avatar_deleted: "Avatar șters cu succes."
+  unable_to_delete_avatar: "Avatarul nu a putut fi șters."
+  wrong_file_format: "Formatele permise sunt jpg, png, gif"
+  empty_file_error: "Vă rugăm să încărcați o imagine validă (jpg, png, gif)"
+  avatars:
+    label_avatar: "Avatar"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Avatar curent'
+    label_local_avatar: 'Avatar personalizat'
+    text_current_avatar: |
+      Următoarea imagine prezintă avatarul actual.
+    text_upload_instructions: |
+      Încărcați propriul avatar personalizat de 128 pe 128 pixeli. Fișierele mai mari vor fi redimensionate și decupate pentru a se potrivi.
+      O previzualizare a avatarului dvs. va fi afișată înainte de a fi încărcat, după ce ați selectat o imagine.
+    text_change_gravatar_html: 'Pentru a schimba sau adăuga Gravatar pentru adresa dvs. de e-mail, mergeți la %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject vă permite să vă încărcați propriul avatar personalizat.
+    text_local_avatar_over_gravatar: |
+      Dacă setați unul, acest avatar personalizat este folosit cu prioritate față de gravatar-ul de mai sus.
+    text_your_current_gravatar: |
+      OpenProject folosește gravatar-ul dvs. dacă ați înregistrat unul, sau o imagine sau o pictogramă implicită, dacă există una.
+      Gravatar-ul actual este următorul:
+    settings:
+      enable_gravatars: 'Activați gravatarul utilizatorului'
+      gravatar_default: "Imagine Gravatar implicită"
+      enable_local_avatars: 'Activați avatarele personalizate ale utilizatorului'
+
+
+

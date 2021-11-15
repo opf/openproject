@@ -1,0 +1,55 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% html_title "#{t(:label_meeting_diff)}: #{@meeting.title}" %>
+<%= toolbar title: t(:"label_#{@content_type}"),
+            link_to: link_to(@meeting, @meeting) do %>
+  <% if authorize_for(@content_type.pluralize, :history) %>
+    <li class="toolbar-item">
+      <%= link_to({controller: "/#{@content_type.pluralize}", action: 'history', meeting_id: @meeting }, class: 'button') do %>
+        <%= op_icon('button--icon icon-wiki') %>
+        <span class="button--text"><%= t(:label_history) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<p>
+<%= t(:label_version) %> <%= link_to @diff.content_from.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_from.version) %>
+<em>(<%= link_to_user(@diff.content_from.user) %>, <%= format_time(@diff.content_from.created_at) %>)</em>
+&#8594;
+<%= t(:label_version) %> <%= link_to @diff.content_to.version, send(:"#{@content_type}_version_path", @meeting, @diff.content_to.version) %>/<%= @content.last_journal&.version || 0 %>
+<em>(<%= link_to_user(@diff.content_to.user) %>, <%= format_time(@diff.content_to.created_at) %>)</em>
+</p>
+
+<hr />
+
+<div class="text-diff">
+<%= simple_format_without_paragraph @diff.to_html %>
+</div>

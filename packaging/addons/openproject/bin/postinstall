@@ -1,0 +1,108 @@
+#!/bin/bash
+
+set -e
+
+. ${INSTALLER_DIR}/wizard
+
+CLI="${APP_NAME}"
+
+# Check for custom gems
+custom_gemfile=$(${CLI} config:get CUSTOM_PLUGIN_GEMFILE || echo "")
+if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then
+
+        # Need to override the frozen setting for the vendored gems
+        ${CLI} run bundle config --local frozen 0
+
+        # Re-bundle the application including gems
+        ${CLI} run bundle install
+
+        # Mark backend for recompilation in the OpenProject postinstall rake step
+        echo "Custom Gemfile present. Need to recompile rails assets. Setting RECOMPILE_RAILS_ASSETS=true"
+        ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
+fi
+
+# Check for server prefix
+server_prefix=$(${CLI} config:get SERVER_PATH_PREFIX || echo "/")
+if [ "$server_prefix" != "/" ]; then
+        echo "Server prefix is set. Need to recompile rails assets. Setting RECOMPILE_RAILS_ASSETS=true"
+        # Mark backend for recompilation in the OpenProject postinstall rake step
+        ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
+fi
+
+# Check for server prefix changes
+last_server_prefix=$(${CLI} config:get SERVER_PATH_PREFIX_PREVIOUS || echo "/")
+if [ "$last_server_prefix" != "$server_prefix" ]; then
+        echo "Server prefix was changed from ${last_server_prefix} to ${server_prefix}. Need to recompile rails assets. Setting RECOMPILE_RAILS_ASSETS=true"
+        # Mark backend for recompilation in the OpenProject postinstall rake step
+        ${CLI} config:set RECOMPILE_RAILS_ASSETS="true"
+fi
+
+
+# Check if we need to compile angular as well
+must_rebuild=$(${CLI} config:get RECOMPILE_ANGULAR_ASSETS || echo "")
+if [ -n "$must_rebuild" ]; then
+        echo "RECOMPILE_ANGULAR_ASSETS was set. Installing node dependencies..."
+        # Skip printing audit for installation
+        openproject run npm set audit false
+        openproject run npm install --silent
+fi
+
+# Set execjs to node since that's installed
+# And we can use it for backend precompilation
+${CLI} config:set EXECJS_RUNTIME="Node"
+
+rake_commands="db:migrate db:seed"
+
+# set rails_cache_store
+memcached_servers="$(${CLI} config:get MEMCACHED_SERVERS || echo "")"
+if [ -z "$memcached_servers" ]; then
+  ${CLI} config:set RAILS_CACHE_STORE=file_store
+else
+  ${CLI} config:set RAILS_CACHE_STORE=memcache
+fi
+
+# create attachments folder
+attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
+mkdir -p "${attachments_path}"
+chown ${APP_USER}.${APP_GROUP} "${attachments_path}"
+${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
+
+# set web host
+${CLI} config:set HOST=127.0.0.1
+
+# set web timeout
+web_timeout=$(${CLI} config:get WEB_TIMEOUT || echo "300")
+${CLI} config:set WEB_TIMEOUT=${web_timeout}
+
+# set SECRET_KEY_BASE env variable
+secret_token=$(${CLI} config:get SECRET_KEY_BASE || ${CLI} config:get SECRET_TOKEN || ${CLI} run rake -s secret | tail -1)
+${CLI} config:set SECRET_KEY_BASE="$secret_token"
+
+# set SECRET_TOKEN env variable for backwards compatibility
+${CLI} config:set SECRET_TOKEN="$secret_token"
+
+# set installation type
+installation_type="$(${CLI} config:get OPENPROJECT_INSTALLATION__TYPE || echo "")"
+if [ -z "$installation_type" ]; then
+  ${CLI} config:set OPENPROJECT_INSTALLATION__TYPE=packager
+fi
+
+# Allow other tasks to run before the environment is loaded
+${CLI} run rake "packager:before_postinstall"
+
+# Use the OpenProject internal setup in one environment task
+${CLI} run rake "${rake_commands} packager:postinstall"
+
+# For some reason RHEL8 creates files with chmod 0600                     
+find "${APP_HOME}/public" -type f -exec chmod 0644 {} \;     
+
+# Allow OpenProject to perform custom initialization steps in the context of this installer
+if [ -e "${APP_HOME}/packaging/scripts/postinstall" ]; then
+  source "${APP_HOME}/packaging/scripts/postinstall"
+fi
+
+# scale
+${CLI} scale web=1 worker=1 || true
+
+# restart
+service ${APP_NAME} restart

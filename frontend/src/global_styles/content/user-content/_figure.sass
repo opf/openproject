@@ -1,0 +1,49 @@
+.op-uc-figure
+  margin: 0
+  display: flex
+  flex-direction: column
+  align-items: center
+  align-self: stretch
+  width: 100%
+  max-width: 100%
+  position: relative
+  break-inside: avoid
+
+  @include styled-scroll-bar
+
+  @at-root .op-uc-container_editing &
+    max-height: unset
+
+  @media print
+    display: block
+    max-height: unset
+
+  &_align-end
+    float: right
+    width: auto
+  &_align-start
+    float: left
+    width: auto
+  &_align-center
+    // This is the current default behaviour, as ckeditor-augmented-textarea has no "don't align" option
+
+  &--content
+    flex-basis: auto
+    flex-grow: 0
+    flex-shrink: 1
+    width: 100%
+    display: flex
+    justify-content: flex-start
+    // Fix stretching of images in safari
+    // https://stackoverflow.com/questions/57516373
+    align-items: flex-start
+    overflow: auto
+    max-height: 100%
+
+  &--description
+    flex-basis: auto
+    flex-grow: 1
+    flex-shrink: 0
+    padding: 0.75rem
+    max-width: 100%
+    text-align: center

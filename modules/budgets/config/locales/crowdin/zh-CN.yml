@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+zh-CN:
+  activerecord:
+    attributes:
+      budget:
+        author: "作者"
+        available: "可用"
+        budget: "已计划"
+        budget_ratio: "已支出（比例）"
+        description: "描述"
+        spent: "已支出"
+        status: "状态"
+        subject: "主题"
+        type: "成本类型"
+        labor_budget: "计划劳动力成本"
+        material_budget: "计划单位成本"
+      work_package:
+        budget_subject: "预算标题"
+    models:
+      budget: "预算"
+      material_budget_item: "单位"
+  attributes:
+    budget: "预算"
+  button_add_budget_item: "添加计划成本"
+  button_add_budget: "添加预算"
+  button_add_cost_type: "添加成本类型"
+  button_cancel_edit_budget: "取消编辑预算"
+  button_cancel_edit_costs: "取消编辑成本"
+  caption_labor: "劳动力"
+  caption_labor_costs: "实际劳动力成本"
+  caption_material_costs: "实际单位成本"
+  budgets_title: "预算"
+  events:
+    budget: "预算已编辑"
+  help_click_to_edit: "单击此处进行编辑。"
+  help_currency_format: "已显示的货币值的格式。%n 替换为货币值，%u 替换为货币单位。"
+  help_override_rate: "在此处输入值覆盖基本费率。"
+  label_budget: "预算"
+  label_budget_new: "新增预算"
+  label_budget_plural: "预算"
+  label_budget_id: "预算 #%{id}"
+  label_deliverable: "预算"
+  label_example_placeholder: '例如，%{decimal}'
+  label_view_all_budgets: "查看所有预算"
+  label_yes: "是"
+  notice_budget_conflict: "工作包必须具有相同的项目。"
+  notice_no_budgets_available: "无可用预算。"
+  permission_edit_budgets: "编辑预算"
+  permission_view_budgets: "查看预算"
+  project_module_budgets: "预算"
+  text_budget_reassign_to: "将它们重新分配给此预算："
+  text_budget_delete: "从所有工作包中删除预算"
+  text_budget_destroy_assigned_wp: "有 %{count} 个工作包被分配到此预算。您想做什么？"

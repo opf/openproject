@@ -1,0 +1,176 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+@mixin details-pane--form-field
+  @include grid-visible-overflow
+  padding: 0
+
+
+// -------------------- Header row --------------------
+.wp-show--header-container
+  display: flex
+
+  .subject-header
+    flex-grow: 1
+
+    .inline-edit--display-field
+      white-space: normal
+      word-break: break-all
+
+// Subject field
+.wp-new--subject-wrapper
+  .inline-edit--active-field.subject
+    .inline-edit--field
+      height: 40px
+      font-size: 16px
+      line-height: 1
+
+
+.work-packages--details--subject
+  @include grid-content
+  @include grid-size(expand)
+  @include details-pane--form-field
+
+  // overriding default in place editing padding
+  // because the heigt will otherwise be too much
+  // and the change from read to write will flicker
+  .inplace-edit--text-field
+    padding: 0.15625rem 0.375rem
+
+.work-packages--details-content
+  font-size:  0.875rem
+  .inplace-edit--write-value
+    textarea
+      overflow: hidden
+
+
+.work-package--single-view
+  // Make elements in split and full view span the entire width
+  // Style the edit field element when the full width is required
+  .wp-edit-formattable-field
+    width: 100%
+
+    // Allow only vertical resizing of the textarea
+    textarea
+      resize: vertical
+
+
+  // Implement two column layout for WP full screen view
+  &_with-columns
+    @media screen and (min-width: 92rem), print
+      .-columns-2
+        @include two-column-layout
+
+      @supports (column-span: all)
+        // Remove the outline on focus since that breaks the column in chrome
+        // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
+        body
+          .attributes-key-value--value-container
+            *:focus
+              outline: 1px solid $gray
+
+.detail-panel-description
+  margin: 0
+  line-height: 18px
+
+// Let the absolute autocomplete modify the height
+// of the relation tab so we can scroll to the results
+.detail-panel--autocomplete-target
+  position: relative
+
+i
+  &.icon-left
+    padding: 0 5px 0 0
+  &.icon-right
+    vertical-align: -2px
+    padding: 0 0 0 4px
+
+// -------------------- Attribute groups --------------------
+// Special styling for project context area
+.attributes-group.-project-context
+  background: rgba(227, 245, 255, 0.3)
+  border-radius: 5px
+  padding: 10px 10px 0 10px
+  margin: 10px 0 0 0
+  border: 1px solid rgb(227, 245, 255)
+
+// Avoid top border and spacing for special projects/select attribute group
+.attributes-group.-special-fields
+  margin-top: 0.5em
+
+  .attributes-group--header,
+  .attributes-group--header-container
+    border: 0
+    padding: 0
+    margin: 0
+
+// Increase label width
+.router--work-packages-full-view .attributes-group,
+.router--work-packages-full-create .attributes-group
+  // We have to find a middle way between
+  // (a) avoiding label wrap and
+  // (b) ugly content wrap (e.g. in the label)
+  // These values are what matches best at the moment. So be careful when changing them.
+  .attributes-key-value--key
+    flex: 1 0 45%
+    max-width: 45%
+  .attributes-key-value--value-container
+    position: relative
+    flex: 1 0 55%
+    max-width: 55%
+
+// -------------------- Info row --------------------
+.work-packages--info-row
+  font-size: 12px
+  padding-top: 1px
+
+.wp-info-wrapper
+  display: flex
+  flex-wrap: wrap
+  align-items: center
+  padding-top: 0.5rem
+
+  attribute-help-text
+    flex: 0
+    .help-text--entry
+      line-height: 25px
+      margin: 0 10px 0 -14px
+      .icon:before
+        padding: 0
+
+  .work-packages--info-row
+    flex: 1 1 200px
+
+  wp-status-button
+    // Should not be longer than mobile screen width (margin of 15px left and right)
+    max-width: calc(100vw - 30px)
+
+  attribute-help-text,
+  wp-status-button,
+  .work-packages--info-row
+    margin-bottom: 0.5rem

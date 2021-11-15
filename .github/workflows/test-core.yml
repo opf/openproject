@@ -1,0 +1,86 @@
+name: Core/Test
+# https://securitylab.github.com/research/github-actions-preventing-pwn-requests
+on:
+  push:
+    branches:
+      - dev
+      - release/*
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths-ignore:
+      - 'docs/**'
+      - 'help/**'
+
+jobs:
+  units:
+    name: Units
+    if: github.repository == 'opf/openproject'
+    runs-on: [self-hosted-autoscale]
+    timeout-minutes: 30
+    env:
+      CI_CACHE_PATH: "/tmp/cache"
+      CI_RETRY_COUNT: 3
+      LOCAL_DEV_CHECK: 1
+    steps:
+    - uses: actions/checkout@v2
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: /tmp/cache
+        key: ${{ runner.os }}-core-tests-units-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-core-tests-units-
+          ${{ runner.os }}-core-tests-
+    - name: test
+      run: |
+        docker-compose -f docker-compose.ci.yml build --pull ci
+        docker-compose -f docker-compose.ci.yml run ci setup-tests run-units
+    - name: cleanup
+      if: ${{ always() }}
+      run: |
+        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+  features:
+    name: Features
+    if: github.repository == 'opf/openproject'
+    runs-on: [self-hosted-autoscale]
+    timeout-minutes: 60
+    env:
+      CI_CACHE_PATH: "/tmp/cache"
+      LOCAL_DEV_CHECK: 1
+      CI_RETRY_COUNT: 3
+      CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+    steps:
+    - uses: actions/checkout@v2
+    - name: cache
+      uses: actions/cache@v2
+      with:
+        path: /tmp/cache
+        key: ${{ runner.os }}-core-tests-features-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-core-tests-features-
+          ${{ runner.os }}-core-tests-
+    - name: test
+      run: |
+        docker-compose -f docker-compose.ci.yml build --pull ci
+        docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
+    - name: cleanup
+      if: ${{ always() }}
+      run: |
+        docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+        sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+  api-spec:
+    name: APIv3 specification (OpenAPI 3.0)
+    if: github.repository == 'opf/openproject'
+    runs-on: [ubuntu-latest]
+    steps:    
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: ./script/api/validate_spec

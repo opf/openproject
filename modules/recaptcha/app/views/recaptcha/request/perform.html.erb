@@ -1,0 +1,46 @@
+<% html_title t('recaptcha.label_recaptcha') %>
+<% breadcrumb_paths(t('recaptcha.label_recaptcha')) %>
+<div id="login-form" class="form -bordered">
+  <%= styled_form_tag({ action: :verify }, { :autocomplete => "off", :id => 'submit_captcha' }) do %>
+    <h2><%= t 'recaptcha.verify_account' %></h2>
+    <% if recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_V2 %>
+      <% input_name = "g-recaptcha-response" %>
+      <input type="hidden" name="<%= input_name %>" />
+      <%= recaptcha_tags(
+        nonce: content_security_policy_script_nonce,
+        callback: 'submitRecaptchaForm',
+        site_key: recaptcha_settings[:website_key]
+      ) %>
+
+      <%= nonced_javascript_tag do %>
+        function submitRecaptchaForm(val) {
+          var input = document.getElementById('<%= input_name %>');
+
+          if (!input) { // hcaptcha uses name, not ID
+            var inputs = document.getElementsByName('<%= input_name %>');
+
+            if (inputs.length > 0) {
+              input = inputs[0];
+            }
+          }
+
+          input.value = val;
+          document.getElementById('submit_captcha').submit();
+        }
+      <% end %>
+    <% elsif recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_V3 %>
+      <%= recaptcha_v3 action: 'login',
+                       nonce: content_security_policy_script_nonce,
+                       callback: 'submitRecaptchaForm',
+                       site_key: recaptcha_settings[:website_key] %>
+
+      <p><%= t('recaptcha.button_please_wait') %></p>
+      <%= nonced_javascript_tag do %>
+        function submitRecaptchaForm(id, val) {
+          document.getElementById(id).value = val;
+          document.getElementById('submit_captcha').submit();
+        }
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

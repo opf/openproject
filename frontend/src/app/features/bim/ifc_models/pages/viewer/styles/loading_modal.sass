@@ -1,0 +1,50 @@
+.xeokit-busy-modal-backdrop
+  position: relative
+
+.xeokit-busy-modal
+  display: none
+  position: absolute
+  z-index: 1000000
+  padding-top: 100px
+  left: 0
+  top: 0
+  width: 100%
+  height: 100%
+  background-color: rgba(0, 0, 0, 0.4)
+
+.xeokit-busy-modal-content
+  position: relative
+  background-color: #fefefe
+  margin: auto
+  padding: 0
+  border: 1px solid #888
+  border-radius: 0.5em
+  width: 50%
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+  -webkit-animation-name: xeokit-busy-modal-animatetop
+  -webkit-animation-duration: 0.4s
+  animation-name: xeokit-busy-modal-animatetop
+  animation-duration: 0.4s
+
+/* Add Animation */
+@-webkit-keyframes xeokit-busy-modal-animatetop
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+@keyframes xeokit-busy-modal-animatetop
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+.xeokit-busy-modal-message
+  font-size: 22px
+  padding: 2px 16px
+  background-color: white
+  color: #212529
+
+.xeokit-busy-modal-body
+  padding: 2px 16px
+  margin: 20px 2px  

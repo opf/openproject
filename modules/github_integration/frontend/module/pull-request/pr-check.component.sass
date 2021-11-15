@@ -1,0 +1,62 @@
+.op-pr-check
+  display: grid
+  grid-row: span 4
+  grid-template-columns: 28px 33px 1fr auto
+  grid-template-areas: "check-state-icon check-avatar check-info check-details"
+  list-style-type: none
+  border: 1px solid #dddddd
+  padding: 0.3rem 1rem
+  background: rgba(0, 0, 0, 0.05)
+  font-size: 0.9rem
+
+  &:first-child
+    border-top-right-radius: 5px
+    border-top-left-radius: 5px
+
+  &:last-child
+    border-bottom-right-radius: 5px
+    border-bottom-left-radius: 5px
+
+  &--avatar img
+    grid-area: check-avatar
+    display: inline-block
+    width: 22px
+    height: 22px
+    margin-right: 5px
+    border-radius: var(--user-avatar-border-radius)
+
+  &--info
+    grid-area: check-info
+
+  &--state
+    color: var(--gray-dark)
+    font-style: italic
+    margin-left: 1em
+
+  &--state-icon
+    grid-area: check-state-icon
+
+    &_queued
+      color: cadetblue
+
+    &_in_progress
+      color: orange
+
+    &_success
+      color: green
+
+    &_failure,
+    &_timed_out,
+    &_action_required,
+    &_stale
+      color: red
+
+    &_skipped,
+    &_neutral,
+    &_cancelled
+      color: gray
+      color: gray
+      color: gray
+
+  &--details
+    grid-area: check-details

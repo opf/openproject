@@ -1,0 +1,303 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+$nm-color-error-background: #fedada
+
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
+
+@mixin query-select-dropdown-filter-select($color)
+  text-decoration: underline
+  color: $color
+
+@mixin query-selection-link($color)
+  a
+    color: $color
+    font-weight: normal
+    text-decoration: none
+
+@mixin toolbar-element-sizing
+  margin: 0
+  height: 34px
+  line-height: 22px
+
+.toolbar-container
+  margin-bottom: 1rem
+  padding: 0
+
+  > .subtitle
+    font-size: rem-calc(14px)
+    font-style: italic
+    margin-top: rem-calc(5px)
+    margin-bottom: 10px
+
+  &.-with-dropdown .toolbar-item.drop-down
+    position: relative
+
+  &.-minimum-title
+    .toolbar-items
+      flex-grow: 1
+
+    .title-container
+      flex-grow: 0
+      flex-basis: auto
+
+// Align title and toolbar with flex
+.toolbar
+  display: flex
+  flex-wrap: wrap
+  align-items: flex-start
+
+  &_empty-title
+    justify-content: flex-end
+
+// automatically clear the toolbar
+.toolbar:after
+  clear: both
+  content: ""
+  display: table
+
+.toolbar-items
+  display: flex
+  flex-wrap: wrap
+  margin: 0 -10px 0 0
+  padding: 0
+
+  li
+    list-style-type: none
+    flex-grow: 1
+
+  .toolbar-item
+    margin: 0 10px 10px 0
+    // spacing between nav items
+    flex-grow: 1
+
+    // hide right margin for e.g., conditional buttons
+    &.-no-spacing
+      margin-right: 0
+
+    &.-no-grow
+      flex-grow: 0
+
+    .button
+      width: 100%
+      overflow: hidden
+      white-space: normal
+      // For links the total height adds borders to line-height (== 34px)
+      line-height: 32px
+
+    // hack around the old watchers_link implementation
+    // remove once all watcher_links in plugins have no button wrappers anymore
+    .button .button
+      background: transparent
+      border: none
+      margin: 0
+      padding: 0
+
+  .toolbar-button-group
+    display: flex
+    justify-content: flex-end
+    flex-direction: row
+    margin-left: 0px
+
+    > li
+      margin-right: 2px
+
+  button,
+  .button
+    // Overwrite Foundastion's default padding. Let line-height fix vertical
+    // center
+    padding-top: 0
+    padding-bottom: 0
+
+    .button--icon
+      font-size: 14px
+
+    .button--text
+      margin-left: 0.2em
+
+    .badge
+      font-size: 14px
+      vertical-align: 1px
+
+      font-size: 14px
+      line-height: 1
+
+      i
+        font-size: 14px
+        line-height: 1
+
+        &::before
+          font-size: 14px
+          line-height: 1
+
+  button,
+  .button,
+  input[type=text],
+  input[type=number],
+  select
+    @include toolbar-element-sizing
+    border: 1px solid var(--toolbar-item--border-color)
+
+  button,
+  .button,
+  .toolbar-input--affix
+    background: var(--toolbar-item--bg-color)
+
+    &.-pressed,
+    &:active
+      background: var(--toolbar-item--bg-color-pressed)
+      box-shadow: inset 0 2px 3px rgba(0, 0, 0, .125)
+
+  select
+    //extend forms select
+    @extend .form--select
+    //hack vertical text alignment for select (for all browsers)
+    padding-top: 5px
+    padding-bottom: 11px
+    //firefox hack, outline fix for select, remove to see why
+    &:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
+
+  a.last,
+  .last
+    margin-right: 0
+
+  #repository-checkout-url
+    min-width: 320px
+
+  .toolbar-item
+    &.-icon-only
+      .button
+        text-align: center
+
+      .button--icon
+        font-size: 1.1rem
+        position: relative
+        left: 0
+        right: 1px
+        vertical-align: text-top
+
+// Allow title container to grow
+.title-container
+  flex: 1 1
+  white-space: nowrap
+  margin-bottom: 10px
+  max-width: 100%
+  // margin-bottom of toolbar buttons
+
+  &.-no-grow
+    flex-grow: 0
+
+  h2
+    @include text-shortener
+    padding: 0
+
+  div.inline-edit
+    cursor: pointer
+
+  div.inline-edit h2
+    margin: 10px 0
+    padding: 0px 5px
+    color: var(--toolbar-title-color)
+    line-height: 34px
+    height: 34px
+    @include breakpoint(medium down)
+      font-size: var(--h2-font-size)
+
+    &:focus, &:hover
+      outline: 1px solid #ddd
+      cursor: text
+
+    &.-disabled
+      cursor: default
+
+      &:hover
+        outline: none
+
+  div.inline-edit input
+    padding: 0px 5px
+    -moz-margin: 10px 0
+    margin: 9px 0
+    color: var(--toolbar-title-color)
+    font-size: var(--h2-font-size)
+    height: 36px
+    line-height: 36px
+    width: calc(100% + 2px)
+
+    &.-error
+      display: block
+      background: $nm-color-error-background !important
+      border-color: var(--content-form-danger-zone-bg-color) !important
+
+  ul
+    margin: 0
+    padding: 0
+    float: left
+
+  li
+    float: none
+
+  span.filter-selection
+    @include query-select-dropdown-filter-select(var(--primary-color))
+
+.toolbar-input-group
+  display: flex
+
+  input
+    flex: 1
+    flex-basis: 150px
+
+  > div
+    @include toolbar-element-sizing
+    display: flex
+    align-items: center
+    padding: 0 5px
+
+  label
+    margin: 0
+    font-size: 1.05rem
+    flex-grow: 1
+
+  .toolbar-input-group--affix
+    background: var(--toolbar-item--bg-color)
+    border: 1px solid var(--toolbar-item--border-color)
+    color: $inlinelabel-color
+    border-radius: 2px
+    white-space: nowrap
+
+    &.-prepend
+      border-right: none !important
+
+    &.-append
+      border-left: none !important
+
+.toolbar
+  *
+    outline: none

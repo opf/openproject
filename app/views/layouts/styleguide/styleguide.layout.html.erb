@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+  <head>
+    <base href="/" />
+    <meta charset="utf-8">
+    <meta content="ie=edge" http-equiv="x-ua-compatible">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta name="openproject_initializer"
+          data-locale="en"
+          data-default-locale="en" />
+    <meta content="livingstyleguide.org <%= LivingStyleGuide::VERSION %>" name="generator">
+    <title>Living Style Guide for OpenProject</title>
+    <script type="application/javascript" src="/assets/frontend/vendor.js"></script>
+    <script type="application/javascript" src="/assets/frontend/polyfills.js"></script>
+    <script type="application/javascript" src="/assets/frontend/runtime.js"></script>
+    <script type="application/javascript" src="/assets/frontend/main.js"></script>
+    <link rel="stylesheet" media="all" href="/assets/frontend/styles.css">
+
+    <style>
+      body {
+        max-width: 65vw;
+        margin: 0 auto;
+        font-family: Lato;
+        font-size: 16px;
+        background-color: white;
+      }
+
+      .styleguide-nav--menu-items {
+        margin: 0;
+        background: var(--primary-color);
+        flex-wrap: wrap;
+      }
+
+      .styleguide-nav li {
+        padding: 0.5rem 1rem;
+        flex: 1;
+        text-align: center;
+      }
+
+      .styleguide-nav li:hover {
+        background: var(--header-item-bg-hover-color);
+      }
+
+      .styleguide-nav a {
+        color: var(--header-item-font-color);
+      }
+
+      .styleguide-nav a:hover {
+        color: var(--header-item-font-hover-color);
+        text-decoration: none;
+      }
+
+      .lsg-headline {
+        margin-top: 3rem
+      }
+
+      .lsg-headline:first-child {
+        margin: 0;
+      }
+
+      .lsg-sub-headline {
+        margin-top: 2rem;
+      }
+
+      .lsg-code-block {
+        margin: 1rem 0;
+        border: 1px solid var(--toolbar-item--border-color);
+      }
+
+      .lsg-code {
+        display: inline-block;
+        min-width: 100%;
+        padding: 1rem;
+        border: none;
+      }
+
+      .styleguide-banner {
+        background-position: top center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        max-width: 700px;
+        margin: 1rem auto 3rem auto;
+      }
+
+      .styleguide-banner--text {
+        text-align: center;
+      }
+
+      .styleguide-nav--menu-items {
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+      }
+
+      .livingstyleguide--code-block {
+        max-height: 300px;
+      }
+
+      .livingstyleguide--example {
+        overflow: visible;
+      }
+
+      .lsg-search-box {
+        width: 40%;
+        margin: 0 auto;
+      }
+
+      .icon-list {
+        display: flex;
+        flex-flow: row wrap;
+        width: 640px;
+        margin: 0 auto;
+      }
+
+      .icon-list li {
+        flex: 1;
+        flex-basis: 15%;
+        display: block;
+        text-align: center;
+        margin: 10px;
+        font-size: 12px;
+      }
+
+      .icon-list span.icon {
+        display: block;
+        font-size: 30px;
+      }
+
+      /* Tablet screen size */
+      @media only screen and (max-width: 1210px) {
+        body {
+          max-width: unset;
+          margin: 0 1rem;
+          transition: all 0.4s;
+        }
+      }
+
+      /* Mobile screen size */
+      @media only screen and (max-width: 679px) {
+        .styleguide-banner {
+          padding: 25% 0 0;
+        }
+      }
+    </style>
+  </head>
+<body class="lsg">
+  <header class="livingstyleguide--header grid-content">
+    <div class="styleguide-banner">
+      <h1 class="styleguide-banner--text">Living Style Guide</h1>
+    </div>
+  </header>
+
+  <nav class="styleguide-nav">
+    <ul class="styleguide-nav--menu-items">
+      <li><a target="_self" href="#fonts">Fonts</a></li>
+      <li><a target="_self" href="#forms">Forms</a></li>
+      <li><a target="_self" href="#notifications">Notifications</a></li>
+      <li><a target="_self" href="#buttons">Buttons</a></li>
+      <li><a target="_self" href="#pagination">Pagination</a></li>
+      <li><a target="_self" href="#user-content">User Content</a></li>
+    </ul>
+  </nav>
+
+  <section class="livingstyleguide--intro grid-content">
+    <p>&nbsp;</p>
+  </section>
+  <article class="lsg-container">
+    <%= html %>
+  </article>
+  <footer class="livingstyleguide--footer grid-content">
+    Copyright © 2020 OpenProject - All rights reserved.
+  </footer>
+  </body>
+</html>

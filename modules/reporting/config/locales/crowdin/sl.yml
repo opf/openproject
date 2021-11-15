@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+sl:
+  button_save_as: "Shrani poročilo kot..."
+  comments: "Komentar"
+  cost_reports_title: "Čas in stroški"
+  label_cost_report: "Poročilo o stroških"
+  label_cost_report_plural: "Poročilo o stroških"
+  description_drill_down: "Pokaži podrobnosti"
+  description_filter_selection: "Izbor"
+  description_multi_select: "Prikaži večselektor"
+  description_remove_filter: "Odstrani filter"
+  information_restricted_depending_on_permission: "Glede na vaše dovoljenje, ta stran lahko vsebuje tajne informacije."
+  label_click_to_edit: "Klikni za urejanje."
+  label_closed: "Zaprto"
+  label_columns: "Stolpci"
+  label_cost_entry_attributes: "Atributi za vnos stroškov"
+  label_days_ago: "v času zadnjih dni"
+  label_entry: "Vnos stroškov"
+  label_filter_text: "Filtriraj besedilo"
+  label_filter_value: "vrednost"
+  label_filters: "Filtriraj"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "ni (s podprojekti) "
+  label_is_project_with_subprojects: "je (s podprojekti) "
+  label_work_package_attributes: "Atributi delovnega paketa"
+  label_less: "<"
+  label_money: "Vrednost stroškov"
+  label_month_reporting: "Mesec (porabljeno)"
+  label_new_report: "Novo stroškovno poročilo"
+  label_open: "odpri"
+  label_operator: "Operator"
+  label_private_report_plural: "Zasebna stroškovna poročila"
+  label_progress_bar_explanation: "Generiram poročilo..."
+  label_public_report_plural: "Javna stroškovna poročila"
+  label_really_delete_question: "Ali ste prepričani, da bi radi izbrisali to poročilo?"
+  label_rows: "Vrstice"
+  label_saving: "Shranjevanje..."
+  label_spent_on_reporting: "Datum (Porabljeno)"
+  label_sum: "Vsota"
+  label_units: "Enote"
+  label_week_reporting: "Teden (Porabljeno)"
+  label_year_reporting: "Leto (Porabljeno)"
+  label_count: "Šteti"
+  label_filter: "Filtriraj"
+  label_filter_add: "Dodaj filter"
+  label_filter_plural: "Filtri"
+  label_group_by: "Razvrsti po"
+  label_group_by_add: "Dodaj atribut Group-by"
+  label_inactive: "«neaktiven»"
+  label_no: "Ne"
+  label_none: "(ni podatkov)"
+  label_no_reports: "Trenutno še ni stroškovnih poročil."
+  label_report: "Poročilo"
+  label_yes: "Da"
+  load_query_question: "Poročilo bo imelo %{size} celice tabel zato lahko traja nekaj časa, da se upodobi. \nAli še vedno želite poskusiti upodabljanje?"
+  permission_save_cost_reports: "Shrani javna stroškovna poročila"
+  permission_save_private_cost_reports: "Shrani zasebna stroškovna poročila"
+  project_module_reporting_module: "Poročilo o stroških"
+  text_costs_are_rounded_note: "Prikazane vrednosti so zaokrožene. Vsi izračuni temeljijo na nezaokroženih vrednostih."
+  toggle_multiselect: "omogoči/onemogoči večizbor"
+  units: "Enote"
+  validation_failure_date: "ni veljaven datum"
+  validation_failure_integer: "ni veljavno število"
+  reporting:
+    group_by:
+      selected_columns: "Izbrani stolpci"
+      selected_rows: "Izbrane vrstice"

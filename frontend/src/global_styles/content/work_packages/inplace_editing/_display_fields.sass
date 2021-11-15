@@ -1,0 +1,154 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+@mixin wp-table--time-values
+  display: inline-block
+  width: 48%
+
+@mixin wp-table--actual-time-values
+  text-align: right
+  padding-right: 0.5rem
+
+@mixin wp-table--placeholder-time-values
+  display: inline-block
+  width: 100%
+  text-align: center
+
+// READ value of edit fields
+.inline-edit--display-field
+  display: inline-block
+  max-width: 100%
+  @include text-shortener(false)
+
+  &.-placeholder
+    font-style: italic
+    display: inline-block
+    min-width: 100px
+    vertical-align: middle
+
+  // Always render custom options as inline
+  // when only one line
+  .custom-option
+    @include text-shortener(false)
+
+    &:not(.-multiple-lines)
+      display: inline
+      white-space: nowrap
+
+      // Leave space for the badge
+      &:not(:only-child)
+        max-width: 90%
+        display: inline-block
+        vertical-align: middle
+        line-height: 32px
+        &:first-of-type
+          padding-right: 5px
+
+  &.split-time-field
+    white-space: nowrap
+
+    // Table specific styles
+    .wp-table--cell-container &
+      .-actual-value,
+      .-derived-value
+        @include wp-table--time-values
+
+      .-derived-value:not(.-with-actual-value)
+        margin-left: 48%
+
+    .-actual-value
+      @include wp-table--actual-time-values
+
+    .-derived-value
+      color: var(--gray-dark)
+      font-style: italic
+      font-weight: bold
+
+  &.spentTime .time-logging--value
+    padding: 0 2px
+
+.wp-table--cell-container
+  .inline-edit--display-field.-placeholder,
+  &.estimatedTime
+    width: 100%
+
+    .-placeholder
+      @include wp-table--placeholder-time-values
+
+.wp-table--cell-container .dueDate .icon-pin
+  display: none
+
+.wp-table--cell-container.startDate
+  padding-left: 24px
+
+  .icon-context
+    position: relative
+
+  .icon-pin:before
+    position: absolute
+    left: -24px
+    top: -8px
+
+// Sums in wp table
+.wp-table--sum-container.split-time-field
+  .-actual-value
+    @include wp-table--time-values
+    @include wp-table--actual-time-values
+
+
+// Editable fields cursor
+.inline-edit--display-field.-editable
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  line-height: normal
+
+  &:hover,
+  &:focus
+    border-color: var(--inplace-edit--border-color)
+
+    &.-multiline
+      white-space: inherit
+
+// Mark focused, non-editable read-values
+// Special handling for spent time field, as the logTime link should not be highlighted
+.inline-edit--display-field:not(.id):not(.spentTime).-read-only,
+.inline-edit--display-field.spentTime.-read-only .time-logging--value_empty
+  cursor: not-allowed
+
+  &:focus, &:hover
+    color: var(--inplace-edit--color--disabled)
+    background: var(--inplace-edit--bg-color--disabled)
+
+editable-attribute-field
+  width: 100%
+
+  .-minimal &
+    width: initial

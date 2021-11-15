@@ -1,0 +1,29 @@
+<widget-header
+    [name]="widgetName"
+    [editable]="isEditable">
+
+  <widget-menu
+      slot="menu"
+      [resource]="resource">
+  </widget-menu>
+</widget-header>
+
+<div class="grid--widget-content">
+  <no-results *ngIf="noEntries"
+              [title]="text.noResults">
+  </no-results>
+  <ng-container *ngFor="let document of entries">
+    <h4 class="document-category-elements--header">
+      <a [href]="documentPath(document)"
+         [textContent]="document.title">
+      </a>
+    </h4>
+    <p class="document-category-elements--date">
+      <em [textContent]="documentCreated(document)"></em>
+    </p>
+
+    <div class="wiki grid--widget-limited-text op-uc-container"
+         [innerHtml]="documentDescription(document)">
+    </div>
+  </ng-container>
+</div>

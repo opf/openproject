@@ -1,0 +1,218 @@
+/*-- copyright
+ * OpenProject is an open source project management software.
+ * Copyright (C) 2012-2020 the OpenProject GmbH
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See COPYRIGHT and LICENSE files for more details.  ++
+ */
+
+
+// use CSS4 variables for easier theming
+:root {
+  --primary-color: #1A67A3;
+  --primary-color-dark: #175A8E;
+  --alternative-color: #35C53F;
+  --body-font-family: 'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif;
+  --gray: #EAEAEA;
+  --gray-dark: #878787;
+  --gray-light: #F8F8F8;
+  --gray-lighter: #E9E9E9;
+  --light-gray: #CCCCCC;
+  --body-background: #FFFFFF;
+  --body-font-color: #333333;
+  --base-line-height: 1.5;
+  --secondary-color: #bfbfbf;
+  --content-link-color: var(--primary-color-dark);
+  --font-color-on-primary: #FFFFFF;
+  --font-color-on-primary-dark: #FFFFFF;
+  --font-color-on-secondary: #FFFFFF;
+  --font-color-on-alternative: #FFFFFF;
+  --h1-font-size: 2rem;
+  --h1-font-color: var(--body-font-color);
+  --h2-font-size: 1.5rem;
+  --h2-font-color: var(--body-font-color);
+  --h3-font-size: 1.125rem;
+  --h3-font-color: var(--body-font-color);
+  --h4-font-size: 1rem;
+  --h4-font-color: var(--body-font-color);
+  --list-side-margin: 40px;
+  --list-nested-margin: 30px;
+  --header-height: 55px;
+  --header-height-mobile: 55px;
+  --header-bg-color: #1A67A3;
+  --header-home-link-bg: "no-repeat 20px 0";
+  --header-border-bottom-color: var(--primary-color);
+  --header-border-bottom-width: 0;
+  --header-item-font-size: 14px;
+  --header-item-font-color: #FFFFFF;
+  --header-item-font-hover-color: #FFFFFF;
+  --header-item-bg-hover-color: #175A8E;
+  --header-drop-down-bg-color: #FFFFFF;
+  --header-drop-down-border-color: #DDDDDD;
+  --header-drop-down-item-font-color: var(--body-font-color);
+  --header-drop-down-item-font-hover-color: var(--primary-color);
+  --header-drop-down-projects-search-font-color: var(--body-font-color);
+  --header-drop-down-projects-search-bg-color: #E0E0E0;
+  --header-drop-down-projects-search-input-bg-color: #F5F5F5;
+  --header-drop-down-projects-search-input-border-color: #D9D9D9;
+  --header-search-field-bg-color: #FFFFFF;
+  --header-search-field-font-color: #000000;
+  --header-search-field-border: 0;
+  --main-menu-width: 230px;
+  --main-menu-folded-width: 0px;
+  --main-menu-border-color: #EAEAEA;
+  --main-menu-border-width: 0px;
+  --main-menu-item-height: 40px;
+  --main-menu-item-border-color: var(--primary-color);
+  --main-menu-item-border-width: 1px;
+  --main-menu-bg-color: #333739;
+  --main-menu-bg-selected-background: #175A8E;
+  --main-menu-bg-hover-background: #124E7C;
+  --main-menu-font-color: #FFFFFF;
+  --main-menu-hover-font-color: var(--main-menu-font-color);
+  --main-menu-resizer-color: var(--primary-color);
+  --main-menu-selected-font-color: var(--main-menu-font-color);
+  --main-menu-font-size: 14px;
+  --main-menu-selected-indicator-color: #E0E0E0;
+  --main-menu-hover-indicator-color: var(--primary-color-dark);
+  --main-menu-selected-hover-indicator-width: 4px;
+  --main-menu-selected-hover-border-color: var(--main-menu-border-color);
+  --main-menu-navigation-toggler-font-hover-color: var(--main-menu-resizer-color);
+  --main-menu-sidebar-font-color: var(--main-menu-font-color);
+  --main-menu-sidebar-h3-color: var(--main-menu-font-color);
+  --main-menu-sidebar-link-color: var(--main-menu-font-color);
+  --main-menu-sidebar-h3-font-size: 15px;
+  --main-menu-fieldset-header-color: #B0B2B3;
+  --toolbar-title-color: #5F5F5F;
+  --toolbar-item--bg-color: #F8F8F8;
+  --toolbar-item--bg-color-pressed: var(--gray-lighter);
+  --toolbar-item--border-color: #DDD;
+  --breadcrumb-height: 40px;
+  --breadcrumb-bg-color: #F8F8F8;
+  --breadcrumb-border-color: #E7E7E7;
+  --breadcrumb-font-size: 12px;
+  --breadcrumb-highlighted-font-size: 14px;
+  --breadcrumb-font-color: lighten(var(--body-font-color), 20);
+  --content-default-border-color: #EAEAEA;
+  --content-default-border-width: 1px;
+  --content-link-hover-active-color: var(--primary-color-dark);
+  --content-icon-link-color: #4b4b4b;
+  --content-icon-link-hover-color: var(--primary-color-dark);
+  --content-icon-link-pressed-color: #7A8995;
+  --content-icon-color: var(--content-link-color);
+  --content-form-bg-color: #F8F8F8;
+  --content-form-border: 1px solid content-default-border-color;
+  --content-from-input-width: 300px;
+  --content-form-input-border: 1px solid #CACACA;
+  --content-form-input-hover-border: 1px solid #888888;
+  --content-form-error-color: #9E2A1C;
+  --content-form-separator-color: #DDDDDD;
+  --content-form-danger-zone-bg-color: #CA3F3F;
+  --content-form-danger-zone-font-color: #FFFFFF;
+  --my-page-edit-box-border-color: var(--primary-color-dark);
+  --drop-down-unselected-font-color: var(--body-font-color);
+  --drop-down-selected-font-color: var(--primary-color);
+  --drop-down-hover-font-color: var(--drop-down-selected-font-color);
+  --drop-down-selected-bg-color: #E7E7E7;
+  --drop-down-hover-bg-color: #EFEFEF;
+  --context-menu-unselected-font-color: var(--drop-down-unselected-font-color);
+  --context-menu-hover-font-color: var(--drop-down-hover-font-color);
+  --action-menu-bg-color: #FFFFFF;
+  --wiki-default-font-size: 1rem;
+  --wiki-toc-header-font-size: calc(var(--wiki-default-font-size) * 0.6);
+  --wiki-toc-ul-font-size: var(--wiki-default-font-size);
+  --journal-attribute-font-size: 11px;
+  --repository-entry-filename-margin-left: 24px;
+  --user-avatar-border-radius: 50%;
+  --user-avatar-width: 36px;
+  --user-avatar-height: 36px;
+  --user-avatar-medium-border-radius: 50%;
+  --user-avatar-medium-width: 28px;
+  --user-avatar-medium-height: 28px;
+  --user-avatar-mini-border-radius: 50%;
+  --user-avatar-mini-width: 20px;
+  --user-avatar-mini-height: 20px;
+  --user-avatar-default-bg-color: white;
+  --widget-box-block-bg-color: var(--body-background);
+  --widget-box-block-border-color: var(--content-default-border-color);
+  --homescreen-footer-bg-color: var(--gray-light);
+  --homescreen-footer-icon-color: #7B827B;
+  --inplace-edit--border-color: #ddd;
+  --inplace-edit--dark-background: var(--gray-light);
+  --inplace-edit--color--very-dark: #cacaca;
+  --inplace-edit--color-highlight: var(--primary-color);
+  --inplace-edit--selected-date-border-color: var(--primary-color-dark);
+  --inplace-edit--color--disabled: #4d4d4d;
+  --inplace-edit--bg-color--disabled: #eee;
+  --relations-save-button--disabled-color: var(--gray-dark);
+  --table-row-border-color: #E7E7E7;
+  --table-row-highlighting-color: #CCE6F7;
+  --table-row-highlighting-outline-color: #00A6FF;
+  --table-row-relations-row-background-color: rgba(220, 235, 244, 0.6);
+  --table-row-hierarchies-row-font-color: #6C7A89;
+  --table-header-border-color: #D7D7D7;
+  --table-header-shadow-color: #DDDDDD;
+  --tabs-font-color-disabled: var(--gray-dark);
+  --loading-indicator-bg-color: var(--body-background);
+  --loading-indicator-bg-opacity: 0.8;
+  --loading-indicator-spinner-color: var(--primary-color);
+  --button--font-color: #222222;
+  --button--background-color: var(--gray-light);
+  --button--background-hover-color: #ededed;
+  --button--border-color: #dddddd;
+  --button--active-font-color: #666666;
+  --button--active-background-color: #eeeeee;
+  --button--active-border-color: #cacaca;
+  --button--alt-highlight-background-color: var(--alternative-color);
+  --button--alt-highlight-background-hover-color: #227d28;
+  --button--highlight-font-color: var(--font-color-on-primary);
+  --button--highlight-background-color: var(--primary-color);
+  --button--highlight-background-hover-color: var(--primary-color-dark);
+  --button--alt-highlight-font-color: var(--font-color-on-alternative);
+  --button--text-icon-spacing: 0.65em;
+  --generic-table--font-size: 0.875rem;
+  --generic-table--header-font-size: 0.875rem;
+  --generic-table--header-height: 45px;
+  --generic-table--footer-height: 34px;
+  --timeline--header-border-color: #aaaaaa;
+  --timeline--grid-color: #dddddd5e;
+  --timeline--separator: 3px solid #E7E7E7;
+  --timeline--type-fallback-color: rgba(150, 150, 150, 0.8);
+  --table-timeline--row-height: 40px;
+  --status-selector-bg-color: #F99601;
+  --status-selector-bg-hover-color: #E08600;
+  --card-font-size: 16px;
+  --project-status-gray: 204, 204, 204;
+  --project-status-red: #E73E3D;
+  --project-status-orange: #FFB030;
+  --project-status-green: #00D12D;
+  --grid-background-color: #F3F6F8;
+  --work-package-details--tab-height: 40px;
+  --warn:#C92A2A;
+  --hamburger-right: -3px;
+  --hamburger-width: 50px;
+}
+
+// SCSS variables needed for foundation, but that are set in css variables now only
+// which cannot be set to sass unfortunately
+$secondary-color: #bfbfbf;

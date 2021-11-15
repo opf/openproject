@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+set -o pipefail
+
+PGUSER=${PGUSER:=postgres}
+PGPASSWORD=${PGPASSWORD:=postgres}
+chown -R postgres.postgres "$PGDATA"
+pwfile=$(mktemp)
+echo "$PGPASSWORD" > $pwfile
+chown postgres $pwfile
+su postgres -c "$PGBIN/initdb --pgdata=${PGDATA} --username=${PGUSER} --encoding=unicode --auth=trust --pwfile=$pwfile"
+rm -f $pwfile

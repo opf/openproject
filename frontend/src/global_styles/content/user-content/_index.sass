@@ -1,0 +1,32 @@
+@import 'mixins'
+@import 'typography'
+@import 'code-block'
+@import 'figure'
+@import 'image'
+@import 'table'
+@import 'list'
+@import 'toc'
+@import 'macros'
+@import 'placeholder'
+
+.op-uc-container
+  --op-uc-heading-base: 1.8rem
+  --op-uc-heading-falloff: 0.85
+  display: block
+  overflow-x: hidden
+  overflow-y: auto
+  @include styled-scroll-bar
+  font-size: var(--wiki-default-font-size)
+  z-index: 0
+  padding-bottom: 1rem
+  // TODO: This becomes obsolete once border-box is the default
+  box-sizing: border-box
+
+  @include user-content-children
+
+  &_reduced-headings
+    --op-uc-heading-base: 1.5rem
+    --op-uc-heading-falloff: 0.9
+
+  &_no-permalinks *:hover .op-uc-link_permalink
+    display: none

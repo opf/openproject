@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+el:
+  activerecord:
+    attributes:
+      budget:
+        author: "Συγγραφέας"
+        available: "Διαθέσιμο"
+        budget: "Προγραμματισμένο"
+        budget_ratio: "Δαπανημένα (αναλογία)"
+        description: "Περιγραφή"
+        spent: "Δαπανήθηκε"
+        status: "Κατάσταση"
+        subject: "Θέμα"
+        type: "Τύπος κόστους"
+        labor_budget: "Σχεδιασμένο κόστος εργασίας"
+        material_budget: "Σχεδιασμένο κόστος μονάδας"
+      work_package:
+        budget_subject: "Τίτλος προϋπολογισμού"
+    models:
+      budget: "Προϋπολογισμός"
+      material_budget_item: "Μονάδα"
+  attributes:
+    budget: "Προϋπολογισμός"
+  button_add_budget_item: "Προσθήκη σχεδιασμένου κόστους"
+  button_add_budget: "Προσθήκη προϋπολογισμού"
+  button_add_cost_type: "Προσθέστε τύπο κόστους"
+  button_cancel_edit_budget: "Ακύρωση επεξεργασίας προϋπολογισμού"
+  button_cancel_edit_costs: "Ακύρωση επεξεργασίας κόστους"
+  caption_labor: "Εργασία"
+  caption_labor_costs: "Πραγματικό κόστος εργασίας"
+  caption_material_costs: "Πραγματικό κόστος μονάδας"
+  budgets_title: "Προϋπολογισμοί"
+  events:
+    budget: "Ο προϋπολογισμός επεξεργάστηκε"
+  help_click_to_edit: "Κάντε κλικ εδώ για επεξεργασία."
+  help_currency_format: "Μορφοποίηση των νομισματικών τιμών που εμφανίζονται. %n αντικαθίσταται με την τρέχουσα τιμή, %u αντικαθίσταται με την τρέχουσα μονάδα."
+  help_override_rate: "Εισάγετε μια τιμή εδώ για να αντικαταστήσετε την τρέχουσα αμοιβή."
+  label_budget: "Προϋπολογισμός"
+  label_budget_new: "Νέος προϋπολογισμός"
+  label_budget_plural: "Προϋπολογισμοί"
+  label_budget_id: "Προϋπολογισμός #%{id}"
+  label_deliverable: "Προϋπολογισμός"
+  label_example_placeholder: 'π.χ., %{decimal}'
+  label_view_all_budgets: "Εμφάνιση όλων των προϋπολογισμών"
+  label_yes: "Ναι"
+  notice_budget_conflict: "Τα Πακέτα Εργασίας πρέπει να είναι από το ίδιο έργο."
+  notice_no_budgets_available: "Δεν υπάρχουν διαθέσιμοι προϋπολογισμοί."
+  permission_edit_budgets: "Επεξεργασία προϋπολογισμών"
+  permission_view_budgets: "Εμφάνιση προϋπολογισμών"
+  project_module_budgets: "Προϋπολογισμοί"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

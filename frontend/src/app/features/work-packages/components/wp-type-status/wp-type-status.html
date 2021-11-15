@@ -1,0 +1,16 @@
+<div *ngIf="workPackage"
+     class="wp-new-top-row">
+  <div class="work-packages--status-selector wp-new-top-row--element">
+    <editable-attribute-field [resource]="workPackage"
+                   [displayFieldOptions]="{ colorize: false }"
+                   [wrapperClasses]="'wp-new-top-row--status -no-label'"
+                   [fieldName]="'status'">
+    </editable-attribute-field>
+  </div>
+  <div class="work-packages--type-selector wp-new-top-row--element">
+    <editable-attribute-field [resource]="workPackage"
+                   [wrapperClasses]="'wp-new-top-row--type -no-label'"
+                   [fieldName]="'type'">
+    </editable-attribute-field>
+  </div>
+</div>

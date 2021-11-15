@@ -1,0 +1,120 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+$table-timeline--compact-row-height: 28px
+
+// Disable CSS containment in the embedded container
+// unless we're setting an external height with overflow, containment will not work.
+.work-packages-embedded-view--container
+
+  &.-external-height
+    display: flex
+    flex-direction: column
+    overflow: hidden
+    width: 100%
+    height: 100%
+
+  // Align with section header
+  .wp-table--table-header:first-child .generic-table--sort-header-outer,
+  .wp-table--cell-td:first-child .inline-edit--display-field,
+  .wp-inline-create--add-link i:before
+    padding-left: 0
+
+  // Allow scrolling in narrow views
+  .work-packages-split-view--tabletimeline-content
+    overflow: auto
+    @include styled-scroll-bar
+
+    @media print
+      overflow: hidden
+
+  // Disable css containment since we have no inner elements
+  .work-packages-tabletimeline--table-side,
+  .work-packages-tabletimeline--timeline-side
+    contain: initial !important
+    
+    @media print
+      max-width: 100%
+
+  .work-package-table--container
+    overflow: visible
+
+    .generic-table--header,
+    .generic-table--sort-header
+      font-size: 12px
+
+  .work-packages-embedded-view--grid-view
+    height: 100%
+    overflow: auto
+    @include styled-scroll-bar
+
+  &.-compact-tables
+    .wp-table--row
+      border-bottom: none !important
+      &:hover
+        background-color: var(--table-row-highlighting-color)
+
+    thead,
+    .generic-table--sort-header-outer
+      line-height: $table-timeline--compact-row-height
+      height: $table-timeline--compact-row-height
+      border-bottom: none
+
+    .wp-table--cell-td
+      height: $table-timeline--compact-row-height !important
+      padding-top: 2px
+      padding-bottom: 2px
+
+    // Fix inline create heights
+    .wp-inline-create--add-link,
+    .wp-inline-create--reference-link
+      height: $table-timeline--compact-row-height
+      padding: 0 5px 0 0
+      line-height: 2
+
+    .wp-inline-create-button-td
+      vertical-align: top
+
+    // Disable default padding when hierarchies are disabled
+    &.-hierarchy-disabled
+      .wp-table--cell-td.subject
+        padding-left: 0
+
+    // Reduce width of action column
+    .wp-table--context-menu-td,
+    .wp-table--context-menu-th
+      width: 25px
+
+  // Ensure embedded timelines share 50% width
+  // with table side
+  .work-packages-tabletimeline--table-side.-timeline-visible
+    max-width: 50%
+    overflow-x: scroll
+
+wp-query-group .wp-relations-create-button
+  margin-left: -6px

@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% content_for :header_tags do %>
+  <meta name="required_script" content="administration_settings" />
+<% end %>
+
+<%= toolbar title: t(:label_display) %>
+
+<%= styled_form_tag(admin_settings_update_display_path, method: :patch) do %>
+
+  <section class="form--section">
+    <div class="form--field" id="setting_available_languages">
+      <%= setting_multiselect :available_languages, all_lang_options_for_select(false) %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_select :start_of_week, [[day_name(1),'1'], [day_name(6),'6'], [day_name(7),'7']], blank: :label_language_based, container_class: '-slim' %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_select :first_week_of_year, [[day_name(1),'1'], [day_name(4),'4']], blank: :label_language_based,  container_class: '-slim' %>
+      <span class="form--field-instructions">
+        <%= t('settings.display.first_week_of_year_text') %>
+        <br/>
+        <%= static_link_to :display_settings_documentation, label: t('documentation.see_more_link') %>
+      </span>
+    </div>
+
+    <div class="form--field">
+      <%= setting_select :date_format, Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_select :time_format, Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, blank: :label_language_based, container_class: '-slim' %>
+    </div>
+
+    <div class="form--field">
+      <%= setting_select :user_format, @options[:user_format], container_class: '-slim' %>
+    </div>
+  </section>
+
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>
+
+<div style="float:right">
+  <%= link_to t(:label_force_user_language_to_default),
+              { controller: '/admin', action: 'force_user_language' },
+              method: :post %>
+</div>

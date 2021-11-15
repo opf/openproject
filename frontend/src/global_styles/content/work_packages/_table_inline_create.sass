@@ -1,0 +1,49 @@
+//
+// INLINE CREATE
+//
+.wp-inline-create-button-row
+  height: var(--table-timeline--row-height)
+  border-bottom: none !important
+  td
+    padding: 0 !important
+
+.wp-inline-create-button
+  a,button
+    padding: 0.5rem 0
+    display: inline-block
+    line-height: 1.6
+
+.wp-inline-create--add-link,
+.wp-inline-create--reference-link
+  @include unset-button-styles
+  cursor: pointer
+  color: var(--content-link-color)
+  font-weight: bold
+
+  .icon::before
+    padding-left: 7px
+    padding-right: 10px
+    font-size: 11px
+
+  &:hover
+    color: var(--content-link-hover-active-color)
+    text-decoration: none
+
+.wp-inline-create-row
+  background: #BEF3CA
+
+  &:hover
+    background: darken(#BEF3CA, 5%) !important
+
+  .inline-edit--display-field:hover
+    border-color: #35c53f
+
+.wp-table--cancel-create-td
+  text-align: center !important
+
+.wp-table--cancel-create-link
+  &:before
+    color: var(--body-font-color)
+    padding: 0 0 0 0.2rem
+  &:hover
+    text-decoration: none

@@ -1,0 +1,4 @@
+el:
+  overviews:
+    label: 'Επισκόπηση'
+  permission_manage_overview: 'Διαχείριση της σελίδας επισκόπησης'

@@ -1,0 +1,40 @@
+<ng-select
+  appendTo=".op-modal-overlay"
+  [formControl]="projectFormControl"
+  [typeahead]="input$"
+  [items]="items$ | async"
+  [clearable]="true"
+  [clearOnBackspace]="false"
+  [clearSearchOnAdd]="false"
+  [compareWith]="compareWith"
+  bindValue="project"
+  autofocus
+  #ngselect
+>
+  <ng-template ng-label-tmp let-item="item">
+    {{ item.project?.name || item.name }}
+  </ng-template>
+
+  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+    <div
+      *ngIf="item"
+      class="ng-option-label"
+    >
+      <!--Selectable option-->
+      <div [ngOptionHighlight]="search">{{ item.project.name }}</div>
+
+      <!-- No invite rights -->
+      <div
+        *ngIf="item.disabled"
+        class="ellipsis"
+      >{{ text.noInviteRights }}</div>
+    </div>
+  </ng-template>
+
+  <!--Nothing found -->
+  <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+    <div class="ng-option disabled">
+      {{ text.noResultsFound }}
+    </div>
+  </ng-template>
+</ng-select>

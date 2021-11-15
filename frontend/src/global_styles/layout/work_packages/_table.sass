@@ -1,0 +1,175 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.router--work-packages-partitioned-split-view,
+.router--work-packages-partitioned-split-view-details,
+.router--work-packages-full-view,
+.router--work-packages-full-create
+  .in_modal &
+    #main
+      top: 12px
+
+
+.router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
+.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create)
+  @include extended-content--bottom
+  @include extended-content--right
+
+// Ensure correct height applied to child elements.
+// The dom looks like this:
+// flash (generated from rails - if it was generated when rendering the page)
+// div[ui-view] (main content we want to adjust the height for)
+// div style="clear:both;" (is pushed to overflow - of no relevance)
+//
+// This makes use of more specific rules overwriting less specific ones.
+// Per default, the height is always 100
+.openproject-base--ui-view,
+.work-packages-page--ui-view
+  height: 100%
+
+.work-packages-partitioned-query-space--container
+  > .toolbar-container
+    margin-top: 5px
+
+  .toolbar--editable-toolbar
+    font-size: 24px
+
+  // Match both rows and timeline specifically
+  tr.row-hovered,
+  div.row-hovered
+    // Use important to override the background styles from __hl classes
+    // That also have to be important (cf. 30863)
+    background: var(--gray-light) !important
+
+// Left part of the split view
+// == flex container for (table|timeline)
+.work-packages-split-view--tabletimeline-side
+  height: 100%
+  flex: 2
+  display: flex
+  flex-direction: column
+  // Required for any absolute positioned elements within the viewport
+  // (e.g., timeline controls)
+  position: relative
+  // Required for correctly scrolling the inner containers
+  overflow: hidden
+
+// Content of the left side
+// == flex container for (table+timeline)
+.work-packages-split-view--tabletimeline-content
+  flex: 1
+  display: flex
+  overflow: hidden
+
+// Footer of the left side
+.work-packages-split-view--tabletimeline-footer
+  // Only add margin to lower/right corner
+  // to avoid that the toolbar sticks directly at the screen border
+  margin-right: 5px
+
+// TABLE half of the tabletimeline flexbox
+.work-packages-tabletimeline--table-side
+  // Same flex as timeline
+  flex: 1 1
+  // Show scrollbars for inner content
+  overflow: auto
+  @include styled-scroll-bar
+  // relative for loading indicator
+  position: relative
+  // Hint browser that this will inner-scroll
+  will-change: transform
+  // Hinter browser that the content of the flex is contained except for size
+  contain: strict
+
+  &.-timeline-visible
+    // Show the horizontal scrollbar _always_ (same as timeline)
+    overflow-x: scroll
+    // Hide the vertical scrollbar
+    overflow-y: hidden
+
+// TIMELINE half of the tabletimeline flexbox
+.work-packages-tabletimeline--timeline-side
+  border-left: var(--timeline--separator)
+  flex-basis: 50%
+  // Show the horizontal scrollbar _always_ (same as table)
+  overflow-x: scroll
+  // Show the vertical scrollbar when necessary
+  overflow-y: auto
+  @include styled-scroll-bar
+  // Hidden by default
+  display: none
+  // Hint browser that this will inner-scroll
+  will-change: transform
+  // Hinter browser that the content of the flex is contained except for size
+  contain: strict
+
+
+.work-package--attachments--files
+  margin-bottom: 1rem
+
+  > h4
+    margin-top: 5px
+
+    i
+      display: inline-block
+      &:before
+        vertical-align: middle
+        padding-top: 0
+
+  .work-package--attachments--filename
+    display: inline-block
+    line-height: 1.4
+    // FF & IE
+    word-break: break-all
+    // Chrome & Safari
+    word-break: break-word
+    width: 90%
+    vertical-align: middle
+
+    .work-package--attachments--info
+      display: inline-block
+      margin-left: 5px
+      font-size: 12px
+      color: var(--body-font-color)
+      font-style: italic
+      &:hover
+        text-decoration: none
+
+.router--work-packages-base
+  #content
+    height: 100%
+
+  .work-packages-partitioned-page--content-left
+    overflow: hidden
+
+  .icon-button, .sort-header, .action-icon
+    cursor: pointer
+
+  #attributes
+    .form--field-container
+      max-width: 400px

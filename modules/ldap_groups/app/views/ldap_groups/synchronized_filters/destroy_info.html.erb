@@ -1,0 +1,68 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_filters.destroy.title')) -%>
+
+<%= styled_form_tag({ action: :destroy, ldap_group_id: @filter.id },
+                    class: 'danger-zone',
+                    method: :delete) do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= t('ldap_groups.synchronized_filters.destroy.title', name: @filter.name) %>
+    </h3>
+    <p>
+    </p>
+    <p class="danger-zone--warning">
+      <span class="icon icon-info2"></span>
+      <%= t('ldap_groups.synchronized_filters.destroy.confirmation', name: @filter.name, groups_count: @filter.groups.count) %>
+    </p>
+
+    <% if @filter.groups.count > 0 %>
+      <p><%= t('ldap_groups.synchronized_filters.destroy.removed_groups') %></p>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table">
+            <thead>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <span class="generic-table--sort-header"><%= t('attributes.name') %>
+                </span>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <span class="generic-table--sort-header"><%= ::LdapGroups::SynchronizedGroup.human_attribute_name :dn %>
+                </span>
+              </div>
+            </th>
+            </thead>
+            <% @filter.groups.find_each do |synced_group| %>
+              <tr>
+                <td><%= link_to synced_group.group.name,
+                                edit_group_path(synced_group.group),
+                                target: '_blank' %>
+                </td>
+                <td><%= synced_group.dn %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+    <p>
+      <%= t('ldap_groups.synchronized_filters.destroy.verification',
+            name: "<em class=\"danger-zone--expected-value\">#{h(@filter.name)}</em>").html_safe %>
+    </p>
+
+    <div class="danger-zone--verification">
+      <input type="text"></input>
+      <%= styled_button_tag title: t(:button_delete), class: '-highlight', disabled: true do
+        concat content_tag :i, '', class: 'button--icon icon-delete'
+        concat content_tag :span, t(:button_delete), class: 'button--text'
+      end %>
+      <%= link_to t(:button_cancel),
+                  ldap_groups_synchronized_groups_path,
+                  title: t(:button_cancel),
+                  class: 'button -with-icon icon-cancel' %>
+    </div>
+  </section>
+<% end %>
+

@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<% name = @placeholder_user.name %>
+<% html_title(t(:label_administration), "#{ t('placeholder_users.deletion_info.heading', name: name)}") -%>
+
+<%= labelled_tabular_form_for(
+        :placeholder_user,
+        url: placeholder_user_path(@placeholder_user),
+        html: {
+            method: :delete,
+            class: 'form danger-zone',
+        }) do %>
+  <div class='wiki'>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        <%= t('placeholder_users.deletion_info.heading',
+              name: content_tag(:em, name))
+            .html_safe %>
+      </h3>
+
+      <p>
+        <%= simple_format t("placeholder_users.deletion_info.data_consequences") %>
+      </p>
+      <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span><%= t("placeholder_users.deletion_info.irreversible") %></span>
+      </p>
+      <p>
+        <%= t("placeholder_users.deletion_info.confirmation",
+              name: content_tag(:em, name, class: "danger-zone--expected-value")
+            ).html_safe %>
+      </p>
+      <div class="danger-zone--verification">
+        <input type="text" name="name_verification"/>
+        <%= styled_button_tag '', class: '-highlight', disabled: true do
+          concat content_tag :i, '', class: 'button--icon icon-delete'
+          concat content_tag :span, t(:button_delete), class: 'button--text'
+        end %>
+      </div>
+    </section>
+  </div>
+<% end %>

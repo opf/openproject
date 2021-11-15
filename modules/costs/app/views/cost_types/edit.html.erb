@@ -1,0 +1,120 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if(@cost_type.id) %>
+  <% html_title  t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
+  <% local_assigns[:additional_breadcrumb] = @cost_type.name %>
+<% else %>
+  <% html_title t(:label_administration), t(:label_cost_type_plural) %>
+  <% local_assigns[:additional_breadcrumb] = t(:label_new) + ' ' + I18n.t('activerecord.models.cost_type.one') %>
+<% end %>
+
+
+<%= toolbar title: CostType.model_name.human %>
+
+<costs-subform item-count="<%= @cost_type.rates.length %>">
+<%= labelled_tabular_form_for @cost_type do |f| %>
+  <%= error_messages_for 'cost_type' %>
+  <%= back_url_hidden_field_tag %>
+
+  <div class="form--field -required">
+    <%= f.text_field :name, required: true, container_class: '-wide' %>
+  </div>
+  <div class="form--field -required">
+    <%= f.text_field :unit, required: true, container_class: '-middle' %>
+  </div>
+  <div class="form--field -required">
+    <%= f.text_field :unit_plural, required: true, container_class: '-middle' %>
+  </div>
+  <div class="form--field">
+    <%= f.check_box :default %>
+  </div>
+
+  <h3><%= t :caption_rate_history %></h3>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col opHighlightCol>
+          <col opHighlightCol>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.human_attribute_name(:valid_from) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th class="currency">
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Rate.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body" class="subform-container">
+          <%= render partial: "rate", object: CostRate.new, locals: { templated: true } %>
+          <% @cost_type.rates.sort do |a,b|
+            case
+            when !a.valid? && !b.valid?
+              0
+            when !a.valid?
+              -1
+            when !b.valid?
+              1
+            else
+              b.valid_from <=> a.valid_from
+            end
+          end.each_with_index do |rate, index| %>
+            <%= render partial: 'rate', object: rate, locals: {index: index} %>
+          <%- end -%>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  <div class="wp-inline-create-button">
+    <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
+    <a id="add_rate_date" href="#" class="add-row-button wp-inline-create--add-link" title="<%= t(:button_add_rate) %>">
+      <%= op_icon('icon icon-add') %>
+    </a>
+  </div>
+  <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
+<% end %>
+</costs-subform>

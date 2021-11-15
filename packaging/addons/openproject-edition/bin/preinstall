@@ -1,0 +1,84 @@
+#!/bin/bash
+set -e
+
+. ${INSTALLER_DIR}/wizard
+
+CLI="${APP_NAME}"
+edition="$(wiz_get "openproject/edition")"
+
+tmpdir="$(mktemp -d)"
+cleanup() {
+	rm -rf "$tmpdir"
+}
+
+trap cleanup INT TERM EXIT
+
+if [ "$edition" = "bim" ]; then
+	${CLI} config:set OPENPROJECT_EDITION="$edition"
+
+        case "$(wiz_fact "osfamily")" in
+                "debian")
+                        case "$(wiz_fact "osversion")" in
+                                "20.04")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
+					apt-get update -qq
+					apt-get install -y dotnet-runtime-3.1
+                                        ;;
+				"18.04")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+					apt-get update -qq
+					apt-get install -y dotnet-runtime-3.1
+                                        ;;
+				"10")
+					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
+					apt-get update -qq
+					apt-get install -y dotnet-runtime-3.1
+                        esac
+			;;
+		"redhat")
+			case "$(wiz_fact "osversion")" in
+				8*)
+					dnf install -y dotnet-runtime-3.1
+					;;
+			esac
+			;;
+	esac
+
+	cd $tmpdir
+
+	if [ "$(${CLI} run gltf2xkt --version 2>&1)" != "1.3.1" ] ; then
+		echo "Fetching and installing xeokit-gltf-to-xkt..."
+		${CLI} run npm install @xeokit/xeokit-gltf-to-xkt@1.3.1
+	fi
+
+	if ! ${CLI} run which COLLADA2GLTF &>/dev/null ; then
+		echo "Fetching and installing COLLADA2GLTF..."
+		wget --quiet https://github.com/KhronosGroup/COLLADA2GLTF/releases/download/v2.1.5/COLLADA2GLTF-v2.1.5-linux.zip
+		unzip -qq COLLADA2GLTF-v2.1.5-linux.zip
+		mv COLLADA2GLTF-bin "$APP_HOME/bin/COLLADA2GLTF"
+	fi
+
+	if ! ${CLI} run which IfcConvert &>/dev/null ||
+	   ! echo "83eed7f2f12079df5f6a55a07f812d27b28620bd  $(${CLI} run which IfcConvert)" | sha1sum -c - ; then
+		echo "Fetching and installing IfcConvert..."
+		wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-517b819-linux64.zip
+		unzip -qq IfcConvert-v0.6.0-517b819-linux64.zip
+		mv IfcConvert "$APP_HOME/bin/IfcConvert"
+	fi
+
+	if ! ${CLI} run which xeokit-metadata &>/dev/null ; then
+		echo "Fetching and installing xeokit-metadata..."
+		wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
+		tar -zxf xeokit-metadata-linux-x64.tar.gz
+		chmod +x xeokit-metadata-linux-x64/xeokit-metadata
+		cp -r xeokit-metadata-linux-x64/ "$APP_HOME/vendor/xeokit-metadata"
+		ln -fs "$APP_HOME/vendor/xeokit-metadata/xeokit-metadata" "$APP_HOME/bin/xeokit-metadata"
+	fi
+
+	rm -rf "$tmpdir"
+else
+	${CLI} config:unset OPENPROJECT_EDITION
+fi

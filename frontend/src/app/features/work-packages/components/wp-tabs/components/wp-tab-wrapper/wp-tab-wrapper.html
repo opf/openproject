@@ -1,0 +1,7 @@
+<ng-container *ngIf="(ndcDynamicInputs$ | async) as ndcDynamicInputs">
+  <ndc-dynamic
+    *ngIf="ndcDynamicInputs.workPackage && ndcDynamicInputs.tab"
+    [ndcDynamicComponent]="ndcDynamicInputs?.tab?.component"
+    [ndcDynamicInputs]="ndcDynamicInputs">
+  </ndc-dynamic>
+</ng-container>

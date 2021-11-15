@@ -1,0 +1,22 @@
+# Schema: CollectionModel
+---
+type: object
+properties:
+  total:
+    type: integer
+    description: The total amount of elements available in the collection
+  pageSize:
+    type: integer
+    description: Amount of elements that a response will hold
+  count:
+    type: integer
+    description: Actual amount of elements in this response
+  offset:
+    type: integer
+    description: The page number that is requested from paginated collection
+  groups:
+    type: object
+    description: Summarized information about aggregation groups
+  totalSums:
+    type: object
+    description: Aggregations of supported values for elements of the collection

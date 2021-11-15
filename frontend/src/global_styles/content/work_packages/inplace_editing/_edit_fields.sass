@@ -1,0 +1,45 @@
+.inline-edit--container
+  .-error,
+  .wp-table--cell-td.-error &
+    .inline-edit--display-field,
+    .inline-edit--field
+      background: $nm-color-error-background
+      border-color: var(--content-form-danger-zone-bg-color)
+
+      &:hover
+        // TODO WAS border-color: lighten(var(--content-form-danger-zone-bg-color), 10%)
+        border-color: #d56767
+
+  form
+    width: 100%
+
+  // Style actual edit inputs
+  // Checkboxes need to be excluded because the width
+  // causes an ugly increase of the box
+  input:not([type='checkbox'])
+    // Full width to inline-edit inputs
+    width: 100%
+    // Same height as the row - padding
+    height: 24px
+    line-height: 24px
+    padding: 2px
+    font-size: 14px
+    color: var(--body-font-color)
+    border-radius: 2px
+
+  &.-tiny
+    input:not([type='checkbox'])
+      max-width: 100px
+
+  .inline-label
+    .form-label,
+    .icon-context:before
+      padding-right: 0
+
+
+// Style no-label fields (long text, description, ..) with padding
+.inline-edit--container.-no-label:not(.-active)
+  .inline-edit--display-field
+    display: block
+    padding: 5px 0 5px 5px
+

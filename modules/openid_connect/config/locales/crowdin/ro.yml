@@ -1,0 +1,19 @@
+ro:
+  logout_warning: >
+    Ați fost deconectat. Conținutul oricărui formular pe care îl trimiteți poate fi pierdut. Vă rugăm să [vă conectați].
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Nume
+        display_name: Nume afișat
+        identifier: Identificator
+        secret: Secret
+        scope: Scop
+  openid_connect:
+    menu_title: Furnizori OpenID
+    providers:
+      label_add_new: Adăugare stare nouă
+      label_edit: Editați furnizorul OpenID %{name}
+      no_results_table: Încă nu au fost definiți furnizori.
+      plural: Furnizori OpenID
+      singular: Furnizor de autentificare

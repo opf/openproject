@@ -1,0 +1,31 @@
+<%= render 'homescreen/blocks/header', title: t('homescreen.blocks.upsale.title') %>
+
+<div class="widget-box--description">
+  <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+  <p>
+    <%= t('js.admin.enterprise.upsale.text') %>
+  </p>
+</div>
+
+<div class="widget-box--blocks--buttons">
+  <% if current_user.admin? %>
+    <%= link_to t('js.admin.enterprise.upsale.button_start_trial'), enterprise_path, class: 'button -alt-highlight' %>
+  <% end  %>
+
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
+        { class: 'button -highlight-inverted',
+          aria: {label: t('homescreen.blocks.upsale.more_info')},
+          target: '_blank',
+          title: t('homescreen.blocks.upsale.more_info')} do %>
+    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
+    <%= op_icon('button--icon icon-external-link') %>
+  <% end %>
+</div>
+
+<span><b><%= t('js.admin.enterprise.upsale.become_hero') %></b></span>
+
+<p><%= t('js.admin.enterprise.upsale.you_contribute') %></p>
+
+<p>
+  <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
+</p>

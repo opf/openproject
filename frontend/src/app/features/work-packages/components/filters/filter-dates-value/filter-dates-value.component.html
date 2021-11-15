@@ -1,0 +1,24 @@
+<div id="div-values-{{filter.id}}"
+  class="inline-label">
+  <op-single-date-picker (changed)="begin = parser($event)"
+                  [initialDate]="formatter(begin)"
+                  [opAutofocus]="shouldFocus"
+                  required="true"
+                  [id]="'values-' + filter.id + '-begin'"
+                  [name]="'v[' + filter.id + ']-begin'"
+                  classes="advanced-filters--date-field"
+                  size="10">
+  </op-single-date-picker>
+
+  <span class="advanced-filters--affix" [textContent]="text.spacer">
+  </span>
+
+  <op-single-date-picker (changed)="end = parser($event)"
+                  [initialDate]="formatter(end)"
+                  required="true"
+                  [id]="'values-' + filter.id + '-end'"
+                  [name]="'v[' + filter.id + ']-end'"
+                  classes="advanced-filters--date-field"
+                  size="10">
+  </op-single-date-picker>
+</div>

@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+it:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autore"
+        available: "Disponibile"
+        budget: "Pianificato"
+        budget_ratio: "Trascorso (tasso)"
+        description: "Descrizione"
+        spent: "Trascorso"
+        status: "Stato"
+        subject: "Soggetto"
+        type: "Tipo di costo"
+        labor_budget: "Costo del lavoro pianificato"
+        material_budget: "Costi pianificati per unità"
+      work_package:
+        budget_subject: "Titolo del bilancio"
+    models:
+      budget: "Bilancio"
+      material_budget_item: "Unità"
+  attributes:
+    budget: "Bilancio"
+  button_add_budget_item: "Aggiungi costi pianificati"
+  button_add_budget: "Aggiungi bilancio"
+  button_add_cost_type: "Aggiungi tipo di costo"
+  button_cancel_edit_budget: "Annulla modifica budget"
+  button_cancel_edit_costs: "Annulla modifica dei costi"
+  caption_labor: "Lavoro"
+  caption_labor_costs: "Costo del lavoro effettivo"
+  caption_material_costs: "Costi effettivi unitari"
+  budgets_title: "Bilanci"
+  events:
+    budget: "Bilancio modificato"
+  help_click_to_edit: "Clicca qui per modificare."
+  help_currency_format: "Formato di visualizzazione dei valori in valuta. %n viene sostituito con il valore della valuta, %u viene sostituito con l'unità di valuta."
+  help_override_rate: "Immettere qui un valore per ignorare la tariffa di default."
+  label_budget: "Bilancio"
+  label_budget_new: "Nuovo budget"
+  label_budget_plural: "Bilanci"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Bilancio"
+  label_example_placeholder: 'es. %{decimal}'
+  label_view_all_budgets: "Mostra tutti i budget"
+  label_yes: "Si"
+  notice_budget_conflict: "La macro-attività deve essere dello stesso progetto."
+  notice_no_budgets_available: "Nessun budget disponibile."
+  permission_edit_budgets: "Modifica budget"
+  permission_view_budgets: "Visualizza budget"
+  project_module_budgets: "Bilanci"
+  text_budget_reassign_to: "Riassegnali a questo valore:"
+  text_budget_delete: "Elimina il budget da tutti i pacchetti di lavoro"
+  text_budget_destroy_assigned_wp: "Ci sono %{count} pacchetti di lavoro assegnati a questo budget. Cosa vuoi fare?"

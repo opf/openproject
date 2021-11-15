@@ -1,0 +1,78 @@
+<div>
+  <form>
+    <p [textContent]="text.choose_mode"></p>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="default"
+                 name="display_mode_switch">
+          <op-icon icon-classes="icon-no-hierarchy" [attr.icon-title]="text.display_mode.default"></op-icon>
+          &ngsp;
+          <span [textContent]="text.display_mode.default"></span>
+          &ngsp;
+          <span class="form--inline-instructions" [textContent]="text.default"></span>
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="hierarchy"
+                 name="display_mode_switch">
+          <op-icon icon-classes="icon-hierarchy" [attr.icon-title]="text.display_mode.hierarchy"></op-icon>
+          &ngsp;
+          <span [textContent]="text.display_mode.hierarchy"></span>
+          &ngsp;
+          <span *ngIf="displayMode === 'hierarchy'"
+                class="form--inline-instructions"
+                [textContent]="text.display_mode.hierarchy_hint"></span>
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="displayMode"
+                 value="grouped"
+                 name="display_mode_switch">
+          <op-icon icon-classes="icon-group-by" [attr.icon-title]="text.label_group_by"></op-icon>
+          &ngsp;
+          <span [textContent]="text.label_group_by"></span>
+          &ngsp;
+          <select (change)="updateGroup($event.target.value)"
+                  id="selected_grouping"
+                  name="selected_grouping"
+                  class="form--select form--inline-select">
+            <option *ngFor="let group of availableGroups"
+                    [textContent]="group.name"
+                    [selected]="currentGroup && currentGroup!.href === group.href"
+                    [value]="group.href"></option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <hr/>
+
+    <div>
+      <div class="form--field -full-width">
+        <div class="form--field-container">
+          <label class="option-label">
+            <input type="checkbox"
+                   (change)="displaySums = !displaySums"
+                   [checked]="displaySums"
+                   name="display_sums_switch">
+            {{ text.display_sums }}
+            <span class="form--inline-instructions" [textContent]="text.display_sums_hint"></span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

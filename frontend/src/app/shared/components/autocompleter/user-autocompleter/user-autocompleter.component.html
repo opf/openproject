@@ -1,0 +1,22 @@
+<ng-select [items]="requests.output$ | async"
+           bindLabel="name"
+           bindValue="id"
+           [ngModel]="initialSelection"
+           [virtualScroll]="true"
+           [trackByFn]="userTracker"
+           [typeahead]="requests.input$"
+           [loading]="requests.loading$ | async"
+           (focus)="onFocus()"
+           (change)="onModelChange($event)"
+           [appendTo]="appendTo"
+           [multiple]="multiple" >
+  <ng-template ng-option-tmp let-item="item" let-index="index">
+    <op-principal
+      *ngIf="item && item.href"
+      [principal]="item"
+      [hide-name]="true"
+      size="mini"
+    ></op-principal>
+    {{ item.name }}
+  </ng-template>
+</ng-select>

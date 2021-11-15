@@ -1,0 +1,87 @@
+#English strings go here
+ar:
+  js:
+    boards:
+      label_unnamed_board: 'لوحة غير مسماة'
+      label_unnamed_list: 'قائمة غير مسماة'
+      label_board_type: 'نوع اللوحة'
+      upsale:
+        teaser_text: 'قم بتحسين إدارة مشروعك الرائع مع عرض المجالس المرنة هذا. قم بإنشاء أكبر عدد من اللوحات التي تريدها لأي شيء ترغب في متابعته.'
+        upgrade_to_ee_text: 'الجلسات هي ميزة المؤسسة. الرجاء الترقية إلى خطة مدفوعة.'
+        upgrade: 'الترقية الآن'
+        personal_demo: 'Contact us for a demo'
+      lists:
+        delete: 'حذف القائمة'
+      version:
+        is_locked: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
+        is_closed: 'الإصدار مقفل. لا يمكن إضافة أي عناصر إلى هذا الإصدار.'
+        close_version: 'النسخة الأساسية'
+        open_version: 'إصدار جديد'
+        lock_version: 'Lock version'
+        unlock_version: 'Unlock version'
+        edit_version: 'Edit version'
+        show_version: 'إظهار الإصدار'
+        locked: 'مقفل'
+        closed: 'مغلق'
+      new_board: 'لوحة جديدة'
+      add_list: 'Add list to board'
+      add_card: 'إضافة بطاقة'
+      error_attribute_not_writable: "لا يمكن نقل حزمة العمل، %{attribute} غير قابل للكتابة."
+      error_loading_the_list: "خطأ في تحميل القائمة: %{error_message}"
+      error_permission_missing: "إذن إنشاء استفسارات عامة مفقود"
+      error_cannot_move_into_self: "You can not move a work package into its own column."
+      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      click_to_remove_list: "انقر لإزالة هذه القائمة"
+      board_type:
+        text: 'نوع اللوحة'
+        free: 'basic'
+        select_board_type: 'Please choose the type of board you need.'
+        free_text: >
+          Start from scratch with a blank board. Manually add cards and columns to this board.
+        action: 'Action board'
+        action_by_attribute: 'Action board (%{attribute})'
+        action_text: >
+          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+        action_text_subprojects: >
+          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        action_text_subtasks: >
+          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        action_text_status: >
+          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        action_text_assignee: >
+          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        action_text_version: >
+          Board with automated columns based on the version attribute. Ideal for planning product development.
+        action_type:
+          assignee: assignee
+          status: status
+          version: version
+          subproject: subproject
+          subtasks: parent-child
+        board_type_title:
+          assignee: المُسند إليه
+          status: الحالة
+          version: الإصدار
+          subproject: مشروع فرعي
+          subtasks: Parent-Child
+          basic: Basic
+        select_attribute: "Action attribute"
+      add_list_modal:
+        labels:
+          assignee: Select user to add as a new assignee list
+          status: Select status to add as a new list
+          version: Select version to add as a new list
+          subproject: Select subproject to add as a new list
+          subtasks: Select work package to add as a new list
+        warning:
+          status: |
+            There is currently no status available. <br>
+            Either there are none or they have all already been added to the board.
+          assignee: There isn't any member matched with your filter value.  <br>
+          no_member: This project currently does not have any members that can be added.  <br>
+          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+      configuration_modal:
+        title: 'Configure this board'
+        display_settings:
+          card_mode: "Display as cards"
+          table_mode: "Display as table"

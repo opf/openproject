@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+hr:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Dostupno"
+        budget: "Planirano"
+        budget_ratio: "Potrošeno (omjer)"
+        description: "Opis"
+        spent: "Potrošeno"
+        status: "Status"
+        subject: "Predmet"
+        type: "Vrsta troška"
+        labor_budget: "Planirani troškovi rada"
+        material_budget: "Planirani troškovi jedinica"
+      work_package:
+        budget_subject: "Naziv proračuna"
+    models:
+      budget: "Budžet"
+      material_budget_item: "Jedinica"
+  attributes:
+    budget: "Budžet"
+  button_add_budget_item: "Dodaj planirane troškove"
+  button_add_budget: "Dodaj proračun"
+  button_add_cost_type: "Dodavanje vrste troška"
+  button_cancel_edit_budget: "Otkaži uređivanje proračuna"
+  button_cancel_edit_costs: "Otkaži uređivanje troškova"
+  caption_labor: "Rad"
+  caption_labor_costs: "Stvarni troškovi rada"
+  caption_material_costs: "Stvarni jedinični troškovi"
+  budgets_title: "Proračuni"
+  events:
+    budget: "Proračun uređen"
+  help_click_to_edit: "Kliknite ovdje za uređivanje."
+  help_currency_format: "Format prikazanih novčanih valuta. %n je zamijenjen s novčanom valum, %u je zmijenjen s jedinicom vlute."
+  help_override_rate: "Unesite vrijednost ovdje za prepravljanje postavljene vrijednosti."
+  label_budget: "Budžet"
+  label_budget_new: "Novi proračun"
+  label_budget_plural: "Proračuni"
+  label_budget_id: "Proračun #%{id}"
+  label_deliverable: "Budžet"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Pogledaj sve proračune"
+  label_yes: "Da"
+  notice_budget_conflict: "Radni paketi moraju biti na istom projektu."
+  notice_no_budgets_available: "Trenutno nema dostupnih proračuna."
+  permission_edit_budgets: "Uredi proračune"
+  permission_view_budgets: "Pogledaj proračune"
+  project_module_budgets: "Proračuni"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

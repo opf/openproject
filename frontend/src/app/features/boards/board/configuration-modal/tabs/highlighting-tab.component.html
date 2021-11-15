@@ -1,0 +1,44 @@
+<div>
+  <form>
+    <p [textContent]="text.highlighting_mode.description"></p>
+    
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="entireCardMode"
+                 (change)="updateMode('inline')"
+                 [value]="true"
+                 name="entire_card_switch">
+          <span [textContent]="text.highlighting_mode.entire_card_by"></span>
+          &ngsp;
+          <select (change)="updateMode($event.target.value)"
+                  id="selected_attribute"
+                  name="selected_attribute"
+                  class="form--select form--inline-select">
+            <option [textContent]="text.highlighting_mode.type"
+                    [selected]="lastEntireCardAttribute === 'type'"
+                    value="type"></option>
+            <option [textContent]="text.highlighting_mode.priority"
+                    [selected]="lastEntireCardAttribute === 'priority'"
+                    value="priority"></option>
+          </select>
+        </label>
+      </div>
+    </div>
+    <div class="form--field -full-width">
+      <div class="form--field-container">
+        <label class="option-label">
+          <input type="radio"
+                 [(ngModel)]="highlightingMode"
+                 (change)="updateMode($event.target.value)"
+                 value="none"
+                 name="highlighting_mode_switch">
+          <span [textContent]="text.highlighting_mode.none"></span>
+        </label>
+      </div>
+    </div>
+
+  </form>
+</div>
+

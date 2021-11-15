@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2021 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%
+  tab ||= locals[:tab_contents] if defined? locals
+  content, content_type = tab[:content], tab[:content_type] if tab && tab.present?
+-%>
+
+<% content_for :header_tags do %>
+  <meta name="required_script" content="custom_fields" />
+<% end %>
+
+<div class="meeting_content <%= content_type %>">
+  <div>
+    <%= toolbar title: t(:"label_#{content_type}") do %>
+      <%=raw meeting_content_context_menu content, content_type %>
+    <% end %>
+  </div>
+
+  <% if can_edit_meeting_content?(content, content_type) -%>
+    <div id="edit-<%= content_type %>"
+         class="edit-<%= content_type %>"
+         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
+    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+    </div>
+  <% end -%>
+
+  <% if saved_meeting_content_text_present?(content) -%>
+    <div id="<%= content_type %>-text"
+         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
+         class="wiki show-<%= content_type %> op-uc-container">
+      <%= format_text(content.text, :object => @meeting) %>
+    </div>
+  <% else -%>
+    <%= no_results_box %>
+  <% end -%>
+</div>
+
+<%# We cannot render attachments for journaled content %>
+<% unless local_assigns[:journaled_version] %>
+  <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
+  <%= list_attachments(resource) %>
+<% end %>

@@ -1,0 +1,105 @@
+# /api/v3/attachments
+---
+post:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _links:
+                  author:
+                    href: "/api/v3/users/1"
+                  container:
+                    href: "/api/v3/work_packages/1"
+                  downloadLocation:
+                    href: "/some/remote/aws/url/image.png"
+                  self:
+                    href: "/api/v3/attachments/1"
+                  staticDownloadLocation:
+                    href: "/api/v3/attachments/1/download"
+                _type: Attachment
+                contentType: image/png
+                createdAt: '2014-05-21T08:51:20Z'
+                description:
+                  format: plain
+                  html: "<p>A picture of a cute cat</p>"
+                  raw: A picture of a cute cat
+                digest:
+                  algorithm: md5
+                  hash: 64c26a8403cd796ea4cf913cda2ee4a9
+                fileName: cat.png
+                filesize: 24
+                id: 1
+          schema:
+            "$ref": "../components/schemas/attachment_model.yml"
+      description: OK
+      headers: {}
+    '400':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
+                message: The request could not be parsed as JSON.
+      description: |-
+        Returned if the client sends a not understandable request. Reasons include:
+
+        * Omitting one of the required parts (metadata and file)
+
+        * sending unparsable JSON in the metadata part
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not allowed to delete this attachment.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** At least one permission in any project: edit work package, add work package, edit messages, edit wiki pages (plugins might extend this list)
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: File is too large (maximum size is 5242880 Bytes).
+      description: |-
+        Returned if the client tries to send an invalid attachment.
+        Reasons are:
+
+        * Omitting the file name (`fileName` property of metadata part)
+
+        * Sending a file that is too large
+      headers: {}
+  tags:
+  - Attachments
+  description: |-
+    Clients can create attachments without a container first and attach them later on.
+    This is useful if the container does not exist at the time the attachment is uploaded.
+    After the upload, the client can then claim such containerless attachments for any resource eligible (e.g. WorkPackage) on subsequent requests.
+    The upload and the claiming *must* be done for the same user account. Attachments uploaded by another user cannot be claimed and
+    once claimed for a resource, they cannot be claimed by another.
+
+    The upload request must be of type `multipart/form-data` with exactly two parts.
+
+    The first part *must* be called `metadata`. Its content type is expected to be `application/json`,
+    the body *must* be a single JSON object, containing at least the `fileName` and optionally the attachments `description`.
+
+    The second part *must* be called `file`, its content type *should* match the mime type of the file.
+    The body *must* be the raw content of the file.
+    Note that a `filename` *must* be indicated in the `Content-Disposition` of this part, although it will be ignored.
+    Instead the `fileName` inside the JSON of the metadata part will be used.
+  operationId: Create_Attachment
+  summary: Create Attachment

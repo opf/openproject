@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pl:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Dostępne"
+        budget: "Zaplanowany"
+        budget_ratio: "Wydano (%)"
+        description: "Opis"
+        spent: "Wydatki"
+        status: "Status"
+        subject: "Temat"
+        type: "Jednostki"
+        labor_budget: "Planowane koszty pracy"
+        material_budget: "Planowane koszty jednostkowe"
+      work_package:
+        budget_subject: "Tytuł budżetu"
+    models:
+      budget: "Budżet"
+      material_budget_item: "Jednostka"
+  attributes:
+    budget: "Budżet"
+  button_add_budget_item: "Dodaj planowane koszty"
+  button_add_budget: "Dodaj budżet"
+  button_add_cost_type: "Dodaj typ kosztu"
+  button_cancel_edit_budget: "Anuluj edycję budżetu"
+  button_cancel_edit_costs: "Anuluj edycję kosztów"
+  caption_labor: "Praca"
+  caption_labor_costs: "Rzeczywiste koszty pracy"
+  caption_material_costs: "Rzeczywiste koszty jednostkowe"
+  budgets_title: "Budżetowanie"
+  events:
+    budget: "Budżet edytowany"
+  help_click_to_edit: "Kliknij tutaj aby edytować."
+  help_currency_format: "Format wyświetlanej waluty %n jest zastąpiony przez wartość waluty, %u którą jest zastąpiony jednostką walutową."
+  help_override_rate: "Podaj wartość tutaj aby zastąpić domyślną stawkę."
+  label_budget: "Budżet"
+  label_budget_new: "Nowy budżet"
+  label_budget_plural: "Budżetowanie"
+  label_budget_id: "Budżet #%{id}"
+  label_deliverable: "Budżet"
+  label_example_placeholder: 'np. %{decimal}'
+  label_view_all_budgets: "Zobacz wszystkie budżety"
+  label_yes: "Tak"
+  notice_budget_conflict: "Zestaw zadań musi być z tego samego projektu."
+  notice_no_budgets_available: "Nie ma dostępnych budżetów."
+  permission_edit_budgets: "Edytuj budżety"
+  permission_view_budgets: "Zobacz budżety"
+  project_module_budgets: "Budżetowanie"
+  text_budget_reassign_to: "Przypisz je do tego budżetu:"
+  text_budget_delete: "Usuń budżet ze wszystkich pakietów roboczych"
+  text_budget_destroy_assigned_wp: "Liczba pakietów roboczych przypisanych do tego budżetu wynosi %{count}. Co chcesz zrobić?"

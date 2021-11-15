@@ -1,0 +1,265 @@
+/*
+  ACTION SHEET
+  ------------
+
+  A dropdown menu that sticks to the bottom of the screen on small devices, and becomes a dropdown menu on larger devices.
+*/
+
+/// @Foundation.settings
+// Action Sheet
+$actionsheet-background: white !default;
+$actionsheet-border-color: #ccc !default;
+$actionsheet-animate: transform opacity !default;
+$actionsheet-animation-speed: 0.25s !default;
+$actionsheet-width: 300px !default;
+$actionsheet-radius: 4px !default;
+$actionsheet-shadow: 0 -3px 10px rgba(black, 0.25) !default;
+$actionsheet-padding: $global-padding !default;
+$actionsheet-tail-size: 10px !default;
+
+$actionsheet-popup-shadow: 0 0 10px rgba(black, 0.25) !default;
+
+$actionsheet-link-color: #000 !default;
+$actionsheet-link-background-hover: smartscale($actionsheet-background) !default;
+///
+
+/*
+  Styles for the list inside an action sheet.
+  Don't include this mixin if you want to build custom controls inside the sheet.
+*/
+@mixin action-sheet-menu(
+  $padding: $actionsheet-padding,
+  $color: $actionsheet-link-color,
+  $border-color: $actionsheet-border-color,
+  $background-hover: $actionsheet-link-background-hover
+) {
+  // Menu container
+  ul {
+    margin: -($padding);
+    margin-top: 0;
+    list-style-type: none;
+    user-select: none;
+
+    // If the menu has no content above it
+    &:first-child {
+      margin-top: -$padding;
+
+      li:first-child {
+        border-top: 0;
+      }
+    }
+
+    // Menu links
+    a {
+      display: block;
+      padding: $padding * 0.8;
+      line-height: 1;
+      color: $color;
+      border-top: 1px solid $border-color;
+
+      &:hover {
+        color: $color;
+        background: $background-hover;
+      }
+    }
+
+    .alert > a {
+      color: $alert-color;
+    }
+    .disabled > a {
+      pointer-events: none;
+      color: #999;
+    }
+  }
+}
+
+/*
+  Styles for the action sheet container. Action sheets pin to the top or bottom of the screen.
+*/
+@mixin action-sheet(
+  $position: bottom,
+  $shadow: $actionsheet-shadow,
+  $animate: $actionsheet-animate,
+  $animation-speed: $actionsheet-animation-speed,
+  $padding: $actionsheet-padding,
+  $background: $actionsheet-background
+) {
+  position: fixed;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: $padding;
+  background: $background;
+  text-align: center;
+  transition-property: $animate;
+  transition-duration: $animation-speed;
+  transition-timing-function: ease-out;
+
+  @if hasvalue($shadow) {
+    box-shadow: $shadow;
+  }
+
+  // Positions
+  @if $position == bottom {
+    bottom: 0;
+    transform: translateY(100%);
+
+    &.is-active {
+      transform: translateY(0%);
+    }
+  }
+  // These two don't quite work as planned yet
+  @else if $position == top {
+    top: 0;
+    transform: translateY(-100%);
+
+    &.is-active {
+      transform: translateY(0%);
+    }
+  }
+}
+
+@mixin popup-menu(
+  $position: bottom,
+  $background: $actionsheet-background,
+  $width: $actionsheet-width,
+  $radius: $actionsheet-radius,
+  $shadow: $actionsheet-popup-shadow,
+  $tail-size: $actionsheet-tail-size
+) {
+  /*
+    Core styles
+  */
+  position: absolute;
+  left: 50%;
+  width: $width;
+  border-radius: $radius;
+  opacity: 0;
+  pointer-events: none;
+
+  /*
+    Menu shadow
+  */
+  @if hasvalue($shadow) {
+    box-shadow: $shadow;
+  }
+
+  /*
+    Active state
+  */
+  &.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /*
+    Menu tail
+  */
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-left: $tail-size solid transparent;
+    border-right: $tail-size solid transparent;
+    margin-left: -($tail-size);
+  }
+
+  /*
+    Positioning
+  */
+  @if $position == bottom {
+    top: auto;
+    bottom: 0;
+    transform: translateX(-50%) translateY(110%);
+    &.is-active {
+      transform: translateX(-50%) translateY(100%);
+    }
+
+    &::before, &::after {
+      top: -($tail-size);
+      bottom: auto;
+      border-top: 0;
+      border-bottom: $tail-size solid $background;
+    }
+    &::before {
+      top: -($tail-size + 2);
+      border-bottom-color: rgba(black, 0.15);
+    }
+
+  }
+  @else if $position == top {
+    top: 0;
+    bottom: auto;
+    transform: translateX(-50%) translateY(-120%);
+    &.is-active {
+      transform: translateX(-50%) translateY(-110%);
+    }
+
+    &::before, &::after {
+      top: auto;
+      bottom: -($tail-size);
+      border-top: $tail-size solid $background;
+      border-bottom: 0;
+    }
+    &::before {
+      bottom: -($tail-size + 2);
+      border-top-color: rgba(black, 0.15);
+    }
+  }
+}
+
+@include exports(action-sheet) {
+  .action-sheet-container {
+    position: relative;
+    display: inline-block;
+
+    .button {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+  .action-sheet {
+    @include action-sheet;
+    @include action-sheet-menu;
+
+    @include breakpoint(medium) {
+      @include popup-menu;
+
+      &.top {
+        @include popup-menu(top);
+      }
+    }
+
+    &.primary {
+      background: $primary-color;
+      color: isitlight($primary-color);
+      border: 0;
+      &::before { display: none; }
+      &::before, &::after { border-top-color: $primary-color; }
+      &.top::before, &.top::after { border-bottom-color: $primary-color; }
+
+      @include action-sheet-menu(
+        $color: isitlight($primary-color),
+        $border-color: smartscale($primary-color, 10%),
+        $background-hover: smartscale($primary-color)
+      );
+    }
+    &.dark {
+      background: $dark-color;
+      color: isitlight($dark-color);
+      border: 0;
+      &::before { display: none; }
+      &::before, &::after { border-top-color: $dark-color; }
+      &.top::before, &.top::after { border-bottom-color: $dark-color; }
+
+      @include action-sheet-menu(
+        $color: isitlight($dark-color),
+        $border-color: smartscale($dark-color, 10%),
+        $background-hover: smartscale($dark-color)
+      );
+    }
+  }
+}

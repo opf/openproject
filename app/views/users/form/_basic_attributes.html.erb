@@ -1,0 +1,33 @@
+<% unless @user.new_record? %>
+<div class="form--field -required">
+  <%= f.text_field :login,
+                   required: true,
+                   size: 25,
+                   container_class: '-middle' %>
+</div>
+<% end %>
+
+<div class="form--field -required">
+  <%= f.text_field :firstname,
+                   required: true,
+                   container_class: '-middle' %>
+</div>
+
+<div class="form--field -required">
+  <%= f.text_field :lastname,
+                   required: true,
+                   container_class: '-middle' %>
+</div>
+
+<div class="form--field -required">
+  <%= f.text_field :mail,
+                   required: true,
+                   container_class: '-middle' %>
+</div>
+
+<div class="form--field">
+  <%= f.select :language,
+               lang_options_for_select,
+               prompt: "--- #{t(:actionview_instancetag_blank_option)} ---",
+               container_class: '-middle' %>
+</div>

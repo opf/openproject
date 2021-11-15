@@ -1,0 +1,40 @@
+#English strings go here
+sv:
+  label_avatar: "Profilbild"
+  label_avatar_plural: "Profilbilder"
+  label_current_avatar: "Aktuell profilbild"
+  label_choose_avatar: "Välj profilbild från fil"
+  message_avatar_uploaded: "Profilbild ändrades."
+  error_image_upload: "Kunde inte spara bilden."
+  error_image_size: "Bilden är för stor."
+  button_change_avatar: "Ändra profilbild"
+  are_you_sure_delete_avatar: "Är du säker på att du vill ta bort din avatar?"
+  avatar_deleted: "Avatar har tagits bort."
+  unable_to_delete_avatar: "Avatar kunde inte raderas."
+  wrong_file_format: "Tillåtna format är jpg, png, gif"
+  empty_file_error: "Vänligen ladda upp en giltig bild (jpg, png, gif)"
+  avatars:
+    label_avatar: "Profilbild"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Aktuell avatar'
+    label_local_avatar: 'Anpassad avatar'
+    text_current_avatar: |
+      Följande bild visar den aktuella avataren.
+    text_upload_instructions: |
+      Ladda upp din egen avatar på 128 gånger 128 pixlar. Större filer kommer att skalas om och beskäras för att matcha.
+      En förhandsvisning av din avatar kommer att visas innan du laddar upp, när du har valt en bild.
+    text_change_gravatar_html: 'För att ändra eller lägga till Gravatar för din e-postadress, gå till %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject låter dig ladda upp din egen egen avatar.
+    text_local_avatar_over_gravatar: |
+      Om du anger en, används denna anpassade avatar före gravataren ovan.
+    text_your_current_gravatar: |
+      OpenProject använder din gravatar om du registrerade en, eller en standardbild eller ikon om det finns.
+      Den aktuella gravatar är följande:
+    settings:
+      enable_gravatars: 'Aktivera användargravatarer'
+      gravatar_default: "Standard Gravatar bild"
+      enable_local_avatars: 'Aktivera användaranpassade avatarer'
+
+
+

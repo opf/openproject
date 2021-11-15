@@ -1,0 +1,52 @@
+<form
+  class="op-modal wp-table--configuration-modal loading-indicator--location"
+  data-indicator-name="modal"
+  name="modalSaveForm"
+>
+  <op-modal-header (close)="closeMe($event)">{{text.save_as}}</op-modal-header>
+
+  <div
+    name="modalSaveForm"
+    class="op-modal--body form"
+  >
+    <div class="form--field -required">
+      <label class="form--label" for="save-query-name" [textContent]="text.label_name"></label>
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input
+              class="form--text-field"
+              type="text"
+              name="save-query-name"
+              id="save-query-name"
+              #queryNameField
+              [(ngModel)]="queryName"
+              required/>
+        </div>
+      </div>
+    </div>
+
+    <section class="form--section">
+      <h3 [textContent]="text.label_visibility_settings"></h3>
+      <query-sharing-form
+          [isSave]="true"
+          (onChange)="setValues($event)"
+          [isStarred]="isStarred"
+          [isPublic]="isPublic">
+      </query-sharing-form>
+    </section>
+  </div>
+
+  <div class="op-modal--footer">
+    <button
+      class="button -with-icon icon-cancel"
+      [textContent]="text.button_cancel"
+      (click)="closeMe($event)"
+    ></button>
+    <button
+      class="button -highlight -with-icon icon-checkmark"
+      (click)="saveQueryAs($event)"
+      [textContent]="text.button_save"
+      [disabled]="isBusy || !queryName"
+    ></button>
+  </div>
+</form>

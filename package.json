@@ -1,0 +1,19 @@
+{
+  "name": "openproject",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "cd frontend && npm install",
+    "test": "cd frontend && npm test && cd ..",
+    "tslint_typechecks": "cd frontend && npm run tslint_typechecks && cd ..",
+    "serve": "cd frontend && npm run serve",
+    "serve:public": "cd frontend && ./node_modules/.bin/ng serve --host 0.0.0.0"
+  },
+  "private": true,
+  "engines": {
+    "node": "~14.17.0",
+    "npm": "~6.14.13"
+  },
+  "devDependencies": {
+    "webfonts-generator": "^0.4.0"
+  }
+}
