@@ -188,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.7.0', require: false
-  gem "sentry-rails", '~> 4.7.0', require: false
-  gem "sentry-ruby", '~> 4.7.0',  require: false
+  gem "sentry-delayed_job", '~> 4.8.0', require: false
+  gem "sentry-rails", '~> 4.8.0', require: false
+  gem "sentry-ruby", '~> 4.8.0',  require: false
 end
 
 group :test do
