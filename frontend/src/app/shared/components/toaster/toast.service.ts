@@ -93,11 +93,17 @@ export class ToastService {
 
   public addError(obj:HttpErrorResponse|IToast|string, additionalErrors:unknown[]|string = []):IToast {
     let message:IToast|string;
-    let errors = [...additionalErrors];
+    let errors:string[];
 
-    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded.errors) {
+    if (typeof additionalErrors === 'string') {
+      errors = [additionalErrors];
+    } else {
+      errors = [...additionalErrors] as string[];
+    }
+
+    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded?.errors) {
       errors = [
-        ...additionalErrors,
+        ...errors,
         ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
       ];
       message = obj.message;

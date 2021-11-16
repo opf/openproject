@@ -281,4 +281,23 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
       split2.expect_subject
     end
   end
+
+  context 'when visiting a query that will lead to a query validation error' do
+    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+
+    it 'will output a correct error message (Regression #39880)' do
+      url_query =
+        "query_id=%7B%22%7B%22&query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject" \
+        "%22%2C%22type%22%2C%22status%22%2C%22assignee%22%2C%22updatedAt%22%5D%2C" \
+        "%22tv%22%3Afalse%2C%22hla%22%3A%5B%22status%22%2C%22priority%22%2C%22dueDate" \
+        "%22%5D%2C%22hi%22%3Afalse%2C%22g%22%3A%22%22%2C%22t%22%3A%22updatedAt%3Adesc" \
+        "%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A" \
+        "%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A20%7D"
+
+      visit "/projects/#{project.identifier}/work_packages?#{url_query}"
+
+      wp_table.expect_toast message: 'Your view is erroneous and could not be processed.', type: :error
+      expect(page).to have_selector 'li', text: 'Bad request: id is invalid'
+    end
+  end
 end
