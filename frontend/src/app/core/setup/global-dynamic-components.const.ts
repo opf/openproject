@@ -38,6 +38,10 @@ import {
   toastsContainerSelector,
 } from 'core-app/shared/components/toaster/toasts-container.component';
 import {
+  OpSidemenuComponent,
+  sidemenuSelector,
+} from 'core-app/shared/components/sidemenu/sidemenu.component';
+import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
 } from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
@@ -45,7 +49,10 @@ import {
   PersistentToggleComponent,
   persistentToggleSelector,
 } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
-import { OpPrincipalComponent, principalSelector } from 'core-app/shared/components/principal/principal.component';
+import {
+  OpPrincipalComponent,
+  principalSelector,
+} from 'core-app/shared/components/principal/principal.component';
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector,
@@ -194,6 +201,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
   { selector: toastsContainerSelector, cls: ToastsContainerComponent },
+  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
