@@ -79,7 +79,7 @@ export class HalResourceNotificationService {
 
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
-    if (response instanceof HalError) {
+    if (response instanceof HalError && resource) {
       return this.handleErrorResponse(response.resource, resource);
     }
 
