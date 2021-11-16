@@ -101,7 +101,6 @@ describe 'API v3 companies resource', type: :request, content_type: :json do
 
   describe 'GET /api/v3/companies/:id' do
     let(:path) { api_v3_paths.company(company.id) }
-
     before do
       get path
     end

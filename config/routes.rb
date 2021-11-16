@@ -175,6 +175,8 @@ OpenProject::Application.routes.draw do
     match '/unwatch' => 'watchers#unwatch', via: :delete
   end
 
+  resources :companies, except: %i[show edit]
+
   resources :projects, except: %i[show edit create] do
     member do
       ProjectSettingsHelper.project_settings_tabs.each do |tab|

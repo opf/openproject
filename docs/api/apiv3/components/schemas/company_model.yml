@@ -1,0 +1,13 @@
+# Schema: CompanyModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Company ID
+  name:
+    type: string
+    description: Company name
+  owner:
+    type: string
+    description: Owners of the company

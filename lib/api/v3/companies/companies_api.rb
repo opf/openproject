@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -26,29 +28,29 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: openproject
-  pool: 20
-  username: openproject
-  password:
+require 'api/v3/companies/company_representer'
 
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: openproject_development
-  pool: 5
-  username: openproject_development
-  password:
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
-test:
-  adapter: postgresql
-  encoding: unicode
-  database: openproject_test
-  pool: 5
-  username: openproject_test
-  password:
+module API
+  module V3
+    module Companies
+      class CompaniesAPI < ::API::OpenProjectAPI
+        resources :companies do
+          route_param :id, type: Integer, desc: 'Company ID' do
+            params do
+              requires :id, desc: 'Company ID'
+            end
+            after_validation do
+                @company = Company.find(params[:id])
+  
+                raise ::API::Errors::NotFound.new if @company.nil?
+              end
+  
+            get do
+              CompanyRepresenter.new(@company, current_user: current_user)
+            end
+          end
+        end
+      end
+    end
+  end
+end
