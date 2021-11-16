@@ -63,7 +63,7 @@ With OpenProject 12.0 it is now possible to export the project list with all pro
 
 
 
-## Chage of roles and permissions settings
+## Change of roles and permissions settings
 
 With 12.0 we have added more granular rights for projects, for example the addtional right to configure the project overview page. This way you can even better assign certain permissions to a role in a project.
 
