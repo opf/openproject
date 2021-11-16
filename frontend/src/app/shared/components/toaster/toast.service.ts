@@ -101,7 +101,7 @@ export class ToastService {
       errors = [...additionalErrors] as string[];
     }
 
-    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded.errors) {
+    if (obj instanceof HttpErrorResponse && (obj.error as IHalMultipleError)?._embedded?.errors) {
       errors = [
         ...errors,
         ...(obj.error as IHalMultipleError)._embedded.errors.map((el:IHalErrorBase) => el.message),
