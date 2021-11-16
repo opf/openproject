@@ -36,7 +36,7 @@ class MailHandler < ActionMailer::Base
 
   class MissingInformation < StandardError; end
 
-  attr_reader :email, :user, :options
+  attr_reader :email, :sender_email, :user, :options
 
   ##
   # Code copied from base class and extended with optional options parameter
@@ -69,7 +69,7 @@ class MailHandler < ActionMailer::Base
   # Returns the created object (eg. an issue, a message) or false
   def receive(email)
     @email = email
-    sender_email = email.from.to_a.first.to_s.strip
+    @sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
       log "ignoring email from emission address [#{sender_email}]"
