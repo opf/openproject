@@ -10,8 +10,6 @@ if OpenProject::Logging::SentryLogger.enabled?
   # as we're dynamically loading it
   # https://github.com/getsentry/sentry-ruby/blob/master/sentry-rails/lib/sentry/rails/railtie.rb#L8-L13
   OpenProject::Application.configure do |app|
-    # need to be placed at first to capture as many errors as possible
-    app.config.middleware.insert 0, Sentry::Rails::CaptureExceptions
     # need to be placed at last to smuggle app exceptions via env
     app.config.middleware.use(Sentry::Rails::RescuedExceptionInterceptor)
   end
@@ -31,6 +29,16 @@ if OpenProject::Logging::SentryLogger.enabled?
       config.async = lambda do |event, hint|
         ::SentryJob.perform_later(event, hint)
       end
+    end
+
+    # Output debug info for sentry
+    config.before_send = lambda do |event, hint|
+      Rails.logger.debug do
+        payload_sizes = event.to_json_compatible.transform_values { |v| JSON.generate(v).bytesize }.inspect
+        "[Sentry] will send event #{hint}. Payload sizes are #{payload_sizes.inspect}"
+      end
+
+      event
     end
 
     # Don't send loaded modules
