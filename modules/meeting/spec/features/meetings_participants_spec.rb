@@ -81,4 +81,20 @@ describe 'Meetings participants', type: :feature do
 
     show_page.expect_uninvited(viewer_user)
   end
+
+  context 'with an invalid user reference' do
+    let(:show_page) { Pages::Meetings::Show.new(meeting) }
+    let(:meeting_participant) { FactoryBot.create :meeting_participant, user: viewer_user, meeting: meeting }
+
+    before do
+      meeting_participant.update_column(:user_id, 12341234)
+    end
+
+    it 'still allows to view the meeting' do
+      show_page.visit!
+
+      show_page.expect_invited meeting.author
+      show_page.expect_uninvited viewer_user
+    end
+  end
 end
