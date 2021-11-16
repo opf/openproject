@@ -66,6 +66,12 @@ class User < Principal
            class_name: 'Doorkeeper::Application',
            as: :owner
 
+  # Meeting memberships
+  has_many :meeting_participants,
+           class_name: 'MeetingParticipant',
+           inverse_of: :user,
+           dependent: :destroy
+
   has_many :notification_settings, dependent: :destroy
 
   # Users blocked via brute force prevention
