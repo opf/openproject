@@ -36,7 +36,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 
 @Injectable()
-export class WorkPackageStaticQueriesService {
+export class StaticQueriesService {
   constructor(private readonly I18n:I18nService,
     private readonly $state:StateService,
     private readonly CurrentProject:CurrentProjectService,

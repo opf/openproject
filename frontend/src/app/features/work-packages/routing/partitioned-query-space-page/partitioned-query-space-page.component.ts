@@ -234,7 +234,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (isPersistedResource(query)) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
+      this.selectedTitle = this.opStaticQueries.getStaticName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');

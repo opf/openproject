@@ -42,16 +42,16 @@ import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-nav
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
 
-export const wpQuerySelectSelector = 'wp-query-select';
+export const opQuerySelectSelector = 'op-query-select';
 
 @Component({
-  selector: wpQuerySelectSelector,
+  selector: opQuerySelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-query-select.template.html',
+  templateUrl: './op-query-select.template.html',
 })
-export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin implements OnInit {
+export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
     search: this.I18n.t('js.toolbar.search_query_label'),
     label: this.I18n.t('js.toolbar.search_query_label'),
@@ -75,7 +75,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     readonly I18n:I18nService,
     readonly states:States,
     readonly CurrentProject:CurrentProjectService,
-    readonly wpStaticQueries:WorkPackageStaticQueriesService,
+    readonly opStaticQueries:StaticQueriesService,
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
   ) {
@@ -102,11 +102,12 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       .pipe(
         map(([searchText, categories]) => categories
           .map((category) => {
-            if (this.matchesText(category.title, searchText)) {
+            if (QuerySelectComponent.matchesText(category.title, searchText)) {
               return category;
             }
 
-            const filteredChildren = category.children?.filter((query) => this.matchesText(query.title, searchText));
+            const filteredChildren = category.children
+              ?.filter((query) => QuerySelectComponent.matchesText(query.title, searchText));
             return { title: category.title, children: filteredChildren, collapsible: true };
           })
           .filter((category) => category.children && category.children.length > 0)),
@@ -131,8 +132,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     this.initialized = true;
   }
 
-  // noinspection JSMethodCanBeStatic
-  private matchesText(text:string, searchText:string):boolean {
+  private static matchesText(text:string, searchText:string):boolean {
     return text.toLowerCase().includes(searchText.toLowerCase());
   }
 
@@ -159,12 +159,12 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
             cat = 'starred';
           }
 
-          categories[cat].push(WorkPackageQuerySelectDropdownComponent.toOpSideMenuItem(query));
+          categories[cat].push(QuerySelectComponent.toOpSideMenuItem(query));
         });
 
         this.$queryCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
-          { title: this.text.scope_default, children: this.wpStaticQueries.all, collapsible: true },
+          { title: this.text.scope_default, children: this.opStaticQueries.all, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
         ]);

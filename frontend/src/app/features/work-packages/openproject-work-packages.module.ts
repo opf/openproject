@@ -42,7 +42,6 @@ import { OpSettingsMenuDirective } from 'core-app/shared/components/op-context-m
 import { WorkPackageStatusDropdownDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-status-dropdown-menu.directive';
 import { WorkPackageCreateSettingsMenuDirective } from 'core-app/shared/components/op-context-menu/handlers/wp-create-settings-menu.directive';
 import { WorkPackageSingleContextMenuDirective } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-single-context-menu';
-import { WorkPackageQuerySelectDropdownComponent } from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
 import { WorkPackageTimelineHeaderController } from 'core-app/features/work-packages/components/wp-table/timeline/header/wp-timeline-header.directive';
 import { WorkPackageTableTimelineRelations } from 'core-app/features/work-packages/components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import { WorkPackageTableTimelineStaticElements } from 'core-app/features/work-packages/components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
@@ -85,7 +84,6 @@ import { ExternalQueryConfigurationComponent } from 'core-app/features/work-pack
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { ExternalRelationQueryConfigurationComponent } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.component';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
 import { WorkPackagesListInvalidQueryService } from 'core-app/features/work-packages/components/wp-list/wp-list-invalid-query.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageWatchersService } from 'core-app/features/work-packages/components/wp-single-view-tabs/watchers-tab/wp-watchers.service';
@@ -213,7 +211,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     // For any service that depends on the isolated query space,
     // they should be provided in wp-isolated-query-space.directive instead
     QueryFiltersService,
-    WorkPackageStaticQueriesService,
     WorkPackagesListInvalidQueryService,
 
     // Provide a separate service for creation events of WP Inline create
@@ -298,7 +295,6 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     WorkPackageStatusDropdownDirective,
     WorkPackageCreateSettingsMenuDirective,
     WorkPackageSingleContextMenuDirective,
-    WorkPackageQuerySelectDropdownComponent,
     WorkPackageViewDropdownMenuDirective,
     WorkPackageGroupToggleDropdownMenuDirective,
 
