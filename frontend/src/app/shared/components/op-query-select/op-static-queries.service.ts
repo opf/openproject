@@ -60,72 +60,6 @@ export class StaticQueriesService {
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
   };
 
-  public get all():IOpSidemenuItem[] {
-    let items:IOpSidemenuItem[] = [
-      {
-        title: this.text.all_open,
-        uiSref: 'work-packages',
-        uiParams: { query_id: '', query_props: '' },
-      },
-      {
-        title: this.text.latest_activity,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-      },
-      {
-        title: this.text.gantt,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-      },
-      {
-        title: this.text.recently_created,
-        uiSref: 'work-packages',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-      },
-    ];
-
-    const projectIdentifier = this.CurrentProject.identifier;
-    if (projectIdentifier) {
-      items.push({
-        title: this.text.summary,
-        href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
-      });
-    }
-
-    if (this.CurrentUser.isLoggedIn) {
-      items = [
-        ...items,
-        {
-          title: this.text.created_by_me,
-          uiSref: 'work-packages',
-          uiParams: {
-            query_id: '',
-            query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
-          },
-        },
-        {
-          title: this.text.assigned_to_me,
-          uiSref: 'work-packages',
-          uiParams: {
-            query_id: '',
-            query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
-          },
-        },
-      ];
-    }
-
-    return items;
-  }
-
   public getStaticName(query:QueryResource):string {
     if (this.$state.params.query_props) {
       const queryProps = JSON.parse(this.$state.params.query_props);
@@ -133,7 +67,8 @@ export class StaticQueriesService {
       delete queryProps.pa;
       const queryPropsString = JSON.stringify(queryProps);
 
-      const matched = this.all.find((item) => {
+      // TODO: Get module route from query
+      const matched = this.getStaticQueries('work-packages').find((item) => {
         const uiParams = item.uiParams as { query_id:string, query_props:string };
         return uiParams && uiParams.query_props === queryPropsString;
       });
@@ -152,5 +87,74 @@ export class StaticQueriesService {
 
     // Otherwise, fall back to work packages
     return this.text.work_packages;
+  }
+
+  public getStaticQueries(module:string):IOpSidemenuItem[] {
+    let items:IOpSidemenuItem[] = [
+      {
+        title: this.text.all_open,
+        uiSref: module,
+        uiParams: { query_id: '', query_props: '' },
+      },
+      {
+        title: this.text.latest_activity,
+        uiSref: module,
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+      },
+      {
+        title: this.text.recently_created,
+        uiSref: module,
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+      },
+    ];
+
+    if (module === 'work-packages') {
+      items.push({
+        title: this.text.gantt,
+        uiSref: module,
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+      });
+
+      const projectIdentifier = this.CurrentProject.identifier;
+      if (projectIdentifier) {
+        items.push({
+          title: this.text.summary,
+          href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
+        });
+      }
+    }
+
+    if (this.CurrentUser.isLoggedIn) {
+      items = [
+        ...items,
+        {
+          title: this.text.created_by_me,
+          uiSref: module,
+          uiParams: {
+            query_id: '',
+            query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
+          },
+        },
+        {
+          title: this.text.assigned_to_me,
+          uiSref: module,
+          uiParams: {
+            query_id: '',
+            query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+          },
+        },
+      ];
+    }
+
+    return items;
   }
 }

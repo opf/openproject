@@ -1,1 +1,7 @@
-<op-query-select data-project-identifier="<%= @project ? @project.identifier : '' %>"></op-query-select>
+<%= content_tag 'op-query-select', '',
+                data: {
+                  'project-identifier': (@project ? @project.identifier : '').to_json,
+                  'menu-items': [parent_name, name].to_json,
+                  'base-route': 'work-packages'.to_json
+                }
+%>

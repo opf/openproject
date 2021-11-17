@@ -1,1 +1,13 @@
-<div class="op-ifc-viewer--tree-panel active" data-qa-selector="op-ifc-viewer--tree-panel"></div>
+<div class="op-ifc-viewer--sidemenu">
+  <%= content_tag 'op-query-select', '',
+                  data: {
+                    'project-identifier': (@project ? @project.identifier : '').to_json,
+                    'menu-items': [parent_name, name].to_json,
+                    'base-route': 'bim.partitioned.split'.to_json
+                  }
+  %>
+
+  <hr>
+
+  <div class="op-ifc-viewer--tree-panel active" data-qa-selector="op-ifc-viewer--tree-panel"></div>
+</div>

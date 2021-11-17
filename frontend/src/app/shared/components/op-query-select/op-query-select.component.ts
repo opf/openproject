@@ -30,14 +30,20 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  Input,
   OnInit,
 } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+} from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
@@ -46,6 +52,7 @@ import { StaticQueriesService } from 'core-app/shared/components/op-query-select
 
 export const opQuerySelectSelector = 'op-query-select';
 
+@DatasetInputs
 @Component({
   selector: opQuerySelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -64,6 +71,12 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
 
   public $queries:Observable<IOpSidemenuItem[]>;
 
+  @Input() menuItems:string[] = [];
+
+  @Input() projectIdentifier:string;
+
+  @Input() baseRoute:string;
+
   private $queryCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
 
   private $search = new BehaviorSubject<string>('');
@@ -71,10 +84,10 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
   private initialized = false;
 
   constructor(
+    readonly elementRef:ElementRef,
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly states:States,
-    readonly CurrentProject:CurrentProjectService,
     readonly opStaticQueries:StaticQueriesService,
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
@@ -92,7 +105,7 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
     // When activating the work packages submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
-      .onActivate('work_packages', 'work_packages_query_select')
+      .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
     this.$queries = combineLatest(
@@ -147,7 +160,7 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
     // TODO: use global query store
     this.apiV3Service
       .queries
-      .filterNonHidden(this.CurrentProject.identifier)
+      .filterNonHidden(this.projectIdentifier)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
         queryCollection.elements.forEach((query) => {
@@ -159,22 +172,23 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
             cat = 'starred';
           }
 
-          categories[cat].push(QuerySelectComponent.toOpSideMenuItem(query));
+          categories[cat].push(this.toOpSideMenuItem(query));
         });
 
+        const staticQueries = this.opStaticQueries.getStaticQueries(this.baseRoute);
         this.$queryCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
-          { title: this.text.scope_default, children: this.opStaticQueries.all, collapsible: true },
+          { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
         ]);
       });
   }
 
-  private static toOpSideMenuItem(query:QueryResource):IOpSidemenuItem {
+  private toOpSideMenuItem(query:QueryResource):IOpSidemenuItem {
     return {
       title: query.name,
-      uiSref: 'work-packages',
+      uiSref: this.baseRoute,
       uiParams: { query_id: query.id, query_props: '' },
     };
   }
