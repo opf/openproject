@@ -161,6 +161,11 @@ PATH
       costs
 
 PATH
+  remote: modules/team_planner
+  specs:
+    openproject-team_planner (1.0.0)
+
+PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
@@ -1060,6 +1065,7 @@ DEPENDENCIES
   openproject-pdf_export!
   openproject-recaptcha!
   openproject-reporting!
+  openproject-team_planner!
   openproject-token (~> 2.2.0)
   openproject-translations!
   openproject-two_factor_authentication!
