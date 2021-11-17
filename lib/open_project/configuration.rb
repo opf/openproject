@@ -189,6 +189,8 @@ module OpenProject
       # Allow sentry to collect tracing samples on frontend
       # set to n >= 1 to enable n times the default tracing
       'sentry_frontend_trace_factor' => 0,
+      # Which breadcrumb loggers to enable
+      'sentry_breadcrumb_loggers' => ['active_support_logger'],
 
       # enable statsd metrics (currently puma only) by configuring host
       'statsd' => {

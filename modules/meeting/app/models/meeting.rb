@@ -136,7 +136,9 @@ class Meeting < ApplicationRecord
     changeable_participants = changeable_participants + \
                               User.allowed_members(:view_meetings, project)
 
-    changeable_participants.uniq(&:id)
+    changeable_participants
+      .compact
+      .uniq(&:id)
   end
 
   def copy(attrs)

@@ -34,11 +34,11 @@ class MeetingParticipant < ApplicationRecord
   scope :attended, -> { where(attended: true) }
 
   def name
-    user.present? ? user.name : name
+    user.present? ? user.name : I18n.t('user.deleted')
   end
 
   def mail
-    user.present? ? user.mail : mail
+    user.present? ? user.mail : I18n.t('user.deleted')
   end
 
   def <=>(other)

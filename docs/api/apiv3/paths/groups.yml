@@ -149,4 +149,28 @@ post:
   - Groups
   description: Creates a new group applying the attributes provided in the body.
   operationId: Create_group
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            _links:
+              members:
+                - href: "/api/v3/users/363"
+                - href: "/api/v3/users/60"
+            name: The group
+          properties:
+            _links:
+              properties:
+                members:
+                  type: arrray
+                  items:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+              type: object
+            name:
+              type: string
+          type: object
   summary: Create group
