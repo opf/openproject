@@ -29,6 +29,18 @@
 require 'spec_helper'
 
 describe AttributeHelpText::WorkPackage, type: :model do
+  def create_cf_help_text(custom_field)
+    # Need to clear the request store after every creation as the available attributes are cached
+    RequestStore.clear!
+    FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+  end
+
+  let(:wp_custom_field) { FactoryBot.create :text_wp_custom_field }
+
+  let(:cf_instance) do
+    create_cf_help_text(wp_custom_field)
+  end
+
   it_behaves_like 'acts_as_attachable included' do
     let(:model_instance) { FactoryBot.create(:work_package_help_text) }
     let(:project) { FactoryBot.create(:project) }
@@ -60,17 +72,6 @@ describe AttributeHelpText::WorkPackage, type: :model do
     end
     let(:permission) { [] }
     let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
-
-    def create_cf_help_text(custom_field)
-      # Need to clear the request store after every creation as the available attributes are cached
-      RequestStore.clear!
-      FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
-    end
-
-    let(:cf_instance) do
-      custom_field = FactoryBot.create :text_wp_custom_field
-      create_cf_help_text(custom_field)
-    end
 
     subject { FactoryBot.build :work_package_help_text }
 
@@ -202,6 +203,19 @@ describe AttributeHelpText::WorkPackage, type: :model do
     it 'provides a caption of its type' do
       expect(subject.attribute_scope).to eq 'WorkPackage'
       expect(subject.type_caption).to eq I18n.t(:label_work_package)
+    end
+  end
+
+  describe 'destroy' do
+    context 'when the custom field is destroyed' do
+      before do
+        cf_instance
+        wp_custom_field.destroy
+      end
+
+      it 'also destroys the instance' do
+        expect { cf_instance.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end
