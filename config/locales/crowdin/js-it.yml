@@ -577,7 +577,7 @@ it:
           description: 'Queste impostazioni specifiche di progetto sostituiscono le impostazioni predefinite sopra'
           add: 'Aggiungi impostazione per il progetto'
           already_selected: 'Questo progetto è già selezionato'
-          remove: 'Remove project settings'
+          remove: 'Rimuovi impostazioni progetto'
     password_confirmation:
       field_description: 'È necessario inserire la password dell''account per confermare la modifica.'
       title: 'Confermare la password per continuare'
