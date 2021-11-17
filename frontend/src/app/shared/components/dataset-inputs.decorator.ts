@@ -1,12 +1,36 @@
 import 'reflect-metadata';
 import { ElementRef } from '@angular/core';
 
-export interface InjectableClass {
+export interface DatasetInputsComponent {
   elementRef:ElementRef;
   [key:string]:any;
 }
 
-export function DatasetInputs<T extends { new(...args:any[]):InjectableClass }>(constructor:T):any {
+/**
+ * The DatasetInputs decorator automatically sets input values from `data` attributes set on a component tag.
+ * This is useful if you're rendering the tag in the backend but want to provide data to the component via its inputs.
+ *
+ * Usage:
+ *
+ * ```
+ * @DatasetInputs
+ * @Component({ selector: 'my-component' })
+ * export class MyComponent {
+ *   @Input() someInput:string[] = [];
+ * }
+ * ```
+ *
+ * Now you can send data from the backend to the component by JSON:
+ *
+ * <%= content_tag :my_component,
+ *                 data: {
+ *                   someInput: ['a', 'b'].to_json
+ *                 }
+ *
+ * Warning: this is only checked during the constructor phase once. Changes to the dataset
+ * will not be reflected in the inputs. If you need inputs that update, use normal Angular bindings.
+ */
+export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsComponent }>(constructor:T):any {
   return class extends constructor {
     constructor(...args:any[]) {
       super(...args);
@@ -41,11 +65,17 @@ export function DatasetInputs<T extends { new(...args:any[]):InjectableClass }>(
           try {
             this[insideName] = JSON.parse(dataset[outsideName]);
           } catch (err) {
-            console.error(err);
             console.error("Couldn't parse input: ", outsideName, this.elementRef.nativeElement.dataset);
-            console.error("Make sure to make all data attributes you want to use as input JSON parseable. This means\
-                          that plain strings have to be wrapped in double quotes, and the attribute value is easiest to\
-                          set with single quotes. An example:\n\n<op-example example-input='\"myString\"'></op-example>");
+            console.error(`
+Make sure to make all data attributes you want to use as input JSON parseable.
+This means that plain strings have to be wrapped in double quotes, and the attribute value is easiest to set with single quotes.
+An example:
+
+<op-example example-input='\"myString\"'></op-example>
+`);
+
+            // Rethrow since an error at this point is basically a syntax error and should be fixed
+            throw err;
           }
         });
     }
