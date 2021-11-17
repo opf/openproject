@@ -38,6 +38,7 @@ module Components
       def select(query)
         select_autocomplete autocompleter,
                             results_selector: autocompleter_results_selector,
+                            item_selector: autocompleter_item_selector,
                             query: query
       end
 
@@ -46,7 +47,11 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.collapsible-menu--results-container'
+        '.op-query-select--search-results'
+      end
+
+      def autocompleter_item_selector
+        '.op-sidemenu--item-action'
       end
 
       def autocompleter_selector

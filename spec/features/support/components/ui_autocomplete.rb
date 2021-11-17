@@ -48,7 +48,7 @@ module Components
       list
     end
 
-    def select_autocomplete(element, query:, results_selector: nil, select_text: nil)
+    def select_autocomplete(element, query:, results_selector: nil, item_selector: nil, select_text: nil)
       target_dropdown = search_autocomplete(element, results_selector: results_selector, query: query)
 
       ##
@@ -57,7 +57,12 @@ module Components
       text = select_text.presence || query
 
       # click the element to select it
-      target_dropdown.find('.ui-menu-item', text: text).click
+      query_element = if item_selector
+                        target_dropdown.find(item_selector, text: text)
+                      else
+                        target_dropdown.find('.ui-menu-item', text: text)
+                      end
+      query_element.click
     end
   end
 end

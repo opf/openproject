@@ -158,8 +158,8 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.collapsible-menu--search-ul')
-    find('.collapsible-menu--item-link', text: query.name).click
+    expect(page).to have_selector('.op-query-select--search-results')
+    find('.op-sidemenu--item-action', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')
     expect(page).to have_field('editable-toolbar-title', with: query.name)
@@ -200,7 +200,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     wp_display.expect_state 'Gantt'
 
     # Click on All open
-    find('.collapsible-menu--item-link', text: 'All open').click
+    find('.op-sidemenu--item-action', text: 'All open').click
 
     if OpenProject::Configuration.bim?
       wp_display.expect_state 'Cards'

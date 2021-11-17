@@ -138,7 +138,7 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
    *
    * @param projectIdentifier
    */
-  public filterNonHidden(projectIdentifier?:string|null):Observable<CollectionResource<QueryResource>> {
+  public filterNonHidden(projectIdentifier:string|null):Observable<CollectionResource<QueryResource>> {
     const listParams:Apiv3ListParameters = {
       filters: [['hidden', '=', ['f']]],
     };
