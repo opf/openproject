@@ -112,7 +112,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.13.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.8.0'
+gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
