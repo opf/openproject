@@ -34,10 +34,18 @@ module Users
 
     private
 
+    attr_accessor :pref
+
     def set_attributes(params)
-      set_preferences params.delete(:pref)
+      self.pref = params.delete(:pref)
 
       super(params)
+    end
+
+    def validate_and_result
+      super.tap do |result|
+        result.merge!(set_preferences) if pref.present?
+      end
     end
 
     def set_default_attributes(params)
@@ -49,8 +57,10 @@ module Users
       initialize_notification_settings unless model.notification_settings.any?
     end
 
-    def set_preferences(user_preferences)
-      model.pref.attributes = user_preferences if user_preferences
+    def set_preferences
+      ::UserPreferences::SetAttributesService
+        .new(user: user, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
+        .call(pref)
     end
 
     def initialize_notification_settings
