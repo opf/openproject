@@ -34,16 +34,15 @@ export class TeamPlannerComponent {
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
-    
     successCallback([{
-      title: "Important todo",
+      title: 'Important todo',
       start: '2021-11-10',
       end: '2021-11-21',
       allDay: true,
     }]);
   }
 
-  public buildHeader() {
+  public buildHeader():{ right:string, center:string, left:string } {
     return {
       right: 'dayGridMonth,dayGridWeek',
       center: 'title',

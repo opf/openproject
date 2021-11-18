@@ -16,7 +16,7 @@ module Dashboards
                   after: :work_packages,
                   before: :calendar,
                   icon: 'icon2 icon-status',
-                  badge: 'dashboards.menu_badge')
+                  badge: 'label_menu_badge.alpha')
       end
     end
 

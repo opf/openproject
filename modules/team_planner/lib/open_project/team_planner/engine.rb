@@ -27,7 +27,6 @@ module OpenProject::TeamPlanner
              bundled: true,
              settings: {},
              name: 'OpenProject Team Planner' do
-
       project_module :team_planner_view, dependencies: :work_package_tracking, order: 60 do
         permission :view_team_planner, 'team_planner/team_planner': %i[index], dependencies: :view_work_packages
       end
@@ -37,8 +36,8 @@ module OpenProject::TeamPlanner
            { controller: '/team_planner/team_planner', action: :index },
            caption: :'team_planner.label_team_planner',
            after: :backlogs,
-           icon: 'icon2 icon-calendar'
+           icon: 'icon2 icon-calendar',
+           badge: 'label_menu_badge.pre_alpha'
     end
-
   end
 end

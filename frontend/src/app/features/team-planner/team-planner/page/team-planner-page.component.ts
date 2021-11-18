@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
-  OnInit,
 } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
