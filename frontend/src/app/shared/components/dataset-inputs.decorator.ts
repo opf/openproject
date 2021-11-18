@@ -5,7 +5,12 @@ import {
   ɵDirectiveDef,
 } from '@angular/core';
 
-export interface DatasetInputsComponent extends Component {
+/** We expect an ElementRef to be present on the target class */
+export interface DatasetInputsDecorated extends Component {
+  elementRef:ElementRef<HTMLElement>;
+}
+
+export interface DatasetInputsComponent extends DatasetInputsDecorated {
   elementRef:ElementRef<HTMLElement>;
   [key:string]:unknown;
 }
@@ -36,7 +41,7 @@ export interface DatasetInputsComponent extends Component {
  */
 /* The class decorator requires any[] args to it to function */
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsComponent }>(constructor:T):any {
+export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsDecorated }>(constructor:T):any {
   return class extends constructor {
     /* The class decorator requires any[] args to it to function */
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -54,6 +59,9 @@ export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsCompon
       const declaredInputsParentKey = Object.keys(cstr)
         .find((key:string) => typeof (cstr[key] as ɵDirectiveDef<unknown>).declaredInputs === 'object');
 
+      console.log((cstr as any).propDecorators);
+      console.log(Object.keys(cstr));
+
       if (!declaredInputsParentKey) {
         throw new Error('Could not find declared inputs for component');
       }
@@ -65,14 +73,14 @@ export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsCompon
         .forEach((outsideName) => {
           const insideName = inputs[outsideName];
 
-          const { dataset } = (this as DatasetInputsComponent).elementRef.nativeElement;
+          const { dataset } = (this as unknown as DatasetInputsComponent).elementRef.nativeElement;
 
           if (!dataset[outsideName]) {
             return;
           }
 
           try {
-            this[insideName] = JSON.parse(dataset[outsideName] || '');
+            (this as unknown as DatasetInputsComponent)[insideName] = JSON.parse(dataset[outsideName] || '');
           } catch (err) {
             console.error("Couldn't parse input: ", outsideName, this.elementRef.nativeElement.dataset);
             console.error(`
