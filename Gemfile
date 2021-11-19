@@ -295,7 +295,9 @@ gem 'roar', '~> 1.1.0'
 gem 'rack-cors', '~> 1.1.1'
 
 # Required for contracts
-gem 'disposable', '~> 0.4.7'
+# Not requiring since it needs to be patched before initialization:
+# See lib/open_project/patches/disposable.rb
+gem 'disposable', '~> 0.6.1', require: false
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
