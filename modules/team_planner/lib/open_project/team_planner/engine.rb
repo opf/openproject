@@ -27,8 +27,13 @@ module OpenProject::TeamPlanner
              bundled: true,
              settings: {},
              name: 'OpenProject Team Planner' do
-      project_module :team_planner_view, dependencies: :work_package_tracking, order: 60 do
-        permission :view_team_planner, 'team_planner/team_planner': %i[index], dependencies: :view_work_packages
+      project_module :team_planner_view, dependencies: :work_package_tracking do
+        permission :view_team_planner,
+                   { 'team_planner/team_planner': %i[index] },
+                   dependencies: %i[view_work_packages]
+        permission :manage_team_planner,
+                   { 'team_planner/team_planner': %i[index] },
+                   dependencies: %i[view_team_planner add_work_packages edit_work_packages manage_public_queries]
       end
 
       menu :project_menu,
