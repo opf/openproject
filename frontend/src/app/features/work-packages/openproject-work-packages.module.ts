@@ -170,6 +170,7 @@ import { FilterIntegerValueComponent } from 'core-app/features/work-packages/com
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
 import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
+import { OPWPQuickAddModalComponent } from 'core-app/features/work-packages/components/op-wp-quick-add-modal/op-wp-quick-add-modal.component';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @NgModule({
@@ -370,6 +371,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     SaveQueryModalComponent,
     WpDestroyModalComponent,
     DatePickerModalComponent,
+    OPWPQuickAddModalComponent,
 
     // CustomActions
     WpCustomActionComponent,
@@ -412,6 +414,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     // Modals
     WpTableConfigurationModalComponent,
     WpTableConfigurationFiltersTab,
+    OPWPQuickAddModalComponent,
 
     // Needed so that e.g. IFC can access it.
     WorkPackageCreateButtonComponent,
