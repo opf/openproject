@@ -692,7 +692,7 @@ de:
         role:
           attributes:
             permissions:
-              dependency_missing: "muss auch '%{dependency}' als '%{permission}' ausgewählt werden."
+              dependency_missing: "muss auch '%{dependency}' enthalten, da '%{permission}' ausgewählt ist."
         time_entry:
           attributes:
             hours:
