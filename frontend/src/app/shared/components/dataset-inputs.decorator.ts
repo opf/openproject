@@ -60,9 +60,6 @@ export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsDecora
       const declaredInputsParentKey = Object.keys(cstr)
         .find((key:string) => typeof (cstr[key] as ɵDirectiveDef<unknown>).declaredInputs === 'object');
 
-      console.log((cstr as any).propDecorators);
-      console.log(Object.keys(cstr));
-
       if (!declaredInputsParentKey) {
         throw new Error('Could not find declared inputs for component');
       }

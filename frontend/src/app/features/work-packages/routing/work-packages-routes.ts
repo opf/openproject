@@ -133,7 +133,6 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       partition: '-left-only',
-      module: 'work-packages',
     },
   },
   ...makeSplitViewRoutes(
