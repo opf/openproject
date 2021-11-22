@@ -62,7 +62,7 @@ export class StaticQueriesService {
 
   public getStaticName(query:QueryResource):string {
     if (this.$state.params.query_props) {
-      const queryProps = JSON.parse(this.$state.params.query_props);
+      const queryProps = JSON.parse(this.$state.params.query_props) as { pa:unknown, pp:unknown }&unknown;
       delete queryProps.pp;
       delete queryProps.pa;
       const queryPropsString = JSON.stringify(queryProps);
