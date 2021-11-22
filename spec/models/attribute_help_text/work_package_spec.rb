@@ -32,6 +32,9 @@ describe AttributeHelpText::WorkPackage, type: :model do
   def create_cf_help_text(custom_field)
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!
+    # need to clear the cache to free the memoized
+    # Type.translated_work_package_form_attributes
+    Rails.cache.clear
     FactoryBot.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
   end
 
@@ -76,10 +79,6 @@ describe AttributeHelpText::WorkPackage, type: :model do
     let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
 
     before do
-      # need to clear the cache to free the memoized
-      # Type.translated_work_package_form_attributes
-      Rails.cache.clear
-
       cf_instance
       static_instance
     end
