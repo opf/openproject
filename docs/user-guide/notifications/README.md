@@ -47,11 +47,8 @@ You can filter or group the notifications using the two areas in the left menu b
 
    ![mark-as-read](mark-as-read.png)
 
-4. The [**Notification settings**](/notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
+4. The [**Notification settings**](notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To fine-tune Email Reminders, [click here](notification_settings/).
-
-
-
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To fine-tune Email Reminders, [click here](../../getting-started/my-account/#email-reminders).
