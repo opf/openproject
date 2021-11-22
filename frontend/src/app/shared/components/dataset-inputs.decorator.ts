@@ -31,11 +31,12 @@ export interface DatasetInputsComponent extends DatasetInputsDecorated {
  *
  * Now you can send data from the backend to the component by JSON:
  *
- * <%= content_tag :my_component,
+ * <%= content_tag 'my-component',
+ *                 '',
  *                 data: {
- *                   someInput: ['a', 'b'].to_json
+ *                   'some-input': ['a', 'b'].to_json
  *                 }
- *
+ * %>
  * Warning: this is only checked during the constructor phase once. Changes to the dataset
  * will not be reflected in the inputs. If you need inputs that update, use normal Angular bindings.
  */
