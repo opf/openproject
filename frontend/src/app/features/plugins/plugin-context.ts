@@ -32,6 +32,7 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
  */
 export class OpenProjectPluginContext {
   private _knownHookNames = [
+    'workPackageBulkContextMenu',
     'workPackageTableContextMenu',
     'workPackageSingleContextMenu',
     'workPackageNewInitialization',
