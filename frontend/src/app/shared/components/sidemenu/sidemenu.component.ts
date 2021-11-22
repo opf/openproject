@@ -4,6 +4,7 @@ import {
   Component,
   Input,
   HostBinding,
+  ElementRef,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -18,8 +19,10 @@ export interface IOpSidemenuItem {
   collapsible?:boolean;
 }
 
+export const sidemenuSelector = 'op-sidemenu';
+
 @Component({
-  selector: 'op-sidemenu',
+  selector: sidemenuSelector,
   templateUrl: './sidemenu.component.html',
   styleUrls: ['./sidemenu.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +41,7 @@ export class OpSidemenuComponent {
   public collapsed = false;
 
   constructor(
+    readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
   ) {

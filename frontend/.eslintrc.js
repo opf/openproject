@@ -154,6 +154,13 @@ module.exports = {
          * Any template/HTML related rules you wish to use/reconfigure over and above the
          * recommended set provided by the @angular-eslint project would go here.
          */
+
+        // jasmine is unusable with unsafe member access, as expect(...) is always any
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+
+        // Allow more than one class definitions per file (test components)
+        "max-classes-per-file": "off",
       }
     }
   ],
