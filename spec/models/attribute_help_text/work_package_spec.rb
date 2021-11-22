@@ -48,6 +48,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
   describe '.available_attributes' do
     subject { described_class.available_attributes }
+
     it 'returns an array of potential attributes' do
       expect(subject).to be_a Hash
     end
@@ -55,6 +56,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
   describe '.used_attributes' do
     let!(:instance) { FactoryBot.create :work_package_help_text }
+
     subject { described_class.used_attributes instance.type }
 
     it 'returns used attributes' do
@@ -72,8 +74,6 @@ describe AttributeHelpText::WorkPackage, type: :model do
     end
     let(:permission) { [] }
     let(:static_instance) { FactoryBot.create :work_package_help_text, attribute_name: 'project' }
-
-    subject { FactoryBot.build :work_package_help_text }
 
     before do
       # need to clear the cache to free the memoized
