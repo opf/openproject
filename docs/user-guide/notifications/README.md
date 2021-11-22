@@ -18,7 +18,9 @@ Whenever you are getting in-app notification, a red elliptical with the number o
 
 
 
-To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. <img src="IaN-1.PNG" alt="notifications" style="zoom:50%;" />
+To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. 
+
+![notifications](IaN-1.PNG)
 
 This will then take you to the **notification center**.
 
