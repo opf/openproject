@@ -49,7 +49,7 @@ module UserPreferences
              if: -> { model.daily_reminders.present? }
 
     validate :no_duplicate_workdays,
-             if: -> { model.workdays.present? }
+             if: -> { model.workdays.is_a?(Array) }
 
     validate :valid_pause_days,
              if: -> { model.pause_reminders.present? && model.pause_reminders[:enabled] }
