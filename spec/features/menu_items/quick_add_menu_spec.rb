@@ -96,19 +96,33 @@ feature 'Quick-add menu', js: true, selenium: true do
     end
   end
 
-  context 'with a project with one of two work package types' do
+  context 'with a project with one of three work package types' do
     let!(:type_bug) { FactoryBot.create :type_bug }
     let!(:other_type) { FactoryBot.create :type_task }
-    let!(:project) { FactoryBot.create :project, types: [type_bug] }
+    let!(:other_project_type) { FactoryBot.create :type }
+    let!(:add_role) { FactoryBot.create(:role, permissions: %i[add_work_packages]) }
+    let!(:read_role) { FactoryBot.create(:role, permissions: %i[view_work_packages]) }
+    let!(:project_with_permission) do
+      FactoryBot.create :project,
+                        types: [type_bug],
+                        members: { current_user => add_role }
+    end
+    let!(:other_project_with_permission) do
+      FactoryBot.create :project,
+                        types: [other_project_type],
+                        members: { current_user => add_role }
 
-    current_user do
-      FactoryBot.create :user,
-                        member_in_project: project,
-                        member_with_permissions: %i[add_work_packages]
+    end
+    let!(:project_without_permission) do
+      FactoryBot.create :project,
+                        types: [other_type],
+                        members: { current_user => read_role }
     end
 
-    it 'shows both types outside and the one within' do
-      visit project_path(project)
+    current_user { FactoryBot.create :user }
+
+    it 'shows only the project types within a project and only those types in projects the user can add work packages in' do
+      visit project_path(project_with_permission)
 
       quick_add.expect_visible
       quick_add.toggle
@@ -116,20 +130,26 @@ feature 'Quick-add menu', js: true, selenium: true do
       quick_add.expect_user_invite present: false
       quick_add.expect_work_package_type type_bug.name
       quick_add.expect_work_package_type other_type.name, present: false
+      quick_add.expect_work_package_type other_project_type.name, present: false
       quick_add.click_link type_bug.name
 
       expect(page)
-        .to have_current_path new_project_work_packages_path(project_id: project, type: type_bug.id)
+        .to have_current_path new_project_work_packages_path(project_id: project_with_permission, type: type_bug.id)
+
+      visit project_path(project_without_permission)
+
+      quick_add.expect_invisible
 
       visit home_path
 
       quick_add.expect_visible
       quick_add.toggle
       quick_add.expect_work_package_type type_bug.name
-      quick_add.expect_work_package_type other_type.name
+      quick_add.expect_work_package_type other_type.name, present: false
+      quick_add.expect_work_package_type other_project_type.name
 
-      quick_add.click_link other_type.name
-      expect(page).to have_current_path new_work_packages_path(type: other_type.id)
+      quick_add.click_link other_project_type.name
+      expect(page).to have_current_path new_work_packages_path(type: other_project_type.id)
     end
   end
 

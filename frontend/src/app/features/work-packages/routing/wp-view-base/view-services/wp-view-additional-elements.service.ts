@@ -52,7 +52,7 @@ export class WorkPackageViewAdditionalElementsService {
     readonly wpRelations:WorkPackageRelationsService) {
   }
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource) {
+  public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
 
     // Add relations to the stack

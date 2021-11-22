@@ -337,16 +337,6 @@ export class WorkPackagesListService {
     }
   }
 
-  private updateStatesFromQueryOnPromise(promise:Promise<QueryResource>):Promise<QueryResource> {
-    void promise
-      .then((query) => {
-        this.wpStatesInitialization.initialize(query, query.results);
-        return query;
-      });
-
-    return promise;
-  }
-
   public get currentQuery() {
     return this.querySpace.query.value!;
   }

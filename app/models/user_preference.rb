@@ -134,6 +134,10 @@ class UserPreference < ApplicationRecord
     super.presence || [1, 2, 3, 4, 5]
   end
 
+  def supported_settings_method?(method_name)
+    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
+  end
+
   private
 
   def to_boolean(value)
@@ -142,9 +146,5 @@ class UserPreference < ApplicationRecord
 
   def attribute?(name)
     %i[user user_id].include?(name.to_sym)
-  end
-
-  def supported_settings_method?(method_name)
-    UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ''))
   end
 end

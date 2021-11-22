@@ -30,6 +30,24 @@ require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
 describe AccountController, type: :controller do
+  let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
+  let(:omniauth_hash) do
+    OmniAuth::AuthHash.new(
+      provider: 'google',
+      strategy: omniauth_strategy,
+      uid: '123545',
+      info: { name: 'foo',
+              email: 'foo@bar.com',
+              first_name: 'foo',
+              last_name: 'bar' }
+    )
+  end
+
+  before do
+    request.env['omniauth.auth'] = omniauth_hash
+    request.env['omniauth.strategy'] = omniauth_strategy
+  end
+
   after do
     User.current = nil
   end
@@ -37,19 +55,7 @@ describe AccountController, type: :controller do
   context 'GET #omniauth_login', with_settings: { self_registration: Setting::SelfRegistration.automatic } do
     describe 'with on-the-fly registration' do
       context 'providing all required fields' do
-        let(:omniauth_hash) do
-          OmniAuth::AuthHash.new(
-            provider: 'google',
-            uid: '123545',
-            info: { name: 'foo',
-                    email: 'foo@bar.com',
-                    first_name: 'foo',
-                    last_name: 'bar' }
-          )
-        end
-
         before do
-          request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
           post :omniauth_login, params: { provider: :google }
         end
@@ -72,10 +78,10 @@ describe AccountController, type: :controller do
       end
 
       describe 'strategy uid mapping override' do
-        let(:omniauth_strategy) { double('Google Strategy') }
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
+            strategy: omniauth_strategy,
             uid: 'foo',
             info: {
               uid: 'internal',
@@ -84,11 +90,6 @@ describe AccountController, type: :controller do
               last_name: 'theheck'
             }
           )
-        end
-
-        before do
-          request.env['omniauth.auth'] = omniauth_hash
-          request.env['omniauth.strategy'] = omniauth_strategy
         end
 
         it 'takes the uid from the mapped attributes' do
@@ -101,10 +102,10 @@ describe AccountController, type: :controller do
       end
 
       describe 'strategy attribute mapping override' do
-        let(:omniauth_strategy) { double('Google Strategy') }
         let(:omniauth_hash) do
           OmniAuth::AuthHash.new(
             provider: 'google',
+            strategy: omniauth_strategy,
             uid: 'foo',
             info: { email: 'whattheheck@example.com',
                     first_name: 'what',
@@ -117,10 +118,6 @@ describe AccountController, type: :controller do
           )
         end
 
-        before do
-          request.env['omniauth.auth'] = omniauth_hash
-          request.env['omniauth.strategy'] = omniauth_strategy
-        end
 
         context 'available' do
           it 'merges the strategy mapping' do
@@ -167,7 +164,6 @@ describe AccountController, type: :controller do
         end
 
         it 'renders user form' do
-          request.env['omniauth.auth'] = omniauth_hash
           post :omniauth_login, params: { provider: :google }
           expect(response).to render_template :register
           expect(assigns(:user).mail).to eql('foo@bar.com')
@@ -257,7 +253,6 @@ describe AccountController, type: :controller do
         end
 
         before do
-          request.env['omniauth.auth'] = omniauth_hash
           request.env['omniauth.origin'] = 'https://example.net/some_back_url'
 
           post :omniauth_login, params: { provider: :google }
@@ -287,10 +282,6 @@ describe AccountController, type: :controller do
       let(:user) do
         FactoryBot.build(:user, force_password_change: false,
                                 identity_url: 'google:123545')
-      end
-
-      before do
-        request.env['omniauth.auth'] = omniauth_hash
       end
 
       context 'with an active account' do
@@ -505,8 +496,6 @@ describe AccountController, type: :controller do
       end
 
       before do
-        request.env['omniauth.auth'] = omniauth_hash
-
         post :omniauth_login, params: { provider: :google }
       end
 
