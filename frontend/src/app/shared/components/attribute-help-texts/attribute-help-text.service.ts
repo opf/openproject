@@ -60,7 +60,7 @@ export class AttributeHelpTextsService {
    * Search for a given attribute help text
    *
    */
-  public requireById(id:string):Promise<HelpTextResource|undefined> {
+  public requireById(id:string|number):Promise<HelpTextResource|undefined> {
     this.load();
 
     return this
@@ -72,7 +72,7 @@ export class AttributeHelpTextsService {
       .toPromise()
       .then(() => {
         const value = this.helpTexts.getValueOr([]);
-        return _.find(value, (element) => element.id?.toString() === id);
+        return _.find(value, (element) => element.id?.toString() === id.toString());
       });
   }
 
