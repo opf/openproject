@@ -205,7 +205,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
-   * Given a set of complete relations for this work packge,
+   * Given a set of complete relations for this work package,
    * returns the RelationsStateValue
    *
    * @param wpId The wpId the relations belong to
