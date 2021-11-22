@@ -104,7 +104,7 @@ export class WorkPackageContextMenuHelperService {
   public getIntersectOfPermittedActions(workPackages:any) {
     const bulkPermittedActions:any = [];
 
-    const permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.getAllowedActions(workPackage, [action]).length >= 1));
+    const permittedActions = _.filter(this.BULK_ACTIONS, (action:any) => _.every(workPackages, (workPackage:WorkPackageResource) => this.isActionAllowed(workPackage, action)));
 
     _.each(permittedActions, (permittedAction:any) => {
       bulkPermittedActions.push({
@@ -128,6 +128,10 @@ export class WorkPackageContextMenuHelperService {
     const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
 
     return `${link}?${queryParts.join('&')}`;
+  }
+
+  private isActionAllowed(workPackage:WorkPackageResource, action:WorkPackageAction):boolean {
+    return _.filter(this.getAllowedActions(workPackage, [action]), (a) => a === action).length >= 1;
   }
 
   private getAllowedActions(workPackage:WorkPackageResource, actions:WorkPackageAction[]):WorkPackageAction[] {
