@@ -59,9 +59,6 @@ export function DatasetInputs<T extends { new(...args:any[]):DatasetInputsDecora
       const declaredInputsParentKey = Object.keys(cstr)
         .find((key:string) => typeof (cstr[key] as ɵDirectiveDef<unknown>).declaredInputs === 'object');
 
-      console.log((cstr as any).propDecorators);
-      console.log(Object.keys(cstr));
-
       if (!declaredInputsParentKey) {
         throw new Error('Could not find declared inputs for component');
       }
@@ -88,7 +85,7 @@ Make sure to make all data attributes you want to use as input JSON parseable.
 This means that plain strings have to be wrapped in double quotes, and the attribute value is easiest to set with single quotes.
 An example:
 
-<op-example example-input='\"myString\"'></op-example>
+<op-example example-input='"myString"'></op-example>
 `);
 
             // Rethrow since an error at this point is basically a syntax error and should be fixed
