@@ -31,7 +31,7 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
   };
 
   /** Go back using back-button */
-  backButtonCallback:() => void = this.backButtonFn.bind(this);
+  backButtonCallback:() => void;
 
   /** Current query title to render */
   selectedTitle = this.text.title;
@@ -91,10 +91,5 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
   // For shared template compliance
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   changeChangesFromTitle(val:string):void {
-  }
-
-  private backButtonFn():void {
-    // Default fallback
-    window.history.back();
   }
 }

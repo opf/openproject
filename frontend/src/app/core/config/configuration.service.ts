@@ -101,7 +101,7 @@ export class ConfigurationService {
     return !!this.systemPreference('startOfWeek');
   }
 
-  public startOfWeek() {
+  public startOfWeek():number {
     if (this.startOfWeekPresent()) {
       return this.systemPreference('startOfWeek');
     }

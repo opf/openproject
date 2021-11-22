@@ -19,7 +19,7 @@ export class TeamPlannerComponent {
     locale: this.I18n.locale,
     fixedWeekCount: false,
     firstDay: this.configuration.startOfWeek(),
-    events: this.calendarEventsFunction.bind(this),
+    events: this.calendarEventsFunction.bind(this) as unknown,
     toolbar: this.buildHeader(),
     plugins: [dayGridPlugin],
     initialView: 'dayGridMonth',
@@ -32,8 +32,7 @@ export class TeamPlannerComponent {
   ) {}
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date, timeZone:string },
-    successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:any) => void):void|PromiseLike<EventInput[]> {
+    successCallback:(events:EventInput[]) => void):void|PromiseLike<EventInput[]> {
     successCallback([{
       title: 'Important todo',
       start: '2021-11-10',
