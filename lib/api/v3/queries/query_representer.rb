@@ -307,6 +307,10 @@ module API
         property :highlighting_mode,
                  render_nil: false
 
+        # Projections
+        property :projections,
+                 writeable: true
+
         attr_accessor :results,
                       :params
 
@@ -327,7 +331,7 @@ module API
                               { project: :work_package_custom_fields }]
 
         def _type
-          'Query'
+          represented.class.name
         end
 
         def filters

@@ -28,19 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Configures a Query on the Query model.  This allows to
-# e.g get all queries that belong to a specific project or
-# all projects that are global
+require 'spec_helper'
 
-module Queries::Queries
-  filters_ns = Queries::Queries::Filters
-  query_ns = Queries::Queries::QueryQuery
-  register = Queries::Register
+describe Queries::Queries::Filters::ModuleIdentifierFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :module_identifier }
+    let(:type) { :list_optional }
+  end
 
-  register.filter query_ns, filters_ns::ProjectFilter
-  register.filter query_ns, filters_ns::ProjectIdentifierFilter
-  register.filter query_ns, filters_ns::HiddenFilter
-  register.filter query_ns, filters_ns::UpdatedAtFilter
-  register.filter query_ns, filters_ns::IdFilter
-  register.filter query_ns, filters_ns::ModuleIdentifierFilter
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :module_identifier }
+    let(:model) { Query }
+    let(:valid_values) { ['calendar'] }
+  end
 end

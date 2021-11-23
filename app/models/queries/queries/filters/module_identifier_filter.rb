@@ -28,19 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Configures a Query on the Query model.  This allows to
-# e.g get all queries that belong to a specific project or
-# all projects that are global
+class Queries::Queries::Filters::ModuleIdentifierFilter < Queries::Queries::Filters::QueryFilter
+  def type
+    :list_optional
+  end
 
-module Queries::Queries
-  filters_ns = Queries::Queries::Filters
-  query_ns = Queries::Queries::QueryQuery
-  register = Queries::Register
+  def self.key
+    :module_identifier
+  end
 
-  register.filter query_ns, filters_ns::ProjectFilter
-  register.filter query_ns, filters_ns::ProjectIdentifierFilter
-  register.filter query_ns, filters_ns::HiddenFilter
-  register.filter query_ns, filters_ns::UpdatedAtFilter
-  register.filter query_ns, filters_ns::IdFilter
-  register.filter query_ns, filters_ns::ModuleIdentifierFilter
+  def where
+    operator_strategy.sql_for_field(values, 'queries', 'projections')
+  end
+
+  def allowed_values
+    [['Work packages', 'work_packages'], ['Calendar', 'calendar'], ['BIM', 'bim']]
+  end
 end

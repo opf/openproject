@@ -204,6 +204,32 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
           .at_path("_embedded/elements/0/name")
       end
     end
+
+    context 'with filters for module' do
+      let(:module_identifier) { "calendar" }
+      let(:path) do
+        filter = [module_identifier: { operator: "=", values: [module_identifier] }]
+
+        api_v3_paths.path_for(:queries, filters: filter)
+      end
+      let(:query) { FactoryBot.create(:public_query, project: project, projections: [{ _type: "calendar" }]) }
+
+      let(:prepare) do
+        query
+      end
+
+      it 'includes only queries with projections for the specified module' do
+        expect(last_response.body)
+          .to be_json_eql(1)
+                .at_path("count")
+        expect(last_response.body)
+          .to be_json_eql(1)
+                .at_path("total")
+        expect(last_response.body)
+          .to be_json_eql(query.name.to_json)
+                .at_path("_embedded/elements/0/name")
+      end
+    end
   end
 
   describe '#get queries/:id' do

@@ -67,7 +67,6 @@ module API
           rep = representer.new Query.new, current_user: current_user
           query = rep.from_hash request_body
           call = ::Queries::CreateService.new(user: current_user).call query
-
           if call.success?
             representer.new call.result, current_user: current_user, embed_links: true
           else

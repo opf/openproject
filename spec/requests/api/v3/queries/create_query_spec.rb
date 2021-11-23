@@ -33,7 +33,7 @@ describe "POST /api/v3/queries", type: :request do
   let(:status) { FactoryBot.create :status }
   let(:project) { FactoryBot.create :project }
 
-  let(:params) do
+  let(:default_params) do
     {
       name: "Dummy Query",
       showHierarchies: false,
@@ -90,6 +90,7 @@ describe "POST /api/v3/queries", type: :request do
       }
     }
   end
+  let(:params) { default_params }
 
   before do
     login_as user
@@ -128,6 +129,27 @@ describe "POST /api/v3/queries", type: :request do
       expect(filter.name).to eq :status_id
       expect(filter.operator).to eq "="
       expect(filter.values).to eq [status.id.to_s]
+    end
+
+    context 'with a module specific projection' do
+      let(:params) do
+        default_params.merge(
+          projections: [
+            {
+              _type: "calendar",
+              options: {}
+            }
+          ]
+        )
+      end
+
+      it 'creates the Query successfully' do
+        query = Query.find_by(name: params[:name])
+        json = JSON.parse(last_response.body)
+
+        expect(query).to be_present
+        expect(json["projections"][0]["_type"]).to eq "calendar"
+      end
     end
   end
 
