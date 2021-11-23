@@ -1651,6 +1651,10 @@ sk:
   label_member_plural: "Členovia"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Názov položky ponuky"
   label_message: "Správa"
   label_message_last: "Posledná správa"

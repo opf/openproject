@@ -1596,6 +1596,10 @@ ja:
   label_member_plural: "メンバー"
   lable_membership_added: 'メンバーが追加されました'
   lable_membership_updated: 'メンバーが更新されました'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "メニュー項目の名称"
   label_message: "メッセージ"
   label_message_last: "最新のメッセージ"

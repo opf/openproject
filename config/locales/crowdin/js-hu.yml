@@ -638,6 +638,8 @@ hu:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
     types:

@@ -1614,6 +1614,10 @@ nl:
   label_member_plural: "Leden"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Naam van het menu-item"
   label_message: "Bericht"
   label_message_last: "Laatste bericht"

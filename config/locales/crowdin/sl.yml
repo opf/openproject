@@ -1648,6 +1648,10 @@ sl:
   label_member_plural: "Člani"
   lable_membership_added: 'Član dodan'
   lable_membership_updated: 'Član posodobljen'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Ime postavke menija"
   label_message: "Sporočilo"
   label_message_last: "Zadnje sporočilo"

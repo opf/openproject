@@ -1634,6 +1634,10 @@ ro:
   label_member_plural: "Membri"
   lable_membership_added: 'Membru adăugat'
   lable_membership_updated: 'Membru actualizat'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"
   label_message_last: "Ultimul mesaj"

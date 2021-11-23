@@ -1596,6 +1596,10 @@ zh-CN:
   label_member_plural: "成员"
   lable_membership_added: '已添加成员'
   lable_membership_updated: '已更新成员'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "菜单项名称"
   label_message: "消息"
   label_message_last: "最后一条消息"

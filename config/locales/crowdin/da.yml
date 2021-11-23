@@ -1615,6 +1615,10 @@ da:
   label_member_plural: "Medlemmer"
   lable_membership_added: 'Medlem tilføjet'
   lable_membership_updated: 'Medlem opdateret'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Navn på menupunkt"
   label_message: "Message"
   label_message_last: "Seneste meddelelse"

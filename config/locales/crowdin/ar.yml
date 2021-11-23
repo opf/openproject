@@ -1685,6 +1685,10 @@ ar:
   label_member_plural: "أعضاء"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "اسم عنصر من القائمة"
   label_message: "رسالة"
   label_message_last: "الرسالة الأخيرة"

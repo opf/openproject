@@ -1602,6 +1602,10 @@ vi:
   label_member_plural: "Members"
   lable_membership_added: 'Thành viên đã thêm'
   lable_membership_updated: 'Thành viên đã cập nhật'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"

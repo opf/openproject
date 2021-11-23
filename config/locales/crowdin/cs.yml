@@ -1651,6 +1651,10 @@ cs:
   label_member_plural: "Členové"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Název položky menu"
   label_message: "Zpráva"
   label_message_last: "Poslední zpráva"

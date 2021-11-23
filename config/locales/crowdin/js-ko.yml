@@ -633,6 +633,8 @@ ko:
           label: '임시로 일일 이메일 미리 알림 일시 중지'
           first_day: '첫날'
           last_day: '마지막 날'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "계속하시겠습니까?"
     text_data_lost: "입력한 모든 데이터가 손실됩니다."
     types:

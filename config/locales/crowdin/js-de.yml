@@ -633,6 +633,8 @@ de:
           label: 'Tägliche E-Mail-Erinnerungen vorübergehend pausieren'
           first_day: 'Erster Tag'
           last_day: 'Letzter Tag'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."
     types:

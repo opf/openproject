@@ -1613,6 +1613,10 @@ el:
   label_member_plural: "Μέλη"
   lable_membership_added: 'Το μέλος προστέθηκε'
   lable_membership_updated: 'Το μέλος ενημερώθηκε'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Όνομα στοιχείου μενού"
   label_message: "Μήνυμα"
   label_message_last: "Τελευταίο μήνυμα"

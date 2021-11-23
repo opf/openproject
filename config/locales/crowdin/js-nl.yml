@@ -634,6 +634,8 @@ nl:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
     types:

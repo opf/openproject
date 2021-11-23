@@ -634,6 +634,8 @@ fil:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Sigurado ka ba?"
     text_data_lost: "All entered data will be lost."
     types:

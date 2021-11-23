@@ -636,6 +636,8 @@ pl:
           label: 'Tymczasowo wstrzymuj codzienne przypomnienia e-mail'
           first_day: 'Pierwszy dzień'
           last_day: 'Ostatni dzień'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Jesteś pewien?"
     text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
     types:

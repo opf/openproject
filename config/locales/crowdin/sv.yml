@@ -1616,6 +1616,10 @@ sv:
   label_member_plural: "Medlemmar"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Namn på menyalternativ"
   label_message: "Meddelande"
   label_message_last: "Senaste meddelandet"

@@ -1648,6 +1648,10 @@ lt:
   label_member_plural: "Nariai"
   lable_membership_added: 'Narys pridėtas'
   lable_membership_updated: 'Narys atnaujintas'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Meniu punkto pavadinimas"
   label_message: "Pranešimas"
   label_message_last: "Paskutinis pranešimas"

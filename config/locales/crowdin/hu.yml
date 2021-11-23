@@ -1622,6 +1622,10 @@ hu:
   label_member_plural: "Tagok"
   lable_membership_added: 'Felhasználó hozzáadva'
   lable_membership_updated: 'Felhasználó frissítve'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "A menüpont neve"
   label_message: "Üzenet"
   label_message_last: "Utolsó üzenet"

@@ -636,6 +636,8 @@ lt:
           label: 'Laikinai stabdyti kasdieninius e-pašto priminimus'
           first_day: 'Pirma diena'
           last_day: 'Paskutinė diena'
+    team_planner:
+      title: 'Team planner'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Visa įvesta informacija bus prarasta."
     types:

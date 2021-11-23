@@ -1597,6 +1597,10 @@ id:
   label_member_plural: "Member"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nama item menu"
   label_message: "Message"
   label_message_last: "Pesan terakhir"

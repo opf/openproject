@@ -1617,6 +1617,10 @@ fr:
   label_member_plural: "Membres"
   lable_membership_added: 'Membre ajouté'
   lable_membership_updated: 'Membre mis à jour'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nom de l'élément du menu"
   label_message: "Message"
   label_message_last: "Dernier message"
