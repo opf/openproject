@@ -191,7 +191,7 @@ As custom fields of the type "long text" cannot be added as a column, they canno
 
 ### Can I sum up custom fields?
 
-Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#how-to-switch-from-flat-list-to-hierarchy-mode).
+Yes, you can display the sum of custom fields in the work packages list by checking the "Sum" option in [the work package display settings](../work-package-table-configuration/#display-sums-in-work-package-list).
 
 Calculating a sum across different attributes (e.g. Estimated time + added hours) is however not possible.
 

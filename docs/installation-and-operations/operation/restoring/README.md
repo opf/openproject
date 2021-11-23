@@ -241,5 +241,5 @@ You may need to create the `files` directory if it doesn't exist yet.
 
 #### 4) Start OpenProject
 
-Start the container as described in the [installation section](../../installation/docker/#recommended-usage)
+Start the container as described in the [installation section](../../installation/docker/#one-container-per-process-recommended)
 mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).

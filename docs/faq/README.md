@@ -109,7 +109,7 @@ Most of this kind of questions will be answered in the respective sections for e
 
 ### I cannot log in, I do not know my password. What can I do?
 
-As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
+As a first step please try to [reset your password](../getting-started/sign-in-registration/#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
 
 If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
@@ -140,7 +140,7 @@ If you are using the Enterprise cloud, you can easily upgrade or downgrade the n
 
 ### How can I change the day my week starts with, etc.?
 
-You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
+You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 ### How can I add a RACI matrix in OpenProject?
 
@@ -339,7 +339,7 @@ It does not expire. However, the certification training always covers the curren
 
 ### Where can I find out more about pricing?
 
-You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).
+You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#faq).
 
 ## Topic-specific FAQ
 
