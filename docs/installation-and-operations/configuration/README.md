@@ -44,7 +44,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
-* [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
+* [`apiv3_enable_basic_auth`](#apiv3-basic-auth-control)
 * [`enterprise_limits`](#enterprise-limits)
 * [`backup_enabled`](#backup-enabled)
 * [`show_community_links`](#show-community-links)
@@ -482,6 +482,6 @@ OPENPRJOECT_STATSD_PORT=8125 # overriden by: STATSD_PORT
 | [Configuring inbound emails](./incoming-emails) | How to configure inbound emails for work package updates directly from an email |
 | [Configuring a custom database](./database) | How to use an external database |
 | [Configuring a custom web server](./server) | How to use a custom web server (e.g. NginX) with your OpenProject installation |
-| [Configuring a custom caching server](#TODO) | TODO: How to use a custom caching server with your OpenProject installation |
+| Configuring a custom caching server | How to use a custom caching server with your OpenProject installation |
 | [Configuring Git and Subversion repositories](./repositories) | How to integrate Git and Subversion repositories into OpenProject |
 | [Adding plugins](./plugins) | How to add plugins to your OpenProject installation |

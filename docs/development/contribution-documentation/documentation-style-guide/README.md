@@ -79,9 +79,10 @@ Do not include the same information in multiple places. Instead, link through to
 ## References across the documentation
 
 - When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
-- Please see in [links](/#links) how to use links within the documentation.
+- 
+- Please see in [links](#links) how to use links within the documentation.
 
-- When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
+- When making reference to third-party products or technologies, link out to their external sites, documentation and resources.
 
   
 
@@ -294,7 +295,7 @@ To help tables be easier to maintain, consider adding additional spaces to the c
 
 - Make your subheading titles clear, descriptive, and complete to help users find the right example.
 
-- See  [Capitalization](/#capitalization) for guidelines on capitalizing headings.
+- See  [Capitalization](#capitalization) for guidelines on capitalizing headings.
 
   
 
@@ -419,7 +420,9 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-`<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
-</div>`
+```
+<div class="alert alert-info" role="alert">
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
+</div>
+```
 

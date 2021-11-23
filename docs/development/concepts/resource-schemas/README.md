@@ -33,7 +33,7 @@ The following guides are related:
 
 - [HAL resources](../hal-resources)
 
-- [Backend API overview](#TODO:api-overview)
+- Backend API overview
 
 
 
@@ -141,5 +141,5 @@ When you try to update a resource such as a work package, you will commonly requ
 
 For example, if you try to update a work package type from let's say `Bug` to `Feature`, you would POST to the form with its type link updated, and are returned with a form object. The embedded schema of this form now points to the `Feature` type, and may contain additional attributes to render due to the differing form configuration.
 
-These embedded schemas are never globally cached in the frontend, as they are highly dependent on the changes pushed to the form resource. They are always contained within a `ResourceChangeset`. Please see [the separate guide on changesets](#TODO:changesets) for more information.
+These embedded schemas are never globally cached in the frontend, as they are highly dependent on the changes pushed to the form resource. They are always contained within a `ResourceChangeset`. Please see [the separate guide on changesets](../resource-changesets/) for more information.
 
