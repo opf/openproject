@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
+  DynamicComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import {
@@ -17,6 +18,8 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
+import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -36,8 +39,9 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
   /** Current query title to render */
   selectedTitle = this.text.title;
 
-  /** Disable filter container for now */
-  filterContainerDefinition = null;
+  filterContainerDefinition:DynamicComponentDefinition = {
+    component: WorkPackageFilterContainerComponent,
+  };
 
   /** We need to pass the correct partition state to the view to manage the grid */
   currentPartition:ViewPartitionState = '-split';
@@ -56,6 +60,9 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
 
   /** Define the buttons shown in the toolbar */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
+    {
+      component: WorkPackageFilterButtonComponent,
+    },
     {
       component: ZenModeButtonComponent,
     },
