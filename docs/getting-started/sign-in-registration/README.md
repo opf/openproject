@@ -12,14 +12,14 @@ keywords: sign in, login, registration
 Here you will get an overview how to sign in and register to an existing OpenProject installation.
 
 <div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 </div>
 
 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Sign in with an existing account](#sign-in-with-an-existing-account) | Sign in with an existing account to an OpenProject installation. |
-| [Sign in with Google](#sign-in-with-google)                  | Find out how to sign in with a Google account.               |
+| [Sign in with Google](#sign-in-with-a-google-account)                  | Find out how to sign in with a Google account.               |
 | [Sign in from the OpenProject website](#sign-in-from-the-openproject-website) | Sign in to an existing OpenProject Cloud Edition from the website. |
 | [Create a new account](#create-a-new-account)                | Create a new account for OpenProject.                        |
 | [Choose your language](#choose-your-language)                | How to select your language in OpenProject?                  |
@@ -59,7 +59,7 @@ Then, you are asked to create your OpenProject Account.
 
 If you are using the OpenProject Cloud Edition, you can sign in to your installation directly from the OpenProject website.
 
-Please follow the [instructions in our Cloud Edition guide](../../enterprise-guide/enterprise-cloud-guide/#sign-in).
+Please follow the [instructions in our Cloud Edition guide](../../enterprise-guide/enterprise-cloud-guide/sign-in).
 
 ## Create a new account
 
@@ -92,7 +92,7 @@ After the creation of your account you are logged into the system. You will then
 
 ![select language](20191202171349241.png)
 
-If you have already logged in before, you can [set your language in your user profile](../my-account/#profile-settings:-change-your-language,-time-zone-or-display-of-comments).
+If you have already logged in before, you can [set your language in your user profile](../my-account/#profile-settings).
 
 ## Reset your password
 

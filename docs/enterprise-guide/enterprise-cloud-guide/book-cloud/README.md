@@ -92,4 +92,4 @@ Yes, your subscription gets cheaper the longer the duration you choose. Please c
 
 ### Additional questions
 
-You can find additional questions and answers regarding pricing and booking at the bottom of our [pricing website](https://www.openproject.org/pricing/#FAQ).
+You can find additional questions and answers regarding pricing and booking at the bottom of our [pricing website](https://www.openproject.org/pricing/#faq).

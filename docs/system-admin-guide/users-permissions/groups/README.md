@@ -73,4 +73,4 @@ Similar to users, groups have a profile page which shows their name and members.
 
 ![group-profile-page](image-20210302144820982.png)
 
-The profile page can be accessed via the group's [settings page](/#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification) of the group.
+The profile page can be accessed via the group's [settings page](#add-users-to-a-group-edit-or-remove-groups), via the overview page of projects the group is a member of and via [mentions](../../../user-guide/work-packages/edit-work-package/#-notification-mention) of the group.

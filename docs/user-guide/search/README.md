@@ -31,4 +31,4 @@ Now, you can find the results for your search term from different categories/par
 
 ![search-result-categories](image-20210412205730857.png)
 
-Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#view-all-projects).
+Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#global-projects-overview---view-all-projects).
