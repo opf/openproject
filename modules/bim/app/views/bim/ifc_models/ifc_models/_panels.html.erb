@@ -1,10 +1,11 @@
 <div class="op-ifc-viewer--sidemenu">
-  <%= content_tag 'op-query-select', '',
-                  data: {
-                    'project-identifier': (@project ? @project.identifier : '').to_json,
-                    'menu-items': [parent_name, name].to_json,
-                    'base-route': 'bim.partitioned.split'.to_json
-                  }
+  <%=
+    angular_component_tag 'op-query-select',
+                          inputs: {
+                            projectIdentifier: (@project ? @project.identifier : ''),
+                            menuItems: [parent_name, name],
+                            baseRoute: 'bim.partitioned.split'
+                          }
   %>
 
   <hr>

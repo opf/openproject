@@ -1,7 +1,8 @@
-<%= content_tag 'op-query-select', '',
-                data: {
-                  'project-identifier': (@project ? @project.identifier : '').to_json,
-                  'menu-items': [parent_name, name].to_json,
-                  'base-route': 'work-packages'.to_json
-                }
+<%=
+  angular_component_tag 'op-query-select',
+                        inputs: {
+                          projectIdentifier: (@project ? @project.identifier : ''),
+                          menuItems: [parent_name, name],
+                          baseRoute: 'work-packages'
+                        }
 %>
