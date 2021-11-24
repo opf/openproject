@@ -4,7 +4,7 @@ import {
   Component,
   ElementRef,
   Inject,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -83,7 +83,7 @@ export class OPWPQuickAddModalComponent extends OpModalComponent {
     getOptionsFn: this.fetchAutocompleterData,
   };
 
-  public addWorkPackageToQuery(workPackage?:WorkPackageResource): void {
+  public addWorkPackageToQuery(workPackage?:WorkPackageResource):void {
     if (workPackage) {
       void this.schemaCacheService
         .ensureLoaded(workPackage)
