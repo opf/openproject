@@ -71,13 +71,13 @@ Here are resources to get to know OpenProject:
 
 ### Can I run OpenProject as a single user?
 
-Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€4.95/member/month or approximately $5.60/member/month), and Enterprise on-premises (€5.95/member/month or approximately $6.73/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
+Our minimum plan for the Enterprise cloud edition and Enterprise on-premises edition is five users. Our pricing scheme covers three subscription options: Community Edition ($0), Enterprise cloud (€5.95/member/month or $7.25/member/month), and Enterprise on-premises (€5.95/member/month or $7.25/member/month). We recommend to start the [Community version](https://www.openproject.org/download-and-installation/) free of charge if the five user minimum is an issue for you.
 
 ### OpenProject is Open Source. Which kind of license does it come with? What am I allowed to do? What can I change?
 
-OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/COPYRIGHT and LICENSE files).
+OpenProject comes with the GNU General Public License v3 (GPLv3). You can find out more about the copyright [here](https://github.com/opf/openproject/blob/dev/COPYRIGHT).
 In accordance with the terms set by the GPLv3 license, users can make modifications, create copies and redistribute the work. 
-Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html.
+Terms and conditions regarding GPLv3 are available at http://www.gnu.org/licenses/gpl-3.0.en.html or in [our repository](https://github.com/opf/openproject/blob/dev/LICENSE).
 
 ### Is OpenProject free of charge?
 
@@ -109,7 +109,7 @@ Most of this kind of questions will be answered in the respective sections for e
 
 ### I cannot log in, I do not know my password. What can I do?
 
-As a first step please try to [reset your password](#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
+As a first step please try to [reset your password](../getting-started/sign-in-registration/#reset-your-password). Please look in your spam folder, too, if you didn't receive an email.
 
 If that doesn't help please contact your admin for login related topics. He/she can [set a new password for you](../system-admin-guide/users-permissions/users/#manage-user-settings).
 
@@ -140,7 +140,7 @@ If you are using the Enterprise cloud, you can easily upgrade or downgrade the n
 
 ### How can I change the day my week starts with, etc.?
 
-You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
+You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 ### How can I add a RACI matrix in OpenProject?
 
@@ -339,7 +339,7 @@ It does not expire. However, the certification training always covers the curren
 
 ### Where can I find out more about pricing?
 
-You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#FAQ).
+You can find the price calculator [here](https://www.openproject.org/pricing) and FAQ regarding pricing [here](https://www.openproject.org/pricing/#faq).
 
 ## Topic-specific FAQ
 

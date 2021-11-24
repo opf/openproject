@@ -66,7 +66,7 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
+docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
 ```
 
 This will take a bit of time the first time you launch it, but after a few
@@ -84,7 +84,7 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
+docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -116,7 +116,7 @@ docker run -d -p 8080:80 --name openproject \
   -e SECRET_KEY_BASE=secret \ # The secret key base used for cookies
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:11
+  openproject/community:12
 ```
 
 Please make sure you set the correct public facing hostname in `SERVER_HOSTNAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
@@ -287,14 +287,14 @@ For instance:
 
 ```
 group :opf_plugins do
-  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/11.0"
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/12.0"
 end
 ```
 
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
 ```
-FROM openproject/community:11
+FROM openproject/community:12
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
 # you will have to copy the plugin code into the container here and use the
@@ -326,7 +326,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 **5. Run the image**
 
 You can run the image just like the normal OpenProject image (as shown earlier).
-You just have to use your chosen tag instead of `openproject/community:11`.
+You just have to use your chosen tag instead of `openproject/community:12`.
 To just give it a quick try you can run this:
 
 ```
@@ -345,7 +345,7 @@ The installation works the same as described above. The only difference is that 
 On a system that has access to the internet run the following.
 
 ```
-docker pull openproject/community:11 && docker save openproject/community:11 | gzip > openproject-11.tar.gz
+docker pull openproject/community:12 && docker save openproject/community:12 | gzip > openproject-12.tar.gz
 ```
 
 This creates a compressed archive containing the latest OpenProject docker image.
@@ -361,7 +361,7 @@ This could be sftp, scp or even via a USB stick in case of a truly air-gapped sy
 Once the file is on the system you can load it like this:
 
 ```
-gunzip openproject-11.tar.gz && docker load -i openproject-11.tar
+gunzip openproject-12.tar.gz && docker load -i openproject-12.tar
 ```
 
 This extracts the archive and loads the contained image layers into docker.
@@ -546,12 +546,12 @@ Once this has finished you should see something like this when running `docker s
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:11   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:11   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:12   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:12   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
 ```
 
 You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
@@ -589,12 +589,12 @@ This will take a moment to converge. Once done you should see something like the
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:11   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:11   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:12   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:12   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.

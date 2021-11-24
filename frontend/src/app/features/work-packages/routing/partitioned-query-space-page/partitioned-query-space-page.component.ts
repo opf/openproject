@@ -139,9 +139,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       this.cdRef.detectChanges();
     });
 
-    // If the query was loaded, reload invisibly
+    // Load the query. If it hasn't been loaded before, do that visibly.
     const isFirstLoad = !this.querySpace.initialized.hasValue();
-    this.refresh(isFirstLoad, isFirstLoad);
+    this.loadingIndicator = this.loadQuery(isFirstLoad);
 
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
@@ -246,7 +246,35 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   }
 
   refresh(visibly = false, firstPage = false):Promise<unknown> {
-    let promise:Promise<unknown>;
+    let promise = this.loadQuery(firstPage) as Promise<unknown>;
+
+    if (visibly) {
+      promise = promise.then((loadedQuery:QueryResource) => {
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+        return this.additionalLoadingTime();
+      });
+
+      this.loadingIndicator = promise;
+    } else {
+      promise = promise.then((loadedQuery:QueryResource) => {
+        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+      });
+    }
+
+    return promise;
+  }
+
+  protected inviteModal = InviteUserModalComponent;
+
+  openInviteUserModal() {
+    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
+    inviteModal.closingEvent.subscribe((modal:any) => {
+      console.log('Modal closed!', modal);
+    });
+  }
+
+  protected loadQuery(firstPage = false):Promise<QueryResource> {
+    let promise:Promise<QueryResource>;
     const query = this.currentQuery;
 
     if (firstPage || !query) {
@@ -258,25 +286,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
         .toPromise();
     }
 
-    if (visibly) {
-      return this.loadingIndicator = promise.then((loadedQuery:QueryResource) => {
-        this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime();
-      });
-    }
-
-    return promise.then((loadedQuery:QueryResource) => {
-      this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-    });
-  }
-
-  protected inviteModal = InviteUserModalComponent;
-
-  openInviteUserModal() {
-    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
-    inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log('Modal closed!', modal);
-    });
+    return promise;
   }
 
   protected loadFirstPage():Promise<QueryResource> {

@@ -45,10 +45,11 @@ You will then get the relations in your Excel file.
 **Example:**
 "follows 12345, precedes 45678"
 
-Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: https://www.openproject.org/docs/api/endpoints/relations/#relation-edit-form
+Unfortunately, there is no way to create relation with translated terms via API at the moment. You have to use these terms instead: [Relation Edit Form API](../../../api/endpoints/relations/#relation-edit-form)
 
 ![allowd-values](image-20211014153150017.png)
 
+<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Excel-Relations.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
 
 ## Step-by-step guide

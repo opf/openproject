@@ -231,5 +231,5 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 - Special thanks for City of Cologne and Autoliv for sponsoring the development of project export and improved auto-completion for work packages.
 - Special thanks for reporting and finding bugs go to Tomáš Jukin, C A, Peter Vanhee, Walid Ibrahim, Frank Long, Simon Seiler, Matthew Trescott, Silas Kropf, Kane Z, SO M, Kris M, Christina Vechkanova, Christoph Lechleitner, Daniel Hug, Sven Kunze, Andreas Sturm, broug geo, Jörg Mollowitz, Luca Puchert, David Epping.
-- Every other dedicated user who has [reported bugs](https://www.openproject-edge.com/docs/development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
+- Every other dedicated user who has [reported bugs](../../development/report-a-bug/) and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).
 - All the dedicated users who provided translations on [CrowdIn](https://crowdin.com/projects/opf).

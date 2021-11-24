@@ -72,6 +72,7 @@ class CustomField < ApplicationRecord
                          unless: Proc.new { |cf| cf.max_length.blank? }
 
   before_validation :check_searchability
+  after_destroy :destroy_help_text
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
@@ -322,5 +323,11 @@ class CustomField < ApplicationRecord
     result
       .sort
       .map { |u| [u.name, u.id.to_s] }
+  end
+
+  def destroy_help_text
+    AttributeHelpText
+      .where(attribute_name: "custom_field_#{id}")
+      .destroy_all
   end
 end

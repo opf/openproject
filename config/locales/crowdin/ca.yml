@@ -298,8 +298,7 @@ ca:
       query_group_placeholder: "Give the table a name"
       reset: "Reset to defaults"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        El color seleccionat distingeix direfents tipus als diagrames Gantt o a les taules de paquets de treballs. Així doncs recomanem de fer servir un color fort.
   versions:
     overview:
       no_results_title_text: Actualment no hi ha cap paquet de treball assignat a aquesta versió.
@@ -535,7 +534,7 @@ ca:
         before: "ha de ser abans de %{date}."
         before_or_equal_to: "ha de ser igual o abans de %{date}."
         blank: "no pot estar en blanc."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "és necessari de definir la propietat  '%{property}' ."
         cant_link_a_work_package_with_a_descendant: "Un paquet de treball no es pot enllaçar a una de les seves subtasques."
         circular_dependency: "Aquesta relació crearia una dependència circular."
         confirmation: "no coincideix amb el %{attribute}."
@@ -549,19 +548,19 @@ ca:
         even: "ha de ser parell."
         exclusion: "està reservat."
         file_too_large: "és massa gran (la mida màxima és de %{count} Bytes)."
-        format: "does not match the expected format '%{expected}'."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format: "no coincideix  amb el format esperat '%{expected}'."
+        format_nested: "no coincideix  amb el format esperat '%{expected}' a la ruta '%{path}'."
         greater_than: "ha de ser més gran que %{count}."
         greater_than_or_equal_to: "ha de ser més gran o igual a %{count}."
         greater_than_or_equal_to_start_date: "ha de ser major o igual a la data d'inici."
         greater_than_start_date: "ha de ser major que la data d'inici."
         inclusion: "no està establert a un dels valors permesos."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "no correspon a un dels valors permesos a la ruta '%{path}'."
         invalid: "no és vàlid."
         invalid_url: 'is not a valid URL.'
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "ha de ser menor o igual a %{count}."
-        not_available: "is not available due to a system configuration."
+        not_available: "no és disponible degut a la configuració del sistema."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
         not_a_date: "is not a valid date."
@@ -577,26 +576,26 @@ ca:
         taken: "ja s'està utilitzant."
         too_long: "és massa llarg (el màxim són %{count} caràcters)."
         too_short: "és massa curt (el mínim són %{count} caràcters)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "no és del tipus '%{type}'"
+        type_mismatch_nested: "no és del tipus '%{type}' a la ruta '%{path}'"
         unchangeable: "cannot be changed."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "no és una propietat coneguda."
+        unknown_property_nested: "té la ruta desconeguda '%{path}'."
         unremovable: "cannot be removed."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              blank: "El tipus de contingut del fitxer no pot ser buit."
+              not_whitelisted: "El fitxer s'ha rebutjat per un filtre automàtic. '%{value}' no és a la llista blanca de càrrega."
               format: "%{message}"
         capability:
           context:
             global: 'Global'
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "necessita d'incloure almenys un filtre per a principal, a context o id amb l'operador '='."
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
         custom_actions:
@@ -625,19 +624,19 @@ ca:
           outside: 'is outside of the grid.'
           end_before_start: 'end value needs to be larger than the start value.'
         notifications:
-          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
             read_ian:
-              read_on_creation: 'cannot be set to true on notification creation.'
+              read_on_creation: 'no es pot establir a cert a la creació de notificació.'
             mail_reminder_sent:
-              set_on_creation: 'cannot be set to true on notification creation.'
+              set_on_creation: 'no es pot establir a cert a la creació de notificació.'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
-              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+              no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
         notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
+          only_one_global_setting: 'Hi ha d''haver sols una configuració global de notificació.'
+          email_alerts_global: 'La configuració de notificació per correu electrònic sols pot establir-se globalment.'
           format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -705,9 +704,9 @@ ca:
         user_preference:
           attributes:
             pause_reminders:
-              invalid_range: "can only be a valid date range."
+              invalid_range: "sols pot ser un interval de dates vàlid."
             daily_reminders:
-              full_hour: "can only be configured to be delivered at a full hour."
+              full_hour: "sols pot ser configurat per a enviar-se en una hora sencera."
         wiki_page:
           attributes:
             slug:
@@ -719,7 +718,7 @@ ca:
               not_start_date: "no és en la data d'inici, tot i que és necessari per les fites."
             parent:
               cannot_be_milestone: "no pot ser una fita."
-              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_self_assigned: "no pot ser assignat a si mateix."
               cannot_be_in_another_project: "no pot estar en un altre projecte."
               not_a_valid_parent: "no és vàlid."
             start_date:
@@ -747,7 +746,7 @@ ca:
         user:
           attributes:
             password_confirmation:
-              confirmation: "Password confirmation does not match password."
+              confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
             password:
               weak: "Ha de contenir caràcters de les següents classes (com a mínim %{min_count} de %{all_count}): %{rules}."
@@ -795,8 +794,8 @@ ca:
       member: "Membre"
       news: "Notícies"
       notification:
-        one: "Notification"
-        other: "Notifications"
+        one: "Notificació"
+        other: "Notificacions"
       placeholder_user: "Placeholder user"
       project: "Projecte"
       query: "Consulta personalitzada"
@@ -1198,8 +1197,8 @@ ca:
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "No s'ha pogut suprimir el camp personalitat"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Aquest tipus conté paquets de treball i no es pot eliminar. Pots veure tots els paquets de treball afectats a <a target="_blank" href="%{url}">aquesta vista</a>.'
+    archived_projects: 'També hi ha paquets de treball en projectes arxivats. Primer heu de reactivar els següents projectes, abans de que pugui canviar-se el tipus dels respectius paquets de treball: %{archived_projects}'
   error_can_not_delete_standard_type: "No es poden suprimir els tipus estàndard."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Aquest rol s'està utilitzant i no es pot suprimir."
@@ -1228,7 +1227,7 @@ ca:
   error_no_type_in_project: "Aquest projecte no té cap tipus associat. Comproveu els paràmetres del projecte."
   error_omniauth_registration_timed_out: "S'ha esgotat el temps d'espera per a la inscripció mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
-  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_password_change_failed: 'Hi ha hagut un error l''intentar canviar la contrasenya.'
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
@@ -1258,7 +1257,7 @@ ca:
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
-    failed: "The export has failed: %{message}"
+    failed: "La exportació ha fallat: %{message}"
     format:
       atom: "Atom"
       csv: "CSV"
@@ -1323,7 +1322,7 @@ ca:
   menus:
     admin:
       mail_notification: "Avisos de correu electrònic"
-      incoming_outgoing: "Incoming & Outgoing"
+      incoming_outgoing: "Entrada i Sortida"
     quick_add:
       label: "Open quick add menu"
   my_account:

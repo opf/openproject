@@ -18,7 +18,7 @@ Change your personal settings in My account. Here you can adapt, e.g. the langua
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject       |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
 | [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication                    |
-| [Notifications settings](#notifications settings)            | How to change in-app notifications in OpenProject            |
+| [Notifications settings](#notifications-settings)            | How to change in-app notifications in OpenProject            |
 | [Email reminders](#email-reminders)                          | How to change email reminders sent by OpenProject            |
 | [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture |
 | [Delete account](#delete-account)                            | How to delete my own account                                 |
@@ -144,7 +144,7 @@ Click the blue **Continue** button to finish the registration.
 
 **My account > Notification settings**
 
-In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification_settings).
+In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings).
 
 Please also see our detailed [in-app notifications](../../user-guide/notifications) guide to gain a general understanding.
 

@@ -134,7 +134,7 @@ The spent time widget lists the **spent time in this project for the last 7 days
 
 ![spent time widget](image-20191112145040462.png)
 
-Time entries link to the respective work package and can be edited or deleted. To have a detailed view on all spent time and costs, go to the [Cost reporting](#TODO) module.
+Time entries link to the respective work package and can be edited or deleted. To have a detailed view on all spent time and costs, go to the [Cost reporting](../time-and-costs/reporting/) module.
 
 ### Subprojects
 
@@ -144,7 +144,7 @@ The subprojects widget lists all subproject of the respective project on the ove
 
 The widget only links the first subproject hierarchy and not the children of a subproject.
 
-To edit the project hierarchy, go to the [project settings](../projects/).
+To edit the project hierarchy, go to the [project settings](../projects/project-settings).
 
 ### Work package graph widgets (Premium feature)
 

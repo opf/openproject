@@ -33,7 +33,7 @@ Here you can either **Edit or Cancel the existing subscription**.
 
 ### Upgrade or downgrade subscription
 
-You can **upgrade an existing subscription** at any time. Open the [Manage subscription menu](#manage-your-subscription). Additional users will be billed on a prorated basis, this means you will only pay for the additional users for the rest of the current subscription period.
+You can **upgrade an existing subscription** at any time. Open the [Manage subscription menu](#manage-your-openproject-enterprise-cloud-subscription). Additional users will be billed on a prorated basis, this means you will only pay for the additional users for the rest of the current subscription period.
 
 You can **downgrade a subscription** to the end of a current subscription period. This means the downgrade becomes active with the next payment term.
 
@@ -49,7 +49,7 @@ Click the blue **Update your subscription now button** to save the changes.
 
 ### Cancel subscription
 
-To cancel your subscription, open the [Manage subscription](#manage-your-openproject-cloud-subscription) form and click to [update the subscription](#update-existing-subscriptions) you want to cancel.
+To cancel your subscription, open the [Manage subscription](#manage-your-openproject-enterprise-cloud-subscription) form and click to [update the subscription](#update-existing-subscriptions) you want to cancel.
 
 Click on the **Cancel Subscription link** if you want to terminate your OpenProject Enterprise cloud edition subscription.
 

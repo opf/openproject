@@ -18,7 +18,9 @@ Whenever you are getting in-app notification, a red elliptical with the number o
 
 
 
-To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. <img src="IaN-1.PNG" alt="notifications" style="zoom:50%;" />
+To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. 
+
+![notifications](IaN-1.PNG)
 
 This will then take you to the **notification center**.
 
@@ -47,11 +49,8 @@ You can filter or group the notifications using the two areas in the left menu b
 
    ![mark-as-read](mark-as-read.png)
 
-4. The [**Notification settings**](/notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
+4. The [**Notification settings**](notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 
-In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To fine-tune Email Reminders, [click here](notification_settings/).
-
-
-
+In addition to the in-app notifications, you will also get a once-a-day summary of all notifications by email. To fine-tune Email Reminders, [click here](../../getting-started/my-account/#email-reminders).

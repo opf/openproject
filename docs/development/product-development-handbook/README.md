@@ -29,7 +29,7 @@ The phase for requirements collection and specification aims to get the best pos
 
 For new ideas and requirements which are not clearly understood yet and require specification, Product Managers (PM), User Experience Experts / designers (UX) should work together to validate the idea before moving to the build phase.
 
-Product Managers and UX should work together at least one version (~ 2 months) ahead, so that the development team in the build track has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](# 3.4-RICE-Score)) should be clearly validated.
+Product Managers and UX should work together at least one version (~ 2 months) ahead, so that the development team in the build track has always well-defined and validated requirements ready to start. Especially requirements with a level of confidence lower 80% (see [RICE Score](#34-rice-score)) should be clearly validated.
 
 The specification phase may not be necessary for bug fixes, minor design changes, minor improvements of smaller code maintenance topics.
 
@@ -76,7 +76,7 @@ In regular intervals (e.g. once a week), PMs screen the requirements added to th
 
 
 
-For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](# 3.4-RICE-Score) and assigned to the product backlog.
+For internal or customer requirements requirements may directly be created, evaluated based on the [RICE framework](#34-rice-score) and assigned to the product backlog.
 
 
 

@@ -12,8 +12,8 @@ sidebar_navigation:
 
 | Topic                                                        | Content                                                     |
 | ------------------------------------------------------------ | ----------------------------------------------------------- |
-| [Package-based installation](#package-based-installation-(DEB/RPM)) | How to upgrade a package-based installation of OpenProject. |
-| [Docker-based installation](#docker-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
+| [Package-based installation](#package-based-installation-debrpm) | How to upgrade a package-based installation of OpenProject. |
+| [Docker-based installation](#compose-based-installation)      | How to upgrade a Docker-based installation of OpenProject.  |
 | [Upgrade notes for 8.x to 9.x](#upgrade-notes-for-8x-to-9x)  | How to upgrade from OpenProject 8.x to OpenProject 9.x.     |
 | [Upgrade notes for 7.x to 8.x](#upgrade-notes-for-openproject-7x-to-8x) | How to upgrade from OpenProject 7.x to OpenProject 8.x.     |
 
@@ -122,7 +122,7 @@ sudo chown -R 102 /volume1/openproject/*
 ```
 
 After that it's simply a matter of launching the new container mounted with the copied `pgdata` and `assets` folders
-as described in the [installation section](../../installation/docker/#recommended-usage).
+as described in the [installation section](../../installation/docker/#one-container-per-process-recommended).
 
 ## Upgrade notes for 8.x to 9.x
 

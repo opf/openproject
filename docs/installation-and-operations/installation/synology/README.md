@@ -5,7 +5,7 @@ sidebar_navigation: false
 # Synology
 
 Synology offers NAS devices that come with a UI for starting docker containers on them.
-This means OpenProject has to be used exactly as described in the [docker](../docker/#recommended-usage) section.
+This means OpenProject has to be used exactly as described in the [docker](../docker/#one-container-per-process-recommended) section.
 
 ## Launching the container
 
@@ -52,4 +52,4 @@ Your OpenProject data will remain intact as long as you mounted the volumes as d
 ### I had already started OpenProject without mounted volumes. How do I save my data during an update?
 
 You will need to open a terminal on your Synology disk station.
-Then follow the instructions given in the [upgrade section](../../installation/docker/#i-have-already-started-openproject-without-mounted-volumes-how-do-i-save-my-data-during-an-update)..
+Then follow the instructions given in the [upgrade section](../../operation/upgrading/#compose-based-installation).

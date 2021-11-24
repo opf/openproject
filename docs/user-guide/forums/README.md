@@ -19,7 +19,7 @@ In the forum in OpenProject you can discuss topics in a project with the team: p
 | [Open a forum](#open-a-forum)                            | How to open an existing forum?                               |
 | [Create a new message](#create-a-new-message-in-a-forum) | How to create a new message in a forum?                      |
 | [Reply to a message](#reply-to-a-forum-message)          | How to add a reply to an existing forum message?             |
-| [Watch a forum](#watch-a-frum)                           | How to keep informed about changes in a forum, e.g. new messages or replies? |
+| [Watch a forum](#watch-a-forum)                          | How to keep informed about changes in a forum, e.g. new messages or replies? |
 | [Edit a forum message](#edit-a-forum-message)            | How to edit a message in a forum?                            |
 | [Delete a forum message](#delete-a-forum-message)        | How to delete a message within a forum?                      |
 | [Create a new forum](#create-a-new-forum)                | How to create a new forum?                                   |
@@ -87,7 +87,7 @@ You will get a list of all messages within this forum.
 
 Click the **Watch** icon in the top right corner of the forum.
 
-You will then be notified via e-mail according to your [e-mail notifications](/getting-started/my-account/#email-notifications) about new massages and replies in a forum.
+You will then be notified via e-mail according to your [e-mail notifications](/getting-started/my-account/#notifications-settings) about new massages and replies in a forum.
 
 ![Forum-watcher](Forum-watcher.png)
 
