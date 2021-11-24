@@ -13,9 +13,9 @@ import {
   StateService,
   TransitionService,
 } from '@uirouter/core';
+import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
@@ -28,7 +28,7 @@ import { WorkPackageFilterContainerComponent } from 'core-app/features/work-pack
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamPlannerPageComponent extends UntilDestroyedMixin {
+export class TeamPlannerPageComponent extends WorkPackagesViewBase {
   text = {
     title: this.I18n.t('js.team_planner.title'),
   };
@@ -77,7 +77,15 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
     readonly apiV3Service:APIV3Service,
     readonly backRoutingService:BackRoutingService,
   ) {
-    super();
+    super(injector);
+  }
+
+  protected set loadingIndicator(promise:Promise<unknown>) {
+    this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
+  }
+
+  public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
+    return this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
   }
 
   /**
@@ -99,4 +107,5 @@ export class TeamPlannerPageComponent extends UntilDestroyedMixin {
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   changeChangesFromTitle(val:string):void {
   }
+
 }

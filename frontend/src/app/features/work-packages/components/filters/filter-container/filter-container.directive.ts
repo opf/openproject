@@ -62,9 +62,11 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
 
   public loaded = false;
 
-  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
+  constructor(
+    readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly cdRef:ChangeDetectorRef,
-    readonly wpFiltersService:WorkPackageFiltersService) {
+    readonly wpFiltersService:WorkPackageFiltersService,
+  ) {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }
