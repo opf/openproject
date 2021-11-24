@@ -319,7 +319,7 @@ gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.l
                                      __dir__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
-  next unless File.readable?(file)
-
-  eval_gemfile(file)
+  # We use send to allow dependabot to function
+  # don't use eval_gemfile(file) here as it will break dependabot!
+  send(:eval_gemfile, file) if File.readable?(file)
 end
