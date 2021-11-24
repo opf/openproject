@@ -75,7 +75,9 @@ As an inherited change is always commented ("Updated automatically by...") they 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
 
+### Can I restore a deleted workpackage?
 
+There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
 
 ## Filters and queries
 
@@ -107,8 +109,6 @@ There are two reasons for this: 1. Potentially, a lot of values are displayed in
 
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
-
-
 
 
 
