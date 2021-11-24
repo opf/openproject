@@ -30,28 +30,35 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
+  Input,
   OnInit,
 } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+} from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
 
-export const wpQuerySelectSelector = 'wp-query-select';
+export const opQuerySelectSelector = 'op-query-select';
 
+@DatasetInputs
 @Component({
-  selector: wpQuerySelectSelector,
+  selector: opQuerySelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './wp-query-select.template.html',
+  templateUrl: './op-query-select.template.html',
 })
-export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin implements OnInit {
+export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
     search: this.I18n.t('js.toolbar.search_query_label'),
     label: this.I18n.t('js.toolbar.search_query_label'),
@@ -64,6 +71,12 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
 
   public $queries:Observable<IOpSidemenuItem[]>;
 
+  @Input() menuItems:string[] = [];
+
+  @Input() projectIdentifier:string;
+
+  @Input() baseRoute:string;
+
   private $queryCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
 
   private $search = new BehaviorSubject<string>('');
@@ -71,11 +84,11 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
   private initialized = false;
 
   constructor(
+    readonly elementRef:ElementRef,
     readonly apiV3Service:APIV3Service,
     readonly I18n:I18nService,
     readonly states:States,
-    readonly CurrentProject:CurrentProjectService,
-    readonly wpStaticQueries:WorkPackageStaticQueriesService,
+    readonly opStaticQueries:StaticQueriesService,
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
   ) {
@@ -92,7 +105,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     // When activating the work packages submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
-      .onActivate('work_packages', 'work_packages_query_select')
+      .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
     this.$queries = combineLatest(
@@ -102,11 +115,12 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
       .pipe(
         map(([searchText, categories]) => categories
           .map((category) => {
-            if (this.matchesText(category.title, searchText)) {
+            if (QuerySelectComponent.matchesText(category.title, searchText)) {
               return category;
             }
 
-            const filteredChildren = category.children?.filter((query) => this.matchesText(query.title, searchText));
+            const filteredChildren = category.children
+              ?.filter((query) => QuerySelectComponent.matchesText(query.title, searchText));
             return { title: category.title, children: filteredChildren, collapsible: true };
           })
           .filter((category) => category.children && category.children.length > 0)),
@@ -131,8 +145,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     this.initialized = true;
   }
 
-  // noinspection JSMethodCanBeStatic
-  private matchesText(text:string, searchText:string):boolean {
+  private static matchesText(text:string, searchText:string):boolean {
     return text.toLowerCase().includes(searchText.toLowerCase());
   }
 
@@ -147,7 +160,7 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
     // TODO: use global query store
     this.apiV3Service
       .queries
-      .filterNonHidden(this.CurrentProject.identifier)
+      .filterNonHidden(this.projectIdentifier)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
         queryCollection.elements.forEach((query) => {
@@ -159,22 +172,23 @@ export class WorkPackageQuerySelectDropdownComponent extends UntilDestroyedMixin
             cat = 'starred';
           }
 
-          categories[cat].push(WorkPackageQuerySelectDropdownComponent.toOpSideMenuItem(query));
+          categories[cat].push(this.toOpSideMenuItem(query));
         });
 
+        const staticQueries = this.opStaticQueries.getStaticQueries(this.baseRoute);
         this.$queryCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
-          { title: this.text.scope_default, children: this.wpStaticQueries.all, collapsible: true },
+          { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
         ]);
       });
   }
 
-  private static toOpSideMenuItem(query:QueryResource):IOpSidemenuItem {
+  private toOpSideMenuItem(query:QueryResource):IOpSidemenuItem {
     return {
       title: query.name,
-      uiSref: 'work-packages',
+      uiSref: this.baseRoute,
       uiParams: { query_id: query.id, query_props: '' },
     };
   }

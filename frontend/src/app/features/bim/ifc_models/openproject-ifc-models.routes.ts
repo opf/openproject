@@ -40,12 +40,13 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'bim',
     parent: 'optional_project',
-    url: '/bcf?query_props&models&viewpoint',
+    url: '/bcf?query_id&query_props&models&viewpoint',
     abstract: true,
     component: WorkPackagesBaseComponent,
     redirectTo: 'bim.partitioned',
     params: {
       // Use custom encoder/decoder that ensures validity of URL string
+      query_id: { type: 'query', dynamic: true },
       query_props: { type: 'opQueryString', dynamic: true },
       models: { type: 'opQueryString', dynamic: true },
       viewpoint: { type: 'int', dynamic: true },

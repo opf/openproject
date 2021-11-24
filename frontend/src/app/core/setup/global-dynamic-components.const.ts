@@ -98,9 +98,9 @@ import {
   wpOverviewGraphSelector,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import {
-  WorkPackageQuerySelectDropdownComponent,
-  wpQuerySelectSelector,
-} from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
+  opQuerySelectSelector,
+  QuerySelectComponent,
+} from 'core-app/shared/components/op-query-select/op-query-select.component';
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector,
@@ -184,7 +184,6 @@ import {
   ianMenuSelector,
 } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 
-
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
@@ -224,7 +223,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
-  { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
+  { selector: opQuerySelectSelector, cls: QuerySelectComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

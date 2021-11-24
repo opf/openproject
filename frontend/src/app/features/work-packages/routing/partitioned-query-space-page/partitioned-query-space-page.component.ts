@@ -101,9 +101,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   /** Listener callbacks */
   // eslint-disable-next-line @typescript-eslint/ban-types
-  unRegisterTitleListener:Function;
-
-  // eslint-disable-next-line @typescript-eslint/ban-types
   removeTransitionSubscription:Function;
 
   /** Determine when query is initially loaded */
@@ -149,24 +146,20 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     // Load query on URL transitions
     this.queryParamListener
       .observe$
-      .pipe(
-        this.untilDestroyed(),
-      ).subscribe(() => {
-      /** Ensure we reload the query from the changed props */
+      .pipe(this.untilDestroyed())
+      .subscribe(() => {
+        /** Ensure we reload the query from the changed props */
         this.currentQuery = undefined;
-        this.refresh(true, true);
+        void this.refresh(true, true);
       });
 
-    // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({}, () => {
-      this.updateTitle(this.querySpace.query.value);
-    });
-
-    this.querySpace.query.values$().pipe(
-      this.untilDestroyed(),
-    ).subscribe((query) => {
-      this.onQueryUpdated(query);
-    });
+    this.querySpace.query.values$()
+      .pipe(this.untilDestroyed())
+      .subscribe((query) => {
+        // Update the title whenever the query changes
+        this.updateTitle(query);
+        this.currentQuery = query;
+      });
   }
 
   /**
@@ -175,11 +168,11 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
    *
    * @param state The current or entering state
    */
-  protected setPartition(state:Ng2StateDeclaration) {
+  protected setPartition(state:Ng2StateDeclaration):void {
     this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
   }
 
-  protected setupInformationLoadedListener() {
+  protected setupInformationLoadedListener():void {
     this
       .querySpace
       .initialized
@@ -191,17 +184,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       });
   }
 
-  protected onQueryUpdated(query:QueryResource) {
-    // Update the title whenever the query changes
-    this.updateTitle(query);
-    this.currentQuery = query;
-
-    this.cdRef.detectChanges();
-  }
-
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.unRegisterTitleListener();
     this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
   }
@@ -234,7 +218,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (isPersistedResource(query)) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
+      this.selectedTitle = this.opStaticQueries.getStaticName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');

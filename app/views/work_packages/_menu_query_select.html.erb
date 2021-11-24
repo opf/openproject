@@ -1,1 +1,8 @@
-<wp-query-select data-project-identifier="<%= @project ? @project.identifier : '' %>"></wp-query-select>
+<%=
+  angular_component_tag 'op-query-select',
+                        inputs: {
+                          projectIdentifier: (@project ? @project.identifier : ''),
+                          menuItems: [parent_name, name],
+                          baseRoute: 'work-packages'
+                        }
+%>

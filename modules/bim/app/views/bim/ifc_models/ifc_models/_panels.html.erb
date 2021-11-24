@@ -1,1 +1,14 @@
-<div class="op-ifc-viewer--tree-panel active" data-qa-selector="op-ifc-viewer--tree-panel"></div>
+<div class="op-ifc-viewer--sidemenu">
+  <%=
+    angular_component_tag 'op-query-select',
+                          inputs: {
+                            projectIdentifier: (@project ? @project.identifier : ''),
+                            menuItems: [parent_name, name],
+                            baseRoute: 'bim.partitioned.split'
+                          }
+  %>
+
+  <hr>
+
+  <div class="op-ifc-viewer--tree-panel active" data-qa-selector="op-ifc-viewer--tree-panel"></div>
+</div>
