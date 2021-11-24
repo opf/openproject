@@ -67,7 +67,7 @@ describe Budget, type: :model do
 
       context 'with a non integer value' do
         it 'updates the item' do
-          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => { units: "0.5" } }
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => { units: "0.5" } }
 
           expect(existing_material_budget_item.units)
             .to eql 0.5
@@ -76,7 +76,7 @@ describe Budget, type: :model do
 
       context 'with no value' do
         it 'deletes the item' do
-          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s => {} }
+          budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => {} }
 
           expect(existing_material_budget_item)
             .to be_destroyed
