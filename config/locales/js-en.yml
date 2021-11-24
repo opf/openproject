@@ -1112,6 +1112,8 @@ en:
       destroy_time_entry:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
+      quick_add:
+        title: "Quick Add"
 
     notice_no_results_to_display: "No visible results to display."
     notice_successful_create: "Successful creation."
