@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
+  OnInit,
 } from '@angular/core';
 import {
   ToolbarButtonComponentDefinition,
@@ -28,7 +29,7 @@ import { WorkPackageFilterContainerComponent } from 'core-app/features/work-pack
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamPlannerPageComponent extends WorkPackagesViewBase {
+export class TeamPlannerPageComponent extends WorkPackagesViewBase implements OnInit {
   text = {
     title: this.I18n.t('js.team_planner.title'),
   };
@@ -78,6 +79,19 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase {
     readonly backRoutingService:BackRoutingService,
   ) {
     super(injector);
+
+    this.wpTableFilters.hidden.push(
+      'assignee',
+      'startDate',
+      'dueDate',
+      'memberOfGroup',
+      'assignedToRole',
+      'assigneeOrGroup',
+    );
+  }
+
+  ngOnInit() {
+    this.refresh(true, true);
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
