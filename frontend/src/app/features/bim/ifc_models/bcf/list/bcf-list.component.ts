@@ -1,39 +1,66 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
-  ChangeDetectionStrategy, Component, NgZone, OnInit,
+  ChangeDetectionStrategy, Component, Input, NgZone, OnInit,
 } from '@angular/core';
 import { WorkPackageListViewComponent } from 'core-app/features/work-packages/routing/wp-list-view/wp-list-view.component';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
-import {
-  bimSplitViewCardsIdentifier,
-  bimSplitViewListIdentifier,
-  BimViewService,
-} from 'core-app/features/bim/ifc_models/pages/viewer/bim-view.service';
+import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { UIRouterGlobals } from '@uirouter/core';
-import { distinctUntilChanged, pluck } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 @Component({
-  templateUrl: './bcf-list-container.component.html',
-  styleUrls: ['./bcf-list-container.component.sass'],
+  templateUrl: './bcf-list.component.html',
+  styleUrls: ['./bcf-list.component.sass'],
   providers: [
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
     DragAndDropService,
     CausedUpdatesService,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-bcf-list',
 })
-export class BcfListContainerComponent extends WorkPackageListViewComponent implements OnInit {
-  @InjectField() bimView:BimViewService;
+export class BcfListComponent extends WorkPackageListViewComponent implements UntilDestroyedMixin, OnInit {
+  @Input() showResizer = false;
+
+  @InjectField() bcfView:BcfViewService;
 
   @InjectField() ifcModelsService:IfcModelsDataService;
 
@@ -55,54 +82,33 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
 
   public showViewPointInFlight:boolean;
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
-
-    // Ensure we add a bcf thumbnail column
-    // until we can load the initial query
-    this.wpTableColumns
-      .onReady()
-      .then(() => this.wpTableColumns.addColumn('bcfThumbnail', 2));
-
-    this.uIRouterGlobals
-      .params$!
-      .pipe(
-        this.untilDestroyed(),
-        pluck('cards'),
-        distinctUntilChanged(),
-      )
-      .subscribe((cards:boolean) => {
-        if (cards == null || cards || this.deviceService.isMobile) {
-          this.showTableView = false;
-        } else {
-          this.showTableView = true;
-        }
-
-        this.cdRef.detectChanges();
-      });
   }
 
-  protected updateViewRepresentation(query:QueryResource) {
-    // Overwrite the parent method because we are setting the view
-    // above through the cards parameter (showTableView)
+  protected updateViewRepresentation(query:QueryResource):void {
+    const viewerState = this.bcfView.valueFromQuery(query);
+    this.showTableView = !this.deviceService.isMobile
+      && (viewerState === 'table' || viewerState === 'splitTable');
   }
 
   public showResizerInCardView():boolean {
     if (this.noResults && this.ifcModelsService.models.length === 0) {
       return false;
     }
-    return this.bimView.currentViewerState() === bimSplitViewCardsIdentifier
-             || this.bimView.currentViewerState() === bimSplitViewListIdentifier;
+
+    return this.bcfView.currentViewerState() === 'splitCards'
+      || this.bcfView.currentViewerState() === 'splitTable';
   }
 
-  handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {
+  handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }):void {
     const { workPackageId, double } = event;
 
     if (!this.showViewPointInFlight) {
       this.showViewPointInFlight = true;
 
       this.zone.runOutsideAngular(() => {
-        setTimeout(() => this.showViewPointInFlight = false, 500);
+        setTimeout(() => { this.showViewPointInFlight = false; }, 500);
       });
 
       const wp = this.states.workPackages.get(workPackageId).value;
@@ -117,11 +123,11 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     }
   }
 
-  openStateLink(event:{ workPackageId:string; requestedState:string }) {
+  openStateLink(event:{ workPackageId:string; requestedState:string }):void {
     this.goToWpDetailState(event.workPackageId, this.uIRouterGlobals.params.cards, true);
   }
 
-  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean) {
+  goToWpDetailState(workPackageId:string, cards:boolean, focus?:boolean):void {
     // Show the split view when there is a viewer (browser)
     // Show only wp details when there is no viewer, plugin environment (ie: Revit)
     const stateToGo = this.viewer.shouldShowViewer
@@ -131,6 +137,6 @@ export class BcfListContainerComponent extends WorkPackageListViewComponent impl
     // it when going to 'bim.partitioned.show'
     const params = { workPackageId, cards, focus };
 
-    this.$state.go(stateToGo, params);
+    void this.$state.go(stateToGo, params);
   }
 }

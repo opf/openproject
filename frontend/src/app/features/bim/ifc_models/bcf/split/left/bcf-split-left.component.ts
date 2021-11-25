@@ -26,35 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 
 @Component({
-  template: `
-    <a *ngIf="manageAllowed"
-       class="button"
-       [href]="manageIFCPath">
-      <op-icon icon-classes="button--icon icon-settings2"></op-icon>
-      <span class="button--text"
-            [textContent]="text.manage"
-            aria-hidden="true"></span>
-    </a>
-
-  `,
+  templateUrl: './bcf-split-left.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'op-bcf-manage-ifc-button',
+  selector: 'op-bcf-content-left',
 })
-export class BimManageIfcModelsButtonComponent {
-  text = {
-    manage: this.I18n.t('js.ifc_models.models.ifc_models'),
-  };
+export class BcfSplitLeftComponent implements OnInit {
+  showViewer$:Observable<boolean>;
 
-  manageAllowed = this.ifcData.allowed('manage_ifc_models');
+  constructor(private readonly bcfView:BcfViewService) {}
 
-  manageIFCPath = this.ifcData.manageIFCPath;
-
-  constructor(readonly I18n:I18nService,
-    readonly ifcData:IfcModelsDataService) {
+  ngOnInit():void {
+    this.showViewer$ = this.bcfView.live$()
+      .pipe(
+        map((state) => state !== 'cards' && state !== 'table'),
+      );
   }
 }

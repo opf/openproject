@@ -85,14 +85,14 @@ describe 'BIM Revit Add-in navigation spec',
       find('.menu-item', text: 'NONE', wait: 10).click
 
       full_create.edit_field(:subject).expect_active!
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     it 'shows work package details page in full view on Cards display mode' do
       model_page.click_info_icon(work_package)
 
       expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     context 'with the table display mode' do

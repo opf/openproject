@@ -117,7 +117,7 @@ describe 'Show viewpoint in model viewer',
         bcf_details.expect_viewpoint_count(1)
         bcf_details.show_current_viewpoint
 
-        path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
+        path = Regexp.escape("bcf/details/#{work_package.id}/overview")
         expect(page).to have_current_path /#{path}/
 
         expect(page).to have_current_path /#{project.id}/
