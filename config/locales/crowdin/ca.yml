@@ -20,7 +20,7 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ca:
-  no_results_title_text: Actualment hi ha res a mostrar.
+  no_results_title_text: Actualment no hi ha res per a mostrar.
   activities:
     index:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
@@ -28,24 +28,24 @@ ca:
     plugins:
       no_results_title_text: Actualment no hi ha plugins disponibles.
     custom_styles:
-      color_theme: "Color del tema"
-      color_theme_custom: "(Personalitza)"
+      color_theme: "Tema de color"
+      color_theme_custom: "(Personalitzat)"
       colors:
         alternative-color: "Alternatiu"
-        content-link-color: "Font enllaçada"
+        content-link-color: "Enllaça font"
         primary-color: "Primari"
         primary-color-dark: "Primari (fosc)"
         header-bg-color: "Fons de capçalera"
-        header-item-bg-hover-color: "Fons de capçalera en l'aire"
+        header-item-bg-hover-color: "Fons de capçalera en passar el ratolí"
         header-item-font-color: "Font de capçalera"
-        header-item-font-hover-color: "Font de capçalera en l'aire"
+        header-item-font-hover-color: "Font de capçalera en passar el ratolí"
         header-border-bottom-color: "Vora de capçalera"
         main-menu-bg-color: "Fons del menú principal"
-        main-menu-bg-selected-background: "Menú principal un cop seleccionat"
-        main-menu-bg-hover-background: "Menú principal en l'aire"
+        main-menu-bg-selected-background: "Menú principal quan es selecciona"
+        main-menu-bg-hover-background: "Menú principal en passar el ratolí"
         main-menu-font-color: "Font del menú principal"
-        main-menu-selected-font-color: "Font del menú principal un cop seleccionat"
-        main-menu-hover-font-color: "Font del menú principal en l'aire"
+        main-menu-selected-font-color: "Font del menú principal quan es selecciona"
+        main-menu-hover-font-color: "Font del menú principal en passar el ratolí"
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Adapteu la vostra instal·lació d'OpenProject amb el vostre logo. Nota: aquest logo serà accessible públicament."
@@ -76,7 +76,7 @@ ca:
   announcements:
     show_until: Mostra fins
     is_active: actualment mostrant
-    is_inactive: actualment no es mostren
+    is_inactive: no mostrats actualment
   attribute_help_texts:
     note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
     text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
@@ -87,7 +87,7 @@ ca:
   auth_sources:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crear un nou mode d'autenticació
+      no_results_content_text: Crea un nou mode d'autenticació
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
@@ -147,7 +147,7 @@ ca:
   colors:
     index:
       no_results_title_text: Actualment no hi ha cap color.
-      no_results_content_text: Crear un nou color
+      no_results_content_text: Crea un nou color
     label_no_color: 'Sense color'
   custom_actions:
     actions:
@@ -174,7 +174,7 @@ ca:
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
-      no_results_content_text: Crear un camp personalitzat nou
+      no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: 'o'
   documentation:
@@ -312,12 +312,12 @@ ca:
       no_results_title_text: Actualment no hi ha cap flux de treball.
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      other: '%{count} work package descendants'
+      one: 'Un paquet de treball descendent'
+      other: '%{count} paquets de treball descendents'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
     move:
-      no_common_statuses_exists: "No hi ha disponible un estat per a tots els paquets de treball seleccionats. El seu estat no es pot canviar."
+      no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: 'Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes'
     summary:
       reports:
@@ -459,6 +459,7 @@ ca:
         url: "URL"
       role:
         assignable: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
+        permissions: "Permisos"
       time_entry:
         activity: "Activitat"
         hours: "Hores"

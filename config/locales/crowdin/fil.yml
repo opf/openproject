@@ -460,6 +460,7 @@ fil:
         url: "Ang URL"
       role:
         assignable: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
+        permissions: "Mga pahintulot"
       time_entry:
         activity: "Aktibidad"
         hours: "Mga oras"

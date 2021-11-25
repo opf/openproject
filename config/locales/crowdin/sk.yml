@@ -462,6 +462,7 @@ sk:
         url: "URL adresa"
       role:
         assignable: "Pracovné balíčky môžu byť pridelené užívateľom a skupinám, ktoré majú v príslušnom projekte túto úlohu"
+        permissions: "Oprávnenia"
       time_entry:
         activity: "Činnosť"
         hours: "Hodín"

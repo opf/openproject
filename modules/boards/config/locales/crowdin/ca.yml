@@ -1,7 +1,7 @@
 #English strings go here
 ca:
-  permission_show_board_views: "Veure taulers"
-  permission_manage_board_views: "Administrar taulers"
+  permission_show_board_views: "Veure els taulells"
+  permission_manage_board_views: "Administrar els taulells"
   project_module_board_view: "Taulells"
   boards:
     label_board: "Taulell"
