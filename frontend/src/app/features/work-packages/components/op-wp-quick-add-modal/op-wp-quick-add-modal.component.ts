@@ -57,7 +57,7 @@ export class OPWPQuickAddModalComponent extends OpModalComponent {
     filters.add('subjectOrId', '**', [searchString]);
 
     if (results && results.elements.length > 0) {
-      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
+      filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id || ''));
     }
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
