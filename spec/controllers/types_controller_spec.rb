@@ -350,7 +350,7 @@ describe TypesController, type: :controller do
         it 'should show an error message' do
           error_message = [I18n.t(:'error_can_not_delete_type.explanation')]
           error_message.push(I18n.t(:'error_can_not_delete_type.archived_projects',
-                                    { archived_projects: project2.name }))
+                                    archived_projects: project2.name))
 
           expect(sanitize_string(flash[:error])).to eq(sanitize_string(error_message))
         end
