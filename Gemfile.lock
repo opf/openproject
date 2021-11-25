@@ -305,7 +305,7 @@ GEM
     bindata (2.4.10)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.9.1)
+    bootsnap (1.9.3)
       msgpack (~> 1.0)
     brakeman (5.1.2)
     browser (5.3.1)
