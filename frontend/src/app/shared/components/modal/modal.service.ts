@@ -95,6 +95,9 @@ export class OpModalService {
     const ref:ComponentRef<OpModalComponent> = this.bodyPortalHost.attach(portal) as ComponentRef<OpModalComponent>;
     const instance = ref.instance as T;
     this.active = instance;
+    if (this.portalHostElement.parentElement) {
+      this.portalHostElement.parentElement.classList.add('op-modal-overlay-parent_deactive');
+    }
     this.portalHostElement.classList.add('op-modal-overlay_active');
     if (notFullScreen) {
       this.portalHostElement.classList.add('op-modal-overlay_not-full-screen');
@@ -127,6 +130,9 @@ export class OpModalService {
       this.active.closingEvent.emit(this.active);
       this.bodyPortalHost.detach();
       this.portalHostElement.classList.remove('op-modal-overlay_active');
+      if (this.portalHostElement.parentElement) {
+        this.portalHostElement.parentElement.classList.remove('op-modal-overlay-parent_deactive');
+      }
       this.portalHostElement.classList.remove('op-modal-overlay_not-full-screen');
       this.active = null;
     }
