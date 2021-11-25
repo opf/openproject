@@ -127,15 +127,13 @@ export class TopMenu {
 
   withHeadingFoldOutAtBorder() {
     let menuStartPosition;
-    if (this.menuContainer.next().get(0) !== undefined && (this.menuContainer.next().get(0).tagName === 'H2')) {
+    const next = this.menuContainer.next();
+    const wikiHeading = this.menuContainer.next().children().next().first();
+    if (next.get(0)?.tagName === 'H2') {
       menuStartPosition = this.menuContainer.next().innerHeight()! + this.menuContainer.next().position().top;
       this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     } else if (this.menuContainer.next().hasClass('wiki-content')
-      && this.menuContainer.next().children().next().first()
-        .get(0) !== undefined
-      && this.menuContainer.next().children().next().first()
-        .get(0).tagName === 'H1') {
-      const wikiHeading = this.menuContainer.next().children().next().first();
+      && wikiHeading.get(0)?.tagName === 'H1') {
       menuStartPosition = wikiHeading.innerHeight()! + wikiHeading.position().top;
       this.menuContainer.find('.op-app-menu--body').css({ top: menuStartPosition });
     }
