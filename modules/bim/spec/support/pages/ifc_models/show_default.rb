@@ -49,8 +49,12 @@ module Pages
         finished_loading
       end
 
+      def expect_details_path
+        expect(page).to have_current_path /\/bcf\/details/, ignore_query: true
+      end
+
       def finished_loading
-        expect(page).to have_selector('.xeokit-busy-modal', visible: false, wait: 30)
+        expect(page).to have_selector('.xeokit-busy-modal', visible: :all, wait: 30)
       end
 
       def model_viewer_visible(visible)
@@ -98,14 +102,16 @@ module Pages
       end
 
       def switch_view(value)
-        page.find('#bim-view-toggle-button').click
-        within('#bim-view-context-menu') do
-          page.find('.menu-item', text: value, exact_text: true).click
+        retry_block do
+          page.find('#bcf-view-toggle-button').click
+          within('#bcf-view-context-menu') do
+            page.find('.menu-item', text: value, exact_text: true).click
+          end
         end
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_selector('#bim-view-toggle-button', text: value)
+        expect(page).to have_selector('#bcf-view-toggle-button', text: value)
       end
 
       def has_no_menu_item_with_text?(value)
