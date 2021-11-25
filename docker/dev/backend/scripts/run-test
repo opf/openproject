@@ -3,9 +3,8 @@
 set -e
 set -u
 
-cmd="$@"
-
-chown -R $USER:$USER public/assets
+chown -R "$USER:$USER" public/assets
+chown -R "$USER:$USER" tmp/cache
 
 echo 'Waiting for the Grid...'
 while ! curl -sSL "${SELENIUM_GRID_URL}/status" 2>&1 \
@@ -13,4 +12,4 @@ while ! curl -sSL "${SELENIUM_GRID_URL}/status" 2>&1 \
     sleep 1
 done
 
-exec su $USER -c $cmd
+exec su "$USER" -c "$@"

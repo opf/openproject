@@ -31,19 +31,42 @@
 require 'spec_helper'
 
 describe 'Team planner', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[team_planner]) }
-  let(:user) do
-    FactoryBot.create(:user,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_work_packages view_calendar])
+  let(:project) do
+    FactoryBot.create(:project, enabled_module_names: %w[team_planner_view])
   end
+
+  let(:user) do
+    FactoryBot.create(:admin,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_team_planner manage_team_planner])
+  end
+
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
     login_as(user)
   end
 
-  it 'Filters the filters correctly' do
-    byebug 
+  it 'Opens the page' do
+    visit project_path(project)
+
+    within '#main-menu' do
+      click_link 'Team planner'
+    end
+
+    expect(page)
+      .to have_selector '.editable-toolbar-title--fixed', text: 'Team planner'
+
+    filters.expect_filter_count("1")
+    filters.open
+
+    filters.expect_available_filter 'Author', present: true
+    filters.expect_available_filter 'ID', present: true
+    filters.expect_available_filter 'Finish date', present: false
+    filters.expect_available_filter 'Start date', present: false
+    filters.expect_available_filter 'Assignee', present: false
+    filters.expect_available_filter 'Assignee or belonging group', present: false
+    filters.expect_available_filter "Assignee's group", present: false
+    filters.expect_available_filter "Assignee's role", present: false
   end
 end
