@@ -518,6 +518,7 @@ en:
         url: "URL"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Permissions"
       time_entry:
         activity: "Activity"
         hours: "Hours"
