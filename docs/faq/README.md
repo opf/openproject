@@ -33,14 +33,19 @@ A list of the subcontractors currently used in the Cloud Edition can be found he
 For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020. 
 You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588 
 
-#### Is OpenProject Enterprise cloud GDPR compliant? 
+#### Is OpenProject Enterprise cloud GDPR compliant?
 
 The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. 
 AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. 
 Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. 
 Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/gdpr-compliance).
 
+### Is OpenProject HIPPA compliant?
+
+Currently OpenProject is not HIPAA-compliant. OpenProject has high data-security and data-privacy standards and fulfills GDPR regulation.
+
 ### How do I get access to the OpenProject premium features?
+
 We offer the premium functions of OpenProject (incl. boards) for two different OpenProject variants:
 
 * For the OpenProject Enterprise cloud edition (hosted by us),
@@ -50,6 +55,7 @@ If you want to run OpenProject on your own server, the OpenProject Enterprise on
 Have you already installed the [OpenProject Community edition](https://www.openproject.org/download-and-installation/)? If yes, you can request a trial license for the OpenProject Enterprise on-premises edition by clicking on the button "Free trial license" [here](https://www.openproject.org/de/enterprise-edition/) and test the Enterprise on-premises edition for 14 days for free.
 
 ### Can I have some users with premium features and some without?
+
 As the Enterprise premium features affect the whole instance (e.g. with Agile Boards and project custom fields) it's not possible to upgrade only some users. 
 
 ### What are the system requirements?
@@ -190,6 +196,10 @@ No, it's not possible to use OpenProject without Internet access (Enterprise clo
 
 Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/integrations/excel-synchronization).
 
+### Is possible to create a task in one place and have it show up in several projects (and only have to update from one place). If so, how can I go about configuring that?
+
+As a workaround you could use work package relations. Once the task is created in one project you can create the relation "includes" in another project. This would be an option to display that task in multiple projects. 
+
 ### Does OpenProject have guest accounts?
 
 Currently, all users working in the OpenProject Enterprise editions need a license in order to access OpenProject. Regarding payments we only count the active (not blocked) users. If users only require temporary access, you can [block](../system-admin-guide/users-permissions/users/#lock-and-unlock-users) those users afterwards to free up additional seats.
@@ -289,6 +299,10 @@ We will provide a database dump which you can upload into your Enterprise on-pre
 ### How can I migrate from Community Edition to Enterprise on-premises?
 
 If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
+
+###  Can my data be moved from OpenProject Enterprise Cloud Edition to my own installed Enterprise On-Premises Edition?
+
+Your data can be moved from the Enterprise cloud to the Enterprise on-premises edition. We will provide a database dump which you can upload into your Enterprise on-premises edition. 
 
 ### How can I migrate from Enterprise on-premises to Community Edition?
 
