@@ -1,5 +1,16 @@
 # openproject-gitlab-integration
-OpenProject module for integration with Gitlab (latest release tested is 13.9.3)
+## NEW VERSION 2.0.0 (pre-release)
+Based on the current Github integration (OpenProject 11 & 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
+
+![OP-Gitlab](https://user-images.githubusercontent.com/14983519/143622798-13d1c50b-1186-46e0-a2da-9f50fb14a338.png)
+
+The events captured in the WP activity log are the same as in version 1.0, only this new version includes a UI with all linked MRs, their status, their labels and the last pipeline (pending the Gitlab issue). If you use manual installation, keep in mind that it requires precompiling the assets and updating the DB with new tables. If you want to test it, do it in a test environment, and if you want, share your results in case something needs to be corrected.
+
+The following readme file is pending review with updated documentation.
+
+## Introduction
+
+OpenProject module for integration with Gitlab (latest release tested is 14.4.1)
 
 This plugin is based on the current plugin to integrate Github with OpenProject (https://docs.openproject.org/system-admin-guide/github-integration).
 
