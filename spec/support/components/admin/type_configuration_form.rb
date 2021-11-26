@@ -219,7 +219,7 @@ module Components
 
         within find_group(translation) do
           attributes.each do |attribute|
-            expect_attribute(attribute)
+            expect_attribute(**attribute)
           end
         end
       end

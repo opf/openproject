@@ -34,7 +34,7 @@ describe 'custom field inplace editor', js: true do
 
     wp_field.set_value value
     wp_field.submit_by_enter if wp_field.field_type == 'input'
-    wp_page.expect_toast(update_args)
+    wp_page.expect_toast(**update_args)
     wp_page.dismiss_toaster!
   end
 

@@ -174,7 +174,7 @@ module Pages
       end
     end
 
-    def update_attributes(key_value_map, save: true)
+    def update_attributes(save: true, **key_value_map)
       set_attributes(key_value_map, save: save)
     end
 

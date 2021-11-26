@@ -77,8 +77,8 @@ module Pages
         expect_project project
       end
 
-      def configure_global(**types)
-        types.each(&method(:set_global_option))
+      def configure_global(notification_types)
+        notification_types.each { |type, checked| set_global_option(type, checked) }
       end
 
       def set_global_option(type, checked)

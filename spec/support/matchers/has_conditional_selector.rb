@@ -33,11 +33,11 @@
 
 module Capybara
   class Session
-    def has_conditional_selector?(condition, *args)
+    def has_conditional_selector?(condition, *args, **kw_args)
       if condition
-        has_selector? *args
+        has_selector? *args, **kw_args
       else
-        has_no_selector? *args
+        has_no_selector? *args, **kw_args
       end
     end
   end
