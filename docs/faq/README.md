@@ -33,7 +33,18 @@ A list of the subcontractors currently used in the Cloud Edition can be found he
 For our cloud product, we aim to completely eliminate subcontractors outside of the EU by the end of 2021. We have made a start by replacing Google Analytics with Matomo since 2020. 
 You can also send us encrypted emails to privacy@openproject.com. You can find the corresponding GPG key here: https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D475339588 
 
-#### Is OpenProject Enterprise cloud GDPR compliant?
+###  Without authentication, can you be sure that users have exactly the permissions you have given them?
+
+The Anonymous role lets you control what users can do when they have access to public projects without authentication.
+Otherwise, you would have to create an account for each user and require authentication so that not everyone has access to your public projects.
+
+### I would like to know where the data of openproject is saved with the online version, do you recommend us to keep a copy of the data somewhere else? 
+
+At the moment you can not download a backup yourself. However, you are welcome to ask us to do this for you. We are currently developing a feature that will allow users to download backups themselves in the future. The database and also the storage for the attachments (also database backups) are each divided into several so-called AZs (availability zones). This means that even if one data center burns down, the data will not be lost because it is additionally replicated in another data center at a safe distance.
+
+"AZs are physically separated by a meaningful distance, many kilometers, from any other AZ, although all are within 100 km (60 miles) of each other." 
+
+### Is OpenProject Enterprise cloud GDPR compliant?
 
 The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. 
 AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. 
@@ -108,6 +119,10 @@ However, if you're still using an old OpenProject subscription there may be limi
 ### What is the difference between Enterprise on-premises and Community Edition regarding LDAP?
 
 In the Community Edition and in the Enterprise on-premises edition you can use the standard LDAP authentication. However, the Enterprise on-premises edition also includes LDAP group synchronization. This allows you to synchronize group members from LDAP with groups in OpenProject. The respective documentation can be found [here](../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/#synchronize-ldap-and-openproject-groups-premium-feature).
+
+### Does LDAP work in cloud edition? 
+
+LDAP is possible in principle. Effectively, everything runs on AWS EC2 instances in Ireland. However, the IPs are not fixed, but can theoretically change arbitrarily (within the IP ranges for eu-west-1 in [1]). In practice, this won't necessarily happen all the time, but we ourselves don't currently have a mechanism to make the concrete IPs of all servers available, for example.
 
 ## How to ... in OpenProject?
 
