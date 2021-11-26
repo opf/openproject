@@ -459,6 +459,7 @@ pl:
         url: "ADRES URL"
       role:
         assignable: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
+        permissions: "Uprawnienia"
       time_entry:
         activity: "Działanie"
         hours: "Godziny"

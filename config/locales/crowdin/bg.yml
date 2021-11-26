@@ -460,6 +460,7 @@ bg:
         url: "URL АДРЕС"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Права"
       time_entry:
         activity: "Активност"
         hours: "Часове"

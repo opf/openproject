@@ -456,6 +456,7 @@ id:
         url: "URL"
       role:
         assignable: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
+        permissions: "Hak akses"
       time_entry:
         activity: "Activity"
         hours: "Jam"

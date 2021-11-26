@@ -455,6 +455,7 @@ ja:
         url: "URL"
       role:
         assignable: "それぞれのプロジェクトで、ワークパッケージはこの役割をもつユーザーおよびグループに割り当てることができます。"
+        permissions: "権限"
       time_entry:
         activity: "活動"
         hours: " 時間"

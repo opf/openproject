@@ -457,6 +457,7 @@ es:
         url: "URL"
       role:
         assignable: "Los paquetes de trabajo se pueden asignar a usuarios y grupos con este papel en los proyectos correspondientes"
+        permissions: "Permisos"
       time_entry:
         activity: "Actividad"
         hours: "Horas"

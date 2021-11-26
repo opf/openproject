@@ -461,6 +461,7 @@ ru:
         url: "URL"
       role:
         assignable: "Пакеты работ могут быть привязаны к пользователям и группам в зависимости от этой роли в рамках соответствующего проекта"
+        permissions: "Разрешения"
       time_entry:
         activity: "Деятельность"
         hours: "Часы"
@@ -1651,9 +1652,9 @@ ru:
   lable_membership_added: 'Участник добавлен'
   lable_membership_updated: 'Участник обновлен'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: 'пред-альфа'
+    alpha: 'альфа'
+    beta: 'бета'
   label_menu_item_name: "Название пункта меню"
   label_message: "Сообщение"
   label_message_last: "Последнее сообщение"

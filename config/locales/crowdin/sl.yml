@@ -459,6 +459,7 @@ sl:
         url: "URL"
       role:
         assignable: "Delovni paketi se lahko dodelijo uporabnikom in skupinam, ki imajo to vlogo v posameznem projektu"
+        permissions: "Dovoljenja"
       time_entry:
         activity: "Aktivnost"
         hours: "Ure"

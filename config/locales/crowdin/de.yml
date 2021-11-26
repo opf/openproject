@@ -455,6 +455,7 @@ de:
         url: "URL"
       role:
         assignable: "Arbeitspakete können Benutzern und Gruppen im Besitz dieser Rolle in dem jeweiligen Projekt zugeordnet werden"
+        permissions: "Berechtigungen"
       time_entry:
         activity: "Aktivität"
         hours: "Stunden"

@@ -459,6 +459,7 @@ lt:
         url: "URL"
       role:
         assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal rolės vaidmenį atitinkamame projekte"
+        permissions: "Leidimai"
       time_entry:
         activity: "Veikla"
         hours: "Valandų"

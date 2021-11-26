@@ -461,6 +461,7 @@ hu:
         url: "URL"
       role:
         assignable: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
+        permissions: "Jogosultságok"
       time_entry:
         activity: "Tevékenység"
         hours: "órák"

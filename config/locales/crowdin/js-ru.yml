@@ -636,7 +636,7 @@ ru:
           first_day: 'Первый день'
           last_day: 'Последний день'
     team_planner:
-      title: 'Team planner'
+      title: 'Командный планировщик'
     text_are_you_sure: "Вы уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
     types:

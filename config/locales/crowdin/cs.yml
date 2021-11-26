@@ -462,6 +462,7 @@ cs:
         url: "URL"
       role:
         assignable: "Pracovní balíčky mohou být přiřazeny uživatelům a skupinám, které tuto roli vlastní v příslušném projektu"
+        permissions: "Práva"
       time_entry:
         activity: "Aktivita"
         hours: "Hodiny"

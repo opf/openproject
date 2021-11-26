@@ -4,7 +4,7 @@ ca:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Error a l''importar els temes BCF'
+    label_imported_failed: 'Importació de temes BCF no reeixida'
     label_imported_successfully: 'S''ha importat els temes BCF correctament.'
     issues: "Problemes"
     recommended: 'recomanat'
@@ -26,7 +26,7 @@ ca:
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Importats %{count} temes BCF'
       import_canceled: 'Importació BCF-XML cancel·lada'
-      type_not_active: "Aquest tipus de tema no està activat per aquest projecte."
+      type_not_active: "Aquest tipus de problema no està activat per aquest projecte."
       import:
         num_issues_found: '%{x_bcf_issues} són continguts al fitxer BCF-XML, es llisten els detalls a tot seguit.'
         button_prepare: 'Prepara la importació'
@@ -42,7 +42,7 @@ ca:
         invalid_priorities_found: 'S''ha trobat noms de prioritat invàlids.'
         invalid_emails_found: 'S''ha trobat adreces de correu electrònic invàlides'
         unknown_emails_found: 'S''ha trobat adreces de correu electrònic desconegudes'
-        unknown_property: "La propietat és desconeguda.\n"
+        unknown_property: "Propietat és desconeguda.\n"
         non_members_found: 'No s''ha trobat membres del projecte'
         import_types_as: 'Estableix tots aquests tipus a'
         import_statuses_as: 'Estableix tots aquests estats a'

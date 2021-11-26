@@ -460,6 +460,7 @@ fr:
         url: "URL"
       role:
         assignable: "Des lots de travaux peuvent être assignés à des utilisateurs et des groupes possédant ce rôle dans le projet respectif"
+        permissions: "Autorisations"
       time_entry:
         activity: "Activité"
         hours: "Heures"

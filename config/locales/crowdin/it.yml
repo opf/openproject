@@ -457,6 +457,7 @@ it:
         url: "URL"
       role:
         assignable: "È possibile assegnare macro-attività ad utenti e gruppi che hanno questo ruolo nel rispettivo progetto"
+        permissions: "Permessi"
       time_entry:
         activity: "Attività"
         hours: "Ore"

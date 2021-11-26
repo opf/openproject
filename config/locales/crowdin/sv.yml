@@ -459,6 +459,7 @@ sv:
         url: "URL"
       role:
         assignable: "Arbetspaket kan tilldelas användare och grupper som har denna roll i respektive projektet"
+        permissions: "Behörigheter"
       time_entry:
         activity: "Aktivitet"
         hours: "Timmar"

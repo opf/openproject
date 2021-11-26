@@ -461,6 +461,7 @@ vi:
         url: "Đường dẫn (URL)"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Phân Quyền"
       time_entry:
         activity: "Hoạt động"
         hours: "Giờ"
