@@ -1,0 +1,69 @@
+<a
+  class='op-merge-request--link'
+  [href]="mergeRequest.htmlUrl"
+  target="blank"
+  [textContent]="mergeRequest.repository + '#' + mergeRequest.number"
+></a>
+
+<div
+  class='op-merge-request--title'
+  [textContent]="mergeRequest.title"
+></div>
+
+<div class="op-merge-request--info">
+  {{ text.label_created_by }}
+  <img
+    alt='MR author avatar'
+    class='op-merge-request--avatar op-avatar op-avatar_mini'
+    [src]="mergeRequest.gitlabUser.avatarUrl"
+    *ngIf="mergeRequest.gitlabUser"
+  />
+  <span class='op-merge-request--user'>
+    <a
+      [href]="'mailto:' + mergeRequest.gitlabUser.email"
+      [textContent]="mergeRequest.gitlabUser.login"
+      *ngIf="mergeRequest.gitlabUser"
+    ></a>.
+  </span>
+
+  <span class='op-merge-request--date'>
+    {{ text.label_last_updated_on }}
+    <op-date-time [dateTimeValue]="mergeRequest.gitlabUpdatedAt"></op-date-time>
+  </span>.
+</div>
+
+<span class='op-merge-request--state' [ngClass]="'op-merge-request--state_' + state">
+  <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
+  {{state}}
+</span>
+
+<div class="op-merge-request--labels">
+  <span *ngFor="let label of mergeRequest.labels">
+    <span class='op-merge-request--label' [ngStyle]="{'background-color': label.color}" >
+      {{label.title}}
+    </span>
+  </span>
+</div>
+
+<!-- <span class="op-merge-request--pipeline-label"  *ngIf="mergeRequest.pipelines?.length">{{ text.label_pipelines }}</span>
+
+<ul [attr.aria-label]="text.label_pipelines" class='op-merge-request--pipeline' *ngIf="mergeRequest.pipelines?.length">
+  <li class='op-mr-pipeline' *ngFor="let pipeline of mergeRequest.pipelines">
+    <span class='op-mr-pipeline--state-icon' [ngClass]="'op-mr-pipeline--state-icon_' + pipelineState(pipeline)">
+      <op-icon icon-classes="icon-{{ pipelineStateIcon(pipeline) }}"
+               [icon-title]="pipelineStateText(pipeline)"></op-icon>
+    </span>
+    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /></span>
+
+    <span class='op-mr-pipeline--info'>
+      <span class='op-mr-pipeline--name' [textContent]="pipeline.name"></span>
+      <span class='op-mr-pipeline--state' [textContent]="pipelineStateText(pipeline)"></span>
+    </span>
+
+    <span class='op-mr-pipeline--details'>
+      <a [href]="pipeline.detailsUrl">
+        {{ text.label_details }}
+      </a>
+    </span>
+  </li>
+</ul> -->
