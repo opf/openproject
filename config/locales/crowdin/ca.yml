@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Adapteu la vostra instal·lació d'OpenProject amb el vostre logo. Nota: aquest logo serà accessible públicament."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      enterprise_notice: "Com 'Gràcies!' especial per la contribució financera al desenvolupament d'OpenProject, aquesta minúscula característica sols és disponible pels subscriptors a l'edició Enterprise ."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
         alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
