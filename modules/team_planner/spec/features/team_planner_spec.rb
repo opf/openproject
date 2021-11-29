@@ -58,6 +58,7 @@ describe 'Team planner', type: :feature, js: true do
     filters.expect_filter_count("1")
     filters.open
 
+    filters.open_available_filter_list
     filters.expect_available_filter 'Author', present: true
     filters.expect_available_filter 'ID', present: true
     filters.expect_available_filter 'Finish date', present: false

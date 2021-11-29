@@ -70,6 +70,12 @@ module Components
         input.set text
       end
 
+      def open_available_filter_list()
+        input = page.find('.advanced-filters--add-filter-value ng-input input')
+        input.hover
+        input.click
+      end
+
       def expect_available_filter(name, present: true)
         expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
       end

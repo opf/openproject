@@ -90,16 +90,18 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase implements On
     );
   }
 
-  ngOnInit() {
-    this.refresh(true, true);
+  ngOnInit():void {
+    void this.refresh(true, true);
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    return this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+    this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
+    return this.loadingIndicator;
   }
 
   /**
@@ -121,5 +123,4 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase implements On
   // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
   changeChangesFromTitle(val:string):void {
   }
-
 }

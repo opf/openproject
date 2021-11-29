@@ -34,6 +34,7 @@ module Pages
     include ::Components::NgSelectAutocompleteHelpers
 
     def initialize(team_planner)
+      super()
       @team_planner = team_planner
     end
 
