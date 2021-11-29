@@ -31,6 +31,8 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { EventClickArg } from '@fullcalendar/common';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 
 @Component({
   selector: 'op-team-planner',
@@ -127,8 +129,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
           },
           events: this.calendarEventsFunction.bind(this) as any,
           resources: this.calendarResourcesFunction.bind(this),
+          eventClick: this.openSplitView.bind(this),
           resourceLabelContent: (data:any) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:any) => this.unrenderTemplate(data.resource.id),
+        } as CalendarOptions);
       });
   }
 
@@ -168,6 +172,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
         datesIntervalFilter.values[1] = endDate;
       });
     }
+  }
+
+  private openSplitView(event:EventClickArg) {
+    const { workPackage } = event.event.extendedProps;
+
+    this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
+    );
   }
 
   private setupWorkPackagesListener() {
