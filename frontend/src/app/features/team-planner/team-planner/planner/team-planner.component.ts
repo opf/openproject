@@ -72,6 +72,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
   }
 
   ngOnInit() {
+    super.ngOnInit();
     this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;

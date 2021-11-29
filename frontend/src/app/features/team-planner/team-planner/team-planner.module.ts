@@ -18,7 +18,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
   ],
   imports: [
     OPSharedModule,
-    // Routes for /backlogs
+    // Routes for /team_planner
     UIRouterModule.forChild({
       states: TEAM_PLANNER_ROUTES,
     }),
