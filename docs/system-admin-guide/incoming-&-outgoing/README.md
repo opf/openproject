@@ -43,7 +43,7 @@ Configure your notification email header and footer which will be sent out for e
 
 1. **Formulate header and/or footer** for the email notifications. These are used for all the email notifications from OpenProject (e.g. when creating a work package).
 2. **Choose a language** for which the email header and footer will apply.
-3. **Send a test email**. Please note: This test email does *not* test the notifications for work package changes etc. Find out more in [this FAQ](https://github.com/opf/openproject/blob/release/11.4/installation-and-operations/faq#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
+3. **Send a test email**. Please note: This test email does *not* test the notifications for work package changes etc. Find out more in [this FAQ](https://github.com/opf/openproject/blob/release/12.0/installation-and-operations/installation-faq#i-dont-receive-emails-test-email-works-fine-but-not-the-one-for-work-package-updates).
 4. Do not forget to **save** your changes.![image-20211129135851860](image-20211129135851860.png)
 
 ## Incoming emails settings
@@ -58,5 +58,3 @@ To adapt incoming email settings, go to *Administration* -> *Incoming & Outgoing
 ![image-20211129140341687](image-20211129140341687.png)
 
 **To set up incoming email**, please visit our [Operations guide](https://github.com/opf/openproject/blob/release/12.0/docs/installation-and-operations/configuration/incoming-emails).
-
-For frequently asked questions regarding the incoming emails feature please have a look at the respective [FAQ section](https://github.com/opf/openproject/blob/release/12.0/docs/system-admin-guide/email/faq).
