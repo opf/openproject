@@ -37,10 +37,6 @@ import { Subject } from 'rxjs';
 import { EventViewLookupService } from 'core-app/features/team-planner/team-planner/planner/event-view-lookup.service';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
-FullCalendarModule.registerPlugins([ // register FullCalendar plugins
-  resourceTimelinePlugin,
-]);
-
 @Component({
   selector: 'op-team-planner',
   templateUrl: './team-planner.component.html',
@@ -118,9 +114,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit 
     this.configuration.initialized
       .then(() => {
         this.calendarOptions$.next({
-          plugins: [
-            resourceTimelinePlugin,
-          ],
           initialView: 'resourceTimelineDay',
           schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
           editable: false,
@@ -183,26 +176,30 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit 
     });
   }
 
-  private mapToCalendarEvents(workPackages:WorkPackageResource[]) {
-    const events = workPackages.map((workPackage:WorkPackageResource) => {
-      const startDate = this.eventDate(workPackage, 'start');
-      const endDate = this.eventDate(workPackage, 'due');
+  private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
+    return workPackages
+      .map((workPackage:WorkPackageResource) => {
+        if (!workPackage.assignee) {
+          return;
+        }
 
-      const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+        const startDate = this.eventDate(workPackage, 'start');
+        const endDate = this.eventDate(workPackage, 'due');
 
-      return {
-        id: workPackage.href + (workPackage.assignee?.href || 'no-assignee'),
-        resourceId: workPackage.assignee?.href,
-        title: workPackage.subject,
-        start: startDate,
-        end: exclusiveEnd,
-        allDay: true,
-        className: `__hl_background_type_${workPackage.type.id}`,
-        workPackage,
-      };
-    });
+        const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
 
-    return events;
+        return {
+          id: workPackage.href + (workPackage.assignee?.href || 'no-assignee'),
+          resourceId: workPackage.assignee?.href,
+          title: workPackage.subject,
+          start: startDate,
+          end: exclusiveEnd,
+          allDay: true,
+          className: `__hl_background_type_${workPackage.type.id}`,
+          workPackage,
+        };
+      })
+      .filter((event) => !!event) as EventInput[];
   }
 
   private mapToCalendarResources(workPackages:WorkPackageResource[]) {

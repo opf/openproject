@@ -86,6 +86,18 @@ import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-no
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import timegridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  resourceTimelinePlugin,
+  dayGridPlugin,
+  timegridPlugin,
+  interactionPlugin,
+]);
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -107,6 +119,8 @@ export function initializeServices(injector:Injector) {
   imports: [
     // The BrowserModule must only be loaded here!
     BrowserModule,
+    // Fullcalendar needs to imported at root
+    FullCalendarModule,
     // Commons
     OPSharedModule,
     // State module
