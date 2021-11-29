@@ -37,10 +37,15 @@ export const TEAM_PLANNER_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'team_planner',
     parent: 'optional_project',
-    url: '/team_planner',
+    url: '/team_planner?query_id&query_props',
     redirectTo: 'team_planner.page',
     views: {
       '!$default': { component: WorkPackagesBaseComponent },
+    },
+    params: {
+      query_id: { type: 'query', dynamic: true },
+      // Use custom encoder/decoder that ensures validity of URL string
+      query_props: { type: 'opQueryString' },
     },
   },
   {

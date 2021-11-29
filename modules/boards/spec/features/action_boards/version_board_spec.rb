@@ -156,13 +156,14 @@ describe 'Version action board', type: :feature, js: true do
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
 
-      # Expect that version is not available for global filter selection
-      filters.expect_available_filter 'Version', present: false
-
       # Add filter
       # Filter for Task
       filters.expect_filter_count 0
       filters.open
+
+      # Expect that version is not available for global filter selection
+      filters.open_available_filter_list
+      filters.expect_available_filter 'Version', present: false
 
       filters.quick_filter 'Task'
       board_page.expect_changed
