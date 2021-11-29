@@ -72,7 +72,6 @@ export class WorkPackagesListService {
       switchMap((q:QueryDefinition) => this.streamQueryRequest(q.queryParams, q.projectIdentifier)),
       // Map the observable from the stream to a new one that completes when states are loaded
       mergeMap((query:QueryResource) => {
-        console.log('check if form load');
         // load the form if needed
         this.conditionallyLoadForm(query);
 
