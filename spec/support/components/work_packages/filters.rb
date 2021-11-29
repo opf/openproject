@@ -71,13 +71,17 @@ module Components
       end
 
       def open_available_filter_list()
-        input = page.find('.advanced-filters--add-filter-value ng-input input')
+        input = page.find('.advanced-filters--add-filter-value input')
         input.hover
         input.click
       end
 
       def expect_available_filter(name, present: true)
-        expect(page).to have_conditional_selector(present, '.advanced-filters--add-filter-value option', text: name)
+        # The selector here is rather unspecific. Sometimes, we need ng-select to render the options outside of the
+        # current element tree. However this means that the selector loses all feature specificity, as it's rendered
+        # somewhere in the html body. This test assumes that only one ng-select can be opened at one time.
+        # If you find errors with your specs related to the filter options, it might be coming from here.
+        expect(page).to have_conditional_selector(present, '.ng-dropdown-panel .ng-option-label', text: name)
       end
 
       def expect_loaded
