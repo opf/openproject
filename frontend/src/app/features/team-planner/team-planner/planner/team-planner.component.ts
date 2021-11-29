@@ -27,7 +27,10 @@ import { WorkPackagesListChecksumService } from 'core-app/features/work-packages
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
-import { take } from 'rxjs/operators';
+import {
+  debounceTime,
+  take,
+} from 'rxjs/operators';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import * as moment from 'moment';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -80,6 +83,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit 
     this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
+
+    this.calendarOptions$
+      .pipe(
+        debounceTime(100))
+      .subscribe((options) => {
+        this.renderCalendar(options);
+      });
   }
 
   public calendarResourcesFunction(
@@ -110,6 +120,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit 
     this.updateTimeframe(fetchInfo);
   }
 
+  private renderCalendar(options:CalendarOptions) {
+    const calendarEl = document.getElementById('team-planner--calendar');
+
+    if (calendarEl) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const calendar = new FullCalendar.Calendar(calendarEl, options);
+      calendar.render();
+    }
+  }
+
   private initializeCalendar() {
     this.configuration.initialized
       .then(() => {
@@ -122,6 +143,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit 
           height: this.calendarHeight(),
           firstDay: this.configuration.startOfWeek(),
           events: this.calendarEventsFunction.bind(this),
+          resourceGroupField: 'title',
           resources: this.calendarResourcesFunction.bind(this),
           resourceLabelContent: (data:any) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:any) => this.unrenderTemplate(data),

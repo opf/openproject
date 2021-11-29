@@ -5,10 +5,7 @@
   <ng-container
     *ngIf="(calendarOptions$ | async) as calendarOptions"
   >
-    <full-calendar #ucCalendar
-                   *ngIf="calendarOptions"
-                   [options]="calendarOptions">
-    </full-calendar>
+    <div id="team-planner--calendar"></div>
   </ng-container>
   <ng-template #resourceContent let-resource="resource">
     <op-principal
