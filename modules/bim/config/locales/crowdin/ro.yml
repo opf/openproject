@@ -115,8 +115,8 @@ ro:
     no_results: "În acest proiect nu au fost încărcate modele IFC."
     conversion_status:
       label: 'Se procesează...'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'în așteptare'
+      processing: 'Se procesează'
       completed: 'Finalizat'
       error: 'Eroare'
     processing_notice:
