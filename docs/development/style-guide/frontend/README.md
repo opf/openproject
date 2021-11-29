@@ -93,22 +93,37 @@ The app has a single way to read and to write the state, and both are separated 
 #### State definition
 We can differentiate the following types of states in an app:
 
-*   Component (local): belongs to a single component. UI state.
-*   Shared (global): belongs to multiple components.
-*   Remote (global): backend state (e.g., REST APIs), that the app CRUD.
-*   App (meta): state about the app itself (e.g., router, loading…).
+* Component state (local): belongs to a single component. Includes mainly UI state.
+* Injected store state (local): belongs to a component tree. Includes mainly UI state.
+* Shared (global): belongs the full app. This includes a shared representation of the backend queries and models, but also things like the current Route, logged in user and capabilities of this user.
+* Remote (global): backend state (e.g., REST APIs).
 
-In the following lines, state refers to global state (shared and remote), usually the REST API data.
+State relating to the component's view (or children) **should** be declared and management in that component. Children
+that rely on this state **should** receive it via component inputs and outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
 
+Most of our backend-related data is in the entity format. To capture this, there **must** be a global entity store. An
+example implementation is the in-app-notification store. This store olds a reference of all entities of a
+particular type that are in-use somewhere in the application as well as a list of IDs for entity collections of that type.
+Stores and components consuming a particular entity type **must** go through the global entity store to perform CRUD operations, so that updates can be properly reflected across the application.
 
-#### 2 main actors
-*   The Store:
-    *   Manages the state
-    *   Provides an API for requesting updates in the state
-    *   Provides an observable that emits an updated copy of the state whenever it is updated
-*   Components:
-    *   Consumes the state
-    *   Requests updates to the Store
+#### Events and side effects
+
+Mutable operations on the entities can have side effects on collections and entities currently in use by other parts of
+the application. Oftentimes, the frontend cannot know beforehand which operations will have what kind of impact. This
+means that the respective collections and entities have to be refreshed from the backend. Some examples:
+
+1. Marking a notification as read in the work package details tab should update the counter of the notification bell
+   in the header
+2. Changing the type of a work package in the split view changes the collection that is shown in the table, since the
+   work package will be filtered out.
+
+For this usecase, we have implemented a global actions service. You can dispatch actions here, and other parts of the
+application can listen to these actions. Think of it like a global event bus. These actions are typed.
+
+Side effects **should** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occured.
+
+**Note:** The proper solution to this problem would be a backend that can push updates for collections and entities that
+we are requiring. However, implementing and relying on websockets comes with its own challenges.
 
 
 #### Flow        
