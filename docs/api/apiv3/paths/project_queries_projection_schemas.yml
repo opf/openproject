@@ -1,0 +1,33 @@
+# /api/v3/projects/{id}/queries/projection_schemas
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            QueryProjectionSchemas:
+              "$ref": "../components/examples/query_projection_schemas.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:Unauthenticated
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package in any project
+      headers: {}
+  tags:
+    - Query Projection Schema
+  description: Returns the list of QueryProjection schemas defined for the project the
+    query is in. Depending on the modules active in the project and the permissions the calling user
+    has, this list might differn betweeen projects and users.
+  operationId: List_Project_Query_Projection_Schemas
+  summary: List Project Query Projection Schemas

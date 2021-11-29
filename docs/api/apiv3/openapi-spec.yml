@@ -241,6 +241,8 @@ paths:
     "$ref": "./paths/project_queries_default.yml"
   "/api/v3/projects/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/project_queries_filter_instance_schemas.yml"
+  "/api/v3/projects/{id}/queries/projection_schemas":
+    "$ref": "./paths/project_queries_projection_schemas.yml"
   "/api/v3/projects/{id}/queries/schema":
     "$ref": "./paths/project_queries_schema.yml"
   "/api/v3/projects/{id}/work_packages":
@@ -275,6 +277,10 @@ paths:
     "$ref": "./paths/queries_form.yml"
   "/api/v3/queries/operators/{id}":
     "$ref": "./paths/queries_operator.yml"
+  "/api/v3/queries/projection_schemas":
+    "$ref": "./paths/queries_projection_schemas.yml"
+  "/api/v3/queries/projection_schemas/table":
+    "$ref": "./paths/queries_projection_table_schema.yml"
   "/api/v3/queries/schema":
     "$ref": "./paths/queries_schema.yml"
   "/api/v3/queries/sort_bys/{id}":
@@ -386,6 +392,19 @@ paths:
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
 components:
+  examples:
+    ProjectQueryProjectionSchemas:
+      "$ref": "./components/examples/project_query_projection_schemas.yml"
+    QueriesModel:
+      "$ref": "./components/examples/queries.yml"
+    QueryModel:
+      "$ref": "./components/examples/query.yml"
+    QueryProjectionSchemas:
+      "$ref": "./components/examples/query_projection_schemas.yml"
+    QueryProjectionTableSchema:
+      "$ref": "./components/examples/query_projection_table_schema.yml"
+    QuerySchemaModel:
+      "$ref": "./components/examples/query_schema.yml"
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
@@ -583,6 +602,8 @@ components:
       "$ref": "./components/schemas/query_filter_instance_schemas_model.yml"
     Query_Filter_Instance_Schemas_For_ProjectModel:
       "$ref": "./components/schemas/query_filter_instance_schemas_for_project_model.yml"
+    QueryProjectionSchemas:
+      "$ref": "./components/schemas/query_projection_schemas.yml"
     Query_OperatorModel:
       "$ref": "./components/schemas/query_operator_model.yml"
     Query_Sort_ByModel:
@@ -755,6 +776,7 @@ tags:
 - "$ref": "./tags/query_operators.yml"
 - "$ref": "./tags/query_sort_bys.yml"
 - "$ref": "./tags/query_filter_instance_schema.yml"
+- "$ref": "./tags/query_projection_schema.yml"
 - "$ref": "./tags/relations.yml"
 - "$ref": "./tags/previewing.yml"
 - "$ref": "./tags/revisions.yml"

@@ -1,0 +1,17 @@
+# Example: QueryProjection::TableSchema
+---
+value:
+  _dependencies: []
+  _embedded:
+  _links:
+    self:
+      href: "/api/v3/queries/projection_schemas/table"
+  _type: Schema
+  columns:
+    _links: {}
+    hasDefault: true
+    location: _links
+    name: Columns
+    required: false
+    type: "[]QueryColumn"
+    writable: true
