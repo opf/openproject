@@ -309,7 +309,12 @@ module API
 
         # Projections
         property :projections,
-                 writeable: true
+                 getter: ->(*) {
+                   represented.projections.map do |k, v|
+                     ::API::V3::Queries::Projections::QueryProjectionRepresenter.new(v.merge(type: k), current_user: current_user)
+                   end
+                 },
+                 exec_context: :decorator
 
         attr_accessor :results,
                       :params
@@ -331,7 +336,7 @@ module API
                               { project: :work_package_custom_fields }]
 
         def _type
-          represented.class.name
+          'Query'
         end
 
         def filters

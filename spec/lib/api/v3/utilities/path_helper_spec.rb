@@ -386,6 +386,36 @@ describe ::API::V3::Utilities::PathHelper do
 
       it_behaves_like 'api v3 path', '/queries/available_projects'
     end
+
+    describe '#query_projection_schemas' do
+      subject { helper.query_projection_schemas }
+
+      it_behaves_like 'api v3 path', '/queries/projection_schemas'
+    end
+
+    describe '#query_projection_table_schema' do
+      subject { helper.query_projection_table_schema }
+
+      it_behaves_like 'api v3 path', '/queries/projection_schemas/table'
+    end
+
+    describe '#query_projection_calendar_schema' do
+      subject { helper.query_projection_calendar_schema }
+
+      it_behaves_like 'api v3 path', '/queries/projection_schemas/calendar'
+    end
+
+    describe '#query_projection_gantt_schema' do
+      subject { helper.query_projection_gantt_schema }
+
+      it_behaves_like 'api v3 path', '/queries/projection_schemas/gantt'
+    end
+
+    describe '#query_projection_team_calendar_schema' do
+      subject { helper.query_projection_team_calendar_schema }
+
+      it_behaves_like 'api v3 path', '/queries/projection_schemas/team_calendar'
+    end
   end
 
   describe 'relations paths' do
