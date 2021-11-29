@@ -70,7 +70,7 @@ module Components
         input.set text
       end
 
-      def open_available_filter_list()
+      def open_available_filter_list
         input = page.find('.advanced-filters--add-filter-value input')
         input.hover
         input.click
