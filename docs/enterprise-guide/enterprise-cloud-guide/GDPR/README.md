@@ -27,7 +27,7 @@ We offer secure hosting of your OpenProject cloud also in a German data center o
 
 OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances.
 
-### Access **to** data and infrastructure
+### Access to data and infrastructure
 
 Production infrastructure is accessible only for a strict set of authorized system operations personnel from a secure internal maintenance VPN. Services employed by employees are secured by Two-factor-authentication where available. Access to customer data is performed only when requested by the customer (i.e., as part of a support or data import/export request).
 
