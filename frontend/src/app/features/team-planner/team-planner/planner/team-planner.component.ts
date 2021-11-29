@@ -128,8 +128,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
           events: this.calendarEventsFunction.bind(this) as any,
           resources: this.calendarResourcesFunction.bind(this),
           resourceLabelContent: (data:any) => this.renderTemplate(this.resourceContent, data.resource.id, data),
-          resourceLabelWillUnmount: (data:any) => this.unrenderTemplate(data),
-        });
+          resourceLabelWillUnmount: (data:any) => this.unrenderTemplate(data.resource.id),
       });
   }
 
@@ -138,8 +137,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     return { domNodes: ref.rootNodes };
   }
 
-  unrenderTemplate(arg:any):void {
-    this.viewLookup.destroyView(arg.event.id);
+  unrenderTemplate(id:string):void {
+    this.viewLookup.destroyView(id);
   }
 
   public updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }) {
