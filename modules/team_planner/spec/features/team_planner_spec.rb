@@ -32,13 +32,11 @@ require 'spec_helper'
 
 describe 'Team planner', type: :feature, js: true do
   let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[team_planner_view])
+    FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
 
   let(:user) do
-    FactoryBot.create(:admin,
-                      member_in_project: project,
-                      member_with_permissions: %i[view_team_planner manage_team_planner])
+    FactoryBot.create(:admin)
   end
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -47,7 +45,7 @@ describe 'Team planner', type: :feature, js: true do
     login_as(user)
   end
 
-  it 'Opens the page' do
+  it 'Filters the filters correctly' do
     visit project_path(project)
 
     within '#main-menu' do
