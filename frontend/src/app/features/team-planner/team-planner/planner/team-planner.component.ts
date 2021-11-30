@@ -148,6 +148,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
           locale: this.I18n.locale,
           fixedWeekCount: false,
           firstDay: this.configuration.startOfWeek(),
+          timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
           // toolbar: this.buildHeader(),
           plugins: [
             resourceTimelinePlugin,
