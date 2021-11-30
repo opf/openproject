@@ -6,7 +6,7 @@ description: incoming and outgoing notification settings in OpenProject.
 robots: index, follow
 keywords: incoming and outgoing notifications
 ---
-# Incoming & outgoing settings
+# Incoming & outgoing
 
 Configure **incoming & outgoing settings** in OpenProject, i.e. email notifications and incoming email configuration.
 
@@ -14,11 +14,11 @@ Navigate to *Administration* -> *Incoming & Outgoing*.
 
 | Topic                                                        | Content                                                    |
 | ------------------------------------------------------------ | ---------------------------------------------------------- |
-| [Incoming & outgoing settings](https://github.com/opf/openproject/blob/release/12.0/docs/system-admin-guide/incoming-&-outgoing/README.md) | How to configure the global incoming and outgoing settings |
-| [Email notifications](https://github.com/opf/openproject/blob/release/12.0/docs/system-admin-guide/incoming-&-outgoing/README.md#email-notifications-settings) | How to configure outgoing email notifications?             |
-| [Incoming emails](https://github.com/opf/openproject/blob/release/12.0/docs/system-admin-guide/incoming-&-outgoing/README.md#incoming-emails-settings) | How to configure settings for inbound emails?              |
+| [Incoming & outgoing settings](#incoming--outgoing-settings) | How to configure the global incoming and outgoing settings |
+| [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications?             |
+| [Incoming emails](#incoming-emails-settings) | How to configure settings for inbound emails?              |
 
-## Incoming & outgoing settings
+## Incoming & outgoing Settings
 
 To change the global settings for incoming and outgoing messages, navigate to *Administration* -> *Incoming & Outgoing*.
 
