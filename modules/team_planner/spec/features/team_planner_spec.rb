@@ -82,8 +82,8 @@ describe 'Team planner', type: :feature, js: true do
                         project: project,
                         type: type_task,
                         assigned_to: other_user,
-                        start_date: Date.today - 1.day,
-                        due_date: Date.today + 1.day,
+                        start_date: Time.zone.today - 1.day,
+                        due_date: Time.zone.today + 1.day,
                         subject: 'A task for the other user'
     end
     let!(:other_bug) do
@@ -91,8 +91,8 @@ describe 'Team planner', type: :feature, js: true do
                         project: project,
                         type: type_bug,
                         assigned_to: other_user,
-                        start_date: Date.today - 1.day,
-                        due_date: Date.today + 1.day,
+                        start_date: Time.zone.today - 1.day,
+                        due_date: Time.zone.today + 1.day,
                         subject: 'Another task for the other user'
     end
     let!(:user_bug) do
@@ -100,8 +100,8 @@ describe 'Team planner', type: :feature, js: true do
                         project: project,
                         type: type_bug,
                         assigned_to: user,
-                        start_date: Date.today - 10.days,
-                        due_date: Date.today + 20.days,
+                        start_date: Time.zone.today - 10.days,
+                        due_date: Time.zone.today + 20.days,
                         subject: 'A task for the logged in user'
     end
 
