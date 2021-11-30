@@ -27,6 +27,8 @@ Meetings in OpenProject allow you to manage and document your project meetings a
 
 ## Meetings in OpenProject
 
+![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-How-to-Meetings.mp4)
+
 By selecting **Meetings** in the project menu on the left, you get an overview of all project meetings sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
 **Note:** in order to be able to use the meetings plugin, the **Meetings module needs to be activated** in the [Project Settings](../projects/project-settings/modules/).
