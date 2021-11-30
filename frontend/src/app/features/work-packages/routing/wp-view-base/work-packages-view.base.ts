@@ -232,7 +232,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    * @return {boolean} whether any of these events should trigger the view reloading
    */
   protected filterRefreshEvents(events:HalEvent[]):boolean {
-    const rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
+    const source:string[] = this.querySpace.renderedWorkPackageIds.value
+      || this.querySpace.results.value?.elements.map((el) => el.id as string)
+      || [];
+
+    const rendered = new Set(source);
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];

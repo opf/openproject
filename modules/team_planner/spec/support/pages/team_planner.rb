@@ -65,5 +65,13 @@ module Pages
     def expect_event(work_package, present: true)
       expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
     end
+
+    def open_split_view(work_package)
+      page
+        .find('.fc-event', text: work_package.subject)
+        .click
+
+      ::Pages::SplitWorkPackage.new(work_package, project)
+    end
   end
 end

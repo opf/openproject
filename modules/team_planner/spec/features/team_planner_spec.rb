@@ -39,7 +39,9 @@ describe 'Team planner', type: :feature, js: true do
   shared_let(:user) do
     FactoryBot.create :user,
                       member_in_project: project,
-                      member_with_permissions: %w[view_work_packages view_team_planner manage_team_planner]
+                      member_with_permissions: %w[
+                        view_work_packages edit_work_packages view_team_planner manage_team_planner
+                      ]
   end
 
   let(:team_planner) { ::Pages::TeamPlanner.new project }
@@ -137,6 +139,14 @@ describe 'Team planner', type: :feature, js: true do
         team_planner.expect_event other_task
         team_planner.expect_event other_bug, present: false
       end
+
+      # Open the split view for that task and change to bug
+      split_view = team_planner.open_split_view(other_task)
+      split_view.edit_field(:type).update(type_bug)
+      split_view.expect_and_dismiss_toaster(message: "Successful update.")
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
     end
   end
 end

@@ -40,7 +40,10 @@ import {
   HalEvent,
   HalEventsService,
 } from 'core-app/features/hal/services/hal-events.service';
-import { map } from 'rxjs/operators';
+import {
+  map,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
@@ -85,7 +88,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
 
   ngOnInit() {
     this.setupWorkPackagesListener();
-    this.setupHalEventsListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
   }
@@ -97,6 +99,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
   ):void|PromiseLike<EventInput[]> {
     this
       .currentWorkPackages()
+      .toPromise()
       .then((workPackages) => {
         const resources = this.mapToCalendarResources(workPackages);
         successCallback(resources);
@@ -111,6 +114,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
   ):void|PromiseLike<EventInput[]> {
     this
       .currentWorkPackages()
+      .toPromise()
       .then((workPackages) => {
         const events = this.mapToCalendarEvents(workPackages);
         successCallback(events);
@@ -120,7 +124,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     this.updateTimeframe(fetchInfo);
   }
 
-  private currentWorkPackages():Promise<WorkPackageResource[]> {
+  private currentWorkPackages():Observable<WorkPackageResource[]> {
     return this
       .querySpace
       .results
@@ -132,8 +136,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
             .elements
             .map((wp) => this.apiV3Service.work_packages.cache.current(wp.id as string, wp) as WorkPackageResource)
         )),
-      )
-      .toPromise();
+      );
   }
 
   private initializeCalendar() {
@@ -233,20 +236,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
   private renderCurrent() {
     this.ucCalendar.getApi().refetchEvents();
     this.ucCalendar.getApi().refetchResources();
-  }
-
-  /**
-   * Update events and resources on external updates
-   */
-  private setupHalEventsListener() {
-    this.halEvents
-      .aggregated$('WorkPackage')
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.renderCurrent();
-      });
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
