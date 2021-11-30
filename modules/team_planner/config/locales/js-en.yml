@@ -1,0 +1,6 @@
+# English strings go here
+en:
+  js:
+    team_planner:
+      title: 'Team planner'
+      label_assignee_plural: 'Assignees'

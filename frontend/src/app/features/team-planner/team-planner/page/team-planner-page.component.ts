@@ -92,6 +92,7 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase implements On
 
   ngOnInit():void {
     void this.refresh(true, true);
+    super.ngOnInit();
   }
 
   protected set loadingIndicator(promise:Promise<unknown>) {
