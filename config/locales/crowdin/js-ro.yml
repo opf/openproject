@@ -522,9 +522,9 @@ ro:
         all: 'Toate'
       center:
         and_more_users:
-          one: 'and 1 other'
+          one: 'și încă unul'
           few: 'and %{count} others'
-          other: 'and %{count} others'
+          other: 'și %{count} alții'
         no_results:
           at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
