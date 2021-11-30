@@ -1,4 +1,10 @@
-import { EmbeddedViewRef, Injectable, OnDestroy, TemplateRef, ViewContainerRef } from "@angular/core";
+import {
+  EmbeddedViewRef,
+  Injectable,
+  OnDestroy,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 
 /**
  * View lookup service for injecting angular templates
@@ -10,7 +16,7 @@ import { EmbeddedViewRef, Injectable, OnDestroy, TemplateRef, ViewContainerRef }
  */
 @Injectable()
 export class EventViewLookupService implements OnDestroy {
-  private readonly views = new Map<string, EmbeddedViewRef<any>>();
+  private readonly views = new Map<string, EmbeddedViewRef<unknown>>();
 
   constructor(private viewContainerRef:ViewContainerRef) {
   }
@@ -33,22 +39,23 @@ export class EventViewLookupService implements OnDestroy {
    * re-used.
    */
   getView(
-    template:TemplateRef<any>, id:string, context:any,
-    comparator?:(v1:any, v2:any) => boolean
-  ):EmbeddedViewRef<any> {
+    template:TemplateRef<unknown>, id:string, context:unknown,
+    comparator?:(v1:unknown, v2:unknown) => boolean,
+  ):EmbeddedViewRef<unknown> {
     let view = this.views.get(id);
     if (view) {
       if (comparator && comparator(view.context, context)) {
         // Nothing changed -- no need to re-render the component.
         view.markForCheck();
         return view;
-      } else {
-        // The performance would be better if we didn't need to destroy
-        // the view here... but just updating the context and checking
-        // changes doesn't work.
-        this.destroyView(id);
       }
+
+      // The performance would be better if we didn't need to destroy
+      // the view here... but just updating the context and checking
+      // changes doesn't work.
+      this.destroyView(id);
     }
+
     view = this.viewContainerRef.createEmbeddedView(template, context);
     this.views.set(id, view);
     view.detectChanges();
@@ -73,15 +80,15 @@ export class EventViewLookupService implements OnDestroy {
    * re-used.
    */
   getTemplateRootNodes(
-    template:TemplateRef<any>,
+    template:TemplateRef<unknown>,
     id:string,
-    context:any,
-    comparator?:(v1:any, v2:any) => boolean
-  ) {
+    context:unknown,
+    comparator?:(v1:unknown, v2:unknown) => boolean,
+  ):unknown[] {
     return this.getView(template, id, context, comparator).rootNodes;
   }
 
-  hasView(id:string) {
+  hasView(id:string):boolean {
     return this.views.has(id);
   }
 
@@ -90,10 +97,11 @@ export class EventViewLookupService implements OnDestroy {
    * Call `detectChanges` on your component if you need to run change
    * detection synchronously; normally Angular handles that.
    */
-  markForCheck(id?:string) {
+  markForCheck(id?:string):void {
     if (id) {
       this.views.get(id)?.markForCheck();
     } else {
+      // eslint-disable-next-line no-restricted-syntax
       for (const view of this.views.values()) {
         view.markForCheck();
       }
@@ -111,6 +119,7 @@ export class EventViewLookupService implements OnDestroy {
    * views have been placed.
    */
   public destroyAll():void {
+    // eslint-disable-next-line no-restricted-syntax
     for (const view of this.views.values()) {
       view.destroy();
     }
