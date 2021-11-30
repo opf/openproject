@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   SecurityContext,
   TemplateRef,
   ViewChild,
@@ -30,19 +31,15 @@ import {
   Subject,
 } from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
-  HalEvent,
-  HalEventsService,
-} from 'core-app/features/hal/services/hal-events.service';
-import {
+  debounceTime,
   map,
-  withLatestFrom,
 } from 'rxjs/operators';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
@@ -56,14 +53,31 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
     EventViewLookupService,
   ],
 })
-export class TeamPlannerComponent extends UntilDestroyedMixin {
+export class TeamPlannerComponent extends UntilDestroyedMixin implements OnDestroy {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
+
+  @ViewChild('ucCalendar', { read: ElementRef })
+  set ucCalendarElement(v:ElementRef|undefined) {
+    if (!v) {
+      return;
+    }
+
+    if (!this.resizeObserver) {
+      this.resizeObserver = new ResizeObserver(() => this.resizeSubject.next());
+    }
+
+    this.resizeObserver.observe(v.nativeElement);
+  }
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|null = null;
+
+  private resizeObserver:ResizeObserver;
+
+  private resizeSubject = new Subject<any>();
 
   constructor(
     private elementRef:ElementRef,
@@ -86,10 +100,24 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     super();
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
+
+    this.resizeSubject
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50),
+      )
+      .subscribe(() => {
+        this.ucCalendar.getApi().updateSize();
+      });
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.resizeObserver?.disconnect();
   }
 
   public calendarResourcesFunction(
