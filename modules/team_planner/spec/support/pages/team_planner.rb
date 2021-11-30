@@ -27,27 +27,43 @@
 #++
 
 require 'support/pages/page'
-require_relative './team_planner_page'
 
 module Pages
-  class TeamPlanner < Page
-    include ::Components::NgSelectAutocompleteHelpers
+  class TeamPlanner < ::Pages::Page
+    attr_reader :project,
+                :filters
 
-    def initialize(team_planner)
+    def initialize(project)
       super()
-      @team_planner = team_planner
+
+      @project = project
+      @filters = ::Components::WorkPackages::Filters.new
     end
 
-    def team_planner(reload: false)
-      @team_planner.reload if reload
-
-      yield @team_planner if block_given?
-
-      @team_planner
+    def path
+      project_team_planner_path(project)
     end
 
-    def expect_path
-      expect(page).to have_current_path "/team_planner\/#{@team_planner.id}/"
+    def expect_title
+      expect(page).to have_selector '.editable-toolbar-title--fixed', text: 'Team planner'
+    end
+
+    def expect_assignee(user, present: true)
+      name = user.is_a?(User) ? user.name : user.to_s
+      expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
+    end
+
+    def within_lane(user, &block)
+      raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
+
+      type = ::API::V3::Principals::PrincipalType.for(user)
+      href = ::API::V3::Utilities::PathHelper::ApiV3Path.send(type, user.id)
+
+      page.within(%(.fc-timeline-lane[data-resource-id="#{href}"]), &block)
+    end
+
+    def expect_event(work_package, present: true)
+      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
     end
   end
 end

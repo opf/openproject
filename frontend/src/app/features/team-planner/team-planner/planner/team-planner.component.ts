@@ -184,11 +184,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
   }
 
   private setupWorkPackagesListener() {
-    this.querySpace.results.values$().pipe(
-      this.untilDestroyed(),
-    ).subscribe((collection:WorkPackageCollectionResource) => {
-      this.ucCalendar.getApi().refetchEvents();
-    });
+    this
+      .querySpace
+      .results
+      .values$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        this.ucCalendar.getApi().refetchEvents();
+        this.ucCalendar.getApi().refetchResources();
+      });
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
