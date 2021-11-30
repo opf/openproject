@@ -691,9 +691,6 @@ en:
           first_day: 'First day'
           last_day: 'Last day'
 
-    team_planner:
-      title: 'Team planner'
-
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
 

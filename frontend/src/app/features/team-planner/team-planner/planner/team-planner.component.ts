@@ -80,6 +80,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private resizeSubject = new Subject<unknown>();
 
+  text = {
+    assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+  };
+
   constructor(
     private elementRef:ElementRef,
     private states:States,
@@ -178,10 +182,19 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           fixedWeekCount: false,
           firstDay: this.configuration.startOfWeek(),
           timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
-          // toolbar: this.buildHeader(),
           plugins: [
             resourceTimelinePlugin,
           ],
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: '',
+          },
+          titleFormat: {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          },
           initialView: 'resourceTimelineWeekDaysOnly',
           height: 'auto',
           views: {
@@ -189,6 +202,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               type: 'resourceTimeline',
               duration: { weeks: 1 },
               slotDuration: { days: 1 },
+              slotLabelFormat: [
+                {
+                  weekday: 'long',
+                  day: '2-digit',
+                },
+              ],
+              resourceAreaColumns: [
+                {
+                  field: 'title',
+                  headerContent: this.text.assignees,
+                },
+              ],
             },
           },
           events: this.calendarEventsFunction.bind(this) as unknown,
