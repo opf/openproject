@@ -25,7 +25,10 @@ import { WorkPackagesListChecksumService } from 'core-app/features/work-packages
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
-import { Subject } from 'rxjs';
+import {
+  Observable,
+  Subject,
+} from 'rxjs';
 import { take } from 'rxjs/internal/operators/take';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -33,6 +36,13 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import {
+  HalEvent,
+  HalEventsService,
+} from 'core-app/features/hal/services/hal-events.service';
+import { map } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Component({
   selector: 'op-team-planner',
@@ -58,6 +68,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     private $state:StateService,
     private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
+    private apiV3Service:APIV3Service,
     private wpTableFilters:WorkPackageViewFiltersService,
     private wpListService:WorkPackagesListService,
     private querySpace:IsolatedQuerySpace,
@@ -67,12 +78,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     private titleService:OpTitleService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
+    private halEvents:HalEventsService,
   ) {
     super();
   }
 
   ngOnInit() {
     this.setupWorkPackagesListener();
+    this.setupHalEventsListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
   }
@@ -82,12 +95,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void,
   ):void|PromiseLike<EventInput[]> {
-    this.querySpace.results.values$().pipe(
-      take(1),
-    ).subscribe((collection:WorkPackageCollectionResource) => {
-      const resources = this.mapToCalendarResources(collection.elements);
-      successCallback(resources);
-    });
+    this
+      .currentWorkPackages()
+      .then((workPackages) => {
+        const resources = this.mapToCalendarResources(workPackages);
+        successCallback(resources);
+      })
+      .catch(failureCallback);
   }
 
   public calendarEventsFunction(
@@ -95,14 +109,31 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
     successCallback:(events:EventInput[]) => void,
     failureCallback:(error:unknown) => void,
   ):void|PromiseLike<EventInput[]> {
-    this.querySpace.results.values$().pipe(
-      take(1),
-    ).subscribe((collection:WorkPackageCollectionResource) => {
-      const events = this.mapToCalendarEvents(collection.elements);
-      successCallback(events);
-    });
+    this
+      .currentWorkPackages()
+      .then((workPackages) => {
+        const events = this.mapToCalendarEvents(workPackages);
+        successCallback(events);
+      })
+      .catch(failureCallback);
 
     this.updateTimeframe(fetchInfo);
+  }
+
+  private currentWorkPackages():Promise<WorkPackageResource[]> {
+    return this
+      .querySpace
+      .results
+      .values$()
+      .pipe(
+        take(1),
+        map((collection:CollectionResource<WorkPackageResource>) => (
+          collection
+            .elements
+            .map((wp) => this.apiV3Service.work_packages.cache.current(wp.id as string, wp) as WorkPackageResource)
+        )),
+      )
+      .toPromise();
   }
 
   private initializeCalendar() {
@@ -192,8 +223,29 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
         this.untilDestroyed(),
       )
       .subscribe(() => {
-        this.ucCalendar.getApi().refetchEvents();
-        this.ucCalendar.getApi().refetchResources();
+        this.renderCurrent();
+      });
+  }
+
+  /**
+   * Renders the currently loaded set of items
+   */
+  private renderCurrent() {
+    this.ucCalendar.getApi().refetchEvents();
+    this.ucCalendar.getApi().refetchResources();
+  }
+
+  /**
+   * Update events and resources on external updates
+   */
+  private setupHalEventsListener() {
+    this.halEvents
+      .aggregated$('WorkPackage')
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        this.renderCurrent();
       });
   }
 
@@ -281,4 +333,5 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
 
     return this.sanitizer.sanitize(SecurityContext.HTML, value);
   }
+
 }
