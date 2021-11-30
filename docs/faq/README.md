@@ -213,7 +213,7 @@ Yes, that’s possible. Please have a look at our [Excel sync](../user-guide/int
 
 ### Is possible to create a task in one place and have it show up in several projects (and only have to update from one place). If so, how can I go about configuring that?
 
-As a workaround you could use work package relations. Once the task is created in one project you can create the relation "includes" in another project. This would be an option to display that task in multiple projects. 
+As a workaround you could use work package relations. Once the task is created in one project you can create the relation "includes" in another project. This would be an option to display that task in multiple projects. You can find a detailed description for workpakage relations [here](../user-guide/work-packages/work-package-relations-hierarchies/).
 
 ### Does OpenProject have guest accounts?
 
