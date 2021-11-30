@@ -153,7 +153,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin {
             resourceTimelinePlugin,
           ],
           initialView: 'resourceTimelineWeekDaysOnly',
-          height: 500,
+          height: 'auto',
           views: {
             resourceTimelineWeekDaysOnly: {
               type: 'resourceTimeline',
