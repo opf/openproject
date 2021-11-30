@@ -1,0 +1,33 @@
+---
+description: |-
+  A View is a representation of some information. That information might be a query (currently it always is).
+  The view will store the configuration on how to display the information but not the information itself.
+  
+  A View might then be a graph, a table, a gantt chart or something completely different.
+  The client will have to choose how to represenent in the view. 
+  
+  A View instance will always be of a subtype of `View`, e.g. `View::List`. The properties between each `View` type might differ a lot.
+  
+  **The View is a new concept so it is prone to change.**
+
+  ## Linked Properties
+
+  | Link                  | Description                                                                                                                                                   | Type                      | Constraints | Supported operations |
+  | :-------------------: | ----------------------------------------                                                                                                                      | -------------             | --------    | -------------------- |
+  | self                  | This view                                                                                                                                                     | View (a subtype of it)    | not null    | READ                 |
+  | query                 | This query from which to fetch the data                                                                                                                       | Query                     | not null    | READ/WRITE           |
+  | project               | This project the view is defined in. If no project is specified, the View is considered global. Currently, the project will always be derived from the query. | Project                   |             | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                           | Type                  | Constraints                               | Supported operations                |
+  | :--------------: | ------------------------------------------------------| -----------           | ------------------------------------      | --------------------                |
+  | _type            | The subtype chosen                                    | String                | Can only be one for which a schema exists | READ/WRITE (write only on creation) |
+  | id               | View id                                               | Integer               | x > 0                                     | READ                                |
+  | name             | View name                                             | String                |                                           | READ/WRITE                          |
+  | public           | Can users besides the owner see the view?             | Boolean               |                                           | READ/WRITE                          |
+  | starred          | Should the view be highlighted to the user?           | Boolean               |                                           | READ                                |
+  | createdAt        | Time of creation                                      | DateTime              | not null                                  | READ                                |
+  | updatedAt        | Time of the most recent change to the view            | DateTime              | not null                                  | READ                                |
+
+name: Views

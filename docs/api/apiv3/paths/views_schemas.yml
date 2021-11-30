@@ -1,0 +1,27 @@
+# /api/v3/views/schemas
+---
+get:
+  parameters:
+    - description: |-
+        JSON specifying filter conditions.
+        Currently supported filters are:
+
+        + project: filters schemas by the project a view is specifyable in which depends on the users's permissions
+        and on the modules active within a project. 
+        If the project filter is passed with the `!*` (not any) operator, global view schemas are returned.
+      example: '[{ "project_id": { "operator": "!*", "values": null }" }]'
+      in: query
+      name: filters
+      required: false
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      headers: {}
+  tags:
+    - Views
+  description: |- 
+    List views schemas. The response will contain all views that can be created by the user given the permissions granted and the modules active within projects visible to the user.
+  operationId: List_Views_Schemas
+  summary: List views schemas

@@ -1,11 +1,11 @@
-# Example: QueryProjection::TableSchema
+# Example: Views::TableSchema
 ---
 value:
   _dependencies: []
   _embedded:
   _links:
     self:
-      href: "/api/v3/queries/projection_schemas/table"
+      href: "/api/v3/views/schemas/table"
   _type: Schema
   columns:
     _links: {}

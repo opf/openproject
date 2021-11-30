@@ -35,6 +35,7 @@ value:
   public: false
   sums: false
   starred: false
+  hidden: false
   projections:
     - _type: QueryProjection::Table
       showHierarchies: true

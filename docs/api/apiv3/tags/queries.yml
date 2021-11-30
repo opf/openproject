@@ -119,10 +119,5 @@ description: |
     }
 
   ```
-
-  ## QueryProjection
-
-  A QueryProjection represents a projection that is to be applied to the filtered work packages. A projection might be a graph, a table, a calendar or basically every other representation.
-  Each projection requires its own set of configurations. E.g. for a table, specifying the columns of the table is usefull, whereas it does not make sense for a graph. Because of this,
-  the property and link set will differ heavily between each type of projection.
+  
 name: Queries

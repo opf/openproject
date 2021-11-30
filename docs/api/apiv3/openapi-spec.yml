@@ -191,8 +191,8 @@ paths:
     "$ref": "./paths/memberships_available_projects.yml"
   "/api/v3/memberships/form":
     "$ref": "./paths/memberships_form.yml"
-  "/api/v3/memberships/schemas":
-    "$ref": "./paths/memberships_schemas.yml"
+  "/api/v3/memberships/schema":
+    "$ref": "./paths/memberships_schema.yml"
   "/api/v3/memberships/{id}":
     "$ref": "./paths/membership.yml"
   "/api/v3/memberships/{id}/form":
@@ -225,8 +225,8 @@ paths:
     "$ref": "./paths/projects_available_parent_projects.yml"
   "/api/v3/projects/form":
     "$ref": "./paths/projects_form.yml"
-  "/api/v3/projects/schemas":
-    "$ref": "./paths/projects_schemas.yml"
+  "/api/v3/projects/schema":
+    "$ref": "./paths/projects_schema.yml"
   "/api/v3/projects/{id}":
     "$ref": "./paths/project.yml"
   "/api/v3/projects/{id}/budgets":
@@ -241,8 +241,6 @@ paths:
     "$ref": "./paths/project_queries_default.yml"
   "/api/v3/projects/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/project_queries_filter_instance_schemas.yml"
-  "/api/v3/projects/{id}/queries/projection_schemas":
-    "$ref": "./paths/project_queries_projection_schemas.yml"
   "/api/v3/projects/{id}/queries/schema":
     "$ref": "./paths/project_queries_schema.yml"
   "/api/v3/projects/{id}/work_packages":
@@ -277,10 +275,6 @@ paths:
     "$ref": "./paths/queries_form.yml"
   "/api/v3/queries/operators/{id}":
     "$ref": "./paths/queries_operator.yml"
-  "/api/v3/queries/projection_schemas":
-    "$ref": "./paths/queries_projection_schemas.yml"
-  "/api/v3/queries/projection_schemas/table":
-    "$ref": "./paths/queries_projection_table_schema.yml"
   "/api/v3/queries/schema":
     "$ref": "./paths/queries_schema.yml"
   "/api/v3/queries/sort_bys/{id}":
@@ -335,8 +329,8 @@ paths:
     "$ref": "./paths/type.yml"
   "/api/v3/users":
     "$ref": "./paths/users.yml"
-  "/api/v3/users/schemas":
-    "$ref": "./paths/users_schemas.yml"
+  "/api/v3/users/schema":
+    "$ref": "./paths/users_schema.yml"
   "/api/v3/users/{id}":
     "$ref": "./paths/user.yml"
   "/api/v3/users/{id}/form":
@@ -349,14 +343,22 @@ paths:
     "$ref": "./paths/versions_available_projects.yml"
   "/api/v3/versions/form":
     "$ref": "./paths/versions_form.yml"
-  "/api/v3/versions/schemas":
-    "$ref": "./paths/versions_schemas.yml"
+  "/api/v3/versions/schema":
+    "$ref": "./paths/versions_schema.yml"
   "/api/v3/versions/{id}":
     "$ref": "./paths/version.yml"
   "/api/v3/versions/{id}/form":
     "$ref": "./paths/version_form.yml"
   "/api/v3/versions/{id}/projects":
     "$ref": "./paths/version_projects.yml"
+  "/api/v3/views":
+    "$ref": "./paths/views.yml"
+  "/api/v3/views/schemas":
+    "$ref": "./paths/views_schemas.yml"
+  "/api/v3/views/schemas/{identifier}":
+    "$ref": "./paths/views_schemas_{identifier}.yml"
+  "/api/v3/views/{id}":
+    "$ref": "./paths/view.yml"
   "/api/v3/wiki_pages/{id}":
     "$ref": "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
@@ -401,10 +403,16 @@ components:
       "$ref": "./components/examples/query.yml"
     QueryProjectionSchemas:
       "$ref": "./components/examples/query_projection_schemas.yml"
-    QueryProjectionTableSchema:
-      "$ref": "./components/examples/query_projection_table_schema.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
+    Views:
+      "$ref": "./components/examples/views.yml"
+    ViewBCF:
+      "$ref": "./components/examples/view_bcf.yml"
+    ViewTable:
+      "$ref": "./components/examples/view_table.yml"
+    ViewTableSchema:
+      "$ref": "./components/examples/view_table_schema.yml"
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
@@ -790,6 +798,7 @@ tags:
 - "$ref": "./tags/userpreferences.yml"
 - "$ref": "./tags/users.yml"
 - "$ref": "./tags/versions.yml"
+- "$ref": "./tags/views.yml"
 - "$ref": "./tags/wiki_pages.yml"
 - "$ref": "./tags/work_packages.yml"
 security:
