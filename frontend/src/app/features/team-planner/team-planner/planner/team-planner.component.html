@@ -7,8 +7,21 @@
     [options]="calendarOptions"
   ></full-calendar>
 </ng-container>
+
 <ng-template #resourceContent let-resource="resource">
   <op-principal
+    *ngIf="resource.extendedProps.user"
     [principal]="resource.extendedProps.user"
   ></op-principal>
+
+  <op-tp-add-assignee
+    *ngIf="!resource.extendedProps.user"
+    (select)="addAssignee($event)"
+  ></op-tp-add-assignee>
 </ng-template>
+
+<button
+  type="button"
+  class="button"
+  (click)="showAssigneeAddRow()"
+>Add assignee</button>

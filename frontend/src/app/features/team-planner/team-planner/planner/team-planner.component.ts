@@ -11,39 +11,35 @@ import {
   CalendarOptions,
   EventInput,
 } from '@fullcalendar/core';
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { FullCalendarComponent } from '@fullcalendar/angular';
-import { EventViewLookupService } from 'core-app/features/team-planner/team-planner/planner/event-view-lookup.service';
-import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/angular';
-import { DomSanitizer } from '@angular/platform-browser';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { OpTitleService } from 'core-app/core/html/op-title.service';
 import {
   Observable,
   Subject,
 } from 'rxjs';
-import { take } from 'rxjs/internal/operators/take';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { EventClickArg } from '@fullcalendar/common';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   debounceTime,
   map,
 } from 'rxjs/operators';
+import { take } from 'rxjs/internal/operators/take';
+import { EventClickArg } from '@fullcalendar/common';
+import { StateService } from '@uirouter/angular';
+import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { EventViewLookupService } from 'core-app/features/team-planner/team-planner/planner/event-view-lookup.service';
+import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 
 @Component({
   selector: 'op-team-planner',
@@ -72,6 +68,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
+  @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
+
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|null = null;
@@ -79,28 +77,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private resizeObserver:ResizeObserver;
 
   private resizeSubject = new Subject<unknown>();
-
+  
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
   };
 
   constructor(
     private elementRef:ElementRef,
-    private states:States,
     private $state:StateService,
-    private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
     private apiV3Service:APIV3Service,
     private wpTableFilters:WorkPackageViewFiltersService,
     private wpListService:WorkPackagesListService,
     private querySpace:IsolatedQuerySpace,
-    private wpListChecksumService:WorkPackagesListChecksumService,
     private schemaCache:SchemaCacheService,
     private currentProject:CurrentProjectService,
-    private titleService:OpTitleService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
-    private halEvents:HalEventsService,
   ) {
     super();
   }
@@ -109,6 +102,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
+
+    console.log(this.querySpace.query.value);
+    this.wpTableFilters
+      .updates$()
+      .subscribe((q) => {
+        console.log('q', q);
+        console.log(this.querySpace.query.value);
+      });
 
     this.resizeSubject
       .pipe(
@@ -266,6 +267,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
+  public showAssigneeAddRow() {
+    const api = this.ucCalendar.getApi();
+    api.addResource({
+      id: 'NEW',
+      title: 'Add Assignee',
+      user: null,
+    });
+  }
+
+  public addAssignee(user:UserResource) {
+    const api = this.ucCalendar.getApi();
+    api.getResourceById('NEW')?.remove();
+    api.addResource({
+      user,
+      id: user.id as string,
+      title: user.name,
+    });
+    // this.wpTableFilters.add();
+  }
+
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
 
@@ -324,7 +345,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private mapToCalendarResources(workPackages:WorkPackageResource[]) {
-    const resources:{ id:string, title:string, user:HalResource }[] = [];
+    const resources:{ id:string, title:string, user:HalResource|null }[] = [];
 
     workPackages.forEach((workPackage:WorkPackageResource) => {
       const assignee = workPackage.assignee as HalResource|undefined;
