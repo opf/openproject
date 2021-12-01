@@ -1,26 +1,18 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  Injector,
   OnInit,
 } from '@angular/core';
 import {
-  ToolbarButtonComponentDefinition,
   DynamicComponentDefinition,
+  PartitionedQuerySpacePageComponent,
+  ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-  TransitionService,
-} from '@uirouter/core';
-import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
+import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -28,8 +20,11 @@ import { WorkPackageFilterContainerComponent } from 'core-app/features/work-pack
     '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    QueryParamListenerService,
+  ],
 })
-export class TeamPlannerPageComponent extends WorkPackagesViewBase implements OnInit {
+export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   text = {
     title: this.I18n.t('js.team_planner.title'),
   };
@@ -69,16 +64,8 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase implements On
     },
   ];
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly $transitions:TransitionService,
-    readonly state:StateService,
-    readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
-    readonly backRoutingService:BackRoutingService,
-  ) {
-    super(injector);
+  public ngOnInit():void {
+    super.ngOnInit();
 
     this.wpTableFilters.hidden.push(
       'assignee',
@@ -90,19 +77,8 @@ export class TeamPlannerPageComponent extends WorkPackagesViewBase implements On
     );
   }
 
-  ngOnInit():void {
-    void this.refresh(true, true);
-    super.ngOnInit();
-  }
-
   protected set loadingIndicator(promise:Promise<unknown>) {
     this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public refresh(visibly:boolean, firstPage:boolean):Promise<unknown> {
-    this.loadingIndicator = this.wpListService.loadCurrentQueryFromParams(this.projectIdentifier);
-    return this.loadingIndicator;
   }
 
   /**
