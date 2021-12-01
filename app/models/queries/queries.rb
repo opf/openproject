@@ -42,5 +42,4 @@ module Queries::Queries
   register.filter query_ns, filters_ns::HiddenFilter
   register.filter query_ns, filters_ns::UpdatedAtFilter
   register.filter query_ns, filters_ns::IdFilter
-  register.filter query_ns, filters_ns::ModuleIdentifierFilter
 end
