@@ -339,26 +339,6 @@ module API
             "#{queries}/available_projects"
           end
 
-          def self.query_projection_schemas
-            "#{queries}/projection_schemas"
-          end
-
-          def self.query_projection_table_schema
-            "#{query_projection_schemas}/table"
-          end
-
-          def self.query_projection_calendar_schema
-            "#{query_projection_schemas}/calendar"
-          end
-
-          def self.query_projection_team_calendar_schema
-            "#{query_projection_schemas}/team_calendar"
-          end
-
-          def self.query_projection_gantt_schema
-            "#{query_projection_schemas}/gantt"
-          end
-
           index :relations
           show :relation
 
