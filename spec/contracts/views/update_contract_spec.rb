@@ -26,37 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Views
-      class ViewsAPI < ::API::OpenProjectAPI
-        resources :views do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: View)
-                 .mount
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-          resources :work_packages_table do
-            post &::API::V3::Utilities::Endpoints::Create
-                    .new(model: View,
-                         params_modifier: ->(params) {
-                           params.merge(type: 'work_packages_table')
-                         })
-                    .mount
-          end
+describe Views::UpdateContract do
+  # TODO: this is just a stub to ensure that the type is not altered
+  it_behaves_like 'view contract' do
+    let(:view) do
+      FactoryBot
+        .build_stubbed(:view_work_packages_table).tap do |view|
+        view.type = view_type if defined?(view_type)
+        view.query = view_query
+      end
+    end
 
-          route_param :id, type: Integer, desc: 'View ID' do
-            after_validation do
-              @view = ::Queries::Views::ViewQuery
-                      .new(user: current_user)
-                      .results
-                      .find(params['id'])
-            end
+    subject(:contract) do
+      described_class.new(view, current_user)
+    end
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: View)
-                   .mount
-          end
-        end
+    describe 'validation' do
+      context 'with the type being changed' do
+        # TODO: once a second type is defined, use that here
+        let(:view_type) { 'another_type' }
+
+        it_behaves_like 'contract is invalid', type: [:error_readonly, :inclusion]
       end
     end
   end

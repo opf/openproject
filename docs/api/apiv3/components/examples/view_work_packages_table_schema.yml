@@ -1,11 +1,6 @@
-# Example: Views::TableSchema
+# Example: Views::WorkPackagesTableSchema
 ---
 value:
-  _dependencies: []
-  _embedded:
-  _links:
-    self:
-      href: "/api/v3/views/schemas/table"
   _type: Schema
   columns:
     _links: {}
@@ -15,3 +10,6 @@ value:
     required: false
     type: "[]QueryColumn"
     writable: true
+  _links:
+    self:
+      href: "/api/v3/views/schemas/table"

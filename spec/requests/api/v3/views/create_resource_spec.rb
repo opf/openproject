@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,13 +28,13 @@
 require 'spec_helper'
 
 describe ::API::V3::Views::ViewsAPI,
-         'show',
+         'create',
          content_type: :json,
          type: :request do
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { FactoryBot.create(:user) }
-  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages]) }
+  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages save_queries]) }
   shared_let(:project) do
     FactoryBot.create(:project,
                       members: { permitted_user => role })
@@ -47,13 +45,23 @@ describe ::API::V3::Views::ViewsAPI,
                       is_public: false,
                       user: permitted_user)
   end
-  shared_let(:view) do
-    FactoryBot.create :view_work_packages_table,
-                      query: private_user_query
+
+  let(:additional_setup) do
+    # to be overwritten by some specs
+  end
+
+  let(:body) do
+    {
+      _links: {
+        query: {
+          href: api_v3_paths.query(private_user_query.id)
+        }
+      }
+    }.to_json
   end
 
   let(:send_request) do
-    get api_v3_paths.view(view.id)
+    post api_v3_paths.views_work_packages_table, body
   end
 
   current_user { permitted_user }
@@ -61,35 +69,41 @@ describe ::API::V3::Views::ViewsAPI,
   subject(:response) { last_response }
 
   before do
+    additional_setup
+
     send_request
   end
 
-  context 'with a user allowed to see the query' do
-    it 'returns 200 OK' do
-      expect(response.status)
-        .to eq(200)
+  describe 'POST /api/v3/views/work_packages_table' do
+    context 'with a user allowed to save the query' do
+      it 'returns 201 CREATED' do
+        expect(response.status)
+          .to eq(201)
+      end
+
+      it 'returns the view' do
+        expect(response.body)
+          .to be_json_eql('Views::WorkPackagesTable'.to_json)
+                .at_path('_type')
+
+        expect(response.body)
+          .to be_json_eql(View.last.id.to_json)
+                .at_path('id')
+      end
     end
 
-    it 'returns the view' do
-      expect(response.body)
-        .to be_json_eql('Views::WorkPackagesTable'.to_json)
-              .at_path('_type')
+    context 'with a user not allowed to see the query' do
+      let(:additional_setup) do
+        role.update_attribute(:permissions, [])
+      end
 
-      expect(response.body)
-        .to be_json_eql(view.id.to_json)
-              .at_path('id')
-    end
-  end
+      it 'responds with 422 and explains the error' do
+        expect(last_response.status).to eq(422)
 
-  context 'with a user not allowed to see the query' do
-    current_user do
-      FactoryBot.create(:user,
-                        member_in_project: project,
-                        member_through_role: role)
-    end
-
-    it 'returns a 404 response' do
-      expect(last_response.status).to eq(404)
+        expect(last_response.body)
+          .to be_json_eql("Query does not exist.".to_json)
+                .at_path('message')
+      end
     end
   end
 end

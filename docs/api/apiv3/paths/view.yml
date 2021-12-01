@@ -14,8 +14,8 @@ get:
       content:
         application/hal+json:
           examples:
-            ViewTable:
-              "$ref": "../components/examples/view_table.yml"
+            ViewWorkPackagesTable:
+              "$ref": "../components/examples/view_work_packages_table.yml"
             ViewBcf:
               "$ref": "../components/examples/view_bcf.yml"
     '400':
@@ -128,8 +128,8 @@ patch:
       content:
         application/hal+json:
           examples:
-            ViewTable:
-              "$ref": "../components/examples/view_table.yml"
+            ViewWorkPackagesTable:
+              "$ref": "../components/examples/view_work_packages_table.yml"
       description: OK
       headers: {}
     '400':

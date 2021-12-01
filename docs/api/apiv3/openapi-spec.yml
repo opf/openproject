@@ -353,6 +353,8 @@ paths:
     "$ref": "./paths/version_projects.yml"
   "/api/v3/views":
     "$ref": "./paths/views.yml"
+  "/api/v3/views/{identifier}":
+    "$ref": "./paths/views_{identifier}.yml"
   "/api/v3/views/schemas":
     "$ref": "./paths/views_schemas.yml"
   "/api/v3/views/schemas/{identifier}":
@@ -409,10 +411,10 @@ components:
       "$ref": "./components/examples/views.yml"
     ViewBCF:
       "$ref": "./components/examples/view_bcf.yml"
-    ViewTable:
-      "$ref": "./components/examples/view_table.yml"
-    ViewTableSchema:
-      "$ref": "./components/examples/view_table_schema.yml"
+    ViewWorkPackagesTable:
+      "$ref": "./components/examples/view_work_packages_table.yml"
+    ViewWorkPackagesTableSchema:
+      "$ref": "./components/examples/view_work_packages_table_schema.yml"
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"

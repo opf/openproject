@@ -1,7 +1,7 @@
-# Example: ViewTable
+# Example: ViewWorkPackagesTable
 ---
 value:
-  _type: Views::Table
+  _type: Views::WorkPackagesTable
   name: Current work packages
   timelineVisible: true
   id: 9

@@ -26,37 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Views
-      class ViewsAPI < ::API::OpenProjectAPI
-        resources :views do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: View)
-                 .mount
+require 'spec_helper'
+require_relative './shared_contract_examples'
 
-          resources :work_packages_table do
-            post &::API::V3::Utilities::Endpoints::Create
-                    .new(model: View,
-                         params_modifier: ->(params) {
-                           params.merge(type: 'work_packages_table')
-                         })
-                    .mount
-          end
+describe Views::CreateContract do
+  it_behaves_like 'view contract' do
+    let(:view) do
+      View.new(query: view_query,
+               type: view_type)
+    end
+    let(:view_type) do
+      'work_packages_table'
+    end
 
-          route_param :id, type: Integer, desc: 'View ID' do
-            after_validation do
-              @view = ::Queries::Views::ViewQuery
-                      .new(user: current_user)
-                      .results
-                      .find(params['id'])
-            end
+    subject(:contract) do
+      described_class.new(view, current_user)
+    end
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: View)
-                   .mount
-          end
-        end
+    describe 'validation' do
+      context 'with the type being nil' do
+        let(:view_type) { nil }
+
+        it_behaves_like 'contract is invalid', type: :inclusion
+      end
+
+      context 'with the type not being one of the configured' do
+        let(:view_type) { 'blubs' }
+
+        it_behaves_like 'contract is invalid', type: :inclusion
       end
     end
   end

@@ -28,9 +28,9 @@
 
 FactoryBot.define do
   factory :view do
-    type { 'table' }
+    type { 'work_packages_table' }
     query
   end
 
-  factory :view_table, parent: :view
+  factory :view_work_packages_table, parent: :view
 end

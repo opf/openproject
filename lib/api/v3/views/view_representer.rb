@@ -83,7 +83,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Views::Table'
+          'Views::WorkPackagesTable'
         end
       end
     end

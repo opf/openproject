@@ -440,6 +440,10 @@ module API
           index :view
           show :view
 
+          def self.views_work_packages_table
+            "#{views}/work_packages_table"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end

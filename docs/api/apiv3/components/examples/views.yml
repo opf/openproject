@@ -15,7 +15,7 @@ value:
   _type: Collection
   _embedded:
     elements:
-      - _type: Views::Table
+      - _type: Views::WorkPackagesTable
         name: Current work packages
         timelineVisible: true
         id: 9

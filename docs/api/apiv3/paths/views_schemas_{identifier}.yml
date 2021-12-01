@@ -16,8 +16,8 @@ get:
       content:
         application/hal+json:
           examples:
-            TableSchema:
-              "$refs": '../components/examples/view_table_schema.yml'
+            ViewWorkPackagesTableSchema:
+              "$ref": '../components/examples/view_work_packages_table_schema.yml'
     '404':
       content:
         application/hal+json:

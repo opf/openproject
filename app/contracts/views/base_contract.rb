@@ -26,38 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Views
-      class ViewsAPI < ::API::OpenProjectAPI
-        resources :views do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: View)
-                 .mount
+module Views
+  class BaseContract < ::ModelContract
+    attribute :query
 
-          resources :work_packages_table do
-            post &::API::V3::Utilities::Endpoints::Create
-                    .new(model: View,
-                         params_modifier: ->(params) {
-                           params.merge(type: 'work_packages_table')
-                         })
-                    .mount
-          end
+    validate :type_allowed
+    validate :query_present,
+             :query_manageable
 
-          route_param :id, type: Integer, desc: 'View ID' do
-            after_validation do
-              @view = ::Queries::Views::ViewQuery
-                      .new(user: current_user)
-                      .results
-                      .find(params['id'])
-            end
+    private
 
-            get &::API::V3::Utilities::Endpoints::Show
-                   .new(model: View)
-                   .mount
-          end
-        end
+    def type_allowed
+      # TODO: fetch from registry
+      unless ['work_packages_table'].include?(model.type)
+        errors.add(:type, :inclusion)
       end
+    end
+
+    def query_present
+      unless model.query
+        errors.add(:query, :blank)
+      end
+    end
+
+    def query_manageable
+      return unless model.query
+
+      if query_visible?
+        errors.add(:query, :error_unauthorized) unless query_permissions?
+      else
+        errors.add(:query, :does_not_exist)
+      end
+    end
+
+    def query_visible?
+      Query.visible(user).exists?(id: model.query.id)
+    end
+
+    def query_permissions?
+      # The visibility i.e. whether a private query belongs to the user is checked via the
+      # query_visible? method.
+      (model.query.is_public && user_allowed_on_query?(:manage_public_queries)) ||
+        (!model.query.is_public && user_allowed_on_query?(:save_queries))
+    end
+
+    def user_allowed_on_query?(permission)
+      user.allowed_to?(permission, model.query.project, global: model.query.project.nil?)
     end
   end
 end

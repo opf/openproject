@@ -50,7 +50,7 @@ describe ::API::V3::Views::ViewsAPI,
                       is_public: false)
   end
   shared_let(:user_private_project_view) do
-    FactoryBot.create(:view_table,
+    FactoryBot.create(:view_work_packages_table,
                       query: user_private_project_query)
   end
   shared_let(:other_user_private_project_query) do
@@ -59,7 +59,7 @@ describe ::API::V3::Views::ViewsAPI,
                       is_public: false)
   end
   shared_let(:other_user_private_project_view) do
-    FactoryBot.create(:view_table,
+    FactoryBot.create(:view_work_packages_table,
                       query: other_user_private_project_query)
   end
   shared_let(:user_public_project_query) do
@@ -68,7 +68,7 @@ describe ::API::V3::Views::ViewsAPI,
                       is_public: true)
   end
   shared_let(:user_public_project_view) do
-    FactoryBot.create(:view_table,
+    FactoryBot.create(:view_work_packages_table,
                       query: user_public_project_query)
   end
   shared_let(:other_project) do
@@ -81,7 +81,7 @@ describe ::API::V3::Views::ViewsAPI,
                       project: other_project)
   end
   shared_let(:user_private_other_project_view) do
-    FactoryBot.create(:view_table,
+    FactoryBot.create(:view_work_packages_table,
                       query: user_private_other_project_query)
   end
 
@@ -109,7 +109,7 @@ describe ::API::V3::Views::ViewsAPI,
   end
 
   context 'without any filter' do
-    it_behaves_like 'API V3 collection response', 3, 3, 'Views::Table' do
+    it_behaves_like 'API V3 collection response', 3, 3, 'Views::WorkPackagesTable' do
       let(:elements) do
         [
           user_private_other_project_view,
@@ -132,7 +132,7 @@ describe ::API::V3::Views::ViewsAPI,
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'Views::Table' do
+    it_behaves_like 'API V3 collection response', 2, 2, 'Views::WorkPackagesTable' do
       let(:elements) do
         [
           user_public_project_view,
@@ -145,6 +145,6 @@ describe ::API::V3::Views::ViewsAPI,
   context 'for a user without any visible queries' do
     current_user { FactoryBot.create(:user) }
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'Views::Table'
+    it_behaves_like 'API V3 collection response', 0, 0, 'Views::WorkPackagesTable'
   end
 end
