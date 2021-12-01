@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter  do
+describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { double('current_user', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
+  let(:user) { instance_double('User', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
   let(:embed_links) { true }
   let(:representer) do
@@ -44,7 +44,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
   let(:permissions) { [] }
 
   let(:policy) do
-    policy_stub = double('policy stub')
+    policy_stub = instance_double(QueryPolicy)
 
     allow(QueryPolicy)
       .to receive(:new)
@@ -80,7 +80,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
   subject { representer.to_json }
 
   describe '_links' do
-    context 'self' do
+    describe 'self' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { api_v3_paths.query(query.id) }
@@ -132,7 +132,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
       let(:href) { api_v3_paths.query_project_schema(project.identifier) }
     end
 
-    context 'has no project' do
+    context 'when the query has no project' do
       let(:query) { FactoryBot.build_stubbed(:query, project: nil) }
 
       it_behaves_like 'has an empty link' do
@@ -328,7 +328,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
         query = FactoryBot.build_stubbed(:query, project: project)
         query.add_filter('subject', '~', ['bogus'])
         query.group_by = 'author'
-        query.sort_criteria = [['assigned_to', 'asc'], ['type', 'desc']]
+        query.sort_criteria = [%w[assigned_to asc], %w[type desc]]
 
         query
       end
@@ -341,7 +341,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
           showSums: false,
           showHierarchies: false,
           groupBy: 'author',
-          sortBy: JSON::dump([['assignee', 'asc'], ['type', 'desc']])
+          sortBy: JSON::dump([%w[assignee asc], %w[type desc]])
         }
 
         api_v3_paths.work_packages_by_project(project.id) + "?#{params.to_query}"
@@ -390,7 +390,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
       end
 
       it 'has an empty columns array' do
-        is_expected
+        expect(subject)
           .to be_json_eql([].to_json)
           .at_path('_links/columns')
       end
@@ -400,7 +400,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
       let(:query) do
         query = FactoryBot.build_stubbed(:query, project: project)
 
-        query.column_names = ['status', 'assigned_to', 'updated_at']
+        query.column_names = %w[status assigned_to updated_at]
 
         query
       end
@@ -421,7 +421,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
 
         expected = [status, assignee, subproject]
 
-        is_expected
+        expect(subject)
           .to be_json_eql(expected.to_json)
           .at_path('_links/columns')
       end
@@ -453,7 +453,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
 
     context 'without sort_by' do
       it 'has an empty sortBy array' do
-        is_expected
+        expect(subject)
           .to be_json_eql([].to_json)
           .at_path('_links/sortBy')
       end
@@ -462,7 +462,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
     context 'with sort_by' do
       let(:query) do
         FactoryBot.build_stubbed(:query,
-                                 sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                 sort_criteria: [%w[subject asc], %w[assigned_to desc]])
       end
 
       it 'has an array of sortBy' do
@@ -477,7 +477,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
           }
         ]
 
-        is_expected
+        expect(subject)
           .to be_json_eql(expected.to_json)
           .at_path('_links/sortBy')
       end
@@ -485,6 +485,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
 
     context 'when not starred' do
       let(:permissions) { %i(star unstar) }
+
       before do
         allow(query)
           .to receive(:starred)
@@ -497,22 +498,23 @@ describe ::API::V3::Queries::QueryRepresenter  do
       end
 
       it 'has no unstar link' do
-        is_expected
-          .to_not have_json_path('_links/unstar')
+        expect(subject)
+          .not_to have_json_path('_links/unstar')
       end
 
-      context 'lacking permission' do
+      context 'when lacking permission' do
         let(:permissions) { [] }
 
         it 'has no star link' do
-          is_expected
-            .to_not have_json_path('_links/star')
+          expect(subject)
+            .not_to have_json_path('_links/star')
         end
       end
     end
 
     context 'when starred' do
       let(:permissions) { %i(star unstar) }
+
       before do
         allow(query)
           .to receive(:starred)
@@ -525,22 +527,22 @@ describe ::API::V3::Queries::QueryRepresenter  do
       end
 
       it 'has no star link' do
-        is_expected
-          .to_not have_json_path('_links/star')
+        expect(subject)
+          .not_to have_json_path('_links/star')
       end
 
-      context 'lacking permission' do
+      context 'when lacking permission' do
         let(:permissions) { [] }
 
         it 'has no unstar link' do
-          is_expected
-            .to_not have_json_path('_links/unstar')
+          expect(subject)
+            .not_to have_json_path('_links/unstar')
         end
       end
     end
   end
 
-  context 'properties' do
+  describe 'properties' do
     it_behaves_like 'property', :_type do
       let(:value) { 'Query' }
     end
@@ -605,71 +607,69 @@ describe ::API::V3::Queries::QueryRepresenter  do
 
     describe 'highlighting' do
       context 'with EE', with_ee: %i[conditional_highlighting] do
+        let :status do
+          {
+            href: '/api/v3/queries/columns/status',
+            title: 'Status'
+          }
+        end
+
+        let :type do
+          {
+            href: '/api/v3/queries/columns/type',
+            title: 'Type'
+          }
+        end
+
+        let :priority do
+          {
+            href: '/api/v3/queries/columns/priority',
+            title: 'Priority'
+          }
+        end
+
+        let :due_date do
+          {
+            href: '/api/v3/queries/columns/dueDate',
+            title: 'Finish date'
+          }
+        end
+
+        let(:query) do
+          query = FactoryBot.build_stubbed(:query, project: project)
+
+          query.highlighted_attributes = %w[status type priority due_date]
+
+          query
+        end
+
+        let(:highlighted_attributes) do
+          [status, priority, due_date]
+        end
+
         it 'renders when the value is set' do
           query.highlighting_mode = 'status'
 
-          is_expected.to be_json_eql('status'.to_json).at_path('highlightingMode')
+          expect(subject).to be_json_eql('status'.to_json).at_path('highlightingMode')
         end
 
         it 'renders the default' do
           query.highlighting_mode = nil
           query.highlighted_attributes = nil
-          is_expected.to be_json_eql('inline'.to_json).at_path('highlightingMode')
-          is_expected.to_not have_json_path('highlightedAttributes')
+          expect(subject).to be_json_eql('inline'.to_json).at_path('highlightingMode')
+          expect(subject).not_to have_json_path('highlightedAttributes')
         end
 
-        context "inline attribute highlighting" do
-          let :status do
-            {
-              href: '/api/v3/queries/columns/status',
-              title: 'Status'
-            }
-          end
+        it 'links an array of highlighted attributes' do
+          expect(subject)
+            .to be_json_eql(highlighted_attributes.to_json).at_path('_links/highlightedAttributes')
+        end
 
-          let :type do
-            {
-              href: '/api/v3/queries/columns/type',
-              title: 'Type'
-            }
-          end
-
-          let :priority do
-            {
-              href: '/api/v3/queries/columns/priority',
-              title: 'Priority'
-            }
-          end
-
-          let :due_date do
-            {
-              href: '/api/v3/queries/columns/dueDate',
-              title: 'Finish date'
-            }
-          end
-
-          let(:query) do
-            query = FactoryBot.build_stubbed(:query, project: project)
-
-            query.highlighted_attributes = ['status', 'type', 'priority', 'due_date']
-
-            query
-          end
-
-          let(:highlighted_attributes) do
-            [status, priority, due_date]
-          end
-
-          it 'links an array of highlighted attributes' do
-            is_expected
-              .to be_json_eql(highlighted_attributes.to_json).at_path('_links/highlightedAttributes')
-          end
-
-          it 'embeds selected inline attributes' do
-            query.highlighted_attributes[0..0].each_with_index do |attr, index|
-              is_expected
-                .to be_json_eql("/api/v3/queries/columns/#{attr}".to_json)
-                .at_path("_embedded/highlightedAttributes/#{index}/_links/self/href")
-            end
+        it 'embeds selected inline attributes' do
+          query.highlighted_attributes[0..0].each_with_index do |attr, index|
+            expect(subject)
+              .to be_json_eql("/api/v3/queries/columns/#{attr}".to_json)
+              .at_path("_embedded/highlightedAttributes/#{index}/_links/self/href")
           end
         end
       end
@@ -678,28 +678,28 @@ describe ::API::V3::Queries::QueryRepresenter  do
         it 'renders when the value is set' do
           query.highlighting_mode = 'status'
 
-          is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')
+          expect(subject).to be_json_eql('none'.to_json).at_path('highlightingMode')
         end
 
         it 'renders none when not set' do
           query.highlighting_mode = nil
 
-          is_expected.to be_json_eql('none'.to_json).at_path('highlightingMode')
+          expect(subject).to be_json_eql('none'.to_json).at_path('highlightingMode')
         end
       end
     end
 
-    context 'showHierarchies' do
+    describe 'showHierarchies' do
       it 'is true if query.show_hierarchies is true' do
         query.show_hierarchies = true
 
-        is_expected.to be_json_eql(true.to_json).at_path('showHierarchies')
+        expect(subject).to be_json_eql(true.to_json).at_path('showHierarchies')
       end
 
       it 'is false if query.show_hierarchies is false' do
         query.show_hierarchies = false
 
-        is_expected.to be_json_eql(false.to_json).at_path('showHierarchies')
+        expect(subject).to be_json_eql(false.to_json).at_path('showHierarchies')
       end
     end
 
@@ -719,73 +719,76 @@ describe ::API::V3::Queries::QueryRepresenter  do
 
       let(:filter_status) { FactoryBot.build_stubbed(:status) }
       let(:filter_user) { FactoryBot.build_stubbed(:user) }
-
-      it 'should render the filters' do
-        expected_status = {
-          "_type": "StatusQueryFilter",
-          "name": "Status",
-          "_links": {
-            "filter": {
-              "href": "/api/v3/queries/filters/status",
-              "title": "Status"
+      let(:expected_status) do
+        {
+          _type: "StatusQueryFilter",
+          name: "Status",
+          _links: {
+            filter: {
+              href: "/api/v3/queries/filters/status",
+              title: "Status"
             },
-            "operator": {
-              "href": api_v3_paths.query_operator(CGI.escape('=')),
-              "title": "is"
+            operator: {
+              href: api_v3_paths.query_operator(CGI.escape('=')),
+              title: "is"
             },
-            "values": [
+            values: [
               {
-                "href": api_v3_paths.status(filter_status.id),
-                "title": filter_status.name
+                href: api_v3_paths.status(filter_status.id),
+                title: filter_status.name
               }
             ],
-            "schema": {
-              "href": api_v3_paths.query_filter_instance_schema('status')
+            schema: {
+              href: api_v3_paths.query_filter_instance_schema('status')
             }
           }
         }
-        expected_assignee = {
-          "_type": "AssigneeQueryFilter",
-          "name": "Assignee",
-          "_links": {
-            "filter": {
-              "href": "/api/v3/queries/filters/assignee",
-              "title": "Assignee"
+      end
+      let(:expected_assignee) do
+        {
+          _type: "AssigneeQueryFilter",
+          name: "Assignee",
+          _links: {
+            filter: {
+              href: "/api/v3/queries/filters/assignee",
+              title: "Assignee"
             },
-            "operator": {
-              "href": api_v3_paths.query_operator(CGI.escape('!')),
-              "title": "is not"
+            operator: {
+              href: api_v3_paths.query_operator(CGI.escape('!')),
+              title: "is not"
             },
-            "values": [
+            values: [
               {
-                "href": api_v3_paths.user(filter_user.id),
-                "title": filter_user.name
+                href: api_v3_paths.user(filter_user.id),
+                title: filter_user.name
               }
             ],
-            "schema": {
-              "href": api_v3_paths.query_filter_instance_schema('assignee')
+            schema: {
+              href: api_v3_paths.query_filter_instance_schema('assignee')
             }
           }
         }
+      end
 
+      it 'renders the filters' do
         expected = [expected_status, expected_assignee]
 
-        is_expected.to be_json_eql(expected.to_json).at_path('filters')
+        expect(subject).to be_json_eql(expected.to_json).at_path('filters')
       end
     end
 
     describe 'with sort criteria' do
       let(:query) do
         FactoryBot.build_stubbed(:query,
-                                 sort_criteria: [['subject', 'asc'], ['assigned_to', 'desc']])
+                                 sort_criteria: [%w[subject asc], %w[assigned_to desc]])
       end
 
       it 'has the sort criteria embedded' do
-        is_expected
+        expect(subject)
           .to be_json_eql('/api/v3/queries/sort_bys/subject-asc'.to_json)
           .at_path('_embedded/sortBy/0/_links/self/href')
 
-        is_expected
+        expect(subject)
           .to be_json_eql('/api/v3/queries/sort_bys/assignee-desc'.to_json)
           .at_path('_embedded/sortBy/1/_links/self/href')
       end
@@ -795,13 +798,13 @@ describe ::API::V3::Queries::QueryRepresenter  do
       let(:query) do
         query = FactoryBot.build_stubbed(:query, project: project)
 
-        query.column_names = ['status', 'assigned_to', 'updated_at']
+        query.column_names = %w[status assigned_to updated_at]
 
         query
       end
 
       it 'has the columns embedded' do
-        is_expected
+        expect(subject)
           .to be_json_eql('/api/v3/queries/columns/status'.to_json)
           .at_path('_embedded/columns/0/_links/self/href')
       end
@@ -812,7 +815,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
         end
 
         it 'has no columns embedded' do
-          is_expected
+          expect(subject)
             .not_to have_json_path('_embedded/columns')
         end
       end
@@ -828,7 +831,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
       end
 
       it 'has the group by embedded' do
-        is_expected
+        expect(subject)
           .to be_json_eql('/api/v3/queries/group_bys/status'.to_json)
           .at_path('_embedded/groupBy/_links/self/href')
       end
@@ -839,7 +842,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
         end
 
         it 'has no group bys embedded' do
-          is_expected
+          expect(subject)
             .not_to have_json_path('_embedded/groupBy')
         end
       end
@@ -851,8 +854,9 @@ describe ::API::V3::Queries::QueryRepresenter  do
           query.timeline_visible = true
         end
       end
+
       it do
-        is_expected.to be_json_eql('true').at_path('timelineVisible')
+        expect(subject).to be_json_eql('true').at_path('timelineVisible')
       end
     end
 
@@ -867,7 +871,7 @@ describe ::API::V3::Queries::QueryRepresenter  do
       end
 
       it do
-        is_expected.to be_json_eql(expected.to_json).at_path('timelineLabels')
+        expect(subject).to be_json_eql(expected.to_json).at_path('timelineLabels')
       end
     end
 
@@ -877,8 +881,9 @@ describe ::API::V3::Queries::QueryRepresenter  do
           query.timeline_zoom_level = :weeks
         end
       end
+
       it do
-        is_expected.to be_json_eql('weeks'.to_json).at_path('timelineZoomLevel')
+        expect(subject).to be_json_eql('weeks'.to_json).at_path('timelineZoomLevel')
       end
     end
   end
@@ -891,25 +896,25 @@ describe ::API::V3::Queries::QueryRepresenter  do
                           results: results_representer)
     end
 
-    context 'results are provided' do
+    context 'when results are provided' do
       let(:results_representer) do
         {
           _type: 'BogusResultType'
         }
       end
 
-      it 'should embed the results' do
-        is_expected
+      it 'embeds the results' do
+        expect(subject)
           .to be_json_eql('BogusResultType'.to_json)
           .at_path('_embedded/results/_type')
       end
     end
 
-    context 'no results provided' do
+    context 'when no results are provided' do
       let(:results_representer) { nil }
 
-      it 'should not embed the results' do
-        is_expected
+      it 'does not embed the results' do
+        expect(subject)
           .not_to have_json_path('_embedded/results')
       end
     end
