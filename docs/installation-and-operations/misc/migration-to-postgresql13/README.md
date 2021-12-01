@@ -176,6 +176,23 @@ sudo mv /var/lib/openproject/pgdata-prev /var/lib/openproject/pgdata
 
 And then restart OpenProject.
 
+## Upgrade table query plans after the upgrade
+
+After an upgrade of PostgreSQL, we strongly recommend running the following SQL command to ensure query plans are regenerated as this doesn't necessarily happen automatically.
+
+For that, open a database console. On a packaged installation, this is the way to do it:
+
+```
+psql $(openproject config:get DATABASE_URL)
+``` 
+
+Please change the command appropriately for other installation methods. Once connected, run the following command
+
+```sql
+ANALYZE VERBOSE;
+```
+
+
 [all-in-one-docker-installation]: ../../installation/docker/#all-in-one-container
 
 [backup-guide]: ../../operation/backing-up/

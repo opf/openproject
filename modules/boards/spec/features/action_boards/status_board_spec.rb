@@ -178,6 +178,7 @@ describe 'Status action board', type: :feature, js: true do
       filters.open
 
       # Expect that status is not available for global filter selection
+      filters.open_available_filter_list
       filters.expect_available_filter 'Status', present: false
 
       filters.quick_filter 'Task'

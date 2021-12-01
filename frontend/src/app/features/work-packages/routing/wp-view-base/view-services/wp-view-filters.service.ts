@@ -67,8 +67,10 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   /** Flag state to determine whether the filters are incomplete */
   private incomplete = input<boolean>(false);
 
-  constructor(protected readonly states:States,
-    readonly querySpace:IsolatedQuerySpace) {
+  constructor(
+    protected readonly states:States,
+    readonly querySpace:IsolatedQuerySpace,
+  ) {
     super(querySpace);
   }
 

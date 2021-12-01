@@ -61,8 +61,8 @@ export class ConfigurationService {
     return !!this.timezone();
   }
 
-  public timezone() {
-    return this.userPreference('timeZone');
+  public timezone():string {
+    return this.userPreference('timeZone') as string;
   }
 
   public isDirectUploads() {

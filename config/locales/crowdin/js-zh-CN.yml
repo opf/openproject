@@ -633,8 +633,6 @@ zh-CN:
           label: '暂时暂停每日电子邮件提醒'
           first_day: '第一天'
           last_day: '最后一天'
-    team_planner:
-      title: 'Team planner'
     text_are_you_sure: "是否确定？"
     text_data_lost: "输入的所有数据将全部丢失。"
     types:

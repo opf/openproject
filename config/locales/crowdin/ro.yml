@@ -1637,7 +1637,7 @@ ro:
   lable_membership_updated: 'Membru actualizat'
   label_menu_badge:
     pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
+    alpha: 'alfa'
     beta: 'beta'
   label_menu_item_name: "Numele meniului"
   label_message: "Mesaj"

@@ -115,5 +115,6 @@ structure.sql
 # Local development docker 
 /.env
 
-# Local development direnv file
+# Local development direnv files
 /.envrc
+/.direnv

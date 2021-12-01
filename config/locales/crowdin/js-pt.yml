@@ -633,8 +633,6 @@ pt:
           label: 'Pausar temporariamente lembretes por e-mail diários '
           first_day: 'Primeiro dia'
           last_day: 'Último dia'
-    team_planner:
-      title: 'Team planner'
     text_are_you_sure: "Você tem certeza?"
     text_data_lost: "Todos os dados inseridos serão perdidos."
     types:

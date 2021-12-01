@@ -634,8 +634,6 @@ es:
           label: 'Pausar temporalmente los recordatorios por correo electrónico diarios'
           first_day: 'Primer día'
           last_day: 'Último día'
-    team_planner:
-      title: 'Team planner'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."
     types:

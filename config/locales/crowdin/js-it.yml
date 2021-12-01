@@ -635,8 +635,6 @@ it:
           label: 'Sospendi temporaneamente i promemoria email giornalieri'
           first_day: 'Primo giorno '
           last_day: 'Ultimo giorno'
-    team_planner:
-      title: 'Team planner'
     text_are_you_sure: "Sei sicuro?"
     text_data_lost: "Tutti i dati inseriti andranno persi."
     types:
