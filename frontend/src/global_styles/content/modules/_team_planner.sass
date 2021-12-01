@@ -1,3 +1,46 @@
 .router--team-planner
   #content
     height: 100%
+
+  // ------------------------ Full calendar overwrite ------------------------
+  .fc
+    font-size: 14px
+
+    .fc-toolbar-title
+      font-size: 16px
+
+    .fc-datagrid-cell-cushion,
+    .fc-timeline-slot-cushion
+      padding: 12px 16px
+
+    .fc-timeline-lane-frame
+      padding: 4px 0
+
+    .fc-timeline-event
+      padding-top: 5px
+      padding-bottom: 5px
+      border-radius: 5px
+      margin-bottom: 4px
+      background-color: var(--timeline--type-fallback-color)
+      border-color: var(--timeline--type-fallback-color)
+      color: #000000
+
+      &:before,
+      &:after
+        padding-right: 4px
+
+    .fc-event-title-container
+      margin: 0 16px
+      line-height: 12px
+
+    .fc-event-main
+      color: unset
+
+    .fc-resource-timeline-divider
+      width: 1px
+      background: none
+      border: none
+      cursor: unset
+
+    thead .fc-scroller
+      @include no-visible-scroll-bar
