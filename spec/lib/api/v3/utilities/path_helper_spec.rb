@@ -529,6 +529,11 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'view paths' do
+    it_behaves_like 'show', :view
+    it_behaves_like 'index', :view
+  end
+
   describe 'wiki pages paths' do
     it_behaves_like 'show', :wiki_page
   end

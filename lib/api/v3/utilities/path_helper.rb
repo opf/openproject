@@ -437,6 +437,9 @@ module API
 
           resources :version
 
+          index :view
+          show :view
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end

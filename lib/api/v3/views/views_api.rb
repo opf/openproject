@@ -26,12 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
+module API
+  module V3
+    module Views
+      class ViewsAPI < ::API::OpenProjectAPI
+        resources :views do
+          get &::API::V3::Utilities::Endpoints::Index
+                 .new(model: View)
+                 .mount
 
-  def default_scope
-    Query.visible(user)
+          route_param :id, type: Integer, desc: 'View ID' do
+            after_validation do
+              @view = ::Queries::Views::ViewQuery
+                      .new(user: current_user)
+                      .results
+                      .find(params['id'])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show
+                   .new(model: View)
+                   .mount
+          end
+        end
+      end
+    end
   end
 end

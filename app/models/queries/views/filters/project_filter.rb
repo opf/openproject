@@ -26,12 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
+# Using the associated queries' project relation to filter
+class Queries::Views::Filters::ProjectFilter < Queries::Views::Filters::ViewFilter
+  include Queries::Filters::Shared::ProjectFilter
+
+  def left_outer_joins
+    [:query]
   end
 
-  def default_scope
-    Query.visible(user)
+  def where
+    operator_strategy.sql_for_field(values, Query.table_name, self.class.key)
   end
 end

@@ -26,12 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
+module Queries::Scopes
+  module Visible
+    extend ActiveSupport::Concern
 
-  def default_scope
-    Query.visible(user)
+    class_methods do
+      # Return queries visible to a user:
+      # * the user is the query user and the user has the :view_work_packages permission in the project OR
+      # * the user is the query user and the user has the :view_work_packages permission in any project
+      #   and the query is global (no project) OR
+      # * the user is not the query user and the user has the :view_work_packages permission in the project
+      #   and the query is public OR
+      # * the user is not the query user and the user has the :view_work_packages permission in any project
+      #   and the query is public and the query is global (no project)
+      def visible(user)
+        scope = where(user_id: user.id)
+                .or(where(is_public: true))
+                .where(project: Project.allowed_to(user, :view_work_packages))
+
+        if user.allowed_to_globally?(:view_work_packages)
+          scope.or(where(project: nil))
+        else
+          scope
+        end
+      end
+    end
   end
 end

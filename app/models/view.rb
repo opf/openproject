@@ -26,12 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
+class View < ApplicationRecord
+  # disable STI
+  self.inheritance_column = :_type_disabled
 
-  def default_scope
-    Query.visible(user)
-  end
+  belongs_to :query
 end

@@ -26,12 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
+FactoryBot.define do
+  factory :view do
+    type { 'table' }
+    query
   end
 
-  def default_scope
-    Query.visible(user)
-  end
+  factory :view_table, parent: :view
 end

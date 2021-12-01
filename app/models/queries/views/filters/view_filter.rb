@@ -26,12 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
+class Queries::Views::Filters::ViewFilter < Queries::Filters::Base
+  self.model = View
 
-  def default_scope
-    Query.visible(user)
+  def human_name
+    View.human_attribute_name(name)
   end
 end

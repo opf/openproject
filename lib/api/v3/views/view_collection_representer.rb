@@ -26,12 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
-
-  def default_scope
-    Query.visible(user)
+module API
+  module V3
+    module Views
+      class ViewCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection; end
+    end
   end
 end

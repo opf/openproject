@@ -31,13 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter  do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryBot.build_stubbed(:query, project: project, projections: projections) }
-  let(:projections) do
-    {
-      calendar: {},
-      team_calendar: {}
-    }
-  end
+  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
   let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { double('current_user', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
@@ -606,31 +600,6 @@ describe ::API::V3::Queries::QueryRepresenter  do
       it_behaves_like 'has UTC ISO 8601 date and time' do
         let(:date) { query.updated_at }
         let(:json_path) { 'updatedAt' }
-      end
-    end
-
-    describe 'projections' do
-      it_behaves_like 'property', :projections do
-        let(:value) do
-          [
-            {
-              "_type": "QueryProjections::Calendar",
-              "_links": {
-                "schema": {
-                  "href": api_v3_paths.query_projection_calendar_schema
-                }
-              }
-            },
-            {
-              "_type": "QueryProjections::TeamCalendar",
-              "_links": {
-                "schema": {
-                  "href": api_v3_paths.query_projection_team_calendar_schema
-                }
-              }
-            },
-          ]
-        end
       end
     end
 

@@ -307,15 +307,6 @@ module API
         property :highlighting_mode,
                  render_nil: false
 
-        # Projections
-        property :projections,
-                 getter: ->(*) {
-                   represented.projections.map do |k, v|
-                     ::API::V3::Queries::Projections::QueryProjectionRepresenter.new(v.merge(type: k), current_user: current_user)
-                   end
-                 },
-                 exec_context: :decorator
-
         attr_accessor :results,
                       :params
 

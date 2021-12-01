@@ -26,12 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
+module Queries::Views
+  [Queries::Views::Filters::ProjectFilter].each do |filter|
+    Queries::Register.filter Queries::Views::ViewQuery,
+                             filter
   end
 
-  def default_scope
-    Query.visible(user)
+  [Queries::Views::Orders::DefaultOrder].each do |order|
+    Queries::Register.order Queries::Views::ViewQuery,
+                            order
   end
 end

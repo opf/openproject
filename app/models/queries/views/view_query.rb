@@ -26,12 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Queries::QueryQuery < Queries::BaseQuery
-  def self.model
-    Query
-  end
-
+class Queries::Views::ViewQuery < Queries::BaseQuery
   def default_scope
-    Query.visible(user)
+    super.where(query_id: Query.visible(User.current))
   end
 end
