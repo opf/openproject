@@ -39,7 +39,7 @@ Click on one of the categories in order to proceed with the configuration.
 | [Time and costs](./time-and-costs)                     | Configure your currency and create cost types in OpenProject. |
 | [Backlogs](./backlogs)                                 | Configure your backlogs settings in OpenProject, e.g. story types to be displayed in the backlogs, task types, and more. |
 | [Plugins](./plugins)                                   | Manage plugins in OpenProject.                               |
-| [Webhooks](./webhooks)                                 | Add and manage webhooks in OpenProject.                      |
+| [Webhooks](./incoming-and-outgoing/webhooks)             | Add and manage webhooks in OpenProject.                      |
 | [Information](information)                             | View the latest system information status.                   |
 | [GitHub Integration](github-integration)               | How to combine GitHub and OpenProject.                       |
 | [Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
