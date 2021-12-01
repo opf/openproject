@@ -522,9 +522,9 @@ ro:
         all: 'Toate'
       center:
         and_more_users:
-          one: 'și încă unul'
+          one: 'and 1 other'
           few: 'and %{count} others'
-          other: 'și %{count} alții'
+          other: 'and %{count} others'
         no_results:
           at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
@@ -634,8 +634,6 @@ ro:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    team_planner:
-      title: 'Planificator de echipă'
     text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "All entered data will be lost."
     types:

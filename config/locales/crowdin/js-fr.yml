@@ -634,8 +634,6 @@ fr:
           label: 'Mettre temporairement en pause les rappels quotidiens par e-mail'
           first_day: 'Premier jour'
           last_day: 'Dernier jour'
-    team_planner:
-      title: 'Team planner'
     text_are_you_sure: "Êtes-vous sûr ?"
     text_data_lost: "Toutes les données saisies seront perdues."
     types:
