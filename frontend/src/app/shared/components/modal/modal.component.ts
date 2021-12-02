@@ -53,7 +53,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
     return true;
   }
 
-  public closeMe(evt?:JQuery.TriggeredEvent) {
+  public closeMe(evt?:Event|JQuery.TriggeredEvent):void {
     this.service.close();
 
     if (evt) {
@@ -62,7 +62,8 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
     }
   }
 
-  public onOpen(modalElement:JQuery) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public onOpen(modalElement:JQuery):void {
     this.openingEvent.emit();
     this.cdRef.detectChanges();
   }

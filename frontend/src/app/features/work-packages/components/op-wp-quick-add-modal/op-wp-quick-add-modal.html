@@ -1,18 +1,36 @@
-<div
-  class="op-modal op-modal_autoheight loading-indicator--location"
-  data-indicator-name="modal">
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+<form
+  (submit)="onSubmit($event)"
+>
+  <div
+    class="op-modal op-modal_autoheight loading-indicator--location"
+    data-indicator-name="modal">
+    <op-modal-header
+      (close)="closeMe()"
+    >{{text.title}}</op-modal-header>
 
-  <div class="op-modal--body">
-    <op-autocompleter
-    [appendTo]="'body'"
-    [closeOnSelect]="false"
-    [placeholder]="text.placeholder"
-    [resource]="autocompleterOptions.resource"
-    [getOptionsFn]="autocompleterOptions.getOptionsFn"
-    (change)="addWorkPackageToQuery($event)"></op-autocompleter>
-  </div>
+    <div class="op-modal--body op-form">
+      <op-autocompleter
+        [appendTo]="'body'"
+        [required]="true"
+        [placeholder]="text.placeholder"
+        [resource]="autocompleterOptions.resource"
+        [getOptionsFn]="autocompleterOptions.getOptionsFn"
+        (change)="selectedWorkPackage = $event"></op-autocompleter>
+    </div>
 
-  <div class="op-modal--footer">
+    <div class="op-modal--footer">
+      <button
+        type="button"
+        class="button"
+        (click)="closeMe($event)"
+        [textContent]="text.close"
+      ></button>
+      <button
+        class="button -highlight"
+        type="submit"
+        [disabled]="!selectedWorkPackage"
+        [textContent]="text.add"
+      ></button>
+    </div>
   </div>
-</div>
+</form>

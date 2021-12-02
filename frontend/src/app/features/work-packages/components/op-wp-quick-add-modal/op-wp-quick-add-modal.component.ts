@@ -14,22 +14,33 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import {
+  catchError,
+  map,
+} from 'rxjs/operators';
+import {
+  Observable,
+  of,
+} from 'rxjs';
 import { IsolatedQuerySpace } from '../../directives/query-space/isolated-query-space';
 import { WorkPackageNotificationService } from '../../services/notifications/work-package-notification.service';
 import { UrlParamsHelperService } from '../wp-query/url-params-helper';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import SubmitEvent = JQuery.SubmitEvent;
 
 @Component({
   templateUrl: './op-wp-quick-add-modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OPWPQuickAddModalComponent extends OpModalComponent {
+  selectedWorkPackage?:WorkPackageResource;
+
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
     title: this.I18n.t('js.modals.quick_add.title'),
+    close: this.I18n.t('js.button_close'),
+    add: this.I18n.t('js.button_add'),
   };
 
   constructor(readonly elementRef:ElementRef,
@@ -83,15 +94,19 @@ export class OPWPQuickAddModalComponent extends OpModalComponent {
     getOptionsFn: this.fetchAutocompleterData,
   };
 
-  public addWorkPackageToQuery(workPackage?:WorkPackageResource):void {
-    if (workPackage) {
-      void this.schemaCacheService
-        .ensureLoaded(workPackage)
-        .then(() => {
-          // we should handle what to do after selecting the wp
-          this.ngSelectComponent.closeSelect();
-          this.closeMe();
-        });
+  public onSubmit(evt:Event):void {
+    evt.preventDefault();
+
+    if (!this.selectedWorkPackage) {
+      return;
     }
+
+    void this.schemaCacheService
+      .ensureLoaded(this.selectedWorkPackage)
+      .then(() => {
+        // we should handle what to do after selecting the wp
+        this.ngSelectComponent.closeSelect();
+        this.closeMe();
+      });
   }
 }
