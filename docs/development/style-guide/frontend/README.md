@@ -101,7 +101,7 @@ There are also two types of other state that our frontend application has to be 
 * Global Remote: the state of the server.
 * Local Remote: the state of other clients.
 
-For the server, this of the time means the database contents. Keeping our local state up-to-date with this is a hard problem to solve, and will force us to make unwanted API calls or unprovable assertions. Long-term, we would like to have live (e.g. websocket) connections for pieces of state, so we can always be up-to-date with the database without bombarding the server in requests.
+For the server, most of the time this means the database contents. Keeping our local state up-to-date with this is a hard problem to solve, and will force us to make unwanted API calls or unprovable assertions. Long-term, we would like to have live (e.g. websocket) connections for pieces of state, so we can always be up-to-date with the database without bombarding the server in requests.
 
 Syncing with remote clients' state is currently nonexistent. Clients submit their updates globally to the server. When submitting, clients submit a version token of the resource, which gets updated by the server. If a client tries to work on an older version of the resource, the request will fail. Usually is no sophisticated method in place to handle these; an error toaster will be thrown. Since this is a very hard problem to solve, there are no plans to change this significantly.
 
