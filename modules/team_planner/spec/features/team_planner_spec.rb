@@ -113,6 +113,8 @@ describe 'Team planner', type: :feature, js: true do
     it 'renders a basic board' do
       team_planner.visit!
 
+      team_planner.title
+
       team_planner.expect_assignee user
       team_planner.expect_assignee other_user
 

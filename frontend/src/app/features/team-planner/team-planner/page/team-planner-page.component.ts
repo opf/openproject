@@ -13,6 +13,7 @@ import { ZenModeButtonComponent } from 'core-app/features/work-packages/componen
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -27,13 +28,14 @@ import { QueryParamListenerService } from 'core-app/features/work-packages/compo
 export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent implements OnInit {
   text = {
     title: this.I18n.t('js.team_planner.title'),
+    unsaved_title: this.I18n.t('js.team_planner.unsaved_title'),
   };
 
   /** Go back using back-button */
   backButtonCallback:() => void;
 
   /** Current query title to render */
-  selectedTitle = this.text.title;
+  selectedTitle = this.text.unsaved_title;
 
   filterContainerDefinition:DynamicComponentDefinition = {
     component: WorkPackageFilterContainerComponent,
@@ -89,6 +91,14 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
    */
   setPartition(state:{ data:{ partition?:ViewPartitionState } }):void {
     this.currentPartition = state.data?.partition || '-split';
+  }
+
+  updateTitle(query?:QueryResource):void {
+    if (!query?.id) {
+      this.selectedTitle = this.text.unsaved_title;
+    } else {
+      super.updateTitle(query);
+    }
   }
 
   // For shared template compliance
