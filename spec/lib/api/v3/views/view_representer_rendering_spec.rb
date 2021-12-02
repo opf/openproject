@@ -93,6 +93,14 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
       end
     end
 
+    describe 'name' do
+      context 'with the query being name' do
+        it_behaves_like 'property', :name do
+          let(:value) { query.name }
+        end
+      end
+    end
+
     describe 'timestamps' do
       it_behaves_like 'datetime property', :createdAt do
         let(:value) { view.created_at }

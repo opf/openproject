@@ -78,6 +78,11 @@ module API
                    query.starred
                  }
 
+        property :name,
+                 getter: ->(*) {
+                   query.name
+                 }
+
         date_time_property :created_at
 
         date_time_property :updated_at
