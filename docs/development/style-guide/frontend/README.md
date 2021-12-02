@@ -91,12 +91,19 @@ The app has a single way to read and to write the state, and both are separated 
 
 
 #### State definition
-We can differentiate the following types of states in an app:
+We can differentiate two types of states in an app:
 
-* Component state (local): belongs to a single component. Includes mainly UI state.
-* Injected store state (local): belongs to a component tree. Includes mainly UI state.
-* Shared (global): belongs the full app. This includes a shared representation of the backend queries and models, but also things like the current Route, logged in user and capabilities of this user.
-* Remote (global): backend state (e.g., REST APIs).
+* Local: belongs to a single component. Includes mainly UI state.
+* Global: belongs the full app. This includes a shared representation of the backend queries and models, but also things like the current Route, logged in user and capabilities of this user.
+
+There are also two types of other state that our frontend application has to be concerned with:
+
+* Global Remote: the state of the server.
+* Local Remote: the state of other clients.
+
+For the server, this of the time means the database contents. Keeping our local state up-to-date with this is a hard problem to solve, and will force us to make unwanted API calls or unprovable assertions. Long-term, we would like to have live (e.g. websocket) connections for pieces of state, so we can always be up-to-date with the database without bombarding the server in requests.
+
+Syncing with remote clients' state is currently nonexistent. Clients submit their updates globally to the server. When submitting, clients submit a version token of the resource, which gets updated by the server. If a client tries to work on an older version of the resource, the request will fail. Usually is no sophisticated method in place to handle these; an error toaster will be thrown. Since this is a very hard problem to solve, there are no plans to change this significantly.
 
 State relating to the component's view (or children) **should** be declared and management in that component. Children
 that rely on this state **should** receive it via component inputs and outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
