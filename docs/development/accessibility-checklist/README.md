@@ -71,8 +71,8 @@ Web sites should be:
 * Markup is used in a way that facilitates accessibility. This includes following the HTML/XHTML specifications and using forms, form labels, frame titles, etc. appropriately.
 
 ## 5. Additional information
-* [WCAG checklist](http://webaim.org/standards/wcag/checklist) (English)
-* [BITV checklist](http://www.wob11.de/checklisten.html) (German)
+* [WCAG checklist](https://webaim.org/standards/wcag/checklist) (English)
+* [BITV checklist](https://www.barrierefreies-webdesign.de/richtlinien/verwaltung/bitv-2.0.html) (German)
 
 Screen reader used for accessibility tests (DTAG):
 

@@ -352,7 +352,7 @@ the configuration flag `security_badge_displayed: false` .
 
 ## Cache options:
 
-* `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
+* `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/) or `memory_store` (default: `file_store`)
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)

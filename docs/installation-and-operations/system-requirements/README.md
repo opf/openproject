@@ -84,10 +84,10 @@ The [docker-based installation](../installation/docker) requires a system with D
 Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
 
 * __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.7.x
-* __Webserver:__ [Apache](http://httpd.apache.org/)
-  or [nginx](http://nginx.org/en/docs/)
+* __Webserver:__ [Apache](https://httpd.apache.org/)
+  or [nginx](https://nginx.org/en/docs/)
 * __Application server:__ [Puma](https://puma.io/)
-* __Database__: [PostgreSQL](http://www.postgresql.org/) Version >= 13
+* __Database__: [PostgreSQL](https://www.postgresql.org/) Version >= 13
 
 Starting in OpenProject 12.0, PostgreSQL 13.0 will be a minimum requirement.
 PostgreSQL versions 9.6. and up will continue to work, but may result in incompatibilities and degraded performance in the future. We have a [migration guide on how to upgrade to PostgreSQL 13](https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/).
