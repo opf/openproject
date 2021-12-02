@@ -6,17 +6,24 @@ description: Integration to OpenProject.
 robots: index, follow
 keywords: projects, integration, Jira
 ---
-# Integrations
+# Integrations and Community plugins
+
+There are various integrations and Community plugins out there. Please [contact us](https://www.openproject.org/contact-us/) if you want to have your plugin to be added to this list.
 
 If you have previously worked with other tools and want to switch or need an integration to OpenProject, there is a way to do so for some applications.
 
+<div class="alert alert-info" role="alert">
+**Note**:  We do not guarantee error-free and seamless use of the Community plugins. Installation and use is at your own risk.
+</div>
+
+
 ## GitHub
 
-OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](../../system-admin-guide/github-integration/).
+OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](./github-integration/).
 
 ## Gitlab
 
-The GitLab integration to OpenProject is still in development and you can find all information [here](https://gitlab.com/gitlab-org/gitlab/-/issues/15847).
+There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
 
 
 ## Jira
@@ -38,15 +45,15 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
+We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
 
 ## Slack
 
-There is a rudimentary OpenProject Slack integration. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
-To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise on-premises edition and the Community Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
+There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
+To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise on-premises edition and the Community Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack) 
 
 ## Timesheet
-Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
+Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
 
 ## Mattermost
 

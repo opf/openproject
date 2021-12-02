@@ -20,7 +20,7 @@ Whenever you are getting in-app notification, a red elliptical with the number o
 
 To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. 
 
-![notifications](IaN-1.PNG)
+![notifications](IaN-1.png)
 
 This will then take you to the **notification center**.
 
@@ -28,7 +28,7 @@ To access the in-app notification settings. Please left-click the "Notification 
 
 By default, messages are grouped by work package, and the number in the blue bubble next to each work package displays the number of related messages that are associated with each work package. Alternatively, these notifications can also be accessed from within a given work package under the **Activity** tab in the details view.
 
-![notification-center](notification-center.PNG)
+![notification-center](notification-center.png)
 
 The exclamation mark within the bell symbol on the right side of the notification center indicates that there are unread notifications.
 
@@ -49,7 +49,7 @@ You can filter or group the notifications using the two areas in the left menu b
 
    ![mark-as-read](mark-as-read.png)
 
-4. The [**Notification settings**](notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
+4. The [**Notification settings**](./notification-settings/) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 

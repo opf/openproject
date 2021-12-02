@@ -458,4 +458,4 @@ If you need to restart the server (for example after a configuration change), do
 ## Questions, comments, and feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
+[Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](https://www.openproject.org) to stay up to date.

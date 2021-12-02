@@ -18,7 +18,7 @@ Navigate to *Administration* -> *Incoming & Outgoing*.
 | [Email notifications](#email-notifications-settings) | How to configure outgoing email notifications?             |
 | [Incoming emails](#incoming-emails-settings) | How to configure settings for inbound emails?              |
 
-## Incoming & outgoing Settings
+## Incoming & outgoing settings
 
 To change the global settings for incoming and outgoing messages, navigate to *Administration* -> *Incoming & Outgoing*.
 
@@ -35,7 +35,7 @@ To adapt email notification settings, go to *Administration* -> *Incoming & Outg
 2. Activate **blind carbon copy recipients** (bcc).
 3. Define if the email should be formatted in **plain text** (no HTML).![image-20211129135301400](image-20211129135301400.png)
 
-The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting,-aggregation-of-changes-in-activity).
+The frequency of sending e-mails per work package can be set in [this way](../system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 ### Configure email header and email footer
 

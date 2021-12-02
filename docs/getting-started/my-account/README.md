@@ -160,7 +160,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all. 
 
-![Email reminders](EmailNotificationsv12.PNG)
+![Email reminders](EmailNotificationsv12.png)
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 

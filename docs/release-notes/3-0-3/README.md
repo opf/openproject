@@ -16,7 +16,7 @@ with this issue resolved.
 
 If you want to know more about the vulnerability check out Rafael
 França’s [blog
-post](http://weblog.rubyonrails.org/2014/5/6/Rails_3_2_18_4_0_5_and_4_1_1_have_been_released/)
+post](https://weblog.rubyonrails.org/2014/5/6/Rails_3_2_18_4_0_5_and_4_1_1_have_been_released/)
 about the Rails release.
 
 In addition we fixed a possible cross-site scripting attack that
