@@ -26,29 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative './shared_contract_examples'
+module Constants
+  module Views
+    class << self
+      def add(type,
+              contract_strategy: nil)
+        @registered ||= {}
 
-describe Views::UpdateContract do
-  # TODO: this is just a stub to ensure that the type is not altered
-  it_behaves_like 'view contract' do
-    let(:view) do
-      FactoryBot
-        .build_stubbed(:view_work_packages_table).tap do |view|
-        view.type = view_type if defined?(view_type)
-        view.query = view_query
+        @registered[canonical_type(type)] = { contract_strategy: contract_strategy }
       end
-    end
 
-    subject(:contract) do
-      described_class.new(view, current_user)
-    end
+      def registered_types
+        registered.keys
+      end
 
-    describe 'validation' do
-      context 'with the type being changed' do
-        let(:view_type) { 'team_planner' }
+      def registered?(type)
+        type && registered_types.include?(canonical_type(type))
+      end
 
-        it_behaves_like 'contract is invalid', type: %i[error_readonly]
+      def type(type)
+        searched_type = canonical_type(type)
+
+        registered_types.find { |type| type == searched_type }
+      end
+
+      def contract_strategy(type)
+        if registered?(type)
+          registered[canonical_type(type)][:contract_strategy]&.constantize
+        end
+      end
+
+      attr_reader :registered
+
+      private
+
+      def canonical_type(type)
+        type.to_s.camelize.to_sym
       end
     end
   end

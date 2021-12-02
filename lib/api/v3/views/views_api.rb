@@ -35,11 +35,17 @@ module API
                  .new(model: View)
                  .mount
 
-          resources :work_packages_table do
+          route_param :type_name, type: String, desc: 'View name' do
+            after_validation do
+              @type = params['type_name']
+
+              raise API::Errors::NotFound unless Constants::Views.registered?(@type)
+            end
+
             post &::API::V3::Utilities::Endpoints::Create
                     .new(model: View,
-                         params_modifier: ->(params) {
-                           params.merge(type: 'work_packages_table')
+                         params_modifier: ->(body_params) {
+                           body_params.merge(type: @type)
                          })
                     .mount
           end

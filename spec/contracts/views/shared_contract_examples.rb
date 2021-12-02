@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
-shared_examples_for 'view contract' do
+shared_examples_for 'view contract' do |disabled_permission_checks|
   include_context 'ModelContract shared context'
 
   let(:current_user) do
@@ -87,23 +87,25 @@ shared_examples_for 'view contract' do
       it_behaves_like 'contract is valid'
     end
 
-    context 'with the query being private, the user being the query user and not having the :save_queries permission' do
-      let(:permissions) { %i[view_work_packages] }
+    unless disabled_permission_checks
+      context 'with the query being private, the user being the query user and not having the :save_queries permission' do
+        let(:permissions) { %i[view_work_packages] }
 
-      it_behaves_like 'contract is invalid', query: :error_unauthorized
-    end
+        it_behaves_like 'contract is invalid', base: :error_unauthorized
+      end
 
-    context 'with the query being public, the user being the query user but only having the :save_queries permission' do
-      let(:query_public) { true }
+      context 'with the query being public, the user being the query user but only having the :save_queries permission' do
+        let(:query_public) { true }
 
-      it_behaves_like 'contract is invalid', query: :error_unauthorized
-    end
+        it_behaves_like 'contract is invalid', base: :error_unauthorized
+      end
 
-    context 'with the query being public, the user not being the query user but having the :manage_public_queries permission' do
-      let(:query_public) { true }
-      let(:permissions) { %i[view_work_packages manage_public_queries] }
+      context 'with the query being public, the user not being the query user but having the :manage_public_queries permission' do
+        let(:query_public) { true }
+        let(:permissions) { %i[view_work_packages manage_public_queries] }
 
-      it_behaves_like 'contract is valid'
+        it_behaves_like 'contract is valid'
+      end
     end
   end
 end

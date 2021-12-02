@@ -420,8 +420,8 @@ module API
           index :view
           show :view
 
-          def self.views_work_packages_table
-            "#{views}/work_packages_table"
+          def self.views_type(type)
+            "#{views}/#{type}"
           end
 
           def self.versions_available_projects

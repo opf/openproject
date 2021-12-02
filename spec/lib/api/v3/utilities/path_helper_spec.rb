@@ -503,8 +503,8 @@ describe ::API::V3::Utilities::PathHelper do
     it_behaves_like 'show', :view
     it_behaves_like 'index', :view
 
-    describe '#views_work_packages_table' do
-      subject { helper.views_work_packages_table }
+    describe '#views_type' do
+      subject { helper.views_type('work_packages_table') }
 
       it_behaves_like 'api v3 path', '/views/work_packages_table'
     end

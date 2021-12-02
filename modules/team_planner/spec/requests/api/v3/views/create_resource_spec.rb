@@ -34,16 +34,21 @@ describe ::API::V3::Views::ViewsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { FactoryBot.create(:user) }
-  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages save_queries]) }
+  shared_let(:role) do
+    FactoryBot.create(:role,
+                      permissions: %w[view_work_packages
+                                      save_queries
+                                      manage_public_queries
+                                      manage_team_planner])
+  end
   shared_let(:project) do
     FactoryBot.create(:project,
                       members: { permitted_user => role })
   end
-  shared_let(:private_user_query) do
+  shared_let(:public_query) do
     FactoryBot.create(:query,
                       project: project,
-                      is_public: false,
-                      user: permitted_user)
+                      is_public: true)
   end
 
   let(:additional_setup) do
@@ -54,14 +59,14 @@ describe ::API::V3::Views::ViewsAPI,
     {
       _links: {
         query: {
-          href: api_v3_paths.query(private_user_query.id)
+          href: api_v3_paths.query(public_query.id)
         }
       }
     }.to_json
   end
 
   let(:send_request) do
-    post api_v3_paths.views_type('work_packages_table'), body
+    post api_v3_paths.views_type('team_planner'), body
   end
 
   current_user { permitted_user }
@@ -74,7 +79,7 @@ describe ::API::V3::Views::ViewsAPI,
     send_request
   end
 
-  describe 'POST /api/v3/views/work_packages_table' do
+  describe 'POST /api/v3/views/team_planner' do
     context 'with a user allowed to save the query' do
       it 'returns 201 CREATED' do
         expect(response.status)
@@ -83,7 +88,7 @@ describe ::API::V3::Views::ViewsAPI,
 
       it 'returns the view' do
         expect(response.body)
-          .to be_json_eql('Views::WorkPackagesTable'.to_json)
+          .to be_json_eql('Views::TeamPlanner'.to_json)
                 .at_path('_type')
 
         expect(response.body)
@@ -92,26 +97,15 @@ describe ::API::V3::Views::ViewsAPI,
       end
     end
 
-    context 'with a user not allowed to see the query' do
+    context 'with a user not allowed to manage team planners' do
       let(:additional_setup) do
-        role.update_attribute(:permissions, [])
+        role.update_attribute(:permissions,
+                              %w[view_work_packages
+                                save_queries
+                                manage_public_queries])
       end
 
-      it 'responds with 422 and explains the error' do
-        expect(last_response.status).to eq(422)
-
-        expect(last_response.body)
-          .to be_json_eql("Query does not exist.".to_json)
-                .at_path('message')
-      end
+      it_behaves_like 'unauthorized access'
     end
-  end
-
-  describe 'POST /api/v3/views/bogus' do
-    let(:send_request) do
-      post api_v3_paths.views_type('bogus'), body
-    end
-
-    it_behaves_like 'not found'
   end
 end

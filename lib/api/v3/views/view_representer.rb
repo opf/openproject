@@ -88,7 +88,7 @@ module API
         date_time_property :updated_at
 
         def _type
-          'Views::WorkPackagesTable'
+          "Views::#{Constants::Views.type(represented.type)}"
         end
       end
     end

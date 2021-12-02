@@ -32,7 +32,6 @@ describe ::API::V3::Views::ViewsAPI,
          'index',
          type: :request,
          content_type: :json do
-
   include API::V3::Utilities::PathHelper
 
   shared_let(:permitted_user) { FactoryBot.create(:user) }

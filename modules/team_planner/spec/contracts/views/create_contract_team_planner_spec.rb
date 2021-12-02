@@ -27,28 +27,41 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require 'contracts/shared/model_contract_shared_context'
+require 'contracts/views/shared_contract_examples'
 
-describe Views::UpdateContract do
-  # TODO: this is just a stub to ensure that the type is not altered
-  it_behaves_like 'view contract' do
+describe Views::CreateContract do
+  it_behaves_like 'view contract', true do
     let(:view) do
-      FactoryBot
-        .build_stubbed(:view_work_packages_table).tap do |view|
-        view.type = view_type if defined?(view_type)
-        view.query = view_query
-      end
+      View.new(query: view_query,
+               type: view_type)
     end
+    let(:view_type) do
+      'team_planner'
+    end
+    let(:permissions) { %i[view_work_packages save_queries manage_team_planner] }
 
     subject(:contract) do
       described_class.new(view, current_user)
     end
 
     describe 'validation' do
-      context 'with the type being changed' do
-        let(:view_type) { 'team_planner' }
+      context 'with the type being nil' do
+        let(:view_type) { nil }
 
-        it_behaves_like 'contract is invalid', type: %i[error_readonly]
+        it_behaves_like 'contract is invalid', type: :inclusion
+      end
+
+      context 'with the type not being one of the configured' do
+        let(:view_type) { 'blubs' }
+
+        it_behaves_like 'contract is invalid', type: :inclusion
+      end
+
+      context 'without the :manage_team_planner permission' do
+        let(:permissions) { %i[view_work_packages save_queries] }
+
+        it_behaves_like 'contract is invalid', base: :error_unauthorized
       end
     end
   end

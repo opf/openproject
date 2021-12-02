@@ -34,26 +34,40 @@ module Views
     validate :query_present,
              :query_manageable
 
+    def valid?(*_args)
+      super
+
+      # Registered views can have an additional contract configured that
+      # needs to validate additionally. E.g. a contract can have additional permission checks.
+      if (strategy_class = Constants::Views.contract_strategy(model.type))
+        strategy = strategy_class.new(model, user)
+        strategy.valid?
+
+        errors.merge!(strategy.errors)
+      end
+
+      errors.empty?
+    end
+
     private
 
     def type_allowed
-      # TODO: fetch from registry
-      unless ['work_packages_table'].include?(model.type)
+      unless Constants::Views.registered?(model.type)
         errors.add(:type, :inclusion)
       end
     end
 
     def query_present
-      unless model.query
+      if model.query.blank?
         errors.add(:query, :blank)
       end
     end
 
     def query_manageable
-      return unless model.query
+      return if model.query.blank?
 
       if query_visible?
-        errors.add(:query, :error_unauthorized) unless query_permissions?
+        errors.add(:base, :error_unauthorized) unless query_permissions?
       else
         errors.add(:query, :does_not_exist)
       end
