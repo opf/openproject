@@ -10,6 +10,7 @@ import { TEAM_PLANNER_ROUTES } from 'core-app/features/team-planner/team-planner
 import { TeamPlannerComponent } from 'core-app/features/team-planner/team-planner/planner/team-planner.component';
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
     IconModule,
     OpenprojectPrincipalRenderingModule,
     OpenprojectWorkPackagesModule,
+    OpenprojectModalModule,
     FullCalendarModule,
   ],
 })

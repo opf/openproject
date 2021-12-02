@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Injector,
   OnDestroy,
   OnInit,
   TemplateRef,
@@ -12,6 +13,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import interactionPlugin from '@fullcalendar/interaction';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -36,7 +38,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { EventClickArg } from '@fullcalendar/common';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import {
   debounceTime,
   map,
@@ -44,6 +45,8 @@ import {
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { OPWPQuickAddModalComponent } from 'core-app/features/work-packages/components/op-wp-quick-add-modal/op-wp-quick-add-modal.component';
 
 @Component({
   selector: 'op-team-planner',
@@ -85,6 +88,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   };
 
   constructor(
+    private injector:Injector,
     private elementRef:ElementRef,
     private states:States,
     private $state:StateService,
@@ -100,7 +104,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private titleService:OpTitleService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
-    private halEvents:HalEventsService,
+    private modalService:OpModalService,
   ) {
     super();
   }
@@ -184,6 +188,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
           plugins: [
             resourceTimelinePlugin,
+            interactionPlugin,
           ],
           headerToolbar: {
             left: 'prev,next today',
@@ -219,6 +224,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           events: this.calendarEventsFunction.bind(this) as unknown,
           resources: this.calendarResourcesFunction.bind(this) as unknown,
           eventClick: this.openSplitView.bind(this) as unknown,
+          dateClick: (info:unknown) => {
+            this.modalService.show(OPWPQuickAddModalComponent, this.injector);
+          },
           resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
         } as CalendarOptions);
