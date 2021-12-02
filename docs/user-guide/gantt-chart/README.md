@@ -102,7 +102,7 @@ To export the data from your Gantt chart there are several possibilities:
 
 * [Export via the work package view](../work-packages/edit-work-package/#export-work-packages)
 * [Print (e.g. to PDF)](#how-to-print-a-gantt-chart)
-* [Synchronize data from OpenProject to Excel](../integrations/excel-synchronization) <-> MS Project
+* [Synchronize data from OpenProject to Excel](../../system-admin-guide/integrations/excel-synchronization/) <-> MS Project
 
 ### How to print a Gantt chart?
 
@@ -163,7 +163,7 @@ To include sub-projects: within the parent project, click on the Filter button a
 
 Use the filter and grouping options as for the [work packages table configuration](../work-packages/work-package-table-configuration/) to customize your timeline. Do not forget to [save your timeline](../work-packages/work-package-table-configuration/#save-work-package-views).
 
-![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.PNG)
+![OpenProject-overarching-project-planning](OpenProject-overarching-project-planning.png)
 
 If you want to adjust your work package table and filter, sort or order your work packages to have a better overview in your Gantt chart, please refer to the section [work package table configuration](../work-packages/work-package-table-configuration/).
 

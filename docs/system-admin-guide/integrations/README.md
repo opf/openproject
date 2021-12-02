@@ -23,7 +23,7 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 
 ## Gitlab
 
-There is a Gitlab plugin from the community. You will find the README and the code here: https://github.com/btey/openproject-gitlab-integration.
+There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
 
 
 ## Jira
@@ -45,15 +45,15 @@ If you would like to learn more about OpenProject's features vs Trello, please r
 
 ## Toggl
 
-We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../time-and-costs/time-tracking/toggl-integration/).
+We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
 
 ## Slack
 
 There is a rudimentary OpenProject Slack integration from the community. It messages a configured Slack channel, every time a Work Package or Wiki site is modified. This integration is not officially supported by OpenProject.
-To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise on-premises edition and the Community Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack#openproject-slack-plugin) 
+To activate it in the Enterprise cloud please [get in touch](https://www.openproject.org/contact-us/). For the Enterprise on-premises edition and the Community Edition you can find the plugin and its documentation on GitHub: [OpenProject Slack plugin](https://github.com/opf/openproject-slack) 
 
 ## Timesheet
-Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../time-and-costs/time-tracking/toggl-integration/).
+Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
 
 ## Mattermost
 
