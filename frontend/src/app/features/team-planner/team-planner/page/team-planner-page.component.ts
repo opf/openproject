@@ -77,10 +77,6 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     );
   }
 
-  protected set loadingIndicator(promise:Promise<unknown>) {
-    this.loadingIndicatorService.indicator('calendar-entry').promise = promise;
-  }
-
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
