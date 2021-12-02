@@ -35,10 +35,10 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Component({
@@ -74,6 +74,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   projectIdentifier:string|null = null;
 
+  assignees:HalResource[] = [];
+
   private resizeObserver:ResizeObserver;
 
   private resizeSubject = new Subject<unknown>();
@@ -99,16 +101,49 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   ngOnInit():void {
-    this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier;
 
-    console.log(this.querySpace.query.value);
+    this
+      .querySpace
+      .results
+      .values$()
+      .pipe(
+        this.untilDestroyed(),
+      )
+      .subscribe(() => {
+        this.renderCurrent();
+      });
+
     this.wpTableFilters
-      .updates$()
-      .subscribe((q) => {
-        console.log('q', q);
+      .live$()
+      .pipe(this.untilDestroyed())
+      .subscribe(async (queryFilters) => {
+        console.log('filters', queryFilters);
+
+        const assigneeFilter = queryFilters.find((filter) => filter._type === 'AssigneeQueryFilter');
         console.log(this.querySpace.query.value);
+
+        const filters = new ApiV3FilterBuilder();
+        filters.add('id', '=', (assigneeFilter?.values as string[]) || []);
+
+        this.assignees = await this
+          .apiV3Service
+          .principals
+          .filtered(filters)
+          .get()
+          .pipe(map((collection) => collection.elements))
+          .toPromise();
+
+        console.log(this.assignees);
+
+        const api = this.ucCalendar.getApi();
+        api.getResources().forEach((resource) => resource.remove());
+        this.assignees.forEach((assignee) => api.addResource({
+          user: assignee,
+          id: assignee.id as string,
+          title: assignee.name,
+        }));
       });
 
     this.resizeSubject
@@ -124,21 +159,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.resizeObserver?.disconnect();
-  }
-
-  public calendarResourcesFunction(
-    fetchInfo:{ start:Date, end:Date, timeZone:string },
-    successCallback:(events:EventInput[]) => void,
-    failureCallback:(error:unknown) => void,
-  ):void|PromiseLike<EventInput[]> {
-    this
-      .currentWorkPackages()
-      .toPromise()
-      .then((workPackages) => {
-        const resources = this.mapToCalendarResources(workPackages);
-        successCallback(resources);
-      })
-      .catch(failureCallback);
   }
 
   public calendarEventsFunction(
@@ -218,7 +238,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
           },
           events: this.calendarEventsFunction.bind(this) as unknown,
-          resources: this.calendarResourcesFunction.bind(this) as unknown,
+          resources: [],
           eventClick: this.openSplitView.bind(this) as unknown,
           resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
@@ -276,7 +296,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     });
   }
 
-  public addAssignee(user:UserResource) {
+  public addAssignee(user:HalResource) {
     const api = this.ucCalendar.getApi();
     api.getResourceById('NEW')?.remove();
     api.addResource({
@@ -294,19 +314,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },
     );
-  }
-
-  private setupWorkPackagesListener() {
-    this
-      .querySpace
-      .results
-      .values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.renderCurrent();
-      });
   }
 
   /**
