@@ -105,7 +105,7 @@ For the server, most of the time this means the database contents. Keeping our l
 
 Syncing with remote clients' state is currently nonexistent. Clients submit their updates only to the server. When submitting, clients submit a version token of the resource, which gets updated by the server. If a client tries to work on an older version of the resource, the request will fail. Usually is no sophisticated method in place to handle these; an error toaster will be thrown. Direct state transfer or sharing between clients is currently not done. Since this is a very hard problem to solve, there are no plans to change this significantly.
 
-State relating to the component's view (or children) **should** be declared and management in that component. Children
+State relating to the component's view (or children) **should** be declared and managed in that component. Children
 that rely on this state **should** receive it via component inputs and outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
 
 Most of our backend-related data is in the entity format. To capture this, there **must** be a global entity store. An
