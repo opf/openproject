@@ -112,7 +112,7 @@ Stores and components consuming a particular entity type **must** go through the
 
 #### Events and side effects
 
-Mutable operations on the entities can have side effects on collections and entities currently in use by other parts of
+Mutable operations on the entities can have side effects on different collections and entities currently in use by other parts of
 the application. Oftentimes, the frontend cannot know beforehand which operations will have what kind of impact. This
 means that the respective collections and entities have to be refreshed from the backend. Some examples:
 
