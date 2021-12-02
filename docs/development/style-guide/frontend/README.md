@@ -105,12 +105,9 @@ For the server, most of the time this means the database contents. Keeping our l
 
 Syncing with remote clients' state is currently nonexistent. Clients submit their updates only to the server. When submitting, clients submit a version token of the resource, which gets updated by the server. If a client tries to work on an older version of the resource, the request will fail. Usually is no sophisticated method in place to handle these; an error toaster will be thrown. Direct state transfer or sharing between clients is currently not done. Since this is a very hard problem to solve, there are no plans to change this significantly.
 
-State relating to the component's view (or children) **should** be declared and managed in that component. Children
-that rely on this state **should** receive it via component inputs and outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
+State relating to the component's view (or children) **should** be declared and managed in that component. Children that rely on this state **should** receive it via inputs and request changes via outputs. Sometimes, this tree might prove too complex to easily hand local state and events up and down via this mechanism. In that case you **may** create an Akita store that is injected into the first shared parent component, and manage the state there. You **must not** save global state in a local component or service. You **should not** save state in non-akita services. The goal is to have a unified, observable-based interface to all application state.
 
-Most of our backend-related data is in the entity format. To capture this, there **must** be a global entity store. An
-example implementation is the in-app-notification store. This store olds a reference of all entities of a
-particular type that are in-use somewhere in the application as well as a list of IDs for entity collections of that type.
+Most of our backend-related data is in the entity format. To capture this, there **must** be a global entity store. An example implementation is the in-app-notification store. This store olds a reference of all entities of a particular type that are in-use somewhere in the application as well as a list of IDs for entity collections of that type.
 Stores and components consuming a particular entity type **must** go through the global entity store to perform CRUD operations, so that updates can be properly reflected across the application.
 
 #### Events and side effects
@@ -127,10 +124,9 @@ means that the respective collections and entities have to be refreshed from the
 For this usecase, we have implemented a global actions service. You can dispatch actions here, and other parts of the
 application can listen to these actions. Think of it like a global event bus. These actions are typed.
 
-Side effects **should** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occured.
+To reduce server requests, side effects **should be** be calculated in the frontend. If this is impossible, the updating store **must** send out a global event to notify other parts that the specific event occured.
 
-**Note:** The proper solution to this problem would be a backend that can push updates for collections and entities that
-we are requiring. However, implementing and relying on websockets comes with its own challenges.
+**Note:** The proper solution to this problem would be a backend that can push updates for collections and entities that we are requiring. However, implementing and relying on websockets comes with its own challenges.
 
 
 #### Flow        
