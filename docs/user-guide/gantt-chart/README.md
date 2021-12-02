@@ -126,7 +126,7 @@ Press the **Print** button.
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
-To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../integrations/excel-synchronization).
+To synchronize your work package data between OpenProject and Excel (two-way synchronization) please have a look at [this instruction](../../system-admin-guide/integrations/excel-synchronization/).
 
 ## Gantt chart views
 
