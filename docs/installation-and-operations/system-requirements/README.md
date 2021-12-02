@@ -49,7 +49,7 @@ multiple requests to be made simultaneously. Having less workers will work, but 
 These numbers are a guideline only and your mileage may vary.<sup>1</sup>
 It's best to monitor your server and its resource usage. You can always allocate more resources if needed.
 
-See [here](/installation-and-operations/operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
+See [here](../operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
 
 > <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/12/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
 
@@ -59,7 +59,7 @@ At some point simply increasing the resources of one single server may not be en
 
 In the _packaged installation_ you can have multiple servers running OpenProject. They will need to share an external database, memcached and file storage (e.g. via NFS), however.
 
-One way to scale the _docker_ installation is to use [docker Swarm](/installation-and-operations/installation/docker/#docker-swarm).
+One way to scale the _docker_ installation is to use [docker Swarm](../installation/docker/#docker-swarm).
 
 ### Operating system
 
