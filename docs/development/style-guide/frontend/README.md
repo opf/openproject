@@ -91,7 +91,7 @@ The app has a single way to read and to write the state, and both are separated 
 
 
 #### State definition
-We can differentiate two types of states in an app:
+We can differentiate two types of states in our application:
 
 * Local: belongs to a single component. Includes mainly UI state.
 * Global: belongs the full app. This includes a shared representation of the backend queries and models, but also things like the current Route, logged in user and capabilities of this user.
