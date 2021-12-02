@@ -514,7 +514,7 @@ GEM
       ruby-progressbar (~> 1.4)
     git (1.9.1)
       rchardet (~> 1.8)
-    globalid (0.6.0)
+    globalid (1.0.0)
       activesupport (>= 5.0)
     gon (6.4.0)
       actionpack (>= 3.0.20)
