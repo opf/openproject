@@ -44,8 +44,8 @@ module Pages
       project_team_planner_path(project)
     end
 
-    def expect_title
-      expect(page).to have_selector '.editable-toolbar-title--fixed', text: 'Team planner'
+    def expect_title(title = 'Unnamed team planner')
+      expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
     end
 
     def expect_assignee(user, present: true)
