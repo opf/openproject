@@ -1,14 +1,41 @@
-# /api/v3/views
+# /api/v3/views/{identifier}
 ---
 
 post:
+  requestBody:
+    content:
+      application/json:
+        examples:
+          'Views::WorkPackagesTable':
+            value:
+              _links:
+                query:
+                  href: /api/v3/queries/5
+          'Views::TeamPlanner':
+            value:
+              _links:
+                query:
+                  href: /api/v3/queries/5
+        schema:
+          type: object
+          properties:
+            _links:
+              type: object
+              properties:
+                query:
+                  type: object
+                  properties:
+                    href:
+                      type: href
   responses:
     '201':
       content:
         application/hal+json:
           examples:
-            Views:
+            'Views::WorkPackagesTable':
               "$ref": "../components/examples/view_work_packages_table.yml"
+            'Views::TeamPlanner':
+              "$ref": "../components/examples/view_team_planner.yml"
       description: Created
       headers: {}
     '400':
@@ -52,14 +79,10 @@ post:
     The required fields of a View can be found in its schema, which is embedded in the respective form.
     Note that it is only allowed to provide properties or links supporting the write operation.
 
-    There are different subtypes of Views (e.g. `Views::WorkPackagesTable`) with each having its own
-    endpoint for creating that subtype e.g.
-    ```
-      /api/v3/views/work_packages_table
-    ```
-    for `Views::WorkPackagesTable`.
+    There are different subtypes of `Views` (e.g. `Views::WorkPackagesTable`) with each having its own
+    endpoint for creating that subtype e.g. `/api/v3/views/work_packages_table` for `Views::WorkPackagesTable` and `/api/v3/views/team_planner` for `Views::TeamPlanner`
 
-    To get the list of available subtypes and by that the endpoints for creating a subtype, use the 
+    **Not yet implemented** To get the list of available subtypes and by that the endpoints for creating a subtype, use the
     ```
       /api/v3/views/schemas
     ```

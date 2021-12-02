@@ -47,7 +47,7 @@ module Constants
       def type(type)
         searched_type = canonical_type(type)
 
-        registered_types.find { |type| type == searched_type }
+        registered_types.find { |registered_type| registered_type == searched_type }
       end
 
       def contract_strategy(type)

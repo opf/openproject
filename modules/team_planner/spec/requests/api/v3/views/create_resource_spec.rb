@@ -101,8 +101,8 @@ describe ::API::V3::Views::ViewsAPI,
       let(:additional_setup) do
         role.update_attribute(:permissions,
                               %w[view_work_packages
-                                save_queries
-                                manage_public_queries])
+                                 save_queries
+                                 manage_public_queries])
       end
 
       it_behaves_like 'unauthorized access'
