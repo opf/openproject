@@ -149,7 +149,7 @@ shared_examples_for 'list_optional query filter' do
 
   describe '#scope' do
     let(:values) { valid_values }
-    let(:db_values) { transformed_values || valid_values }
+    let(:db_values) { defined?(transformed_values) ? transformed_values : valid_values }
 
     context 'for "="' do
       let(:operator) { '=' }
