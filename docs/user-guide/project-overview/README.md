@@ -80,7 +80,7 @@ You can add a widget which displays all project members and their corresponding 
 
 ![project members](image-20191112134827557.png)
 
-You can [add members to your project](/getting-started/invite-members/) via the green **+ Member** button in the bottom left corner. 
+You can [add members to your project](../../getting-started/invite-members/) via the green **+ Member** button in the bottom left corner. 
 
 The **View all members** button displays the list of project members that have been added to your project. Members can be individuals as well as entire groups.
 

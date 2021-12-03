@@ -27,7 +27,7 @@ Go to our user guide to find out how to [configure in-app notifications](../../u
 
 The new notification center shows all notifications about changes within your projects, including intuitive filter options in the menu on the left, e.g. by reason for notification or by projects. Clicking on the notification will open the details of a work package. you can directly edit it in a split view. The blue elliptical indicates the number of unread notifications about changes within one work package.
 
-![notification-center](notification-center.PNG)
+![notification-center](notification-center.png)
 
 
 
@@ -35,7 +35,7 @@ The new notification center shows all notifications about changes within your pr
 
 The improved notification settings now allow to fine-tune for which actions and in which projects you want to receive a notification. With 12.0 you can now even add project-specific settings for changes you want to be notified about and override the default settings.
 
-![notification-settings](notification-settings.PNG)
+![notification-settings](notification-settings.png)
 
 
 
@@ -43,7 +43,7 @@ The improved notification settings now allow to fine-tune for which actions and 
 
 In addition to the in-app notifications, also email reminders can be configured to receive important updates in a daily (or more often) email summary. These email reminders can be configured to receive also additional notifications about changes in your projects, e.g. new or updated memberships in a project.
 
-![email-summaries](email-summaries.PNG)
+![email-summaries](email-summaries.png)
 
 
 

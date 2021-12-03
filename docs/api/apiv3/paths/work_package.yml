@@ -482,7 +482,7 @@ patch:
     Additionally to the fields the client wants to change, it is mandatory to provide the value of `lockVersion` which was received
     by the `GET` request this change originates from.
 
-    The value of `lockVersion` is used to implement [optimistic locking](http://en.wikipedia.org/wiki/Optimistic_concurrency_control).
+    The value of `lockVersion` is used to implement [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
   operationId: Edit_Work_Package
   requestBody:
     content:

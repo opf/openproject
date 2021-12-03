@@ -36,23 +36,23 @@ The steps are as follows:
 
 Log into your Microsoft account, and go to the Azure Active Directory administration page.
 
-![](images/azure/01-menu.png)
+![](01-menu.png)
 
 
 
 In the sidebar, click on "All services".
 
-![](images/README/02-admin-dashboard.png)
+![](02-admin-dashboard.png)
 
 Click on the link named "App registrations".
 
-![](images/azure/03-app-registrations.png)
+![](03-app-registrations.png)
 
 
 
 Click on "New registration".
 
-![](images/README/04-register-app.png)
+![](04-register-app.png)
 
 You are now asked for a few settings:
 
@@ -62,21 +62,21 @@ You are now asked for a few settings:
 
 When you are done, click on the "Register" button at the end of the page. You are redirected to your new App registration, be sure to save the "Application (client) ID" that is now displayed. You will need it later.
 
-![](images/README/02-admin-dashboard-1580821056307.png)
+![](02-admin-dashboard-1580821056307.png)
 
 
 
 You can now click on "Certificates & secret".
 
-![](images/README/06-certificates.png)
+![](06-certificates.png)
 
 Then click on "New client secret", set the description to "client_secret", and the expiration to "never". Then click on "Add".
 
-![](images/README/07-client-secret.png)
+![](07-client-secret.png)
 
 A secret should have been generated and is now displayed on the page. Be sure to save it somewhere because it will only be displayed once.
 
-![](images/README/08-add-secret.png)
+![](08-add-secret.png)
 
 At the end of this step, you should have a copy of the Application client ID as well as the client Secret you just generated.
 
@@ -93,7 +93,7 @@ Congratulations, your users can now authenticate using your Azure Active Directo
 Sometimes you may need to configure the `tenant` option for the AzureAD connection.
 Currently this is not possible through the user interface.
 
-But you can do it via the console as described [here](/installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+But you can do it via the console as described [here](../../../installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
 
 ## Troubleshooting
 

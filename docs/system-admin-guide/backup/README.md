@@ -8,7 +8,7 @@ keywords: system backup
 ---
 # Backup
 
-Unless disabled via the [configuration](/installation-and-operations/configuration/#backup-enabled)
+Unless disabled via the [configuration](../../installation-and-operations/configuration/#backup-enabled)
 users can make backups of the OpenProject installation from within the administration area.
 They either need to be an administrator or have the global permission to do so.
 

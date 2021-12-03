@@ -15,7 +15,7 @@ If you can choose *Administration* when clicking on your avatar you have system 
 
 ## How can I use the Slack plugin?
 
-The slack plugin is deactivated per default in the Enterprise cloud. Please contact support to have it activated. For the Enterprise on-premises edition please have a look at [this instruction](../../user-guide/integrations/#slack).
+The slack plugin is deactivated per default in the Enterprise cloud. Please contact support to have it activated. For the Enterprise on-premises edition please have a look at [this instruction](../../system-admin-guide/integrations/#slack).
 
 ## Can I use a self-developed plugin in my Enterprise cloud?
 
@@ -27,7 +27,7 @@ Please have a look at [these instructions](../../installation-and-operations/ope
 
 ## I'm seeing HTTP timeouts (408 Request Timeout) upon uploading larger files
 
-The OpenProject installations do not configure a default timeout for the outer Apache2 web server. Please increase the Apache `Timeout` directive. Please see the Apache web server documentation for more information: [http://httpd.apache.org/docs/2.4/mod/core.html#timeout](http://httpd.apache.org/docs/2.4/mod/core.html#timeout)
+The OpenProject installations do not configure a default timeout for the outer Apache2 web server. Please increase the Apache `Timeout` directive. Please see the Apache web server documentation for more information: [https://httpd.apache.org/docs/2.4/mod/core.html#timeout](https://httpd.apache.org/docs/2.4/mod/core.html#timeout)
 
 
 ## Further information
