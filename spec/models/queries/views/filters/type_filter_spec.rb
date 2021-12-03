@@ -26,17 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Views
-  [
-    Queries::Views::Filters::ProjectFilter,
-    Queries::Views::Filters::TypeFilter
-  ].each do |filter|
-    Queries::Register.filter Queries::Views::ViewQuery,
-                             filter
+require 'spec_helper'
+
+describe Queries::Views::Filters::TypeFilter, type: :model do
+  let(:current_user) { FactoryBot.create(:user) }
+
+  before do
+    login_as(current_user)
   end
 
-  [Queries::Views::Orders::DefaultOrder].each do |order|
-    Queries::Register.order Queries::Views::ViewQuery,
-                            order
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :type }
+    let(:type) { :list_optional }
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expected = [
+          %w[Views::TeamPlanner Views::TeamPlanner],
+          %w[Views::WorkPackagesTable Views::WorkPackagesTable]
+        ]
+
+        expect(instance.allowed_values).to match_array(expected)
+      end
+    end
+  end
+
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :type }
+    let(:model) { View }
+    let(:valid_values) { %w[Views::TeamPlanner Views::WorkPackagesTable] }
+    let(:transformed_values) { %w[team_planner work_packages_table] }
   end
 end

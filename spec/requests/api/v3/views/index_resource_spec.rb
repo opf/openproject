@@ -84,6 +84,11 @@ describe ::API::V3::Views::ViewsAPI,
                       query: user_private_other_project_query)
   end
 
+  shared_let(:user_public_project_team_planner_view) do
+    FactoryBot.create(:view_team_planner,
+                      query: user_public_project_query)
+  end
+
   let(:views) do
     [user_private_project_view,
      user_private_other_project_view,
@@ -131,11 +136,38 @@ describe ::API::V3::Views::ViewsAPI,
       ]
     end
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'Views::WorkPackagesTable' do
+    it_behaves_like 'API V3 collection response', 2, 2, 'Views::WorkPackageTable' do
       let(:elements) do
         [
-          user_public_project_view,
-          user_private_project_view
+          user_public_project_team_planner_view
+        ]
+      end
+    end
+  end
+
+  context 'with a type filter' do
+    let(:views) do
+      [
+        user_public_project_team_planner_view,
+        user_public_project_view
+      ]
+    end
+
+    let(:filters) do
+      [
+        {
+          'type' => {
+            'operator' => '=',
+            'values' => ['Views::TeamPlanner']
+          }
+        }
+      ]
+    end
+
+    it_behaves_like 'API V3 collection response', 1, 1, 'Views::TeamPlanner' do
+      let(:elements) do
+        [
+          user_public_project_team_planner_view
         ]
       end
     end

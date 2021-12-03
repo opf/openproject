@@ -26,17 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Views
-  [
-    Queries::Views::Filters::ProjectFilter,
-    Queries::Views::Filters::TypeFilter
-  ].each do |filter|
-    Queries::Register.filter Queries::Views::ViewQuery,
-                             filter
+class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
+  def type
+    :list_optional
   end
 
-  [Queries::Views::Orders::DefaultOrder].each do |order|
-    Queries::Register.order Queries::Views::ViewQuery,
-                            order
+  def where
+    operator_strategy.sql_for_field(transformed_values, View.table_name, 'type')
+  end
+
+  def transformed_values
+    values.map { |value| value[/Views::(?<name>.*?)$/, "name"].underscore }
+  end
+
+  def allowed_values
+    Constants::Views.registered_types.map do |type|
+      long_name = "Views::#{type}"
+      [long_name, long_name]
+    end
   end
 end

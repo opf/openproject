@@ -149,13 +149,14 @@ shared_examples_for 'list_optional query filter' do
 
   describe '#scope' do
     let(:values) { valid_values }
+    let(:db_values) { transformed_values || valid_values }
 
     context 'for "="' do
       let(:operator) { '=' }
 
       it 'is the same as handwriting the query' do
         expected = expected_base_scope
-                   .where(["#{expected_table_name}.#{attribute} IN (?)", values])
+                   .where(["#{expected_table_name}.#{attribute} IN (?)", db_values])
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -167,7 +168,7 @@ shared_examples_for 'list_optional query filter' do
       it 'is the same as handwriting the query' do
         sql = "(#{expected_table_name}.#{attribute} IS NULL
                OR #{expected_table_name}.#{attribute} NOT IN (?))".squish
-        expected = expected_base_scope.where([sql, values])
+        expected = expected_base_scope.where([sql, db_values])
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
