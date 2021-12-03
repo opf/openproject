@@ -6,6 +6,10 @@
     *ngIf="calendarOptions"
     [options]="calendarOptions"
   ></full-calendar>
+  <div
+    *ngIf="static"
+    [textContent]="calendar.tooManyResultsText"
+    class="op-wp-calendar--notification"></div>
 </ng-container>
 <ng-template #resourceContent let-resource="resource">
   <op-principal
