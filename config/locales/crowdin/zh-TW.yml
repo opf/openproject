@@ -1602,9 +1602,9 @@ zh-TW:
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
-    alpha: 'alpha'
-    beta: 'beta'
+    pre_alpha: '早期開發版本'
+    alpha: '開發版本'
+    beta: '測試版本'
   label_menu_item_name: "選單項目名稱"
   label_message: "訊息"
   label_message_last: "最後訊息"
