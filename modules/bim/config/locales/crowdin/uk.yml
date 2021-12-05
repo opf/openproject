@@ -4,15 +4,15 @@ uk:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_failed: 'Не вдалося імпортувати BFC теми'
+    label_imported_successfully: 'Успішно завантажено BCF теми'
     issues: "Задачі"
     recommended: 'рекомендовано'
     not_recommended: 'не рекомендується'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'Позиції відсутні'
     new_badge: "Новий"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF файл недоступний "
     x_bcf_issues:
       zero: 'No BCF issues'
       one: 'One BCF issue'
@@ -115,8 +115,8 @@ uk:
     no_results: "No IFC models have been uploaded in this project."
     conversion_status:
       label: 'Processing?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Очікування'
+      processing: 'Обробка'
       completed: 'Completed'
       error: 'Помилка'
     processing_notice:
