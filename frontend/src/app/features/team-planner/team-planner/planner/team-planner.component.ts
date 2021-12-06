@@ -331,6 +331,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
 
     if (this.wpTableFilters.findIndex('assignee') === -1) {
+      // Replace actually also instantiates if it does not exist, which is handy here
       this.wpTableFilters.replace('assignee', modifyFilter.bind(this));
     } else {
       this.wpTableFilters.modify('assignee', modifyFilter.bind(this));

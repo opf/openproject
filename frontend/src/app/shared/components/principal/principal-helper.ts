@@ -36,7 +36,9 @@ export namespace PrincipalHelper {
   /*
    * This function is a helper that wraps around the old HalResource based principal type and the new interface based one.
    * TypeScript constantly screams that the href member does not exist (which I know, that's why the check is there you dumbo)
-   * In order to minimize the `@ts-ignore` pollution around the codebase
+   * In order to minimize the `@ts-ignore` pollution around the codebase it's centralized here.
+   *
+   * TODO: Remove old HalResource stuff :P
    */
   export function hrefFromPrincipal(p:Principal|PrincipalLike):string {
     // @ts-ignore
