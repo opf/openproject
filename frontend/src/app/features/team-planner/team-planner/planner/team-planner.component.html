@@ -21,8 +21,13 @@
   ></op-tp-add-assignee>
 </ng-template>
 
-<button
-  type="button"
-  class="button"
-  (click)="showAssigneeAddRow()"
->Add assignee</button>
+<div class="wp-inline-create-button">
+  <button
+    type="button"
+    class="wp-inline-create--add-link"
+    (click)="showAssigneeAddRow()"
+  >
+    <op-icon icon-classes="icon-context icon-add"></op-icon>
+    <span [textContent]="text.add_assignee"></span>
+  </button>
+</div>

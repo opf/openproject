@@ -106,6 +106,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+    add_assignee: this.I18n.t('js.team_planner.add_assignee'),
   };
 
   principals$ = this.principalIds$
