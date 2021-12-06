@@ -164,7 +164,7 @@ table.generic-table
       line-height: 1.6
       padding-top: 0.5rem
       padding-bottom: 0.5rem
-      vertical-align: middle
+      vertical-align: top
 
       // Center input fields and select boxes vertically in tables
       .form--field
@@ -213,9 +213,8 @@ table.generic-table
       &.-no-highlighting
         background-color: $body-background
 
-    p
-      padding: 0 8px
-      margin: 0
+    .op-uc-p
+      @include text-shortener
 
 
 // Enable sticky headers
