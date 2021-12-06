@@ -47,6 +47,13 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
+import { notificationsMarkedRead } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
+import { itemAddedToQuerySpace } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space.actions';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -61,6 +68,7 @@ export interface ToolbarButtonComponentDefinition extends DynamicComponentDefini
 
 export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
 
+@EffectHandler
 @Component({
   templateUrl: './partitioned-query-space-page.component.html',
   styleUrls: ['./partitioned-query-space-page.component.sass'],
@@ -79,6 +87,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() queryParamListener:QueryParamListenerService;
 
   @InjectField() opModalService:OpModalService;
+
+  @InjectField() actions$:ActionsService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -290,5 +300,13 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected shouldUpdateHtmlTitle():boolean {
     return true;
+  }
+
+  /**
+   * Reload the page when a new item was added to view
+   */
+  @EffectCallback(itemAddedToQuerySpace)
+  private markNotificationsAsRead() {
+    void this.refresh(true);
   }
 }

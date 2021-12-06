@@ -13,7 +13,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -47,6 +47,13 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OPWPQuickAddModalComponent } from 'core-app/features/work-packages/components/op-wp-quick-add-modal/op-wp-quick-add-modal.component';
+import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { itemAddedToQuerySpace } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space.actions';
 
 @Component({
   selector: 'op-team-planner',
@@ -105,6 +112,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     private modalService:OpModalService,
+    private halEditing:HalResourceEditingService,
+    private halNotification:HalResourceNotificationService,
+    private actions$:ActionsService,
   ) {
     super();
   }
@@ -224,9 +234,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           events: this.calendarEventsFunction.bind(this) as unknown,
           resources: this.calendarResourcesFunction.bind(this) as unknown,
           eventClick: this.openSplitView.bind(this) as unknown,
-          dateClick: (info:unknown) => {
-            this.modalService.show(OPWPQuickAddModalComponent, this.injector);
-          },
+          dateClick: this.handleDateClicked.bind(this) as unknown,
           resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
         } as CalendarOptions);
@@ -355,8 +363,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       c: ['id'],
       t:
         'id:asc',
-      f: [{ n: 'status', o: 'o', v: [] },
-        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] }],
+      f: [
+        { n: 'assignee', o: '*', v: [] },
+        { n: 'status', o: 'o', v: [] },
+        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] }
+      ],
       pp: 100,
     };
 
@@ -381,5 +392,49 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     const topOfHeightElement = heightElement.position().top;
 
     return heightElement.height()! - (topOfCalendar - topOfHeightElement);
+  }
+
+  private handleDateClicked(info:DateClickArg) {
+    const modal = this.modalService.show(OPWPQuickAddModalComponent, this.injector);
+    void modal
+      .closingEvent
+      .toPromise()
+      .then((instance:OPWPQuickAddModalComponent) => {
+        if (instance.selectedWorkPackage) {
+          void this.addWorkPackageToCell(instance.selectedWorkPackage, info);
+        }
+      });
+  }
+
+  private async addWorkPackageToCell(workPackage:WorkPackageResource, info:DateClickArg) {
+    const changeset = this.halEditing.edit(workPackage);
+    const assignee = info.resource?.extendedProps.user as UserResource;
+
+    if (!assignee) {
+      console.warn('Resource info is not present in date click: %O', info);
+      return;
+    }
+
+    // Override the assignee
+    changeset.setValue('assignee', assignee);
+
+    // Take over any other filter values
+    new WorkPackageFilterValues(
+      this.injector,
+      this.wpTableFilters.current,
+    ).applyDefaultsFromFilters(changeset);
+
+    // Save the changes
+    void this
+      .halEditing
+      .save(changeset)
+      .then(() => {
+        this.actions$.dispatch(
+          itemAddedToQuerySpace({ workPackages: [workPackage.id as string] }),
+        );
+      })
+      .catch((error:ErrorResource|unknown) => {
+        this.halNotification.handleRawError(error);
+      });
   }
 }

@@ -27,7 +27,6 @@ import { WorkPackageNotificationService } from '../../services/notifications/wor
 import { UrlParamsHelperService } from '../wp-query/url-params-helper';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import SubmitEvent = JQuery.SubmitEvent;
 
 @Component({
   templateUrl: './op-wp-quick-add-modal.html',
