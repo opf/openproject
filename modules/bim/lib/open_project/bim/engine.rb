@@ -43,6 +43,7 @@ module OpenProject::Bim
                }
              } do
       project_module(:bim,
+                     dependencies: :work_package_tracking,
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
                    {
@@ -74,6 +75,12 @@ module OpenProject::Bim
                                     edit_work_packages
                                     delete_work_packages],
                    contract_actions: { bcf: %i[destroy] }
+        permission :save_bcf_queries,
+                   {},
+                   dependencies: %i[save_queries]
+        permission :manage_public_bcf_queries,
+                   {},
+                   dependencies: %i[manage_public_queries save_bcf_queries]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
@@ -225,5 +232,8 @@ module OpenProject::Bim
         end
       end
     end
+
+    add_view :Bim,
+             contract_strategy: 'Bim::Views::ContractStrategy'
   end
 end
