@@ -162,18 +162,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .pipe(this.untilDestroyed())
       .subscribe((principals) => {
         const api = this.ucCalendar.getApi();
-        api.getResources()
-          .filter((resource) => !principals.find(principal => principal.id === resource.id))
-          .forEach((resource) => resource.remove());
-        principals
-          .filter((principal) => !api.getResourceById(`${principal.id}`))
-          .forEach((principal) => {
-            api.addResource({
-              principal,
-              id: principal.id as string,
-              title: principal.name,
-            });
-          });
+        
+        api.getResources().forEach((resource) => resource.remove());
+
+        principals.forEach((principal) => api.addResource({
+          principal,
+          id: principal.id as string,
+          title: principal.name,
+        }));
       });
   }
 
