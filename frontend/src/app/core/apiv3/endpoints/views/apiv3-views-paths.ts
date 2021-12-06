@@ -34,17 +34,17 @@ import { ViewResource } from 'core-app/features/hal/resources/views-resource';
 export class APIv3ViewsPaths extends APIv3ResourceCollection<ViewResource, APIv3GettableResource<ViewResource>> {
   constructor(protected apiRoot:APIV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'views/work_packages_table');
+    super(apiRoot, basePath, 'views');
   }
 
   /**
-   * Create a new query resource
+   * Create a new view resource
    *
-   * @param payload Payload object or query HAL resource
+   * @param payload Payload object or view HAL resource
    */
-  public post(resource:ViewResource|Object):Observable<ViewResource> {
+  public post(resource:ViewResource|unknown, type:string):Observable<ViewResource> {
     return this
       .halResourceService
-      .post<ViewResource>(this.path, resource);
+      .post<ViewResource>(`${this.path}/${type}`, resource);
   }
 }

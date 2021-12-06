@@ -171,6 +171,7 @@ import { WorkPackageFilterContainerComponent } from 'core-app/features/work-pack
 import { FilterBooleanValueComponent } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
 import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-mark-notification-button/work-package-mark-notification-button.component';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 @NgModule({
   imports: [
@@ -220,6 +221,8 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
     WorkPackagesActivityService,
     WorkPackageRelationsService,
     WorkPackageWatchersService,
+
+    WorkPackagesQueryViewService,
 
     HalEventsService,
   ],

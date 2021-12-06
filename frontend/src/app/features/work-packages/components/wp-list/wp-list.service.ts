@@ -52,6 +52,7 @@ import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
+import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -98,6 +99,7 @@ export class WorkPackagesListService {
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpStatesInitialization:WorkPackageStatesInitializationService,
     protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
+    protected wpQueryView:WorkPackagesQueryViewService,
   ) { }
 
   /**
@@ -388,15 +390,8 @@ export class WorkPackagesListService {
       .post(query, form)
       .pipe(
         switchMap((createdQuery) => this
-          .apiV3Service
-          .views
-          .post({
-            _links: {
-              query: {
-                href: createdQuery.href,
-              },
-            },
-          })
+          .wpQueryView
+          .create(createdQuery)
           .pipe(
             mapTo(createdQuery),
           )),
