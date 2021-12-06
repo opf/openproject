@@ -33,7 +33,7 @@ module OpenProject::TeamPlanner
                    dependencies: %i[view_work_packages]
         permission :manage_team_planner,
                    { 'team_planner/team_planner': %i[index] },
-                   dependencies: %i[view_team_planner add_work_packages edit_work_packages manage_public_queries]
+                   dependencies: %i[view_team_planner add_work_packages edit_work_packages save_queries manage_public_queries]
       end
 
       menu :project_menu,
@@ -44,5 +44,8 @@ module OpenProject::TeamPlanner
            icon: 'icon2 icon-calendar',
            badge: 'label_menu_badge.pre_alpha'
     end
+
+    add_view :TeamPlanner,
+             contract_strategy: 'TeamPlanner::Views::ContractStrategy'
   end
 end

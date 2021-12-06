@@ -44,12 +44,20 @@ example:
       public: false
       sums: false
       starred: true
+      projections: 
+        - _type: Query::TableProjection
+        - _type: Query::TeamPlannerProjection
+          _links: 
+            rows: 
+              - href: "/api/v3/users/1"
+                title: "Bob Bobbit"
+        - _type: Query::CalendarProjection
       _embedded:
         results:
           _type: WorkPackageCollection
           total: 234
           count: 30
-          pageSize: 2
+          pageSize: 30
           offset: 1
           _embedded:
             elements:

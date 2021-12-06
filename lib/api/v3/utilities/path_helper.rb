@@ -417,6 +417,13 @@ module API
 
           resources :version
 
+          index :view
+          show :view
+
+          def self.views_type(type)
+            "#{views}/#{type}"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end

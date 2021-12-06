@@ -39,6 +39,9 @@ class Query < ApplicationRecord
   has_one :query_menu_item, -> { order('name') },
           class_name: 'MenuItems::QueryMenuItem',
           dependent: :delete, foreign_key: 'navigatable_id'
+  has_many :views,
+           dependent: :destroy
+
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names, Array
   serialize :sort_criteria, Array
@@ -52,16 +55,8 @@ class Query < ApplicationRecord
   validate :validate_group_by
   validate :validate_show_hierarchies
 
-  scope(:visible, ->(to:) do
-    # User can see public queries and his own queries
-    scope = where(is_public: true)
-
-    if to.logged?
-      scope.or(where(user_id: to.id))
-    else
-      scope
-    end
-  end)
+  include Scopes::Scoped
+  scopes :visible
 
   scope(:global, -> { where(project_id: nil) })
 

@@ -1,4 +1,4 @@
-# /api/v3/memberships/schemas
+# /api/v3/memberships/schema
 ---
 get:
   responses:
