@@ -39,12 +39,14 @@ describe Views::CreateContract do
     let(:view_type) do
       'bim'
     end
-    let(:permissions) { %i[view_work_packages
-                           view_ifc_models
-                           save_queries
-                           save_bcf_queries
-                           manage_public_queries
-                           manage_public_bcf_queries] }
+    let(:permissions) do
+      %i[view_work_packages
+         view_ifc_models
+         save_queries
+         save_bcf_queries
+         manage_public_queries
+         manage_public_bcf_queries]
+    end
 
     subject(:contract) do
       described_class.new(view, current_user)
