@@ -10,13 +10,14 @@
 
 <ng-template #resourceContent let-resource="resource">
   <op-principal
-    *ngIf="resource.extendedProps.user"
-    [principal]="resource.extendedProps.user"
+    *ngIf="resource.extendedProps.principal"
+    [principal]="resource.extendedProps.principal"
   ></op-principal>
 
   <op-tp-add-assignee
-    *ngIf="!resource.extendedProps.user"
+    *ngIf="!resource.extendedProps.principal"
     (select)="addAssignee($event)"
+    [alreadySelected]="principalIds$ | async"
   ></op-tp-add-assignee>
 </ng-template>
 

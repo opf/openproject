@@ -27,29 +27,31 @@
 //++
 
 import {
-  Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Injector,
+  Input,
+  OnInit,
+  Output,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import {
-  DebouncedRequestSwitchmap,
-  errorNotificationHandler,
-} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { NgSelectComponent } from '@ng-select/ng-select';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 @Component({
   templateUrl: './add-assignee.component.html',
   selector: 'op-tp-add-assignee',
 })
 export class AddAssigneeComponent implements OnInit {
-  @Output() public select = new EventEmitter<UserResource>();
+  @Output() public select = new EventEmitter<HalResource>();
 
   @Input() alreadySelected:string[] = [];
 
@@ -63,12 +65,15 @@ export class AddAssigneeComponent implements OnInit {
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:APIV3Service,
     readonly injector:Injector,
+    readonly currentProjectService:CurrentProjectService,
   ) { }
 
   ngOnInit() { }
 
-  public autocomplete(term:string|null):Observable<UserResource[]> {
+  public autocomplete(term:string|null):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();
+
+    filters.add('member', '=', [this.currentProjectService.id || '']);
 
     if (term) {
       filters.add('name_and_identifier', '~', [term]);
@@ -76,7 +81,7 @@ export class AddAssigneeComponent implements OnInit {
 
     return this
       .apiV3Service
-      .users
+      .principals
       .filtered(filters)
       .get()
       .pipe(
@@ -86,7 +91,7 @@ export class AddAssigneeComponent implements OnInit {
       );
   }
 
-  public selectUser(user:UserResource) {
+  public selectUser(user:HalResource) {
     this.select.emit(user);
   }
 }

@@ -26,9 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
+import { Principal } from 'core-app/core/state/principals/principal.model';
+
 export namespace PrincipalHelper {
   export type PrincipalType = 'user'|'placeholder_user'|'group';
   export type PrincipalPluralType = 'users'|'placeholder_users'|'groups';
+
+  /*
+   * This function is a helper that wraps around the old HalResource based principal type and the new interface based one.
+   * TypeScript constantly screams that the href member does not exist (which I know, that's why the check is there you dumbo)
+   * In order to minimize the `@ts-ignore` pollution around the codebase
+   */
+  export function hrefFromPrincipal(p:Principal|PrincipalLike):string {
+    // @ts-ignore
+    if (p.href) {
+      // @ts-ignore
+      return p.href;
+    }
+
+    // @ts-ignore
+    if (p._links) {
+      // @ts-ignore
+      return p._links.self.href;
+    }
+
+    return '';
+  }
 
   export function typeFromHref(href:string):PrincipalType|null {
     const match = /\/(user|group|placeholder_user)s\/\d+$/.exec(href);

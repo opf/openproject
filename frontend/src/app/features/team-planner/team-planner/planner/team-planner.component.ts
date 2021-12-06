@@ -17,7 +17,10 @@ import {
 } from 'rxjs';
 import {
   debounceTime,
+  mergeMap,
   map,
+  filter,
+  distinctUntilChanged,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
 import { EventClickArg } from '@fullcalendar/common';
@@ -37,9 +40,11 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Component({
   selector: 'op-team-planner',
@@ -70,25 +75,53 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
+  private resizeObserver:ResizeObserver;
+
+  private resizeSubject = new Subject<unknown>();
+
+  private principalIds$ = this.wpTableFilters
+      .live$()
+      .pipe(
+        this.untilDestroyed(),
+        map((queryFilters) => {
+          const assigneeFilter = queryFilters.find((filter) => filter._type === 'AssigneeQueryFilter');
+          return ((assigneeFilter?.values || []) as HalResource[]).map(p => p.id);
+        })
+      );
+
+  private params$ = this.principalIds$
+      .pipe(
+        this.untilDestroyed(),
+        filter((ids) => ids.length > 0),
+        map((ids) => ({
+          filters: [['id', '=', ids]]
+        }) as Apiv3ListParameters),
+      );
+
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|null = null;
 
   assignees:HalResource[] = [];
-
-  private resizeObserver:ResizeObserver;
-
-  private resizeSubject = new Subject<unknown>();
   
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
   };
+
+  principals$ = this.principalIds$
+    .pipe(
+        this.untilDestroyed(),
+        mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
+        debounceTime(50),
+        distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
+    );
 
   constructor(
     private elementRef:ElementRef,
     private $state:StateService,
     private configuration:ConfigurationService,
     private apiV3Service:APIV3Service,
+    private principalsResourceService:PrincipalsResourceService,
     private wpTableFilters:WorkPackageViewFiltersService,
     private wpListService:WorkPackagesListService,
     private querySpace:IsolatedQuerySpace,
@@ -108,51 +141,39 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .querySpace
       .results
       .values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe(() => {
         this.renderCurrent();
       });
 
-    this.wpTableFilters
-      .live$()
-      .pipe(this.untilDestroyed())
-      .subscribe(async (queryFilters) => {
-        console.log('filters', queryFilters);
-
-        const assigneeFilter = queryFilters.find((filter) => filter._type === 'AssigneeQueryFilter');
-        console.log(this.querySpace.query.value);
-
-        const filters = new ApiV3FilterBuilder();
-        filters.add('id', '=', (assigneeFilter?.values as string[]) || []);
-
-        this.assignees = await this
-          .apiV3Service
-          .principals
-          .filtered(filters)
-          .get()
-          .pipe(map((collection) => collection.elements))
-          .toPromise();
-
-        console.log(this.assignees);
-
-        const api = this.ucCalendar.getApi();
-        api.getResources().forEach((resource) => resource.remove());
-        this.assignees.forEach((assignee) => api.addResource({
-          user: assignee,
-          id: assignee.id as string,
-          title: assignee.name,
-        }));
-      });
-
     this.resizeSubject
-      .pipe(
-        this.untilDestroyed(),
-        debounceTime(50),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
+      });
+
+    this.params$
+      .pipe(this.untilDestroyed())
+      .subscribe((params) => {
+        this.principalsResourceService.fetchPrincipals(params).subscribe();
+      });
+      
+    this.principals$
+      .pipe(this.untilDestroyed())
+      .subscribe((principals) => {
+        const api = this.ucCalendar.getApi();
+        api.getResources()
+          .filter((resource) => !principals.find(principal => principal.id === resource.id))
+          .forEach((resource) => resource.remove());
+        principals
+          .filter((principal) => !api.getResourceById(`${principal.id}`))
+          .forEach((principal) => {
+            api.addResource({
+              principal,
+              id: principal.id as string,
+              title: principal.name,
+            });
+          });
       });
   }
 
@@ -292,19 +313,28 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     api.addResource({
       id: 'NEW',
       title: 'Add Assignee',
-      user: null,
+      principal: null,
     });
   }
 
-  public addAssignee(user:HalResource) {
+  public addAssignee(principal:HalResource) {
     const api = this.ucCalendar.getApi();
     api.getResourceById('NEW')?.remove();
-    api.addResource({
-      user,
-      id: user.id as string,
-      title: user.name,
-    });
-    // this.wpTableFilters.add();
+
+    const modifyFilter = (assigneeFilter:QueryFilterInstanceResource) => {
+      // eslint-disable-next-line no-param-reassign
+      assigneeFilter.values = [
+        ...assigneeFilter.values as HalResource[],
+        principal,
+      ];
+    };
+
+
+    if (this.wpTableFilters.findIndex('assignee') === -1) {
+      this.wpTableFilters.replace('assignee', modifyFilter.bind(this));
+    } else {
+      this.wpTableFilters.modify('assignee', modifyFilter.bind(this));
+    }
   }
 
   private openSplitView(event:EventClickArg) {
@@ -352,7 +382,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private mapToCalendarResources(workPackages:WorkPackageResource[]) {
-    const resources:{ id:string, title:string, user:HalResource|null }[] = [];
+    const resources:{ id:string, title:string, principal:HalResource|null }[] = [];
 
     workPackages.forEach((workPackage:WorkPackageResource) => {
       const assignee = workPackage.assignee as HalResource|undefined;
@@ -363,7 +393,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       resources.push({
         id: assignee.href as string,
         title: assignee.name,
-        user: assignee,
+        principal: assignee,
       });
     });
 
