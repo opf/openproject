@@ -196,17 +196,16 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     } else {
       this.wpListService
         .create(this.currentQuery!, val)
-        .then(() => this.toolbarDisabled = false)
-        .catch(() => this.toolbarDisabled = false);
+        .finally(() => { this.toolbarDisabled = false; });
     }
   }
 
   updateTitleName(val:string) {
     this.toolbarDisabled = true;
     this.currentQuery!.name = val;
-    this.wpListService.save(this.currentQuery)
-      .then(() => this.toolbarDisabled = false)
-      .catch(() => this.toolbarDisabled = false);
+    this.wpListService
+      .save(this.currentQuery)
+      .finally(() => { this.toolbarDisabled = false; });
   }
 
   updateTitle(query?:QueryResource) {
