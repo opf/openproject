@@ -1,0 +1,8 @@
+@import "helpers"
+
+\:host
+  display: block
+  height: 100%
+  overflow: auto
+  // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
+  @include no-visible-scroll-bar
