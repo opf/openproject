@@ -45,6 +45,7 @@ describe MyController, type: :controller do
   let!(:user) { FactoryBot.create :user, login: login, auth_source_id: auth_source.id, last_login_on: 5.days.ago }
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
+  let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
 
   shared_examples 'should log in the user' do
     it "logs in given user" do
@@ -81,8 +82,19 @@ describe MyController, type: :controller do
         }
       end
 
-      it "should redirect to login" do
-        expect(response).to redirect_to("/login?back_url=http%3A%2F%2Ftest.host%2Fmy%2Faccount")
+      context 'when no header is present' do
+        let(:header_value) { nil }
+
+        it "redirects to login" do
+          expect(response).to redirect_to("/login?back_url=http%3A%2F%2Ftest.host%2Fmy%2Faccount")
+        end
+      end
+
+      context 'when the header is present' do
+        it "shows an error" do
+          expect(response).to redirect_to("/sso")
+          expect(session).to have_key(:auth_source_sso_failure)
+        end
       end
     end
   end
@@ -94,8 +106,7 @@ describe MyController, type: :controller do
         .and_return(sso_config)
     end
 
-    separator = secret ? ':' : ''
-    request.headers[header] = "#{header_login_value}#{separator}#{secret}"
+    request.headers[header] = header_value
   end
 
   describe 'login' do
