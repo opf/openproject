@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ViewResource } from 'core-app/features/hal/resources/views-resource';
 import { Observable } from 'rxjs';
+import { View } from 'core-app/core/state/views/view.model';
 
 @Injectable()
 export class WorkPackagesQueryViewService {
@@ -12,7 +12,7 @@ export class WorkPackagesQueryViewService {
     protected apiV3Service:APIV3Service,
   ) { }
 
-  create(query:QueryResource):Observable<ViewResource> {
+  create(query:QueryResource):Observable<View> {
     return this
       .apiV3Service
       .views

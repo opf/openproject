@@ -29,22 +29,40 @@
 import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
-import { ViewResource } from 'core-app/features/hal/resources/views-resource';
+import { View } from 'core-app/core/state/views/view.model';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
-export class APIv3ViewsPaths extends APIv3ResourceCollection<ViewResource, APIv3GettableResource<ViewResource>> {
-  constructor(protected apiRoot:APIV3Service,
-    protected basePath:string) {
+export class APIv3ViewsPaths extends APIv3ResourceCollection<View, APIv3GettableResource<View>> {
+  @InjectField() http:HttpClient;
+
+  constructor(
+    protected apiRoot:APIV3Service,
+    protected basePath:string,
+  ) {
     super(apiRoot, basePath, 'views');
   }
 
   /**
    * Create a new view resource
    *
-   * @param payload Payload object or view HAL resource
+   * @param TODO
    */
-  public post(resource:ViewResource|unknown, type:string):Observable<ViewResource> {
+  post(resource:View|unknown, type:string):Observable<View> {
     return this
-      .halResourceService
-      .post<ViewResource>(`${this.path}/${type}`, resource);
+      .http
+      .post(
+        `${this.path}/${type})}`,
+        { resource },
+        {
+          withCredentials: true,
+          responseType: 'json',
+        },
+      ).pipe(
+        map((view:unknown) => {
+          return view as View;
+        }),
+      );
   }
 }
