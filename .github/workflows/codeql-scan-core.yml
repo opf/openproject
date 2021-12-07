@@ -5,9 +5,6 @@ on:
     branches:
       - dev
       - release/*
-    paths:
-      - '**.js'
-      - '**.ts'
   schedule:
     - cron: '55 5 * * 1-5'
 
@@ -23,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript' ]
+        language: [ 'javascript', 'ruby' ]
 
     steps:
       - name: Checkout repository
