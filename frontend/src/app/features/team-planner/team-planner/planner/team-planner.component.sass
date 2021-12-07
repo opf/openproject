@@ -7,27 +7,5 @@
   // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
   @include no-visible-scroll-bar
 
-.tp-assignee
-  display: flex
-
-  &--principal
-    flex-grow: 1
-    
-  &--remove
-    background: transparent
-    border: 0
-    flex-shrink: 0
-    flex-grow: 0
-    cursor: normal
-    color: var(--content-link-color)
-    pointer-events: none
-    opacity: 0
-
-  &--remove:focus,
-  &:hover &--remove
-    cursor: pointer
-    opacity: 1
-    pointer-events: all
-
 .tp-assignee-add-button
   margin-top: 1rem

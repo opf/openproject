@@ -273,7 +273,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   public removeAssignee(id:string) {
-    if (this.wpTableFilters.find('assignee')?.values?.length || 0 <= 1) {
+    const numberOfAssignees = this.wpTableFilters.find('assignee')?.values?.length;
+    if (numberOfAssignees && numberOfAssignees <= 1) {
       this.wpTableFilters.remove('assignee');
     } else {
       this.wpTableFilters.modify('assignee', (assigneeFilter:QueryFilterInstanceResource) => {

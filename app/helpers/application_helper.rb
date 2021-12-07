@@ -308,6 +308,8 @@ module ApplicationHelper
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
 
+    css << "env-#{Rails.env}"
+
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes
 

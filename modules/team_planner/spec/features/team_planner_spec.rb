@@ -73,7 +73,15 @@ describe 'Team planner', type: :feature, js: true do
   end
 
   context 'with an assigned work package' do
-    let!(:other_user) { FactoryBot.create :user, firstname: 'Other', lastname: 'User' }
+    let!(:other_user) { FactoryBot.create :user,
+                        firstname: 'Other',
+                        lastname: 'User',
+                        member_in_project: project,
+                        member_with_permissions: %w[
+                          view_work_packages edit_work_packages view_team_planner manage_team_planner
+                        ]
+    }
+    let!(:user_outside_project) { FactoryBot.create :user, firstname: 'Not', lastname: 'In Project' }
     let(:type_task) { FactoryBot.create :type_task }
     let(:type_bug) { FactoryBot.create :type_bug }
 
@@ -155,12 +163,47 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.visit!
       team_planner.expect_title "Unnamed team planner"
       loading_indicator_saveguard
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
       
       retry_block do 
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
-        team_planner.search_user_to_add user.name
+        team_planner.select_user_to_add user.name
       end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user, present: false)
+      
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add other_user.name
+      end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user)
+
+      team_planner.remove_assignee(user)
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user)
+
+      team_planner.remove_assignee(other_user)
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
+
+      # Try one more time to make sure deleting the full filter didn't kill the functionality
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user, present: false)
     end
   end
 end

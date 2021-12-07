@@ -26,8 +26,9 @@
       class="tp-assignee--remove"
       (click)="removeAssignee(resource.id)"
       [aria-label]="text.remove_assignee"
+      [attr.data-qa-remove-assignee]="resource.id"
     >
-      <op-icon icon-classes="icon-context icon-remove"></op-icon>
+      <op-icon icon-classes="icon-remove"></op-icon>
     </button>
   </div>
 

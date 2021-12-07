@@ -55,6 +55,10 @@ module Pages
       expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
     end
 
+    def remove_assignee(user)
+      page.find(%([data-qa-remove-assignee="#{user.id}"])).click
+    end
+
     def within_lane(user, &block)
       raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
 
@@ -78,6 +82,12 @@ module Pages
 
     def click_add_user
       page.find('[data-qa-selector="tp-assignee-add-button"]').click
+    end
+
+    def select_user_to_add(name)
+      select_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+                          query: name,
+                          results_selector: 'body'
     end
 
     def search_user_to_add(name)
