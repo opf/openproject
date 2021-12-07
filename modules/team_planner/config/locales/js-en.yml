@@ -6,3 +6,4 @@ en:
       unsaved_title: 'Unnamed team planner'
       label_assignee_plural: 'Assignees'
       add_assignee: 'Add assignee'
+      remove_assignee: 'Remove assignee'

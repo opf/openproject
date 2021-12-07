@@ -107,6 +107,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
+    remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
   };
 
   principals$ = this.principalIds$
@@ -326,12 +327,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       ];
     };
 
-
     if (this.wpTableFilters.findIndex('assignee') === -1) {
       // Replace actually also instantiates if it does not exist, which is handy here
       this.wpTableFilters.replace('assignee', modifyFilter.bind(this));
     } else {
       this.wpTableFilters.modify('assignee', modifyFilter.bind(this));
+    }
+  }
+
+  public removeAssignee(id:string) {
+    if (this.wpTableFilters.find('assignee')?.values?.length || 0 <= 1) {
+      this.wpTableFilters.remove('assignee');
+    } else {
+      this.wpTableFilters.modify('assignee', (assigneeFilter:QueryFilterInstanceResource) => {
+        // eslint-disable-next-line no-param-reassign
+        assigneeFilter.values = (assigneeFilter.values as HalResource[])
+          .filter((filter) => filter.id !== id);
+      });
     }
   }
 

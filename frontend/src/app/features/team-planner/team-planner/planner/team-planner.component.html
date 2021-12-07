@@ -9,10 +9,23 @@
 </ng-container>
 
 <ng-template #resourceContent let-resource="resource">
-  <op-principal
+  <div
     *ngIf="resource.extendedProps.principal"
-    [principal]="resource.extendedProps.principal"
-  ></op-principal>
+    class="tp-assignee"
+  >
+    <op-principal
+      [principal]="resource.extendedProps.principal"
+      class="tp-assignee--principal"
+    ></op-principal>
+    <button
+      type="button"
+      class="tp-assignee--remove"
+      (click)="removeAssignee(resource.id)"
+      [aria-label]="text.remove_assignee"
+    >
+      <op-icon icon-classes="icon-context icon-remove"></op-icon>
+    </button>
+  </div>
 
   <op-tp-add-assignee
     *ngIf="!resource.extendedProps.principal"
@@ -24,7 +37,7 @@
 <div class="wp-inline-create-button">
   <button
     type="button"
-    class="wp-inline-create--add-link"
+    class="wp-inline-create--add-link tp-assignee-add"
     (click)="showAssigneeAddRow()"
   >
     <op-icon icon-classes="icon-context icon-add"></op-icon>
