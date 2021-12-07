@@ -46,10 +46,6 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     true
   end
 
-  def principal_resource?
-    true
-  end
-
   def where
     operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
   end
