@@ -40,21 +40,11 @@ describe Queries::Views::Filters::TypeFilter, type: :model do
     let(:type) { :list_optional }
 
     describe '#allowed_values' do
-      it 'includes the core views' do
-        expected_core_views = [
-          %w[Views::TeamPlanner Views::TeamPlanner],
-          %w[Views::WorkPackagesTable Views::WorkPackagesTable]
-        ]
+      it 'includes the Bim views' do
+        expected_bim_view = %w[Views::Bim Views::Bim]
 
-        expect((expected_core_views - instance.allowed_values).size).to be 0
+        expect(([expected_bim_view] - instance.allowed_values).size).to be 0
       end
     end
-  end
-
-  it_behaves_like 'list_optional query filter' do
-    let(:attribute) { :type }
-    let(:model) { View }
-    let(:valid_values) { %w[Views::TeamPlanner Views::WorkPackagesTable] }
-    let(:transformed_values) { %w[team_planner work_packages_table] }
   end
 end
