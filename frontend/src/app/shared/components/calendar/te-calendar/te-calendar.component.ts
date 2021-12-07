@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -20,7 +19,10 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import timeGrid from '@fullcalendar/timegrid';
 import {
-  CalendarOptions, Duration, EventApi, EventInput,
+  CalendarOptions,
+  Duration,
+  EventApi,
+  EventInput,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
@@ -37,6 +39,7 @@ import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-bui
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
 
 interface CalendarViewEvent {
   el:HTMLElement;
@@ -67,12 +70,13 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
+    OpCalendarService,
     TimeEntryEditService,
     TimeEntryCreateService,
     HalResourceEditingService,
   ],
 })
-export class TimeEntryCalendarComponent implements AfterViewInit {
+export class TimeEntryCalendarComponent {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @Input() projectIdentifier:string;
@@ -129,6 +133,10 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     events: this.calendarEventsFunction.bind(this),
     eventOverlap: (stillEvent:any) => !stillEvent.classNames.includes(TIME_ENTRY_CLASS_NAME),
     plugins: [timeGrid, interactionPlugin],
+    eventDidMount: this.alterEventEntry.bind(this),
+    eventWillUnmount: this.beforeEventRemove.bind(this),
+    eventClick: this.dispatchEventClick.bind(this),
+    eventDrop: this.moveEvent.bind(this),
   };
 
   constructor(readonly states:States,
@@ -145,26 +153,8 @@ export class TimeEntryCalendarComponent implements AfterViewInit {
     private timeEntryCreate:TimeEntryCreateService,
     private schemaCache:SchemaCacheService,
     private colors:ColorsService,
-    private browserDetector:BrowserDetector) {
-  }
-
-  ngAfterViewInit() {
-    // The full-calendar component's outputs do not seem to work
-    // see: https://github.com/fullcalendar/fullcalendar-angular/issues/228#issuecomment-523505044
-    // Therefore, setting the outputs via the underlying API
-    this.ucCalendar.getApi().setOption('eventDidMount', (event:CalendarViewEvent) => {
-      this.alterEventEntry(event);
-    });
-    this.ucCalendar.getApi().setOption('eventWillUnmount', (event:CalendarViewEvent) => {
-      this.beforeEventRemove(event);
-    });
-    this.ucCalendar.getApi().setOption('eventClick', (event:CalendarViewEvent) => {
-      this.dispatchEventClick(event);
-    });
-    this.ucCalendar.getApi().setOption('eventDrop', (event:CalendarMoveEvent) => {
-      this.moveEvent(event);
-    });
-  }
+    private browserDetector:BrowserDetector,
+  ) {}
 
   public calendarEventsFunction(fetchInfo:{ start:Date, end:Date },
     successCallback:(events:EventInput[]) => void,

@@ -22,10 +22,8 @@ import {
   filter,
   distinctUntilChanged,
 } from 'rxjs/operators';
-import { take } from 'rxjs/internal/operators/take';
 import { EventClickArg } from '@fullcalendar/common';
 import { StateService } from '@uirouter/angular';
-import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -36,15 +34,17 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
+import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
+import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Component({
   selector: 'op-team-planner',
@@ -53,6 +53,7 @@ import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resour
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     EventViewLookupService,
+    OpCalendarService,
   ],
 })
 export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -60,24 +61,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('ucCalendar', { read: ElementRef })
   set ucCalendarElement(v:ElementRef|undefined) {
-    if (!v) {
-      return;
-    }
-
-    if (!this.resizeObserver) {
-      this.resizeObserver = new ResizeObserver(() => this.resizeSubject.next());
-    }
-
-    this.resizeObserver.observe(v.nativeElement);
+    this.calendar.resizeObserver(v);
   }
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
-  private resizeObserver:ResizeObserver;
-
   private resizeSubject = new Subject<unknown>();
+
+  calendarOptions$ = new Subject<CalendarOptions>();
+
+  projectIdentifier:string|undefined = undefined;
 
   private principalIds$ = this.wpTableFilters
       .live$()
@@ -97,10 +92,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           filters: [['id', '=', ids]]
         }) as Apiv3ListParameters),
       );
-
-  calendarOptions$ = new Subject<CalendarOptions>();
-
-  projectIdentifier:string|null = null;
 
   assignees:HalResource[] = [];
   
@@ -131,13 +122,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private currentProject:CurrentProjectService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
+    readonly calendar:OpCalendarService,
   ) {
     super();
   }
 
   ngOnInit():void {
     this.initializeCalendar();
-    this.projectIdentifier = this.currentProject.identifier;
+    this.projectIdentifier = this.currentProject.identifier ? this.currentProject.identifier : undefined;
 
     this
       .querySpace
@@ -177,7 +169,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.resizeObserver?.disconnect();
+    this.calendar.resizeObs?.disconnect();
   }
 
   public calendarEventsFunction(
@@ -186,83 +178,60 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     failureCallback:(error:unknown) => void,
   ):void|PromiseLike<EventInput[]> {
     this
-      .currentWorkPackages()
+      .calendar
+      .currentWorkPackages$
       .toPromise()
-      .then((workPackages) => {
-        const events = this.mapToCalendarEvents(workPackages);
+      .then((workPackages:WorkPackageCollectionResource) => {
+        const events = this.mapToCalendarEvents(workPackages.elements);
         successCallback(events);
       })
       .catch(failureCallback);
 
-    this.updateTimeframe(fetchInfo);
-  }
-
-  private currentWorkPackages():Observable<WorkPackageResource[]> {
-    return this
-      .querySpace
-      .results
-      .values$()
-      .pipe(
-        take(1),
-        map((collection:CollectionResource<WorkPackageResource>) => (
-          collection
-            .elements
-            .map((wp) => this.apiV3Service.work_packages.cache.current(wp.id as string, wp) as WorkPackageResource)
-        )),
-      );
+    this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   private initializeCalendar() {
     void this.configuration.initialized
       .then(() => {
-        this.calendarOptions$.next({
-          schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-          editable: false,
-          locale: this.I18n.locale,
-          fixedWeekCount: false,
-          firstDay: this.configuration.startOfWeek(),
-          timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
-          plugins: [
-            resourceTimelinePlugin,
-          ],
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: '',
-          },
-          titleFormat: {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          },
-          initialView: 'resourceTimelineWeekDaysOnly',
-          height: 'auto',
-          views: {
-            resourceTimelineWeekDaysOnly: {
-              type: 'resourceTimeline',
-              duration: { weeks: 1 },
-              slotDuration: { days: 1 },
-              slotLabelFormat: [
-                {
-                  weekday: 'long',
-                  day: '2-digit',
-                },
-              ],
-              resourceAreaColumns: [
-                {
-                  field: 'title',
-                  headerContent: this.text.assignees,
-                },
-              ],
+        this.calendarOptions$.next(
+          this.calendar.calendarOptions({
+            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+            plugins: [
+              resourceTimelinePlugin,
+            ],
+            titleFormat: {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
             },
-          },
-          events: this.calendarEventsFunction.bind(this) as unknown,
-          resources: [],
-          eventClick: this.openSplitView.bind(this) as unknown,
-          resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
-          resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
-        } as CalendarOptions);
-      });
+            initialView: 'resourceTimelineWeekDaysOnly',
+            views: {
+              resourceTimelineWeekDaysOnly: {
+                type: 'resourceTimeline',
+                duration: { weeks: 1 },
+                slotDuration: { days: 1 },
+                slotLabelFormat: [
+                  {
+                    weekday: 'long',
+                    day: '2-digit',
+                  },
+                ],
+                resourceAreaColumns: [
+                  {
+                    field: 'title',
+                    headerContent: this.text.assignees,
+                  },
+                ],
+              },
+            },
+            events: this.calendarEventsFunction.bind(this) as unknown,
+            resources: [],
+            eventClick: this.openSplitView.bind(this) as unknown,
+            resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
+            resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
+          } as CalendarOptions),
+        );
+    });
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg):{ domNodes:unknown[] } {
@@ -272,38 +241,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   unrenderTemplate(id:string):void {
     this.viewLookup.destroyView(id);
-  }
-
-  public updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }):void {
-    const filtersEmpty = this.wpTableFilters.isEmpty;
-
-    if (filtersEmpty && this.querySpace.query.value) {
-      // nothing to do
-      return;
-    }
-
-    const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
-    const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
-
-    if (filtersEmpty) {
-      let queryProps = this.defaultQueryProps(startDate, endDate);
-
-      if (this.$state.params.query_props) {
-        queryProps = decodeURIComponent(this.$state.params.query_props || '');
-      }
-
-      void this
-        .wpListService
-        .fromQueryParams({ query_props: queryProps }, this.projectIdentifier || undefined)
-        .toPromise();
-    } else {
-      this.wpTableFilters.modify('datesInterval', (datesIntervalFilter) => {
-        // eslint-disable-next-line no-param-reassign
-        datesIntervalFilter.values[0] = startDate;
-        // eslint-disable-next-line no-param-reassign
-        datesIntervalFilter.values[1] = endDate;
-      });
-    }
   }
 
   public showAssigneeAddRow() {
@@ -371,8 +308,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           return undefined;
         }
 
-        const startDate = this.eventDate(workPackage, 'start');
-        const endDate = this.eventDate(workPackage, 'due');
+        const startDate = this.calendar.eventDate(workPackage, 'start');
+        const endDate = this.calendar.eventDate(workPackage, 'due');
 
         const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
         const assignee = (workPackage.assignee as HalResource).href as string;
@@ -389,57 +326,5 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         };
       })
       .filter((event) => !!event) as EventInput[];
-  }
-
-  private mapToCalendarResources(workPackages:WorkPackageResource[]) {
-    const resources:{ id:string, title:string, principal:HalResource|null }[] = [];
-
-    workPackages.forEach((workPackage:WorkPackageResource) => {
-      const assignee = workPackage.assignee as HalResource|undefined;
-      if (!assignee) {
-        return;
-      }
-
-      resources.push({
-        id: assignee.href as string,
-        title: assignee.name,
-        principal: assignee,
-      });
-    });
-
-    return resources;
-  }
-
-  private defaultQueryProps(startDate:string, endDate:string) {
-    const props = {
-      c: ['id'],
-      t:
-        'id:asc',
-      f: [{ n: 'status', o: 'o', v: [] },
-        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] }],
-      pp: 100,
-    };
-
-    return JSON.stringify(props);
-  }
-
-  private eventDate(workPackage:WorkPackageResource, type:'start'|'due'):string {
-    if (this.schemaCache.of(workPackage).isMilestone) {
-      return workPackage.date;
-    }
-    return workPackage[`${type}Date`] as string;
-  }
-
-  private calendarHeight():number {
-    let heightElement = jQuery(this.elementRef.nativeElement);
-
-    while (!heightElement.height() && heightElement.parent()) {
-      heightElement = heightElement.parent();
-    }
-
-    const topOfCalendar = jQuery(this.elementRef.nativeElement).position().top;
-    const topOfHeightElement = heightElement.position().top;
-
-    return heightElement.height()! - (topOfCalendar - topOfHeightElement);
   }
 }
