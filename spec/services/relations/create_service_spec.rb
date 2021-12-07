@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe Relations::CreateService do
   let(:work_package1_start_date) { nil }
   let(:work_package1_due_date) { Date.today }
@@ -76,10 +77,14 @@ describe Relations::CreateService do
   let(:symbols_for_base) { [] }
 
   subject do
-    instance.call(relation)
+    instance.call(attributes)
   end
 
   before do
+    allow(Relation)
+      .to receive(:new)
+            .and_return(relation)
+
     allow(relation)
       .to receive(:save)
       .and_return(model_valid)
@@ -238,7 +243,7 @@ describe Relations::CreateService do
         end
       end
 
-      context 'fro a different relationship' do
+      context 'for a different relationship' do
         let(:attributes) do
           {
             to: work_package1,
@@ -264,3 +269,4 @@ describe Relations::CreateService do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

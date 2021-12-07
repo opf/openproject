@@ -34,9 +34,9 @@ class Relations::CreateService < Relations::BaseService
     self.contract_class = Relations::CreateContract
   end
 
-  def perform(relation, send_notifications: true)
+  def perform(send_notifications: true, **attributes)
     in_user_context(send_notifications) do
-      update_relation relation, {}
+      update_relation ::Relation.new, attributes
     end
   end
 end
