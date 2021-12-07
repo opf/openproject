@@ -123,6 +123,21 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.title
 
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
+      
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+      
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add other_user.name
+      end
+
       team_planner.expect_assignee user
       team_planner.expect_assignee other_user
 
@@ -161,8 +176,6 @@ describe 'Team planner', type: :feature, js: true do
 
     it 'can add and remove assignees' do
       team_planner.visit!
-      team_planner.expect_title "Unnamed team planner"
-      loading_indicator_saveguard
 
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
@@ -204,6 +217,32 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
+    end
+
+    it 'filters possible assignees correctly' do
+      team_planner.visit!
+
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.search_user_to_add user_outside_project.name
+      end
+
+      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+      
+      retry_block do 
+        team_planner.select_user_to_add user.name
+      end
+      
+      team_planner.expect_assignee(user)
+
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.search_user_to_add user.name
+      end
+
+      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
     end
   end
 end
