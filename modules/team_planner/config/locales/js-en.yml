@@ -4,3 +4,6 @@ en:
     team_planner:
       title: 'Team planner'
       label_assignee_plural: 'Assignees'
+      context_menu:
+        create_new: 'Create new'
+        add_existing: 'Add existing'

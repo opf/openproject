@@ -64,7 +64,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     return { contextMenuId: 'work-package-context-menu', items: this.items };
   }
 
-  public positionArgs(evt:JQuery.TriggeredEvent) {
+  public positionArgs(evt:Event|JQuery.TriggeredEvent) {
     const position = super.positionArgs(evt);
     _.assign(position, this.additionalPositionArgs);
 

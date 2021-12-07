@@ -54,6 +54,9 @@ import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { itemAddedToQuerySpace } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space.actions';
+import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
+import { TeamPlannerContextMenu } from 'core-app/features/team-planner/team-planner/context-menu/team-planner-context-menu';
 
 @Component({
   selector: 'op-team-planner',
@@ -112,6 +115,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     private modalService:OpModalService,
+    private opContextMenu:OPContextMenuService,
     private halEditing:HalResourceEditingService,
     private halNotification:HalResourceNotificationService,
     private actions$:ActionsService,
@@ -366,7 +370,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       f: [
         { n: 'assignee', o: '*', v: [] },
         { n: 'status', o: 'o', v: [] },
-        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] }
+        { n: 'datesInterval', o: '<>d', v: [startDate, endDate] },
       ],
       pp: 100,
     };
@@ -395,15 +399,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private handleDateClicked(info:DateClickArg) {
-    const modal = this.modalService.show(OPWPQuickAddModalComponent, this.injector);
-    void modal
-      .closingEvent
-      .toPromise()
-      .then((instance:OPWPQuickAddModalComponent) => {
-        if (instance.selectedWorkPackage) {
-          void this.addWorkPackageToCell(instance.selectedWorkPackage, info);
-        }
-      });
+    const handler = new TeamPlannerContextMenu(
+      this.injector,
+      { date: info.date, resource: info.resource },
+      jQuery(info.jsEvent.target as HTMLElement),
+    );
+
+    this.opContextMenu.show(handler, info.jsEvent);
   }
 
   private async addWorkPackageToCell(workPackage:WorkPackageResource, info:DateClickArg) {
