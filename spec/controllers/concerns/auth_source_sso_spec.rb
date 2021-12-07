@@ -49,7 +49,7 @@ describe MyController, type: :controller do
 
   shared_examples 'should log in the user' do
     it "logs in given user" do
-      expect(response).to redirect_to my_page_path
+      expect(response).to redirect_to my_account_path
       expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
       expect(session[:user_id]).to eq user.id
     end
@@ -140,7 +140,7 @@ describe MyController, type: :controller do
       end
 
       it "should log in given user and activate it" do
-        expect(response).to redirect_to my_page_path
+        expect(response).to redirect_to my_account_path
         expect(user.reload).to be_active
         expect(session[:user_id]).to eq user.id
       end
@@ -219,7 +219,7 @@ describe MyController, type: :controller do
       get :account
 
       expect(service).to have_received(:call).with(other_user)
-      expect(response).to redirect_to my_page_path
+      expect(response).to redirect_to my_account_path
       expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
       expect(session[:user_id]).to eq user.id
       expect(session[:updated_at]).to be > session_update_time

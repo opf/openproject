@@ -177,6 +177,8 @@ module AuthSourceSSO
 
   def handle_sso_success(user, just_activated)
     session[:user_from_auth_header] = true
+    # remember the back_url so we can redirect to the original request
+    session[:back_url] = request.fullpath
     successful_authentication(user, reset_stages: true, just_registered: just_activated)
   end
 
