@@ -150,5 +150,17 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
     end
+
+    it 'can add and remove assignees' do
+      team_planner.visit!
+      team_planner.expect_title "Unnamed team planner"
+      loading_indicator_saveguard
+      
+      retry_block do 
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.search_user_to_add user.name
+      end
+    end
   end
 end

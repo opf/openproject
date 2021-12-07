@@ -30,6 +30,8 @@ require 'support/pages/page'
 
 module Pages
   class TeamPlanner < ::Pages::Page
+    include ::Components::NgSelectAutocompleteHelpers
+
     attr_reader :project,
                 :filters
 
@@ -72,6 +74,16 @@ module Pages
         .click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
+    end
+
+    def click_add_user
+      page.find('[data-qa-selector="tp-assignee-add-button"]').click
+    end
+
+    def search_user_to_add(name)
+      search_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+                          query: name,
+                          results_selector: 'body'
     end
   end
 end

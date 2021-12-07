@@ -41,8 +41,9 @@
 <div class="wp-inline-create-button">
   <button
     type="button"
-    class="wp-inline-create--add-link tp-assignee-add"
+    class="wp-inline-create--add-link tp-assignee-add-button"
     (click)="showAssigneeAddRow()"
+    data-qa-selector="tp-assignee-add-button"
   >
     <op-icon icon-classes="icon-context icon-add"></op-icon>
     <span [textContent]="text.add_assignee"></span>
