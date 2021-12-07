@@ -46,6 +46,11 @@ export abstract class BoardActionService {
   filterName:string;
 
   /**
+   * The action resource name for the autocompleter
+   */
+  resourceName:string;
+
+  /**
    * The icon used in tile
    */
   icon:string;
