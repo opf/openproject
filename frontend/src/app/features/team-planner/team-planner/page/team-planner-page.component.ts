@@ -50,8 +50,8 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   /** Toolbar is not editable */
   titleEditingEnabled = false;
 
-  /** Not savable */
-  showToolbarSaveButton = false;
+  /** Savable */
+  showToolbarSaveButton = true;
 
   /** Toolbar is always enabled */
   toolbarDisabled = false;
@@ -89,21 +89,8 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     this.currentPartition = state.data?.partition || '-split';
   }
 
-  updateTitle(query?:QueryResource):void {
-    if (!query?.id) {
-      this.selectedTitle = this.text.unsaved_title;
-    } else {
-      super.updateTitle(query);
-    }
-  }
-
-  // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {
-  }
-
-  // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected staticQueryName(query:QueryResource):string {
+    return this.text.unsaved_title;
   }
 }

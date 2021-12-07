@@ -13,6 +13,10 @@ export class WorkPackagesQueryViewService {
   ) { }
 
   create(query:QueryResource):Observable<View> {
+    if (!query.href) {
+      throw new Error('Expected only queries that are created since an href is required');
+    }
+
     return this
       .apiV3Service
       .views

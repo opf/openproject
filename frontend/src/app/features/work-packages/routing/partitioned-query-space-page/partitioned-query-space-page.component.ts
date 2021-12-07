@@ -217,7 +217,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (isPersistedResource(query)) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle = this.opStaticQueries.getStaticName(query);
+      this.selectedTitle = this.staticQueryName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
@@ -289,5 +289,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected shouldUpdateHtmlTitle():boolean {
     return true;
+  }
+
+  protected staticQueryName(query:QueryResource):string {
+    return this.opStaticQueries.getStaticName(query);
   }
 }
