@@ -38,7 +38,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { from, Observable, of } from 'rxjs';
 import { input } from 'reactivestates';
 import {
-  catchError, mapTo, mergeMap, share, switchMap, take
+  catchError, mapTo, mergeMap, share, switchMap, take,
 } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
@@ -241,7 +241,7 @@ export class WorkPackagesListService {
 
         // Reload the query, and then reload the menu
         this.reloadQuery(createdQuery).subscribe(() => {
-          this.states.changes.queries.next(createdQuery.id!);
+          this.states.changes.queries.next(createdQuery.id);
         });
 
         return createdQuery;

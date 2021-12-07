@@ -45,7 +45,7 @@ export class APIv3ViewsPaths extends APIv3ResourceCollection<View, APIv3Gettable
   }
 
   /**
-   * Create a new view resource
+   * Create a new view
    *
    * @param TODO
    */
@@ -60,9 +60,7 @@ export class APIv3ViewsPaths extends APIv3ResourceCollection<View, APIv3Gettable
           responseType: 'json',
         },
       ).pipe(
-        map((view:unknown) => {
-          return view as View;
-        }),
+        map((view:View) => view),
       );
   }
 }
