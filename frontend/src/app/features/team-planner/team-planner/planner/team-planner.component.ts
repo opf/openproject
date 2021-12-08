@@ -74,26 +74,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   showAddAssignee$ = new Subject<boolean>();
 
   private principalIds$ = this.wpTableFilters
-      .live$()
-      .pipe(
-        this.untilDestroyed(),
-        map((queryFilters) => {
-          const assigneeFilter = queryFilters.find((filter) => filter._type === 'AssigneeQueryFilter');
-          return ((assigneeFilter?.values || []) as HalResource[]).map(p => p.id);
-        })
-      );
+    .live$()
+    .pipe(
+      this.untilDestroyed(),
+      map((queryFilters) => {
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        return ((assigneeFilter?.values || []) as HalResource[]).map((p) => p.id);
+      }),
+    );
 
   private params$ = this.principalIds$
-      .pipe(
-        this.untilDestroyed(),
-        filter((ids) => ids.length > 0),
-        map((ids) => ({
-          filters: [['id', '=', ids]]
-        }) as Apiv3ListParameters),
-      );
+    .pipe(
+      this.untilDestroyed(),
+      filter((ids) => ids.length > 0),
+      map((ids) => ({
+        filters: [['id', '=', ids]],
+      }) as Apiv3ListParameters),
+    );
 
   assignees:HalResource[] = [];
-  
+
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
@@ -102,10 +102,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   principals$ = this.principalIds$
     .pipe(
-        this.untilDestroyed(),
-        mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
-        debounceTime(50),
-        distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
+      this.untilDestroyed(),
+      mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
+      debounceTime(50),
+      distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
     );
 
   constructor(
@@ -157,15 +157,18 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       )
       .subscribe(([principals, showAddAssignee]) => {
         const api = this.ucCalendar.getApi();
-        
+
         api.getResources().forEach((resource) => resource.remove());
 
-
-        principals.forEach((principal) => api.addResource({
-          principal,
-          id: ((self) => Array.isArray(self) ? self[0].href : self.href)(principal._links.self),
-          title: principal.name,
-        }));
+        principals.forEach((principal) => {
+          const self = principal._links.self;
+          const id = Array.isArray(self) ? self[0].href : self.href;
+          api.addResource({
+            principal,
+            id,
+            title: principal.name,
+          })
+        });
 
         if (showAddAssignee) {
           api.addResource({
@@ -175,7 +178,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           });
         }
       });
-    
+
     // This needs to be done after all the subscribers are set up
     this.showAddAssignee$.next(false);
   }
@@ -226,7 +229,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
           } as CalendarOptions),
         );
-    });
+      });
   }
 
   public calendarEventsFunction(
@@ -256,12 +259,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.viewLookup.destroyView(id);
   }
 
-  public showAssigneeAddRow() {
+  public showAssigneeAddRow():void {
     this.showAddAssignee$.next(true);
     this.ucCalendar.getApi().refetchEvents();
   }
 
-  public addAssignee(principal:HalResource) {
+  public addAssignee(principal:HalResource):void {
     this.showAddAssignee$.next(false);
 
     const modifyFilter = (assigneeFilter:QueryFilterInstanceResource) => {
@@ -280,7 +283,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
-  public removeAssignee(href:string) {
+  public removeAssignee(href:string):void {
     const numberOfAssignees = this.wpTableFilters.find('assignee')?.values?.length;
     if (numberOfAssignees && numberOfAssignees <= 1) {
       this.wpTableFilters.remove('assignee');
@@ -288,13 +291,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       this.wpTableFilters.modify('assignee', (assigneeFilter:QueryFilterInstanceResource) => {
         // eslint-disable-next-line no-param-reassign
         assigneeFilter.values = (assigneeFilter.values as HalResource[])
-          .filter((filter) => filter.href !== href);
-        console.log(assigneeFilter.values.length);
+          .filter((filterValue) => filterValue.href !== href);
       });
     }
   }
 
-  private openSplitView(event:EventClickArg) {
+  private openSplitView(event:EventClickArg):void {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
 
     void this.$state.go(

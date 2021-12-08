@@ -32,8 +32,8 @@ import {
   EventEmitter,
   Injector,
   Input,
-  OnInit,
   Output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -49,9 +49,10 @@ import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 @Component({
   templateUrl: './add-assignee.component.html',
   selector: 'op-tp-add-assignee',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddAssigneeComponent implements OnInit {
-  @Output() public select = new EventEmitter<HalResource>();
+export class AddAssigneeComponent {
+  @Output() public selectAssignee = new EventEmitter<HalResource>();
 
   @Input() alreadySelected:string[] = [];
 
@@ -67,8 +68,6 @@ export class AddAssigneeComponent implements OnInit {
     readonly injector:Injector,
     readonly currentProjectService:CurrentProjectService,
   ) { }
-
-  ngOnInit() { }
 
   public autocomplete(term:string|null):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();
@@ -86,12 +85,12 @@ export class AddAssigneeComponent implements OnInit {
       .get()
       .pipe(
         map((collection) => collection.elements.filter(
-          (user) => !this.alreadySelected.find(selected => selected === user.id),
+          (user) => !this.alreadySelected.find((selected) => selected === user.id),
         )),
       );
   }
 
-  public selectUser(user:HalResource) {
-    this.select.emit(user);
+  public selectUser(user:HalResource):void {
+    this.selectAssignee.emit(user);
   }
 }

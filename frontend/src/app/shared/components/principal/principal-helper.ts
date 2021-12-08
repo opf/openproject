@@ -41,16 +41,20 @@ export namespace PrincipalHelper {
    * TODO: Remove old HalResource stuff :P
    */
   export function hrefFromPrincipal(p:Principal|PrincipalLike):string {
+    // eslint-ignore-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (p.href) {
+      // eslint-ignore-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       return p.href;
     }
 
+    // eslint-ignore-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (p._links) {
+      // eslint-ignore-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      return p._links.self.href;
+      return (p._links as Record<string,string>).self.href as string;
     }
 
     return '';

@@ -34,7 +34,7 @@
 
   <op-tp-add-assignee
     *ngIf="!resource.extendedProps.principal"
-    (select)="addAssignee($event)"
+    (selectAssignee)="addAssignee($event)"
     [alreadySelected]="principalIds$ | async"
   ></op-tp-add-assignee>
 </ng-template>
