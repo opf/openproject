@@ -69,7 +69,7 @@ export class AttributeModelLoaderService {
    * @param model
    * @param id
    */
-  require(model:SupportedAttributeModels, id:string):Promise<HalResource|null> {
+  require(model:SupportedAttributeModels, id:string):Promise<HalResource|null|undefined> {
     const identifier = `${model}-${id}`;
     const state = this.cache$.get(identifier);
 
@@ -87,10 +87,7 @@ export class AttributeModelLoaderService {
 
     return state
       .values$()
-      .pipe(
-        take(1),
-        tap((val) => console.log(`VAL ${val}`), (err) => console.error(`ERR ${err}`)),
-      )
+      .pipe(take(1))
       .toPromise();
   }
 

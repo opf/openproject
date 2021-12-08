@@ -64,7 +64,7 @@ export class TimeEntryCreateService {
       .form
       .post(payload)
       .toPromise()
-      .then((form) => this.fromCreateForm(form));
+      .then((form) => form && this.fromCreateForm(form));
   }
 
   public fromCreateForm(form:FormResource):ResourceChangeset {

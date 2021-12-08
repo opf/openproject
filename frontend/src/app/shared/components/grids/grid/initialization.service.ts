@@ -21,6 +21,7 @@ export class GridInitializationService {
       .list({ filters: [['scope', '=', [path]]] })
       .toPromise()
       .then((collection) => {
+        if (!collection) { return; }
         if (collection.total === 0) {
           return this.myPageForm(path);
         }
@@ -28,7 +29,7 @@ export class GridInitializationService {
       });
   }
 
-  private myPageForm(path:string):Promise<GridResource> {
+  private myPageForm(path:string):Promise<GridResource|undefined> {
     const payload = {
       _links: {
         scope: {

@@ -58,9 +58,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
     this.halEditing
       .temporaryEditResource(this.changeset.projectedResource)
       .values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe((changeset) => {
         if (changeset && changeset.workPackage) {
           this.workPackageSelected = true;

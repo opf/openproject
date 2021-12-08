@@ -68,9 +68,8 @@ export class AddSectionDropdownComponent extends UntilDestroyedMixin implements 
     this.hideSectionService
       .displayed
       .values$()
-      .pipe(
-        this.untilDestroyed(),
-      ).subscribe((displayed) => {
+      .pipe(this.untilDestroyed())
+      .subscribe((displayed) => {
         this.selectable = this.hideSectionService.all
           .filter((el) => displayed.indexOf(el.key) === -1)
           .sort((a, b) => a.label.localeCompare(b.label));

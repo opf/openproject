@@ -46,6 +46,8 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     if (!this.resource.options.queryId) {
       this.createInitial()
         .then((query) => {
+          if (!query) { return; }
+
           const changeset = this.setChangesetOptions({ queryId: query.id });
 
           this.resourceChanged.emit(changeset);
@@ -109,7 +111,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
       );
   }
 
-  private createInitial():Promise<QueryResource> {
+  private createInitial():Promise<QueryResource|undefined> {
     const projectIdentifier = this.state.params.projectPath;
     const initializationProps = this.resource.options.queryProps as { [key:string]:unknown };
     const queryProps = {
@@ -128,6 +130,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
         this.queryCreationParams(),
       )
       .toPromise()
+      .then((data) => data || [])
       .then(([form, query]) => this
         .apiV3Service
         .queries

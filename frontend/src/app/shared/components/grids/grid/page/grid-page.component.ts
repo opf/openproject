@@ -36,6 +36,7 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
       .gridInitialization
       .initialize(this.gridScopePath())
       .then((grid) => {
+        if (!grid) { return; }
         this.grid = grid;
         this.cdRef.detectChanges();
       });

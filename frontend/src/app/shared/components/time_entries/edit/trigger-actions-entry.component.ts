@@ -57,6 +57,7 @@ export class TriggerActionsEntryComponent {
   editTimeEntry() {
     this.loadEntry()
       .then((entry) => {
+        if (!entry) { return; }
         this.timeEntryEditService
           .edit(entry)
           .then(() => {
@@ -75,6 +76,9 @@ export class TriggerActionsEntryComponent {
 
     this.loadEntry()
       .then((entry) => {
+        if (!entry) {
+          return;
+        }
         this
           .apiv3Service
           .time_entries
@@ -87,7 +91,7 @@ export class TriggerActionsEntryComponent {
       });
   }
 
-  protected loadEntry():Promise<TimeEntryResource> {
+  protected loadEntry():Promise<TimeEntryResource|undefined> {
     const timeEntryId = this.elementRef.nativeElement.dataset.entry;
 
     return this

@@ -59,9 +59,7 @@ export class ToastsContainerComponent extends UntilDestroyedMixin implements OnI
     this.toastService
       .current
       .values$('Subscribing to changes in the toaster stack')
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe((stack) => {
         this.stack = stack;
         this.cdRef.detectChanges();

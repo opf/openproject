@@ -60,6 +60,7 @@ export class WpGraphConfigurationService {
     if (this.queryParams.length === 0) {
       return this.createInitial()
         .then((query) => {
+          if (!query) { return; }
           this.queryParams.push({ id: query.id! });
 
           return this.loadQueries();
@@ -68,7 +69,7 @@ export class WpGraphConfigurationService {
     return this.loadQueries();
   }
 
-  private createInitial():Promise<QueryResource> {
+  private createInitial():Promise<QueryResource|undefined> {
     return this
       .apiv3Service
       .queries
@@ -80,6 +81,7 @@ export class WpGraphConfigurationService {
         WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier),
       )
       .toPromise()
+      .then((data) => data || [])
       .then(([form, query]) => this
         .apiv3Service
         .queries
@@ -104,6 +106,7 @@ export class WpGraphConfigurationService {
       )
       .toPromise()
       .then((query) => {
+        if (!query) { return; }
         if (params.name) {
           // eslint-ignore-next-line no-param-reassign
           query.name = params.name;
@@ -163,6 +166,7 @@ export class WpGraphConfigurationService {
         .form
         .load(query)
         .toPromise()
+        .then((data) => data || [])
         .then(([form]) => {
           this._forms[query.id as string] = form;
         })

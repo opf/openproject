@@ -77,9 +77,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     super.ngAfterViewInit();
 
     this.querySpace.query.values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe((queryUpdate) => {
         this.query = queryUpdate;
       });
@@ -87,9 +85,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     this.loadingPromise = this.querySpace.queryForm.valuesPromise();
 
     this.querySpace.queryForm.values$()
-      .pipe(
-        this.untilDestroyed(),
-      )
+      .pipe(this.untilDestroyed())
       .subscribe((formUpdate) => {
         this.form = formUpdate;
       });

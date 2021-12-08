@@ -47,6 +47,7 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
       .get<CollectionResource>(this.documentsUrl)
       .toPromise()
       .then((collection) => {
+        if (!collection) { return; }
         this.entries = collection.elements as DocumentResource[];
         this.entriesLoaded = true;
 
