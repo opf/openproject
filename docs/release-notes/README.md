@@ -16,6 +16,13 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 12.0.3
+
+Release date: 2021-12-08
+
+[Release Notes](12-0-3/)
+
+
 ## 12.0.2
 
 Release date: 2021-11-24

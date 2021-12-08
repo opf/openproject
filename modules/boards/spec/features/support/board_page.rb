@@ -192,7 +192,7 @@ module Pages
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
-        click_on 'Add'
+        page.find('.confirm-form-submit--submit').click
       end
     end
 
