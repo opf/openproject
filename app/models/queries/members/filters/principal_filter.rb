@@ -51,10 +51,6 @@ class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::Me
     true
   end
 
-  def principal_resource?
-    true
-  end
-
   def where
     operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, :user_id)
   end
