@@ -29,25 +29,10 @@
 #++
 
 require 'spec_helper'
-require_relative '../support/pages/team_planner'
+require_relative './shared_context'
 
 describe 'Team planner', type: :feature, js: true do
-  shared_let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
-  end
-
-  shared_let(:user) do
-    FactoryBot.create :user,
-                      member_in_project: project,
-                      member_with_permissions: %w[
-                        view_work_packages edit_work_packages view_team_planner manage_team_planner
-                      ]
-  end
-
-  let(:team_planner) { ::Pages::TeamPlanner.new project }
-  let(:filters) { team_planner.filters }
-
-  current_user { user }
+  include_context 'with team planner full access'
 
   it 'hides the internally used filters' do
     visit project_path(project)
