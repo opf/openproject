@@ -10,6 +10,11 @@
     *ngIf="static"
     [textContent]="calendar.tooManyResultsText"
     class="op-wp-calendar--notification"></div>
+  <div
+    *ngIf="!hasData"
+    class="op-team-planner--no-data">
+    <span [textContent]="text.noData"></span>
+  </div>
 </ng-container>
 <ng-template #resourceContent let-resource="resource">
   <op-principal

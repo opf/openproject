@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -60,8 +61,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   projectIdentifier:string|undefined = undefined;
 
+  public hasData = true;
+
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+    noData: this.I18n.t('js.team_planner.no_data'),
   };
 
   constructor(
@@ -81,6 +85,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     readonly calendar:OpCalendarService,
+    protected cdRef:ChangeDetectorRef,
   ) {
     super();
   }
@@ -116,6 +121,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .toPromise()
       .then((workPackages:WorkPackageCollectionResource) => {
         const resources = this.mapToCalendarResources(workPackages.elements);
+        this.hasData = resources.length > 0;
+        this.cdRef.detectChanges();
         successCallback(resources);
       })
       .catch(failureCallback);
