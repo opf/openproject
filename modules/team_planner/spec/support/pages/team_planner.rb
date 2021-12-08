@@ -55,6 +55,25 @@ module Pages
       expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
     end
 
+    def add_item(assignee, start_date, end_date)
+      script = <<~JS
+        var event = new CustomEvent(
+          'teamPlannerSelectDate',
+          {
+            detail: {
+              assignee: arguments[0],
+              start: arguments[1],
+              end: arguments[2]
+            }
+          });
+
+        document.dispatchEvent(event);
+      JS
+
+      page.execute_script(script, assignee, start_date, end_date)
+      ::Pages::SplitWorkPackageCreate.new project: project
+    end
+
     def remove_assignee(user)
       page.find(%([data-qa-remove-assignee="#{user.id}"])).click
     end

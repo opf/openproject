@@ -104,6 +104,11 @@ export function makeSplitViewRoutes(baseRoute:string,
       name: `${routeName}.new`,
       url: '/create_new?{type:[0-9]+}&{parent_id:[0-9]+}',
       reloadOnSearch: false,
+      params: {
+        defaults: {
+          value: null,
+        },
+      },
       data: {
         partition: '-split',
         allowMovingInEditMode: true,

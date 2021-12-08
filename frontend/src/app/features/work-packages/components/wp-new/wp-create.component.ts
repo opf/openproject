@@ -27,9 +27,16 @@
 //++
 
 import {
-  ChangeDetectorRef, Directive, Injector, OnInit, ViewChild,
+  ChangeDetectorRef,
+  Directive,
+  Injector,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
-import { StateService, Transition } from '@uirouter/core';
+import {
+  StateService,
+  Transition,
+} from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -178,9 +185,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   protected createdWorkPackage() {
-    const defaults:HalSource = {
-      _links: {},
-    };
+    const defaults:HalSource = (this.stateParams.defaults as HalSource) || {};
+    defaults._links = defaults._links || {};
 
     const type = this.stateParams.type ? parseInt(this.stateParams.type) : undefined;
     const parent = this.stateParams.parent_id ? parseInt(this.stateParams.parent_id) : undefined;
