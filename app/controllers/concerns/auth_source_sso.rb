@@ -14,6 +14,17 @@ module AuthSourceSSO
     # Get the header-provided login value
     login = read_sso_login
 
+    if login.present?
+      perform_header_sso login, user
+    elsif header_optional?
+      user
+    else
+      handle_sso_failure!
+      nil
+    end
+  end
+
+  def perform_header_sso(login, user)
     # Log out the current user if the login does not match
     logged_user = match_sso_with_logged_user(login, user)
 
@@ -21,7 +32,9 @@ module AuthSourceSSO
     return logged_user if logged_user.present?
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
-    perform_header_sso login
+
+    user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
+    handle_sso_for! user, login
   end
 
   def match_sso_with_logged_user(login, user)
@@ -32,16 +45,6 @@ module AuthSourceSSO
     ::Users::LogoutService.new(controller: self).call(user)
 
     nil
-  end
-
-  def perform_header_sso(login)
-    if login
-      user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
-
-      handle_sso_for! user, login
-    else
-      handle_sso_failure!
-    end
   end
 
   def read_sso_login
@@ -162,7 +165,8 @@ module AuthSourceSSO
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
       handle_sso_failure!({ user: user, login: login })
-    else # valid user
+    else
+      # valid user
       # If a user is invited, ensure it gets activated
       activated = user.invited?
       activate_user_if_invited! user
@@ -173,6 +177,8 @@ module AuthSourceSSO
 
   def handle_sso_success(user, just_activated)
     session[:user_from_auth_header] = true
+    # remember the back_url so we can redirect to the original request
+    session[:back_url] = request.fullpath
     successful_authentication(user, reset_stages: true, just_registered: just_activated)
   end
 
@@ -191,8 +197,6 @@ module AuthSourceSSO
   end
 
   def handle_sso_failure!(session_args = {})
-    return if header_optional?
-
     session[:auth_source_sso_failure] = session_args.merge(
       back_url: request.base_url + request.original_fullpath,
       ttl: 1

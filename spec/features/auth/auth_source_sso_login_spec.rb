@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,36 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
-  include Queries::WorkPackages::Filter::MeValueFilterMixin
+require 'spec_helper'
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
+describe 'Login with auth source SSO', type: :feature, clear_cache: true do
+  before do
+    if sso_config
+      allow(OpenProject::Configuration)
+        .to receive(:auth_source_sso)
+              .and_return(sso_config)
+    end
   end
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+  let(:sso_config) do
+    {
+      header: "X-Remote-User",
+      optional: true
+    }
   end
 
-  def type
-    :list
+  let(:user_password) { 'bob' * 4 }
+  let(:user) do
+    FactoryBot.create(:user,
+                      login: 'bob',
+                      password: user_password,
+                      password_confirmation: user_password)
   end
 
-  def self.key
-    :id
-  end
+  it 'can still login' do
+    login_with(user.login, user_password)
 
-  def allowed_values_subset
-    Principal.visible.pluck(:id).map(&:to_s) + [me_value_key]
-  end
+    # on the my page
+    expect(page)
+      .to have_current_path my_page_path
 
-  private
-
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
-  end
-
-  def ar_object_filter?
-    true
+    expect(page)
+      .to have_selector("a[title='#{user.name}']")
   end
 end

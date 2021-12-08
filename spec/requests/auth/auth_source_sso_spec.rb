@@ -28,36 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
-  include Queries::WorkPackages::Filter::MeValueFilterMixin
+require 'spec_helper'
 
-  def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
+describe AuthSourceSSO,
+         type: :rails_request do
+  let(:sso_config) do
+    {
+      header: "X-Remote-User",
+      optional: true
+    }
   end
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+  let(:auth_source) { FactoryBot.create(:auth_source) }
+  let(:user) { FactoryBot.create(:user, login: 'bob', auth_source: auth_source) }
+
+  before do
+    allow(OpenProject::Configuration)
+      .to receive(:auth_source_sso)
+            .and_return(sso_config)
+
+    get '/projects?foo=bar', headers: { 'X-Remote-User' => user.login }
   end
 
-  def type
-    :list
-  end
-
-  def self.key
-    :id
-  end
-
-  def allowed_values_subset
-    Principal.visible.pluck(:id).map(&:to_s) + [me_value_key]
-  end
-
-  private
-
-  def type_strategy
-    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
-  end
-
-  def ar_object_filter?
-    true
+  it 'redirects the user to that URL' do
+    expect(response).to redirect_to '/projects?foo=bar'
   end
 end

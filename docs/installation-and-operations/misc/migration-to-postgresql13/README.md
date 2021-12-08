@@ -85,7 +85,7 @@ sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
 ```bash
-rm -rf /var/lib/postgresql/10/main
+sudo rm -rf /var/lib/postgresql/10/main
 # you can optionally go further and purge postgresql-10 from your system if you wish
 sudo apt-get purge postgresql-10 # debian/ubuntu
 sudo yum remove postgresql-10 # rhel/centos

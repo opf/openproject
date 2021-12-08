@@ -128,7 +128,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.board = this.locals.board;
     this.active = new Set(this.locals.active as string[]);
     this.actionService = this.boardActions.get(this.board.actionAttribute!);
-    this.autocompleterOptions.resource = this.actionService.localizedName.toLowerCase();
+    this.autocompleterOptions.resource = this.actionService.resourceName.toLowerCase();
   }
 
   onModelChange(element:HalResource) {

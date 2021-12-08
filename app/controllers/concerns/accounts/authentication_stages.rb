@@ -88,7 +88,7 @@ module Accounts::AuthenticationStages
 
     # Remember back_url from params since we're redirecting
     # but don't use the referer
-    session[:back_url] = params[:back_url]
+    session[:back_url] ||= params[:back_url]
 
     # Remember the autologin cookie decision
     session[:autologin_requested] = params[:autologin]

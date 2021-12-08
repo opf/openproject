@@ -168,7 +168,7 @@ class TypesController < ApplicationController
     else
       error_message = [
         ApplicationController.helpers.sanitize(
-          t(:'error_can_not_delete_type.explanation', { url: belonging_wps_url(@type.id) }),
+          t(:'error_can_not_delete_type.explanation', url: belonging_wps_url(@type.id)),
           attributes: %w(href target)
         )
       ]
@@ -177,7 +177,7 @@ class TypesController < ApplicationController
       if !archived_projects.empty?
         error_message.push(
           t(:'error_can_not_delete_type.archived_projects',
-            { archived_projects: archived_projects.map(&:name).join(', ') })
+            archived_projects: archived_projects.map(&:name).join(', '))
         )
       end
 
