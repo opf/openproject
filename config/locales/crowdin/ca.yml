@@ -20,7 +20,7 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ca:
-  no_results_title_text: Actualment hi ha res a mostrar.
+  no_results_title_text: Actualment no hi ha res per a mostrar.
   activities:
     index:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
@@ -28,40 +28,40 @@ ca:
     plugins:
       no_results_title_text: Actualment no hi ha plugins disponibles.
     custom_styles:
-      color_theme: "Color del tema"
-      color_theme_custom: "(Personalitza)"
+      color_theme: "Tema de color"
+      color_theme_custom: "(Personalitzat)"
       colors:
         alternative-color: "Alternatiu"
-        content-link-color: "Font enllaçada"
+        content-link-color: "Enllaça font"
         primary-color: "Primari"
         primary-color-dark: "Primari (fosc)"
         header-bg-color: "Fons de capçalera"
-        header-item-bg-hover-color: "Fons de capçalera en l'aire"
+        header-item-bg-hover-color: "Fons de capçalera en passar el ratolí"
         header-item-font-color: "Font de capçalera"
-        header-item-font-hover-color: "Font de capçalera en l'aire"
+        header-item-font-hover-color: "Font de capçalera en passar el ratolí"
         header-border-bottom-color: "Vora de capçalera"
         main-menu-bg-color: "Fons del menú principal"
-        main-menu-bg-selected-background: "Menú principal un cop seleccionat"
-        main-menu-bg-hover-background: "Menú principal en l'aire"
+        main-menu-bg-selected-background: "Menú principal quan es selecciona"
+        main-menu-bg-hover-background: "Menú principal en passar el ratolí"
         main-menu-font-color: "Font del menú principal"
-        main-menu-selected-font-color: "Font del menú principal un cop seleccionat"
-        main-menu-hover-font-color: "Font del menú principal en l'aire"
+        main-menu-selected-font-color: "Font del menú principal quan es selecciona"
+        main-menu-hover-font-color: "Font del menú principal en passar el ratolí"
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Adapteu la vostra instal·lació d'OpenProject amb el vostre logo. Nota: aquest logo serà accessible públicament."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      enterprise_notice: "Com 'Gràcies!' especial per la contribució financera al desenvolupament d'OpenProject, aquesta minúscula característica sols és disponible pels subscriptors a l'edició Enterprise ."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
         alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
         content-link-color: "Color de lletra de la majoria dels enllaços."
         primary-color: "Color principal."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        primary-color-dark: "Habitualment una versió més fosca del color principal feta servir per efectes quan el ratolí passa per sobre."
         header-item-bg-hover-color: "Color de fons dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
         header-item-font-color: "Color de lletra dels elements clicables de la capçalera."
         header-item-font-hover-color: "Color de lletra dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
-        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
-        main-menu-bg-color: "Left side menu's background color."
-      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+        header-border-bottom-color: "Una línia prima sota la capçalera. Deixeu aquest camp buit si no hi voleu cap línia."
+        main-menu-bg-color: "Color de fons del menú lateral de l'esquerra."
+      theme_warning: Canviant el tema substituireu el vostre estil personalitzat. El disseny es perdrà. N'esteu segurs que voleu continuar?
     enterprise:
       upgrade_to_ee: "Upgrade to the Enterprise Edition"
       add_token: "Puja un token de suport de l'Enterprise Edition"
@@ -76,42 +76,42 @@ ca:
   announcements:
     show_until: Mostra fins
     is_active: actualment mostrant
-    is_inactive: actualment no es mostren
+    is_inactive: no mostrats actualment
   attribute_help_texts:
     note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
-    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
-    label_plural: 'Attribute help texts'
-    show_preview: 'Preview text'
-    add_new: 'Add help text'
-    edit: "Edit help text for %{attribute_caption}"
+    text_overview: 'En aquesta vista podeu crear texts d''ajuda personalitzats per la vista d''atributs. Una vegada definits, aquests texts es poden veure clicant la icona d''ajuda al constat de l''atribut pertinent.'
+    label_plural: 'Texts d''ajuda d''atributs'
+    show_preview: 'Previsualitzar text'
+    add_new: 'Afegeix text d''ajuda'
+    edit: "Edita el text d'ajuda per a %{attribute_caption}"
   auth_sources:
     index:
       no_results_content_title: Actualment no hi ha cap mode d'autenticació.
-      no_results_content_text: Crear un nou mode d'autenticació
+      no_results_content_text: Crea un nou mode d'autenticació
   background_jobs:
     status:
       error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
       cancelled_due_to: "Job was cancelled due to error: %{message}"
   ldap_auth_sources:
     technical_warning_html: |
-      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      Aquest formulari LDAP requereix coneixement tècnic sobre la vostra configuració LDAP / Active Directory.
       <br/>
-      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Si us plau, visiteu la nostra documentació per a instruccions detallades</a>.
     attribute_texts:
-      name: Arbitrary name of the LDAP connection
-      host: LDAP host name or IP address
-      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
-      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      name: Nom arbitrari de la connexió LDAP
+      host: Nom d'amfitrió o adreça IP de LDAP
+      login_map: La clau d'atribut en LDAP que es fa servir per a identificar un inici de sessió d'usuari únic. Normalment, aquesta serà `uid` o `samAccountName`.
+      generic_map: La clau d'atribut en LDAP que és assignada a l'atribut `%{attribute}` d'OpenProject
+      admin_map_html: "Opcional: La clau d'atribut en LDAP que <strong>si hi és</strong> marca l'usuari d'OpenProject com a administrador. Deixeu-ho buit en cas de dubte."
       system_user_dn_html: |
-        Enter the DN of the system user used for read-only access.
-        <br/>
-        Example: uid=openproject,ou=system,dc=example,dc=com
-      system_user_password: Enter the bind password of the system user
+        Introduïu el DN de l'usuari de sistema fet servir per a accés de sols lectura.
+        </br>
+        Exemple: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Introduïu la contrasenya associada de l'usuari del sistema
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Introduïu el DN Base del sub-arbre en LDAP que vulgueu que OpenProject faci servir per a buscar usuaris i grups.
+        OpenProject filtrarà els noms d'usuaris proporcionats sols en aquest sub-arbre.
+        Exemple: ou=usuaris,dc=exemple,dc=com
       filter_string: |
         Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
         This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
@@ -119,35 +119,33 @@ ca:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
-    connection_encryption: 'Connection encryption'
-    system_account: 'System account'
+        Si activeu aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
+        Deixeu-ho desactivat si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
+    connection_encryption: 'Encriptació de Connexió'
+    system_account: 'Compte de Sistema'
     system_account_legend: |
-      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
-      Please specify the bind credentials for that system user in the following section.
-    ldap_details: 'LDAP details'
-    user_settings: 'Attribute mapping'
+      OpenProject requereix accés de sols lectura mitjançant un compte de sistema per a buscar usuaris i grups al vostre arbre LDAP.
+      Si us plau, especifiqueu les credencials associades a aquest usuari de sistema en al secció següent.
+    ldap_details: 'Detalls LDAP'
+    user_settings: 'Associació d''atributs'
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      Els camps següents són relacionats amb la manera com els usuaris són creats a OpenProject a partir d'entrades LDAP i quins atributs LDAP són fets servir per a definir els atributs d'un usuari d'OpenProject (associació d'atributs).
     tls_mode:
       plain: 'cap'
       simple_tls: 'simple_tls'
       start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      plain_description: "Connexió plana no encriptada, sense negociació TLS."
+      simple_tls_description: "Encriptació TLS implícita, però sense validació de certificat. Feu-ho servir amb prudència i amb confiança implícita de la connexió LDAP."
+      start_tls_description: "Encriptació TLS explícita amb validació completa. Feu-ho servir per LDAP sobre TLS/SSL."
       section_more_info_link_html: >
-        This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+        Aquesta secció concerneix la seguretat de connexió d'aquesta font d'autentificació LDAP. Per a més imformació, visiteu <a href="%{link}">la documentació Xarxa::LDAP</a>.
   forums:
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      no_results_title_text: Ara mateix no hi ha posts en aquest fòrum.
   colors:
     index:
       no_results_title_text: Actualment no hi ha cap color.
-      no_results_content_text: Crear un nou color
+      no_results_content_text: Crea un nou color
     label_no_color: 'Sense color'
   custom_actions:
     actions:
@@ -159,22 +157,22 @@ ca:
     plural: 'Accions personalitzades'
     new: 'Afegeix una acció personalitzada'
     edit: 'Edita l''acció personalitzada %{name}'
-    execute: 'Execute %{name}'
+    execute: 'Executa %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Accions personalitzades és una característica de l''Edició Enterprise'
+      description: 'Les accions personalitzades agilitzen el treball quotidià combinant un conjunt de passos individuals en un sol botó.'
   custom_fields:
     text_add_new_custom_field: >
-      To add new custom fields to a project you first need to create them before you can add them to this project.
-    is_enabled_globally: 'Is enabled globally'
-    enabled_in_project: 'Enabled in project'
-    contained_in_type: 'Contained in type'
-    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+      Per afegir nous camps personalitzats a un projecte primer heu de crear-los abans de poder-los afegir a aquest projecte.
+    is_enabled_globally: 'És habilitat globalment'
+    enabled_in_project: 'Habilitat en aquest projecte'
+    contained_in_type: 'Contingut al tipus'
+    confirm_destroy_option: "Suprimint una opció n'eliminareu totes les ocurrències (p.e. en un paquet de treball). Segur que ho voleu eliminar?"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
-      no_results_content_text: Crear un camp personalitzat nou
+      no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: 'o'
   documentation:
@@ -193,7 +191,7 @@ ca:
       no_results_title_text: Actualment no hi ha projectes que formin part d'aquest grup.
   incoming_mails:
     ignore_filenames: >
-      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+      Especifica una llista de noms per a ignorar quan es processin adjuncions per a correus electrònics entrants (p.e. signatures o icones). Introduïu un nom de fitxer per línia.
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
@@ -312,12 +310,12 @@ ca:
       no_results_title_text: Actualment no hi ha cap flux de treball.
   work_packages:
     x_descendants:
-      one: 'One descendant work package'
-      other: '%{count} work package descendants'
+      one: 'Un paquet de treball descendent'
+      other: '%{count} paquets de treball descendents'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
     move:
-      no_common_statuses_exists: "No hi ha disponible un estat per a tots els paquets de treball seleccionats. El seu estat no es pot canviar."
+      no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: 'Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes'
     summary:
       reports:
@@ -459,6 +457,7 @@ ca:
         url: "URL"
       role:
         assignable: "Els paquets de treball es poden assignar als usuaris i als grups que tinguin aquest rol en el seu respectiu projecte"
+        permissions: "Permisos"
       time_entry:
         activity: "Activitat"
         hours: "Hores"

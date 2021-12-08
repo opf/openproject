@@ -126,8 +126,8 @@ module Pages
         if paused
           check 'Temporarily pause daily email reminders'
           page.find('.flatpickr-input').click
-          page.find('.flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
-          page.find('.flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
+          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
+          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
 
           expect(page).to have_selector('.flatpickr-input') do |node|
             expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"

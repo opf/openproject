@@ -464,6 +464,7 @@ ar:
         url: "الرابط"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "السماحيات"
       time_entry:
         activity: "النشاط"
         hours: "الساعات"

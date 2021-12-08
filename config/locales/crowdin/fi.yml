@@ -460,6 +460,7 @@ fi:
         url: "URL"
       role:
         assignable: "Toimia paketti voidaan määrittää käyttäjät ja ryhmät hallussaan tämä rooli kunkin projekti"
+        permissions: "Oikeudet"
       time_entry:
         activity: "Tapahtumat"
         hours: "Tunnit"

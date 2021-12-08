@@ -176,4 +176,25 @@ describe 'Subtasks action board', type: :feature, js: true do
       expect(child.parent).to eq parent
     end
   end
+
+  describe 'with German language (regression #40031)' do
+    let!(:german_user) { FactoryBot.create :admin, language: :de }
+    let(:permissions) do
+      %i[show_board_views manage_board_views add_work_packages
+         edit_work_packages view_work_packages manage_public_queries]
+    end
+
+    before do
+      I18n.locale = :de
+      login_as german_user
+    end
+
+    it 'can add lists via the add modal' do
+      board_index.visit!
+      board_page = board_index.create_board action: I18n.t('js.boards.board_type.action_type.subtasks'), expect_empty: true
+      board_page.add_list option: 'Parent WP'
+      board_page.expect_list 'Parent WP'
+      board_page.expect_card 'Parent WP', 'Child'
+    end
+  end
 end

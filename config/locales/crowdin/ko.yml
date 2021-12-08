@@ -458,6 +458,7 @@ ko:
         url: "주소"
       role:
         assignable: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
+        permissions: "권한"
       time_entry:
         activity: "활동"
         hours: "시간"

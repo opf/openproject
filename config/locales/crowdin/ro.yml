@@ -461,6 +461,7 @@ ro:
         url: "URL"
       role:
         assignable: "Pachetele de lucru pot fi atribuite utilizatorilor și grupurilor care dețin acest rol în proiectul respectiv"
+        permissions: "Drepturi"
       time_entry:
         activity: "Activitate"
         hours: "Ore"

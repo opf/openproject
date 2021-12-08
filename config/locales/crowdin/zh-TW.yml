@@ -459,6 +459,7 @@ zh-TW:
         url: "URL"
       role:
         assignable: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
+        permissions: "權限"
       time_entry:
         activity: "活動"
         hours: "小時"

@@ -4,9 +4,9 @@ ca:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Error a l''importar els elements BCF'
-    label_imported_successfully: 'Succés a l''importar els elements BCF'
-    issues: "Temes"
+    label_imported_failed: 'Importació de temes BCF no reeixida'
+    label_imported_successfully: 'S''ha importat els temes BCF correctament.'
+    issues: "Problemes"
     recommended: 'recomanat'
     not_recommended: 'no recomanat'
     no_viewpoints: 'Sense punts de vista'
@@ -26,52 +26,52 @@ ca:
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Importats %{count} temes BCF'
       import_canceled: 'Importació BCF-XML cancel·lada'
-      type_not_active: "Aquest tipus de tema no està activat per aquest projecte."
+      type_not_active: "Aquest tipus de problema no està activat per aquest projecte."
       import:
-        num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
+        num_issues_found: '%{x_bcf_issues} són continguts al fitxer BCF-XML, es llisten els detalls a tot seguit.'
+        button_prepare: 'Prepara la importació'
+        button_perform_import: 'Confirma la importació'
         button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
-        contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
-        invalid_emails_found: 'Invalid email addresses found'
-        unknown_emails_found: 'Unknown email addresses found'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
-        invite_as_members_with_role: 'Invite them as members to the project "%{project}" with role'
-        add_as_members_with_role: 'Add them as members to the project "%{project}" with role'
-        no_type_provided: 'No type provided'
-        no_status_provided: 'No status provided'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        button_back_to_list: 'Torna a la llista'
+        no_permission_to_add_members: 'No teniu suficients permisos per a afegir-los com a membres del projecte.'
+        contact_project_admin: 'Contacteu amb el vostre administrador del projecte per a afegir-los com a membres i començar de nou aquesta importació'
+        continue_anyways: 'Voleu procedir i finalitzar la importació de totes maneres?'
+        description: "Proporcioneu un fitxer BCF-XML v2.1 per a importar-lo al projecte. Podeu examinar-ne els continguts abans de fer-ne la importació."
+        invalid_types_found: 'S''ha trobat noms de tipus de tema invàlids.'
+        invalid_statuses_found: 'S''ha trobat noms d''estat invàlids.'
+        invalid_priorities_found: 'S''ha trobat noms de prioritat invàlids.'
+        invalid_emails_found: 'S''ha trobat adreces de correu electrònic invàlides'
+        unknown_emails_found: 'S''ha trobat adreces de correu electrònic desconegudes'
+        unknown_property: "Propietat és desconeguda.\n"
+        non_members_found: 'No s''ha trobat membres del projecte'
+        import_types_as: 'Estableix tots aquests tipus a'
+        import_statuses_as: 'Estableix tots aquests estats a'
+        import_priorities_as: 'Estableix tots aquestes prioritats a'
+        invite_as_members_with_role: 'Convida''ls com a membres del projecte "%{project}" amb rol'
+        add_as_members_with_role: 'Afegeix-los com a membres del projecte "%{project}" amb rol'
+        no_type_provided: 'No s''ha proporcionat cap tipus'
+        no_status_provided: 'No s''ha proporcionat cap estat'
+        no_priority_provided: 'No s''ha proporcionat cap prioritat'
+        perform_description: "Voleu importar o actualitzar els problemes llistats sobre?"
+        replace_with_system_user: 'Substituïu-los amb l''usuari "Sistema"'
+        import_as_system_user: 'Importa''ls com a l''usuari "Sistema"'
         what_to_do: "Què voleu fer?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Obsolet! Aquest tema no s'ha actualitzat ja que els últims canvis al servidor són més nous que la \"Data de Modificació\" del tema importat. Tanmateix, els comentaris del tema s'han importat."
         bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "Instantània de BCF"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
-  permission_view_linked_issues: "View BCF issues"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_view_linked_issues: "Visualitza els problemes de BCF"
+  permission_manage_bcf: "Importa i administra els problemes de BCF"
   permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Accés complet a la API BCF v2.1"
+      bcf_v2_1_text: "L'aplicació rebrà accés complet de lectura i escriptura a la API BCF v2.1 d'OpenProject per efectuar les accions en nom vostre."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "Model IFC"
@@ -88,18 +88,18 @@ ca:
               ifc_attachment_missing: "Sense fitxer IFC adjunt."
               invalid_ifc_file: "El fitxer aportat no es un IFC vàlid."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "Els bitmaps no es poden escriure ja que ecnara no s'ha implementat."
+          index_not_integer: "L'índex no és un enter."
+          invalid_clipping_planes: "clipping_panes no és vàlid.\n"
+          invalid_components: "components és invàlid."
+          invalid_lines: "lines no és vàlid."
+          invalid_orthogonal_camera: "orthogonal_camera no és vàlid."
+          invalid_perspective_camera: "perspective_camera no és vàlid."
+          mismatching_guid: "El GUID del json_viewpoint no coincideix amb el GUID del model."
+          no_json: "No és un json correctament estructurat."
+          snapshot_type_unsupported: "snapshot_type ha de ser o bé 'png' o 'jpg'."
+          snapshot_data_blank: "s'ha de proporcionar snapshot_data."
+          unsupported_key: "S'ha inclòs una propietat json no suportada."
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:

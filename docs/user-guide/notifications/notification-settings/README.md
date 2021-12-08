@@ -10,7 +10,7 @@ keywords: notifications settings
 
 To access the in-app notification settings. Please left-click the **Notification settings** button in the upper right side of the [notification center](../) or navigate via **My account > Notification settings**.
 
-![notification-settings](notification-settings.PNG)
+![notification-settings](notification-settings.png)
 
 In the **Notification settings** you can fine-tune what you are notified about:
 

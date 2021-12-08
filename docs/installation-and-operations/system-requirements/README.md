@@ -49,7 +49,7 @@ multiple requests to be made simultaneously. Having less workers will work, but 
 These numbers are a guideline only and your mileage may vary.<sup>1</sup>
 It's best to monitor your server and its resource usage. You can always allocate more resources if needed.
 
-See [here](/installation-and-operations/operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
+See [here](../operation/control/#scaling-the-number-of-web-workers) how to scale those up in a packaged installation. If you are using docker-compose you can [scale](https://docs.docker.com/compose/reference/scale/) the web and worker services too.
 
 > <sup>1</sup> When using [docker-compose](https://github.com/opf/openproject-deploy/tree/stable/12/compose) (with `USE_PUMA=true`) you can use fewer web workers which may use a bit more RAM, however. For instance for 200 users a single web worker would be enough.
 
@@ -59,7 +59,7 @@ At some point simply increasing the resources of one single server may not be en
 
 In the _packaged installation_ you can have multiple servers running OpenProject. They will need to share an external database, memcached and file storage (e.g. via NFS), however.
 
-One way to scale the _docker_ installation is to use [docker Swarm](/installation-and-operations/installation/docker/#docker-swarm).
+One way to scale the _docker_ installation is to use [docker Swarm](../installation/docker/#docker-swarm).
 
 ### Operating system
 
@@ -84,10 +84,10 @@ The [docker-based installation](../installation/docker) requires a system with D
 Both the package and docker based installations will install and setup the following dependencies that are required by OpenProject to run:
 
 * __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.7.x
-* __Webserver:__ [Apache](http://httpd.apache.org/)
-  or [nginx](http://nginx.org/en/docs/)
+* __Webserver:__ [Apache](https://httpd.apache.org/)
+  or [nginx](https://nginx.org/en/docs/)
 * __Application server:__ [Puma](https://puma.io/)
-* __Database__: [PostgreSQL](http://www.postgresql.org/) Version >= 13
+* __Database__: [PostgreSQL](https://www.postgresql.org/) Version >= 13
 
 Starting in OpenProject 12.0, PostgreSQL 13.0 will be a minimum requirement.
 PostgreSQL versions 9.6. and up will continue to work, but may result in incompatibilities and degraded performance in the future. We have a [migration guide on how to upgrade to PostgreSQL 13](https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/).

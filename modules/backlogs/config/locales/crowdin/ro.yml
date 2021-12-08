@@ -137,7 +137,7 @@ ro:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Vizualizare master backlog"
   permission_view_taskboards: "Vizualizați tablourile de sarcini"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Selectați statusuri terminate"
   permission_update_sprints: "Sprinturi"
   points_accepted: "puncte acceptate"
   points_committed: "puncte comise"

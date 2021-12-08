@@ -12,8 +12,6 @@ keywords: help, documentation
 **Note**: To better read our OpenProject Documentation, please go to [www.openproject.org/docs/](https://www.openproject.org/docs/).
 </div>
 
-ToDo: check all links.
-
 ## Installation
 
 Get started with installing and upgrading OpenProject using [our Installation Guide starting point](https://www.openproject.org/docs/installation-and-operations/).
@@ -22,7 +20,7 @@ The guides for [manual](./installation-and-operations/installation/manual), [pac
 
 ## Upgrading
 
-The detailed upgrade instructions for our packaged installer are located on the [official website](https://www.openproject.org/download/upgrade-guides/).
+The detailed upgrade instructions for our packaged installer are located on the [official website](https://www.openproject.org/download-and-installation/).
 
 The guides for [upgrading](./installation-and-operations/operation/upgrading) are provided.
 
@@ -52,12 +50,4 @@ Please see our [User Guide pages](https://www.openproject.org/docs/user-guide/) 
 
 ## APIv3 documentation sources
 
-The documentation for APIv3 is written in the [API Blueprint Format](http://apiblueprint.org/) and its sources are being built from the entry point `apiv3-documentation.apib`.
-
-You can use [aglio](https://github.com/danielgtaylor/aglio) to generate HTML documentation, e.g. using the following command:
-
-```bash
-aglio -i apiv3-documentation.apib -o api.html
-```
-
-The output of the API documentation at `dev` branch is continuously built and pushed to Github Pages at [opf.github.io/apiv3-doc/](opf.github.io/apiv3-doc/).
+The documentation for APIv3 is written in the [OpenAPI Format](https://www.openapis.org/) and its sources are being built from the entry point `openapi-spec.yml`.

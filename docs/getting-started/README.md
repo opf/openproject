@@ -27,15 +27,16 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 | [My account](my-account)                                | How to configure My Account?                                 |
 | [My page](my-page)                                      | Find out more about a personal My page dashboard.            |
 
-## 5 steps to get started
+## 6 steps to get started
 
-Watch a short 3-minute introduction video to get started with OpenProject in 5 easy steps:
+Watch a short 3-minute introduction video to get started with OpenProject in 6 easy steps:
 
 1. Create a project
 2. Add team members
 3. Create work packages
 4. Create a project plan
 5. Filter, group and generate reports
+6. Create an agile board
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Getting-started.mp4" type="video/mp4" controls="" style="width:100%"></video>
 

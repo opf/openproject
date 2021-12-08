@@ -106,16 +106,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.7.4
+[openproject@host] rbenv install 2.7.5
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.7.4
+[openproject@host] rbenv global 2.7.5
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.7.4p191 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
+ruby 2.7.5p203 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -458,4 +458,4 @@ If you need to restart the server (for example after a configuration change), do
 ## Questions, comments, and feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the appropriate community [forum](https://community.openproject.org/projects/openproject/boards/9).
-[Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](http://openproject.org) to stay up to date.
+[Follow OpenProject on twitter](https://twitter.com/openproject), and follow the news on [openproject.org](https://www.openproject.org) to stay up to date.

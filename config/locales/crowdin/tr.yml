@@ -460,6 +460,7 @@ tr:
         url: "URL"
       role:
         assignable: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
+        permissions: "İzinler"
       time_entry:
         activity: "Etkinlik"
         hours: "Saat"

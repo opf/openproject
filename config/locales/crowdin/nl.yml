@@ -457,6 +457,7 @@ nl:
         url: "URL"
       role:
         assignable: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
+        permissions: "Machtigingen"
       time_entry:
         activity: "Activiteit"
         hours: "Uren"

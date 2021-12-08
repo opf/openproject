@@ -455,6 +455,7 @@ zh-CN:
         url: "URL"
       role:
         assignable: "无法将工作包分配给在各自项目中具有此角色的用户和群组"
+        permissions: "权限"
       time_entry:
         activity: "活动"
         hours: "小时"

@@ -70,15 +70,15 @@ uk:
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
+      start_trial: 'Розпочати безкоштовну пробну версію'
+      book_now: 'Забронювати зараз'
       get_quote: 'Get a quote'
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
     is_inactive: наразі не відображається
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Будь який доданий вами текст чи зображення видимі для усіх активних користувачів!'
     text_overview: 'У цьому поданні можна створювати спеціальні тексти довідки для перегляду атрибутів. Коли вони визначені, ці тексти можна показувати, натиснувши піктограму довідки поруч з її атрибутом.'
     label_plural: 'Тексти довідки атрибутів'
     show_preview: 'Попередній перегляд тексту'
@@ -298,8 +298,8 @@ uk:
       query_group_placeholder: "Найменувати таблицю"
       reset: "Скинути на типові значення"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Обраний колір відрізняє різні типи 
+        у Gantt графіках чи робочих блоках. Отож рекомендуємо використовувати насичений колір.
   versions:
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
@@ -462,6 +462,7 @@ uk:
         url: "Посилання"
       role:
         assignable: "Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті"
+        permissions: "Дозволи"
       time_entry:
         activity: "Активність"
         hours: "Години"
@@ -801,7 +802,7 @@ uk:
       member: "Учасник"
       news: "Новини"
       notification:
-        one: "Notification"
+        one: "Сповіщення"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
@@ -1347,10 +1348,10 @@ uk:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Зміни було відхилено."
   links:
     configuration_guide: 'Посібник з налаштування'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."
@@ -1374,27 +1375,27 @@ uk:
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
-        created: "The work package was created."
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "Робочий блок було створено."
+        assigned: "Ви були назначені до %{work_package}"
+        subscribed: "Ви підписалися на %{work_package}"
+        mentioned: "Вас було згадано у %{work_package}"
+        responsible: "Ви стали відповідальними за %{work_package}"
+        watched: "Ви переглядаєте %{work_package}"
     update_info_mail:
       body: >
-        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+        Ми з задоволенням оголошуємо про випуск нової версії OpenProject 12.0. Це одне із найбільших наших оновлень, яке ми сподіваємося значно покращить ваш досвід використання OpenProject.
 
-        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+        Починаючи із цього оновлення, ми вводимо сповіщення у самій програмі. Від сьогодні ви будете отримувати сповіщення про оновлення робочих блоків прямо у  OpenProject. Ви зможете позначати ці сповіщення як прочитані, коментувати їх чи навіть прямо редагувати зміни у робочих блоках не залишаючи центр сповіщень. 
 
-        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+        Це також означає, що ми не будемо більш використовувати електронні листи для сповіщень. Гадаємо, що новий центр сповіщень є кращим місцем, щоб переглянути і відреагувати на усі оновлення. Проте, якщо ви бажаєте отримувати сповіщення на свою електронну адресу і надалі, ви можете обрати отримання загальний лист із усіма оновленнями за день у певний час.
 
-        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+        Будь ласка, перегляньте новий центр сповіщень та налаштуйте його, оберіть чи бажаєте отримувати оновлення на пошту в налаштуваннях свого профілю. Ви можете зробити це натиснувши на кнопку "Змінити налаштування електронної пошти", що знаходиться внизу. 
 
-        We hope you find in-app notifications useful and that they makes you even more productive.
+        Сподіваємося, що центр сповіщень буде корисним для вас та допоможе вам стати значно продуктивнішими. 
 
-        Sincerely,
-        The OpenProject team
-      body_header: 'Version 12.0 with Notification Center'
+        З повагою, 
+        команда OpenProject
+      body_header: 'Версія 12.0 з Центром Сповіщень'
       body_subheader: 'Новини'
       subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
@@ -1785,7 +1786,7 @@ uk:
   label_required: 'вимагається'
   label_requires: 'вимагається'
   label_result_plural: "Результати"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Спочатку нові"
   label_revision: "Ревізія"
   label_revision_id: "Ревізія %{value}"
   label_revision_plural: "Ревізії"
@@ -1966,15 +1967,15 @@ uk:
     digests:
       including_mention_singular: 'including a mention'
       including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
+      unread_notification_singular: '1 не прочитане сповіщення '
       unread_notification_plural: '%{number_unread} unread notifications'
       you_have: 'You have'
-    logo_alt_text: 'Logo'
+    logo_alt_text: 'Логотип'
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
+      center: 'Центр сповіщень'
+      see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
