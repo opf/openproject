@@ -39,7 +39,10 @@
   ></op-tp-add-assignee>
 </ng-template>
 
-<div class="wp-inline-create-button">
+<div
+  class="wp-inline-create-button"
+  *ngIf="!(showAddAssignee$ | async)"
+>
   <button
     type="button"
     class="wp-inline-create--add-link tp-assignee-add-button"

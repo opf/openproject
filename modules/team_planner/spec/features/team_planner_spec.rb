@@ -158,7 +158,8 @@ describe 'Team planner', type: :feature, js: true do
       filters.expect_filter_by('Type', 'is', [type_task.name])
       filters.expect_filter_count("2")
 
-      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(user, present: true)
+      team_planner.expect_assignee(other_user, present: true)
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
@@ -170,8 +171,8 @@ describe 'Team planner', type: :feature, js: true do
       split_view.edit_field(:type).update(type_bug)
       split_view.expect_and_dismiss_toaster(message: "Successful update.")
 
-      team_planner.expect_assignee(user, present: false)
-      team_planner.expect_assignee(other_user, present: false)
+      team_planner.expect_assignee(user, present: true)
+      team_planner.expect_assignee(other_user, present: true)
     end
 
     it 'can add and remove assignees' do
