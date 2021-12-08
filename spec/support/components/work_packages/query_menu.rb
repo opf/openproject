@@ -57,6 +57,18 @@ module Components
       def autocompleter_selector
         '#query-title-filter'
       end
+
+      def expect_menu_entry(name)
+        expect(page).to have_selector(autocompleter_item_selector, text: name)
+      end
+
+      def expect_menu_entry_not_visible(name)
+        expect(page).not_to have_selector(autocompleter_item_selector, text: name)
+      end
+
+      def expect_no_menu_entry
+        expect(page).not_to have_selector(autocompleter_item_selector)
+      end
     end
   end
 end

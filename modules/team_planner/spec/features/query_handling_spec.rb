@@ -73,7 +73,9 @@ describe 'Team planner query handling', type: :feature, js: true do
   end
 
   let(:team_planner) { ::Pages::TeamPlanner.new project }
+  let(:work_package_page) { ::Pages::WorkPackagesTable.new project }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
   let(:filters) { team_planner.filters }
 
   current_user { user }
@@ -105,5 +107,28 @@ describe 'Team planner query handling', type: :feature, js: true do
     query_title.press_save_button
 
     team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+  end
+
+  it 'shows only team planner queries' do
+    # Go to team planner where no query is shown
+    team_planner.visit!
+    query_menu.expect_no_menu_entry
+
+    # Change filter
+    filters.open
+    filters.add_filter_by('Type', 'is', [type_bug.name])
+    filters.expect_filter_count("2")
+
+    # Save current filters
+    query_title.expect_changed
+    query_title.rename 'I am your Query'
+    team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
+
+    # The saved query appears in the side menu...
+    query_menu.expect_menu_entry 'I am your Query'
+
+    # .. but not in the work packages module
+    work_package_page.visit!
+    query_menu.expect_menu_entry_not_visible 'I am your Query'
   end
 end
