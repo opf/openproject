@@ -123,7 +123,7 @@ module Pages
     def expect_query_in_select_dropdown(name)
       page.find('.title-container').click
 
-      page.within('#querySelect') do
+      page.within('#viewSelect') do
         expect(page).to have_selector('.op-sidemenu--item-action', text: name)
       end
     end

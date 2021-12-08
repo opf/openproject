@@ -47,8 +47,13 @@ import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorat
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { View } from 'core-app/core/state/views/view.model';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+
+export type ViewType = 'WorkPackagesTable'|'BCF'|'TeamPlanner';
 
 export const opViewSelectSelector = 'op-view-select';
 
@@ -69,15 +74,19 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
 
-  public $queries:Observable<IOpSidemenuItem[]>;
+  public $views:Observable<IOpSidemenuItem[]>;
 
   @Input() menuItems:string[] = [];
 
-  @Input() projectIdentifier:string;
+  @Input() projectId:string|undefined;
 
   @Input() baseRoute:string;
 
-  private $queryCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
+  @Input() viewType:ViewType;
+
+  private apiViewType:string;
+
+  private $viewCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
 
   private $search = new BehaviorSubject<string>('');
 
@@ -91,6 +100,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly opStaticQueries:StaticQueriesService,
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
+    readonly viewsService:ViewsResourceService,
   ) {
     super();
   }
@@ -102,15 +112,17 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   ngOnInit():void {
+    this.apiViewType = `Views::${this.viewType}`;
+
     // When activating the work packages submenu,
     // either initially or through click on the toggle, load the results
     this.mainMenuService
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.$queries = combineLatest(
+    this.$views = combineLatest(
       this.$search,
-      this.$queryCategories,
+      this.$viewCategories,
     )
       .pipe(
         map(([searchText, categories]) => categories
@@ -141,7 +153,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     }
 
     this.updateMenuOnChanges();
-    this.initializeQueries();
+    this.initializeViews();
     this.initialized = true;
   }
 
@@ -149,7 +161,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     return text.toLowerCase().includes(searchText.toLowerCase());
   }
 
-  private initializeQueries():void {
+  private initializeViews():void {
     const categories:{ [category:string]:IOpSidemenuItem[] } = {
       starred: [],
       default: [],
@@ -157,26 +169,38 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       private: [],
     };
 
-    // TODO: use global query store
-    this.apiV3Service
-      .queries
-      .filterNonHidden(this.projectIdentifier)
+    const params:Apiv3ListParameters = {
+      filters: [
+        ['type', '=', [this.apiViewType]],
+      ],
+    };
+
+    if (this.projectId) {
+      params.filters?.push(
+        ['project', '=', [this.projectId]],
+      );
+    }
+
+    this.viewsService
+      .fetchViews(params)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
-        queryCollection.elements.forEach((query) => {
+        queryCollection._embedded.elements.forEach((view) => {
           let cat = 'private';
-          if (query.public) {
+          if (view.public) {
             cat = 'public';
           }
-          if (query.starred) {
+          if (view.starred) {
             cat = 'starred';
           }
 
-          categories[cat].push(this.toOpSideMenuItem(query));
+          categories[cat].push(this.toOpSideMenuItem(view));
         });
 
-        const staticQueries = this.opStaticQueries.getStaticQueries(this.baseRoute);
-        this.$queryCategories.next([
+        // TODO
+        // this.opStaticQueries.getStaticQueries(this.baseRoute);
+        const staticQueries = [] as IOpSidemenuItem[];
+        this.$viewCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
@@ -185,11 +209,12 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  private toOpSideMenuItem(query:QueryResource):IOpSidemenuItem {
+  private toOpSideMenuItem(view:View):IOpSidemenuItem {
+    const query = view._links.query;
     return {
-      title: query.name,
+      title: query.title,
       uiSref: this.baseRoute,
-      uiParams: { query_id: query.id, query_props: '' },
+      uiParams: { query_id: idFromLink(query.href), query_props: '' },
     };
   }
 
@@ -197,6 +222,6 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   private updateMenuOnChanges() {
     this.states.changes.queries
       .pipe(this.untilDestroyed())
-      .subscribe(() => this.initializeQueries());
+      .subscribe(() => this.initializeViews());
   }
 }

@@ -85,6 +85,7 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -190,6 +191,7 @@ export function bootstrapModule(injector:Injector) {
   ],
   providers: [
     StaticQueriesService,
+    ViewsResourceService,
   ],
   declarations: [
     OpDateTimeComponent,

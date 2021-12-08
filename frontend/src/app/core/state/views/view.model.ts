@@ -10,6 +10,8 @@ export interface ViewLinks extends HalResourceLinks {
 
 export interface View {
   id:ID;
+  starred:boolean;
+  public:boolean;
   _links:ViewLinks;
 }
 
