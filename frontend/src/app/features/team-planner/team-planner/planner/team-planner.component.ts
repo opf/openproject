@@ -161,13 +161,13 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         api.getResources().forEach((resource) => resource.remove());
 
         principals.forEach((principal) => {
-          const self = principal._links.self;
+          const { self } = principal._links;
           const id = Array.isArray(self) ? self[0].href : self.href;
           api.addResource({
             principal,
             id,
             title: principal.name,
-          })
+          });
         });
 
         if (showAddAssignee) {
