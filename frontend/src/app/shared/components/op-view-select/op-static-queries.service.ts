@@ -34,14 +34,22 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
+import { ViewType } from 'core-app/shared/components/op-view-select/op-view-select.component';
+
+interface IStaticQuery extends IOpSidemenuItem {
+  view:ViewType;
+}
 
 @Injectable()
 export class StaticQueriesService {
+  private staticQueries:IStaticQuery[] = [];
+
   constructor(private readonly I18n:I18nService,
     private readonly $state:StateService,
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
     private readonly CurrentUser:CurrentUserService) {
+    this.staticQueries = this.buildQueries();
   }
 
   public text = {
@@ -58,6 +66,7 @@ export class StaticQueriesService {
     recently_created: this.I18n.t('js.work_packages.default_queries.recently_created'),
     all_open: this.I18n.t('js.work_packages.default_queries.all_open'),
     summary: this.I18n.t('js.work_packages.default_queries.summary'),
+    create_new_team_planner: this.I18n.t('js.team_planner.create_new'),
   };
 
   public getStaticName(query:QueryResource):string {
@@ -68,7 +77,7 @@ export class StaticQueriesService {
       const queryPropsString = JSON.stringify(queryProps);
 
       // TODO: Get module route from query
-      const matched = this.getStaticQueries('work-packages').find((item) => {
+      const matched = this.getStaticQueriesForView('WorkPackagesTable').find((item) => {
         const uiParams = item.uiParams as { query_id:string, query_props:string };
         return uiParams && uiParams.query_props === queryPropsString;
       });
@@ -89,72 +98,148 @@ export class StaticQueriesService {
     return this.text.work_packages;
   }
 
-  public getStaticQueries(module:string):IOpSidemenuItem[] {
-    let items:IOpSidemenuItem[] = [
+  public buildQueries():IStaticQuery[] {
+    let items:IStaticQuery[] = [
       {
         title: this.text.all_open,
-        uiSref: module,
+        uiSref: 'work-packages',
         uiParams: { query_id: '', query_props: '' },
+        view: 'WorkPackagesTable',
       },
       {
         title: this.text.latest_activity,
-        uiSref: module,
+        uiSref: 'work-packages',
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
+        view: 'WorkPackagesTable',
       },
       {
         title: this.text.recently_created,
-        uiSref: module,
+        uiSref: 'work-packages',
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
+        view: 'WorkPackagesTable',
       },
-    ];
-
-    if (module === 'work-packages') {
-      items.push({
+      {
         title: this.text.gantt,
-        uiSref: module,
+        uiSref: 'work-packages',
         uiParams: {
           query_id: '',
           query_props: '{"c":["id","type","subject","status","startDate","dueDate"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
         },
-      });
+        view: 'WorkPackagesTable',
+      },
+      {
+        title: this.text.all_open,
+        uiSref: 'bim.partitioned.split',
+        // TODO: "dr":"splitCards"
+        uiParams: { query_id: '', query_props: '' },
+        view: 'BCF',
+      },
+      {
+        title: this.text.latest_activity,
+        uiSref: 'bim.partitioned.split',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+        view: 'BCF',
+      },
+      {
+        title: this.text.recently_created,
+        uiSref: 'bim.partitioned.split',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"dr":"splitCards","g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+        view: 'BCF',
+      },
+     /* TODO {
+        title: this.text.create_new_team_planner,
+        uiSref: 'team_planner.page.show',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
+        },
+        view: 'TeamPlanner',
+      },*/
+    ];
 
-      const projectIdentifier = this.CurrentProject.identifier;
-      if (projectIdentifier) {
-        items.push({
-          title: this.text.summary,
-          href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
-        });
-      }
+    const projectIdentifier = this.CurrentProject.identifier;
+    if (projectIdentifier) {
+      items = [
+        ...items,
+        ...this.projectDependentQueries(projectIdentifier),
+      ];
     }
 
     if (this.CurrentUser.isLoggedIn) {
       items = [
         ...items,
-        {
-          title: this.text.created_by_me,
-          uiSref: module,
-          uiParams: {
-            query_id: '',
-            query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
-          },
-        },
-        {
-          title: this.text.assigned_to_me,
-          uiSref: module,
-          uiParams: {
-            query_id: '',
-            query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
-          },
-        },
+        ...this.userDependentQueries(),
       ];
     }
 
     return items;
+  }
+
+  public getStaticQueriesForView(view:ViewType):IOpSidemenuItem[] {
+    return this.staticQueries
+      .filter((query) => query.view === view);
+  }
+
+  private projectDependentQueries(projectIdentifier:string):IStaticQuery[] {
+    return [
+      {
+        title: this.text.summary,
+        href: `${this.PathHelper.projectWorkPackagesPath(projectIdentifier)}/report`,
+        view: 'WorkPackagesTable',
+      },
+    ];
+  }
+
+  private userDependentQueries():IStaticQuery[] {
+    return [
+      {
+        title: this.text.created_by_me,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
+        },
+        view: 'WorkPackagesTable',
+      },
+      {
+        title: this.text.assigned_to_me,
+        uiSref: 'work-packages',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+        },
+        view: 'WorkPackagesTable',
+      },
+      {
+        title: this.text.created_by_me,
+        uiSref: 'bim.partitioned.split',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
+        },
+        view: 'BCF',
+      },
+      {
+        title: this.text.assigned_to_me,
+        uiSref: 'bim.partitioned.split',
+        uiParams: {
+          query_id: '',
+          query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
+        },
+        view: 'BCF',
+      },
+    ];
   }
 }

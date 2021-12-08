@@ -197,9 +197,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
           categories[cat].push(this.toOpSideMenuItem(view));
         });
 
-        // TODO
-        // this.opStaticQueries.getStaticQueries(this.baseRoute);
-        const staticQueries = [] as IOpSidemenuItem[];
+        const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
         this.$viewCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
@@ -210,7 +208,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private toOpSideMenuItem(view:View):IOpSidemenuItem {
-    const query = view._links.query;
+    const {query} = view._links;
     return {
       title: query.title,
       uiSref: this.baseRoute,
