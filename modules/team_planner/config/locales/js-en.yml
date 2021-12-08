@@ -7,3 +7,4 @@ en:
       label_assignee_plural: 'Assignees'
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
+      no_data: 'Add assignees to set up your team planner.'
