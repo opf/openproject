@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import {
   CalendarOptions,
+  DateSelectArg,
   EventInput,
 } from '@fullcalendar/core';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
@@ -196,6 +197,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.calendarOptions$.next({
           schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
           editable: false,
+          selectable: true,
           locale: this.I18n.locale,
           fixedWeekCount: false,
           firstDay: this.configuration.startOfWeek(),
@@ -238,7 +240,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           events: this.calendarEventsFunction.bind(this) as unknown,
           resources: this.calendarResourcesFunction.bind(this) as unknown,
           eventClick: this.openSplitView.bind(this) as unknown,
-          dateClick: this.handleDateClicked.bind(this) as unknown,
+          select: this.handleDateClicked.bind(this) as unknown,
           resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
           resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
         } as CalendarOptions);
@@ -398,14 +400,25 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return heightElement.height()! - (topOfCalendar - topOfHeightElement);
   }
 
-  private handleDateClicked(info:DateClickArg) {
-    const handler = new TeamPlannerContextMenu(
-      this.injector,
-      { date: info.date, resource: info.resource },
-      jQuery(info.jsEvent.target as HTMLElement),
-    );
+  private handleDateClicked(info:DateSelectArg) {
+    const defaults = {
+      startDate: info.startStr,
+      // end date is exclusive
+      dueDate: moment(info.end).subtract(1, 'd').format('YYYY-MM-DD'),
+      _links: {
+        assignee: {
+          href: info.resource?.id,
+        },
+      },
+    };
 
-    this.opContextMenu.show(handler, info.jsEvent);
+    void this.$state.go(
+      splitViewRoute(this.$state, 'new'),
+      {
+        defaults,
+        tabIdentifier: 'overview',
+      },
+    );
   }
 
   private async addWorkPackageToCell(workPackage:WorkPackageResource, info:DateClickArg) {
