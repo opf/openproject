@@ -27,14 +27,14 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Apiv3Paths } from './apiv3-paths';
+import { ApiV3Paths } from './apiv3-paths';
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath = window.appBasePath || '';
 
   public readonly api = {
-    v3: new Apiv3Paths(this.appBasePath),
+    v3: new ApiV3Paths(this.appBasePath),
   };
 
   public get staticBase() {

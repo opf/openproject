@@ -44,7 +44,7 @@ import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { RootResource } from 'core-app/features/hal/resources/root-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
@@ -78,7 +78,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   constructor(readonly halResourceService:HalResourceService,
     readonly halSorting:HalResourceSortingService,
     readonly PathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentUser:CurrentUserService,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService) {

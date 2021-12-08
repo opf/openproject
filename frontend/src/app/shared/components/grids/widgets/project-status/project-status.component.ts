@@ -43,7 +43,7 @@ import { WorkPackageViewHighlightingService } from 'core-app/features/work-packa
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Observable } from 'rxjs';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './project-status.component.html',
@@ -65,7 +65,7 @@ export class WidgetProjectStatusComponent extends AbstractWidgetComponent implem
 
   constructor(protected readonly i18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly currentProject:CurrentProjectService,
     protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);

@@ -12,7 +12,7 @@ import { debounceTime, skip, take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Observable } from 'rxjs';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'board-filter',
@@ -26,7 +26,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
 
   constructor(private readonly currentProjectService:CurrentProjectService,
     private readonly querySpace:IsolatedQuerySpace,
-    private readonly apiV3Service:APIV3Service,
+    private readonly apiV3Service:ApiV3Service,
     private readonly halResourceService:HalResourceService,
     private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
     private readonly wpTableFilters:WorkPackageViewFiltersService,

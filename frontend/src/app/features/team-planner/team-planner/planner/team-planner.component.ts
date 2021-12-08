@@ -31,7 +31,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { debounceTime } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -70,7 +70,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private $state:StateService,
     private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private wpTableFilters:WorkPackageViewFiltersService,
     private wpListService:WorkPackagesListService,
     private querySpace:IsolatedQuerySpace,

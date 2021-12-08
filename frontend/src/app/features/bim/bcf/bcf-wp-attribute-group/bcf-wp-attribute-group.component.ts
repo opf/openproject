@@ -21,7 +21,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { BcfAuthorizationService } from 'core-app/features/bim/bcf/api/bcf-authorization.service';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { BcfViewpointItem } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint-item.interface';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './bcf-wp-attribute-group.component.html',
@@ -117,7 +117,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   constructor(readonly state:StateService,
     readonly bcfAuthorization:BcfAuthorizationService,
     readonly viewerBridge:ViewerBridgeService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly wpCreate:WorkPackageCreateService,
     readonly toastService:ToastService,
     readonly cdRef:ChangeDetectorRef,

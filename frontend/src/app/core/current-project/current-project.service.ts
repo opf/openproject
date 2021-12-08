@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class CurrentProjectService {
@@ -36,7 +36,7 @@ export class CurrentProjectService {
 
   constructor(
     private PathHelper:PathHelperService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
   ) {
     this.detect();
   }

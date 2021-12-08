@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { take } from 'rxjs/internal/operators/take';
 import { map } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DynamicFormComponent } from 'core-app/shared/components/dynamic-forms/components/dynamic-form/dynamic-form.component';
 import { PrincipalData, PrincipalLike } from 'core-app/shared/components/principal/principal-types';
@@ -127,7 +127,7 @@ export class PrincipalComponent implements OnInit {
   constructor(
     readonly I18n:I18nService,
     readonly httpClient:HttpClient,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
   ) {}
 

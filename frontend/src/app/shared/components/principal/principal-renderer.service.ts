@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { PrincipalLike } from './principal-types';
 import { PrincipalHelper } from './principal-helper';
@@ -22,7 +22,7 @@ export interface NameOptions {
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
   constructor(private pathHelper:PathHelperService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private colors:ColorsService) {
 
   }

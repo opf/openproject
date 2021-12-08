@@ -10,7 +10,7 @@ import {
 import { selectCollectionAsEntities$ } from 'core-app/core/state/collection-store';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { combineLatest } from 'rxjs';
 
 export class WpSingleViewQuery extends Query<WpSingleViewState> {
@@ -34,7 +34,7 @@ export class WpSingleViewQuery extends Query<WpSingleViewState> {
       map((count) => count > 0),
     );
 
-  get params():Apiv3ListParameters {
+  get params():ApiV3ListParameters {
     return { filters: this.getValue().notifications.filters };
   }
 

@@ -1,13 +1,13 @@
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { Observable } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { map } from 'rxjs/operators';
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
@@ -71,7 +71,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
   constructor(readonly halResourceService:HalResourceService,
     readonly halSorting:HalResourceSortingService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
@@ -109,7 +109,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     const { href } = this.filter.currentSchema!.values!.allowedValues as any;
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
-      APIv3ResourceCollection<HalResource, CachableAPIV3Resource>)
+      ApiV3ResourceCollection<HalResource, ApiV3Resource>)
       .filtered(filters)
       .get()
       .pipe(map((collection) => collection.elements));

@@ -17,7 +17,7 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
@@ -42,7 +42,7 @@ export class WorkPackageStatesInitializationService {
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpTableOrder:WorkPackageViewOrderService,
     protected wpTableAdditionalElements:WorkPackageViewAdditionalElementsService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected wpListChecksumService:WorkPackagesListChecksumService,
     protected authorisationService:AuthorisationService,
     protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService) {

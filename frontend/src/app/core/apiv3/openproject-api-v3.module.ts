@@ -32,10 +32,9 @@ import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.modu
 
 @NgModule({
   imports: [
-    // Commons
     OPSharedModule,
     OpenprojectHalModule,
   ],
 })
-export class OpenprojectApiV3Module {
+export class ApiV3Module {
 }

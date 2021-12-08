@@ -33,7 +33,7 @@ import { SimpleResource } from 'core-app/core/apiv3/paths/path-resources';
 
 export type QueryOrder = { [wpId:string]:number };
 
-export class APIV3QueryOrder extends SimpleResource {
+export class ApiV3QueryOrder extends SimpleResource {
   @InjectField() http:HttpClient;
 
   constructor(readonly injector:Injector,

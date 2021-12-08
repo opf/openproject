@@ -31,7 +31,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './relations-tab.html',
@@ -44,7 +44,7 @@ export class WorkPackageRelationsTabComponent extends UntilDestroyedMixin implem
 
   public constructor(readonly I18n:I18nService,
     readonly $transition:Transition,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
     super();
   }
 

@@ -14,7 +14,7 @@ import {
   TransitionService,
 } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { NotificationSettingsButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/settings/notification-settings-button.component';
 import { ActivateFacetButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/facet/activate-facet-button.component';
 import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notifications/center/toolbar/mark-all-as-read/mark-all-as-read-button.component';
@@ -85,7 +85,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     readonly $transitions:TransitionService,
     readonly state:StateService,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly backRoutingService:BackRoutingService,
   ) {
     super();

@@ -34,7 +34,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
@@ -47,7 +47,7 @@ export class WorkPackageViewAdditionalElementsService {
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly notificationService:WorkPackageNotificationService,
     readonly halResourceService:HalResourceService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     readonly wpRelations:WorkPackageRelationsService) {
   }

@@ -28,7 +28,7 @@
 
 import { input } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { take } from 'rxjs/operators';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
@@ -37,7 +37,7 @@ import { HelpTextResource } from 'core-app/features/hal/resources/help-text-reso
 export class AttributeHelpTextsService {
   private helpTexts = input<HelpTextResource[]>();
 
-  constructor(private apiV3Service:APIV3Service) {
+  constructor(private apiV3Service:ApiV3Service) {
   }
 
   /**
