@@ -57,8 +57,8 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { QuerySelectComponent } from 'core-app/shared/components/op-query-select/op-query-select.component';
-import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
+import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
   OpHighlightColDirective,
@@ -193,7 +193,7 @@ export function bootstrapModule(injector:Injector) {
   ],
   declarations: [
     OpDateTimeComponent,
-    QuerySelectComponent,
+    ViewSelectComponent,
 
     ToastsContainerComponent,
     ToastComponent,

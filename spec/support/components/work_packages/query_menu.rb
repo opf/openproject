@@ -47,7 +47,7 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.op-query-select--search-results'
+        '.op-view-select--search-results'
       end
 
       def autocompleter_item_selector

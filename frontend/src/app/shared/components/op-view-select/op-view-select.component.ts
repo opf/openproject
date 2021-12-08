@@ -48,17 +48,17 @@ import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-nav
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 
-export const opQuerySelectSelector = 'op-query-select';
+export const opViewSelectSelector = 'op-view-select';
 
 @DatasetInputs
 @Component({
-  selector: opQuerySelectSelector,
+  selector: opViewSelectSelector,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './op-query-select.template.html',
+  templateUrl: './op-view-select.template.html',
 })
-export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit {
+export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   public text = {
     search: this.I18n.t('js.toolbar.search_query_label'),
     label: this.I18n.t('js.toolbar.search_query_label'),
@@ -115,12 +115,12 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
       .pipe(
         map(([searchText, categories]) => categories
           .map((category) => {
-            if (QuerySelectComponent.matchesText(category.title, searchText)) {
+            if (ViewSelectComponent.matchesText(category.title, searchText)) {
               return category;
             }
 
             const filteredChildren = category.children
-              ?.filter((query) => QuerySelectComponent.matchesText(query.title, searchText));
+              ?.filter((query) => ViewSelectComponent.matchesText(query.title, searchText));
             return { title: category.title, children: filteredChildren, collapsible: true };
           })
           .filter((category) => category.children && category.children.length > 0)),

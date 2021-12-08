@@ -16,7 +16,7 @@ describe 'Visiting a hidden query', js: true do
   end
 
   it 'does not render the hidden query' do
-    expect(page).to have_selector('.op-query-select--search-results')
+    expect(page).to have_selector('.op-view-select--search-results')
     expect(page).to have_no_selector('.op-sidemenu--item-action', text: 'my hidden query')
 
     query.update(name: 'my visible query', hidden: false)

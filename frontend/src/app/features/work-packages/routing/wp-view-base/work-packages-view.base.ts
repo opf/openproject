@@ -35,7 +35,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';

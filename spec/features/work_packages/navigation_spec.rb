@@ -158,7 +158,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.op-query-select--search-results')
+    expect(page).to have_selector('.op-view-select--search-results')
     find('.op-sidemenu--item-action', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')

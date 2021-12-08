@@ -47,7 +47,8 @@ export class APIv3ViewsPaths extends APIv3ResourceCollection<View, APIv3Gettable
   /**
    * Create a new view
    *
-   * @param TODO
+   * @param resource
+   * @param type The query's view type
    */
   post(resource:ViewCreatePayload, type:string):Observable<View> {
     return this

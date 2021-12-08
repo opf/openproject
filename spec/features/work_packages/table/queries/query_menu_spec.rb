@@ -43,7 +43,7 @@ describe 'Query menu item', js: true do
     let(:wp_table) { ::Pages::WorkPackagesTable.new }
     it 'should show the query menu (Regression #30082)' do
       wp_table.visit!
-      expect(page).to have_selector('.op-query-select--search-results')
+      expect(page).to have_selector('.op-view-select--search-results')
       expect(page).to have_selector('.op-sidemenu--item-action', wait: 20, minimum: 1)
     end
   end
