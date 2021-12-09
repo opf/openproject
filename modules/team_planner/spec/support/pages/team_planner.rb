@@ -80,6 +80,12 @@ module Pages
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
 
+    def add_assignee(name)
+      click_add_user
+      search_user_to_add name
+      select_user_to_add name
+    end
+
     def click_add_user
       page.find('[data-qa-selector="tp-assignee-add-button"]').click
     end

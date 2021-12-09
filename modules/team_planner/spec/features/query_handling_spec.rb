@@ -85,6 +85,8 @@ describe 'Team planner query handling', type: :feature, js: true do
     login_as user
     team_planner.visit!
 
+    team_planner.add_assignee user
+    loading_indicator_saveguard
     team_planner.expect_assignee user
     team_planner.within_lane(user) do
       team_planner.expect_event bug
@@ -113,8 +115,8 @@ describe 'Team planner query handling', type: :feature, js: true do
   end
 
   it 'shows only team planner queries' do
-    # Go to team planner where no query is shown
-    query_menu.expect_no_menu_entry
+    # Go to team planner where no query is shown, only the create option
+    query_menu.expect_menu_entry 'Create new planner'
 
     # Change filter
     filters.open
