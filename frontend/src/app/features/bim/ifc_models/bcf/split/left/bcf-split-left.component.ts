@@ -23,22 +23,32 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
-// See docs/COPYRIGHT.rdoc for more details.
+// See COPYRIGHT and LICENSE files for more details.
 //++
 
 import {
-  NgModule,
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
 } from '@angular/core';
-import { InAppNotificationsResourceService } from './in-app-notifications/in-app-notifications.service';
-import { ProjectsResourceService } from './projects/projects.service';
-import { PrincipalsResourceService } from './principals/principals.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 
-@NgModule({
-  providers: [
-    InAppNotificationsResourceService,
-    ProjectsResourceService,
-    PrincipalsResourceService,
-  ],
+@Component({
+  templateUrl: './bcf-split-left.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-bcf-content-left',
 })
-export class OpenProjectStateModule {
+export class BcfSplitLeftComponent implements OnInit {
+  showViewer$:Observable<boolean>;
+
+  constructor(private readonly bcfView:BcfViewService) {}
+
+  ngOnInit():void {
+    this.showViewer$ = this.bcfView.live$()
+      .pipe(
+        map((state) => state !== 'cards' && state !== 'table'),
+      );
+  }
 }

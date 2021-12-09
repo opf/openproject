@@ -43,7 +43,7 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
 
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'bim-view-toggle-button',
+  selector: 'op-bcf-manage-ifc-button',
 })
 export class BimManageIfcModelsButtonComponent {
   text = {
