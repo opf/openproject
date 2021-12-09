@@ -73,7 +73,16 @@ describe 'Team planner', type: :feature, js: true do
   end
 
   context 'with an assigned work package' do
-    let!(:other_user) { FactoryBot.create :user, firstname: 'Other', lastname: 'User' }
+    let!(:other_user) do
+      FactoryBot.create :user,
+                        firstname: 'Other',
+                        lastname: 'User',
+                        member_in_project: project,
+                        member_with_permissions: %w[
+                          view_work_packages edit_work_packages view_team_planner manage_team_planner
+                        ]
+    end
+    let!(:user_outside_project) { FactoryBot.create :user, firstname: 'Not', lastname: 'In Project' }
     let(:type_task) { FactoryBot.create :type_task }
     let(:type_bug) { FactoryBot.create :type_bug }
 
@@ -115,6 +124,21 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.title
 
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add other_user.name
+      end
+
       team_planner.expect_assignee user
       team_planner.expect_assignee other_user
 
@@ -135,7 +159,8 @@ describe 'Team planner', type: :feature, js: true do
       filters.expect_filter_by('Type', 'is', [type_task.name])
       filters.expect_filter_count("2")
 
-      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(user, present: true)
+      team_planner.expect_assignee(other_user, present: true)
 
       team_planner.within_lane(other_user) do
         team_planner.expect_event other_task
@@ -147,8 +172,79 @@ describe 'Team planner', type: :feature, js: true do
       split_view.edit_field(:type).update(type_bug)
       split_view.expect_and_dismiss_toaster(message: "Successful update.")
 
+      team_planner.expect_assignee(user, present: true)
+      team_planner.expect_assignee(other_user, present: true)
+    end
+
+    it 'can add and remove assignees' do
+      team_planner.visit!
+
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
+      
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user, present: false)
+      
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add other_user.name
+      end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user)
+
+      team_planner.remove_assignee(user)
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user)
+
+      team_planner.remove_assignee(other_user)
+
+      team_planner.expect_assignee(user, present: false)
+      team_planner.expect_assignee(other_user, present: false)
+
+      # Try one more time to make sure deleting the full filter didn't kill the functionality
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.select_user_to_add user.name
+      end
+
+      team_planner.expect_assignee(user)
+      team_planner.expect_assignee(other_user, present: false)
+    end
+
+    it 'filters possible assignees correctly' do
+      team_planner.visit!
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.search_user_to_add user_outside_project.name
+      end
+
+      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
+      
+      retry_block do
+        team_planner.select_user_to_add user.name
+      end
+      
+      team_planner.expect_assignee(user)
+
+      retry_block do
+        team_planner.click_add_user
+        page.find('[data-qa-selector="tp-add-assignee"] input')
+        team_planner.search_user_to_add user.name
+      end
+
+      expect(page).to have_selector('.ng-option-disabled', text: "No items found")
     end
   end
 end

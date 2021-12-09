@@ -19,7 +19,7 @@ export class WpSingleViewQuery extends Query<WpSingleViewState> {
     this.resourceService.query.select(),
   ]).pipe(
     filter((filters) => filters.length > 0),
-    map(([filters, state]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, state, { filters })),
+    map(([filters]) => selectCollectionAsEntities$<InAppNotification>(this.resourceService, { filters })),
   );
 
   selectNotificationsCount$ = this

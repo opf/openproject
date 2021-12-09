@@ -4,10 +4,12 @@ import { UIRouterModule } from '@uirouter/angular';
 import { DynamicModule } from 'ng-dynamic-component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
+import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { TEAM_PLANNER_ROUTES } from 'core-app/features/team-planner/team-planner/team-planner.routes';
 import { TeamPlannerComponent } from 'core-app/features/team-planner/team-planner/planner/team-planner.component';
+import { AddAssigneeComponent } from 'core-app/features/team-planner/team-planner/planner/add-assignee.component';
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 
@@ -15,6 +17,7 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
   declarations: [
     TeamPlannerComponent,
     TeamPlannerPageComponent,
+    AddAssigneeComponent,
   ],
   imports: [
     OPSharedModule,
@@ -28,6 +31,8 @@ import { OPSharedModule } from 'core-app/shared/shared.module';
     OpenprojectPrincipalRenderingModule,
     OpenprojectWorkPackagesModule,
     FullCalendarModule,
+    // Autocompleters
+    OpenprojectAutocompleterModule,
   ],
 })
 export class TeamPlannerModule {}

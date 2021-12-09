@@ -93,7 +93,8 @@ export function selectEntitiesFromIDCollection<T extends CollectionItem>(service
  * @param state
  * @param params
  */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, state:CollectionState<T>, params:Apiv3ListParameters):T[] {
+export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):T[] {
+  const state = service.query.getValue();
   const key = collectionKey(params);
   const collection = state.collections[key];
 
