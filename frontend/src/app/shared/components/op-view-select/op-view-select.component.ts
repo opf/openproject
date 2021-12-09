@@ -71,6 +71,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     scope_starred: this.I18n.t('js.label_starred_queries'),
     scope_global: this.I18n.t('js.label_global_queries'),
     scope_private: this.I18n.t('js.label_custom_queries'),
+    scope_new: this.I18n.t('js.label_create_new_query'),
     no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
 
@@ -167,6 +168,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       default: [],
       public: [],
       private: [],
+      createNew: [],
     };
 
     const params:Apiv3ListParameters = {
@@ -198,11 +200,13 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
         });
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
+        const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
         this.$viewCategories.next([
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
+          { title: this.text.scope_new, children: newQueryLink, collapsible: true },
         ]);
       });
   }
