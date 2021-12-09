@@ -1,28 +1,25 @@
 ---
 sidebar_navigation:
-  title: Attachments
+  title: Attachments Settings
   priority: 940
-title: Attachments
-description: Settings for API functionality of OpenProject
+title: Attachments Settings
+description: Settings for max attachment size and allowed file types
 robots: index, follow
-keywords: Attachments
+keywords: Attachments Settings
 
 ---
 
-# xxx
+# Attachments - Max size and allowed file types
 
-In the API settings, you can selectively control whether foreign applications may access your OpenProject
-API endpoints from within the browser.
+1. Here you can increase or decrease **maximum attachment size** (in kB)
 
-## xxx
+2. The box next to **Attachment upload whitelist** is an open-entry text box in which some common file formats are pre-populated by default. The file formats in this list are specifically whitelisted or allowed to be attached to work packages. 
+   If you wish, you can add additional file formats. Use only one file format entry per line, and keep to the following cadence:  
+   
+   ​																			*****.[**file extension**]
+   
+   Example: To add mp3-files to the whitelist, your entry would be "***.mp3**".
+   
+2. Do not forget to **save** your changes.
 
-To enable CORS headers being returned by the [OpenProject APIv3](../../../api/),
-enable the check box on this page. This will also enable it for dependent authentication endpoints, such as OAuth endpoints `/oauth/token` and the like.
-
-You will then have to enter the allowed values for the Origin header that OpenProject will allow access to.
-This is necessary, since authenticated resources of OpenProject cannot be accessible to all origins with the `*` header value.
-
-For more information on the concepts of Cross-Origin Resource Sharing (CORS), please see:
-
-- [an overview of CORS from MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS).
-- [a tutorial on CORS by Auth0](https://auth0.com/blog/cors-tutorial-a-guide-to-cross-origin-resource-sharing/)
+   ![image-20211209170753143](image-20211209170753143.png)
