@@ -35,31 +35,21 @@ export namespace PrincipalHelper {
 
   /*
    * This function is a helper that wraps around the old HalResource based principal type and the new interface based one.
-   * TypeScript constantly screams that the href member does not exist (which I know, that's why the check is there you dumbo)
-   * In order to minimize the `@ts-ignore` pollution around the codebase it's centralized here.
    *
    * TODO: Remove old HalResource stuff :P
    */
   export function hrefFromPrincipal(p:Principal|PrincipalLike):string {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (p.href) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return p.href;
+    if ((p as PrincipalLike).href) {
+      return (p as PrincipalLike).href || '';
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (p._links) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      return (p._links as Record<string, string>).self.href as string;
+    if ((p as Principal)._links) {
+      const self = (p as Principal)._links.self as HalSourceLink;
+      return self.href || '';
     }
 
     return '';
   }
-
   export function typeFromHref(href:string):PrincipalType|null {
     const match = /\/(user|group|placeholder_user)s\/\d+$/.exec(href);
 
