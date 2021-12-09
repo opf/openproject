@@ -7,6 +7,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 @Component({
   selector: 'op-wp-tabs',
@@ -39,6 +40,7 @@ export class WpTabsComponent implements OnInit {
     readonly $state:StateService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly keepTab:KeepTabService,
+    readonly titleService:OpTitleService,
   ) {
   }
 
@@ -64,6 +66,9 @@ export class WpTabsComponent implements OnInit {
   }
 
   public close():void {
+    if (this.uiRouterGlobals.current.data.baseRoute.includes("notifications")) {
+      this.titleService.setFirstPart('OpenProject');
+    }
     this.$state.go(
       this.uiRouterGlobals.current.data.baseRoute,
       this.uiRouterGlobals.params,

@@ -53,6 +53,7 @@ import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 @Injectable()
 @EffectHandler
@@ -101,6 +102,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
     readonly deviceService:DeviceService,
+    readonly titleService:OpTitleService,
   ) {
     super();
     this.reload.subscribe();
@@ -164,6 +166,7 @@ export class IanCenterService extends UntilDestroyedMixin {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
             `${this.state.current.data.baseRoute}`,
           );
+          this.titleService.setFirstPart('OpenProject');
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {
