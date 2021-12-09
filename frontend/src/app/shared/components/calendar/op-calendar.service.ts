@@ -26,6 +26,11 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { take } from 'rxjs/operators';
+import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -59,7 +64,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly toastService:ToastService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpListService:WorkPackagesListService,
+    readonly urlParamsHelper:UrlParamsHelperService,
     readonly querySpace:IsolatedQuerySpace,
+    readonly apiV3Service:APIV3Service,
+    readonly halResourceService:HalResourceService,
   ) {
     super();
   }
@@ -138,9 +146,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   updateTimeframe(fetchInfo:{ start:Date, end:Date, timeZone:string }, projectIdentifier:string|undefined):void {
-    const filtersEmpty = this.wpTableFilters.isEmpty;
-
-    if (filtersEmpty && this.querySpace.query.value) {
+    if (this.areFiltersEmpty && this.querySpace.query.value) {
       // nothing to do
       return;
     }
@@ -148,16 +154,46 @@ export class OpCalendarService extends UntilDestroyedMixin {
     const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
     const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
 
-    if (filtersEmpty) {
-      let queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
+    if (this.initializingWithQuery) {
+      // This is the case on initially loading the calendar with a query_id present in the url params but no
+      // query props to overwrite the query settings.
+      // We want to always use the currently displayed time interval to be filtered for
+      // so we need to adapt any eventually existing dateInterval filter to have that time interval. If no
+      // such filter exists yet, we need to add it to the existing filter set.
+      // In order to do both, we first need to fetch the query as we cannot signal
+      // to the backend yet to only add this one filter but leave the rest unchanged.
+      void this
+        .apiV3Service
+        .queries
+        .find({ perPage: 0 }, this.urlParams.query_id)
+        .toPromise()
+        .then((query) => {
+          this.updateQueryDateFilter(query, startDate, endDate);
 
-      if (this.$state.params.query_props) {
-        queryProps = decodeURIComponent(this.$state.params.query_props || '');
+          const props = this.urlParamsHelper.encodeQueryJsonParams(query, { perPage: OpCalendarService.MAX_DISPLAYED });
+
+          void this
+            .wpListService
+            .fromQueryParams({ query_id: query.id || undefined, query_props: props })
+            .toPromise();
+        });
+    } else if (this.initializingWithQueryProps) {
+      // This is the case on initially loading the calendar with query_props present in the url params.
+      // There might also be a query_id but the settings persisted in it are overwritten by the props.
+
+      let queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
+      if (this.urlParams.query_props) {
+        queryProps = decodeURIComponent(this.urlParams.query_props || '');
+      }
+
+      let queryId;
+      if (this.urlParams.query_id) {
+        queryId = this.urlParams.query_id as string;
       }
 
       void this
         .wpListService
-        .fromQueryParams({ query_props: queryProps }, projectIdentifier || undefined)
+        .fromQueryParams({ query_id: queryId, query_props: queryProps }, projectIdentifier || undefined)
         .toPromise();
     } else {
       this.wpTableFilters.modify('datesInterval', (datesIntervalFilter) => {
@@ -249,5 +285,49 @@ export class OpCalendarService extends UntilDestroyedMixin {
     };
 
     return JSON.stringify(props);
+  }
+
+  private get initializingWithQuery():boolean {
+    return (this.areFiltersEmpty && this.urlParams.query_id && !this.urlParams.query_props) as boolean;
+  }
+
+  private get initializingWithQueryProps():boolean {
+    return (this.areFiltersEmpty && this.urlParams.query_props) as boolean;
+}
+
+  private get urlParams() {
+    return this.$state.params;
+  }
+
+  private updateQueryDateFilter(query:QueryResource, startDate:string, endDate:string) {
+    const filter = query.filters.find((filterInstance) => filterInstance.filter.href === '/api/v3/queries/filters/datesInterval');
+
+    if (filter) {
+      filter.values = [startDate, endDate];
+    } else {
+      query.filters.push(this.dateFilter(startDate, endDate));
+    }
+  }
+
+  private dateFilter(startDate:string, endDate:string):QueryFilterInstanceResource {
+    return this.halResourceService.createHalResource({
+      _type: 'QueryFilterInstance',
+      values: [startDate, endDate],
+      _links: {
+        filter: {
+          href: '/api/v3/queries/filters/datesInterval',
+        },
+        operator: {
+          href: '/api/v3/queries/operators/%3C%3Ed',
+        },
+        schema: {
+          href: '/api/v3/queries/filter_instance_schemas/datesInterval',
+        },
+      },
+    });
+  }
+
+  private get areFiltersEmpty() {
+    return this.wpTableFilters.isEmpty;
   }
 }
