@@ -66,7 +66,8 @@ export class WpTabsComponent implements OnInit {
   }
 
   public close():void {
-    if ((this.uiRouterGlobals.current.data.baseRoute as string).includes('notifications')) {
+    const { baseRoute } = this.uiRouterGlobals.current.data as { baseRoute:string }&unknown;
+    if (baseRoute.includes('notifications')) {
       this.titleService.setFirstPart('OpenProject');
     }
     this.$state.go(
