@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 require_relative '../support/pages/team_planner'
+require_relative '../../../../spec/features/views/shared_examples'
 
 describe 'Team planner query handling', type: :feature, js: true do
   shared_let(:type_task) { FactoryBot.create(:type_task) }
@@ -80,16 +81,18 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   current_user { user }
 
-  it 'allows saving the team planner' do
+  before do
+    login_as user
     team_planner.visit!
 
     team_planner.expect_assignee user
-
     team_planner.within_lane(user) do
       team_planner.expect_event bug
       team_planner.expect_event task
     end
+  end
 
+  it 'allows saving the team planner' do
     filters.expect_filter_count("1")
     filters.open
 
@@ -111,7 +114,6 @@ describe 'Team planner query handling', type: :feature, js: true do
 
   it 'shows only team planner queries' do
     # Go to team planner where no query is shown
-    team_planner.visit!
     query_menu.expect_no_menu_entry
 
     # Change filter
@@ -130,5 +132,10 @@ describe 'Team planner query handling', type: :feature, js: true do
     # .. but not in the work packages module
     work_package_page.visit!
     query_menu.expect_menu_entry_not_visible 'I am your Query'
+  end
+
+  it_behaves_like 'module specific query view management' do
+    let(:module_page) { team_planner }
+    let(:default_name) { 'Unnamed team planner' }
   end
 end

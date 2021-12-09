@@ -212,7 +212,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private toOpSideMenuItem(view:View):IOpSidemenuItem {
-    const {query} = view._links;
+    const { query } = view._links;
     return {
       title: query.title,
       uiSref: this.baseRoute,
