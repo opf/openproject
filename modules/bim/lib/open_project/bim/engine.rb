@@ -100,6 +100,9 @@ module OpenProject::Bim
       end
     end
 
+    add_view :BCF,
+             contract_strategy: 'Bim::Views::ContractStrategy'
+
     class_inflection_override('v2_1' => 'V2_1')
 
     assets %w(bim/logo_openproject_bim_big.png)
