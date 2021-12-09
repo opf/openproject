@@ -14,6 +14,7 @@ import { WorkPackageFilterButtonComponent } from 'core-app/features/work-package
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -63,6 +64,14 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     },
     {
       component: ZenModeButtonComponent,
+    },
+    {
+      component: WorkPackageSettingsButtonComponent,
+      containerClasses: 'hidden-for-mobile',
+      show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
+      inputs: {
+        hideTableOptions: true,
+      },
     },
   ];
 
