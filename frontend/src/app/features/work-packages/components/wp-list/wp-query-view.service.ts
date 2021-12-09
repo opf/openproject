@@ -39,9 +39,6 @@ export class WorkPackagesQueryViewService {
     if (this.$state.includes('team_planner')) {
       return 'team_planner';
     }
-    if (this.$state.includes('bim')) {
-      return 'BCF';
-    }
 
     throw new Error('Not on a path defined for query views');
   }
