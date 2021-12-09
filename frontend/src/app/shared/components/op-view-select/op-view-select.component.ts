@@ -53,7 +53,7 @@ import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resour
 import { View } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
-export type ViewType = 'WorkPackagesTable'|'BCF'|'TeamPlanner';
+export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner';
 
 export const opViewSelectSelector = 'op-view-select';
 

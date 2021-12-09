@@ -138,7 +138,7 @@ export class StaticQueriesService {
         uiSref: 'bim.partitioned.split',
         // TODO: "dr":"splitCards"
         uiParams: { query_id: '', query_props: '' },
-        view: 'BCF',
+        view: 'Bim',
       },
       {
         title: this.text.latest_activity,
@@ -147,7 +147,7 @@ export class StaticQueriesService {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
-        view: 'BCF',
+        view: 'Bim',
       },
       {
         title: this.text.recently_created,
@@ -156,7 +156,7 @@ export class StaticQueriesService {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"dr":"splitCards","g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
-        view: 'BCF',
+        view: 'Bim',
       },
     ];
 
@@ -237,7 +237,7 @@ export class StaticQueriesService {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
-        view: 'BCF',
+        view: 'Bim',
       },
       {
         title: this.text.assigned_to_me,
@@ -246,7 +246,7 @@ export class StaticQueriesService {
           query_id: '',
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"dr":"splitCards","g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
-        view: 'BCF',
+        view: 'Bim',
       },
     ];
   }
