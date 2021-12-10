@@ -195,11 +195,11 @@ ca:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "El projecte no es pot eliminar: %{errors}"
+      failed: "L'eliminació del projecte %{name} ha fallat"
+      failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
+      completed: "S'ha completat l'eliminació del projecte %{name}"
+      completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -211,8 +211,8 @@ ca:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Ara mateix no hi ha fòrums pel projecte.
+        no_results_content_text: Crea un fòrum nou
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -232,9 +232,9 @@ ca:
     invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
-      failed_to_reset_token: "Failed to reset access token: %{error}"
-      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
-      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
+      failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
+      notice_reset_token: "S'ha generat un nou token %{type}. El vostre token d'accés és:"
+      token_value_warning: "Nota: Aquesta és la única vegada que veureu aquest token, assegureu-vos de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
   news:
     index:
@@ -264,8 +264,8 @@ ca:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Cliqueu per assignar o canviar el color d'aquesta prioritat.
+        Pot fer-se servir per a remarcar paquets de treball en la taula.
   reportings:
     index:
       no_results_title_text: Actualment no hi ha cap informe d'estat.
@@ -273,10 +273,10 @@ ca:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Activeu aquesta opció per a marcar paquets de treball amb els seus estats com a sols lectura.
+        No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.
