@@ -30,11 +30,6 @@ FactoryBot.define do
   factory :query do
     project
     user factory: :user
-
-    transient do
-      view { :view_work_packages_table }
-    end
-
     sequence(:name) { |n| "Query #{n}" }
 
     factory :public_query do
@@ -53,10 +48,6 @@ FactoryBot.define do
       sequence(:name) { |n| "Global query #{n}" }
     end
 
-    callback(:after_build) do |query, evaluator|
-      query.add_default_filter
-      FactoryBot.create(evaluator.view,
-                        query: query)
-    end
+    callback(:after_build) { |query| query.add_default_filter }
   end
 end
