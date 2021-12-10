@@ -51,8 +51,18 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   context 'with identical names' do
-    let(:query_a) { FactoryBot.create :public_query, name: 'some query.', project: project }
-    let(:query_b) { FactoryBot.create :public_query, name: query_a.name, project: project }
+    let(:query_a) do
+      FactoryBot.create :query_with_view_work_packages_table,
+                        is_public: true,
+                        name: 'some query.',
+                        project: project
+    end
+    let(:query_b) do
+      FactoryBot.create :query_with_view_work_packages_table,
+                        is_public: true,
+                        name: query_a.name,
+                        project: project
+    end
 
     let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
     let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
@@ -66,7 +76,12 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   context 'with dots in their name' do
-    let(:query) { FactoryBot.create :public_query, name: 'OP 3.0', project: project }
+    let(:query) do
+      FactoryBot.create :query_with_view_work_packages_table,
+                        is_public: true,
+                        name: 'OP 3.0',
+                        project: project
+    end
 
     it 'can be added', js: true, selenium: true do
       visit_index_page(query)
@@ -86,8 +101,20 @@ RSpec.feature 'Query menu items', js: true do
   end
 
   describe 'renaming a menu item' do
-    let(:query_a) { FactoryBot.create :query, name: 'bbbb', project: project, user: user }
-    let(:query_b) { FactoryBot.create :query, name: 'zzzz', project: project, user: user }
+    let(:query_a) do
+      FactoryBot.create :query_with_view_work_packages_table,
+                        is_public: true,
+                        name: 'bbbb',
+                        project: project,
+                        user: user
+    end
+    let(:query_b) do
+      FactoryBot.create :query_with_view_work_packages_table,
+                        is_public: true,
+                        name: 'zzzz',
+                        project: project,
+                        user: user
+    end
 
     let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
     let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }

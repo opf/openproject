@@ -45,6 +45,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     query.name = "My fancy query"
 
     query.save!
+    FactoryBot.create(:view_work_packages_table,
+                      query: query)
+
     query
   end
 

@@ -292,7 +292,9 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   private get initializingWithQueryProps():boolean {
-    return (this.areFiltersEmpty && this.urlParams.query_props) as boolean;
+    // Initialise with current query props
+    // If the filters are empty, they still need to be initialised (with empty props)
+    return (this.areFiltersEmpty || this.urlParams.query_props) as boolean;
   }
 
   private get urlParams() {

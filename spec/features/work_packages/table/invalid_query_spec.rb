@@ -31,6 +31,7 @@ describe 'Invalid query spec', js: true do
     query.group_by = 'cf_0815'
     query.sort_criteria = [%w(cf_0815 desc)]
     query.save(validate: false)
+    FactoryBot.create(:view_work_packages_table, query: query)
 
     query
   end

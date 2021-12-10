@@ -47,6 +47,10 @@ describe 'Query selection', type: :feature do
       query.add_filter('assigned_to_id', '=', ['me'])
       query.add_filter('done_ratio', '>=', [10])
       query.save!
+      FactoryBot.create(:view_work_packages_table,
+                        query: query)
+
+      query
     end
   end
 
@@ -90,7 +94,9 @@ describe 'Query selection', type: :feature do
 
   context 'when the selected query is changed' do
     let(:query2) do
-      FactoryBot.create(:query, project: project, is_public: true)
+      FactoryBot.create(:query_with_view_work_packages_table,
+                        project: project,
+                        is_public: true)
     end
 
     before do
