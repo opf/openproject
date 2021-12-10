@@ -43,7 +43,7 @@ describe ::API::V3::Views::ViewsAPI,
                       members: { permitted_user => role })
   end
   shared_let(:user_private_project_query) do
-    FactoryBot.create(:query,
+    FactoryBot.create(:query_without_view,
                       user: permitted_user,
                       project: project,
                       is_public: false)
@@ -53,7 +53,7 @@ describe ::API::V3::Views::ViewsAPI,
                       query: user_private_project_query)
   end
   shared_let(:other_user_private_project_query) do
-    FactoryBot.create(:query,
+    FactoryBot.create(:query_without_view,
                       project: project,
                       is_public: false)
   end
@@ -62,7 +62,7 @@ describe ::API::V3::Views::ViewsAPI,
                       query: other_user_private_project_query)
   end
   shared_let(:user_public_project_query) do
-    FactoryBot.create(:query,
+    FactoryBot.create(:query_without_view,
                       project: project,
                       is_public: true)
   end
@@ -75,7 +75,7 @@ describe ::API::V3::Views::ViewsAPI,
                       members: { permitted_user => role })
   end
   shared_let(:user_private_other_project_query) do
-    FactoryBot.create(:query,
+    FactoryBot.create(:query_without_view,
                       user: permitted_user,
                       project: other_project)
   end
@@ -143,7 +143,7 @@ describe ::API::V3::Views::ViewsAPI,
 
   context 'with a type filter' do
     let(:other_user_private_project_query) do
-      FactoryBot.create(:query,
+      FactoryBot.create(:query_without_view,
                         user: permitted_user,
                         project: project,
                         is_public: false)
