@@ -41,7 +41,7 @@ module Queries::Scopes
       #   and the query is public and the query is global (no project)
       def visible(user)
         scope = where(user_id: user.id)
-                .or(where(is_public: true))
+                .or(where(public: true))
                 .where(project: Project.allowed_to(user, :view_work_packages))
 
         if user.allowed_to_globally?(:view_work_packages)

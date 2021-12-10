@@ -18,7 +18,7 @@ FactoryBot.define do
 
     callback(:after_build) do |board, evaluator| # this is also done after :create
       query = evaluator.query || begin
-        Query.new_default(name: 'List 1', is_public: true, project: board.project).tap do |q|
+        Query.new_default(name: 'List 1', public: true, project: board.project).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter(:manual_sort, 'ow', [])
           q.save!
@@ -48,7 +48,7 @@ FactoryBot.define do
 
     callback(:after_build) do |board, evaluator| # this is also done after :create
       evaluator.num_queries.times do |i|
-        query = Query.new_default(name: "List #{i + 1}", is_public: true, project: board.project).tap do |q|
+        query = Query.new_default(name: "List #{i + 1}", public: true, project: board.project).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter(:manual_sort, 'ow', [])
           q.save!
@@ -79,7 +79,7 @@ FactoryBot.define do
     callback(:after_build) do |board, evaluator| # this is also done after :create
       evaluator.projects_columns.each do |project|
 
-        query = Query.new_default(name: project.name, project: board.project, is_public: true).tap do |q|
+        query = Query.new_default(name: project.name, project: board.project, public: true).tap do |q|
           q.sort_criteria = [[:manual_sorting, 'asc']]
           q.add_filter('only_subproject_id', '=', [project.id.to_s])
           q.save!

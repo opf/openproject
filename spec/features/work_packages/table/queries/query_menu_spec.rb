@@ -73,7 +73,7 @@ describe 'Query menu item', js: true do
       expect(page).to have_selector('.op-sidemenu--item-action', text: 'Some query name', wait: 20)
 
       last_query = Query.last
-      expect(last_query.is_public).to be_truthy
+      expect(last_query.public).to be_truthy
     end
 
     it 'only saves a single query when saving through the title input (Regression #31095)' do

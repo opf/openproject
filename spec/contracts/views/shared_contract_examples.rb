@@ -43,7 +43,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
   let(:view_query) do
     FactoryBot.build_stubbed(:query,
                              user: query_user,
-                             is_public: query_public,
+                             public: query_public,
                              project: query_project)
   end
   let(:permissions) { %i[view_work_packages save_queries] }

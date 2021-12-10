@@ -41,7 +41,7 @@ en:
             timeline: false
             sort_by: id
             hidden: true
-            is_public: false
+            public: false
             columns:
               - type
               - id

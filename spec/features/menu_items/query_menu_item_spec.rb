@@ -53,19 +53,16 @@ RSpec.feature 'Query menu items', js: true do
   context 'with identical names' do
     let(:query_a) do
       FactoryBot.create :query_with_view_work_packages_table,
-                        is_public: true,
+                        public: true,
                         name: 'some query.',
                         project: project
     end
     let(:query_b) do
       FactoryBot.create :query_with_view_work_packages_table,
-                        is_public: true,
+                        public: true,
                         name: query_a.name,
                         project: project
     end
-
-    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
 
     it 'can be shown' do
       visit_index_page(query_a)
@@ -78,7 +75,7 @@ RSpec.feature 'Query menu items', js: true do
   context 'with dots in their name' do
     let(:query) do
       FactoryBot.create :query_with_view_work_packages_table,
-                        is_public: true,
+                        public: true,
                         name: 'OP 3.0',
                         project: project
     end
@@ -103,21 +100,19 @@ RSpec.feature 'Query menu items', js: true do
   describe 'renaming a menu item' do
     let(:query_a) do
       FactoryBot.create :query_with_view_work_packages_table,
-                        is_public: true,
+                        public: true,
                         name: 'bbbb',
                         project: project,
                         user: user
     end
     let(:query_b) do
       FactoryBot.create :query_with_view_work_packages_table,
-                        is_public: true,
+                        public: true,
                         name: 'zzzz',
                         project: project,
                         user: user
     end
 
-    let!(:menu_item_a) { FactoryBot.create :query_menu_item, query: query_a }
-    let!(:menu_item_b) { FactoryBot.create :query_menu_item, query: query_b }
     let(:new_name) { 'aaaaa' }
 
     before do

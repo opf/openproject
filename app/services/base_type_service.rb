@@ -137,7 +137,6 @@ class BaseTypeService
       .call(props.with_indifferent_access)
 
     query.show_hierarchies = false
-    query.hidden = true
 
     [
       name,

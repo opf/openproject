@@ -49,14 +49,5 @@ FactoryBot.define do
         end
       end
     end
-
-    factory :query_menu_item, class: 'MenuItems::QueryMenuItem' do
-      query
-
-      name { query.normalized_name }
-      title { query.name }
-
-      navigatable_id { query.id }
-    end
   end
 end

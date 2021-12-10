@@ -96,7 +96,6 @@ export class BoardListsService {
 
   private buildQueryRequest(params:Object) {
     return {
-      hidden: true,
       public: true,
       _links: {
         sortBy: [

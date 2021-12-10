@@ -132,25 +132,4 @@ export class APIv3QueriesPaths extends APIv3ResourceCollection<QueryResource, AP
     }
     return query.star();
   }
-
-  /**
-   * Filter for non-hidden queries
-   *
-   * @param projectIdentifier
-   */
-  public filterNonHidden(projectIdentifier:string|null):Observable<CollectionResource<QueryResource>> {
-    const listParams:Apiv3ListParameters = {
-      filters: [['hidden', '=', ['f']]],
-    };
-
-    if (projectIdentifier) {
-      // all queries with the provided projectIdentifier
-      listParams.filters!.push(['project_identifier', '=', [projectIdentifier]]);
-    } else {
-      // all queries having no project (i.e. being global)
-      listParams.filters!.push(['project', '!*', []]);
-    }
-
-    return this.list(listParams);
-  }
 }

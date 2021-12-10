@@ -36,9 +36,6 @@ class Query < ApplicationRecord
 
   belongs_to :project
   belongs_to :user
-  has_one :query_menu_item, -> { order('name') },
-          class_name: 'MenuItems::QueryMenuItem',
-          dependent: :delete, foreign_key: 'navigatable_id'
   has_many :views,
            dependent: :destroy
 
@@ -56,13 +53,10 @@ class Query < ApplicationRecord
   validate :validate_show_hierarchies
 
   include Scopes::Scoped
-  scopes :visible
+  scopes :visible,
+         :having_views
 
   scope(:global, -> { where(project_id: nil) })
-
-  scope(:hidden, -> { where(hidden: true) })
-
-  scope(:non_hidden, -> { where(hidden: false) })
 
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
@@ -142,6 +136,10 @@ class Query < ApplicationRecord
     if show_hierarchies && group_by.present?
       errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by: group_by
     end
+  end
+
+  def hidden
+    views.empty?
   end
 
   # Try to fix an invalid query
@@ -363,12 +361,6 @@ class Query < ApplicationRecord
            .merge(WorkPackage.visible)
   rescue ::ActiveRecord::StatementInvalid => e
     raise ::Query::StatementInvalid.new(e.message)
-  end
-
-  # Note: Convenience method to allow the angular front end to deal with query
-  # menu items in a non implementation-specific way
-  def starred
-    !!query_menu_item
   end
 
   def project_limiting_filter

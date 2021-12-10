@@ -111,9 +111,9 @@ module API
 
             mount API::V3::Queries::UpdateFormAPI
 
-            patch do
-              update_query @query, request_body, current_user
-            end
+            patch &::API::V3::Utilities::Endpoints::Update
+                     .new(model: Query)
+                     .mount
 
             params do
               optional :valid_subset, type: Boolean
@@ -129,7 +129,7 @@ module API
               @query.valid_subset!
 
               # We do not ignore invalid params provided by the client
-              # unless explicily required by valid_subset
+              # unless explicitly required by valid_subset
               query_representer_response(@query, params, params.delete(:valid_subset))
             end
 
@@ -141,37 +141,22 @@ module API
               status 204
             end
 
-            patch :star do
-              authorize_by_policy(:star)
-
-              # Query name is not user-visible, but apparently used as CSS class. WTF.
-              # Normalizing the query name can result in conflicts and empty names in case all
-              # characters are filtered out. A random name doesn't have these problems.
-              query_menu_item = MenuItems::QueryMenuItem
-                                .find_or_initialize_by(navigatable_id: @query.id) do |item|
-                item.name  = SecureRandom.uuid
-                item.title = @query.name
-              end
-              query_menu_item.save!
-
-              @query.valid_subset!
-              query_representer_response(@query, {})
+            namespace :star do
+              patch &::API::V3::Utilities::Endpoints::Update
+                       .new(model: Query,
+                            params_modifier: ->(_params) {
+                              { starred: true }
+                            })
+                       .mount
             end
 
-            patch :unstar do
-              authorize_by_policy(:unstar)
-
-              @query.valid_subset!
-              representer = query_representer_response(@query, {})
-
-              query_menu_item = @query.query_menu_item
-              return representer if @query.query_menu_item.nil?
-
-              query_menu_item.destroy
-
-              @query.reload
-
-              representer
+            namespace :unstar do
+              patch &::API::V3::Utilities::Endpoints::Update
+                       .new(model: Query,
+                            params_modifier: ->(_params) {
+                              { starred: false }
+                            })
+                       .mount
             end
 
             mount API::V3::Queries::Order::QueryOrderAPI

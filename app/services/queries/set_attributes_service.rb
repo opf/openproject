@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,22 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Copy
-  class MenuItemDependentService < ::Copy::Dependency
-    protected
-
-    def copy_dependency(params:)
-      duplicate_query_menu_item(source, target)
-    end
-
-    def duplicate_query_menu_item(query, new_query)
-      if query.query_menu_item && new_query.persisted?
-        ::MenuItems::QueryMenuItem.create(
-          navigatable_id: new_query.id,
-          name: SecureRandom.uuid,
-          title: query.query_menu_item.title
-        )
-      end
-    end
-  end
-end
+class Queries::SetAttributesService < ::BaseServices::SetAttributes; end

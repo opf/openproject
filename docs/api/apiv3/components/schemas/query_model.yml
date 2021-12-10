@@ -28,26 +28,32 @@ properties:
     type: boolean
     description: Should the timeline mode be shown?
     readOnly: true
+    deprecated: true
   timelineLabels:
     type: QueryTimelineLabels
     description: Which labels are shown in the timeline, empty when default
     readOnly: true
+    deprecated: true
   timelineZoomLevel:
     type: string
     description: Which zoom level should the timeline be rendered in?
     readOnly: true
+    deprecated: true
   highlightingMode:
     type: string
     description: Which highlighting mode should the table have?
     readOnly: true
+    deprecated: true
   showHierarchies:
     type: boolean
     description: Should the hierarchy mode be enabled?
     readOnly: true
+    deprecated: true
   hidden:
     type: boolean
     description: Should the query be hidden from the query list?
     readOnly: true
+    deprecated: true
   public:
     type: boolean
     description: Can users besides the owner see the query?
@@ -66,8 +72,6 @@ properties:
     format: date-time
     description: Time of the most recent change to the query
     readOnly: true
-  projections: 
-    type: "[]QueryProjection"
   _links:
     type: object
     properties:

@@ -31,8 +31,9 @@ require 'spec_helper'
 describe ::API::V3::Queries::QueryRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
-  let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user) }
+  let(:query) { FactoryBot.build_stubbed(:query, project: project, views: views) }
+  let(:unpersisted_query) { FactoryBot.build(:query, project: project, user: other_user, views: views) }
+  let(:views) { [FactoryBot.build_stubbed(:view)] }
   let(:project) { FactoryBot.build_stubbed(:project) }
   let(:user) { instance_double('User', allowed_to_globally?: true, allowed_to?: true, admin: true, admin?: true, active?: true) }
   let(:other_user) { FactoryBot.build_stubbed(:user) }
@@ -572,20 +573,18 @@ describe ::API::V3::Queries::QueryRepresenter do
     end
 
     it_behaves_like 'property', :public do
-      let(:value) { query.is_public }
+      let(:value) { query.public }
     end
 
     describe 'hidden' do
-      context 'with the query being non hidden' do
+      context 'with the query having a view' do
         it_behaves_like 'property', :hidden do
           let(:value) { false }
         end
       end
 
-      context 'with the query being hidden' do
-        before do
-          query.hidden = true
-        end
+      context 'without the query having a view' do
+        let(:views) { [] }
 
         it_behaves_like 'property', :hidden do
           let(:value) { true }

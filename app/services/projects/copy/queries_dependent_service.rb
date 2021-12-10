@@ -41,7 +41,10 @@ module Projects::Copy
     protected
 
     # Copies queries from +project+
-    # Only includes the queries visible in the wp table view.
+    # Only includes the queries having a view so the ones that are e.g. in:
+    # * the work packages table
+    # * the team planner
+    # * the bcf module
     def copy_dependency(params:)
       mapping = queries_to_copy.map do |query|
         copy = duplicate_query(query, params)
@@ -56,7 +59,7 @@ module Projects::Copy
     end
 
     def queries_to_copy
-      source.queries.non_hidden.includes(:query_menu_item)
+      source.queries.having_views.includes(:views)
     end
 
     def duplicate_query(query, params)

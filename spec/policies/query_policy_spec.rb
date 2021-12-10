@@ -50,7 +50,7 @@ describe QueryPolicy, type: :controller do
         end
 
         it 'is true if the query is public and another user views it' do
-          query.is_public = true
+          query.public = true
           query.user = other_user
           expect(subject.allowed?(query, :show)).to be_truthy
         end
@@ -60,7 +60,7 @@ describe QueryPolicy, type: :controller do
             FactoryBot.build_stubbed(:query,
                                      project: project,
                                      user: user,
-                                     is_public: false)
+                                     public: false)
           end
 
           it 'is true if the query is private and the owner views it' do
@@ -146,7 +146,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = true
+          query.public = true
 
           expect(subject.allowed?(query, action)).to be_truthy
         end
@@ -159,7 +159,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return false
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = true
+          query.public = true
 
           expect(subject.allowed?(query, action)).to be_falsy
         end
@@ -172,7 +172,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = false
+          query.public = false
 
           expect(subject.allowed?(query, action)).to be_falsy
         end
@@ -249,7 +249,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
             .and_return true
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = false
+          query.public = false
 
           expect(subject.allowed?(query, :publicize)).to be_falsy
         end
@@ -277,7 +277,7 @@ describe QueryPolicy, type: :controller do
             .and_return true
 
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = true
+          query.public = true
 
           expect(subject.allowed?(query, :depublicize)).to be_truthy
         end
@@ -288,7 +288,7 @@ describe QueryPolicy, type: :controller do
                                                     project,
                                                     global: project.nil?)
             .and_return true
-          query.is_public = false
+          query.public = false
 
           expect(subject.allowed?(query, :depublicize)).to be_falsy
         end
@@ -327,7 +327,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
                            .and_return true
 
-          query.is_public = true
+          query.public = true
           expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
         end
 
@@ -338,7 +338,7 @@ describe QueryPolicy, type: :controller do
                            .and_return true
 
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = false
+          query.public = false
           expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
         end
 
@@ -358,7 +358,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
                            .and_return true
 
-          query.is_public = true
+          query.public = true
           expect(subject.allowed?(query, :reorder_work_packages)).to be_truthy
         end
 
@@ -370,7 +370,7 @@ describe QueryPolicy, type: :controller do
                                                     global: project.nil?)
                            .and_return true
           query.user = FactoryBot.build_stubbed(:user)
-          query.is_public = false
+          query.public = false
 
           expect(subject.allowed?(query, :reorder_work_packages)).to be_falsey
         end

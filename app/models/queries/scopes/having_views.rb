@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,13 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module QueryMenuItemsHelper
-  def update_query_menu_item_path(project, query_menu_item)
-    if query_menu_item.persisted?
-      query_menu_item_path(project, query_menu_item.query,
-                           query_menu_item)
-    else
-      query_menu_items_path(project, query_menu_item.query)
+module Queries::Scopes
+  module HavingViews
+    extend ActiveSupport::Concern
+
+    class_methods do
+      # Return queries that have a view associated
+      def having_views
+        includes(:views)
+          .where.not(views: { id: nil })
+      end
     end
   end
 end

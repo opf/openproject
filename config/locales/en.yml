@@ -915,7 +915,7 @@ en:
     id: "ID"
     is_default: "Default value"
     is_for_all: "For all projects"
-    is_public: "Public"
+    public: "Public"
     # kept for backwards compatibility
     issue: "Work package"
     lastname: "Last name"
@@ -1795,7 +1795,6 @@ en:
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
-  label_query_menu_item: "Query menu item"
   label_read: "Read..."
   label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
@@ -3001,8 +3000,6 @@ en:
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated.
     To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-
-  query_menu_item_for: "Menu item for query \"%{title}\""
 
   # TODO: merge with work_packages top level key
   work_package:

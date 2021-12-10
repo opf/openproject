@@ -42,7 +42,7 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:private_user_query) do
     FactoryBot.create(:query,
                       project: project,
-                      is_public: false,
+                      public: false,
                       user: permitted_user)
   end
 
