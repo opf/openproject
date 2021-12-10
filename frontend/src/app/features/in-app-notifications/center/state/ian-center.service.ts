@@ -137,7 +137,7 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.resourceService.query.getValue(), this.query.params)
+    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.query.params)
       .filter((notification) => notification.readIAN === false)
       .map((notification) => notification.id);
 

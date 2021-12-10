@@ -103,7 +103,7 @@ describe 'model viewer',
   end
 
   context 'with only viewing permissions' do
-    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models]) }
+    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
       FactoryBot.create :user,
                         member_in_project: project,

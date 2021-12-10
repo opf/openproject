@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   OnDestroy,
@@ -12,27 +11,34 @@ import {
   CalendarOptions,
   EventInput,
 } from '@fullcalendar/core';
+import {
+  combineLatest,
+  Subject,
+} from 'rxjs';
+import {
+  debounceTime,
+  mergeMap,
+  map,
+  filter,
+  distinctUntilChanged,
+} from 'rxjs/operators';
+import { EventClickArg } from '@fullcalendar/common';
+import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { FullCalendarComponent } from '@fullcalendar/angular';
 import { EventViewLookupService } from 'core-app/features/team-planner/team-planner/planner/event-view-lookup.service';
-import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/angular';
-import { DomSanitizer } from '@angular/platform-browser';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { OpTitleService } from 'core-app/core/html/op-title.service';
-import { Subject } from 'rxjs';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
+import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { debounceTime } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
@@ -57,52 +63,125 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('resourceContent') resourceContent:TemplateRef<unknown>;
 
+  @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
+
+  private resizeSubject = new Subject<unknown>();
+
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|undefined = undefined;
 
-  public hasData = true;
+  showAddAssignee$ = new Subject<boolean>();
+
+  private principalIds$ = this.wpTableFilters
+    .live$()
+    .pipe(
+      this.untilDestroyed(),
+      map((queryFilters) => {
+        const assigneeFilter = queryFilters.find((queryFilter) => queryFilter._type === 'AssigneeQueryFilter');
+        return ((assigneeFilter?.values || []) as HalResource[]).map((p) => p.id);
+      }),
+    );
+
+  private params$ = this.principalIds$
+    .pipe(
+      this.untilDestroyed(),
+      filter((ids) => ids.length > 0),
+      map((ids) => ({
+        filters: [['id', '=', ids]],
+      }) as Apiv3ListParameters),
+    );
+
+  assignees:HalResource[] = [];
 
   text = {
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
+    add_assignee: this.I18n.t('js.team_planner.add_assignee'),
+    remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
   };
 
+  principals$ = this.principalIds$
+    .pipe(
+      this.untilDestroyed(),
+      mergeMap((ids:string[]) => this.principalsResourceService.query.byIds(ids)),
+      debounceTime(50),
+      distinctUntilChanged((prev, curr) => prev.length === curr.length && prev.length === 0),
+    );
+
   constructor(
-    private elementRef:ElementRef,
-    private states:States,
     private $state:StateService,
-    private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
-    private apiV3Service:APIV3Service,
+    private principalsResourceService:PrincipalsResourceService,
     private wpTableFilters:WorkPackageViewFiltersService,
-    private wpListService:WorkPackagesListService,
     private querySpace:IsolatedQuerySpace,
-    private wpListChecksumService:WorkPackagesListChecksumService,
-    private schemaCache:SchemaCacheService,
     private currentProject:CurrentProjectService,
-    private titleService:OpTitleService,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     readonly calendar:OpCalendarService,
-    protected cdRef:ChangeDetectorRef,
   ) {
     super();
   }
 
   ngOnInit():void {
-    this.setupWorkPackagesListener();
     this.initializeCalendar();
     this.projectIdentifier = this.currentProject.identifier ? this.currentProject.identifier : undefined;
 
-    this.calendar.resize$
-      .pipe(
-        this.untilDestroyed(),
-        debounceTime(50),
-      )
+    this
+      .querySpace
+      .results
+      .values$()
+      .pipe(this.untilDestroyed())
+      .subscribe(() => {
+        this.ucCalendar.getApi().refetchEvents();
+      });
+
+    this.resizeSubject
+      .pipe(this.untilDestroyed())
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });
+
+    this.params$
+      .pipe(this.untilDestroyed())
+      .subscribe((params) => {
+        this.principalsResourceService.fetchPrincipals(params).subscribe();
+      });
+
+    combineLatest([
+      this.principals$,
+      this.showAddAssignee$,
+    ])
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(0),
+      )
+      .subscribe(([principals, showAddAssignee]) => {
+        const api = this.ucCalendar.getApi();
+
+        api.getResources().forEach((resource) => resource.remove());
+
+        principals.forEach((principal) => {
+          const { self } = principal._links;
+          const id = Array.isArray(self) ? self[0].href : self.href;
+          api.addResource({
+            principal,
+            id,
+            title: principal.name,
+          });
+        });
+
+        if (showAddAssignee) {
+          api.addResource({
+            principal: null,
+            id: 'NEW',
+            title: '',
+          });
+        }
+      });
+
+    // This needs to be done after all the subscribers are set up
+    this.showAddAssignee$.next(false);
   }
 
   ngOnDestroy():void {
@@ -121,8 +200,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       .toPromise()
       .then((workPackages:WorkPackageCollectionResource) => {
         const resources = this.mapToCalendarResources(workPackages.elements);
-        this.hasData = resources.length > 0;
-        this.cdRef.detectChanges();
         successCallback(resources);
       })
       .catch(failureCallback);
@@ -181,12 +258,31 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               },
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
-            resources: this.calendarResourcesFunction.bind(this) as unknown,
+            resources: [],
+            eventClick: this.openSplitView.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
           } as CalendarOptions),
         );
       });
+  }
+
+  public calendarEventsFunction(
+    fetchInfo:{ start:Date, end:Date, timeZone:string },
+    successCallback:(events:EventInput[]) => void,
+    failureCallback:(error:unknown) => void,
+  ):void|PromiseLike<EventInput[]> {
+    this
+      .calendar
+      .currentWorkPackages$
+      .toPromise()
+      .then((workPackages:WorkPackageCollectionResource) => {
+        const events = this.mapToCalendarEvents(workPackages.elements);
+        successCallback(events);
+      })
+      .catch(failureCallback);
+
+    this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
   }
 
   renderTemplate(template:TemplateRef<unknown>, id:string, data:ResourceLabelContentArg):{ domNodes:unknown[] } {
@@ -198,18 +294,50 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.viewLookup.destroyView(id);
   }
 
-  private setupWorkPackagesListener():void {
-    this.calendar.workPackagesListener$(() => {
-      this.renderCurrent();
-    });
+  public showAssigneeAddRow():void {
+    this.showAddAssignee$.next(true);
+    this.ucCalendar.getApi().refetchEvents();
   }
 
-  /**
-   * Renders the currently loaded set of items
-   */
-  private renderCurrent() {
-    this.ucCalendar.getApi().refetchEvents();
-    this.ucCalendar.getApi().refetchResources();
+  public addAssignee(principal:HalResource):void {
+    this.showAddAssignee$.next(false);
+
+    const modifyFilter = (assigneeFilter:QueryFilterInstanceResource) => {
+      // eslint-disable-next-line no-param-reassign
+      assigneeFilter.values = [
+        ...assigneeFilter.values as HalResource[],
+        principal,
+      ];
+    };
+
+    if (this.wpTableFilters.findIndex('assignee') === -1) {
+      // Replace actually also instantiates if it does not exist, which is handy here
+      this.wpTableFilters.replace('assignee', modifyFilter.bind(this));
+    } else {
+      this.wpTableFilters.modify('assignee', modifyFilter.bind(this));
+    }
+  }
+
+  public removeAssignee(href:string):void {
+    const numberOfAssignees = this.wpTableFilters.find('assignee')?.values?.length;
+    if (numberOfAssignees && numberOfAssignees <= 1) {
+      this.wpTableFilters.remove('assignee');
+    } else {
+      this.wpTableFilters.modify('assignee', (assigneeFilter:QueryFilterInstanceResource) => {
+        // eslint-disable-next-line no-param-reassign
+        assigneeFilter.values = (assigneeFilter.values as HalResource[])
+          .filter((filterValue) => filterValue.href !== href);
+      });
+    }
+  }
+
+  private openSplitView(event:EventClickArg):void {
+    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
+
+    void this.$state.go(
+      `${splitViewRoute(this.$state)}.tabs`,
+      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
+    );
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
@@ -237,24 +365,5 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         };
       })
       .filter((event) => !!event) as EventInput[];
-  }
-
-  private mapToCalendarResources(workPackages:WorkPackageResource[]) {
-    const resources:{ id:string, title:string, user:HalResource }[] = [];
-
-    workPackages.forEach((workPackage:WorkPackageResource) => {
-      const assignee = workPackage.assignee as HalResource|undefined;
-      if (!assignee) {
-        return;
-      }
-
-      resources.push({
-        id: assignee.href as string,
-        title: assignee.name,
-        user: assignee,
-      });
-    });
-
-    return resources;
   }
 }

@@ -54,7 +54,7 @@ class WithConfig
 
     aggregate_mocked_configuration(example, config)
       .with_indifferent_access
-      .each(&method(:stub_key))
+      .each { |k, v| stub_key(k, v) }
   end
 
   def stub_key(key, value)

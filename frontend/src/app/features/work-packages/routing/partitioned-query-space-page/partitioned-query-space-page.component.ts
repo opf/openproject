@@ -229,19 +229,21 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  refresh(visibly = false, firstPage = false):Promise<unknown> {
-    let promise = this.loadQuery(firstPage) as Promise<unknown>;
+  refresh(visibly = false, firstPage = false):Promise<QueryResource> {
+    let promise = this.loadQuery(firstPage);
 
     if (visibly) {
       promise = promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime();
+        return this.additionalLoadingTime()
+          .then(() => loadedQuery);
       });
 
       this.loadingIndicator = promise;
     } else {
       promise = promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+        return loadedQuery;
       });
     }
 

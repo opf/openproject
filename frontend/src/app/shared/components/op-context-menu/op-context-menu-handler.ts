@@ -52,7 +52,7 @@ export abstract class OpContextMenuHandler extends UntilDestroyedMixin {
   /**
    * Open this context menu
    */
-  protected open(evt:JQuery.TriggeredEvent) {
+  protected open(evt:JQuery.TriggeredEvent):void {
     this.opContextMenu.show(this, evt);
   }
 

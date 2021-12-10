@@ -26,23 +26,29 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageCreateComponent } from 'core-app/features/work-packages/components/wp-new/wp-create.component';
-import { Component } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
+import { Observable } from 'rxjs';
+import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
+import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'bcf-new-split',
-  templateUrl: './bcf-new-split.component.html',
+  templateUrl: './bcf-split-right.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'op-bcf-content-right',
 })
-export class BCFNewSplitComponent extends WorkPackageCreateComponent {
-  public cancelState = '^';
+export class BcfSplitRightComponent implements OnInit {
+  showWorkPackages$:Observable<boolean>;
 
-  @InjectField()
-  readonly viewer:IFCViewerService;
+  constructor(private readonly bcfView:BcfViewService) {}
 
-  public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
-    super.onSaved(params);
+  ngOnInit():void {
+    this.showWorkPackages$ = this.bcfView.live$()
+      .pipe(
+        map((state) => state === 'splitTable' || state === 'splitCards'),
+      );
   }
 }
