@@ -32,8 +32,7 @@ FactoryBot.define do
     user factory: :user
 
     transient do
-      create_view { true }
-      view_type { :view_work_packages_table }
+      view { :view_work_packages_table }
     end
 
     sequence(:name) { |n| "Query #{n}" }
@@ -54,19 +53,10 @@ FactoryBot.define do
       sequence(:name) { |n| "Global query #{n}" }
     end
 
-
-    factory :query_without_view do
-      create_view { false }
-      sequence(:name) { |n| "Public query without view #{n}" }
-    end
-
-    callback(:after_build) do |query|
+    callback(:after_build) do |query, evaluator|
       query.add_default_filter
-    end
-
-    callback(:after_create) do |query, evaluator|
-      FactoryBot.create(evaluator.view_type,
-                        query: query) if evaluator.create_view
+      FactoryBot.create(evaluator.view,
+                        query: query)
     end
   end
 end

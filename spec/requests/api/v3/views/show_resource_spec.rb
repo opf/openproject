@@ -42,7 +42,7 @@ describe ::API::V3::Views::ViewsAPI,
                       members: { permitted_user => role })
   end
   shared_let(:private_user_query) do
-    FactoryBot.create(:query_without_view,
+    FactoryBot.create(:query,
                       project: project,
                       is_public: false,
                       user: permitted_user)
