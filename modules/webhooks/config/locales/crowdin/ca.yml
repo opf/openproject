@@ -5,7 +5,7 @@ ca:
         url: 'Payload URL'
         secret: 'Signature secret'
         events: 'Events'
-        projects: 'Enabled projects'
+        projects: 'Projectes habilitats'
       webhooks/log:
         event_name: 'Event name'
         url: 'Payload URL'
@@ -48,7 +48,7 @@ ca:
         events:
           title: 'Enabled events'
         project_ids:
-          title: 'Enabled projects'
+          title: 'Projectes habilitats'
           description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
           selected: 'Selected projects only'
