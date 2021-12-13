@@ -26,16 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export class Apiv3ConfigurationPath extends APIv3GettableResource<ConfigurationResource> {
+export class ApiV3ConfigurationPath extends ApiV3GettableResource<ConfigurationResource> {
   private $configuration:Observable<ConfigurationResource>;
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     readonly basePath:string) {
     super(apiRoot, basePath, 'configuration');
   }

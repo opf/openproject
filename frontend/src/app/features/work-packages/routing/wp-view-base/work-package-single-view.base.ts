@@ -42,7 +42,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { Observable } from 'rxjs';
@@ -69,7 +69,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly titleService:OpTitleService;
 
-  @InjectField() readonly apiV3Service:APIV3Service;
+  @InjectField() readonly apiV3Service:ApiV3Service;
 
   @InjectField() readonly hooks:HookService;
 

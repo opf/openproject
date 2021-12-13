@@ -25,7 +25,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Ng2StateDeclaration } from '@uirouter/angular';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -144,7 +144,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly boardFilters:BoardFiltersService,
     readonly Boards:BoardService) {
     super();

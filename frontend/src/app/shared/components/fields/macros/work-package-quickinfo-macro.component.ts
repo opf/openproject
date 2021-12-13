@@ -34,7 +34,7 @@ import {
   HostBinding,
   Injector,
 } from '@angular/core';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -78,7 +78,7 @@ export class WorkPackageQuickinfoMacroComponent {
 
   constructor(readonly elementRef:ElementRef,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     readonly displayField:DisplayFieldService,
     readonly pathHelper:PathHelperService,

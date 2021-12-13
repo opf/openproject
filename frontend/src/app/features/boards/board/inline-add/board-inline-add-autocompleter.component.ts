@@ -46,7 +46,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -122,7 +122,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
 
   constructor(private readonly querySpace:IsolatedQuerySpace,
     private readonly pathHelper:PathHelperService,
-    private readonly apiV3Service:APIV3Service,
+    private readonly apiV3Service:ApiV3Service,
     private readonly urlParamsHelper:UrlParamsHelperService,
     private readonly notificationService:WorkPackageNotificationService,
     private readonly CurrentProject:CurrentProjectService,

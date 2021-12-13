@@ -143,7 +143,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
         expect(page)
           .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
         expect(page)
-           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}#{other_user.name}")
+           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}\n#{other_user.name}")
 
         # The fields are not editable
         field = EditField.new dashboard_page, "customField#{bool_cf.id}"

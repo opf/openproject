@@ -29,7 +29,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -73,7 +73,7 @@ export class RevisionActivityComponent implements OnInit {
   constructor(readonly I18n:I18nService,
     readonly timezoneService:TimezoneService,
     readonly cdRef:ChangeDetectorRef,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
   }
 
   ngOnInit() {

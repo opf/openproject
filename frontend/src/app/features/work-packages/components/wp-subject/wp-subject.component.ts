@@ -31,7 +31,7 @@ import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'wp-subject',
@@ -43,7 +43,7 @@ export class WorkPackageSubjectComponent extends UntilDestroyedMixin implements 
   public readonly uniqueElementIdentifier = `work-packages--subject-type-row-${randomString(16)}`;
 
   constructor(protected uiRouterGlobals:UIRouterGlobals,
-    protected apiV3Service:APIV3Service) {
+    protected apiV3Service:ApiV3Service) {
     super();
   }
 

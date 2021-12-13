@@ -26,13 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export class Apiv3GridForm extends APIv3FormResource {
+export class ApiV3GridForm extends ApiV3FormResource {
   /**
    * We need to override the grid widget extraction
    * to pass the correct payload to the API.
@@ -72,6 +72,6 @@ export class Apiv3GridForm extends APIv3FormResource {
    * @param schema
    */
   public extractPayload(request:HalResource|Object, schema:SchemaResource|null = null) {
-    return Apiv3GridForm.extractPayload(request, schema);
+    return ApiV3GridForm.extractPayload(request, schema);
   }
 }

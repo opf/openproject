@@ -26,11 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { PlaceholderUserResource } from 'core-app/features/hal/resources/placeholder-user-resource';
 import { Observable } from 'rxjs';
 
-export class Apiv3PlaceholderUserPaths extends APIv3GettableResource<PlaceholderUserResource> {
+export class ApiV3PlaceholderUserPaths extends ApiV3GettableResource<PlaceholderUserResource> {
   /**
    * Update a placeholder user resource or payload
    * @param resource

@@ -44,7 +44,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import * as URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
@@ -87,7 +87,7 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     protected readonly wpViewFocus:WorkPackageViewFocusService,
     protected readonly wpTableFilters:WorkPackageViewFiltersService,
     protected readonly pathHelper:PathHelperService,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly cdRef:ChangeDetectorRef) {
     super();
   }

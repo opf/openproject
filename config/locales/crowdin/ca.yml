@@ -195,11 +195,11 @@ ca:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "El projecte no es pot eliminar: %{errors}"
+      failed: "L'eliminació del projecte %{name} ha fallat"
+      failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
+      completed: "S'ha completat l'eliminació del projecte %{name}"
+      completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -211,8 +211,8 @@ ca:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Ara mateix no hi ha fòrums pel projecte.
+        no_results_content_text: Crea un fòrum nou
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -232,9 +232,9 @@ ca:
     invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
-      failed_to_reset_token: "Failed to reset access token: %{error}"
-      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
-      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
+      failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
+      notice_reset_token: "S'ha generat un nou token %{type}. El vostre token d'accés és:"
+      token_value_warning: "Nota: Aquesta és la única vegada que veureu aquest token, assegureu-vos de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
   news:
     index:
@@ -264,8 +264,8 @@ ca:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Cliqueu per assignar o canviar el color d'aquesta prioritat.
+        Pot fer-se servir per a remarcar paquets de treball en la taula.
   reportings:
     index:
       no_results_title_text: Actualment no hi ha cap informe d'estat.
@@ -273,13 +273,13 @@ ca:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Activeu aquesta opció per a marcar paquets de treball amb els seus estats com a sols lectura.
+        No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Clica per a assignar o canviar el color d'aquest estat.
+        Es mostra al botó d'estat i es pot fer servir per a remarcat paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
@@ -291,10 +291,10 @@ ca:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
       projects: "Projectes"
-      enabled_projects: "Enabled projects"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
-      reset: "Reset to defaults"
+      enabled_projects: "Projectes habilitats"
+      edit_query: "Edita la taula"
+      query_group_placeholder: "Anomena la taula"
+      reset: "Restableix als valors per defecte"
       type_color_text: |
         El color seleccionat distingeix direfents tipus als diagrames Gantt o a les taules de paquets de treballs. Així doncs recomanem de fer servir un color fort.
   versions:
@@ -350,8 +350,8 @@ ca:
         other: "El compte es suprimirà del sistema. Per tant, l'usuari ja no podrà iniciar la sessió amb les seves credencials actuals. Ell/ella pot decidir convertir-se en un usuari d'aquesta aplicació una altra vegada pels mitjans que aquesta aplicació ofereix."
         self: "El seu compte es suprimirà del sistema. Per tant, ja no podreu accedir amb les vostres credencials actuals. Si vostè vol convertir-se en un usuari d'aquesta aplicació una altra vegada, pot fer-ho utilitzant els mitjans que l'aplicació proporciona."
       login_verification:
-        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
-        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
+        other: "Introduïu les credencials %{name} per a verificar l'eliminació. Una cop enviades, us demanarem la confirmació de la vostra contrasenya."
+        self: "Introduïu les vostres credencials %{name} per a verificar l'eliminació. Una cop enviades, us demanarem la confirmació de la vostra contrasenya."
     error_inactive_activation_by_mail: >
       El teu compte encara no ha estat activat. Per activar el compte, feu clic a l'enllaç que se us va enviar per e-mail.
     error_inactive_manual_activation: >
@@ -368,8 +368,8 @@ ca:
       announcements:
         show_until: "Mostrar fins"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Adjunta contingut"
+        attachment_file_name: "Nom de fitxer de l'adjunció"
         downloads: "Descàrregues"
         file: "Fitxer"
         filename: "Fitxer"
@@ -401,7 +401,7 @@ ca:
         is_required: "Obligatori"
         max_length: "Longitud màxima"
         min_length: "Longitud mínima"
-        multi_value: "Allow multi-select"
+        multi_value: "Permet la selecció múltiple"
         possible_values: "Valors possibles"
         regexp: "Expressió regular"
         searchable: "Es pot cercar"
@@ -411,13 +411,13 @@ ca:
       enterprise_token:
         starts_at: "Vàlid des de"
         expires_at: "Caduca el"
-        subscriber: "Subscriber"
-        encoded_token: "Enterprise support token"
+        subscriber: "Subscriptor"
+        encoded_token: "Token de suport Enterprise"
         active_user_count_restriction: "Màxim nombre d'usuaris actius"
       grids/grid:
         page: "Pàgina"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
+        row_count: "Nombre de files"
+        column_count: "Nombre de columnes"
         widgets: "Widgets"
       relation:
         delay: "Retard"
@@ -425,7 +425,7 @@ ca:
         to: "Paquet de treball relacionat"
       status:
         is_closed: "Paquet de treball tancat"
-        is_readonly: "Work package read-only"
+        is_readonly: "Paquet de treball en sols lectura"
       journal:
         notes: "Notes"
       member:
@@ -441,14 +441,14 @@ ca:
         templated: 'Template project'
       projects/status:
         code: 'Estat'
-        explanation: 'Status description'
+        explanation: 'Descripció de l''estat'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Pel bon camí'
+          at_risk: 'En risc'
+          off_track: 'En mal camí'
       query:
         column_names: "Columnes"
-        relations_to_type_column: "Relations to %{type}"
+        relations_to_type_column: "Relacions a %{type}"
         relations_of_type_column: "%{type} relations"
         group_by: "Agrupa els resultats per"
         filters: "Filtres"

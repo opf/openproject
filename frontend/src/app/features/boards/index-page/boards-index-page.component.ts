@@ -16,7 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { boardTeaserVideoURL } from 'core-app/features/boards/board-constants.const';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -57,7 +57,7 @@ export class BoardsIndexPageComponent extends UntilDestroyedMixin implements OnI
   teaserVideoURL = this.domSanitizer.bypassSecurityTrustResourceUrl(boardTeaserVideoURL);
 
   constructor(private readonly boardService:BoardService,
-    private readonly apiV3Service:APIV3Service,
+    private readonly apiV3Service:ApiV3Service,
     private readonly I18n:I18nService,
     private readonly toastService:ToastService,
     private readonly opModalService:OpModalService,

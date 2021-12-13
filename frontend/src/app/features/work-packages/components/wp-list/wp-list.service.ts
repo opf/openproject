@@ -44,9 +44,9 @@ import {
   WorkPackageViewPaginationService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { APIv3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
-import { APIv3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3QueriesPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-queries-paths';
+import { ApiV3QueryPaths } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-paths';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
@@ -91,7 +91,7 @@ export class WorkPackagesListService {
     protected UrlParamsHelper:UrlParamsHelperService,
     protected authorisationService:AuthorisationService,
     protected $state:StateService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected states:States,
     protected querySpace:IsolatedQuerySpace,
     protected pagination:PaginationService,
@@ -190,7 +190,7 @@ export class WorkPackagesListService {
   public loadQueryFromExisting(query:QueryResource, additionalParams:Object, projectIdentifier?:string):Observable<QueryResource> {
     const params = this.UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additionalParams);
 
-    let path:APIv3QueriesPaths|APIv3QueryPaths;
+    let path:ApiV3QueriesPaths|ApiV3QueryPaths;
 
     if (query.id) {
       path = this.apiV3Service.queries.id(query.id);

@@ -11,7 +11,7 @@ import {
   Observable,
   timer,
 } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -73,7 +73,7 @@ export class InAppNotificationEntryComponent implements OnInit {
   };
 
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly storeService:IanCenterService,
     readonly timezoneService:TimezoneService,
