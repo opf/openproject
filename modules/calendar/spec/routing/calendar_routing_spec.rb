@@ -26,6 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join('config/constants/views')
+require 'spec_helper'
 
-Constants::Views.add :WorkPackagesTable
+describe Calendar::CalendarController, type: :routing do
+  it 'should connect GET /calendar to calendar#index' do
+    expect(get('/calendar')).to route_to(controller: 'calendar/calendar',
+                                         action: 'index')
+  end
+
+  it 'should connect GET /project/1/calendar to calendar#index' do
+    expect(get('/projects/1/calendar')).to route_to(controller: 'calendar/calendar',
+                                                    action: 'index',
+                                                    project_id: '1')
+  end
+end

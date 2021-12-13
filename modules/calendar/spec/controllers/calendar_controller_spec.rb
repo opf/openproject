@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::CalendarsController, type: :controller do
+describe Calendar::CalendarController, type: :controller do
   let(:project) do
     FactoryBot.build_stubbed(:project).tap do |p|
       allow(Project)
@@ -42,7 +42,7 @@ describe WorkPackages::CalendarsController, type: :controller do
     FactoryBot.build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == 'work_packages/calendars' &&
+        permission[:controller] == '/calendar/calendar' &&
           permission[:action] == 'index' &&
           (p.nil? || p == project)
       end
@@ -57,7 +57,7 @@ describe WorkPackages::CalendarsController, type: :controller do
 
       it { is_expected.to be_successful }
 
-      it { is_expected.to render_template('work_packages/calendars/index') }
+      it { is_expected.to render_template('calendar/calendar/index') }
     end
 
     context 'cross-project' do

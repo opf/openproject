@@ -69,6 +69,11 @@ PATH
     budgets (1.0.0)
 
 PATH
+  remote: modules/calendar
+  specs:
+    openproject-calendar (1.0.0)
+
+PATH
   remote: modules/costs
   specs:
     costs (1.0.0)
@@ -1040,6 +1045,7 @@ DEPENDENCIES
   openproject-backlogs!
   openproject-bim!
   openproject-boards!
+  openproject-calendar!
   openproject-documents!
   openproject-github_integration!
   openproject-job_status!

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,11 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::CalendarsController < ApplicationController
-  menu_item :calendar
-  before_action :find_optional_project
-
-  def index
-    render layout: 'angular/angular'
+module OpenProject
+  module Calendar
+    require 'open_project/calendar/engine'
   end
 end
