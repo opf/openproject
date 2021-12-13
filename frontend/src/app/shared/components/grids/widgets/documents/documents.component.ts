@@ -13,7 +13,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DocumentResource } from '../../../../../../../../modules/documents/frontend/module/hal/resources/document-resource';
 
@@ -32,7 +32,7 @@ export class WidgetDocumentsComponent extends AbstractWidgetComponent implements
 
   constructor(readonly halResource:HalResourceService,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly i18n:I18nService,
     readonly timezone:TimezoneService,
     readonly domSanitizer:DomSanitizer,

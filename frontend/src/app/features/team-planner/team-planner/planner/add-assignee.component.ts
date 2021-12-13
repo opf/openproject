@@ -44,7 +44,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './add-assignee.component.html',
@@ -64,7 +64,7 @@ export class AddAssigneeComponent {
     protected I18n:I18nService,
     protected halNotification:HalResourceNotificationService,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly injector:Injector,
     readonly currentProjectService:CurrentProjectService,
   ) { }

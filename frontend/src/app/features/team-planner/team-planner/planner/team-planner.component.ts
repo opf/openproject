@@ -35,7 +35,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { PrincipalsResourceService } from 'core-app/core/state/principals/principals.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -89,7 +89,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       filter((ids) => ids.length > 0),
       map((ids) => ({
         filters: [['id', '=', ids]],
-      }) as Apiv3ListParameters),
+      }) as ApiV3ListParameters),
     );
 
   assignees:HalResource[] = [];

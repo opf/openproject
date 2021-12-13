@@ -42,7 +42,7 @@ import {
 } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -85,7 +85,7 @@ export class QuerySelectComponent extends UntilDestroyedMixin implements OnInit 
 
   constructor(
     readonly elementRef:ElementRef,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly states:States,
     readonly opStaticQueries:StaticQueriesService,

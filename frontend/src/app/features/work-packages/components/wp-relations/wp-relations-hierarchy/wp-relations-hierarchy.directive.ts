@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'wp-relations-hierarchy',
@@ -57,7 +57,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
   public childrenQueryProps:any;
 
   constructor(protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected PathHelper:PathHelperService,
     readonly I18n:I18nService) {
     super();

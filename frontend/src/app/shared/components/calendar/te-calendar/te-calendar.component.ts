@@ -33,7 +33,7 @@ import { TimeEntryEditService } from 'core-app/shared/components/time_entries/ed
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -140,7 +140,7 @@ export class TimeEntryCalendarComponent {
   };
 
   constructor(readonly states:States,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly $state:StateService,
     private element:ElementRef,
     readonly i18n:I18nService,

@@ -41,7 +41,7 @@ import { BoardActionService } from 'core-app/features/boards/board/board-actions
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { tap } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { Observable } from 'rxjs';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
@@ -118,7 +118,7 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     readonly state:StateService,
     readonly boardService:BoardService,
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentProject:CurrentProjectService) {
     super(locals, cdRef, elementRef);
   }

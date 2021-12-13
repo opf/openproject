@@ -39,7 +39,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { trackByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './watchers-tab.html',
@@ -85,7 +85,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
     readonly loadingIndicator:LoadingIndicatorService,
     readonly cdRef:ChangeDetectorRef,
     readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
     super();
   }
 

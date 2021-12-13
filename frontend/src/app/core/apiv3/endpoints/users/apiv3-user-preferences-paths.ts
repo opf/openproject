@@ -26,13 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourcePath } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Observable } from 'rxjs';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpClient } from '@angular/common/http';
 import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
 
-export class Apiv3UserPreferencesPaths extends APIv3ResourcePath<UserPreferencesModel> {
+export class ApiV3UserPreferencesPaths extends ApiV3ResourcePath<UserPreferencesModel> {
   @InjectField() http:HttpClient;
 
   /**

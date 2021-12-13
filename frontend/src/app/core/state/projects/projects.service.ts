@@ -9,11 +9,11 @@ import {
   ID,
 } from '@datorama/akita';
 import { HttpClient } from '@angular/common/http';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { collectionKey } from 'core-app/core/state/collection-store';
 import { ProjectsStore } from './projects.store';
 import { Project } from './project.model';
@@ -33,12 +33,12 @@ export class ProjectsResourceService {
 
   constructor(
     private http:HttpClient,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private toastService:ToastService,
   ) {
   }
 
-  fetchProjects(params:Apiv3ListParameters):Observable<IHALCollection<Project>> {
+  fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<Project>> {
     const collectionURL = collectionKey(params);
 
     return this
@@ -71,7 +71,7 @@ export class ProjectsResourceService {
     this.store.update(id, project);
   }
 
-  modifyCollection(params:Apiv3ListParameters, callback:(collection:ID[]) => ID[]):void {
+  modifyCollection(params:ApiV3ListParameters, callback:(collection:ID[]) => ID[]):void {
     const key = collectionKey(params);
     this.store.update(({ collections }) => (
       {

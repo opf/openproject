@@ -14,7 +14,7 @@ import { WorkPackageViewOrderService } from 'core-app/features/work-packages/rou
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageTable } from '../../wp-fast-table';
@@ -34,7 +34,7 @@ export class DragAndDropTransformer {
 
   @InjectField() private readonly browserDetector:BrowserDetector;
 
-  @InjectField() private readonly apiV3Service:APIV3Service;
+  @InjectField() private readonly apiV3Service:ApiV3Service;
 
   @InjectField() private readonly wpListService:WorkPackagesListService;
 

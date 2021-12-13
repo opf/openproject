@@ -42,7 +42,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource, HalSource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
@@ -60,7 +60,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   constructor(protected injector:Injector,
     protected hooks:HookService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected halResourceService:HalResourceService,
     protected querySpace:IsolatedQuerySpace,
     protected authorisationService:AuthorisationService,

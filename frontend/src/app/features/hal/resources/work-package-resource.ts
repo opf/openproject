@@ -34,7 +34,7 @@ import { InputState } from 'reactivestates';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -134,7 +134,7 @@ export class WorkPackageBaseResource extends HalResource {
 
   @InjectField() wpActivity:WorkPackagesActivityService;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   @InjectField() ToastService:ToastService;
 

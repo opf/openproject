@@ -35,7 +35,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
@@ -76,7 +76,7 @@ export class OpPrincipalComponent implements OnInit {
     readonly PathHelper:PathHelperService,
     readonly principalRenderer:PrincipalRendererService,
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly timezoneService:TimezoneService) {
 
   }

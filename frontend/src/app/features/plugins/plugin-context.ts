@@ -13,7 +13,7 @@ import { States } from 'core-app/core/states/states.service';
 import { CKEditorPreviewService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
@@ -56,7 +56,7 @@ export class OpenProjectPluginContext {
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
     states: this.injector.get<States>(States),
-    apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
+    apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
   };
 
