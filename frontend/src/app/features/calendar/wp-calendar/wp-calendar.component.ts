@@ -34,7 +34,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
   CalendarViewEvent,
   OpCalendarService,
-} from 'core-app/shared/components/calendar/op-calendar.service';
+} from 'core-app/features/calendar/op-calendar.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -44,7 +44,7 @@ import {
     OpCalendarService,
   ],
 })
-export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
+export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
@@ -217,9 +217,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     }
 
     if (calendarDate) {
-      this.ucCalendar.getApi().changeView(calendarUnit, calendarDate.toDate());
+     this.ucCalendar.getApi().changeView(calendarUnit, calendarDate.toDate());
     } else {
-      this.ucCalendar.getApi().changeView(calendarUnit);
+     this.ucCalendar.getApi().changeView(calendarUnit);
     }
   }
 

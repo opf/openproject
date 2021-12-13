@@ -30,7 +30,7 @@
 
 module ::Calendar
   class CalendarController < ApplicationController
-    menu_item :calendar
+    menu_item :calendar_view
     before_action :find_optional_project
 
     def index
