@@ -138,13 +138,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
     this.unfilteredActivities = activities;
 
     const visible = this.getVisibleActivities();
-    this.visibleActivities = visible
-      .map((el:HalResource, i:number) => {
-        const elWithInfo = this.info(el, i);
-        elWithInfo.isNextDate = el.date === el.dateOfPrevious;
-        return elWithInfo
-      });
-
+    this.visibleActivities = visible.map((el:HalResource, i:number) => this.info(el, i));
     this.showToggler = this.shouldShowToggler();
   }
 
