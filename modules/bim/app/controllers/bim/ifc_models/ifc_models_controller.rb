@@ -194,8 +194,9 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
+        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}')
+                                              query_props: props)
       end
 
       def find_all_ifc_models
