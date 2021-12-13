@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,33 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create
-  include Members::Concerns::NotificationSender
+module Members::Concerns::NotificationSender
+  extend ActiveSupport::Concern
 
-  around_call :post_process
+  included do
+    def send_notification(member)
+      OpenProject::Notifications.send(event_type,
+                                      member: member,
+                                      message: notification_message,
+                                      send_notifications: send_notifications?)
+    end
 
-  def post_process
-    service_call = yield
+    def set_attributes_params(params)
+      super.except(:notification_message, :send_notifications)
+    end
 
-    return unless service_call.success?
+    def notification_message
+      params[:notification_message]
+    end
 
-    member = service_call.result
+    def send_notifications?
+      params.fetch(:send_notifications, true)
+    end
 
-    add_group_memberships(member)
-    send_notification(member)
-  end
-
-  protected
-
-  def add_group_memberships(member)
-    return unless member.principal.is_a?(Group)
-
-    Groups::AddUsersService
-      .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(ids: member.principal.user_ids, send_notifications: false)
-  end
-
-  def event_type
-    OpenProject::Events::MEMBER_CREATED
+    def event_type
+      raise NotImplementedError
+    end
   end
 end

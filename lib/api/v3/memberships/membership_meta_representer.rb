@@ -36,6 +36,8 @@ module API
 
         formattable_property :notification_message
 
+        property :send_notifications
+
         def model_required?
           false
         end
