@@ -29,6 +29,12 @@
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class ActivityEntryInfo {
+  public isNextDate = false;
+  
+  public date = this.activityDate(this.activity);
+
+  public dateOfPrevious = this.index > 0 ? this.activityDate(this.activities[this.index - 1]) : undefined;
+
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
     public activities:any[],
@@ -38,16 +44,6 @@ export class ActivityEntryInfo {
 
   public number(forceReverse = false) {
     return this.orderedIndex(this.index, forceReverse);
-  }
-
-  public get date() {
-    return this.activityDate(this.activity);
-  }
-
-  public get dateOfPrevious():any {
-    if (this.index > 0) {
-      return this.activityDate(this.activities[this.index - 1]);
-    }
   }
 
   public get href() {
@@ -60,10 +56,6 @@ export class ActivityEntryInfo {
 
   public get version() {
     return this.activity.version;
-  }
-
-  public get isNextDate() {
-    return this.date !== this.dateOfPrevious;
   }
 
   public isInitial(forceReverse = false) {
