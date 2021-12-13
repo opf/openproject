@@ -174,9 +174,11 @@ post:
   description: |-
     Creates a new membership applying the attributes provided in the body.
 
-    You can use the form and schema to be retrieve the valid attribute values and by that be guided towards successful creation.
+    You can use the form and schema to retrieve the valid attribute values and by that be guided towards successful creation.
 
     By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
     of the newly created membership. In case of a group, the message will be sent to every user belonging to the group.
+
+    By including `{ "sendNotifications": false }` within the `_meta` block of the payload, no notifications is send out at all.
   operationId: Create_membership
   summary: Create membership

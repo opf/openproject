@@ -32,8 +32,9 @@ require 'spec_helper'
 
 describe Notifications::GroupMemberAlteredJob, type: :model do
   subject(:service_call) do
-    described_class.new.perform(members_ids, message)
+    described_class.new.perform(members_ids, message, send_notification)
   end
+
   let(:time) { Time.now }
   let(:member1) do
     FactoryBot.build_stubbed(:member, updated_at: time, created_at: time)
@@ -44,6 +45,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
   let(:members) { [member1, member2] }
   let(:members_ids) { members.map(&:id) }
   let(:message) { "Some message" }
+  let(:send_notification) { false }
 
   before do
     allow(OpenProject::Notifications)
@@ -60,7 +62,7 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_CREATED, member: member1, message: message)
+      .with(OpenProject::Events::MEMBER_CREATED, member: member1, message: message, send_notifications: send_notification)
   end
 
   it 'sends an updated notification for the membership with the mismatching timestamps' do
@@ -68,6 +70,6 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
     expect(OpenProject::Notifications)
       .to have_received(:send)
-      .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message)
+      .with(OpenProject::Events::MEMBER_UPDATED, member: member2, message: message, send_notifications: send_notification)
   end
 end
