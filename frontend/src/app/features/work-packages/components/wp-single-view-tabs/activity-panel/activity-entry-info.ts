@@ -29,11 +29,11 @@
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class ActivityEntryInfo {
-  public isNextDate = false;
-  
   public date = this.activityDate(this.activity);
 
   public dateOfPrevious = this.index > 0 ? this.activityDate(this.activities[this.index - 1]) : undefined;
+
+  public isNextDate = this.date === this.dateOfPrevious;
 
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
