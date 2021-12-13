@@ -102,4 +102,15 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   protected staticQueryName(query:QueryResource):string {
     return this.text.unsaved_title;
   }
+
+  /**
+   * We only want to load the initial query if it is saved
+   * @protected
+   */
+  protected loadInitialQuery():void {
+    const queryId = this.uiRouterGlobals.params.queryId as string|null;
+    if (queryId) {
+      super.loadInitialQuery();
+    }
+  }
 }
