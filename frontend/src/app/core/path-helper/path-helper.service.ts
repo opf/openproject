@@ -71,10 +71,10 @@ export class PathHelperService {
   }
 
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
-    let path = `${this.projectPath(projectIdentifier)}/bcf/split/details/${workPackageId}`;
+    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}`;
 
     if (viewpoint !== null) {
-      path += `?query_props=%7B"t"%3A"id%3Adesc"%7D&viewpoint=${viewpoint}`;
+      path += `?query_props=%7B"t"%3A"id%3Adesc"%2C"dr"%3A"splitCards"%7D&viewpoint=${viewpoint}`;
     }
 
     return path;

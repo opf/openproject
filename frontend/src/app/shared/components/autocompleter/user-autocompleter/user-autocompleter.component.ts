@@ -46,10 +46,11 @@ import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-
 
 export const usersAutocompleterSelector = 'user-autocompleter';
 
-export interface UserAutocompleteItem {
+export interface IUserAutocompleteItem {
   name:string;
   id:string|null;
   href:string|null;
+  avatar:string|null;
 }
 
 @Component({
@@ -61,7 +62,7 @@ export class UserAutocompleterComponent implements OnInit {
 
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @Output() public onChange = new EventEmitter<void>();
+  @Output() public onChange = new EventEmitter<IUserAutocompleteItem>();
 
   @Input() public clearAfterSelection = false;
 
@@ -80,7 +81,7 @@ export class UserAutocompleterComponent implements OnInit {
   private updateInputField:HTMLInputElement|undefined;
 
   /** Keep a switchmap for search term and loading state */
-  public requests = new DebouncedRequestSwitchmap<string, UserAutocompleteItem>(
+  public requests = new DebouncedRequestSwitchmap<string, IUserAutocompleteItem>(
     (searchTerm:string) => this.getAvailableUsers(this.url, searchTerm),
     errorNotificationHandler(this.halNotification),
   );
@@ -157,7 +158,7 @@ export class UserAutocompleterComponent implements OnInit {
     }
   }
 
-  protected getAvailableUsers(url:string, searchTerm:any):Observable<UserAutocompleteItem[]> {
+  protected getAvailableUsers(url:string, searchTerm:any):Observable<IUserAutocompleteItem[]> {
     // Need to clone the filters to not add additional filters on every
     // search term being processed.
     const searchFilters = this.inputFilters.clone();

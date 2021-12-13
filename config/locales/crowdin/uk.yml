@@ -802,7 +802,7 @@ uk:
       member: "Учасник"
       news: "Новини"
       notification:
-        one: "Сповіщення"
+        one: "Notification"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
