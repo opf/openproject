@@ -78,12 +78,20 @@ class QueryViews < ActiveRecord::Migration[6.1]
 
     # Consciously avoiding the use of a PostgreSQL 13.0 feature (gen_random_uuid())
     Query.where(starred: true).find_each do |query|
-      ::MenuItem.create(
-        type: 'MenuItems::QueryMenuItem',
-        navigatable_id: query.id,
-        name: SecureRandom.uuid,
-        title: query.name
-      )
+      execute <<~SQL.squish
+        INSERT INTO
+          menu_items (
+           type,
+           navigatable_id,
+           name,
+           title
+        ) VALUES (
+          'MenuItems::QueryMenuItem',
+          #{query.id},
+          '#{SecureRandom.uuid}',
+          '#{query.name}'
+        )
+      SQL
     end
 
     execute <<~SQL.squish
