@@ -124,6 +124,7 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.title
 
+      team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
 
@@ -179,6 +180,7 @@ describe 'Team planner', type: :feature, js: true do
     it 'can add and remove assignees' do
       team_planner.visit!
 
+      team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
       

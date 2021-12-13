@@ -50,6 +50,10 @@ module Pages
       expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
     end
 
+    def expect_empty_state
+      expect(page).to have_selector '.op-team-planner--no-data', text: 'Add assignees to set up your team planner.'
+    end
+
     def expect_assignee(user, present: true)
       name = user.is_a?(User) ? user.name : user.to_s
       expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
