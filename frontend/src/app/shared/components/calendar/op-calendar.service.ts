@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {
   CalendarOptions,
+  DatesSetArg,
   EventApi,
 } from '@fullcalendar/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -31,6 +32,8 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { UIRouterGlobals } from '@uirouter/core';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -68,6 +71,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly querySpace:IsolatedQuerySpace,
     readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService,
+    readonly uiRouterGlobals:UIRouterGlobals,
+    readonly timezoneService:TimezoneService,
   ) {
     super();
   }
@@ -218,6 +223,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
         center: 'title',
         right: '',
       },
+      initialDate: this.initialDate,
+      datesSet: (dates) => this.updateDateParam(dates),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventClick: this.openSplitView.bind(this),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -331,5 +338,21 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   private get areFiltersEmpty() {
     return this.wpTableFilters.isEmpty;
+  }
+
+  private get initialDate():string|undefined {
+    const date = this.uiRouterGlobals.params.cdate as string|undefined;
+    if (date) {
+      return this.timezoneService.formattedISODate(date);
+    }
+
+    return undefined;
+  }
+
+  private updateDateParam(dates:DatesSetArg) {
+    void this.$state.go(
+      '.',
+      { cdate: this.timezoneService.formattedISODate(dates.start) },
+    );
   }
 }
