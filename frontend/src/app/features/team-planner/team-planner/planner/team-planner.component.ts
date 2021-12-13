@@ -299,6 +299,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private openSplitView(event:EventClickArg):void {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
 
+    if (event.el) {
+      // do not display the tooltip on the wp show page
+      this.calendar.removeTooltip(event.el);
+    }
+
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },
