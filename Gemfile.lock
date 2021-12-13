@@ -363,7 +363,7 @@ GEM
     crowdin-api (0.6.0)
       rest-client (~> 2.0)
     daemons (1.4.1)
-    dalli (3.0.6)
+    dalli (3.1.1)
     danger (8.4.2)
       claide (~> 1.0)
       claide-plugins (>= 0.9.2)
@@ -1000,7 +1000,7 @@ DEPENDENCIES
   compare-xml (~> 0.66)
   costs!
   daemons
-  dalli (~> 3.0.3)
+  dalli (~> 3.1.0)
   danger-brakeman
   dashboards!
   database_cleaner (~> 2.0)
