@@ -26,19 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { View, ViewCreatePayload } from 'core-app/core/state/views/view.model';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import {
+  ApiV3GettableResource,
+  ApiV3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export class APIv3ViewsPaths extends APIv3ResourceCollection<View, APIv3GettableResource<View>> {
+export class ApiV3ViewsPaths extends ApiV3ResourceCollection<View, ApiV3GettableResource<View>> {
   @InjectField() http:HttpClient;
 
   constructor(
-    protected apiRoot:APIV3Service,
+    protected apiRoot:ApiV3Service,
     protected basePath:string,
   ) {
     super(apiRoot, basePath, 'views');

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { View } from 'core-app/core/state/views/view.model';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class WorkPackagesQueryViewService {
   constructor(
     protected $state:StateService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
   ) { }
 
   create(query:QueryResource):Observable<View> {

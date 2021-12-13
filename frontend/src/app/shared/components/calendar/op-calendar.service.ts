@@ -26,11 +26,11 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { take } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -66,7 +66,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly wpListService:WorkPackagesListService,
     readonly urlParamsHelper:UrlParamsHelperService,
     readonly querySpace:IsolatedQuerySpace,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService,
   ) {
     super();

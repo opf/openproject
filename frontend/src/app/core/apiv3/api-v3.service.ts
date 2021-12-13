@@ -53,7 +53,7 @@ import { ApiV3PlaceholderUsersPaths } from 'core-app/core/apiv3/endpoints/placeh
 import { ApiV3GroupsPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-groups-paths';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
-import { APIv3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
+import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
 
 @Injectable({ providedIn: 'root' })
 export class ApiV3Service {
@@ -136,7 +136,7 @@ export class ApiV3Service {
   public readonly job_statuses = this.apiV3CollectionEndpoint('job_statuses');
 
   // /api/v3/views
-  public readonly views = this.apiV3CustomEndpoint(APIv3ViewsPaths);
+  public readonly views = this.apiV3CustomEndpoint(ApiV3ViewsPaths);
 
   // VIRTUAL boards are /api/v3/grids + a scope filter
   public readonly boards = this.apiV3CustomEndpoint(ApiV3BoardsPaths);
