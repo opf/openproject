@@ -210,7 +210,7 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   }
 
   protected showViewpoint(workPackage:WorkPackageResource, index:number):void {
-    if (this.bcfViewer) {
+    if (this.bcfViewer && this.viewerBridge.shouldShowViewer) {
       // FIXME: This component shouldn't know about the state of the BCF module. bcfViewer is null, when outside of
       //  BCF module. Inside BCF module, we try to avoid hard transition, with sending an update to the bcf view
       //  state before showing a viewpoint.
