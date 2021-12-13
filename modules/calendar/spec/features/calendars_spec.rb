@@ -72,7 +72,6 @@ describe 'Work package calendars', type: :feature, js: true do
   end
 
   it 'navigates to today, allows filtering, switching the view and retrains the state' do
-    pending 'To be fixed in https://github.com/opf/openproject/pull/9977'
     visit project_path(project)
 
     within '#main-menu' do
