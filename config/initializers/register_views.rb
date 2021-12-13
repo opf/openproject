@@ -29,3 +29,5 @@
 require Rails.root.join('config/constants/views')
 
 Constants::Views.add :WorkPackagesTable
+Constants::Views.add :WorkPackagesCalendar,
+                     contract_strategy: 'Views::CalendarStrategy'
