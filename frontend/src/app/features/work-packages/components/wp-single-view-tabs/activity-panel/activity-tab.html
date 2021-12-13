@@ -27,9 +27,9 @@
           <activity-entry
             [workPackage]="workPackage"
             [activity]="inf.activity"
-            [activityNo]="inf.number(inf.isReversed)"
-            [hasUnreadNotification]="hasUnreadNotification(inf.href) | async"
-            [isInitial]="inf.isInitial()"
+            [activityNo]="inf.number"
+            [hasUnreadNotification]="false"
+            [isInitial]="inf.isInitial"
           ></activity-entry>
         </div>
       </div>

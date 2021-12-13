@@ -29,6 +29,7 @@
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js';
+import 'zone.js/dist/long-stack-trace-zone';
 
 (window as any).global = window;
 
@@ -55,7 +56,9 @@ import 'zone.js';
 
 // (window as any).__Zone_disable_requestAnimationFrame = true; // disable patch requestAnimationFrame
 // (window as any).__Zone_disable_on_property = true; // disable patch onProperty such as onclick
-(window as any).__zone_symbol__BLACK_LISTED_EVENTS = ['scroll', 'mousemove', 'mouseover', 'mouseout', 'mousewheel']; // Included with Angular CLI.
+(window as any).__zone_symbol__BLACK_LISTED_EVENTS = [
+  'scroll', 'mousemove', 'mouseover', 'mouseout', 'mousewheel', 'mouseenter', 'mouseleave'
+]; // Included with Angular CLI.
 
 /** *************************************************************************************************
  * APPLICATION IMPORTS

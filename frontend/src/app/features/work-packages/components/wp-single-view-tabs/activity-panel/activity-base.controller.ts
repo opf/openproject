@@ -29,7 +29,9 @@
 import {
   ChangeDetectorRef,
   Directive,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { Observable } from 'rxjs';
@@ -45,7 +47,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Directive()
-export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
+export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit, OnChanges {
   public workPackage:WorkPackageResource;
 
   public workPackageId:string;
@@ -86,6 +88,10 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
     this.reverse = wpActivity.isReversed;
     this.togglerText = this.text.commentsOnly;
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    console.log(changes);
   }
 
   ngOnInit():void {

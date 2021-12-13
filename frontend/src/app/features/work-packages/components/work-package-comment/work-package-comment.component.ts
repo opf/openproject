@@ -35,8 +35,10 @@ import {
   ElementRef,
   Injector,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -57,7 +59,7 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './work-package-comment.component.html',
 })
-export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy {
+export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler implements OnInit, OnDestroy, OnChanges {
   @Input() public workPackage:WorkPackageResource;
 
   @ContentChild(TemplateRef) template:TemplateRef<any>;
@@ -93,6 +95,10 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService) {
     super(elementRef, injector);
+  }
+
+  ngOnChanges(changes:SimpleChanges) {
+    console.log(changes);
   }
 
   public ngOnInit() {

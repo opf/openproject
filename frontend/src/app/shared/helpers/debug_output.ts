@@ -46,3 +46,55 @@ export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
   }
   return promise;
 }
+
+// Better extraction of zone.js backtraces
+// thanks to https://stackoverflow.com/a/54943260
+export function renderLongStackTrace():string {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+  const frames:any[] = (Zone.currentTask?.data as any).__creationTrace__;
+  const NEWLINE = '\n';
+
+  // edit this array if you want to ignore or unignore something
+  const FILTER_REGEXP:RegExp[] = [
+    /checkAndUpdateView/,
+    /callViewAction/,
+    /execEmbeddedViewsAction/,
+    /execComponentViewsAction/,
+    /callWithDebugContext/,
+    /debugCheckDirectivesFn/,
+    /Zone/,
+    /checkAndUpdateNode/,
+    /debugCheckAndUpdateNode/,
+    /onScheduleTask/,
+    /onInvoke/,
+    /updateDirectives/,
+    /@angular/,
+    /Observable\._trySubscribe/,
+    /Observable.subscribe/,
+    /SafeSubscriber/,
+    /Subscriber.js.Subscriber/,
+    /checkAndUpdateDirectiveInline/,
+    /drainMicroTaskQueue/,
+    /getStacktraceWithUncaughtError/,
+    /LongStackTrace/,
+    /Observable._zoneSubscribe/,
+  ];
+
+  if (!frames) {
+    return 'no frames';
+  }
+
+  const filterFrames = (stack:string) => {
+    return stack
+      .split(NEWLINE)
+      .filter((frame) => !FILTER_REGEXP.some((reg) => reg.test(frame)))
+      .join(NEWLINE);
+  };
+
+  return frames
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    .filter((frame:any) => frame.error.stack)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    .map((frame:any) => filterFrames(frame.error.stack))
+    .join(NEWLINE);
+}

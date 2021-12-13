@@ -27,48 +27,42 @@
 //++
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ActivityEntryInfo {
+  date = this.activityDate(this.activity);
+
+  number = this.orderedIndex(this.index, this.isReversed);
+
+  dateOfPrevious = this.getDateOfPrevious();
+
+  href = this.activity.href as string;
+
+  version = this.activity.version as string;
+
+  identifier = `${this.href}-${this.version}`;
+
+  isNextDate = this.date !== this.dateOfPrevious;
+
+  isInitial = this.getIsInitial();
+
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
-    public activities:any[],
-    public activity:any,
+    public activities:HalResource[],
+    public activity:HalResource,
     public index:number) {
   }
 
-  public number(forceReverse = false) {
-    return this.orderedIndex(this.index, forceReverse);
-  }
-
-  public get date() {
-    return this.activityDate(this.activity);
-  }
-
-  public get dateOfPrevious():any {
+  public getDateOfPrevious():string|null {
     if (this.index > 0) {
       return this.activityDate(this.activities[this.index - 1]);
     }
+
+    return null;
   }
 
-  public get href() {
-    return this.activity.href;
-  }
-
-  public get identifier() {
-    return `${this.href}-${this.version}`;
-  }
-
-  public get version() {
-    return this.activity.version;
-  }
-
-  public get isNextDate() {
-    return this.date !== this.dateOfPrevious;
-  }
-
-  public isInitial(forceReverse = false) {
-    let activityNo = this.number(forceReverse);
-
+  public getIsInitial() {
+    let activityNo = this.number;
     if (this.activity._type.indexOf('Activity') !== 0) {
       return false;
     }
@@ -78,7 +72,7 @@ export class ActivityEntryInfo {
     }
 
     while (--activityNo > 0) {
-      const idx = this.orderedIndex(activityNo, forceReverse) - 1;
+      const idx = this.orderedIndex(activityNo, this.isReversed) - 1;
       const activity = this.activities[idx];
       if (!_.isNil(activity) && activity._type.indexOf('Activity') === 0) {
         return false;

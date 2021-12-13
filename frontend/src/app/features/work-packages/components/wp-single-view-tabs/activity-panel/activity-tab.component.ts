@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { trackByHrefAndProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { ActivityPanelBaseController } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-base.controller';
@@ -34,6 +37,7 @@ import { ActivityPanelBaseController } from 'core-app/features/work-packages/com
 @Component({
   templateUrl: './activity-tab.html',
   selector: 'wp-activity-tab',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageActivityTabComponent extends ActivityPanelBaseController {
   public workPackage:WorkPackageResource;
