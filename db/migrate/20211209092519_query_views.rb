@@ -5,6 +5,25 @@ class QueryViews < ActiveRecord::Migration[6.1]
                :boolean,
                default: false
 
+    # Some older queries seem to lack values for created_at and updated_at. Taking NOW which is better than NULL.
+    execute <<~SQL.squish
+      UPDATE
+        queries
+      SET
+        created_at = NOW()
+      WHERE
+        created_at IS NULL
+    SQL
+
+    execute <<~SQL.squish
+      UPDATE
+        queries
+      SET
+        updated_at = NOW()
+      WHERE
+        updated_at IS NULL
+    SQL
+
     execute <<~SQL.squish
       INSERT INTO
         views (
