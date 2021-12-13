@@ -30,6 +30,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/NestedGroups
 describe Projects::SetAttributesService, type: :model do
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:contract_class) do
@@ -101,7 +102,7 @@ describe Projects::SetAttributesService, type: :model do
         Project.new
       end
 
-      context 'identifier default value' do
+      describe 'identifier default value' do
         context 'with an identifier provided' do
           let(:call_attributes) do
             {
@@ -127,7 +128,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'public default value', with_settings: { default_projects_public: true } do
+      describe 'public default value', with_settings: { default_projects_public: true } do
         context 'with a value for is_public provided' do
           let(:call_attributes) do
             {
@@ -149,7 +150,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'enabled_module_names default value', with_settings: { default_projects_modules: ['lorem', 'ipsum'] } do
+      describe 'enabled_module_names default value', with_settings: { default_projects_modules: ['lorem', 'ipsum'] } do
         context 'with a value for enabled_module_names provided' do
           let(:call_attributes) do
             {
@@ -182,13 +183,14 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'types default value' do
+      describe 'types default value' do
         let(:other_types) do
           [FactoryBot.build_stubbed(:type)]
         end
         let(:default_types) do
           [FactoryBot.build_stubbed(:type)]
         end
+
         before do
           allow(Type)
             .to receive(:default)
@@ -227,7 +229,7 @@ describe Projects::SetAttributesService, type: :model do
         end
       end
 
-      context 'project status' do
+      describe 'project status' do
         context 'with a value provided' do
           let(:call_attributes) do
             {
@@ -257,7 +259,7 @@ describe Projects::SetAttributesService, type: :model do
     end
 
     context 'for an existing project' do
-      context 'project status' do
+      describe 'project status' do
         context 'with the project not having a status before' do
           context 'with a value provided' do
             let(:call_attributes) do
@@ -350,3 +352,4 @@ describe Projects::SetAttributesService, type: :model do
     end
   end
 end
+# rubocop:enable RSpec/NestedGroups

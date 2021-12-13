@@ -103,8 +103,16 @@ module Pages
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
 
+    def add_assignee(name)
+      click_add_user
+      search_user_to_add name
+      select_user_to_add name
+    end
+
     def click_add_user
-      page.find('[data-qa-selector="tp-assignee-add-button"]').click
+      # Close the existing, if it is open
+      is_open = page.all('[data-qa-selector="tp-add-assignee"] input').first
+      page.find('[data-qa-selector="tp-assignee-add-button"]').click unless is_open
     end
 
     def select_user_to_add(name)

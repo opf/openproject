@@ -1,8 +1,8 @@
-# Example: ViewBcf
+# Example: ViewBim
 ---
 value:
-  _type: Views::BCF
-  name: Bcfs
+  _type: Views::Bim
+  name: My assigned Bcfs
   id: 8
   _links:
     self:

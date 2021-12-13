@@ -47,6 +47,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import { UIRouterGlobals } from '@uirouter/core';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -79,6 +80,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() queryParamListener:QueryParamListenerService;
 
   @InjectField() opModalService:OpModalService;
+
+  @InjectField() uiRouterGlobals:UIRouterGlobals;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
@@ -137,8 +140,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     });
 
     // Load the query. If it hasn't been loaded before, do that visibly.
-    const isFirstLoad = !this.querySpace.initialized.hasValue();
-    this.loadingIndicator = this.loadQuery(isFirstLoad);
+    this.loadInitialQuery();
 
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
@@ -196,17 +198,16 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     } else {
       this.wpListService
         .create(this.currentQuery!, val)
-        .then(() => this.toolbarDisabled = false)
-        .catch(() => this.toolbarDisabled = false);
+        .finally(() => { this.toolbarDisabled = false; });
     }
   }
 
   updateTitleName(val:string) {
     this.toolbarDisabled = true;
     this.currentQuery!.name = val;
-    this.wpListService.save(this.currentQuery)
-      .then(() => this.toolbarDisabled = false)
-      .catch(() => this.toolbarDisabled = false);
+    this.wpListService
+      .save(this.currentQuery)
+      .finally(() => { this.toolbarDisabled = false; });
   }
 
   updateTitle(query?:QueryResource) {
@@ -218,7 +219,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     if (isPersistedResource(query)) {
       this.selectedTitle = query.name;
     } else {
-      this.selectedTitle = this.opStaticQueries.getStaticName(query);
+      this.selectedTitle = this.staticQueryName(query);
     }
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
@@ -292,5 +293,14 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected shouldUpdateHtmlTitle():boolean {
     return true;
+  }
+
+  protected staticQueryName(query:QueryResource):string {
+    return this.opStaticQueries.getStaticName(query);
+  }
+
+  protected loadInitialQuery():void {
+    const isFirstLoad = !this.querySpace.initialized.hasValue();
+    this.loadingIndicator = this.loadQuery(isFirstLoad);
   }
 }

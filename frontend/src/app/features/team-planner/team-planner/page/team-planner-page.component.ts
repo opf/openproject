@@ -14,6 +14,7 @@ import { WorkPackageFilterButtonComponent } from 'core-app/features/work-package
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -50,8 +51,8 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   /** Toolbar is not editable */
   titleEditingEnabled = false;
 
-  /** Not savable */
-  showToolbarSaveButton = false;
+  /** Savable */
+  showToolbarSaveButton = true;
 
   /** Toolbar is always enabled */
   toolbarDisabled = false;
@@ -63,6 +64,14 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     },
     {
       component: ZenModeButtonComponent,
+    },
+    {
+      component: WorkPackageSettingsButtonComponent,
+      containerClasses: 'hidden-for-mobile',
+      show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
+      inputs: {
+        hideTableOptions: true,
+      },
     },
   ];
 
@@ -89,21 +98,19 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
     this.currentPartition = state.data?.partition || '-split';
   }
 
-  updateTitle(query?:QueryResource):void {
-    if (!query?.id) {
-      this.selectedTitle = this.text.unsaved_title;
-    } else {
-      super.updateTitle(query);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected staticQueryName(query:QueryResource):string {
+    return this.text.unsaved_title;
+  }
+
+  /**
+   * We only want to load the initial query if it is saved
+   * @protected
+   */
+  protected loadInitialQuery():void {
+    const queryId = this.uiRouterGlobals.params.queryId as string|null;
+    if (queryId) {
+      super.loadInitialQuery();
     }
-  }
-
-  // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  updateTitleName(val:string):void {
-  }
-
-  // For shared template compliance
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  changeChangesFromTitle(val:string):void {
   }
 }

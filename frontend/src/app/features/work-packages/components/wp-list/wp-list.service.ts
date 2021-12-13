@@ -38,7 +38,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { from, Observable, of } from 'rxjs';
 import { input } from 'reactivestates';
 import {
-  catchError, mergeMap, share, switchMap, take,
+  catchError, mapTo, mergeMap, share, switchMap, take,
 } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
@@ -52,6 +52,7 @@ import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
+import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string, query_props?:string };
@@ -98,6 +99,7 @@ export class WorkPackagesListService {
     protected wpTablePagination:WorkPackageViewPaginationService,
     protected wpStatesInitialization:WorkPackageStatesInitializationService,
     protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
+    protected wpQueryView:WorkPackagesQueryViewService,
   ) { }
 
   /**
@@ -232,21 +234,17 @@ export class WorkPackagesListService {
     query.name = name;
 
     const promise = this
-      .apiV3Service
-      .queries
-      .post(query, form)
-      .toPromise();
-
-    void promise
-      .then((query) => {
+      .createQueryAndView(query, form)
+      .toPromise()
+      .then((createdQuery) => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
         // Reload the query, and then reload the menu
-        this.reloadQuery(query).subscribe(() => {
-          this.states.changes.queries.next(query.id!);
+        this.reloadQuery(createdQuery).subscribe(() => {
+          this.states.changes.queries.next(createdQuery.id);
         });
 
-        return query;
+        return createdQuery;
       });
 
     return promise;
@@ -383,5 +381,20 @@ export class WorkPackagesListService {
       return true;
     }
     return this.configuration.initialized;
+  }
+
+  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined) {
+    return this
+      .apiV3Service
+      .queries
+      .post(query, form)
+      .pipe(
+        switchMap((createdQuery) => this
+          .wpQueryView
+          .create(createdQuery)
+          .pipe(
+            mapTo(createdQuery),
+          )),
+      );
   }
 }

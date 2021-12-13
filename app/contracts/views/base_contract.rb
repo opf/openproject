@@ -80,8 +80,8 @@ module Views
     def query_permissions?
       # The visibility i.e. whether a private query belongs to the user is checked via the
       # query_visible? method.
-      (model.query.is_public && user_allowed_on_query?(:manage_public_queries)) ||
-        (!model.query.is_public && user_allowed_on_query?(:save_queries))
+      (model.query.public && user_allowed_on_query?(:manage_public_queries)) ||
+        (!model.query.public && user_allowed_on_query?(:save_queries))
     end
 
     def user_allowed_on_query?(permission)

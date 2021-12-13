@@ -32,7 +32,7 @@ module Queries
   class CopyService < ::BaseServices::Copy
     def self.copy_dependencies
       [
-        ::Queries::Copy::MenuItemDependentService,
+        ::Queries::Copy::ViewsDependentService,
         ::Queries::Copy::OrderedWorkPackagesDependentService
       ]
     end

@@ -1,4 +1,4 @@
-<div id="querySelect" class="searchable-menu">
+<div id="viewSelect" class="searchable-menu">
   <div class="searchable-menu--search-container">
     <div class="searchable-menu--search-bar">
       <label for="query-title-filter"
@@ -14,12 +14,12 @@
     </div>
 
     <p class="searchable-menu--no-results-container"
-       [hidden]="($queries | async).length > 0"
+       [hidden]="($views | async).length > 0"
        [textContent]="text.no_results"></p>
 
     <op-sidemenu
-      class="op-query-select--search-results"
-      [items]="$queries | async"
+      class="op-view-select--search-results"
+      [items]="$views | async"
       [collapsible]="true"
       [searchable]="true"
     >

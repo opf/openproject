@@ -46,7 +46,7 @@ describe ::API::V3::Views::ViewsAPI,
     FactoryBot.create(:query,
                       user: permitted_user,
                       project: project,
-                      is_public: false)
+                      public: false)
   end
   shared_let(:user_private_project_view) do
     FactoryBot.create(:view_work_packages_table,
@@ -55,7 +55,7 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:other_user_private_project_query) do
     FactoryBot.create(:query,
                       project: project,
-                      is_public: false)
+                      public: false)
   end
   shared_let(:other_user_private_project_view) do
     FactoryBot.create(:view_work_packages_table,
@@ -64,7 +64,7 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:user_public_project_query) do
     FactoryBot.create(:query,
                       project: project,
-                      is_public: true)
+                      public: true)
   end
   shared_let(:user_public_project_view) do
     FactoryBot.create(:view_work_packages_table,
@@ -146,7 +146,7 @@ describe ::API::V3::Views::ViewsAPI,
       FactoryBot.create(:query,
                         user: permitted_user,
                         project: project,
-                        is_public: false)
+                        public: false)
     end
 
     let(:user_private_project_team_planner_view) do

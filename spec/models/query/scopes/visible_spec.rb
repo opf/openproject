@@ -56,13 +56,13 @@ describe Queries::Scopes::Visible, type: :model do
     let!(:public_query) do
       FactoryBot.create(:query,
                         project: project,
-                        is_public: true)
+                        public: true)
     end
     let!(:public_query_lacking_permissions) do
       FactoryBot.create(:query,
                         project: FactoryBot.create(:project,
                                                    members: { user => FactoryBot.create(:role, permissions: []) }),
-                        is_public: true)
+                        public: true)
     end
     let!(:global_user_query) do
       FactoryBot.create(:query,

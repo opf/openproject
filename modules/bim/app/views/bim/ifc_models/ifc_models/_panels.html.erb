@@ -1,10 +1,11 @@
 <div class="op-ifc-viewer--sidemenu">
   <%=
-    angular_component_tag 'op-query-select',
+    angular_component_tag 'op-view-select',
                           inputs: {
-                            projectIdentifier: (@project ? @project.identifier : ''),
+                            projectId: (@project ? @project.id.to_s : ''),
                             menuItems: [parent_name, name],
-                            baseRoute: 'bim.partitioned.list'
+                            baseRoute: 'bim.partitioned.list',
+                            viewType: 'Bim',
                           }
   %>
 

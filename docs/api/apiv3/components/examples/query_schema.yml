@@ -136,12 +136,14 @@ value:
     required: false
     type: "[]QueryColumn"
     writable: true
+    deprecated: true
   highlightingMode:
     hasDefault: true
     name: Highlighting mode
     required: false
     type: String
     writable: true
+    deprecated: true
   id:
     hasDefault: false
     name: ID
@@ -170,15 +172,6 @@ value:
     required: false
     type: Boolean
     writable: true
-  projections:
-    _links:
-      allowedValuesSchemas:
-        href: "/api/v3/queries/projections_schemas"
-    hasDefault: true
-    name: Projections
-    required: false
-    type: "[]QueryProjection"
-    writable: true
   results:
     hasDefault: false
     name: Results
@@ -191,6 +184,7 @@ value:
     required: false
     type: Boolean
     writable: true
+    deprecated: true
   sortBy:
     _links: {}
     hasDefault: true
@@ -216,18 +210,21 @@ value:
     required: false
     type: QueryTimelineLabels
     writable: true
+    deprecated: true
   timelineVisible:
     hasDefault: true
     name: Timeline visible
     required: false
     type: Boolean
     writable: true
+    deprecated: true
   timelineZoomLevel:
     hasDefault: true
     name: Timeline zoom level
     required: false
     type: String
     writable: true
+    deprecated: true
   updatedAt:
     hasDefault: false
     name: Updated on
