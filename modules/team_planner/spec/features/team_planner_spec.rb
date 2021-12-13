@@ -134,6 +134,8 @@ describe 'Team planner', type: :feature, js: true do
         team_planner.select_user_to_add user.name
       end
 
+      team_planner.expect_empty_state(present: false)
+
       retry_block do
         team_planner.click_add_user
         page.find('[data-qa-selector="tp-add-assignee"] input')
@@ -175,6 +177,8 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.expect_assignee(user, present: true)
       team_planner.expect_assignee(other_user, present: true)
+
+      team_planner.expect_empty_state(present: false)
     end
 
     it 'can add and remove assignees' do
@@ -190,6 +194,7 @@ describe 'Team planner', type: :feature, js: true do
         team_planner.select_user_to_add user.name
       end
 
+      team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
       
@@ -211,6 +216,7 @@ describe 'Team planner', type: :feature, js: true do
 
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
+      team_planner.expect_empty_state
 
       # Try one more time to make sure deleting the full filter didn't kill the functionality
       retry_block do
