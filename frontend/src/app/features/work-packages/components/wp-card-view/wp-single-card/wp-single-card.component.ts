@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { checkedClassName, uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { StateService } from '@uirouter/core';
@@ -94,6 +94,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     this.wpTableSelection.setSelection(wp.id!, this.cardView.findRenderedCard(classIdentifier));
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
+    event.preventDefault();
   }
 
   public cardClasses():{ [className:string]:boolean } {

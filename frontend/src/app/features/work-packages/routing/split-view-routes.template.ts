@@ -56,6 +56,7 @@ export function makeSplitViewRoutes(baseRoute:string,
   showComponent:ComponentType<unknown>,
   newComponent:ComponentType<unknown> = WorkPackageNewSplitViewComponent,
   makeFullWidth?:boolean,
+  showMobileAlternative = true,
   routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
   const views:{ [content:string]:{ component:ComponentType<unknown>; }; } = makeFullWidth
@@ -82,7 +83,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         newRoute: `${routeName}.new`,
         partition,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
@@ -96,7 +97,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         menuItem: menuItemClass,
         parent: `${routeName}.details`,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
     },
     // Split create route
@@ -116,7 +117,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         // Remember the base route so we can route back to it anywhere
         baseRoute,
         parent: baseRoute,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
       views: {
         // Retarget and by that override the grandparent views
@@ -139,7 +140,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         bodyClasses: 'router--work-packages-partitioned-split-view',
         menuItem: menuItemClass,
         partition: '-split',
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
     },
   ];

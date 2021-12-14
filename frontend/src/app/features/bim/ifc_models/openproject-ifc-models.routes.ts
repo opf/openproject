@@ -85,7 +85,7 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
   },
   {
     name: 'bim.partitioned.show',
-    url: '/show/{workPackageId:[0-9]+}?{cards:bool}',
+    url: '/show/{workPackageId:[0-9]+}',
     data: {
       baseRoute: 'bim.partitioned.list',
       partition: '-left-only',
@@ -93,19 +93,23 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     reloadOnSearch: false,
     redirectTo: 'bim.partitioned.show.details',
   },
-  // BCF single view for list
+  // BCF full view detail routes for usage in revit addi-in
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
     WorkPackageSplitViewComponent,
     undefined,
     true,
+    false,
     'bim.partitioned.show',
   ),
-  // BCF single view for list
+  // BCF split view detail routes
   ...makeSplitViewRoutes(
     'bim.partitioned.list',
     undefined,
     WorkPackageSplitViewComponent,
+    undefined,
+    false,
+    false,
   ),
 ];

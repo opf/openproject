@@ -24,7 +24,7 @@
      [ngClass]="{ '_with-resizer': showResizerInCardView() }">
   <wp-grid [configuration]="wpTableConfiguration"
            [showResizer]="showResizerInCardView()"
-           (itemClicked)="handleWorkPackageCardClicked($event)"
+           (itemClicked)="handleWorkPackageClicked($event)"
            (stateLinkClicked)="openStateLink($event)"
            resizerClass="work-packages-partitioned-page--content-right"
            resizerStorageKey="openProject-splitViewFlexBasis">
