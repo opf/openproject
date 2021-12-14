@@ -33,7 +33,7 @@ export class ActivityEntryInfo {
 
   public dateOfPrevious = this.index > 0 ? this.activityDate(this.activities[this.index - 1]) : undefined;
 
-  public isNextDate = this.date === this.dateOfPrevious;
+  public isNextDate = this.date !== this.dateOfPrevious;
 
   constructor(public timezoneService:TimezoneService,
     public isReversed:boolean,
