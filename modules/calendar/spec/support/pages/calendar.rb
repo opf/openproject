@@ -26,19 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :view do
-    type { 'work_packages_table' }
-    query
-  end
+require 'support/pages/page'
 
-  factory :view_work_packages_table, parent: :view
+module Pages
+  class Calendar < ::Pages::Page
+    attr_reader :project,
+                :filters
 
-  factory :view_team_planner, parent: :view do
-    type { 'team_planner' }
-  end
+    def initialize(project)
+      super()
 
-  factory :view_work_packages_calendar, parent: :view do
-    type { 'work_packages_calendar' }
+      @project = project
+      @filters = ::Components::WorkPackages::Filters.new
+    end
+
+    def path
+      project_calendar_path(project)
+    end
+
+    def expect_title(title = 'Unnamed calendar')
+      expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
+    end
+
+    def expect_event(work_package, present: true)
+      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
+    end
+
+    def open_split_view(work_package)
+      page
+        .find('.fc-event', text: work_package.subject)
+        .click
+
+      ::Pages::SplitWorkPackage.new(work_package, project)
+    end
   end
 end

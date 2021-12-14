@@ -124,6 +124,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           this.calendar.calendarOptions({
             height: '100%',
             headerToolbar: this.buildHeader(),
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             events: this.calendarEventsFunction.bind(this),
             plugins: [dayGridPlugin],
             initialView: (() => {
