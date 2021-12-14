@@ -254,6 +254,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
 
+    if (event.el) {
+      // do not display the tooltip on the wp show page
+      this.removeTooltip(event.el);
+    }
+
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },

@@ -128,7 +128,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   ngOnInit():void {
     this.initializeCalendar();
-    this.projectIdentifier = this.currentProject.identifier ? this.currentProject.identifier : undefined;
+    this.projectIdentifier = this.currentProject.identifier || undefined;
 
     this
       .querySpace
@@ -231,7 +231,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
-            eventClick: this.openSplitView.bind(this) as unknown,
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
@@ -302,20 +301,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           .filter((filterValue) => filterValue.href !== href);
       });
     }
-  }
-
-  private openSplitView(event:EventClickArg):void {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.calendar.removeTooltip(event.el);
-    }
-
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {
