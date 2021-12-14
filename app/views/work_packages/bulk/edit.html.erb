@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% @bulk_errors.each do |wpid, messages| %>
         <li>
           <%= link_to "##{wpid}", work_package_path(wpid) %>:
-          <%= safe_join messages, ', ' %>
+          <%= safe_join messages, ' ' %>
         </li>
       <% end %>
       </ul>

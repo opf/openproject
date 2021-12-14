@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Bulk update work packages through Rails view', js: true do
   let(:dev_role) do
     FactoryBot.create :role,
@@ -30,6 +31,7 @@ describe 'Bulk update work packages through Rails view', js: true do
   let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type]) }
 
   let!(:status) { FactoryBot.create :status }
+  let(:work_package2_status) { status }
 
   let!(:work_package) do
     FactoryBot.create(:work_package,
@@ -41,7 +43,7 @@ describe 'Bulk update work packages through Rails view', js: true do
   let!(:work_package2) do
     FactoryBot.create(:work_package,
                       author: dev,
-                      status: status,
+                      status: work_package2_status,
                       project: project,
                       type: type)
   end
@@ -96,19 +98,34 @@ describe 'Bulk update work packages through Rails view', js: true do
       end
 
       context 'when making an error in the form' do
+        let(:work_package2_status) { FactoryBot.create(:status) } # without creating a workflow
+
         it 'does not update the work packages' do
           fill_in 'work_package_start_date', with: '123'
           click_on 'Submit'
 
-          expect(page).to have_selector('.op-toast', text: I18n.t('work_packages.bulk.could_not_be_saved'))
-          expect(page).to have_selector('.op-toast', text: work_package.id)
-          expect(page).to have_selector('.op-toast', text: work_package2.id)
+          wp_table
+            .expect_toast(message: I18n.t('work_packages.bulk.could_not_be_saved'), type: :error)
+          wp_table
+            .expect_toast(message: work_package.id, type: :error)
+          wp_table
+            .expect_toast(message: work_package2.id, type: :error)
+          wp_table
+            .expect_toast(
+              message: I18n.t('activerecord.errors.messages.not_a_date'),
+              type: :error
+            )
+          wp_table
+            .expect_toast(
+              message: I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid'),
+              type: :error
+            )
 
           # Should not update the status
           work_package2.reload
           work_package.reload
           expect(work_package.status_id).to eq(status.id)
-          expect(work_package2.status_id).to eq(status.id)
+          expect(work_package2.status_id).to eq(work_package2_status.id)
         end
       end
     end
@@ -148,3 +165,4 @@ describe 'Bulk update work packages through Rails view', js: true do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
