@@ -453,6 +453,7 @@ sl:
     label_starred_queries: "Priljubljeni pogledi"
     label_global_queries: "Javni pogledi"
     label_custom_queries: "Zasebni pogledi"
+    label_create_new_query: "Ustvari novega"
     label_columns: "Stolpci"
     label_attachments: Datoteke
     label_drop_files: Spustite datoteke tukaj

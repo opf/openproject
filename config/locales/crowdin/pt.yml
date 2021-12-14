@@ -850,7 +850,7 @@ pt:
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
-    is_public: "Público"
+    public: "Público"
     #kept for backwards compatibility
     issue: "Pacote de trabalho"
     lastname: "Sobrenome"
@@ -860,7 +860,6 @@ pt:
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
-    public: "Público"
     responsible: "Responsável"
     role: "Papel"
     roles: "Papéis"
@@ -1726,7 +1725,6 @@ pt:
   label_public_projects: "Projetos públicos"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Item de menu de consulta"
   label_read: "Leia..."
   label_register: "Criar uma nova conta"
   label_register_with_developer: "Registre-se como desenvolvedor"
@@ -2835,7 +2833,6 @@ pt:
   wiki_menu_item_new_main_item_explanation: >
     Você está excluindo somente o item de menu principal da wiki. Você agora tem que escolher uma página wiki para que um novo item principal seja gerado. Para excluir a wiki, o módulo wiki deve ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu da página wiki é único e não pode ser excluído.
-  query_menu_item_for: "Item de menu para consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

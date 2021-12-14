@@ -453,6 +453,7 @@ zh-TW:
     label_starred_queries: "最愛檢視"
     label_global_queries: "公開檢視"
     label_custom_queries: "私密檢視"
+    label_create_new_query: "新增"
     label_columns: "欄"
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處

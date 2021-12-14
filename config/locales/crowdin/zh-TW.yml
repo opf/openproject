@@ -846,7 +846,7 @@ zh-TW:
     id: "ID"
     is_default: "預設值"
     is_for_all: "對所有的專案"
-    is_public: "公開"
+    public: "公開"
     #kept for backwards compatibility
     issue: "工作項目"
     lastname: "姓："
@@ -856,7 +856,6 @@ zh-TW:
     password: "密碼"
     priority: "優先等級"
     project: "專案"
-    public: "公開"
     responsible: "可信賴的"
     role: "角色"
     roles: "角色"
@@ -1710,7 +1709,6 @@ zh-TW:
   label_public_projects: "公開專案"
   label_query_new: "新增查詢"
   label_query_plural: "自訂查詢"
-  label_query_menu_item: "查詢選單項目"
   label_read: "讀取..."
   label_register: "建立新帳號"
   label_register_with_developer: "註冊成開發者"
@@ -2816,7 +2814,6 @@ zh-TW:
   wiki_menu_item_new_main_item_explanation: >
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
-  query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

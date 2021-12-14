@@ -845,7 +845,7 @@ ko:
     id: "ID"
     is_default: "기본값"
     is_for_all: "모든 포로젝트를 위한"
-    is_public: "공용"
+    public: "공용"
     #kept for backwards compatibility
     issue: "작업 패키지"
     lastname: "성"
@@ -855,7 +855,6 @@ ko:
     password: "암호"
     priority: "우선 순위"
     project: "프로젝트"
-    public: "공용"
     responsible: "담당"
     role: "역할"
     roles: "역할"
@@ -1709,7 +1708,6 @@ ko:
   label_public_projects: "공용 프로젝트"
   label_query_new: "새 쿼리"
   label_query_plural: "사용자 지정 쿼리"
-  label_query_menu_item: "쿼리 메뉴 항목"
   label_read: "읽기..."
   label_register: "새 계정 만들기"
   label_register_with_developer: "개발자로 등록"
@@ -2814,7 +2812,6 @@ ko:
   wiki_menu_item_new_main_item_explanation: >
     유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본 항목이 생성될 위키 페이지를 선택해야 합니다. 위키를 삭제하기 위해 프로젝트 관리자가 위키 모듈을 비활성화할 수 있습니다.
   wiki_menu_item_delete_not_permitted: 유일한 위키 페이지의 위키 메뉴 항목은 삭제할 수 없습니다.
-  query_menu_item_for: "쿼리 \"%{title}\"에 대한 메뉴 항목"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

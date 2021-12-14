@@ -871,7 +871,7 @@ ar:
     id: "الهوية المُعَرِّفة"
     is_default: "القيمة الافتراضية"
     is_for_all: "لكافة المشاريع"
-    is_public: "عام"
+    public: "عام"
     #kept for backwards compatibility
     issue: "مجموعة العمل"
     lastname: "الاسم الأخير"
@@ -881,7 +881,6 @@ ar:
     password: "كلمة المرور"
     priority: "الأولوية"
     project: "مشروع"
-    public: "عام"
     responsible: "Accountable"
     role: "الدور"
     roles: "دور"
@@ -1795,7 +1794,6 @@ ar:
   label_public_projects: "المشاريع العامة"
   label_query_new: "استعلام جديد"
   label_query_plural: "استعلامات مخصصة"
-  label_query_menu_item: "استعلام عنصر قائمة"
   label_read: "قراءة..."
   label_register: "إنشاء حساب جديد"
   label_register_with_developer: "التسجيل كمطور"
@@ -2920,7 +2918,6 @@ ar:
   wiki_menu_item_new_main_item_explanation: >
     يتم حذف عنصر القائمة Wiki الرئيسي فقط. لديك الآن لاختيار صفحة wiki التي سيتم إنشاء عنصر جديد الرئيسي. لحذف صفحة wiki يمكن إلغاء تنشيط الوحدة النمطية Wiki بواسطة المسؤولين عن المشروع.
   wiki_menu_item_delete_not_permitted: لا يمكن حذف عنصر القائمة ويكي لصفحة wiki فقط.
-  query_menu_item_for: "عنصر القائمة للاستعلام \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

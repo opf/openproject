@@ -453,6 +453,7 @@ el:
     label_starred_queries: "Αγαπημένες προβολές"
     label_global_queries: "Δημόσιες προβολές"
     label_custom_queries: "Ιδιωτικές προβολές"
+    label_create_new_query: "Δημιουργία νέου"
     label_columns: "Στήλες"
     label_attachments: Αρχεία
     label_drop_files: Σύρετε αρχεία εδώ

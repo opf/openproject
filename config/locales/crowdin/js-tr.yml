@@ -454,6 +454,7 @@ tr:
     label_starred_queries: "Gözde görünümler"
     label_global_queries: "Herkese açık görünümler"
     label_custom_queries: "Gizli görünümler"
+    label_create_new_query: "Yeni oluştur"
     label_columns: "Sütunlar"
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın

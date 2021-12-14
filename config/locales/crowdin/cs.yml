@@ -861,7 +861,7 @@ cs:
     id: "ID"
     is_default: "Výchozí hodnota"
     is_for_all: "Pro všechny projekty"
-    is_public: "Veřejné"
+    public: "Veřejné"
     #kept for backwards compatibility
     issue: "Pracovní balíček"
     lastname: "Příjmení"
@@ -871,7 +871,6 @@ cs:
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
-    public: "Veřejné"
     responsible: "Odpovědný"
     role: "Role"
     roles: "Role"
@@ -1761,7 +1760,6 @@ cs:
   label_public_projects: "Veřejné projekty"
   label_query_new: "Nový dotaz"
   label_query_plural: "Vlastní dotazy"
-  label_query_menu_item: "Položka nabídky dotazu"
   label_read: "Číst..."
   label_register: "Vytvořit nový účet"
   label_register_with_developer: "Zaregistrovat se jako vývojář"
@@ -2878,7 +2876,6 @@ cs:
   wiki_menu_item_new_main_item_explanation: >
     Odstraňujete jedinou hlavní položku nabídky wiki. Nyní musíte vybrat wiki stránku, pro kterou bude vytvořena nová hlavní položka. Pro odstranění wiki může být wiki modul deaktivován administrátorem projektu.
   wiki_menu_item_delete_not_permitted: Položku wiki menu jediné wiki stránky nelze odstranit.
-  query_menu_item_for: "Položka nabídky pro dotaz \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

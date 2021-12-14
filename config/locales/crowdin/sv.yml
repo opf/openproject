@@ -850,7 +850,7 @@ sv:
     id: "ID"
     is_default: "Standardvärde"
     is_for_all: "För alla projekt"
-    is_public: "Offentlig"
+    public: "Offentlig"
     #kept for backwards compatibility
     issue: "Arbetspaket"
     lastname: "Efternamn"
@@ -860,7 +860,6 @@ sv:
     password: "Lösenord"
     priority: "Prioritet"
     project: "Projekt"
-    public: "Offentlig"
     responsible: "Huvudansvarig"
     role: "Roll"
     roles: "Roll"
@@ -1726,7 +1725,6 @@ sv:
   label_public_projects: "Offentliga projekt"
   label_query_new: "Ny fråga"
   label_query_plural: "Anpassade frågor"
-  label_query_menu_item: "Fråga menyalternativ"
   label_read: "Läs..."
   label_register: "Skapa ett nytt konto"
   label_register_with_developer: "Registrera dig som utvecklare"
@@ -2834,7 +2832,6 @@ sv:
   wiki_menu_item_new_main_item_explanation: >
     Du tar bort det enda huvudobjektet i wiki menyn. Du måste nu välja en wikisida för vilket ett nytt huvudobjekt kommer att genereras. För att radera wikin inaktiverar projektadministratören wiki-modulen.
   wiki_menu_item_delete_not_permitted: Menyalternativet wiki på den enda wiki-sidan kan inte tas bort.
-  query_menu_item_for: "Menyalternativet för frågan \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

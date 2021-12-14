@@ -860,7 +860,7 @@ ru:
     id: "ID"
     is_default: "Значение по умолчанию"
     is_for_all: "Для всех проектов"
-    is_public: "Общий"
+    public: "Общий"
     #kept for backwards compatibility
     issue: "Пакет работ"
     lastname: "Фамилия"
@@ -870,7 +870,6 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    public: "Общий"
     responsible: "Подотчетный"
     role: "Роль"
     roles: "Роль"
@@ -1760,7 +1759,6 @@ ru:
   label_public_projects: "Проекты, доступные всем"
   label_query_new: "Новый запрос"
   label_query_plural: "Пользовательские запросы"
-  label_query_menu_item: "Пункт меню запроса"
   label_read: "Читать..."
   label_register: "Создайте новую учетную запись"
   label_register_with_developer: "Зарегистрируйтесь как разработчик"
@@ -2875,7 +2873,6 @@ ru:
   wiki_menu_item_new_main_item_explanation: >
     Вы удалили только элемент главного меню wiki. Сейчас вы должны выбрать wiki-страницы для которых будет сгенерирован новый элемент меню. Для удаления wiki  администратор проекта должен деактивировать модуль wiki.
   wiki_menu_item_delete_not_permitted: Элемент меню wiki только wiki-страницы удален быть не может.
-  query_menu_item_for: "Пункт меню для запроса «%{title}»"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

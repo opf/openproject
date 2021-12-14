@@ -454,6 +454,7 @@ lt:
     label_starred_queries: "Mėgiamiausias vaizdas"
     label_global_queries: "Viešasis vaizdas"
     label_custom_queries: "Asmeninis vaizdas"
+    label_create_new_query: "Sukurti naują"
     label_columns: "Stulpeliai"
     label_attachments: Failai
     label_drop_files: Numeskite failus čia

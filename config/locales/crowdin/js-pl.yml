@@ -454,6 +454,7 @@ pl:
     label_starred_queries: "Widoki ulubione"
     label_global_queries: "Widoki publiczne"
     label_custom_queries: "Widoki prywatne"
+    label_create_new_query: "Utwórz nową"
     label_columns: "Kolumny"
     label_attachments: Pliki
     label_drop_files: Upuść pliki tutaj

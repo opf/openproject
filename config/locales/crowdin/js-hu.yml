@@ -457,6 +457,7 @@ hu:
     label_starred_queries: "Kedvenc nézetek"
     label_global_queries: "Publikus nézetek"
     label_custom_queries: "Privát nézetek"
+    label_create_new_query: "Új létrehozása"
     label_columns: "Oszlopok"
     label_attachments: Fájlok
     label_drop_files: Húzza a fájlokat ide

@@ -453,6 +453,7 @@ ru:
     label_starred_queries: "Избранные представления"
     label_global_queries: "Публичные представления"
     label_custom_queries: "Приватные представления"
+    label_create_new_query: "Создать новое"
     label_columns: "Столбцы"
     label_attachments: Файлы
     label_drop_files: Перетащите файлы сюда

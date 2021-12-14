@@ -453,6 +453,7 @@ sv:
     label_starred_queries: "Favoritvyer"
     label_global_queries: "Offentliga vyer"
     label_custom_queries: "Privata vyer"
+    label_create_new_query: "Skapa ny"
     label_columns: "Kolumner"
     label_attachments: Filer
     label_drop_files: Släpp filer här

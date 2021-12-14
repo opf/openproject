@@ -455,6 +455,7 @@ it:
     label_starred_queries: "Viste preferite"
     label_global_queries: "Viste pubbliche"
     label_custom_queries: "Viste private"
+    label_create_new_query: "Crea nuovo"
     label_columns: "Colonne"
     label_attachments: File
     label_drop_files: Trascina i file qui

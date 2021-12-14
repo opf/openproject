@@ -851,7 +851,7 @@ fi:
     id: "ID"
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
-    is_public: "Julkinen"
+    public: "Julkinen"
     #kept for backwards compatibility
     issue: "Tehtävä"
     lastname: "Sukunimi"
@@ -861,7 +861,6 @@ fi:
     password: "Salasana"
     priority: "Prioriteetti"
     project: "Projekti"
-    public: "Julkinen"
     responsible: "Vastuuhenkilö"
     role: "Rooli"
     roles: "Roolit"
@@ -1727,7 +1726,6 @@ fi:
   label_public_projects: "Julkiset projektit"
   label_query_new: "Uusi haku"
   label_query_plural: "Räätälöidyt haut"
-  label_query_menu_item: "Kysely-valikkovaihtoehto"
   label_read: "Lue..."
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"
@@ -2838,7 +2836,6 @@ fi:
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

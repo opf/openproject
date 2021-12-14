@@ -847,7 +847,7 @@ el:
     id: "Ταυτότητα"
     is_default: "Προεπιλεγμένη τιμή"
     is_for_all: "Για όλα τα έργα"
-    is_public: "Δημόσιο"
+    public: "Δημόσιο"
     #kept for backwards compatibility
     issue: "Εργασία"
     lastname: "Επώνυμο"
@@ -857,7 +857,6 @@ el:
     password: "Κωδικός"
     priority: "Προτεραιότητα"
     project: "Έργο"
-    public: "Δημόσιο"
     responsible: "Υπόλογος"
     role: "Ρόλος"
     roles: "Ρόλοι"
@@ -1723,7 +1722,6 @@ el:
   label_public_projects: "Δημόσια έργα"
   label_query_new: "Νέα αναζήτηση"
   label_query_plural: "Προσαρμοσμένες αναζητήσεις"
-  label_query_menu_item: "Αντικείμενο μενού αναζήτησης"
   label_read: "Ανάγνωση..."
   label_register: "Δημιουργία νέου λογαριασμού"
   label_register_with_developer: "Εγγεγραμμένος ως προγραμματιστής"
@@ -2833,7 +2831,6 @@ el:
   wiki_menu_item_new_main_item_explanation: >
     Πρόκειται να διαγράψετε το μόνο κύριο αντικείμενο του μενού. Τώρα πρέπει να επιλέξετε μία σελίδα wiki για την οποία θα δημιουργηθεί ένα καινούργιο κύριο αντικείμενο. Για να διαγράψετε το wiki, πρέπει να απενεργοποιηθεί η ενότητα wiki από τους διαχειριστές έργου.
   wiki_menu_item_delete_not_permitted: Το αντικείμενο μενού wiki της μοναδικής σελίδας wiki δεν μπορεί να διαγραφεί.
-  query_menu_item_for: "Αντικείμενο μενού για την αναζήτηση \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

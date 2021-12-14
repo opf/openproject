@@ -858,7 +858,7 @@ lt:
     id: "ID"
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
-    is_public: "Viešas"
+    public: "Viešas"
     #kept for backwards compatibility
     issue: "Darbų paketas"
     lastname: "Pavardė"
@@ -868,7 +868,6 @@ lt:
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"
-    public: "Viešas"
     responsible: "Atsakingas"
     role: "Rolė"
     roles: "Rolės (-ė, -ių)"
@@ -1758,7 +1757,6 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Užklausos meniu punktas"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -2874,7 +2872,6 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

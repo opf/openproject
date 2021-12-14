@@ -843,7 +843,7 @@ id:
     id: "ID"
     is_default: "Nilai default"
     is_for_all: "Untuk semua Project"
-    is_public: "Publik"
+    public: "Publik"
     #kept for backwards compatibility
     issue: "Paket-Penugasan"
     lastname: "Nama belakang"
@@ -853,7 +853,6 @@ id:
     password: "Password"
     priority: "Prioritas"
     project: "Project"
-    public: "Publik"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
@@ -1707,7 +1706,6 @@ id:
   label_public_projects: "Project untuk publik"
   label_query_new: "Queri baru"
   label_query_plural: "Kustom queri"
-  label_query_menu_item: "Queri menu item"
   label_read: "Baca..."
   label_register: "Buat akun baru"
   label_register_with_developer: "Daftar sebagai pengembang"
@@ -2812,7 +2810,6 @@ id:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

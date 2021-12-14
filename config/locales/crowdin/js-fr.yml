@@ -454,6 +454,7 @@ fr:
     label_starred_queries: "Vue préférées"
     label_global_queries: "Vues publiques"
     label_custom_queries: "Vues privées"
+    label_create_new_query: "Créer nouveau"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici

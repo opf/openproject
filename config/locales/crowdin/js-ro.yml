@@ -453,6 +453,7 @@ ro:
     label_starred_queries: "Configurații favorite"
     label_global_queries: "Configurații publice"
     label_custom_queries: "Configurații private"
+    label_create_new_query: "Creați un nou"
     label_columns: "Coloane"
     label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici

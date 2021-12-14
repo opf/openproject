@@ -851,7 +851,7 @@ bg:
     id: "ID"
     is_default: "Стойност по подразбиране"
     is_for_all: "За всички проекти"
-    is_public: "Публичен"
+    public: "Публичен"
     #kept for backwards compatibility
     issue: "Работен пакет"
     lastname: "Фамилно име"
@@ -861,7 +861,6 @@ bg:
     password: "Парола"
     priority: "Приоритет"
     project: "Проект"
-    public: "Публичен"
     responsible: "Accountable"
     role: "Роля"
     roles: "Роли"
@@ -1727,7 +1726,6 @@ bg:
   label_public_projects: "Публични проекти"
   label_query_new: "Ново търсене"
   label_query_plural: "Потребителско търсене"
-  label_query_menu_item: "Търсене на елемент от менюто"
   label_read: "Прочитане..."
   label_register: "Регистрирайте нов профил"
   label_register_with_developer: "Регистрирайте се като разработчик"
@@ -2838,7 +2836,6 @@ bg:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -861,7 +861,7 @@ sk:
     id: "ID"
     is_default: "Predvolená hodnota"
     is_for_all: "Pre všetky projekty"
-    is_public: "Verejný"
+    public: "Verejný"
     #kept for backwards compatibility
     issue: "Pracovný balíček"
     lastname: "Priezvisko"
@@ -871,7 +871,6 @@ sk:
     password: "Heslo"
     priority: "Priorita"
     project: "Projekt"
-    public: "Verejný"
     responsible: "Zodpovedný"
     role: "Rola"
     roles: "Roly"
@@ -1761,7 +1760,6 @@ sk:
   label_public_projects: "Verejné projekty"
   label_query_new: "Nový dopyt"
   label_query_plural: "Vlastné dopyty"
-  label_query_menu_item: "Položka ponuky dotazu"
   label_read: "Prečítajte si..."
   label_register: "Vytvoriť nový účet"
   label_register_with_developer: "Registrovať sa ako vývojár"
@@ -2880,7 +2878,6 @@ sk:
     Zmažete iba hlavnú položku menu wiki. Teraz musíte vybrať stránku wiki, pre ktorú bude vytvorená nová hlavná položka.
     Modul pre odstránenie wiki môže byť deaktivovaný správcami projektu.
   wiki_menu_item_delete_not_permitted: Položku ponuky wiki na stránke s jednou wiki nemožno odstrániť.
-  query_menu_item_for: "Položka menu pre dopyt \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

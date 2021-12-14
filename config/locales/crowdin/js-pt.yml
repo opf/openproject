@@ -453,6 +453,7 @@ pt:
     label_starred_queries: "Visões favoritas"
     label_global_queries: "Visões públicas"
     label_custom_queries: "Visões privadas"
+    label_create_new_query: "Criar novo"
     label_columns: "Colunas"
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui

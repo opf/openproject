@@ -851,7 +851,7 @@ fr:
     id: "ID"
     is_default: "Valeur par défaut"
     is_for_all: "Pour tous les projets"
-    is_public: "Public"
+    public: "Public"
     #kept for backwards compatibility
     issue: "Lot de travaux"
     lastname: "Nom de famille"
@@ -861,7 +861,6 @@ fr:
     password: "Mot de passe"
     priority: "Priorité"
     project: "Projet"
-    public: "Public"
     responsible: "Responsable"
     role: "Rôle"
     roles: "Rôles"
@@ -1727,7 +1726,6 @@ fr:
   label_public_projects: "Projets publics"
   label_query_new: "Nouvelle requête"
   label_query_plural: "Requêtes personnalisées"
-  label_query_menu_item: "Menu des requêtes"
   label_read: "Lire…"
   label_register: "Créer un compte"
   label_register_with_developer: "S'inscrire en tant que développeur"
@@ -2837,7 +2835,6 @@ fr:
   wiki_menu_item_new_main_item_explanation: >
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
   wiki_menu_item_delete_not_permitted: L'élement du menu wiki de la seule page wiki ne peut être supprimé.
-  query_menu_item_for: "Élément de menu pour question « %{title} »"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -848,7 +848,7 @@ vi:
     id: "ID"
     is_default: "Giá trị mặc định"
     is_for_all: "Cho tất cả các dự án"
-    is_public: "Công cộng"
+    public: "Công cộng"
     #kept for backwards compatibility
     issue: "Work Package"
     lastname: "Họ"
@@ -858,7 +858,6 @@ vi:
     password: "Mật khẩu"
     priority: "Độ ưu tiên"
     project: "Dự án"
-    public: "Công cộng"
     responsible: "Trách nhiệm"
     role: "Vai trò"
     roles: "Vai trò"
@@ -1712,7 +1711,6 @@ vi:
   label_public_projects: "Các dự án công khai"
   label_query_new: "Truy vấn mới"
   label_query_plural: "Truy vấn tùy chỉnh"
-  label_query_menu_item: "Truy vấn trình đơn"
   label_read: "Đọc..."
   label_register: "Tạo tài khoản mới"
   label_register_with_developer: "Đăng ký là nhà phát triển"
@@ -2818,7 +2816,6 @@ vi:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

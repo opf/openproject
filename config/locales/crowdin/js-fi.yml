@@ -454,6 +454,7 @@ fi:
     label_starred_queries: "Suosikkinäkymät"
     label_global_queries: "Julkiset näkymät"
     label_custom_queries: "Yksityiset näkymät"
+    label_create_new_query: "Create new"
     label_columns: "Sarakkeet"
     label_attachments: Tiedostot
     label_drop_files: Raahaa ja pudota tiedostoja tähän

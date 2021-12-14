@@ -455,6 +455,7 @@ ja:
     label_starred_queries: "お気に入りのビュー"
     label_global_queries: "パブリックビュー"
     label_custom_queries: "プライベートビュー"
+    label_create_new_query: "新規作成"
     label_columns: "列"
     label_attachments: ファイルを添付する
     label_drop_files: ここにファイルをドロップ

@@ -454,6 +454,7 @@ es:
     label_starred_queries: "Vistas favoritas"
     label_global_queries: "Vistas públicas"
     label_custom_queries: "Vistas privadas"
+    label_create_new_query: "Crear nuevo"
     label_columns: "Columnas"
     label_attachments: Archivos
     label_drop_files: Suelta los archivos aquí

@@ -454,6 +454,7 @@ uk:
     label_starred_queries: "Улюблені види"
     label_global_queries: "Види громадськості"
     label_custom_queries: "Приватні види"
+    label_create_new_query: "Створити новий"
     label_columns: "Стовпці"
     label_attachments: Файли
     label_drop_files: Перетягніть файли сюди

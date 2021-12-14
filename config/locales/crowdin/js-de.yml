@@ -453,6 +453,7 @@ de:
     label_starred_queries: "Favoriten"
     label_global_queries: "Öffentliche Ansichten"
     label_custom_queries: "Private Ansichten"
+    label_create_new_query: "Neu erstellen"
     label_columns: "Spalten"
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen

@@ -454,6 +454,7 @@ zh-CN:
     label_starred_queries: "收藏夹视图"
     label_global_queries: "公共视图"
     label_custom_queries: "私有视图"
+    label_create_new_query: "新建"
     label_columns: "列"
     label_attachments: 文件
     label_drop_files: 将文件拖至此处

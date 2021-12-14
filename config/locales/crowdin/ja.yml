@@ -842,7 +842,7 @@ ja:
     id: "ID"
     is_default: "デフォルト値"
     is_for_all: "全プロジェクト向け"
-    is_public: "公開"
+    public: "公開"
     #kept for backwards compatibility
     issue: "ワーク パッケージ"
     lastname: "苗字"
@@ -852,7 +852,6 @@ ja:
     password: "パスワード"
     priority: "優先度"
     project: "プロジェクト"
-    public: "公開"
     responsible: "責任者"
     role: "ロール"
     roles: "ロール"
@@ -1706,7 +1705,6 @@ ja:
   label_public_projects: "公開プロジェクト"
   label_query_new: "新しいクエリ"
   label_query_plural: "カスタムクエリ"
-  label_query_menu_item: "クエリのメニュー項目"
   label_read: "続いて読む..."
   label_register: "登録する"
   label_register_with_developer: "開発者として登録する"
@@ -2813,7 +2811,6 @@ ja:
   wiki_menu_item_new_main_item_explanation: >
     唯一の主なＷｉｋｉメニュー項目が削除されます。新しい主要項目が生成するためにＷｉｋｉページを選択する必要があります。Ｗｉｋｉを削除するには、プロジェクト管理者によってＷｉｋｉモジュールを無効にすることができます。
   wiki_menu_item_delete_not_permitted: 唯一のＷｉｋｉページにあるＷｉｋｉメニュー項目は削除できません。
-  query_menu_item_for: "クエリ\"%{title}\"のメニュー項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

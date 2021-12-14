@@ -846,7 +846,7 @@ de:
     id: "ID"
     is_default: "Standardwert"
     is_for_all: "Für alle Projekte"
-    is_public: "Öffentlich"
+    public: "Öffentlich"
     #kept for backwards compatibility
     issue: "Arbeitspaket"
     lastname: "Nachname"
@@ -856,7 +856,6 @@ de:
     password: "Kennwort"
     priority: "Priorität"
     project: "Projekt"
-    public: "Öffentlich"
     responsible: "Verantwortlich"
     role: "Rollen"
     roles: "Rollen"
@@ -1722,7 +1721,6 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
-  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
@@ -2833,7 +2831,6 @@ de:
   wiki_menu_item_new_main_item_explanation: >
     Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
-  query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

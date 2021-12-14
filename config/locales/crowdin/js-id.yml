@@ -454,6 +454,7 @@ id:
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
+    label_create_new_query: "Create new"
     label_columns: "Kolom"
     label_attachments: File
     label_drop_files: Drop file di sini

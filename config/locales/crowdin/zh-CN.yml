@@ -842,7 +842,7 @@ zh-CN:
     id: "ID"
     is_default: "默认值"
     is_for_all: "为所有项目"
-    is_public: "公开"
+    public: "公开"
     #kept for backwards compatibility
     issue: "工作包"
     lastname: "姓氏"
@@ -852,7 +852,6 @@ zh-CN:
     password: "密码"
     priority: "优先级"
     project: "项目"
-    public: "公开"
     responsible: "负责"
     role: "角色"
     roles: "角色"
@@ -1706,7 +1705,6 @@ zh-CN:
   label_public_projects: "公开项目"
   label_query_new: "新的查询"
   label_query_plural: "自定义查询"
-  label_query_menu_item: "查询菜单项"
   label_read: "阅读..."
   label_register: "创建一个新帐户"
   label_register_with_developer: "注册成为开发人员"
@@ -2808,7 +2806,6 @@ zh-CN:
   wiki_menu_item_new_main_item_explanation: >
     您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
   wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
-  query_menu_item_for: "查询\"%{title}\"的菜单项"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

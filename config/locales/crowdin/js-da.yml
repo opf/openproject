@@ -453,6 +453,7 @@ da:
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
+    label_create_new_query: "Create new"
     label_columns: "Kolonner"
     label_attachments: Filer
     label_drop_files: Slip filer hér
