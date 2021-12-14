@@ -122,7 +122,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       .then(() => {
         this.calendarOptions$.next(
           this.calendar.calendarOptions({
-            height: this.calendarHeight(),
+            height: '100%',
             headerToolbar: this.buildHeader(),
             events: this.calendarEventsFunction.bind(this),
             plugins: [dayGridPlugin],
@@ -135,27 +135,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           }),
         );
       });
-  }
-
-  private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('[data-qa-selector="op-wp-calendar"]');
-  }
-
-  private calendarHeight():number {
-    if (this.static) {
-      let heightElement = jQuery(this.element.nativeElement);
-
-      while (!heightElement.height() && heightElement.parent()) {
-        heightElement = heightElement.parent();
-      }
-
-      const topOfCalendar = jQuery(this.element.nativeElement).position().top;
-      const topOfHeightElement = heightElement.position().top;
-
-      return heightElement.height()! - (topOfCalendar - topOfHeightElement);
-    }
-    // -12 for the bottom padding
-    return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
   }
 
   public buildHeader():false|ToolbarInput|undefined {
