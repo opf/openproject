@@ -8,6 +8,8 @@ release_date: 2021-12-08
 
 # OpenProject 12.0.3
 
+Release date: 2021-12-08
+
 We released [OpenProject 12.0.3](https://community.openproject.com/versions/1498).
 The release contains several bug fixes and we recommend updating to the newest version.
 
