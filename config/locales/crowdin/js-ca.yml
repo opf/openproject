@@ -756,7 +756,7 @@ ca:
       button_deactivate: 'Amaga gràfica de Gantt'
       cancel: Cancel·la
       change: "Canvi en la planificació"
-      due_date: "Finish date"
+      due_date: "Data de finalització"
       empty: "(buit)"
       error: "S'ha produït un error."
       errors:
@@ -883,7 +883,7 @@ ca:
         createdAt: "Creat el"
         description: "Descripció"
         date: "Data"
-        dueDate: "Finish date"
+        dueDate: "Data de finalització"
         estimatedTime: "Temps estimat"
         spentTime: "Temps invertit"
         category: "Categoria"

@@ -449,10 +449,10 @@ ca:
       query:
         column_names: "Columnes"
         relations_to_type_column: "Relacions a %{type}"
-        relations_of_type_column: "%{type} relations"
+        relations_of_type_column: "relacions %{type}"
         group_by: "Agrupa els resultats per"
         filters: "Filtres"
-        timeline_labels: "Timeline labels"
+        timeline_labels: "Etiquetes de cronologia"
       repository:
         url: "URL"
       role:
@@ -464,10 +464,10 @@ ca:
         spent_on: "Data"
         type: "Tipus"
       type:
-        description: "Default text for description"
+        description: "Text per defecte per la descripció"
         attribute_groups: ''
-        is_in_roadmap: "Displayed in roadmap by default"
-        is_default: "Activated for new projects by default"
+        is_in_roadmap: "Es mostra al full de ruta per defecte "
+        is_default: "Actiu per defecte als nous projectes "
         is_milestone: "És una fita"
         color: "Color"
       user:
@@ -479,16 +479,16 @@ ca:
         last_login_on: "Darrer inici de sessió"
         new_password: "Nova contrasenya"
         password_confirmation: "Confirmació"
-        consented_at: "Consented at"
+        consented_at: "Consentit a"
       user_preference:
         comments_sorting: "Mostra els comentaris"
         hide_mail: "Oculta la meva adreça de correu electrònic"
         impaired: "Mode d'accessibilitat"
         time_zone: "Zona horària"
-        auto_hide_popups: "Auto-hide success notifications"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        auto_hide_popups: "Oculta automàticament les notificacions de succés"
+        warn_on_leaving_unsaved: "Avisa quan es deixi un paquet de treball amb canvis no desats"
       version:
-        effective_date: "Finish date"
+        effective_date: "Data de finalització"
         sharing: "Compartint"
       wiki_content:
         text: "Text"
@@ -500,7 +500,7 @@ ca:
       work_package:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
-        children: "Subelements"
+        children: "Sub-elements"
         done_ratio: "Progrés (%)"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
@@ -518,13 +518,13 @@ ca:
         type: "Tipus"
         watcher: "Observador"
       'doorkeeper/application':
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
+        uid: "ID de Client"
+        secret: "Clau secreta del Client"
+        owner: "Propietari"
+        redirect_uri: "URI de redirecció"
+        client_credentials_user_id: "ID d'Usuari Credencials de Client"
+        scopes: "Àmbits"
+        confidential: "Confidencial"
     errors:
       messages:
         accepted: "hauran de ser acceptats."
@@ -540,8 +540,8 @@ ca:
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "no és possible accedir."
+        error_readonly: "es va intentar d'escriure-hi però no és modificable."
         email: "is not a valid email address."
         empty: "no pot estar buit."
         even: "ha de ser parell."
@@ -556,31 +556,31 @@ ca:
         inclusion: "no està establert a un dels valors permesos."
         inclusion_nested: "no correspon a un dels valors permesos a la ruta '%{path}'."
         invalid: "no és vàlid."
-        invalid_url: 'is not a valid URL.'
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: 'no és una URL vàlida.'
+        invalid_url_scheme: 'no és un protocal suportat (permès: %{allowed_schemes}).'
         less_than_or_equal_to: "ha de ser menor o igual a %{count}."
         not_available: "no és disponible degut a la configuració del sistema."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
-        not_a_date: "is not a valid date."
-        not_a_datetime: "is not a valid date time."
+        not_a_date: "no és una data vàlida."
+        not_a_datetime: "no és una data-i-hora vàlida."
         not_a_number: "no és un número."
-        not_allowed: "is invalid because of missing permissions."
+        not_allowed: "és invàlid perquè falten permisos."
         not_an_integer: "no és un enter."
         not_an_iso_date: "no és una data vàlida. Format requerit: AAAA-MM-DD."
         not_same_project: "no pertany al mateix projecte."
         odd: "ha de ser senar."
-        regex_invalid: "could not be validated with the associated regular expression."
+        regex_invalid: "no s'ha pogut validar amb l'expressió regular associada."
         smaller_than_or_equal_to_max_length: "ha de ser inferior o igual a la longitud màxima."
         taken: "ja s'està utilitzant."
         too_long: "és massa llarg (el màxim són %{count} caràcters)."
         too_short: "és massa curt (el mínim són %{count} caràcters)."
         type_mismatch: "no és del tipus '%{type}'"
         type_mismatch_nested: "no és del tipus '%{type}' a la ruta '%{path}'"
-        unchangeable: "cannot be changed."
+        unchangeable: "no es pot canviar."
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
-        unremovable: "cannot be removed."
+        unremovable: "no es pot eliminar."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -596,9 +596,9 @@ ca:
             filters:
               minimum: "necessita d'incloure almenys un filtre per a principal, a context o id amb l'operador '='."
         custom_field:
-          at_least_one_custom_option: "At least one option needs to be available."
+          at_least_one_custom_option: "Al menys hi ha d'haver una opció disponible."
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
+          only_one_allowed: "(%{name}) sols és permès un valor."
           empty: "(%{name}) value can't be empty."
           inclusion: "(%{name}) value is not set to one of the allowed values."
           not_logged_in: "(%{name}) value cannot be set because you are not logged in."
@@ -839,7 +839,7 @@ ca:
     derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Mostra les sumes"
-    due_date: "Finish date"
+    due_date: "Data de finalització"
     estimated_hours: "Temps estimat"
     estimated_time: "Temps estimat"
     firstname: "Nom"
@@ -2940,7 +2940,7 @@ ca:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "ID de Client"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:
