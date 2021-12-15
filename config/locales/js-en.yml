@@ -560,6 +560,7 @@ en:
 
     notifications:
       title: "Notifications"
+      html_title: "Notification center"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'

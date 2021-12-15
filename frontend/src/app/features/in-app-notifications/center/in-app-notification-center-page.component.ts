@@ -21,6 +21,7 @@ import { MarkAllAsReadButtonComponent } from 'core-app/features/in-app-notificat
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
+import { OpTitleService } from 'core-app/core/html/op-title.service';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -87,12 +88,14 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     readonly injector:Injector,
     readonly apiV3Service:APIV3Service,
     readonly backRoutingService:BackRoutingService,
+    readonly titleService:OpTitleService,
   ) {
     super();
   }
 
   ngOnInit():void {
     this.documentReferer = document.referrer;
+    this.titleService.setFirstPart(this.I18n.t('js.notifications.html_title'));
   }
 
   /**
