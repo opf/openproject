@@ -42,7 +42,7 @@ describe Calendar::CalendarController, type: :controller do
     FactoryBot.build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, p, global:|
-        permission[:controller] == '/calendar/calendar' &&
+        permission[:controller] == 'calendar/calendar' &&
           permission[:action] == 'index' &&
           (p.nil? || p == project)
       end

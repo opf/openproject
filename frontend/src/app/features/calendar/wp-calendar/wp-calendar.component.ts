@@ -37,7 +37,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 @Component({
   templateUrl: './wp-calendar.template.html',
   styleUrls: ['./wp-calendar.sass'],
-  selector: 'wp-calendar',
+  selector: 'op-wp-calendar',
   providers: [
     OpCalendarService,
   ],
