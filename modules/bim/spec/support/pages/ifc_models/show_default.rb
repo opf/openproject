@@ -34,10 +34,14 @@ module Pages
     class ShowDefault < ::Pages::WorkPackageCards
       include ::Pages::WorkPackages::Concerns::WorkPackageByButtonCreator
 
-      attr_accessor :project
+      attr_accessor :project,
+                    :filters
 
       def initialize(project)
+        super()
+
         self.project = project
+        self.filters = ::Components::WorkPackages::Filters.new
       end
 
       def path

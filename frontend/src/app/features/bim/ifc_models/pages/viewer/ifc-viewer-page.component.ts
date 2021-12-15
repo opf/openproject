@@ -56,6 +56,7 @@ import { RefreshButtonComponent } from 'core-app/features/bim/ifc_models/toolbar
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 
 @Component({
   templateUrl: '../../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -122,6 +123,14 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
       show: ():boolean => this.viewerBridgeService.shouldShowViewer
         && this.ifcData.allowed('manage_ifc_models'),
     },
+    {
+      component: WorkPackageSettingsButtonComponent,
+      containerClasses: 'hidden-for-mobile',
+      show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
+      inputs: {
+        hideTableOptions: true,
+      },
+    },
   ];
 
   constructor(readonly ifcData:IfcModelsDataService,
@@ -135,13 +144,6 @@ export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent i
     super.ngOnInit();
 
     this.setupChangeObserver(this.bcfView);
-
-    // Add bcf thumbnail to wp table per default, once the columns are available
-    this.wpTableColumns.querySpace.available.columns.values$()
-      .pipe(this.untilDestroyed())
-      .subscribe(() => {
-        this.wpTableColumns.addColumn('bcfThumbnail', 2);
-      });
 
     this.querySpace.query.values$()
       .pipe(this.untilDestroyed())
