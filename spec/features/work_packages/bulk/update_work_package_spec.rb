@@ -104,21 +104,25 @@ describe 'Bulk update work packages through Rails view', js: true do
           fill_in 'work_package_start_date', with: '123'
           click_on 'Submit'
 
-          wp_table
-            .expect_toast(message: I18n.t('work_packages.bulk.could_not_be_saved'), type: :error)
-          wp_table
-            .expect_toast(message: work_package.id, type: :error)
-          wp_table
-            .expect_toast(message: work_package2.id, type: :error)
-          wp_table
-            .expect_toast(
-              message: I18n.t('activerecord.errors.messages.not_a_date'),
-              type: :error
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: I18n.t('work_packages.bulk.none_could_be_saved', total: 2)
             )
-          wp_table
-            .expect_toast(
-              message: I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid'),
-              type: :error
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: "#{work_package.id}: Start date #{I18n.t('activerecord.errors.messages.not_a_date')}"
+            )
+
+          expect(page)
+            .to have_selector(
+              '.flash.error',
+              text: <<~MSG.squish
+                #{work_package2.id}:
+                Status #{I18n.t('activerecord.errors.models.work_package.attributes.status_id.status_transition_invalid')}
+              MSG
             )
 
           # Should not update the status

@@ -1,0 +1,20 @@
+<% if total - errors.count == 0 %>
+  <%= t('work_packages.bulk.none_could_be_saved',
+        total: total) %>
+<% else %>
+  <%= t('work_packages.bulk.x_out_of_y_could_be_saved',
+           failing: errors.count,
+           total: total,
+           success: total - errors.count) %>
+
+  <%= t('work_packages.bulk.could_not_be_saved') %>
+<% end %>
+
+<ul>
+  <% errors.each do |wp_id, messages| %>
+    <li>
+      <%= link_to "##{wp_id}", work_package_path(wp_id) %>:
+      <%= safe_join messages, ' ' %>
+    </li>
+  <% end %>
+</ul>

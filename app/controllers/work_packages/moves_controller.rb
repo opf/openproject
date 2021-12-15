@@ -29,6 +29,8 @@
 #++
 
 class WorkPackages::MovesController < ApplicationController
+  include WorkPackages::FlashBulkError
+
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize
@@ -42,7 +44,7 @@ class WorkPackages::MovesController < ApplicationController
 
     new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
 
-    unsaved_work_package_ids = []
+    unsaved_work_packages = {}
     moved_work_packages = []
 
     @work_packages.each do |work_package|
@@ -65,13 +67,13 @@ class WorkPackages::MovesController < ApplicationController
       if service_call.success?
         moved_work_packages << service_call.result
       elsif @copy
-        unsaved_work_package_ids.concat dependent_error_ids(work_package.id, service_call)
+        unsaved_work_packages.concat dependent_error_ids(work_package.id, service_call)
       else
-        unsaved_work_package_ids << work_package.id
+        unsaved_work_packages[work_package.id] = service_call.errors.full_messages
       end
     end
 
-    set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
+    set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_packages)
 
     if params[:follow]
       if @work_packages.size == 1 && moved_work_packages.size == 1
@@ -84,14 +86,14 @@ class WorkPackages::MovesController < ApplicationController
     end
   end
 
-  def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
-    if unsaved_work_package_ids.empty? and not work_packages.empty?
+  private
+
+  def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_packages)
+    if unsaved_work_packages.empty? and not work_packages.empty?
       flash[:notice] = @copy ? I18n.t(:notice_successful_create) : I18n.t(:notice_successful_update)
     else
-      flash[:error] = I18n.t(:notice_failed_to_save_work_packages,
-                             count: unsaved_work_package_ids.size,
-                             total: work_packages.size,
-                             ids: '#' + unsaved_work_package_ids.join(', #'))
+      error_flash(work_packages.count,
+                  unsaved_work_packages)
     end
   end
 

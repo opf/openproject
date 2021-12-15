@@ -37,6 +37,8 @@ class WorkPackages::BulkController < ApplicationController
   include RelationsHelper
   include QueriesHelper
 
+  include WorkPackages::FlashBulkError
+
   def edit
     setup_edit
   end
@@ -50,7 +52,7 @@ class WorkPackages::BulkController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
     else
-      @bulk_errors = @call.errors
+      error_flash(@work_packages.count, @call.errors)
       setup_edit
       render action: :edit
     end
