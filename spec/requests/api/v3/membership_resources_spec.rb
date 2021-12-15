@@ -29,6 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'API v3 memberships resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
@@ -447,6 +448,36 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     context 'for a user' do
       it_behaves_like 'successful member creation'
       it_behaves_like 'sends mails'
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(other_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
     end
 
     context 'for a group' do
@@ -488,6 +519,36 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         users.each do |user|
           expect(Member.find_by(user_id: user.id, project: project))
             .to be_present
+        end
+      end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              project: {
+                href: api_v3_paths.project(project.id)
+              },
+              principal: {
+                href: principal_path
+              },
+              roles: [
+                {
+                  href: api_v3_paths.role(other_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it_behaves_like 'successful member creation'
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
         end
       end
     end
@@ -718,7 +779,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     let(:body) do
       {
         _links: {
-          "roles": [
+          roles: [
             {
               href: api_v3_paths.role(another_role.id)
             }
@@ -782,6 +843,28 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
 
       it_behaves_like 'sends mails' do
         let(:receivers) { [other_member.principal] }
+      end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              roles: [
+                {
+                  href: api_v3_paths.role(another_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
       end
     end
 
@@ -862,13 +945,35 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         # Only sends to the second user since the first user's membership is unchanged
         let(:receivers) { [users.last] }
       end
+
+      context 'when deactivating notification sending' do
+        let(:body) do
+          {
+            _links: {
+              roles: [
+                {
+                  href: api_v3_paths.role(another_role.id)
+                }
+              ]
+            },
+            _meta: {
+              sendNotifications: false
+            }
+          }.to_json
+        end
+
+        it 'sends no mail to the principal of the member' do
+          expect(ActionMailer::Base.deliveries)
+            .to be_empty
+        end
+      end
     end
 
     context 'if attempting to empty the roles' do
       let(:body) do
         {
           _links: {
-            "roles": []
+            roles: []
           }
         }.to_json
       end
@@ -888,7 +993,7 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "roles": [
+            roles: [
               {
                 href: api_v3_paths.role(anonymous_role.id)
               }
@@ -920,8 +1025,8 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "project": {
-              "href": api_v3_paths.project(other_project.id)
+            project: {
+              href: api_v3_paths.project(other_project.id)
 
             }
           }
@@ -939,8 +1044,8 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "principal": {
-              "href": api_v3_paths.user(another_user.id)
+            principal: {
+              href: api_v3_paths.user(another_user.id)
 
             }
           }
@@ -1049,3 +1154,4 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers
