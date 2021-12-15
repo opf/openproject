@@ -177,6 +177,9 @@ In the work package list: Right-click on the work package and choose **Change pr
 
 In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Change project**.
 
+### Can I group tasks into folders?
+
+There are no folders for work packages. I suggest either setting all work packages belonging together as children of the same parent work package (e.g. a Phase) or to create multiple projects for different topics. Alternatively you could use the [work package categories](../../../projects/project-settings/work-package-categories) or a custom field to group work packages.   You can also indent hierarchy for for tasks to associate it with another work package like a phase, then they are relatete to the Pahase in the gantt chart.
 
 
 ## Custom fields

@@ -124,6 +124,14 @@ In the Community Edition and in the Enterprise on-premises edition you can use t
 
 LDAP is possible in principle. Effectively, everything runs on AWS EC2 instances in Ireland. However, the IPs are not fixed, but can theoretically change arbitrarily (within the IP ranges for eu-west-1 in [1]). In practice, this won't necessarily happen all the time, but we ourselves don't currently have a mechanism to make the concrete IPs of all servers available, for example.
 
+### What is the availability of your hosted OpenProject? Are there fixed maintenance windows where the software is not available?
+
+There is no fixed maintenance window per se. The databases have a maintenance window of half an hour each. One is on mondays at 3 am (CET), the other on thursdays at 1 am. But this does not mean that the database is not available. Since the databases are redundant (for vips at least), there is usually no interruption.
+With new releases it always depends on the changes.
+With the last release (11.2) there was no downtime, because the database changes were upward compatible. I.e. the old version could work with the new data.
+Sometimes this is not the case, and then we need a downtime to roll out the new version. This usually takes up to an hour and we always announce it a few days in advance.
+So there are no regular downtimes.
+
 ## How to ... in OpenProject?
 
 Most of this kind of questions will be answered in the respective sections for each topic (see links below). However, there may be some FAQ that do not really fit elsewhere:
@@ -150,6 +158,10 @@ This is not possible per se, there's no Ctrl+Z option or anything similar.
 
 Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
 
+### What happens when the unit cost of a project, or budget, changes during a project or during a budget term?
+
+The behavior depends on the date the budget and the rate of cost types refer to. The budget will contain the rate that was valid for the included unit costs at its creation (see “fixed date” in the budget details). Please note that it is possible to change this “fixed date” as well as old rates for cost types which will influence the budget or/and the spent costs.
+
 ### How can I increase or decrease the number of users in OpenProject?
 
 You can invite new users in the system administration as long as you have enough licenses.
@@ -158,6 +170,10 @@ For the Community Edition you can have as many users as you need for free.
 If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
 
 If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
+
+### How can I check the workload of each of my employees?
+
+The best way is to use one of our Action boards, the [Assignee board](.../.../.../agile-boards/#choose-between-board-types). Alternatively, you can filter work package lists (in each project or using the global work package list accessible via Modules in the right part of the header) to filter for work packages where employees are set as Assignee or as Accountable.
 
 ### How can I change the day my week starts with, etc.?
 
@@ -258,6 +274,7 @@ IFC2x3 and IFC4. We accept those formats and convert them to some other format t
 
 Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
+
 ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
 
 Yes, of course. That's why the module for this in OpenProject is called "BCF". You can import and export BCF XML files. Our goal is to have specialized tools like Solibri do model checks, but the coordination of the results, the issues, is done in OpenProject, because more people can get access to the BCF issues through OpenProject because our licenses are much cheaper. In addition, BCF issues imported into OpenProject behave just like other non-BCF work packages. For example, you can plan them in a Gantt chart on the timeline, or manage them agilely in boards. We support the current BCF XML format 2.1.
@@ -277,8 +294,6 @@ Yes. Take a photo with your camera and save it on your phone. Then open the corr
 ### Can I use IFC while a Revit connection is not available?
 
 Yes, of course. Within the BCF module you can upload multiple IFC models and create and manage BCF issues.
-
-
 
 ## Migration
 
@@ -303,29 +318,29 @@ At the moment there are these ways to migrate:
 
 For more information please contact us.
 
-### How can I migrate from Community Edition or Enterprise on-premises to Enterprise cloud?
-
-We will need a database dump from you which we will upload to your new Enterprise cloud. Please contact us to plan the migration and get more instructions.
-
 ### How can I migrate from Enterprise cloud to Enterprise on-premises?
 
 We will provide a database dump which you can upload into your Enterprise on-premises edition. This way you can keep all your data.
 
-### How can I migrate from Community Edition to Enterprise on-premises?
-
-If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
-
-###  Can my data be moved from OpenProject Enterprise Cloud Edition to my own installed Enterprise On-Premises Edition?
+###  Can my data be moved from OpenProject Enterprise cloud edition to my own installed Enterprise on-premises edition?
 
 Your data can be moved from the Enterprise cloud to the Enterprise on-premises edition. We will provide a database dump which you can upload into your Enterprise on-premises edition. 
 
-### How can I migrate from Enterprise on-premises to Community Edition?
+### How can I migrate from Community edition to Enterprise on-premises?
 
-If you cancel your subscription for Enterprise on-premises you will be downgraded to Community Edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](https://www.openproject.org/de/enterprise-edition/#premium-features) and won't be eligible for support any more.
+If you [book Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition) you will receive an Enterprise token. Use it to activate the Enterprise premium features. For detailed activation instructions please refer to the [Enterprise activation guide](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/). You can keep your data that you created in the Community Edition.
+
+### How can I migrate from Enterprise on-premises to Community edition?
+
+If you cancel your subscription for Enterprise on-premises you will be downgraded to Community Edition automatically as soon as the subscription period ends. You can keep all your data but won't be able to use the [premium features](.../.../enterprise-edition/#premium-features) and won't be eligible for support any more.
 
 ### Where can I find information on additional migrations (e.g. from MySQL to PostgreSQL)?
 
 Please have a look at [this section](../installation-and-operations/misc).
+
+### Do you have any documentation to enable slack plugin on the docker-compose file of your project?
+
+We have a [documentation](.../installation-and-operations/installation/docker/#openproject-plugins) for how to add Slack to a docker setup, but you need to extend the OpenProject docker container yourself in order to add the plugin. There is no documentation as of now for how to do the same with the docker-compose setup.
 
 ## Other
 
