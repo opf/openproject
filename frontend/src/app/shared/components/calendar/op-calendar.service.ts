@@ -38,6 +38,7 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -71,6 +72,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly toastService:ToastService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpListService:WorkPackagesListService,
+    readonly wpListChecksumService:WorkPackagesListChecksumService,
     readonly urlParamsHelper:UrlParamsHelperService,
     readonly querySpace:IsolatedQuerySpace,
     readonly apiV3Service:ApiV3Service,
@@ -166,7 +168,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
     const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
 
-    let queryId:string|undefined;
+    let queryId:string|null = null;
     if (this.urlParams.query_id) {
       queryId = this.urlParams.query_id as string;
     }
@@ -191,7 +193,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
         .find({ perPage: 0 }, queryId)
         .toPromise();
 
-      queryProps = this.urlParamsHelper.encodeQueryJsonParams(initialQuery, { pa: OpCalendarService.MAX_DISPLAYED });
+      queryProps = this.urlParamsHelper.encodeQueryJsonParams(
+        initialQuery,
+        { pp: OpCalendarService.MAX_DISPLAYED, pa: 1 },
+      );
     } else if (this.initializingWithQueryProps) {
       // This is the case on initially loading the calendar with query_props present in the url params.
       // There might also be a query_id but the settings persisted in it are overwritten by the props.
@@ -205,13 +210,17 @@ export class OpCalendarService extends UntilDestroyedMixin {
         this.querySpace.query.value as QueryResource,
         (props) => ({
           ...props,
-          pa: OpCalendarService.MAX_DISPLAYED,
+          pp: OpCalendarService.MAX_DISPLAYED,
+          pa: 1,
           f: [
             ...props.f.filter((filter) => filter.n !== 'datesInterval'),
             OpCalendarService.dateFilter(startDate, endDate),
           ],
         }),
       );
+
+      // There are no query props, ensure that they are not being shown the next load
+      this.wpListChecksumService.set(queryId, queryProps);
     }
 
     return this

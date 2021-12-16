@@ -96,7 +96,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:string|null, checksum:string|null) {
+  public set(id:string|null, checksum:string|null) {
     this.id = id;
     this.checksum = checksum;
   }
@@ -145,8 +145,8 @@ export class WorkPackagesListChecksumService {
     return this.UrlParamsHelper.encodeQueryJsonParams(
       query,
       {
-        pa: pagination.page,
         pp: pagination.perPage,
+        pa: pagination.page,
       },
     );
   }

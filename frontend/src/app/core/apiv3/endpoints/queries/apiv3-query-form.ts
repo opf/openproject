@@ -75,7 +75,7 @@ export class ApiV3QueryForm extends ApiV3FormResource<QueryFormResource> {
    * @param projectIdentifier
    * @param payload
    */
-  public loadWithParams(params:{ [key:string]:unknown }, queryId:string|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
+  public loadWithParams(params:{ [key:string]:unknown }, queryId:string|null|undefined, projectIdentifier:string|undefined|null, payload:any = {}):Observable<[QueryFormResource, QueryResource]> {
     // We need a valid payload so that we
     // can check whether form saving is possible.
     // The query needs a name to be valid.

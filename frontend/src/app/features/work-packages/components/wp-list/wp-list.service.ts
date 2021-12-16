@@ -64,7 +64,7 @@ import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.ser
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 
 export interface QueryDefinition {
-  queryParams:{ query_id?:string, query_props?:string };
+  queryParams:{ query_id?:string|null, query_props?:string|null };
   projectIdentifier?:string;
 }
 
@@ -118,7 +118,7 @@ export class WorkPackagesListService {
    * @param queryParams
    * @param projectIdentifier
    */
-  private streamQueryRequest(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
+  private streamQueryRequest(queryParams:{ query_id?:string|null, query_props?:string|null }, projectIdentifier?:string):Observable<QueryResource> {
     const decodedProps = this.getCurrentQueryProps(queryParams);
     const queryData = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
     const stream = this
@@ -139,7 +139,7 @@ export class WorkPackagesListService {
    * Load a query.
    * The query is either a persisted query, identified by the query_id parameter, or the default query. Both will be modified by the parameters in the query_props parameter.
    */
-  public fromQueryParams(queryParams:{ query_id?:string, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
+  public fromQueryParams(queryParams:{ query_id?:string|null, query_props?:string }, projectIdentifier?:string):Observable<QueryResource> {
     this.queryRequests.clear();
     this.queryRequests.putValue({ queryParams, projectIdentifier });
 
@@ -153,7 +153,7 @@ export class WorkPackagesListService {
   /**
    * Get the current decoded query props, if any
    */
-  public getCurrentQueryProps(params:{ query_props?:string }):string|null {
+  public getCurrentQueryProps(params:{ query_props?:string|null }):string|null {
     if (params.query_props) {
       return decodeURIComponent(params.query_props);
     }
@@ -366,7 +366,7 @@ export class WorkPackagesListService {
     return this.querySpace.query.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string, projectIdentifier?:string|null):Promise<QueryResource> {
+  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string|null, projectIdentifier?:string|null):Promise<QueryResource> {
     this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
