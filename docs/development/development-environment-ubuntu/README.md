@@ -2,7 +2,7 @@
 
 To develop OpenProject a setup similar to that for using OpenProject in production is needed.
 
-This guide assumes that you have a Ubuntu 18.04 installation with administrative rights. This guide will work
+This guide assumes that you have a Ubuntu 20.04 installation with administrative rights. This guide will work
 analogous with all other distributions, but may require slight changes in the required packages. _Please, help us to extend this guide with information on other distributions should there be required changes._
 
 OpenProject will be installed with a PostgreSQL database.
