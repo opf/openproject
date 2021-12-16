@@ -142,7 +142,13 @@ export class WorkPackagesListChecksumService {
   }
 
   private getNewChecksum(query:QueryResource, pagination:WorkPackageViewPagination) {
-    return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
+    return this.UrlParamsHelper.encodeQueryJsonParams(
+      query,
+      {
+        pa: pagination.page,
+        pp: pagination.perPage,
+      },
+    );
   }
 
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {

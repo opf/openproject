@@ -35,10 +35,19 @@ import { Injectable } from '@angular/core';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { from, Observable, of } from 'rxjs';
+import {
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import { input } from 'reactivestates';
 import {
-  catchError, mapTo, mergeMap, share, switchMap, take,
+  catchError,
+  mapTo,
+  mergeMap,
+  share,
+  switchMap,
+  take,
 } from 'rxjs/operators';
 import {
   WorkPackageViewPaginationService,
@@ -163,8 +172,7 @@ export class WorkPackagesListService {
    * Reloads the current query and set the pagination to the first page.
    */
   public reloadQuery(query:QueryResource, projectIdentifier?:string):Observable<QueryResource> {
-    const pagination = { ...this.wpTablePagination.current, page: 1 };
-    const queryParams = this.UrlParamsHelper.encodeQueryJsonParams(query, pagination);
+    const queryParams = this.extractParamsFromQuery(query, { pa: 1 });
 
     this.queryRequests.clear();
     this.queryRequests.putValue({
@@ -177,6 +185,25 @@ export class WorkPackagesListService {
       .pipe(
         take(1),
       );
+  }
+
+  /**
+   * Extract a set of query params from the current query resource
+   * @param query The query to derive props from
+   * @param additional Additional props to append
+   */
+  public extractParamsFromQuery(
+    query:QueryResource,
+    additional:Record<string, unknown> = {},
+  ):string {
+    return this.UrlParamsHelper.encodeQueryJsonParams(
+      query,
+      {
+        pa: this.wpTablePagination.current.page,
+        pp: this.wpTablePagination.current.perPage,
+        ...additional,
+      },
+    );
   }
 
   /**

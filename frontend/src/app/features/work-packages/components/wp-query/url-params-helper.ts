@@ -33,8 +33,47 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { Injectable } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
-import { ApiV3Filter, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ApiV3Filter,
+  FilterOperator,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+
+export interface QueryPropsFilter {
+  n:string;
+  o:string
+  v:unknown[];
+}
+
+export interface QueryProps {
+  // Columns
+  c:string[];
+  // Sums enabled?
+  s?:boolean;
+  // Sort by criteria
+  t?:string;
+  // Group by criteria
+  g:string|null;
+  // Filters
+  f:QueryPropsFilter[];
+  // Hierarchies
+  hi:boolean;
+  // Highlighting mode
+  hl?:string;
+  // Highlighted attributes
+  hla?:string[];
+  // Display representation
+  dr?:string;
+  // Pagination
+  pa?:string|number;
+  pp?:string|number;
+
+  // Timeline options
+  tv?:boolean;
+  tzl?:string;
+  tll?:string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
@@ -68,85 +107,90 @@ export class UrlParamsHelperService {
     return parts.join('&');
   }
 
-  public encodeQueryJsonParams(query:QueryResource, additional:any = {}) {
-    let paramsData:any = {};
+  public encodeQueryJsonParams(
+    query:QueryResource,
+    extender?:Partial<QueryProps>|((paramsData:QueryProps) => QueryProps),
+  ):string {
+    const paramsData:QueryProps = {
+      c: query.columns.map((column) => column.id),
+      hi: !!query.showHierarchies,
+      g: _.get(query.groupBy, 'id', ''),
+      dr: query.displayRepresentation,
+      ...this.encodeSums(query),
+      ...this.encodeTimelineVisible(query),
+      ...this.encodeHighlightingMode(query),
+      ...this.encodeHighlightedAttributes(query),
+      ...this.encodeSortBy(query),
+      ...this.encodeFilters(query.filters),
+    };
 
-    paramsData = this.encodeColumns(paramsData, query);
-    paramsData = this.encodeSums(paramsData, query);
-    paramsData = this.encodeTimelineVisible(paramsData, query);
-    paramsData = this.encodeHighlightingMode(paramsData, query);
-    paramsData = this.encodeHighlightedAttributes(paramsData, query);
-    paramsData.hi = !!query.showHierarchies;
-    paramsData.g = _.get(query.groupBy, 'id', '');
-    paramsData = this.encodeSortBy(paramsData, query);
-    paramsData = this.encodeFilters(paramsData, query.filters);
-    paramsData.pa = additional.page;
-    paramsData.pp = additional.perPage;
-    paramsData.dr = query.displayRepresentation;
+    if (typeof extender === 'function') {
+      return JSON.stringify(extender(paramsData));
+    }
+
+    if (typeof extender === 'object') {
+      return JSON.stringify(_.merge(paramsData, extender));
+    }
 
     return JSON.stringify(paramsData);
   }
 
-  private encodeColumns(paramsData:any, query:QueryResource) {
-    paramsData.c = query.columns.map((column) => column.id);
-
-    return paramsData;
-  }
-
-  private encodeSums(paramsData:any, query:QueryResource) {
+  private encodeSums(query:QueryResource):Partial<QueryProps> {
     if (query.sums) {
-      paramsData.s = query.sums;
+      return { s: query.sums };
     }
-    return paramsData;
+
+    return {};
   }
 
-  private encodeHighlightingMode(paramsData:any, query:QueryResource) {
+  private encodeHighlightingMode(query:QueryResource):Partial<QueryProps> {
     if (query.highlightingMode && (isPersistedResource(query) || query.highlightingMode !== 'inline')) {
-      paramsData.hl = query.highlightingMode;
+      return { hl: query.highlightingMode };
     }
-    return paramsData;
+
+    return {};
   }
 
-  private encodeHighlightedAttributes(paramsData:any, query:QueryResource) {
+  private encodeHighlightedAttributes(query:QueryResource):Partial<QueryProps> {
     if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
-        paramsData.hla = query.highlightedAttributes.map((el) => el.id);
+        return { hla: query.highlightedAttributes.map((el) => el.id as string) };
       }
     }
-    return paramsData;
+
+    return {};
   }
 
-  private encodeSortBy(paramsData:any, query:QueryResource) {
+  private encodeSortBy(query:QueryResource):Partial<QueryProps> {
     if (query.sortBy) {
-      paramsData.t = query
-        .sortBy
-        .map((sort:QuerySortByResource) => sort.id!.replace('-', ':'))
-        .join();
+      return {
+        t: query
+          .sortBy
+          .map((sort:QuerySortByResource) => (sort.id as string).replace('-', ':'))
+          .join(),
+      };
     }
-    return paramsData;
+
+    return {};
   }
 
-  public encodeFilters(paramsData:any, filters:QueryFilterInstanceResource[]) {
+  public encodeFilters(filters:QueryFilterInstanceResource[]):Pick<QueryProps, 'f'> {
     if (filters && filters.length > 0) {
-      paramsData.f = filters
-        .map((filter:any) => {
-          const { id } = filter;
+      const filterProps:QueryPropsFilter[] = filters.map((filter) => ({
+        n: filter.id,
+        o: filter.operator.id,
+        v: filter.values.map((value:HalResource|string) => this.queryFilterValueToParam(value)),
+      }));
 
-          const operator = filter.operator.id;
-
-          return {
-            n: id,
-            o: operator,
-            v: _.map(filter.values, (v) => this.queryFilterValueToParam(v)),
-          };
-        });
-    } else {
-      paramsData.f = [];
+      return { f: filterProps };
     }
-    return paramsData;
+
+    return { f: [] };
   }
 
-  private encodeTimelineVisible(paramsData:any, query:QueryResource) {
+  private encodeTimelineVisible(query:QueryResource):Partial<QueryProps> {
+    const paramsData:Partial<QueryProps> = {};
+
     if (query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
 
@@ -158,6 +202,7 @@ export class UrlParamsHelperService {
     } else {
       paramsData.tv = false;
     }
+
     return paramsData;
   }
 
@@ -282,25 +327,31 @@ export class UrlParamsHelperService {
     return _.extend(additionalParams, queryData);
   }
 
-  public queryFilterValueToParam(value:any) {
+  public queryFilterValueToParam(value:HalResource|string|boolean):string {
     if (typeof (value) === 'boolean') {
       return value ? 't' : 'f';
     }
 
     if (!value) {
       return '';
-    } if (value.id) {
-      return value.id.toString();
-    } if (value.href) {
-      return value.href.split('/').pop().toString();
     }
+
+    const halValue = value as HalResource;
+    if (halValue.id) {
+      return halValue.id.toString();
+    }
+    if (halValue.href) {
+      return halValue.href.split('/').pop() as string;
+    }
+
     return value.toString();
   }
 
   private buildV3GetColumnsFromQueryResource(query:QueryResource) {
     if (query.columns) {
       return query.columns.map((column:any) => column.id || idFromLink(column.href));
-    } if (query._links.columns) {
+    }
+    if (query._links.columns) {
       return query._links.columns.map((column:HalLink) => {
         const id = column.href!;
 
