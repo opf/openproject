@@ -310,6 +310,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
         this.dateFilter(startDate, endDate),
       ],
       pp: OpCalendarService.MAX_DISPLAYED,
+      pa: 1,
     };
 
     return JSON.stringify(props);

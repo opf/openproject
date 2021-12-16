@@ -217,6 +217,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       title: query.title,
       uiSref: this.baseRoute,
       uiParams: { query_id: idFromLink(query.href), query_props: '' },
+      uiOptions: { reload: true },
     };
   }
 

@@ -15,6 +15,7 @@ export interface IOpSidemenuItem {
   href?:string;
   uiSref?:string;
   uiParams?:unknown;
+  uiOptions?:unknown;
   children?:IOpSidemenuItem[];
   collapsible?:boolean;
 }
