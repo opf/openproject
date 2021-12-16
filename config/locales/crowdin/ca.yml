@@ -599,29 +599,29 @@ ca:
           at_least_one_custom_option: "Al menys hi ha d'haver una opció disponible."
         custom_actions:
           only_one_allowed: "(%{name}) sols és permès un valor."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          empty: "(%{name}) el valor no ser buit."
+          inclusion: "(%{name}) el valor no s'ha establert a un dels valors permesos."
+          not_logged_in: "(%{name}) no es pot establir el valor perquè no heu iniciat la sessió."
+          not_an_integer: "(%{name}) no és un enter."
+          smaller_than_or_equal_to: "(%{name}) ha de ser més petit o igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) ha de ser més gran o igual a %{count}."
           format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              fragment_present: 'no pot contenir un fragment.'
+              invalid_uri: 'ha de ser una URI vàlida.'
+              relative_uri: 'ha de ser una URI absoluta.'
+              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              forbidden_uri: 'és vetada pel servidor.'
             scopes:
-              not_match_configured: "doesn't match available scopes."
+              not_match_configured: "no coincideix amb els àmbits disponibles."
         enterprise_token:
-          unreadable: "can't be read. Are you sure it is a support token?"
+          unreadable: "no es pot llegir. Sou segurs de que és un token de suport?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'superposició.'
+          outside: 'és fora de la graella.'
+          end_before_start: 'el valor final ha de ser major que el valor inicial.'
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -640,8 +640,8 @@ ca:
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: "The operator is not supported."
-              invalid_values: "A value is invalid."
+              unsupported_operator: "L'operador no és suportat."
+              invalid_values: "Un valor és invàlid."
               id_filter_required: "An 'id' filter is required."
         project:
           archived_ancestor: 'The project has an archived ancestor.'
