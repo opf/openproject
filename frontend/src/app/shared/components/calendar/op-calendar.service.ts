@@ -158,6 +158,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
     fetchInfo:{ start:Date, end:Date, timeZone:string },
     projectIdentifier:string|undefined,
   ):Promise<unknown> {
+    if (this.areFiltersEmpty && this.querySpace.query.value) {
+      // nothing to do
+      return Promise.resolve();
+    }
+
     const startDate = moment(fetchInfo.start).format('YYYY-MM-DD');
     const endDate = moment(fetchInfo.end).format('YYYY-MM-DD');
 
@@ -198,16 +203,14 @@ export class OpCalendarService extends UntilDestroyedMixin {
     } else {
       queryProps = this.urlParamsHelper.encodeQueryJsonParams(
         this.querySpace.query.value as QueryResource,
-        (props) => {
-          return {
-            ...props,
-            pa: OpCalendarService.MAX_DISPLAYED,
-            f: [
-              ...props.f.filter((filter) => filter.n !== 'datesInterval'),
-              OpCalendarService.dateFilter(startDate, endDate),
-            ],
-          };
-        },
+        (props) => ({
+          ...props,
+          pa: OpCalendarService.MAX_DISPLAYED,
+          f: [
+            ...props.f.filter((filter) => filter.n !== 'datesInterval'),
+            OpCalendarService.dateFilter(startDate, endDate),
+          ],
+        }),
       );
     }
 
