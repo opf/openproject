@@ -56,6 +56,9 @@ export const IFC_ROUTES:Ng2StateDeclaration[] = [
     redirectTo: 'bim.partitioned.list',
     url: '',
     component: IFCViewerPageComponent,
+    data: {
+      bodyClasses: 'router--bim',
+    },
   },
   {
     name: 'bim.partitioned.list',
