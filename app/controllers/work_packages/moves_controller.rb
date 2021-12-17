@@ -42,37 +42,31 @@ class WorkPackages::MovesController < ApplicationController
   def create
     prepare_for_work_package_move
 
-    new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
-
-    result = ServiceResult.new success: true, result: true
-
-    @work_packages.each do |work_package|
-      work_package.reload
-
-      call_hook(:controller_work_packages_move_before_save,
-                params: params,
-                work_package: work_package,
-                target_project: @target_project,
-                copy: !!@copy)
-
-      service_call = WorkPackages::MoveService
-                     .new(work_package, current_user)
-                     .call(@target_project,
-                           new_type,
-                           copy: @copy,
-                           attributes: permitted_create_params,
-                           journal_note: @notes)
-
-      result.add_dependent!(service_call)
-    end
-
-    result.result = false if result.failure?
+    result = modify_call
 
     set_flash_from_bulk_work_package_save(@work_packages, result)
 
+    redirect_after_create(result)
+  end
+
+  private
+
+  def modify_call
+    klass = if @copy
+              WorkPackages::Bulk::CopyService
+            else
+              WorkPackages::Bulk::MoveService
+            end
+
+    klass
+      .new(user: current_user, work_packages: @work_packages)
+      .call(permitted_create_params)
+  end
+
+  def redirect_after_create(result)
     if params[:follow]
       if result.success? && @work_packages.size == 1
-        redirect_to work_package_path(@work_packages.first)
+        redirect_to work_package_path(result.dependent_results.first.result)
       else
         redirect_to project_work_packages_path(@target_project || @project)
       end
@@ -80,8 +74,6 @@ class WorkPackages::MovesController < ApplicationController
       redirect_back_or_default(project_work_packages_path(@project))
     end
   end
-
-  private
 
   def set_flash_from_bulk_work_package_save(work_packages, service_result)
     if service_result.success? && work_packages.any?
@@ -116,22 +108,6 @@ class WorkPackages::MovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
-
-    # When copying, avoid copying elements when any of their ancestors
-    # are in the set to be copied
-    if @copy
-      @work_packages = remove_hierarchy_duplicates
-    end
-  end
-
-  # Check if a parent work package is also selected for copying
-  def remove_hierarchy_duplicates
-    # Get all ancestors of the work_packages to copy
-    selected_ids = @work_packages.pluck(:id)
-
-    @work_packages.reject do |wp|
-      wp.ancestors.where(id: selected_ids).exists?
-    end
   end
 
   def permitted_create_params
@@ -144,6 +120,9 @@ class WorkPackages::MovesController < ApplicationController
               :version_id,
               :priority_id)
       .to_h
+      .merge(type_id: params[:new_type_id],
+             project_id: params[:new_project_id],
+             journal_notes: params[:notes])
       .reject { |_, v| v.blank? }
   end
 end

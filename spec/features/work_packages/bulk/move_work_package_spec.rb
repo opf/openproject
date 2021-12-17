@@ -146,9 +146,12 @@ describe 'Moving a work package through Rails view', js: true do
       expect(page)
         .to have_selector('.flash.error',
                           text: I18n.t('work_packages.bulk.could_not_be_saved'))
+
       expect(page)
-        .to have_selector('.flash.error',
-                          text: I18n.t('activerecord.errors.messages.error_readonly'))
+        .to have_selector(
+          '.flash.error',
+          text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
+        )
 
       expect(page)
         .to have_selector('.flash.error',

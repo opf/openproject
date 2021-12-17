@@ -45,6 +45,7 @@ describe 'Copy work packages through Rails view', js: true do
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { ::Components::WysiwygEditor.new }
 
   before do
     login_as current_user
@@ -73,8 +74,9 @@ describe 'Copy work packages through Rails view', js: true do
         expect(page).to have_select('Project', selected: 'Target')
       end
 
-      it 'sets the version on copy' do
+      it 'sets the version on copy and leaves a note' do
         select version.name, from: 'version_id'
+        notes.set_markdown 'A note on copy'
         click_on 'Copy and follow'
 
         wp_table.expect_work_package_count 2
@@ -88,24 +90,36 @@ describe 'Copy work packages through Rails view', js: true do
         copied_wps = WorkPackage.last(2)
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
         expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
+        expect(copied_wps.map { |wp| wp.journals.last.notes }.uniq).to eq(['A note on copy'])
       end
 
-      it 'moves parent and child wp to a new project' do
-        click_on 'Copy and follow'
+      context 'with a work package having a child' do
+        let!(:child) do
+          FactoryBot.create(:work_package,
+                            author: dev,
+                            project: project,
+                            type: type,
+                            parent: work_package)
+        end
 
-        expect_angular_frontend_initialized
-        wp_table.expect_work_package_count 2
-        expect(page).to have_selector('#projects-menu', text: 'Target')
+        it 'moves parent and child wp to a new project with the hierarchy amended' do
+          click_on 'Copy and follow'
 
-        # Should not move the sources
-        work_package2.reload
-        work_package.reload
-        expect(work_package.project_id).to eq(project.id)
-        expect(work_package2.project_id).to eq(project.id)
+          expect_angular_frontend_initialized
+          wp_table.expect_work_package_count 3
+          expect(page).to have_selector('#projects-menu', text: 'Target')
 
-        # Check project of last two created wps
-        copied_wps = WorkPackage.last(2)
-        expect(copied_wps.map(&:project_id)).to eq([project2.id, project2.id])
+          # Should not move the sources
+          expect(work_package.reload.project_id).to eq(project.id)
+          expect(work_package2.reload.project_id).to eq(project.id)
+
+          # Check project of last two created wps
+          copied_wps = WorkPackage.last(3)
+          expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
+
+          expect(project2.work_packages.find_by(subject: child.subject).parent)
+            .to eq project2.work_packages.find_by(subject: work_package.subject)
+        end
       end
 
       context 'when the target project does not have the type' do

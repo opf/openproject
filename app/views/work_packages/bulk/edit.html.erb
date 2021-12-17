@@ -171,8 +171,8 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
-      <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, class: 'wiki-edit', with_text_formatting: true %>
+      <%= label_tag 'work_package_journal_notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+      <%= styled_text_area_tag 'work_package[journal_notes]', @notes, class: 'wiki-edit', with_text_formatting: true %>
       <p><%= send_notification_option %></p>
     </fieldset>
   </section>

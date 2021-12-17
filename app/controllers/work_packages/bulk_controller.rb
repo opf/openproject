@@ -46,7 +46,7 @@ class WorkPackages::BulkController < ApplicationController
   def update
     @call = ::WorkPackages::Bulk::UpdateService
       .new(user: current_user, work_packages: @work_packages)
-      .call(params: params)
+      .call(attributes_for_update)
 
     if @call.success?
       flash[:notice] = t(:notice_successful_update)
@@ -88,8 +88,7 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
-    @assignables = possible_assignees
-    @responsibles = @assignables
+    @assignables = @responsibles = possible_assignees
     @types = @projects.map(&:types).inject(&:&)
   end
 
@@ -109,6 +108,17 @@ class WorkPackages::BulkController < ApplicationController
     @projects.inject(Principal.all) do |scope, project|
       scope.where(id: Principal.possible_assignee(project))
     end
+  end
+
+  def attributes_for_update
+    return {} unless params.has_key? :work_package
+
+    permitted_params
+      .update_work_package
+      .tap { |attributes| attributes[:custom_field_values]&.reject! { |_k, v| v.blank? } }
+      .reject { |_k, v| v.blank? }
+      .transform_values { |v| v == 'none' ? '' : v }
+      .to_h
   end
 
   def user

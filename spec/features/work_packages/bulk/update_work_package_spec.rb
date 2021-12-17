@@ -60,6 +60,7 @@ describe 'Bulk update work packages through Rails view', js: true do
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
   let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { ::Components::WysiwygEditor.new }
 
   before do
     login_as current_user
@@ -82,19 +83,21 @@ describe 'Bulk update work packages through Rails view', js: true do
         # On work packages edit page
         expect(page).to have_selector('#work_package_status_id')
         select status2.name, from: 'work_package_status_id'
+        notes.set_markdown('The typed note')
       end
 
-      it 'sets two statuses' do
+      it 'sets status and leaves a note' do
         click_on 'Submit'
 
         expect_angular_frontend_initialized
         wp_table.expect_work_package_count 2
 
         # Should update the status
-        work_package2.reload
-        work_package.reload
-        expect(work_package.status_id).to eq(status2.id)
-        expect(work_package2.status_id).to eq(status2.id)
+        expect([work_package.reload.status_id, work_package2.reload.status_id].uniq)
+          .to eq([status2.id])
+
+        expect([work_package.journals.last.notes, work_package2.journals.last.notes].uniq)
+          .to eq(['The typed note'])
       end
 
       context 'when making an error in the form' do
