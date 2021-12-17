@@ -44,8 +44,7 @@ class WorkPackages::MovesController < ApplicationController
 
     new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
 
-    unsaved_work_packages = {}
-    moved_work_packages = []
+    result = ServiceResult.new success: true, result: true
 
     @work_packages.each do |work_package|
       work_package.reload
@@ -64,20 +63,16 @@ class WorkPackages::MovesController < ApplicationController
                            attributes: permitted_create_params,
                            journal_note: @notes)
 
-      if service_call.success?
-        moved_work_packages << service_call.result
-      elsif @copy
-        unsaved_work_packages.concat dependent_error_ids(work_package.id, service_call)
-      else
-        unsaved_work_packages[work_package.id] = service_call.errors.full_messages
-      end
+      result.add_dependent!(service_call)
     end
 
-    set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_packages)
+    result.result = false if result.failure?
+
+    set_flash_from_bulk_work_package_save(@work_packages, result)
 
     if params[:follow]
-      if @work_packages.size == 1 && moved_work_packages.size == 1
-        redirect_to work_package_path(moved_work_packages.first)
+      if result.success? && @work_packages.size == 1
+        redirect_to work_package_path(@work_packages.first)
       else
         redirect_to project_work_packages_path(@target_project || @project)
       end
@@ -88,36 +83,18 @@ class WorkPackages::MovesController < ApplicationController
 
   private
 
-  def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_packages)
-    if unsaved_work_packages.empty? and not work_packages.empty?
+  def set_flash_from_bulk_work_package_save(work_packages, service_result)
+    if service_result.success? && work_packages.any?
       flash[:notice] = @copy ? I18n.t(:notice_successful_create) : I18n.t(:notice_successful_update)
     else
-      error_flash(work_packages.count,
-                  unsaved_work_packages)
-    end
-  end
-
-  ##
-  # When copying, add work package ids that are failing
-  def dependent_error_ids(parent_id, service_call)
-    ids = service_call
-      .results_with_errors(include_self: false)
-      .map { |result| result.state.copied_from_work_package_id }
-      .compact
-
-    if ids.present?
-      joined = ids.map { |id| "##{id}" }.join(" ")
-      ["#{parent_id} (+ children errors: #{joined})"]
-    else
-      [parent_id]
+      error_flash(work_packages,
+                  service_result)
     end
   end
 
   def default_breadcrumb
     I18n.t(:label_move_work_package)
   end
-
-  private
 
   # Check if project is unique before bulk operations
   def check_project_uniqueness

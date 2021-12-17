@@ -51,16 +51,13 @@ module WorkPackages
       private
 
       def bulk_update(params)
-        saved = []
-        errors = {}
+        result = ServiceResult.new success: true, result: true
 
         work_packages.each do |work_package|
           # As updating one work package might have already saved another one,
           # e.g. by changing the start/due date or the version
           # we need to reload the work packages to avoid running into stale object errors.
           work_package.reload
-
-          work_package.add_journal(user, params[:notes])
 
           # filter parameters by whitelist and add defaults
           attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
@@ -71,14 +68,12 @@ module WorkPackages
                          .new(user: user, model: work_package)
                          .call(**attributes.symbolize_keys)
 
-          if service_call.success?
-            saved << work_package.id
-          else
-            errors[work_package.id] = service_call.errors.full_messages
-          end
+          result.add_dependent!(service_call)
         end
 
-        ServiceResult.new success: errors.empty?, result: saved, errors: errors
+        result.result = false if result.failure?
+
+        result
       end
 
       # TODO: move params transformation out of here as this is not the responsibility of a service
@@ -87,10 +82,10 @@ module WorkPackages
 
         safe_params = permitted_params.update_work_package project: project
         attributes = safe_params.reject { |_k, v| v.blank? }
-        attributes.keys.each do |k|
+        attributes.each_key do |k|
           attributes[k] = '' if attributes[k] == 'none'
         end
-        attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
+        attributes[:custom_field_values]&.reject! { |_k, v| v.blank? }
         attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
         attributes.to_h
       end

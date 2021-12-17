@@ -366,8 +366,10 @@ en:
 
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
-      none_could_be_saved: "None of the selected %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the selected %{total} work packages could not be updated while %{success} could."
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
 
 
     move:

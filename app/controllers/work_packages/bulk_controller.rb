@@ -52,7 +52,7 @@ class WorkPackages::BulkController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
     else
-      error_flash(@work_packages.count, @call.errors)
+      error_flash(@work_packages, @call)
       setup_edit
       render action: :edit
     end

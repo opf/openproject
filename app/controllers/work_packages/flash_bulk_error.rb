@@ -34,8 +34,10 @@ module WorkPackages::FlashBulkError
   included do
     private
 
-    def error_flash(total, errored)
-      flash[:error] = render_to_string partial: 'work_packages/bulk/errors', locals: { errors: errored, total: total }
+    def error_flash(selected_work_packages, service_result)
+      flash[:error] = render_to_string partial: 'work_packages/bulk/errors',
+                                       locals: { service_result: service_result,
+                                                 selected_work_packages: selected_work_packages }
     end
   end
 end
