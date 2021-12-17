@@ -112,7 +112,7 @@ class WorkPackages::MovesController < ApplicationController
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
-    @available_versions = @target_project.shared_versions.order_by_semver_name
+    @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
