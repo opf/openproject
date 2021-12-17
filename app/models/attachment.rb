@@ -285,6 +285,19 @@ class Attachment < ApplicationRecord
     end
   end
 
+  ##
+  # Deletes locally cached files. This is mostly relevant for remote attachments
+  # but would also apply for local attachments if things such as carrierwave
+  # filters were used.
+  #
+  # @param age_in_seconds [Integer] Delete all cached files older than this many seconds.
+  def self.clean_cached_files!(age_in_seconds: 60 * 60 * 24)
+    uploader = OpenProject::Configuration.file_uploader
+    cache_storage = uploader.cache_storage
+
+    cache_storage.new(uploader.new).clean_cache! age_in_seconds
+  end
+
   def pending_direct_upload?
     digest == "" && downloads == -1
   end
