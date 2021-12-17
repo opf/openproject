@@ -95,6 +95,9 @@ See COPYRIGHT and LICENSE files for more details.
         }
       });
     };
+    jQuery("#bim_ifc_models_ifc_model_is_default").change(function(e){
+      setDirectUploadFileName();
+    });
     jQuery("input[type=file]").change(function(e){
       setDirectUploadFileName();
 
