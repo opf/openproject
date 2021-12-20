@@ -40,18 +40,14 @@ module API
         self.to_eager_load = ::API::V3::Projects::ProjectRepresenter.to_eager_load
         self.checked_permissions = ::API::V3::Projects::ProjectRepresenter.checked_permissions
 
-        def initialize(represented, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
-          super
-
-          @represented = ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(represented)
-        end
-
         links :representations do
           [
             representation_format_csv,
             representation_format_xls
           ]
         end
+
+        protected
 
         def representation_format(format, mime_type:)
           {
@@ -70,6 +66,10 @@ module API
         def representation_format_csv
           representation_format 'csv',
                                 mime_type: 'text/csv'
+        end
+
+        def paged_models(models)
+          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(super)
         end
       end
     end
