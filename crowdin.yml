@@ -8,19 +8,11 @@
 "preserve_hierarchy": false
 files: [
   {
-    "source": "config/locales/en.yml",
-    "translation": "config/locales/crowdin/%two_letters_code%.yml",
+    "source": "/**/config/locales/en.yml",
+    "translation": "/**/config/locales/crowdin/%two_letters_code%.yml",
   },
   {
-    "source": "config/locales/js-en.yml",
-    "translation": "config/locales/crowdin/js-%two_letters_code%.yml",
+    "source": "/**/config/locales/js-en.yml",
+    "translation": "/**/config/locales/crowdin/js-%two_letters_code%.yml",
   },
-  {
-    "source": "modules/*/config/locales/en.yml",
-    "translation": "config/locales/crowdin/%two_letters_code%.yml",
-  },
-  {
-    "source": "modules/*/config/locales/js-en.yml",
-    "translation": "config/locales/crowdin/js-%two_letters_code%.yml",
-  }
 ]
