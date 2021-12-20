@@ -310,10 +310,6 @@ platforms :mri, :mingw, :x64_mingw do
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-gem 'openproject-translations',
-    git: 'https://github.com/opf/openproject-translations.git',
-    branch: 'dev'
-
 # Load Gemfile.modules explicitly to allow dependabot to work
 eval_gemfile './Gemfile.modules'
 
