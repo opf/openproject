@@ -25,16 +25,6 @@ GIT
     omniauth-openid_connect-providers (0.2.0)
       omniauth-openid-connect (>= 0.2.1)
 
-GIT
-  remote: https://github.com/opf/openproject-translations.git
-  revision: 6ce2c62dbfe751aee9fa212fb1768784c42dea81
-  branch: dev
-  specs:
-    openproject-translations (7.4.0)
-      crowdin-api (~> 0.6.0)
-      mixlib-shellout (~> 2.1.0)
-      rubyzip
-
 PATH
   remote: modules/auth_plugins
   specs:
@@ -360,8 +350,6 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    crowdin-api (0.6.0)
-      rest-client (~> 2.0)
     daemons (1.4.1)
     dalli (3.1.3)
     danger (8.4.2)
@@ -616,7 +604,6 @@ GEM
     mini_portile2 (2.6.1)
     minisyntax (0.2.5)
     minitest (5.15.0)
-    mixlib-shellout (2.1.0)
     msgpack (1.4.2)
     multi_json (1.15.0)
     multipart-post (2.1.1)
@@ -1064,7 +1051,6 @@ DEPENDENCIES
   openproject-reporting!
   openproject-team_planner!
   openproject-token (~> 2.2.0)
-  openproject-translations!
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
