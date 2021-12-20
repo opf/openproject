@@ -1,7 +1,7 @@
 <%
   erroneous_results = service_result.results_with_errors(include_self: false)
   error_count = erroneous_results.count
-  total_count = service_result.dependent_results.count
+  total_count = service_result.dependent_results.map(&:result).uniq.count
   selected_count = selected_work_packages.count
 %>
 
