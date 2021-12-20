@@ -195,26 +195,6 @@ class RepositoriesController < ApplicationController
     end
   end
 
-  def is_entry_text_data?(ent, path)
-    # UTF-16 contains "\x00".
-    # It is very strict that file contains less than 30% of ascii symbols
-    # in non Western Europe.
-    return true if OpenProject::MimeType.is_type?('text', path)
-    # Ruby 1.8.6 has a bug of integer divisions.
-    # http://apidock.com/ruby/v1_8_6_287/String/is_binary_data%3F
-    if ent.respond_to?('is_binary_data?') && ent.is_binary_data? # Ruby 1.8.x and <1.9.2
-      return false
-    elsif ent.respond_to?(:force_encoding) &&
-          (ent.dup.force_encoding('UTF-8') != ent.dup.force_encoding('BINARY')) # Ruby 1.9.2
-      # TODO: need to handle edge cases of non-binary content that isn't UTF-8
-      return false
-    end
-
-    true
-  end
-
-  private :is_entry_text_data?
-
   def annotate
     @entry = @repository.entry(@path, @rev)
 
@@ -468,7 +448,7 @@ class RepositoriesController < ApplicationController
   def raw_or_to_large_or_non_text(content, path)
     params[:format] == 'raw' ||
       (content.size && content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
-      !is_entry_text_data?(content, path)
+      !entry_text_data?(content, path)
   end
 
   def send_raw(content, path)
@@ -504,6 +484,15 @@ class RepositoriesController < ApplicationController
     end
 
     diff_type
+  end
+
+  def entry_text_data?(ent, path)
+    # UTF-16 contains "\x00".
+    # It is very strict that file contains less than 30% of ascii symbols
+    # in non Western Europe.
+    # TODO: need to handle edge cases of non-binary content that isn't UTF-8
+    OpenProject::MimeType.is_type?('text', path) ||
+      ent.dup.force_encoding('UTF-8') == ent.dup.force_encoding('BINARY')
   end
 end
 
