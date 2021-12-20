@@ -1,4 +1,4 @@
-name: "Core/JS-CodeQL"
+name: codeql
 
 on:
   pull_request:

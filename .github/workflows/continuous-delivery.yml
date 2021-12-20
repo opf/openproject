@@ -1,4 +1,4 @@
-name: Core/CD
+name: continuous-delivery
 on:
   push:
     branches:
