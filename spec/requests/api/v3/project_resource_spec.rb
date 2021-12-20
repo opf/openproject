@@ -200,7 +200,27 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
-    context 'filtering for project by ancestor' do
+    context 'with a pageSize and offset' do
+      let(:projects) { [project, project2, project3] }
+      let(:project2) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+      let(:project3) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, sort_by: { id: :asc }, page_size: 2, offset: 2
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 1, 'Project' do
+        let(:elements) { [project3] }
+      end
+    end
+
+    context 'when filtering for project by ancestor' do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
