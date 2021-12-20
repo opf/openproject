@@ -43,6 +43,7 @@
       [attr.data-qa-selector]="'op-sidemenu--item-action--' + item.title.split(' ').join('')"
       [uiSref]="item.uiSref"
       [uiParams]="item.uiParams"
+      [uiOptions]="item.uiOptions"
     >
       <ng-container *ngTemplateOutlet="itemTemplate; context: { item }"></ng-container>
     </a>

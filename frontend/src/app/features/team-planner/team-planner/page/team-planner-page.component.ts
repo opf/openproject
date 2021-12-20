@@ -108,9 +108,6 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
    * @protected
    */
   protected loadInitialQuery():void {
-    const queryId = this.uiRouterGlobals.params.queryId as string|null;
-    if (queryId) {
-      super.loadInitialQuery();
-    }
+    // We never load the initial query as the calendar service does all that.
   }
 }

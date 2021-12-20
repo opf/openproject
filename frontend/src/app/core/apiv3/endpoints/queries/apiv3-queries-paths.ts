@@ -74,7 +74,7 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    * @param queryId
    * @param projectIdentifier
    */
-  public find(queryData:Object, queryId?:string, projectIdentifier?:string|null|undefined):Observable<QueryResource> {
+  public find(queryData:Object, queryId?:string|null, projectIdentifier?:string|null|undefined):Observable<QueryResource> {
     let path:string;
 
     if (queryId) {
