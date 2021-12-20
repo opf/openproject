@@ -259,14 +259,7 @@ class RepositoriesController < ApplicationController
                 type: 'text/x-patch',
                 disposition: 'attachment'
     else
-      @diff_type = params[:type] || User.current.pref[:diff_type] || 'inline'
-      @diff_type = 'inline' unless %w(inline sbs).include?(@diff_type)
-
-      # Save diff type as user preference
-      if User.current.logged? && @diff_type != User.current.pref[:diff_type]
-        User.current.pref[:diff_type] = @diff_type
-        User.current.preference.save
-      end
+      @diff_type = diff_type_persisted
 
       @cache_key = "repositories/diff/#{@repository.id}/" +
                    Digest::MD5.hexdigest("#{@path}-#{@rev}-#{@rev_to}-#{@diff_type}")
@@ -496,6 +489,21 @@ class RepositoriesController < ApplicationController
     # Forcing html format here to avoid
     # rails looking for e.g text when .txt is asked for
     render 'entry', formats: [:html]
+  end
+
+  def diff_type_persisted
+    preferences = current_user.pref
+
+    diff_type = params[:type] || preferences.diff_type
+    diff_type = 'inline' unless %w(inline sbs).include?(diff_type)
+
+    # Save diff type as user preference
+    if current_user.logged? && diff_type != preferences.diff_type
+      preferences.diff_type = diff_type
+      preferences.save
+    end
+
+    diff_type
   end
 end
 
