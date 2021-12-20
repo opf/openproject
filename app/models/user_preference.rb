@@ -85,6 +85,10 @@ class UserPreference < ApplicationRecord
     comments_sorting == 'desc'
   end
 
+  def diff_type
+    settings.fetch(:diff_type, 'inline')
+  end
+
   def hide_mail
     settings.fetch(:hide_mail, true)
   end
