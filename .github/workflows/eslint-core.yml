@@ -5,6 +5,7 @@ on:
       - dev
       - release/*
     paths:
+      - '**.html'
       - '**.js'
       - '**.ts'
 
