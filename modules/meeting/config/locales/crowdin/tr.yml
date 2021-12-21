@@ -38,7 +38,7 @@ tr:
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
   description_attended: "katıldı"
-  description_invite: "davet"
+  description_invite: "davet et"
   events:
     meeting: Toplantı düzenlendi
     meeting_agenda: Düzenlenen toplantı gündem
@@ -61,8 +61,8 @@ tr:
   label_notify: "Gözden geçirilmek üzere gönder"
   label_icalendar: "Takvime gönder"
   label_version: "Sürüm"
-  label_time_zone: "Zaman dilimi"
-  label_start_date: "Başlangıç tarihi"
+  label_time_zone: "Saat dilim"
+  label_start_date: "Başlama tarihi"
   meeting:
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Bildirim başarıyla gönderildi"

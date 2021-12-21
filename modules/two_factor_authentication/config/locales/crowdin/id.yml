@@ -3,7 +3,7 @@ id:
   activerecord:
     attributes:
       two_factor_authentication/device:
-        identifier: 'Pengenal'
+        identifier: 'Pengidentifikasi'
         default: 'Digunakan sebagai standar'
       two_factor_authentication/device/sms:
         phone_number: "Nomor telepon"
@@ -27,7 +27,7 @@ id:
     error_invalid_backup_code: 'Kode cadangan 2FA tidak valid'
     channel_unavailable: "%{channel} saluran pengiriman tidak tersedia."
     no_valid_phone_number: "Nomor telepon tidak ada."
-    label_pwd_confirmation: "Password"
+    label_pwd_confirmation: "Kata Sandi"
     notice_pwd_confirmation: "Anda perlu mengkonfirmasi password saat melakukan perubahan pada pengaturan ini."
     label_device_type: "Tipe perangkat"
     label_default_device: "Default 2FA perangkat"
@@ -135,7 +135,7 @@ id:
     restdt:
       delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
     strategies:
-      totp: 'Aplikasi Authenticator'
+      totp: 'Otentikasi aplikasi'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
     mobile_transmit_notification: "Kata sandi satu-kali telah dikirim ke ponsel Anda."
@@ -159,7 +159,7 @@ id:
   notice_account_has_no_phone: "Tidak ada nomor ponsel ini dikaitkan dengan akun Anda."
   label_expiration_hint: "%{date} atau logout"
   label_actions: 'Tindakan'
-  label_confirmed: 'Confirmed'
+  label_confirmed: 'Dikonfirmasi'
   button_continue: 'Lanjutkan'
   button_make_default: 'Tandai sebagai default'
   label_unverified_phone: "Ponsel yang belum diverifikasi"

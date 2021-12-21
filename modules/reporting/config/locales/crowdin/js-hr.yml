@@ -22,5 +22,5 @@
 hr:
   js:
     reporting_engine:
-      label_remove: "Obriši"
+      label_remove: "Izbriši"
       label_response_error: "Dogodila se pogreška prilikom obrade upita."

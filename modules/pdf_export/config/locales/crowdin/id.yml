@@ -27,7 +27,7 @@ id:
   label_export_card_configuration_new: "Konfigurasi kartu ekspor baru"
   label_export_card_configuration: "Konfigurasi kartu ekspor"
   label_export_card_configuration_plural: "Konfigurasi kartu ekspor"
-  label_export_card_activate: "Aktifkan"
+  label_export_card_activate: "Aktif"
   label_export_card_deactivate: "De-activate"
   notice_export_card_configuration_activated: "Config successfully activated"
   notice_export_card_configuration_deactivated: "Config successfully de-activated"

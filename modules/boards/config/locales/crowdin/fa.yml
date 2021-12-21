@@ -1,0 +1,8 @@
+#English strings go here
+fa:
+  permission_show_board_views: "مشاهده تابلو ها"
+  permission_manage_board_views: "مدیریت تابلو ها"
+  project_module_board_view: "Boards"
+  boards:
+    label_board: "Board"
+    label_boards: "Boards"

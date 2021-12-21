@@ -72,7 +72,7 @@ ru:
     story: "История"
     story_points: "Исторические точки"
     story_points_ideal: "Точки истории (идеал)"
-    task: "Задание"
+    task: "Задача"
     task_color: "Цвет задачи"
     unassigned: "Нераспределенные"
     x_more: "Еще %{count}..."
@@ -132,7 +132,7 @@ ru:
   label_stories_tasks: "Истории/задачи"
   label_task_board: "Панель задач"
   label_version_setting: "Версии"
-  label_version: 'Стадия'
+  label_version: 'Версия'
   label_webcal: "Лента Webcal"
   label_wiki: "Wiki"
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"
@@ -157,5 +157,5 @@ ru:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Колонка в бэклоге"
   version_settings_display_option_left: "влево"
-  version_settings_display_option_none: "Ничего"
+  version_settings_display_option_none: "нет"
   version_settings_display_option_right: "вправо"

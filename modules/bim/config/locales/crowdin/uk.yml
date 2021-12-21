@@ -15,7 +15,7 @@ uk:
       file_invalid: "BCF файл недоступний "
     x_bcf_issues:
       zero: 'Немає проблем BCF'
-      one: 'One BCF issue'
+      one: 'Одна проблема BCF'
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF файл XML'

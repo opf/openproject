@@ -20,7 +20,7 @@ tr:
     bcf_xml:
       xml_file: 'BCF XML Dosyası'
       import_title: 'İçeri Aktar'
-      export: 'Dışarı aktar'
+      export: 'ihracat'
       import_update_comment: '(BCF ithalatında güncellendi)'
       import_failed: 'BCF dosyası alınamıyor: %{error}'
       import_failed_unsupported_bcf_version: 'BCF dosyası okunamadı: BCF sürümü desteklenmiyor. Lütfen sürümün en az  %{minimal_version} veya daha yüksek olduğundan emin olun.'

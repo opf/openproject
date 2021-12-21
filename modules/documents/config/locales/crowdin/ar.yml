@@ -29,8 +29,8 @@ ar:
   enumeration:
     document_category:
       documentation: التوثيق
-      specification: مواصفات
-      other: اخرى
+      specification: المواصفة
+      other: أخرى
   documents:
     label_attachment_author: "مؤلف مرفق"
   label_document_added: "تم إضافة وثيقة"

@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  activerecord:
+    attributes:
+      work_package:
+        position: "crwdns493487:0crwdne493487:0"
+        remaining_hours: "crwdns493489:0crwdne493489:0"
+        remaining_time: "crwdns493491:0crwdne493491:0"
+        story_points: "crwdns493493:0crwdne493493:0"
+        backlogs_work_package_type: "crwdns493495:0crwdne493495:0"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "crwdns493497:0crwdne493497:0"
+              must_block_at_least_one_work_package: "crwdns493499:0crwdne493499:0"
+            parent_id:
+              parent_child_relationship_across_projects: "crwdns493501:0%{work_package_name}crwdne493501:0"
+              type_must_be_one_of_the_following: "crwdns493503:0%{type_names}crwdne493503:0"
+            version_id:
+              task_version_must_be_the_same_as_story_version: "crwdns493505:0crwdne493505:0"
+        sprint:
+          cannot_end_before_it_starts: "crwdns493507:0crwdne493507:0"
+  backlogs:
+    add_new_story: "crwdns493509:0crwdne493509:0"
+    any: "crwdns493511:0crwdne493511:0"
+    backlog_settings: "crwdns493513:0crwdne493513:0"
+    burndown_graph: "crwdns493515:0crwdne493515:0"
+    card_paper_size: "crwdns493517:0crwdne493517:0"
+    chart_options: "crwdns493519:0crwdne493519:0"
+    close: "crwdns493521:0crwdne493521:0"
+    column_width: "crwdns493523:0crwdne493523:0"
+    date: "crwdns493525:0crwdne493525:0"
+    definition_of_done: "crwdns493527:0crwdne493527:0"
+    generating_chart: "crwdns493529:0crwdne493529:0"
+    hours: "crwdns493531:0crwdne493531:0"
+    impediment: "crwdns493533:0crwdne493533:0"
+    label_versions_default_fold_state: "crwdns493535:0crwdne493535:0"
+    work_package_is_closed: "crwdns493537:0crwdne493537:0"
+    label_is_done_status: "crwdns493539:0%{status_name}crwdne493539:0"
+    no_burndown_data: "crwdns493541:0crwdne493541:0"
+    points: "crwdns493543:0crwdne493543:0"
+    positions_could_not_be_rebuilt: "crwdns493545:0crwdne493545:0"
+    positions_rebuilt_successfully: "crwdns493547:0crwdne493547:0"
+    properties: "crwdns493549:0crwdne493549:0"
+    rebuild: "crwdns493551:0crwdne493551:0"
+    rebuild_positions: "crwdns493553:0crwdne493553:0"
+    remaining_hours: "crwdns493555:0crwdne493555:0"
+    remaining_hours_ideal: "crwdns493557:0crwdne493557:0"
+    show_burndown_chart: "crwdns493559:0crwdne493559:0"
+    story: "crwdns493561:0crwdne493561:0"
+    story_points: "crwdns493563:0crwdne493563:0"
+    story_points_ideal: "crwdns493565:0crwdne493565:0"
+    task: "crwdns493567:0crwdne493567:0"
+    task_color: "crwdns493569:0crwdne493569:0"
+    unassigned: "crwdns493571:0crwdne493571:0"
+    x_more: "crwdns493573:0%{count}crwdne493573:0"
+  backlogs_active: "crwdns493575:0crwdne493575:0"
+  backlogs_any: "crwdns493577:0crwdne493577:0"
+  backlogs_card_specification: "crwdns493579:0crwdne493579:0"
+  backlogs_inactive: "crwdns493581:0crwdne493581:0"
+  backlogs_points_burn_direction: "crwdns493583:0crwdne493583:0"
+  backlogs_product_backlog: "crwdns493585:0crwdne493585:0"
+  backlogs_product_backlog_is_empty: "crwdns493587:0crwdne493587:0"
+  backlogs_product_backlog_unsized: "crwdns493589:0crwdne493589:0"
+  backlogs_sizing_inconsistent: "crwdns493591:0crwdne493591:0"
+  backlogs_sprint_notes_missing: "crwdns493593:0crwdne493593:0"
+  backlogs_sprint_unestimated: "crwdns493595:0crwdne493595:0"
+  backlogs_sprint_unsized: "crwdns493597:0crwdne493597:0"
+  backlogs_sprints: "crwdns493599:0crwdne493599:0"
+  backlogs_story: "crwdns493601:0crwdne493601:0"
+  backlogs_story_type: "crwdns493603:0crwdne493603:0"
+  backlogs_task: "crwdns493605:0crwdne493605:0"
+  backlogs_task_type: "crwdns493607:0crwdne493607:0"
+  backlogs_velocity_missing: "crwdns493609:0crwdne493609:0"
+  backlogs_velocity_varies: "crwdns493611:0crwdne493611:0"
+  backlogs_wiki_template: "crwdns493613:0crwdne493613:0"
+  backlogs_empty_title: "crwdns493615:0crwdne493615:0"
+  backlogs_empty_action_text: "crwdns493617:0crwdne493617:0"
+  button_edit_wiki: "crwdns493619:0crwdne493619:0"
+  error_backlogs_task_cannot_be_story: "crwdns493621:0crwdne493621:0"
+  error_intro_plural: "crwdns493623:0crwdne493623:0"
+  error_intro_singular: "crwdns493625:0crwdne493625:0"
+  error_outro: "crwdns493627:0crwdne493627:0"
+  event_sprint_description: "crwdns493629:0%{summary}crwdnd493629:0%{url}crwdnd493629:0%{description}crwdne493629:0"
+  event_sprint_summary: "crwdns493631:0%{project}crwdnd493631:0%{summary}crwdne493631:0"
+  ideal: "crwdns493633:0crwdne493633:0"
+  inclusion: "crwdns493635:0crwdne493635:0"
+  label_back_to_project: "crwdns493637:0crwdne493637:0"
+  label_backlog: "crwdns493639:0crwdne493639:0"
+  label_backlogs: "crwdns493641:0crwdne493641:0"
+  label_backlogs_unconfigured: "crwdns493643:0%{administration}crwdnd493643:0%{plugins}crwdnd493643:0%{configure}crwdne493643:0"
+  label_blocks_ids: "crwdns493645:0crwdne493645:0"
+  label_burndown: "crwdns493647:0crwdne493647:0"
+  label_column_in_backlog: "crwdns493649:0crwdne493649:0"
+  label_hours: "crwdns493651:0crwdne493651:0"
+  label_work_package_hierarchy: "crwdns493653:0crwdne493653:0"
+  label_master_backlog: "crwdns493655:0crwdne493655:0"
+  label_not_prioritized: "crwdns493657:0crwdne493657:0"
+  label_points: "crwdns493659:0crwdne493659:0"
+  label_points_burn_down: "crwdns493661:0crwdne493661:0"
+  label_points_burn_up: "crwdns493663:0crwdne493663:0"
+  label_product_backlog: "crwdns493665:0crwdne493665:0"
+  label_select_all: "crwdns493667:0crwdne493667:0"
+  label_sprint_backlog: "crwdns493669:0crwdne493669:0"
+  label_sprint_cards: "crwdns493671:0crwdne493671:0"
+  label_sprint_impediments: "crwdns493673:0crwdne493673:0"
+  label_sprint_name: "crwdns493675:0%{name}crwdne493675:0"
+  label_sprint_velocity: "crwdns493677:0%{velocity}crwdnd493677:0%{sprints}crwdnd493677:0%{days}crwdne493677:0"
+  label_stories: "crwdns493679:0crwdne493679:0"
+  label_stories_tasks: "crwdns493681:0crwdne493681:0"
+  label_task_board: "crwdns493683:0crwdne493683:0"
+  label_version_setting: "crwdns493685:0crwdne493685:0"
+  label_version: 'crwdns493687:0crwdne493687:0'
+  label_webcal: "crwdns493689:0crwdne493689:0"
+  label_wiki: "crwdns493691:0crwdne493691:0"
+  permission_view_master_backlog: "crwdns493693:0crwdne493693:0"
+  permission_view_taskboards: "crwdns493695:0crwdne493695:0"
+  permission_select_done_statuses: "crwdns493697:0crwdne493697:0"
+  permission_update_sprints: "crwdns493699:0crwdne493699:0"
+  points_accepted: "crwdns493701:0crwdne493701:0"
+  points_committed: "crwdns493703:0crwdne493703:0"
+  points_resolved: "crwdns493705:0crwdne493705:0"
+  points_to_accept: "crwdns493707:0crwdne493707:0"
+  points_to_resolve: "crwdns493709:0crwdne493709:0"
+  project_module_backlogs: "crwdns493711:0crwdne493711:0"
+  rb_label_copy_tasks: "crwdns493713:0crwdne493713:0"
+  rb_label_copy_tasks_all: "crwdns493715:0crwdne493715:0"
+  rb_label_copy_tasks_none: "crwdns493717:0crwdne493717:0"
+  rb_label_copy_tasks_open: "crwdns493719:0crwdne493719:0"
+  rb_label_link_to_original: "crwdns493721:0crwdne493721:0"
+  remaining_hours: "crwdns493723:0crwdne493723:0"
+  required_burn_rate_hours: "crwdns493725:0crwdne493725:0"
+  required_burn_rate_points: "crwdns493727:0crwdne493727:0"
+  todo_work_package_description: "crwdns493729:0%{summary}crwdnd493729:0%{url}crwdnd493729:0%{description}crwdne493729:0"
+  todo_work_package_summary: "crwdns493731:0%{type}crwdnd493731:0%{summary}crwdne493731:0"
+  version_settings_display_label: "crwdns493733:0crwdne493733:0"
+  version_settings_display_option_left: "crwdns493735:0crwdne493735:0"
+  version_settings_display_option_none: "crwdns493737:0crwdne493737:0"
+  version_settings_display_option_right: "crwdns493739:0crwdne493739:0"

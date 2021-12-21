@@ -16,7 +16,7 @@ vi:
     x_bcf_issues:
       zero: 'Không có vấn đề BCF'
       one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      other: '%{count} vấn đề trong BCF'
     bcf_xml:
       xml_file: 'Tệp BCF XML'
       import_title: 'Nhập'

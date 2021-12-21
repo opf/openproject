@@ -1,0 +1,40 @@
+#English strings go here
+zh-TW:
+  label_avatar: "頭像分身"
+  label_avatar_plural: "Avatars"
+  label_current_avatar: "目前頭像"
+  label_choose_avatar: "選擇頭像"
+  message_avatar_uploaded: "大頭照上傳成功。"
+  error_image_upload: "儲存頭像時發生錯誤"
+  error_image_size: "圖片太大。"
+  button_change_avatar: "變更個人資料相片"
+  are_you_sure_delete_avatar: "您確定要刪除您的頭像？"
+  avatar_deleted: "頭像刪除成功"
+  unable_to_delete_avatar: "頭像刪除失敗"
+  wrong_file_format: "允許的格式是jpg, png以及gif"
+  empty_file_error: "請上傳一個有效的圖片 （jpg, png, gif)"
+  avatars:
+    label_avatar: "頭像分身"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: '當前頭像'
+    label_local_avatar: '自定義頭像'
+    text_current_avatar: |
+      以下圖像顯示當前圖像。
+    text_upload_instructions: |
+      上傳您自己的 128 x 128 像素自定義頭像。 較大的文件將被調整大小和裁剪。
+      選擇了圖像後，在上傳之前將顯示您的頭像預覽。
+    text_change_gravatar_html: '欲為您的郵件地址更改或添加Gravatar, 請轉到%{gravatar_url}。'
+    text_your_local_avatar: |
+      OpenProject 允許你上傳自己定義的頭像
+    text_local_avatar_over_gravatar: |
+      如果你有設定，這個自己定義的頭像將會優先用於gravatar上方。
+    text_your_current_gravatar: |
+      如果你註冊了一個gravatar圖像，OpenProject將使用你的圖像；如果沒有則會使用既有預設的圖像或圖標。
+      目前的gravatar圖像如下：
+    settings:
+      enable_gravatars: '啟用使用者的圖像'
+      gravatar_default: "預設 Gravatar 圖片"
+      enable_local_avatars: '啟用使用者的客製化分身'
+
+
+

@@ -1,0 +1,38 @@
+#English strings go here
+th:
+  label_avatar: "รูปโปรไฟล์"
+  label_avatar_plural: "รูปโปรไฟล์"
+  label_current_avatar: "รูปปัจจุบัน"
+  label_choose_avatar: "เลือกรูปจากไฟล์"
+  message_avatar_uploaded: "เปลี่ยนรูปโปรไฟล์แล้ว"
+  error_image_upload: "ไม่สามารถบันทึกรูปได้"
+  error_image_size: "แฟ้มมีขนาดใหญ่เกินไป"
+  button_change_avatar: "เปลี่ยนรูปโปรไฟล์"
+  are_you_sure_delete_avatar: "คุณแน่ใจหรือไม่ว่าคุณต้องการลบรูปนี้?"
+  avatar_deleted: "ลบรูปโปรไฟล์สำเร็จ"
+  unable_to_delete_avatar: "ไม่สามารถลบรูปโปรไฟล์ได้"
+  wrong_file_format: "อนุญาติให้ใช้รูปภาพนามสุกล .jpg, .png, .gif"
+  empty_file_error: "กรุณาเลือกรูปภาพนามสุกล .jpg .png .gif"
+  avatars:
+    label_avatar: "รูปโปรไฟล์"
+    label_gravatar: 'รูปโปรไฟล์'
+    label_current_avatar: 'รูปปัจจุบัน'
+    label_local_avatar: 'เลือกรูปปัจจุบันเอง'
+    text_current_avatar: |
+      แสดงรูปโปรไฟล์ปัจจุบัน
+    text_upload_instructions: |
+      เลือกรูปขนาด 128 x 128 พิกเซลเท่านั้น รูปที่ใหญ่กว่านี้จะถูกลดขนาดและตัดให้พอดี แสดงรูปภาพโปรไฟล์ก่อนบันทึก
+    text_change_gravatar_html: 'ต้องการเปลี่ยนหรือเพิ่มรูปโปรไฟล์ได้ที่ %{gravatar_url}'
+    text_your_local_avatar: |
+      โอเพ่นโปรเจคอนุญาติให้บันทึกรูปโปรไฟล์ได้
+    text_local_avatar_over_gravatar: |
+      ถ้าคุณเลือกรูปโปรไพล์ รูปนี้จะถูกใช้แสดงอยู่ด้านบน
+    text_your_current_gravatar: |
+      โอเพ่นโปรเจคจะใช้รูปโปรไฟล์ของคุณถ้าคุณ(ถ้ามีการเลือกรูป) หรืออาจจะใช้รูปพื้นฐานแทน
+    settings:
+      enable_gravatars: 'แสดงรูปโปรไฟล์'
+      gravatar_default: "ค่าตั้งต้นของรูป Gravatar"
+      enable_local_avatars: 'แสดงรูปโปรไฟล์พื้นฐาน'
+
+
+

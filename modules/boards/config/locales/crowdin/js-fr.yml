@@ -22,7 +22,7 @@ fr:
         edit_version: 'Éditer la version'
         show_version: 'Afficher la version'
         locked: 'Verrouillé'
-        closed: 'Clôturé'
+        closed: 'Fermé'
       new_board: 'Nouveau tableau'
       add_list: 'Ajouter une liste au tableau'
       add_card: 'Ajouter une carte'
