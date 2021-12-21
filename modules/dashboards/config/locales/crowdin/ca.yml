@@ -1,5 +1,5 @@
 ca:
   dashboards:
     label: 'Tauler de control'
-    menu_badge: 'Alfa'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'Tauler de control'

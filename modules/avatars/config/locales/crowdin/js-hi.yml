@@ -1,0 +1,15 @@
+#English strings go here
+hi:
+  js:
+    label_preview: 'पूर्वावलोकन'
+    button_update: 'अद्यतन करें'
+    avatars:
+      label_choose_avatar: "फ़ाइल से अवतार चुनें"
+      uploading_avatar: "अवतार अपलोड कर रहा है"
+      text_upload_instructions: |
+        अपना व्यक्तिगत 128 x 128 पिक्सेल का अनुकूलित अवतार अपलोड करें। बड़ी फ़ाइलें आकार-परिवर्तन व काट-छांट द्वारा इस आकार में लाई जाएंगी।
+        अवतार के लिये चित्र के चुनाव के बाद, अपलोड से पहले उसका पूर्वावलोकन दिखाया जाएगा।
+      error_image_too_large: "चित्र अत्यधिक बड़ा है।"
+      wrong_file_format: "मान्य प्रकार हैं jpg, png, gif"
+      empty_file_error: "कृपया वैध चित्र अपलोड करें (jpg, png, gif)"
+

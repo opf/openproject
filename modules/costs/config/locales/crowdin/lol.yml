@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "crwdns520015:0crwdne520015:0"
+        overridden_costs: "crwdns520017:0crwdne520017:0"
+        spent: "crwdns520019:0crwdne520019:0"
+        spent_on: "crwdns520021:0crwdne520021:0"
+      cost_type:
+        unit: "crwdns520023:0crwdne520023:0"
+        unit_plural: "crwdns520025:0crwdne520025:0"
+      work_package:
+        costs_by_type: "crwdns520027:0crwdne520027:0"
+        labor_costs: "crwdns520029:0crwdne520029:0"
+        material_costs: "crwdns520031:0crwdne520031:0"
+        overall_costs: "crwdns520033:0crwdne520033:0"
+        spent_costs: "crwdns520035:0crwdne520035:0"
+        spent_units: "crwdns520037:0crwdne520037:0"
+      rate:
+        rate: "crwdns520039:0crwdne520039:0"
+      user:
+        default_rates: "crwdns520041:0crwdne520041:0"
+    models:
+      cost_type:
+        one: "crwdns520043:1crwdne520043:1"
+        other: "crwdns520043:5crwdne520043:5"
+      rate: "crwdns520045:0crwdne520045:0"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "crwdns520047:0%{id}crwdne520047:0"
+          nullify_is_not_valid_for_cost_entries: "crwdns520049:0crwdne520049:0"
+  attributes:
+    comment: "crwdns520051:0crwdne520051:0"
+    cost_type: "crwdns520053:0crwdne520053:0"
+    costs: "crwdns520055:0crwdne520055:0"
+    current_rate: "crwdns520057:0crwdne520057:0"
+    hours: "crwdns520059:0crwdne520059:0"
+    units: "crwdns520061:0crwdne520061:0"
+    valid_from: "crwdns520063:0crwdne520063:0"
+    fixed_date: "crwdns520065:0crwdne520065:0"
+  button_add_rate: "crwdns520067:0crwdne520067:0"
+  button_log_costs: "crwdns520069:0crwdne520069:0"
+  caption_booked_on_project: "crwdns520071:0crwdne520071:0"
+  caption_default: "crwdns520073:0crwdne520073:0"
+  caption_default_rate_history_for: "crwdns520075:0%{user}crwdne520075:0"
+  caption_locked_on: "crwdns520077:0crwdne520077:0"
+  caption_materials: "crwdns520079:0crwdne520079:0"
+  caption_rate_history: "crwdns520081:0crwdne520081:0"
+  caption_rate_history_for: "crwdns520083:0%{user}crwdne520083:0"
+  caption_rate_history_for_project: "crwdns520085:0%{user}crwdnd520085:0%{project}crwdne520085:0"
+  caption_save_rate: "crwdns520087:0crwdne520087:0"
+  caption_set_rate: "crwdns520089:0crwdne520089:0"
+  caption_show_locked: "crwdns520091:0crwdne520091:0"
+  description_date_for_new_rate: "crwdns520093:0crwdne520093:0"
+  group_by_others: "crwdns520095:0crwdne520095:0"
+  label_between: "crwdns520097:0crwdne520097:0"
+  label_cost_filter_add: "crwdns520099:0crwdne520099:0"
+  label_costlog: "crwdns520101:0crwdne520101:0"
+  label_cost_plural: "crwdns520103:0crwdne520103:0"
+  label_cost_type_plural: "crwdns520105:0crwdne520105:0"
+  label_cost_type_specific: "crwdns520107:0%{id}crwdnd520107:0%{name}crwdne520107:0"
+  label_costs_per_page: "crwdns520109:0crwdne520109:0"
+  label_currency: "crwdns520111:0crwdne520111:0"
+  label_currency_format: "crwdns520113:0crwdne520113:0"
+  label_current_default_rate: "crwdns520115:0crwdne520115:0"
+  label_date_on: "crwdns520117:0crwdne520117:0"
+  label_deleted_cost_types: "crwdns520119:0crwdne520119:0"
+  label_locked_cost_types: "crwdns520121:0crwdne520121:0"
+  label_display_cost_entries: "crwdns520123:0crwdne520123:0"
+  label_display_time_entries: "crwdns520125:0crwdne520125:0"
+  label_display_types: "crwdns520127:0crwdne520127:0"
+  label_edit: "crwdns520129:0crwdne520129:0"
+  label_generic_user: "crwdns520131:0crwdne520131:0"
+  label_greater_or_equal: "crwdns520133:0crwdne520133:0"
+  label_group_by: "crwdns520135:0crwdne520135:0"
+  label_group_by_add: "crwdns520137:0crwdne520137:0"
+  label_hourly_rate: "crwdns520139:0crwdne520139:0"
+  label_include_deleted: "crwdns520141:0crwdne520141:0"
+  label_work_package_filter_add: "crwdns520143:0crwdne520143:0"
+  label_kind: "crwdns520145:0crwdne520145:0"
+  label_less_or_equal: "crwdns520147:0crwdne520147:0"
+  label_log_costs: "crwdns520149:0crwdne520149:0"
+  label_no: "crwdns520151:0crwdne520151:0"
+  label_option_plural: "crwdns520153:0crwdne520153:0"
+  label_overall_costs: "crwdns520155:0crwdne520155:0"
+  label_rate: "crwdns520157:0crwdne520157:0"
+  label_rate_plural: "crwdns520159:0crwdne520159:0"
+  label_status_finished: "crwdns520161:0crwdne520161:0"
+  label_units: "crwdns520163:0crwdne520163:0"
+  label_user: "crwdns520165:0crwdne520165:0"
+  label_until: "crwdns520167:0crwdne520167:0"
+  label_valid_from: "crwdns520169:0crwdne520169:0"
+  label_yes: "crwdns520171:0crwdne520171:0"
+  notice_something_wrong: "crwdns520173:0crwdne520173:0"
+  notice_successful_restore: "crwdns520175:0crwdne520175:0"
+  notice_successful_lock: "crwdns520177:0crwdne520177:0"
+  notice_cost_logged_successfully: 'crwdns520179:0crwdne520179:0'
+  permission_edit_cost_entries: "crwdns520181:0crwdne520181:0"
+  permission_edit_own_cost_entries: "crwdns520183:0crwdne520183:0"
+  permission_edit_hourly_rates: "crwdns520185:0crwdne520185:0"
+  permission_edit_own_hourly_rate: "crwdns520187:0crwdne520187:0"
+  permission_edit_rates: "crwdns520189:0crwdne520189:0"
+  permission_log_costs: "crwdns520191:0crwdne520191:0"
+  permission_log_own_costs: "crwdns520193:0crwdne520193:0"
+  permission_view_cost_entries: "crwdns520195:0crwdne520195:0"
+  permission_view_cost_rates: "crwdns520197:0crwdne520197:0"
+  permission_view_hourly_rates: "crwdns520199:0crwdne520199:0"
+  permission_view_own_cost_entries: "crwdns520201:0crwdne520201:0"
+  permission_view_own_hourly_rate: "crwdns520203:0crwdne520203:0"
+  permission_view_own_time_entries: "crwdns520205:0crwdne520205:0"
+  project_module_costs: "crwdns520207:0crwdne520207:0"
+  text_assign_time_and_cost_entries_to_project: "crwdns520209:0crwdne520209:0"
+  text_destroy_cost_entries_question: "crwdns520211:0%{cost_entries}crwdne520211:0"
+  text_destroy_time_and_cost_entries: "crwdns520213:0crwdne520213:0"
+  text_destroy_time_and_cost_entries_question: "crwdns520215:0%{hours}crwdnd520215:0%{cost_entries}crwdne520215:0"
+  text_reassign_time_and_cost_entries: "crwdns520217:0crwdne520217:0"
+  text_warning_hidden_elements: "crwdns520219:0crwdne520219:0"
+  week: "crwdns520221:0crwdne520221:0"
+  js:
+    text_are_you_sure: "crwdns520223:0crwdne520223:0"

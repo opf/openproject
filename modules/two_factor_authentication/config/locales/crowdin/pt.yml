@@ -139,7 +139,7 @@ pt:
     restdt:
       delivery_failed_with_code: 'Falha ao entregar o token. (Código do erro %{code})'
     strategies:
-      totp: 'Aplicativo de autenticação'
+      totp: 'Aplicação autenticada'
       sns: 'SNS da Amazon'
       resdt: 'API Rest do SMS'
     mobile_transmit_notification: "Uma senha de uso único foi enviada para o seu celular."

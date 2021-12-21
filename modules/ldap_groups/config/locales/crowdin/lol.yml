@@ -1,0 +1,65 @@
+lol:
+  activerecord:
+    attributes:
+      ldap_groups/synchronized_group:
+        dn: 'crwdns520537:0crwdne520537:0'
+        auth_source: 'crwdns520539:0crwdne520539:0'
+        sync_users: 'crwdns520541:0crwdne520541:0'
+      ldap_groups/synchronized_filter:
+        filter_string: 'crwdns520543:0crwdne520543:0'
+        auth_source: 'crwdns520545:0crwdne520545:0'
+        group_name_attribute: "crwdns520547:0crwdne520547:0"
+        sync_users: 'crwdns520549:0crwdne520549:0'
+        base_dn: "crwdns520551:0crwdne520551:0"
+    models:
+      ldap_groups/synchronized_group: 'crwdns520553:0crwdne520553:0'
+      ldap_groups/synchronized_filter: 'crwdns520555:0crwdne520555:0'
+    errors:
+      models:
+        ldap_groups/synchronized_filter:
+          must_contain_base_dn: "crwdns520557:0crwdne520557:0"
+  ldap_groups:
+    label_menu_item: 'crwdns520559:0crwdne520559:0'
+    label_group_key: 'crwdns520561:0crwdne520561:0'
+    label_synchronize: 'crwdns520563:0crwdne520563:0'
+    settings:
+      name_attribute: 'crwdns520565:0crwdne520565:0'
+      name_attribute_text: 'crwdns520567:0crwdne520567:0'
+    synchronized_filters:
+      add_new: 'crwdns520569:0crwdne520569:0'
+      singular: 'crwdns520571:0crwdne520571:0'
+      plural: 'crwdns520573:0crwdne520573:0'
+      label_n_groups_found:
+        one: "crwdns520575:0crwdne520575:0"
+        other: "crwdns520577:0%{count}crwdne520577:0"
+        zero: "crwdns520579:0crwdne520579:0"
+      destroy:
+        title: 'crwdns520581:0%{name}crwdne520581:0'
+        confirmation: "crwdns520583:0%{name}crwdnd520583:0%{groups_count}crwdne520583:0"
+        removed_groups: "crwdns520585:0crwdne520585:0"
+        verification: "crwdns520587:0%{name}crwdne520587:0"
+      form:
+        group_name_attribute_text: 'crwdns520589:0crwdne520589:0'
+        filter_string_text: 'crwdns520591:0crwdne520591:0'
+        base_dn_text: >
+          crwdns520593:0crwdne520593:0
+    synchronized_groups:
+      add_new: 'crwdns520595:0crwdne520595:0'
+      destroy:
+        title: 'crwdns520597:0%{name}crwdne520597:0'
+        confirmation: "crwdns520599:0%{name}crwdnd520599:0%{users_count}crwdne520599:0"
+        info: "crwdns520601:0crwdne520601:0"
+        verification: "crwdns520603:0%{name}crwdne520603:0"
+      help_text_html: |
+        crwdns520605:0crwdne520605:0
+      no_results: 'crwdns520607:0crwdne520607:0'
+      no_members: 'crwdns520609:0crwdne520609:0'
+      plural: 'crwdns520611:0crwdne520611:0'
+      singular: 'crwdns520613:0crwdne520613:0'
+      form:
+        auth_source_text: 'crwdns520615:0crwdne520615:0'
+        sync_users_text: >
+          crwdns520617:0crwdne520617:0
+        dn_text: 'crwdns520619:0crwdne520619:0'
+        group_text: 'crwdns520621:0crwdne520621:0'
+

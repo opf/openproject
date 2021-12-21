@@ -1,5 +1,5 @@
 it:
   dashboards:
     label: 'Cruscotti'
-    menu_badge: 'Alfa'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'Cruscotti'

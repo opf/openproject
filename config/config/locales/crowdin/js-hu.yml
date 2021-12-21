@@ -1,0 +1,1169 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+hu:
+  js:
+    ajax:
+      hide: "Elrejt"
+      loading: "Betöltés folyamatban… ..."
+    attachments:
+      draggable_hint: |
+        Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
+    autocomplete_select:
+      placeholder:
+        multi: "\"%{name}\" hozzáadása"
+        single: "\"%{name}\" kiválasztása"
+      remove: "%{name} törlése"
+      active: "%{label} %{name} aktiválása"
+    backup:
+      attachments_disabled: "A mellékletek nem tartozhatnak bele, mivel meghaladják a megengedett maximális méretet. Ezt a konfiguráción keresztül módosíthatja (szerver újraindítását igényli).\n"
+      info: >
+        Itt indíthat biztonsági mentést. A folyamat a rendelkezésre álló adatmennyiségtől (különösen a mellékletektől) függően eltarthat egy ideig. Ha elkészült, kapni fog egy e -mailt.
+
+      note: >
+        Egy új biztonsági mentés felülír minden előzőt. Naponta csak korlátozott számú biztonsági mentés kérhető.
+
+      last_backup: 'Utolsó biztonsági mentés:'
+      last_backup_from: 'Legutóbbi biztonsági mentés: '
+      title: "Az OpenProject biztonsági mentése\n"
+      options: Beállítások
+      include_attachments: "Mellékletek csatolása\n"
+      download_backup: Biztonsági mentés letöltése
+      request_backup: Biztonsági mentés kérés
+    close_popup_title: "Előugró ablak bezárása"
+    close_filter_title: "Szűrő bezárása"
+    close_form_title: "Űrlap bezárása"
+    button_add_watcher: "Megfigyelő hozzáadása"
+    button_add: "Hozzáadás"
+    button_back: "Vissza"
+    button_back_to_list_view: "Vissza a lista nézethez"
+    button_cancel: "Mégsem"
+    button_close: "Bezár"
+    button_change_project: "Cseréld a projektet"
+    button_check_all: "Az összes kijelölése"
+    button_configure-form: "Űrlap beállítás"
+    button_confirm: "Jóváhagy"
+    button_continue: "Folytatás"
+    button_copy: "Másol"
+    button_custom-fields: "Választható mezők"
+    button_delete: "Törlés"
+    button_delete_watcher: "Megfigyelő törlése"
+    button_details_view: "Részletek megtekintése"
+    button_duplicate: "Másolás ide"
+    button_edit: "Szerkesztés"
+    button_filter: "Szűrő"
+    button_collapse_all: "Az összes bezárása"
+    button_expand_all: "Az összes kibontása"
+    button_advanced_filter: "Speciális szűrő"
+    button_list_view: "Lista nézet"
+    button_show_view: "Teljes képernyős nézet"
+    button_log_time: "Eltöltött idő rögzítése"
+    button_more: "További"
+    button_open_details: "Részletes nézet megnyitása"
+    button_close_details: "Részletes nézet bezárása"
+    button_open_fullscreen: "Teljes képernyős nézet"
+    button_show_cards: "Mutatsd a card nézetet"
+    button_show_list: "Mutatsd a lista nézetet"
+    button_quote: "Idéz"
+    button_save: "Mentés"
+    button_settings: "Beállítások"
+    button_uncheck_all: "Az összes kijelölés megszüntetése"
+    button_update: "Frissítés"
+    button_export-pdf: "PDF-fájl letöltése"
+    button_export-atom: "Atom letöltés"
+    button_create: "Létrehoz"
+    calendar:
+      title: 'Naptár'
+      too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
+    card:
+      add_new: 'Új kártya hozzáadása'
+      highlighting:
+        inline: "Kiemelés soron belül:\n"
+        entire_card_by: 'Egész sor alapján'
+      remove_from_list: 'Kártya eltávolítása a listából'
+    caption_rate_history: "Díj előzmények"
+    clipboard:
+      browser_error: "A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja a kijelölt szöveget manuálisan."
+      copied_successful: "A vágólapra másolás sikeres!"
+    chart:
+      type: 'Diagram típus'
+      axis_criteria: 'Tengely kritérium'
+      modal_title: 'Munkacsomag grafikon beállítás'
+      types:
+        line: 'vonal'
+        horizontal_bar: 'Vízszintes oszlop'
+        bar: "oszlop\n"
+        pie: 'pie'
+        doughnut: 'Fánk'
+        radar: 'Radar'
+        polar_area: 'Poláris terület'
+      tabs:
+        graph_settings: 'Általános'
+        dataset: 'Adatbeállítás %{number}'
+      errors:
+        could_not_load: 'A grafikon megjelenítéséhez szükséges adatokat nem lehetett betölteni. Hiányozhatnak a szükséges engedélyek.'
+    description_available_columns: "Elérhető oszlopok"
+    description_current_position: "Itt vagy:"
+    description_select_work_package: "Munkacsomag kiválasztás #%{id}"
+    description_selected_columns: "Oszlopok kiválasztása"
+    description_subwork_package: "Munkacsomag gyermeke #%{id}"
+    editor:
+      preview: 'Váltás az előnézeti módra'
+      source_code: 'Váltás Markdown forrás módra'
+      error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
+      ckeditor_error: "Hiba történt a CKEditorban\n"
+      mode:
+        manual: 'Váltás Markdown forrásra'
+        wysiwyg: 'Váltás a WYSIWYG szerkesztőre'
+      macro:
+        error: 'A makró nem bővíthető: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'Ezt a szövegrészt dinamikusan megjeleníti egy makró.'
+          not_found: 'A kért erőforrás nem található.'
+          invalid_attribute: "A kiválasztott \"%{name}\" attribútum nem létezik."
+        child_pages:
+          button: 'Gyermek kapcsolatok'
+          include_parent: 'Tartalmazza a szülőt'
+          text: '[Placeholder] Linkek a gyermek oldalra'
+          page: 'Wiki oldal'
+          this_page: 'ez az oldal'
+          hint: |
+            Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét vagy a sorközöket.
+        code_block:
+          button: 'Kódrészlet beszúrása'
+          title: 'Kódrészlet beszúrás / szerkesztés'
+          language: 'Formázási nyelvek'
+          language_hint: 'Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).'
+        dropdown:
+          macros: 'Makrók'
+          chose_macro: 'Makró választás'
+        toc: 'Tartalomjegyzék'
+        toolbar_help: 'Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez'
+        wiki_page_include:
+          button: 'Tartalmaz egy másik wiki oldal tartalmát'
+          text: '[Placeholder] tartalmazza a wiki oldalt'
+          page: 'Wiki oldal'
+          not_set: '(Nincs beállítva oldal)'
+          hint: |
+            Adja meg egy másik wiki oldal tartalmát annak címének vagy elérési út megadásával. A másik projekt wiki oldalát úgy is elhelyezheti, hogy elválasztja őket egy kettősponttal, mint a következő példa.
+        work_package_button:
+          button: 'Feladatcsoport létrehozása gomb beszúrása'
+          type: 'Feladatcsoport típusok'
+          button_style: 'Stílus gomb használata'
+          button_style_hint: 'Lehetőség: Ellenőrizze, hogy a makró gombként jelenik meg, nem pedig linkként.'
+          without_type: 'Feladatcsoport létrehozása'
+          with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
+        embedded_table:
+          button: 'Feladatcsoport táblázat beágyazás'
+          text: '[Placeholder] Beágyazott feladatcsoport táblázat'
+        embedded_calendar:
+          text: '[Placeholder] Beágyazott naptár'
+    admin:
+      type_form:
+        custom_field: 'Választható mező'
+        inactive: 'Inaktív'
+        drag_to_activate: "Innen húzza a mezőket, hogy aktiválja"
+        add_group: "Tulajdonságcsoport"
+        add_table: "Táblázat hozzáadása a kapcsolódó munkacsomagokhoz"
+        edit_query: 'Lekérdezés módosítása'
+        new_group: 'Új csoport'
+        reset_to_defaults: 'Alapbeállítások visszaállítása'
+      enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
+        trial:
+          confirmation: "E-mail cím megerősítése"
+          confirmation_info: >
+
+            E -mailt küldtünk Önnek %{date} dátummal: %{email}. Kérjük, ellenőrizze a postaládáját, és kattintson a megerősítő linkre a 14 napos próbaidőszak megkezdéséhez.
+          form:
+            general_consent: >
+              Elfogadom az <a target="_blank" href="%{link_terms}"> Általános Szerződési Feltételeket </a> és az <a target="_blank" href="%{link_privacy}"> adatvédelmi irányelveket </a >
+            invalid_email: "Érvénytelen e-mail cím"
+            label_company: "Cég"
+            label_first_name: "Keresztnév"
+            label_last_name: "Vezetéknév"
+            label_domain: "Domain"
+            label_subscriber: "Előfizető"
+            label_maximum_users: "Maximális aktív felhasználók"
+            label_starts_at: "Kezdés ideje:"
+            label_expires_at: "Lejárat ekkor"
+            receive_newsletter: Szeretném megkapni az OpenProject <a target="_blank" href="%{link}"> hírlevelét </a>.
+            taken_domain: Csak egy próbaverzió lehet aktív egy domainen
+            taken_email: Felhasználónkként csak egy próba verzió engedélyezett
+          email_not_received: "Nem kapott e -mailt? A jobb oldali linkkel újra elküldheti az e -mailt."
+          try_another_email: "Vagy próbálja meg egy másik e-mail címellel."
+          next_steps: "Következő lépések"
+          resend_link: "Újraküldés"
+          resend_success: "Az email újra kiküldve. Kérlek ellenőrizd az emaileket és kattints az aktiváló linkre"
+          resend_warning: "Az email újra küldése sikertelen"
+          session_timeout: "A munkamenet lejárt. Kérem töltse újra az oldalt vagy küldje újra az emailt"
+          status_label: "Állapot:"
+          status_confirmed: "megerősítve"
+          status_waiting: "email kiküldve - megerősítésre vár"
+          test_ee: "Tesztelje az Enterprise Verziót 14 napig ingyen"
+          quick_overview: "Gyors áttekintés a projekt menedzsmentről és csapatmunkáról az OpenProjecttel."
+        upsale:
+          become_hero: "Legyél egy hős!"
+          benefits:
+            description: "Milyen előnyökkel jár az Enterprise Edition?\n"
+            high_security: "Biztonsági szolgáltatások"
+            high_security_text: "Egyszeri bejelentkezés (SAML, OpenID Connect, CAS), kétfaktoros hitelesítés és az LDAP csoportok automatikus szinkronizálása"
+            installation: "Telepítési támogatás"
+            installation_text: "Tapasztalt szoftvermérnökök végigvezetik Önt a teljes telepítési és beállítási folyamaton saját infrastruktúrájában.\n"
+            premium_features: "Prémium funkciók"
+            premium_features_text: "Agilis táblák, egyedi téma és embléma, grafikonok, intelligens munkafolyamatok egyéni műveletekkel, teljes szövegű keresés a munkacsomag mellékletekhez és több kiválasztott egyéni mező."
+            professional_support: "Szakmai támogatás"
+            professional_support_text: "Megbízható támogatást kaphat a vezető támogató mérnököktől, akik szakértő ismeretekkel rendelkeznek az OpenProject futtatásáról üzleti szempontból kritikus környezetben."
+          button_start_trial: "Ingyenes próbaverzió kipróbálása"
+          button_book_now: "Foglalás most"
+          confidence: >
+            A tesztelt és támogatott vállalati szintű projektmenedzsment szoftver bizalmát nyújtjuk - nyílt forráskóddal és nyitott szemmel.
+          link_quote: "Árajánlat kérése"
+          text: >
+            Az OpenProject Enterprise Edition a Community Edition tetejére épül. Prémium funkciókat és professzionális támogatást tartalmaz, amelyek elsősorban olyan szervezeteknek szólnak, amelyek több mint 10 felhasználóval rendelkeznek, és amelyek az üzleti szempontból kritikus projekteket irányítják az OpenProject segítségével.
+
+          unlimited: "Korlátlan"
+          you_contribute: "A fejlesztőknek is fizetni kell a számláikat. A vállalati verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfeszítéseihez."
+    custom_actions:
+      date:
+        specific: 'be'
+        current_date: 'Aktuális dátum'
+    error:
+      internal: "Belső hiba történt."
+      cannot_save_changes_with_message: "A következő hiba miatt nem sikerült menteni a módosításokat: %{error}"
+      query_saving: "A nézetet nem sikerült menteni."
+      embedded_table_loading: "A beágyazott nézet betöltése nem sikerült: %{message}"
+    enumeration_activities: "Tevékenységek (időkövetés)"
+    enumeration_doc_categories: "Dokumentum kategóriák"
+    enumeration_work_package_priorities: "Feladatcsoport fontosság"
+    filter:
+      description:
+        text_open_filter: "A szűrő megnyitásához nyomja meg az \"ALT\" és a nyíl gombokat."
+        text_close_filter: "A bejegyzés kiválasztáshoz pl. nyomjon Entert. Kiválasztás elmulasztásához válassza az első bejegyzést."
+      noneElement: "(nincs)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} helyi idő szerint."
+        only_start: "%{from}-tól helyi idő szerint."
+        only_end: "%{to}-ig helyi idő szerint."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "Első rendezési feltétel"
+          two: "Második rendezési feltétel"
+          three: "Harmadik rendezési feltétel"
+      upsale_for_more: "A fejlettebb szűrők esetén nézze meg a"
+      upsale_link: 'Vállalati kiadás.'
+    general_text_no: "nem"
+    general_text_yes: "igen"
+    general_text_No: "Nem"
+    general_text_Yes: "Igen"
+    hal:
+      error:
+        update_conflict_refresh: "Kattintson ide, hogy a Feladatcsoportot legújabb verzióra történő frissítéséhez."
+        edit_prohibited: "A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból nem módosítható."
+        format:
+          date: "A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak."
+        general: "Hiba történt."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Itt találhatóak az új funkciók és a frissítések"
+          learn_about: "Tudjon meg többet az új funkciókról"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+    label_activate: "Aktivál"
+    label_add_column_after: "Oszlop hozzáadása utána"
+    label_add_column_before: "Oszlop hozzáadása előtte"
+    label_add_columns: "Oszlopok hozzáadása"
+    label_add_comment: "Megjegyzés hozzáadása"
+    label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
+    label_add_row_after: "Sor hozzáadása utána"
+    label_add_row_before: "Sor hozzáadása előtte"
+    label_add_selected_columns: "A kiválasztott oszlopok hozzáadása"
+    label_added_by: "Hozzáadta"
+    label_added_time_by: "Hozzáadta: <a href=%{authorLink}>%{author} </a>,%{age}"
+    label_ago: "nappal ezelőtt"
+    label_all: "mind"
+    label_all_work_packages: "minden feladatcsoport"
+    label_and: "és"
+    label_ascending: "Növekvő"
+    label_author: "Szerző: %{user}"
+    label_avatar: "Profilkép"
+    label_between: "között"
+    label_board: "Tábla"
+    label_board_locked: "Zárolt"
+    label_board_plural: "Táblák"
+    label_board_sticky: "Kiemelt"
+    label_change: "Változtat"
+    label_create: "Létrehoz"
+    label_create_work_package: "Új munkacsomag létrehozása"
+    label_created_by: "Létrehozta"
+    label_date: "dátum"
+    label_date_with_format: "Adja meg a %{date_attribute}, a következő formátumban: %{format}"
+    label_deactivate: "Kikapcsol"
+    label_descending: "Csökkenő"
+    label_description: "Leírás"
+    label_details: "Részletek"
+    label_display: "Megjelenítés"
+    label_cancel_comment: "Megjegyzés törlése"
+    label_closed_work_packages: "lezárt"
+    label_collapse: "Collapse"
+    label_collapsed: "összecsukott"
+    label_collapse_all: "Az összes bezárása"
+    label_comment: "Vélemény"
+    label_committed_at: "%{committed_revision_link}: %{date}"
+    label_committed_link: "végrehajtott változat %{revision_identifier}"
+    label_contains: "tartalmaznak"
+    label_created_on: "létrehozva"
+    label_edit_comment: "Hozzászólás szerkesztése"
+    label_edit_status: "A feladatcsoport állapotának módosítása"
+    label_email: "Email"
+    label_equals: "van"
+    label_expand: "Kibont"
+    label_expanded: "kibontott"
+    label_expand_all: "Az összes kibontása"
+    label_expand_project_menu: "Project menü kibontása"
+    label_export: "Exportálás"
+    label_export_preparing: "Az exportálás előkészítés alatt áll, és hamarosan letöltésre kerül."
+    label_filename: "File"
+    label_filesize: "Méret"
+    label_general: "Általános"
+    label_global_roles: "Globális szerepek"
+    label_greater_or_equal: ">="
+    label_group: 'Csoport'
+    label_group_by: "Csoportosítás a következők szerint"
+    label_group_plural: "Csoportok"
+    label_hide_attributes: "Kevesebb mutatása"
+    label_hide_column: "Oszlop elrejtése"
+    label_hide_project_menu: "Projekt menü összecsukás"
+    label_in: "in"
+    label_in_less_than: "kevesebb, mint"
+    label_in_more_than: "több mint"
+    label_incoming_emails: "Bejövő e-mailek"
+    label_information_plural: "Információk"
+    label_import: "Importálás"
+    label_latest_activity: "Utolsó aktivitás"
+    label_last_updated_on: "Utolsó frissítés"
+    label_learn_more_link: "További információ"
+    label_less_or_equal: "<="
+    label_less_than_ago: "kevesebb, nappal ezelött"
+    label_loading: "Betöltés..."
+    label_mail_notification: "Email értesítés"
+    label_me: "Nekem"
+    label_meeting_agenda: "Napirend"
+    label_meeting_minutes: "Jegyzőkönyv"
+    label_menu_collapse: "összecsuk"
+    label_menu_expand: "kibont"
+    label_more_than_ago: "több, nappal ezelőtt"
+    label_next: " Következő"
+    label_no_color: "Nincs szín"
+    label_no_data: "Nincs megjelenítendő adat"
+    label_no_due_date: "nincs befejezési dátum"
+    label_no_start_date: "nincs kezdő dátuma"
+    label_no_value: "Nincs érték"
+    label_none: "Egyik sem"
+    label_not_contains: "nem tartalmaz"
+    label_not_equals: "nem"
+    label_on: "be"
+    label_open_menu: "Menü megnyitása"
+    label_open_context_menu: "Context menü megnyitása"
+    label_open_work_packages: "nyitott"
+    label_password: "Jelszó"
+    label_previous: "Korábbi"
+    label_per_page: "Oldalanként:"
+    label_please_wait: "Kérem várjon"
+    label_project_plural: "Projektek"
+    label_visibility_settings: "Láthatósági beállítások"
+    label_quote_comment: "Hozzászólás idézése"
+    label_recent: "Friss"
+    label_reset: "Visszaállít, reset"
+    label_remove: "Eltávolítás"
+    label_remove_column: "Oszlop eltávolítása"
+    label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
+    label_remove_row: "Sor eltávolítása"
+    label_report: "Jelentés"
+    label_repository_plural: "Csomagtárolók"
+    label_save_as: "Mentés másként"
+    label_select_watcher: "Megfigyelők választása..."
+    label_selected_filter_list: "Szűrők választása"
+    label_show_attributes: "Minden attribútum megjelenítése"
+    label_show_in_menu: "Nézet megjelenítése a Menüben"
+    label_sort_by: "Rendezés a következő szerint"
+    label_sorted_by: "rendezve"
+    label_sort_higher: "Mozgatás felfelé"
+    label_sort_lower: "Mozgás lefelé"
+    label_sorting: "Rendezés"
+    label_spent_time: "Eltöltött idő"
+    label_star_query: "Kedvenc"
+    label_press_enter_to_save: "Nyomjon Entert a mentéshez"
+    label_public_query: "Nyilvános"
+    label_sum: "Össz."
+    label_sum_for: "Összeg"
+    label_total_sum: "Teljes összeg:"
+    label_subject: "Tárgy"
+    label_this_week: "ezen a héten"
+    label_today: "Ma"
+    label_time_entry_plural: "Eltöltött idő"
+    label_up: "Fel"
+    label_user_plural: "Felhasználók"
+    label_activity_show_only_comments: "Hozzászólással rendelkező tevékenységek mutatása"
+    label_activity_show_all: "Minden tevékenység mutatása"
+    label_total_progress: "%{percent}% a teljes folyamatban"
+    label_total_amount: "Teljes: %{amount}"
+    label_updated_on: "frissítve"
+    label_value_derived_from_children: "(érték származik a gyermekektől)"
+    label_children_derived_duration: "A munkacsomag gyermekeinek időtartama"
+    label_warning: "Figyelem"
+    label_work_package: "Feladatcsoport"
+    label_work_package_parent: "Szülő munkacsomag"
+    label_work_package_plural: "Munkacsomagok"
+    label_watch: "Megfigyelés"
+    label_watch_work_package: "Megfigyelő munkacsomag"
+    label_watcher_added_successfully: "Megfigyelő sikeresen hozzáadva!"
+    label_watcher_deleted_successfully: "Megfigyelő sikeresen törölve!"
+    label_work_package_details_you_are_here: "Te a %{tab} lapon %{type} %{subject}."
+    label_unwatch: "Megfigyelés leállítása"
+    label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
+    label_uploaded_by: "Által feltöltött"
+    label_default_queries: "Alapértelmezett nézetek"
+    label_starred_queries: "Kedvenc nézetek"
+    label_global_queries: "Publikus nézetek"
+    label_custom_queries: "Privát nézetek"
+    label_columns: "Oszlopok"
+    label_attachments: Fájlok
+    label_drop_files: Húzza a fájlokat ide
+    label_drop_files_hint: vagy kattintson a fájlok hozzáadásához
+    label_drop_folders_hint: Nem tölthet fel mappákat mellékletként. Válasszon egyetlen fájlt.
+    label_add_attachments: "Melléklet hozzáadása"
+    label_formattable_attachment_hint: "Fájl hozzárendelése mellékletként a fájl \"ideejtésével\" vagy vágólapról beillesztésével."
+    label_remove_file: "%{fileName} törlése"
+    label_remove_watcher: "Megfigyelő törlése: %{name}"
+    label_remove_all_files: Összes fájl törlése
+    label_add_description: "Adjon meg leírást a %{file} fájlhoz"
+    label_upload_notification: "Fájl feltöltése folyamatban"
+    label_work_package_upload_notification: "Fájlok feltöltése a #%{id}: %{subject} feladatcsoporthoz"
+    label_wp_id_added_by: "%{id} hozzáadva %{author} által"
+    label_files_to_upload: "Ezek a fájlok kerülnek feltöltésre:"
+    label_rejected_files: "Ezeket a fájlokat nem lehet felölteni:"
+    label_rejected_files_reason: "Ezeket a fájlokat nem lehet feltölteni, mert a méretük nagyobb, mint %{maximumFilesize}"
+    label_wait: "Kérem, várjon a konfigurációra..."
+    label_upload_counter: "%{done}/%{count} fájl feltöltve"
+    label_validation_error: "A feladatcsoport a következő hibák miatt nem menthető:"
+    label_version_plural: "Verzió"
+    label_view_has_changed: "Ez a nézet nem mentett változtatásokat tartalmaz. Kattintson a mentéshez."
+    help_texts:
+      show_modal: 'Attribútum-súgószöveg mutatása'
+    onboarding:
+      buttons:
+        skip: 'Kihagyás'
+        next: ' Következő'
+        got_it: 'Rendben'
+      steps:
+        help_menu: "A Súgó (?) Menü <b> további súgóforrásokat </b> tartalmaz. Itt megtalálhatja a felhasználói útmutatót, valamint hasznos útmutatókat és egyebeket. <br> Élvezze munkáját az OpenProject segítségével!\n"
+        members: 'Új <b>tagok</b> meghívása, hogy a projekthez csatlakozzanak.'
+        project_selection: 'Kérjük, válasszon egyet a projektek közül, amelyek használható példa adatokat tartalmaznak az induláshoz. <br> A <b> Demo projekt </b> a legjobban megfelel a klasszikus projektmenedzsmentnek, míg a <b> Scrum projekt </b> jobb az agilis projektmenedzsment számára.'
+        quick_add_button: 'Kattintson a fejlécben található (+) ikonra hogy   <b>create a new project</b> vagy  <b>invite coworkers</b>.'
+        sidebar_arrow: "Használja a vissza nyilat bal felül hogy visszatérjen a projektekhez <b>main menu</b>.."
+        welcome: 'Áldozzon három percet erre a bemutatóra, hogy megismerje a <b>legfontosabb szolgáltatásokat</b><br> Javasoljuk, hogy végezze el a lépéseket egészen a végéig. A túra bármikor újraindítható.'
+        wiki: 'A <b>Wiki</b> modulban tudását dokumentálhatja és megoszthatja a csapatával.'
+        backlogs:
+          overview: "Munka kezelése a <b>backlogs</b>  nézetben"
+          sprints: "Jobbra a termék- és a hibatár, balra pedig a megfelelő sprintek. Itt létrehozhatsz <b>képeket, felhasználói történeteket és hibákat</b>, drag & drop segítségével priorizálhatsz, és hozzáadhatod őket egy sprinthez.\n"
+          task_board_arrow: 'A <b>Feladatlap</b> megjelenítéséhez nyissa meg a Sprint legördülő listát...'
+          task_board_select: '... és válassza ki a <b>Feladatlap</b> bejegyzést.'
+          task_board: "A feladattábla megjeleníti <b> a sprint haladását </b>. Új feladatok vagy akadályok hozzáadásához kattintson a felhasználói történet melletti plusz (+) ikonra. <br> Az állapot húzással frissíthető.\n"
+        boards:
+          overview: "Válassza a <b>táblák</b> lehetőséget a nézetváltáshoz, és kezelje projektjét az agilis táblák nézetben.\n"
+          lists: "Itt több listát (oszlopot) hozhat létre a táblán belül. Ezzel a funkcióval például <b> Kanban táblát </b> hozhat létre.\n"
+          add: "Kattintson a plusz (+) ikonra, ha <b> új kártyát szeretne létrehozni </b>, vagy <b> hozzáadni egy meglévő kártyát </b> a táblán lévő listához.\n"
+          drag: 'Egy adott listán belül húzza a kártyákat, hogy átrendezze őket, vagy áthelyezze őket egy másik listába. <br> A jobb felső sarokban található információs (i) ikonra kattintva vagy egy kártyára duplán kattintva megnyithatja annak részleteit.'
+        wp:
+          toggler: "Most vessünk egy pillantást a <b>Feladatcsoport</b> kiválasztására, amely részletesebb képet ad a munkáról."
+          list: "Ez a <b> munkacsomag  </b> áttekintés a projekt összes munkájának listáját tartalmazza, például feladatokat, mérföldköveket, fázisokat és egyebeket. <br> A munkacsomagok közvetlenül ebből a nézetből hozhatók létre és szerkeszthetők. Egy adott munkacsomag részleteinek eléréséhez egyszerűen kattintson duplán a sorára.\n"
+          full_view: "A <b> munkacsomag részleteit </b> a nézet tartalmazza. Az adott munkacsomaggal kapcsolatos minden lényeges információt, például annak leírását, állapotát, prioritását, tevékenységeit, függőségeit és megjegyzéseit.\n"
+          back_button: "A bal felső sarokban lévő visszatérési nyíllal lépjen ki és térjen vissza a munkacsomagok listájához.\n"
+          create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
+          timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
+          timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
+    notifications:
+      title: "Értesítések"
+      no_unread: "Nincs olvasatlan értesítés"
+      reasons:
+        mentioned: 'megemlített'
+        watched: 'Megfigyelt'
+        assigned: 'assigned'
+        responsible: 'accountable'
+      facets:
+        unread: 'Olvasatlan'
+        all: 'Mind'
+      center:
+        and_more_users:
+          one: "és 1 másik\n"
+          other: 'és %{count} egyéb'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
+        mark_all_read: 'Mindegyik megjelölése olvasottként'
+        mark_as_read: 'Megjelölés olvasottként'
+        text_update_date: "%{date} szerint"
+        total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
+      menu:
+        accountable: 'Felelős'
+        assigned: 'Assigned'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Értesítési beállítások"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Beállítás hozzáadása a projekthez'
+          already_selected: 'A projekt már ki lett választva'
+          remove: 'Remove project settings'
+    password_confirmation:
+      field_description: 'A változás megerősítéséhez adja meg jelszavát.'
+      title: 'Adja meg a jelszavát a folytatáshoz'
+    pagination:
+      no_other_page: "Csak egyetlen oldalon tartózkodik."
+      pages:
+        next: "Ugrás a következő oldalra"
+        previous: "Vissza az előző oldalra"
+    placeholders:
+      default: '-'
+      subject: 'Itt adja meg a témát'
+      selection: 'Kérem válasszon'
+      relation_description: 'Kapcsolat leírásának hozzáadása ide kattintva'
+    project:
+      required_outside_context: >
+        Kérjük, válasszon egy projektet a munkacsomag létrehozásához az összes attribútum megtekintéséhez. Csak olyan projekteket választhat ki, amelyek aktiválták a fenti típust.
+
+      context: 'Projekt kontextus'
+      work_package_belongs_to: 'Ez a feladatcsoport a(z) %{projectname} nevű projekthez tartozik.'
+      click_to_switch_context: 'Munkacsomag megnyitása a projektben.'
+      confirm_template_load: "Ha megváltoztatja a sablont, az oldal újratöltődik, és elveszíti az összes űrlapon lévő adatot. Folytatni?\n"
+      use_template: "Sablon használata"
+      no_template_selected: "(Nincs)"
+      copy:
+        copy_options: "Másolási beállítás"
+      autocompleter:
+        label: 'Projektnevek automatikus kiegészítése'
+    reminders:
+      settings:
+        daily:
+          add_time: "Idő hozzáadása\n"
+          enable: "Napi e-mail emlékeztetők engedélyezése\n"
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Idő%{counter}:'
+          title: "Napi e-mail emlékeztető küldése az olvasatlan értesítésekről\n"
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'Hírek hozzáadva'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'Wiki oldal hozzáadva'
+          wiki_page_updated: 'Wiki oldal frissítve'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'E-mail emlékeztetők'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
+    text_are_you_sure: "Biztos vagy benne?"
+    text_data_lost: "Az összes adat elveszhet"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
+        error_no_table_configured: "Kérem konfigurálja a táblát a %{group}"
+        reset_title: "Űrlap konfiguráció visszaállítása"
+        confirm_reset: >
+          Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást? Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások elvesznek és MINDEN egyéni mező deaktiválódik.
+        upgrade_to_ee: "Frissítés a Vállalati Verzióra"
+        upgrade_to_ee_text: "Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna minket, \"nyiltforrású\" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk legyen?"
+        more_information: "További információ"
+        nevermind: "Mindegy"
+      edit:
+        form_configuration: "Ürlap beállítása"
+        projects: "Projektek"
+        settings: "Beállítások"
+    time_entry:
+      project: 'Projekt'
+      work_package: 'Feladatcsoport'
+      work_package_required: 'Először ki kell választania egy munkacsomagot.'
+      activity: 'Tevékenység'
+      comment: 'Vélemény'
+      duration: 'Időtartam'
+      spent_on: 'dátum'
+      hours: 'órák'
+      title: 'Eltöltött idő rögzítése'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Kétlépcsős hitelesítés'
+    watchers:
+      label_loading: megfigyelők betöltése...
+      label_error_loading: Hiba történt a megfigyelők betöltése közben
+      label_search_watchers: Megfigyelők keresése
+      label_add: Megfigyelő hozzáadása
+      label_discard: Kiválasztás elvetése
+      typeahead_placeholder: Lehetséges megfigyelők keresése
+    relation_labels:
+      parent: "Szülő"
+      children: "Gyermekek"
+      relates: "Kapcsolódóan"
+      duplicates: "Duplikátumok"
+      duplicated: "Duplikálta (a)z"
+      blocks: "Blokkolja"
+      blocked: "Blokkolta a(z)"
+      precedes: "Megelőzi"
+      follows: "Követi ezt"
+      includes: "Tartalmazza"
+      partof: "Része"
+      requires: "Kötelező"
+      required: "Által megkövetelt"
+      relation_type: "kapcsolat típusa"
+    relations_hierarchy:
+      parent_headline: "Szülő"
+      hierarchy_headline: "Hierarchia"
+      children_headline: "Gyermekek"
+    relation_buttons:
+      set_parent: "Szülő kapcsolat beállítása"
+      change_parent: "Szülő módosítása"
+      remove_parent: "Szülő eltávolítása"
+      hierarchy_indent: "Behúzási hierarchia"
+      hierarchy_outdent: "Kihúzási hierarchia"
+      group_by_wp_type: "Rendezés feladatcsoport típusai szerint"
+      group_by_relation_type: "Rendezés kapcsolati típusok szerint"
+      add_parent: "Meglévő szülő kapcsolat hozzáadása"
+      add_new_child: "Új gyermek kapcsolat hozzáadása"
+      create_new: "Új létrehozása"
+      add_existing: "Létező tartalom hozzáadása"
+      add_existing_child: "Meglévő gyermek kapcsolat hozzáadása"
+      remove_child: "Gyermek kapcsolat törlése"
+      add_new_relation: "Új kapcsolat hozzáadása"
+      add_existing_relation: "Létező kapcsolat hozzáadása"
+      update_description: "Kapcsolat részleteinek beállítása vagy frissítése"
+      toggle_description: "Kapcsolat leírás kapcsolása"
+      update_relation: "Klikk a kapcsolat típus módosításához"
+      add_follower: "Követő hozzáadása"
+      add_predecessor: "Előző hozzáadása"
+      remove: "Kapcsolat eltávolítása"
+      save: "Kapcsolat mentése"
+      abort: "Megszakít"
+    relations_autocomplete:
+      placeholder: "Gépeljen a kereséshez"
+      parent_placeholder: "Válassz egy szülő objektumot vagy nyomd meg az ESC gombot  kilépéshez"
+    autocompleter:
+      placeholder: "Gépeljen a kereséshez"
+      notFoundText: "Nem található elem"
+      typeToSearchText: "Gépeljen a kereséshez"
+    repositories:
+      select_tag: 'Címke kiválasztása'
+      select_branch: 'Branch kiválasztása'
+    field_value_enter_prompt: "Adja meg az értéket a %{field} mezőhöz"
+    project_menu_details: "Részletek"
+    scheduling:
+      manual: "Kézi ütemezés\n"
+      automatic: "Automatikus ütemezés\n"
+    sort:
+      sorted_asc: 'Növekvő sorrend alkalmazása, '
+      sorted_dsc: 'Csökkenő rendezés alkalmazva, '
+      sorted_no: 'Ne rendezze alkalmazva, '
+      sorting_disabled: 'rendezés kikapcsolva'
+      activate_asc: 'aktiválja a növekvő sorrendhez'
+      activate_dsc: 'aktiválja a csökkenő sorrendhez'
+      activate_no: 'aktiválva a rendezés törlése'
+    text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
+    text_query_destroy_confirmation: "Biztosan törli a kijelölt megjelenítést?"
+    text_attachment_destroy_confirmation: "Biztosan törli a mellékletet?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Gantt-diagram'
+      labels:
+        title: 'Címke konfiguráció'
+        bar: 'Oszlop címkék'
+        left: 'Bal'
+        right: 'Jobb'
+        farRight: 'Jobb szélen'
+        showNone: '--Nincs címke--'
+        description: >
+          Válassza ki azokat az attribútumokat, amiket a Gantt-diagramon mindig látni szeretne. Vegye figyelembe, hogy az egér elemre mozdításával a dátumcímkék jelennek meg ezen attribútumok helyén.
+      button_activate: 'Gannt diagramm megtekintése'
+      button_deactivate: 'Gannt diagramm elrejtése'
+      cancel: Mégsem
+      change: "A tervezés módosítása"
+      due_date: "Befejezési dátum"
+      empty: "(üres)"
+      error: "Hiba történt."
+      errors:
+        not_implemented: "Az ütemterv nem jeleníthető meg, mert egy olyan tulajdonságot használ, amely még nincs beépítve."
+        report_comparison: "Az ütemterv nem nyújthatja a beállított összehasonlításokat. Kérjük, ellenőrizze a megfelelő részben a konfigurációt, az alaphelyzetbe állitása segíthet megoldani ezt a problémát."
+        report_epicfail: "Váratlan hiba miatt nem lehet betölteni az ütemtervet."
+        report_timeout: "Az ütemtervet nem lehetett betölteni az ésszerű idő alatt."
+      filter:
+        grouping_other: "Egyéb"
+        noneSelection: "(nincs)"
+      name: "Név"
+      outline: "A vázlat alaphelyzetbe állitása"
+      outlines:
+        aggregation: "Csak az összesítések megjelenítése"
+        level1: "Az 1-es szint kibontása"
+        level2: "A 2-es szint kibontása"
+        level3: "A 3-as szint kibontása"
+        level4: "A 4-es szint kibontása"
+        level5: "Az 5-ös szint kibontása"
+        all: "Minden megjelenítése"
+      project_status: "Projekt állapot"
+      really_close_dialog: "Igazán akar zárja be a párbeszédpanelt, és elveszíteni a bevitt adatokat?"
+      responsible: "Felelős"
+      save: Mentés
+      start_date: "Indulási dátum"
+      tooManyProjects: "Több mint %{count} projekt. Kérjük, használjon jobb szűrési beállításokat!"
+      selection_mode:
+        notification: 'Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.'
+      zoom:
+        in: "Nagyítás"
+        out: "Kicsinyítés"
+        auto: "Automatikus nagyítás"
+        days: "Nap"
+        weeks: "Hetek"
+        months: "Hónap"
+        quarters: "Negyedek"
+        years: "Évek"
+        slider: "Nagyítás/kicsinyítés"
+        description: >
+          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
+
+    tl_toolbar:
+      zooms: "Nagyítási szint"
+      outlines: "Hierarchia szint"
+    upsale:
+      ee_only: 'Ez csak az Enterprise Edition-ban elérhető'
+    wiki_formatting:
+      strong: "Erős"
+      italic: "Dőlt betű"
+      underline: "Aláhúzott"
+      deleted: "Törölve"
+      code: "Beágyazott kód"
+      heading1: "Címsor 1"
+      heading2: "Címsor 2"
+      heading3: "Címsor 3"
+      unordered_list: "Rendezetlen lista"
+      ordered_list: "Rendezett lista"
+      quote: "Idéz"
+      unquote: "nem jegyzett"
+      preformatted_text: "Előre formázott szöveg"
+      wiki_link: "Linket egy Wiki oldalhoz"
+      image: "Kép"
+    work_packages:
+      bulk_actions:
+        move: 'A projekt tömeges megváltoztatása'
+        edit: 'Tömeges szerkesztés'
+        copy: 'Tömeges másolás'
+        delete: 'Tömeges törlés'
+      button_clear: "Törlés"
+      comment_added: "Megjegyzés sikeresen hozzáadva."
+      comment_send_failed: "Hiba történt. A megjegyzés elküldése meghiúsult."
+      comment_updated: "A megjegyzés sikeresen frissítve."
+      confirm_edit_cancel: "Biztosan meg kívánja szakítani a munkacsomag szerkesztést?"
+      description_filter: "Szűrő"
+      description_enter_text: "Írjon szöveget"
+      description_options_hide: "Beállítások elrejtése"
+      description_options_show: "Beállítások megjelenítése"
+      edit_attribute: "%{attribute} - szerkesztés"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Többszörös kijelölés engedélyezése"
+      label_disable_multi_select: "Többszörös kijelölés tiltása"
+      label_filter_add: "Szűrő hozzáadása"
+      label_filter_by_text: "Szöveg szűrése"
+      label_options: "Beállítások"
+      label_column_multiselect: "Kombinált legördülő mező: Nyilakkal jelöljön ki, enter-el hagyja jóvá, és backspace-vel töröljön"
+      message_error_during_bulk_delete: Hiba történt a feladatcsoport törlése közben.
+      message_successful_bulk_delete: Sikerült törölni a feladatcsoportokat.
+      message_successful_show_in_fullscreen: "Ide kattintva a munkacsomag részletei teljes képernyős nézeten jeleníthetőek meg."
+      message_view_spent_time: "Feladatcsoporttal töltött idő megjelenítése"
+      message_work_package_read_only: "Ez Feladatcsomag ebben a státuszban zárolt. Nem lehet más attribútum segítségével megváltoztatni."
+      message_work_package_status_blocked: "A munkacsomag állapota nem írható, mivel a zárt állapotot és a zárt verziót hozzárendelték."
+      placeholder_filter_by_text: "Tárgy, leírás, kommentek"
+      inline_create:
+        title: 'Ide kattintva adhatsz új munkacsomagot a listához'
+      create:
+        title: 'Új munkacsomag'
+        header: 'Új %{type}'
+        header_no_type: 'Új feladatcsoport (a típus még nem meghatározott)'
+        header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
+        button: 'Létrehoz'
+      copy:
+        title: 'Feladatcsoport másolása'
+      hierarchy:
+        show: "Hierarchikus mód megjelenítése"
+        hide: "Hierarchikus mód elrejtése"
+        toggle_button: 'Kattintson a hierarchia mód váltásához.'
+        leaf: 'Munkacsomag ezen %{level} a szinten.'
+        children_collapsed: 'A hierarchia szintje %{level} szűkült. Kattintson a szűrt gyermek-objektum megjelenítéséhez'
+        children_expanded: 'A hierarchia szintje %{level} bővült. Kattintson a szűrt gyermek-objektum megjelenítéséhez'
+      faulty_query:
+        title: A munkacsomag nem tölthető be.
+        description: A nézet hibás, és nem sikerült feldolgozni.
+      no_results:
+        title: Nincs megjelenítendő munkacsomag.
+        description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető meg.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "Részletek"
+        people: "Személyek"
+        estimatesAndTime: "Becslések & időpontok"
+        other: "Egyéb"
+      properties:
+        assignee: "Megbízott"
+        author: "Szerző"
+        createdAt: "Létrehozva"
+        description: "Leírás"
+        date: "dátum"
+        dueDate: "Befejezési dátum"
+        estimatedTime: "Becsült idő (óra)"
+        spentTime: "Eltöltött idő"
+        category: "Kategória"
+        percentageDone: "Százalékosan elkészült"
+        priority: "Fontosság"
+        projectName: "Projekt"
+        responsible: "Felelős"
+        startDate: "Indulási dátum"
+        status: "Állapot"
+        subject: "Tárgy"
+        subproject: "Alprojekt"
+        title: "Cím"
+        type: "Típus"
+        updatedAt: "Frissítve"
+        versionName: "Verzió"
+        version: "Verzió"
+      default_queries:
+        latest_activity: "Utolsó aktivitás"
+        created_by_me: "Általam készített"
+        assigned_to_me: "Hozzám rendelt"
+        recently_created: "Nemrégiben létrehozott"
+        all_open: "Nyitottak"
+        summary: "Összegzés"
+      jump_marks:
+        pagination: "Ugrás a táblázat lapszámozásához"
+        label_pagination: "Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz menj"
+        content: "Ugrás a tartalomhoz"
+        label_content: "Kattintson ide a menü átugrásához és a tartalom megtekintéséhez"
+      placeholders:
+        default: "-"
+        date: "Select date"
+        formattable: "%{name}: kattints a módosításhoz!"
+      query:
+        column_names: "Oszlopok"
+        group_by: "Csoport szintű eredmények"
+        group: "Csoportosítás a következők szerint"
+        group_by_disabled_by_hierarchy: "A csoportosítás le van tiltva, mivel a hierarchia mód aktív."
+        hierarchy_disabled_by_group_by: "A hierarchia mód le van tiltva az eredmények csoportosítása e-szerint %{column}."
+        sort_ascending: "Növekvő sorrend"
+        sort_descending: "Csökkenő sorrend"
+        move_column_left: "Oszlop mozgatása balra"
+        move_column_right: "Oszlop mozgatása jobbra"
+        hide_column: "Oszlop elrejtése"
+        insert_columns: "Oszlopok beszúrása..."
+        filters: "Szürő"
+        display_sums: "Megjelenitendő összegek"
+        confirm_edit_cancel: "Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre."
+        click_to_edit_query_name: "Kattints a nézet címének szerkesztéséhez"
+        rename_query_placeholder: "A nézet neve"
+        star_text: "Jelölje meg ezt a nézetet kedvencként, és adja hozzá a bal oldalon a mentett nézetek oldalsávjához."
+        public_text: >
+          Tegye közzé ezt a nézetet, lehetővé téve más felhasználók számára, hogy hozzáférjenek a nézethez. A „Nyilvános nézetek kezelése” engedéllyel rendelkező felhasználók módosíthatják vagy eltávolíthatják a nyilvános lekérdezéseket. Ez nem befolyásolja a munkacsomag-eredmények láthatóságát abban a nézetben, és engedélyüktől függően a felhasználók eltérő eredményeket láthatnak.
+        errors:
+          unretrievable_query: "Nem érhető el a nézet az URL-ből"
+          not_found: "Nincs ilyen nézet"
+          duplicate_query_title: "A nézet neve már létezik. Biztos megváltoztatod?"
+        text_no_results: "Nem található egyező nézet"
+      scheduling:
+        is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
+        is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
+      table:
+        configure_button: 'Feladatcsoport táblázat beállítása'
+        summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."
+        text_inline_edit: "A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja a soron belüli szerkesztését az attribútumnak."
+        text_sort_hint: "A táblázat fejlécében található hivatkozásokkal rendezhet, csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat."
+        text_select_hint: "Válassza ki a megnyitni kíván mezőket és használja az \"ALT\" és nyílgombokat."
+      table_configuration:
+        button: 'Ennek a feladatcsoportnak a beállítása'
+        choose_display_mode: 'Feladatcsoportok megjelenése'
+        modal_title: 'Feladatcsoport táblázat beállítás'
+        embedded_tab_disabled: "Ez a konfigurációs lap nem érhető el a szerkesztett beágyazott nézetben.\n"
+        default: "alapértelmezett"
+        display_settings: 'Megjelenítési beállítások'
+        default_mode: "Sima lista"
+        hierarchy_mode: "Hierarchia"
+        hierarchy_hint: "Minden szűrt táblázat eredményei kiegészülnek az őseikkel. A hierarchiák kiterjeszthetők és összecsukhatók.\n"
+        display_sums_hint: "Az összes összegezhető attribútum összegének megjelenítése a táblázat eredményei alatti sorban.\n"
+        show_timeline_hint: "Mutasson egy interaktív gantt-diagramot a táblázat jobb oldalán. Szélességét a táblázat és a gantt-diagram közötti elválasztóvonal húzásával változtathatja.\n"
+        highlighting: 'Kiemelés'
+        highlighting_mode:
+          description: "Kiemelés szinnel"
+          none: "Kiemelés nélkül"
+          inline: 'Kiemelt attribútum(ok)'
+          inline_all: 'Minden attribútum'
+          entire_row_by: 'Egész sor alapján'
+          status: 'Állapot'
+          priority: 'Fontosság'
+          type: 'Típus'
+        sorting_mode:
+          description: 'Válassza ki a munkacsomagok rendezésének módját:'
+          automatic: 'Automatikus'
+          manually: 'Kézi'
+          warning: 'Az automatikus válogatás üzemmód aktiválásakor elveszíti korábbi rendezését.'
+        columns_help_text: "A fenti bevitellel oszlopokat adhat hozzá a táblázatnézethez. A \"Húzd és Dobd\" módszerrel újra rendezheti az oszlopokat"
+        upsale:
+          attribute_highlighting: 'Szüksége van bizonyos munkacsomagokra, hogy kitűnjön a tömegből?'
+          relation_columns: 'Szeretné látni a munkacsomag kapcsolatait?'
+          check_out_link: 'Tekintse meg az Enterprise Edition-t!'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'A munkacsomagok szűrése relációs típus szerint'
+      tabs:
+        overview: Áttekintés
+        activity: Tevékenység
+        relations: Kapcsolatok
+        watchers: Megfigyelők
+        attachments: Csatolmány
+      time_relative:
+        days: "nap"
+        weeks: "Hetek"
+        months: "hónap"
+    toolbar:
+      settings:
+        configure_view: "Nézet beállítása"
+        columns: "Oszlopok..."
+        sort_by: "Rendezés..."
+        group_by: "Csoportosítás..."
+        display_sums: "Megjelenítendő összegek"
+        display_hierarchy: "Hierarchia megjelenítése"
+        hide_hierarchy: "Hierarchia elrejtése"
+        hide_sums: "Összegek elrejtése"
+        save: "Mentés"
+        save_as: "Mentés másként ..."
+        export: "Exportálás..."
+        visibility_settings: "Láthatóság beállítások ..."
+        page_settings: "Nézet átnevezése ..."
+        delete: "Törlés"
+      filter: "Szűrő"
+      unselected_title: "Feladatcsoport"
+      search_query_label: "Mentett nézetek keresése..."
+      search_query_title: "Elmentett nézetek keresése"
+      placeholder_query_title: "Nézet címének beállítása"
+    modals:
+      label_settings: "Nézet átnevezése"
+      label_name: "Név"
+      label_delete_page: "Aktuális oldal törlése"
+      button_apply: "Alkalmaz"
+      button_save: "Mentés"
+      button_submit: "Küldés"
+      button_cancel: "Mégsem"
+      form_submit:
+        title: 'Megerősítés a folytatáshoz'
+        text: 'Biztosan végre szeretné hajtani ezt a műveletet?'
+      destroy_work_package:
+        title: "Jóváhagyja %{label} törlését"
+        text: "Biztosan törölni akarja %{label}-t?"
+        has_children: "A feladatcsoportnak van %{childUnits}:"
+        confirm_deletion_children: "Tudomásul veszem, hogy a felsorolt munkacsomagok MINDEN leszármazottja rekurzív módon eltávolításra kerül.\n"
+        deletes_children: "Minden al feladatcsoportot és leszármazottait is rekurzívan törli."
+      destroy_time_entry:
+        title: "Időbejegyzés törlésének jóváhagyása"
+        text: "Biztosan törölni akarja a következő időbejegyzést?"
+    notice_no_results_to_display: "Nincs megjeleníthető eredmény."
+    notice_successful_create: "Sikeres létrehozás."
+    notice_successful_delete: "Sikeres törlés."
+    notice_successful_update: "Sikeres frissítés."
+    notice_job_started: "elkezdődött a munka.\n"
+    notice_bad_request: "Rossz kérés."
+    relations:
+      empty: Nincs kapcsolata
+      remove: Kapcsolat eltávolítása
+    inplace:
+      button_edit: "%{attribute}: szerkesztés"
+      button_save: "%{attribute}: mentés"
+      button_cancel: "%{attribute}: Mégse"
+      button_save_all: "Mentés"
+      button_cancel_all: "Mégsem"
+      link_formatting_help: "Szöveg formázás súgó"
+      btn_preview_enable: "Előnézet"
+      btn_preview_disable: "Előnézet kikapcsolása"
+      null_value_label: "Nincs érték"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} nem lehet üres'
+        number: '%{field} nem egy érvényes szám'
+        maxlength: '%{field} nem tartalmazhat több számjegyet mint %{maxLength}'
+        minlength: '%{field} nem tartalmazhat kevesebb számjegyet mint %{minLength}'
+        messages_on_field: 'Ez a mező érvénytelen: %{messages}'
+    error_could_not_resolve_version_name: "Nem sikerült a verziószám visszafejtése"
+    error_could_not_resolve_user_name: "Nem sikerült a felhasználó visszafejtése"
+    error_attachment_upload: "A fájlt nem sikerült feltölteni: %{error}"
+    error_attachment_upload_permission: "Nincs jogosultsága fájlok feltöltésére ezen az erőforráson.\n"
+    units:
+      workPackage:
+        one: "munkacsomag"
+        other: "feladatcsoport"
+      child_work_packages:
+        one: "egy gyermek munkacsomag"
+        other: "%{count} gyermek feladatcsoport"
+      hour:
+        one: "1 óra"
+        other: "%{count} ó"
+        zero: "0 óra"
+    zen_mode:
+      button_activate: 'Zen mód aktiválása'
+      button_deactivate: 'Zen mód kikapcsolása'
+    global_search:
+      all_projects: "Az összes projektben"
+      search: "Keresés"
+      close_search: "Keresés bezárása"
+      current_project: "Ebben a projektben"
+      current_project_and_all_descendants: "Ebben a projektben + alprojektekben"
+      title:
+        all_projects: "minden projekt"
+        project_and_subprojects: "az összes alprojektben"
+        search_for: "Keresés"
+    views:
+      card: 'Kártyák'
+      list: 'Tábla'
+      timeline: 'Gantt'
+    invite_user_modal:
+      back: 'Vissza'
+      invite: 'Meghívás'
+      title:
+        invite: 'Felhasználó meghívása'
+        invite_to_project: 'Meghívás %{type} a %{project}'
+        User: 'Felhasználó'
+        Group: 'csoport'
+        PlaceholderUser: 'Teszt felhasználó'
+        invite_principal_to_project: 'Meghívás %{principal} a %{project} '
+      project:
+        label: 'Projekt'
+        required: 'Válasszon projektet'
+        lacking_permission: "Kérjük, válasszon másik projektet, mivel nincs jogosultsága a felhasználók kijelöléséhez.\n"
+        lacking_permission_info: "Nincs jogosultsága arra, hogy felhasználókat rendeljen a projekthez, amelyben éppen dolgozik. Ki kell választania egy másikat.\n"
+        next_button: ' Következő'
+        no_results: 'Egyetlen projekt sem található'
+        no_invite_rights: 'Nincs jogosultságod meghívni felhasználókat ehhez a projekthez'
+      type:
+        required: "Kérjük, válassza ki a meghívandó típust\n"
+        user:
+          title: 'Felhasználó'
+          description: "Jogosultságok a kiválasztott projektben kijelölt szerepkör alapján\n"
+        group:
+          title: 'Csoport'
+          description: "Jogosultságok a kiválasztott projektben kijelölt szerepkör alapján\n"
+        placeholder:
+          title: 'Teszt felhasználó'
+          title_no_ee: "Tesztfelhasználó (csak Enterprise Edition funkció)\n"
+          description: "Nincs hozzáférése a projekthez, és nem küld ki e-maileket.\n"
+          description_no_ee: 'Nincs hozzáférése a projekthez, és nem küld ki e-maileket. <br>Nézze meg az <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Név vagy e-mail cím'
+          name: 'Név'
+        already_member_message: 'Már tagja a %{project}-nek'
+        no_results_user: 'Nem található felhasználó.'
+        invite_user: 'Meghívás:'
+        no_results_placeholder: 'Ben találhatók teszt felhasználók'
+        create_new_placeholder: 'Új teszt felhasználó létrehozása'
+        no_results_group: 'Nem találhatók csoportok.'
+        next_button: ' Következő'
+        required:
+          user: 'Válassz egy felhasználót'
+          placeholder: 'Kérjük válasszon egy tesztfelhasználót'
+          group: 'Válaszd ki a csoportot'
+      role:
+        label: 'Szerepek a %{project}'
+        no_roles_found: 'Nem található szerepkör.'
+        description: 'Ez az a szerepkör, amelyet %{principal} kap, amikor csatlakozik a projekthez. A szerepkör határozza meg, hogy milyen műveleteket végezhetnek, és milyen információkat láthatnak. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Tudjon meg többet a szerepekről és jogosultságokról. </a>'
+        required: 'Kérjük, válasszon szerepet'
+        next_button: ' Következő'
+      message:
+        label: 'Meghívó üzenet'
+        description: 'Küldünk egy e-mailt a %{principal} címre, amelyhez itt hozzáadhat egy személyes üzenetet. Hasznos lehet egy magyarázat a meghívóhoz, vagy esetleg egy kis információ a projekttel kapcsolatban, hogy segítsen az elindulásban.'
+        next_button: 'Meghívó ellenőrzése'
+      summary:
+        next_button: 'Meghívó küldése'
+      success:
+        title: "%{principal} meghívást kapott!\n"
+        description:
+          user: 'A felhasználó most már bejelentkezhet, hogy hozzáférjen a %{project}-hez. Eközben már tervezhet ezzel a felhasználóval, és például munkacsomagokat rendelhet hozzá.'
+          placeholder: 'A tesztfelhasználó mostantól használható a %{project}-ben. Eközben már tervezhetünk ezzel a felhasználóval, és például munkacsomagokat rendelhetünk hozzá.'
+          group: "A csoport mostantól a %{project} része. Eközben már tervezhet ezzel a csoporttal, és például munkacsomagokat rendelhet hozzá.\n"
+        next_button: 'Folytatás'
+    forms:
+      submit_success_message: 'Jelentés sikeresen elküldve'
+      load_error_message: 'Hiba történt az eredmény betöltésekor.'
+      validation_error_message: "Kérjük, javítsa ki az űrlapon található hibákat\n"
+      advanced_settings: 'Speciális beállítások'

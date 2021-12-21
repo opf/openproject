@@ -38,7 +38,7 @@ uk:
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
   description_attended: "Участь"
-  description_invite: "запрошені"
+  description_invite: "Запрошені"
   events:
     meeting: Нотатки до зустрічі
     meeting_agenda: Порядок денний зустрічі редагувався
@@ -62,7 +62,7 @@ uk:
   label_icalendar: "Надіслати iCalendar"
   label_version: "Версія"
   label_time_zone: "Часовий пояс"
-  label_start_date: "Початок"
+  label_start_date: "Дата початку"
   meeting:
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Повідомлення успішно надіслано"

@@ -1,0 +1,175 @@
+#English strings go here for Rails i18n
+zh-TW:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: '識別碼'
+        default: '儲存為預設值'
+      two_factor_authentication/device/sms:
+        phone_number: "電話號碼"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: '已為另一個 OTP 設備設置。'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "格式必須是 + XX XXXXXXXXX"
+    models:
+      two_factor_authentication/device: "2FA 設備"
+      two_factor_authentication/device/sms: "手機"
+      two_factor_authentication/device/totp: "驗證程式應用程式"
+  two_factor_authentication:
+    error_2fa_disabled: "2FA 發送已被禁用。"
+    error_no_device: "未為該使用者找到已註冊的2FA 設備, 儘管此實例是必需的。"
+    error_no_matching_strategy: "沒有匹配的2FA 策略可供此使用者使用。請聯繫您的系統管理員。"
+    error_is_enforced_not_active: '配置錯誤: 已強制執行雙因素身份驗證, 但不存在有效原則。'
+    error_invalid_backup_code: '不正確2FA 備份代碼'
+    channel_unavailable: "傳遞通道 %{channel} 不可用。"
+    no_valid_phone_number: "不存在有效電話號碼。"
+    label_pwd_confirmation: "密碼"
+    notice_pwd_confirmation: "在對這些設置進行更改時, 您需要確認您的密碼。"
+    label_device_type: "裝置類型"
+    label_default_device: "預設2FA 設備"
+    label_device: "2FA 設備"
+    label_devices: "2FA 設備"
+    label_one_time_password: '一次性密碼'
+    label_2fa_enabled: '雙重驗證已啟用'
+    label_2fa_disabled: '雙重驗證已關閉'
+    text_otp_delivery_message_sms: "%{app_title} 一次性密碼為 %{token}"
+    text_otp_delivery_message_voice: "您的 %{app_title} 一次性密碼為: %{pause} %{token}。 %{pause} 重複: %{pause} %{token}"
+    text_enter_2fa: '請從您的設備取得一次性密碼。'
+    text_2fa_enabled: '於每次登錄, 您都將被要求從預設的2FA 設備中取得 OTP 密碼。'
+    text_2fa_disabled: '要啟用雙因素身份驗證, 請使用上面的按鈕註冊新的2FA 設備。如果已有設備, 則需要將其設置為預設值。'
+    login:
+      enter_backup_code_title: 輸入備份代碼
+      enter_backup_code_text: 請從代碼清單中輸入有效的備份代碼, 以防您無法再訪問已註冊的2FA 設備。
+      other_device: '使用其他設備或備份代碼'
+    settings:
+      title: '2FA 設置'
+      current_configuration: '目前設定：'
+      label_active_strategies: '已套用的 2FA 策略'
+      label_enforced: '強制使用 2FA'
+      label_remember: '記住2FA 登錄'
+      text_configuration: |
+        注意: 這些值表示當前應用程式範圍的配置。不能禁用由配置強制執行的設置或更改當前套用的策略, 因為它們需要重新開機伺服器。
+      text_configuration_guide: 更多資訊，請參考設定指南．
+      text_enforced: '啟用這個設定強制所有使用者在下次登入時同時要求註冊一個2FA設備。 這個設定只能在沒有強制合規設定的情形下才能時被停用。'
+      text_remember: |
+        將此值設置為大於零, 以允許使用者在給定的天數內記住其2FA 身份驗證。在那段期間, 他們將不被要求重新進入。只能在配置不強制的情況下設置。
+      error_invalid_settings: '您選擇的2FA 策略無效'
+      failed_to_save_settings: '未能更新2FA 設置: %{message}'
+    admin:
+      self_edit_path: '要添加或修改您自己的2FA 設備, 請轉到 %{self_edit_link}'
+      self_edit_link_name: '雙重驗證於您的帳號頁面'
+      self_edit_forbidden: '無法於此路徑編輯您擁有的2FA設備．請至 我的帳號 > 雙重認證．'
+      no_devices_for_user: '沒有為該使用者註冊的 2FA 設備。'
+      all_devices_deleted: '此使用者的所有2FA 設備已被刪除'
+      delete_all_are_you_sure: '確實要刪除此使用者的所有2FA 設備嗎？'
+      button_delete_all_devices: '刪除已註冊的2FA 設備'
+      button_register_mobile_phone_for_user: '註冊手機'
+      text_2fa_enabled: '每次登錄時, 都會要求該使用者從預設的2FA 設備中取得 OTP 密碼。'
+      text_2fa_disabled: "使用者沒有透過【我的帳戶】頁面進行建立一個2FA設備的動作。"
+    upsale:
+      title: '雙重認證是一個企業級功能'
+      description: '請使用第二種的認證方式加強您內部或外部的認證機制'
+    backup_codes:
+      none_found: 這個帳戶沒有存在備份代碼
+      singular: 備份代碼
+      plural: 備份代碼
+      your_codes: 為您的 %{app_name} 帳戶 %{login}
+      overview_description: |
+        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
+        Use the following button to generate a new set of backup codes.
+      generate:
+        title: Generate backup codes
+        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
+        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+    devices:
+      add_new: 'Add new 2FA device'
+      register: 'Register device'
+      confirm_default: 'Confirm changing default device'
+      confirm_device: 'Confirm device'
+      confirm_now: 'Not confirmed, click here to activate'
+      cannot_delete_default: 'Cannot delete default device'
+      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
+      make_default_failed: 'Failed to update the default 2FA device.'
+      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
+      registration_complete: '2FA device registration complete!'
+      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
+      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
+      confirm_send_failed: 'Confirmation of your 2FA device failed.'
+      button_complete_registration: 'Complete 2FA registration'
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
+      text_identifier: 'You can give the device a custom identifier using this field.'
+      failed_to_delete: 'Failed to delete 2FA device.'
+      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
+      not_existing: 'No 2FA device has been registered for your account.'
+      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      totp:
+        title: 'Use your app-based authenticator'
+        provisioning_uri: 'Provisioning URI'
+        secret_key: 'Secret key'
+        time_based: 'Time based'
+        account: 'Account name / Issuer'
+        setup: |
+          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
+          After opening the app, you can scan the following QR code to register the device.
+        question_cannot_scan: |
+          Unable to scan the code using your application?
+        text_cannot_scan: |
+          If you can't scan the code, you can enter the entry manually using the following details:
+        description: |
+          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
+          Common examples are Google Authenticator or Authy.
+      sms:
+        title: 'Use your mobile phone'
+        redacted_identifier: 'Mobile device (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        description: |
+          Register your mobile phone number for delivery of OpenProject one-time passwords.
+    sns:
+      delivery_failed: 'SNS delivery failed:'
+    message_bird:
+      sms_delivery_failed: 'MessageBird SMS delivery failed.'
+      voice_delivery_failed: 'MessageBird voice call failed.'
+    restdt:
+      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+    strategies:
+      totp: '驗證程式應用程式'
+      sns: '亞馬遜 SNS'
+      resdt: 'SMS Rest API'
+    mobile_transmit_notification: "已將一次性密碼發送給您的手機。"
+    label_two_factor_authentication: '雙重身分驗證'
+    forced_registration:
+      required_to_add_device: '活動安全性原則要求您啟用雙重身份驗證。請使用以下表格註冊設備。'
+    remember:
+      active_session_notice: >
+        您的帳戶有一個活動的記住 cookie 有效, 直到 %{expires_on}。此 cookie 允許您在沒有第二個因素的情況下登錄到您的帳戶, 直到該時間。
+      other_active_session_notice: Your account has an active remember cookie on another session.
+      label: '記住'
+      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
+      cookie_removed: 'All remembered 2FA sessions have been removed.'
+      dont_ask_again: "創建 cookie，使 %{days} 天內記住此用戶端上的2FA 身份驗證。"
+  field_phone: "手機"
+  field_otp: "一次性密碼"
+  notice_account_otp_invalid: "一次性密碼無效。"
+  notice_account_otp_expired: "您輸入的一次性密碼已過期。"
+  notice_developer_strategy_otp: "開發者策略生成了以下一次性密碼: %{token} (通道: %{channel})"
+  notice_account_otp_send_failed: "無法發送您的一次性密碼。"
+  notice_account_has_no_phone: "沒有與您的帳戶關聯的手機號碼。"
+  label_expiration_hint: "%{date} 或登出時"
+  label_actions: '操作'
+  label_confirmed: '已確認'
+  button_continue: '繼續'
+  button_make_default: '標記為預設值'
+  label_unverified_phone: "Cell phone not yet verified"
+  notice_phone_number_format: "請輸入以下格式的號碼: + XX XXXXXXXX。"
+  text_otp_not_receive: "其他驗證方法"
+  text_send_otp_again: "通過以下操作，重新發送一次性密碼:"
+  button_resend_otp_form: "重新發送"
+  button_otp_by_voice: "語音電話"
+  button_otp_by_sms: "簡訊"
+  label_otp_channel: "傳送管道"

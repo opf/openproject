@@ -61,7 +61,7 @@ ru:
         board_type_title:
           assignee: Назначенный
           status: Состояние
-          version: Стадия
+          version: Этапы
           subproject: Подпроект
           subtasks: Родитель-Потомок
           basic: Базовый

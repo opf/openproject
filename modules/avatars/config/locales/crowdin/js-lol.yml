@@ -1,0 +1,14 @@
+#English strings go here
+lol:
+  js:
+    label_preview: 'crwdns526421:0crwdne526421:0'
+    button_update: 'crwdns526423:0crwdne526423:0'
+    avatars:
+      label_choose_avatar: "crwdns526425:0crwdne526425:0"
+      uploading_avatar: "crwdns526427:0crwdne526427:0"
+      text_upload_instructions: |
+        crwdns526429:0crwdne526429:0
+      error_image_too_large: "crwdns526431:0crwdne526431:0"
+      wrong_file_format: "crwdns526433:0crwdne526433:0"
+      empty_file_error: "crwdns526435:0crwdne526435:0"
+

@@ -1,5 +1,5 @@
 ja:
   dashboards:
     label: 'ダッシュボード'
-    menu_badge: '透過度'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'ダッシュボード'

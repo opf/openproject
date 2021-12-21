@@ -38,7 +38,7 @@ id:
       meeting_agenda: "Agenda"
       meeting_minutes: "Laporan"
   description_attended: "hadir"
-  description_invite: "invited"
+  description_invite: "diundang"
   events:
     meeting: Rapat diedit
     meeting_agenda: Agenda rapat diedit
@@ -61,8 +61,8 @@ id:
   label_notify: "Kirim untuk ulasan"
   label_icalendar: "Kirim iCalendar"
   label_version: "Versi"
-  label_time_zone: "Time Zone"
-  label_start_date: "Tanggal start"
+  label_time_zone: "Zona waktu"
+  label_start_date: "Tanggal mulai"
   meeting:
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Berhasil mengirim notifikasi"

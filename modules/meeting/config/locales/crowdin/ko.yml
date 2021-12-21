@@ -62,7 +62,7 @@ ko:
   label_icalendar: "iCalendar 보내기"
   label_version: "버전"
   label_time_zone: "표준 시간대"
-  label_start_date: "시작 날짜"
+  label_start_date: "시작일"
   meeting:
     copied: "미팅 #%{id}에서 복사됨"
   notice_successful_notification: "알림이 전송됨"

@@ -62,7 +62,7 @@ de:
   label_icalendar: "iCalendar senden"
   label_version: "Version"
   label_time_zone: "Zeitzone"
-  label_start_date: "Anfangstermin"
+  label_start_date: "Beginn"
   meeting:
     copied: "Kopiert von Meeting #%{id}"
   notice_successful_notification: "Benachrichtigung erfolgreich gesendet"

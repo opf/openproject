@@ -1,0 +1,41 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "crwdns526227:0crwdne526227:0"
+      tab_header:
+        title: "crwdns526229:0crwdne526229:0"
+        copy_menu:
+          label: crwdns526231:0crwdne526231:0
+          description: crwdns526233:0crwdne526233:0
+        git_actions:
+          branch_name: crwdns526235:0crwdne526235:0
+          commit_message: crwdns526237:0crwdne526237:0
+          cmd: crwdns526239:0crwdne526239:0
+          title: crwdns526241:0crwdne526241:0
+          copy_success: crwdns526243:0crwdne526243:0
+          copy_error: crwdns526245:0crwdne526245:0
+      tab_prs:
+        empty: crwdns526247:0%{wp_id}crwdne526247:0
+      github_actions: crwdns526249:0crwdne526249:0

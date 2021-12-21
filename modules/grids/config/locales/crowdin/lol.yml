@@ -1,0 +1,16 @@
+lol:
+  grids:
+    label_widget_in_grid: "crwdns520521:0%{grid_name}crwdne520521:0"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "crwdns520523:0crwdne520523:0"
+        row_count: "crwdns520525:0crwdne520525:0"
+        column_count: "crwdns520527:0crwdne520527:0"
+        widgets: "crwdns520529:0crwdne520529:0"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'crwdns520531:0crwdne520531:0'
+          outside: 'crwdns520533:0crwdne520533:0'
+          end_before_start: 'crwdns520535:0crwdne520535:0'

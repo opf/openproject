@@ -1,5 +1,5 @@
 hu:
   dashboards:
     label: 'Vezérlőpult'
-    menu_badge: 'Alfa'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'Vezérlőpult'

@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  activerecord:
+    attributes:
+      budget:
+        author: "crwdns520225:0crwdne520225:0"
+        available: "crwdns520227:0crwdne520227:0"
+        budget: "crwdns520229:0crwdne520229:0"
+        budget_ratio: "crwdns520231:0crwdne520231:0"
+        description: "crwdns520233:0crwdne520233:0"
+        spent: "crwdns520235:0crwdne520235:0"
+        status: "crwdns520237:0crwdne520237:0"
+        subject: "crwdns520239:0crwdne520239:0"
+        type: "crwdns520241:0crwdne520241:0"
+        labor_budget: "crwdns520243:0crwdne520243:0"
+        material_budget: "crwdns520245:0crwdne520245:0"
+      work_package:
+        budget_subject: "crwdns520247:0crwdne520247:0"
+    models:
+      budget: "crwdns520249:0crwdne520249:0"
+      material_budget_item: "crwdns520251:0crwdne520251:0"
+  attributes:
+    budget: "crwdns520253:0crwdne520253:0"
+  button_add_budget_item: "crwdns520255:0crwdne520255:0"
+  button_add_budget: "crwdns520257:0crwdne520257:0"
+  button_add_cost_type: "crwdns520259:0crwdne520259:0"
+  button_cancel_edit_budget: "crwdns520261:0crwdne520261:0"
+  button_cancel_edit_costs: "crwdns520263:0crwdne520263:0"
+  caption_labor: "crwdns520265:0crwdne520265:0"
+  caption_labor_costs: "crwdns520267:0crwdne520267:0"
+  caption_material_costs: "crwdns520269:0crwdne520269:0"
+  budgets_title: "crwdns520271:0crwdne520271:0"
+  events:
+    budget: "crwdns520273:0crwdne520273:0"
+  help_click_to_edit: "crwdns520275:0crwdne520275:0"
+  help_currency_format: "crwdns520277:0%ncrwdnd520277:0%ucrwdne520277:0"
+  help_override_rate: "crwdns520279:0crwdne520279:0"
+  label_budget: "crwdns520281:0crwdne520281:0"
+  label_budget_new: "crwdns520283:0crwdne520283:0"
+  label_budget_plural: "crwdns520285:0crwdne520285:0"
+  label_budget_id: "crwdns520287:0%{id}crwdne520287:0"
+  label_deliverable: "crwdns520289:0crwdne520289:0"
+  label_example_placeholder: 'crwdns520291:0%{decimal}crwdne520291:0'
+  label_view_all_budgets: "crwdns520293:0crwdne520293:0"
+  label_yes: "crwdns520295:0crwdne520295:0"
+  notice_budget_conflict: "crwdns520297:0crwdne520297:0"
+  notice_no_budgets_available: "crwdns520299:0crwdne520299:0"
+  permission_edit_budgets: "crwdns520301:0crwdne520301:0"
+  permission_view_budgets: "crwdns520303:0crwdne520303:0"
+  project_module_budgets: "crwdns520305:0crwdne520305:0"
+  text_budget_reassign_to: "crwdns520307:0crwdne520307:0"
+  text_budget_delete: "crwdns520309:0crwdne520309:0"
+  text_budget_destroy_assigned_wp: "crwdns520311:0%{count}crwdne520311:0"

@@ -1,5 +1,5 @@
 tr:
   dashboards:
     label: 'Gösterge panosu'
-    menu_badge: 'Alfa'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'Gösterge panosu'

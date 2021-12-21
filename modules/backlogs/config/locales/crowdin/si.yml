@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+si:
+  activerecord:
+    attributes:
+      work_package:
+        position: "තත්ත්වය"
+        remaining_hours: "ඉතිරි පැය"
+        remaining_time: "ඉතිරි පැය"
+        story_points: "කතන්දර කරුණු"
+        backlogs_work_package_type: "බැක්ලොග් වර්ගය"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "පමණක් වත්මන් ස්ප්රින්ට් වැඩ පැකේජ IDS අඩංගු විය හැක."
+              must_block_at_least_one_work_package: "අවම වශයෙන් එක් ටිකට් පතක හැඳුනුම්පත අඩංගු විය යුතුය."
+            parent_id:
+              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
+              type_must_be_one_of_the_following: "වර්ගය පහත සඳහන් එකක් විය යුතුය: %{type_names}."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "මව් කතාවේ අනුවාදයට සමාන විය යුතුය."
+        sprint:
+          cannot_end_before_it_starts: "ස්ප්රින්ට් ආරම්භ වීමට පෙර අවසන් කළ නොහැක."
+  backlogs:
+    add_new_story: "නව කතාව"
+    any: "ඔනෑම"
+    backlog_settings: "බැක් ලොග් සැකසුම්"
+    burndown_graph: "පිළිස්සෙන ප්රස්තාරය"
+    card_paper_size: "කාඩ් මුද්රණය සඳහා කඩදාසි ප්රමාණය"
+    chart_options: "සටහන විකල්ප"
+    close: "වසන්න"
+    column_width: "තීරුව පළල:"
+    date: "දවස"
+    definition_of_done: "සිදු කරන ලද අර්ථ දැක්වීම"
+    generating_chart: "ප්රස්තාරය ජනනය..."
+    hours: "පැය"
+    impediment: "බාධාවන්"
+    label_versions_default_fold_state: "නවනු අනුවාද පෙන්වන්න"
+    work_package_is_closed: "වැඩ පැකේජය සිදු කරනු ලබන්නේ කවදාද"
+    label_is_done_status: "තත්ත්වය %{status_name} යන්නෙන් අදහස් කරන්නේ"
+    no_burndown_data: "කිසිදු පිළිස්සීමක් දත්ත ලබා ගත හැකි. එය ස්ප්රින්ට් ආරම්භක හා අවසන් දින නියම කිරීම අවශ්ය වේ."
+    points: "ලකුණු"
+    positions_could_not_be_rebuilt: "තනතුරු නැවත ගොඩනැඟිය නොහැක."
+    positions_rebuilt_successfully: "තනතුරු සාර්ථකව නැවත ගොඩනඟා ඇත."
+    properties: "ගුණාංග"
+    rebuild: "නැවත"
+    rebuild_positions: "තනතුරු නැවත"
+    remaining_hours: "ඉතිරි පැය"
+    remaining_hours_ideal: "ඉතිරි පැය (කදිම)"
+    show_burndown_chart: "බර්න්ඩවුන් සටහන"
+    story: "කතාව"
+    story_points: "කතන්දර කරුණු"
+    story_points_ideal: "කතාව ලකුණු (කදිම)"
+    task: "කාර්යය"
+    task_color: "කාර්ය වර්ණ"
+    unassigned: "නොපවරා ඇත"
+    x_more: "%{count} තවත්..."
+  backlogs_active: "ක්රියාකාරී"
+  backlogs_any: "ඔනෑම"
+  backlogs_card_specification: "කාඩ් මුද්රණය සඳහා ලේබල් වර්ග"
+  backlogs_inactive: "ව්යාපෘතිය කිසිදු ක්රියාකාරකමක් පෙන්වයි"
+  backlogs_points_burn_direction: "ලකුණු ඉහළ/පහළ පිළිස්සීම"
+  backlogs_product_backlog: "නිෂ්පාදන බැක්ලොග්"
+  backlogs_product_backlog_is_empty: "නිෂ්පාදන බැක්ලොග් හිස්"
+  backlogs_product_backlog_unsized: "නිෂ්පාදන බැක්ලොගයේ ඉහළට ප්රමාණයේ කතන්දර ඇත"
+  backlogs_sizing_inconsistent: "කතන්දර ප්රමාණ ඔවුන්ගේ ඇස්තමේන්තු වලට වඩා වෙනස් වේ"
+  backlogs_sprint_notes_missing: "රෙට්රොස්පෙක්ටිව්/සමාලෝචන සටහන් නොමැතිව වසා දැමූ ස්ප්රින්ට්"
+  backlogs_sprint_unestimated: "ගණන් බලා නැති කථා සහිත සංවෘත හෝ ක්රියාකාරී ස්ප්රින්ට්"
+  backlogs_sprint_unsized: "ව්යාපෘතියේ ක්රියාකාරී හෝ මෑතකදී වසා දැමූ උල්පත් පිළිබඳ කථා ඇත"
+  backlogs_sprints: "ස්ප්රින්ට්"
+  backlogs_story: "කතාව"
+  backlogs_story_type: "කතන්දර වර්ග"
+  backlogs_task: "කාර්යය"
+  backlogs_task_type: "කාර්ය වර්ගය"
+  backlogs_velocity_missing: "මෙම ව්යාපෘතිය සඳහා ප්රවේගය ගණනය කළ නොහැකිය"
+  backlogs_velocity_varies: "ප්රවේගය sprints කට සැලකිය යුතු වෙනස්"
+  backlogs_wiki_template: "ස්ප්රින්ට් විකි පිටුව සඳහා සැකිල්ල"
+  backlogs_empty_title: "කිසිදු අනුවාදයක් backlogs භාවිතා කිරීමට අර්ථ දක්වා නැත"
+  backlogs_empty_action_text: "backlogs සමඟ ආරම්භ කිරීම සඳහා, නව අනුවාදයක් නිර්මාණය කර එය backlogs තීරුවකට පවරන්න."
+  button_edit_wiki: "විකි පිටුව සංස්කරණය කරන්න"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_intro_plural: "පහත සඳහන් දෝෂ වලට මුහුණ දීමට සිදු විය:"
+  error_intro_singular: "පහත දැක්වෙන දෝෂය ඇති විය:"
+  error_outro: "නැවත ඉදිරිපත් කිරීමට පෙර ඉහත දෝෂ නිවැරදි කරන්න."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "කදිම"
+  inclusion: "ලැයිස්තුවට ඇතුළත් නොවේ"
+  label_back_to_project: "ව්‍යාපෘතියේ පිටුවට ආපසු"
+  label_backlog: "බැක්ලොග්"
+  label_backlogs: "බැක්ලොග්ස්"
+  label_backlogs_unconfigured: "ඔබ තවමත් Backlogs වින්යාස කර නැත. කරුණාකර යන්න %{administration} > %{plugins}, ඉන්පසු මෙම ප්ලගිනය සඳහා %{configure} සබැඳිය ක්ලික් කරන්න. ඔබ ක්ෂේත්ර සකස් කළ පසු, මෙවලම භාවිතා කිරීම ආරම්භ කිරීමට මෙම පිටුවට නැවත එන්න."
+  label_blocks_ids: "අවහිර කරන ලද වැඩ පැකේජ වල IDS"
+  label_burndown: "බර්න්ඩවුන්"
+  label_column_in_backlog: "පසුබිම තුළ තීරුව"
+  label_hours: "පැය"
+  label_work_package_hierarchy: "වැඩ පැකේජය ධූරාවලිය"
+  label_master_backlog: "මාස්ටර් බැක්ලොග්"
+  label_not_prioritized: "ප්රමුඛත්වය ලබා නැත"
+  label_points: "ලකුණු"
+  label_points_burn_down: "පහළට"
+  label_points_burn_up: "ඉහළට"
+  label_product_backlog: "නිෂ්පාදන බැක්ලොග්"
+  label_select_all: "සියල්ල තෝරන්න"
+  label_sprint_backlog: "ස්ප්රින්ට් බැක්ලොග්"
+  label_sprint_cards: "අපනයන කාඩ්පත්"
+  label_sprint_impediments: "ස්ප්රින්ට් බාධාවන්"
+  label_sprint_name: "ස්ප්රින්ට් \"%{name}”"
+  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
+  label_stories: "කතන්දර"
+  label_stories_tasks: "මහල් හා කාර්යයන්"
+  label_task_board: "කාර්ය මණ්ඩලය"
+  label_version_setting: "අනුවාද"
+  label_version: 'අනුවාදය'
+  label_webcal: "වෙබ්කල් පෝෂණය"
+  label_wiki: "විකි"
+  permission_view_master_backlog: "ස්වාමියා බැක්ලොග් දැක්ම"
+  permission_view_taskboards: "දැක්ම කාර්ය මණ්ඩල"
+  permission_select_done_statuses: "Select done statuses"
+  permission_update_sprints: "ස්ප්රින්ට් යාවත්කාලීන"
+  points_accepted: "පිළිගත් ලකුණු"
+  points_committed: "කැපවූ ලකුණු"
+  points_resolved: "විසඳුණු ලකුණු"
+  points_to_accept: "ලකුණු පිළිගත්තේ නැත"
+  points_to_resolve: "විසඳී නැති කරුණු"
+  project_module_backlogs: "බැක්ලොග්ස්"
+  rb_label_copy_tasks: "වැඩ පැකේජ පිටපත් කරන්න"
+  rb_label_copy_tasks_all: "සියලු"
+  rb_label_copy_tasks_none: "කිසිවක් නැත"
+  rb_label_copy_tasks_open: "විවෘත"
+  rb_label_link_to_original: "මුල් කතාවට සබැඳිය ඇතුළත් කරන්න"
+  remaining_hours: "ඉතිරි පැය"
+  required_burn_rate_hours: "අවශ්ය පිළිස්සීම් අනුපාතය (පැය)"
+  required_burn_rate_points: "අවශ්ය පිළිස්සීම් අනුපාතය (ලකුණු)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "පසුබිම තුළ තීරුව"
+  version_settings_display_option_left: "වම්"
+  version_settings_display_option_none: "කිසිවක් නැත"
+  version_settings_display_option_right: "අයිතිය"

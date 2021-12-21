@@ -1,0 +1,5 @@
+af:
+  dashboards:
+    label: 'Beheerpanele'
+    menu_badge: 'Alpha'
+  project_module_dashboards: 'Beheerpanele'

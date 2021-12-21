@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+lol:
+  recaptcha:
+    label_recaptcha: "crwdns520793:0crwdne520793:0"
+    button_please_wait: 'crwdns520795:0crwdne520795:0'
+    verify_account: "crwdns520797:0crwdne520797:0"
+    error_captcha: "crwdns520799:0crwdne520799:0"
+    settings:
+      website_key: 'crwdns520801:0crwdne520801:0'
+      website_key_text: 'crwdns520803:0crwdne520803:0'
+      secret_key: 'crwdns520805:0crwdne520805:0'
+      secret_key_text: 'crwdns520807:0crwdne520807:0'
+      type: 'crwdns520809:0crwdne520809:0'
+      type_disabled: 'crwdns520811:0crwdne520811:0'
+      type_v2: 'crwdns520813:0crwdne520813:0'
+      type_v3: 'crwdns520815:0crwdne520815:0'
+      recaptcha_description_html: >
+        crwdns520817:0%{recaptcha_link}crwdne520817:0

@@ -1,0 +1,40 @@
+#English strings go here
+fa:
+  label_avatar: "چهرک"
+  label_avatar_plural: "چهرک‌ها"
+  label_current_avatar: "چهرک کنونی"
+  label_choose_avatar: "گزینش چهرک  از  پرونده"
+  message_avatar_uploaded: "آواتار مورد نظر با موفقيت تغيير كرد"
+  error_image_upload: "نادرستی در انباردن فرتور.(ذخیره عکس)"
+  error_image_size: "اندازه این فرتور (عکس) زیادی بزرگ است."
+  button_change_avatar: "دگرگونی چهرک"
+  are_you_sure_delete_avatar: "آیا از زدودن جهرک خود بیگمانید؟ (اطمینان دارید)"
+  avatar_deleted: "چهرک با کامیابی زدوده شد."
+  unable_to_delete_avatar: "جهرک زدود نشد.\n \n"
+  wrong_file_format: "چارچوب‌های jpg ، png ، gif رواست \n"
+  empty_file_error: "خواهشمند است یک فرتور (عکس) درست (jpg ، png ، gif) بارگذاری کنید"
+  avatars:
+    label_avatar: "چهرک"
+    label_gravatar: 'چهرکنماد (شناسایی چهرک جهانی)'
+    label_current_avatar: 'چهرک کنونی'
+    label_local_avatar: 'جهرک سفارشی'
+    text_current_avatar: |
+      فرتور (عکس) زیر جهرک کنونی را نشان می‌دهد.
+    text_upload_instructions: |
+      چهرک دلخواه خود را از ۱۲۸ در ۱۲۸ پیکسل بارگذاری نمایید. پرونده‌های بزرگتر برش داده شده و دگرگون می‌شوند تا هم‌خوانی دید آید.
+      پس از انتخاب فرتور (عکس) و قبل از بارگذاری یک پیش‌نمایش نشان داده خواهد شد.
+    text_change_gravatar_html: 'برای دگرگونی یا افزودن چهرکنماد (شناسایی چهرک جهانی) به رایانامه‌ خود،  به نشانی %{gravatar_url} وارد شوید.'
+    text_your_local_avatar: |
+      اوپن‌پروژکت به شما امکان می‌دهد جهرک دلخواه خود را بارگذاری کنید.
+    text_local_avatar_over_gravatar: |
+      اگر یک چهرک سفارشی انتخاب کنید، پیشگامی آن از چهرکنماد (شناسایی چهرک جهانی) بالاتر است.
+    text_your_current_gravatar: |
+      چنانچه دارای چهرکنماد (شناسایی چهرک جهانی)، فرتور (عکس) یا نماد (ایکن) باشید اوپن‌پروژک از آن بهره می‌برد.
+      چهرکنماد (شناسایی چهرک جهانی) کنونی شما چنین است:
+    settings:
+      enable_gravatars: 'چهرکنماد (شناسایی چهرک جهانی) کاربر را کارآ کنید'
+      gravatar_default: "انگاره فرتور چهرکنماد (عکس پیش‌فرض شناسایی چهرک جهانی)"
+      enable_local_avatars: 'کاراندازی سفارشی سازی چهرکنماد (شناسایی چهرک جهانی)'
+
+
+

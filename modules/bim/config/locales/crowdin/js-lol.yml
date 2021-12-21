@@ -1,0 +1,29 @@
+#English strings go here
+lol:
+  js:
+    bcf:
+      label_bcf: 'crwdns526251:0crwdne526251:0'
+      import: 'crwdns526253:0crwdne526253:0'
+      import_bcf_xml_file: 'crwdns526255:0crwdne526255:0'
+      export: 'crwdns526257:0crwdne526257:0'
+      export_bcf_xml_file: 'crwdns526259:0crwdne526259:0'
+      viewpoint: 'crwdns526261:0crwdne526261:0'
+      add_viewpoint: 'crwdns526263:0crwdne526263:0'
+      show_viewpoint: 'crwdns526265:0crwdne526265:0'
+      delete_viewpoint: 'crwdns526267:0crwdne526267:0'
+      management: 'crwdns526269:0crwdne526269:0'
+      refresh: 'crwdns526271:0crwdne526271:0'
+      refresh_work_package: 'crwdns526273:0crwdne526273:0'
+    ifc_models:
+      empty_warning: "crwdns526275:0crwdne526275:0"
+      use_this_link_to_manage: "crwdns526277:0crwdne526277:0"
+      keyboard_input_disabled: "crwdns526279:0crwdne526279:0"
+      models:
+        ifc_models: 'crwdns526281:0crwdne526281:0'
+      views:
+        viewer: 'crwdns526283:0crwdne526283:0'
+        split: 'crwdns526285:0crwdne526285:0'
+        split_cards: 'crwdns526287:0crwdne526287:0'
+    revit:
+      revit_add_in: "crwdns526289:0crwdne526289:0"
+      revit_add_in_settings: "crwdns526291:0crwdne526291:0"

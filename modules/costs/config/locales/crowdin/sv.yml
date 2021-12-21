@@ -85,7 +85,7 @@ sv:
   label_currency: "Valuta"
   label_currency_format: "Formatet för valuta"
   label_current_default_rate: "Nuvarande standardtimpris"
-  label_date_on: "på"
+  label_date_on: "den"
   label_deleted_cost_types: "Borttagna kostnadstyper"
   label_locked_cost_types: "Låsta kostnadstyper"
   label_display_cost_entries: "Visa enhetskostnader"

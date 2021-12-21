@@ -1,0 +1,5 @@
+lv:
+  dashboards:
+    label: 'Informācijas panelis'
+    menu_badge: 'Alpha'
+  project_module_dashboards: 'Informācijas panelis'

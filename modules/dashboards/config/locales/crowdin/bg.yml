@@ -1,5 +1,5 @@
 bg:
   dashboards:
     label: 'Табло'
-    menu_badge: 'Алфа'
+    menu_badge: 'Alpha'
   project_module_dashboards: 'Табло'

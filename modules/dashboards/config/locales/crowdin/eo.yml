@@ -1,0 +1,5 @@
+eo:
+  dashboards:
+    label: 'Paneloj'
+    menu_badge: 'Alpha'
+  project_module_dashboards: 'Paneloj'

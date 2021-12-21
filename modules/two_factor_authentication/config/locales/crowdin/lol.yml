@@ -1,0 +1,172 @@
+#English strings go here for Rails i18n
+lol:
+  activerecord:
+    attributes:
+      two_factor_authentication/device:
+        identifier: 'crwdns521141:0crwdne521141:0'
+        default: 'crwdns521143:0crwdne521143:0'
+      two_factor_authentication/device/sms:
+        phone_number: "crwdns521145:0crwdne521145:0"
+    errors:
+      models:
+        two_factor_authentication/device:
+          default_already_exists: 'crwdns521147:0crwdne521147:0'
+        two_factor_authentication/device/sms:
+          attributes:
+            phone_number:
+              error_phone_number_format: "crwdns521149:0crwdne521149:0"
+    models:
+      two_factor_authentication/device: "crwdns521151:0crwdne521151:0"
+      two_factor_authentication/device/sms: "crwdns521153:0crwdne521153:0"
+      two_factor_authentication/device/totp: "crwdns521155:0crwdne521155:0"
+  two_factor_authentication:
+    error_2fa_disabled: "crwdns521157:0crwdne521157:0"
+    error_no_device: "crwdns521159:0crwdne521159:0"
+    error_no_matching_strategy: "crwdns521161:0crwdne521161:0"
+    error_is_enforced_not_active: 'crwdns521163:0crwdne521163:0'
+    error_invalid_backup_code: 'crwdns521165:0crwdne521165:0'
+    channel_unavailable: "crwdns521167:0%{channel}crwdne521167:0"
+    no_valid_phone_number: "crwdns521169:0crwdne521169:0"
+    label_pwd_confirmation: "crwdns521171:0crwdne521171:0"
+    notice_pwd_confirmation: "crwdns521173:0crwdne521173:0"
+    label_device_type: "crwdns521175:0crwdne521175:0"
+    label_default_device: "crwdns521177:0crwdne521177:0"
+    label_device: "crwdns521179:0crwdne521179:0"
+    label_devices: "crwdns521181:0crwdne521181:0"
+    label_one_time_password: 'crwdns521183:0crwdne521183:0'
+    label_2fa_enabled: 'crwdns521185:0crwdne521185:0'
+    label_2fa_disabled: 'crwdns521187:0crwdne521187:0'
+    text_otp_delivery_message_sms: "crwdns521189:0%{app_title}crwdnd521189:0%{token}crwdne521189:0"
+    text_otp_delivery_message_voice: "crwdns521191:0%{app_title}crwdnd521191:0%{pause}crwdnd521191:0%{token}crwdnd521191:0%{pause}crwdnd521191:0%{pause}crwdnd521191:0%{token}crwdne521191:0"
+    text_enter_2fa: 'crwdns521193:0crwdne521193:0'
+    text_2fa_enabled: 'crwdns521195:0crwdne521195:0'
+    text_2fa_disabled: 'crwdns521197:0crwdne521197:0'
+    login:
+      enter_backup_code_title: crwdns521199:0crwdne521199:0
+      enter_backup_code_text: crwdns521201:0crwdne521201:0
+      other_device: 'crwdns521203:0crwdne521203:0'
+    settings:
+      title: 'crwdns521205:0crwdne521205:0'
+      current_configuration: 'crwdns521207:0crwdne521207:0'
+      label_active_strategies: 'crwdns521209:0crwdne521209:0'
+      label_enforced: 'crwdns521211:0crwdne521211:0'
+      label_remember: 'crwdns521213:0crwdne521213:0'
+      text_configuration: |
+        crwdns521215:0crwdne521215:0
+      text_configuration_guide: crwdns521217:0crwdne521217:0
+      text_enforced: 'crwdns521219:0crwdne521219:0'
+      text_remember: |
+        crwdns521221:0crwdne521221:0
+      error_invalid_settings: 'crwdns521223:0crwdne521223:0'
+      failed_to_save_settings: 'crwdns521225:0%{message}crwdne521225:0'
+    admin:
+      self_edit_path: 'crwdns521227:0%{self_edit_link}crwdne521227:0'
+      self_edit_link_name: 'crwdns521229:0crwdne521229:0'
+      self_edit_forbidden: 'crwdns521231:0crwdne521231:0'
+      no_devices_for_user: 'crwdns521233:0crwdne521233:0'
+      all_devices_deleted: 'crwdns521235:0crwdne521235:0'
+      delete_all_are_you_sure: 'crwdns521237:0crwdne521237:0'
+      button_delete_all_devices: 'crwdns521239:0crwdne521239:0'
+      button_register_mobile_phone_for_user: 'crwdns521241:0crwdne521241:0'
+      text_2fa_enabled: 'crwdns521243:0crwdne521243:0'
+      text_2fa_disabled: "crwdns521245:0crwdne521245:0"
+    upsale:
+      title: 'crwdns521247:0crwdne521247:0'
+      description: 'crwdns521249:0crwdne521249:0'
+    backup_codes:
+      none_found: crwdns521251:0crwdne521251:0
+      singular: crwdns521253:0crwdne521253:0
+      plural: crwdns521255:0crwdne521255:0
+      your_codes: crwdns521257:0%{app_name}crwdnd521257:0%{login}crwdne521257:0
+      overview_description: |
+        crwdns521259:0crwdne521259:0
+      generate:
+        title: crwdns521261:0crwdne521261:0
+        keep_safe_as_password: 'crwdns521263:0crwdne521263:0'
+        keep_safe_warning: 'crwdns521265:0crwdne521265:0'
+        regenerate_warning: 'crwdns521267:0crwdne521267:0'
+    devices:
+      add_new: 'crwdns521269:0crwdne521269:0'
+      register: 'crwdns521271:0crwdne521271:0'
+      confirm_default: 'crwdns521273:0crwdne521273:0'
+      confirm_device: 'crwdns521275:0crwdne521275:0'
+      confirm_now: 'crwdns521277:0crwdne521277:0'
+      cannot_delete_default: 'crwdns521279:0crwdne521279:0'
+      make_default_are_you_sure: 'crwdns521281:0crwdne521281:0'
+      make_default_failed: 'crwdns521283:0crwdne521283:0'
+      deletion_are_you_sure: 'crwdns521285:0crwdne521285:0'
+      registration_complete: 'crwdns521287:0crwdne521287:0'
+      registration_failed_token_invalid: 'crwdns521289:0crwdne521289:0'
+      registration_failed_update: 'crwdns521291:0crwdne521291:0'
+      confirm_send_failed: 'crwdns521293:0crwdne521293:0'
+      button_complete_registration: 'crwdns521295:0crwdne521295:0'
+      text_confirm_to_complete_html: "crwdns521297:0%{identifier}crwdne521297:0"
+      text_confirm_to_change_default_html: "crwdns521299:0%{new_identifier}crwdne521299:0"
+      text_identifier: 'crwdns521301:0crwdne521301:0'
+      failed_to_delete: 'crwdns521303:0crwdne521303:0'
+      is_default_cannot_delete: 'crwdns521305:0crwdne521305:0'
+      not_existing: 'crwdns521307:0crwdne521307:0'
+      request_2fa: crwdns521309:0%{device_name}crwdne521309:0
+      totp:
+        title: 'crwdns521311:0crwdne521311:0'
+        provisioning_uri: 'crwdns521313:0crwdne521313:0'
+        secret_key: 'crwdns521315:0crwdne521315:0'
+        time_based: 'crwdns521317:0crwdne521317:0'
+        account: 'crwdns521319:0crwdne521319:0'
+        setup: |
+          crwdns521321:0crwdne521321:0
+        question_cannot_scan: |
+          crwdns521323:0crwdne521323:0
+        text_cannot_scan: |
+          crwdns521325:0crwdne521325:0
+        description: |
+          crwdns521327:0crwdne521327:0
+      sms:
+        title: 'crwdns521329:0crwdne521329:0'
+        redacted_identifier: 'crwdns521331:0%{redacted_number}crwdne521331:0'
+        request_2fa_identifier: 'crwdns521333:0%{redacted_identifier}crwdnd521333:0%{delivery_channel}crwdne521333:0'
+        description: |
+          crwdns521335:0crwdne521335:0
+    sns:
+      delivery_failed: 'crwdns521337:0crwdne521337:0'
+    message_bird:
+      sms_delivery_failed: 'crwdns521339:0crwdne521339:0'
+      voice_delivery_failed: 'crwdns521341:0crwdne521341:0'
+    restdt:
+      delivery_failed_with_code: 'crwdns521343:0%{code}crwdne521343:0'
+    strategies:
+      totp: 'crwdns521345:0crwdne521345:0'
+      sns: 'crwdns521347:0crwdne521347:0'
+      resdt: 'crwdns521349:0crwdne521349:0'
+    mobile_transmit_notification: "crwdns521351:0crwdne521351:0"
+    label_two_factor_authentication: 'crwdns521353:0crwdne521353:0'
+    forced_registration:
+      required_to_add_device: 'crwdns521355:0crwdne521355:0'
+    remember:
+      active_session_notice: >
+        crwdns521357:0%{expires_on}crwdne521357:0
+      other_active_session_notice: crwdns521359:0crwdne521359:0
+      label: 'crwdns521361:0crwdne521361:0'
+      clear_cookie: 'crwdns521363:0crwdne521363:0'
+      cookie_removed: 'crwdns521365:0crwdne521365:0'
+      dont_ask_again: "crwdns521367:0%{days}crwdne521367:0"
+  field_phone: "crwdns521369:0crwdne521369:0"
+  field_otp: "crwdns521371:0crwdne521371:0"
+  notice_account_otp_invalid: "crwdns521373:0crwdne521373:0"
+  notice_account_otp_expired: "crwdns521375:0crwdne521375:0"
+  notice_developer_strategy_otp: "crwdns521377:0%{token}crwdnd521377:0%{channel}crwdne521377:0"
+  notice_account_otp_send_failed: "crwdns521379:0crwdne521379:0"
+  notice_account_has_no_phone: "crwdns521381:0crwdne521381:0"
+  label_expiration_hint: "crwdns521383:0%{date}crwdne521383:0"
+  label_actions: 'crwdns521385:0crwdne521385:0'
+  label_confirmed: 'crwdns521387:0crwdne521387:0'
+  button_continue: 'crwdns521389:0crwdne521389:0'
+  button_make_default: 'crwdns521391:0crwdne521391:0'
+  label_unverified_phone: "crwdns521393:0crwdne521393:0"
+  notice_phone_number_format: "crwdns521395:0crwdne521395:0"
+  text_otp_not_receive: "crwdns521397:0crwdne521397:0"
+  text_send_otp_again: "crwdns521399:0crwdne521399:0"
+  button_resend_otp_form: "crwdns521401:0crwdne521401:0"
+  button_otp_by_voice: "crwdns521403:0crwdne521403:0"
+  button_otp_by_sms: "crwdns521405:0crwdne521405:0"
+  label_otp_channel: "crwdns521407:0crwdne521407:0"

@@ -1,0 +1,59 @@
+lol:
+  activerecord:
+    attributes:
+      webhooks/webhook:
+        url: 'crwdns520829:0crwdne520829:0'
+        secret: 'crwdns520831:0crwdne520831:0'
+        events: 'crwdns520833:0crwdne520833:0'
+        projects: 'crwdns520835:0crwdne520835:0'
+      webhooks/log:
+        event_name: 'crwdns520837:0crwdne520837:0'
+        url: 'crwdns520839:0crwdne520839:0'
+        response_code: 'crwdns520841:0crwdne520841:0'
+        response_body: 'crwdns520843:0crwdne520843:0'
+    models:
+      webhooks/outgoing_webhook: "crwdns520845:0crwdne520845:0"
+  webhooks:
+    singular: crwdns520847:0crwdne520847:0
+    plural: crwdns520849:0crwdne520849:0
+    resources:
+      time_entry:
+        name: "crwdns520851:0crwdne520851:0"
+    outgoing:
+      no_results_table: crwdns520853:0crwdne520853:0
+      label_add_new: crwdns520855:0crwdne520855:0
+      label_edit: crwdns520857:0crwdne520857:0
+      label_event_resources: crwdns520859:0crwdne520859:0
+      events:
+        created: "crwdns520861:0crwdne520861:0"
+        updated: "crwdns520863:0crwdne520863:0"
+      status:
+        enabled: 'crwdns520865:0crwdne520865:0'
+        disabled: 'crwdns520867:0crwdne520867:0'
+        enabled_text: 'crwdns520869:0crwdne520869:0'
+        disabled_text: 'crwdns520871:0crwdne520871:0'
+      deliveries:
+        no_results_table: crwdns520873:0crwdne520873:0
+        title: 'crwdns520875:0crwdne520875:0'
+        time: 'crwdns520877:0crwdne520877:0'
+      form:
+        introduction: >
+          crwdns520879:0crwdne520879:0
+        apiv3_doc_url: crwdns520881:0crwdne520881:0
+        description:
+          placeholder: 'crwdns520883:0crwdne520883:0'
+        enabled:
+          description: >
+            crwdns520885:0crwdne520885:0
+        events:
+          title: 'crwdns520887:0crwdne520887:0'
+        project_ids:
+          title: 'crwdns520889:0crwdne520889:0'
+          description: 'crwdns520891:0crwdne520891:0'
+          all: 'crwdns520893:0crwdne520893:0'
+          selected: 'crwdns520895:0crwdne520895:0'
+        selected_project_ids:
+          title: 'crwdns520897:0crwdne520897:0'
+        secret:
+          description: >
+            crwdns520899:0crwdne520899:0

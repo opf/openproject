@@ -1,0 +1,17 @@
+lol:
+  js:
+    job_status:
+      download_starts: 'crwdns526295:0crwdne526295:0'
+      click_to_download: 'crwdns526297:0crwdne526297:0'
+      title: 'crwdns526299:0crwdne526299:0'
+      redirect: 'crwdns526301:0crwdne526301:0'
+      redirect_link: 'crwdns526303:0crwdne526303:0'
+      redirect_errors: 'crwdns526305:0crwdne526305:0'
+      errors: 'crwdns526307:0crwdne526307:0'
+      generic_messages:
+        not_found: 'crwdns526309:0crwdne526309:0'
+        in_queue: 'crwdns526311:0crwdne526311:0'
+        in_process: 'crwdns526313:0crwdne526313:0'
+        error: 'crwdns526315:0crwdne526315:0'
+        cancelled: 'crwdns526317:0crwdne526317:0'
+        success: 'crwdns526319:0crwdne526319:0'

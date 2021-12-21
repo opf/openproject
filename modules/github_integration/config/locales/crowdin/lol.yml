@@ -1,0 +1,35 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  project_module_github: "crwdns520925:0crwdne520925:0"
+  permission_show_github_content: "crwdns520927:0crwdne520927:0"
+  github_integration:
+    pull_request_opened_comment: >
+      crwdns520929:0%{pr_number}crwdnd520929:0%{pr_title}crwdnd520929:0%{pr_url}crwdnd520929:0%{repository}crwdnd520929:0%{repository_url}crwdnd520929:0%{github_user}crwdnd520929:0%{github_user_url}crwdne520929:0
+    pull_request_closed_comment: >
+      crwdns520931:0%{pr_number}crwdnd520931:0%{pr_title}crwdnd520931:0%{pr_url}crwdnd520931:0%{repository}crwdnd520931:0%{repository_url}crwdnd520931:0%{github_user}crwdnd520931:0%{github_user_url}crwdne520931:0
+    pull_request_merged_comment: >
+      crwdns520933:0%{pr_number}crwdnd520933:0%{pr_title}crwdnd520933:0%{pr_url}crwdnd520933:0%{repository}crwdnd520933:0%{repository_url}crwdnd520933:0%{github_user}crwdnd520933:0%{github_user_url}crwdne520933:0
+    pull_request_referenced_comment: >
+      crwdns520935:0%{github_user}crwdnd520935:0%{github_user_url}crwdnd520935:0%{pr_number}crwdnd520935:0%{pr_title}crwdnd520935:0%{pr_url}crwdnd520935:0%{repository}crwdnd520935:0%{repository_url}crwdne520935:0
+    pull_request_ready_for_review_comment: >
+      crwdns520937:0%{pr_number}crwdnd520937:0%{pr_title}crwdnd520937:0%{pr_url}crwdnd520937:0%{repository}crwdnd520937:0%{repository_url}crwdnd520937:0%{github_user}crwdnd520937:0%{github_user_url}crwdne520937:0

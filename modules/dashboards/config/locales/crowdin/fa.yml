@@ -1,0 +1,5 @@
+fa:
+  dashboards:
+    label: 'پیش‌خوان'
+    menu_badge: 'Alpha'
+  project_module_dashboards: 'پیش‌خوان'

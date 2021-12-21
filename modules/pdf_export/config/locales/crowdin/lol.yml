@@ -1,0 +1,51 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  error_can_not_delete_export_card_configuration: "crwdns520741:0crwdne520741:0"
+  error_can_not_change_name_of_default_configuration: "crwdns520743:0crwdne520743:0"
+  label_backlogs_export_card_config_select: "crwdns520745:0crwdne520745:0"
+  label_backlogs_export_card_export: "crwdns520747:0crwdne520747:0"
+  label_export_card_configuration_new: "crwdns520749:0crwdne520749:0"
+  label_export_card_configuration: "crwdns520751:0crwdne520751:0"
+  label_export_card_configuration_plural: "crwdns520753:0crwdne520753:0"
+  label_export_card_activate: "crwdns520755:0crwdne520755:0"
+  label_export_card_deactivate: "crwdns520757:0crwdne520757:0"
+  notice_export_card_configuration_activated: "crwdns520759:0crwdne520759:0"
+  notice_export_card_configuration_deactivated: "crwdns520761:0crwdne520761:0"
+  error_can_not_activate_export_card_configuration: "crwdns520763:0crwdne520763:0"
+  error_can_not_deactivate_export_card_configuration: "crwdns520765:0crwdne520765:0"
+  validation_error_required_keys_not_present: "crwdns520767:0crwdne520767:0"
+  validation_error_yaml_is_badly_formed: "crwdns520769:0crwdne520769:0"
+  validation_error_uknown_key: "crwdns520771:0crwdne520771:0"
+  yaml_error: "crwdns520773:0crwdne520773:0"
+  help_link_rows_format: "crwdns520775:0crwdne520775:0"
+  export_config_per_page: "crwdns520777:0crwdne520777:0"
+  export_config_page_size: "crwdns520779:0crwdne520779:0"
+  export_config_orientation: "crwdns520781:0crwdne520781:0"
+  export_config_rows: "crwdns520783:0crwdne520783:0"
+  activerecord:
+    attributes:
+      export_card_configuration:
+        rows: "crwdns520785:0crwdne520785:0"
+        per_page: "crwdns520787:0crwdne520787:0"
+        page_size: "crwdns520789:0crwdne520789:0"
+        orientation: "crwdns520791:0crwdne520791:0"

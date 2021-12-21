@@ -1,0 +1,42 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  activerecord:
+    models:
+      document: "crwdns520491:0crwdne520491:0"
+  default_doc_category_tech: "crwdns520493:0crwdne520493:0"
+  default_doc_category_user: "crwdns520495:0crwdne520495:0"
+  enumeration_doc_categories: "crwdns520497:0crwdne520497:0"
+  enumeration:
+    document_category:
+      documentation: crwdns520499:0crwdne520499:0
+      specification: crwdns520501:0crwdne520501:0
+      other: crwdns520503:0crwdne520503:0
+  documents:
+    label_attachment_author: "crwdns520505:0crwdne520505:0"
+  label_document_added: "crwdns520507:0crwdne520507:0"
+  label_document_new: "crwdns520509:0crwdne520509:0"
+  label_document_plural: "crwdns520511:0crwdne520511:0"
+  label_documents: "crwdns520513:0crwdne520513:0"
+  permission_manage_documents: "crwdns520515:0crwdne520515:0"
+  permission_view_documents: "crwdns520517:0crwdne520517:0"
+  project_module_documents: "crwdns520519:0crwdne520519:0"

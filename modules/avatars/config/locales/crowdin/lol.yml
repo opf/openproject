@@ -1,0 +1,38 @@
+#English strings go here
+lol:
+  label_avatar: "crwdns520439:0crwdne520439:0"
+  label_avatar_plural: "crwdns520441:0crwdne520441:0"
+  label_current_avatar: "crwdns520443:0crwdne520443:0"
+  label_choose_avatar: "crwdns520445:0crwdne520445:0"
+  message_avatar_uploaded: "crwdns520447:0crwdne520447:0"
+  error_image_upload: "crwdns520449:0crwdne520449:0"
+  error_image_size: "crwdns520451:0crwdne520451:0"
+  button_change_avatar: "crwdns520453:0crwdne520453:0"
+  are_you_sure_delete_avatar: "crwdns520455:0crwdne520455:0"
+  avatar_deleted: "crwdns520457:0crwdne520457:0"
+  unable_to_delete_avatar: "crwdns520459:0crwdne520459:0"
+  wrong_file_format: "crwdns520461:0crwdne520461:0"
+  empty_file_error: "crwdns520463:0crwdne520463:0"
+  avatars:
+    label_avatar: "crwdns520465:0crwdne520465:0"
+    label_gravatar: 'crwdns520467:0crwdne520467:0'
+    label_current_avatar: 'crwdns520469:0crwdne520469:0'
+    label_local_avatar: 'crwdns520471:0crwdne520471:0'
+    text_current_avatar: |
+      crwdns520473:0crwdne520473:0
+    text_upload_instructions: |
+      crwdns520475:0crwdne520475:0
+    text_change_gravatar_html: 'crwdns520477:0%{gravatar_url}crwdne520477:0'
+    text_your_local_avatar: |
+      crwdns520479:0crwdne520479:0
+    text_local_avatar_over_gravatar: |
+      crwdns520481:0crwdne520481:0
+    text_your_current_gravatar: |
+      crwdns520483:0crwdne520483:0
+    settings:
+      enable_gravatars: 'crwdns520485:0crwdne520485:0'
+      gravatar_default: "crwdns520487:0crwdne520487:0"
+      enable_local_avatars: 'crwdns520489:0crwdne520489:0'
+
+
+

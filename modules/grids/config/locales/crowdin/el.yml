@@ -6,8 +6,8 @@ el:
       grids/grid:
         page: "Σελίδα"
         row_count: "Πλήθος γραμμών"
-        column_count: "Πλήθοςστηλών"
-        widgets: "Widgets"
+        column_count: "Πλήθος στηλών"
+        widgets: "Γραφικά στοιχεία"
     errors:
       models:
         grids/grid:
