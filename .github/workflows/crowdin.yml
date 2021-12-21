@@ -33,7 +33,7 @@ jobs:
       matrix:
         branch:
           - dev
-          "${{ needs.setup.outputs.latest_release_branch }}"
+          - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
       - uses: actions/checkout@v2
         with:
