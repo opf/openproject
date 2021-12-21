@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
-      friendly_release_name: ${{ steps.find_latest_release.outputs.friendly_release_name }}
     steps:
     - id: find_latest_release
       env:
@@ -25,11 +24,8 @@ jobs:
           exit 1
         fi
 
-        # replace invalid chars foor crowdin
-        FRIENDLY_NAME=${BRANCH//[\/\.]/_}
-
         echo "::set-output name=branch::${BRANCH}"
-        echo "::set-output name=friendly_release_name::${FRIENDLY_NAME}"
+        echo "::set-output name=crowdin_release_branch::release"
 
   crowdin:
     runs-on: ubuntu-latest
@@ -45,6 +41,14 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
+      - name: "Set crowdin branch name"
+        run: |
+          if [ "$BRANCH" = "dev" ]; then
+            echo "::set-output name=crowdin_branch::dev"
+          else
+            echo "::set-output name=crowdin_branch::release"
+          fi
+
       - name: "Updating translations"
         uses: crowdin/github-action@1.4.4
         with:
@@ -53,7 +57,7 @@ jobs:
           # Download updated translations
           download_translations: true
           # Which version branch to push to
-          crowdin_branch_name: ${{ needs.setup.outputs.friendly_release_name }}
+          crowdin_branch_name: ${{ steps.vars.outputs.crowdin_branch }}
           # Dont create a PR for the updated translations
           push_translations: false
         env:
