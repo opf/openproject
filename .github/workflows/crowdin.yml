@@ -50,6 +50,7 @@ jobs:
           fi
 
       - name: "Updating translations"
+        id: vars
         uses: crowdin/github-action@1.4.4
         with:
           # Upload current source files
