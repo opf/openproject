@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
+      friendly_release_name: ${{ steps.find_latest_release.outputs.friendly_release_name }}
     steps:
     - id: find_latest_release
       env:
@@ -23,7 +24,12 @@ jobs:
           echo "Invalid release branch found: $BRANCH"
           exit 1
         fi
+
+        # replace invalid chars foor crowdin
+        FRIENDLY_NAME=${BRANCH//[\/\.]/_}
+
         echo "::set-output name=branch::${BRANCH}"
+        echo "::set-output name=friendly_release_name::${FRIENDLY_NAME}"
 
   crowdin:
     runs-on: ubuntu-latest
@@ -47,7 +53,7 @@ jobs:
           # Download updated translations
           download_translations: true
           # Which version branch to push to
-          crowdin_branch_name: ${{ matrix.BRANCH }}
+          crowdin_branch_name: ${{ needs.setup.outputs.friendly_release_name }}
           # Dont create a PR for the updated translations
           push_translations: false
         env:
