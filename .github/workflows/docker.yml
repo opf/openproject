@@ -1,4 +1,4 @@
-name: Docker
+name: docker
 on:
   # Scheduled workflows run on the latest commit on the default or base branch
   schedule:

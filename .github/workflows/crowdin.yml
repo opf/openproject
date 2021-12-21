@@ -1,5 +1,6 @@
-name: Core / Translations
+name: crowdin
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 3 * * *' # Daily at 03:00
 
@@ -38,20 +39,25 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
-      - uses: ruby/setup-ruby@v1
+      - name: "Updating translations"
+        uses: crowdin/github-action@1.4.4
         with:
-          bundler-cache: true
-      - name: run
+          # Upload current source files
+          upload_sources: true
+          # Download updated translations
+          download_translations: true
+          # Which version branch to push to
+          crowdin_branch_name: ${{ matrix.BRANCH }}
+          # Dont create a PR for the updated translations
+          push_translations: false
         env:
-          DATABASE_URL: 'nulldb://nohost'
-          OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDIN_PROJECT }}
-          OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDIN_API_KEY }}
+          OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
+          OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Commit translations"
         run: |
           git config user.name "OpenProject Actions CI"
           git config user.email "operations+ci@openproject.com"
-          bundle exec rake db:create
           echo "Updating combined translations"
-          bundle exec rake translations:update
           git ls-files -m | grep 'crowdin\/.*\.yml$' | xargs git add
           git diff --staged --name-only
           git diff --staged --exit-code --quiet || ( git commit -m "update locales from crowdin [ci skip]" && git pull --rebase && git push origin $BRANCH )
