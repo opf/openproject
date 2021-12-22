@@ -27,7 +27,7 @@
 //++
 
 import { PrincipalLike } from 'core-app/shared/components/principal/principal-types';
-import { Principal } from 'core-app/core/state/principals/principal.model';
+import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
 export namespace PrincipalHelper {
@@ -39,13 +39,13 @@ export namespace PrincipalHelper {
    *
    * TODO: Remove old HalResource stuff :P
    */
-  export function hrefFromPrincipal(p:Principal|PrincipalLike):string {
+  export function hrefFromPrincipal(p:IPrincipal|PrincipalLike):string {
     if ((p as PrincipalLike).href) {
       return (p as PrincipalLike).href || '';
     }
 
-    if ((p as Principal)._links) {
-      const self = (p as Principal)._links.self as HalSourceLink;
+    if ((p as IPrincipal)._links) {
+      const self = (p as IPrincipal)._links.self as HalSourceLink;
       return self.href || '';
     }
 

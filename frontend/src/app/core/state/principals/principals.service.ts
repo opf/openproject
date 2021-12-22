@@ -20,7 +20,7 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { PrincipalsStore } from './principals.store';
-import { Principal } from './principal.model';
+import { IPrincipal } from './principal.model';
 
 @EffectHandler
 @Injectable()
@@ -44,12 +44,12 @@ export class PrincipalsResourceService {
   ) {
   }
 
-  fetchPrincipals(params:ApiV3ListParameters):Observable<IHALCollection<Principal>> {
+  fetchPrincipals(params:ApiV3ListParameters):Observable<IHALCollection<IPrincipal>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<Principal>>(this.principalsPath + collectionURL)
+      .get<IHALCollection<IPrincipal>>(this.principalsPath + collectionURL)
       .pipe(
         tap((events) => {
           applyTransaction(() => {
@@ -74,7 +74,7 @@ export class PrincipalsResourceService {
       );
   }
 
-  update(id:ID, principal:Partial<Principal>):void {
+  update(id:ID, principal:Partial<IPrincipal>):void {
     this.store.update(id, principal);
   }
 

@@ -49,7 +49,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
-import { View } from 'core-app/core/state/views/view.model';
+import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
@@ -211,7 +211,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  private toOpSideMenuItem(view:View):IOpSidemenuItem {
+  private toOpSideMenuItem(view:IView):IOpSidemenuItem {
     const { query } = view._links;
     return {
       title: query.title,

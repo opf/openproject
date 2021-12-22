@@ -1,21 +1,21 @@
 import { ID } from '@datorama/akita';
 import {
-  HalResourceLink,
-  HalResourceLinks,
+  IHalResourceLink,
+  IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
 
-export interface ViewLinks extends HalResourceLinks {
-  query:HalResourceLink
+export interface IViewLinks extends IHalResourceLinks {
+  query:IHalResourceLink
 }
 
-export interface View {
+export interface IView {
   id:ID;
   starred:boolean;
   public:boolean;
-  _links:ViewLinks;
+  _links:IViewLinks;
 }
 
-export interface ViewCreatePayload {
+export interface IViewCreatePayload {
   _links:{
     [P in 'query']:{
       [Q in 'href']:string
