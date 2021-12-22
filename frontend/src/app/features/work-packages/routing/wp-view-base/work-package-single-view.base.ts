@@ -161,8 +161,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     const { baseRoute } = this.uiRouterGlobals.current.data as { baseRoute:string }&unknown;
     if (!baseRoute.includes('work-packages')) {
       this.titleService.setTitle(`${this.workPackage.subjectWithType(20)} | ${this.titleService.getLastTitle()}`);
-    }
-    else {
+    } else {
       this.titleService.setFirstPart(this.workPackage.subjectWithType(20));
     }
     // Preselect this work package for future list operations
