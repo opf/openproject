@@ -159,8 +159,12 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
     // Push the current title
     const { baseRoute } = this.uiRouterGlobals.current.data as { baseRoute:string }&unknown;
-    const htmlTitle = baseRoute.includes('work-packages') ? this.workPackage.subjectWithType(20) : `${this.workPackage.subjectWithType(20)} | ${this.titleService.getLastTitle()}`;
-    this.titleService.setTitle(htmlTitle);
+    if (!baseRoute.includes('work-packages')) {
+      this.titleService.setTitle(`${this.workPackage.subjectWithType(20)} | ${this.titleService.getLastTitle()}`);
+    }
+    else {
+      this.titleService.setFirstPart(this.workPackage.subjectWithType(20));
+    }
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
 
