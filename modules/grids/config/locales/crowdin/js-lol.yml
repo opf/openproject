@@ -1,63 +1,63 @@
 lol:
   js:
     grid:
-      add_widget: 'crwdns526341:0crwdne526341:0'
-      remove: 'crwdns526343:0crwdne526343:0'
-      configure: 'crwdns526345:0crwdne526345:0'
+      add_widget: 'crwdns548187:0crwdne548187:0'
+      remove: 'crwdns548189:0crwdne548189:0'
+      configure: 'crwdns548191:0crwdne548191:0'
       upsale:
-        text: "crwdns526347:0crwdne526347:0"
-        link: 'crwdns526349:0crwdne526349:0'
+        text: "crwdns548193:0crwdne548193:0"
+        link: 'crwdns548195:0crwdne548195:0'
       widgets:
         custom_text:
-          title: 'crwdns526351:0crwdne526351:0'
+          title: 'crwdns548197:0crwdne548197:0'
         documents:
-          title: 'crwdns526353:0crwdne526353:0'
-          no_results: 'crwdns526355:0crwdne526355:0'
+          title: 'crwdns548199:0crwdne548199:0'
+          no_results: 'crwdns548201:0crwdne548201:0'
         members:
-          title: 'crwdns526357:0crwdne526357:0'
-          no_results: 'crwdns526359:0crwdne526359:0'
-          view_all_members: 'crwdns526361:0crwdne526361:0'
-          add: 'crwdns526363:0crwdne526363:0'
-          too_many: 'crwdns526365:0%{count}crwdnd526365:0%{total}crwdne526365:0'
+          title: 'crwdns548203:0crwdne548203:0'
+          no_results: 'crwdns548205:0crwdne548205:0'
+          view_all_members: 'crwdns548207:0crwdne548207:0'
+          add: 'crwdns548209:0crwdne548209:0'
+          too_many: 'crwdns548211:0%{count}crwdnd548211:0%{total}crwdne548211:0'
         news:
-          title: 'crwdns526367:0crwdne526367:0'
-          at: 'crwdns526369:0crwdne526369:0'
-          no_results: 'crwdns526371:0crwdne526371:0'
+          title: 'crwdns548213:0crwdne548213:0'
+          at: 'crwdns548215:0crwdne548215:0'
+          no_results: 'crwdns548217:0crwdne548217:0'
         project_description:
-          title: 'crwdns526373:0crwdne526373:0'
-          no_results: "crwdns526375:0crwdne526375:0"
+          title: 'crwdns548219:0crwdne548219:0'
+          no_results: "crwdns548221:0crwdne548221:0"
         project_details:
-          title: 'crwdns526377:0crwdne526377:0'
-          no_results: 'crwdns526379:0crwdne526379:0'
+          title: 'crwdns548223:0crwdne548223:0'
+          no_results: 'crwdns548225:0crwdne548225:0'
         project_status:
-          title: 'crwdns526381:0crwdne526381:0'
-          on_track: 'crwdns526383:0crwdne526383:0'
-          off_track: 'crwdns526385:0crwdne526385:0'
-          at_risk: 'crwdns526387:0crwdne526387:0'
-          not_set: 'crwdns526389:0crwdne526389:0'
+          title: 'crwdns548227:0crwdne548227:0'
+          on_track: 'crwdns548229:0crwdne548229:0'
+          off_track: 'crwdns548231:0crwdne548231:0'
+          at_risk: 'crwdns548233:0crwdne548233:0'
+          not_set: 'crwdns548235:0crwdne548235:0'
         subprojects:
-          title: 'crwdns526391:0crwdne526391:0'
-          no_results: 'crwdns526393:0crwdne526393:0'
+          title: 'crwdns548237:0crwdne548237:0'
+          no_results: 'crwdns548239:0crwdne548239:0'
         time_entries_current_user:
-          title: 'crwdns526395:0crwdne526395:0'
-          displayed_days: 'crwdns526397:0crwdne526397:0'
+          title: 'crwdns548241:0crwdne548241:0'
+          displayed_days: 'crwdns548243:0crwdne548243:0'
         time_entries_list:
-          title: 'crwdns526399:0crwdne526399:0'
-          no_results: 'crwdns526401:0crwdne526401:0'
+          title: 'crwdns548245:0crwdne548245:0'
+          no_results: 'crwdns548247:0crwdne548247:0'
         work_packages_accountable:
-          title: "crwdns526403:0crwdne526403:0"
+          title: "crwdns548249:0crwdne548249:0"
         work_packages_assigned:
-          title: 'crwdns526405:0crwdne526405:0'
+          title: 'crwdns548251:0crwdne548251:0'
         work_packages_created:
-          title: 'crwdns526407:0crwdne526407:0'
+          title: 'crwdns548253:0crwdne548253:0'
         work_packages_watched:
-          title: 'crwdns526409:0crwdne526409:0'
+          title: 'crwdns548255:0crwdne548255:0'
         work_packages_table:
-          title: 'crwdns526411:0crwdne526411:0'
+          title: 'crwdns548257:0crwdne548257:0'
         work_packages_graph:
-          title: 'crwdns526413:0crwdne526413:0'
+          title: 'crwdns548259:0crwdne548259:0'
         work_packages_calendar:
-          title: 'crwdns526415:0crwdne526415:0'
+          title: 'crwdns548261:0crwdne548261:0'
         work_packages_overview:
-          title: 'crwdns526417:0crwdne526417:0'
-          placeholder: 'crwdns526419:0crwdne526419:0'
+          title: 'crwdns548263:0crwdne548263:0'
+          placeholder: 'crwdns548265:0crwdne548265:0'

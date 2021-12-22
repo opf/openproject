@@ -2,58 +2,58 @@ lol:
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'crwdns520829:0crwdne520829:0'
-        secret: 'crwdns520831:0crwdne520831:0'
-        events: 'crwdns520833:0crwdne520833:0'
-        projects: 'crwdns520835:0crwdne520835:0'
+        url: 'crwdns547519:0crwdne547519:0'
+        secret: 'crwdns547521:0crwdne547521:0'
+        events: 'crwdns547523:0crwdne547523:0'
+        projects: 'crwdns547525:0crwdne547525:0'
       webhooks/log:
-        event_name: 'crwdns520837:0crwdne520837:0'
-        url: 'crwdns520839:0crwdne520839:0'
-        response_code: 'crwdns520841:0crwdne520841:0'
-        response_body: 'crwdns520843:0crwdne520843:0'
+        event_name: 'crwdns547527:0crwdne547527:0'
+        url: 'crwdns547529:0crwdne547529:0'
+        response_code: 'crwdns547531:0crwdne547531:0'
+        response_body: 'crwdns547533:0crwdne547533:0'
     models:
-      webhooks/outgoing_webhook: "crwdns520845:0crwdne520845:0"
+      webhooks/outgoing_webhook: "crwdns547535:0crwdne547535:0"
   webhooks:
-    singular: crwdns520847:0crwdne520847:0
-    plural: crwdns520849:0crwdne520849:0
+    singular: crwdns547537:0crwdne547537:0
+    plural: crwdns547539:0crwdne547539:0
     resources:
       time_entry:
-        name: "crwdns520851:0crwdne520851:0"
+        name: "crwdns547541:0crwdne547541:0"
     outgoing:
-      no_results_table: crwdns520853:0crwdne520853:0
-      label_add_new: crwdns520855:0crwdne520855:0
-      label_edit: crwdns520857:0crwdne520857:0
-      label_event_resources: crwdns520859:0crwdne520859:0
+      no_results_table: crwdns547543:0crwdne547543:0
+      label_add_new: crwdns547545:0crwdne547545:0
+      label_edit: crwdns547547:0crwdne547547:0
+      label_event_resources: crwdns547549:0crwdne547549:0
       events:
-        created: "crwdns520861:0crwdne520861:0"
-        updated: "crwdns520863:0crwdne520863:0"
+        created: "crwdns547551:0crwdne547551:0"
+        updated: "crwdns547553:0crwdne547553:0"
       status:
-        enabled: 'crwdns520865:0crwdne520865:0'
-        disabled: 'crwdns520867:0crwdne520867:0'
-        enabled_text: 'crwdns520869:0crwdne520869:0'
-        disabled_text: 'crwdns520871:0crwdne520871:0'
+        enabled: 'crwdns547555:0crwdne547555:0'
+        disabled: 'crwdns547557:0crwdne547557:0'
+        enabled_text: 'crwdns547559:0crwdne547559:0'
+        disabled_text: 'crwdns547561:0crwdne547561:0'
       deliveries:
-        no_results_table: crwdns520873:0crwdne520873:0
-        title: 'crwdns520875:0crwdne520875:0'
-        time: 'crwdns520877:0crwdne520877:0'
+        no_results_table: crwdns547563:0crwdne547563:0
+        title: 'crwdns547565:0crwdne547565:0'
+        time: 'crwdns547567:0crwdne547567:0'
       form:
         introduction: >
-          crwdns520879:0crwdne520879:0
-        apiv3_doc_url: crwdns520881:0crwdne520881:0
+          crwdns547569:0crwdne547569:0
+        apiv3_doc_url: crwdns547571:0crwdne547571:0
         description:
-          placeholder: 'crwdns520883:0crwdne520883:0'
+          placeholder: 'crwdns547573:0crwdne547573:0'
         enabled:
           description: >
-            crwdns520885:0crwdne520885:0
+            crwdns547575:0crwdne547575:0
         events:
-          title: 'crwdns520887:0crwdne520887:0'
+          title: 'crwdns547577:0crwdne547577:0'
         project_ids:
-          title: 'crwdns520889:0crwdne520889:0'
-          description: 'crwdns520891:0crwdne520891:0'
-          all: 'crwdns520893:0crwdne520893:0'
-          selected: 'crwdns520895:0crwdne520895:0'
+          title: 'crwdns547579:0crwdne547579:0'
+          description: 'crwdns547581:0crwdne547581:0'
+          all: 'crwdns547583:0crwdne547583:0'
+          selected: 'crwdns547585:0crwdne547585:0'
         selected_project_ids:
-          title: 'crwdns520897:0crwdne520897:0'
+          title: 'crwdns547587:0crwdne547587:0'
         secret:
           description: >
-            crwdns520899:0crwdne520899:0
+            crwdns547589:0crwdne547589:0

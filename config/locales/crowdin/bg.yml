@@ -317,6 +317,10 @@ bg:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Масово преместване/копиране не се поддържа за работни пакети от множество проекти'
@@ -737,6 +741,7 @@ bg:
               does_not_exist: "Определената категория не съществува."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "трябва да бъде > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -1281,7 +1286,7 @@ bg:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Български"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "Не"
   general_text_yes: "Да"
@@ -1723,7 +1728,7 @@ bg:
   label_public_projects: "Публични проекти"
   label_query_new: "Ново търсене"
   label_query_plural: "Потребителско търсене"
-  label_query_menu_item: "Търсене на елемент от менюто"
+  label_query_menu_item: "Query menu item"
   label_read: "Прочитане..."
   label_register: "Регистрирайте нов профил"
   label_register_with_developer: "Регистрирайте се като разработчик"

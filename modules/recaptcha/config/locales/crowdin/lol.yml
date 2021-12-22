@@ -1,18 +1,18 @@
 #English strings go here for Rails i18n
 lol:
   recaptcha:
-    label_recaptcha: "crwdns520793:0crwdne520793:0"
-    button_please_wait: 'crwdns520795:0crwdne520795:0'
-    verify_account: "crwdns520797:0crwdne520797:0"
-    error_captcha: "crwdns520799:0crwdne520799:0"
+    label_recaptcha: "crwdns547407:0crwdne547407:0"
+    button_please_wait: 'crwdns547409:0crwdne547409:0'
+    verify_account: "crwdns547411:0crwdne547411:0"
+    error_captcha: "crwdns547413:0crwdne547413:0"
     settings:
-      website_key: 'crwdns520801:0crwdne520801:0'
-      website_key_text: 'crwdns520803:0crwdne520803:0'
-      secret_key: 'crwdns520805:0crwdne520805:0'
-      secret_key_text: 'crwdns520807:0crwdne520807:0'
-      type: 'crwdns520809:0crwdne520809:0'
-      type_disabled: 'crwdns520811:0crwdne520811:0'
-      type_v2: 'crwdns520813:0crwdne520813:0'
-      type_v3: 'crwdns520815:0crwdne520815:0'
+      website_key: 'crwdns547415:0crwdne547415:0'
+      website_key_text: 'crwdns547417:0crwdne547417:0'
+      secret_key: 'crwdns547419:0crwdne547419:0'
+      secret_key_text: 'crwdns547421:0crwdne547421:0'
+      type: 'crwdns547423:0crwdne547423:0'
+      type_disabled: 'crwdns547425:0crwdne547425:0'
+      type_v2: 'crwdns547427:0crwdne547427:0'
+      type_v3: 'crwdns547429:0crwdne547429:0'
       recaptcha_description_html: >
-        crwdns520817:0%{recaptcha_link}crwdne520817:0
+        crwdns547431:0%{recaptcha_link}crwdne547431:0

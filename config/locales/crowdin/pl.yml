@@ -316,6 +316,10 @@ pl:
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: 'Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów'
@@ -736,6 +740,7 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -801,7 +806,7 @@ pl:
       notification:
         one: "Powiadomienie"
         few: "Powiadomienia"
-        many: "Powiadomień"
+        many: "Powiadomienia"
         other: "Powiadomień"
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
@@ -817,7 +822,7 @@ pl:
       wiki: "Wiki"
       wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
-      work_package: "Zadanie"
+      work_package: "Pakiet roboczy"
       'doorkeeper/application': "Aplikacje OAuth"
   errors:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
@@ -835,7 +840,7 @@ pl:
     base: "Błąd ogólny:"
     blocks_ids: "Identyfikatory zablokowanych pakietów roboczych"
     category: "Kategoria"
-    comment: "Komentarz"
+    comment: "Typ kosztu"
     comments: "Komentarz"
     content: "Zawartość"
     color: "Kolor"
@@ -1312,7 +1317,7 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Polski"
+  general_lang_name: "Angielski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"
@@ -1540,7 +1545,7 @@ pl:
   label_duplicated_by: "Powielone przez"
   label_duplicate: "duplikat"
   label_duplicates: "Duplikaty"
-  label_edit: "Edycja"
+  label_edit: "Edytuj"
   label_edit_x: "Edytuj: %{x}"
   label_enable_multi_select: "Włącz wybór wielokrotny"
   label_enabled_project_custom_fields: 'Aktywne pola niestandardowe'
@@ -1634,7 +1639,7 @@ pl:
   label_loading: "Ładowanie..."
   label_lock_user: 'Zablokuj użytkownika'
   label_logged_as: "Zalogowany jako"
-  label_login: "Zaloguj"
+  label_login: "Logowanie"
   label_custom_logo: "Własne logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
@@ -1754,7 +1759,7 @@ pl:
   label_public_projects: "Projekty publiczne"
   label_query_new: "Nowe zapytanie"
   label_query_plural: "Zapytania niestandardowe"
-  label_query_menu_item: "Pozycja menu zapytania"
+  label_query_menu_item: "Query menu item"
   label_read: "Czytaj..."
   label_register: "Utwórz nowe konto"
   label_register_with_developer: "Zarejestruj się jako programista"
@@ -1984,7 +1989,7 @@ pl:
         one: 'Istnieje jeszcze 1 pakiet roboczy z powiadomieniami.'
         few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
         many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
-        other: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
+        other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
       reason:
         watched: 'Obserwowane'
         assigned: 'Przypisane'
@@ -2870,7 +2875,7 @@ pl:
   wiki_menu_item_new_main_item_explanation: >
     Usuwasz jedyny główny element menu wiki. Teraz musisz wybrać stronę wiki dla których zostanie wygenerowany nowy główny element. Aby usunąć wpis, moduł wiki może zostać dezaktywowany poprzez administratorów projektu.
   wiki_menu_item_delete_not_permitted: Nie można usunąć elementu menu dla jedynej strony wiki.
-  query_menu_item_for: "Element menu dla zapytania \"%{title}\""
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

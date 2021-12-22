@@ -310,12 +310,16 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     x_descendants:
-      one: 'Vieno pasekėjo darbo paketas'
-      few: '%{count} darbo paketo pasekėjai'
-      many: '%{count} darbo paketo pasekėjų'
-      other: '%{count} darbo paketo pasekėjas'
+      one: 'Vienas pasekėjas darbo paketas'
+      few: '%{count} pasekėjų darbo paketų'
+      many: '%{count} pasekėjų darbo paketų'
+      other: '%{count} pasekėjų darbo paketų'
     bulk:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: 'Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais'
@@ -736,6 +740,7 @@ lt:
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "turi būti >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -801,7 +806,7 @@ lt:
       notification:
         one: "Pranešimas"
         few: "Pranešimai"
-        many: "Pranešimų"
+        many: "Pranešimo"
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
@@ -1312,7 +1317,7 @@ lt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Lietuvių"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "taip"
@@ -1754,7 +1759,7 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Užklausos meniu punktas"
+  label_query_menu_item: "Query menu item"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -1851,7 +1856,7 @@ lt:
   label_used_by: "Naudotas"
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
-  label_user: "Naudotojas"
+  label_user: "Vartotojas"
   label_user_and_permission: "Naudotojai ir leidimai"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
@@ -1983,7 +1988,7 @@ lt:
       more_to_see:
         one: 'Yra dar 1 darbų paketas su pranešimais.'
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
-        many: 'Yra dar %{count} darbų paketų su pranešimais.'
+        many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
       reason:
         watched: 'Stebimas'
@@ -2870,7 +2875,7 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -3000,7 +3005,7 @@ lt:
       none_given: "Jokioms OAuth aplikacijoms nesuteikta prieiga prie jūsų paskyros."
     x_active_tokens:
       one: 'vienas akytus žetonas'
-      few: '%{count} aktyvus žetonai'
+      few: '%{count} aktyvių žetonų'
       many: '%{count} aktyvių žetonų'
       other: '%{count} aktyvių žetonų'
     flows:

@@ -1,13 +1,13 @@
 lol:
-  export_to_excel: "crwdns519997:0crwdne519997:0"
-  print_with_description: "crwdns519999:0crwdne519999:0"
-  sentence_separator_or: "crwdns520001:0crwdne520001:0"
-  different_formats: crwdns520003:0crwdne520003:0
+  export_to_excel: "crwdns546663:0crwdne546663:0"
+  print_with_description: "crwdns546665:0crwdne546665:0"
+  sentence_separator_or: "crwdns546667:0crwdne546667:0"
+  different_formats: crwdns546669:0crwdne546669:0
   export:
     format:
-      xls: "crwdns520005:0crwdne520005:0"
-      xls_with_descriptions: "crwdns520007:0crwdne520007:0"
-      xls_with_relations: "crwdns520009:0crwdne520009:0"
+      xls: "crwdns546671:0crwdne546671:0"
+      xls_with_descriptions: "crwdns546673:0crwdne546673:0"
+      xls_with_relations: "crwdns546675:0crwdne546675:0"
   xls_export:
-    child_of: crwdns520011:0crwdne520011:0
-    parent_of: crwdns520013:0crwdne520013:0
+    child_of: crwdns546677:0crwdne546677:0
+    parent_of: crwdns546679:0crwdne546679:0

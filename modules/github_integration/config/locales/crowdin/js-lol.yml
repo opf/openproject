@@ -23,19 +23,19 @@ lol:
   js:
     github_integration:
       work_packages:
-        tab_name: "crwdns526227:0crwdne526227:0"
+        tab_name: "crwdns548087:0crwdne548087:0"
       tab_header:
-        title: "crwdns526229:0crwdne526229:0"
+        title: "crwdns548089:0crwdne548089:0"
         copy_menu:
-          label: crwdns526231:0crwdne526231:0
-          description: crwdns526233:0crwdne526233:0
+          label: crwdns548091:0crwdne548091:0
+          description: crwdns548093:0crwdne548093:0
         git_actions:
-          branch_name: crwdns526235:0crwdne526235:0
-          commit_message: crwdns526237:0crwdne526237:0
-          cmd: crwdns526239:0crwdne526239:0
-          title: crwdns526241:0crwdne526241:0
-          copy_success: crwdns526243:0crwdne526243:0
-          copy_error: crwdns526245:0crwdne526245:0
+          branch_name: crwdns548095:0crwdne548095:0
+          commit_message: crwdns548097:0crwdne548097:0
+          cmd: crwdns548099:0crwdne548099:0
+          title: crwdns548101:0crwdne548101:0
+          copy_success: crwdns548103:0crwdne548103:0
+          copy_error: crwdns548105:0crwdne548105:0
       tab_prs:
-        empty: crwdns526247:0%{wp_id}crwdne526247:0
-      github_actions: crwdns526249:0crwdne526249:0
+        empty: crwdns548107:0%{wp_id}crwdne548107:0
+      github_actions: crwdns548109:0crwdne548109:0

@@ -2,85 +2,85 @@
 lol:
   js:
     boards:
-      label_unnamed_board: 'crwdns526445:0crwdne526445:0'
-      label_unnamed_list: 'crwdns526447:0crwdne526447:0'
-      label_board_type: 'crwdns526449:0crwdne526449:0'
+      label_unnamed_board: 'crwdns548291:0crwdne548291:0'
+      label_unnamed_list: 'crwdns548293:0crwdne548293:0'
+      label_board_type: 'crwdns548295:0crwdne548295:0'
       upsale:
-        teaser_text: 'crwdns526451:0crwdne526451:0'
-        upgrade_to_ee_text: 'crwdns526453:0crwdne526453:0'
-        upgrade: 'crwdns526455:0crwdne526455:0'
-        personal_demo: 'crwdns526457:0crwdne526457:0'
+        teaser_text: 'crwdns548297:0crwdne548297:0'
+        upgrade_to_ee_text: 'crwdns548299:0crwdne548299:0'
+        upgrade: 'crwdns548301:0crwdne548301:0'
+        personal_demo: 'crwdns548303:0crwdne548303:0'
       lists:
-        delete: 'crwdns526459:0crwdne526459:0'
+        delete: 'crwdns548305:0crwdne548305:0'
       version:
-        is_locked: 'crwdns526461:0crwdne526461:0'
-        is_closed: 'crwdns526463:0crwdne526463:0'
-        close_version: 'crwdns526465:0crwdne526465:0'
-        open_version: 'crwdns526467:0crwdne526467:0'
-        lock_version: 'crwdns526469:0crwdne526469:0'
-        unlock_version: 'crwdns526471:0crwdne526471:0'
-        edit_version: 'crwdns526473:0crwdne526473:0'
-        show_version: 'crwdns526475:0crwdne526475:0'
-        locked: 'crwdns526477:0crwdne526477:0'
-        closed: 'crwdns526479:0crwdne526479:0'
-      new_board: 'crwdns526481:0crwdne526481:0'
-      add_list: 'crwdns526483:0crwdne526483:0'
-      add_card: 'crwdns526485:0crwdne526485:0'
-      error_attribute_not_writable: "crwdns526487:0%{attribute}crwdne526487:0"
-      error_loading_the_list: "crwdns526489:0%{error_message}crwdne526489:0"
-      error_permission_missing: "crwdns526491:0crwdne526491:0"
-      error_cannot_move_into_self: "crwdns526493:0crwdne526493:0"
-      text_hidden_list_warning: "crwdns526495:0crwdne526495:0"
-      click_to_remove_list: "crwdns526497:0crwdne526497:0"
+        is_locked: 'crwdns548307:0crwdne548307:0'
+        is_closed: 'crwdns548309:0crwdne548309:0'
+        close_version: 'crwdns548311:0crwdne548311:0'
+        open_version: 'crwdns548313:0crwdne548313:0'
+        lock_version: 'crwdns548315:0crwdne548315:0'
+        unlock_version: 'crwdns548317:0crwdne548317:0'
+        edit_version: 'crwdns548319:0crwdne548319:0'
+        show_version: 'crwdns548321:0crwdne548321:0'
+        locked: 'crwdns548323:0crwdne548323:0'
+        closed: 'crwdns548325:0crwdne548325:0'
+      new_board: 'crwdns548327:0crwdne548327:0'
+      add_list: 'crwdns548329:0crwdne548329:0'
+      add_card: 'crwdns548331:0crwdne548331:0'
+      error_attribute_not_writable: "crwdns548333:0%{attribute}crwdne548333:0"
+      error_loading_the_list: "crwdns548335:0%{error_message}crwdne548335:0"
+      error_permission_missing: "crwdns548337:0crwdne548337:0"
+      error_cannot_move_into_self: "crwdns548339:0crwdne548339:0"
+      text_hidden_list_warning: "crwdns548341:0crwdne548341:0"
+      click_to_remove_list: "crwdns548343:0crwdne548343:0"
       board_type:
-        text: 'crwdns526499:0crwdne526499:0'
-        free: 'crwdns526501:0crwdne526501:0'
-        select_board_type: 'crwdns526503:0crwdne526503:0'
+        text: 'crwdns548345:0crwdne548345:0'
+        free: 'crwdns548347:0crwdne548347:0'
+        select_board_type: 'crwdns548349:0crwdne548349:0'
         free_text: >
-          crwdns526505:0crwdne526505:0
-        action: 'crwdns526507:0crwdne526507:0'
-        action_by_attribute: 'crwdns526509:0%{attribute}crwdne526509:0'
+          crwdns548351:0crwdne548351:0
+        action: 'crwdns548353:0crwdne548353:0'
+        action_by_attribute: 'crwdns548355:0%{attribute}crwdne548355:0'
         action_text: >
-          crwdns526511:0%{attribute}crwdne526511:0
+          crwdns548357:0%{attribute}crwdne548357:0
         action_text_subprojects: >
-          crwdns526513:0crwdne526513:0
+          crwdns548359:0crwdne548359:0
         action_text_subtasks: >
-          crwdns526515:0crwdne526515:0
+          crwdns548361:0crwdne548361:0
         action_text_status: >
-          crwdns526517:0crwdne526517:0
+          crwdns548363:0crwdne548363:0
         action_text_assignee: >
-          crwdns526519:0crwdne526519:0
+          crwdns548365:0crwdne548365:0
         action_text_version: >
-          crwdns526521:0crwdne526521:0
+          crwdns548367:0crwdne548367:0
         action_type:
-          assignee: crwdns526523:0crwdne526523:0
-          status: crwdns526525:0crwdne526525:0
-          version: crwdns526527:0crwdne526527:0
-          subproject: crwdns526529:0crwdne526529:0
-          subtasks: crwdns526531:0crwdne526531:0
+          assignee: crwdns548369:0crwdne548369:0
+          status: crwdns548371:0crwdne548371:0
+          version: crwdns548373:0crwdne548373:0
+          subproject: crwdns548375:0crwdne548375:0
+          subtasks: crwdns548377:0crwdne548377:0
         board_type_title:
-          assignee: crwdns526533:0crwdne526533:0
-          status: crwdns526535:0crwdne526535:0
-          version: crwdns526537:0crwdne526537:0
-          subproject: crwdns526539:0crwdne526539:0
-          subtasks: crwdns526541:0crwdne526541:0
-          basic: crwdns526543:0crwdne526543:0
-        select_attribute: "crwdns526545:0crwdne526545:0"
+          assignee: crwdns548379:0crwdne548379:0
+          status: crwdns548381:0crwdne548381:0
+          version: crwdns548383:0crwdne548383:0
+          subproject: crwdns548385:0crwdne548385:0
+          subtasks: crwdns548387:0crwdne548387:0
+          basic: crwdns548389:0crwdne548389:0
+        select_attribute: "crwdns548391:0crwdne548391:0"
       add_list_modal:
         labels:
-          assignee: crwdns526547:0crwdne526547:0
-          status: crwdns526549:0crwdne526549:0
-          version: crwdns526551:0crwdne526551:0
-          subproject: crwdns526553:0crwdne526553:0
-          subtasks: crwdns526555:0crwdne526555:0
+          assignee: crwdns548393:0crwdne548393:0
+          status: crwdns548395:0crwdne548395:0
+          version: crwdns548397:0crwdne548397:0
+          subproject: crwdns548399:0crwdne548399:0
+          subtasks: crwdns548401:0crwdne548401:0
         warning:
           status: |
-            crwdns526557:0crwdne526557:0
-          assignee: crwdns526559:0crwdne526559:0
-          no_member: crwdns526561:0crwdne526561:0
-          add_members: crwdns526563:0%{link}crwdne526563:0
+            crwdns548403:0crwdne548403:0
+          assignee: crwdns548405:0crwdne548405:0
+          no_member: crwdns548407:0crwdne548407:0
+          add_members: crwdns548409:0%{link}crwdne548409:0
       configuration_modal:
-        title: 'crwdns526565:0crwdne526565:0'
+        title: 'crwdns548411:0crwdne548411:0'
         display_settings:
-          card_mode: "crwdns526567:0crwdne526567:0"
-          table_mode: "crwdns526569:0crwdne526569:0"
+          card_mode: "crwdns548413:0crwdne548413:0"
+          table_mode: "crwdns548415:0crwdne548415:0"

@@ -20,16 +20,16 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 lol:
-  project_module_github: "crwdns520925:0crwdne520925:0"
-  permission_show_github_content: "crwdns520927:0crwdne520927:0"
+  project_module_github: "crwdns547591:0crwdne547591:0"
+  permission_show_github_content: "crwdns547593:0crwdne547593:0"
   github_integration:
     pull_request_opened_comment: >
-      crwdns520929:0%{pr_number}crwdnd520929:0%{pr_title}crwdnd520929:0%{pr_url}crwdnd520929:0%{repository}crwdnd520929:0%{repository_url}crwdnd520929:0%{github_user}crwdnd520929:0%{github_user_url}crwdne520929:0
+      crwdns547595:0%{pr_number}crwdnd547595:0%{pr_title}crwdnd547595:0%{pr_url}crwdnd547595:0%{repository}crwdnd547595:0%{repository_url}crwdnd547595:0%{github_user}crwdnd547595:0%{github_user_url}crwdne547595:0
     pull_request_closed_comment: >
-      crwdns520931:0%{pr_number}crwdnd520931:0%{pr_title}crwdnd520931:0%{pr_url}crwdnd520931:0%{repository}crwdnd520931:0%{repository_url}crwdnd520931:0%{github_user}crwdnd520931:0%{github_user_url}crwdne520931:0
+      crwdns547597:0%{pr_number}crwdnd547597:0%{pr_title}crwdnd547597:0%{pr_url}crwdnd547597:0%{repository}crwdnd547597:0%{repository_url}crwdnd547597:0%{github_user}crwdnd547597:0%{github_user_url}crwdne547597:0
     pull_request_merged_comment: >
-      crwdns520933:0%{pr_number}crwdnd520933:0%{pr_title}crwdnd520933:0%{pr_url}crwdnd520933:0%{repository}crwdnd520933:0%{repository_url}crwdnd520933:0%{github_user}crwdnd520933:0%{github_user_url}crwdne520933:0
+      crwdns547599:0%{pr_number}crwdnd547599:0%{pr_title}crwdnd547599:0%{pr_url}crwdnd547599:0%{repository}crwdnd547599:0%{repository_url}crwdnd547599:0%{github_user}crwdnd547599:0%{github_user_url}crwdne547599:0
     pull_request_referenced_comment: >
-      crwdns520935:0%{github_user}crwdnd520935:0%{github_user_url}crwdnd520935:0%{pr_number}crwdnd520935:0%{pr_title}crwdnd520935:0%{pr_url}crwdnd520935:0%{repository}crwdnd520935:0%{repository_url}crwdne520935:0
+      crwdns547601:0%{github_user}crwdnd547601:0%{github_user_url}crwdnd547601:0%{pr_number}crwdnd547601:0%{pr_title}crwdnd547601:0%{pr_url}crwdnd547601:0%{repository}crwdnd547601:0%{repository_url}crwdne547601:0
     pull_request_ready_for_review_comment: >
-      crwdns520937:0%{pr_number}crwdnd520937:0%{pr_title}crwdnd520937:0%{pr_url}crwdnd520937:0%{repository}crwdnd520937:0%{repository_url}crwdnd520937:0%{github_user}crwdnd520937:0%{github_user_url}crwdne520937:0
+      crwdns547603:0%{pr_number}crwdnd547603:0%{pr_title}crwdnd547603:0%{pr_url}crwdnd547603:0%{repository}crwdnd547603:0%{repository_url}crwdnd547603:0%{github_user}crwdnd547603:0%{github_user_url}crwdne547603:0

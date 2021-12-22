@@ -319,6 +319,10 @@ uk:
       other: '%{count} нащадки робочого пакета'
     bulk:
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: 'Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів'
@@ -739,6 +743,7 @@ uk:
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "повинно бути >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -802,7 +807,7 @@ uk:
       member: "Учасник"
       news: "Новини"
       notification:
-        one: "Сповіщення"
+        one: "Notification"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
@@ -1315,7 +1320,7 @@ uk:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Українська"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ні"
   general_text_yes: "так"
@@ -1757,7 +1762,7 @@ uk:
   label_public_projects: "Публічні проекти"
   label_query_new: "Новий запит"
   label_query_plural: "Спеціальні запити"
-  label_query_menu_item: "Запит меню"
+  label_query_menu_item: "Query menu item"
   label_read: "Читання..."
   label_register: "Створити новий акаунт"
   label_register_with_developer: "Зареєструйтеся як розробник"
@@ -1918,20 +1923,20 @@ uk:
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 закрита"
+    other: "%{count} закритих"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 коментар"
+    other: "Коментарів: %{count}"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 відкрита"
+    other: "%{count} відкритих"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 проект"
+    other: "%{count} проектів"
     zero: "no projects"
   label_yesterday: "вчора"
   label_role_type: "Тип"
@@ -2875,7 +2880,7 @@ uk:
   wiki_menu_item_new_main_item_explanation: >
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
   wiki_menu_item_delete_not_permitted: Пункт меню вікі лише з вікі-сторінки не можна видалити.
-  query_menu_item_for: "Пункт меню для запиту %{title}"
+  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

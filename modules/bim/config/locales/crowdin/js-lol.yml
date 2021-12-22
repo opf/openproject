@@ -2,28 +2,28 @@
 lol:
   js:
     bcf:
-      label_bcf: 'crwdns526251:0crwdne526251:0'
-      import: 'crwdns526253:0crwdne526253:0'
-      import_bcf_xml_file: 'crwdns526255:0crwdne526255:0'
-      export: 'crwdns526257:0crwdne526257:0'
-      export_bcf_xml_file: 'crwdns526259:0crwdne526259:0'
-      viewpoint: 'crwdns526261:0crwdne526261:0'
-      add_viewpoint: 'crwdns526263:0crwdne526263:0'
-      show_viewpoint: 'crwdns526265:0crwdne526265:0'
-      delete_viewpoint: 'crwdns526267:0crwdne526267:0'
-      management: 'crwdns526269:0crwdne526269:0'
-      refresh: 'crwdns526271:0crwdne526271:0'
-      refresh_work_package: 'crwdns526273:0crwdne526273:0'
+      label_bcf: 'crwdns548111:0crwdne548111:0'
+      import: 'crwdns548113:0crwdne548113:0'
+      import_bcf_xml_file: 'crwdns548115:0crwdne548115:0'
+      export: 'crwdns548117:0crwdne548117:0'
+      export_bcf_xml_file: 'crwdns548119:0crwdne548119:0'
+      viewpoint: 'crwdns548121:0crwdne548121:0'
+      add_viewpoint: 'crwdns548123:0crwdne548123:0'
+      show_viewpoint: 'crwdns548125:0crwdne548125:0'
+      delete_viewpoint: 'crwdns548127:0crwdne548127:0'
+      management: 'crwdns548129:0crwdne548129:0'
+      refresh: 'crwdns548131:0crwdne548131:0'
+      refresh_work_package: 'crwdns548133:0crwdne548133:0'
     ifc_models:
-      empty_warning: "crwdns526275:0crwdne526275:0"
-      use_this_link_to_manage: "crwdns526277:0crwdne526277:0"
-      keyboard_input_disabled: "crwdns526279:0crwdne526279:0"
+      empty_warning: "crwdns548135:0crwdne548135:0"
+      use_this_link_to_manage: "crwdns548137:0crwdne548137:0"
+      keyboard_input_disabled: "crwdns548139:0crwdne548139:0"
       models:
-        ifc_models: 'crwdns526281:0crwdne526281:0'
+        ifc_models: 'crwdns548141:0crwdne548141:0'
       views:
-        viewer: 'crwdns526283:0crwdne526283:0'
-        split: 'crwdns526285:0crwdne526285:0'
-        split_cards: 'crwdns526287:0crwdne526287:0'
+        viewer: 'crwdns548143:0crwdne548143:0'
+        split: 'crwdns548145:0crwdne548145:0'
+        split_cards: 'crwdns548147:0crwdne548147:0'
     revit:
-      revit_add_in: "crwdns526289:0crwdne526289:0"
-      revit_add_in_settings: "crwdns526291:0crwdne526291:0"
+      revit_add_in: "crwdns548149:0crwdne548149:0"
+      revit_add_in_settings: "crwdns548151:0crwdne548151:0"
