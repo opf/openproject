@@ -47,6 +47,7 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 import { Observable } from 'rxjs';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { UIRouterGlobals } from '@uirouter/angular';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
@@ -77,6 +78,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly storeService:WpSingleViewService;
 
+  @InjectField() uiRouterGlobals:UIRouterGlobals;
   // Static texts
   public text:any = {};
 
@@ -90,6 +92,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public showStaticPagePath:string;
 
   public displayNotificationsButton$:Observable<boolean>;
+
 
   constructor(public injector:Injector,
     protected workPackageId:string) {
@@ -155,10 +158,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Set authorisation data
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
-
     // Push the current title
-    this.titleService.setFirstPart(this.workPackage.subjectWithType(20));
-
+    const { baseRoute } = this.uiRouterGlobals.current.data as { baseRoute:string }&unknown;
+    const htmlTitle = baseRoute.includes('work-packages') ? this.workPackage.subjectWithType(20) : this.workPackage.subjectWithType(20) + ' | ' + this.titleService.getLastTitle();
+    this.titleService.setTitle(htmlTitle);
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
 

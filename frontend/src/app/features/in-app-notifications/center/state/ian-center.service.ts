@@ -166,7 +166,7 @@ export class IanCenterService extends UntilDestroyedMixin {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
             `${this.state.current.data.baseRoute}`,
           );
-          this.titleService.setFirstPart(this.I18n.t('js.notifications.html_title'));
+          this.titleService.removeFirstPart();
           return;
         }
         if (notifications[0][0]._links.resource || notifications[this.selectedNotificationIndex][0]._links.resource) {

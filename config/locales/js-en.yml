@@ -560,7 +560,7 @@ en:
 
     notifications:
       title: "Notifications"
-      html_title: "Notification center"
+      html_title: "Notification Center | OpenProject"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'

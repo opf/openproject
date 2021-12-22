@@ -95,7 +95,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
 
   ngOnInit():void {
     this.documentReferer = document.referrer;
-    this.titleService.setFirstPart(this.I18n.t('js.notifications.html_title'));
+    this.titleService.setTitle(this.I18n.t('js.notifications.html_title'));
   }
 
   /**
