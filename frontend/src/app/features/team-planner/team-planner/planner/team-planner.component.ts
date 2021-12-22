@@ -11,6 +11,7 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
 import {
@@ -45,6 +46,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -122,6 +125,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     readonly calendar:OpCalendarService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
   ) {
     super();
   }
@@ -236,7 +241,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
-            eventResize: (resizeInfo:EventResizeDoneArg) => this.calendar.updateDates(resizeInfo),
+            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -381,5 +387,21 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         tabIdentifier: 'overview',
       },
     );
+  }
+
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+    const changeset = this.calendar.updateDates(info);
+
+    const resource = (info as EventDropArg).newResource;
+    if (resource) {
+      changeset.setValue('assignee', { href: resource.id });
+    }
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      info.revert();
+    }
   }
 }

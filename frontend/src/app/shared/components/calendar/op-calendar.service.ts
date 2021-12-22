@@ -7,6 +7,7 @@ import {
   CalendarOptions,
   DatesSetArg,
   EventApi,
+  EventDropArg,
 } from '@fullcalendar/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -43,6 +44,7 @@ import { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -84,7 +86,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly timezoneService:TimezoneService,
     readonly halEditing:HalResourceEditingService,
-    readonly halNotification:HalResourceNotificationService,
   ) {
     super();
   }
@@ -355,7 +356,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     );
   }
 
-  async updateDates(resizeInfo:EventResizeDoneArg):Promise<void> {
+  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg):ResourceChangeset<WorkPackageResource> {
     const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
 
     const changeset = this.halEditing.edit(workPackage);
@@ -365,11 +366,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
       .format('YYYY-MM-DD');
     changeset.setValue('dueDate', due);
 
-    try {
-      const result = await this.halEditing.save(changeset);
-      this.halNotification.showSave(result.resource, result.wasNew);
-    } catch (e) {
-      resizeInfo.revert();
-    }
+    return changeset;
   }
 }
