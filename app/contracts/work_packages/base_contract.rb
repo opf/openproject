@@ -304,10 +304,18 @@ module WorkPackages
       end
     end
 
+    def readonly_attributes_unchanged
+      super.tap do
+        if already_in_readonly_status? && unauthenticated_changed.any?
+          # Better documentation on why a property is readonly.
+          errors.add :base, :readonly_status
+        end
+      end
+    end
+
     def reduce_by_writable_permissions(attributes)
-      # If we're in a readonly status and did not move into that status right now
-      # only allow other status transitions. But also prevent that if the associated version is closed.
-      if model.readonly_status? && !model.status_id_change
+      # If we're in a readonly status only allow other status transitions.
+      if already_in_readonly_status?
         super & %w(status status_id)
       else
         super
@@ -419,6 +427,11 @@ module WorkPackages
 
     def users_roles_in_project
       user.roles_for_project(model.project)
+    end
+
+    # We're in a readonly status and did not move into that status right now.
+    def already_in_readonly_status?
+      model.readonly_status? && !model.status_id_change
     end
   end
 end
