@@ -30,19 +30,24 @@
 
 module WorkPackages
   module Bulk
-    class UpdateService < BulkedService
+    class MoveService < BulkedService
       private
 
-      def alter_work_package(work_package, attributes)
+      def alter_work_package(work_package, params)
         WorkPackages::UpdateService
-          .new(user: user, model: work_package)
-          .call(**attributes.symbolize_keys)
+          .new(user: user,
+               model: work_package)
+          .call(**params.symbolize_keys)
       end
 
       def call_move_hook(work_package, params)
-        call_hook(:controller_work_packages_bulk_edit_before_save,
+        return if OpenProject::Hook.hook_listeners(:controller_work_packages_move_before_save).empty?
+
+        call_hook(:controller_work_packages_move_before_save,
                   params: params,
-                  work_package: work_package)
+                  work_package: work_package,
+                  target_project: params[:project_id] ? Project.find_by(id: params[:project_id]) : nil,
+                  copy: false)
       end
     end
   end

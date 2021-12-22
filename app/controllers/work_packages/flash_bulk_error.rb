@@ -28,22 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module Bulk
-    class UpdateService < BulkedService
-      private
+module WorkPackages::FlashBulkError
+  extend ActiveSupport::Concern
 
-      def alter_work_package(work_package, attributes)
-        WorkPackages::UpdateService
-          .new(user: user, model: work_package)
-          .call(**attributes.symbolize_keys)
-      end
+  included do
+    private
 
-      def call_move_hook(work_package, params)
-        call_hook(:controller_work_packages_bulk_edit_before_save,
-                  params: params,
-                  work_package: work_package)
-      end
+    def error_flash(selected_work_packages, service_result)
+      flash[:error] = render_to_string partial: 'work_packages/bulk/errors',
+                                       locals: { service_result: service_result,
+                                                 selected_work_packages: selected_work_packages }
     end
   end
 end
