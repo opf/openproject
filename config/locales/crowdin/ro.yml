@@ -318,6 +318,10 @@ ro:
       other: '%{count} pachete de lucru descendente'
     bulk:
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: 'Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple'
@@ -738,6 +742,7 @@ ro:
               does_not_exist: "Categoria specificată nu există."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "trebuie să fie > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

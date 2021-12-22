@@ -312,6 +312,10 @@ de:
       other: '%{count} untergeordnete Arbeitspakete'
     bulk:
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: 'Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten'
@@ -732,6 +736,7 @@ de:
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "muss >= 0 sein."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

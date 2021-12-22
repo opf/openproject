@@ -317,6 +317,10 @@ si:
       other: '%{count} වැඩ පැකේජය පැවත'
     bulk:
       could_not_be_saved: "පහත සඳහන් වැඩ පැකේජ සුරැකිය නොහැකි විය:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "තෝරාගත් සියලුම වැඩ පැකේජ සඳහා කිසිදු තත්වයක් නොමැත. ඔවුන්ගේ තත්වය වෙනස් කළ නොහැක."
       unsupported_for_multiple_projects: 'බහු ව්යාපෘති වලින් වැඩ පැකේජ සඳහා තොග චලනය/පිටපතක් සහාය නොදක්වයි'
@@ -737,6 +741,7 @@ si:
               does_not_exist: "නිශ්චිත කාණ්ඩය නොපවතී."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "> = 0 විය යුතුය."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

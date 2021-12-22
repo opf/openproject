@@ -298,6 +298,10 @@ lol:
       other: 'crwdns495057:5%{count}crwdne495057:5'
     bulk:
       could_not_be_saved: "crwdns495059:0crwdne495059:0"
+      none_could_be_saved: "crwdns537767:0%{total}crwdne537767:0"
+      x_out_of_y_could_be_saved: "crwdns537769:0%{failing}crwdnd537769:0%{total}crwdnd537769:0%{success}crwdne537769:0"
+      selected_because_descendants: "crwdns537771:0%{selected}crwdnd537771:0%{total}crwdne537771:0"
+      descendant: "crwdns537773:0crwdne537773:0"
     move:
       no_common_statuses_exists: "crwdns495061:0crwdne495061:0"
       unsupported_for_multiple_projects: 'crwdns495063:0crwdne495063:0'
@@ -718,6 +722,7 @@ lol:
               does_not_exist: "crwdns495647:0crwdne495647:0"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "crwdns495649:0crwdne495649:0"
+          readonly_status: 'crwdns537775:0crwdne537775:0'
         type:
           attributes:
             attribute_groups:
