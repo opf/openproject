@@ -24,20 +24,20 @@ export class OpTitleService {
     this.titleService.setTitle(parts.join(titlePartsSeparator));
   }
 
-  public setTitle(value:string) {
+  public setTitle(value:string):void {
     this.titleService.setTitle(value);
   }
 
-  public removeFirstPart() {
+  public removeFirstPart():void {
     // Here we remove the title of current route
-    let parts = this.current.split(titlePartsSeparator);
+    const parts = this.current.split(titlePartsSeparator);
     parts.shift();
     this.titleService.setTitle(parts.join(titlePartsSeparator));
   }
 
-  public getLastTitle() {
+  public getLastTitle():string {
     // Here we get the title of last route
-    let parts = this.current.split(titlePartsSeparator);
+    const parts = this.current.split(titlePartsSeparator);
     if (parts.length > 2) {
       parts.shift();
     }

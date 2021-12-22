@@ -93,7 +93,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public displayNotificationsButton$:Observable<boolean>;
 
-
   constructor(public injector:Injector,
     protected workPackageId:string) {
     super();
@@ -160,7 +159,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
     // Push the current title
     const { baseRoute } = this.uiRouterGlobals.current.data as { baseRoute:string }&unknown;
-    const htmlTitle = baseRoute.includes('work-packages') ? this.workPackage.subjectWithType(20) : this.workPackage.subjectWithType(20) + ' | ' + this.titleService.getLastTitle();
+    const htmlTitle = baseRoute.includes('work-packages') ? this.workPackage.subjectWithType(20) : `${this.workPackage.subjectWithType(20)} | ${this.titleService.getLastTitle()}`;
     this.titleService.setTitle(htmlTitle);
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackageId);
