@@ -163,6 +163,7 @@
 
   <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
     <op-principal
+      class="op-autocompleter--option-principal"
       *ngIf="item && item.href"
       [principal]="item"
       [hideName]="true"
