@@ -278,7 +278,7 @@ tr:
         Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
-        <strong>Uyarı</strong>: Devralınan değerler (örneğin; alt iş paketleri ve ilişkili iş paketleri) hala geçerli olacaktır.
+        <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
@@ -797,7 +797,7 @@ tr:
       news: "Haberler"
       notification:
         one: "Notification"
-        other: "Notifications"
+        other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
       query: "Özel sorgu"
@@ -1280,7 +1280,7 @@ tr:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Türkçe"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hayır"
   general_text_yes: "evet"
@@ -1558,7 +1558,7 @@ tr:
   label_group_plural: "Gruplar"
   label_help: "Yardım"
   label_here: buraya
-  label_hide: "Gizle"
+  label_hide: "Saklamak"
   label_history: "Geçmiş"
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
@@ -1742,7 +1742,7 @@ tr:
   label_remove_columns: "Seçili sütunları sil"
   label_renamed: "yeniden adlandırıldı"
   label_reply_plural: "Yanıtlar"
-  label_report: "Rapor"
+  label_report: "Rapor (bildiri)"
   label_report_bug: "Hata bildir"
   label_report_plural: "Raporlar"
   label_reported_work_packages: "Raporlanan iş paketleri"
@@ -2383,7 +2383,7 @@ tr:
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
   setting_diff_max_lines_displayed: "Görüntülenen fark satırlarının maksimum sayısı"
   setting_display_subprojects_work_packages: "Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster"
-  setting_emails_footer: "E-posta altbilgisi"
+  setting_emails_footer: "E-posta altbilgi"
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
@@ -2588,9 +2588,9 @@ tr:
   text_warn_on_leaving_unsaved: "İş paketi bu sayfadan ayrıldığınızda kaybolabilecek kaydedilmemiş metinler içeriyor."
   text_what_did_you_change_click_to_add_comment: "Ne değiştirdiniz? Yorum eklemek için tıkayın"
   text_wiki_destroy_confirmation: "Bu wiki'yi ve içeriğini silmek istediğinizden emin misiniz?"
-  text_wiki_page_destroy_children: "Tüm alt sayfaları özyinelemeli olarak sil"
+  text_wiki_page_destroy_children: "Çocuk sayfalarını ve tüm torunlarını sil"
   text_wiki_page_destroy_question: "Bu sayfada %{descendants} alt sayfaları özyinelemeli olarak mevcut. Ne yapmak istersiniz?"
-  text_wiki_page_nullify_children: "Alt sayfaları kök sayfalar olarak sakla"
+  text_wiki_page_nullify_children: "Çocuk sayfalarını kök sayfalar olarak sakla"
   text_wiki_page_reassign_children: "Alt sayfaları bu üst sayfaya yeniden ata"
   text_workflow_edit: "İş akışını düzenlemek için bir rol ve iş tipi seçin"
   text_zoom_in: "Yakınlaştır"
@@ -2838,7 +2838,7 @@ tr:
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _Alt iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
+      _Çocuk iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
     destroy:
       info: "İş paketinin silinmesi geri döndürülemez bir işlemdir."
       title: "İş paketini sil"

@@ -263,9 +263,9 @@ pt:
       value_spacer: "-"
       sorting:
         criteria:
-          one: "Primeiro critério de classificação"
-          two: "Segundo critério de classificação"
-          three: "Terceiro critério de classificação"
+          one: "Primeiro critério de ordenação"
+          two: "Segundo critério de ordenação"
+          three: "Terceiro critério de ordenação"
       upsale_for_more: "Para filtros avançados, confira o"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
@@ -877,7 +877,7 @@ pt:
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuição"
+        assignee: "Atribuído para"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"

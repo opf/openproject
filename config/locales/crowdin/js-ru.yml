@@ -312,7 +312,7 @@ ru:
     label_and: "и"
     label_ascending: "По возрастанию"
     label_author: "Автор: %{user}"
-    label_avatar: "Аватар"
+    label_avatar: "Глистовья какашка\n"
     label_between: "между"
     label_board: "Доска"
     label_board_locked: "Заперто"
@@ -474,7 +474,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурирование..."
     label_upload_counter: "%{done} %{count} файлов, готовы"
     label_validation_error: "Пакет работ не удалось сохранить из-за следующих ошибок:"
-    label_version_plural: "Версии"
+    label_version_plural: "Этапы"
     label_view_has_changed: "У этого представления есть несохранённые изменения. Нажмите, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -636,7 +636,7 @@ ru:
           label: 'Временно приостановить ежедневные напоминания по электронной почте'
           first_day: 'Первый день'
           last_day: 'Последний день'
-    text_are_you_sure: "Вы уверены?"
+    text_are_you_sure: "Уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
     types:
       attribute_groups:
@@ -899,8 +899,8 @@ ru:
         title: "Заголовок"
         type: "Тип"
         updatedAt: "Обновлено"
-        versionName: "Стадия"
-        version: "Стадия"
+        versionName: "Этапы"
+        version: "Этапы"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
@@ -974,9 +974,9 @@ ru:
           priority: 'Приоритет'
           type: 'Тип'
         sorting_mode:
-          description: 'Выберите режим сортировки пакетов работ:'
-          automatic: 'Автоматически'
-          manually: 'Вручную'
+          description: 'Выберите режим упорядочивания пакетов работ:'
+          automatic: 'Автоматическое'
+          manually: 'Ручное'
           warning: 'При активации режима автоматического упорядования вы потеряете свою предыдущую сортировку.'
         columns_help_text: "Используйте поле ввода выше, чтобы добавить столбцы в вид таблицы. Вы можете перетаскивать колонки для их сортировки."
         upsale:

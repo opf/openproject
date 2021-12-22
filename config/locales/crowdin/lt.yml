@@ -310,10 +310,10 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     x_descendants:
-      one: 'Vieno pasekėjo darbo paketas'
-      few: '%{count} darbo paketo pasekėjai'
-      many: '%{count} darbo paketo pasekėjų'
-      other: '%{count} darbo paketo pasekėjas'
+      one: 'Vienas pasekėjas darbo paketas'
+      few: '%{count} pasekėjų darbo paketų'
+      many: '%{count} pasekėjų darbo paketų'
+      other: '%{count} pasekėjų darbo paketų'
     bulk:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
     move:
@@ -801,7 +801,7 @@ lt:
       notification:
         one: "Pranešimas"
         few: "Pranešimai"
-        many: "Pranešimų"
+        many: "Pranešimo"
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
@@ -1311,7 +1311,7 @@ lt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Lietuvių"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "taip"
@@ -1853,7 +1853,7 @@ lt:
   label_used_by: "Naudotas"
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
-  label_user: "Naudotojas"
+  label_user: "Vartotojas"
   label_user_and_permission: "Naudotojai ir leidimai"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
@@ -1985,7 +1985,7 @@ lt:
       more_to_see:
         one: 'Yra dar 1 darbų paketas su pranešimais.'
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
-        many: 'Yra dar %{count} darbų paketų su pranešimais.'
+        many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
       reason:
         watched: 'Stebimas'
@@ -3001,7 +3001,7 @@ lt:
       none_given: "Jokioms OAuth aplikacijoms nesuteikta prieiga prie jūsų paskyros."
     x_active_tokens:
       one: 'vienas akytus žetonas'
-      few: '%{count} aktyvus žetonai'
+      few: '%{count} aktyvių žetonų'
       many: '%{count} aktyvių žetonų'
       other: '%{count} aktyvių žetonų'
     flows:

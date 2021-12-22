@@ -446,9 +446,9 @@ fi:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Hyvä'
+          at_risk: 'Rajalla'
+          off_track: 'Huono'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -810,7 +810,7 @@ fi:
       wiki: "Wiki"
       wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
-      work_package: "Tehtävä"
+      work_package: "Työpaketti"
       'doorkeeper/application': "OAuth application"
   errors:
     header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
@@ -853,7 +853,7 @@ fi:
     is_for_all: "Kaikille projekteille"
     public: "Julkinen"
     #kept for backwards compatibility
-    issue: "Tehtävä"
+    issue: "Työpaketti"
     lastname: "Sukunimi"
     login: "Käyttäjätunnus"
     mail: "Sähköposti"
@@ -875,7 +875,7 @@ fi:
     uploader: "Uploader"
     user: "Käyttäjä"
     version: "Versio"
-    work_package: "Tehtävä"
+    work_package: "Työpaketti"
   backup:
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
@@ -1573,7 +1573,7 @@ fi:
   label_index_by_date: "Hakemisto päivittäin"
   label_index_by_title: "Hakemisto otsikoittain"
   label_information: "Tietoja"
-  label_information_plural: "Tietoja"
+  label_information_plural: "Tieto"
   label_integer: "Kokonaisluku"
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
@@ -1709,7 +1709,7 @@ fi:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
-  label_profile: "Käyttäjäprofiili"
+  label_profile: "Profile"
   label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
@@ -1868,7 +1868,7 @@ fi:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Aloitussivu"
-  label_work_package: "Tehtävä"
+  label_work_package: "Työpaketti"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
   label_work_package_category_plural: "Kategoriat"

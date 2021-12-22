@@ -210,7 +210,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου forum
+        no_results_content_text: Δημιουργία νέου φόρουμ
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -416,8 +416,8 @@ el:
       grids/grid:
         page: "Σελίδα"
         row_count: "Πλήθος γραμμών"
-        column_count: "Πλήθοςστηλών"
-        widgets: "Widgets"
+        column_count: "Πλήθος στηλών"
+        widgets: "Γραφικά στοιχεία"
       relation:
         delay: "Καθυστέρηση"
         from: "Εργασία"
@@ -1276,7 +1276,7 @@ el:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ελληνικά"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "όχι"
   general_text_yes: "ναι"
@@ -1559,7 +1559,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_impressum: "Νομικές επισημάνσεις"
+  label_impressum: "Νομική Ειδοποίηση"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1694,7 +1694,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
+  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1814,7 +1814,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
+  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"

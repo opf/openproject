@@ -259,7 +259,7 @@ sl:
       time_zone_converted:
         two_values: "%{from} - %{to} v vašem lokalnem času."
         only_start: "Od %{from} v vašem lokalnem času."
-        only_end: "Do %{from} v vašem lokalnem času."
+        only_end: "Till %{to} in your local time."
       value_spacer: "-"
       sorting:
         criteria:
@@ -336,7 +336,7 @@ sl:
     label_collapse_all: "Strni vse"
     label_comment: "Komentar"
     label_committed_at: "%{committed_revision_link} na %{date}"
-    label_committed_link: "opravil revizijo"
+    label_committed_link: "committed revision %{revision_identifier}"
     label_contains: "vsebuje"
     label_created_on: "Ustvarjeno dne"
     label_edit_comment: "Uredi ta komentar"
@@ -1060,7 +1060,7 @@ sl:
         required: '%{field} ne sme biti prazno'
         number: '%{field} ni veljavno število'
         maxlength: '%{field} ne more vsebovati več kot %{maxLength} znakov'
-        minlength: '%{field} ne more vsebovati manj kot %{maxLength} znakov'
+        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
         messages_on_field: 'To polje je neveljavno: %{messages}'
     error_could_not_resolve_version_name: "Ime različice se ni moglo razrešiti"
     error_could_not_resolve_user_name: "Uporabniškega imena ni bilo mogoče razrešiti"
@@ -1069,13 +1069,13 @@ sl:
     units:
       workPackage:
         one: "Delovni paket"
-        two: "Delovna paketa"
+        two: "Delovni paketi"
         few: "Delovni paketi"
         other: "Delovni paketi"
       child_work_packages:
         one: "en podrejeni delovni paket"
-        two: "%{count} podrejena delovna paketa"
-        few: "%{count} podrejenih delovnih paketov"
+        two: "%{count} podrejeni delovni paketi"
+        few: "%{count} podrejeni delovni paketi"
         other: "%{count} podrejeni delovni paketi"
       hour:
         one: "1 ura"

@@ -115,7 +115,7 @@ ro:
         polar_area: 'Zona polară'
       tabs:
         graph_settings: 'General'
-        dataset: 'nu este un număr.'
+        dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare.'
     description_available_columns: "Coloane disponibile"
@@ -523,9 +523,9 @@ ro:
         all: 'Toate'
       center:
         and_more_users:
-          one: 'and 1 other'
-          few: 'and %{count} others'
-          other: 'and %{count} others'
+          one: 'și încă unul'
+          few: 'și %{count} alții'
+          other: 'și %{count} alții'
         no_results:
           at_all: 'Noi notificări vor apărea aici atunci când există o activitate care vă privește'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
@@ -915,7 +915,7 @@ ro:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "Dă clic pentru a edita acest meniu."
+        formattable: "%{name}: Click to edit..."
       query:
         column_names: "Coloane"
         group_by: "Grupare rezultate"

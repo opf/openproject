@@ -22,17 +22,17 @@
 tr:
   js:
     ajax:
-      hide: "Gizle"
+      hide: "Saklamak"
       loading: "Yükleniyor ..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
       placeholder:
-        multi: "\"%{name}\" ekle"
-        single: "\"%{name}\" Seç"
-      remove: "%{name} kaldır"
-      active: "Etkin %{label} %{name}"
+        multi: "\"%{name}\" ekleyin"
+        single: "\"%{name}\" seçeneğini seçin"
+      remove: "%{name} öğesini kaldır"
+      active: "Aktif %{label} %{name}"
     backup:
       attachments_disabled: Ekler, izin verilen maksimum toplam boyutu aştıkları için dahil edilmeyebilir. Bunu yapılandırma yoluyla değiştirebilirsiniz (sunucunun yeniden başlatılması gerekir).
       info: >
@@ -46,47 +46,47 @@ tr:
       include_attachments: Ekleri dahil et
       download_backup: Yedeği indir
       request_backup: Yedek talep et
-    close_popup_title: "Pencereyi kapat"
+    close_popup_title: "Açılır pencereyi kapat"
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
     button_add_watcher: "Takipçi ekle"
     button_add: "Ekle"
     button_back: "Geri"
-    button_back_to_list_view: "Listeye görünümüne geri dön"
-    button_cancel: "İptal"
+    button_back_to_list_view: "Liste görünümüne geri dön"
+    button_cancel: "İptal etmek"
     button_close: "Kapat"
     button_change_project: "Projeyi değiştir"
-    button_check_all: "Tümünü işaretle"
+    button_check_all: "Hepsini kontrol et"
     button_configure-form: "Formu yapılandır"
-    button_confirm: "Doğrula"
+    button_confirm: "Onaylamak"
     button_continue: "Devam et"
-    button_copy: "Kopyala"
-    button_custom-fields: "Özel alanlar"
-    button_delete: "Sil"
+    button_copy: "Kopyalamak"
+    button_custom-fields: "Özel Alanlar"
+    button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"
-    button_details_view: "Detay görünümü"
-    button_duplicate: "Çoğalt"
+    button_details_view: "Ayrıntılar görünümü"
+    button_duplicate: "Çoğaltın"
     button_edit: "Düzenle"
     button_filter: "Filtre"
     button_collapse_all: "Tümünü daralt"
     button_expand_all: "Tümünü genişlet"
     button_advanced_filter: "Gelişmiş filtre"
     button_list_view: "Liste görünümü"
-    button_show_view: "Tam Ekran görünümü"
-    button_log_time: "Zaman kaydet"
-    button_more: "Fazlası"
-    button_open_details: "Detay görünümünü aç"
-    button_close_details: "Detay görünümünü kapat"
-    button_open_fullscreen: "Tam Ekran görünümünü aç"
+    button_show_view: "Tam ekran görünümü"
+    button_log_time: "Günlük zamanı kaydet"
+    button_more: "Daha"
+    button_open_details: "Ayrıntılar görünümünü aç"
+    button_close_details: "Ayrıntılar görünümünü kapat"
+    button_open_fullscreen: "Tam ekran görünümünü aç"
     button_show_cards: "Kart görünümünü göster"
     button_show_list: "Liste görünümünü göster"
     button_quote: "Alıntı"
-    button_save: "Kaydet"
+    button_save: "Kayıt etmek"
     button_settings: "Ayarlar"
-    button_uncheck_all: "Tüm işaretleri kaldır"
-    button_update: "Güncelle"
+    button_uncheck_all: "Tümünü işaretleme"
+    button_update: "Güncelleştirme"
     button_export-pdf: "PDF indir"
-    button_export-atom: "Atom indir"
+    button_export-atom: "Atom İndir"
     button_create: "Oluştur"
     calendar:
       title: 'Takvim'
@@ -99,7 +99,7 @@ tr:
       remove_from_list: 'Kartı listeden çıkar'
     caption_rate_history: "Hız tarihi"
     clipboard:
-      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
+      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen seçilen metni manuel olarak kopyalayın."
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
       type: 'Grafik tipi'
@@ -406,7 +406,7 @@ tr:
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
     label_remove_row: "Satırı kaldır"
-    label_report: "Rapor"
+    label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
     label_select_watcher: "Takipçi seç..."
@@ -422,7 +422,7 @@ tr:
     label_star_query: "avantajlı"
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
-    label_sum: "Toplam"
+    label_sum: "toplam\n"
     label_sum_for: "Toplam"
     label_total_sum: "Toplam miktar"
     label_subject: "Konu"
@@ -575,8 +575,8 @@ tr:
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          add: 'Proje için ayar ekle'
+          already_selected: 'Bu proje zaten seçildi'
           remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'

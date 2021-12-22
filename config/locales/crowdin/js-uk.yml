@@ -1079,8 +1079,8 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 год"
+        other: "%{count} год"
         zero: "0 h"
     zen_mode:
       button_activate: 'Активуйте режим дзен'

@@ -196,7 +196,7 @@ it:
       scheduled: "L'eliminazione è stata programmata e verrà eseguita in background. Verrai avvisato del risultato."
       schedule_failed: "Il progetto non può essere eliminato: %{errors}"
       failed: "Eliminazione del progetto %{name} non riuscita"
-      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato archiviato."
+      failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
     index:
@@ -519,10 +519,10 @@ it:
         watcher: "Osservatore"
       'doorkeeper/application':
         uid: "Client ID"
-        secret: "Segreto del client"
+        secret: "Chiave segreta del client"
         owner: "Proprietario"
-        redirect_uri: "Reindirizzamento URl"
-        client_credentials_user_id: "ID utente credenziali client"
+        redirect_uri: "Reindirizzamento URI"
+        client_credentials_user_id: "ID utente delle credenziali client"
         scopes: "Ambiti"
         confidential: "Confidenziale"
     errors:
@@ -615,7 +615,7 @@ it:
               secured_uri: 'deve essere un URI HTTPS/SSL.'
               forbidden_uri: 'è vietato dal server.'
             scopes:
-              not_match_configured: "non corrisponde ai campi disponibili."
+              not_match_configured: "non corrisponde a nessuno degli ambiti disponibili."
         enterprise_token:
           unreadable: "non può essere letto. Sei sicuro che si tratta di un token di assistenza?"
         grids/grid:
@@ -914,7 +914,7 @@ it:
   button_change_password: "Cambia password"
   button_check_all: "Seleziona tutti"
   button_clear: "Pulisci"
-  button_click_to_reveal: "Clicca per visualizzare"
+  button_click_to_reveal: "Clicca per mostrare"
   button_close: 'Chiuso'
   button_collapse_all: "Comprimi Tutto"
   button_configure: "Configura"
@@ -1277,7 +1277,7 @@ it:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Italiano"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "si"
@@ -1846,7 +1846,7 @@ it:
   label_view_diff: "Mostra le differenze"
   label_view_revisions: "Vedi revisioni"
   label_watched_work_packages: "Macro-attività osservate"
-  label_what_is_this: "Che cos'è questo?"
+  label_what_is_this: "Cos'è questo?"
   label_week: "Settimana"
   label_wiki_content_added: "Pagina wiki aggiunta"
   label_wiki_content_updated: "Pagina wiki aggiornata"
@@ -2899,11 +2899,11 @@ it:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Nella richiesta non è presente un parametro richiesto, include un valore di parametro non supportato, o non è valido.'
+        invalid_request: 'La richiesta manca un parametro obbligatorio, include un valore non supportato in un parametro, o non è scritto correttamente.'
         invalid_redirect_uri: "Il reindirizzamento dell'URI richiesto non è valido o non corrisponde all'URI di reindirizzamento del client."
         unauthorized_client: 'Il client non è autorizzato ad eseguire questa richiesta usando questo metodo.'
         access_denied: 'Il proprietario della risorsa o il server di autorizzazione hanno rifiutato la richiesta.'
-        invalid_scope: 'Lo scopo richiesto non è non valido, sconosciuto o malformato.'
+        invalid_scope: 'L''ambito richiesto non è valido, è sconosciuto o non è scritto bene.'
         invalid_code_challenge_method: 'Il metodo di sfida del codice deve essere semplice o S256.'
         server_error: 'Il server di autorizzazione ha riscontrato una condizione inaspettata che ha impedito di elaborare la richiesta.'
         temporarily_unavailable: 'Il server di autorizzazione non è attualmente in grado di gestire la richiesta a causa di un sovraccarico temporaneo o della manutenzione del server.'

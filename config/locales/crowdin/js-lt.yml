@@ -544,7 +544,7 @@ lt:
           link_text: 'Spauskite čia, kad juos įkeltumėte'
       menu:
         accountable: 'Atsakingas'
-        assigned: 'Paskirtas'
+        assigned: 'Paskirta'
         by_project: 'Neperskaityti pagal projektą'
         by_reason: 'Pagal įsitraukimą'
         inbox: 'Gauti'

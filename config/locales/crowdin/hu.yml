@@ -376,7 +376,7 @@ hu:
         attachment_file_name: "Melléklet fájl neve"
         downloads: "Letöltés"
         file: "Fájl"
-        filename: "Fájl"
+        filename: "File"
         filesize: "Méret"
       attribute_help_text:
         attribute_name: 'Attribútum'
@@ -634,7 +634,7 @@ hu:
             mail_reminder_sent:
               set_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
         notification_settings:
@@ -785,7 +785,7 @@ hu:
           one: "1 hiba miatt nem menthető a következő: %{model}"
           other: "%{count} hiba miatt nem menthető a következő: %{model}"
     models:
-      attachment: "Fájl"
+      attachment: "File"
       attribute_help_text: "Attribútum-súgószöveg"
       forum: "Fórum"
       comment: "Vélemény"
@@ -829,7 +829,7 @@ hu:
     base: "Általános hiba:"
     blocks_ids: "Lezárt munkacsomagok azonosítója"
     category: "Kategória"
-    comment: "Vélemény"
+    comment: "Komment"
     comments: "Vélemény"
     content: "Tartalom"
     color: "Szín"
@@ -1285,7 +1285,7 @@ hu:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Magyar"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nem"
   general_text_yes: "igen"
@@ -1543,7 +1543,7 @@ hu:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
-  label_filter_plural: "Szürő"
+  label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
   label_folder: "Mappa"
@@ -1953,20 +1953,20 @@ hu:
     salutation: 'Helló %{user}!'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
+      login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
+      mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
+        one: "Még 1 munkacsomag van értesítésekkel.\n"
         other: 'There are %{count} more work packages with notifications.'
       reason:
-        watched: 'Watched'
+        watched: 'Megfigyelt'
         assigned: 'Assigned'
         responsible: 'Felelős'
-        mentioned: 'Mentioned'
+        mentioned: 'Megemlített'
         subscribed: 'mind'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
+      see_all: 'Mutasd mindet'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
@@ -2472,7 +2472,7 @@ hu:
         Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
 
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
     display:
       first_date_of_week_and_year_set: >
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
@@ -2634,8 +2634,8 @@ hu:
     delete_thing: "Törlés"
     duration: "Időtartam"
     duration_days:
-      one: "1 napja"
-      other: "%{count} napja"
+      one: "%{count} nap"
+      other: "%{count} nap"
     edit_color: "Színek szerkesztése"
     edit_thing: "Szerkesztés"
     edit_timeline: "A %{timeline} ütemterv jelentés szerkesztése"

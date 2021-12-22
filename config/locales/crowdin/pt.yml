@@ -821,7 +821,7 @@ pt:
   attributes:
     active: "Ativo"
     assigned_to: "Atribuição"
-    assignee: "Atribuição"
+    assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
     base: "Erro geral:"
@@ -1279,7 +1279,7 @@ pt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Português Brasileiro"
+  general_lang_name: "English"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "não"
   general_text_yes: "sim"
@@ -2296,7 +2296,7 @@ pt:
     go_to_revision: "Ir para revisão"
     managed_remote: "Repositórios gerenciados deste fornecedor são manipulados remotamente."
     managed_remote_note: "Informações sobre o URL e o caminho deste repositório não estão disponíveis antes da sua criação."
-    managed_url: "URL gerenciado"
+    managed_url: "URL gerenciada"
     settings:
       automatic_managed_repos_disabled: "Desativar criação automática"
       automatic_managed_repos: "Criação automática de repositórios gerenciados"
@@ -2319,7 +2319,7 @@ pt:
         url: "Digite o URL do repositório. Você pode apontar para um repositório local (começando com %{local_proto}) ou um repositório remoto. \nSão suportados os seguintes esquemas de URL:"
       managed_title: "Repositório do Subversion integrado ao OpenProject"
       managed_introduction: "Deixe OpenProject criar e integrar um repositório Subversion local automaticamente."
-      managed_url: "URL gerenciado"
+      managed_url: "URL gerenciada"
       password: "Senha do repositório"
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
@@ -2462,7 +2462,7 @@ pt:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.

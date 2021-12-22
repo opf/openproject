@@ -62,7 +62,7 @@ de:
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
-    button_delete: "Löschen"
+    button_delete: "Lösche"
     button_delete_watcher: "Beobachter löschen"
     button_details_view: "Detailansicht"
     button_duplicate: "Duplizieren"
@@ -228,7 +228,7 @@ de:
             installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
             premium_features: "Premiumfunktionen"
             premium_features_text: "Agile Boards, benutzerdefinierte Farben und Logo, Graphen, intelligente Workflows und vieles mehr."
-            professional_support: "Professionelle Unterstützung"
+            professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
           button_book_now: "Jetzt buchen"
@@ -312,7 +312,7 @@ de:
     label_and: "und"
     label_ascending: "Aufsteigend"
     label_author: "Autor: %{user}"
-    label_avatar: "Profilbild"
+    label_avatar: "Profilfoto"
     label_between: "zwischen"
     label_board: "Board"
     label_board_locked: "Gesperrt"
@@ -355,12 +355,12 @@ de:
     label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
-    label_group_by: "Gruppiere Ergebnisse"
+    label_group_by: "Gruppieren nach"
     label_group_plural: "Gruppen"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
-    label_in: "an"
+    label_in: "in"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
@@ -621,7 +621,7 @@ de:
           title: 'E-Mail-Benachrichtigungen für andere Objekte (die keine Arbeitspakete sind)'
           explanation: >
             Die Benachrichtigungen sind aktuell auf Arbeitspakete beschränkt. Sie können die E-Mail-Benachrichtigungen für diese Ereignisse so lange erhalten, bis sie in den Benachrichtigungen enthalten sind:
-          news_added: 'Nachricht hinzugefügt'
+          news_added: 'Neuigkeit hinzugefügt'
           news_commented: 'Kommentar zu einer Nachricht'
           document_added: 'Dokument hinzugefügt'
           forum_messages: 'Neue Nachricht im Forum'
@@ -918,7 +918,7 @@ de:
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
-        group: "Gruppiere Ergebnisse"
+        group: "Gruppieren nach"
         group_by_disabled_by_hierarchy: "Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist."
         hierarchy_disabled_by_group_by: "Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind."
         sort_ascending: "Sortiere aufsteigend"

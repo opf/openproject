@@ -365,7 +365,7 @@ fi:
     label_in_less_than: "pienempi kuin"
     label_in_more_than: "suurempi kuin"
     label_incoming_emails: "Saapuvat sähköpostiviestit"
-    label_information_plural: "Tietoja"
+    label_information_plural: "Tieto"
     label_import: "Tuo"
     label_latest_activity: "Viimeisimmät tapahtumat"
     label_last_updated_on: "Viimeisin päivitys"
@@ -439,7 +439,7 @@ fi:
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Varoitus"
-    label_work_package: "Tehtävä"
+    label_work_package: "Työpaketti"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Tehtävät"
     label_watch: "Seuraa"
@@ -654,7 +654,7 @@ fi:
         settings: "Asetukset"
     time_entry:
       project: 'Projekti'
-      work_package: 'Tehtävä'
+      work_package: 'Työpaketti'
       work_package_required: 'Requires selecting a work package first.'
       activity: 'Tapahtumat'
       comment: 'Kommentti'
@@ -676,7 +676,7 @@ fi:
       children: "Alitehtävä"
       relates: "Liittyy"
       duplicates: "Alkuperäinen"
-      duplicated: "Päällekkäistä"
+      duplicated: "Kopio"
       blocks: "Estää"
       blocked: "Estetty"
       precedes: "Edeltää"
@@ -874,7 +874,7 @@ fi:
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Yksityiskohdat"
-        people: "Henkilöresurssit"
+        people: "Henkilöt"
         estimatesAndTime: "Arviot ja ajankäyttö"
         other: "Muut"
       properties:
@@ -932,7 +932,7 @@ fi:
         display_sums: "Näytä summat"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
         click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Näkymän nimi"
+        rename_query_placeholder: "Name of this view"
         star_text: "Merkitse tämä näkymä suosikkeihin ja lisää se vasempaan sivupalkkiin."
         public_text: >
           Julkaise tämä näkymä ja salli muiden käyttäjien nähdä se. Käyttäjät joilla on 'Muokkaa julkisia näkymiä' -oikeus voivat muokata tai poistaa julkisia näkymiä. Tämä ei vaikuta tehtävien näkyvyyteen ja riippuen niiden oikeuksista, käyttäjät voivat nähdä eri tehtävänäkymän.
@@ -1011,7 +1011,7 @@ fi:
         page_settings: "Nimeä näkymä ..."
         delete: "Poista"
       filter: "Suodata"
-      unselected_title: "Tehtävä"
+      unselected_title: "Työpaketti"
       search_query_label: "Hae näkymistä"
       search_query_title: "Klikkaa hakeaksesi näkymistä"
       placeholder_query_title: "Set a title for this view"
@@ -1068,13 +1068,13 @@ fi:
     units:
       workPackage:
         one: "work package"
-        other: "work packages"
+        other: "tehtävät"
       child_work_packages:
         one: "one child work package"
         other: "%{count} work package children"
       hour:
         one: "1 t"
-        other: "%{count} h"
+        other: "%{count} t"
         zero: "0 t"
     zen_mode:
       button_activate: 'Koko näyttö'
