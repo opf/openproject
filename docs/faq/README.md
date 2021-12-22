@@ -75,7 +75,7 @@ The system requirements can be found [here](../installation-and-operations/syste
 
 Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. 
 
-### How can I learn more about OpenProject and how to use it?
+### How can I test OpenProject and lern how to use it?
 
 Here are resources to get to know OpenProject: 
 
@@ -179,6 +179,14 @@ The best way is to use one of our Action boards, the [Assignee board](.../.../..
 
 You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
+### How to use plugins in OpenProject and where can I find them?
+
+Not all available plugins for OpenProject are published yet. After updating the plugins so that they are working with the Rails3 OpenProject Core, they will be published on Github continiously. Please write us a note if you have questions to any of the plugins.
+
+### Which Plugins are published so far?
+
+Please refer to the project timeline to see which plugins will be released. Plugin development will take place in dedicated sub-projects on openproject.org.
+
 ### How can I add a RACI matrix in OpenProject?
 
 You can add [project custom fields](../system-admin-guide/custom-fields/custom-fields-projects/) of the type "user" to your projects and track the respective persons there.
@@ -202,10 +210,28 @@ Please go to https://www.openproject.org/newsletter/ and submit your data to rec
 
 Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community Edition [here](https://www.openproject.org/pricing/#compare). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
 
+### How can I become a member of the community?
+
+You can start collaborating with other members of OpenProject [here](https://community.openproject.org/projects/openproject/), bring in your contributions and ideas to improve the software and the community. Share your experiences with OpenProject. Also take a look at the Contribution page for further information. We are looking forward to your participation. 
+
+### What is OPF (OpenProject Foundation)?
+
+The OpenProject Foundation (Hyperlik to OPF) (OPF) (e.V.) is incorporated as a membership-based, non-profit organisation. It establishes a framework in which the open source software can successfully be developed. It supports and guides the software project, the community and its growth, furthermore, ensures that OpenProject continues to exist beyond the participation of individual members or companies.
+
+### How can I become a member of OPF?
+
+Individuals as well as enterprises who have a proven commitment to collaborative open-source software development through sustained participation and contributions within OpenProject, are eligible for membership. Enterprises will be represented by individuals who will represent the interests of the company within the foundation.
+An individual or a representative of a company is awarded for membership after nomination and approval by the majority of the existing members of the OpenProject Foundation.
+
 ### Is it possible to use multiple languages in OpenProject?
 
 Yes, it is possible to use OpenProject in multiple languages. We support English, German, French and a number of additional languages. Each user can select their own preferred language by signing into OpenProject, clicking on the user avatar on the upper right side and selecting "My account" from the dropdown menu.
 You can then select "Settings" from the side menu on the left side and [change the language](../getting-started/my-account/#change-your-language).
+
+### How are decisions taken within this community, e.g. what will be a core feature?
+
+We aim to take decisions in a transparent and collaborative approach and agree together on future developments and the overall thrust of the project.
+General decisions will be governed by the OpenProject Foundation.
 
 ### Is there an OpenProject app?
 
