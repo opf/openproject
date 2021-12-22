@@ -27,7 +27,7 @@ import {
 import { EventClickArg } from '@fullcalendar/common';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -198,7 +198,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.calendarOptions$.next(
           this.calendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            editable: false,
             selectable: true,
             plugins: [
               resourceTimelinePlugin,
@@ -235,6 +234,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
+            // DnD configuration
+            editable: true,
+            eventResize: (resizeInfo:EventResizeDoneArg) => this.calendar.updateDates(resizeInfo),
           } as CalendarOptions),
         );
       });
@@ -334,6 +336,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
+          durationEditable: !this.calendar.isMilestone(workPackage),
           title: workPackage.subject,
           start: startDate,
           end: exclusiveEnd,

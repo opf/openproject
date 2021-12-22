@@ -39,6 +39,10 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { EventResizeDoneArg } from '@fullcalendar/interaction';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -79,6 +83,8 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly halResourceService:HalResourceService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly timezoneService:TimezoneService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
   ) {
     super();
   }
@@ -104,28 +110,23 @@ export class OpCalendarService extends UntilDestroyedMixin {
     jQuery(event.el).tooltip({
       content: this.tooltipContentString(event.event.extendedProps.workPackage),
       items: '.fc-event',
-      close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
-      },
       track: true,
     });
   }
 
   removeTooltip(element:HTMLElement):void {
-    // deactivate tooltip so that it is not displayed on the wp show page
-    jQuery(element).tooltip({
-      close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
-      },
-      disabled: true,
-    });
+    jQuery(element).tooltip('close');
   }
 
   eventDate(workPackage:WorkPackageResource, type:'start'|'due'):string {
-    if (this.schemaCache.of(workPackage).isMilestone) {
+    if (this.isMilestone(workPackage)) {
       return workPackage.date;
     }
     return workPackage[`${type}Date`];
+  }
+
+  isMilestone(workPackage:WorkPackageResource):boolean {
+    return this.schemaCache.of(workPackage).isMilestone as boolean;
   }
 
   warnOnTooManyResults(collection:WorkPackageCollectionResource, isStatic = false):void {
@@ -352,5 +353,23 @@ export class OpCalendarService extends UntilDestroyedMixin {
       '.',
       { cdate: this.timezoneService.formattedISODate(dates.start) },
     );
+  }
+
+  async updateDates(resizeInfo:EventResizeDoneArg):Promise<void> {
+    const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+
+    const changeset = this.halEditing.edit(workPackage);
+    changeset.setValue('startDate', resizeInfo.event.startStr);
+    const due = moment(resizeInfo.event.endStr)
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD');
+    changeset.setValue('dueDate', due);
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      resizeInfo.revert();
+    }
   }
 }
