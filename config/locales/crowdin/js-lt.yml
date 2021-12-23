@@ -22,57 +22,57 @@
 lt:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading ..."
+      hide: "Slėpti"
+      loading: "Įkeliama..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Tempkite į redagavimo lauką, kad įtrauktumėte piešinį ar paminėtumėte priedą. Uždari redaktoriaus laukai bus atidaryti, kol jūs tempsite.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Pridėti „%{name}“"
+        single: "Pažymėti „%{name}“"
+      remove: "Pašalinti %{name}"
+      active: "Aktyvus %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Priedai negalėjo būti įtraukti, nes jie viršija maksimalių bendrą leidžiamą dydį. Jūs galite tai pakeisti konfigūracijoje (reikia perstartuoti serverį).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Jūs čia galite pradėti atsarginės kopijos darymą. Šis procesas gali užtrukti šiek tiek laiko priklausomai nuo jūsų turimų duomenų kiekio (ypač priedų). Kai jis bus baigtas, gausite el. pašto laišką.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
-      options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
-    close_popup_title: "Close popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
-    button_back_to_list_view: "Back to list view"
-    button_cancel: "Cancel"
-    button_close: "Close"
-    button_change_project: "Change project"
-    button_check_all: "Check all"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
-    button_continue: "Continue"
-    button_copy: "Copy"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+        Nauja atsarginė kopija perrašys senąją. Per dieną galima prašyti tik riboto kiekio atsarginių kopijų.
+      last_backup: Paskutinė kopija
+      last_backup_from: Paskutinė kopija nuo
+      title: OpenProject atsarginė kopija
+      options: Parinktys
+      include_attachments: Įtraukti priedus
+      download_backup: Atsiųsti atsarginę kopiją
+      request_backup: Prašyti atsarginės kopijos
+    close_popup_title: "Užverti iškylantį langą"
+    close_filter_title: "Užverti filtrą"
+    close_form_title: "Užverti formą"
+    button_add_watcher: "Pridėti stebėtojų"
+    button_add: "Pridėti"
+    button_back: "Atgal"
+    button_back_to_list_view: "Atgal į sąrašo peržiūrą"
+    button_cancel: "Nutraukti"
+    button_close: "Uždaryti"
+    button_change_project: "Keisti projektą"
+    button_check_all: "Tikrinti viską"
+    button_configure-form: "Konfigūruoti formą"
+    button_confirm: "Patvirtinti"
+    button_continue: "Tęsti"
+    button_copy: "Kopijuoti"
+    button_custom-fields: "Savi laukai"
+    button_delete: "Trinti"
+    button_delete_watcher: "Trinti stebėtoją"
+    button_details_view: "Detali peržiūra"
+    button_duplicate: "Dublikuoti"
+    button_edit: "Keisti"
+    button_filter: "Filtras"
+    button_collapse_all: "Sutraukti visus"
+    button_expand_all: "Išskleisti visus"
+    button_advanced_filter: "Sudėtingesnis filtras"
+    button_list_view: "Sąrašo vaizdas"
+    button_show_view: "Viso ekrano vaizdas"
     button_log_time: "Log time"
     button_more: "More"
     button_open_details: "Open details view"
