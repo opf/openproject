@@ -49,7 +49,7 @@ At the moment you can not download a backup yourself. However, you are welcome t
 The OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. 
 AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. 
 Employed facilities are compliant with the ISO 27001 and 27018 standards. The OpenProject cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. 
-Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/security-and-privacy/).
+Each individual instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. Find out more about GDPR compliance on our [website](https://www.openproject.org/gdpr-compliance).
 
 ### Is OpenProject HIPPA compliant?
 
@@ -75,7 +75,7 @@ The system requirements can be found [here](../installation-and-operations/syste
 
 Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. 
 
-### How can I test OpenProject and learn how to use it?
+### How can I test OpenProject and lern how to use it?
 
 Here are resources to get to know OpenProject: 
 
@@ -132,6 +132,10 @@ With the last release (11.2) there was no downtime, because the database changes
 Sometimes this is not the case, and then we need a downtime to roll out the new version. This usually takes up to an hour and we always announce it a few days in advance.
 So there are no regular downtimes.
 
+### Will my account be deleted after a certain time of inactivity?
+
+Generally, no accounts will be deleted automatically. You can delete your account on -> My account (top right corner under your name) -> Delete Account.
+
 ## How to ... in OpenProject?
 
 Most of this kind of questions will be answered in the respective sections for each topic (see links below). However, there may be some FAQ that do not really fit elsewhere:
@@ -158,6 +162,7 @@ This is not possible per se, there's no Ctrl+Z option or anything similar.
 
 Please use these resources to find out about the latest changes and re-do them manually: The [work package activity](../getting-started/work-packages-introduction/#activity-of-work-packages), the [history of the wiki page](../user-guide/wiki/more-wiki-functions/#show-wiki-page-history) or the [Activities module](../user-guide/activity).
 
+
 ### What happens when the unit cost of a project, or budget, changes during a project or during a budget term?
 
 The behavior depends on the date the budget and the rate of cost types refer to. The budget will contain the rate that was valid for the included unit costs at its creation (see “fixed date” in the budget details). Please note that it is possible to change this “fixed date” as well as old rates for cost types which will influence the budget or/and the spent costs.
@@ -165,9 +170,8 @@ The behavior depends on the date the budget and the rate of cost types refer to.
 ### How can I increase or decrease the number of users in OpenProject?
 
 You can invite new users in the system administration as long as you have enough licenses.
-
 For the Community Edition you can have as many users as you need for free. 
-If you are using Enterprise on-premises, please write an email to sales @ openproject.com.
+If you are using Enterprise on-premises, please write an email to sales@openproject.com.
 
 If you are using the Enterprise cloud, you can easily upgrade or downgrade the number of users by navigating to *Administration -> Billing -> Manage subscription* and choosing the new amount of users which you need in your system. Find out more [here](../enterprise-guide/enterprise-cloud-guide/manage-cloud-subscription).
 
@@ -278,6 +282,28 @@ There's no such feature. However, you can use the wiki to add information regard
 
 In many companies it makes sense to structure your project tree according to your departments (i.e. one parent project for each department with projects for each topic or client underneath).
 
+### What syntax is used to enter text in meetings?
+
+It’s the same as for all wiki pages: Textile. See Wiki’s FAQ for further help.
+
+### How can I add my notes to the agenda?
+
+Below the general meeting information which comprise date, time and place you see the agenda. You have several options, the left-most allows you to close the agenda, which is to be done after the meeting in order to create the meeting minutes.
+One to the left, you can edit the agenda and add your notes.
+If you are done click save.
+
+### How can I send the agenda to the invitees?
+
+You can send the agenda or respectively the minutes to all invited project members, by clicking send agenda for review.
+
+### What happens if I close an agenda?
+
+The close button will re-open the agenda for editing, but if you click save, the agenda will be saved as the meeting minutes. It was designed to be used during or after the meeting
+
+### How can I reference work packages?
+
+You can reference work packages typing #issue_number . For a more detailed description see Referencing issues.
+
 ### Is there an architecture diagram for OpenProject?
 
 A (very rough) diagram can be found on https://www.openproject.org/hosting/.
@@ -285,6 +311,7 @@ A (very rough) diagram can be found on https://www.openproject.org/hosting/.
 ### Can I set up an entity-relationship diagram in OpenProject?
 
 No, currently we do not have an entity-relationship diagram for OpenProject.
+
 
 ## FAQ regarding OpenProject BIM edition
 

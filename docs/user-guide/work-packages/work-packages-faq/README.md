@@ -75,6 +75,24 @@ As an inherited change is always commented ("Updated automatically by...") they 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
 
+
+### The text I entered is not displayed as expected - why?
+
+All text entered (work package, wiki pages or meeting agenda) is subject to Textile markup language, which allows text formatting.
+On the other hand it does restrict the usage of some characters you would intuitively use in your text, e.g. emphasizing a piece of text by the use of - before and after the text -. Unfortunately this is also the Textile indication for crossed out text. In some cases the use of a space can help.
+If you are unsure, whether you entered the formatting correctly and the text will displayed as you wanted, use the preview function next to the save button. In this way you can make your adjustments before saving the issue or wikipage you were working on and can assure, that everything will be displayed correctly.
+
+### How can I change the tracker, description or title of a work package?
+
+ If you click update you have the possibility to update status, assignee and to comment on your changes.
+But if you want to change the work package title or the tracker, you first have to click more to have this option.
+
+### How to assign a subtask to an work package?
+
+Select Add subtask below the description of the work package. A new work package form opens and the field for the parent task’s number is pre-filled.
+Enter the work package information as usual and click create to finally create the work package.
+Another solution would be to enter the parent task’s ID when creating the new subtask, but as all information, that one can be added and changed after the creation of the issue.
+
 ### Can I restore a deleted workpackage?
 
 There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
@@ -95,6 +113,16 @@ Tick the box next to "Public" when saving the work package view. We suggest tick
 This is not possible at the moment, but you can configure and save another view.
 
 A [feature request](../../../development/submit-feature-idea/) to change this can be found [here](https://community.openproject.com/projects/openproject/work_packages/31423/activity).
+
+### How to create work package hierarchies after the initial creation of the issue?
+
+After the creation of the work package you can still assign a parent work package. Select Update and choose afterwards the More option. (s.a.) Enter the work package number and click Submit below the other description fields.
+
+### How to create custom work package filters?
+
+If you feel that the work package as they are listed by default do not give the information you need, you can filter and sort them according to your needs.
+Select Add filter on the right and set the value to your preferences. If you click Apply the view will be updated. Additionally your can sort the values in the individual columns.
+Just click the column title to make use of this function.
 
 ### I sorted my work package list and when I get back to my work package list it doesn't look the same way again. Why?
 
@@ -117,6 +145,11 @@ This is a known behavior of OpenProject, but not trivial to solve. There's alrea
 ### When I create a new work package it's always a "Task". How can I change the default work package type?
 
 Please navigate to *Administration ->Work packages ->Types*. The type that is at the top of the list is the default type. To change it, use the arrows on the right to move another work package type to the top of the list.
+
+### What do the work package trackers and status stand for?
+
+The OpenProject configuration of trackers and workflows as you see it, is a very general one. All trackers and status are set in a way they would fit most projects and workflows.
+Yet, in your own configuration they can be changed and configured to your specific needs. You can define any kind of work package tracker you need, i.e. tasks, risks, bugs, user stories, ideas, and much more. Each project can choose which tracker they want to use from the global configuration. The workflows will also be configured globally for each installation, e.g. possible status for each issue tracker.
 
 ### I added new work package types. Why can i not see them?
 
