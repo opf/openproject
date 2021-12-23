@@ -75,7 +75,7 @@ The system requirements can be found [here](../installation-and-operations/syste
 
 Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenProject can be installed in two different ways: The packaged installation of OpenProject is the recommended way to install and maintain OpenProject using DEB or RPM packages. There's also a Docker based installation option. 
 
-### How can I test OpenProject and lern how to use it?
+### How can I test OpenProject and learn how to use it?
 
 Here are resources to get to know OpenProject: 
 
