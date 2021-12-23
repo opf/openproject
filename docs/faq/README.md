@@ -312,6 +312,46 @@ A (very rough) diagram can be found on https://www.openproject.org/hosting/.
 
 No, currently we do not have an entity-relationship diagram for OpenProject.
 
+## FAQ regarding scrum: How to set up backlogs and sprints?
+
+### How to set up product and sprint backlogs?
+
+As project administrator you have the right to access the project configuration. There, you can define, which versions shall be used for that project.
+For a regular scrum project, a product backlog, a kind of wish list and regularly updated sprints would be the basic configuration. Of course you can name those versions as you like. After the creation of the versions the issues can be assigned to them.
+
+### Not all work packages are displayed in the backlogs - why?
+
+The work packages need to be assigned to the specific versions first, i.e. existing work package need to be updated. Once the work packages are displayed in the backlogs, you can assign them to new versions or namely sprints by dragging them. In the same manner, the userstories can be ranked according to their priority.
+
+### When is a work package counted as ‘done’ for the burn-down chart?
+
+As it is not applicable for each tracker to set an issue to closed there might be the need to define different statuses as complete.
+In the project configuration, you can set the Definition of done. Whenever a workpackage reaches a status which is defined as Done the assigned storypoints will be deducted from the planned storypoints for the sprint.
+
+### How can I update the work package in a sprint?
+
+For updating backlog work packages, you do not have to go back to the general work package view. You can edit the work pacvkages in-line, like updating the story points.
+Just click the part you want to change and the field will become editable.
+
+### How can I print the story cards?
+
+In the top right corner of the Sprint there is an icon you can click. It will open a drop-down menu, which holds the option to export the storycards as a PDF file and to print them afterwards for arranging them on a real task board.
+
+### How to create a Scrumwiki?
+
+OpenProject allows you to define a template wiki page, which can be generated for each Sprint. In the backlogs, you can generate the page by selecting wiki from the sprint menu.
+You would have to create a general wiki page in your specific project. It must not be a subpage of any other page and has to have the name, which was set by the global administrator. For openproject.org it is Scrumwiki.
+
+### I wanted to move the work package to ‘closed’ but get an error message - what is wrong?
+
+Probably, the workpackage is blocked by an impediment, which is not yet finished.
+The theoretical background is, that you cannot finish a task, if there is something which blocks the completion. On the task board, these impediments might not be obvious on first sight, so you might want to ‘close’ a work package accidentally, although it could not have been closed. In this case, you should check, if someone probably just forgot to update the impediment.
+
+### How can I change the version of tasks that are child components of a work package? 
+
+If you want to use the backlog module you have two options:
+1. you can assign all components to a work package and assign this work package to a sprint and then, if necessary, move the work package to the next sprint.
+2. you can create several work packages and assign them to the desired sprints with the respective components.
 
 ## FAQ regarding OpenProject BIM edition
 
