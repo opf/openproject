@@ -118,9 +118,9 @@
 
 <ng-template let-item let-search="search"  #defaultOption [ngSwitch]="true">
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
-    <div class="op-autocompleter--option-wrapper">
+    <div class="op-autocompleter--option-wp-wrapper">
       <op-principal
-        class="op-autocompleter--option-principal"
+        class="op-autocompleter--wp-principal"
         *ngIf="item.author && item.author.href"
         [principal]="item.author"
         [hideName]="true"
@@ -162,13 +162,14 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
-    <op-principal
-      class="op-autocompleter--option-principal"
-      *ngIf="item && item.href"
-      [principal]="item"
-      [hideName]="true"
-      size="mini"
-    ></op-principal>
+    <div class="op-autocompleter--option-principal-wrapper">
+      <op-principal
+        *ngIf="item && item.href"
+        [principal]="item"
+        [hideName]="true"
+        size="mini"
+      ></op-principal>
+    </div>
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 
