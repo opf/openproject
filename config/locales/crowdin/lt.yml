@@ -55,7 +55,7 @@ lt:
         alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
         content-link-color: "Šrifto spalva daugeliui nuorodų."
         primary-color: "Pagrindinė spalva."
-        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
+        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama žymeklio užvedimo efektui sukurti."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
@@ -377,7 +377,7 @@ lt:
         attachment_content: "Prisegto failo turinys"
         attachment_file_name: "Prisegto failo vardas"
         downloads: "Atsisiuntimai"
-        file: "Byla"
+        file: "Failas"
         filename: "Byla"
         filesize: "Dydis"
       attribute_help_text:
@@ -665,7 +665,7 @@ lt:
             public:
               error_unauthorized: "- Naudotojas neturi teisių kurti viešus vaizdus."
             group_by:
-              invalid: "Negalima grupuoti naudojant: %{value}"
+              invalid: "Negalima grupuoti pagal: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Netinkamas užklausos stulpelis: %{value}"
@@ -687,11 +687,11 @@ lt:
             circular_dependency: "Ryšys sukuria ryšių ciklą."
           attributes:
             to:
-              error_not_found: "darbų paketas į 'iki' poziciją nerastas arba yra nematomas"
-              error_readonly: "esama ryšio sąsaja 'iki' yra nekintama"
+              error_not_found: "„iki“ pozicijos darbų paketas nerastas arba nematomas"
+              error_readonly: "esamo ryšio sąsaja „iki“ yra nekintama"
             from:
-              error_not_found: "darbų paketas į 'nuo' poziciją nerastas arba yra nematomas"
-              error_readonly: "esama ryšio sąsaja 'nuo' yra nekintama"
+              error_not_found: "„nuo“ pozicijos darbų paketas nerastas arba nematomas"
+              error_readonly: "esamo ryšio sąsaja „iš“ yra nekintama"
         repository:
           not_available: "SCM tiekėjas neprieinamas"
           not_whitelisted: "neleidžiama pagal konfigūraciją."
@@ -725,7 +725,7 @@ lt:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
               cannot_be_in_another_project: "negali būti kitame projekte."
-              not_a_valid_parent: " neteisingas."
+              not_a_valid_parent: " netinkamas."
             start_date:
               violates_relationships: "negali būti nustatyta į %{soonest_start} ar vėliau, kad nepažeistų darbų paketo ryšių."
             status_id:
@@ -792,7 +792,7 @@ lt:
           many: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
           other: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
     models:
-      attachment: "Byla"
+      attachment: "Failas"
       attribute_help_text: "Atributo pagalbos tekstas"
       forum: "Forumas"
       comment: "Komentaras"
@@ -812,10 +812,10 @@ lt:
       project: "Projektas"
       query: "Sava užklausa"
       role:
-        one: "Rolė"
-        few: "Rolės (-ė, -ių)"
-        many: "Rolės (-ė, -ių)"
-        other: "Rolės (-ė, -ių)"
+        one: "Vaidmuo"
+        few: "Vaidmenys"
+        many: "Vaidmenų"
+        other: "Vaidmuo"
       type: "Tipas"
       user: "Naudotojas"
       version: "Versija"
@@ -876,7 +876,7 @@ lt:
     public: "Viešas"
     responsible: "Atsakingas"
     role: "Rolė"
-    roles: "Rolės (-ė, -ių)"
+    roles: "Veiklos"
     start_date: "Pradžios data"
     status: "Būsena"
     subject: "Tema"
@@ -1759,7 +1759,7 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Užklausos meniu punktas"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -2875,7 +2875,7 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

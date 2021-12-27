@@ -73,163 +73,163 @@ lt:
     button_advanced_filter: "Sudėtingesnis filtras"
     button_list_view: "Sąrašo vaizdas"
     button_show_view: "Viso ekrano vaizdas"
-    button_log_time: "Log time"
-    button_more: "More"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
-    button_quote: "Quote"
-    button_save: "Save"
-    button_settings: "Settings"
-    button_uncheck_all: "Uncheck all"
-    button_update: "Update"
-    button_export-pdf: "Download PDF"
-    button_export-atom: "Download Atom"
-    button_create: "Create"
+    button_log_time: "Registruoti laiką"
+    button_more: "Daugiau"
+    button_open_details: "Atverti detalų vaizdą"
+    button_close_details: "Užverti detalų vaizdą"
+    button_open_fullscreen: "Atverti pilno ekrano vaizdą"
+    button_show_cards: "Rodyti kortelių vaizdą"
+    button_show_list: "Rodyti sąrašo vaizdą"
+    button_quote: "Pasiūlymas"
+    button_save: "Įrašyti"
+    button_settings: "Nustatymai"
+    button_uncheck_all: "Atžymėti visus"
+    button_update: "Atnaujinti"
+    button_export-pdf: "Atsisiųsti PDF"
+    button_export-atom: "Atsisiųsti Atom"
+    button_create: "Kurti"
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      title: 'Kalendorius'
+      too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Pridėti naują kortelę'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+        inline: 'Paryškinti eilutėje:'
+        entire_card_by: 'Visa kortelė pagal'
+      remove_from_list: 'Išimti kortelę iš sąrašo'
+    caption_rate_history: "Koeficiento istorija"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Successfully copied to clipboard!"
+      browser_error: "Jūsų naršyklė nepalaiko kopijavimo į iškarpinę. Prašome pažymėtą tekstą nukopijuoti rankiniu būdu."
+      copied_successful: "Sėkmingai nukopijuota į iškarpinę!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Grafiko tipas'
+      axis_criteria: 'Ašies kriterijus'
+      modal_title: 'Darbo paketo grafo konfigūracija'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Linija'
+        horizontal_bar: 'Horizontali juosta'
+        bar: 'Stulpeliai'
+        pie: 'Pyragas'
+        doughnut: 'Spurga'
+        radar: 'Radaras'
+        polar_area: 'Skritulinis'
       tabs:
-        graph_settings: 'General'
-        dataset: 'Dataset %{number}'
+        graph_settings: 'Bendra'
+        dataset: 'Duomenų aibė %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
-    description_subwork_package: "Child of work package #%{id}"
+        could_not_load: 'Nepavyko įkelti duomenų rodymui. Galbūt trūksta reikiamų teisių.'
+    description_available_columns: "Galimi stulpeliai"
+    description_current_position: "Jūs esate čia: "
+    description_select_work_package: "Pasirinkite darbų paketą #%{id}"
+    description_selected_columns: "Pasirinkti stulpeliai"
+    description_subwork_package: "Darbų paketo vaikas #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: 'Perjungti peržiūros režimą'
+      source_code: 'Perjungti Markdown išeities kodo režimą'
+      error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
+      ckeditor_error: 'CKEditor''iuje įvyko klaida'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Perjungti į Markdown išeities kodą'
+        wysiwyg: 'Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.'
+          not_found: 'Reikalaujamas resursas nerastas'
+          invalid_attribute: "Pasirinktas atributas „%{name}“ neegzistuoja."
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
-          page: 'Wiki page'
-          this_page: 'this page'
+          button: 'Nuorodos į vaikų puslapius'
+          include_parent: 'Įtraukti tėvą'
+          text: '[Placeholder] Nuorodos į vaikų puslapius'
+          page: 'Wiki puslapis'
+          this_page: 'šis puslapis'
           hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+            Palikus šį lauką tuščią bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: 'Įterpkite kodo fragmentą'
+          title: 'Įterpkite / redaguokite kodo fragmentą'
+          language: 'Formatavimo kalba'
+          language_hint: 'Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).'
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Chose macro'
-        toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+          macros: 'Makrokomandos'
+          chose_macro: 'Pasirinkite makrokomandą'
+        toc: 'Turinys'
+        toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
-          page: 'Wiki page'
-          not_set: '(Page not yet set)'
+          button: 'Įterpti kito wiki puslapio turinį'
+          text: '[Placeholder] Įterptas wiki puslapis'
+          page: 'Wiki puslapis'
+          not_set: '(Puslapis dar nenustatytas)'
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Įtraukite kito wiki puslapio turinį nurodydami jo pavadinimą arba techninį adresą (slug).
+            Galite įtraukti kito projekto turinį naudodami dvitaškį kaip toliau esančiame pavyzdyje.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: 'Įterpti mygtuką „sukurti darbų paketą“'
+          type: 'Darbų paketo tipas'
+          button_style: 'Naudoti mygtukų stilių'
+          button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
+          without_type: 'Kurti darbo paketą'
+          with_type: 'Kurti darbo paketą (Tipas: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Įterpti darbo paketų lentelę'
+          text: '[Placeholder] Įterpta darbo paketų lentelė'
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: '[Placeholder] Įterptinis kalendorius'
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
-        drag_to_activate: "Drag fields from here to activate them"
-        add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
-        new_group: 'New group'
-        reset_to_defaults: 'Reset to defaults'
+        custom_field: 'Savas laukelis'
+        inactive: 'Neaktyvus'
+        drag_to_activate: "Vilkite laukelius iš čia, kad juos aktyvuotumėte"
+        add_group: "Pridėti atributų grupę"
+        add_table: "Pridėti susijusių darbų paketų lentelę"
+        edit_query: 'Keisti užklausą'
+        new_group: 'Nauja grupė'
+        reset_to_defaults: 'Atkurti į numatytuosius'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "%{days} dienos iki lengvatos pabaigos"
+        text_expired: "nebegalioja"
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Patvirtinti el. pašto adresą"
           confirmation_info: >
-            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+            Mes %{date} išsiuntėme jums el. laišką adresu %{email}. Prašome patikrinti savo laiškų dėžutę ir spustelėti ant patvirtinimo nuorodos, kad pradėtumėte savo 14 dienų bandomąjį periodą.
           form:
             general_consent: >
-              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
-            label_first_name: "First name"
-            label_last_name: "Last name"
-            label_domain: "Domain"
-            label_subscriber: "Subscriber"
-            label_maximum_users: "Maximum active users"
-            label_starts_at: "Starts at"
-            label_expires_at: "Expires at"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
-            taken_email: Each user can only create one trial.
-          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+              Sutinku su <a target="_blank" href="%{link_terms}">paslaugos sąlygomis</a> ir <a target="_blank" href="%{link_privacy}">privatumo taisyklėmis</a>.
+            invalid_email: "Netinkamas el. pašto adresas"
+            label_company: "Kompanija"
+            label_first_name: "Vardas"
+            label_last_name: "Pavardė"
+            label_domain: "Domenas"
+            label_subscriber: "Prenumeruotojas"
+            label_maximum_users: "Maksimalus aktyvių naudotojų skaičius"
+            label_starts_at: "Prasideda nuo"
+            label_expires_at: "Nustoja galioti"
+            receive_newsletter: Noriu gauti OpenProject <a target="_blank" href="%{link}">naujienlaiškį</a>.
+            taken_domain: Gali būti tik vienas aktyvus bandomasis periodas domenui.
+            taken_email: Kiekvienas naudotojas gali sukurti tik vieną bandomąjį periodą.
+          email_not_received: "Negavote el. laiško? Galite pakartotinai išsiųsti laišką naudodami nuorodą dešinėje."
+          try_another_email: "Arba bandykite su kitu el. pašto adresu."
+          next_steps: "Kiti žingsniai"
+          resend_link: "Siųsti iš naujo"
+          resend_success: "El. laiškas buvo pakartotinai išsiųstas. Prašome patikrinti savo pašto dėžutę ir paspausti ant pateiktos patvirtinimo nuorodos."
+          resend_warning: "Nepavyko pakartotinai išsiųsti el. laiško."
+          session_timeout: "Jūsų sesijos laikas baigėsi. Pabandykite perkrauti puslapį ar išsiųsti el. laišką pakartotinai."
+          status_label: "Būsena:"
+          status_confirmed: "patvirtinta"
+          status_waiting: "laiškas išsiųstas -- laukiame patvirtinimo"
+          test_ee: "Išbandykite Enterprise Edition 14 dienų nemokamai"
+          quick_overview: "Gaukite greitą apžvalgą apie projektų valdymą ir komandos bendradarbiavimą naudojant OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Become a hero!"
+          become_hero: "Tapkite didvyriu!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
-            professional_support: "Professional support"
+            description: "Kokie yra Enterprise on-premises Edition privalumai?"
+            high_security: "Saugumo funkcijos"
+            high_security_text: "Vienas prisijungimas (naudojant SAML, OpenID Connect, CAS), dviejų lygių autentifikacija ir automatinis LDAP grupių sinchronizavimas."
+            installation: "Diegimo pagalba"
+            installation_text: "Patyręs programų inžinierius ves jus per visą diegimo ir nustatymo procesą naudojant jūsų pačių infrastruktūrą."
+            premium_features: "„Premium“ funkcijos"
+            premium_features_text: "Agile lentos, savo tema ir logotipas, grafai, protingi darbo scenarijai su apibrėžtais veiksmais, pilna teksto paieška darbo paketų prieduose ir galimybė pasirinkti daugiau nei vieną reikšmę pritaikytuose laukuose."
+            professional_support: "Profesionali pagalba"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
           button_book_now: "Book now"
