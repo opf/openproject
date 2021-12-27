@@ -189,7 +189,7 @@ Not all available plugins for OpenProject are published yet. After updating the 
 
 ### Which Plugins are published so far?
 
-Please refer to the project timeline to see which plugins will be released. Plugin development will take place in dedicated sub-projects on openproject.org.
+Please refer to the list of [integrations and community plugins](.../system-admin-guide/integrations/) to see which plugins will be released. Plugin development will take place in dedicated sub-projects on openproject.org.
 
 ### How can I add a RACI matrix in OpenProject?
 
