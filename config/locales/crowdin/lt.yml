@@ -1438,7 +1438,7 @@ lt:
   label_attachment_plural: "Failai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
-  label_auth_source: "Autentikacijos būdas"
+  label_auth_source: "Autentifikacijos būdas"
   label_auth_source_new: "Naujas autentifikacijos būdas"
   label_auth_source_plural: "Autentifikacijos būdai"
   label_authentication: "Autentifikacija"
@@ -1810,7 +1810,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
-  label_sort: "Rūšiuoti"
+  label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
   label_sort_higher: "Perkelti aukštyn"
@@ -2145,9 +2145,9 @@ lt:
         units:
           byte:
             one: "Baitas"
-            few: "Baitai (-as, -ų)"
-            many: "Baitai (-as, -ų)"
-            other: "Baitai (-as, -ų)"
+            few: "Baitai"
+            many: "Baitų"
+            other: "Baitai"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2527,7 +2527,7 @@ lt:
   status_active: "aktyvus"
   status_archived: "suarchyvuotas"
   status_invited: pakviestas
-  status_locked: užrakinti
+  status_locked: užrakintas
   status_registered: registruotas
   #Used in array.to_sentence.
   support:
@@ -2663,9 +2663,9 @@ lt:
     duration: "Trukmė"
     duration_days:
       one: "1 dieną"
-      few: "%{count} dienas (-ą, -ų)"
-      many: "%{count} dienas (-ą, -ų)"
-      other: "%{count} dienas (-ą, -ų)"
+      few: "%{count} dienos"
+      many: "%{count} dienų"
+      other: "%{count} dienos"
     edit_color: "Redaguoti spalvą"
     edit_thing: "Redaguoti"
     edit_timeline: "Redaguoti laiko juostos ataskaitą %{timeline}"
@@ -2825,9 +2825,9 @@ lt:
     blocked: "laikinai užrakintas"
     blocked_num_failed_logins:
       one: "laikinai užrakintas (vienas nesėkmingas prisijungimas)"
-      few: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
-      many: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
-      other: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
+      few: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
+      many: "laikinai užrakintas (%{count} nesėkmingų prisijungimaų)"
+      other: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
     confirm_status_change: "Jūs pakeisti „%{name}“ būseną. Ar tikrai norite tęsti?"
     deleted: "Ištrintas vartotojas"
     error_status_change_failed: "Vartotojo būsenos keitimas nepavyko dėl šių klaidų: %{errors}"
