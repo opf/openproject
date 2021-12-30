@@ -17,7 +17,7 @@ If you find any bugs or you have any recommendations for improving this tutorial
 
 We need an active Ruby and Node JS environment to run OpenProject. To this end, we need some packages installed on the system.o
 
-CPU recommendation: 4 VCPUs (2 VCPU minimum), Memory recommendation: 8 better 16 GB (4 GB minimum)
+CPU recommendation: 4 CPUs, Memory recommendation: 8 better 16 GB (in general we meed double the amount of a normal production installation)
 
 ```bash
 sudo apt-get update
