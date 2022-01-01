@@ -22,126 +22,126 @@
 ru:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading ..."
+      hide: "Скрыть"
+      loading: "Загрузка ..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Перетащите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в течение перетаскивания.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Добавить \"%{name}\""
+        single: "Выбрать \"%{name}\""
+      remove: "Удалить %{name}"
+      active: "Активировать %{label} %{name}"
     backup:
-      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      attachments_disabled: Вложения не могут быть включены, так как их общий размер превышает максимально разрешенный. Вы можете снять это ограничение изменив конфигурацию (потребуется перезапуск сервера).
       info: >
-        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+        Здесь вы можете запустить резервное копирование. Продолжительность процесса зависит от объема данных (особенно вложений). О завершении процесса вам будет сообщено письмом.
       note: >
-        A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
-      options: Options
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
-    close_popup_title: "Close popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
-    button_back_to_list_view: "Back to list view"
-    button_cancel: "Cancel"
-    button_close: "Close"
-    button_change_project: "Change project"
-    button_check_all: "Check all"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
-    button_continue: "Continue"
-    button_copy: "Copy"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
-    button_log_time: "Log time"
-    button_more: "More"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
-    button_show_cards: "Show card view"
-    button_show_list: "Show list view"
-    button_quote: "Quote"
-    button_save: "Save"
-    button_settings: "Settings"
-    button_uncheck_all: "Uncheck all"
-    button_update: "Update"
-    button_export-pdf: "Download PDF"
-    button_export-atom: "Download Atom"
-    button_create: "Create"
+        Новая резервная копия создается поверх предыдущий. Число создаваемых резервных копий в день ограничено.
+      last_backup: Последняя резервная копия
+      last_backup_from: Последняя резервная копия от
+      title: Резервное копирование OpenProject
+      options: Параметры
+      include_attachments: Включить вложения
+      download_backup: Скачать резервную копию
+      request_backup: Запросить резервную копию
+    close_popup_title: "Закрыть всплывающее окно"
+    close_filter_title: "Закрыть фильтр"
+    close_form_title: "Закрыть форму"
+    button_add_watcher: "Добавить наблюдателя"
+    button_add: "Добавить"
+    button_back: "Назад"
+    button_back_to_list_view: "Назад к списку"
+    button_cancel: "Отмена"
+    button_close: "Закрыть"
+    button_change_project: "Изменить проект"
+    button_check_all: "Отметить все"
+    button_configure-form: "Настроить форму"
+    button_confirm: "Подтвердить"
+    button_continue: "Продолжить"
+    button_copy: "Копировать"
+    button_custom-fields: "Настраиваемые поля"
+    button_delete: "Удалить"
+    button_delete_watcher: "Удалить наблюдателя"
+    button_details_view: "Детальный просмотр"
+    button_duplicate: "Дублировать"
+    button_edit: "Править"
+    button_filter: "Фильтровать"
+    button_collapse_all: "Свернуть все"
+    button_expand_all: "Развернуть все"
+    button_advanced_filter: "Расширенный фильтр"
+    button_list_view: "В виде списка"
+    button_show_view: "Полноэкранный просмотр"
+    button_log_time: "Время записи"
+    button_more: "Ещё"
+    button_open_details: "Открыть детальный просмотр"
+    button_close_details: "Закрыть детальный просмотр"
+    button_open_fullscreen: "Открыть полноэкранный просмотр"
+    button_show_cards: "В виде карточек"
+    button_show_list: "В виде списка"
+    button_quote: "Цитировать"
+    button_save: "Сохранить"
+    button_settings: "Настройки"
+    button_uncheck_all: "Снять все отметки"
+    button_update: "Обновить"
+    button_export-pdf: "Скачать PDF"
+    button_export-atom: "Скачать Atom"
+    button_create: "Создать"
     calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      title: 'Календарь'
+      too_many: 'Всего %{count} пакетов работ, но может быть отображено только %{max}.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Добавить новую карту'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
-    caption_rate_history: "Rate history"
+        inline: 'Выделение:'
+        entire_card_by: 'Вся карта от'
+      remove_from_list: 'Удалить карту из списка'
+    caption_rate_history: "История оценок"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
-      copied_successful: "Successfully copied to clipboard!"
+      browser_error: "Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста, скопируйте выделенный текст вручную."
+      copied_successful: "Успешно скопировано в буфер обмена!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      type: 'Тип диаграммы'
+      axis_criteria: 'Критерии осей'
+      modal_title: 'Настройки диаграммы пакетов работ'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
-        polar_area: 'Polar area'
+        line: 'Линия'
+        horizontal_bar: 'Горизонтальная полоса'
+        bar: 'Столбец'
+        pie: 'Круговая'
+        doughnut: 'Кольцевая'
+        radar: 'Лепестковая'
+        polar_area: 'Круговая полярная'
       tabs:
-        graph_settings: 'General'
-        dataset: 'Dataset %{number}'
+        graph_settings: 'Общие'
+        dataset: 'Набор данных %{number}'
       errors:
-        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
-    description_subwork_package: "Child of work package #%{id}"
+        could_not_load: 'Данные для отображения диаграммы не могут быть загружены. Могут отсутствовать необходимые разрешения.'
+    description_available_columns: "Доступные столбцы"
+    description_current_position: "Вы здесь: "
+    description_select_work_package: "Выберите пакет работ #%{id}"
+    description_selected_columns: "Выбранные столбцы"
+    description_subwork_package: "Дочерний пакет работ #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      preview: 'Переключить режим предварительного просмотра'
+      source_code: 'В режим просмотра исходного кода '
+      error_saving_failed: 'Не удалось сохранить документ по следующей причине: %{error}'
+      ckeditor_error: 'Произошла ошибка в CKEditor'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Перейти к источнику уценок'
+        wysiwyg: 'Перейти к WYSIWYG-редактору'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: 'Невозможно развернуть макрос: %{message}'
         attribute_reference:
-          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
-          not_found: 'Requested resource could not be found'
-          invalid_attribute: "The selected attribute '%{name}' does not exist."
+          macro_help_tooltip: 'Этот текстовый сегмент динамически отображается макросом.'
+          not_found: 'Запрошенный ресурс не найден'
+          invalid_attribute: "Выбранный атрибут '%{name}' не существует."
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
-          page: 'Wiki page'
+          button: 'Ссылки на дочерние страницы'
+          include_parent: 'Включить родителя'
+          text: '[Placeholder] Ссылки на дочерние страницы'
+          page: 'Вики-страница'
           this_page: 'this page'
           hint: |
             Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -208,68 +208,68 @@ ru:
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
-          resend_link: "Resend"
-          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          try_another_email: "Или попробуйте использовать другой адрес электронной почты."
+          next_steps: "Следующие шаги"
+          resend_link: "Отправить повторно"
+          resend_success: "Письмо было отправлено повторно. Пожалуйста, проверьте вашу электронную почту и нажмите на ссылку подтверждения."
+          resend_warning: "Не удалось повторно отправить письмо."
+          session_timeout: "Время сеанса истекло. Попробуйте перезагрузить страницу или отправить письмо повторно."
+          status_label: "Статус:"
+          status_confirmed: "подтверждено"
+          status_waiting: "email отправлен - ожидается подтверждение"
+          test_ee: "Попробуйте корпоративную версию в течение 14 дней бесплатно"
+          quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Become a hero!"
+          become_hero: "Стать героем!"
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
-            high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
-            installation: "Installation support"
-            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
-            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
-            professional_support: "Professional support"
-            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+            description: "Каковы преимущества корпоративной версии?"
+            high_security: "Функции безопасности"
+            high_security_text: "Единый вход (SAML, OpenID Connect, CAS), двухфакторная аутентификация и автоматическая синхронизация LDAP-групп."
+            installation: "Поддержка установки"
+            installation_text: "Опытные разработчики ПО проконсультируют вас по всему процессу установки и настройки в вашей инфраструктуре."
+            premium_features: "Премиум опции"
+            premium_features_text: "Agile-доски, пользовательские темы и логотипы, графики, умные рабочие процессы с настройкой действий, полнотекстовый поиск по вложениям в пакетах работ и множественный выбор пользовательских полей."
+            professional_support: "Профессиональная поддержка"
+            professional_support_text: "Получите качественную и оперативную поддержку наших экспертов по применению OpenProject в условиях, отвечающих требованиям бизнеса."
+          button_start_trial: "Воспользоваться бесплатной пробной версией"
+          button_book_now: "Забронировать сейчас"
           confidence: >
-            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
-          link_quote: "Get a quote"
+            Мы предлагаем надежное и проверенное временем программное решение корпоративного уровня для управления проектами, в котором открытый исходный код сочетается с открытостью к новым идеям.
+          link_quote: "Оценка стоимости"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+            Версия OpenProject Enterprise Edition основана на версии Community Edition и включает в себя премиум-функции и профессиональную поддержку для организаций, у которых более 10 пользователей и которые управляют критически важными для бизнеса проектами с помощью OpenProject.
+          unlimited: "Без ограничений"
+          you_contribute: "Разработчикам тоже нужно на что-то жить. Купив корпоративную версию, вы ощутимо поможете нашему сообществу свободного ПО."
     custom_actions:
       date:
-        specific: 'on'
-        current_date: 'Current date'
+        specific: 'вкл'
+        current_date: 'Текущая дата'
     error:
-      internal: "An internal error has occurred."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
-    enumeration_work_package_priorities: "Work package priorities"
+      internal: "Произошла внутренняя ошибка."
+      cannot_save_changes_with_message: "Не удается сохранить изменения из-за следующей ошибки: %{error}"
+      query_saving: "Представление не может быть сохранено."
+      embedded_table_loading: "Встроенное представление не может быть загружено: %{message}"
+    enumeration_activities: "Деятельность (отслеживание времени)"
+    enumeration_doc_categories: "Категории документов"
+    enumeration_work_package_priorities: "Приоритеты пакета работ"
     filter:
       description:
-        text_open_filter: "Open this filter with 'ALT' and arrow keys."
-        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
-      noneElement: "(none)"
+        text_open_filter: "Откройте этот фильтр клавишей 'ALT' и клавишами со стрелками."
+        text_close_filter: "Для выбора элемента установите на нем фокус и нажмите Enter. Для очистки фильтра выберите первую (пустого) запись."
+      noneElement: "(нет)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
+        two_values: "%{from} - %{to} по вашему местному времени."
+        only_start: "С %{from} по вашему местному времени."
+        only_end: "До %{to} по вашему местному времени."
       value_spacer: "-"
       sorting:
         criteria:
-          one: "First sorting criteria"
-          two: "Second sorting criteria"
-          three: "Third sorting criteria"
-      upsale_for_more: "For more advanced filters, check out the"
-      upsale_link: 'Enterprise Edition.'
-    general_text_no: "no"
+          one: "Первый критерий сортировки"
+          two: "Второй критерий сортировки"
+          three: "Третий критерий сортировки"
+      upsale_for_more: "Для более сложных фильтров, проверить"
+      upsale_link: 'Корпоративная версия.'
+    general_text_no: "нет"
     general_text_yes: "yes"
     general_text_No: "No"
     general_text_Yes: "Yes"
@@ -333,56 +333,56 @@ ru:
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
-    label_collapsed: "collapsed"
-    label_collapse_all: "Collapse all"
-    label_comment: "Comment"
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: "committed revision %{revision_identifier}"
-    label_contains: "contains"
-    label_created_on: "created on"
-    label_edit_comment: "Edit this comment"
-    label_edit_status: "Edit the status of the work package"
-    label_email: "Email"
-    label_equals: "is"
-    label_expand: "Expand"
-    label_expanded: "expanded"
-    label_expand_all: "Expand all"
-    label_expand_project_menu: "Expand project menu"
-    label_export: "Export"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_filename: "File"
-    label_filesize: "Size"
-    label_general: "General"
-    label_global_roles: "Global Roles"
+    label_collapsed: "свернуто"
+    label_collapse_all: "Свернуть все"
+    label_comment: "Комментарий"
+    label_committed_at: "%{committed_revision_link} в %{date}"
+    label_committed_link: "завершенная версия %{revision_identifier}"
+    label_contains: "содержит"
+    label_created_on: "создано на"
+    label_edit_comment: "Редактировать этот комментарий"
+    label_edit_status: "Изменить статус пакета работ"
+    label_email: "Эл. почта"
+    label_equals: "это"
+    label_expand: "Развернуть"
+    label_expanded: "развернуто"
+    label_expand_all: "Развернуть все"
+    label_expand_project_menu: "Развернуть меню проекта"
+    label_export: "Экспортировать"
+    label_export_preparing: "Экспорт готовится и будет загружен в ближайшее время."
+    label_filename: "Файл"
+    label_filesize: "Размер"
+    label_general: "Общее"
+    label_global_roles: "Глобальные роли"
     label_greater_or_equal: ">="
-    label_group: 'Group'
-    label_group_by: "Group by"
-    label_group_plural: "Groups"
-    label_hide_attributes: "Show less"
-    label_hide_column: "Hide column"
-    label_hide_project_menu: "Collapse project menu"
-    label_in: "in"
-    label_in_less_than: "in less than"
-    label_in_more_than: "in more than"
-    label_incoming_emails: "Incoming emails"
-    label_information_plural: "Information"
-    label_import: "Import"
-    label_latest_activity: "Latest activity"
-    label_last_updated_on: "Last updated on"
-    label_learn_more_link: "Learn more"
+    label_group: 'Группа'
+    label_group_by: "Группировать по"
+    label_group_plural: "Группы"
+    label_hide_attributes: "Показать меньше"
+    label_hide_column: "Скрыть столбец"
+    label_hide_project_menu: "Свернуть меню проекта"
+    label_in: "в"
+    label_in_less_than: "менее чем"
+    label_in_more_than: "более чем"
+    label_incoming_emails: "Входящие письма"
+    label_information_plural: "Информация"
+    label_import: "Импорт"
+    label_latest_activity: "Последние действия"
+    label_last_updated_on: "Последнее обновление"
+    label_learn_more_link: "Узнать больше"
     label_less_or_equal: "<="
-    label_less_than_ago: "less than days ago"
-    label_loading: "Loading..."
-    label_mail_notification: "Email notifications"
-    label_me: "me"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
-    label_more_than_ago: "more than days ago"
-    label_next: "Next"
-    label_no_color: "No color"
-    label_no_data: "No data to display"
+    label_less_than_ago: "менее нескольких дней назад"
+    label_loading: "Загрузка..."
+    label_mail_notification: "Уведомления по email"
+    label_me: "я"
+    label_meeting_agenda: "Повестка дня"
+    label_meeting_minutes: "Минут"
+    label_menu_collapse: "свернуть"
+    label_menu_expand: "развернуть"
+    label_more_than_ago: "более нескольких дней назад"
+    label_next: "Следующий"
+    label_no_color: "Без цвета"
+    label_no_data: "Нет данных для отображения"
     label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
     label_no_value: "No value"
@@ -433,60 +433,60 @@ ru:
     label_user_plural: "Users"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
-    label_total_progress: "%{percent}% Total progress"
-    label_total_amount: "Total: %{amount}"
-    label_updated_on: "updated on"
-    label_value_derived_from_children: "(value derived from children)"
+    label_total_progress: "%{percent}% общего прогресса"
+    label_total_amount: "Всего: %{amount}"
+    label_updated_on: "обновлено"
+    label_value_derived_from_children: "(значение, полученное от дочерних элементов)"
     label_children_derived_duration: "Work package's children derived duration"
-    label_warning: "Warning"
-    label_work_package: "Work package"
-    label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
-    label_watch: "Watch"
-    label_watch_work_package: "Watch work package"
-    label_watcher_added_successfully: "Watcher successfully added!"
-    label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
-    label_unwatch: "Unwatch"
-    label_unwatch_work_package: "Unwatch work package"
-    label_uploaded_by: "Uploaded by"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
-    label_columns: "Columns"
-    label_attachments: Files
-    label_drop_files: Drop files here
-    label_drop_files_hint: or click to add files
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Add attachments"
-    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
-    label_remove_file: "Delete %{fileName}"
-    label_remove_watcher: "Remove watcher %{name}"
-    label_remove_all_files: Delete all files
-    label_add_description: "Add a description for %{file}"
-    label_upload_notification: "Uploading files..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    label_files_to_upload: "These files will be uploaded:"
-    label_rejected_files: "These files cannot be uploaded:"
-    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
-    label_wait: "Please wait for configuration..."
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_validation_error: "The work package could not be saved due to the following errors:"
-    label_version_plural: "Versions"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_warning: "Предупреждение"
+    label_work_package: "Пакет работ"
+    label_work_package_parent: "Родительский пакет работ"
+    label_work_package_plural: "Пакеты работ"
+    label_watch: "Наблюдать"
+    label_watch_work_package: "Наблюдать за пакетом работ"
+    label_watcher_added_successfully: "Наблюдатель успешно добавлен!"
+    label_watcher_deleted_successfully: "Наблюдатель успешно удален!"
+    label_work_package_details_you_are_here: "Вы находитесь на вкладке %{tab} для %{type} %{subject}."
+    label_unwatch: "Прекратить наблюдение"
+    label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
+    label_uploaded_by: "Загружено"
+    label_default_queries: "Представления по умолчанию"
+    label_starred_queries: "Избранные представления"
+    label_global_queries: "Публичные представления"
+    label_custom_queries: "Приватные представления"
+    label_columns: "Столбцы"
+    label_attachments: Файлы
+    label_drop_files: Перетащите файлы сюда
+    label_drop_files_hint: или кликните для добавления файлов
+    label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
+    label_add_attachments: "Добавить вложения"
+    label_formattable_attachment_hint: "Прикрепить и связать файлы, перетащив их на это поле, или вставив их из буфера обмена."
+    label_remove_file: "Удалить %{fileName}"
+    label_remove_watcher: "Удалить наблюдателя %{name}"
+    label_remove_all_files: Удалить все файлы
+    label_add_description: "Добавить описание для %{file}"
+    label_upload_notification: "Загрузка файлов..."
+    label_work_package_upload_notification: "Загрузка файлов для пакета работ #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} добавил %{author}"
+    label_files_to_upload: "Эти файлы будут загружены:"
+    label_rejected_files: "Эти файлы не могут быть загружены:"
+    label_rejected_files_reason: "Эти файлы не могут быть загружены, так как их размер больше %{maximumFilesize}"
+    label_wait: "Пожалуйста, подождите конфигурацию..."
+    label_upload_counter: "%{done} из %{count} файлов завершено"
+    label_validation_error: "Пакет работ не может быть сохранен из-за следующих ошибок:"
+    label_version_plural: "Версии"
+    label_view_has_changed: "Это представление имеет несохраненные изменения. Кликните, чтобы сохранить их."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: 'Показать содержимое атрибута текста справки'
     onboarding:
       buttons:
-        skip: 'Skip'
-        next: 'Next'
-        got_it: 'Got it'
+        skip: 'Пропустить'
+        next: 'Следующий'
+        got_it: 'Понятно'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        help_menu: 'Меню Справка (?) предоставляет <b>дополнительные вспомогательные ресурсы</b>. Здесь вы можете найти руководство пользователя и полезные видео инструкций и многое другое. <br> Наслаждайтесь вашей работой с OpenProject!'
+        members: 'Пригласите в ваш проект <b>новых участников</b>.'
+        project_selection: 'Пожалуйста, выберите один из демонстрационных проектов, которые мы подготовили. Демонстрационные данные в настоящее время доступны только на английском языке. <br> Общий <b>демо проект</b> подходит наилучшим образом для управления классическими проектами в то время как <b>Scrum проект</b> лучше подходит для agile-управления проектами.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
         welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
@@ -552,10 +552,10 @@ ru:
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
-        notify_me: "Notify me"
+        notify_me: "Уведомлять меня"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
+            title: 'Я @mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'

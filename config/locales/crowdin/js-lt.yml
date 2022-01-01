@@ -49,10 +49,10 @@ lt:
     close_popup_title: "Užverti iškylantį langą"
     close_filter_title: "Užverti filtrą"
     close_form_title: "Užverti formą"
-    button_add_watcher: "Pridėti stebėtojų"
+    button_add_watcher: "Pridėti stebėtoją"
     button_add: "Pridėti"
     button_back: "Atgal"
-    button_back_to_list_view: "Atgal į sąrašo peržiūrą"
+    button_back_to_list_view: "Atgal į sąrašo vaizdą"
     button_cancel: "Nutraukti"
     button_close: "Uždaryti"
     button_change_project: "Keisti projektą"
@@ -65,7 +65,7 @@ lt:
     button_delete: "Trinti"
     button_delete_watcher: "Trinti stebėtoją"
     button_details_view: "Detali peržiūra"
-    button_duplicate: "Dublikuoti"
+    button_duplicate: "Dubliuoti"
     button_edit: "Keisti"
     button_filter: "Filtras"
     button_collapse_all: "Sutraukti visus"
@@ -121,7 +121,7 @@ lt:
     description_available_columns: "Galimi stulpeliai"
     description_current_position: "Jūs esate čia: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
-    description_selected_columns: "Pasirinkti stulpeliai"
+    description_selected_columns: "Parinkti stulpeliai"
     description_subwork_package: "Darbų paketo vaikas #%{id}"
     editor:
       preview: 'Perjungti peržiūros režimą'
@@ -144,15 +144,15 @@ lt:
           page: 'Wiki puslapis'
           this_page: 'šis puslapis'
           hint: |
-            Palikus šį lauką tuščią bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
+            Palikus šį lauką tuščią, bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
         code_block:
-          button: 'Įterpkite kodo fragmentą'
-          title: 'Įterpkite / redaguokite kodo fragmentą'
+          button: 'Įterpti kodo fragmentą'
+          title: 'Įterpti / redaguoti kodo fragmentą'
           language: 'Formatavimo kalba'
           language_hint: 'Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).'
         dropdown:
           macros: 'Makrokomandos'
-          chose_macro: 'Pasirinkite makrokomandą'
+          chose_macro: 'Parinkite makrokomandą'
         toc: 'Turinys'
         toolbar_help: 'Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui'
         wiki_page_include:
@@ -184,7 +184,7 @@ lt:
         add_table: "Pridėti susijusių darbų paketų lentelę"
         edit_query: 'Keisti užklausą'
         new_group: 'Nauja grupė'
-        reset_to_defaults: 'Atkurti į numatytuosius'
+        reset_to_defaults: 'Atstatyti į numatytuosius'
       enterprise:
         text_reprieve_days_left: "%{days} dienos iki lengvatos pabaigos"
         text_expired: "nebegalioja"
@@ -237,7 +237,7 @@ lt:
             Mes duodame patikrintos ir palaikomas korporacijos-lygio projektų valdymo programos užtikrintumą -- su atviru kodu ir plačiomis pažiūromis.
           link_quote: "Gauti pasiūlymą"
           text: >
-            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėta „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
+            OpenProject Enterprise Edition yra pastatyta virš Community Edition. Papildomai įdėtos „premium“ savybės ir profesionalus aptarnavimas, pagrinde orientuotas į organizacijas su daugiau nei 10 vartotojų, kurie naudodami OpenProject valdo verslui kritinius projektus.
           unlimited: "Neribota"
           you_contribute: "Kūrėjams taip pat reikia apmokėti savo sąskaitas. Su „Enterprise Edition“ jūs iš esmės prisidėsite prie atviro kodo bendruomenės darbo."
     custom_actions:
@@ -278,7 +278,7 @@ lt:
         update_conflict_refresh: "Spauskite čia resurso atnaujinimui iki naujausios versijos."
         edit_prohibited: "%{attribute} redagavimas šiam resursui yra blokuojamas. Arba šis atributas kilęs iš ryšių (pvz., vaiko ryšio), arba jis nėra konfigūruojamas."
         format:
-          date: "%{attribute} nėra tinkama data - YYYY-MM-DD tikimasi."
+          date: "%{attribute} nėra tinkama data - tikimasi YYYY-MM-DD."
         general: "Įvyko klaida."
     homescreen:
       blocks:

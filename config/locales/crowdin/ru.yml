@@ -318,10 +318,10 @@ ru:
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
+      x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."
+      selected_because_descendants: "В то время как выбрано %{selected} пакетов работ, в общей сложности затрагиваются %{total} пакетов работ, включая дочерние."
+      descendant: "дочерний выбранного"
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: 'Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов'
@@ -742,7 +742,7 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Пакет работ находится в состоянии только для чтения, поэтому его атрибуты не могут быть изменены.'
         type:
           attributes:
             attribute_groups:
@@ -1319,7 +1319,7 @@ ru:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "English"
+  general_lang_name: "Английский язык"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "нет"
   general_text_yes: "Да"
@@ -1761,7 +1761,7 @@ ru:
   label_public_projects: "Проекты, доступные всем"
   label_query_new: "Новый запрос"
   label_query_plural: "Пользовательские запросы"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Пункт меню запроса"
   label_read: "Читать..."
   label_register: "Создайте новую учетную запись"
   label_register_with_developer: "Зарегистрируйтесь как разработчик"
@@ -2876,7 +2876,7 @@ ru:
   wiki_menu_item_new_main_item_explanation: >
     Вы удалили только элемент главного меню wiki. Сейчас вы должны выбрать wiki-страницы для которых будет сгенерирован новый элемент меню. Для удаления wiki  администратор проекта должен деактивировать модуль wiki.
   wiki_menu_item_delete_not_permitted: Элемент меню wiki только wiki-страницы удален быть не может.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Пункт меню для запроса \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
