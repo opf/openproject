@@ -2826,7 +2826,7 @@ lt:
     blocked_num_failed_logins:
       one: "laikinai užrakintas (vienas nesėkmingas prisijungimas)"
       few: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
-      many: "laikinai užrakintas (%{count} nesėkmingų prisijungimaų)"
+      many: "laikinai užrakintas (%{count} nesėkmingų prisijungimų)"
       other: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
     confirm_status_change: "Jūs pakeisti „%{name}“ būseną. Ar tikrai norite tęsti?"
     deleted: "Ištrintas vartotojas"
