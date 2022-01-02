@@ -463,7 +463,7 @@ lt:
     label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."
     label_remove_file: "Naikinti %{fileName}"
     label_remove_watcher: "Pašalinti stebėtoją %{name}"
-    label_remove_all_files: Ištrinti visus failus
+    label_remove_all_files: Trinti visus failus
     label_add_description: "Pridėti %{file} aprašymą"
     label_upload_notification: "Įkeliami failai..."
     label_work_package_upload_notification: "Įkeliami darbų paketo #%{id} failai: %{subject}"
@@ -678,7 +678,7 @@ lt:
       relates: "Susiję su"
       duplicates: "Dublikatai"
       duplicated: "Dubliuotas"
-      blocks: "Blokai"
+      blocks: "Blokuoja"
       blocked: "Blokuojamas"
       precedes: "Prieš"
       follows: "Seka"
@@ -712,8 +712,8 @@ lt:
       update_relation: "Paspauskite, jei norite pakeisti ryšio tipą"
       add_follower: "Pridėti pasekėją"
       add_predecessor: "Pridėti pirmtaką"
-      remove: "Pašalinti pavaldumą"
-      save: "Išsaugoti ryšį"
+      remove: "Pašalinti ryšį"
+      save: "Įrašyti ryšį"
       abort: "Nutraukti"
     relations_autocomplete:
       placeholder: "Paieškai pradėkite rinkti tekstą"
@@ -726,21 +726,21 @@ lt:
       select_tag: 'Pasirinkti žymę'
       select_branch: 'Parinkti padalinį'
     field_value_enter_prompt: "Įveskite \"%{field}\" reikšmę "
-    project_menu_details: "Detali informacija"
+    project_menu_details: "Detalės"
     scheduling:
       manual: 'Rankinis laiko parinkimas'
       automatic: 'Automatinis laiko parinkimas'
     sort:
-      sorted_asc: 'Pritaikyta didėjimo tvarka, '
-      sorted_dsc: 'Pritaikyta mažėjimo tvarka, '
+      sorted_asc: 'Pritaikytas didėjantis rikiavimas, '
+      sorted_dsc: 'Pritaikytas mažėjantis rikiavimas, '
       sorted_no: 'Rikiavimas nėra taikomas, '
       sorting_disabled: 'rikiavimas išjungtas'
-      activate_asc: 'aktyvuoti, kad būtų pritaikyta didėjimo tvarka'
-      activate_dsc: 'aktyvuoti, kad būtų pritaikyta mažėjimo tvarka'
+      activate_asc: 'aktyvuoti, kad būtų pritaikytas didėjantis rikiavimas'
+      activate_dsc: 'aktyvuoti, kad būtų pritaikytas mažėjantis rikiavimas'
       activate_no: 'aktyvuoti, kad rikiavimas būtų pašalintas'
     text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
     text_query_destroy_confirmation: "Ar tikrai norite panaikinti pasirinktą vaizdą?"
-    text_attachment_destroy_confirmation: "Ar tikrai norite panaikinti priedą?"
+    text_attachment_destroy_confirmation: "Ar tikrai norite ištrinti priedą?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Ganto diagrama'
@@ -755,7 +755,7 @@ lt:
           Pasirinkite atributus, kuriuos visada norite pamatyti atitinkamose Ganto grafiko pozicijose. Atkreipkite dėmesį, kad kai pelės klavišas užvestas virš elemento, jo datos informacija bus rodoma vietoj šių atributų.
       button_activate: 'Parodyti Gantto diagramą'
       button_deactivate: 'Paslėpti Gantto diagramą'
-      cancel: Atšaukti
+      cancel: Nutraukti
       change: "Pakeisti planavime"
       due_date: "Pabaigos data"
       empty: "(tuščia)"
@@ -825,7 +825,7 @@ lt:
         edit: 'Masinis redagavimas'
         copy: 'Masinis kopijavimas'
         delete: 'Masinis trynimas'
-      button_clear: "Išvalyti"
+      button_clear: "Valyti"
       comment_added: "Komentaras sėkmingai pridėtas."
       comment_send_failed: "Įvyko klaida. Neįmanoma pateikti komentaro."
       comment_updated: "Komentaras sėkmingai atnaujintas."
@@ -1022,7 +1022,7 @@ lt:
       label_delete_page: "Trinti dabartinį puslapį"
       button_apply: "Taikyti"
       button_save: "Įrašyti"
-      button_submit: "Siųsti"
+      button_submit: "Pateikti"
       button_cancel: "Nutraukti"
       form_submit:
         title: 'Norėdami tęsti, patvirtinkite'
