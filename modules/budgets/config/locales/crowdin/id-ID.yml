@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+id:
+  activerecord:
+    attributes:
+      budget:
+        author: "Penulis"
+        available: "Tersedia"
+        budget: "Terencana"
+        budget_ratio: "Spent (rasio)"
+        description: "Deskripsi"
+        spent: "Dihabiskan"
+        status: "Status"
+        subject: "Perihal"
+        type: "Jenis biaya"
+        labor_budget: "Rencana biaya tenaga"
+        material_budget: "Rencana biaya unit"
+      work_package:
+        budget_subject: "Judul anggaran"
+    models:
+      budget: "Bugdet"
+      material_budget_item: "Unit"
+  attributes:
+    budget: "Bugdet"
+  button_add_budget_item: "Tambahkan biaya terencana"
+  button_add_budget: "Tambahkan budget"
+  button_add_cost_type: "Tambahkan jenis biaya"
+  button_cancel_edit_budget: "Batalkan edit budget"
+  button_cancel_edit_costs: "Batalkan edit biaya"
+  caption_labor: "Tenaga kerja"
+  caption_labor_costs: "Biaya tenaga aktual"
+  caption_material_costs: "Biaya unit aktual"
+  budgets_title: "Budget"
+  events:
+    budget: "Buget telah di-edit"
+  help_click_to_edit: "Klik untuk edit."
+  help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
+  help_override_rate: "Masukkan nilai untuk mengubah rate default."
+  label_budget: "Bugdet"
+  label_budget_new: "Tambah budget"
+  label_budget_plural: "Budget"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Bugdet"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Lihat semua budget"
+  label_yes: "Yes"
+  notice_budget_conflict: "Pilihan WorksPackage harus dari proyek yang sama."
+  notice_no_budgets_available: "Pilihan budget tidak tersedia."
+  permission_edit_budgets: "Edit budget"
+  permission_view_budgets: "Tampilkan seluruh budget"
+  project_module_budgets: "Budget"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

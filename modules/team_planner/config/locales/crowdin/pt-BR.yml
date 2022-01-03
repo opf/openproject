@@ -1,0 +1,7 @@
+#English strings go here
+pt:
+  permission_view_team_planner: "Visualizar planejador de equipe"
+  permission_manage_team_planner: "Gerenciar planejador de equipe"
+  project_module_team_planner_view: "Planejador de equipe"
+  team_planner:
+    label_team_planner: "Planejador de equipe"

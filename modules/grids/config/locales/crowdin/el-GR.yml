@@ -1,0 +1,16 @@
+el:
+  grids:
+    label_widget_in_grid: "Widget που περιέχεται στο πλέγμα %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Σελίδα"
+        row_count: "Πλήθος γραμμών"
+        column_count: "Πλήθος στηλών"
+        widgets: "Γραφικά στοιχεία"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'επικάλυψη.'
+          outside: 'είναι εκτός πλέγματος.'
+          end_before_start: 'η τελική τιμή πρέπει να είναι μεγαλύτερη από την αρχική τιμή.'

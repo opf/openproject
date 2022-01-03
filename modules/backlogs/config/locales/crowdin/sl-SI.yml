@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+sl:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Položaj"
+        remaining_hours: "Preostale ure"
+        remaining_time: "Preostale ure"
+        story_points: "Točke v zgodbi"
+        backlogs_work_package_type: "Tip opravila na čakanju"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "lahko vsebuje samo ID-je delovnih paketov iz trenutnega teka."
+              must_block_at_least_one_work_package: "vsebovati mora ID vsaj enega zahtevka."
+            parent_id:
+              parent_child_relationship_across_projects: "je neveljaven, ker je delovni paket '%{work_package_name}' opravilo zaostankov in zato ne more imeti nadrejenega zunaj trenutnega projekta."
+              type_must_be_one_of_the_following: "Dovoljeni tipi so sledeči: %{type_names}"
+            version_id:
+              task_version_must_be_the_same_as_story_version: "mora biti enako različici nadrejene zgodbe."
+        sprint:
+          cannot_end_before_it_starts: "Tek se ne mora končati preden se začne"
+  backlogs:
+    add_new_story: "Nova zgodba"
+    any: "katerikoli"
+    backlog_settings: "Nastavitve opravil na čakanju"
+    burndown_graph: "Graf burndown"
+    card_paper_size: "Velikost papirja za tiskanje kartic"
+    chart_options: "Možnosti grafikona"
+    close: "Zapri"
+    column_width: "Širina stolpca"
+    date: "Dan"
+    definition_of_done: "Opredelitev opravljenega"
+    generating_chart: "Generiranje grafa"
+    hours: "Ure"
+    impediment: "Ovira"
+    label_versions_default_fold_state: "Pokaži različice zložene"
+    work_package_is_closed: "Delovni paket je končan, ko"
+    label_is_done_status: "Status %{status_name} pomeni zaključeno"
+    no_burndown_data: "Podatkov o zagonu ni na voljo. Potrebno je določiti začetne in končne datume teka."
+    points: "Točke"
+    positions_could_not_be_rebuilt: "Položajev ni bilo mogoče obnoviti"
+    positions_rebuilt_successfully: "Položaj je uspešno spremenjen!"
+    properties: "Lastnosti"
+    rebuild: "Obnovi"
+    rebuild_positions: "Obnovi položaj"
+    remaining_hours: "Preostale ure"
+    remaining_hours_ideal: "Preostale ure (ideal)"
+    show_burndown_chart: "Graf burndown"
+    story: "Zgodba"
+    story_points: "Točke v zgodbi"
+    story_points_ideal: "Točke v zgodbi"
+    task: "Opravilo"
+    task_color: "Barva naloge"
+    unassigned: "Nedodeljeno"
+    x_more: "%{count} več..."
+  backlogs_active: "aktiven"
+  backlogs_any: "katerikoli"
+  backlogs_card_specification: "Vrste nalepk za tiskanje kartic"
+  backlogs_inactive: "Na projektu ni aktivnosti"
+  backlogs_points_burn_direction: "Točke gorijo gor/dol"
+  backlogs_product_backlog: "Zaostanki produkta"
+  backlogs_product_backlog_is_empty: "Ni zaostankov produkta"
+  backlogs_product_backlog_unsized: "Vrh zaostankov produkta ima nerazširjene zgodbe"
+  backlogs_sizing_inconsistent: "Velikosti zgodb se razlikujejo glede na njihove ocene"
+  backlogs_sprint_notes_missing: "Zaprti teki brez retrospektivnih / preglednih opomb\n"
+  backlogs_sprint_unestimated: "Zaprti ali aktivni teki z neocenjenimi zgodbami"
+  backlogs_sprint_unsized: "Projekt ima zgodbe o aktivnih ali nedavno zaprtih tekih, ki niso bili zajeti"
+  backlogs_sprints: "Teki"
+  backlogs_story: "Zgodba"
+  backlogs_story_type: "Tipi zgodb"
+  backlogs_task: "Opravilo"
+  backlogs_task_type: "Vrsta opravila"
+  backlogs_velocity_missing: "Za ta projekt ni mogoče izračunati hitrosti"
+  backlogs_velocity_varies: "Hitrost se med sprinti občutno razlikuje\n"
+  backlogs_wiki_template: "Predloga za stran wiki teka"
+  backlogs_empty_title: "Za zaostanke ni definirana nobena različica"
+  backlogs_empty_action_text: "Če želite začeti z vtičnikom za zaostanke, ustvarite novo različico in jo dodelite stolpcu zaostanki."
+  button_edit_wiki: "Uredi wiki stran"
+  error_backlogs_task_cannot_be_story: "Nastavitve niso veljavne. Izbran tip opravila ne more biti hkrati tip zgodbe"
+  error_intro_plural: "Prišlo je do naslednjih napak:"
+  error_intro_singular: "Prišlo je do naslednje napake:"
+  error_outro: "Odpravite napake pred ponovno potrditvijo"
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "Idealno"
+  inclusion: "ni vključen na seznamu"
+  label_back_to_project: "Nazaj na stran projekta"
+  label_backlog: "Zaostanek"
+  label_backlogs: "Zaostanki"
+  label_backlogs_unconfigured: "Zaostankov še niste konfigurirali. Pojdite na  %{administration} > %{plugins}, nato kliknite povezavo %{configure} za ta vtičnik. Ko nastavite polja, se vrnite na to stran, da začnete uporabljati orodje."
+  label_blocks_ids: "ID blokiranih delovnih paketov"
+  label_burndown: "Okvara"
+  label_column_in_backlog: "Stolpec v zaostanku"
+  label_hours: "Ur"
+  label_work_package_hierarchy: "Hierarhija delovnega paketa"
+  label_master_backlog: "Glavni zaostanek"
+  label_not_prioritized: "ni prednostno"
+  label_points: "Točke"
+  label_points_burn_down: "Navzdol"
+  label_points_burn_up: "Navzgor"
+  label_product_backlog: "zaostanek produkta"
+  label_select_all: "Izberi vse"
+  label_sprint_backlog: "zaostanek sprinta"
+  label_sprint_cards: "Izvozi"
+  label_sprint_impediments: "Motnje sprinta"
+  label_sprint_name: "Sprint \"%{name}\""
+  label_sprint_velocity: "Hitrost %{velocity}, ki temelji na %{sprints} sprintih s povprečno %{days} dni"
+  label_stories: "Zgodbe"
+  label_stories_tasks: "Zgodbe/naloge"
+  label_task_board: "Tabla opravil"
+  label_version_setting: "Različice"
+  label_version: 'Različica'
+  label_webcal: "Spletni vir"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "glavni zaostanek prejšnje poizvedbe"
+  permission_view_taskboards: "Prikaz delovne table"
+  permission_select_done_statuses: "Select done statuses"
+  permission_update_sprints: "Posodobi šprinte"
+  points_accepted: "sprejete točke"
+  points_committed: "Oddane točke"
+  points_resolved: "Razrešene točke"
+  points_to_accept: "točke niso sprejete"
+  points_to_resolve: "točke niso razrešene"
+  project_module_backlogs: "Zaostanki"
+  rb_label_copy_tasks: "Kopiraj delovne pakete"
+  rb_label_copy_tasks_all: "Vse"
+  rb_label_copy_tasks_none: "Brez"
+  rb_label_copy_tasks_open: "Odpri"
+  rb_label_link_to_original: "Vključi povezavo do izvirne zgodbe"
+  remaining_hours: "Preostale ure"
+  required_burn_rate_hours: "potrebna hitrost porabe (ure)"
+  required_burn_rate_points: "potrebna hitrost porabe (točke)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Stolpec v zaostanku"
+  version_settings_display_option_left: "levo"
+  version_settings_display_option_none: "Brez"
+  version_settings_display_option_right: "desno"

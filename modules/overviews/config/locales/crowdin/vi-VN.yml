@@ -1,0 +1,4 @@
+vi:
+  overviews:
+    label: 'Tổng quan'
+  permission_manage_overview: 'Manage overview page'

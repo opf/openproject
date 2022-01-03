@@ -1,0 +1,144 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lt:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Darbų paketas"
+        overridden_costs: "Perrašytos išlaidos"
+        spent: "Praleista"
+        spent_on: "Data"
+      cost_type:
+        unit: "Vieneto pavadinimas"
+        unit_plural: "Daugiaskaitinis vienetų pavadinimas"
+      work_package:
+        costs_by_type: "Panaudota vienetų"
+        labor_costs: "Darbų kaštai"
+        material_costs: "Vienetų kaštai"
+        overall_costs: "Bendri kaštai"
+        spent_costs: "Panaudoti kaštai"
+        spent_units: "Panaudota vienetų"
+      rate:
+        rate: "Koeficientas"
+      user:
+        default_rates: "Numatytasis koeficientas"
+    models:
+      cost_type:
+        one: "Kaštų tipas"
+        few: "Kaštų tipai"
+        many: "Kaštų tipų"
+        other: "Kaštų tipai"
+      rate: "Koeficientas"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Darbų paketas #%{id} nėra tinkamas kaštų perskirstymo pasirinkimas."
+          nullify_is_not_valid_for_cost_entries: "Kaštų įrašai negali būti priskirti šiam projektui."
+  attributes:
+    comment: "Komentaras"
+    cost_type: "Kaštų tipas"
+    costs: "Kaštai"
+    current_rate: "Dabartinis koeficientas"
+    hours: "Valandos"
+    units: "Vienetai"
+    valid_from: "Galioja nuo"
+    fixed_date: "Fiksuota data"
+  button_add_rate: "Pridėti koeficientą"
+  button_log_costs: "Vesti į žurnalą vieneto kaštus"
+  caption_booked_on_project: "Įrašytas projektui"
+  caption_default: "Numatytasis"
+  caption_default_rate_history_for: "%{user} numatytojo koeficiento istorija"
+  caption_locked_on: "Užrakinta"
+  caption_materials: "Vienetai"
+  caption_rate_history: "Koeficiento istorija"
+  caption_rate_history_for: "%{user} koeficiento istorija"
+  caption_rate_history_for_project: "%{user} koeficiento istorija %{project} projekte"
+  caption_save_rate: "Išsaugoti koeficientą"
+  caption_set_rate: "Nustatyti esamą koeficientą"
+  caption_show_locked: "Rodyti užrakintus tipus"
+  description_date_for_new_rate: "Naujo koeficiento data"
+  group_by_others: "nėra jokioje grupėje"
+  label_between: "tarp"
+  label_cost_filter_add: "Pridėti kaštų įrašo filtrą"
+  label_costlog: "Į žurnalą surinkti vieneto kaštai"
+  label_cost_plural: "Kaštai"
+  label_cost_type_plural: "Kaštų tipai"
+  label_cost_type_specific: "Išlaidų tipas #%{id}: %{name}"
+  label_costs_per_page: "Kaštų puslapyje"
+  label_currency: "Valiuta"
+  label_currency_format: "Valiutos formatas"
+  label_current_default_rate: "Esamas numatytasis koeficientas"
+  label_date_on: "įjungta"
+  label_deleted_cost_types: "Panaikinti kaštų tipai"
+  label_locked_cost_types: "Užrakinti kaštų tipai"
+  label_display_cost_entries: "Rodyti vieneto kaštus"
+  label_display_time_entries: "Rodyti atsiskaitytas valandas"
+  label_display_types: "Rodyti tipus"
+  label_edit: "Redaguoti"
+  label_generic_user: "Bendras vartotojas"
+  label_greater_or_equal: ">="
+  label_group_by: "Grupuoti pagal"
+  label_group_by_add: "Pridėti grupavimo lauką"
+  label_hourly_rate: "Valandinis koeficientas"
+  label_include_deleted: "Įtraukti ištrintus"
+  label_work_package_filter_add: "Pridėti darbų paketo filtrą"
+  label_kind: "Tipas"
+  label_less_or_equal: "<="
+  label_log_costs: "Vesti į žurnalą vieneto kaštus"
+  label_no: "Ne"
+  label_option_plural: "Nustatymai"
+  label_overall_costs: "Bendri kaštai"
+  label_rate: "Koeficientas"
+  label_rate_plural: "Koeficientai"
+  label_status_finished: "Baigta"
+  label_units: "Kaštų vienetai"
+  label_user: "Vartotojas"
+  label_until: "iki"
+  label_valid_from: "Galioja nuo"
+  label_yes: "Taip"
+  notice_something_wrong: "Įvyko klaida. Bandykite dar kartą."
+  notice_successful_restore: "Sėkmingas atkūrimas."
+  notice_successful_lock: "Sėkmingai užrakinta."
+  notice_cost_logged_successfully: 'Vieneto kaštai į žurnalą įrašyti sėkmingai.'
+  permission_edit_cost_entries: "Redaguoti įrašytų vienetų kaštus"
+  permission_edit_own_cost_entries: "Redaguoti paties įrašytų vienetų kaštus"
+  permission_edit_hourly_rates: "Redaguoti valandinius koeficientus"
+  permission_edit_own_hourly_rate: "Redaguoti savo valandinius koeficientus"
+  permission_edit_rates: "Redaguoti koeficientus"
+  permission_log_costs: "Įrašyti vieneto kaštus"
+  permission_log_own_costs: "Įrašyti vieneto kaštus už save"
+  permission_view_cost_entries: "Peržiūrėti įrašytus kaštus"
+  permission_view_cost_rates: "Peržiūrėti išlaidų koeficientus"
+  permission_view_hourly_rates: "Peržiūrėti visus valandinius koeficientus"
+  permission_view_own_cost_entries: "Peržiūrėti savo įrašytus kaštus"
+  permission_view_own_hourly_rate: "Peržiūrėti savo valandinį koeficientą"
+  permission_view_own_time_entries: "Peržiūrėti savo sugaištą laiką"
+  project_module_costs: "Laikas ir išlaidos"
+  text_assign_time_and_cost_entries_to_project: "Priskirti praleistas valandas ir kaštus projektui"
+  text_destroy_cost_entries_question: "%{cost_entries} buvo pranešta Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
+  text_destroy_time_and_cost_entries: "Ištrinti praneštas valandas ir kaštus"
+  text_destroy_time_and_cost_entries_question: "%{hours} valandos, %{cost_entries} buvo pranešti Jūsų ketinamiems ištrinti darbų paketams. Ką Jūs norite daryti?"
+  text_reassign_time_and_cost_entries: "Iš naujo priskirti praneštas valandas ir kaštus šiam darbų paketui:"
+  text_warning_hidden_elements: "Kai kurie įrašai galimai atskirti nuo agregacijos."
+  week: "savaitė"
+  js:
+    text_are_you_sure: "Ar esate įsitikinę?"

@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+sk:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autor"
+        available: "Dostupný"
+        budget: "Plánovaný"
+        budget_ratio: "Použité (pomer)"
+        description: "Popis"
+        spent: "Minuté"
+        status: "Stav"
+        subject: "Predmet"
+        type: "Typ nákladu"
+        labor_budget: "Plánované mzdové náklady"
+        material_budget: "Plánované jednotkové náklady"
+      work_package:
+        budget_subject: "Názov rozpočtu"
+    models:
+      budget: "Rozpočet"
+      material_budget_item: "Jednotka"
+  attributes:
+    budget: "Rozpočet"
+  button_add_budget_item: "Pridať plánované náklady"
+  button_add_budget: "Pridať rozpočet"
+  button_add_cost_type: "Pridať typ nákladov"
+  button_cancel_edit_budget: "Zrušiť úpravu rozpočtu"
+  button_cancel_edit_costs: "Zrušiť úpravu nákladov"
+  caption_labor: "Práca"
+  caption_labor_costs: "Aktuálne mzdové náklady"
+  caption_material_costs: "Skutočné náklady na jednotku"
+  budgets_title: "Rozpočty"
+  events:
+    budget: "Rozpočet bol upravený"
+  help_click_to_edit: "Kliknite tu pre editáciu."
+  help_currency_format: "Formát zobrazených hodnôt mien. %n sa nahradí hodnotou meny, %u sa nahradí jednotkou meny."
+  help_override_rate: "Tu zadajte hodnotu, ak chcete zmeniť predvolenú sadzbu."
+  label_budget: "Rozpočet"
+  label_budget_new: "Nový rozpočet"
+  label_budget_plural: "Rozpočty"
+  label_budget_id: "Rozpočet #%{id}"
+  label_deliverable: "Rozpočet"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Zobraziť všetky rozpočty"
+  label_yes: "Áno"
+  notice_budget_conflict: "Pracovné balíčky musia byť z rovnakého projektu."
+  notice_no_budgets_available: "Nie sú k dispozícii žiadne rozpočty."
+  permission_edit_budgets: "Upraviť rozpočty"
+  permission_view_budgets: "Zobraziť rozpočty"
+  project_module_budgets: "Rozpočty"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

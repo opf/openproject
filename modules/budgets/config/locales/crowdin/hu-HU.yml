@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+hu:
+  activerecord:
+    attributes:
+      budget:
+        author: "Szerző"
+        available: "Elérhető"
+        budget: "Tervezet"
+        budget_ratio: "Elköltött (arány)"
+        description: "Leírás"
+        spent: "Elköltve"
+        status: "Állapot"
+        subject: "Tárgy"
+        type: "Költségtípus"
+        labor_budget: "Tervezett munkaerő-költségek"
+        material_budget: "Tervezett egység költség"
+      work_package:
+        budget_subject: "Költségvetési cím"
+    models:
+      budget: "Költségvetés"
+      material_budget_item: "Egység"
+  attributes:
+    budget: "Költségvetés"
+  button_add_budget_item: "Új tervezett költség"
+  button_add_budget: "Új költségvetés"
+  button_add_cost_type: "Új költségtípus"
+  button_cancel_edit_budget: "Költségvetés szerkeztésének visszavonása"
+  button_cancel_edit_costs: "Költségek szerkeztésének visszavonása"
+  caption_labor: "Munkaerő"
+  caption_labor_costs: "Munkaerő költség"
+  caption_material_costs: "Tényleges egységnyi költség"
+  budgets_title: "Költségvetések"
+  events:
+    budget: "Szerkesztett költségvetés"
+  help_click_to_edit: "Szerkesztéshez kattintson ide."
+  help_currency_format: "Megjelenített pénznem-értékek megjelenítési formátuma. %n helyébe a pénznem értéke, %u helyébe a neve kerül."
+  help_override_rate: "Adjon meg egy értéket az alapértelmezett díj felülírásához."
+  label_budget: "Költségvetés"
+  label_budget_new: "Új költségvetés"
+  label_budget_plural: "Költségvetések"
+  label_budget_id: "Költségvetés #%{id}"
+  label_deliverable: "Költségvetés"
+  label_example_placeholder: 'például %{decimal}'
+  label_view_all_budgets: "Minden költség megtekintése"
+  label_yes: "Igen"
+  notice_budget_conflict: "Munkacsomagok ugyanabból a projektből kell származzanak."
+  notice_no_budgets_available: "Nincs költségvetés."
+  permission_edit_budgets: "Költségvetés szerkesztése"
+  permission_view_budgets: "Költségvetések megtekintése"
+  project_module_budgets: "Költségvetések"
+  text_budget_reassign_to: "Újra hozzárendelve ehhez a költségkerethez:"
+  text_budget_delete: "Költségvetés törlése az összes munkacsomagból"
+  text_budget_destroy_assigned_wp: "%{count} munkacsomag van hozzárendelve ehhez a költségkerethez. Mit szeretne csinálni?\n"

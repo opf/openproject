@@ -1,0 +1,143 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ro:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Pachet de lucru"
+        overridden_costs: "Costuri anulate"
+        spent: "Cheltuit"
+        spent_on: "Dată"
+      cost_type:
+        unit: "Denumirea unității"
+        unit_plural: "Numele unității pluralizate"
+      work_package:
+        costs_by_type: "Unități consumate"
+        labor_costs: "Costurile cu forța de muncă"
+        material_costs: "Costuri unitare"
+        overall_costs: "Costuri totale"
+        spent_costs: "Costuri"
+        spent_units: "Unități consumate"
+      rate:
+        rate: "Impozit"
+      user:
+        default_rates: "Tarife"
+    models:
+      cost_type:
+        one: "Tipul de cost"
+        few: "Tipuri de costuri"
+        other: "Tipuri de costuri"
+      rate: "Impozit"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru."
+          nullify_is_not_valid_for_cost_entries: "Înregistrările de costuri nu pot fi atribuite unui proiect."
+  attributes:
+    comment: "Comentariu"
+    cost_type: "Tipul de cost"
+    costs: "Costuri"
+    current_rate: "Impozit"
+    hours: "Ore"
+    units: "Unități"
+    valid_from: "Valabil de la"
+    fixed_date: "Dată fixă"
+  button_add_rate: "Adăugare preţ"
+  button_log_costs: "Costurile unitare ale buștenilor"
+  caption_booked_on_project: "Rezervat pe proiect"
+  caption_default: "Implicit"
+  caption_default_rate_history_for: "Istoricul ratei de neplată pentru %{user}"
+  caption_locked_on: "Blocat"
+  caption_materials: "Unități"
+  caption_rate_history: "Istoricul ratei"
+  caption_rate_history_for: "Istoric al ratei pentru %{user}"
+  caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
+  caption_save_rate: "Salvează rata"
+  caption_set_rate: "Setați rata curentă"
+  caption_show_locked: "Afișați tipurile blocate"
+  description_date_for_new_rate: "Data pentru noua rată"
+  group_by_others: "Selectați ce tipuri de grup este permis acest tip de profil. (Lăsați toate marcate pentru a permite crearea oricărui tip de grup.)"
+  label_between: "între"
+  label_cost_filter_add: "Adăugați un filtru de intrare a costurilor"
+  label_costlog: "Costuri unitare înregistrate"
+  label_cost_plural: "Costuri"
+  label_cost_type_plural: "Tipuri de costuri"
+  label_cost_type_specific: "Tipul de cost #%{id}: %{name}"
+  label_costs_per_page: "Costuri pe pagină"
+  label_currency: "Moneda"
+  label_currency_format: "Formatul monedei"
+  label_current_default_rate: "Rata actuală de neplată"
+  label_date_on: "pe"
+  label_deleted_cost_types: "Tipuri de costuri șterse"
+  label_locked_cost_types: "Tipuri de costuri blocate"
+  label_display_cost_entries: "Afișarea costurilor unitare"
+  label_display_time_entries: "Afișarea orelor raportate"
+  label_display_types: "Tipuri de afișare"
+  label_edit: "Editare"
+  label_generic_user: "Utilizator generic"
+  label_greater_or_equal: ">="
+  label_group_by: "Grupare după"
+  label_group_by_add: "Adăugați un câmp de grupare"
+  label_hourly_rate: "Tarif orar"
+  label_include_deleted: "Includeți șters"
+  label_work_package_filter_add: "Adăugați un filtru pentru pachetul de lucru"
+  label_kind: "Tip"
+  label_less_or_equal: "<="
+  label_log_costs: "Costurile unitare ale buștenilor"
+  label_no: "Nu"
+  label_option_plural: "Opțiuni"
+  label_overall_costs: "Costuri totale"
+  label_rate: "Impozit"
+  label_rate_plural: "Tarife"
+  label_status_finished: "Finalizat"
+  label_units: "Unități de cost"
+  label_user: "Utilizator"
+  label_until: "până la"
+  label_valid_from: "Valabil de la"
+  label_yes: "Da"
+  notice_something_wrong: "Ceva n-a mers bine. Vă rugăm să încercați din nou."
+  notice_successful_restore: "Restaurare reușită."
+  notice_successful_lock: "Blocat cu succes."
+  notice_cost_logged_successfully: 'Costul unitar a fost înregistrat cu succes.'
+  permission_edit_cost_entries: "Editarea costurilor unitare înregistrate"
+  permission_edit_own_cost_entries: "Editați propriile costuri unitare contabilizate"
+  permission_edit_hourly_rates: "Editați tarifele orare"
+  permission_edit_own_hourly_rate: "Editați propriile tarife orare"
+  permission_edit_rates: "Editarea ratelor"
+  permission_log_costs: "Costurile unitare ale cărților"
+  permission_log_own_costs: "Costurile unitare de contabilizare pentru sine"
+  permission_view_cost_entries: "Vizualizați costurile rezervate"
+  permission_view_cost_rates: "Vizualizați tarifele de cost"
+  permission_view_hourly_rates: "Toate pachetele de lucru"
+  permission_view_own_cost_entries: "Vizualizați propriile costuri înregistrate"
+  permission_view_own_hourly_rate: "Vezi propriul tarif orar"
+  permission_view_own_time_entries: "Vizualizați propriul timp petrecut"
+  project_module_costs: "Timp și costuri"
+  text_assign_time_and_cost_entries_to_project: "Atribuiți orele și costurile raportate la proiect"
+  text_destroy_cost_entries_question: "%{cost_entries} au fost raportate pe pachetele de lucru pe care urmează să le ștergeți. Ce doriți să faceți?"
+  text_destroy_time_and_cost_entries: "Ștergeți orele și costurile raportate"
+  text_destroy_time_and_cost_entries_question: "%{hours} ore, %{cost_entries} au fost raportate la pachetele de lucru pe care urmează să le ștergeți. Ce doriți să faceți?"
+  text_reassign_time_and_cost_entries: "Reatribuiți orele și costurile raportate la acest pachet de lucru:"
+  text_warning_hidden_elements: "Este posibil ca unele intrări să fi fost excluse din agregare."
+  week: "săptămână"
+  js:
+    text_are_you_sure: "Sunteți sigur?"

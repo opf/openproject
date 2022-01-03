@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+cs:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Pozice"
+        remaining_hours: "Zbývající hodiny"
+        remaining_time: "Zbývající hodiny"
+        story_points: "Body příběhu"
+        backlogs_work_package_type: "Typ nevyřízené položky"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "může obsahovat pouze ID pracovních balíčků v aktuálním sprintu."
+              must_block_at_least_one_work_package: "musí obsahovat ID alespoň jednoho tiketu."
+            parent_id:
+              parent_child_relationship_across_projects: "je neplatný, protože pracovní balíček '%{work_package_name}' je nevyřízený úkol, a proto nemůže mít nadřazený mimo aktuální projekt."
+              type_must_be_one_of_the_following: "Typ musí být jeden z následujících: %{type_names}."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "musí být stejná jako verze nadřazeného příběhu."
+        sprint:
+          cannot_end_before_it_starts: "Sprint nemůže končit dříve, než začne."
+  backlogs:
+    add_new_story: "Nový příběh"
+    any: "jakákoliv"
+    backlog_settings: "Nastavení nevyřízených položek"
+    burndown_graph: "Graf vypálení"
+    card_paper_size: "Velikost papíru pro tisk karet"
+    chart_options: "Možnosti grafu"
+    close: "Zavřít"
+    column_width: "Šířka sloupce:"
+    date: "Den"
+    definition_of_done: "Definice dokončena"
+    generating_chart: "Generování grafu..."
+    hours: "Hodiny"
+    impediment: "Impediment"
+    label_versions_default_fold_state: "Zobrazit skládané verze"
+    work_package_is_closed: "Pracovní balíček je hotov, když"
+    label_is_done_status: "Stav %{status_name} znamená hotovo"
+    no_burndown_data: "Nejsou k dispozici žádná data o vypálení. Je nutné mít nastavena data zahájení a ukončení sprintu."
+    points: "Body"
+    positions_could_not_be_rebuilt: "Pozice nelze znovu sestavit."
+    positions_rebuilt_successfully: "Pozice úspěšně přestavěny."
+    properties: "Vlastnosti"
+    rebuild: "Znovu vytvořit"
+    rebuild_positions: "Znovu sestavit pozice"
+    remaining_hours: "Zbývající hodiny"
+    remaining_hours_ideal: "Zbývající hodiny (ideální)"
+    show_burndown_chart: "Spálovací graf"
+    story: "Příběh"
+    story_points: "Body příběhu"
+    story_points_ideal: "Body příběhu (ideální)"
+    task: "Úkol"
+    task_color: "Barva úlohy"
+    unassigned: "Nepřiřazeno"
+    x_more: "%{count} další..."
+  backlogs_active: "aktivní"
+  backlogs_any: "jakákoliv"
+  backlogs_card_specification: "Typy štítků pro tisk karet"
+  backlogs_inactive: "Projekt nezobrazuje žádnou aktivitu"
+  backlogs_points_burn_direction: "Body popáleniny nahoru/dolů"
+  backlogs_product_backlog: "Nevyřízené produkty"
+  backlogs_product_backlog_is_empty: "Nevyřízené položky produktu jsou prázdné"
+  backlogs_product_backlog_unsized: "Nejvyšší počet nevyřízených produktů má nevelké příběhy"
+  backlogs_sizing_inconsistent: "Velikost příběhu se liší podle jejich odhadů"
+  backlogs_sprint_notes_missing: "Uzavřený sprint bez retrospektivních/přezkoumávaných poznámek"
+  backlogs_sprint_unestimated: "Uzavřený nebo aktivní sprint s nespletitými příběhy"
+  backlogs_sprint_unsized: "Projekt má příběhy o aktivních nebo nedávno uzavřených sprintech, které neměly velikost"
+  backlogs_sprints: "Sprinty"
+  backlogs_story: "Příběh"
+  backlogs_story_type: "Typy článků"
+  backlogs_task: "Úkol"
+  backlogs_task_type: "Typ úkolu"
+  backlogs_velocity_missing: "Pro tento projekt nelze vypočítat rychlost"
+  backlogs_velocity_varies: "Rychlost se výrazně liší po sprintech"
+  backlogs_wiki_template: "Šablona pro stránku se sprint wiki"
+  backlogs_empty_title: "Nejsou definovány žádné verze pro použití v neuzavřených záznamech"
+  backlogs_empty_action_text: "Chcete-li začít s nevyřízené položky, vytvořte novou verzi a přiřaďte ji do sloupce nevyřízené položky."
+  button_edit_wiki: "Upravit wiki stránku"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_intro_plural: "Došlo k následujícím chybám:"
+  error_intro_singular: "Došlo k následující chybě:"
+  error_outro: "Před dalším odesláním opravte výše uvedené chyby."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "ideální"
+  inclusion: "není zahrnuto v seznamu"
+  label_back_to_project: "Zpět na stránku projektu"
+  label_backlog: "Nevyřízené položky"
+  label_backlogs: "Nevyřízené položky"
+  label_backlogs_unconfigured: "Zatím nemáte nakonfigurované nevyřízené záznamy. Přejděte na %{administration} > %{plugins}a poté klikněte na odkaz %{configure} pro tento plugin. Jakmile nastavíte pole, vraťte se na tuto stránku a začněte používat nástroj."
+  label_blocks_ids: "ID blokovaných pracovních balíčků"
+  label_burndown: "Spálení"
+  label_column_in_backlog: "Sloupec v nevyřízené pozici"
+  label_hours: "hodiny"
+  label_work_package_hierarchy: "Hierarchie pracovního balíčku"
+  label_master_backlog: "Hlavní nevyřízené položky"
+  label_not_prioritized: "neupřednostňováno"
+  label_points: "body"
+  label_points_burn_down: "Dolů"
+  label_points_burn_up: "Nahoru"
+  label_product_backlog: "nevyřízené produkty"
+  label_select_all: "Vybrat vše"
+  label_sprint_backlog: "nevyřízené sprint"
+  label_sprint_cards: "Exportovat karty"
+  label_sprint_impediments: "Běh impedimenty"
+  label_sprint_name: "Běh \"%{name}\""
+  label_sprint_velocity: "Rychlost %{velocity}na základě %{sprints} běhů s průměrným %{days} dny"
+  label_stories: "Příběhy"
+  label_stories_tasks: "Příběhy/Úkoly"
+  label_task_board: "Tabule úkolů"
+  label_version_setting: "Verze"
+  label_version: 'Verze'
+  label_webcal: "Webcal kanál"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "Zobrazit hlavní nevyřízené položky"
+  permission_view_taskboards: "Zobrazit tabuly úkolů"
+  permission_select_done_statuses: "Select done statuses"
+  permission_update_sprints: "Aktualizovat běhy"
+  points_accepted: "Přijaté body"
+  points_committed: "přislíbené body"
+  points_resolved: "body vyřešeny"
+  points_to_accept: "body nejsou přijaty"
+  points_to_resolve: "body nebyly vyřešeny"
+  project_module_backlogs: "Nevyřízené položky"
+  rb_label_copy_tasks: "Kopírovat pracovní balíčky"
+  rb_label_copy_tasks_all: "Vše"
+  rb_label_copy_tasks_none: "Žádný"
+  rb_label_copy_tasks_open: "Otevřít"
+  rb_label_link_to_original: "Zahrnout odkaz na původní příběh"
+  remaining_hours: "zbývající hodiny"
+  required_burn_rate_hours: "požadovaná rychlost hoření (v hodinách)"
+  required_burn_rate_points: "požadovaná rychlost hoření (body)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Sloupec v nevyřízené pozici"
+  version_settings_display_option_left: "vlevo"
+  version_settings_display_option_none: "žádný"
+  version_settings_display_option_right: "vpravo"

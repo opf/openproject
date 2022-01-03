@@ -1,0 +1,19 @@
+hu:
+  logout_warning: >
+    Kijelentkeztél. A benyújtott űrlap tartalma elveszhet. Kérjük jelentkezz be.
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: Név
+        display_name: Megjelenített név
+        identifier: Azonosító
+        secret: Titok
+        scope: Hatókör
+  openid_connect:
+    menu_title: OpenID szolgáltató
+    providers:
+      label_add_new: OpenID szolgáltató hozzáadása
+      label_edit: OpenID szolgáltató  %{name} szerkesztése
+      no_results_table: Nincs szolgáltató definiálva
+      plural: OpenID szolgáltató
+      singular: OpenID szolgáltató

@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+de:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Arbeitspaket"
+        overridden_costs: "Überschriebene Kosten"
+        spent: "Verbraucht"
+        spent_on: "Datum"
+      cost_type:
+        unit: "Einheit"
+        unit_plural: "Einheit plural"
+      work_package:
+        costs_by_type: "Gebuchte Einheiten"
+        labor_costs: "Personaleinzelkosten"
+        material_costs: "Stückkosten"
+        overall_costs: "Gesamtkosten"
+        spent_costs: "Gebuchte Kosten"
+        spent_units: "Gebuchte Einheiten"
+      rate:
+        rate: "Satz"
+      user:
+        default_rates: "Standardsätze"
+    models:
+      cost_type:
+        one: "Kostentyp"
+        other: "Kostentypen"
+      rate: "Satz"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge."
+          nullify_is_not_valid_for_cost_entries: "Stückkosten können keinem Projekt zugeordnet werden."
+  attributes:
+    comment: "Kommentar"
+    cost_type: "Kostentyp"
+    costs: "Kosten"
+    current_rate: "Aktueller Satz"
+    hours: "Stunden"
+    units: "Stücke"
+    valid_from: "Gültig ab"
+    fixed_date: "Referenzdatum"
+  button_add_rate: "Satz hinzufügen"
+  button_log_costs: "Stückkosten buchen"
+  caption_booked_on_project: "Auf das Projekt gebucht"
+  caption_default: "Standard"
+  caption_default_rate_history_for: "Standardsatz-Historie für %{user}"
+  caption_locked_on: "Gesperrt am"
+  caption_materials: "Einheiten"
+  caption_rate_history: "Stundensatz-Historie"
+  caption_rate_history_for: "Stundensatz-Historie für %{user}"
+  caption_rate_history_for_project: "Stundensatz-Historie für %{user} in Projekt %{project}"
+  caption_save_rate: "Satz speichern"
+  caption_set_rate: "Aktuellen Satz festlegen"
+  caption_show_locked: "Gesperrte Typen anzeigen"
+  description_date_for_new_rate: "Datum für neuen Satz"
+  group_by_others: "In keiner der Gruppen"
+  label_between: "zwischen"
+  label_cost_filter_add: "Kostenfilter hinzufügen"
+  label_costlog: "Gebuchte Stückkosten"
+  label_cost_plural: "Kosten"
+  label_cost_type_plural: "Kostentypen"
+  label_cost_type_specific: "Kostentyp #%{id}: %{name}"
+  label_costs_per_page: "Kosten dieser Seite"
+  label_currency: "Währung"
+  label_currency_format: "Währungsformat"
+  label_current_default_rate: "Aktueller Standardsatz"
+  label_date_on: "am"
+  label_deleted_cost_types: "Gelöschte Kostentypen"
+  label_locked_cost_types: "Gesperrte Kostentypen"
+  label_display_cost_entries: "Stückkosten anzeigen"
+  label_display_time_entries: "Personaleinzelkosten anzeigen"
+  label_display_types: "Angezeigte Eintragsarten"
+  label_edit: "Bearbeiten"
+  label_generic_user: "Generischer Benutzer"
+  label_greater_or_equal: ">="
+  label_group_by: "Gruppieren nach"
+  label_group_by_add: "Gruppierungsfeld hinzufügen"
+  label_hourly_rate: "Stundensatz"
+  label_include_deleted: "Gelöschte anzeigen"
+  label_work_package_filter_add: "Ticketfilter hinzufügen"
+  label_kind: "Typ"
+  label_less_or_equal: "<="
+  label_log_costs: "Stückkosten buchen"
+  label_no: "Nein"
+  label_option_plural: "Optionen"
+  label_overall_costs: "Gesamtkosten"
+  label_rate: "Satz"
+  label_rate_plural: "Sätze"
+  label_status_finished: "Abgeschlossen"
+  label_units: "Einheiten"
+  label_user: "Benutzer"
+  label_until: "bis"
+  label_valid_from: "Gültig ab"
+  label_yes: "Ja"
+  notice_something_wrong: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  notice_successful_restore: "Erfolgreich wiederhergestellt."
+  notice_successful_lock: "Erfolgreich gesperrt."
+  notice_cost_logged_successfully: 'Stückkosten erfolgreich gebucht.'
+  permission_edit_cost_entries: "Bearbeiten gebuchter Stückkosten"
+  permission_edit_own_cost_entries: "Bearbeiten eigener gebuchter Stückkosten"
+  permission_edit_hourly_rates: "Stundensätze bearbeiten"
+  permission_edit_own_hourly_rate: "Eigene Stundensätze bearbeiten"
+  permission_edit_rates: "Stundensätze editieren"
+  permission_log_costs: "Stückkosten buchen"
+  permission_log_own_costs: "Eigene Stückkosten buchen"
+  permission_view_cost_entries: "Gebuchte Kosten ansehen"
+  permission_view_cost_rates: "Anzeigen von Stückpreisen"
+  permission_view_hourly_rates: "Alle Stundensätze ansehen"
+  permission_view_own_cost_entries: "Eigene gebuchte Kosten ansehen"
+  permission_view_own_hourly_rate: "Eigene Stundensätze ansehen"
+  permission_view_own_time_entries: "Eigene gebuchte Aufwände ansehen"
+  project_module_costs: "Zeit und Kosten"
+  text_assign_time_and_cost_entries_to_project: "Gebuchte Aufwände dem Projekt zuweisen"
+  text_destroy_cost_entries_question: "Es wurden bereits %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?"
+  text_destroy_time_and_cost_entries: "Gebuchte Aufwände löschen"
+  text_destroy_time_and_cost_entries_question: "Es wurden bereits %{hours} Stunden sowie %{cost_entries} auf dieses Ticket gebucht. Was soll mit den Aufwänden geschehen?"
+  text_reassign_time_and_cost_entries: "Gebuchte Aufwände diesem Ticket zuweisen:"
+  text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
+  week: "Woche"
+  js:
+    text_are_you_sure: "Sind Sie sicher?"

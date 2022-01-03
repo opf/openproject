@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+"no":
+  button_save_as: "Save report as..."
+  comments: "Kommentar"
+  cost_reports_title: "Time and costs"
+  label_cost_report: "Cost report"
+  label_cost_report_plural: "Cost reports"
+  description_drill_down: "Vis detaljer"
+  description_filter_selection: "Selection"
+  description_multi_select: "Show multiselect"
+  description_remove_filter: "Remove filter"
+  information_restricted_depending_on_permission: "Depending on your permissions this page might contain restricted information."
+  label_click_to_edit: "Klikk for å redigere."
+  label_closed: "lukket"
+  label_columns: "Kolonner"
+  label_cost_entry_attributes: "Cost entry attributes"
+  label_days_ago: "during the last days"
+  label_entry: "Cost entry"
+  label_filter_text: "Filter text"
+  label_filter_value: "Verdi"
+  label_filters: "Filter"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "is not (includes subprojects)"
+  label_is_project_with_subprojects: "is (includes subprojects)"
+  label_work_package_attributes: "Work package attributes"
+  label_less: "<"
+  label_money: "Cash value"
+  label_month_reporting: "Month (Spent)"
+  label_new_report: "New cost report"
+  label_open: "åpne"
+  label_operator: "Operator"
+  label_private_report_plural: "Private cost reports"
+  label_progress_bar_explanation: "Genererer rapport..."
+  label_public_report_plural: "Public cost reports"
+  label_really_delete_question: "Er du sikker på at du vil slette denne rapporten?"
+  label_rows: "Rader"
+  label_saving: "Lagrer ..."
+  label_spent_on_reporting: "Date (Spent)"
+  label_sum: "Sum"
+  label_units: "Enheter"
+  label_week_reporting: "Week (Spent)"
+  label_year_reporting: "Year (Spent)"
+  label_count: "Antall"
+  label_filter: "Filter"
+  label_filter_add: "Legg til Filter"
+  label_filter_plural: "Filtre"
+  label_group_by: "Grupper etter"
+  label_group_by_add: "Legg grupper etter attributt"
+  label_inactive: "«inaktiv»"
+  label_no: "Nei"
+  label_none: "(ingen data)"
+  label_no_reports: "There are no cost reports yet."
+  label_report: "Rapport"
+  label_yes: "Ja"
+  load_query_question: "Rapporten vil ha %{size} og kan ta noe tid å gjengi. Vil du likevel gjengi den?"
+  permission_save_cost_reports: "Save public cost reports"
+  permission_save_private_cost_reports: "Save private cost reports"
+  project_module_reporting_module: "Cost reports"
+  text_costs_are_rounded_note: "Displayed values are rounded. All calculations are based on the non-rounded values."
+  toggle_multiselect: "activate/deactivate multiselect"
+  units: "Enheter"
+  validation_failure_date: "er ikke en gyldig dato"
+  validation_failure_integer: "er ikke et gyldig heltall"
+  reporting:
+    group_by:
+      selected_columns: "Selected columns"
+      selected_rows: "Selected rows"

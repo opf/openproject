@@ -1,0 +1,11 @@
+#English strings go here
+zh-CN:
+  js:
+    team_planner:
+      create_new: 'Create new planner'
+      title: '团队计划人'
+      unsaved_title: '未命名的团队计划人'
+      label_assignee_plural: '指定人'
+      no_data: 'Add assignees to set up your team planner.'
+      add_assignee: 'Add assignee'
+      remove_assignee: 'Remove assignee'

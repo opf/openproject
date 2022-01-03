@@ -1,0 +1,4 @@
+vi:
+  dashboards:
+    label: 'Bảng theo dõi'
+  project_module_dashboards: 'Bảng theo dõi'

@@ -1,0 +1,41 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+pt:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "Solicitações de pull"
+        copy_menu:
+          label: Trechos de código Git
+          description: Copiar trechos de código git para área de transferência
+        git_actions:
+          branch_name: Nome da ramificação
+          commit_message: Mensagem de confirmação
+          cmd: Criar ramificação com a confirmação vazia
+          title: Trechos de código rápido para Git
+          copy_success: '✅ Copiado!'
+          copy_error: '❌ Falha ao copiar!'
+      tab_prs:
+        empty: 'Ainda não há solicitações de pull vinculadas. Vincule uma PR existente usando código <code>OP#%{wp_id}</code> na descrição de PR ou crie uma nova PR.'
+      github_actions: Ações

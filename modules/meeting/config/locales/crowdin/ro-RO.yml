@@ -1,0 +1,90 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+ro:
+  activerecord:
+    attributes:
+      meeting:
+        location: "Locație"
+        duration: "Durată"
+        participants: "Participanţi"
+        participants_attended: "Participanți"
+        participants_invited: "Invitaţi"
+        start_time: "Ora"
+        start_time_hour: "Ora de începere"
+    errors:
+      messages:
+        invalid_time_format: "nu este o oră valabilă. Format necesar: HH:MM"
+    models:
+      meeting_agenda: "Agendă"
+      meeting_minutes: "Concluzii"
+  description_attended: "a participat"
+  description_invite: "a fost invitat"
+  events:
+    meeting: Întâlnire editată
+    meeting_agenda: Agenda întâlnirii a fost actualizată
+    meeting_agenda_closed: Agenda întâlnirii e închisă
+    meeting_agenda_opened: Agenda întâlnirii e deschisă
+    meeting_minutes: Procesele-verbale ale reuniunii au fost editate
+    meeting_minutes_created: Procese-verbale de ședință create
+  error_notification_with_errors: "Nu s-a reușit trimiterea notificării. Următorii destinatari nu au putut fi notificați: %{recipients}"
+  label_meeting: "ID Întâlnire"
+  label_meeting_plural: "Întâlniri"
+  label_meeting_new: "Noua întâlnire"
+  label_meeting_edit: "Editare Întâlnire"
+  label_meeting_agenda: "Agendă"
+  label_meeting_minutes: "Concluzii"
+  label_meeting_close: "Închide"
+  label_meeting_open: "Deschis"
+  label_meeting_agenda_close: "Închideți ordinea de zi pentru a începe procesul-verbal"
+  label_meeting_date_time: "Dată/Timp"
+  label_meeting_diff: "Dif"
+  label_notify: "Trimiteți pentru revizuire"
+  label_icalendar: "Trimiteți iCalendar"
+  label_version: "Versiune"
+  label_time_zone: "Fus orar"
+  label_start_date: "Data de început"
+  meeting:
+    copied: "Copiat de la Întâlnire #%{id}"
+  notice_successful_notification: "Notificare trimisă cu succes"
+  notice_timezone_missing: Nu este setat niciun fus orar și se presupune %{zone}. Pentru a vă alege fusul orar, vă rugăm să faceți clic aici.
+  permission_create_meetings: "Creați întâlniri"
+  permission_edit_meetings: "Editarea ședințelor"
+  permission_delete_meetings: "Ștergeți întâlnirile"
+  permission_view_meetings: "Vezi întâlniri"
+  permission_create_meeting_agendas: "Gestionați agendele"
+  permission_close_meeting_agendas: "Închideți agendele"
+  permission_send_meeting_agendas_notification: "Trimiteți o notificare de revizuire pentru agende"
+  permission_create_meeting_minutes: "Gestionați minutele"
+  permission_send_meeting_minutes_notification: "Trimiteți o notificare de revizuire a procesului-verbal"
+  permission_meetings_send_invite: "Invitați utilizatorii la întâlniri"
+  permission_send_meeting_agendas_icalendar: "Trimiteți ordinea de zi a ședinței ca intrare în calendar"
+  project_module_meetings: "Întâlniri"
+  text_duration_in_hours: "Durata în ore"
+  text_in_hours: "Ore"
+  text_meeting_agenda_for_meeting: 'ordinea de zi a reuniunii "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Sunteți sigur că doriți să încheiem ședința?"
+  text_meeting_agenda_open_are_you_sure: "Acest lucru va suprascrie toate modificările din procesul-verbal! Doriți să continuați?"
+  text_meeting_minutes_for_meeting: 'procesul-verbal al reuniunii "%{meeting}"'
+  text_review_meeting_agenda: "%{author} a pus %{link} pentru revizuire."
+  text_review_meeting_minutes: "%{author} a pus %{link} pentru revizuire."
+  text_notificiation_invited: "Acest e-mail conține o intrare ics pentru întâlnirea de mai jos:"

@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+vi:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Vị trí"
+        remaining_hours: "Số giờ còn lại"
+        remaining_time: "Số giờ còn lại"
+        story_points: "Story Points"
+        backlogs_work_package_type: "Backlog type"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
+              must_block_at_least_one_work_package: "bắt buộc phải chứa ID của ít nhất một việc"
+            parent_id:
+              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
+              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+        sprint:
+          cannot_end_before_it_starts: "Sprint cannot end before it starts."
+  backlogs:
+    add_new_story: "Câu chuyện mới"
+    any: "any"
+    backlog_settings: "Lịch sử cài đặt"
+    burndown_graph: "Burndown Graph"
+    card_paper_size: "Paper size for card printing"
+    chart_options: "Tùy chọn biểu đồ"
+    close: "Đóng"
+    column_width: "Chiều rộng cột:"
+    date: "Ngày"
+    definition_of_done: "Định nghĩa về Hoàn thành"
+    generating_chart: "Tạo đồ thị..."
+    hours: "Giờ"
+    impediment: "Trở ngại"
+    label_versions_default_fold_state: "Show versions folded"
+    work_package_is_closed: "Work package is done, when"
+    label_is_done_status: "Status %{status_name} means done"
+    no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
+    points: "Points"
+    positions_could_not_be_rebuilt: "Positions could not be rebuilt."
+    positions_rebuilt_successfully: "Positions rebuilt successfully."
+    properties: "Properties"
+    rebuild: "Dựng lại"
+    rebuild_positions: "Xây dựng lại vị trí"
+    remaining_hours: "Số giờ còn lại"
+    remaining_hours_ideal: "Remaining hours (ideal)"
+    show_burndown_chart: "Burndown Chart"
+    story: "Câu chuyện"
+    story_points: "Story Points"
+    story_points_ideal: "Story Points (ideal)"
+    task: "Nhiệm vụ"
+    task_color: "Task color"
+    unassigned: "Unassigned"
+    x_more: "%{count} thêm..."
+  backlogs_active: "active"
+  backlogs_any: "any"
+  backlogs_card_specification: "Label types for card printing"
+  backlogs_inactive: "Project shows no activity"
+  backlogs_points_burn_direction: "Points burn up/down"
+  backlogs_product_backlog: "Product backlog"
+  backlogs_product_backlog_is_empty: "Product backlog is empty"
+  backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
+  backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
+  backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"
+  backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
+  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
+  backlogs_sprints: "Sprints"
+  backlogs_story: "Câu chuyện"
+  backlogs_story_type: "Loại câu truyện tóm tắt"
+  backlogs_task: "Nhiệm vụ"
+  backlogs_task_type: "Loại công việc"
+  backlogs_velocity_missing: "Không có tốc độ hoàn thành nào được tính cho dự án này"
+  backlogs_velocity_varies: "Velocity varies significantly over sprints"
+  backlogs_wiki_template: "Template for sprint wiki page"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  button_edit_wiki: "Sửa trang wiki"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_intro_plural: "Các lỗi đã gặp phải:"
+  error_intro_singular: "The following error was encountered:"
+  error_outro: "Please correct the above errors before submitting again."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "ideal"
+  inclusion: "is not included in the list"
+  label_back_to_project: "Back to project page"
+  label_backlog: "Backlog"
+  label_backlogs: "Backlogs"
+  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_blocks_ids: "ID của các work package bị chặn"
+  label_burndown: "Burndown"
+  label_column_in_backlog: "Column in backlog"
+  label_hours: "hours"
+  label_work_package_hierarchy: "Work package Hierarchy"
+  label_master_backlog: "Master Backlog"
+  label_not_prioritized: "không được ưu tiên"
+  label_points: "điểm"
+  label_points_burn_down: "Xuống"
+  label_points_burn_up: "Lên"
+  label_product_backlog: "tồn đọng sản phẩm"
+  label_select_all: "Chọn tất cả"
+  label_sprint_backlog: "sprint backlog"
+  label_sprint_cards: "Xuất thẻ"
+  label_sprint_impediments: "Sprint Impediments"
+  label_sprint_name: "Sprint \"%{name}\""
+  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
+  label_stories: "Những câu chuyện"
+  label_stories_tasks: "Câu chuyện/Nhiệm vụ"
+  label_task_board: "Bảng nhiệm vụ"
+  label_version_setting: "Các phiên bản"
+  label_version: '0886055830 '
+  label_webcal: "Webcal Feed"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "Xem tồn đọng chính"
+  permission_view_taskboards: "Xem bảng tác vụ"
+  permission_select_done_statuses: "Select done statuses"
+  permission_update_sprints: "Update sprints"
+  points_accepted: "points accepted"
+  points_committed: "points committed"
+  points_resolved: "points resolved"
+  points_to_accept: "điểm không được chấp nhận"
+  points_to_resolve: "điểm chưa được giải quyết"
+  project_module_backlogs: "Backlogs"
+  rb_label_copy_tasks: "Sao chép work packages"
+  rb_label_copy_tasks_all: "Toàn bộ"
+  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_open: "Mở"
+  rb_label_link_to_original: "Bao gồm liên kết đến câu chuyện gốc"
+  remaining_hours: "giờ còn lại"
+  required_burn_rate_hours: "tốc độ ghi yêu cầu (giờ)"
+  required_burn_rate_points: "tốc độ ghi yêu cầu (điểm)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Column in backlog"
+  version_settings_display_option_left: "trái"
+  version_settings_display_option_none: "không"
+  version_settings_display_option_right: "phải"

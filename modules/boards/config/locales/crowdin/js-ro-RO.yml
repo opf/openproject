@@ -1,0 +1,87 @@
+#English strings go here
+ro:
+  js:
+    boards:
+      label_unnamed_board: 'Consiliul de administrație fără nume'
+      label_unnamed_list: 'Listă fără nume'
+      label_board_type: 'Tipul de placă'
+      upsale:
+        teaser_text: 'Îmbunătățiți gestionarea agilă a proiectelor cu această vizualizare flexibilă a planșelor. Creați oricâte panouri doriți pentru orice lucru pe care doriți să îl urmăriți.'
+        upgrade_to_ee_text: 'Boards este o caracteristică Enterprise. Vă rugăm să treceți la un plan cu plată.'
+        upgrade: 'Actualizează acum'
+        personal_demo: 'Contactați-ne pentru o demonstrație'
+      lists:
+        delete: 'Ștergeți lista'
+      version:
+        is_locked: 'Versiunea este blocată. Niciun element nu poate fi adăugat la această versiune.'
+        is_closed: 'Versiunea este închisă. Nu se pot adăuga elemente la această versiune.'
+        close_version: 'Închideți versiunea'
+        open_version: 'Versiunea deschisă'
+        lock_version: 'Blocare versiune'
+        unlock_version: 'Versiunea de deblocare'
+        edit_version: 'Editați versiunea'
+        show_version: 'Arată versiunea'
+        locked: 'Închis'
+        closed: 'Închis'
+      new_board: 'Bord nou'
+      add_list: 'Adăugați lista la bord'
+      add_card: 'Adăugați cardul'
+      error_attribute_not_writable: "Nu se poate muta pachetul de lucru, %{attribute} nu este inscriptibil."
+      error_loading_the_list: "Eroare la încărcarea listei: %{error_message}"
+      error_permission_missing: "Lipsește permisiunea de a crea interogări publice"
+      error_cannot_move_into_self: "Nu puteți muta un pachet de lucru în coloana sa proprie."
+      text_hidden_list_warning: "Nu toate listele sunt afișate deoarece nu aveți permisiunea. Contactați administratorul pentru mai multe informații."
+      click_to_remove_list: "Faceți clic pentru a elimina această listă"
+      board_type:
+        text: 'Tipul de placă'
+        free: 'De baza'
+        select_board_type: 'Vă rugăm să alegeți tipul de placă de care aveți nevoie.'
+        free_text: >
+          Începeți de la zero cu o planșă albă. Adăugați manual cărți și coloane pe această planșă.
+        action: 'Consiliul de acțiune'
+        action_by_attribute: 'Tablă de acțiune (%{attribute})'
+        action_text: >
+          O tablă cu liste filtrate pe atributul %{attribute}. Mutarea pachetelor de lucru în alte liste va actualiza atributul acestora.
+        action_text_subprojects: >
+          Tablă cu coloane automate pentru subproiecte. Glisarea pachetelor de lucru în alte liste actualizează (sub)proiectul în mod corespunzător.
+        action_text_subtasks: >
+          Tablă cu coloane automate pentru subelemente. Glisarea pachetelor de lucru în alte liste actualizează în mod corespunzător lista părinte.
+        action_text_status: >
+          Tablă de bază în stil Kanban cu coloane pentru statusuri precum "De făcut", "În curs", "Realizat".
+        action_text_assignee: >
+          Tablă cu coloane automate pe baza utilizatorilor atribuiți. Ideal pentru expedierea pachetelor de lucru.
+        action_text_version: >
+          Tablă cu coloane automate bazate pe atributul de versiune. Ideal pentru planificarea dezvoltării produselor.
+        action_type:
+          assignee: Executant
+          status: 'Status:'
+          version: 'Versiune:'
+          subproject: Subproiect
+          subtasks: părinte-copil
+        board_type_title:
+          assignee: Executant
+          status: Stare
+          version: Versiune
+          subproject: Subproiect
+          subtasks: Părinte-copil
+          basic: De baza
+        select_attribute: "Atributul de acțiune"
+      add_list_modal:
+        labels:
+          assignee: Selectați utilizatorul care urmează să fie adăugat ca o nouă listă de destinatar
+          status: Selectați statutul pentru a adăuga ca o listă nouă
+          version: Selectați versiunea care urmează să fie adăugată ca o listă nouă
+          subproject: Selectați subproiectul care urmează să fie adăugat ca o listă nouă
+          subtasks: Selectați pachetul de lucru pentru a-l adăuga ca o listă nouă
+        warning:
+          status: |
+            În prezent, nu există niciun statut disponibil <br>
+            Fie nu există niciunul, fie toate au fost deja adăugate la bord.</br>
+          assignee: Nu există niciun membru care să se potrivească cu valoarea filtrului dumneavoastră <br>
+          no_member: Acest proiect nu are în prezent niciun membru care să poată fi adăugat. <br>
+          add_members: <a href="%{link}">Adăugați un nou membru la acest proiect</a> pentru a selecta din nou utilizatorii.
+      configuration_modal:
+        title: 'Configurați această placă'
+        display_settings:
+          card_mode: "Afișare sub formă de carduri"
+          table_mode: "Afișare ca tabel"

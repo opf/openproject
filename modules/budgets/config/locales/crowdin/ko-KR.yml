@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ko:
+  activerecord:
+    attributes:
+      budget:
+        author: "작성자"
+        available: "사용 가능"
+        budget: "계획됨"
+        budget_ratio: "소비(비율)"
+        description: "설명"
+        spent: "소비"
+        status: "상태"
+        subject: "제목"
+        type: "비용 유형"
+        labor_budget: "계획된 노동 비용"
+        material_budget: "계획된 단위 비용"
+      work_package:
+        budget_subject: "예산 제목"
+    models:
+      budget: "예산"
+      material_budget_item: "단위"
+  attributes:
+    budget: "예산"
+  button_add_budget_item: "계획된 비용 추가"
+  button_add_budget: "예산 추가"
+  button_add_cost_type: "비용 유형 추가"
+  button_cancel_edit_budget: "예산 편집 취소"
+  button_cancel_edit_costs: "비용 편집 취소"
+  caption_labor: "노동"
+  caption_labor_costs: "실제 노동 비용"
+  caption_material_costs: "실제 단위 비용"
+  budgets_title: "예산"
+  events:
+    budget: "예산 편집됨"
+  help_click_to_edit: "편집하려면 여기를 클릭하세요."
+  help_currency_format: "표시된 통화 값의 형식입니다. %n은(는) 통화 값으로 바뀌고, %u은(는) 통화 단위로 바뀝니다."
+  help_override_rate: "기본 요금을 재정의하려면 여기에 값을 입력하세요."
+  label_budget: "예산"
+  label_budget_new: "새 예산"
+  label_budget_plural: "예산"
+  label_budget_id: "예산 #%{id}"
+  label_deliverable: "예산"
+  label_example_placeholder: '예: %{decimal}'
+  label_view_all_budgets: "모든 예산 보기"
+  label_yes: "예"
+  notice_budget_conflict: "작업 패키지는 동일한 프로젝트에 속해야 합니다."
+  notice_no_budgets_available: "사용 가능한 예산이 없습니다."
+  permission_edit_budgets: "예산 편집"
+  permission_view_budgets: "예산 보기"
+  project_module_budgets: "예산"
+  text_budget_reassign_to: "이 예산에 해당 항목 다시 할당:"
+  text_budget_delete: "모든 작업 패키지에서 예산 삭제"
+  text_budget_destroy_assigned_wp: "이 예산에 할당된 %{count}개 작업 패키지가 있습니다. 어떤 작업을 수행하시겠습니까?"

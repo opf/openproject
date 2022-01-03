@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+da:
+  activerecord:
+    attributes:
+      budget:
+        author: "Forfatter"
+        available: "Tillrådighed"
+        budget: "Planlagte"
+        budget_ratio: "Forbrugt (ratio)"
+        description: "Beskrivelse"
+        spent: "Forbrugt"
+        status: "Status"
+        subject: "Emne"
+        type: "Omkostningstype"
+        labor_budget: "Planlagte lønomkostninger"
+        material_budget: "Planlagte enhedsomkostninger"
+      work_package:
+        budget_subject: "Budgettitel"
+    models:
+      budget: "Budget"
+      material_budget_item: "Enhed"
+  attributes:
+    budget: "Budget"
+  button_add_budget_item: "Tilføj planlagte omkostninger"
+  button_add_budget: "Tilføj budget"
+  button_add_cost_type: "Tilføj omkostningstype"
+  button_cancel_edit_budget: "Annullér budgetredigering"
+  button_cancel_edit_costs: "Annullér omkostningsredigering"
+  caption_labor: "Arbejdskraft"
+  caption_labor_costs: "Faktiske lønomkostninger"
+  caption_material_costs: "Faktiske enhedsomkostninger"
+  budgets_title: "Budgetter"
+  events:
+    budget: "Budget redigeret"
+  help_click_to_edit: "Klik her for at redigere."
+  help_currency_format: "Format for viste valutaværdier. %n erstattes med valutaværdien, %u erstattes med valutaenheden."
+  help_override_rate: "Angiv en værdi for at tilsidesætte standardsatsen."
+  label_budget: "Budget"
+  label_budget_new: "Nyt budget"
+  label_budget_plural: "Budgetter"
+  label_budget_id: "Budget #%{id}"
+  label_deliverable: "Budget"
+  label_example_placeholder: 'f.eks. %{decimal}'
+  label_view_all_budgets: "Se alle budgetter"
+  label_yes: "Ja"
+  notice_budget_conflict: "Arbejdspakker skal være fra samme projekt."
+  notice_no_budgets_available: "Ingen tilgængelige budgetter."
+  permission_edit_budgets: "Redigér budgetter"
+  permission_view_budgets: "Se budgetter"
+  project_module_budgets: "Budgetter"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

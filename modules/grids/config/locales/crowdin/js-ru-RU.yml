@@ -1,0 +1,63 @@
+ru:
+  js:
+    grid:
+      add_widget: 'Добавить виджет'
+      remove: 'Удалить виджет'
+      configure: 'Настроить виджет'
+      upsale:
+        text: "Некоторые виджеты, такие как виджет графика комплекса работ, доступны только в "
+        link: 'корпоративной версии.'
+      widgets:
+        custom_text:
+          title: 'Пользовательский текст'
+        documents:
+          title: 'Документы'
+          no_results: 'Документов пока нет.'
+        members:
+          title: 'Участники'
+          no_results: 'Нет видимых участников.'
+          view_all_members: 'Просмотреть всех участников'
+          add: 'Участник'
+          too_many: 'Отображается %{count} из %{total} участников.'
+        news:
+          title: 'Новости'
+          at: 'на'
+          no_results: 'Ничего нового для отчета.'
+        project_description:
+          title: 'Описание проекта'
+          no_results: "Описания еще нет. Его можно добавить в настройках проекта."
+        project_details:
+          title: 'Детали проекта'
+          no_results: 'Для проектов не определены настраиваемые поля.'
+        project_status:
+          title: 'Состояние проекта'
+          on_track: 'В работе'
+          off_track: 'Приостановлен'
+          at_risk: 'Есть риск'
+          not_set: 'Не задано'
+        subprojects:
+          title: 'Подпроекты'
+          no_results: 'Подпроектов нет.'
+        time_entries_current_user:
+          title: 'Затраченное мной время'
+          displayed_days: 'Дни, отображаемые в виджете:'
+        time_entries_list:
+          title: 'Затраченное время (за последние 7 дней)'
+          no_results: 'Нет записей о входах за последние 7 дней.'
+        work_packages_accountable:
+          title: "Пакеты работ, в которых я подотчетен"
+        work_packages_assigned:
+          title: 'Переданные мне пакеты работ'
+        work_packages_created:
+          title: 'Пакеты работ, созданные мной'
+        work_packages_watched:
+          title: 'Пакеты работ, просмотренные мной'
+        work_packages_table:
+          title: 'Таблица пакетов работ'
+        work_packages_graph:
+          title: 'Диаграмма по пакетам работ'
+        work_packages_calendar:
+          title: 'Календарь'
+        work_packages_overview:
+          title: 'Обзор пакетов работ'
+          placeholder: 'Щелкнуть для изменения ...'

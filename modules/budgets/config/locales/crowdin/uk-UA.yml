@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+uk:
+  activerecord:
+    attributes:
+      budget:
+        author: "Автор"
+        available: "Доступно"
+        budget: "Планується"
+        budget_ratio: "Витрачено (співвідношення)"
+        description: "Опис"
+        spent: "Витрачений"
+        status: "Статус"
+        subject: "Тема"
+        type: "Тип вартості"
+        labor_budget: "Планові витрати праці"
+        material_budget: "Планові витрати на одиницю продукції"
+      work_package:
+        budget_subject: "Назва бюджету"
+    models:
+      budget: "Бюджет"
+      material_budget_item: "Одиниця"
+  attributes:
+    budget: "Бюджет"
+  button_add_budget_item: "Додайте планові витрати"
+  button_add_budget: "Додайте бюджет"
+  button_add_cost_type: "Додати тип витрат"
+  button_cancel_edit_budget: "Скасувати редагування бюджету"
+  button_cancel_edit_costs: "Скасування  редагування витрат "
+  caption_labor: "Праця"
+  caption_labor_costs: "Фактичні витрати на оплату праці"
+  caption_material_costs: "Фактичні витрати на одиницю"
+  budgets_title: "Бюджети"
+  events:
+    budget: "Бюджет відредаговано"
+  help_click_to_edit: "Натисніть тут, щоб редагувати."
+  help_currency_format: "Формат відображених валютних значень. %n замінюється на вартість валюти, %u це замінюється грошовою одиницею."
+  help_override_rate: "Введіть тут значення, щоб змінити стандартну швидкість."
+  label_budget: "Бюджет"
+  label_budget_new: "Новий бюджет"
+  label_budget_plural: "Бюджети"
+  label_budget_id: "Бюджет  #%{id}"
+  label_deliverable: "Бюджет"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "Переглянути всі бюджети"
+  label_yes: "Так"
+  notice_budget_conflict: "Робочі пакети повинні бути одного проекту."
+  notice_no_budgets_available: "Немає доступних бюджетів."
+  permission_edit_budgets: "Редагувати бюджети"
+  permission_view_budgets: "Переглянути бюджети"
+  project_module_budgets: "Бюджети"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

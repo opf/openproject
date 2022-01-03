@@ -1,0 +1,7 @@
+#English strings go here
+ro:
+  permission_view_team_planner: "Vezi planificatorul echipei"
+  permission_manage_team_planner: "Gestionează planificatorul de echipe"
+  project_module_team_planner_view: "Planificator de echipă"
+  team_planner:
+    label_team_planner: "Planificator de echipă"

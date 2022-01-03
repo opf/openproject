@@ -1,0 +1,4 @@
+ca:
+  overviews:
+    label: 'Visió general'
+  permission_manage_overview: 'Manage overview page'

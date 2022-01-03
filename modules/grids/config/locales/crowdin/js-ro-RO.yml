@@ -1,0 +1,63 @@
+ro:
+  js:
+    grid:
+      add_widget: 'Adăugați widget'
+      remove: 'Eliminați widget-ul'
+      configure: 'Configurați widget-ul'
+      upsale:
+        text: "Unele widget-uri, cum ar fi widget-ul grafic al pachetului de lucru, sunt disponibile numai în"
+        link: 'Acţiunile particularizate sunt o caracteristică a Ediţiei Enterprise'
+      widgets:
+        custom_text:
+          title: 'Text customizat'
+        documents:
+          title: 'Documente'
+          no_results: 'Încă nu există documente.'
+        members:
+          title: 'Membri'
+          no_results: 'Nu există membri vizibili.'
+          view_all_members: 'Vizualizare toți participanții'
+          add: 'Membru'
+          too_many: 'Afișarea a %{count} din %{total} membri.'
+        news:
+          title: 'Noutăţi'
+          at: 'la'
+          no_results: 'Nimic nou de raportat.'
+        project_description:
+          title: 'Descrierea proiectului'
+          no_results: "Nu a fost scrisă încă nicio descriere. Aceasta poate fi furnizată în \"Setări proiect\"."
+        project_details:
+          title: 'Arată detaliile proietului'
+          no_results: 'Nu au fost definite câmpuri personalizate pentru proiecte.'
+        project_status:
+          title: 'Stare proiect'
+          on_track: 'Urmărește'
+          off_track: 'În afara pistei'
+          at_risk: 'În pericol'
+          not_set: 'Nesetat'
+        subprojects:
+          title: 'Subproiecte'
+          no_results: 'Cu subproiecte'
+        time_entries_current_user:
+          title: 'Timpul meu petrecut'
+          displayed_days: 'Zile afișate în lista de activități a proiectului'
+        time_entries_list:
+          title: 'Timp petrecut (ultimele 7 zile)'
+          no_results: 'Nu există înregistrări de timp pentru ultimele 7 zile.'
+        work_packages_accountable:
+          title: "Pachete de lucru pentru care sunt responsabil"
+        work_packages_assigned:
+          title: 'Pachete de lucru atribuite mie'
+        work_packages_created:
+          title: 'Pachete de lucru create de mine'
+        work_packages_watched:
+          title: 'Pachete de lucru supravegheate de mine'
+        work_packages_table:
+          title: 'Tabelul pachetelor de lucru'
+        work_packages_graph:
+          title: 'Graficul pachetelor de lucru'
+        work_packages_calendar:
+          title: 'Calendar'
+        work_packages_overview:
+          title: 'Prezentare generală a pachetelor de lucru'
+          placeholder: 'Dă clic pentru a edita acest meniu.'

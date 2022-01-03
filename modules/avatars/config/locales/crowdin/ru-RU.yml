@@ -1,0 +1,39 @@
+#English strings go here
+ru:
+  label_avatar: "Глистовья какашка\n"
+  label_avatar_plural: "Пизда дубам"
+  label_current_avatar: "анальная глистовина"
+  label_choose_avatar: "Выберите аватар из файла"
+  message_avatar_uploaded: "глист успешно убит"
+  error_image_upload: "ашибка дубов"
+  error_image_size: "изображение говно давай другое"
+  button_change_avatar: "сменить глиста"
+  are_you_sure_delete_avatar: "вы хотите удалить глиста?"
+  avatar_deleted: "вы удалили глиста. ЕБАТЬ ТЫ МРАЗЬ СУКА!(((("
+  unable_to_delete_avatar: "ахаха сука хуй тебе"
+  wrong_file_format: "допустимые форматы - хуй, говно, какашка"
+  empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
+  avatars:
+    label_avatar: "Глистовья какашка\n"
+    label_gravatar: "хуйня какая то\n"
+    label_current_avatar: 'ладно я заебался переводить'
+    label_local_avatar: 'пока'
+    text_current_avatar: |
+      пошел нахуй-
+    text_upload_instructions: |
+      хуй да да пизда пошел нахуй я спать
+    text_change_gravatar_html: 'Чтобы изменить или добавить Gravatar для вашего адреса электронной почты, перейдите на %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject позволяет вам загружать свой собственный аватар.
+    text_local_avatar_over_gravatar: |
+      Выбранный аватар будет использоваться в приоритете над Gravatar, представленным выше.
+    text_your_current_gravatar: |
+      OpenProject использует зарегистрированный вами Gravatar, либо изображение/иконку по умолчанию, если таковые существуют.
+      Текущий Gravatar выглядит следующим образом:
+    settings:
+      enable_gravatars: 'Использовать Gravatar'
+      gravatar_default: "Картинка Gravitar по умолчанию"
+      enable_local_avatars: 'Включить пользовательские аватары'
+
+
+

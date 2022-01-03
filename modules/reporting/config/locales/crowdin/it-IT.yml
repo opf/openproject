@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+it:
+  button_save_as: "Salvare il report come..."
+  comments: "Commento"
+  cost_reports_title: "Tempi e costi"
+  label_cost_report: "Relazione sui costi"
+  label_cost_report_plural: "Report costi"
+  description_drill_down: "Mostra dettagli"
+  description_filter_selection: "Selezione"
+  description_multi_select: "Visualizza multiselect"
+  description_remove_filter: "Rimuovi filtro"
+  information_restricted_depending_on_permission: "A seconda delle tue autorizzazioni, questa pagina visualizzare meno informazioni."
+  label_click_to_edit: "Premi per modificare."
+  label_closed: "chiuso"
+  label_columns: "Colonne"
+  label_cost_entry_attributes: "Attributi voce di costo"
+  label_days_ago: "durante gli ultimi giorni"
+  label_entry: "Voce di costo"
+  label_filter_text: "Filtro testo"
+  label_filter_value: "Valore"
+  label_filters: "Filtro"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "non è (include sottoprogetti)"
+  label_is_project_with_subprojects: "è (include sottoprogetti)"
+  label_work_package_attributes: "Attributi del pacchetto lavoro"
+  label_less: "<"
+  label_money: "Valore in contanti"
+  label_month_reporting: "Mese (passato)"
+  label_new_report: "Nuovo rapporto di costo"
+  label_open: "apri"
+  label_operator: "Operatore"
+  label_private_report_plural: "Report costo privato"
+  label_progress_bar_explanation: "Generazione Report..."
+  label_public_report_plural: "Report costo pubblico"
+  label_really_delete_question: "Sei sicuro di voler cancellare questa segnalazione?"
+  label_rows: "Righe"
+  label_saving: "Salvataggio in corso ..."
+  label_spent_on_reporting: "Data (passato)"
+  label_sum: "Somma"
+  label_units: "Unità di misura"
+  label_week_reporting: "Settimana (passato)"
+  label_year_reporting: "Anno (passato)"
+  label_count: "Conteggio"
+  label_filter: "Filtro"
+  label_filter_add: "Aggiungi filtro"
+  label_filter_plural: "Filtri"
+  label_group_by: "Raggruppa per"
+  label_group_by_add: "Aggiungi l'attributo Group-by"
+  label_inactive: "«inattivo»"
+  label_no: "No"
+  label_none: "(nessun dato)"
+  label_no_reports: "Non ci sono ancora report di costo."
+  label_report: "Segnalano"
+  label_yes: "Si"
+  load_query_question: "Il report avrà le celle della tabella del %{size} e potrebbe essere necessario del tempo per eseguire il rendering. Vuoi ancora tentare di eseguirne il rendering?"
+  permission_save_cost_reports: "Salva il report costi pubblici"
+  permission_save_private_cost_reports: "Salvare il report costi privati"
+  project_module_reporting_module: "Report costi"
+  text_costs_are_rounded_note: "Valori visualizzati sono arrotondati. Tutti i calcoli sono basati sui valori non arrotondati."
+  toggle_multiselect: "attivare/disattivare la multiselect"
+  units: "Unità di misura"
+  validation_failure_date: "non è una data valida"
+  validation_failure_integer: "non è un numero intero valido"
+  reporting:
+    group_by:
+      selected_columns: "Colonne selezionate"
+      selected_rows: "Righe selezionate"

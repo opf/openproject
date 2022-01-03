@@ -1,0 +1,13 @@
+lt:
+  export_to_excel: "Eksportuoti į XLS"
+  print_with_description: "Spausdinimo peržiūra su aprašymu"
+  sentence_separator_or: "arba"
+  different_formats: Skirtingi formatai
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "XLS su aprašymais"
+      xls_with_relations: "XLS su ryšiais"
+  xls_export:
+    child_of: vaikas
+    parent_of: tėvas

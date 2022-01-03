@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+ro:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Vă rugăm să asteptați...'
+    verify_account: "Verificati-va contul"
+    error_captcha: "Contul dvs. nu a putut fi verificat. Vă rugăm să contactați un administrator."
+    settings:
+      website_key: 'Cheia site-ului web'
+      website_key_text: 'Introduceți cheia site-ului web pe care ați creat-o în consola de administrare reCAPTCHA pentru acest domeniu.'
+      secret_key: 'Testați cheia secretă'
+      secret_key_text: 'Introduceți cheia secretă pe care ați creat-o în consola de administrare reCAPTCHA.'
+      type: 'Utilizați reCAPTCHA'
+      type_disabled: 'Dezactivați reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA este un serviciu gratuit de la Google care poate fi activat pentru instanța OpenProject. Dacă este activat, un formular captcha va fi redat la autentificare pentru toți utilizatorii care nu au verificat încă un captcha. <br/>. Vă rugăm să consultați următorul link pentru mai multe detalii despre reCAPTCHA și versiunile lor, precum și despre cum să creați site-ul și cheile secrete %{recaptcha_link}

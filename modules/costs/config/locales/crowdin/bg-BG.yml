@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+bg:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Работен пакет"
+        overridden_costs: "Отменени разходи"
+        spent: "Отменено"
+        spent_on: "Дата"
+      cost_type:
+        unit: "Име на единица"
+        unit_plural: "Плурализирано име на единица"
+      work_package:
+        costs_by_type: "Изразходвани единици"
+        labor_costs: "Разходи за труд"
+        material_costs: "Единични разходи"
+        overall_costs: "Общи разходи"
+        spent_costs: "Направени разходи"
+        spent_units: "Изразходвани единици"
+      rate:
+        rate: "Ставка"
+      user:
+        default_rates: "Ставка по подразбиране"
+    models:
+      cost_type:
+        one: "Тип разход"
+        other: "Видове разходи"
+      rate: "Ставка"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Работния пакет #%{id} не е валидна цел за преназначение на разходите."
+          nullify_is_not_valid_for_cost_entries: "Вписванията за разходи не могат да бъдат зададени на проект."
+  attributes:
+    comment: "Коментар"
+    cost_type: "Тип разходи"
+    costs: "Разходи"
+    current_rate: "Текуща ставка"
+    hours: "Часове"
+    units: "Units"
+    valid_from: "Валиден от"
+    fixed_date: "Фиксирана дата"
+  button_add_rate: "Добавете курс"
+  button_log_costs: "Разходи за единична регистрация"
+  caption_booked_on_project: "Разходи за единична регистрация"
+  caption_default: "По подразбиране"
+  caption_default_rate_history_for: "История на тарифите по подразбиране за %{user}"
+  caption_locked_on: "Заключена"
+  caption_materials: "Units"
+  caption_rate_history: "Оценете историята"
+  caption_rate_history_for: "Оценете историята за %{user}"
+  caption_rate_history_for_project: "Оценете историята за %{user} в проекта %{project}"
+  caption_save_rate: "Съхраняване на ставката"
+  caption_set_rate: "Задайте текуща ставка"
+  caption_show_locked: "Показване на заключените типове"
+  description_date_for_new_rate: "Date for new rate"
+  group_by_others: "not in any group"
+  label_between: "между"
+  label_cost_filter_add: "Add cost entry filter"
+  label_costlog: "Logged unit costs"
+  label_cost_plural: "Разходи"
+  label_cost_type_plural: "Видове разходи"
+  label_cost_type_specific: "Тип на разходите #%{id}: %{name}"
+  label_costs_per_page: "Costs per page"
+  label_currency: "Currency"
+  label_currency_format: "Format of currency"
+  label_current_default_rate: "Current default rate"
+  label_date_on: "на"
+  label_deleted_cost_types: "Deleted cost types"
+  label_locked_cost_types: "Locked cost types"
+  label_display_cost_entries: "Display unit costs"
+  label_display_time_entries: "Display reported hours"
+  label_display_types: "Display types"
+  label_edit: "Редактиране"
+  label_generic_user: "Generic user"
+  label_greater_or_equal: ">="
+  label_group_by: "Групиране по"
+  label_group_by_add: "Add grouping field"
+  label_hourly_rate: "Hourly rate"
+  label_include_deleted: "Include deleted"
+  label_work_package_filter_add: "Add work package filter"
+  label_kind: "Тип"
+  label_less_or_equal: "<="
+  label_log_costs: "Разходи за единична регистрация"
+  label_no: "Не"
+  label_option_plural: "Опции"
+  label_overall_costs: "Общи разходи"
+  label_rate: "Ставка"
+  label_rate_plural: "Rates"
+  label_status_finished: "Finished"
+  label_units: "Cost units"
+  label_user: "Потребител"
+  label_until: "until"
+  label_valid_from: "Валиден от"
+  label_yes: "Да"
+  notice_something_wrong: "Something went wrong. Please try again."
+  notice_successful_restore: "Successful restore."
+  notice_successful_lock: "Locked successfully."
+  notice_cost_logged_successfully: 'Unit cost logged successfully.'
+  permission_edit_cost_entries: "Edit booked unit costs"
+  permission_edit_own_cost_entries: "Edit own booked unit costs"
+  permission_edit_hourly_rates: "Edit hourly rates"
+  permission_edit_own_hourly_rate: "Edit own hourly rates"
+  permission_edit_rates: "Edit rates"
+  permission_log_costs: "Book unit costs"
+  permission_log_own_costs: "Book unit costs for oneself"
+  permission_view_cost_entries: "View booked costs"
+  permission_view_cost_rates: "View cost rates"
+  permission_view_hourly_rates: "Вижте всички почасови тарифи"
+  permission_view_own_cost_entries: "Вижте собствените резервирани разходи"
+  permission_view_own_hourly_rate: "Вижте собствената почасова ставка"
+  permission_view_own_time_entries: "Вижте собственото си отработено време"
+  project_module_costs: "Време и разходи"
+  text_assign_time_and_cost_entries_to_project: "Присвойте отчетени часове и разходи на проекта"
+  text_destroy_cost_entries_question: "%{cost_entries} бяха отчетени в работните пакети, които ще изтриете. Какво искаш да правиш?"
+  text_destroy_time_and_cost_entries: "Изтрийте отчетените часове и разходи"
+  text_destroy_time_and_cost_entries_question: "%{hours} часа, %{cost_entries} бяха отчетени в работните пакети, които предстои да изтриете. Какво искаш да правиш?"
+  text_reassign_time_and_cost_entries: "Преназначете отчетените часове и разходи към този работен пакет:"
+  text_warning_hidden_elements: "Някои записи могат да бъдат изключени от обобщаването."
+  week: "седмица"
+  js:
+    text_are_you_sure: "Сигурни ли сте?"

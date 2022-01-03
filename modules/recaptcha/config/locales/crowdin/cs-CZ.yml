@@ -1,0 +1,18 @@
+#English strings go here for Rails i18n
+cs:
+  recaptcha:
+    label_recaptcha: "reCAPTCHA"
+    button_please_wait: 'Prosím čekejte...'
+    verify_account: "Ověřte svůj účet"
+    error_captcha: "Váš účet nemohl být ověřen. Kontaktujte prosím administrátora."
+    settings:
+      website_key: 'Website key'
+      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      secret_key: 'Secret key'
+      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
+      type: 'Použít reCAPTCHA'
+      type_disabled: 'Zakázat reCAPTCHA'
+      type_v2: 'reCAPTCHA v2'
+      type_v3: 'reCAPTCHA v3'
+      recaptcha_description_html: >
+        reCAPTCHA je bezplatná služba Google, která může být povolena pro vaši instanci OpenProject. Je-li povolena, objeví se při přihlášení captcha formulář všem uživatelům, kteří ještě neověřili captchu. <br/> Více informací o reCAPTCHA, jejich verzích a jak vytvořit webovou stránku a tajné klíče naleznete v následujícím odkazu:  %{recaptcha_link}

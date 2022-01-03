@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ru:
+  activerecord:
+    attributes:
+      budget:
+        author: "Автор"
+        available: "Доступно"
+        budget: "Запланированно"
+        budget_ratio: "Отработано (коэффициент)"
+        description: "Описание"
+        spent: "Потрачено"
+        status: "Состояние"
+        subject: "Тема"
+        type: "Тип затрат"
+        labor_budget: "Запланированные трудозатраты"
+        material_budget: "Запланированные затраты по количеству"
+      work_package:
+        budget_subject: "Название бюджета"
+    models:
+      budget: "Бюджет"
+      material_budget_item: "Единица"
+  attributes:
+    budget: "Бюджет"
+  button_add_budget_item: "Добавить запланированные расходы"
+  button_add_budget: "Добавить бюджет"
+  button_add_cost_type: "Добавить тип расходов"
+  button_cancel_edit_budget: "Отменить правку бюджета"
+  button_cancel_edit_costs: "Отменить правку расходов"
+  caption_labor: "Трудовые"
+  caption_labor_costs: "Фактические трудозатраты"
+  caption_material_costs: "Фактические затраты на единицу"
+  budgets_title: "Бюджеты"
+  events:
+    budget: "Бюджет изменен"
+  help_click_to_edit: "Нажмите здесь, чтобы править."
+  help_currency_format: "Формат отображения денежных значений. %n заменяется значением валюты, %u заменяется денежной единицой."
+  help_override_rate: "Введите значение здесь для переопределения тарифа по умолчанию."
+  label_budget: "Бюджет"
+  label_budget_new: "Новый бюджет"
+  label_budget_plural: "Бюджеты"
+  label_budget_id: "Бюджет #%{id}"
+  label_deliverable: "Бюджет"
+  label_example_placeholder: 'например, %{decimal}'
+  label_view_all_budgets: "Отобразить все бюджеты"
+  label_yes: "Да"
+  notice_budget_conflict: "Пакет работ должен быть из того же проекта."
+  notice_no_budgets_available: "Нет доступных бюджетов."
+  permission_edit_budgets: "Править бюджеты"
+  permission_view_budgets: "Просмотр бюджетов"
+  project_module_budgets: "Бюджеты"
+  text_budget_reassign_to: "Переназначить их для этого бюджета:"
+  text_budget_delete: "Удалить бюджет из всех пакетов работ"
+  text_budget_destroy_assigned_wp: "Есть %{count} пакетов работ, назначенных в этот бюджет. Что вы хотите сделать?"

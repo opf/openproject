@@ -1,0 +1,41 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ko:
+  js:
+    github_integration:
+      work_packages:
+        tab_name: "GitHub"
+      tab_header:
+        title: "끌어오기 요청"
+        copy_menu:
+          label: Git 코드 조각
+          description: 클립보드에 Git 코드 조각 복사됨
+        git_actions:
+          branch_name: 브랜치 이름
+          commit_message: 커밋 메시지
+          cmd: 빈 커밋으로 브랜치 생성
+          title: Git용 빠른 코드 조각
+          copy_success: '✅ 복사됨!'
+          copy_error: '❌ 복사 실패!'
+      tab_prs:
+        empty: '아직 연결된 끌어오기 요청이 없습니다. 끌어오기 요청 설명란에서 코드 <code>OP#%{wp_id}</code>(을)를 사용하여 기존 끌어오기 요청을 연결하거나 새 끌어오기 요청을 만드십시오.'
+      github_actions: 작업

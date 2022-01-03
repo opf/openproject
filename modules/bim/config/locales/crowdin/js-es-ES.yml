@@ -1,0 +1,29 @@
+#English strings go here
+es:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'Importar'
+      import_bcf_xml_file: 'Importar archivo XML de BCF (versión de BCF 2.1)'
+      export: 'Exportar'
+      export_bcf_xml_file: 'Exportar archivo XML de BCF (versión de BCF 2.1)'
+      viewpoint: 'Área de visualización'
+      add_viewpoint: 'Añadir área de visualización'
+      show_viewpoint: 'Mostrar área de visualización'
+      delete_viewpoint: 'Eliminar área de visualización'
+      management: 'Administración de BCF'
+      refresh: 'Refrescar'
+      refresh_work_package: 'Refrescar paquete de trabajo'
+    ifc_models:
+      empty_warning: "Este proyecto aún no tiene ningún modelo IFC."
+      use_this_link_to_manage: "Use este enlace para cargar y administrar sus modelos IFC"
+      keyboard_input_disabled: "El visor no tiene controles de teclado. Haga clic en el visor para controlarlo con el teclado."
+      models:
+        ifc_models: 'Modelos IFC'
+      views:
+        viewer: 'Visor'
+        split: 'Visor y tabla'
+        split_cards: 'Visor y tarjetas'
+    revit:
+      revit_add_in: "Revisar agregado"
+      revit_add_in_settings: "Revisar ajustes de complemento"

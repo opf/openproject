@@ -60,7 +60,7 @@ zh-CN:
       no_results: '未找到同步的组。'
       no_members: '此组尚无同步成员。'
       plural: '同步的 LDAP 组'
-      singular: '同步的 LDAP 组'
+      singular: '同步LDAP群组'
       form:
         auth_source_text: '选择应使用哪个 LDAP 连接。'
         sync_users_text: >

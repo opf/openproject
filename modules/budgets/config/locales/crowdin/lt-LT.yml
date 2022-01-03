@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lt:
+  activerecord:
+    attributes:
+      budget:
+        author: "Autorius"
+        available: "Laisvas"
+        budget: "Suplanuotas"
+        budget_ratio: "Panaudotas (santykis)"
+        description: "Aprašymas"
+        spent: "Praleista"
+        status: "Būsena"
+        subject: "Tema"
+        type: "Kaštų tipas"
+        labor_budget: "Suplanuoti darbo kaštai"
+        material_budget: "Suplanuoti vienetų kaštai"
+      work_package:
+        budget_subject: "Biudžeto pavadinimas"
+    models:
+      budget: "Biudžetas"
+      material_budget_item: "Vienetas"
+  attributes:
+    budget: "Biudžetas"
+  button_add_budget_item: "Pridėti suplanuotus kaštus"
+  button_add_budget: "Pridėti biudžetą"
+  button_add_cost_type: "Pridėti kaštų tipą"
+  button_cancel_edit_budget: "Atšaukti biudžeto redagavimą"
+  button_cancel_edit_costs: "Atšaukti kaštų redagavimą"
+  caption_labor: "Darbas"
+  caption_labor_costs: "Faktiniai darbo kaštai"
+  caption_material_costs: "Faktiniai vieneto kaštai"
+  budgets_title: "Biudžetai"
+  events:
+    budget: "Biudžetas redaguotas"
+  help_click_to_edit: "Spauskite čia norėdami redaguoti."
+  help_currency_format: "Rodomos valiutos formatas. %n yra pakeičiamas valiutos reikšme, %u yra pakeičiamas valiutos vienetu."
+  help_override_rate: "Įveskite reikšmę, kad pakeistumėte numatytąjį koeficientą."
+  label_budget: "Biudžetas"
+  label_budget_new: "Naujas biudžetas"
+  label_budget_plural: "Biudžetai"
+  label_budget_id: "Biudžetas #%{id}"
+  label_deliverable: "Biudžetas"
+  label_example_placeholder: 't.y., %{decimal}'
+  label_view_all_budgets: "Peržiūrėti visus biudžetus"
+  label_yes: "Taip"
+  notice_budget_conflict: "Darbų paketai turi būti tame pačiame projekte."
+  notice_no_budgets_available: "Nėra biudžetų."
+  permission_edit_budgets: "Redaguoti biudžetus"
+  permission_view_budgets: "Peržiūrėti biudžetus"
+  project_module_budgets: "Biudžetai"
+  text_budget_reassign_to: "Pakeisti priskyrimą į tokį biudžetą:"
+  text_budget_delete: "Pašalinti biudžetą iš visų darbo paketų"
+  text_budget_destroy_assigned_wp: "Yra %{count} darbo paketai, priskirti šiam biudžetui. Ką norite su jais daryti?"

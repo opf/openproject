@@ -1,0 +1,13 @@
+ko:
+  export_to_excel: "XLS 내보내기"
+  print_with_description: "설명이 포함된 미리 보기 인쇄"
+  sentence_separator_or: "또는"
+  different_formats: 다른 형식
+  export:
+    format:
+      xls: "XLS"
+      xls_with_descriptions: "설명이 포함된 XLS"
+      xls_with_relations: "관계가 포함된 XLS"
+  xls_export:
+    child_of: '다음의 자식:'
+    parent_of: '다음의 부모:'

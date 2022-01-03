@@ -1,0 +1,161 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ro:
+  activerecord:
+    attributes:
+      work_package:
+        position: "Poziţie"
+        remaining_hours: "Ore"
+        remaining_time: "Ore"
+        story_points: "Puncte"
+        backlogs_work_package_type: "Activare tip %{type}"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "poate conține numai ID-uri ale pachetelor de lucru din sprintul curent."
+              must_block_at_least_one_work_package: "trebuie să conțină ID-ul a cel puțin un bilet."
+            parent_id:
+              parent_child_relationship_across_projects: "nu este validă deoarece pachetul de lucru \"%{work_package_name}\" este o sarcină din backlog și, prin urmare, nu poate avea un părinte în afara proiectului curent."
+              type_must_be_one_of_the_following: "Tipul trebuie să fie unul dintre următoarele: %{type_names}."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "trebuie să fie aceeași cu versiunea povestirii-mamă."
+        sprint:
+          cannot_end_before_it_starts: "Sprint nu se poate termina înainte de a începe."
+  backlogs:
+    add_new_story: "Poveste nouă"
+    any: "Oricare"
+    backlog_settings: "Setări"
+    burndown_graph: "Graficul Burndown"
+    card_paper_size: "Dimensiunea hârtiei pentru imprimarea cardurilor"
+    chart_options: "Opțiuni"
+    close: "Închide"
+    column_width: "Lăţime:"
+    date: "Zi"
+    definition_of_done: "Procent realizat"
+    generating_chart: "Raport în curs de generare..."
+    hours: "Ore"
+    impediment: "Impediment"
+    label_versions_default_fold_state: "Afișare versiuni complete"
+    work_package_is_closed: "Pachetul de lucru este finalizat, atunci când"
+    label_is_done_status: "Starea %{status_name} înseamnă terminat"
+    no_burndown_data: "Nu sunt disponibile date privind arderea în vegetație. Este necesar să fie stabilite datele de început și de sfârșit ale sprintului."
+    points: "Puncte"
+    positions_could_not_be_rebuilt: "Nu s-a putut verifica etapa '%{stage}'."
+    positions_rebuilt_successfully: "Toate elementele au fost șterse cu succes"
+    properties: "Proprietăţi"
+    rebuild: "Reconstruiți"
+    rebuild_positions: "Reconstruiți"
+    remaining_hours: "Ore"
+    remaining_hours_ideal: "Spațiu pe disc rămas"
+    show_burndown_chart: "Size Chart"
+    story: "Articol"
+    story_points: "Puncte"
+    story_points_ideal: "Puncte"
+    task: "Sarcină"
+    task_color: "Sarcină"
+    unassigned: "Neasociate"
+    x_more: "%{count} more..."
+  backlogs_active: "activ"
+  backlogs_any: "Oricare"
+  backlogs_card_specification: "Tipuri de etichete pentru imprimarea cardurilor"
+  backlogs_inactive: "Proiectul nu prezintă nicio activitate"
+  backlogs_points_burn_direction: "Arderea punctelor în sus/jos"
+  backlogs_product_backlog: "Fișa produsului"
+  backlogs_product_backlog_is_empty: "Versiune produs"
+  backlogs_product_backlog_unsized: "Partea de sus a backlogului de produs are povești nedimensionate"
+  backlogs_sizing_inconsistent: "Dimensiunile poveștilor variază față de estimările lor"
+  backlogs_sprint_notes_missing: "Sprinturi închise fără note retrospective/de revizuire"
+  backlogs_sprint_unestimated: "Sprinturi închise sau active cu povești neestimate"
+  backlogs_sprint_unsized: "Proiectul are povești pe sprinturi active sau recent închise care nu au fost dimensionate"
+  backlogs_sprints: "Sprinturi"
+  backlogs_story: "Articol"
+  backlogs_story_type: "Tipuri de povești"
+  backlogs_task: "Sarcină"
+  backlogs_task_type: "Sarcină"
+  backlogs_velocity_missing: "Nu a putut fi calculată nicio viteză pentru acest proiect"
+  backlogs_velocity_varies: "Viteza variază semnificativ pe parcursul sprinturilor"
+  backlogs_wiki_template: "Șablon pentru pagina wiki a sprintului"
+  backlogs_empty_title: "Nu sunt definite versiuni care să fie utilizate în dosarele de așteptare"
+  backlogs_empty_action_text: "Pentru a începe să folosiți agendele, creați o nouă versiune și atribuiți-o unei coloane de agende."
+  button_edit_wiki: "Editați pagina wiki"
+  error_backlogs_task_cannot_be_story: "Setările nu sunt valide. Tipul de sarcină selectat nu poate fi și un tip de poveste."
+  error_intro_plural: "Au fost întâlnite următoarele erori:"
+  error_intro_singular: "Eroare"
+  error_outro: "Vă rugăm să corectați erorile de mai sus înainte de a le trimite din nou."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "ideal"
+  inclusion: "nu este inclusă în listă"
+  label_back_to_project: "Înapoi la pagina precedentă"
+  label_backlog: "Lista de așteptare"
+  label_backlogs: "Restanțe"
+  label_backlogs_unconfigured: "Nu ați configurat încă Backlogs. Vă rugăm să mergeți la %{administration} > %{plugins}, apoi faceți clic pe link-ul %{configure} pentru acest plugin. După ce ați configurat câmpurile, reveniți la această pagină pentru a începe să utilizați instrumentul."
+  label_blocks_ids: "ID-urile pachetelor de lucru blocate"
+  label_burndown: "Burndown"
+  label_column_in_backlog: "Coloană în backlog"
+  label_hours: "ore"
+  label_work_package_hierarchy: "Ierarhia pachetelor de lucru"
+  label_master_backlog: "Master Backlog"
+  label_not_prioritized: "nu este prioritară"
+  label_points: "puncte"
+  label_points_burn_down: "Jos"
+  label_points_burn_up: "Sus"
+  label_product_backlog: "backlog de produse"
+  label_select_all: "Setectează Tot"
+  label_sprint_backlog: "sprint backlog"
+  label_sprint_cards: "Carduri de export"
+  label_sprint_impediments: "Impedimentele Sprint"
+  label_sprint_name: "Sprint \"%{name}\""
+  label_sprint_velocity: "Viteza %{velocity}, bazată pe %{sprints} sprinturi cu o medie de %{days} zile"
+  label_stories: "Povestiri"
+  label_stories_tasks: "Povești/ Sarcini"
+  label_task_board: "Tablă de sarcini"
+  label_version_setting: "Versiuni"
+  label_version: 'Versiune'
+  label_webcal: "Webcal Feed"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "Vizualizare master backlog"
+  permission_view_taskboards: "Vizualizați tablourile de sarcini"
+  permission_select_done_statuses: "Selectați statusuri terminate"
+  permission_update_sprints: "Sprinturi"
+  points_accepted: "puncte acceptate"
+  points_committed: "puncte comise"
+  points_resolved: "puncte rezolvate"
+  points_to_accept: "puncte neacceptate"
+  points_to_resolve: "puncte nesoluționate"
+  project_module_backlogs: "Restanțe"
+  rb_label_copy_tasks: "Copierea pachetelor de lucru"
+  rb_label_copy_tasks_all: "Toate"
+  rb_label_copy_tasks_none: "Nimic"
+  rb_label_copy_tasks_open: "Deschis"
+  rb_label_link_to_original: "Includeți un link către povestea originală"
+  remaining_hours: "Ore rămase"
+  required_burn_rate_hours: "rata de ardere necesară (ore)"
+  required_burn_rate_points: "rata de ardere necesară (puncte)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Coloană în backlog"
+  version_settings_display_option_left: "stanga"
+  version_settings_display_option_none: "niciunul"
+  version_settings_display_option_right: "dreapta"

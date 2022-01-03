@@ -1,0 +1,29 @@
+#English strings go here
+ja:
+  js:
+    bcf:
+      label_bcf: 'BCF'
+      import: 'インポート'
+      import_bcf_xml_file: 'BCF XML ファイルをインポート (BCF バージョン 2.1)'
+      export: '外部出力'
+      export_bcf_xml_file: 'BCF XML ファイルをエクスポート (BCF バージョン 2.1)'
+      viewpoint: 'ビューポイント'
+      add_viewpoint: 'ビューポイントを追加'
+      show_viewpoint: 'ビューポイントを表示'
+      delete_viewpoint: 'ビューポイントを削除'
+      management: 'BCF 管理'
+      refresh: '更新'
+      refresh_work_package: 'ワークパッケージを更新'
+    ifc_models:
+      empty_warning: "このプロジェクトにはまだIFCモデルはありません。"
+      use_this_link_to_manage: "リンクを使用して IFC モデルをアップロードして管理します"
+      keyboard_input_disabled: "ビューアにはキーボードコントロールがありません。ビューアをクリックするとキーボードコントロールが表示されます。"
+      models:
+        ifc_models: 'IFCモデル'
+      views:
+        viewer: 'ビューア'
+        split: 'ビューアとテーブル'
+        split_cards: 'ビューアーとカード'
+    revit:
+      revit_add_in: "アドインを編集"
+      revit_add_in_settings: "アドインの設定を変更する"

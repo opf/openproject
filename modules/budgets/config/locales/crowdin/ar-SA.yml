@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ar:
+  activerecord:
+    attributes:
+      budget:
+        author: "المؤلف"
+        available: "متاح"
+        budget: "مُخَطَّط"
+        budget_ratio: "أنفق (النسبة)"
+        description: "الوصف"
+        spent: "أنفق"
+        status: "الحالة"
+        subject: "الموضوع"
+        type: "أنواع التكلفة"
+        labor_budget: "تكاليف العمل المخطط لها"
+        material_budget: "تكاليف الوحدة المخطط لها"
+      work_package:
+        budget_subject: "عنوان الميزانية"
+    models:
+      budget: "الميزانية"
+      material_budget_item: "الوحدة"
+  attributes:
+    budget: "الميزانية"
+  button_add_budget_item: "أضِف التكاليف المخطط لها"
+  button_add_budget: "أضِف الميزانية"
+  button_add_cost_type: "أضِف نوع التكلفة"
+  button_cancel_edit_budget: "قُم بإلغاء تعديل الميزانية"
+  button_cancel_edit_costs: "قُم بإلغاء تعديل التكاليف"
+  caption_labor: "العمل"
+  caption_labor_costs: "تكاليف العمالة الفعلية"
+  caption_material_costs: "تكاليف الوحدة الفعلية"
+  budgets_title: "الميزانيات"
+  events:
+    budget: "تم تعديل الميزانية"
+  help_click_to_edit: "اضغط هنا للتعديل."
+  help_currency_format: "شكل قِيَم العملة المعروضة. %n تم إبداله بقيمة العملة، %u تم إبداله بوحدة العملة."
+  help_override_rate: "أدخل قيمة هنا لتجاهل المعدل الافتراضي."
+  label_budget: "الميزانية"
+  label_budget_new: "الميزانية الجديدة"
+  label_budget_plural: "الميزانيات"
+  label_budget_id: "الميزانية #%{id}"
+  label_deliverable: "الميزانية"
+  label_example_placeholder: 'e.g., %{decimal}'
+  label_view_all_budgets: "عرض جميع الميزانيات"
+  label_yes: "نعم"
+  notice_budget_conflict: "مجموعات العمل يجب أن تكون لنفس المشروع."
+  notice_no_budgets_available: "لا يوجد ميزانيات متاحة."
+  permission_edit_budgets: "تحرير الميزانية"
+  permission_view_budgets: "عرض الميزانيات"
+  project_module_budgets: "الميزانيات"
+  text_budget_reassign_to: "Reassign them to this budget:"
+  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

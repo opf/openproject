@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ro:
+  button_save_as: "Salvare raport ca..."
+  comments: "Comentariu"
+  cost_reports_title: "Timp și costuri"
+  label_cost_report: "Raport de cost"
+  label_cost_report_plural: "Rapoarte de cost"
+  description_drill_down: "Afișare detalii"
+  description_filter_selection: "Selecție"
+  description_multi_select: "Afișare selecție multiplă"
+  description_remove_filter: "Eliminare filtre"
+  information_restricted_depending_on_permission: "În funcție de permisiunile dumneavoastră, această pagină poate conține informații restricționate."
+  label_click_to_edit: "Click pentru editare."
+  label_closed: "închis"
+  label_columns: "Coloane"
+  label_cost_entry_attributes: "Atribute poziție cost"
+  label_days_ago: "în ultimele zile"
+  label_entry: "Poziție cost"
+  label_filter_text: "Text filtrare"
+  label_filter_value: "Valoare"
+  label_filters: "Filtru"
+  label_greater: ">"
+  label_is_not_project_with_subprojects: "nu este (incluzând subproiecte)"
+  label_is_project_with_subprojects: "este (incluzând subproiecte)"
+  label_work_package_attributes: "Atribute pachet de lucru"
+  label_less: "<"
+  label_money: "Valoare monetară"
+  label_month_reporting: "Lună (consumată)"
+  label_new_report: "Raport de cost nou"
+  label_open: "deschis"
+  label_operator: "Operator"
+  label_private_report_plural: "Rapoarte de cost private"
+  label_progress_bar_explanation: "Raport în curs de generare..."
+  label_public_report_plural: "Rapoarte de cost publice"
+  label_really_delete_question: "Sunteți sigur că doriți să ștergeți acest raport?"
+  label_rows: "Rânduri"
+  label_saving: "Salvare în curs..."
+  label_spent_on_reporting: "Data (consumată)"
+  label_sum: "Sumă"
+  label_units: "Unități"
+  label_week_reporting: "Săptămână (consumată)"
+  label_year_reporting: "An (consumat)"
+  label_count: "Număr"
+  label_filter: "Filtrare"
+  label_filter_add: "Adăugare filtru"
+  label_filter_plural: "Filtre"
+  label_group_by: "Grupare după"
+  label_group_by_add: "Adăugați atributul Group-by"
+  label_inactive: "Inactiv"
+  label_no: "Nu"
+  label_none: "Sincronizați datele"
+  label_no_reports: "Nu există încă rapoarte de costuri."
+  label_report: "Raportare"
+  label_yes: "Da"
+  load_query_question: "Raportul va avea %{size} de celule şi e posibil ca generarea să dureze un timp. Sunteți sigur că doriți generarea?"
+  permission_save_cost_reports: "Salvare rapoarte de cost publice"
+  permission_save_private_cost_reports: "Salvare rapoarte de cost private"
+  project_module_reporting_module: "Rapoarte de cost"
+  text_costs_are_rounded_note: "Valorile afișate sunt rotunjite. Toate calculele sunt bazate pe valorile nerotunjite."
+  toggle_multiselect: "activare/dezactivare selecție multiplă"
+  units: "Unități"
+  validation_failure_date: "nu e o dată validă"
+  validation_failure_integer: "nu e un întreg valid"
+  reporting:
+    group_by:
+      selected_columns: "Coloane selectate"
+      selected_rows: "Șterge rândurile selectate"

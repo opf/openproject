@@ -1,0 +1,142 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+da:
+  activerecord:
+    attributes:
+      cost_entry:
+        work_package: "Arbejdspakke"
+        overridden_costs: "Tilsidesatte omkostninger"
+        spent: "Forbrugt"
+        spent_on: "Dato"
+      cost_type:
+        unit: "Enhedsnavn"
+        unit_plural: "Pluralistisk enhedsnavn"
+      work_package:
+        costs_by_type: "Forbrugte enheder"
+        labor_costs: "Lønomkostninger"
+        material_costs: "Enhedsomkostninger"
+        overall_costs: "Samlede omkostninger"
+        spent_costs: "Forbrugte omkostninger"
+        spent_units: "Forbrugte enheder"
+      rate:
+        rate: "Sats"
+      user:
+        default_rates: "Standardsatser"
+    models:
+      cost_type:
+        one: "Omkostningstype"
+        other: "Omkostningstyper"
+      rate: "Sats"
+    errors:
+      models:
+        work_package:
+          is_not_a_valid_target_for_cost_entries: "Arbejdspakke #%{id} er ikke et gyldigt mål til omfordeling af omkostningsangivelser."
+          nullify_is_not_valid_for_cost_entries: "Omkostningsangivelser kan ikke tildeles et projekt."
+  attributes:
+    comment: "Kommentér"
+    cost_type: "Omkostningstype"
+    costs: "Omkostninger"
+    current_rate: "Nuværende sats"
+    hours: "Timer"
+    units: "Enheder"
+    valid_from: "Gældende fra"
+    fixed_date: "Fast dato"
+  button_add_rate: "Tilføj sats"
+  button_log_costs: "Registrér enhedsomkostninger"
+  caption_booked_on_project: "Reservationer til projekt"
+  caption_default: "Forhåndsvalgt"
+  caption_default_rate_history_for: "Standardsatshistorik for %{user}"
+  caption_locked_on: "Låst d."
+  caption_materials: "Enheder"
+  caption_rate_history: "Satshistorik"
+  caption_rate_history_for: "Satshistorik for %{user}"
+  caption_rate_history_for_project: "Satshistorik for %{user} i projekt %{project}"
+  caption_save_rate: "Gem sats"
+  caption_set_rate: "Indstil nuværende sats"
+  caption_show_locked: "Vis låste typer"
+  description_date_for_new_rate: "Dato for ny sats"
+  group_by_others: "ikke i nogen gruppe"
+  label_between: "mellem"
+  label_cost_filter_add: "Tilføj omkostningangivelsesfilter"
+  label_costlog: "Registrerede enhedsomkostninger"
+  label_cost_plural: "Omkostninger"
+  label_cost_type_plural: "Omkostningstyper"
+  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_costs_per_page: "Omkostninger pr. side"
+  label_currency: "Valuta"
+  label_currency_format: "Valutaformat"
+  label_current_default_rate: "Nuværende standardsats"
+  label_date_on: "d."
+  label_deleted_cost_types: "Slettede omkostningstyper"
+  label_locked_cost_types: "Locked cost types"
+  label_display_cost_entries: "Vis enhedsomkostninger"
+  label_display_time_entries: "Vis indberettede timer"
+  label_display_types: "Vis typer"
+  label_edit: "Redigér"
+  label_generic_user: "Generisk bruger"
+  label_greater_or_equal: ">="
+  label_group_by: "Gruppér efter"
+  label_group_by_add: "Tilføj grupperingsfelt"
+  label_hourly_rate: "Timesats"
+  label_include_deleted: "Inkludér slettede"
+  label_work_package_filter_add: "Tilføj arbejdspakkefilter"
+  label_kind: "Type"
+  label_less_or_equal: "<="
+  label_log_costs: "Registrér enhedsomkostninger"
+  label_no: "Nej"
+  label_option_plural: "Valgmuligheder"
+  label_overall_costs: "Samlede omkostninger"
+  label_rate: "Sats"
+  label_rate_plural: "Satser"
+  label_status_finished: "Afsluttet"
+  label_units: "Omkostningsenheder"
+  label_user: "Bruger"
+  label_until: "indtil"
+  label_valid_from: "Gældende fra"
+  label_yes: "Ja"
+  notice_something_wrong: "Noget gik galt. Forsøg venligst igen."
+  notice_successful_restore: "Gendannet."
+  notice_successful_lock: "Locked successfully."
+  notice_cost_logged_successfully: 'Unit cost logged successfully.'
+  permission_edit_cost_entries: "Redigér reserverede enhedsomkostninger"
+  permission_edit_own_cost_entries: "Redigér egne reserverede enhedsomkostninger"
+  permission_edit_hourly_rates: "Redigér timesatser"
+  permission_edit_own_hourly_rate: "Redigér egne timesatser"
+  permission_edit_rates: "Redigér satser"
+  permission_log_costs: "Reservationsenhedsomkostninger"
+  permission_log_own_costs: "Reservationsenhedsomkostninger for sig selv"
+  permission_view_cost_entries: "Se reservationsomkostninger"
+  permission_view_cost_rates: "Se omostningssatser"
+  permission_view_hourly_rates: "Se alle timesatser"
+  permission_view_own_cost_entries: "Se egen reservationsomkostninger"
+  permission_view_own_hourly_rate: "Se egen timestaser"
+  permission_view_own_time_entries: "Se eget tidsforbrug"
+  project_module_costs: "Time and costs"
+  text_assign_time_and_cost_entries_to_project: "Tildel indberettede timer og omkostninger til projektet"
+  text_destroy_cost_entries_question: "%{cost_entries} blev indberettet for de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
+  text_destroy_time_and_cost_entries: "Slet indberettede timer og omkostninger"
+  text_destroy_time_and_cost_entries_question: "%{hours} timer, %{cost_entries} blev indberettet på de arbejdspakker, som du er ved at slette. Hvad ønsker du at gøre?"
+  text_reassign_time_and_cost_entries: "Gentildel indberettede timer og omkostninger til denne arbejdspakke:"
+  text_warning_hidden_elements: "Visse angivelser kan været blevet ekskluderet fra sammenlægning."
+  week: "uge"
+  js:
+    text_are_you_sure: "Sikker?"

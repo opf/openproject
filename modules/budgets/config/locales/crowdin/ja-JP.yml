@@ -1,0 +1,73 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ja:
+  activerecord:
+    attributes:
+      budget:
+        author: "作成者"
+        available: "利用可能"
+        budget: "計画"
+        budget_ratio: "使用済 (比)"
+        description: "説明"
+        spent: "使用済"
+        status: "ステータス"
+        subject: "タイトル"
+        type: "コスト種類"
+        labor_budget: "計画作業員コスト"
+        material_budget: "計画単価"
+      work_package:
+        budget_subject: "予算のタイトル"
+    models:
+      budget: "予算"
+      material_budget_item: "ユニット"
+  attributes:
+    budget: "予算"
+  button_add_budget_item: "計画コストを追加"
+  button_add_budget: "予算を追加"
+  button_add_cost_type: "コストの種類を追加"
+  button_cancel_edit_budget: "予算の編集を取り消し"
+  button_cancel_edit_costs: "コストの編集を取り消し"
+  caption_labor: "労働"
+  caption_labor_costs: "実際の労働コスト"
+  caption_material_costs: "実際の労働コスト"
+  budgets_title: "予算"
+  events:
+    budget: "予算の編集"
+  help_click_to_edit: "編集するにはここをクリックしてください。"
+  help_currency_format: "表示される通貨値の形式です。 %n は通貨の値に置き換えられ、%u は通貨の単位に置き換えられます。"
+  help_override_rate: "デフォルトレートを上書きするにはここに値を入力します。"
+  label_budget: "予算"
+  label_budget_new: "新しい予算"
+  label_budget_plural: "予算"
+  label_budget_id: "予算 #%{id}"
+  label_deliverable: "予算"
+  label_example_placeholder: '例： %{decimal}'
+  label_view_all_budgets: "全ての予算を表示"
+  label_yes: "はい"
+  notice_budget_conflict: "作業項目は同一プロジェクトである必要があります。"
+  notice_no_budgets_available: "予算がありません。"
+  permission_edit_budgets: "予算の編集"
+  permission_view_budgets: "予算の表示"
+  project_module_budgets: "予算"
+  text_budget_reassign_to: "この予算に再割り当てします:"
+  text_budget_delete: "すべてのワークパッケージから予算を削除する"
+  text_budget_destroy_assigned_wp: "この予算には %{count} 個のワークパッケージが割り当てられています。どうしたいですか？"

@@ -1,0 +1,134 @@
+#English strings go here for Rails i18n
+ro:
+  bim:
+    label_bim: 'BIM'
+  bcf:
+    label_bcf: 'BCF'
+    label_imported_failed: 'Importuri eșuate de subiecte BCF'
+    label_imported_successfully: 'Ați importat cu succes subiectele BCF'
+    issues: "Sunt câteva probleme cu produsele din coșul tău. Te rog mergi înapoi la pagina coșului și remediază aceste probleme înainte de finalizarea comenzii."
+    recommended: 'recomandat'
+    not_recommended: 'Recomandat'
+    no_viewpoints: 'Fără puncte de vedere'
+    new_badge: "Nou"
+    exceptions:
+      file_invalid: "Fișier BCF invalid"
+    x_bcf_issues:
+      zero: 'Nu există probleme legate de BCF'
+      one: 'O problemă BCF'
+      other: '%{count} Probleme BCF'
+    bcf_xml:
+      xml_file: 'Fișier BCF XML'
+      import_title: 'Importă'
+      export: 'Exportare'
+      import_update_comment: '(Actualizat în BCF import)'
+      import_failed: 'Nu se poate importa fișierul BCF: %{error}'
+      import_failed_unsupported_bcf_version: 'Nu a reușit să citească fișierul BCF: Versiunea BCF nu este acceptată. Vă rugăm să vă asigurați că versiunea este cel puțin %{minimal_version} sau mai mare.'
+      import_successful: 'Probleme importate %{count} BCF'
+      import_canceled: 'Importul BCF-XML a fost anulat.'
+      type_not_active: "Tipul de problemă nu este activat pentru acest proiect."
+      import:
+        num_issues_found: '%{x_bcf_issues} sunt conținute în fișierul BCF-XML, iar detaliile acestora sunt enumerate mai jos.'
+        button_prepare: 'Pregătiți importul'
+        button_perform_import: 'Confirmați importul'
+        button_proceed: 'Continuați cu importul'
+        button_back_to_list: 'Înapoi la listă'
+        no_permission_to_add_members: 'Nu aveți suficiente permisiuni pentru a le adăuga ca membri în proiect.'
+        contact_project_admin: 'Contactați administratorul de proiect pentru a-i adăuga ca membri și începeți din nou acest import.'
+        continue_anyways: 'Doriți să continuați și să finalizați oricum importul?'
+        description: "Furnizați un fișier BCF-XML v2.1 pentru a fi importat în acest proiect. Puteți examina conținutul acestuia înainte de a efectua importul."
+        invalid_types_found: 'S-au găsit nume de tip de subiect nevalabile'
+        invalid_statuses_found: 'S-au găsit nume de stare invalide'
+        invalid_priorities_found: 'S-au găsit nume de priorități nevalabile'
+        invalid_emails_found: 'Adrese de e-mail invalide găsite'
+        unknown_emails_found: 'Adrese de e-mail necunoscute găsite'
+        unknown_property: 'Proprietate necunoscută'
+        non_members_found: 'Membrii non-proiect găsiți'
+        import_types_as: 'Setați toate aceste tipuri la'
+        import_statuses_as: 'Setați toate aceste statusuri la'
+        import_priorities_as: 'Setați toate aceste priorități pentru'
+        invite_as_members_with_role: 'Invitați-i ca membri în proiectul "%{project}" cu rolul'
+        add_as_members_with_role: 'Adăugați-i ca membri în proiectul "%{project}" cu rolul'
+        no_type_provided: 'Nici un tip furnizat'
+        no_status_provided: 'Nu este furnizat niciun statut'
+        no_priority_provided: 'Nu se acordă prioritate'
+        perform_description: "Doriți să importați sau să actualizați problemele enumerate mai sus?"
+        replace_with_system_user: 'Înlocuiți-le cu utilizatorul "Sistem"'
+        import_as_system_user: 'Importați-le ca utilizator "System".'
+        what_to_do: "Ce vrei să faci?"
+        work_package_has_newer_changes: "Învechit! Acest subiect nu a fost actualizat deoarece ultimele modificări de pe server erau mai noi decât \"ModifiedDate\" a subiectului importat. Cu toate acestea, comentariile la acest subiect au fost importate."
+        bcf_file_not_found: "Nu a reușit să localizeze fișierul BCF. Vă rugăm să începeți din nou procesul de încărcare."
+  export:
+    format:
+      bcf: "BCF-XML"
+  attributes:
+    bcf_thumbnail: "BCF instantaneu"
+  project_module_bcf: "BCF"
+  project_module_bim: "BCF"
+  permission_view_linked_issues: "Vezi problemele BCF"
+  permission_manage_bcf: "Importați și gestionați problemele BCF"
+  permission_delete_bcf: "Ștergerea problemelor BCF"
+  oauth:
+    scopes:
+      bcf_v2_1: "Acces complet la API BCF v2.1"
+      bcf_v2_1_text: "Aplicația va primi acces complet de citire și scriere la OpenProject BCF API v2.1 pentru a efectua acțiuni în numele dumneavoastră."
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "Modelul IFC"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "Fișier IFC"
+        is_default: "Modelul implicit"
+        attachments: "Fișier IFC"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "Nu este atașat niciun fișier ifc."
+              invalid_ifc_file: "Fișierul furnizat nu este un fișier IFC valid."
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "bitmaps nu este inscriptibilă, deoarece nu este încă implementată."
+          index_not_integer: "indexul nu este un număr întreg."
+          invalid_clipping_planes: "clipping_planes nu este valid."
+          invalid_components: "nu este valabilă."
+          invalid_lines: "linii nu este valabilă."
+          invalid_orthogonal_camera: "orthogonal_camera nu este valabilă."
+          invalid_perspective_camera: "perspective_camera este invalidă."
+          mismatching_guid: "Ghidul din punctul de vedere json_viewpoint nu se potrivește cu ghidul modelului."
+          no_json: "Nu este un json bine structurat."
+          snapshot_type_unsupported: "snapshot_type trebuie să fie fie \"png\" sau \"jpg\"."
+          snapshot_data_blank: "este necesar să se furnizeze snapshot_data."
+          unsupported_key: "Este inclusă o proprietate json neacceptată."
+        bim/bcf/issue:
+          uuid_already_taken: "Nu se poate importa această problemă BCF, deoarece există deja o alta cu același GUID. S-ar putea ca această problemă BCF să fi fost deja importată într-un alt proiect?"
+  ifc_models:
+    label_ifc_models: 'Modele IFC'
+    label_new_ifc_model: 'Noul model IFC'
+    label_show_defaults: 'Afișați valorile implicite'
+    label_default_ifc_models: 'Modele IFC implicite'
+    label_edit_defaults: 'Editarea valorilor implicite'
+    no_defaults_warning:
+      title: 'Niciun model IFC nu a fost setat ca implicit pentru acest proiect.'
+      check_1: 'Verificați dacă ați încărcat cel puțin un model IFC.'
+      check_2: 'Verificați dacă cel puțin un model IFC este setat la "Default".'
+    no_results: "În acest proiect nu au fost încărcate modele IFC."
+    conversion_status:
+      label: 'Se procesează...'
+      pending: 'în așteptare'
+      processing: 'Se procesează'
+      completed: 'Finalizat'
+      error: 'Eroare'
+    processing_notice:
+      processing_default: 'Următoarele modele IFC implicite sunt încă în curs de procesare și, prin urmare, nu sunt încă disponibile:'
+    flash_messages:
+      upload_successful: 'Încărcarea a reușit. Acum va fi procesat și va fi gata de utilizare în câteva minute.'
+    conversion:
+      missing_commands: "Următoarele comenzi ale convertorului IFC lipsesc de pe acest sistem: %{names}"
+  project_module_ifc_models: "Modele IFC"
+  permission_view_ifc_models: "Vizualizați modelele IFC"
+  permission_manage_ifc_models: "Importați și gestionați modele IFC"
+  extraction:
+    available:
+      ifc_convert: "Canalul de conversie IFC disponibil"
+
