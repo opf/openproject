@@ -842,9 +842,9 @@ GEM
       nokogiri (>= 1.10.5)
       rexml
     ruby2_keywords (0.0.5)
-    rubytree (1.0.0)
-      json (~> 2.1)
-      structured_warnings (~> 0.3)
+    rubytree (1.0.2)
+      json (~> 2.6.1)
+      structured_warnings (~> 0.4.0)
     rubyzip (2.3.2)
     sanitize (6.0.0)
       crass (~> 1.0.2)
