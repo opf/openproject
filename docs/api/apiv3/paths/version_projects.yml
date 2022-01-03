@@ -72,4 +72,4 @@ get:
     The projects returned depend on the sharing settings of the given version,
     but are also limited to the projects that the current user is allowed to see.
   operationId: List_projects_with_version
-  summary: List projects with version
+  summary: List projects having version
