@@ -8,7 +8,7 @@ zh-CN:
         projects: '已启用的项目'
       webhooks/log:
         event_name: '事件名称'
-        url: '推送地址'
+        url: '有效载荷 URL'
         response_code: '响应代码'
         response_body: '响应'
     models:

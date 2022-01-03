@@ -1,7 +1,0 @@
-#English strings go here
-zh-CN:
-  permission_view_team_planner: "查看团队计划人"
-  permission_manage_team_planner: "管理团队计划人"
-  project_module_team_planner_view: "团队计划人"
-  team_planner:
-    label_team_planner: "团队计划人"
