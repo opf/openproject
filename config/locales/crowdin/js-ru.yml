@@ -556,74 +556,74 @@ ru:
         reasons:
           mentioned:
             title: 'Я @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            description: 'Получать уведомления каждый раз, когда кто-то упоминает меня в любом месте'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Назначен мне или подотчетен'
+            description: 'Получать уведомления о всех видах деятельности в пакетах работ, к которым я причастен.'
+          watched: 'Обновления просмотренных элементов'
+          work_package_commented: 'Все новые комментарии'
+          work_package_created: 'Новые пакеты работ'
+          work_package_processed: 'Все изменения статуса'
+          work_package_prioritized: 'Все приоритетные изменения'
+          work_package_scheduled: 'Все изменения даты'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Сразу уведомить меня'
+            description: 'Эти настройки применяются ко всем проектам. Вы можете создать исключения, специфичные для конкретного проекта.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Также уведомить меня для'
+            description: 'Получать уведомления об этих действиях в комплексе работ во всех проектах:'
         project_specific:
-          title: 'Project-specific notification settings'
+          title: 'Конкретные настройки уведомлений проекта'
           description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          add: 'Добавить настройку для проекта'
+          already_selected: 'Этот проект уже выбран'
+          remove: 'Удалить настройки проекта'
     password_confirmation:
-      field_description: 'You need to enter your account password to confirm this change.'
-      title: 'Confirm your password to continue'
+      field_description: 'Чтобы подтвердить изменения, введите пароль учетной записи.'
+      title: 'Для продолжения введите свой пароль'
     pagination:
-      no_other_page: "You are on the only page."
+      no_other_page: "Вы находитесь на единственной странице."
       pages:
-        next: "Forward to the next page"
-        previous: "Back to the previous page"
+        next: "Вперед к следующей странице"
+        previous: "Назад к предыдущей странице"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
-      selection: 'Please select'
-      relation_description: 'Click to add description for this relation'
+      subject: 'Введите тему здесь'
+      selection: 'Пожалуйста, выберите'
+      relation_description: 'Нажмите, чтобы добавить описание для этой связи'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
-      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
-      use_template: "Use template"
-      no_template_selected: "(None)"
+        Пожалуйста, выберите проект для создания пакета работ для просмотра всех атрибутов. Вы можете выбрать только проекты, которые имеют вышеуказанный тип.
+      context: 'Контекст проекта'
+      work_package_belongs_to: 'Этот пакет работ принадлежит проекту %{projectname}.'
+      click_to_switch_context: 'Открыть этот пакет работ в этом проекте.'
+      confirm_template_load: 'Смена шаблона перезагрузит страницу, и вы потеряете все данные, введенные в этой форме. Продолжить?'
+      use_template: "Использовать шаблон"
+      no_template_selected: "(Нет)"
       copy:
-        copy_options: "Copy options"
+        copy_options: "Скопировать параметры"
       autocompleter:
-        label: 'Project autocompletion'
+        label: 'Автозавершение проекта'
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Добавить время'
+          enable: 'Включить ежедневные напоминания по электронной почте'
+          explanation: 'Вы будете получать эти напоминания только для непрочитанных уведомлений и только в указанные вами часы. %{no_time_zone}'
+          no_time_zone: 'До уточнения часового пояса для вашего аккаунта время будет в UTC.'
+          time_label: 'Время %{counter}:'
+          title: 'Посылать мне ежедневные напоминания по электронной почте для непрочитанных уведомлений'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Получать напоминания по электронной почте в эти дни'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: 'Отправить мне напоминание по электронной почте'
+          mentioned: 'Сразу же когда кто-то @упоминает меня'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'Уведомления по электронной почте для других элементов (которые не являются пакетами работ)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'News added'
+            Уведомления сегодня ограничены пакетами работ. Вы можете продолжать получать уведомления по электронной почте об этих событиях до тех пор, пока они не будут включены в уведомления:
+          news_added: 'Новость добавлена'
           news_commented: 'Comment on a news item'
           document_added: 'Documents added'
           forum_messages: 'New forum messages'
@@ -682,63 +682,63 @@ ru:
       blocked: "Blocked by"
       precedes: "Precedes"
       follows: "Follows"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      includes: "Включения"
+      partof: "Часть"
+      requires: "Требуется"
+      required: "Требуется для"
+      relation_type: "тип отношения"
     relations_hierarchy:
-      parent_headline: "Parent"
-      hierarchy_headline: "Hierarchy"
-      children_headline: "Children"
+      parent_headline: "Родитель"
+      hierarchy_headline: "Иерархия"
+      children_headline: "Дочерние элементы"
     relation_buttons:
-      set_parent: "Set parent"
-      change_parent: "Change parent"
-      remove_parent: "Remove parent"
-      hierarchy_indent: "Indent hierarchy"
-      hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      add_follower: "Add follower"
-      add_predecessor: "Add predecessor"
-      remove: "Remove relation"
-      save: "Save relation"
-      abort: "Abort"
+      set_parent: "Установить родителя"
+      change_parent: "Изменить родителя"
+      remove_parent: "Удалить родителя"
+      hierarchy_indent: "Иерархия с отступом"
+      hierarchy_outdent: "Иерархия с выступом"
+      group_by_wp_type: "Группировать по типу пакета работ"
+      group_by_relation_type: "Группировать по типу связи"
+      add_parent: "Добавить существующего родителя"
+      add_new_child: "Создать новый дочерний элемент"
+      create_new: "Создать новый"
+      add_existing: "Добавить существующий"
+      add_existing_child: "Добавить существующий дочерний элемент"
+      remove_child: "Удалить дочерний элемент"
+      add_new_relation: "Создать новое отношение"
+      add_existing_relation: "Добавить существующее отношение"
+      update_description: "Установить или обновить описание этого отношения"
+      toggle_description: "Переключить описание отношения"
+      update_relation: "Нажмите, чтобы изменить тип отношения"
+      add_follower: "Добавить подписчика"
+      add_predecessor: "Добавить предшественника"
+      remove: "Удалить связь"
+      save: "Сохранить связь"
+      abort: "Прервать"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Введите для поиска"
+      parent_placeholder: "Выберите нового родителя или нажмите escape, чтобы отменить."
     autocompleter:
-      placeholder: "Type to search"
-      notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      placeholder: "Введите для поиска"
+      notFoundText: "Элементов не найдено"
+      typeToSearchText: "Введите для поиска"
     repositories:
-      select_tag: 'Select tag'
-      select_branch: 'Select branch'
-    field_value_enter_prompt: "Enter a value for '%{field}'"
-    project_menu_details: "Details"
+      select_tag: 'Выберите тег'
+      select_branch: 'Выберите ветку'
+    field_value_enter_prompt: "Введите значение для '%{field} ' '"
+    project_menu_details: "Детали"
     scheduling:
-      manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
+      manual: 'Ручное планирование'
+      automatic: 'Автоматическое планирование'
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: 'sorting is disabled'
-      activate_asc: 'activate to apply an ascending sort'
-      activate_dsc: 'activate to apply a descending sort'
-      activate_no: 'activate to remove the sort'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+      sorted_asc: 'Сортировка по возрастанию применяется, '
+      sorted_dsc: 'Применяется сортировка по убыванию, '
+      sorted_no: 'Сортировка не применяется, '
+      sorting_disabled: 'сортировка отключена'
+      activate_asc: 'активировать применение сортировки по возрастанию'
+      activate_dsc: 'активировать применение сортировки по убыванию'
+      activate_no: 'активировать для удаления сортировки'
+    text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакеты работ?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
@@ -799,62 +799,62 @@ ru:
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
-      zooms: "Zoom level"
-      outlines: "Hierarchy level"
+      zooms: "Масштаб"
+      outlines: "Уровень иерархии"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Эта функция есть только в корпоративной версии'
     wiki_formatting:
-      strong: "Strong"
-      italic: "Italic"
-      underline: "Underline"
-      deleted: "Deleted"
-      code: "Inline Code"
-      heading1: "Heading 1"
-      heading2: "Heading 2"
-      heading3: "Heading 3"
-      unordered_list: "Unordered List"
-      ordered_list: "Ordered List"
-      quote: "Quote"
-      unquote: "Unquote"
-      preformatted_text: "Preformatted Text"
-      wiki_link: "Link to a Wiki page"
-      image: "Image"
+      strong: "Жирный"
+      italic: "Наклонный"
+      underline: "Подчёркнутый"
+      deleted: "﻿Удалено"
+      code: "Встроенный код"
+      heading1: "Заголовок 1"
+      heading2: "Заголовок 2"
+      heading3: "Заголовок 3"
+      unordered_list: "Неупорядоченный список"
+      ordered_list: "Упорядоченный список"
+      quote: "Цитата"
+      unquote: "Убрать цитирование"
+      preformatted_text: "Предварительно отформатированный текст"
+      wiki_link: "Ссылка на вики-страницу"
+      image: "Изображение"
     work_packages:
       bulk_actions:
-        move: 'Bulk change of project'
-        edit: 'Bulk edit'
-        copy: 'Bulk copy'
-        delete: 'Bulk delete'
-      button_clear: "Clear"
-      comment_added: "The comment was successfully added."
-      comment_send_failed: "An error has occurred. Could not submit the comment."
-      comment_updated: "The comment was successfully updated."
-      confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
-      description_filter: "Filter"
-      description_enter_text: "Enter text"
-      description_options_hide: "Hide options"
-      description_options_show: "Show options"
-      edit_attribute: "%{attribute} - Edit"
+        move: 'Массовое изменение проекта'
+        edit: 'Массовое изменение'
+        copy: 'Массовое копирование'
+        delete: 'Массовое удаление'
+      button_clear: "Очистить"
+      comment_added: "Комментарий успешно добавлен."
+      comment_send_failed: "Произошла ошибка. Не удалось отправить комментарий."
+      comment_updated: "Комментарий успешно обновлен."
+      confirm_edit_cancel: "Вы уверены, что хотите отменить редактирование пакета работ?"
+      description_filter: "Фильтр"
+      description_enter_text: "Введите текст"
+      description_options_hide: "Скрыть параметры"
+      description_options_show: "Показать параметры"
+      edit_attribute: "%{attribute} - Изменить"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Enable multiselect"
-      label_disable_multi_select: "Disable multiselect"
-      label_filter_add: "Add filter"
-      label_filter_by_text: "Filter by text"
-      label_options: "Options"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
-      message_view_spent_time: "Show spent time for this work package"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
-      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      label_enable_multi_select: "Включить мультивыбор"
+      label_disable_multi_select: "Отключить множественный выбор"
+      label_filter_add: "Добавить фильтр"
+      label_filter_by_text: "Фильтр по тексту"
+      label_options: "Параметры"
+      label_column_multiselect: "Комбинированное ниспадающие поле: выбор  клавишами со стрелками, подтверждение выбора нажатием клавиши enter, удаление  клавишей backspace"
+      message_error_during_bulk_delete: Произошла ошибка при попытке удалить пакеты работ.
+      message_successful_bulk_delete: Пакеты работ успешно удалены.
+      message_successful_show_in_fullscreen: "Кликните здесь, чтобы открыть этот пакет работ в полноэкранном режиме."
+      message_view_spent_time: "Показать время, затраченное на этот пакет работ"
+      message_work_package_read_only: "Пакет работ заблокирован в этом статусе. Никакой атрибут, отличный от статуса, изменен быть не может."
+      message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
+      placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       inline_create:
-        title: 'Click here to add a new work package to this list'
+        title: 'Кликните здесь, чтобы добавить новый пакет работ в этот список'
       create:
-        title: 'New work package'
-        header: 'New %{type}'
-        header_no_type: 'New work package (Type not yet set)'
+        title: 'Новый комплекс работ'
+        header: 'Новый %{type}'
+        header_no_type: 'Новый пакет работ (Тип еще не установлен)'
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: 'Create'
       copy:
@@ -915,62 +915,62 @@ ru:
         label_content: "Click here to skip over the menu and go to the content"
       placeholders:
         default: "-"
-        date: "Select date"
-        formattable: "%{name}: Click to edit..."
+        date: "Выберите дату"
+        formattable: "%{name}: Нажмите для изменения..."
       query:
-        column_names: "Columns"
-        group_by: "Group results by"
-        group: "Group by"
-        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
-        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        sort_ascending: "Sort ascending"
-        sort_descending: "Sort descending"
-        move_column_left: "Move column left"
-        move_column_right: "Move column right"
-        hide_column: "Hide column"
-        insert_columns: "Insert columns ..."
-        filters: "Filters"
-        display_sums: "Display Sums"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
-        click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Name of this view"
-        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        column_names: "Столбцы"
+        group_by: "Группировать результаты по"
+        group: "Группировать по"
+        group_by_disabled_by_hierarchy: "В режиме иерархии группировка отключена."
+        hierarchy_disabled_by_group_by: "Режим иерархии отключен из-за группировки результатов по %{column}."
+        sort_ascending: "Сортировать по возрастанию"
+        sort_descending: "Сортировать по убыванию"
+        move_column_left: "Переместить столбец влево"
+        move_column_right: "Переместить столбец вправо"
+        hide_column: "Скрыть столбец"
+        insert_columns: "Вставьте столбцы..."
+        filters: "Фильтры"
+        display_sums: "Отображать Суммы"
+        confirm_edit_cancel: "Уверены, что хотите отменить редактирование названия этого представления? Заголовку будет возвращено его прежнее название."
+        click_to_edit_query_name: "Нажмите, чтобы изменить заголовок этого представления."
+        rename_query_placeholder: "Название этого представления"
+        star_text: "Отметить это представление как избранное и добавить в панель сохранённых представлений слева."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Опубликовать это представление, дав к нему доступ другим пользователям. Пользователи с правом доступа «Управление публичными представлениями» могут изменить или удалить публичный запрос. Это не влияет на видимость результатов пакета работ в этом представлении, и в зависимости от своих прав пользователи могут видеть разные результаты.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
-          not_found: "There is no such view"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
-        text_no_results: "No matching views were found."
+          unretrievable_query: "Не удается получить представление из URL-адреса"
+          not_found: "Нет такого представления"
+          duplicate_query_title: "Представление с таким именем уже существует. Менять в любом случае?"
+        text_no_results: "Подходящие представления не найдены."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Даты этого пакета работ выводятся автоматически из дочерних узлов. Используйте «Ручной планировщик», чтобы установить даты."
+        is_switched_from_manual_to_automatic: "Даты этого пакета работ могут быть пересчитаны после переключения с ручного на автоматическое планирование из-за связей с другими пакетами работ."
       table:
-        configure_button: 'Configure work package table'
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+        configure_button: 'Настроить таблицу пакета работ'
+        summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."
+        text_inline_edit: "Большинство ячеек этой таблицы являются кнопками, которые активируют встроенную функцию редактирования этого атрибута."
+        text_sort_hint: "Ссылки в заголовках таблиц позволяют сортировать, группировать, реорганизовывать, удалять и добавлять столбцы."
+        text_select_hint: "Чек-боксы могут быть открыты с использованием «ALT» и клавиш со стрелками."
       table_configuration:
-        button: 'Configure this work package table'
-        choose_display_mode: 'Display work packages as'
-        modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
-        default: "default"
-        display_settings: 'Display settings'
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        button: 'Настроить эту таблицу пакета работ'
+        choose_display_mode: 'Отображать пакеты работ как'
+        modal_title: 'Конфигурация таблицы пакета работ'
+        embedded_tab_disabled: "Эта вкладка конфигурации не доступна для редактируемого вами встроенного представления."
+        default: "по умолчанию"
+        display_settings: 'Настройки отображения'
+        default_mode: "Простой список"
+        hierarchy_mode: "Иерархия"
+        hierarchy_hint: "Все отфильтрованные результаты таблицы будут дополнены их предками. Иерархии можно разворачивать и сворачивать."
+        display_sums_hint: "Отображать сумму всех суммируемых атрибутов в строке под таблицей результатов."
+        show_timeline_hint: "Показать интерактивную диаграмму Гантта справа от таблицы. Вы можете изменить ее ширину, перетаскивая разделитель между ней и таблицей."
+        highlighting: 'Выделение'
         highlighting_mode:
-          description: "Highlight with color"
-          none: "No highlighting"
-          inline: 'Highlighted attribute(s)'
-          inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
-          status: 'Status'
+          description: "Выделите цветом"
+          none: "Без выделения"
+          inline: 'Выделенный атрибут(ы)'
+          inline_all: 'Все атрибуты'
+          entire_row_by: 'Вся строка по'
+          status: 'Статус'
           priority: 'Priority'
           type: 'Type'
         sorting_mode:
@@ -1031,75 +1031,75 @@ ru:
         title: "Confirm deletion of %{label}"
         text: "Are you sure you want to delete the following %{label} ?"
         has_children: "The work package has %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+        confirm_deletion_children: "Я понимаю, что ВСЕ производные элементы указанных пакетов работ будут рекурсивно удалены."
+        deletes_children: "Все дочерние пакеты работ и их потомки также будут рекурсивно удалены."
       destroy_time_entry:
-        title: "Confirm deletion of time entry"
-        text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "No visible results to display."
-    notice_successful_create: "Successful creation."
-    notice_successful_delete: "Successful deletion."
-    notice_successful_update: "Successful update."
-    notice_job_started: "job started."
-    notice_bad_request: "Bad Request."
+        title: "Подтвердите удаление записи времени"
+        text: "Вы уверены, что хотите удалить следующую запись?"
+    notice_no_results_to_display: "Нет видимых результатов для отображения."
+    notice_successful_create: "Создание завершено."
+    notice_successful_delete: "Удаление завершено."
+    notice_successful_update: "Обновление завершено"
+    notice_job_started: "задание начато."
+    notice_bad_request: "Неверный запрос."
     relations:
-      empty: No relation exists
-      remove: Remove relation
+      empty: Отношений не существует
+      remove: Удалить связь
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
-      button_save_all: "Save"
-      button_cancel_all: "Cancel"
-      link_formatting_help: "Text formatting help"
-      btn_preview_enable: "Preview"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      button_edit: "%{attribute}: Редактировать"
+      button_save: "%{attribute}: Сохранить"
+      button_cancel: "%{attribute}: Отменить"
+      button_save_all: "Сохранить"
+      button_cancel_all: "Отменить"
+      link_formatting_help: "Справка по форматированию текста"
+      btn_preview_enable: "Предпросмотр"
+      btn_preview_disable: "Отключить предпросмотр"
+      null_value_label: "Нет значения"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File failed to upload: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+        required: '%{field} не может быть пустым'
+        number: '%{field} не является допустимым числом'
+        maxlength: '%{field} не может содержать более %{maxLength} цифр'
+        minlength: '%{field} не может содержать менее %{minLength} цифр'
+        messages_on_field: 'Это поле является недопустимым: %{messages}'
+    error_could_not_resolve_version_name: "Не удалось определить название версии"
+    error_could_not_resolve_user_name: "Не удалось определить имя пользователя"
+    error_attachment_upload: "Не удалось загрузить файл: %{error}"
+    error_attachment_upload_permission: "У вас нет разрешения на загрузку файлов на этот ресурс."
     units:
       workPackage:
-        one: "work package"
-        few: "work packages"
-        many: "work packages"
-        other: "work packages"
+        one: "пакет работ"
+        few: "пакетов работ"
+        many: "пакетов работ"
+        other: "пакетов работ"
       child_work_packages:
-        one: "one child work package"
-        few: "%{count} work package children"
-        many: "%{count} work package children"
-        other: "%{count} work package children"
+        one: "пакет работ с одним дочерним"
+        few: "пакетов работ с %{count} дочерними"
+        many: "пакетов работ с %{count} дочерними"
+        other: "пакетов работ с %{count} дочерними"
       hour:
-        one: "1 h"
-        other: "%{count} h"
-        zero: "0 h"
+        one: "1 ч"
+        other: "%{count} ч"
+        zero: "0 ч"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: 'Включить дзен-режим'
+      button_deactivate: 'Отключить дзен-режим'
     global_search:
-      all_projects: "In all projects"
-      search: "Search"
-      close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      all_projects: "Во всех проектах"
+      search: "Искать"
+      close_search: "Закрыть поиск"
+      current_project: "В этом проекте"
+      current_project_and_all_descendants: "В этом проекте + подпроектах"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "все проекты"
+        project_and_subprojects: "и все подпроекты"
+        search_for: "Поиск по"
     views:
-      card: 'Cards'
-      list: 'Table'
-      timeline: 'Gantt'
+      card: 'Карточки'
+      list: 'Таблица'
+      timeline: 'Гант'
     invite_user_modal:
-      back: 'Back'
+      back: 'Назад'
       invite: 'Invite'
       title:
         invite: 'Invite user'
@@ -1165,6 +1165,6 @@ ru:
         next_button: 'Continue'
     forms:
       submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
-      advanced_settings: 'Advanced settings'
+      load_error_message: 'Произошла ошибка при загрузке формы'
+      validation_error_message: 'Пожалуйста, исправьте ошибки в форме'
+      advanced_settings: 'Расширенные настройки'
