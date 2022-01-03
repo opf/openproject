@@ -188,7 +188,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
    * Special handling for clicking on cards.
    * If we are on mobile, a click on the card should directly open the full view
    */
-  handleWorkPackageCardClicked(event:{ workPackageId:string; double:boolean }) {
+  handleWorkPackageCardClicked(event:{ workPackageId:string; double:boolean }):void {
     if (this.deviceService.isMobile) {
       this.openInFullView(event.workPackageId);
     } else {

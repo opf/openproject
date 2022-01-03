@@ -90,6 +90,11 @@ module Pages
       card_element.find('[data-qa-selector="op-wp-single-card--details-button"]').click
     end
 
+    def click_id_link(work_package)
+      card_element = card(work_package)
+      card_element.find('.__ui-state-link').click
+    end
+
     def deselect_work_package(work_package)
       element = find("wp-single-card[data-work-package-id='#{work_package.id}']")
 

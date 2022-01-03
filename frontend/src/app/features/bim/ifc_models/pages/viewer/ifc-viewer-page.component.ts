@@ -70,6 +70,7 @@ import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packa
     BcfViewService,
     QueryParamListenerService,
   ],
+  selector: 'op-ifc-viewer-page',
 })
 export class IFCViewerPageComponent extends PartitionedQuerySpacePageComponent implements UntilDestroyedMixin, OnInit {
   text = {
