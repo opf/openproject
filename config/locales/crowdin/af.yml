@@ -2839,7 +2839,7 @@ af:
   wiki_menu_item_new_main_item_explanation: >
     Jy is besig om die enigste hoof wiki-kieslysitem te skrap. Jy moet nou 'n wiki-blad kies waarvoor 'n nuwe hoof item gegenereer sal word. Om die wiki te skrap kan die wiki-module gedeaktiveer word deur die projekadministrateurs.
   wiki_menu_item_delete_not_permitted: Die wiki-kieslysitem van die enigste wiki bladsy kan nie geskrap word nie.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Kieslysitem vir navraag \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

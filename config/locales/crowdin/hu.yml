@@ -1733,7 +1733,7 @@ hu:
   label_public_projects: "Nyilvános projektek"
   label_query_new: "Új lekérdezés"
   label_query_plural: "Egyéni lekérdezések"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Lekérdezések menüpont"
   label_read: "Olvassa el..."
   label_register: "Új fiók létrehozása"
   label_register_with_developer: "Regisztráljon mint fejlesztő"
@@ -2849,7 +2849,7 @@ hu:
   wiki_menu_item_new_main_item_explanation: >
     Csak a fő wiki menüelemet törölted. Most ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
   wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem lehet törölni.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Menüpont lekérdezés \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

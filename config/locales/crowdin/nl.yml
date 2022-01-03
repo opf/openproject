@@ -1725,7 +1725,7 @@ nl:
   label_public_projects: "Publieke projecten"
   label_query_new: "Nieuwe query"
   label_query_plural: "Aangepaste query 's"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Query menu-item"
   label_read: "Lees..."
   label_register: "Een nieuw account aanmaken"
   label_register_with_developer: "Registreer als ontwikkelaar"
@@ -2834,7 +2834,7 @@ nl:
   wiki_menu_item_new_main_item_explanation: >
     U verwijdert het alleen het hoofd wiki menu-item. Je moet nu kiezen van een wiki-pagina waarvoor een nieuw belangrijkste item zal worden gegenereerd. Als u de wiki wilt verwijderen, kan de wiki module worden gedeactiveerd door project beheerders.
   wiki_menu_item_delete_not_permitted: De wiki menu-item van de enige wikipagina kan niet worden verwijderd.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Menu-item voor query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

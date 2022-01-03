@@ -1728,7 +1728,7 @@ si:
   label_public_projects: "පොදු ව්යාපෘති"
   label_query_new: "නව විමසුම"
   label_query_plural: "අභිරුචි විමසුම්"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "විමසුම් මෙනු අයිතමය"
   label_read: "කියවන්න..."
   label_register: "නව ගිණුමක් සාදන්න"
   label_register_with_developer: "සංවර්ධක ලෙස ලියාපදිංචි වන්න"
@@ -2839,7 +2839,7 @@ si:
   wiki_menu_item_new_main_item_explanation: >
     ඔබ එකම ප්රධාන විකි මෙනු අයිතමය මකා දමනවා. දැන් ඔබට නව ප්රධාන අයිතමයක් ජනනය කරනු ලබන විකි පිටුවක් තෝරා ගත යුතුය. විකි මකා දැමීම සඳහා විකි මොඩියුලය ව්යාපෘති පරිපාලකයින් විසින් අක්රිය කළ හැකිය.
   wiki_menu_item_delete_not_permitted: එකම විකි පිටුවේ විකි මෙනු අයිතමය මකා දැමිය නොහැක.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "විමසුම සඳහා මෙනු අයිතමය \"%{title}”"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -1745,7 +1745,7 @@ hr:
   label_public_projects: "Javni projekti"
   label_query_new: "Novi upit"
   label_query_plural: "Prilagođeni upiti"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Dohvati stavku izbornika"
   label_read: "Pročitajte..."
   label_register: "Kreirajte novi račun"
   label_register_with_developer: "Registrirajte se kao developer"
@@ -2860,7 +2860,7 @@ hr:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisati će te samo glavnu stavku wiki izbornika. U sljdećem koraku morate izabrati wiki stranicu za koju će se generirati nova stavka. Za brisanje wiki stranice, wiki modul mora biti deaktiviran od strane administratora projekta.
   wiki_menu_item_delete_not_permitted: Wiki stavka izbornika jedine wiki stranice ne može biti izbrisana.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Stavka izbornika za upit \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -1728,7 +1728,7 @@ eo:
   label_public_projects: "Publikaj projektoj"
   label_query_new: "Nova informpeto"
   label_query_plural: "Propraj informpetoj"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Menuera informpeto "
   label_read: "Legi..."
   label_register: "Krei novan konton"
   label_register_with_developer: "Register as developer"

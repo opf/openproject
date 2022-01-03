@@ -1725,7 +1725,7 @@ ca:
   label_public_projects: "Projectes públics"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultes personalitzades"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Element de menú de consulta"
   label_read: "Llegir..."
   label_register: "Crea un nou compte"
   label_register_with_developer: "Registrar com a desenvolupador"
@@ -2834,7 +2834,7 @@ ca:
   wiki_menu_item_new_main_item_explanation: >
     Esteu Suprimint l'únic l'element de menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un nou element principal. Per suprimir la wiki, els administradors del projecte poden desactivar el mòdul wiki.
   wiki_menu_item_delete_not_permitted: No es pot suprimir l'element de menú de wiki de la única pàgina wiki.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Element de menú per a la consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

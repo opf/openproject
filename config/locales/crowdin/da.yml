@@ -1726,7 +1726,7 @@ da:
   label_public_projects: "Offentlige projekter"
   label_query_new: "Ny forespørgsel"
   label_query_plural: "Selvvalgte forespørgsler"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Punkt på forespørgselsmenu"
   label_read: "Læs..."
   label_register: "Opret en ny konto"
   label_register_with_developer: "Registrer dig som udvikler"
@@ -2835,7 +2835,7 @@ da:
   wiki_menu_item_new_main_item_explanation: >
     Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Menupunkt for forespørgsel \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

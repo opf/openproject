@@ -1713,7 +1713,7 @@ vi:
   label_public_projects: "Các dự án công khai"
   label_query_new: "Truy vấn mới"
   label_query_plural: "Truy vấn tùy chỉnh"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Truy vấn trình đơn"
   label_read: "Đọc..."
   label_register: "Tạo tài khoản mới"
   label_register_with_developer: "Đăng ký là nhà phát triển"

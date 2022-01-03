@@ -22,8 +22,8 @@
 lv:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading ..."
+      hide: "Paslēpt"
+      loading: "Notiek ielāde..."
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
@@ -46,7 +46,7 @@ lv:
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
-    close_popup_title: "Close popup"
+    close_popup_title: "Aizvērt logu"
     close_filter_title: "Close filter"
     close_form_title: "Close form"
     button_add_watcher: "Add watcher"
@@ -63,21 +63,21 @@ lv:
     button_copy: "Copy"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
+    button_delete_watcher: "Dzēst vērotāju"
+    button_details_view: "Skatīt detalizētāk"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
     button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+    button_list_view: "Saraksta skats"
+    button_show_view: "Pilnekrāna skats"
     button_log_time: "Log time"
     button_more: "More"
-    button_open_details: "Open details view"
+    button_open_details: "Atvērt detalizēto skatu"
     button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
+    button_open_fullscreen: "Atvērt pilnekrāna skatā"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_quote: "Quote"
@@ -85,7 +85,7 @@ lv:
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
-    button_export-pdf: "Download PDF"
+    button_export-pdf: "Lejupielādēt PDF"
     button_export-atom: "Download Atom"
     button_create: "Create"
     calendar:
@@ -99,7 +99,7 @@ lv:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "Jūsu pārlūkprogramma neatbalsta kopēšanu starpliktuvē. Lūdzu, kopējiet atlasīto tekstu izmantojot ctrl+c un ctrl+v"
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -245,7 +245,7 @@ lv:
         specific: 'on'
         current_date: 'Current date'
     error:
-      internal: "An internal error has occurred."
+      internal: "Radusies iekšēja kļūda."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
@@ -254,8 +254,8 @@ lv:
     enumeration_work_package_priorities: "Work package priorities"
     filter:
       description:
-        text_open_filter: "Open this filter with 'ALT' and arrow keys."
-        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+        text_open_filter: "Atver šo filtru ar 'ALT' un bultiņu taustiņiem."
+        text_close_filter: "Lai atlasītu ierakstu atstājiet atzīmi, piemēram, nospiežot ievadīt. Lai neizmantotu filtru atlasiet pirmo (tukšo) ieraksts."
       noneElement: "(none)"
       time_zone_converted:
         two_values: "%{from} - %{to} in your local time."
@@ -264,9 +264,9 @@ lv:
       value_spacer: "-"
       sorting:
         criteria:
-          one: "First sorting criteria"
-          two: "Second sorting criteria"
-          three: "Third sorting criteria"
+          one: "Pirmais kārtošanas kritērijs"
+          two: "Otrs kārtošanas kritērijs"
+          three: "Trešais kārtošanas kritērijs"
       upsale_for_more: "For more advanced filters, check out the"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "no"
@@ -300,19 +300,19 @@ lv:
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
-    label_add_comment: "Add comment"
+    label_add_comment: "Pievienot komentāru"
     label_add_comment_title: "Comment and type @ to notify other people"
     label_add_row_after: "Add row after"
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
-    label_added_by: "added by"
+    label_added_by: "Pievienoja"
     label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
-    label_author: "Author: %{user}"
+    label_author: "Autors: %{user}"
     label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
@@ -325,30 +325,30 @@ lv:
     label_created_by: "Created by"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
-    label_deactivate: "Deactivate"
+    label_deactivate: "Deaktivizēt"
     label_descending: "Descending"
     label_description: "Description"
     label_details: "Details"
     label_display: "Display"
-    label_cancel_comment: "Cancel comment"
+    label_cancel_comment: "Atcelt komentāru"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
-    label_collapsed: "collapsed"
+    label_collapsed: "sakļauts"
     label_collapse_all: "Collapse all"
     label_comment: "Comment"
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: "committed revision %{revision_identifier}"
+    label_committed_at: "%{committed_revision_link}, %{date}"
+    label_committed_link: "ievietotā revīzija %{revision_identifier}"
     label_contains: "contains"
-    label_created_on: "created on"
-    label_edit_comment: "Edit this comment"
+    label_created_on: "izveidots"
+    label_edit_comment: "Rediģēt šo komentāru"
     label_edit_status: "Edit the status of the work package"
     label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
-    label_expanded: "expanded"
+    label_expanded: "izvērsts"
     label_expand_all: "Expand all"
     label_expand_project_menu: "Expand project menu"
-    label_export: "Export"
+    label_export: "Eksportēt"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
     label_filesize: "Size"
@@ -358,8 +358,8 @@ lv:
     label_group: 'Group'
     label_group_by: "Group by"
     label_group_plural: "Groups"
-    label_hide_attributes: "Show less"
-    label_hide_column: "Hide column"
+    label_hide_attributes: "Rādīt mazāk"
+    label_hide_column: "Paslēpt kolonu"
     label_hide_project_menu: "Collapse project menu"
     label_in: "in"
     label_in_less_than: "in less than"
@@ -368,7 +368,7 @@ lv:
     label_information_plural: "Information"
     label_import: "Import"
     label_latest_activity: "Latest activity"
-    label_last_updated_on: "Last updated on"
+    label_last_updated_on: "Pēdējās izmaiņas veiktas"
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
@@ -377,29 +377,29 @@ lv:
     label_me: "me"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
+    label_menu_collapse: "sakļaut"
+    label_menu_expand: "izvērst"
     label_more_than_ago: "more than days ago"
     label_next: "Next"
     label_no_color: "No color"
     label_no_data: "No data to display"
     label_no_due_date: "no finish date"
-    label_no_start_date: "no start date"
+    label_no_start_date: "bez sākuma datuma"
     label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
-    label_on: "on"
+    label_on: " "
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
     label_open_work_packages: "open"
     label_password: "Password"
     label_previous: "Previous"
-    label_per_page: "Per page:"
-    label_please_wait: "Please wait"
+    label_per_page: "Katrā lappusē:"
+    label_please_wait: "Lūdzu, uzgaidiet"
     label_project_plural: "Projects"
     label_visibility_settings: "Visibility settings"
-    label_quote_comment: "Quote this comment"
+    label_quote_comment: "Citēt šo komentāru"
     label_recent: "Recent"
     label_reset: "Reset"
     label_remove: "Remove"
@@ -408,10 +408,10 @@ lv:
     label_remove_row: "Remove row"
     label_report: "Report"
     label_repository_plural: "Repositories"
-    label_save_as: "Save as"
+    label_save_as: "Saglabāt kā"
     label_select_watcher: "Select a watcher..."
-    label_selected_filter_list: "Selected filters"
-    label_show_attributes: "Show all attributes"
+    label_selected_filter_list: "Atlasītajiem filtriem"
+    label_show_attributes: "Parādīt visus atribūtus"
     label_show_in_menu: "Show view in menu"
     label_sort_by: "Sort by"
     label_sorted_by: "sorted by"
@@ -435,7 +435,7 @@ lv:
     label_activity_show_all: "Show all activities"
     label_total_progress: "%{percent}% Total progress"
     label_total_amount: "Total: %{amount}"
-    label_updated_on: "updated on"
+    label_updated_on: "labots"
     label_value_derived_from_children: "(value derived from children)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
@@ -443,10 +443,10 @@ lv:
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
-    label_watch_work_package: "Watch work package"
+    label_watch_work_package: "Sekot pieteikumam"
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Tu esi %{type} %{subject} %{tab} cilnē."
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -456,24 +456,24 @@ lv:
     label_custom_queries: "Private views"
     label_columns: "Columns"
     label_attachments: Files
-    label_drop_files: Drop files here
-    label_drop_files_hint: or click to add files
+    label_drop_files: Nomest failus šeit
+    label_drop_files_hint: vai klikšķiniet šeit, lai pievienotu failus
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
     label_add_attachments: "Add attachments"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
-    label_remove_file: "Delete %{fileName}"
-    label_remove_watcher: "Remove watcher %{name}"
-    label_remove_all_files: Delete all files
-    label_add_description: "Add a description for %{file}"
+    label_remove_file: "Dzēst %{fileName}"
+    label_remove_watcher: "Noņemt vērotāju %{name}"
+    label_remove_all_files: Dzēst visus failus
+    label_add_description: "Pievienot aprakstu priekš %{file}"
     label_upload_notification: "Uploading files..."
     label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} added by %{author}"
-    label_files_to_upload: "These files will be uploaded:"
-    label_rejected_files: "These files cannot be uploaded:"
-    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
-    label_wait: "Please wait for configuration..."
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_validation_error: "The work package could not be saved due to the following errors:"
+    label_files_to_upload: "Šie faili tiks augšupielādēti:"
+    label_rejected_files: "Nevar augšupielādēt šos failus:"
+    label_rejected_files_reason: "Šos failus nevar augšupielādēt, jo to izmērs ir lielāks par %{maximumFilesize}"
+    label_wait: "Lūdzu, uzgaidiet, konfigurācija..."
+    label_upload_counter: "%{done} no %{count} faili pabeigti"
+    label_validation_error: "Darba paku nevarēja saglabāt saistībā ar šādām kļūdām:"
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
@@ -582,10 +582,10 @@ lv:
       field_description: 'You need to enter your account password to confirm this change.'
       title: 'Confirm your password to continue'
     pagination:
-      no_other_page: "You are on the only page."
+      no_other_page: "Jūs esat vienīgajā lapā."
       pages:
-        next: "Forward to the next page"
-        previous: "Back to the previous page"
+        next: "Uz priekšu uz nākamo lapu"
+        previous: "Atpakaļ uz iepriekšējo lapu"
     placeholders:
       default: '-'
       subject: 'Enter subject here'
@@ -665,18 +665,18 @@ lv:
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
-      label_loading: loading watchers...
-      label_error_loading: An error occurred while loading the watchers
-      label_search_watchers: Search watchers
+      label_loading: ielādē vērotājus...
+      label_error_loading: Radās kļūda, ielādējot vērotājus
+      label_search_watchers: Meklēt vērotājus
       label_add: Add watchers
-      label_discard: Discard selection
+      label_discard: Atmest atlasi
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Parent"
-      children: "Children"
+      children: "Bērni"
       relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      duplicates: "Dublikāti"
+      duplicated: "Dublēts ar"
       blocks: "Blocks"
       blocked: "Blocked by"
       precedes: "Precedes"
@@ -692,7 +692,7 @@ lv:
       children_headline: "Children"
     relation_buttons:
       set_parent: "Set parent"
-      change_parent: "Change parent"
+      change_parent: "Mainīt vecāku"
       remove_parent: "Remove parent"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
@@ -722,8 +722,8 @@ lv:
       notFoundText: "No items found"
       typeToSearchText: "Type to search"
     repositories:
-      select_tag: 'Select tag'
-      select_branch: 'Select branch'
+      select_tag: 'Izvēlieties atzīmi'
+      select_branch: 'Izvēlieties zaru'
     field_value_enter_prompt: "Enter a value for '%{field}'"
     project_menu_details: "Details"
     scheduling:
@@ -739,7 +739,7 @@ lv:
       activate_no: 'activate to remove the sort'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
     text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
+    text_attachment_destroy_confirmation: "Vai tiešām vēlaties izdzēst pielikumu?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt chart'
@@ -758,7 +758,7 @@ lv:
       change: "Change in planning"
       due_date: "Finish date"
       empty: "(empty)"
-      error: "An error has occurred."
+      error: "Radusies kļūda."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
@@ -798,26 +798,26 @@ lv:
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
-      zooms: "Zoom level"
-      outlines: "Hierarchy level"
+      zooms: "Tālummaiņas līmenis"
+      outlines: "Hierarhijas līmenis"
     upsale:
       ee_only: 'Enterprise Edition only feature'
     wiki_formatting:
-      strong: "Strong"
-      italic: "Italic"
-      underline: "Underline"
-      deleted: "Deleted"
-      code: "Inline Code"
-      heading1: "Heading 1"
-      heading2: "Heading 2"
-      heading3: "Heading 3"
-      unordered_list: "Unordered List"
-      ordered_list: "Ordered List"
+      strong: "Trekns"
+      italic: "Slīps"
+      underline: "Pasvītrots"
+      deleted: "Nosvītrots"
+      code: "Inline kods"
+      heading1: "Virsraksts 1"
+      heading2: "Virsraksts 2"
+      heading3: "Virsraksts 3"
+      unordered_list: "Nenumurēts saraksts"
+      ordered_list: "Numurēts saraksts"
       quote: "Quote"
-      unquote: "Unquote"
-      preformatted_text: "Preformatted Text"
-      wiki_link: "Link to a Wiki page"
-      image: "Image"
+      unquote: "Samazināt atkāpi"
+      preformatted_text: "Pre"
+      wiki_link: "Saite uz Wiki lapu"
+      image: "Attēls"
     work_packages:
       bulk_actions:
         move: 'Bulk change of project'
@@ -825,17 +825,17 @@ lv:
         copy: 'Bulk copy'
         delete: 'Bulk delete'
       button_clear: "Clear"
-      comment_added: "The comment was successfully added."
-      comment_send_failed: "An error has occurred. Could not submit the comment."
-      comment_updated: "The comment was successfully updated."
+      comment_added: "Komentārs veiksmīgi pievienots."
+      comment_send_failed: "Radusies kļūda. Nevar iesniegt komentāru."
+      comment_updated: "Komentārs tika veiksmīgi atjaunināts."
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
       description_filter: "Filter"
       description_enter_text: "Enter text"
       description_options_hide: "Hide options"
       description_options_show: "Show options"
-      edit_attribute: "%{attribute} - Edit"
+      edit_attribute: "%{attribute} - Rediģēt"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Enable multiselect"
+      label_enable_multi_select: "Aktivizēt vairākas izvēlnes"
       label_disable_multi_select: "Disable multiselect"
       label_filter_add: "Add filter"
       label_filter_by_text: "Filter by text"
@@ -874,7 +874,7 @@ lv:
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
-        people: "People"
+        people: "Iesaistītie"
         estimatesAndTime: "Estimates & Time"
         other: "Other"
       properties:
@@ -919,15 +919,15 @@ lv:
       query:
         column_names: "Columns"
         group_by: "Group results by"
-        group: "Group by"
+        group: "Grupēt pēc"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        sort_ascending: "Sort ascending"
-        sort_descending: "Sort descending"
+        sort_ascending: "Kārtot augošā secībā"
+        sort_descending: "Kārtot dilstošā secībā"
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         hide_column: "Hide column"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Ievietot kolonnas..."
         filters: "Filters"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -987,7 +987,7 @@ lv:
       tabs:
         overview: Overview
         activity: Activity
-        relations: Relations
+        relations: Saistītie
         watchers: Watchers
         attachments: Attachments
       time_relative:
@@ -997,16 +997,16 @@ lv:
     toolbar:
       settings:
         configure_view: "Configure view ..."
-        columns: "Columns ..."
-        sort_by: "Sort by ..."
-        group_by: "Group by ..."
-        display_sums: "Display sums"
+        columns: "Kolonnas..."
+        sort_by: "Kārtot pēc..."
+        group_by: "Grupēt pēc..."
+        display_sums: "Parādīt summas"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Save"
-        save_as: "Save as ..."
-        export: "Export ..."
+        save_as: "Saglabāt kā ..."
+        export: "Eksportēt..."
         visibility_settings: "Visibility settings ..."
         page_settings: "Rename view ..."
         delete: "Delete"
@@ -1042,18 +1042,18 @@ lv:
     notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
-      empty: No relation exists
-      remove: Remove relation
+      empty: Nepastāv saistības
+      remove: Noņemt saistību
     inplace:
       button_edit: "%{attribute}: Edit"
       button_save: "%{attribute}: Save"
       button_cancel: "%{attribute}: Cancel"
       button_save_all: "Save"
       button_cancel_all: "Cancel"
-      link_formatting_help: "Text formatting help"
+      link_formatting_help: "Teksta formatēšanas palīdzība"
       btn_preview_enable: "Preview"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      btn_preview_disable: "Atslēgt priekšskatījumu"
+      null_value_label: "Nav vērtības"
       clear_value_label: "-"
       errors:
         required: '%{field} cannot be empty'

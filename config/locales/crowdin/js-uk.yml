@@ -23,16 +23,16 @@ uk:
   js:
     ajax:
       hide: "Hide"
-      loading: "Loading ..."
+      loading: "Завантаження ..."
     attachments:
       draggable_hint: |
-        Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+        Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
-        single: "Select \"%{name}\""
-      remove: "Remove %{name}"
-      active: "Active %{label} %{name}"
+        multi: "Додати %{name}"
+        single: "Виберіть %{name}"
+      remove: "Видалити %{name}"
+      active: "Активувати %{label} %{name}"
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
       info: >
@@ -46,38 +46,38 @@ uk:
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
-    close_popup_title: "Close popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
+    close_popup_title: "Закрити вспливаюче вікно"
+    close_filter_title: "Закрити фільтр"
+    close_form_title: "Закрити форму"
     button_add_watcher: "Add watcher"
     button_add: "Add"
     button_back: "Back"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "Повернутися до списку"
     button_cancel: "Cancel"
-    button_close: "Close"
-    button_change_project: "Change project"
+    button_close: "Закрити"
+    button_change_project: "Змінити проект"
     button_check_all: "Check all"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
-    button_continue: "Continue"
+    button_configure-form: "Налаштуйте форму"
+    button_confirm: "Підтвердити"
+    button_continue: "Продовжити"
     button_copy: "Copy"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
+    button_delete_watcher: "Видалити спостерігача"
+    button_details_view: "Докладне подання"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+    button_advanced_filter: "Розширений фільтр"
+    button_list_view: "Подання списком"
+    button_show_view: "Повноекранний режим"
     button_log_time: "Log time"
     button_more: "More"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
+    button_open_details: "Відкрити докладне подання"
+    button_close_details: "Закрити подання деталей"
+    button_open_fullscreen: "Відкрити на весь екран"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_quote: "Quote"
@@ -85,33 +85,33 @@ uk:
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
-    button_export-pdf: "Download PDF"
-    button_export-atom: "Download Atom"
+    button_export-pdf: "Завантажити PDF"
+    button_export-atom: "Завантажити Atom"
     button_create: "Create"
     calendar:
       title: 'Calendar'
       too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
-      add_new: 'Add new card'
+      add_new: 'Додати нову картку'
       highlighting:
-        inline: 'Highlight inline:'
-        entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+        inline: 'Виділіть у рядку:'
+        entire_card_by: 'Пов''язана картка'
+      remove_from_list: 'Вилучити зі списку'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "Ваш браузер не підтримує копіювання до буфера обміну. Потрібно скопіювати виділений текст вручну."
       copied_successful: "Successfully copied to clipboard!"
     chart:
-      type: 'Chart type'
-      axis_criteria: 'Axis criteria'
+      type: 'Тип графіка'
+      axis_criteria: 'Умови осі'
       modal_title: 'Work package graph configuration'
       types:
-        line: 'Line'
-        horizontal_bar: 'Horizontal bar'
-        bar: 'Bar'
-        pie: 'Pie'
-        doughnut: 'Doughnut'
-        radar: 'Radar'
+        line: 'Лінія'
+        horizontal_bar: 'Горизонтальна смуга'
+        bar: 'Смуга'
+        pie: 'Кругова'
+        doughnut: 'Пончик'
+        radar: 'Радар'
         polar_area: 'Polar area'
       tabs:
         graph_settings: 'General'
@@ -120,17 +120,17 @@ uk:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
+    description_select_work_package: "Виберіть пакет робіт #%{id}"
     description_selected_columns: "Selected Columns"
-    description_subwork_package: "Child of work package #%{id}"
+    description_subwork_package: "Нащадок пакету робіт #%{id}"
     editor:
-      preview: 'Toggle preview mode'
-      source_code: 'Toggle Markdown source mode'
-      error_saving_failed: 'Saving the document failed with the following error: %{error}'
+      preview: 'Перемкнути режим попереднього перегляду'
+      source_code: 'Увімкнути режим вимкнення Markdown'
+      error_saving_failed: 'Не вдалося зберегти документ із такою помилкою: %{error}'
       ckeditor_error: 'An error occurred within CKEditor'
       mode:
-        manual: 'Switch to Markdown source'
-        wysiwyg: 'Switch to WYSIWYG editor'
+        manual: 'Перейдіть до джерела Markdown'
+        wysiwyg: 'Перейти до редактора WYSIWYG'
       macro:
         error: 'Cannot expand macro: %{message}'
         attribute_reference:
@@ -138,43 +138,43 @@ uk:
           not_found: 'Requested resource could not be found'
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
-          button: 'Links to child pages'
-          include_parent: 'Include parent'
-          text: '[Placeholder] Links to child pages of'
+          button: 'Посилання на дочірні сторінки'
+          include_parent: 'Включити джерела'
+          text: '[Placeholder] Посилання на дочірні сторінки'
           page: 'Wiki page'
-          this_page: 'this page'
+          this_page: 'цієї сторінки'
           hint: |
-            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+            Залиште це поле порожнім, щоб перерахувати всі дочірні сторінки поточної сторінки. Якщо ви хочете посилатися на іншу сторінку, вкажіть її назву або накладку.
         code_block:
-          button: 'Insert code snippet'
-          title: 'Insert / edit Code snippet'
-          language: 'Formatting language'
-          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+          button: 'Вставте фрагмент коду'
+          title: 'Вставити / відредагувати фрагмент коду'
+          language: 'Мова форматування'
+          language_hint: 'Введіть мову форматування, яка буде використана для виділення (якщо підтримується).'
         dropdown:
-          macros: 'Macros'
-          chose_macro: 'Chose macro'
+          macros: 'Макроси'
+          chose_macro: 'Виберіть макрос'
         toc: 'Table of contents'
-        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        toolbar_help: 'Натисніть, щоб вибрати віджет і показати панель інструментів. Двічі клацніть, щоб відредагувати віджет'
         wiki_page_include:
-          button: 'Include content of another wiki page'
-          text: '[Placeholder] Included wiki page of'
+          button: 'Включити вміст іншої вікі-сторінки'
+          text: '[Placeholder] Включена вікі-сторінка'
           page: 'Wiki page'
-          not_set: '(Page not yet set)'
+          not_set: '(Сторінку ще не встановлено)'
           hint: |
-            Include the content of another wiki page by specifying its title or slug.
-            You can include the wiki page of another project by separating them with a colon like the following example.
+            Включіть вміст іншої вікі-сторінки, вказавши її назву або накладку.
+            Ви можете включити вікі-сторінку іншого проекту, розділивши їх двокрапкою, як наведений нижче приклад.
         work_package_button:
-          button: 'Insert create work package button'
-          type: 'Work package type'
-          button_style: 'Use button style'
-          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
-          without_type: 'Create work package'
-          with_type: 'Create work package (Type: %{typename})'
+          button: 'Вставити кнопку створення робочого пакета'
+          type: 'Тип робочого пакета'
+          button_style: 'Використовуйте стиль кнопки'
+          button_style_hint: 'Необов’язково: позначте пункт Перевірити, щоб макрос відображався як кнопка, а не як посилання.'
+          without_type: 'Створити робочий пакет'
+          with_type: 'Створити робочий пакет (тип: %{typename})'
         embedded_table:
-          button: 'Embed work package table'
-          text: '[Placeholder] Embedded work package table'
+          button: 'Вставити таблицю робочих пакетів'
+          text: '[Placeholder] Вбудована таблиця робочих пакетів'
         embedded_calendar:
-          text: '[Placeholder] Embedded calendar'
+          text: '[Placeholder] вбудований календар'
     admin:
       type_form:
         custom_field: 'Custom field'
@@ -182,21 +182,21 @@ uk:
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
-        edit_query: 'Edit query'
+        edit_query: 'Редагувати запит'
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Підтвердження електронної адреси"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+            invalid_email: "Хибна адреса ел. пошти"
+            label_company: "Компанія"
             label_first_name: "First name"
             label_last_name: "Last name"
             label_domain: "Domain"
@@ -208,15 +208,15 @@ uk:
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+          try_another_email: "Спробуйте з іншою електронною адресою."
+          next_steps: "Настуні кроки"
           resend_link: "Resend"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
+          resend_warning: "Не вдалося повторно надіслати листа."
+          session_timeout: "Сеанс закінчено. Будь ласка спробуйте перезавантажити сторінку або надіслати листа ще раз."
+          status_label: "Статус:"
+          status_confirmed: "Підтверджено"
+          status_waiting: "Лист надіслано - очікуємо підтвердження"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
         upsale:
@@ -243,32 +243,32 @@ uk:
     custom_actions:
       date:
         specific: 'on'
-        current_date: 'Current date'
+        current_date: 'Поточна дата'
     error:
-      internal: "An internal error has occurred."
-      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
-      query_saving: "The view could not be saved."
-      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+      internal: "Сталася внутрішня помилка."
+      cannot_save_changes_with_message: "Не вдалося зберегти зміни через такі помилки: %{error}"
+      query_saving: "Перегляд не вдалося зберегти."
+      embedded_table_loading: "Вбудований перегляд не вдалося завантажити: %{message}"
     enumeration_activities: "Activities (time tracking)"
     enumeration_doc_categories: "Document categories"
     enumeration_work_package_priorities: "Work package priorities"
     filter:
       description:
-        text_open_filter: "Open this filter with 'ALT' and arrow keys."
-        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+        text_open_filter: "Відкрийте цей фільтр за допомогою «ALT» і клавіш зі стрілками."
+        text_close_filter: "Щоб вибрати запис - встановіть на ньому фокус, наприклад, натиснувши Enter. Щоб залишити без фільтру - виберіть перший (порожній) елемент."
       noneElement: "(none)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: "From %{from} in your local time."
-        only_end: "Till %{to} in your local time."
+        two_values: "%{from} - %{to} у місцевий час."
+        only_start: "From %{from} у місцевий час."
+        only_end: "До %{to} у місцевий час."
       value_spacer: "-"
       sorting:
         criteria:
-          one: "First sorting criteria"
-          two: "Second sorting criteria"
-          three: "Third sorting criteria"
-      upsale_for_more: "For more advanced filters, check out the"
-      upsale_link: 'Enterprise Edition.'
+          one: "Перший критерій впорядкування"
+          two: "Другий критерій впорядкування"
+          three: "Третій критерій впорядкування"
+      upsale_for_more: "Щоб отримати додаткові фільтри, ознайомтеся з"
+      upsale_link: 'корпоративне видання.'
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -283,7 +283,7 @@ uk:
     homescreen:
       blocks:
         new_features:
-          text_new_features: "Read about new features and product updates."
+          text_new_features: "Читайте про нові функції та оновлення продуктів."
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
@@ -297,58 +297,58 @@ uk:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Activate"
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
-    label_add_columns: "Add columns"
-    label_add_comment: "Add comment"
-    label_add_comment_title: "Comment and type @ to notify other people"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
+    label_add_column_after: "Додати стовпець після"
+    label_add_column_before: "Додати стовпець перед"
+    label_add_columns: "Додати стовпці"
+    label_add_comment: "Додати коментар"
+    label_add_comment_title: "Коментар і введіть @, щоб повідомити інших людей"
+    label_add_row_after: "Додати рядок після"
+    label_add_row_before: "Додати рядок перед"
     label_add_selected_columns: "Add selected columns"
-    label_added_by: "added by"
+    label_added_by: "додав(-ла)"
     label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
     label_all_work_packages: "all work packages"
     label_and: "and"
     label_ascending: "Ascending"
-    label_author: "Author: %{user}"
+    label_author: "Автор: %{user}"
     label_avatar: "Avatar"
     label_between: "between"
-    label_board: "Board"
+    label_board: "Дошка"
     label_board_locked: "Locked"
-    label_board_plural: "Boards"
+    label_board_plural: "Дошки"
     label_board_sticky: "Sticky"
     label_change: "Change"
     label_create: "Create"
     label_create_work_package: "Create new work package"
-    label_created_by: "Created by"
+    label_created_by: "Створено"
     label_date: "Date"
-    label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
-    label_deactivate: "Deactivate"
+    label_date_with_format: "Введіть %{date_attribute}, використовуючи наступний формат: %{format}"
+    label_deactivate: "Деактивувати"
     label_descending: "Descending"
     label_description: "Description"
     label_details: "Details"
     label_display: "Display"
-    label_cancel_comment: "Cancel comment"
+    label_cancel_comment: "Скасувати коментар"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
-    label_collapsed: "collapsed"
+    label_collapsed: "згорнуто"
     label_collapse_all: "Collapse all"
     label_comment: "Comment"
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: "committed revision %{revision_identifier}"
+    label_committed_at: "%{committed_revision_link}, %{date}"
+    label_committed_link: "зафіксовано редакцію %{revision_identifier}"
     label_contains: "contains"
-    label_created_on: "created on"
-    label_edit_comment: "Edit this comment"
-    label_edit_status: "Edit the status of the work package"
+    label_created_on: "створено"
+    label_edit_comment: "Редагувати цей коментар"
+    label_edit_status: "Відредагуйте стан робочого пакету"
     label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
-    label_expanded: "expanded"
+    label_expanded: "розгорнуто"
     label_expand_all: "Expand all"
-    label_expand_project_menu: "Expand project menu"
-    label_export: "Export"
+    label_expand_project_menu: "Розгорніть меню проекту"
+    label_export: "Експорт"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
     label_filesize: "Size"
@@ -358,17 +358,17 @@ uk:
     label_group: 'Group'
     label_group_by: "Group by"
     label_group_plural: "Groups"
-    label_hide_attributes: "Show less"
-    label_hide_column: "Hide column"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_attributes: "Показати менше"
+    label_hide_column: "Приховати стовпчик"
+    label_hide_project_menu: "Згорнути меню проекту"
     label_in: "in"
     label_in_less_than: "in less than"
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
     label_import: "Import"
-    label_latest_activity: "Latest activity"
-    label_last_updated_on: "Last updated on"
+    label_latest_activity: "Останні дії"
+    label_last_updated_on: "Останнє оновлення"
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
@@ -377,110 +377,110 @@ uk:
     label_me: "me"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
-    label_menu_collapse: "collapse"
-    label_menu_expand: "expand"
+    label_menu_collapse: "згорнути"
+    label_menu_expand: "розгорнути"
     label_more_than_ago: "more than days ago"
     label_next: "Next"
     label_no_color: "No color"
     label_no_data: "No data to display"
     label_no_due_date: "no finish date"
-    label_no_start_date: "no start date"
+    label_no_start_date: "немає дати початку"
     label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
-    label_on: "on"
+    label_on: "на"
     label_open_menu: "Open menu"
-    label_open_context_menu: "Open context menu"
+    label_open_context_menu: "Відкрийте контекстне меню"
     label_open_work_packages: "open"
     label_password: "Password"
     label_previous: "Previous"
-    label_per_page: "Per page:"
-    label_please_wait: "Please wait"
+    label_per_page: "К-сть на сторінку:"
+    label_please_wait: "Будь ласка, зачекайте"
     label_project_plural: "Projects"
-    label_visibility_settings: "Visibility settings"
-    label_quote_comment: "Quote this comment"
+    label_visibility_settings: "Налаштування видимості ..."
+    label_quote_comment: "Цитувати цей коментар"
     label_recent: "Recent"
     label_reset: "Reset"
     label_remove: "Remove"
-    label_remove_column: "Remove column"
+    label_remove_column: "Видалити стовпець"
     label_remove_columns: "Remove selected columns"
-    label_remove_row: "Remove row"
+    label_remove_row: "Видалити рядок"
     label_report: "Report"
     label_repository_plural: "Repositories"
-    label_save_as: "Save as"
-    label_select_watcher: "Select a watcher..."
-    label_selected_filter_list: "Selected filters"
-    label_show_attributes: "Show all attributes"
-    label_show_in_menu: "Show view in menu"
+    label_save_as: "Зберегти як"
+    label_select_watcher: "Виберіть спостерігача..."
+    label_selected_filter_list: "Вибрані фільтри"
+    label_show_attributes: "Показати всі атрибути"
+    label_show_in_menu: "Показати вигляд у меню"
     label_sort_by: "Sort by"
-    label_sorted_by: "sorted by"
+    label_sorted_by: "відсортовано за"
     label_sort_higher: "Move up"
     label_sort_lower: "Move down"
-    label_sorting: "Sorting"
+    label_sorting: "Сортування"
     label_spent_time: "Spent time"
-    label_star_query: "Favored"
-    label_press_enter_to_save: "Press enter to save."
+    label_star_query: "Улюблений"
+    label_press_enter_to_save: "Натисніть enter, щоб зберегти."
     label_public_query: "Public"
     label_sum: "Sum"
-    label_sum_for: "Sum for"
-    label_total_sum: "Total sum"
+    label_sum_for: "Сума для"
+    label_total_sum: "Загальна сума"
     label_subject: "Subject"
     label_this_week: "this week"
     label_today: "Today"
     label_time_entry_plural: "Spent time"
-    label_up: "Up"
+    label_up: "Вгору"
     label_user_plural: "Users"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
-    label_total_progress: "%{percent}% Total progress"
-    label_total_amount: "Total: %{amount}"
-    label_updated_on: "updated on"
-    label_value_derived_from_children: "(value derived from children)"
+    label_activity_show_only_comments: "Показувати заходи лише з коментарями"
+    label_activity_show_all: "Показати всю активність"
+    label_total_progress: "%{percent}% загального прогресу"
+    label_total_amount: "Всього: %{amount}"
+    label_updated_on: "оновлено"
+    label_value_derived_from_children: "(значення, отримане від дітей)"
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "Warning"
     label_work_package: "Work package"
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
-    label_watch_work_package: "Watch work package"
-    label_watcher_added_successfully: "Watcher successfully added!"
-    label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_watch_work_package: "Спостерігати за робочим пакетом"
+    label_watcher_added_successfully: "Спостерігач успішно доданий!"
+    label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
+    label_work_package_details_you_are_here: "Ви знаходитесь на вкладці %{tab} для %{type} %{subject}."
     label_unwatch: "Unwatch"
-    label_unwatch_work_package: "Unwatch work package"
-    label_uploaded_by: "Uploaded by"
-    label_default_queries: "Default views"
-    label_starred_queries: "Favorite views"
-    label_global_queries: "Public views"
-    label_custom_queries: "Private views"
+    label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
+    label_uploaded_by: "Завантажено"
+    label_default_queries: "Перегляд за умовчанням"
+    label_starred_queries: "Улюблені види"
+    label_global_queries: "Види громадськості"
+    label_custom_queries: "Приватні види"
     label_columns: "Columns"
     label_attachments: Files
-    label_drop_files: Drop files here
-    label_drop_files_hint: or click to add files
-    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Add attachments"
-    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
-    label_remove_file: "Delete %{fileName}"
-    label_remove_watcher: "Remove watcher %{name}"
-    label_remove_all_files: Delete all files
-    label_add_description: "Add a description for %{file}"
-    label_upload_notification: "Uploading files..."
+    label_drop_files: Перетягніть файли сюди
+    label_drop_files_hint: або клацніть, щоб додати файли
+    label_drop_folders_hint: Ви не можете завантажувати теки як вкладення. Будь ласка, оберіть окремі файли.
+    label_add_attachments: "Додати вкладення"
+    label_formattable_attachment_hint: "Приєднати файли та зв'язати їх, скинувши це поле або вставивши його з буфера обміну."
+    label_remove_file: "Видалити %{fileName}"
+    label_remove_watcher: "Видалити спостерігача %{name}"
+    label_remove_all_files: Видалити всі файли
+    label_add_description: "Додати опис для %{file}"
+    label_upload_notification: "Завантаження файлів ..."
     label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
-    label_wp_id_added_by: "#%{id} added by %{author}"
-    label_files_to_upload: "These files will be uploaded:"
-    label_rejected_files: "These files cannot be uploaded:"
-    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
-    label_wait: "Please wait for configuration..."
-    label_upload_counter: "%{done} of %{count} files finished"
-    label_validation_error: "The work package could not be saved due to the following errors:"
+    label_wp_id_added_by: "#%{id} додано користувачем %{author}"
+    label_files_to_upload: "Ці файли будуть завантажені на сервер:"
+    label_rejected_files: "Ці файли не можуть бути завантажені на сервер:"
+    label_rejected_files_reason: "Ці файли не можуть бути завантажені на сервер, оскільки їх розмір більший за %{maximumFilesize}"
+    label_wait: "Будь ласка, зачекайте конфігурації..."
+    label_upload_counter: "%{done} з %{count} файлу(-ів) завершені"
+    label_validation_error: "Пакет робіт не може бути збережений через наступні помилки:"
     label_version_plural: "Versions"
     label_view_has_changed: "This view has unsaved changes. Click to save them."
     help_texts:
-      show_modal: 'Show attribute help text entry'
+      show_modal: 'Показати вміст атрибута тексту довідки'
     onboarding:
       buttons:
-        skip: 'Skip'
+        skip: 'Пропустити'
         next: 'Next'
         got_it: 'Got it'
       steps:
@@ -489,7 +489,7 @@ uk:
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
         sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
-        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
+        welcome: 'Здійсніть трихвилинний ознайомчий огляд для вивчення <b>найважливішого функціоналу</b>. <br> Ми рекомендуємо пройти всі кроки до завершення огляду. Ви можете повернутися до цього огляду повторно в будь-який час.'
         wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
         backlogs:
           overview: "Manage your work in the <b>backlogs</b> view."
@@ -580,31 +580,31 @@ uk:
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
     password_confirmation:
-      field_description: 'You need to enter your account password to confirm this change.'
-      title: 'Confirm your password to continue'
+      field_description: 'Вам необхідно ввести пароль облікового запису, щоб підтвердити цю зміну.'
+      title: 'Підтвердіть ваш пароль щоб продовжити'
     pagination:
-      no_other_page: "You are on the only page."
+      no_other_page: "Ви знаходитесь на єдиній сторінці."
       pages:
-        next: "Forward to the next page"
-        previous: "Back to the previous page"
+        next: "Перейти до наступної сторінки"
+        previous: "Повернутись до попередньої сторінки"
     placeholders:
       default: '-'
-      subject: 'Enter subject here'
+      subject: 'Введіть тему тут'
       selection: 'Please select'
-      relation_description: 'Click to add description for this relation'
+      relation_description: 'Нажмите, чтобы добавить описание для этой связи'
     project:
       required_outside_context: >
-        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
-      context: 'Project context'
-      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
-      click_to_switch_context: 'Open this work package in that project.'
+        Виберіть проект, щоб створити робочий пакет, щоб побачити всі атрибути. Ви можете вибирати лише проекти, які мають вказаний вище тип активації.
+      context: 'Контекст проекту'
+      work_package_belongs_to: 'Цей робочий пакет належить до проекту %{projectname}'
+      click_to_switch_context: 'Відкрийте цей робочий пакет у цьому проекті.'
       confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
       use_template: "Use template"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
       autocompleter:
-        label: 'Project autocompletion'
+        label: 'Автозавершення проекту'
     reminders:
       settings:
         daily:
@@ -636,17 +636,17 @@ uk:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Ви впевненені?"
     text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
-        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        error_no_table_configured: "Please configure a table for %{group}."
-        reset_title: "Reset form configuration"
+        error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
+        error_no_table_configured: "Please configure a table for %{group}"
+        reset_title: "Скидання конфігурації форми"
         confirm_reset: >
-          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+          Попередження: Справді скинути конфігурацію форми? Це призведе до скидання атрибутів до групи за замовчуванням і вимкнення всіх користувацьких полів.
         upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        upgrade_to_ee_text: "Оце Так! Якщо вам потрібна ця функція, ви супер-про! Чи не могли б ви підтримати розробників OpenSource, ставши клієнтом Enterprise Edition?"
         more_information: "More information"
         nevermind: "Nevermind"
       edit:
@@ -666,100 +666,100 @@ uk:
     two_factor_authentication:
       label_two_factor_authentication: 'Two-factor authentication'
     watchers:
-      label_loading: loading watchers...
-      label_error_loading: An error occurred while loading the watchers
-      label_search_watchers: Search watchers
+      label_loading: завантаження спостерігачів...
+      label_error_loading: Під час завантаження спостерігачів сталася помилка
+      label_search_watchers: Пошук спостерігачів
       label_add: Add watchers
-      label_discard: Discard selection
-      typeahead_placeholder: Search for possible watchers
+      label_discard: Скасувати вибір
+      typeahead_placeholder: Пошук можливих спостерігачів
     relation_labels:
       parent: "Parent"
-      children: "Children"
+      children: "Дочірні елементи"
       relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      duplicates: "Дублікати"
+      duplicated: "Дублюється"
       blocks: "Blocks"
-      blocked: "Blocked by"
-      precedes: "Precedes"
-      follows: "Follows"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      blocked: "Заблоковано"
+      precedes: "Передує"
+      follows: "Слідує"
+      includes: "Включити"
+      partof: "Частина"
+      requires: "вимагається"
+      required: "Необхідний для"
+      relation_type: "Тип зв'язку"
     relations_hierarchy:
       parent_headline: "Parent"
       hierarchy_headline: "Hierarchy"
       children_headline: "Children"
     relation_buttons:
-      set_parent: "Set parent"
-      change_parent: "Change parent"
-      remove_parent: "Remove parent"
+      set_parent: "Встановити батьківську"
+      change_parent: "Змінити батьківський об'єкт"
+      remove_parent: "Видалити джерела"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
-      add_existing: "Add existing"
-      add_existing_child: "Add existing child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      add_follower: "Add follower"
-      add_predecessor: "Add predecessor"
+      group_by_wp_type: "Група за типом робочого пакета"
+      group_by_relation_type: "Група за типом відношення"
+      add_parent: "Додати існуюче джерело"
+      add_new_child: "Створити новий дочірній елемент"
+      create_new: "Створити новий"
+      add_existing: "Додати існуючий"
+      add_existing_child: "Додати існуючий дочірній елемент"
+      remove_child: "Видалити дочірній елемент"
+      add_new_relation: "Створити нове відношення"
+      add_existing_relation: "Додати існуюче співвідношення"
+      update_description: "Встановити або оновити опис цього відношення"
+      toggle_description: "Переключити опис відносин"
+      update_relation: "Натисніть, щоб змінити тип відносини"
+      add_follower: "Додати послідовника"
+      add_predecessor: "Додати попередника"
       remove: "Remove relation"
-      save: "Save relation"
-      abort: "Abort"
+      save: "Зберегти відношення"
+      abort: "Відмінити"
     relations_autocomplete:
-      placeholder: "Type to search"
-      parent_placeholder: "Choose new parent or press escape to cancel."
+      placeholder: "Введіть для пошуку"
+      parent_placeholder: "Виберіть нові джерела або натисніть клавішу Escape, щоб скасувати."
     autocompleter:
       placeholder: "Type to search"
       notFoundText: "No items found"
       typeToSearchText: "Type to search"
     repositories:
-      select_tag: 'Select tag'
-      select_branch: 'Select branch'
-    field_value_enter_prompt: "Enter a value for '%{field}'"
+      select_tag: 'Виберіть мітку'
+      select_branch: 'Виберіть гілку'
+    field_value_enter_prompt: "Введіть значення для «%{field}»"
     project_menu_details: "Details"
     scheduling:
       manual: 'Manual scheduling'
       automatic: 'Automatic scheduling'
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: 'sorting is disabled'
-      activate_asc: 'activate to apply an ascending sort'
-      activate_dsc: 'activate to apply a descending sort'
-      activate_no: 'activate to remove the sort'
+      sorted_asc: 'Застосовується сортування за зростанням,'
+      sorted_dsc: 'Застосовується сортування за спаданням,'
+      sorted_no: 'Не застосовано жодного сорту'
+      sorting_disabled: 'сортування відключено'
+      activate_asc: 'активувати виконання сортування за зростанням'
+      activate_dsc: 'активувати виконання сортування по спадаючій'
+      activate_no: 'активувати, щоб видалити сортування'
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
-    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
-    text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
+    text_query_destroy_confirmation: "Ви дійсно бажаєте видалити вибраний вигляд?"
+    text_attachment_destroy_confirmation: "Ви впевнені, що бажаєте видалити вкладення?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
-      gantt_chart: 'Gantt chart'
+      gantt_chart: 'Діаграма Ганта'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
-        showNone: '-- No label --'
+        title: 'Конфігурація мітки'
+        bar: 'смуга міток'
+        left: 'Ліворуч'
+        right: 'Зправа'
+        farRight: 'Далі вправо'
+        showNone: '- Немає мітки -'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Виберіть атрибути, які потрібно відображати у відповідних положеннях діаграми Ганта в будь-який час. Зверніть увагу, що під час наведення елемента замість цих атрибутів буде показано його мітки.
+      button_activate: 'Показати діаграму Ганта'
+      button_deactivate: 'Сховати діаграму Ганта'
       cancel: Cancel
       change: "Change in planning"
       due_date: "Finish date"
       empty: "(empty)"
-      error: "An error has occurred."
+      error: "Сталася помилка."
       errors:
         not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
         report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
@@ -779,17 +779,17 @@ uk:
         level5: "Expand level 5"
         all: "Show all"
       project_status: "Project status"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
+      really_close_dialog: "Ви дійсно хочете закрити діалог і втратити введені дані?"
       responsible: "Responsible"
       save: Save
       start_date: "Start date"
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
+      tooManyProjects: "Більше, ніж %{count} проект(-и,-ів). Будь ласка, використайте точніший фільтр!"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Натисніть будь-який виділений робочий пакет, щоб створити відношення. Натисніть клавішу Escape, щоб скасувати.'
       zoom:
         in: "Zoom in"
         out: "Zoom out"
-        auto: "Auto zoom"
+        auto: "Автозбільшення"
         days: "Days"
         weeks: "Weeks"
         months: "Months"
@@ -797,86 +797,86 @@ uk:
         years: "Years"
         slider: "Zoom slider"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Виберіть початковий рівень масштабування, який має відображатися, коли функція автоматичного масштабування недоступна.
     tl_toolbar:
-      zooms: "Zoom level"
-      outlines: "Hierarchy level"
+      zooms: "Рівень масштабування"
+      outlines: "Рівень ієрархії"
     upsale:
       ee_only: 'Enterprise Edition only feature'
     wiki_formatting:
-      strong: "Strong"
-      italic: "Italic"
-      underline: "Underline"
-      deleted: "Deleted"
-      code: "Inline Code"
-      heading1: "Heading 1"
-      heading2: "Heading 2"
-      heading3: "Heading 3"
-      unordered_list: "Unordered List"
-      ordered_list: "Ordered List"
+      strong: "Жирний"
+      italic: "Курсив"
+      underline: "Підкреслений"
+      deleted: "Видалений"
+      code: "Інлайн-код"
+      heading1: "Заголовок 1"
+      heading2: "Заголовок 2"
+      heading3: "Заголовок 3"
+      unordered_list: "Невпорядкований список"
+      ordered_list: "Нумерований список"
       quote: "Quote"
-      unquote: "Unquote"
-      preformatted_text: "Preformatted Text"
-      wiki_link: "Link to a Wiki page"
-      image: "Image"
+      unquote: "Скасувати цитування"
+      preformatted_text: "Попередньо відформатований текст"
+      wiki_link: "Посилання на вікі-сторінку"
+      image: "Зображення"
     work_packages:
       bulk_actions:
         move: 'Bulk change of project'
-        edit: 'Bulk edit'
-        copy: 'Bulk copy'
-        delete: 'Bulk delete'
+        edit: 'Масове редагування'
+        copy: 'Масова копія'
+        delete: 'Масове видалення'
       button_clear: "Clear"
-      comment_added: "The comment was successfully added."
-      comment_send_failed: "An error has occurred. Could not submit the comment."
-      comment_updated: "The comment was successfully updated."
-      confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
+      comment_added: "Коментар був успішно доданий."
+      comment_send_failed: "Сталася помилка. Не вдалося додати коментар."
+      comment_updated: "Коментар був успішно оновлений."
+      confirm_edit_cancel: "Ви дійсно бажаєте скасувати редагування пакету робіт?"
       description_filter: "Filter"
       description_enter_text: "Enter text"
-      description_options_hide: "Hide options"
-      description_options_show: "Show options"
-      edit_attribute: "%{attribute} - Edit"
+      description_options_hide: "Сховати опції"
+      description_options_show: "Показати опції"
+      edit_attribute: "%{attribute} - Редагувати"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Enable multiselect"
-      label_disable_multi_select: "Disable multiselect"
+      label_enable_multi_select: "Дозволити мультивибір"
+      label_disable_multi_select: "Не дозволяти мультивибір"
       label_filter_add: "Add filter"
-      label_filter_by_text: "Filter by text"
+      label_filter_by_text: "Фільтрування за текстом"
       label_options: "Options"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
-      message_view_spent_time: "Show spent time for this work package"
-      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      label_column_multiselect: "Поле комбінованого випадаючого списку: виділіть за допомогою клавіш зі стрілками, підтвердьте вибір з Enter, видаліть з Backspace"
+      message_error_during_bulk_delete: Сталася помилка під час спроби вилучення пакету робіт.
+      message_successful_bulk_delete: Успішно видалено пакет робіт.
+      message_successful_show_in_fullscreen: "Клацніть тут, щоб відкрити цей пакет робіт в повноекранному режимі."
+      message_view_spent_time: "Показувати час, витрачений на цей робочий пакет"
+      message_work_package_read_only: "Робочий пакет заблоковано в цьому статусі. Атрибут, відмінний від статусу, може бути змінений."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "Subject, description, comments, ..."
+      placeholder_filter_by_text: "Тема, опис, коментарі, ..."
       inline_create:
-        title: 'Click here to add a new work package to this list'
+        title: 'Клацніть тут, щоб додати до цього списку новий пакет робіт'
       create:
         title: 'New work package'
-        header: 'New %{type}'
-        header_no_type: 'New work package (Type not yet set)'
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: 'Новий %{type}'
+        header_no_type: 'Новий робочий пакет (Тип ще не встановлено)'
+        header_with_parent: 'Новий %{type} (дочірній елемент %{parent_type} #%{id})'
         button: 'Create'
       copy:
-        title: 'Copy work package'
+        title: 'Копіювати робочий пакет'
       hierarchy:
-        show: "Show hierarchy mode"
-        hide: "Hide hierarchy mode"
-        toggle_button: 'Click to toggle hierarchy mode.'
-        leaf: 'Work package leaf at level %{level}.'
-        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
-        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+        show: "Показати режим ієрархії"
+        hide: "Приховати режим ієрархії"
+        toggle_button: 'Натисніть, щоб перемкнути режим ієрархії.'
+        leaf: 'Лист робочого пакета на рівні %{level}.'
+        children_collapsed: 'Рівень ієрархії %{level}, згорнутий. Натисніть, щоб показати відфільтровані дочірні елементи'
+        children_expanded: 'Рівень ієрархії %{level}, розгорнуто. Натисніть, щоб згорнути відфільтровані дочірні елементи'
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your view is erroneous and could not be processed.
+        title: Не вдалося завантажити робочі пакети.
+        description: Ваша думка помилкова і не може бути оброблена.
       no_results:
-        title: No work packages to display.
-        description: Either none have been created or all work packages are filtered out.
+        title: Немає пакетів робіт для показу.
+        description: Або нічого не було створено, або всі пакети робіт відфільтровані.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
-        people: "People"
-        estimatesAndTime: "Estimates & Time"
+        people: "Люди"
+        estimatesAndTime: "Оцінки та час"
         other: "Other"
       properties:
         assignee: "Assignee"
@@ -888,7 +888,7 @@ uk:
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
-        percentageDone: "Percentage done"
+        percentageDone: "Процент виконання"
         priority: "Priority"
         projectName: "Project"
         responsible: "Responsible"
@@ -903,16 +903,16 @@ uk:
         version: "Version"
       default_queries:
         latest_activity: "Latest activity"
-        created_by_me: "Created by me"
-        assigned_to_me: "Assigned to me"
-        recently_created: "Recently created"
+        created_by_me: "Створений мною"
+        assigned_to_me: "Призначено мені"
+        recently_created: "Нещодавно створений"
         all_open: "All open"
         summary: "Summary"
       jump_marks:
-        pagination: "Jump to table pagination"
-        label_pagination: "Click here to skip over the work packages table and go to pagination"
-        content: "Jump to content"
-        label_content: "Click here to skip over the menu and go to the content"
+        pagination: "Перейти до розбиття таблиці на сторінки"
+        label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"
+        content: "Перейти до вмісту"
+        label_content: "Натисніть тут, щоб пропустити меню та перейти до вмісту"
       placeholders:
         default: "-"
         date: "Select date"
@@ -921,66 +921,66 @@ uk:
         column_names: "Columns"
         group_by: "Group results by"
         group: "Group by"
-        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
-        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        sort_ascending: "Sort ascending"
-        sort_descending: "Sort descending"
+        group_by_disabled_by_hierarchy: "У режимі ієрархії угруповання відключена."
+        hierarchy_disabled_by_group_by: "Режим ієрархії вимкнено через групування результатів %{column}."
+        sort_ascending: "Сортувати за зростанням"
+        sort_descending: "Сортувати за спаданням"
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         hide_column: "Hide column"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Вставити стовпці ..."
         filters: "Filters"
         display_sums: "Display Sums"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
-        click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Name of this view"
+        confirm_edit_cancel: "Дійсно скасувати редагування імені цього перегляду? Заголовок повернеться до попереднього значення."
+        click_to_edit_query_name: "Натисніть, щоб змінити заголовок цього перегляду."
+        rename_query_placeholder: "Назва цього перегляду"
         star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
         public_text: >
           Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
-          not_found: "There is no such view"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
-        text_no_results: "No matching views were found."
+          unretrievable_query: "Неможливо отримати перегляд з URL-адреси"
+          not_found: "Такого погляду немає"
+          duplicate_query_title: "Ім'я цього перегляду вже існує. Змінити все одно?"
+        text_no_results: "Не знайдено відповідних переглядів."
       scheduling:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       table:
-        configure_button: 'Configure work package table'
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
+        configure_button: 'Налаштуйте таблицю робочих пакетів'
+        summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."
+        text_inline_edit: "Більшість секцій цієї таблиці - це кнопки, які активують функціонал інлайн-редагування відповідного атрибуту."
         text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+        text_select_hint: "Прапорці можуть бути відкриті використовуючи «ALT» та клавіш зі стрілками."
       table_configuration:
-        button: 'Configure this work package table'
+        button: 'Налаштуйте цю таблицю робочих пакетів'
         choose_display_mode: 'Display work packages as'
-        modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        modal_title: 'Конфігурація таблиці робочих пакетів'
+        embedded_tab_disabled: "Ця вкладка конфігурації недоступна для вбудованого вигляду, який ви редагуєте."
         default: "default"
-        display_settings: 'Display settings'
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        display_settings: 'Параметри дисплея'
+        default_mode: "Плоский список"
+        hierarchy_mode: "Ієрархія"
+        hierarchy_hint: "Всі відфільтровані результати таблиці будуть доповнені їхніми предками. Ієрархії можуть бути розширені та згорнуті."
+        display_sums_hint: "Відображати суми всіх підсумкових атрибутів під таблицею."
+        show_timeline_hint: "Покажіть інтерактивну діаграму Ганта у правій частині таблиці. Ви можете змінити її ширину, перетягнувши роздільник між таблицею та діаграмою Ганта."
+        highlighting: 'Підсвічування'
         highlighting_mode:
-          description: "Highlight with color"
-          none: "No highlighting"
-          inline: 'Highlighted attribute(s)'
-          inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
+          description: "Виділіть кольором"
+          none: "Немає підсвічування"
+          inline: 'Виділений атрибут(и)'
+          inline_all: 'Всі атрибути'
+          entire_row_by: 'Весь рядок по'
           status: 'Status'
           priority: 'Priority'
           type: 'Type'
         sorting_mode:
           description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+          automatic: 'Автоматично'
+          manually: 'Вручну'
+          warning: 'Ви втратите попереднє сортування при активації автоматичного сортування.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          attribute_highlighting: 'Потрібні певні робочі пакети, щоб виділитися зі скупчення?'
           relation_columns: 'Need to see relations in the work package list?'
           check_out_link: 'Check out the Enterprise Edition.'
         relation_filters:
@@ -988,7 +988,7 @@ uk:
       tabs:
         overview: Overview
         activity: Activity
-        relations: Relations
+        relations: Зв'язки
         watchers: Watchers
         attachments: Attachments
       time_relative:
@@ -997,106 +997,106 @@ uk:
         months: "months"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Columns ..."
-        sort_by: "Sort by ..."
-        group_by: "Group by ..."
-        display_sums: "Display sums"
-        display_hierarchy: "Display hierarchy"
-        hide_hierarchy: "Hide hierarchy"
-        hide_sums: "Hide sums"
+        configure_view: "Налаштувати перегляд ..."
+        columns: "Стовпці..."
+        sort_by: "Сортувати за ..."
+        group_by: "Групувати за ..."
+        display_sums: "Відображати суми"
+        display_hierarchy: "Відображення ієрархії"
+        hide_hierarchy: "Приховати ієрархію"
+        hide_sums: "Приховати суми"
         save: "Save"
-        save_as: "Save as ..."
-        export: "Export ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Зберегти як ..."
+        export: "Експортувати ..."
+        visibility_settings: "Налаштування видимості ..."
+        page_settings: "Перейменувати перегляд ..."
         delete: "Delete"
       filter: "Filter"
       unselected_title: "Work package"
-      search_query_label: "Search saved views"
-      search_query_title: "Click to search saved views"
-      placeholder_query_title: "Set a title for this view"
+      search_query_label: "Пошук збережених переглядів"
+      search_query_title: "Натисніть, щоб знайти збережені перегляди"
+      placeholder_query_title: "Встановіть назву для цього перегляду"
     modals:
-      label_settings: "Rename view"
+      label_settings: "Перейменувати вигляд"
       label_name: "Name"
-      label_delete_page: "Delete current page"
+      label_delete_page: "Видалити поточну сторінку"
       button_apply: "Apply"
       button_save: "Save"
       button_submit: "Submit"
       button_cancel: "Cancel"
       form_submit:
-        title: 'Confirm to continue'
-        text: 'Are you sure you want to perform this action?'
+        title: 'Підтвердьте продовження'
+        text: 'Дійсно виконати цю дію?'
       destroy_work_package:
-        title: "Confirm deletion of %{label}"
-        text: "Are you sure you want to delete the following %{label} ?"
-        has_children: "The work package has %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+        title: "Підтвердьте видалення %{label}"
+        text: "Дійсно видалити наступне %{label} ?"
+        has_children: "Робочий пакет має %{childUnits}"
+        confirm_deletion_children: "Я визнаю, що <b>ВСІ</b> нащадки перерахованих робочих пакетів будуть рекурсивно видалені."
+        deletes_children: "Всі дочірні робочі пакети та їх нащадки також будуть рекурсивно видалені."
       destroy_time_entry:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
-    notice_no_results_to_display: "No visible results to display."
+    notice_no_results_to_display: "Не відображаються видимі результати."
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
     notice_successful_update: "Successful update."
     notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
-      empty: No relation exists
-      remove: Remove relation
+      empty: Немає жодних зв'язків
+      remove: Видалити зв'язок
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: Редагувати"
+      button_save: "%{attribute}: Зберегти"
+      button_cancel: "%{attribute}: Скасувати"
       button_save_all: "Save"
       button_cancel_all: "Cancel"
-      link_formatting_help: "Text formatting help"
+      link_formatting_help: "Довідка щодо форматування тексту"
       btn_preview_enable: "Preview"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      btn_preview_disable: "Відключити попередній перегляд"
+      null_value_label: "Значення відсутнє"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
-    error_attachment_upload: "File failed to upload: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+        required: '%{field} не може бути порожнім'
+        number: '%{field} не є припустимим числом'
+        maxlength: '%{field} не може містити більше, ніж %{maxLength} цифр(-у,-и)'
+        minlength: '%{field} не може містити менше, ніж %{minLength} цифр(-у,-и)'
+        messages_on_field: 'Це поле невірне: %{messages}'
+    error_could_not_resolve_version_name: "Не вдалося визначити версію"
+    error_could_not_resolve_user_name: "Не вдалося визначити ім'я користувача"
+    error_attachment_upload: "Не вдалося завантажити файл: %{error}"
+    error_attachment_upload_permission: "У вас немає дозволу завантажувати файли на цьому ресурсі."
     units:
       workPackage:
-        one: "work package"
-        few: "work packages"
-        many: "work packages"
-        other: "work packages"
+        one: "Робочий пакет"
+        few: "робочі пакети."
+        many: "робочі пакети."
+        other: "робочі пакети."
       child_work_packages:
-        one: "one child work package"
-        few: "%{count} work package children"
-        many: "%{count} work package children"
-        other: "%{count} work package children"
+        one: "один робочий пакет для дітей"
+        few: "%{count} робочий пакет дітей"
+        many: "%{count} робочий пакет дітей"
+        other: "%{count} робочий пакет дітей"
       hour:
         one: "1 h"
         other: "%{count} h"
         zero: "0 h"
     zen_mode:
       button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_deactivate: 'Деактивуйте режим дзен'
     global_search:
-      all_projects: "In all projects"
+      all_projects: "У всіх проектах"
       search: "Search"
-      close_search: "Close search"
-      current_project: "In this project"
-      current_project_and_all_descendants: "In this project + subprojects"
+      close_search: "Закрити пошук"
+      current_project: "У цьому проекті"
+      current_project_and_all_descendants: "У цьому проекті + підпроекти"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "всі проекти"
+        project_and_subprojects: "і всі підпроекти"
+        search_for: "Пошук по"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Картки'
+      list: 'Таблиця'
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Back'

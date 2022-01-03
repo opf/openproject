@@ -1762,7 +1762,7 @@ uk:
   label_public_projects: "Публічні проекти"
   label_query_new: "Новий запит"
   label_query_plural: "Спеціальні запити"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Запит меню"
   label_read: "Читання..."
   label_register: "Створити новий акаунт"
   label_register_with_developer: "Зареєструйтеся як розробник"
@@ -2880,7 +2880,7 @@ uk:
   wiki_menu_item_new_main_item_explanation: >
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
   wiki_menu_item_delete_not_permitted: Пункт меню вікі лише з вікі-сторінки не можна видалити.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Пункт меню для запиту %{title}"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -1728,7 +1728,7 @@ fi:
   label_public_projects: "Julkiset projektit"
   label_query_new: "Uusi haku"
   label_query_plural: "Räätälöidyt haut"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Kysely-valikkovaihtoehto"
   label_read: "Lue..."
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"

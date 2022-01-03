@@ -1725,7 +1725,7 @@ es:
   label_public_projects: "Proyectos públicos"
   label_query_new: "Nueva consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Menú de consulta"
   label_read: "Leer..."
   label_register: "Crear una nueva cuenta"
   label_register_with_developer: "Registrarse como desarrollador"
@@ -2835,7 +2835,7 @@ es:
   wiki_menu_item_new_main_item_explanation: >
     Usted esta eliminando el único elemento de menú wiki principal. Ahora tiene que elegir un wiki para el cual un nuevo elemento de menú principal será generado. Para eliminar el wiki, éste módulo puede ser desactivado por los administradores del proyecto.
   wiki_menu_item_delete_not_permitted: El único elemento de menú de la única página wiki no puede ser eliminado.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Elemento de menu para consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

@@ -1759,7 +1759,7 @@ sl:
   label_public_projects: "Javni projekti"
   label_query_new: "Nova poizvedba"
   label_query_plural: "Poizvedbe po meri"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Poizvedba v meniju"
   label_read: "Branje ..."
   label_register: "Ustvarite nov račun"
   label_register_with_developer: "Registrirajte se kot razvijalec"
@@ -2877,7 +2877,7 @@ sl:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisali boste edini glavni element menija wiki. Zdaj morate izbrati stran wiki, za katero bo ustvarjen nov glavni element. Da bi izbrisali wiki, lahko modul wiki deaktivirajo skrbniki projektov.
   wiki_menu_item_delete_not_permitted: Elementa v meniju wiki na edini strani wikija ni mogoče izbrisati.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Element menija za poizvedbo \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

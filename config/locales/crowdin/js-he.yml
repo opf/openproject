@@ -22,8 +22,8 @@
 he:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading ..."
+      hide: "הסתר"
+      loading: "טוען ..."
     attachments:
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
@@ -46,38 +46,38 @@ he:
       include_attachments: Include attachments
       download_backup: Download backup
       request_backup: Request backup
-    close_popup_title: "Close popup"
-    close_filter_title: "Close filter"
-    close_form_title: "Close form"
+    close_popup_title: "סגור פופ-אפ"
+    close_filter_title: "סגור פילטר"
+    close_form_title: "סגור טופס"
     button_add_watcher: "Add watcher"
     button_add: "Add"
     button_back: "Back"
-    button_back_to_list_view: "Back to list view"
+    button_back_to_list_view: "חזור לרשימה"
     button_cancel: "Cancel"
     button_close: "Close"
     button_change_project: "Change project"
     button_check_all: "Check all"
-    button_configure-form: "Configure form"
-    button_confirm: "Confirm"
+    button_configure-form: "טופס הגדרות"
+    button_confirm: "אשר"
     button_continue: "Continue"
     button_copy: "Copy"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
-    button_delete_watcher: "Delete watcher"
-    button_details_view: "Details view"
+    button_delete_watcher: "הסרת צופה"
+    button_details_view: "תצוגת הפרטים"
     button_duplicate: "Duplicate"
     button_edit: "Edit"
     button_filter: "Filter"
     button_collapse_all: "Collapse all"
     button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+    button_advanced_filter: "סינון מתקדם"
+    button_list_view: "תצוגת רשימה"
+    button_show_view: "תצוגת מסך מלא"
     button_log_time: "Log time"
     button_more: "More"
-    button_open_details: "Open details view"
-    button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
+    button_open_details: "פתיחת פרטים"
+    button_close_details: "סגור"
+    button_open_fullscreen: "תצוגה מלאה"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_quote: "Quote"
@@ -85,7 +85,7 @@ he:
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
     button_update: "Update"
-    button_export-pdf: "Download PDF"
+    button_export-pdf: "הורד קובץ PDF"
     button_export-atom: "Download Atom"
     button_create: "Create"
     calendar:
@@ -99,7 +99,7 @@ he:
       remove_from_list: 'Remove card from list'
     caption_rate_history: "Rate history"
     clipboard:
-      browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
+      browser_error: "הדפדפן שלך אינו תומך העתקה ללוח. נא להעתיק את הטקסט הנבחר באופן ידני."
       copied_successful: "Successfully copied to clipboard!"
     chart:
       type: 'Chart type'
@@ -300,12 +300,12 @@ he:
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
-    label_add_comment: "Add comment"
+    label_add_comment: "הוסף תגובה"
     label_add_comment_title: "Comment and type @ to notify other people"
     label_add_row_after: "Add row after"
     label_add_row_before: "Add row before"
     label_add_selected_columns: "Add selected columns"
-    label_added_by: "added by"
+    label_added_by: "נוסף על ידי"
     label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
     label_ago: "days ago"
     label_all: "all"
@@ -325,7 +325,7 @@ he:
     label_created_by: "Created by"
     label_date: "Date"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
-    label_deactivate: "Deactivate"
+    label_deactivate: "השבת"
     label_descending: "Descending"
     label_description: "Description"
     label_details: "Details"
@@ -333,7 +333,7 @@ he:
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
-    label_collapsed: "collapsed"
+    label_collapsed: "מצומצם‎"
     label_collapse_all: "Collapse all"
     label_comment: "Comment"
     label_committed_at: "%{committed_revision_link} at %{date}"
@@ -345,10 +345,10 @@ he:
     label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
-    label_expanded: "expanded"
+    label_expanded: "מורחב‎"
     label_expand_all: "Expand all"
     label_expand_project_menu: "Expand project menu"
-    label_export: "Export"
+    label_export: "ייצוא"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
     label_filesize: "Size"
@@ -359,7 +359,7 @@ he:
     label_group_by: "Group by"
     label_group_plural: "Groups"
     label_hide_attributes: "Show less"
-    label_hide_column: "Hide column"
+    label_hide_column: "הסתר עמודה"
     label_hide_project_menu: "Collapse project menu"
     label_in: "in"
     label_in_less_than: "in less than"
@@ -368,7 +368,7 @@ he:
     label_information_plural: "Information"
     label_import: "Import"
     label_latest_activity: "Latest activity"
-    label_last_updated_on: "Last updated on"
+    label_last_updated_on: "עידכון אחרון"
     label_learn_more_link: "Learn more"
     label_less_or_equal: "<="
     label_less_than_ago: "less than days ago"
@@ -384,18 +384,18 @@ he:
     label_no_color: "No color"
     label_no_data: "No data to display"
     label_no_due_date: "no finish date"
-    label_no_start_date: "no start date"
+    label_no_start_date: "אין תאריך התחלה"
     label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
     label_not_equals: "is not"
-    label_on: "on"
+    label_on: "פועל"
     label_open_menu: "Open menu"
     label_open_context_menu: "Open context menu"
     label_open_work_packages: "open"
     label_password: "Password"
     label_previous: "Previous"
-    label_per_page: "Per page:"
+    label_per_page: "לכל עמוד:"
     label_please_wait: "Please wait"
     label_project_plural: "Projects"
     label_visibility_settings: "Visibility settings"
@@ -408,22 +408,22 @@ he:
     label_remove_row: "Remove row"
     label_report: "Report"
     label_repository_plural: "Repositories"
-    label_save_as: "Save as"
-    label_select_watcher: "Select a watcher..."
-    label_selected_filter_list: "Selected filters"
-    label_show_attributes: "Show all attributes"
+    label_save_as: "שמירה בשם"
+    label_select_watcher: "בחר צופה..."
+    label_selected_filter_list: "מסננים נבחרים: %s"
+    label_show_attributes: "הצג את כל התכונות"
     label_show_in_menu: "Show view in menu"
     label_sort_by: "Sort by"
-    label_sorted_by: "sorted by"
+    label_sorted_by: "ממוין לפי"
     label_sort_higher: "Move up"
     label_sort_lower: "Move down"
-    label_sorting: "Sorting"
+    label_sorting: "מיון"
     label_spent_time: "Spent time"
     label_star_query: "Favored"
     label_press_enter_to_save: "Press enter to save."
     label_public_query: "Public"
     label_sum: "Sum"
-    label_sum_for: "Sum for"
+    label_sum_for: "סכום עבור"
     label_total_sum: "Total sum"
     label_subject: "Subject"
     label_this_week: "this week"
@@ -433,7 +433,7 @@ he:
     label_user_plural: "Users"
     label_activity_show_only_comments: "Show activities with comments only"
     label_activity_show_all: "Show all activities"
-    label_total_progress: "%{percent}% Total progress"
+    label_total_progress: "התקדמות כוללת של % %{percent}"
     label_total_amount: "Total: %{amount}"
     label_updated_on: "updated on"
     label_value_derived_from_children: "(value derived from children)"
@@ -443,13 +443,13 @@ he:
     label_work_package_parent: "Parent work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
-    label_watch_work_package: "Watch work package"
-    label_watcher_added_successfully: "Watcher successfully added!"
-    label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_watch_work_package: "חבילת שעון עבודה"
+    label_watcher_added_successfully: "הצופה נוסף בהצלחה!"
+    label_watcher_deleted_successfully: "הצופה נמחק בהצלחה!"
+    label_work_package_details_you_are_here: "אתה על הכרטיסיה ' %{tab} ' %{type} %{subject}."
     label_unwatch: "Unwatch"
-    label_unwatch_work_package: "Unwatch work package"
-    label_uploaded_by: "Uploaded by"
+    label_unwatch_work_package: "חבילת שעון עבודה"
+    label_uploaded_by: "הועלה על ידי"
     label_default_queries: "Default views"
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
@@ -463,7 +463,7 @@ he:
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
     label_remove_file: "Delete %{fileName}"
     label_remove_watcher: "Remove watcher %{name}"
-    label_remove_all_files: Delete all files
+    label_remove_all_files: מחק את כל הקבצים
     label_add_description: "Add a description for %{file}"
     label_upload_notification: "Uploading files..."
     label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
@@ -674,14 +674,14 @@ he:
       typeahead_placeholder: Search for possible watchers
     relation_labels:
       parent: "Parent"
-      children: "Children"
+      children: "ילדים"
       relates: "Related To"
-      duplicates: "Duplicates"
-      duplicated: "Duplicated by"
+      duplicates: "כפילויות"
+      duplicated: "משוכפלים על-ידי"
       blocks: "Blocks"
       blocked: "Blocked by"
-      precedes: "Precedes"
-      follows: "Follows"
+      precedes: "מקדים"
+      follows: "עוקבים"
       includes: "Includes"
       partof: "Part of"
       requires: "Requires"
@@ -693,7 +693,7 @@ he:
       children_headline: "Children"
     relation_buttons:
       set_parent: "Set parent"
-      change_parent: "Change parent"
+      change_parent: "שנה אב"
       remove_parent: "Remove parent"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
@@ -725,7 +725,7 @@ he:
     repositories:
       select_tag: 'Select tag'
       select_branch: 'Select branch'
-    field_value_enter_prompt: "Enter a value for '%{field}'"
+    field_value_enter_prompt: "הזן ערך עבור '%{field}'"
     project_menu_details: "Details"
     scheduling:
       manual: 'Manual scheduling'
@@ -779,11 +779,11 @@ he:
         level5: "Expand level 5"
         all: "Show all"
       project_status: "Project status"
-      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
+      really_close_dialog: "האם באמת ברצונך לסגור את תיבת הדו-שיח ולאבד הנתונים שהוזנו?"
       responsible: "Responsible"
       save: Save
       start_date: "Start date"
-      tooManyProjects: "More than %{count} Projects. Please use a better filter!"
+      tooManyProjects: "יותר מ%{count} פרוייקטים. אנא השתמש במסנן טוב יותר!"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
@@ -799,26 +799,26 @@ he:
         description: >
           Select the initial zoom level that should be shown when autozoom is not available.
     tl_toolbar:
-      zooms: "Zoom level"
-      outlines: "Hierarchy level"
+      zooms: "רמת גודל התצוגה"
+      outlines: "רמת היררכיה"
     upsale:
       ee_only: 'Enterprise Edition only feature'
     wiki_formatting:
-      strong: "Strong"
-      italic: "Italic"
-      underline: "Underline"
+      strong: "חזק"
+      italic: "נטוי קו"
+      underline: "קו תחתון"
       deleted: "Deleted"
-      code: "Inline Code"
-      heading1: "Heading 1"
-      heading2: "Heading 2"
-      heading3: "Heading 3"
-      unordered_list: "Unordered List"
-      ordered_list: "Ordered List"
+      code: "קוד מוטבע"
+      heading1: "כותרת 1"
+      heading2: "כותרת 2"
+      heading3: "כותרת 3"
+      unordered_list: "רשימה לא מסודרת"
+      ordered_list: "רשימה מסודרת"
       quote: "Quote"
-      unquote: "Unquote"
-      preformatted_text: "Preformatted Text"
-      wiki_link: "Link to a Wiki page"
-      image: "Image"
+      unquote: "סוף ציטוט"
+      preformatted_text: "טקסט מעוצב מראש"
+      wiki_link: "קישור לדף Wiki"
+      image: "תמונה"
     work_packages:
       bulk_actions:
         move: 'Bulk change of project'
@@ -832,18 +832,18 @@ he:
       confirm_edit_cancel: "Are you sure you want to cancel editing the work package?"
       description_filter: "Filter"
       description_enter_text: "Enter text"
-      description_options_hide: "Hide options"
-      description_options_show: "Show options"
+      description_options_hide: "הסתר אפשרויות"
+      description_options_show: "הצג אפשרויות"
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
-      label_enable_multi_select: "Enable multiselect"
-      label_disable_multi_select: "Disable multiselect"
+      label_enable_multi_select: "לאפשר בחירה מרובה"
+      label_disable_multi_select: "בטל בחירה מרובה"
       label_filter_add: "Add filter"
       label_filter_by_text: "Filter by text"
       label_options: "Options"
-      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
-      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
-      message_successful_bulk_delete: Successfully deleted work packages.
+      label_column_multiselect: "השדה הנפתח משולב: בחר עם מקשי החצים, לאשר את הבחירה עם enter, למחוק עם backspace"
+      message_error_during_bulk_delete: אירעה שגיאה בעת ניסיון למחוק את התווית.
+      message_successful_bulk_delete: מחק בהצלחה חבילות עבודה.
       message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
@@ -875,8 +875,8 @@ he:
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
-        people: "People"
-        estimatesAndTime: "Estimates & Time"
+        people: "אנשים"
+        estimatesAndTime: "זמן משוער"
         other: "Other"
       properties:
         assignee: "Assignee"
@@ -888,7 +888,7 @@ he:
         estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
-        percentageDone: "Percentage done"
+        percentageDone: "האחוזים הסתיימו"
         priority: "Priority"
         projectName: "Project"
         responsible: "Responsible"
@@ -920,15 +920,15 @@ he:
       query:
         column_names: "Columns"
         group_by: "Group results by"
-        group: "Group by"
+        group: "קבץ לפי"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
-        sort_ascending: "Sort ascending"
-        sort_descending: "Sort descending"
+        sort_ascending: "מיין בסדר עולה"
+        sort_descending: "מיין בסדר יורד"
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         hide_column: "Hide column"
-        insert_columns: "Insert columns ..."
+        insert_columns: "הוסף עמודות..."
         filters: "Filters"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -988,7 +988,7 @@ he:
       tabs:
         overview: Overview
         activity: Activity
-        relations: Relations
+        relations: קשרים
         watchers: Watchers
         attachments: Attachments
       time_relative:
@@ -998,16 +998,16 @@ he:
     toolbar:
       settings:
         configure_view: "Configure view ..."
-        columns: "Columns ..."
-        sort_by: "Sort by ..."
-        group_by: "Group by ..."
+        columns: "עמודות..."
+        sort_by: "מיין לפי..."
+        group_by: "קבץ לפי..."
         display_sums: "Display sums"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
-        hide_sums: "Hide sums"
+        hide_sums: "הסתר סכומים"
         save: "Save"
-        save_as: "Save as ..."
-        export: "Export ..."
+        save_as: "שמור בשם ..."
+        export: "ייצוא..."
         visibility_settings: "Visibility settings ..."
         page_settings: "Rename view ..."
         delete: "Delete"
@@ -1019,7 +1019,7 @@ he:
     modals:
       label_settings: "Rename view"
       label_name: "Name"
-      label_delete_page: "Delete current page"
+      label_delete_page: "מחק את הדף הנוכחי"
       button_apply: "Apply"
       button_save: "Save"
       button_submit: "Submit"
@@ -1043,27 +1043,27 @@ he:
     notice_job_started: "job started."
     notice_bad_request: "Bad Request."
     relations:
-      empty: No relation exists
+      empty: הקשר אינו קיים
       remove: Remove relation
     inplace:
-      button_edit: "%{attribute}: Edit"
-      button_save: "%{attribute}: Save"
-      button_cancel: "%{attribute}: Cancel"
+      button_edit: "%{attribute}: עריכה"
+      button_save: "%{attribute}: להציל"
+      button_cancel: "%{attribute}: ביטול"
       button_save_all: "Save"
       button_cancel_all: "Cancel"
       link_formatting_help: "Text formatting help"
       btn_preview_enable: "Preview"
-      btn_preview_disable: "Disable preview"
-      null_value_label: "No value"
+      btn_preview_disable: "בטל תצוגה מקדימה"
+      null_value_label: "אין ערכים"
       clear_value_label: "-"
       errors:
-        required: '%{field} cannot be empty'
-        number: '%{field} is not a valid number'
+        required: '%{field} אינו יכול להיות ריק'
+        number: '%{field} אינו מספר חוקי'
         maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
         minlength: '%{field} cannot contain less than %{minLength} digit(s)'
         messages_on_field: 'This field is invalid: %{messages}'
-    error_could_not_resolve_version_name: "Couldn't resolve version name"
-    error_could_not_resolve_user_name: "Couldn't resolve user name"
+    error_could_not_resolve_version_name: "לא יכולתי לזהות גירסה שם"
+    error_could_not_resolve_user_name: "לא יכולתי למצוא את שם המשתמש"
     error_attachment_upload: "File failed to upload: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
     units:

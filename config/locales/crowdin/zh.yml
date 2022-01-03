@@ -1711,7 +1711,7 @@ zh-TW:
   label_public_projects: "公開專案"
   label_query_new: "新增查詢"
   label_query_plural: "自訂查詢"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "查詢選單項目"
   label_read: "讀取..."
   label_register: "建立新帳號"
   label_register_with_developer: "註冊成開發者"
@@ -2817,7 +2817,7 @@ zh-TW:
   wiki_menu_item_new_main_item_explanation: >
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

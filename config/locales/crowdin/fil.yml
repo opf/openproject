@@ -1728,7 +1728,7 @@ fil:
   label_public_projects: "Publikong proyekto"
   label_query_new: "Bagong query"
   label_query_plural: "Ang mga custom query"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Aytem ng query na pagpipilian"
   label_read: "Basahin..."
   label_register: "Gumawa ng bagong akwant"
   label_register_with_developer: "Pagrehistro bilang developer"
@@ -2837,7 +2837,7 @@ fil:
   wiki_menu_item_new_main_item_explanation: >
     Ikay ay nagtatanggal sa tanging pangunahing aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa proyekto.
   wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang wiki lamang ay hindi maibura.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Aytem na pagpipilian sa query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

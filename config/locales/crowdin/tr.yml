@@ -1728,7 +1728,7 @@ tr:
   label_public_projects: "Genel Projeler"
   label_query_new: "Yeni Sorgu"
   label_query_plural: "Özel Sorgular"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Sorgu menü öğesi"
   label_read: "Oku..."
   label_register: "Yeni hesap oluştur"
   label_register_with_developer: "Geliştirici olarak kayıt ol"
@@ -2838,7 +2838,7 @@ tr:
   wiki_menu_item_new_main_item_explanation: >
     Sadece ana wiki menü öğesini silmektesiniz. Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki'yi silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
   wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "\" %{title} \" sorgusu için menü öğesi"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

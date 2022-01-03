@@ -1712,7 +1712,7 @@ th:
   label_public_projects: "โครงการสาธารณะ"
   label_query_new: "แบบสอบถามใหม่"
   label_query_plural: "แบบสอบถามแบบกำหนดเอง"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "เมนูแบบสอบถาม"
   label_read: "อ่าน..."
   label_register: "Create a new account"
   label_register_with_developer: "ลงทะเบียนในฐานะผู้พัฒนา"
@@ -2819,7 +2819,7 @@ th:
   wiki_menu_item_new_main_item_explanation: >
     คุณกำลังลบเฉพาะเมนูของวิกิหลัก ตอนนี้คุณต้องเลือกหน้าวิกิที่ไอเทมหลักจะถูกสร้าง ในการลบวิกิ ผู้ดูแลโครงการสามารถระงับการใช้งานโมดูลวิกิได้
   wiki_menu_item_delete_not_permitted: ไม่สามารถลบแค่เมนูของวิกิในหน้าวิกิเท่านั้น
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "เมนูของแบบสอบถาม \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

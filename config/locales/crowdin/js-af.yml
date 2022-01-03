@@ -22,7 +22,7 @@
 af:
   js:
     ajax:
-      hide: "Hide"
+      hide: "Versteek"
       loading: "Loading ..."
     attachments:
       draggable_hint: |
@@ -77,7 +77,7 @@ af:
     button_more: "More"
     button_open_details: "Open details view"
     button_close_details: "Close details view"
-    button_open_fullscreen: "Open fullscreen view"
+    button_open_fullscreen: "Maak volkermmodus oop"
     button_show_cards: "Show card view"
     button_show_list: "Show list view"
     button_quote: "Quote"
@@ -120,9 +120,9 @@ af:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
-    description_select_work_package: "Select work package #%{id}"
+    description_select_work_package: "Kies werkspakket #%{id}"
     description_selected_columns: "Selected Columns"
-    description_subwork_package: "Child of work package #%{id}"
+    description_subwork_package: "Kind van werkspakket #%{id}"
     editor:
       preview: 'Toggle preview mode'
       source_code: 'Toggle Markdown source mode'
@@ -181,7 +181,7 @@ af:
         inactive: 'Inactive'
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
+        add_table: "Voeg tabel van verwante werkpakkette toe"
         edit_query: 'Edit query'
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
@@ -324,13 +324,13 @@ af:
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
     label_date: "Date"
-    label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
+    label_date_with_format: "Tik die %{date_attribute} in die volgende formaat: %{format}"
     label_deactivate: "Deactivate"
     label_descending: "Descending"
     label_description: "Description"
     label_details: "Details"
     label_display: "Display"
-    label_cancel_comment: "Cancel comment"
+    label_cancel_comment: "Kanselleer aanmerking"
     label_closed_work_packages: "closed"
     label_collapse: "Collapse"
     label_collapsed: "collapsed"
@@ -358,7 +358,7 @@ af:
     label_group: 'Group'
     label_group_by: "Group by"
     label_group_plural: "Groups"
-    label_hide_attributes: "Show less"
+    label_hide_attributes: "Wys minder"
     label_hide_column: "Hide column"
     label_hide_project_menu: "Collapse project menu"
     label_in: "in"
@@ -707,7 +707,7 @@ af:
       add_existing_relation: "Add existing relation"
       update_description: "Set or update description of this relation"
       toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
+      update_relation: "Klik om die verhoudingtipe te verander"
       add_follower: "Add follower"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
@@ -842,13 +842,13 @@ af:
       label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
       message_error_during_bulk_delete: An error occurred while trying to delete work packages.
       message_successful_bulk_delete: Successfully deleted work packages.
-      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
+      message_successful_show_in_fullscreen: "Klik hier om hierdie werkspakket in volskermmodus oop te maak."
       message_view_spent_time: "Show spent time for this work package"
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
       inline_create:
-        title: 'Click here to add a new work package to this list'
+        title: 'Klik hier om ''n nuwe werkspakket by hierdie lys te voeg'
       create:
         title: 'New work package'
         header: 'New %{type}'
@@ -868,8 +868,8 @@ af:
         title: Work packages could not be loaded.
         description: Your view is erroneous and could not be processed.
       no_results:
-        title: No work packages to display.
-        description: Either none have been created or all work packages are filtered out.
+        title: Geen werkspakkette om te wys.
+        description: Geen geskep óf alle werkspakkette is uitgefiltreer.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
         details: "Details"
@@ -918,7 +918,7 @@ af:
       query:
         column_names: "Columns"
         group_by: "Group results by"
-        group: "Group by"
+        group: "Groepeer volgens"
         group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
         hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
         sort_ascending: "Sort ascending"
@@ -1057,8 +1057,8 @@ af:
       errors:
         required: '%{field} cannot be empty'
         number: '%{field} is not a valid number'
-        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
-        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
+        maxlength: '%{field} kan nie meer as %{maxLength} syfer(s) bevat nie'
+        minlength: '%{field} kan nie minder as %{minLength} syfer(s) bevat nie'
         messages_on_field: 'This field is invalid: %{messages}'
     error_could_not_resolve_version_name: "Couldn't resolve version name"
     error_could_not_resolve_user_name: "Couldn't resolve user name"

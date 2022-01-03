@@ -1726,7 +1726,7 @@ hi:
   label_public_projects: "सार्वजनिक परियोजनाएं"
   label_query_new: "नया प्रष्ण"
   label_query_plural: "विशेष प्रष्ण"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "क्वेरी मेनू आइटम"
   label_read: "पढ़ें..."
   label_register: "नया खाता बनाएँ"
   label_register_with_developer: "डेवलपर के रूप में पंजीकृत हों"

@@ -1745,7 +1745,7 @@ ro:
   label_public_projects: "Proiecte publice"
   label_query_new: "Interogare nouă"
   label_query_plural: "Interogări personalizate"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Meniu interogare"
   label_read: "Citeşte..."
   label_register: "Creare cont nou"
   label_register_with_developer: "Înregistrare ca programator"
@@ -2859,7 +2859,7 @@ ro:
   wiki_menu_item_new_main_item_explanation: >
     Ștergeți doar meniul principal wiki. Va trebui să alegeți o altă pagină wiki pentru care se va genera meniul principal. Dacă doriți să ștergeți wiki-ul, modulul corespunzător poate fi dezactivat de către administratorii de proiect.
   wiki_menu_item_delete_not_permitted: Meniul wiki pentru ultima pagină wiki nu poate fi șters.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Meniul pentru interogarea \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

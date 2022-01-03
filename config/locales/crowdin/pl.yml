@@ -1759,7 +1759,7 @@ pl:
   label_public_projects: "Projekty publiczne"
   label_query_new: "Nowe zapytanie"
   label_query_plural: "Zapytania niestandardowe"
-  label_query_menu_item: "Query menu item"
+  label_query_menu_item: "Pozycja menu zapytania"
   label_read: "Czytaj..."
   label_register: "Utwórz nowe konto"
   label_register_with_developer: "Zarejestruj się jako programista"
@@ -2875,7 +2875,7 @@ pl:
   wiki_menu_item_new_main_item_explanation: >
     Usuwasz jedyny główny element menu wiki. Teraz musisz wybrać stronę wiki dla których zostanie wygenerowany nowy główny element. Aby usunąć wpis, moduł wiki może zostać dezaktywowany poprzez administratorów projektu.
   wiki_menu_item_delete_not_permitted: Nie można usunąć elementu menu dla jedynej strony wiki.
-  query_menu_item_for: "Menu item for query \"%{title}\""
+  query_menu_item_for: "Element menu dla zapytania \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
