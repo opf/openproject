@@ -96,7 +96,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in details view' do
     before do
-      card_view.open_full_screen_by_details(work_package)
+      card_view.click_info_icon(work_package)
       bcf_details.expect_viewpoint_count(1)
 
       # We need to wait a bit for xeokit to be initialized

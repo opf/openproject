@@ -316,6 +316,10 @@ sl:
       other: '% {count} padajočih delovnega paketa'
     bulk:
       could_not_be_saved: "Naslednjih delovnih paketov ni bilo mogoče shraniti"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Za vse izbrane delovne pakete ni na voljo nobenega statusa. Njihovega statusa ni mogoče spremeniti."
       unsupported_for_multiple_projects: 'Prenašanje / kopiranje v velikem obsegu ni podprto za delovne pakete iz več projektov'
@@ -736,6 +740,7 @@ sl:
               does_not_exist: "Izbrana kategorija ne obstaja."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "mora biti >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

@@ -316,6 +316,10 @@ sv:
       other: '%{count} underliggande arbetspaket'
     bulk:
       could_not_be_saved: "Följande arbetspaket kunde inte sparas:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Det finns ingen status för alla valda arbetspaket. Deras status kan inte ändras."
       unsupported_for_multiple_projects: 'Att flytta/kopiera i bulk stöds inte för arbetspaket från flera projekt'
@@ -736,6 +740,7 @@ sv:
               does_not_exist: "Den angivna kategorin finns inte."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "måste vara >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

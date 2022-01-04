@@ -317,6 +317,10 @@ fr:
       other: '%{count} lots de travaux descendants'
     bulk:
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: 'Déplacer/copier en masse n''est pas supporté pour des lots de travaux provenant de plusieurs projets'
@@ -737,6 +741,7 @@ fr:
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

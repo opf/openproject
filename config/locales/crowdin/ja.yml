@@ -312,6 +312,10 @@ ja:
       other: '%{count} つの作業項目の子孫'
     bulk:
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。"
       unsupported_for_multiple_projects: '複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません'
@@ -732,6 +736,7 @@ ja:
               does_not_exist: "指定されたカテゴリは存在しません。"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: ">= 0 にする必要があります。"
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
