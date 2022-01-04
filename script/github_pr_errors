@@ -44,7 +44,7 @@ response = get_http "actions/runs?branch=#{CGI.escape(branch_name)}"
 last_test_action =
   response
     .dig('workflow_runs')
-    .select { |entry| entry['name'] == 'Core/Test' }
+    .select { |entry| entry['name'] == 'Test suite' }
     .max_by { |entry| entry['run_number'] }
 
 raise "No action run found for branch #{branch_name}" unless last_test_action
