@@ -42,52 +42,52 @@ ro:
       last_backup: Ultimul backup
       last_backup_from: 'Ultimul backup: '
       title: Backup OpenProject
-      options: Options
+      options: Opțiuni
       include_attachments: Include atașamente
       download_backup: Descarcă un backup
       request_backup: Solicită backup
     close_popup_title: "Închidere pop-up"
     close_filter_title: "Închide filtrul"
     close_form_title: "Închide formularul"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
+    button_add_watcher: "Adăugare observator"
+    button_add: "Adăugare"
+    button_back: "Înapoi"
     button_back_to_list_view: "Înapoi la listă"
-    button_cancel: "Cancel"
+    button_cancel: "Anulare"
     button_close: "Închide"
     button_change_project: "Proiect de schimbare"
-    button_check_all: "Check all"
+    button_check_all: "Selectează tot"
     button_configure-form: "Configurați formularul"
     button_confirm: "Confirmă"
     button_continue: "Continuaţi"
-    button_copy: "Copy"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    button_copy: "Copiere"
+    button_custom-fields: "Câmpuri personalizate"
+    button_delete: "Ștergere"
     button_delete_watcher: "Ştergere observator"
     button_details_view: "Vizualizare detaliată"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
+    button_duplicate: "Duplicare"
+    button_edit: "Editare"
+    button_filter: "Filtrare"
+    button_collapse_all: "Restrângere totală"
+    button_expand_all: "Extindere totală"
     button_advanced_filter: "Filtru avansat"
     button_list_view: "Vizualizare listă"
     button_show_view: "Vizualizare pe tot ecranul"
-    button_log_time: "Log time"
-    button_more: "More"
+    button_log_time: "Consum timp"
+    button_more: "Mai mult"
     button_open_details: "Deschidere vizualizare detaliată"
     button_close_details: "Închideţi fereastra cu detalii"
     button_open_fullscreen: "Afișare pe tot ecranul"
     button_show_cards: "Afișați vizualizarea cardului"
     button_show_list: "Afișați vizualizarea listei"
-    button_quote: "Quote"
-    button_save: "Save"
-    button_settings: "Settings"
-    button_uncheck_all: "Uncheck all"
-    button_update: "Update"
+    button_quote: "Citare"
+    button_save: "Salvare"
+    button_settings: "Setări"
+    button_uncheck_all: "Deselecteaza tot"
+    button_update: "Actualizare"
     button_export-pdf: "Descărcare PDF"
     button_export-atom: "Descărcare Atom"
-    button_create: "Create"
+    button_create: "Creare"
     calendar:
       title: 'Calendar'
       too_many: 'Există %{count} pachete de lucru în total, dar numai %{max} poate fi afișat.'
@@ -97,7 +97,7 @@ ro:
         inline: 'Evidențiați în linie:'
         entire_card_by: 'Întreaga carte de'
       remove_from_list: 'Alegeți intervalul din listă'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "Istoricul ratei"
     clipboard:
       browser_error: "Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să copiaţi textul selectat manual."
       copied_successful: "Copiat cu succes în clipboard!"
@@ -118,10 +118,10 @@ ro:
         dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'Datele pentru afișarea graficului nu au putut fi încărcate. Este posibil să nu aveți permisiunile necesare.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
+    description_available_columns: "Coloane disponibile"
+    description_current_position: "Sunteți aici: "
     description_select_work_package: "Selectaţi pachetul de lucru #%{id}"
-    description_selected_columns: "Selected Columns"
+    description_selected_columns: "Coloane selectate"
     description_subwork_package: "Fiu al pachetului de lucru #%{id}"
     editor:
       preview: 'Activaţi/Dezactivați previzualizarea'
@@ -141,7 +141,7 @@ ro:
           button: 'Legături către paginile pentru copii'
           include_parent: 'părinte al'
           text: 'Păstrare pagini fii ca pagini rădăcină'
-          page: 'Wiki page'
+          page: 'Pagină wiki'
           this_page: 'această pagină'
           hint: |
             Lăsați acest câmp gol pentru a lista toate paginile copil ale paginii curente. Dacă doriți să faceți referire la o altă pagină, furnizați titlul sau slug-ul acesteia.
@@ -153,12 +153,12 @@ ro:
         dropdown:
           macros: 'Macro'
           chose_macro: 'Alegeți macro'
-        toc: 'Table of contents'
+        toc: 'Cuprins'
         toolbar_help: 'Faceți clic pentru a selecta widgetul și pentru a afișa bara de instrumente. Faceți dublu clic pentru a edita widgetul'
         wiki_page_include:
           button: 'Includeți conținul altei pagini wiki'
           text: '[Placeholder] Pagină wiki inclusă'
-          page: 'Wiki page'
+          page: 'Pagină wiki'
           not_set: '(Pagina nu a fost încă stabilită)'
           hint: |
             Includeți conținutul altei pagini wiki specificând titul sau adresa(slug). Puteți include pagina wiki din cadrul altui proiect separându-le prin simbolul ”:” ca și în exemplul următor.
@@ -176,14 +176,14 @@ ro:
           text: '[Placeholder] Tabelul pachetului de lucru inserat'
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
-        drag_to_activate: "Drag fields from here to activate them"
+        custom_field: 'Câmp personalizat'
+        inactive: 'Inactiv'
+        drag_to_activate: "Mutați câmpuri de aici pentru a le activa"
         add_group: "Adăugarea de noi grupuri de atribute"
         add_table: "Adăugare pachet de lucru asociat"
         edit_query: 'Editare query'
-        new_group: 'New group'
-        reset_to_defaults: 'Reset to defaults'
+        new_group: 'Grupare nouă'
+        reset_to_defaults: 'Resetare AVATAR implicit'
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
@@ -196,20 +196,20 @@ ro:
               Sunt de acord cu <a target="_blank" href="%{link_terms}">termenii serviciului</a> și cu <a target="_blank" href="%{link_privacy}">politica de confidențialitate</a>.
             invalid_email: "Adresă email invalidă"
             label_company: "Companie"
-            label_first_name: "First name"
-            label_last_name: "Last name"
+            label_first_name: "Prenume"
+            label_last_name: "Nume"
             label_domain: "domeniu"
-            label_subscriber: "Subscriber"
-            label_maximum_users: "Maximum active users"
+            label_subscriber: "Abonat"
+            label_maximum_users: "Număr maxim de utilizatori activi"
             label_starts_at: "Începe de la"
-            label_expires_at: "Expires at"
+            label_expires_at: "Expiră la"
             receive_newsletter: Doresc să primesc <a target="_blank" href="%{link}">buletinul informativ</a> OpenProject.
             taken_domain: Nu poate exista decât un singur proces activ pe domeniu.
             taken_email: Fiecare utilizator poate crea doar o singură încercare.
           email_not_received: "Nu ați primit un e-mail? Puteți retrimite e-mailul cu ajutorul linkului din dreapta."
           try_another_email: "Sau încercați cu o altă adresă de e-mail."
           next_steps: "Etapele următoare"
-          resend_link: "Resend"
+          resend_link: "Retrimitere"
           resend_success: "E-mailul a fost retrimis. Vă rugăm să vă verificați e-mailurile și să faceți clic pe link-ul de confirmare furnizat."
           resend_warning: "Nu s-a putut retrimite e-mailul."
           session_timeout: "Sesiunea dvs. a expirat. Vă rugăm să încercați să reîncărcați pagina sau să retrimiteți e-mailul."
@@ -219,7 +219,7 @@ ro:
           test_ee: "Testați gratuit ediția Enterprise Edition timp de 14 zile"
           quick_overview: "Obțineți o imagine de ansamblu rapidă a managementului de proiect și a colaborării în echipă cu OpenProject Enterprise Edition."
         upsale:
-          become_hero: "Become a hero!"
+          become_hero: "Deveniți un erou!"
           benefits:
             description: "Care sunt avantajele ediției Enterprise on-premise?"
             high_security: "Caracteristici de securitate"
@@ -228,29 +228,29 @@ ro:
             installation_text: "Inginerii de software experimentați vă ghidează prin procesul complet de instalare și configurare în propria infrastructură."
             premium_features: "Caracteristici premium"
             premium_features_text: "Tablouri agile, temă și logo personalizate, grafice, fluxuri de lucru inteligente cu acțiuni personalizate, căutare în text complet pentru atașamentele pachetelor de lucru și câmpuri personalizate cu selectare multiplă."
-            professional_support: "Professional support"
+            professional_support: "Suport profesional"
             professional_support_text: "Beneficiați de asistență fiabilă, de înaltă calitate, din partea unor ingineri de asistență seniori cu cunoștințe de specialitate în ceea ce privește utilizarea OpenProject în medii critice pentru afaceri."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Începeți o încercare gratuită"
+          button_book_now: "Rezervă acum"
           confidence: >
             Oferim încrederea unui software de gestionare a proiectelor de clasă enterprise testat și susținut - cu Open Source și o minte deschisă.
-          link_quote: "Get a quote"
+          link_quote: "Obțineți o ofertă"
           text: >
             Ediția OpenProject Enterprise Edition se bazează pe ediția Community Edition. Aceasta include caracteristici premium și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte critice de afaceri cu OpenProject.
           unlimited: "Nelimitat"
           you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Cu Enterprise Edition, contribuiți substanțial la acest efort al comunității Open Source."
     custom_actions:
       date:
-        specific: 'on'
+        specific: 'pe'
         current_date: 'Data curentă'
     error:
       internal: "A apărut o eroare internă."
       cannot_save_changes_with_message: "Schimbările nu pot fi salvate datorită acestei erori: %{error}"
       query_saving: "Configurația nu poate salvată."
       embedded_table_loading: "Configurația inserată nu poate fi încarcată: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
-    enumeration_work_package_priorities: "Work package priorities"
+    enumeration_activities: "Activități (durata de lucru)"
+    enumeration_doc_categories: "Document nou"
+    enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
     filter:
       description:
         text_open_filter: "Deschideți acest filtru cu 'ALT' și tastele săgeată."
@@ -268,17 +268,17 @@ ro:
           three: "Al treilea criteriu de sortare"
       upsale_for_more: "Pentru filtre mai avansate, accesați"
       upsale_link: 'Versiunea Enterprise.'
-    general_text_no: "no"
-    general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_no: "nu"
+    general_text_yes: "da"
+    general_text_No: "Nu"
+    general_text_Yes: "Da"
     hal:
       error:
         update_conflict_refresh: "Faceți clic aici pentru a reîmprospăta resursa și a o actualiza la cea mai nouă versiune."
         edit_prohibited: "Editarea %{attribute} este blocată pentru această resursă. Fie acest atribut este derivat din relații (de exemplu, copii), fie nu poate fi configurat în alt mod."
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
+          date: "%{attribute} nu este o dată validă - Este necesar formatul AAAA-LL-ZZ."
+        general: "A apărut o eroare."
     homescreen:
       blocks:
         new_features:
@@ -292,10 +292,10 @@ ro:
               new_features_html: >
                 Versiunea conține diverse caracteristici noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Cu noile <b>notificări din aplicație</b> primiți toate actualizările importante direct în aplicație și nu mai primiți un flux de e-mailuri.</li> <li>Noul centru de notificare <b></b> prezintă toate schimbările, inclusiv opțiunile intuitive de filtrare, e. . din motive de notificare sau proiecte. Aceasta permite chiar editarea directă într-o vedere divizată.</li> <li>Setări de notificare îmbunătățite <b></b> permit ajustarea pentru ce acțiuni și în ce proiecte doriți să primiți o notificare.</li> <li><b>Memento-uri de e-mail</b> poate fi configurat pentru a primi actualizări importante prin intermediul unui sumar zilnic de e-mail.</li> <li>Completatorul automat pentru relații afișează acum și informații suplimentare (numele proiectului, statusul, . .) pentru a identifica cu ușurință pachetul de lucru respectiv.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/openproject-11-0-release
               new_features_html: >
                 Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Centrul de notificare: Reduceţi numărul de e-mailuri pe care le primiţi. Găsește și acționează pe toate notificările relevante într-un singur loc central.</li> <li>Toate fișierele IFC încărcate acum pot fi descărcate.</li> <li>Încărcarea și procesarea IFC a obținut mai repede și a primit mesaje de eroare mai bune.</li> <li>Add-in <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit</a> a primit mai multe remedieri ale erorilor.</li> </ul>
-    label_activate: "Activate"
+    label_activate: "Activare"
     label_add_column_after: "Adauga o coloana dupa"
     label_add_column_before: "Adauga o coloana inainte"
     label_add_columns: "Adaugați coloane"
@@ -303,133 +303,133 @@ ro:
     label_add_comment_title: "Comentați şi tastaţi @ pentru a notifica alte persoane"
     label_add_row_after: "Adauga un rand dupa"
     label_add_row_before: "Adauga un rand inainte"
-    label_add_selected_columns: "Add selected columns"
+    label_add_selected_columns: "Adăugați coloanele selectate"
     label_added_by: "adăugat de"
     label_added_time_by: "Adăugat de <a href=%{authorLink}>%{author}</a> la %{age}"
-    label_ago: "days ago"
-    label_all: "all"
-    label_all_work_packages: "all work packages"
-    label_and: "and"
-    label_ascending: "Ascending"
+    label_ago: "zile în urmă"
+    label_all: "toate"
+    label_all_work_packages: "toate pachetele de lucru"
+    label_and: "și"
+    label_ascending: "Crescător"
     label_author: "Autor: %{user}"
     label_avatar: "Avatar"
-    label_between: "between"
+    label_between: "între"
     label_board: "Tablă"
-    label_board_locked: "Locked"
+    label_board_locked: "Închis"
     label_board_plural: "Panouri"
-    label_board_sticky: "Sticky"
-    label_change: "Change"
-    label_create: "Create"
-    label_create_work_package: "Create new work package"
+    label_board_sticky: "Lipicios"
+    label_change: "Modificare"
+    label_create: "Creare"
+    label_create_work_package: "Creare pachet de lucru nou"
     label_created_by: "Creat de"
-    label_date: "Date"
+    label_date: "Dată"
     label_date_with_format: "Introduceţi %{date_attribute} folosind următorul format: %{format}"
     label_deactivate: "Dezactivare"
-    label_descending: "Descending"
-    label_description: "Description"
-    label_details: "Details"
-    label_display: "Display"
+    label_descending: "Descrescător"
+    label_description: "Descriere"
+    label_details: "Detalii"
+    label_display: "Afișare"
     label_cancel_comment: "Anulează comentariu"
-    label_closed_work_packages: "closed"
-    label_collapse: "Collapse"
+    label_closed_work_packages: "închis"
+    label_collapse: "Restrângere"
     label_collapsed: "restrâns"
-    label_collapse_all: "Collapse all"
-    label_comment: "Comment"
+    label_collapse_all: "Restrângere totală"
+    label_comment: "Comentariu"
     label_committed_at: "%{committed_revision_link} la data de %{date}"
     label_committed_link: "revizia încărcată %{revision_identifier}"
-    label_contains: "contains"
+    label_contains: "conţine"
     label_created_on: "creat la data de"
     label_edit_comment: "Editare comentariu"
     label_edit_status: "Editați starea pachetului de lucru"
-    label_email: "Email"
-    label_equals: "is"
-    label_expand: "Expand"
+    label_email: "E-mail"
+    label_equals: "este"
+    label_expand: "Extindere"
     label_expanded: "extins"
-    label_expand_all: "Expand all"
+    label_expand_all: "Extindere totală"
     label_expand_project_menu: "Deschideți meniul proiectului"
     label_export: "Exportare"
     label_export_preparing: "Exportul este în curs de pregătire și va fi descărcat în curând."
-    label_filename: "File"
-    label_filesize: "Size"
+    label_filename: "Fișier"
+    label_filesize: "Dimensiune"
     label_general: "General"
-    label_global_roles: "Global Roles"
+    label_global_roles: "Roluri globale"
     label_greater_or_equal: ">="
-    label_group: 'Group'
-    label_group_by: "Group by"
-    label_group_plural: "Groups"
+    label_group: 'Grup'
+    label_group_by: "Grupare după"
+    label_group_plural: "Grupuri"
     label_hide_attributes: "Arată mai puţin"
     label_hide_column: "Ascundere coloana"
     label_hide_project_menu: "Închideți meniul proiectului"
-    label_in: "in"
-    label_in_less_than: "in less than"
-    label_in_more_than: "in more than"
-    label_incoming_emails: "Incoming emails"
-    label_information_plural: "Information"
-    label_import: "Import"
+    label_in: "în"
+    label_in_less_than: "în mai puțin de"
+    label_in_more_than: "în mai mult de"
+    label_incoming_emails: "E-mailuri primite"
+    label_information_plural: "Informații"
+    label_import: "Importă"
     label_latest_activity: "Activitate recentă"
     label_last_updated_on: "Ultima actualizare la data de"
-    label_learn_more_link: "Learn more"
+    label_learn_more_link: "Aflați mai multe"
     label_less_or_equal: "<="
-    label_less_than_ago: "less than days ago"
-    label_loading: "Loading..."
-    label_mail_notification: "Email notifications"
-    label_me: "me"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_less_than_ago: "acum mai puțin de zile"
+    label_loading: "Se încarcă..."
+    label_mail_notification: "Notificări prin e-mail"
+    label_me: "eu"
+    label_meeting_agenda: "Agendă"
+    label_meeting_minutes: "Concluzii"
     label_menu_collapse: "restrângere"
     label_menu_expand: "extindere"
-    label_more_than_ago: "more than days ago"
-    label_next: "Next"
-    label_no_color: "No color"
-    label_no_data: "No data to display"
+    label_more_than_ago: "acum mai mult de zile"
+    label_next: "Înainte"
+    label_no_color: "Nicio culoare"
+    label_no_data: "Nu există date de afișat"
     label_no_due_date: "fără dată de finalizare"
     label_no_start_date: "fără dată început"
-    label_no_value: "No value"
-    label_none: "none"
-    label_not_contains: "doesn't contain"
-    label_not_equals: "is not"
+    label_no_value: "Nici o valoare"
+    label_none: "niciunul"
+    label_not_contains: "nu conține"
+    label_not_equals: "nu este"
     label_on: "pe"
-    label_open_menu: "Open menu"
+    label_open_menu: "Deschidere meniu"
     label_open_context_menu: "Deschideți meniul contextual"
-    label_open_work_packages: "open"
-    label_password: "Password"
-    label_previous: "Previous"
+    label_open_work_packages: "deschise"
+    label_password: "Parolă"
+    label_previous: "Înapoi"
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
-    label_project_plural: "Projects"
+    label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
     label_recent: "Recente"
-    label_reset: "Reset"
-    label_remove: "Remove"
+    label_reset: "Resetare"
+    label_remove: "Eliminare"
     label_remove_column: "Elimina colana"
-    label_remove_columns: "Remove selected columns"
+    label_remove_columns: "Eliminare coloane selectate"
     label_remove_row: "Elimina rand"
-    label_report: "Report"
-    label_repository_plural: "Repositories"
+    label_report: "Raportare"
+    label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"
     label_show_attributes: "Afișați toate câmpurile"
     label_show_in_menu: "Vizualizați configurația în meniu"
-    label_sort_by: "Sort by"
+    label_sort_by: "Sortare după"
     label_sorted_by: "sortare după"
-    label_sort_higher: "Move up"
-    label_sort_lower: "Move down"
+    label_sort_higher: "Mută în sus"
+    label_sort_lower: "Mută în jos"
     label_sorting: "Sortare"
-    label_spent_time: "Spent time"
+    label_spent_time: "Timp consumat"
     label_star_query: "Favorite"
     label_press_enter_to_save: "Apăsați tasta ”Enter” pentru a salva."
     label_public_query: "Public"
-    label_sum: "Sum"
+    label_sum: "Sumă"
     label_sum_for: "Suma pentru"
     label_total_sum: "Suma totală"
-    label_subject: "Subject"
-    label_this_week: "this week"
+    label_subject: "Subiect"
+    label_this_week: "săptămâna curentă"
     label_today: "Azi"
-    label_time_entry_plural: "Spent time"
+    label_time_entry_plural: "Timp consumat"
     label_up: "Sus"
-    label_user_plural: "Users"
+    label_user_plural: "Utilizatori"
     label_activity_show_only_comments: "Afișați doar activitățile ce conțin comentarii"
     label_activity_show_all: "Afișează toate activitățile"
     label_total_progress: "%{percent} % Progres total"
@@ -437,16 +437,16 @@ ro:
     label_updated_on: "actualizat la data de"
     label_value_derived_from_children: "(valoare derivată de la copii)"
     label_children_derived_duration: "Durata derivată a pachetului de lucru pentru copii"
-    label_warning: "Warning"
-    label_work_package: "Work package"
+    label_warning: "Avertizare"
+    label_work_package: "Pachet de lucru"
     label_work_package_parent: "Pachetul de lucru părinte"
-    label_work_package_plural: "Work packages"
-    label_watch: "Watch"
+    label_work_package_plural: "Pachete de lucru"
+    label_watch: "Monitorizare"
     label_watch_work_package: "Urmăriți pachetul de lucru"
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
     label_work_package_details_you_are_here: "Esti în secțiunea %{tab} din %{type} %{subject}."
-    label_unwatch: "Unwatch"
+    label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
     label_default_queries: "Configurații implicite"
@@ -454,8 +454,8 @@ ro:
     label_global_queries: "Configurații publice"
     label_custom_queries: "Configurații private"
     label_create_new_query: "Creați un nou"
-    label_columns: "Columns"
-    label_attachments: Files
+    label_columns: "Coloane"
+    label_attachments: Fişiere
     label_drop_files: Trageți fișierele aici
     label_drop_files_hint: sau dați click pentru a adăuga fişiere
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
@@ -466,7 +466,7 @@ ro:
     label_remove_all_files: Ştergeţi toate fişierele
     label_add_description: "Adăugați o descriere pentru %{file}"
     label_upload_notification: "Se încarcă fișierele..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "Fişierele pentru pachetul de lucru #%{id}: %{subject} sunt în curs de încărcare"
     label_wp_id_added_by: "#%{id} adaugat de %{author}"
     label_files_to_upload: "Următoarele fişiere vor fi încărcate:"
     label_rejected_files: "Următoarele fişiere nu pot fi încărcate:"
@@ -474,14 +474,14 @@ ro:
     label_wait: "Vă rugăm să aşteptaţi pentru configurare..."
     label_upload_counter: "%{done} din %{count} de fişiere terminate"
     label_validation_error: "Pachetul de lucru nu a putut fi salvat din cauza următoarelor erori:"
-    label_version_plural: "Versions"
+    label_version_plural: "Versiuni"
     label_view_has_changed: "Această vizualizare are modificări nesalvate. Faceți clic pentru a le salva."
     help_texts:
       show_modal: 'Afișare text de ajutor pentru atributul de intrare'
     onboarding:
       buttons:
         skip: 'Sari'
-        next: 'Next'
+        next: 'Înainte'
         got_it: 'Am înțeles'
       steps:
         help_menu: 'Meniul Ajutor (?) oferă <b>resurse suplimentare de ajutor</b>. Aici puteți găsi un ghid de utilizator și videoclipuri de utilitate și multe altele. <br> Bucurați-vă de munca dvs. cu OpenProject!'
@@ -520,7 +520,7 @@ ro:
         responsible: 'Responsabil'
       facets:
         unread: 'necitită'
-        all: 'All'
+        all: 'Toate'
       center:
         and_more_users:
           one: 'și încă unul'
@@ -541,7 +541,7 @@ ro:
           message: 'Există notificări noi.'
           link_text: 'Click aici pentru a le încărca'
       menu:
-        accountable: 'Accountable'
+        accountable: 'Responsabil'
         assigned: 'Assigned'
         by_project: 'Necitit după proiect'
         by_reason: 'Implicare'
@@ -589,7 +589,7 @@ ro:
     placeholders:
       default: '-'
       subject: 'Introduceţi subiectul aici'
-      selection: 'Please select'
+      selection: 'Vă rugăm să selectaţi'
       relation_description: 'Click pentru a adauga o descriere pentru această relaţie'
     project:
       required_outside_context: >
@@ -598,7 +598,7 @@ ro:
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
       confirm_template_load: 'Schimbarea șablonului va reîncărca pagina și veți pierde toate datele introduse în acest formular. Continuați?'
-      use_template: "Use template"
+      use_template: "Utilizează șablon"
       no_template_selected: "(None)"
       copy:
         copy_options: "Copy options"
@@ -622,12 +622,12 @@ ro:
           title: 'Email alerts for other items (that are not work packages)'
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'News added'
+          news_added: 'Noutăți adăugate'
           news_commented: 'Comment on a news item'
           document_added: 'Documents added'
           forum_messages: 'New forum messages'
-          wiki_page_added: 'Wiki page added'
-          wiki_page_updated: 'Wiki page updated'
+          wiki_page_added: 'Pagină wiki adăugată'
+          wiki_page_updated: 'Pagină wiki actualizată'
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
         title: 'Email reminders'
@@ -635,7 +635,7 @@ ro:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    text_are_you_sure: "Are you sure?"
+    text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
@@ -646,50 +646,50 @@ ro:
           Antenție: Sunteți sigur că doriți să resetați congurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
         upgrade_to_ee: "Actualizare la Enterprise on-premise Edition"
         upgrade_to_ee_text: "Hopa! Dacă aveți nevoie de această opțiune înseamnă că sunteți un profesionist! Dacă doriți, puteți susține acest produs achiziționând Versiunea Enterprise."
-        more_information: "More information"
+        more_information: "Mai multe informatii"
         nevermind: "Asta e..."
       edit:
         form_configuration: "Configurarea formularului"
-        projects: "Projects"
-        settings: "Settings"
+        projects: "Proiecte"
+        settings: "Setări"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
+      project: 'Proiect'
+      work_package: 'Pachet de lucru'
       work_package_required: 'Necesită să se selecteze mai întâi un pachet de lucru.'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
-      title: 'Log time'
+      activity: 'Activitate'
+      comment: 'Comentariu'
+      duration: 'Durată'
+      spent_on: 'Dată'
+      hours: 'Ore'
+      title: 'Consum timp'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Autentificare cu doi factori'
     watchers:
       label_loading: se încarcă observatorii...
       label_error_loading: A apărut o eroare în timpul încărcării observatorilor
       label_search_watchers: Caută observator
-      label_add: Add watchers
+      label_add: Adăugare observatori
       label_discard: Renunțare la selecţie
       typeahead_placeholder: Căutarea de posibili observatori
     relation_labels:
-      parent: "Parent"
+      parent: "Părinte"
       children: "Fii"
-      relates: "Related To"
+      relates: "În relație cu"
       duplicates: "Dublează"
       duplicated: "Dublate de"
-      blocks: "Blocks"
+      blocks: "Blochează"
       blocked: "Blocat de"
       precedes: "Precede"
       follows: "Urmează după"
       includes: "Include"
-      partof: "Part of"
+      partof: "Parte din"
       requires: "Necesită"
       required: "Cerut de"
       relation_type: "tipul de relaţie"
     relations_hierarchy:
-      parent_headline: "Parent"
+      parent_headline: "Părinte"
       hierarchy_headline: "Arată ierarhia"
-      children_headline: "Children"
+      children_headline: "Fii"
     relation_buttons:
       set_parent: "Setați părintele"
       change_parent: "Modificare părinte"
@@ -711,21 +711,21 @@ ro:
       update_relation: "Faceți click pentru a schimba tipul de legătură"
       add_follower: "Adaugă urmăritor"
       add_predecessor: "Adăugați predecesorul"
-      remove: "Remove relation"
+      remove: "Eliminare relaţie"
       save: "Salvează relația"
       abort: "Anulează"
     relations_autocomplete:
       placeholder: "Introduceți textul de căutat"
       parent_placeholder: "Alegeți un nou părinte sau apăsați Escape pentru a anula."
     autocompleter:
-      placeholder: "Type to search"
+      placeholder: "Introduceți textul de căutat"
       notFoundText: "No items found"
-      typeToSearchText: "Type to search"
+      typeToSearchText: "Introduceți textul de căutat"
     repositories:
       select_tag: 'Selectare etichetă'
       select_branch: 'Selectare ramură'
     field_value_enter_prompt: "Introduceţi o valoare pentru '%{field}'"
-    project_menu_details: "Details"
+    project_menu_details: "Detalii"
     scheduling:
       manual: 'Programarea manuală'
       automatic: 'Programare automată'
@@ -737,7 +737,7 @@ ro:
       activate_asc: 'activați pentru a sorta ascendent'
       activate_dsc: 'activați pentru a sorta descendent'
       activate_no: 'activați pentru a înlătura sortarea'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
     text_query_destroy_confirmation: "Sunteți sigur că doriți să ștergeți vizualizarea selectată?"
     text_attachment_destroy_confirmation: "Sunteţi sigur că doriţi să ştergeţi atașamentul?"
     timelines:
@@ -754,47 +754,47 @@ ro:
           Selectați atributele pe care doriți să le afișați în permanență în pozițiile respective ale diagramei Gantt. Rețineți că, atunci când treceți cu degetul peste un element, etichetele de date ale acestuia vor fi afișate în locul acestor atribute.
       button_activate: 'Grafic Gantt'
       button_deactivate: 'Grafic Gantt'
-      cancel: Cancel
-      change: "Change in planning"
-      due_date: "Finish date"
-      empty: "(empty)"
+      cancel: Anulare
+      change: "Schimbare în planificare"
+      due_date: "Data de finalizare"
+      empty: "(gol)"
       error: "A apărut o eroare."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        not_implemented: "Planificările nu pot fi afișate deoarece utilizează o funcționalitate care nu este încă implementată."
+        report_comparison: "Planificările nu au putut afișa comparațiile configurate. Verificați secțiunea corespunzătoare din configurare, resetarea acesteia poate ajuta la rezolvarea problemei."
+        report_epicfail: "Planificările nu au putut fi încărcate din cauza unei erori neașteptate."
+        report_timeout: "Planificările nu au putut fi încărcate într-un interval de timp rezonabil."
       filter:
-        grouping_other: "Other"
-        noneSelection: "(none)"
-      name: "Name"
-      outline: "Reset Outline"
+        grouping_other: "Altele"
+        noneSelection: "(nimic)"
+      name: "Nume"
+      outline: "Resetare contur"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
-      project_status: "Project status"
+        aggregation: "Afișare doar a agregărilor"
+        level1: "Afișare level 1"
+        level2: "Afișare level 2"
+        level3: "Afișare level 3"
+        level4: "Afișare level 4"
+        level5: "Afișare level 5"
+        all: "Afișare completă"
+      project_status: "Stare proiect"
       really_close_dialog: "Sunteți sigur că doriți să închideți formularul și să pierdeți datele introduse?"
-      responsible: "Responsible"
-      save: Save
-      start_date: "Start date"
+      responsible: "Responsabil"
+      save: Salvare
+      start_date: "Data de început"
       tooManyProjects: "Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru potrivit!"
       selection_mode:
         notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Mărire"
+        out: "Micșorare"
         auto: "Mărire"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
+        days: "Zile"
+        weeks: "Săptămâni"
+        months: "Luni"
+        quarters: "Trimestre"
+        years: "Ani"
+        slider: "Selector de orizont de timp"
         description: >
           Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
     tl_toolbar:
@@ -813,7 +813,7 @@ ro:
       heading3: "Titlu 3"
       unordered_list: "Listă neordonată"
       ordered_list: "Listă ordonată"
-      quote: "Quote"
+      quote: "Citare"
       unquote: "Elimină formatare citat"
       preformatted_text: "Text preformatat"
       wiki_link: "Link la o pagină Wiki"
@@ -824,22 +824,22 @@ ro:
         edit: 'Editează mai multe elemente'
         copy: 'Copiază mai multe elemente'
         delete: 'Șterge mai multe element'
-      button_clear: "Clear"
+      button_clear: "Inițializare"
       comment_added: "Comentariul a fost adăugat cu succes."
       comment_send_failed: "A apărut o eroare. Comentariul nu a putut fi salvat."
       comment_updated: "Comentariul a fost actualizat cu succes."
       confirm_edit_cancel: "Sunteți sigur că doriți să renunțați la editarea pachetului de lucru?"
-      description_filter: "Filter"
-      description_enter_text: "Enter text"
+      description_filter: "Filtrare"
+      description_enter_text: "Introduceţi textul"
       description_options_hide: "Ascundere opțiuni"
       description_options_show: "Afișare opțiuni"
       edit_attribute: "%{attribute} - Editare"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "Activare selecție multiplă"
       label_disable_multi_select: "Dezactivare selecție multiplă"
-      label_filter_add: "Add filter"
+      label_filter_add: "Adăugare filtru"
       label_filter_by_text: "Filtreaza dupa text"
-      label_options: "Options"
+      label_options: "Opțiuni"
       label_column_multiselect: "Câmp desfășurat combinat: selectaţi cu săgețile, confirmați alegerea cu enter, ştergeţi cu backspace"
       message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor de lucru.
       message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
@@ -851,11 +851,11 @@ ro:
       inline_create:
         title: 'Click aici pentru a adăuga un nou pachet de lucru în listă'
       create:
-        title: 'New work package'
+        title: 'Pachet de lucru nou'
         header: 'Nou %{type}'
         header_no_type: 'Nou pachet de lucru (Tipul incă nu a fost stabilit)'
         header_with_parent: 'Nou %{type} (copilul %{parent_type} #%{id})'
-        button: 'Create'
+        button: 'Creare'
       copy:
         title: 'Copiere pachet de lucru'
       hierarchy:
@@ -873,40 +873,40 @@ ro:
         description: Nu a fost creat niciun pachet de lucru, sau toate sunt eliminate prin filtru.
       limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
       property_groups:
-        details: "Details"
+        details: "Detalii"
         people: "Persoane"
         estimatesAndTime: "Estimări și Durate"
-        other: "Other"
+        other: "Altele"
       properties:
-        assignee: "Assignee"
-        author: "Author"
-        createdAt: "Created on"
-        description: "Description"
-        date: "Date"
-        dueDate: "Finish date"
-        estimatedTime: "Estimated time"
-        spentTime: "Spent time"
-        category: "Category"
+        assignee: "Executant"
+        author: "Autor"
+        createdAt: "Creat pe"
+        description: "Descriere"
+        date: "Dată"
+        dueDate: "Data de finalizare"
+        estimatedTime: "Durata estimată"
+        spentTime: "Timp consumat"
+        category: "Categorie"
         percentageDone: "Procent realizat"
-        priority: "Priority"
-        projectName: "Project"
-        responsible: "Responsible"
-        startDate: "Start date"
-        status: "Status"
-        subject: "Subject"
-        subproject: "Subproject"
-        title: "Title"
-        type: "Type"
-        updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        priority: "Prioritate"
+        projectName: "Proiect"
+        responsible: "Responsabil"
+        startDate: "Data de început"
+        status: "Stare"
+        subject: "Subiect"
+        subproject: "Subproiect"
+        title: "Titlu"
+        type: "Tip"
+        updatedAt: "Actualizat pe"
+        versionName: "Versiune"
+        version: "Versiune"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "Activitate recentă"
         created_by_me: "Creat de mine"
         assigned_to_me: "Atribuit mie"
         recently_created: "Creat de"
-        all_open: "All open"
-        summary: "Summary"
+        all_open: "Toate deschise"
+        summary: "Descriere"
       jump_marks:
         pagination: "Salt la paginarea tabelului"
         label_pagination: "Click aici pentru a sări peste tabelul cu pachete de lucru și a ajunge la paginare"
@@ -917,19 +917,19 @@ ro:
         date: "Select date"
         formattable: "%{name}: Click to edit..."
       query:
-        column_names: "Columns"
-        group_by: "Group results by"
+        column_names: "Coloane"
+        group_by: "Grupare rezultate"
         group: "Grupare după"
         group_by_disabled_by_hierarchy: "Gruparea este dezactivată deoarece modul ierarhic este activ."
         hierarchy_disabled_by_group_by: "Modul ierarhic este dezactivat deoarece rezultatele sunt grupate în %{column}."
         sort_ascending: "Ordonare ascendentă"
         sort_descending: "Ordonare descendentă"
-        move_column_left: "Move column left"
-        move_column_right: "Move column right"
-        hide_column: "Hide column"
+        move_column_left: "Mutați coloana la stânga"
+        move_column_right: "Mutați coloana la dreapta"
+        hide_column: "Ascundere coloana"
         insert_columns: "Inserare coloane..."
-        filters: "Filters"
-        display_sums: "Display Sums"
+        filters: "Filtre"
+        display_sums: "Afişare totaluri"
         confirm_edit_cancel: "Sunteți sigur că doriți să anulați editarea numelui acestei vizualizări? Titlul va fi setat la valoarea anterioară."
         click_to_edit_query_name: "Câmpul %s este gol. Click aici pentru a-l edita."
         rename_query_placeholder: "Vezi"
@@ -948,30 +948,30 @@ ro:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."
         text_inline_edit: "Majoritatea celulelor din acest tabel sunt butoane care activează editarea \"inline\" a câmpului respectiv."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_sort_hint: "Cu link-urile din capul de tabel puteți sorta, grupa, reordona, elimina și adăuga coloane la tabel."
         text_select_hint: "Casetele de selectare ar trebui să fie deschise cu 'ALT' si tastele săgeată."
       table_configuration:
         button: 'Configurați acest tabel al pachetului de lucru'
         choose_display_mode: 'Afișare pachete de lucru din subproiecte pe pagina proiectului principal'
         modal_title: 'Configurația tabelului pachetului de lucru'
         embedded_tab_disabled: "Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editați."
-        default: "default"
+        default: "implicit"
         display_settings: 'Setări afișare'
         default_mode: "Listă"
-        hierarchy_mode: "Hierarchy"
+        hierarchy_mode: "Arată ierarhia"
         hierarchy_hint: "Toate rezultatele tabelelor filtrate vor fi completate cu strămoșii lor. Ierarhiile pot fi extinse și restrânse."
         display_sums_hint: "Afișarea sumelor tuturor atributelor însumabile pe un rând sub rezultatele tabelului."
         show_timeline_hint: "Afișați o diagramă Gantt interactivă în partea dreaptă a tabelului. Puteți modifica lățimea acestuia trăgând de separatorul dintre tabel și graficul gantt."
         highlighting: 'Fără evidențiere'
         highlighting_mode:
           description: "Nicio culoare"
-          none: "No highlighting"
+          none: "Fără evidențiere"
           inline: 'Evidențiați atributul (atributele) inline'
           inline_all: 'Afișați toate câmpurile'
           entire_row_by: 'Întregul rând pe tipuri'
-          status: 'Status'
-          priority: 'Priority'
-          type: 'Type'
+          status: 'Stare'
+          priority: 'Prioritate'
+          type: 'Tip'
         sorting_mode:
           description: 'Alegeți modul de sortare a pachetelor de lucru:'
           automatic: 'Automat'
@@ -985,15 +985,15 @@ ro:
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrare pachete de lucru'
       tabs:
-        overview: Overview
-        activity: Activity
+        overview: Vedere de ansamblu
+        activity: Activitate
         relations: Relații
-        watchers: Watchers
-        attachments: Attachments
+        watchers: Observatori
+        attachments: Atașamente
       time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
+        days: "zile"
+        weeks: "săptămâni"
+        months: "luni"
     toolbar:
       settings:
         configure_view: "Configurare"
@@ -1004,25 +1004,25 @@ ro:
         display_hierarchy: "Afișați ierarhia"
         hide_hierarchy: "Ascundeți ierarhia"
         hide_sums: "Ascundere totaluri"
-        save: "Save"
+        save: "Salvare"
         save_as: "Salvare ca ..."
         export: "Exportare ..."
         visibility_settings: "Setări Vizibilitate Profil"
         page_settings: "Redenumire"
-        delete: "Delete"
-      filter: "Filter"
-      unselected_title: "Work package"
+        delete: "Ștergere"
+      filter: "Filtrare"
+      unselected_title: "Pachet de lucru"
       search_query_label: "Căutați vizualizări salvate"
       search_query_title: "Faceți clic pentru a căuta vizualizări salvate"
       placeholder_query_title: "Vezi"
     modals:
       label_settings: "Redenumire"
-      label_name: "Name"
+      label_name: "Nume"
       label_delete_page: "Ştergeți pagina curentă"
-      button_apply: "Apply"
-      button_save: "Save"
-      button_submit: "Submit"
-      button_cancel: "Cancel"
+      button_apply: "Salvare"
+      button_save: "Salvare"
+      button_submit: "Trimitere"
+      button_cancel: "Anulare"
       form_submit:
         title: 'Confirmați pentru a continua'
         text: 'Sunteți sigur/ă că doriți să realizați această acțiune?'
@@ -1036,11 +1036,11 @@ ro:
         title: "Confirmarea ștergerii înregistrării timpului"
         text: "Sunteți sigur că doriți să ștergeți următoarea înregistrare a timpului?"
     notice_no_results_to_display: "Fara rezultate vizibile de afisat."
-    notice_successful_create: "Successful creation."
-    notice_successful_delete: "Successful deletion."
-    notice_successful_update: "Successful update."
+    notice_successful_create: "Creare reuşită."
+    notice_successful_delete: "Ştergere reuşită."
+    notice_successful_update: "Actualizare reușită."
     notice_job_started: "job started."
-    notice_bad_request: "Bad Request."
+    notice_bad_request: "Cerere invalidă."
     relations:
       empty: Nu există relații
       remove: Eliminare relaţie
@@ -1048,10 +1048,10 @@ ro:
       button_edit: "%{attribute}: Editare"
       button_save: "%{attribute}: Salvare"
       button_cancel: "%{attribute}: Anulare"
-      button_save_all: "Save"
-      button_cancel_all: "Cancel"
+      button_save_all: "Salvare"
+      button_cancel_all: "Anulare"
       link_formatting_help: "Ajutor pentru formatarea textului"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "Previzualizare"
       btn_preview_disable: "Dezactivare previzualizare"
       null_value_label: "Nici o valoare"
       clear_value_label: "-"
@@ -1079,11 +1079,11 @@ ro:
         other: "%{count} ora"
         zero: "0 ore"
     zen_mode:
-      button_activate: 'Activate zen mode'
+      button_activate: 'Activați modul zen'
       button_deactivate: 'Dezactivați modul zen'
     global_search:
       all_projects: "In toate proiectele"
-      search: "Search"
+      search: "Căutare"
       close_search: "Inchide cautarea"
       current_project: "In acest proiect"
       current_project_and_all_descendants: "In acest proiect + subproiecte"
@@ -1096,47 +1096,47 @@ ro:
       list: 'Tabel'
       timeline: 'Gantt'
     invite_user_modal:
-      back: 'Back'
+      back: 'Înapoi'
       invite: 'Invită'
       title:
-        invite: 'Invite user'
+        invite: 'Invitare utilizator'
         invite_to_project: 'Invitați %{type} la %{project}'
         User: 'utilizator'
         Group: 'grup'
         PlaceholderUser: 'utilizator placeholder'
         invite_principal_to_project: 'Invitați %{principal} la %{project}'
       project:
-        label: 'Project'
+        label: 'Proiect'
         required: 'Vă rugăm să selectați un proiect'
         lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
         lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
-        next_button: 'Next'
+        next_button: 'Înainte'
         no_results: 'Nu au fost găsite proiecte'
         no_invite_rights: 'Nu aveți voie să invitați membri în acest proiect'
       type:
         required: 'Vă rugăm să selectați tipul de invitat'
         user:
-          title: 'User'
+          title: 'Utilizator'
           description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
         group:
-          title: 'Group'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: 'Grup'
+          description: 'Permisiuni bazate pe rolul atribuit în proiectul selectat'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Utilizator Placeholder'
           title_no_ee: 'Utilizator de tip "Placeholder" (caracteristică doar pentru Enterprise Edition)'
           description: 'Nu are acces la proiect și nu se trimite niciun e-mail.'
           description_no_ee: 'Nu are acces la proiect și nu se trimite niciun e-mail. <br>Consultați <a href="%{eeHref}" target="_blank">ediția Enterprise</a></br>Edition'
       principal:
         label:
           name_or_email: 'Numele și adresa dvs. de e-mail.'
-          name: 'Name'
+          name: 'Nume'
         already_member_message: 'Deja membru al %{project}'
         no_results_user: 'Nu au fost găsiți utilizatori'
         invite_user: 'Invită'
         no_results_placeholder: 'Nu au fost găsiți spații libere'
         create_new_placeholder: 'Creați un nou spațiu rezervat:'
         no_results_group: 'Nu au fost găsite grupuri'
-        next_button: 'Next'
+        next_button: 'Înainte'
         required:
           user: 'Vă rugăm să selectați un utilizator'
           placeholder: 'Vă rugăm să selectați limba dvs'
@@ -1146,22 +1146,22 @@ ro:
         no_roles_found: 'No roles were found'
         description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Vă rugăm să selectați un rol'
-        next_button: 'Next'
+        next_button: 'Înainte'
       message:
         label: 'Mesaj invitație'
         description: 'Vom trimite un e-mail către %{principal}, la care puteți adăuga un mesaj personal aici. Ar putea fi utilă o explicație pentru invitație sau poate câteva informații despre proiect pentru a-i ajuta să înceapă.'
         next_button: 'Invitație de revizuire'
       summary:
-        next_button: 'Send invitation'
+        next_button: 'Trimite invitație'
       success:
         title: '%{principal} a fost invitat!'
         description:
           user: 'Utilizatorul se poate autentifica acum pentru a accesa %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
           placeholder: 'Marca de poziție poate fi utilizată acum în %{project}. Între timp, puteți deja să planificați cu acel utilizator și să atribuiți pachete de lucru, de exemplu.'
           group: 'Grupul este acum o parte din %{project}. Între timp, puteți deja să planificați cu acest grup și să atribuiți pachete de lucru, de exemplu.'
-        next_button: 'Continue'
+        next_button: 'Continuaţi'
     forms:
       submit_success_message: 'Formularul a fost trimis cu succes'
       load_error_message: 'A apărut o eroare la încărcarea formularului'
       validation_error_message: 'Vă rugăm să remediaţi erorile existente în formular'
-      advanced_settings: 'Advanced settings'
+      advanced_settings: 'Setări avansate'

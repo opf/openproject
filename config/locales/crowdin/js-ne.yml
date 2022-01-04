@@ -181,7 +181,7 @@ ne:
         inactive: 'Inactive'
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
+        add_table: "सम्बन्धित कार्य प्याकेजहरूको तालिका थप्नुहोस्"
         edit_query: 'Edit query'
         new_group: 'New group'
         reset_to_defaults: 'Reset to defaults'
@@ -350,8 +350,8 @@ ne:
     label_expand_project_menu: "Expand project menu"
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
-    label_filename: "File"
-    label_filesize: "Size"
+    label_filename: "फाइल"
+    label_filesize: "साइज"
     label_general: "General"
     label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
@@ -589,7 +589,7 @@ ne:
     placeholders:
       default: '-'
       subject: 'Enter subject here'
-      selection: 'Please select'
+      selection: 'कृपया छान्नुहोस्'
       relation_description: 'Click to add description for this relation'
     project:
       required_outside_context: >

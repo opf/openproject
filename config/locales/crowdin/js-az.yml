@@ -926,7 +926,7 @@ az:
         sort_descending: "Sort descending"
         move_column_left: "Move column left"
         move_column_right: "Move column right"
-        hide_column: "Hide column"
+        hide_column: "Sütunu gizlət"
         insert_columns: "Insert columns ..."
         filters: "Filters"
         display_sums: "Display Sums"

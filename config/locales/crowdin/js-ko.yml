@@ -42,54 +42,54 @@ ko:
       last_backup: 최근 백업
       last_backup_from: 최근 백업 일자
       title: OpenProject 백업
-      options: Options
+      options: 옵션
       include_attachments: 첨부파일 포함
       download_backup: 백업 다운로드
       request_backup: 백업 요청
     close_popup_title: "팝업 닫기"
     close_filter_title: "필터 닫기"
     close_form_title: "폼 닫기"
-    button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
+    button_add_watcher: "주시자 추가"
+    button_add: "추가"
+    button_back: "뒤로"
     button_back_to_list_view: "목록으로 돌아가기"
-    button_cancel: "Cancel"
-    button_close: "Close"
+    button_cancel: "취소"
+    button_close: "닫기"
     button_change_project: "프로젝트 변경"
-    button_check_all: "Check all"
+    button_check_all: "모두 선택"
     button_configure-form: "구성 양식"
     button_confirm: "확인"
     button_continue: "계속"
-    button_copy: "Copy"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    button_copy: "복사"
+    button_custom-fields: "사용자 정의 필드"
+    button_delete: "삭제"
     button_delete_watcher: "주시자 삭제"
     button_details_view: "자세히"
-    button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
+    button_duplicate: "복제"
+    button_edit: "편집"
+    button_filter: "필터"
+    button_collapse_all: "모두 축소"
+    button_expand_all: "모두 확장"
     button_advanced_filter: "고급 필터"
     button_list_view: "목록 보기"
     button_show_view: "전체화면 보기"
-    button_log_time: "Log time"
-    button_more: "More"
+    button_log_time: "작업시간 기록"
+    button_more: "기타"
     button_open_details: "자세히 보기"
     button_close_details: "디테일 닫기"
     button_open_fullscreen: "전체화면 보기"
     button_show_cards: "카드 보기 표시"
     button_show_list: "목록 보기 표시"
-    button_quote: "Quote"
-    button_save: "Save"
-    button_settings: "Settings"
-    button_uncheck_all: "Uncheck all"
-    button_update: "Update"
+    button_quote: "인용"
+    button_save: "저장"
+    button_settings: "설정"
+    button_uncheck_all: "모두 선택 취소"
+    button_update: "업데이트"
     button_export-pdf: "PDF 다운로드"
     button_export-atom: "Atom 다운로드"
-    button_create: "Create"
+    button_create: "만들기"
     calendar:
-      title: 'Calendar'
+      title: '달력'
       too_many: '총 %{count}개 작업 패키지가 있지만, %{max}개만 표시할 수 있습니다.'
     card:
       add_new: '새로운 카드를 추가하다'
@@ -97,7 +97,7 @@ ko:
         inline: '인라인 강조 표시:'
         entire_card_by: '전체 카드 기준'
       remove_from_list: '목록에서 카드 제거'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "요금 기록"
     clipboard:
       browser_error: "브라우저를 클립보드에 복사를 지원 하지 않습니다. 텍스트를 타이핑하여 복사하십시오."
       copied_successful: "클립보드에 복사되었습니다!"
@@ -114,14 +114,14 @@ ko:
         radar: '레이더'
         polar_area: '극지방'
       tabs:
-        graph_settings: 'General'
+        graph_settings: '일반'
         dataset: '데이터 세트 %{number}'
       errors:
         could_not_load: '그래프를 표시하기 위한 데이터를 로드할 수 없습니다. 필요한 권한이 부족할 수 있습니다.'
-    description_available_columns: "Available Columns"
-    description_current_position: "You are here: "
+    description_available_columns: "사용 가능한 열"
+    description_current_position: "사용자의 위치: "
     description_select_work_package: "작업 패키지 #%{id} 선택"
-    description_selected_columns: "Selected Columns"
+    description_selected_columns: "선택된 열"
     description_subwork_package: "작업 패키지 #%{id}의 자식"
     editor:
       preview: '미리 보기 모드 토글'
@@ -141,7 +141,7 @@ ko:
           button: '자식 페이지의 링크'
           include_parent: '부모 포함'
           text: '다음에 대한 자식 페이지의 [Placeholder] 링크:'
-          page: 'Wiki page'
+          page: '위키 페이지'
           this_page: '이 페이지'
           hint: |
             현재 페이지의 모든 자식 페이지를 나열하려면 이 필드를 비워두세요. 다른 페이지를 참조하려는 경우 해당 제목 또는 슬러그를 제공하세요.
@@ -153,12 +153,12 @@ ko:
         dropdown:
           macros: '매크로'
           chose_macro: '매크로 선택'
-        toc: 'Table of contents'
+        toc: '목차'
         toolbar_help: '위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.'
         wiki_page_include:
           button: '다른 위키 페이지의 콘텐츠 포함'
           text: '[Placeholder]에 다음의 위키 페이지 포함됨:'
-          page: 'Wiki page'
+          page: '위키 페이지'
           not_set: '(페이지 아직 설정 안 됨)'
           hint: |
             제목이나 슬러그를 지정하여 다른 위키 페이지의 콘텐츠를 포함하세요.
@@ -177,14 +177,14 @@ ko:
           text: '[Placeholder] 포함 달력'
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
-        drag_to_activate: "Drag fields from here to activate them"
-        add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
+        custom_field: '사용자 정의 필드'
+        inactive: '비활성화'
+        drag_to_activate: "여기에서 필드를 끌어와서 활성화"
+        add_group: "특성 그룹 추가"
+        add_table: "관련 작업 패키지의 테이블 추가"
         edit_query: '쿼리 편집'
-        new_group: 'New group'
-        reset_to_defaults: 'Reset to defaults'
+        new_group: '새 그룹'
+        reset_to_defaults: '기본값으로 초기화'
       enterprise:
         text_reprieve_days_left: "유예 기간 종료까지 %{days}일"
         text_expired: "만료됨"
@@ -197,20 +197,20 @@ ko:
               <a target="_blank" href="%{link_terms}">서비스 약관</a> 및 <a target="_blank" href="%{link_privacy}">개인정보 취급방침</a>에 동의합니다.
             invalid_email: "잘못된 이메일 주소"
             label_company: "회사"
-            label_first_name: "First name"
-            label_last_name: "Last name"
+            label_first_name: "이름"
+            label_last_name: "성"
             label_domain: "도메인"
-            label_subscriber: "Subscriber"
-            label_maximum_users: "Maximum active users"
+            label_subscriber: "구독자"
+            label_maximum_users: "최대 활성 사용자"
             label_starts_at: "시작:"
-            label_expires_at: "Expires at"
+            label_expires_at: "에서 만료됨"
             receive_newsletter: OpenProject <a target="_blank" href="%{link}">뉴스레터</a>를 받아 보겠습니다.
             taken_domain: 도메인당 하나의 활성 평가판만 있어야 합니다.
             taken_email: 각 사용자는 하나의 평가판만 생성할 수 있습니다.
           email_not_received: "이메일을 받지 못하셨나요? 오른쪽의 링크로 이메일을 재전송할 수 있습니다. "
           try_another_email: "또는 다른 이메일 주소로 시도해보세요."
           next_steps: "다음 단계"
-          resend_link: "Resend"
+          resend_link: "다시 보내기"
           resend_success: "이메일이 재전송되었습니다. 이메일을 확인하고 제공된 인증 링크를 클릭하세요."
           resend_warning: "이메일을 재전송할 수 없습니다."
           session_timeout: "해당 세션이 시간 초과되었습니다. 페이지를 다시 로드하거나 이메일을 재전송하세요."
@@ -220,7 +220,7 @@ ko:
           test_ee: "무료로 Enterprise Edition 14일 테스트"
           quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
         upsale:
-          become_hero: "Become a hero!"
+          become_hero: "영웅이 되세요!"
           benefits:
             description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
             high_security: "보안 기능"
@@ -229,29 +229,29 @@ ko:
             installation_text: "숙련된 소프트웨어 엔지니어들이 사용자 고유 인프라에서 완전한 설치 및 설정 프로세스를 안내해줍니다."
             premium_features: "프리미엄 기능"
             premium_features_text: "민첩한 보드, 사용자 지정 테마 및 로고, 그래프, 인텔리전트 워크플로와 사용자 지정 작업, 작업 패키지 첨부 파일 및 다중 선택 사용자 지정 필드에 대한 전체 텍스트 검색."
-            professional_support: "Professional support"
+            professional_support: "전문적 지원"
             professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "무료 평가판 시작"
+          button_book_now: "지금 예약"
           confidence: >
             오픈 소스와 오픈 마인드로, 테스트를 거치고 지원이 제공되는 엔터프라이즈급 프로젝트 관리 소프트웨어에 대한 신뢰를 전해드립니다.
-          link_quote: "Get a quote"
+          link_quote: "견적 받기"
           text: >
             OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 프리미엄 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
           you_contribute: "개발자들도 청구서를 지불해야 합니다. Enterprise Edition으로 이 오픈 소스 커뮤니티의 노력에 여러분이 실질적으로 기여할 수 있습니다."
     custom_actions:
       date:
-        specific: 'on'
+        specific: '에'
         current_date: '현재 날짜'
     error:
       internal: "내부 오류가 발생하였습니다."
       cannot_save_changes_with_message: "다음 오류로 인해 변경 사항을 저장할 수 없습니다: %{error}"
       query_saving: "보기를 저장할 수 없습니다."
       embedded_table_loading: "포함된 보기를 로드할 수 없습니다: %{message}"
-    enumeration_activities: "Activities (time tracking)"
-    enumeration_doc_categories: "Document categories"
-    enumeration_work_package_priorities: "Work package priorities"
+    enumeration_activities: "작업(시간 추적)"
+    enumeration_doc_categories: "문서 범주"
+    enumeration_work_package_priorities: "작업 패키지 우선 순위"
     filter:
       description:
         text_open_filter: "'ALT'와 화살표 키로 이 필터를 여세요."
@@ -269,17 +269,17 @@ ko:
           three: "세 번째 정렬 기준"
       upsale_for_more: "추가 고급 필터는 다음을 확인하세요:"
       upsale_link: 'Enterprise Edition.'
-    general_text_no: "no"
-    general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_no: "아니요"
+    general_text_yes: "예"
+    general_text_No: "아니요"
+    general_text_Yes: "예"
     hal:
       error:
         update_conflict_refresh: "리소스를 새로 고치고 최신 버전으로 업데이트하려면 여기를 클릭하세요."
         edit_prohibited: "%{attribute} 편집은 이 리소스에 대해 차단되었습니다. 이 특성은 관계(예: 자식)에서 파생되었거나 그렇지 않으면 구성할 수 없습니다."
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: "An error has occurred."
+          date: "%{attribute}은(는) 유효한 날짜가 아닙니다. YYYY-MM-DD여야 합니다."
+        general: "오류가 발생했습니다."
     homescreen:
       blocks:
         new_features:
@@ -296,7 +296,7 @@ ko:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
                 이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다: <br> <ul class="%{list_styling_class}"> <li>알림 센터: 수신하는 메일 수를 줄입니다. 대신 센터 한 곳에서 모든 관련 알림을 찾고 조치를 취할 수 있습니다.</li> <li>이제 업로드된 모든 IFC 파일도 다운로드할 수 있습니다.</li> <li>IFC 업로드 및 처리가 더욱 빨라졌으며 개선된 오류 메시지를 받게 됩니다.</li> <li><a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit 추가 기능</a>에서 많은 버그가 수정되었습니다.</li> </ul>
-    label_activate: "Activate"
+    label_activate: "활성화"
     label_add_column_after: "다음 뒤에 열 추가"
     label_add_column_before: "다음 앞에 열 추가"
     label_add_columns: "열 추가"
@@ -304,133 +304,133 @@ ko:
     label_add_comment_title: "코멘트를 기입하고 @을 입력하여 다른 사람에게 알려주기"
     label_add_row_after: "다음 뒤에 행 추가"
     label_add_row_before: "다음 앞에 행 추가"
-    label_add_selected_columns: "Add selected columns"
+    label_add_selected_columns: "선택된 열 추가"
     label_added_by: "추가함 : "
     label_added_time_by: "<a href=%{authorLink}>%{author}</a>(%{age}) 님이 추가함"
-    label_ago: "days ago"
-    label_all: "all"
-    label_all_work_packages: "all work packages"
-    label_and: "and"
-    label_ascending: "Ascending"
+    label_ago: "일 전"
+    label_all: "모두"
+    label_all_work_packages: "모든 작업 패키지"
+    label_and: "그리고"
+    label_ascending: "오름차순"
     label_author: "작성자: %{user}"
-    label_avatar: "Avatar"
-    label_between: "between"
+    label_avatar: "아바타"
+    label_between: "사이에"
     label_board: "게시판"
-    label_board_locked: "Locked"
+    label_board_locked: "잠김"
     label_board_plural: "보드"
-    label_board_sticky: "Sticky"
-    label_change: "Change"
-    label_create: "Create"
-    label_create_work_package: "Create new work package"
+    label_board_sticky: "스티커형"
+    label_change: "변경"
+    label_create: "만들기"
+    label_create_work_package: "새 작업 패키지 만들기"
     label_created_by: "작성자"
-    label_date: "Date"
+    label_date: "날짜"
     label_date_with_format: "%{date_attribute} 는 %{format} 과 같이 입력되어야 합니다."
     label_deactivate: "비활성화"
-    label_descending: "Descending"
-    label_description: "Description"
-    label_details: "Details"
-    label_display: "Display"
+    label_descending: "내림차순"
+    label_description: "설명"
+    label_details: "세부 정보"
+    label_display: "표시"
     label_cancel_comment: "코멘트 취소"
-    label_closed_work_packages: "closed"
-    label_collapse: "Collapse"
+    label_closed_work_packages: "닫음"
+    label_collapse: "축소"
     label_collapsed: "축소"
-    label_collapse_all: "Collapse all"
-    label_comment: "Comment"
+    label_collapse_all: "모두 축소"
+    label_comment: "코멘트"
     label_committed_at: "%{date}에 %{committed_revision_link} "
     label_committed_link: " %{revision_identifier} 리비전이 커밋됨"
-    label_contains: "contains"
+    label_contains: "포함"
     label_created_on: "생성"
     label_edit_comment: "코멘트 편집"
     label_edit_status: "작업 패키지 상태 편집"
-    label_email: "Email"
-    label_equals: "is"
-    label_expand: "Expand"
+    label_email: "이메일"
+    label_equals: "일치함"
+    label_expand: "확장"
     label_expanded: "확장됨"
-    label_expand_all: "Expand all"
+    label_expand_all: "모두 확장"
     label_expand_project_menu: "프로젝트 메뉴 확장"
     label_export: "내보내기"
     label_export_preparing: "가져오기 준비 중이며 곧 다운로드됩니다."
-    label_filename: "File"
-    label_filesize: "Size"
-    label_general: "General"
-    label_global_roles: "Global Roles"
+    label_filename: "파일"
+    label_filesize: "크기"
+    label_general: "일반"
+    label_global_roles: "글로벌 역할"
     label_greater_or_equal: ">="
-    label_group: 'Group'
-    label_group_by: "Group by"
-    label_group_plural: "Groups"
+    label_group: '그룹'
+    label_group_by: "그룹화 기준"
+    label_group_plural: "그룹"
     label_hide_attributes: "간단히 표시"
     label_hide_column: "열 숨기기"
     label_hide_project_menu: "프로젝트 메뉴 축소"
-    label_in: "in"
-    label_in_less_than: "in less than"
-    label_in_more_than: "in more than"
-    label_incoming_emails: "Incoming emails"
-    label_information_plural: "Information"
-    label_import: "Import"
+    label_in: "-"
+    label_in_less_than: "보다 작음"
+    label_in_more_than: "보다 큼"
+    label_incoming_emails: "들어오는 이메일"
+    label_information_plural: "정보"
+    label_import: "가져오기"
     label_latest_activity: "최근 활동"
     label_last_updated_on: "마지막 업데이트 날짜"
-    label_learn_more_link: "Learn more"
+    label_learn_more_link: "자세히 알아보기"
     label_less_or_equal: "<="
-    label_less_than_ago: "less than days ago"
-    label_loading: "Loading..."
-    label_mail_notification: "Email notifications"
-    label_me: "me"
-    label_meeting_agenda: "Agenda"
-    label_meeting_minutes: "Minutes"
+    label_less_than_ago: "일 미만 전"
+    label_loading: "로드 중..."
+    label_mail_notification: "이메일 알림"
+    label_me: "나"
+    label_meeting_agenda: "의제"
+    label_meeting_minutes: "의사록"
     label_menu_collapse: "축소"
     label_menu_expand: "확장"
-    label_more_than_ago: "more than days ago"
-    label_next: "Next"
-    label_no_color: "No color"
-    label_no_data: "No data to display"
+    label_more_than_ago: "일 이상 전"
+    label_next: "다음"
+    label_no_color: "색상 없음"
+    label_no_data: "표시할 데이터가 없습니다."
     label_no_due_date: "완료 날짜 없음"
     label_no_start_date: "시작일이 지정되지 않음"
-    label_no_value: "No value"
-    label_none: "none"
-    label_not_contains: "doesn't contain"
-    label_not_equals: "is not"
+    label_no_value: "값 없음"
+    label_none: "없음"
+    label_not_contains: "포함하지 않음"
+    label_not_equals: "일치하지 않음"
     label_on: "에"
-    label_open_menu: "Open menu"
+    label_open_menu: "메뉴 열기"
     label_open_context_menu: "콘텍스트 메뉴 열기"
-    label_open_work_packages: "open"
-    label_password: "Password"
-    label_previous: "Previous"
+    label_open_work_packages: "열기"
+    label_password: "암호"
+    label_previous: "이전"
     label_per_page: "페이지 당:"
     label_please_wait: "잠시 기다려 주세요."
-    label_project_plural: "Projects"
+    label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
     label_recent: "최근"
-    label_reset: "Reset"
-    label_remove: "Remove"
+    label_reset: "재설정"
+    label_remove: "제거"
     label_remove_column: "열 제거"
-    label_remove_columns: "Remove selected columns"
+    label_remove_columns: "선택된 열 제거"
     label_remove_row: "행 제거"
-    label_report: "Report"
-    label_repository_plural: "Repositories"
+    label_report: "보고서"
+    label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"
     label_show_attributes: "모든 특성 표시"
     label_show_in_menu: "메뉴에서 보기 표시"
-    label_sort_by: "Sort by"
+    label_sort_by: "정렬 기준"
     label_sorted_by: "정렬 :"
-    label_sort_higher: "Move up"
-    label_sort_lower: "Move down"
+    label_sort_higher: "위로 이동"
+    label_sort_lower: "아래로 이동"
     label_sorting: "정렬"
-    label_spent_time: "Spent time"
+    label_spent_time: "소비한 시간"
     label_star_query: "호감"
     label_press_enter_to_save: "저장하려면 Enter를 누르세요."
-    label_public_query: "Public"
-    label_sum: "Sum"
+    label_public_query: "공용"
+    label_sum: "합계"
     label_sum_for: "합계 "
     label_total_sum: "총계"
-    label_subject: "Subject"
-    label_this_week: "this week"
+    label_subject: "제목"
+    label_this_week: "이번 주"
     label_today: "오늘"
-    label_time_entry_plural: "Spent time"
+    label_time_entry_plural: "소비한 시간"
     label_up: "위"
-    label_user_plural: "Users"
+    label_user_plural: "사용자"
     label_activity_show_only_comments: "코멘트가 있는 활동만 표시"
     label_activity_show_all: "모든 활동 표시"
     label_total_progress: "%{percent}% 진행"
@@ -438,16 +438,16 @@ ko:
     label_updated_on: "업데이트 :"
     label_value_derived_from_children: "(자식에서 파생된 값)"
     label_children_derived_duration: "작업 패키지의 자식 파생 기간"
-    label_warning: "Warning"
-    label_work_package: "Work package"
+    label_warning: "경고"
+    label_work_package: "작업 패키지"
     label_work_package_parent: "부모 작업 패키지"
-    label_work_package_plural: "Work packages"
-    label_watch: "Watch"
+    label_work_package_plural: "작업 패키지"
+    label_watch: "주시"
     label_watch_work_package: "작업 패키지 주시"
     label_watcher_added_successfully: "주시하는 사람이 추가되었습니다."
     label_watcher_deleted_successfully: "주시하는 사람이 삭제되었습니다."
     label_work_package_details_you_are_here: "%{type} %{subject}에 대한 %{tab} 탭에 있습니다."
-    label_unwatch: "Unwatch"
+    label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
     label_default_queries: "기본 보기"
@@ -455,8 +455,8 @@ ko:
     label_global_queries: "공개 보기"
     label_custom_queries: "비공개 보기"
     label_create_new_query: "새로 만들기"
-    label_columns: "Columns"
-    label_attachments: Files
+    label_columns: "컬럼"
+    label_attachments: 파일
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
@@ -467,7 +467,7 @@ ko:
     label_remove_all_files: 모든 파일을 삭제
     label_add_description: "%{file} 의 설명 추가"
     label_upload_notification: "파일 업로드 중..."
-    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_work_package_upload_notification: "작업 패키지 #%{id}: %{subject} 를 위한 파일 업로딩"
     label_wp_id_added_by: "#%{id} - %{author}님이 추가함"
     label_files_to_upload: "이 파일들이 업로드 됩니다."
     label_rejected_files: "파일들이 업로드 할 수 없습니다."
@@ -475,15 +475,15 @@ ko:
     label_wait: "설정 중이므로 기다려 주세요..."
     label_upload_counter: "%{count} 개 파일 중 %{done} 개 파일 완료됨"
     label_validation_error: "다음 오류로 인해 작업 패키지를 저장할 수 없습니다."
-    label_version_plural: "Versions"
+    label_version_plural: "버전"
     label_view_has_changed: "이 보기에는 저장되지 않은 변경 사항이 있습니다. 클릭하여 저장하십시오."
     help_texts:
       show_modal: '특성 도움말 텍스트 항목 표시'
     onboarding:
       buttons:
         skip: '건너뛰기'
-        next: 'Next'
-        got_it: 'Got it'
+        next: '다음'
+        got_it: '확인'
       steps:
         help_menu: '도움말(?) 메뉴에서 <b>기타 도움말 리소스</b>가 제공됩니다. 여기에서 사용자 가이드와 유용한 사용 방법 동영상 등을 찾을 수 있습니다. <br> OpenProject로 즐겁게 작업하세요!'
         members: '프로젝트에 참여할 새로운 <b>멤버</b>를 초대하세요.'
@@ -521,7 +521,7 @@ ko:
         responsible: '담당'
       facets:
         unread: '읽지 않음'
-        all: 'All'
+        all: '모두'
       center:
         and_more_users:
           other: '외 %{count}건'
@@ -540,8 +540,8 @@ ko:
           message: '새 알림이 있습니다.'
           link_text: '로드하려면 여기를 클릭하세요'
       menu:
-        accountable: 'Accountable'
-        assigned: 'Assigned'
+        accountable: '담당'
+        assigned: '할당됨'
         by_project: '프로젝트 기준 읽지 않음'
         by_reason: '참여'
         inbox: '받은 편지함'
@@ -588,7 +588,7 @@ ko:
     placeholders:
       default: '-'
       subject: '여기에 제목 입력'
-      selection: 'Please select'
+      selection: '선택하십시오'
       relation_description: '이 관계에 대한 설명을 추가하려면 클릭'
     project:
       required_outside_context: >
@@ -597,7 +597,7 @@ ko:
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
       confirm_template_load: '템플릿을 전환하면 페이지가 다시 로드되고 이 양식에 대한 모든 입력이 손실됩니다. 계속하시겠습니까?'
-      use_template: "Use template"
+      use_template: "템플릿 사용"
       no_template_selected: "(없음)"
       copy:
         copy_options: "복사 설정"
@@ -621,12 +621,12 @@ ko:
           title: '기타 항목에 대한 이메일 알림(작업 패키지 외)'
           explanation: >
             오늘 알림은 작업 패키지로 제한됩니다. 알림에 포함될 때까지 이러한 이벤트에 대한 이메일 알림을 계속 받도록 선택할 수 있습니다.
-          news_added: 'News added'
+          news_added: '뉴스 추가됨'
           news_commented: '뉴스 항목의 코멘트'
           document_added: '문서 추가됨'
           forum_messages: '새 포럼 메시지'
-          wiki_page_added: 'Wiki page added'
-          wiki_page_updated: 'Wiki page updated'
+          wiki_page_added: '위키 페이지 추가됨'
+          wiki_page_updated: '위키 페이지 업데이트됨'
           membership_added: '멤버십 추가됨'
           membership_updated: '멤버십 업데이트됨'
         title: '이메일 미리 알림'
@@ -645,50 +645,50 @@ ko:
           경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가 비활성화됩니다.
         upgrade_to_ee: "Enterprise on-premises Edition으로 업그레이드"
         upgrade_to_ee_text: "와우! 만약 이 기능이 필요하다면 당신은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있나요?"
-        more_information: "More information"
+        more_information: "더보기"
         nevermind: "신경쓰지 마세요"
       edit:
         form_configuration: "양식 구성"
-        projects: "Projects"
-        settings: "Settings"
+        projects: "프로젝트"
+        settings: "설정"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
+      project: '프로젝트'
+      work_package: '작업 패키지'
       work_package_required: '먼저 작업 패키지를 선택해야 합니다.'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
-      title: 'Log time'
+      activity: '활동'
+      comment: '코멘트'
+      duration: '기간'
+      spent_on: '날짜'
+      hours: '시간'
+      title: '작업시간 기록'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: '2단계 인증'
     watchers:
       label_loading: 관찰자 로딩 중...
       label_error_loading: 관찰자를 로드하는 동안 오류가 발생 했습니다.
       label_search_watchers: 관찰자 검색
-      label_add: Add watchers
+      label_add: 주시자 추가
       label_discard: 선택 취소
       typeahead_placeholder: 가능한 전문가를 검색합니다
     relation_labels:
-      parent: "Parent"
+      parent: "부모"
       children: "하위"
-      relates: "Related To"
+      relates: "관련 항목"
       duplicates: "중복"
       duplicated: "복제한 사용자"
-      blocks: "Blocks"
+      blocks: "차단"
       blocked: "차단한 사용자"
       precedes: "선행"
       follows: "팔로우"
       includes: "포함"
-      partof: "Part of"
+      partof: "부분의"
       requires: "요구"
       required: "다음에서 필요로 함:"
       relation_type: "관계 유형"
     relations_hierarchy:
-      parent_headline: "Parent"
-      hierarchy_headline: "Hierarchy"
-      children_headline: "Children"
+      parent_headline: "부모"
+      hierarchy_headline: "계층 구조"
+      children_headline: "하위"
     relation_buttons:
       set_parent: "부모 설정"
       change_parent: "부모 변경"
@@ -710,21 +710,21 @@ ko:
       update_relation: "관계 타입을 변경하려면 클릭하세요"
       add_follower: "팔로워 추가"
       add_predecessor: "선행 단계 추가"
-      remove: "Remove relation"
+      remove: "관계 제거"
       save: "관계 저장"
       abort: "중단"
     relations_autocomplete:
       placeholder: "검색할 유형"
       parent_placeholder: "새로운 상위 항목은 선택하거나 Escape를 눌러 취소하십시오."
     autocompleter:
-      placeholder: "Type to search"
+      placeholder: "검색할 유형"
       notFoundText: "항목 없음"
-      typeToSearchText: "Type to search"
+      typeToSearchText: "검색할 유형"
     repositories:
       select_tag: '태그 선택'
       select_branch: '브랜치 선택'
     field_value_enter_prompt: "'%{field}'에 대 한 값을 입력하세요."
-    project_menu_details: "Details"
+    project_menu_details: "세부 정보"
     scheduling:
       manual: '수동 스케줄링'
       automatic: '자동 스케줄링'
@@ -736,7 +736,7 @@ ko:
       activate_asc: '오름차순 정렬 적용을 위해 활성화합니다'
       activate_dsc: '내림차순 정렬 적용을 위해 활성화합니다'
       activate_no: '정렬을 제거하기 위해 활성화합니다'
-    text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
+    text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
     text_query_destroy_confirmation: "선택한 보기를 삭제하시겠습니까?"
     text_attachment_destroy_confirmation: "정말 이 첨부 파일을 삭제 하시겠습니까?"
     timelines:
@@ -753,54 +753,54 @@ ko:
           항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이 표시됩니다.
       button_activate: 'Gantt 차트 표시'
       button_deactivate: 'Gantt 차트 숨기기'
-      cancel: Cancel
-      change: "Change in planning"
-      due_date: "Finish date"
-      empty: "(empty)"
+      cancel: 취소
+      change: "계획에서 변경"
+      due_date: "완료 날짜"
+      empty: "(비어 있음)"
       error: "오류가 발생했습니다."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        not_implemented: "아직 구현되지 않은 기능을 사용하기 때문에 타임라인을 렌더링할 수 없습니다."
+        report_comparison: "타임라인은 구성된 비교를 렌더링할 수 없습니다. 구성에서 적절한 섹션을 확인하세요. 이를 재설정하면 이 문제가 해결될 수 있습니다."
+        report_epicfail: "예기치 않은 오류로 인해 타임라인을 로드할 수 없습니다."
+        report_timeout: "적절한 시간에 타임라인을 로드할 수 없습니다."
       filter:
-        grouping_other: "Other"
-        noneSelection: "(none)"
-      name: "Name"
-      outline: "Reset Outline"
+        grouping_other: "기타"
+        noneSelection: "(없음)"
+      name: "이름"
+      outline: "윤곽 재설정"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
-      project_status: "Project status"
+        aggregation: "집계만 표시"
+        level1: "확장 수준 1"
+        level2: "확장 수준 2"
+        level3: "확장 수준 3"
+        level4: "확장 수준 4"
+        level5: "확장 수준 5"
+        all: "모두 표시"
+      project_status: "프로젝트 상태"
       really_close_dialog: "입력된 자료를 저장하지 않고 대화상자를 닫으시겠습니까?"
-      responsible: "Responsible"
-      save: Save
-      start_date: "Start date"
+      responsible: "책임"
+      save: 저장
+      start_date: "시작 날짜"
       tooManyProjects: "프로젝트 수가 %{count}개를 초과합니다. 검색 조건을 좁히시기 바랍니다."
       selection_mode:
         notification: '강조 표시된 작업 패키지를 클릭하여 관계를 만드세요. 취소하려면 ESC 키를 누르세요.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "확대"
+        out: "축소"
         auto: "자동 확대/축소"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
+        days: "일"
+        weeks: "주"
+        months: "개월"
+        quarters: "분기"
+        years: "년"
+        slider: "줌 슬라이더"
         description: >
           자동 확대/축소를 사용할 수 없는 경우 표시되어야 하는 초기 확대/축소 수준을 선택하세요.
     tl_toolbar:
       zooms: "확대 수준"
       outlines: "계층 수준"
     upsale:
-      ee_only: 'Enterprise Edition only feature'
+      ee_only: 'Enterprise Edition 전용 기능'
     wiki_formatting:
       strong: "굵게"
       italic: "기울임꼴"
@@ -812,7 +812,7 @@ ko:
       heading3: "제목 3"
       unordered_list: "정렬되지 않은 목록"
       ordered_list: "정렬된 목록"
-      quote: "Quote"
+      quote: "인용"
       unquote: "인용 끝"
       preformatted_text: "서식 설정되어 있는 텍스트"
       wiki_link: "위키 페이지에 연결"
@@ -823,22 +823,22 @@ ko:
         edit: '대량 편집'
         copy: '대량 복사'
         delete: '대량 삭제'
-      button_clear: "Clear"
+      button_clear: "선택 취소"
       comment_added: "코멘트가 성공적으로 추가 되었습니다."
       comment_send_failed: "오류가 발생했습니다. 코멘트를 제출할 수 없습니다."
       comment_updated: "코멘트가 성곡적으로 갱신되었습니다."
       confirm_edit_cancel: "편집 중인 작업 패키지를 취소하시겠습니까?"
-      description_filter: "Filter"
-      description_enter_text: "Enter text"
+      description_filter: "필터"
+      description_enter_text: "텍스트 입력"
       description_options_hide: "옵션 숨기기"
       description_options_show: "옵션 표시"
       edit_attribute: "%{attribute}-편집"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: "다중 선택 사용"
       label_disable_multi_select: "다중 선택 사용 안 함"
-      label_filter_add: "Add filter"
+      label_filter_add: "필터 추가"
       label_filter_by_text: "텍스트로 필터링"
-      label_options: "Options"
+      label_options: "옵션"
       label_column_multiselect: "결합된 드롭다운 필드: 화살표 키로 선택, Enter로 선택 확인, 백스페이스로 삭제"
       message_error_during_bulk_delete: 작업 패키지를 삭제하는 동안 오류가 발생했습니다.
       message_successful_bulk_delete: 성공적으로 작업 패키지를 삭제했습니다.
@@ -850,11 +850,11 @@ ko:
       inline_create:
         title: '이 목록에 새 작업 패키지를 추가하려면 여기를 클릭하세요.'
       create:
-        title: 'New work package'
+        title: '새 작업 패키지'
         header: '새 %{type}'
         header_no_type: '새 작업 패키지(유형이 아직 설정 안 됨)'
         header_with_parent: '새 %{type}(%{parent_type} #%{id}의 자식)'
-        button: 'Create'
+        button: '만들기'
       copy:
         title: '작업 패키지 복사'
       hierarchy:
@@ -872,40 +872,40 @@ ko:
         description: 만든 작업 패키지가 없거나 모든 작업 패키지가 필터링에서 제외되었습니다.
       limited_results: 수동 정렬 모드에서는 %{count}개 작업 패키지만 표시할 수 있습니다. 필터링으로 결과를 줄이거나 자동 정렬로 전환하세요.
       property_groups:
-        details: "Details"
+        details: "세부 정보"
         people: "사용자"
         estimatesAndTime: "견적 & 시간"
-        other: "Other"
+        other: "기타"
       properties:
-        assignee: "Assignee"
-        author: "Author"
-        createdAt: "Created on"
-        description: "Description"
-        date: "Date"
-        dueDate: "Finish date"
-        estimatedTime: "Estimated time"
-        spentTime: "Spent time"
-        category: "Category"
+        assignee: "담당자"
+        author: "작성자"
+        createdAt: "작성일"
+        description: "설명"
+        date: "날짜"
+        dueDate: "완료 날짜"
+        estimatedTime: "예상된 시간"
+        spentTime: "소비한 시간"
+        category: "카테고리"
         percentageDone: "완료율"
-        priority: "Priority"
-        projectName: "Project"
-        responsible: "Responsible"
-        startDate: "Start date"
-        status: "Status"
-        subject: "Subject"
-        subproject: "Subproject"
-        title: "Title"
-        type: "Type"
-        updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        priority: "우선 순위"
+        projectName: "프로젝트"
+        responsible: "책임"
+        startDate: "시작 날짜"
+        status: "상태"
+        subject: "제목"
+        subproject: "하위 프로젝트"
+        title: "제목"
+        type: "타입"
+        updatedAt: "업데이트 날짜"
+        versionName: "버전"
+        version: "버전"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "최근 활동"
         created_by_me: "내가 만듦"
         assigned_to_me: "내게 할당됨"
         recently_created: "최근에 만듦"
-        all_open: "All open"
-        summary: "Summary"
+        all_open: "모두 열림"
+        summary: "요약"
       jump_marks:
         pagination: "테이블 페이지 매김으로 이동"
         label_pagination: "여기를 클릭하여 작업 패키지 테이블로 건너뛰고 페이지 매김으로 이동"
@@ -916,19 +916,19 @@ ko:
         date: "날짜 선택"
         formattable: "%{name}: 클릭하여 편집..."
       query:
-        column_names: "Columns"
-        group_by: "Group results by"
+        column_names: "컬럼"
+        group_by: "그룹 결과"
         group: "그룹화 기준"
         group_by_disabled_by_hierarchy: "계층 모드가 활성화되어서 그룹화가 불가능합니다."
         hierarchy_disabled_by_group_by: "결과가 %{column} 에 의해 그룹화되어서 계층 모드가 불가능합니다."
         sort_ascending: "오름차순 정렬"
         sort_descending: "내림차순 정렬"
-        move_column_left: "Move column left"
-        move_column_right: "Move column right"
-        hide_column: "Hide column"
+        move_column_left: "왼쪽으로 열 이동"
+        move_column_right: "오른쪽으로 열 이동"
+        hide_column: "열 숨기기"
         insert_columns: "열 삽입..."
-        filters: "Filters"
-        display_sums: "Display Sums"
+        filters: "필터"
+        display_sums: "합계 표시"
         confirm_edit_cancel: "이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다."
         click_to_edit_query_name: "이 보기의 제목을 편집하려면 클릭하세요."
         rename_query_placeholder: "이 보기의 이름"
@@ -947,14 +947,14 @@ ko:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."
         text_inline_edit: "이 테이블의 셀 대부분은 해당 특성의 인라인 편집 기능을 활성화하는 버튼입니다."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_sort_hint: "테이블 헤더의 링크를 사용하여 테이블 열을 정렬, 그룹화, 다시 정렬, 제거, 추가할 수 있습니다."
         text_select_hint: "선택 상자는 'ALT'와 화살표 키로 열어야 합니다."
       table_configuration:
         button: '이 작업 패키지 테이블 구성'
         choose_display_mode: '다음으로 작업 패키지 표시'
         modal_title: '작업 패키지 테이블 구성'
         embedded_tab_disabled: "이 구성 탭은 사용자가 편집하고 있는 포함된 보기에서 사용할 수 없습니다."
-        default: "default"
+        default: "기본값"
         display_settings: '디스플레이 설정'
         default_mode: "플랫 목록"
         hierarchy_mode: "계층 구조"
@@ -968,9 +968,9 @@ ko:
           inline: '강조 표시된 특성'
           inline_all: '모든 특성'
           entire_row_by: '전체 행 기준'
-          status: 'Status'
-          priority: 'Priority'
-          type: 'Type'
+          status: '상태'
+          priority: '우선 순위'
+          type: '타입'
         sorting_mode:
           description: '작업 패키지를 정렬하기 위한 모드 선택:'
           automatic: '자동'
@@ -979,20 +979,20 @@ ko:
         columns_help_text: "위 입력 필드를 사용하여 테이블 보기에 열을 추가하세요. 열을 끌어다 놓아 순서를 바꿀 수 있습니다."
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
-          relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise Edition.'
+          relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
+          check_out_link: 'Enterprise Edition을 체크아웃하세요.'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
-        overview: Overview
-        activity: Activity
+        overview: 요약
+        activity: 활동
         relations: 관계
-        watchers: Watchers
-        attachments: Attachments
+        watchers: 주시자
+        attachments: 첨부 파일
       time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
+        days: "일"
+        weeks: "주"
+        months: "개월"
     toolbar:
       settings:
         configure_view: "보기 구성..."
@@ -1003,25 +1003,25 @@ ko:
         display_hierarchy: "계층 보이기"
         hide_hierarchy: "계층 숨기기"
         hide_sums: "합계 숨기기"
-        save: "Save"
+        save: "저장"
         save_as: "다른 이름으로 저장..."
         export: "내보내기..."
         visibility_settings: "표시 여부 설정..."
         page_settings: "보기 이름 바꾸기..."
-        delete: "Delete"
-      filter: "Filter"
-      unselected_title: "Work package"
+        delete: "삭제"
+      filter: "필터"
+      unselected_title: "작업 패키지"
       search_query_label: "저장된 보기 검색"
       search_query_title: "저장된 보기를 검색하려면 클릭하세요."
       placeholder_query_title: "이 보기에 대한 제목 설정"
     modals:
       label_settings: "보기 이름 바꾸기"
-      label_name: "Name"
+      label_name: "이름"
       label_delete_page: "현재 페이지 삭제"
-      button_apply: "Apply"
-      button_save: "Save"
-      button_submit: "Submit"
-      button_cancel: "Cancel"
+      button_apply: "적용"
+      button_save: "저장"
+      button_submit: "제출"
+      button_cancel: "취소"
       form_submit:
         title: '계속하려면 확인하세요'
         text: '정말로 이 작업을 수행하기를 원하시나요?'
@@ -1035,11 +1035,11 @@ ko:
         title: "Confirm deletion of time entry"
         text: "Are you sure you want to delete the following time entry?"
     notice_no_results_to_display: "표시할 결과가 없습니다."
-    notice_successful_create: "Successful creation."
-    notice_successful_delete: "Successful deletion."
-    notice_successful_update: "Successful update."
+    notice_successful_create: "생성에 성공했습니다."
+    notice_successful_delete: "삭제에 성공했습니다."
+    notice_successful_update: "업데이트에 성공했습니다."
     notice_job_started: "작업이 시작되었습니다."
-    notice_bad_request: "Bad Request."
+    notice_bad_request: "잘못된 요청입니다."
     relations:
       empty: 관계가 없습니다.
       remove: 관계 제거
@@ -1047,10 +1047,10 @@ ko:
       button_edit: "%{attribute}: 편집"
       button_save: "%{attribute}: 저장"
       button_cancel: "%{attribute}: 취소"
-      button_save_all: "Save"
-      button_cancel_all: "Cancel"
+      button_save_all: "저장"
+      button_cancel_all: "취소"
       link_formatting_help: "텍스트 서식 지정 도움말"
-      btn_preview_enable: "Preview"
+      btn_preview_enable: "미리 보기"
       btn_preview_disable: "미리보기 사용 안 함"
       null_value_label: "값 없음"
       clear_value_label: "-"
@@ -1078,7 +1078,7 @@ ko:
       button_deactivate: 'Zen 모드 비활성화'
     global_search:
       all_projects: "모든 프로젝트에서"
-      search: "Search"
+      search: "검색"
       close_search: "검색 닫기"
       current_project: "이 프로젝트에서"
       current_project_and_all_descendants: "이 프로젝트 + 하위 프로젝트에서"
@@ -1091,47 +1091,47 @@ ko:
       list: '테이블'
       timeline: 'Gantt'
     invite_user_modal:
-      back: 'Back'
+      back: '뒤로'
       invite: '초대'
       title:
-        invite: 'Invite user'
+        invite: '사용자 초대'
         invite_to_project: '%{type}을(를) %{project}에 초대'
         User: '사용자'
         Group: '그룹'
         PlaceholderUser: '플레이스홀더 사용자'
         invite_principal_to_project: '%{principal}을(를) %{project}에 초대'
       project:
-        label: 'Project'
+        label: '프로젝트'
         required: '프로젝트를 선택하십시오'
         lacking_permission: '현재 선택한 프로젝트에는 사용자를 할당할 권한이 없으므로 다른 프로젝트를 선택하십시오.'
         lacking_permission_info: '현재 프로젝트에 사용자를 할당할 권한이 없습니다. 다른 프로젝트를 선택해야 합니다.'
-        next_button: 'Next'
+        next_button: '다음'
         no_results: '프로젝트가 없습니다'
         no_invite_rights: '이 프로젝트에 멤버를 초대할 권한이 없습니다'
       type:
         required: '초대 유형을 선택해주십시오'
         user:
-          title: 'User'
+          title: '사용자'
           description: '선택한 프로젝트 내 할당된 역할을 토대로 하는 권한'
         group:
-          title: 'Group'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: '그룹'
+          description: '선택한 프로젝트 내 할당된 역할을 토대로 하는 권한'
         placeholder:
-          title: 'Placeholder user'
+          title: '플레이스홀더 사용자'
           title_no_ee: '플레이스홀더 사용자 (Enterprise Edition 전용 기능)'
           description: '프로젝트에 대한 접근 권한이 없으며 이메일이 보내지지 않았습니다.'
           description_no_ee: '프로젝트에 대한 접근 권한이 없으며 이메일이 보내지지 않았습니다.<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a>에 대해 알아 보십시오'
       principal:
         label:
           name_or_email: '이름 또는 이메일 주소'
-          name: 'Name'
+          name: '이름'
         already_member_message: '이미 %{project}의 멤버입니다'
         no_results_user: '사용자가 없습니다.'
         invite_user: '초대:'
         no_results_placeholder: '플레이스홀더가 없습니다'
         create_new_placeholder: '새 플레이스홀더 생성:'
         no_results_group: '그룹이 없습니다'
-        next_button: 'Next'
+        next_button: '다음'
         required:
           user: '사용자를 선택하십시오'
           placeholder: '플레이스홀더를 선택하십시오'
@@ -1141,22 +1141,22 @@ ko:
         no_roles_found: '역할이 없습니다'
         description: '%{principal}이(가) 프로젝트에 참여할 때 받게 되는 역할입니다. 역할은 수행할 수 있는 작업과 볼 수 있는 정보를 지정합니다. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank">역할과 권한에 대해 더 알아보기</a>'
         required: '역할을 선택하십시오'
-        next_button: 'Next'
+        next_button: '다음'
       message:
         label: '초대 메시지'
         description: '곧 %{principal} 측으로 이메일을 전송할 것입니다. 여기에 개인 메시지를 추가할 수도 있습니다. 초대에 관한 유용한 설명을 넣거나, 프로젝트를 시작할 때 도움이 되는 정보를 넣어 보십시오.'
         next_button: '초대 검토'
       summary:
-        next_button: 'Send invitation'
+        next_button: '초대장 보내기'
       success:
         title: '%{principal} 초대 완료!'
         description:
           user: '사용자는 로그인하여 %{project}에 접근할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
           placeholder: '이제 %{project}에서 이 플레이스홀더를 사용할 수 있게 되었습니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
           group: '이제 이 그룹은 %{project}의 일부입니다. 한편 당신은 해당 사용자에 대한 계획을 세우거나 작업 패키지를 할당할 수 있습니다.'
-        next_button: 'Continue'
+        next_button: '계속'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'
       validation_error_message: '양식 내 오류를 수정하십시오'
-      advanced_settings: 'Advanced settings'
+      advanced_settings: '고급 설정'

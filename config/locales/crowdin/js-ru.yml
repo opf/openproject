@@ -153,12 +153,12 @@ ru:
         dropdown:
           macros: 'Макрос'
           chose_macro: 'Выбрать макрос'
-        toc: 'Table of contents'
+        toc: 'Содержание'
         toolbar_help: 'Кликните для выбора виджета и показа панели инструментов. Кликните дважды для редактирования виджета'
         wiki_page_include:
           button: 'Включить содержание другой вики страницы'
           text: '[Placeholder] включая вики страницы'
-          page: 'Wiki page'
+          page: 'Wiki-страница'
           not_set: '(Страница пока не установлена)'
           hint: |
             Включите содержание другой вики-страницы, указав её название или строку. Вы можете включить вики-страницы из другого проекта, разделив их двоеточием, как в следующем примере.
@@ -176,14 +176,14 @@ ru:
           text: '[Placeholder] Встроенный календарь'
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
-        drag_to_activate: "Drag fields from here to activate them"
-        add_group: "Add attribute group"
-        add_table: "Add table of related work packages"
+        custom_field: 'Настраиваемое поле'
+        inactive: 'Неактивен'
+        drag_to_activate: "Чтобы включить поля, перетащите их отсюда"
+        add_group: "Добавить группу атрибутов"
+        add_table: "Добавить таблицу связанных пакетов работ"
         edit_query: 'Редактировать запрос'
-        new_group: 'New group'
-        reset_to_defaults: 'Reset to defaults'
+        new_group: 'Новая группа'
+        reset_to_defaults: 'Восстановить значения по умолчанию'
       enterprise:
         text_reprieve_days_left: "%{days} дней до окончания льготного периода"
         text_expired: "просрочено"
@@ -196,13 +196,13 @@ ru:
               Я принимаю <a target="_blank" href="%{link_terms}">условия обслуживания</a> и <a target="_blank" href="%{link_privacy}">политику конфиденциальности</a>.
             invalid_email: "Неверный адрес электронной почты"
             label_company: "Компания"
-            label_first_name: "First name"
-            label_last_name: "Last name"
+            label_first_name: "Имя"
+            label_last_name: "Фамилия"
             label_domain: "Домен"
-            label_subscriber: "Subscriber"
-            label_maximum_users: "Maximum active users"
+            label_subscriber: "Подписчик"
+            label_maximum_users: "Максимальное число активных пользователей"
             label_starts_at: "Начиная с"
-            label_expires_at: "Expires at"
+            label_expires_at: "Срок действия до"
             receive_newsletter: Я хочу получать <a target="_blank" href="%{link}">новостную рассылку от OpenProject</a>.
             taken_domain: На каждом домене может быть только один активный пробный период.
             taken_email: Каждый пользователь может создать только одну пробную версию.
@@ -269,16 +269,16 @@ ru:
       upsale_for_more: "Для более сложных фильтров, проверить"
       upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
-    general_text_yes: "yes"
-    general_text_No: "No"
-    general_text_Yes: "Yes"
+    general_text_yes: "Да"
+    general_text_No: "Нет"
+    general_text_Yes: "да"
     hal:
       error:
         update_conflict_refresh: "Нажмите здесь, чтобы обновить ресурс до последней версии."
         edit_prohibited: "Редактирование атрибута «%{attribute}» запрещено ресурсом. Либо этот атрибут является производным (например, выходящим из родительского объекта), либо просто не настраиваемый."
         format:
           date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
-        general: "An error has occurred."
+        general: "Произошла ошибка."
     homescreen:
       blocks:
         new_features:
@@ -295,7 +295,7 @@ ru:
               learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
               new_features_html: >
                 Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Центр уведомлений: Уменьшите количество получаемых писем. Вместо этого найдите и задействуйте все соответствующие уведомления в одном центральном месте.</li> <li>Все загруженные IFC файлы теперь также могут быть загружены.</li> <li>Загрузка и обработка IFC ускорились и получили улучшенные сообщения об ошибках.</li> <li>На <a href="https://github.com/opf/openproject-revit-add-in">в дополнении</a> OpenProject Revit Add-in for </a> было много исправлений.</li> </ul>
-    label_activate: "Activate"
+    label_activate: "Активировать"
     label_add_column_after: "Добавить столбец после"
     label_add_column_before: "Добавить столбец перед"
     label_add_columns: "Добавить столбец"
@@ -303,35 +303,35 @@ ru:
     label_add_comment_title: "Комментарий и тип @ для уведомления других людей"
     label_add_row_after: "Добавить строку после"
     label_add_row_before: "Добавить строку перед"
-    label_add_selected_columns: "Add selected columns"
+    label_add_selected_columns: "Добавить выбранные столбцы"
     label_added_by: "Добавил(-а)"
     label_added_time_by: "Добавлено <a href=%{authorLink}>%{author}</a> в %{age}"
-    label_ago: "days ago"
-    label_all: "all"
+    label_ago: "дней назад"
+    label_all: "все"
     label_all_work_packages: "Все пакеты работ"
-    label_and: "and"
-    label_ascending: "Ascending"
+    label_and: "и"
+    label_ascending: "По возрастанию"
     label_author: "Автор: %{user}"
-    label_avatar: "Avatar"
-    label_between: "between"
+    label_avatar: "Глистовья какашка\n"
+    label_between: "между"
     label_board: "Доска"
-    label_board_locked: "Locked"
+    label_board_locked: "Заперто"
     label_board_plural: "Доски"
-    label_board_sticky: "Sticky"
-    label_change: "Change"
-    label_create: "Create"
-    label_create_work_package: "Create new work package"
+    label_board_sticky: "Стикер"
+    label_change: "Изменить"
+    label_create: "Создать"
+    label_create_work_package: "Создать новый пакет работ"
     label_created_by: "Автор"
-    label_date: "Date"
+    label_date: "Дата"
     label_date_with_format: "Введите %{date_attribute}, используя следующий формат: %{format}"
     label_deactivate: "Деактивировать"
-    label_descending: "Descending"
-    label_description: "Description"
-    label_details: "Details"
-    label_display: "Display"
+    label_descending: "По убыванию"
+    label_description: "Описание"
+    label_details: "Детали"
+    label_display: "Отображение"
     label_cancel_comment: "Отменить комментарий"
-    label_closed_work_packages: "closed"
-    label_collapse: "Collapse"
+    label_closed_work_packages: "закрыт"
+    label_collapse: "свернуть"
     label_collapsed: "свернуто"
     label_collapse_all: "Свернуть все"
     label_comment: "Комментарий"
@@ -384,52 +384,52 @@ ru:
     label_no_data: "Нет данных для отображения"
     label_no_due_date: "нет даты окончания"
     label_no_start_date: "без даты начала"
-    label_no_value: "No value"
-    label_none: "none"
-    label_not_contains: "doesn't contain"
-    label_not_equals: "is not"
+    label_no_value: "Нет значения"
+    label_none: "Ничего"
+    label_not_contains: "не содержит"
+    label_not_equals: "не"
     label_on: "на"
-    label_open_menu: "Open menu"
+    label_open_menu: "Открыть меню"
     label_open_context_menu: "Открыть контекстное меню"
-    label_open_work_packages: "open"
-    label_password: "Password"
-    label_previous: "Previous"
+    label_open_work_packages: "открыто"
+    label_password: "Пароль"
+    label_previous: "Предыдущие"
     label_per_page: "На странице:"
     label_please_wait: "Пожалуйста, подождите"
-    label_project_plural: "Projects"
+    label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
     label_recent: "Недавние"
-    label_reset: "Reset"
-    label_remove: "Remove"
+    label_reset: "Сброс"
+    label_remove: "Удалить"
     label_remove_column: "Удалить столбец"
-    label_remove_columns: "Remove selected columns"
+    label_remove_columns: "Удалить выбранные столбцы"
     label_remove_row: "Удалить строку"
-    label_report: "Report"
-    label_repository_plural: "Repositories"
+    label_report: "Отчет"
+    label_repository_plural: "Репозитории"
     label_save_as: "Сохранить как"
     label_select_watcher: "Выберите наблюдателя..."
     label_selected_filter_list: "Выбранные фильтры"
     label_show_attributes: "Показать все атрибуты"
     label_show_in_menu: "Показать представление в меню"
-    label_sort_by: "Sort by"
+    label_sort_by: "Сортировать по"
     label_sorted_by: "отсортировано по"
-    label_sort_higher: "Move up"
-    label_sort_lower: "Move down"
+    label_sort_higher: "Переместить вверх"
+    label_sort_lower: "Переместить вниз"
     label_sorting: "Сортировка"
-    label_spent_time: "Spent time"
+    label_spent_time: "Затраченное время"
     label_star_query: "Добавлено в избранное"
     label_press_enter_to_save: "Нажмите ввод для сохранения."
-    label_public_query: "Public"
-    label_sum: "Sum"
+    label_public_query: "Общий"
+    label_sum: "Сумма"
     label_sum_for: "Сумма для"
     label_total_sum: "Общая сумма"
-    label_subject: "Subject"
-    label_this_week: "this week"
+    label_subject: "Тема"
+    label_this_week: "на этой неделе"
     label_today: "Сегодня"
-    label_time_entry_plural: "Spent time"
+    label_time_entry_plural: "Затраченное время"
     label_up: "Вверх"
-    label_user_plural: "Users"
+    label_user_plural: "Пользователи"
     label_activity_show_only_comments: "Показать только деятельности с комментариями"
     label_activity_show_all: "Показать все активности"
     label_total_progress: "%{percent}% общего прогресса"
@@ -520,7 +520,7 @@ ru:
         responsible: 'подотчетный'
       facets:
         unread: 'Непрочтено'
-        all: 'All'
+        all: 'Bсе'
       center:
         and_more_users:
           one: 'и еще 1'
@@ -542,8 +542,8 @@ ru:
           message: 'Есть новые уведомления.'
           link_text: 'Нажмите здесь для их загрузки'
       menu:
-        accountable: 'Accountable'
-        assigned: 'Assigned'
+        accountable: 'Подотчетный'
+        assigned: 'Назначено'
         by_project: 'Непрочитано по проекту'
         by_reason: 'Вовлеченность'
         inbox: 'Входящие'
@@ -627,8 +627,8 @@ ru:
           news_commented: 'Комментарий к новости'
           document_added: 'Добавлены документы'
           forum_messages: 'Новые сообщения форума'
-          wiki_page_added: 'Wiki page added'
-          wiki_page_updated: 'Wiki page updated'
+          wiki_page_added: 'Wiki-страница добавлена'
+          wiki_page_updated: 'Wiki-страница обновлена'
           membership_added: 'Членство добавлено'
           membership_updated: 'Членство обновлено'
         title: 'Почтовые напоминания'
@@ -647,38 +647,38 @@ ru:
           Предупреждение: хотите сбросить форму? Это сбросит атрибуты к первоначальным значениям группы и запретит правку настраиваемых полей.
         upgrade_to_ee: "Обновление до корпоративной версии"
         upgrade_to_ee_text: "Ух ты! Если вам нужна эта функция, вы – супер профессионал! Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной версии?"
-        more_information: "More information"
+        more_information: "Больше информации"
         nevermind: "Неважно"
       edit:
         form_configuration: "Конфигурация формы"
-        projects: "Projects"
-        settings: "Settings"
+        projects: "Проекты"
+        settings: "Параметры"
     time_entry:
-      project: 'Project'
-      work_package: 'Work package'
+      project: 'Проект'
+      work_package: 'Пакет работ'
       work_package_required: 'Сначала необходимо выбрать пакет работ.'
-      activity: 'Activity'
-      comment: 'Comment'
-      duration: 'Duration'
-      spent_on: 'Date'
-      hours: 'Hours'
-      title: 'Log time'
+      activity: 'Деятельность'
+      comment: 'Комментарий'
+      duration: 'Продолжительность'
+      spent_on: 'Дата'
+      hours: 'Часы'
+      title: 'Журналировать время'
     two_factor_authentication:
-      label_two_factor_authentication: 'Two-factor authentication'
+      label_two_factor_authentication: 'Двухфакторная аутентификация'
     watchers:
       label_loading: Загрузка наблюдателей...
       label_error_loading: При загрузке наблюдателей произошла ошибка
       label_search_watchers: Поиск наблюдателей
-      label_add: Add watchers
+      label_add: Добавить наблюдателей
       label_discard: Отменить выбор
       typeahead_placeholder: Поиск возможных наблюдателей
     relation_labels:
-      parent: "Parent"
+      parent: "Родитель"
       children: "Дочерние элементы"
-      relates: "Related To"
+      relates: "Связанно с"
       duplicates: "Дубликаты"
       duplicated: "Дублируется"
-      blocks: "Blocks"
+      blocks: "Блоки"
       blocked: "Заблокировано"
       precedes: "Предшествует"
       follows: "Следует"
@@ -755,47 +755,47 @@ ru:
           Укажите атрибуты, которые вы бы хотели видеть в диаграмме Гантта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
       button_activate: 'Показать диаграмму Ганта'
       button_deactivate: 'Скрыть диаграмму Ганта'
-      cancel: Cancel
-      change: "Change in planning"
-      due_date: "Finish date"
-      empty: "(empty)"
+      cancel: Отмена
+      change: "Изменения в планировании"
+      due_date: "Дата окончания"
+      empty: "(пусто)"
       error: "Произошла ошибка."
       errors:
-        not_implemented: "The timeline could not be rendered because it uses a feature that is not yet implemented."
-        report_comparison: "The timeline could not render the configured comparisons. Please check the appropriate section in the configuration, resetting it can help solve this problem."
-        report_epicfail: "The timeline could not be loaded due to an unexpected error."
-        report_timeout: "The timeline could not be loaded in a reasonable amount of time."
+        not_implemented: "График не может быть отображен, так как использует ещё не реализованную функцию."
+        report_comparison: "Невозможно отобразить заданные сравнения в графике. Пожалуйста, проверьте соответствующий раздел в конфигурации, сброс может помочь в решении проблемы."
+        report_epicfail: "График не может быть загружен из-за неожиданной ошибки."
+        report_timeout: "График не может быть загружен в разумный период времени."
       filter:
-        grouping_other: "Other"
-        noneSelection: "(none)"
-      name: "Name"
-      outline: "Reset Outline"
+        grouping_other: "Другие"
+        noneSelection: "(нет)"
+      name: "Имя"
+      outline: "Сбросить схему"
       outlines:
-        aggregation: "Show aggregations only"
-        level1: "Expand level 1"
-        level2: "Expand level 2"
-        level3: "Expand level 3"
-        level4: "Expand level 4"
-        level5: "Expand level 5"
-        all: "Show all"
-      project_status: "Project status"
+        aggregation: "Показать только агрегации"
+        level1: "Развернуть уровень 1"
+        level2: "Развернуть уровень 2"
+        level3: "Развернуть уровень 3"
+        level4: "Развернуть уровень 4"
+        level5: "Развернуть уровень 5"
+        all: "Показывать всё"
+      project_status: "Состояние проекта"
       really_close_dialog: "Вы действительно хотите закрыть диалоговое окно и потерять введенные данные?"
-      responsible: "Responsible"
-      save: Save
-      start_date: "Start date"
+      responsible: "Ответственный"
+      save: Сохранить
+      start_date: "Дата начала"
       tooManyProjects: "Больше чем %{count} проектов. Пожалуйста, используйте более точный фильтр!"
       selection_mode:
         notification: 'Чтобы создать связь, щелкните любой подсвеченный комплекс работ. Для отмены нажмите Esc.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Увеличить"
+        out: "Уменьшить"
         auto: "Автоувеличение"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
-        slider: "Zoom slider"
+        days: "Дни"
+        weeks: "Недели"
+        months: "Месяцы"
+        quarters: "Кварталы"
+        years: "Годы"
+        slider: "Ползунок масштаба"
         description: >
           Выберите первоначальный масштаб, при отсутствии доступа к автомасштабированию.
     tl_toolbar:
@@ -856,7 +856,7 @@ ru:
         header: 'Новый %{type}'
         header_no_type: 'Новый пакет работ (Тип еще не установлен)'
         header_with_parent: 'Новый %{type} (дочерний элемент %{parent_type} № %{id})'
-        button: 'Create'
+        button: 'Создать'
       copy:
         title: 'Копировать пакет работ'
       hierarchy:
@@ -874,40 +874,40 @@ ru:
         description: Ничего не найдено.
       limited_results: Только %{count} пакетов работ могут быть показаны в режиме ручной сортировки. Уменьшите результаты фильтрации или переключитесь на автоматическую сортировку.
       property_groups:
-        details: "Details"
+        details: "Детали"
         people: "Люди"
         estimatesAndTime: "Оценки & время"
-        other: "Other"
+        other: "Другие"
       properties:
-        assignee: "Assignee"
-        author: "Author"
-        createdAt: "Created on"
-        description: "Description"
-        date: "Date"
-        dueDate: "Finish date"
-        estimatedTime: "Estimated time"
-        spentTime: "Spent time"
-        category: "Category"
+        assignee: "Назначенный"
+        author: "Автор"
+        createdAt: "Создано"
+        description: "Описание"
+        date: "Дата"
+        dueDate: "Дата окончания"
+        estimatedTime: "Предполагаемое время"
+        spentTime: "Затраченное время"
+        category: "Категория"
         percentageDone: "Сделано в процентах"
-        priority: "Priority"
-        projectName: "Project"
-        responsible: "Responsible"
-        startDate: "Start date"
-        status: "Status"
-        subject: "Subject"
-        subproject: "Subproject"
-        title: "Title"
-        type: "Type"
-        updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        priority: "Приоритет"
+        projectName: "Проект"
+        responsible: "Ответственный"
+        startDate: "Дата начала"
+        status: "Состояние"
+        subject: "Тема"
+        subproject: "Подпроект"
+        title: "Заголовок"
+        type: "Тип"
+        updatedAt: "Обновлено"
+        versionName: "Этапы"
+        version: "Этапы"
       default_queries:
-        latest_activity: "Latest activity"
+        latest_activity: "Последние действия"
         created_by_me: "Создано мной"
         assigned_to_me: "Предназначено для меня"
         recently_created: "Недавно созданное"
-        all_open: "All open"
-        summary: "Summary"
+        all_open: "Все открытые"
+        summary: "Сводка"
       jump_marks:
         pagination: "Перейти вёрстке таблицы"
         label_pagination: "Кликните здесь чтобы пропустить таблицу рабочих пакетов и перейти к вёрстке"
@@ -971,8 +971,8 @@ ru:
           inline_all: 'Все атрибуты'
           entire_row_by: 'Вся строка по'
           status: 'Статус'
-          priority: 'Priority'
-          type: 'Type'
+          priority: 'Приоритет'
+          type: 'Тип'
         sorting_mode:
           description: 'Выберите режим упорядочивания пакетов работ:'
           automatic: 'Автоматическое'
@@ -981,20 +981,20 @@ ru:
         columns_help_text: "Используйте поле ввода выше, чтобы добавить столбцы в вид таблицы. Вы можете перетаскивать колонки для их сортировки."
         upsale:
           attribute_highlighting: 'Хотите выделить некоторые пакеты работ из общей массы?'
-          relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise Edition.'
+          relation_columns: 'Нужно видеть отношения в списке пакетов работ?'
+          check_out_link: 'Проверьте корпоративную версию.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Фильтр пакета работ по типу отношения'
       tabs:
-        overview: Overview
-        activity: Activity
+        overview: Обзор
+        activity: Деятельность
         relations: Связи
-        watchers: Watchers
-        attachments: Attachments
+        watchers: Наблюдатель
+        attachments: Вложения
       time_relative:
-        days: "days"
-        weeks: "weeks"
-        months: "months"
+        days: "дней"
+        weeks: "недели"
+        months: "месяцев"
     toolbar:
       settings:
         configure_view: "Настроить вид ..."
@@ -1005,25 +1005,25 @@ ru:
         display_hierarchy: "Показать иерархию"
         hide_hierarchy: "Скрыть иерархию"
         hide_sums: "Скрыть суммы"
-        save: "Save"
+        save: "Сохранить"
         save_as: "Сохранить как ..."
         export: "Экспортировать ..."
         visibility_settings: "Параметры видимости ..."
         page_settings: "Переименовать представления..."
-        delete: "Delete"
-      filter: "Filter"
-      unselected_title: "Work package"
+        delete: "Удалить"
+      filter: "Фильтр"
+      unselected_title: "Пакет работ"
       search_query_label: "Найти сохраненные представления"
       search_query_title: "Кликните для поиска сохраненных представлений"
       placeholder_query_title: "Задать заголовок для этого представления"
     modals:
       label_settings: "Переименовать представления"
-      label_name: "Name"
+      label_name: "Имя"
       label_delete_page: "Удалить текущую страницу"
-      button_apply: "Apply"
-      button_save: "Save"
-      button_submit: "Submit"
-      button_cancel: "Cancel"
+      button_apply: "Применить"
+      button_save: "Сохранить"
+      button_submit: "Отправить"
+      button_cancel: "Отмена"
       form_submit:
         title: 'Подтвердите продолжение'
         text: 'Вы действительно хотите выполнить это действие?'
@@ -1102,44 +1102,44 @@ ru:
       back: 'Назад'
       invite: 'Пригласить'
       title:
-        invite: 'Invite user'
+        invite: 'Пригласить пользователя'
         invite_to_project: 'Пригласить %{type} в %{project}'
         User: 'пользователь'
         Group: 'группа'
         PlaceholderUser: 'пользователь плейсхолдера'
         invite_principal_to_project: 'Пригласить %{principal} в %{project}'
       project:
-        label: 'Project'
+        label: 'Проект'
         required: 'Пожалуйста, выберите проект'
         lacking_permission: 'Пожалуйста, выберите другой проект, так у вас нет прав для назначения пользователей к выбранному в данный момент проекту.'
         lacking_permission_info: 'У вас недостаточно прав для назначения пользователей в текущий проект. Вам нужно выбрать другой проект.'
-        next_button: 'Next'
+        next_button: 'Следующие'
         no_results: 'Проекты не найдены'
         no_invite_rights: 'Вы не можете пригласить участников в этот проект'
       type:
         required: 'Пожалуйста, выберите тип для приглашения'
         user:
-          title: 'User'
+          title: 'Пользователь'
           description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
         group:
-          title: 'Group'
-          description: 'Permissions based on the assigned role in the selected project'
+          title: 'Группа'
+          description: 'Права доступа, основанные на назначенной роли в выбранном проекте'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Пользователь-заполнитель'
           title_no_ee: 'Пользователь-заполнитель (только для корпоративной версии)'
           description: 'Нет доступа к проекту и письма не отправляются.'
           description_no_ee: 'Нет доступа к проекту и письма не отправляются. <br>Проверьте <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
       principal:
         label:
           name_or_email: 'Имя или email адрес'
-          name: 'Name'
+          name: 'Имя'
         already_member_message: 'Уже член %{project}'
         no_results_user: 'Пользователи не найдены.'
         invite_user: 'Приглашение:'
         no_results_placeholder: 'Заполнители не найдены'
         create_new_placeholder: 'Создать новый плейсхолдер:'
         no_results_group: 'Группы не найдены'
-        next_button: 'Next'
+        next_button: 'Следующие'
         required:
           user: 'Пожалуйста, выберите пользователя'
           placeholder: 'Пожалуйста, выберите заполнитель'
@@ -1149,20 +1149,20 @@ ru:
         no_roles_found: 'Роли не найдены'
         description: 'Эту роль %{principal} получит после присоединения к вашему проекту. Роль определяет, разрешаемые действия и доступ к просмотру информации участника проекта. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Узнайте больше о ролях и разрешениях. </a>'
         required: 'Пожалуйста, выберите роль'
-        next_button: 'Next'
+        next_button: 'Следующие'
       message:
         label: 'Сообщение о приглашении'
         description: 'Мы отправим письмо на адрес %{principal}, в которое вы можете добавить личное сообщение здесь. Может быть полезным объяснить причину приглашения или, возможно, добавить немного информации о проекте, чтобы помочь им начать работу.'
         next_button: 'Просмотреть приглашение'
       summary:
-        next_button: 'Send invitation'
+        next_button: 'Отправить приглашение'
       success:
         title: '%{principal} был приглашен!'
         description:
           user: 'Теперь пользователь может войти в систему и получить доступ к %{project}. Тем временем вы уже можете планировать работу с этим пользователем и назначать пакеты работ.'
           placeholder: 'Теперь плейсхолдер может быть использован в %{project}. Тем временем вы уже можете планировать с этим пользователем и назначать рабочие пакеты.'
           group: 'Теперь группа является частью %{project}. Тем временем вы уже можете спланировать работу с этой группой и назначить пакеты работ.'
-        next_button: 'Continue'
+        next_button: 'Продолжить'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
