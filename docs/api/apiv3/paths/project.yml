@@ -86,55 +86,10 @@ get:
       content:
         application/hal+json:
           examples:
-            response:
-              value:
-                _links:
-                  categories:
-                    href: "/api/v3/projects/1/categories"
-                  createWorkPackage:
-                    href: "/api/v3/projects/1/work_packages/form"
-                    method: post
-                  createWorkPackageImmediate:
-                    href: "/api/v3/projects/1/work_packages"
-                    method: post
-                  customField456:
-                    href: "/api/v3/users/315"
-                    method: A user
-                  memberships:
-                    href: /api/v3/memberships?filters=[{"project":{"operator":"=","values":["1"]}}]
-                  projects:
-                    href: "/api/v3/projects/123"
-                  self:
-                    href: "/api/v3/projects/1"
-                    title: Lorem
-                  status:
-                    href: "/api/v3/project_statuses/on_track"
-                    title: On track
-                  types:
-                    href: "/api/v3/projects/1/types"
-                  versions:
-                    href: "/api/v3/projects/1/versions"
-                  workPackages:
-                    href: "/api/v3/projects/1/work_packages"
-                _type: Project
-                active: true
-                createdAt: '2014-05-21T08:51:20Z'
-                customField123: 123
-                description:
-                  format: markdown
-                  html: "<p>Lorem <strong>ipsum</strong> dolor sit amet</p>"
-                  raw: Lorem **ipsum** dolor sit amet
-                id: 1
-                identifier: project_identifier
-                name: Project example
-                public: false
-                statusExplanation:
-                  format: markdown
-                  html: "<p>Everything <strong>fine</strong></p>"
-                  raw: Everything **fine**
-                updatedAt: '2014-05-21T08:51:20Z'
+            "with custom fields":
+              "$ref": "../components/examples/project.yml"
           schema:
-            "$ref": "../components/schemas/view_project_model.yml"
+            "$ref": "../components/schemas/project_model.yml"
       description: OK
       headers: {}
     '404':
@@ -169,12 +124,23 @@ patch:
     required: true
     schema:
       type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
   responses:
     '200':
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/view_project_model.yml"
+            "$ref": "../components/schemas/project_model.yml"
+          examples:
+            "with custom fields":
+              "$ref": "../components/examples/project.yml"
       description: OK
       headers: {}
     '400':
