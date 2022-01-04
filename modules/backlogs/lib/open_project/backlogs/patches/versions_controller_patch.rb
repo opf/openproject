@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'versions_controller'
-
 module OpenProject::Backlogs::Patches::VersionsControllerPatch
   def self.included(base)
     base.class_eval do

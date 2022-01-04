@@ -1,5 +1,3 @@
-require_dependency 'enumerations/row_cell'
-
 module Enumerations
   class TableCell < ::TableCell
     def initial_sort

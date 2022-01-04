@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'permitted_params'
-
 module OpenProject::Backlogs::Patches::PermittedParamsPatch
   def self.included(base)
     base.prepend InstanceMethods

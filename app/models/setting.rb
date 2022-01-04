@@ -339,9 +339,7 @@ class Setting < ApplicationRecord
     end
   end
 
-  require_dependency 'setting/callbacks'
   extend Callbacks
 
-  require_dependency 'setting/aliases'
   extend Aliases
 end

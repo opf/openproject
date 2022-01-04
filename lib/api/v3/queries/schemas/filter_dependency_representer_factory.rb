@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir[File.dirname(__FILE__) + '/*.rb'].each { |file| require_dependency file }
+Dir[File.dirname(__FILE__) + '/*.rb'].each { |file| require file }
 
 module API
   module V3

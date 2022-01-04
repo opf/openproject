@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'open_project/configuration'
-
 module OpenProject::Reporting::Patches
   module OpenProject::ConfigurationPatch
     def self.included(base)

@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'journal_formatter/base'
-
 class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   include OpenProject::StaticRouting::UrlHelpers
 

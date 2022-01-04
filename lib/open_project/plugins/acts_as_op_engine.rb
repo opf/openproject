@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'open_project/ui/extensible_tabs'
-require_dependency 'config/constants/api_patch_registry'
-require_dependency 'config/constants/open_project/activity'
-require_dependency 'config/constants/views'
+require 'open_project/ui/extensible_tabs'
+require_relative '../../../config/constants/api_patch_registry'
+require_relative '../../../config/constants/open_project/activity'
+require_relative '../../../config/constants/views'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
