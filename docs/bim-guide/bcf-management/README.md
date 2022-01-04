@@ -13,11 +13,12 @@ Within the *BCF-Module* you are able to manage *BIM Issues (BCF)*. All BIM Iccue
 
 
 
-| Topic                                                   | Content                                                   |
-| ------------------------------------------------------- | --------------------------------------------------------- |
-| [What is a BIM Issue?](#what-is-a-bim-issue?)           | Find out what a BIM Issue in OpenProject BIM is.          |
-| [Create a BIM Issue](#Create-a-bim-issue)               | How to create a new BIM Issue in a project?               |
-| [Open and edit a BIM Issue](#open-and-edit-a-bim-issue) | How to open and make changes to an existing work package? |
+| Topic                                                        | Content                                                   |
+| ------------------------------------------------------------ | --------------------------------------------------------- |
+| [What is a BIM Issue?](#what-is-a-bim-issue?)                | Find out what a BIM Issue in OpenProject BIM is.          |
+| [Create a BIM Issue](#Create-a-bim-issue)                    | How to create a new BIM Issue in a project?               |
+| [Open and edit a BIM Issue](#open-and-edit-a-bim-issue)      | How to open and make changes to an existing work package? |
+| [Import and Export BIM Issues](#import-and-export-bim-issues) | How to Import and Export BIM Issues?                      |
 
 
 
@@ -52,7 +53,7 @@ Then, navigate to the BCF module in the project navigation.
 
 To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](...\ifc-viewer\#how-to-rotate-the-building-model?), [slice](...\ifc-viewer\#how-to-slice-the-building-model?), [select](...\ifc-viewer\#how-to-select-elements?), [hide](...\ifc-viewer\#show-or-hide-elements-or-models), ... ). 
 
-Click on the **+ Create new work package** below the list and select the type you want. 
+Click on the **+ Create new work package** and select the type of workpackage you want. 
 
 ![Create a new BIM Issue](create-a-new-BIM-issue.png)
 
@@ -63,6 +64,8 @@ Now you can see a detail view of the new BIM Issue. Describe all necessary infor
 *Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?*
 
 ![Add a viewpoint](add_a_viewpoint.png)
+
+
 
 
 
@@ -101,7 +104,7 @@ If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and
 
 
 
+## Import and Export BCF Issues
 
-
-
+Within the BCF module you are able to upload BIM Issues (BCF) which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar. 
 
