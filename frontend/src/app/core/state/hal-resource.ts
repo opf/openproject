@@ -4,7 +4,7 @@ export interface IHalResourceLink {
 }
 
 export interface IHalResourceLinks {
-  self: IHalResourceLink;
+  self:IHalResourceLink;
 }
 
 export type FormattableFormat = 'markdown'|'custom';

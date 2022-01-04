@@ -5,8 +5,11 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { PrincipalLike } from './principal-types';
-import { PrincipalHelper } from './principal-helper';
-import PrincipalType = PrincipalHelper.PrincipalType;
+import {
+  PrincipalType,
+  hrefFromPrincipal,
+  typeFromHref,
+} from './principal-helper';
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -65,7 +68,7 @@ export class PrincipalRendererService {
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
     container.classList.add('op-principal');
-    const type = PrincipalHelper.typeFromHref(PrincipalHelper.hrefFromPrincipal(principal)) as PrincipalType;
+    const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 
     if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
@@ -131,7 +134,7 @@ export class PrincipalRendererService {
   }
 
   private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
-    const id = principal.id || idFromLink(PrincipalHelper.hrefFromPrincipal(principal));
+    const id = principal.id || idFromLink(hrefFromPrincipal(principal));
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
@@ -153,7 +156,7 @@ export class PrincipalRendererService {
   }
 
   private principalURL(principal:PrincipalLike|IPrincipal, type:PrincipalType):string {
-    const href = PrincipalHelper.hrefFromPrincipal(principal);
+    const href = hrefFromPrincipal(principal);
     const id = principal.id || (href ? idFromLink(href) : '');
 
     switch (type) {
