@@ -367,6 +367,9 @@ IFC2x3 and IFC4. We accept those formats and convert them to some other format t
 
 Yes, (only) as part of the Community Edition you can use OpenProject BIM for free. Please have a look [here](../installation-and-operations/changing-to-bim-edition/) to find out how to activate the BIM modules in your on-premises installation.
 
+###  If an enterprise on-premises customer wants to switch to the BIM Edition (on-premises), does anything change for them in terms of price?
+
+The on premises BIM is unlike the cloud edition currently still included in the price and can be activated free of charge. If you want more Information about changing to BIM click [here](.../.../installation-and-operations/changing-to-bim-edition/) 
 
 ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
 

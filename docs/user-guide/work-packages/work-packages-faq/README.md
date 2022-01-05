@@ -27,7 +27,7 @@ Please navigate to *Administration ->Work packages ->Types*, choose the respecti
 
 ### How can I assign users who do not have an account to work packages?
 
-If you want to manage your project alone (without informing other team members) we recommend to use the [placeholder users](../../../system-admin-guide/users-permissions/placeholder-users) feature.
+If you want to manage your project alone (without informing other team members) we recommend to use the [placeholder users](../../system-admin-guide/users-permissions/placeholder-users) feature.
 
 ### How can I set workload, deadline and duration in a work package?
 
