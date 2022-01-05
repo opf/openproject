@@ -1,3 +1,5 @@
+html
+  --fc-event-resizer-thickness: 12px
 
 // overrides for full-calendar so that it looks to belong into OpenProject
 full-calendar
@@ -43,3 +45,26 @@ full-calendar
     h2
       @extend h2
       font-size: 1.5rem
+
+  .fc-event:hover .fc-event-resizer
+    display: flex
+    align-items: center
+    flex-direction: row
+
+    &::before,
+    &::after
+      display: block
+      content: ''
+      width: 1px
+      height: 70%
+      background-color: rgba(255, 255, 255, 0.5)
+
+    &::before
+      margin-right: 2px
+
+    &-start
+      justify-content: flex-end
+      
+    &-end
+      justify-content: flex-start
+
