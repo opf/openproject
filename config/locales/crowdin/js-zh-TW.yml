@@ -1155,7 +1155,7 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'
