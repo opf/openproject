@@ -57,9 +57,9 @@ describe Version, type: :model do
     shared_let(:admin) { FactoryBot.create :admin }
 
     def move_to_project(work_package, project)
-      service = WorkPackages::MoveService.new(work_package, admin)
-
-      service.call(project)
+      WorkPackages::UpdateService
+        .new(model: work_package, user: admin)
+        .call(project: project)
     end
 
     before do

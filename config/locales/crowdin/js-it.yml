@@ -636,7 +636,7 @@ it:
           label: 'Sospendi temporaneamente i promemoria email giornalieri'
           first_day: 'Primo giorno '
           last_day: 'Ultimo giorno'
-    text_are_you_sure: "Sei sicuro?"
+    text_are_you_sure: "Sei sicuro/a?"
     text_data_lost: "Tutti i dati inseriti andranno persi."
     types:
       attribute_groups:
@@ -716,12 +716,12 @@ it:
       save: "Salva la relazione"
       abort: "Interrompi"
     relations_autocomplete:
-      placeholder: "Tipo di ricerca"
+      placeholder: "Digita per cercare"
       parent_placeholder: "Scegli un nuovo genitore o premi il tasto Esc per annullare."
     autocompleter:
-      placeholder: "Tipo di ricerca"
+      placeholder: "Digita per cercare"
       notFoundText: "Nessun elemento trovato"
-      typeToSearchText: "Tipo di ricerca"
+      typeToSearchText: "Digita per cercare"
     repositories:
       select_tag: 'Selezionare tag'
       select_branch: 'Selezionare ramo'

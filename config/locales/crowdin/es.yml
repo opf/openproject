@@ -314,6 +314,10 @@ es:
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "No hay ningún estado disponible para todos los paquetes de trabajo seleccionados. Su estado no se puede cambiar."
       unsupported_for_multiple_projects: 'Mover o copiar por lotes no esta soportado para paquetes de trabajo de múltiples proyectos'
@@ -734,6 +738,7 @@ es:
               does_not_exist: "La categoría especificada no existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "debe ser >=0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:

@@ -169,12 +169,12 @@ describe 'Projects custom fields', type: :feature, js: true do
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.op-fieldset--toggle', text: 'ERWEITERTE EINSTELLUNGEN').click
+        find('.op-fieldset--toggle', text: I18n.t('js.forms.advanced_settings').upcase).click
 
         float_field.set_value '10000,55'
 
         # Save project settings
-        click_on 'Speichern'
+        click_on I18n.t('js.button_save')
 
         expect(page).to have_current_path /\/projects\/my-project-name\/?/
         project = Project.find_by(name: 'My project name')

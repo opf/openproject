@@ -313,6 +313,10 @@ id:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -733,6 +737,7 @@ id:
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -1260,7 +1265,7 @@ id:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Indonesion"
+  general_lang_name: "Bahasa Indonesia"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1779,7 +1784,7 @@ id:
   label_summary: "Ringkasan"
   label_system: "Sistem"
   label_system_storage: "Informasi storage"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Daftar isi"
   label_tag: "Tag"
   label_text: "Teks panjang"
   label_this_month: "bulan ini"
@@ -1867,22 +1872,22 @@ id:
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
-    other: "%{count} closed"
+    other: "%{count} tertutup"
     zero: "0 closed"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} komentar"
     zero: "tak ada komentar"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} terbuka"
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} proyek"
     zero: "no projects"
   label_yesterday: "kemarin"
-  label_role_type: "Tipe"
+  label_role_type: "Mengetik"
   label_member_role: "Peran proyek"
   label_global_role: "Peran global"
   label_not_changeable: "(tidak berubah)"

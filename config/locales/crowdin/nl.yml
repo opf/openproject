@@ -314,6 +314,10 @@ nl:
       other: '%{count} werk pakket afstammelingen'
     bulk:
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: 'Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten'
@@ -734,6 +738,7 @@ nl:
               does_not_exist: "De gekozen categorie bestaat niet."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "moet > = 0 zijn."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -825,7 +830,7 @@ nl:
     base: "Algemene fout:"
     blocks_ids: "It's van geblokkeerde werkpakketten"
     category: "Categorie"
-    comment: "Commentaar"
+    comment: "Reactie"
     comments: "Commentaar"
     content: "Inhoud"
     color: "Kleur"
@@ -1883,12 +1888,12 @@ nl:
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 gesloten"
+    other: "%{count} gesloten"
     zero: "0 gesloten"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "%{count} reactie"
+    other: "%{count} reacties"
     zero: "geen reacties"
   label_x_open_work_packages_abbr:
     one: "1 open"
@@ -1896,7 +1901,7 @@ nl:
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} projecten"
     zero: "geen projecten"
   label_yesterday: "gisteren"
   label_role_type: "Type"

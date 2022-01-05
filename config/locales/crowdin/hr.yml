@@ -318,6 +318,10 @@ hr:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Masovno premještanje/kopiranje ne podržava radne pakete iz više projekata'
@@ -738,6 +742,7 @@ hr:
               does_not_exist: "Navedena kategorija ne postoji."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "mora biti >=0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -1903,20 +1908,20 @@ hr:
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 zaključen"
+    other: "%{count} zatvorenih"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 komentar"
+    other: "%{count} komentara"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 započet"
+    other: "%{count} započeta"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projekta"
     zero: "no projects"
   label_yesterday: "jučer"
   label_role_type: "Tip"

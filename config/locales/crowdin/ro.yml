@@ -315,9 +315,13 @@ ro:
     x_descendants:
       one: 'Un pachet de lucru descendent'
       few: '%{count} descendenți ai pachetului de lucru'
-      other: '%{count} descendenți ai pachetului de lucru'
+      other: '%{count} pachete de lucru descendente'
     bulk:
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Nu există o stare disponibilă pentru toate pachetele de lucru selectate. Starea acestora nu poate fi modificată."
       unsupported_for_multiple_projects: 'Mutarea/copierea în masă nu este suportată pentru pachete de lucru din proiecte multiple'
@@ -590,9 +594,9 @@ ro:
         attachment:
           attributes:
             content_type:
-              blank: "The content type of the file cannot be blank."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
-              format: "Mesaj"
+              blank: "Tipul de conținut al fișierului nu poate fi necompletat."
+              not_whitelisted: "Fişierul a fost respins de un filtru automat. '%{value}' nu este whitelisted pentru încărcare."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -609,7 +613,7 @@ ro:
           not_an_integer: "(%{name}) nu este un număr întreg."
           smaller_than_or_equal_to: "(%{name}) trebuie să fie mai mică sau egală cu %{count}."
           greater_than_or_equal_to: "(%{name}) trebuie să fie mai mare sau egală cu %{count}."
-          format: "Mesaj"
+          format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
@@ -640,7 +644,7 @@ ro:
         notification_settings:
           only_one_global_setting: 'Trebuie să existe o singură setare globală de notificare.'
           email_alerts_global: 'Setările de notificare prin e-mail pot fi setate doar la nivel global.'
-          format: "Mesaj"
+          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -655,7 +659,7 @@ ro:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
-              format: "Mesaj"
+              format: "%{message}"
         query:
           attributes:
             project:
@@ -664,13 +668,13 @@ ro:
               error_unauthorized: "- Utilizatorul nu are permisiunea de a crea vizualizări publice."
             group_by:
               invalid: "Nu se poate grupa prin: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
             column_names:
               invalid: "Coloană de interogare invalidă: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
             sort_criteria:
               invalid: "Nu se poate sorta după coloană: %{value}"
-              format: "Mesaj"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
             custom_fields:
@@ -679,7 +683,7 @@ ro:
           attributes:
             values:
               inclusion: "are valori invalide."
-              format: "Mesaj"
+              format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "Relația creează un cerc închis."
@@ -738,6 +742,7 @@ ro:
               does_not_exist: "Categoria specificată nu există."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "trebuie să fie > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -750,7 +755,7 @@ ro:
           attributes:
             password_confirmation:
               confirmation: "Password confirmation does not match password."
-              format: "Mesaj"
+              format: "%{message}"
             password:
               weak: "Trebuie să conțină caractere din următoarele clase (cel puțin %{min_count} din %{all_count}): %{rules}."
               lowercase: "litere mici (ex. 'a')"
@@ -1215,8 +1220,8 @@ ro:
   error_can_not_delete_entry: "Nu se poate șterge intrarea"
   error_can_not_delete_custom_field: "Câmpul personalizat nu poate fi șters"
   error_can_not_delete_type:
-    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
-    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+    explanation: 'Acest tip conține pachete de lucru și nu poate fi șters. Puteți vedea toate pachetele de lucru afectate în <a target="_blank" href="%{url}">această vizualizare</a>.'
+    archived_projects: 'Există, de asemenea, pachete de lucru în proiecte arhivate. Trebuie să reactivați mai întâi următoarele proiecte, înainte de a putea schimba tipul pachetelor de lucru respective: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipurile standard nu pot fi șterse."
   error_can_not_invite_user: "Nu s-a reușit trimiterea invitației către utilizator."
   error_can_not_remove_role: "Acest rol este utilizat și nu poate fi șters."
@@ -1571,7 +1576,7 @@ ro:
   label_group_by: "Grupare după"
   label_group_new: "Grupare nouă"
   label_group: "Grup"
-  label_group_named: "Nume Grup"
+  label_group_named: "Group %{name}"
   label_group_plural: "Grupuri"
   label_help: "Asistenţă"
   label_here: aici
@@ -1841,7 +1846,7 @@ ro:
   label_used_in_projects: "Folosit/ă/e în proiectele"
   label_user: "Utilizator"
   label_user_and_permission: "Utilizatori și permisiuni"
-  label_user_named: "Nume utilizator"
+  label_user_named: "User %{name}"
   label_user_activity: "Activitatea lui %{value}"
   label_user_anonymous: "Anonim"
   label_user_mail_option_all: "Pentru orice eveniment în toate proiectele mele"
@@ -2953,7 +2958,7 @@ ro:
     application:
       singular: "Aplicație OAuth"
       plural: "Aplicație OAuth"
-      named: "Aplicație OAuth"
+      named: "OAuth application '%{name}'"
       new: "Aplicație OAuth"
       default_scopes: "Scopuri"
       instructions:

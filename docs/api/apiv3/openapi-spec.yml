@@ -224,26 +224,26 @@ paths:
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
     "$ref": "./paths/priority.yml"
-  "/api/v3/project_statuses/{id}":
-    "$ref": "./paths/project_status.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
-  "/api/v3/projects/available_parent_projects":
-    "$ref": "./paths/projects_available_parent_projects.yml"
   "/api/v3/projects/form":
     "$ref": "./paths/projects_form.yml"
   "/api/v3/projects/schema":
     "$ref": "./paths/projects_schema.yml"
   "/api/v3/projects/{id}":
     "$ref": "./paths/project.yml"
-  "/api/v3/projects/{id}/budgets":
-    "$ref": "./paths/project_budgets.yml"
+  "/api/v3/projects/{id}/form":
+    "$ref": "./paths/project_form.yml"
   "/api/v3/projects/{id}/copy":
     "$ref": "./paths/project_copy.yml"
   "/api/v3/projects/{id}/copy/form":
     "$ref": "./paths/project_copy_form.yml"
-  "/api/v3/projects/{id}/form":
-    "$ref": "./paths/project_form.yml"
+  "/api/v3/project_statuses/{id}":
+    "$ref": "./paths/project_status.yml"
+  "/api/v3/projects/available_parent_projects":
+    "$ref": "./paths/projects_available_parent_projects.yml"
+  "/api/v3/projects/{id}/budgets":
+    "$ref": "./paths/project_budgets.yml"
   "/api/v3/projects/{id}/queries/default":
     "$ref": "./paths/project_queries_default.yml"
   "/api/v3/projects/{id}/queries/filter_instance_schemas":
@@ -400,6 +400,10 @@ paths:
     "$ref": "./paths/work_package_watcher.yml"
 components:
   examples:
+    Project:
+      $ref: "./components/examples/project.yml"
+    ProjectBody:
+      $ref: "./components/examples/project_body.yml"
     QueriesModel:
       "$ref": "./components/examples/queries.yml"
     QueryModel:
@@ -711,8 +715,6 @@ components:
       "$ref": "./components/schemas/view_membership_model.yml"
     View_membership_schemaModel:
       "$ref": "./components/schemas/view_membership_schema_model.yml"
-    View_projectModel:
-      "$ref": "./components/schemas/view_project_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
     View_time_entries_activityModel:

@@ -316,6 +316,10 @@ pl:
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: 'Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów'
@@ -736,6 +740,7 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -801,7 +806,7 @@ pl:
       notification:
         one: "Powiadomienie"
         few: "Powiadomienia"
-        many: "Powiadomień"
+        many: "Powiadomienia"
         other: "Powiadomień"
       placeholder_user: "Użytkownik zastępczy"
       project: "Projekt"
@@ -817,7 +822,7 @@ pl:
       wiki: "Wiki"
       wiki_page: "Strona wiki"
       workflow: "Przepływ pracy"
-      work_package: "Zadanie"
+      work_package: "Pakiet roboczy"
       'doorkeeper/application': "Aplikacje OAuth"
   errors:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
@@ -835,7 +840,7 @@ pl:
     base: "Błąd ogólny:"
     blocks_ids: "Identyfikatory zablokowanych pakietów roboczych"
     category: "Kategoria"
-    comment: "Komentarz"
+    comment: "Typ kosztu"
     comments: "Komentarz"
     content: "Zawartość"
     color: "Kolor"
@@ -1539,7 +1544,7 @@ pl:
   label_duplicated_by: "Powielone przez"
   label_duplicate: "duplikat"
   label_duplicates: "Duplikaty"
-  label_edit: "Edycja"
+  label_edit: "Edytuj"
   label_edit_x: "Edytuj: %{x}"
   label_enable_multi_select: "Włącz wybór wielokrotny"
   label_enabled_project_custom_fields: 'Aktywne pola niestandardowe'
@@ -1633,7 +1638,7 @@ pl:
   label_loading: "Ładowanie..."
   label_lock_user: 'Zablokuj użytkownika'
   label_logged_as: "Zalogowany jako"
-  label_login: "Zaloguj"
+  label_login: "Logowanie"
   label_custom_logo: "Własne logo"
   label_custom_favicon: "Własny favicon"
   label_custom_touch_icon: "Własny touch icon"
@@ -1986,7 +1991,7 @@ pl:
         one: 'Istnieje jeszcze 1 pakiet roboczy z powiadomieniami.'
         few: 'Istnieją jeszcze %{count} pakiety robocze z powiadomieniami.'
         many: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
-        other: 'Istnieje jeszcze %{count} pakietów roboczych z powiadomieniami.'
+        other: 'Istnieją jeszcze %{count} pakietów roboczych z powiadomieniami.'
       reason:
         watched: 'Obserwowane'
         assigned: 'Przypisane'

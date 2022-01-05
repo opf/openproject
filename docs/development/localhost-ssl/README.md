@@ -35,7 +35,7 @@ First, you'll need to install the Apache2 web server. The actual command will di
 sudo apt-get install apache2
 ```
 
-Next, ensure that `mod_ssl`, `mod_proxy` and `mod_proxy_http` are installed and active. Read up in your distribution's apache configuration on how to enable them. You can check the output of `apachectl -M` and verify they are being loaded.
+Next, ensure that `mod_ssl`, `mod_proxy`, `mod_proxy_http` and `mod_headers` are installed and active. Read up in your distribution's apache configuration on how to enable them. You can check the output of `apachectl -M` and verify they are being loaded.
 
 You will then add a configuration for OpenProject under:
 
@@ -86,7 +86,7 @@ The following contains an exemplary configuration:
 
 
 
-Save the configuration file and reload the Apache2 server. Ensure the syntax is correct with `apachectl configtest`. 
+Save the configuration file, activate it (e.g. with `sudo a2ensite openproject-dev-ssl.conf`) and reload the Apache2 server. Ensure the syntax is correct with `apachectl configtest`. 
 
 In case you're in an environment with SELinux enabled, you will also need to allow Apache2 to connect locally to the application server. You can do that with `/usr/sbin/setsebool -P httpd_can_network_connect 1`.
 

@@ -521,7 +521,7 @@ es:
         responsible: 'responsable'
       facets:
         unread: 'Marcar como no leído'
-        all: 'Todo'
+        all: 'Todos'
       center:
         and_more_users:
           one: 'y 1 más'

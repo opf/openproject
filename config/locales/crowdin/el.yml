@@ -210,7 +210,7 @@ el:
         no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμες δραστηριότητες.
       forums:
         no_results_title_text: Προς το παρόν δεν υπάρχουν φόρουμ για το έργο.
-        no_results_content_text: Δημιουργία νέου forum
+        no_results_content_text: Δημιουργία νέου φόρουμ
       categories:
         no_results_title_text: Αυτήν τη στιγμή δεν υπάρχουν κατηγορίες πακέτων εργασίας.
         no_results_content_text: Δημιουργήστε μια νέα κατηγορία πακέτου εργασίας
@@ -313,6 +313,10 @@ el:
       other: '%{count} πακέτα εργασίας-απόγονοι'
     bulk:
       could_not_be_saved: "Δεν ήταν δυνατή η αποθήκευση των ακόλουθων πακέτων εργασίας:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Δεν υπάρχει διαθέσιμη κατάσταση για όλα τα επιλεγμένα πακέτα εργασίας. Η κατάσταση τους δεν μπορεί να αλλάξει."
       unsupported_for_multiple_projects: 'Η μαζική μετακίνηση/αντιγραφή δεν υποστηρίζεται για πακέτα εργασίας από πολλά έργα'
@@ -416,8 +420,8 @@ el:
       grids/grid:
         page: "Σελίδα"
         row_count: "Πλήθος γραμμών"
-        column_count: "Πλήθοςστηλών"
-        widgets: "Widgets"
+        column_count: "Πλήθος στηλών"
+        widgets: "Γραφικά στοιχεία"
       relation:
         delay: "Καθυστέρηση"
         from: "Εργασία"
@@ -733,6 +737,7 @@ el:
               does_not_exist: "Η καθορισμένη κατηγορία δεν υπάρχει."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "πρέπει να είναι >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -1559,7 +1564,7 @@ el:
   label_hierarchy_leaf: "Φύλλο ιεραρχίας"
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
-  label_impressum: "Νομικές επισημάνσεις"
+  label_impressum: "Νομική Ειδοποίηση"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
   label_in_more_than: "σε περισσότερο από"
@@ -1694,7 +1699,7 @@ el:
   label_planning: "Σχεδιασμός"
   label_please_login: "Παρακαλούμε συνδεθείτε"
   label_plugins: "Πρόσθετα"
-  label_modules_and_plugins: "Πρόσθετα και Υπηρεσίες"
+  label_modules_and_plugins: "Ενότητες και Πρόσθετα"
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
@@ -1814,7 +1819,7 @@ el:
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
-  label_upgrade_guides: 'Οδηγίες αναβάθμισης'
+  label_upgrade_guides: 'Οδηγοί αναβάθμισης'
   label_used_by: "Χρησιμοποιείται από"
   label_used_by_types: "Χρησιμοποιείται από τύπους"
   label_used_in_projects: "Χρησιμοποιείται σε έργα"

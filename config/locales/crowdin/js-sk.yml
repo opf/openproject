@@ -215,7 +215,7 @@ sk:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_confirmed: "potvrdené"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."

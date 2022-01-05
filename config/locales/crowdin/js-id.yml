@@ -59,7 +59,7 @@ id:
     button_check_all: "Cek semua"
     button_configure-form: "Mengkonfigurasi formulir"
     button_confirm: "Konfirmasi"
-    button_continue: "Lanjutkan"
+    button_continue: "Lanjut"
     button_copy: "Salin"
     button_custom-fields: "Isian kustom"
     button_delete: "Hapus"
@@ -153,7 +153,7 @@ id:
         dropdown:
           macros: 'Makro'
           chose_macro: 'Pilih makro'
-        toc: 'Table of contents'
+        toc: 'Daftar isi'
         toolbar_help: 'Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget'
         wiki_page_include:
           button: 'Sertakan isi dari wiki halaman lain'
@@ -215,7 +215,7 @@ id:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_confirmed: "dikonfirmasi"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -356,7 +356,7 @@ id:
     label_global_roles: "Peran global"
     label_greater_or_equal: ">="
     label_group: 'Grup'
-    label_group_by: "Pengelompokan"
+    label_group_by: "Grup oleh"
     label_group_plural: "Grup"
     label_hide_attributes: "Show less"
     label_hide_column: "Sembunyikan kolom"
@@ -634,7 +634,7 @@ id:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
           last_day: 'Last day'
-    text_are_you_sure: "Anda yakin?"
+    text_are_you_sure: "Apakah anda yakin?"
     text_data_lost: "All entered data will be lost."
     types:
       attribute_groups:
@@ -918,7 +918,7 @@ id:
       query:
         column_names: "Kolom"
         group_by: "Group"
-        group: "Pengelompokan"
+        group: "Grup oleh"
         group_by_disabled_by_hierarchy: "Pengelompokan dengan, dinonaktifkan sehubungan dengan modus hirarki menjadi aktif."
         hierarchy_disabled_by_group_by: "Modus hirarki dinonaktifkan sehubungan dengan hasil yang dikelompokkan menurut %{column}."
         sort_ascending: "Urutkan askending"
@@ -1154,7 +1154,7 @@ id:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Lanjutkan'
+        next_button: 'Lanjut'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
