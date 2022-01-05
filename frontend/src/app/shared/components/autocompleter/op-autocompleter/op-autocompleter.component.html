@@ -162,14 +162,13 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
-    <div class="op-autocompleter--option-principal-wrapper">
-      <op-principal
-        *ngIf="item && item.href"
-        [principal]="item"
-        [hideName]="true"
-        size="mini"
-      ></op-principal>
-    </div>
+    <op-principal
+      *ngIf="item && item.href"
+      [principal]="item"
+      [hideName]="true"
+      size="mini"
+      class="op-autocompleter--option-principal-wrapper"
+    ></op-principal>
     <span [ngOptionHighlight]="search">{{ item.name }}</span>
   </ng-container>
 
