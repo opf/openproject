@@ -95,7 +95,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.loading$.subscribe(isLoading => { this.dataLoaded = isLoading; });
+    this.loading$.subscribe((isLoading) => { this.dataLoaded = isLoading; });
     this.storeService.setFacet('unread');
     this.storeService.setFilters({
       filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
