@@ -143,40 +143,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     };
   }
 
-  private setCalendarsDate():void {
-    const query = this.querySpace.query.value;
-    if (!query) {
-      return;
-    }
-
-    const datesIntervalFilter = _.find(query.filters || [], { id: 'datesInterval' }) as any;
-
-    let calendarDate:any = null;
-    let calendarUnit = 'dayGridMonth';
-
-    if (datesIntervalFilter) {
-      const lower = moment(datesIntervalFilter.values[0] as string);
-      const upper = moment(datesIntervalFilter.values[1] as string);
-      const diff = upper.diff(lower, 'days');
-
-      calendarDate = lower.add(diff / 2, 'days');
-
-      if (diff === 7) {
-        calendarUnit = 'dayGridWeek';
-      }
-    }
-
-    if (calendarDate) {
-      this.ucCalendar.getApi().changeView(calendarUnit, calendarDate.toDate());
-    } else {
-      this.ucCalendar.getApi().changeView(calendarUnit);
-    }
-  }
-
   private setupWorkPackagesListener():void {
     this.calendar.workPackagesListener$(() => {
       this.alreadyLoaded = true;
-      this.setCalendarsDate();
       this.ucCalendar.getApi().refetchEvents();
     });
   }
