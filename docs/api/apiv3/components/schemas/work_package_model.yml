@@ -143,11 +143,14 @@ properties:
             **Permission**: add watcher
           readOnly: true
       customActions:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: Collection of predefined changes that can be applied to the
-            work package
-          readOnly: true
+        type: array
+        readOnly: true
+        items:
+          allOf:
+          - "$ref": "./link.yml"
+          - description: Collection of predefined changes that can be applied to the
+              work package
+            readOnly: true
       previewMarkup:
         allOf:
         - "$ref": "./link.yml"
@@ -221,24 +224,29 @@ properties:
             **Resource**: Schema
           readOnly: true
       ancestors:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Array of all visible ancestors of the work package, with the root node being the first element
+        type: array
+        readOnly: true
+        items:
+          allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Array of all visible ancestors of the work package, with the root node being the first element
 
-            **Resource**: Collection
+              **Resource**: Collection
 
-            # Conditions
+              # Conditions
 
-            **Permission** view work packages
-          readOnly: true
+              **Permission** view work packages
+            readOnly: true
       attachments:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            The files attached to this work package
+        type: array
+        items:
+          allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The files attached to this work package
 
-            **Resource**: Collection
+              **Resource**: Collection
       author:
         allOf:
         - "$ref": "./link.yml"

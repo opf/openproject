@@ -424,6 +424,7 @@ post:
     content:
       application/json:
         schema:
+          "$ref": "../components/schemas/work_package_model.yml"
           example:
             _links:
               assignee:
@@ -437,35 +438,4 @@ post:
             customField41: 8
             startDate: '2048-01-03'
             subject: Lorem
-          properties:
-            _links:
-              properties:
-                assignee:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-                customField32:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-                project:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-                type:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-              type: object
-            customField41:
-              type: number
-            startDate:
-              type: string
-            subject:
-              type: string
-          type: object
   summary: Create Work Package

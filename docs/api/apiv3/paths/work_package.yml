@@ -484,24 +484,11 @@ patch:
     content:
       application/json:
         schema:
+          "$ref": "../components/schemas/work_package_model.yml"
           example:
             _links:
               parent:
                 href: "/api/v3/work_packages/42"
             lockVersion: 13
             subject: Lorem
-          properties:
-            _links:
-              properties:
-                parent:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-              type: object
-            lockVersion:
-              type: number
-            subject:
-              type: string
-          type: object
   summary: Edit Work Package
