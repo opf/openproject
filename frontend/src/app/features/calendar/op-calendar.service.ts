@@ -243,6 +243,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
         right: '',
       },
       initialDate: this.initialDate,
+      initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventClick: this.openSplitView.bind(this),
@@ -352,10 +353,17 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return undefined;
   }
 
+  private get initialView():string|undefined {
+    return this.urlParams.cview as string|undefined;
+  }
+
   private updateDateParam(dates:DatesSetArg) {
     void this.$state.go(
       '.',
-      { cdate: this.timezoneService.formattedISODate(dates.start) },
+      {
+        cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
+        cview: dates.view.type,
+      },
     );
   }
 }

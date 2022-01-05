@@ -37,13 +37,15 @@ export const CALENDAR_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'calendar',
     parent: 'optional_project',
-    url: '/calendar?query_id&query_props',
+    url: '/calendar?query_id&query_props&cdate&cview',
     redirectTo: 'calendar.page',
     views: {
       '!$default': { component: WorkPackagesBaseComponent },
     },
     params: {
       query_id: { type: 'query', dynamic: true },
+      cdate: { type: 'string', dynamic: true },
+      cview: { type: 'string', dynamic: true },
       // Use custom encoder/decoder that ensures validity of URL string
       query_props: { type: 'opQueryString' },
     },

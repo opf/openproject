@@ -127,12 +127,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             events: this.calendarEventsFunction.bind(this),
             plugins: [dayGridPlugin],
-            initialView: (() => {
-              if (this.static) {
-                return 'dayGridWeek';
-              }
-              return undefined;
-            })(),
           }),
         );
       });
