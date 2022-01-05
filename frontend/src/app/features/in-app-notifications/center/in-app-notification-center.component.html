@@ -1,11 +1,6 @@
 <div class="op-ian-center">
-  <div class="op-ian-center--loading-indicator" *ngIf="loading$ | async">
-    <op-content-loader>
-      <svg:rect x="0" y="0" width="100%" height="100%" rx="1" />
-    </op-content-loader>
-  </div>
   <div class="op-ian-center--content">
-    <ng-container *ngIf="(hasNotifications$ | async); else noResults">
+    <ng-container *ngIf="dataLoaded || (hasNotifications$ | async); else noResults">
       <cdk-virtual-scroll-viewport
           itemSize="100"
           class="op-ian-center--viewport"
@@ -24,7 +19,7 @@
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>
-    <ng-template #noResults>
+    <ng-template #noResults> 
       <no-results *ngIf="(loading$ | async) === false"
                   [title]="noResultText$ | async"
                   [description]="text.change_notification_settings"

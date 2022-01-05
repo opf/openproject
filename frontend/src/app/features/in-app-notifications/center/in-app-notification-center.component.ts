@@ -36,6 +36,8 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   notifications$ = this.storeService.query.notifications$;
 
+  dataLoaded = true;
+
   loading$ = this.storeService.query.selectLoading();
 
   private totalCount$ = this.bellService.unread$;
@@ -93,6 +95,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   }
 
   ngOnInit():void {
+    this.loading$.subscribe(isLoading => { this.dataLoaded = isLoading; });
     this.storeService.setFacet('unread');
     this.storeService.setFilters({
       filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
