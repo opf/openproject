@@ -155,7 +155,7 @@ gem 'meta-tags', '~> 2.16.0'
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  gem 'dalli', '~> 3.1.0'
+  gem 'dalli', '~> 3.2.0'
 end
 
 gem 'i18n-js', '~> 3.9.0'
