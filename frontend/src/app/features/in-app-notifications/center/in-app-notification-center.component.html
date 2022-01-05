@@ -19,7 +19,7 @@
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>
-    <ng-template #noResults> 
+    <ng-template #noResults>
       <no-results *ngIf="(loading$ | async) === false"
                   [title]="noResultText$ | async"
                   [description]="text.change_notification_settings"
