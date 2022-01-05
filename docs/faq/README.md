@@ -364,7 +364,6 @@ You can add [project custom fields](../system-admin-guide/custom-fields/custom-f
   The on premises BIM is unlike the cloud edition currently still included in the price and can be activated free of charge. If you want more Information about changing to BIM click [here](.../.../installation-and-operations/changing-to-bim-edition/) 
 
   ### Can a BCF file created from other software e.g. BIMcollab, Solibri, etc. be opened in OpenProject?
-
   Yes, of course. That's why the module for this in OpenProject is called "BCF". You can import and export BCF XML files. Our goal is to have specialized tools like Solibri do model checks, but the coordination of the results, the issues, is done in OpenProject, because more people can get access to the BCF issues through OpenProject because our licenses are much cheaper. In addition, BCF issues imported into OpenProject behave just like other non-BCF work packages. For example, you can plan them in a Gantt chart on the timeline, or manage them agilely in boards. We support the current BCF XML format 2.1.
   Furthermore, we are planning a direct integration into Solibri. Then you don't need to export and import XML files anymore, but Solibri will read and write directly into OpenProject via an interface, the BCF-API. Before that, however, we will complete the integration in Autodesk Revit.
   (Status: February 2021)
