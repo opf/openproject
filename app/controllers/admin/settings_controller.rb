@@ -48,6 +48,7 @@ module Admin
     end
 
     def show
+      @guessed_host = request.host_with_port.dup
       respond_to :html
     end
 
