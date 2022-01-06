@@ -3,10 +3,13 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { Principal } from 'core-app/core/state/principals/principal.model';
+import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { PrincipalLike } from './principal-types';
-import { PrincipalHelper } from './principal-helper';
-import PrincipalType = PrincipalHelper.PrincipalType;
+import {
+  PrincipalType,
+  hrefFromPrincipal,
+  typeFromHref,
+} from './principal-helper';
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -30,7 +33,7 @@ export class PrincipalRendererService {
 
   renderMultiple(
     container:HTMLElement,
-    users:PrincipalLike[]|Principal[],
+    users:PrincipalLike[]|IPrincipal[],
     name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
@@ -60,12 +63,12 @@ export class PrincipalRendererService {
 
   render(
     container:HTMLElement,
-    principal:PrincipalLike|Principal,
+    principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
     container.classList.add('op-principal');
-    const type = PrincipalHelper.typeFromHref(PrincipalHelper.hrefFromPrincipal(principal)) as PrincipalType;
+    const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 
     if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
@@ -79,7 +82,7 @@ export class PrincipalRendererService {
   }
 
   private renderAvatar(
-    principal:PrincipalLike|Principal,
+    principal:PrincipalLike|IPrincipal,
     options:AvatarOptions,
     type:PrincipalType,
   ) {
@@ -110,7 +113,7 @@ export class PrincipalRendererService {
     return fallback;
   }
 
-  private renderUserAvatar(principal:PrincipalLike|Principal, fallback:HTMLElement, options:AvatarOptions):void {
+  private renderUserAvatar(principal:PrincipalLike|IPrincipal, fallback:HTMLElement, options:AvatarOptions):void {
     const url = this.userAvatarUrl(principal);
 
     if (!url) {
@@ -130,12 +133,12 @@ export class PrincipalRendererService {
     };
   }
 
-  private userAvatarUrl(principal:PrincipalLike|Principal):string|null {
-    const id = principal.id || idFromLink(PrincipalHelper.hrefFromPrincipal(principal));
+  private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
+    const id = principal.id || idFromLink(hrefFromPrincipal(principal));
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
-  private renderName(principal:PrincipalLike|Principal, type:PrincipalType, asLink = true) {
+  private renderName(principal:PrincipalLike|IPrincipal, type:PrincipalType, asLink = true) {
     if (asLink) {
       const link = document.createElement('a');
       link.textContent = principal.name;
@@ -152,8 +155,8 @@ export class PrincipalRendererService {
     return span;
   }
 
-  private principalURL(principal:PrincipalLike|Principal, type:PrincipalType):string {
-    const href = PrincipalHelper.hrefFromPrincipal(principal);
+  private principalURL(principal:PrincipalLike|IPrincipal, type:PrincipalType):string {
+    const href = hrefFromPrincipal(principal);
     const id = principal.id || (href ? idFromLink(href) : '');
 
     switch (type) {

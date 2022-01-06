@@ -16,7 +16,7 @@ import { ProjectsQuery } from 'core-app/core/state/projects/projects.query';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { collectionKey } from 'core-app/core/state/collection-store';
 import { ProjectsStore } from './projects.store';
-import { Project } from './project.model';
+import { IProject } from './project.model';
 
 @Injectable()
 export class ProjectsResourceService {
@@ -38,12 +38,12 @@ export class ProjectsResourceService {
   ) {
   }
 
-  fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<Project>> {
+  fetchProjects(params:ApiV3ListParameters):Observable<IHALCollection<IProject>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<Project>>(this.projectsPath + collectionURL)
+      .get<IHALCollection<IProject>>(this.projectsPath + collectionURL)
       .pipe(
         tap((events) => {
           applyTransaction(() => {
@@ -67,7 +67,7 @@ export class ProjectsResourceService {
       );
   }
 
-  update(id:ID, project:Partial<Project>):void {
+  update(id:ID, project:Partial<IProject>):void {
     this.store.update(id, project);
   }
 

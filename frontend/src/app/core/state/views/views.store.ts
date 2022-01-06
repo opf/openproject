@@ -1,8 +1,8 @@
 import { EntityStore, StoreConfig } from '@datorama/akita';
 import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
-import { View } from './view.model';
+import { IView } from './view.model';
 
-export interface ViewsState extends CollectionState<View> {
+export interface ViewsState extends CollectionState<IView> {
 }
 
 @StoreConfig({ name: 'views' })

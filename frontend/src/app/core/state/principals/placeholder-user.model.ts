@@ -1,17 +1,17 @@
 import { ID } from '@datorama/akita';
-import { HalResourceLink, HalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
-export interface PlaceholderUserHalResourceLinks extends HalResourceLinks {
-  updateImmediately:HalResourceLink;
-  delete:HalResourceLink;
-  showUser:HalResourceLink;
+export interface IPlaceholderUserHalResourceLinks extends IHalResourceLinks {
+  updateImmediately:IHalResourceLink;
+  delete:IHalResourceLink;
+  showUser:IHalResourceLink;
 }
 
-export interface PlaceholderUser {
+export interface IPlaceholderUser {
   id:ID;
   name:string;
   createdAt:string;
   updatedAt:string;
 
-  _links:PlaceholderUserHalResourceLinks;
+  _links:IPlaceholderUserHalResourceLinks;
 }
