@@ -501,15 +501,18 @@ class User < Principal
   end
 
   # Returns true if user is arg or belongs to arg
+  # rubocop:disable Naming/PredicateName
   def is_or_belongs_to?(arg)
-    if arg.is_a?(User)
+    case arg
+    when User
       self == arg
-    elsif arg.is_a?(Group)
+    when Group
       arg.users.include?(self)
     else
       false
     end
   end
+  # rubocop:enable Naming/PredicateName
 
   def self.allowed(action, project)
     Authorization.users(action, project)
@@ -531,9 +534,7 @@ class User < Principal
     authorization_service.call(action, nil, options.merge(global: true)).result
   end
 
-  def preload_projects_allowed_to(action)
-    authorization_service.preload_projects_allowed_to(action)
-  end
+  delegate :preload_projects_allowed_to, to: :authorization_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
