@@ -237,25 +237,6 @@ class User < Principal
     try_to_create(attrs) if attrs
   end
 
-  # Try to create the user from attributes
-  def self.try_to_create(attrs, notify: false)
-    new(attrs).tap do |user|
-      user.language = Setting.default_language
-
-      if OpenProject::Enterprise.user_limit_reached?
-        OpenProject::Enterprise.send_activation_limit_notification_about(user) if notify
-
-        Rails.logger.error("User '#{user.login}' could not be created as user limit exceeded.")
-        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
-      elsif user.save
-        user.reload
-        Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
-      else
-        Rails.logger.error("User '#{user.login}' could not be created: #{user.errors.full_messages.join('. ')}")
-      end
-    end
-  end
-
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
     token = Token::AutoLogin.find_by_plaintext_value(key)
