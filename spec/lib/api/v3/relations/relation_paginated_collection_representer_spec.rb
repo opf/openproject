@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2021 the OpenProject GmbH
@@ -28,14 +26,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      # TODO: Usage of this is to be replaced by its paginated equivalent once the front end
-      # handles paginated responses.
-      class RelationCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
-        self.to_eager_load = ::API::V3::Relations::RelationRepresenter.to_eager_load
-      end
+require 'spec_helper'
+
+describe ::API::V3::Relations::RelationPaginatedCollectionRepresenter do
+  let(:work_package) do
+    FactoryBot.build_stubbed(:work_package)
+  end
+
+  let(:relations) do
+    FactoryBot.build_stubbed_list(:relation, total).tap do |relations|
+      allow(relations)
+        .to receive(:per_page)
+              .with(page_size)
+              .and_return(relations)
+
+      allow(relations)
+        .to receive(:page)
+              .with(page)
+              .and_return(relations)
+
+      allow(relations)
+        .to receive(:count)
+              .and_return(relations.length)
     end
   end
+
+  let(:user) do
+    FactoryBot.build_stubbed(:user)
+  end
+
+  let(:representer) do
+    described_class.new(relations,
+                        self_link: self_base_link,
+                        page: page,
+                        per_page: page_size,
+                        current_user: user)
+  end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 20 }
+  let(:actual_count) { total }
+  let(:self_base_link) { 'api/v3/relations' }
+  let(:collection_inner_type) { 'Relation' }
+
+  subject(:collection) { representer.to_json }
+
+  it_behaves_like 'offset-paginated APIv3 collection', 3, 'relations', 'Relation'
 end
