@@ -120,13 +120,13 @@
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
     <div class="op-autocompleter--option-wp-wrapper">
       <op-principal
-        class="op-autocompleter--wp-principal"
+        class="op-autocompleter--option-wp-principal"
         *ngIf="item.author && item.author.href"
         [principal]="item.author"
         [hideName]="true"
       ></op-principal>
       <span
-        class="op-autocompleter--wp-subject"
+        class="op-autocompleter--option-wp-subject"
       >
         <span
           *ngIf="item.type"
@@ -139,37 +139,39 @@
         </span>
       </span>
 
-      <div class="op-autocompleter--wp-content">
+      <div class="op-autocompleter--option-wp-content">
         <span
           [ngOptionHighlight]="search"
           [textContent]="item.project?.name" 
-          class="op-autocompleter--wp-project"
+          class="op-autocompleter--option-wp-project"
         ></span>
 
         <span
-          class="op-autocompleter--wp-id"
+          class="op-autocompleter--option-wp-id"
           [ngOptionHighlight]="search"
         >#{{item.id}}</span>
 
         <span
           [textContent]="item.status?.name"
           [ngClass]="highlighting('status',item.status?.id)"
-          class="op-autocompleter--wp-status"
+          class="op-autocompleter--option-wp-status"
         ></span>
 
       </div>
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
-    <op-principal
-      *ngIf="item && item.href"
-      [principal]="item"
-      [hideName]="true"
-      size="mini"
-      class="op-autocompleter--option-principal-wrapper"
-    ></op-principal>
-    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'" >
+    <div class="op-autocompleter--option-principal-wrapper">
+      <op-principal
+        *ngIf="item && item.href"
+        [principal]="item"
+        [hideName]="true"
+        size="mini"
+        class="op-autocompleter--option-principal-avatar"
+      ></op-principal>
+      <span [ngOptionHighlight]="search">{{ item.name }}</span>
+    </div>
   </ng-container>
 
   <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">
