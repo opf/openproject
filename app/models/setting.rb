@@ -29,6 +29,9 @@
 #++
 
 class Setting < ApplicationRecord
+  extend Callbacks
+  extend Aliases
+
   DATE_FORMATS = [
     '%Y-%m-%d',
     '%d/%m/%Y',
@@ -338,8 +341,4 @@ class Setting < ApplicationRecord
       value
     end
   end
-
-  extend Callbacks
-
-  extend Aliases
 end
