@@ -9,7 +9,7 @@ properties:
     type: boolean
     description: Hide mail address from other users
   notifications:
-    type: NotificationSetting
+    type: object
     description: The settings for the notifications to be received by the user
   timeZone:
     type: string

@@ -133,7 +133,7 @@ info:
     are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
-  version: ''
+  version: '3'
 servers: []
 paths:
   "/api/v3":
@@ -362,8 +362,6 @@ paths:
     "$ref": "./paths/views.yml"
   "/api/v3/views/{id}":
     "$ref": "./paths/view.yml"
-  "/api/v3/views/{identifier}":
-    "$ref": "./paths/views_{identifier}.yml"
   "/api/v3/wiki_pages/{id}":
     "$ref": "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
@@ -505,6 +503,8 @@ components:
       "$ref": "./components/schemas/document_model.yml"
     DocumentsModel:
       "$ref": "./components/schemas/documents_model.yml"
+    ErrorResponse:
+      "$ref": "./components/schemas/error_response.yml"
     Example_FormModel:
       "$ref": "./components/schemas/example_form_model.yml"
     Example_SchemaModel:

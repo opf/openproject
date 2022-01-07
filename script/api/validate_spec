@@ -18,7 +18,7 @@ begin
   end
 
   `npx @redocly/openapi-cli lint #{assembled_path}`
-  
+
   status = $?.exitstatus
 ensure
   FileUtils.rm assembled_path if File.exist? assembled_path
