@@ -108,7 +108,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         });
     }
 
-    this.calendar.updateTimeframe(fetchInfo, this.currentProject.identifier || undefined);
+    void this.calendar.updateTimeframe(fetchInfo, this.currentProject.identifier || undefined);
   }
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
@@ -118,16 +118,22 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   }
 
   private initializeCalendar() {
+    const additionalOptions:{ [key:string]:unknown } = {
+      height: '100%',
+      headerToolbar: this.buildHeader(),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      events: this.calendarEventsFunction.bind(this),
+      plugins: [dayGridPlugin],
+    };
+
+    if (this.static) {
+      additionalOptions.initialView = 'dayGridWeek';
+    }
+
     void this.configuration.initialized
       .then(() => {
         this.calendarOptions$.next(
-          this.calendar.calendarOptions({
-            height: '100%',
-            headerToolbar: this.buildHeader(),
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            events: this.calendarEventsFunction.bind(this),
-            plugins: [dayGridPlugin],
-          }),
+          this.calendar.calendarOptions(additionalOptions),
         );
       });
   }
@@ -173,5 +179,9 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     });
 
     return events;
+  }
+
+  private get initialView():string|undefined {
+    return this.static ? 'dayGridWeek' : undefined;
   }
 }

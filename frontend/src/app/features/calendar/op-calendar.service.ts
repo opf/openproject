@@ -28,10 +28,8 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { take } from 'rxjs/operators';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import {
-  QueryProps,
   QueryPropsFilter,
   UrlParamsHelperService,
 } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
@@ -363,6 +361,9 @@ export class OpCalendarService extends UntilDestroyedMixin {
       {
         cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
         cview: dates.view.type,
+      },
+      {
+        custom: { notify: false },
       },
     );
   }
