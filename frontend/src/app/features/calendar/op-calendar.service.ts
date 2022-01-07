@@ -199,7 +199,19 @@ export class OpCalendarService extends UntilDestroyedMixin {
       // This is the case on initially loading the calendar with query_props present in the url params.
       // There might also be a query_id but the settings persisted in it are overwritten by the props.
       if (this.urlParams.query_props) {
-        queryProps = decodeURIComponent(this.urlParams.query_props || '');
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const oldQueryProps:{ [key:string]:unknown } = JSON.parse(this.urlParams.query_props);
+
+        // Update the date period of the calendar in the filter
+        const newQueryProps = {
+          ...oldQueryProps,
+          f: [
+            ...(oldQueryProps.f as QueryPropsFilter[]).filter((filter:QueryPropsFilter) => filter.n !== 'datesInterval'),
+            OpCalendarService.dateFilter(startDate, endDate),
+          ],
+        };
+
+        queryProps = JSON.stringify(newQueryProps);
       } else {
         queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
       }
