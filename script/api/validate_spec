@@ -1,7 +1,27 @@
 #!/usr/bin/env ruby
 
 require 'pathname'
+require 'tempfile'
+require 'psych'
+require 'yaml'
 
-path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
+load 'lib/api/open_api.rb'
 
-`npx @redocly/openapi-cli lint #{path}`
+assembled_path = Tempfile.new.path
+spec_path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
+full_spec = API::OpenAPI.send(:assemble_spec, spec_path).to_yaml
+status = 1
+
+begin
+  File.open(assembled_path, "w+") do |file|
+    file.puts full_spec
+  end
+
+  `npx @redocly/openapi-cli lint #{assembled_path}`
+  
+  status = $?.exitstatus
+ensure
+  FileUtils.rm assembled_path if File.exist? assembled_path
+end
+
+exit status
