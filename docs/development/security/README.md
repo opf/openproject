@@ -1,20 +1,21 @@
-## Statement on security
+# Statement on security
 
 At its core, OpenProject is an open-source software that is [developed and published on GitHub](https://github.com/opf/openproject). Every change to the OpenProject code base ends up in an open repository accessible to everyone. This results in a transparent software where every commit can be traced back to the contributor.
 
 Automated tests and manual code reviews ensure that these contributions are safe for the entire community of OpenProject. These tests encompass the correctness of security and access control features. We have ongoing collaborations with security professionals from to test the OpenProject code base for security exploits.
 
+For more information on security and data privacy for OpenProject, please visit: https://www.openproject.org/security-and-privacy/.
 
 
-### Security announcements mailing list
+
+## Security announcements mailing list
 
 We provide a mailing list for security advisories on OpenProject at <https://groups.google.com/forum/#!forum/openproject-security>. Please register there to get immediate notifications as we publish them.
 
 Any security related information will also be published on our blog and website at https://www.openproject.com
 
 
-
-### Reporting a vulnerability
+## Reporting a vulnerability
 
 We take all facets of security seriously at OpenProject. If you want to report a security concerns, have remarks, or contributions regarding security at OpenProject, please reach out to us at [security@openproject.com](mailto:security@openproject.com).
 
@@ -30,7 +31,7 @@ Please include a description on how to reproduce the issue if possible. Our secu
 
 ## OpenProject security features
 
-### Authentication
+### Authentication and password security
 
 OpenProject administrators can enforce [authentication mechanisms and password rules]() to ensure users choose secure passwords according to current industry standards. Passwords stored by OpenProject are securely stored using salted bcrypt. Alternatively, external authentication providers and protocols (such as LDAP, SAML) can be enforced to avoid using and exposing passwords within OpenProject.
 
@@ -38,6 +39,31 @@ OpenProject administrators can enforce [authentication mechanisms and password r
 
 Administrators are provided with [fine-grained role-based access control mechanisms]() to ensure that users are only seeing and accessing the data they are allowed to on an individual project level.
 
-### Two-Factor authentication. (Cloud or Enterprise Edition)
+### Definition of session runtime
 
-Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in. [More information]().
+Admins can set a specific session duration in the system administration, so that it is guaranteed that a session is automatically terminated after inactivity.
+
+### Two-factor authentication (Premium feature)
+
+Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in.
+
+### Security badge
+
+This badge shows the current status of your OpenProject installation. It will inform administrators of an installation on whether new releases or security updates are available for your platform.
+
+### Security alerts
+
+Security updates allow a fast fix of security issues in the system. Relevant channels will be monitored regarding security topics and the responsible contact person will be informed. Software packages for security fixes will be provided promptly.
+
+### LDAP sync (Premium feature)
+
+Synchronize OpenProject users and groups with your company’s LDAP to update users and group memberships based on LDAP group members.
+
+### Single sign-on
+
+With the single sign-on feature you can securely access OpenProject. Control and secure access to your projects with the main authentication providers.
+
+
+
+Find out more about our [GDPR compliance](../../enterprise-guide/enterprise-cloud-guide/GDPR/).
+
