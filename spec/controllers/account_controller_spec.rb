@@ -972,14 +972,15 @@ describe AccountController, type: :controller do
 
     let(:failure) do
       {
-        user: user,
-        login: user.login,
+        login: login,
         back_url: '/my/account',
         ttl: 1
       }
     end
 
-    let(:user) { FactoryBot.create :user, status: 2 }
+    let(:auth_source) { FactoryBot.create :ldap_auth_source }
+    let(:user) { FactoryBot.create :user, status: 2, auth_source: auth_source }
+    let(:login) { user.login }
 
     before do
       session[:auth_source_sso_failure] = failure
@@ -1000,8 +1001,13 @@ describe AccountController, type: :controller do
 
     context "with an invalid user" do
       let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
-      let(:user) do
-        FactoryBot.build(:user, mail: duplicate.mail).tap(&:valid?)
+      let(:login) { 'foo' }
+      let(:attrs) do
+        { mail: duplicate.mail, login: login, firstname: 'bla', lastname: 'bar' }
+      end
+
+      before do
+        allow(AuthSource).to receive(:find_user).and_return attrs
       end
 
       it "should show the account creation form with an error" do
@@ -1011,6 +1017,27 @@ describe AccountController, type: :controller do
 
         expect(response.body).to have_text "Create a new account"
         expect(response.body).to have_text "This field is invalid: Email has already been taken."
+      end
+    end
+
+    context "with a missing email" do
+      let!(:duplicate) { FactoryBot.create :user, mail: "login@DerpLAP.net" }
+      let(:login) { 'foo' }
+      let(:attrs) do
+        { login: login, firstname: 'bla', lastname: 'bar' }
+      end
+
+      before do
+        allow(AuthSource).to receive(:find_user).and_return attrs
+      end
+
+      it "should show the account creation form with an error" do
+        get :auth_source_sso_failed
+
+        expect(session[:auth_source_sso_failure]).not_to be_present
+
+        expect(response.body).to have_text "Create a new account"
+        expect(response.body).to have_text "This field is invalid: Email can't be blank."
       end
     end
   end
