@@ -34,6 +34,7 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
   # Maximum length for project identifiers

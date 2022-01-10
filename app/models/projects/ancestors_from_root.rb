@@ -28,38 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Projects
-      class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
-        include API::V3::Utilities::EagerLoading::CustomFieldAccessor
+module Projects::AncestorsFromRoot
+  extend ActiveSupport::Concern
 
-        class << self
-          def wrap(projects)
-            custom_fields = projects.first.available_custom_fields if projects.present?
-            ancestors = ancestor_projects(projects) if projects.present?
+  included do
+    attr_writer :ancestors_from_root
 
-            super
-              .each do |project|
-              project.available_custom_fields = custom_fields
-              project.ancestors_from_root = ancestors.select { |a| a.is_ancestor_of?(project) }.sort_by(&:lft)
-            end
-          end
-
-          def ancestor_projects(projects)
-            ancestor_selector = projects[1..].inject(ancestor_project_select(projects[0])) do |select, project|
-              select.or(ancestor_project_select(project))
-            end
-            Project.where(ancestor_selector).to_a
-          end
-
-          def ancestor_project_select(project)
-            projects_table = Project.arel_table
-
-            projects_table[:lft].lt(project.lft).and(projects_table[:rgt].gt(project.rgt))
-          end
-        end
-      end
+    # Retrieve stored eager loaded ancestors
+    # or use awesome_nested_set#ancestors to fetch them.
+    def ancestors_from_root
+      @ancestors_from_root ||= ancestors.reorder(lft: :asc)
     end
   end
 end
