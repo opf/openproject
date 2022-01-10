@@ -66,18 +66,20 @@ describe 'Work package calendars', type: :feature, js: true do
                       due_date: Date.today.at_beginning_of_month.next_month + 18.days)
   end
   let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:current_wp_split_screen) { Pages::SplitWorkPackage.new(current_work_package, project) }
 
   before do
     login_as(user)
   end
 
   it 'navigates to today, allows filtering, switching the view and retrains the state' do
-    pending 'To be fixed in https://github.com/opf/openproject/pull/9977'
     visit project_path(project)
 
     within '#main-menu' do
       click_link 'Calendar'
     end
+
+    loading_indicator_saveguard
 
     # should open the calendar with the current month displayed
     expect(page)
@@ -169,30 +171,26 @@ describe 'Work package calendars', type: :feature, js: true do
     expect(page)
       .to have_no_selector '.fc-event-title', text: another_future_work_package.subject
 
-    # click goes to work package show page
+    # click goes to work package split screen
     page.find('.fc-event-title', text: current_work_package.subject).click
-
-    expect(page)
-      .to have_selector('.subject-header', text: current_work_package.subject)
+    current_wp_split_screen.expect_open
 
     # Going back in browser history will lead us back to the calendar
     # Regression #29664
     page.go_back
-
-    # click goes to work package show page
     expect(page)
       .to have_selector('.fc-event-title', text: current_work_package.subject, wait: 20)
+    current_wp_split_screen.expect_closed
 
-    # click goes to work package show page again
+    # click goes to work package split screen page again
     page.find('.fc-event-title', text: current_work_package.subject).click
-
-    expect(page)
-      .to have_selector('.subject-header', text: current_work_package.subject)
+    current_wp_split_screen.expect_open
 
     # click back goes back to calendar
-    page.find('.work-packages-back-button').click
+    current_wp_split_screen.close
 
     expect(page)
       .to have_selector '.fc-event-title', text: current_work_package.subject, wait: 20
+    current_wp_split_screen.expect_closed
   end
 end

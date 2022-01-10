@@ -42,6 +42,9 @@ export class WorkPackagesQueryViewService {
     if (this.$state.includes('bim')) {
       return 'bim';
     }
+    if (this.$state.includes('calendar')) {
+      return 'work_packages_calendar';
+    }
 
     throw new Error('Not on a path defined for query views');
   }

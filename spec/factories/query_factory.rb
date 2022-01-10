@@ -64,6 +64,14 @@ FactoryBot.define do
       end
     end
 
+    factory :query_with_view_work_packages_calendar do
+      sequence(:name) { |n| "Calendar query #{n}" }
+
+      callback(:after_create) do |query|
+        FactoryBot.create(:view_work_packages_calendar, query: query)
+      end
+    end
+
     callback(:after_build) { |query| query.add_default_filter }
   end
 end

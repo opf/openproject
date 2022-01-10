@@ -28,11 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::CalendarsController < ApplicationController
-  menu_item :calendar
-  before_action :find_optional_project
+module ::Calendar
+  class CalendarController < ApplicationController
+    menu_item :calendar_view
+    before_action :find_optional_project
 
-  def index
-    render layout: 'angular/angular'
+    def index
+      render layout: 'angular/angular'
+    end
   end
 end

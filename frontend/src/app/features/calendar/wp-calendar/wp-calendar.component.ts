@@ -20,7 +20,6 @@ import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
@@ -31,20 +30,19 @@ import { debounceTime } from 'rxjs/operators';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import {
-  CalendarViewEvent,
-  OpCalendarService,
-} from 'core-app/shared/components/calendar/op-calendar.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { Subject } from 'rxjs';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
   styleUrls: ['./wp-calendar.sass'],
-  selector: 'wp-calendar',
+  selector: 'op-wp-calendar',
   providers: [
     OpCalendarService,
   ],
 })
-export class WorkPackagesCalendarController extends UntilDestroyedMixin implements OnInit {
+export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
@@ -52,11 +50,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     this.calendar.resizeObserver(v);
   }
 
-  @Input() projectIdentifier:string;
-
   @Input() static = false;
 
-  calendarOptions:CalendarOptions|undefined;
+  calendarOptions$ = new Subject<CalendarOptions>();
 
   private alreadyLoaded = false;
 
@@ -66,7 +62,6 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpListService:WorkPackagesListService,
     readonly querySpace:IsolatedQuerySpace,
-    readonly wpListChecksumService:WorkPackagesListChecksumService,
     readonly schemaCache:SchemaCacheService,
     readonly titleService:OpTitleService,
     private element:ElementRef,
@@ -75,6 +70,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     private sanitizer:DomSanitizer,
     private configuration:ConfigurationService,
     readonly calendar:OpCalendarService,
+    readonly currentProject:CurrentProjectService,
   ) {
     super();
   }
@@ -112,7 +108,7 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
         });
     }
 
-    this.calendar.updateTimeframe(fetchInfo, this.projectIdentifier);
+    void this.calendar.updateTimeframe(fetchInfo, this.currentProject.identifier || undefined);
   }
 
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
@@ -122,64 +118,24 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
   }
 
   private initializeCalendar() {
+    const additionalOptions:{ [key:string]:unknown } = {
+      height: '100%',
+      headerToolbar: this.buildHeader(),
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      events: this.calendarEventsFunction.bind(this),
+      plugins: [dayGridPlugin],
+    };
+
+    if (this.static) {
+      additionalOptions.initialView = 'dayGridWeek';
+    }
+
     void this.configuration.initialized
       .then(() => {
-        this.calendarOptions = this.calendar.calendarOptions({
-          height: this.calendarHeight(),
-          headerToolbar: this.buildHeader(),
-          eventClick: this.toWPFullView.bind(this),
-          events: this.calendarEventsFunction.bind(this),
-          plugins: [dayGridPlugin],
-          initialView: (() => {
-            if (this.static) {
-              return 'dayGridWeek';
-            }
-            return undefined;
-          })(),
-        });
+        this.calendarOptions$.next(
+          this.calendar.calendarOptions(additionalOptions),
+        );
       });
-  }
-
-  toWPFullView(event:CalendarViewEvent):void {
-    const { workPackage } = event.event.extendedProps;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.calendar.removeTooltip(event.el);
-    }
-
-    // Ensure checksum is removed to allow queries to load
-    this.wpListChecksumService.clear();
-
-    // Ensure current calendar URL is pushed to history
-    window.history.pushState({}, this.titleService.current, window.location.href);
-
-    void this.$state.go(
-      'work-packages.show',
-      { workPackageId: workPackage.id },
-      { inherit: false },
-    );
-  }
-
-  private get calendarElement() {
-    return jQuery(this.element.nativeElement).find('[data-qa-selector="op-wp-calendar"]');
-  }
-
-  private calendarHeight():number {
-    if (this.static) {
-      let heightElement = jQuery(this.element.nativeElement);
-
-      while (!heightElement.height() && heightElement.parent()) {
-        heightElement = heightElement.parent();
-      }
-
-      const topOfCalendar = jQuery(this.element.nativeElement).position().top;
-      const topOfHeightElement = heightElement.position().top;
-
-      return heightElement.height()! - (topOfCalendar - topOfHeightElement);
-    }
-    // -12 for the bottom padding
-    return jQuery(window).height()! - this.calendarElement.offset()!.top - 12;
   }
 
   public buildHeader():false|ToolbarInput|undefined {
@@ -193,40 +149,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     };
   }
 
-  private setCalendarsDate():void {
-    const query = this.querySpace.query.value;
-    if (!query) {
-      return;
-    }
-
-    const datesIntervalFilter = _.find(query.filters || [], { id: 'datesInterval' }) as any;
-
-    let calendarDate:any = null;
-    let calendarUnit = 'dayGridMonth';
-
-    if (datesIntervalFilter) {
-      const lower = moment(datesIntervalFilter.values[0] as string);
-      const upper = moment(datesIntervalFilter.values[1] as string);
-      const diff = upper.diff(lower, 'days');
-
-      calendarDate = lower.add(diff / 2, 'days');
-
-      if (diff === 7) {
-        calendarUnit = 'dayGridWeek';
-      }
-    }
-
-    if (calendarDate) {
-      this.ucCalendar.getApi().changeView(calendarUnit, calendarDate.toDate());
-    } else {
-      this.ucCalendar.getApi().changeView(calendarUnit);
-    }
-  }
-
   private setupWorkPackagesListener():void {
     this.calendar.workPackagesListener$(() => {
       this.alreadyLoaded = true;
-      this.setCalendarsDate();
       this.ucCalendar.getApi().refetchEvents();
     });
   }
@@ -254,5 +179,9 @@ export class WorkPackagesCalendarController extends UntilDestroyedMixin implemen
     });
 
     return events;
+  }
+
+  private get initialView():string|undefined {
+    return this.static ? 'dayGridWeek' : undefined;
   }
 }

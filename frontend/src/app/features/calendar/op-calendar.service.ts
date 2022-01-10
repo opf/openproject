@@ -28,10 +28,8 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { take } from 'rxjs/operators';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import {
-  QueryProps,
   QueryPropsFilter,
   UrlParamsHelperService,
 } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
@@ -201,7 +199,19 @@ export class OpCalendarService extends UntilDestroyedMixin {
       // This is the case on initially loading the calendar with query_props present in the url params.
       // There might also be a query_id but the settings persisted in it are overwritten by the props.
       if (this.urlParams.query_props) {
-        queryProps = decodeURIComponent(this.urlParams.query_props || '');
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        const oldQueryProps:{ [key:string]:unknown } = JSON.parse(this.urlParams.query_props);
+
+        // Update the date period of the calendar in the filter
+        const newQueryProps = {
+          ...oldQueryProps,
+          f: [
+            ...(oldQueryProps.f as QueryPropsFilter[]).filter((filter:QueryPropsFilter) => filter.n !== 'datesInterval'),
+            OpCalendarService.dateFilter(startDate, endDate),
+          ],
+        };
+
+        queryProps = JSON.stringify(newQueryProps);
       } else {
         queryProps = OpCalendarService.defaultQueryProps(startDate, endDate);
       }
@@ -243,6 +253,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
         right: '',
       },
       initialDate: this.initialDate,
+      initialView: this.initialView,
       datesSet: (dates) => this.updateDateParam(dates),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventClick: this.openSplitView.bind(this),
@@ -253,6 +264,11 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
+
+    if (event.el) {
+      // do not display the tooltip on the wp show page
+      this.removeTooltip(event.el);
+    }
 
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
@@ -347,10 +363,20 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return undefined;
   }
 
+  private get initialView():string|undefined {
+    return this.urlParams.cview as string|undefined;
+  }
+
   private updateDateParam(dates:DatesSetArg) {
     void this.$state.go(
       '.',
-      { cdate: this.timezoneService.formattedISODate(dates.start) },
+      {
+        cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
+        cview: dates.view.type,
+      },
+      {
+        custom: { notify: false },
+      },
     );
   }
 }
