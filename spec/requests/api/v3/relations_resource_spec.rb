@@ -86,7 +86,9 @@ describe 'API v3 Relation resource', type: :request do
         get path
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Relation'
+      it_behaves_like 'API V3 collection response', 1, 1, 'Relation' do
+        let(:elements) { [visible_relation] }
+      end
     end
 
     context 'when not having view_work_packages' do

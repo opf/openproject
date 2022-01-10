@@ -44,7 +44,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
-import { OpCalendarService } from 'core-app/shared/components/calendar/op-calendar.service';
+import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -133,7 +133,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   ngOnInit():void {
     this.initializeCalendar();
-    this.projectIdentifier = this.currentProject.identifier ? this.currentProject.identifier : undefined;
+    this.projectIdentifier = this.currentProject.identifier || undefined;
 
     this
       .querySpace
@@ -235,7 +235,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
-            eventClick: this.openSplitView.bind(this) as unknown,
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
@@ -310,20 +309,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           .filter((filterValue) => filterValue.href !== href);
       });
     }
-  }
-
-  private openSplitView(event:EventClickArg):void {
-    const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.calendar.removeTooltip(event.el);
-    }
-
-    void this.$state.go(
-      `${splitViewRoute(this.$state)}.tabs`,
-      { workPackageId: workPackage.id, tabIdentifier: 'overview' },
-    );
   }
 
   private mapToCalendarEvents(workPackages:WorkPackageResource[]):EventInput[] {

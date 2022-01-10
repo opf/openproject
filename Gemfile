@@ -28,11 +28,11 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.5'
+ruby '~> 3.0.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.2.0'
+gem 'activerecord-import', '~> 1.3.0'
 gem 'activerecord-session_store', '~> 2.0.0'
 gem 'rails', '~> 6.1.4'
 gem 'responders', '~> 3.0'
@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.26.0'
+gem 'rouge', '~> 3.27.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -155,18 +155,18 @@ gem 'meta-tags', '~> 2.16.0'
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  gem 'dalli', '~> 3.1.0'
+  gem 'dalli', '~> 3.2.0'
 end
 
 gem 'i18n-js', '~> 3.9.0'
-gem 'rails-i18n', '~> 6.0.0'
+gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.0'
 
 gem 'puma', '~> 5.5'
 gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
-gem 'nokogiri', '~> 1.12.5'
+gem 'nokogiri', '~> 1.13.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -280,7 +280,7 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.1.0'
+  gem 'brakeman', '~> 5.2.0'
   gem 'danger-brakeman'
 end
 

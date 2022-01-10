@@ -214,7 +214,7 @@ zh-TW:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -511,7 +511,7 @@ zh-TW:
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
-      title: "Notifications"
+      title: "通知"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
@@ -540,7 +540,7 @@ zh-TW:
           link_text: 'Click here to load them'
       menu:
         accountable: '可信賴的'
-        assigned: 'Assigned'
+        assigned: '指派'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
@@ -1070,7 +1070,7 @@ zh-TW:
         other: "%{count} 個子工作項目"
       hour:
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} 小時"
         zero: "0 h"
     zen_mode:
       button_activate: '啟動 zen 模式'
@@ -1155,7 +1155,7 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'

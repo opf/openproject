@@ -42,6 +42,7 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
       - name: "Set crowdin branch name"
         id: vars
         env:
@@ -67,6 +68,9 @@ jobs:
         env:
           OPENPROJECT_CROWDIN_PROJECT: ${{ secrets.OPENPROJECT_CROWDINV2_PROJECT }}
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
+      - name: "Fixing translation names"
+        run: |
+          ruby script/crowdin/fix_locale_keys.rb
       - name: "Commit translations"
         run: |
           git config user.name "OpenProject Actions CI"

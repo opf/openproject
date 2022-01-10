@@ -1,14 +1,14 @@
 import { ID } from '@datorama/akita';
-import { HalResourceLink, HalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
-export interface UserHalResourceLinks extends HalResourceLinks {
-  lock:HalResourceLink;
-  unlock:HalResourceLink;
-  delete:HalResourceLink;
-  showUser:HalResourceLink;
+export interface IUserHalResourceLinks extends IHalResourceLinks {
+  lock:IHalResourceLink;
+  unlock:IHalResourceLink;
+  delete:IHalResourceLink;
+  showUser:IHalResourceLink;
 }
 
-export interface User {
+export interface IUser {
   id:ID;
   name:string;
   createdAt:string;
@@ -27,5 +27,5 @@ export interface User {
 
   status:string;
 
-  _links:UserHalResourceLinks;
+  _links:IUserHalResourceLinks;
 }

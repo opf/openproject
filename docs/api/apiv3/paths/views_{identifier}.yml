@@ -80,7 +80,11 @@ post:
     Note that it is only allowed to provide properties or links supporting the write operation.
 
     There are different subtypes of `Views` (e.g. `Views::WorkPackagesTable`) with each having its own
-    endpoint for creating that subtype e.g. `/api/v3/views/work_packages_table` for `Views::WorkPackagesTable` and `/api/v3/views/team_planner` for `Views::TeamPlanner`
+    endpoint for creating that subtype e.g.
+
+    * `/api/v3/views/work_packages_table` for `Views::WorkPackagesTable`
+    * `/api/v3/views/team_planner` for `Views::TeamPlanner`
+    * `/api/v3/views/work_packages_calendar` for `Views::WorkPackagesCalendar`
 
     **Not yet implemented** To get the list of available subtypes and by that the endpoints for creating a subtype, use the
     ```

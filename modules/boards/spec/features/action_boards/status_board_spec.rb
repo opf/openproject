@@ -197,7 +197,7 @@ describe 'Status action board', type: :feature, js: true do
 
       # Expect filter to be saved in board
       board_page.board(reload: true) do |board|
-        expect(board.options['filters']).to eq [{ 'search' => { 'operator' => '**', 'values' => ['Task'] } }]
+        expect(board.options[:filters]).to eq [{ search: { operator: '**', values: ['Task'] } }]
       end
 
       # Revisit board

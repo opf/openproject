@@ -36,7 +36,7 @@ describe 'robots.txt', type: :feature do
   end
 
   it 'disallows global paths and paths from public project' do
-    expect(page).to have_content('Disallow: /work_packages/calendar')
+    expect(page).to have_content('Disallow: /calendar')
     expect(page).to have_content('Disallow: /activity')
 
     expect(page).to have_content("Disallow: /projects/#{project.identifier}/repository")
