@@ -234,7 +234,22 @@ class User < Principal
     return nil if OpenProject::Configuration.disable_password_login?
 
     attrs = AuthSource.authenticate(login, password)
-    try_to_create(attrs) if attrs
+    return unless attrs
+
+    call = Users::CreateService
+      .new(user: User.system)
+      .call(attrs)
+
+    user = call.result
+
+    call.on_failure do |result|
+      Rails.logger.error "Failed to auto-create user from auth-source: #{result.message}"
+
+      # TODO We have no way to pass back the contract errors in this place
+      user.errors.merge! call.errors
+    end
+
+    user
   end
 
   # Returns the user who matches the given autologin +key+ or nil
