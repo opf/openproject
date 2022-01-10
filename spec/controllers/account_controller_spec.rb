@@ -1010,7 +1010,7 @@ describe AccountController, type: :controller do
         allow(AuthSource).to receive(:find_user).and_return attrs
       end
 
-      it "should show the account creation form with an error" do
+      it "shows the account creation form with an error" do
         get :auth_source_sso_failed
 
         expect(session[:auth_source_sso_failure]).not_to be_present
@@ -1031,7 +1031,7 @@ describe AccountController, type: :controller do
         allow(AuthSource).to receive(:find_user).and_return attrs
       end
 
-      it "should show the account creation form with an error" do
+      it "shows the account creation form with an error" do
         get :auth_source_sso_failed
 
         expect(session[:auth_source_sso_failure]).not_to be_present

@@ -33,7 +33,7 @@ module AuthSourceSSO
 
     Rails.logger.debug { "Starting header-based auth source SSO for #{header_name}='#{op_auth_header_value}'" }
 
-    user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
+    user = find_or_create_sso_user(login, save: true)
     handle_sso_for! user, login
   end
 
@@ -106,6 +106,10 @@ module AuthSourceSSO
     end
   end
 
+  def find_or_create_sso_user(login, save: false)
+    find_user_from_auth_source(login) || create_user_from_auth_source(login, save: save)
+  end
+
   def find_user_from_auth_source(login)
     User
       .by_login(login)
@@ -113,13 +117,22 @@ module AuthSourceSSO
       .first
   end
 
-  def create_user_from_auth_source(login)
+  def create_user_from_auth_source(login, save:)
     attrs = AuthSource.find_user(login)
     return unless attrs
 
-    call = Users::CreateService
-      .new(user: User.system)
-      .call(attrs.merge(login: login))
+    attrs[:login] = login
+
+    call =
+      if save
+        Users::CreateService
+          .new(user: User.system)
+          .call(attrs)
+      else
+        Users::SetAttributesService
+          .new(model: User.new, user: User.system, contract_class: Users::CreateContract)
+          .call(attrs)
+      end
 
     user = call.result
 

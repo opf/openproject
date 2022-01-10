@@ -270,7 +270,7 @@ class AccountController < ApplicationController
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
     login = failure[:login]
-    user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
+    user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
