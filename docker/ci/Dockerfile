@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-buster
+FROM ruby:3.0.3-buster
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION="14.17.0"

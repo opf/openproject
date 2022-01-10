@@ -30,6 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Version action board', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
@@ -181,7 +182,7 @@ describe 'Version action board', type: :feature, js: true do
 
       # Expect filter to be saved in board
       board_page.board(reload: true) do |board|
-        expect(board.options['filters']).to eq [{ 'search' => { 'operator' => '**', 'values' => ['Task'] } }]
+        expect(board.options[:filters]).to eq [{ search: { operator: '**', values: ['Task'] } }]
       end
 
       # Revisit board
@@ -347,3 +348,4 @@ describe 'Version action board', type: :feature, js: true do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

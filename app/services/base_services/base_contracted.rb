@@ -56,7 +56,7 @@ module BaseServices
       in_context(model, true, &block)
     end
 
-    def perform(params = nil)
+    def perform(params = {})
       service_context do
         service_call = validate_params(params)
         service_call = before_perform(params, service_call) if service_call.success?

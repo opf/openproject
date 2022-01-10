@@ -38,7 +38,7 @@ describe WorkPackages::ExportJob do
   end
   let(:query) { FactoryBot.build_stubbed(:query) }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,
