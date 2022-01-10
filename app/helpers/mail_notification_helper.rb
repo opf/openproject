@@ -37,20 +37,19 @@ module MailNotificationHelper
     if current_logo.present?
       logo_file = current_logo.local_file
       logo = File.read(logo_file)
-      content_type = MIME::Types.type_for(logo_file.path).first.content_type
+      file_extension = File.extname(logo_file.path)
     else
       logo = File.read(Rails.root.join('app/assets/images/logo_openproject_narrow.svg'))
-      content_type = "image/svg+xml"
+      file_extension = '.svg'
     end
 
-    email_image_tag(logo, content_type, **options)
+    logo_name = "logo#{file_extension}"
+    email_image_tag(logo, logo_name, **options)
   end
 
-  def email_image_tag(image, content_type, **options)
-    image_string = image.to_s
-    base64_string = Base64.strict_encode64(image_string)
-
-    image_tag "data:#{content_type};base64,#{base64_string}", **options
+  def email_image_tag(image_file, image_name, **options)
+    attachments.inline[image_name] = image_file
+    image_tag attachments[image_name].url, **options
   end
 
   def unique_reasons_of_notifications(notifications)
