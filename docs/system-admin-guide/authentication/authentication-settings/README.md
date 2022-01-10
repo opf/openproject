@@ -61,7 +61,7 @@ There can be defined a number of other authentication settings.
 3. Enable or disable the **autologin option**. This allows a user to remain logged in, even if he/she leaves the site. If this option is activated, the “Stay signed in” option will appear on the login screen to be selected.
 4. Activate the **session expiration option**. If you select this option, an additional field will open, where you will be able to define the **inactivity time duration before the session expiry**.
 5. Define to **log user login, name, and mail address for all requests**.
-6. **Enable REST web service**. This activates an API-Interface, which allows communication between external services (for example MS Office)  and the instance.
+6. **Enable REST web service**. This setting allows users to access the OpenProject API using an API token created from the users "My account" page.
 7. Do not forget to **save** your changes.
 
 ![Sys-admin-authentication-other-settings](Sys-admin-authentication-other-settings.png)
