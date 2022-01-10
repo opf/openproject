@@ -114,30 +114,27 @@ module AuthSourceSSO
   end
 
   def create_user_from_auth_source(login)
-    if attrs = AuthSource.find_user(login)
-      # login is both safe and protected in chilis core code
-      # in case it's intentional we keep it that way
-      user = User.new attrs.except(:login)
-      user.login = login
-      user.language = Setting.default_language
+    attrs = AuthSource.find_user(login)
+    return unless attrs
 
-      save_user! user
+    call = Users::CreateService
+      .new(user: User.system)
+      .call(attrs.merge(login: login))
 
-      user
+    user = call.result
+
+    call.on_success do
+      logger.info(
+        "User '#{user.login}' created from external auth source: " +
+          "#{user.auth_source.type} - #{user.auth_source.name}"
+      )
     end
-  end
 
-  def save_user!(user)
-    if user.save
-      user.reload
-
-      if logger && user.auth_source
-        logger.info(
-          "User '#{user.login}' created from external auth source: " +
-            "#{user.auth_source.type} - #{user.auth_source.name}"
-        )
-      end
+    call.on_failure do
+      logger.error "Tried to create user '#{login}' from external auth source but failed: #{call.message}"
     end
+
+    user
   end
 
   def sso_in_progress!
@@ -164,7 +161,7 @@ module AuthSourceSSO
 
   def handle_sso_for!(user, login)
     if sso_login_failed?(user)
-      handle_sso_failure!({ user: user, login: login })
+      handle_sso_failure!(login: login)
     else
       # valid user
       # If a user is invited, ensure it gets activated
@@ -196,11 +193,12 @@ module AuthSourceSSO
     end
   end
 
-  def handle_sso_failure!(session_args = {})
-    session[:auth_source_sso_failure] = session_args.merge(
+  def handle_sso_failure!(login: nil)
+    session[:auth_source_sso_failure] = {
+      login: login,
       back_url: request.base_url + request.original_fullpath,
       ttl: 1
-    )
+    }
 
     redirect_to sso_failure_path
   end
