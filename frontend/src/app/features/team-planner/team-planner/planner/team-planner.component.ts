@@ -25,7 +25,6 @@ import {
   map,
   mergeMap,
 } from 'rxjs/operators';
-import { EventClickArg } from '@fullcalendar/common';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
@@ -48,6 +47,7 @@ import { OpCalendarService } from 'core-app/features/calendar/op-calendar.servic
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -127,6 +127,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly calendar:OpCalendarService,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
+    readonly schemaCache:SchemaCacheService,
   ) {
     super();
   }
@@ -318,19 +319,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           return undefined;
         }
 
-        const startDate = this.calendar.eventDate(workPackage, 'start');
-        const endDate = this.calendar.eventDate(workPackage, 'due');
-
-        const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
-        const assignee = (workPackage.assignee as HalResource).href as string;
-
+        const assignee = this.wpAssignee(workPackage);
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
-          durationEditable: !this.calendar.isMilestone(workPackage),
+          durationEditable: this.eventDurationEditable(workPackage),
+          resourceEditable: this.eventResourceEditable(workPackage),
           title: workPackage.subject,
-          start: startDate,
-          end: exclusiveEnd,
+          start: this.wpStartDate(workPackage),
+          end: this.wpEndDate(workPackage),
           allDay: true,
           className: `__hl_background_type_${workPackage.type.id as string}`,
           workPackage,
@@ -388,5 +385,31 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     } catch (e) {
       info.revert();
     }
+  }
+
+  private eventResourceEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
+  }
+
+  private eventDurationEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.calendar.isMilestone(wp);
+  }
+
+  private wpStartDate(wp:WorkPackageResource):string {
+    return this.calendar.eventDate(wp, 'start');
+  }
+
+  private wpEndDate(wp:WorkPackageResource):string {
+    const endDate = this.calendar.eventDate(wp, 'due');
+    return moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+  }
+
+  private wpAssignee(wp:WorkPackageResource):string {
+    return (wp.assignee as HalResource).href as string;
   }
 }
