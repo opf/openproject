@@ -178,7 +178,7 @@ class BackupJob < ::ApplicationJob
       raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
     end
 
-    Pathname(attachment.disfile.path).parent.to_s
+    Pathname(attachment.diskfile.path).parent.to_s
   end
 
   def attachments_to_include
