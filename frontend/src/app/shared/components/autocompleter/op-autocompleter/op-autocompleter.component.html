@@ -118,15 +118,15 @@
 
 <ng-template let-item let-search="search"  #defaultOption [ngSwitch]="true">
   <ng-container *ngSwitchCase="resource === 'work_packages' || resource === 'parent-child'">
-    <div class="op-autocompleter--option-wp-wrapper">
+    <div class="op-autocompleter--option-wrapper">
       <op-principal
-        class="op-autocompleter--option-wp-principal"
+        class="op-autocompleter--option-principal"
         *ngIf="item.author && item.author.href"
         [principal]="item.author"
         [hideName]="true"
       ></op-principal>
       <span
-        class="op-autocompleter--option-wp-subject"
+        class="op-autocompleter--wp-subject"
       >
         <span
           *ngIf="item.type"
@@ -139,36 +139,36 @@
         </span>
       </span>
 
-      <div class="op-autocompleter--option-wp-content">
+      <div class="op-autocompleter--wp-content">
         <span
           [ngOptionHighlight]="search"
           [textContent]="item.project?.name" 
-          class="op-autocompleter--option-wp-project"
+          class="op-autocompleter--wp-project"
         ></span>
 
         <span
-          class="op-autocompleter--option-wp-id"
+          class="op-autocompleter--wp-id"
           [ngOptionHighlight]="search"
         >#{{item.id}}</span>
 
         <span
           [textContent]="item.status?.name"
           [ngClass]="highlighting('status',item.status?.id)"
-          class="op-autocompleter--option-wp-status"
+          class="op-autocompleter--wp-status"
         ></span>
 
       </div>
     </div>
   </ng-container>
 
-  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'" >
+  <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
     <div class="op-autocompleter--option-principal-wrapper">
       <op-principal
         *ngIf="item && item.href"
         [principal]="item"
         [hideName]="true"
-        size="mini"
         class="op-autocompleter--option-principal-avatar"
+        size="mini"
       ></op-principal>
       <span [ngOptionHighlight]="search">{{ item.name }}</span>
     </div>
