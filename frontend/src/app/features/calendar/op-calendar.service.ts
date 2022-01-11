@@ -105,18 +105,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return { ...this.defaultOptions(), ...additionalOptions };
   }
 
-  addTooltip(event:CalendarViewEvent):void {
-    jQuery(event.el).tooltip({
-      content: this.tooltipContentString(event.event.extendedProps.workPackage),
-      items: '.fc-event',
-      track: true,
-    });
-  }
-
-  removeTooltip(element:HTMLElement):void {
-    jQuery(element).tooltip('close');
-  }
-
   eventDate(workPackage:WorkPackageResource, type:'start'|'due'):string {
     if (this.isMilestone(workPackage)) {
       return workPackage.date;
@@ -259,63 +247,15 @@ export class OpCalendarService extends UntilDestroyedMixin {
       datesSet: (dates) => this.updateDateParam(dates),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventClick: this.openSplitView.bind(this),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventDidMount: this.addTooltip.bind(this),
     };
   }
 
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.removeTooltip(event.el);
-    }
-
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },
     );
-  }
-
-  private sanitizedValue(workPackage:WorkPackageResource, attribute:string, toStringMethod:string|null = 'name'):string {
-    let value = workPackage[attribute];
-    value = toStringMethod && value ? value[toStringMethod] : value;
-    value = value || this.I18n.t('js.placeholders.default');
-
-    return this.sanitizer.sanitize(SecurityContext.HTML, value) || '';
-  }
-
-  private tooltipContentString(workPackage:WorkPackageResource) {
-    return `
-        ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
-        <ul class="tooltip--map">
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.projectName')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'project')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.status')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'status')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.startDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'start')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.dueDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'due')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.assignee')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'assignee')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.priority')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'priority')}</span>
-          </li>
-        </ul>
-        `;
   }
 
   private static defaultQueryProps(startDate:string, endDate:string) {
