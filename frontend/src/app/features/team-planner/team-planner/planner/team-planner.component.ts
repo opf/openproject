@@ -384,6 +384,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
+      this.halNotification.showError(e.resource, changeset.projectedResource);
       info.revert();
     }
   }
