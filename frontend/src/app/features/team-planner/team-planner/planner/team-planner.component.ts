@@ -325,6 +325,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           resourceId: assignee,
           durationEditable: this.eventDurationEditable(workPackage),
           resourceEditable: this.eventResourceEditable(workPackage),
+          constraint: this.eventConstaints(workPackage),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),
           end: this.wpEndDate(workPackage),
@@ -398,6 +399,26 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
     return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.calendar.isMilestone(wp);
+  }
+
+  // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯
+  // When users have the right to change the assignee but cannot change the date (due to hierarchy for example),
+  // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
+  // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
+  // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
+  private eventConstaints(wp:WorkPackageResource):{ [key:string]:string|string[] } {
+    const constraints:{ [key:string]:string|string[] } = {};
+
+    if (!this.eventDurationEditable(wp)) {
+      constraints.start = this.wpStartDate(wp);
+      constraints.end = this.wpEndDate(wp);
+    }
+
+    if (!this.eventResourceEditable(wp)) {
+      constraints.resourceIds = [this.wpAssignee(wp)];
+    }
+
+    return constraints;
   }
 
   private wpStartDate(wp:WorkPackageResource):string {
