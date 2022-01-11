@@ -30,10 +30,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-core-tests-units-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-ruby3-core-tests-units-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-core-tests-units-
-          ${{ runner.os }}-core-tests-
+          ${{ runner.os }}-ruby3-core-tests-units-
+          ${{ runner.os }}-ruby3-core-tests-
     - name: test
       run: |
         docker-compose -f docker-compose.ci.yml build --pull ci
@@ -60,10 +60,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-core-tests-features-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-ruby3-core-tests-features-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-core-tests-features-
-          ${{ runner.os }}-core-tests-
+          ${{ runner.os }}-ruby3-core-tests-features-
+          ${{ runner.os }}-ruby3-core-tests-
     - name: test
       run: |
         docker-compose -f docker-compose.ci.yml build --pull ci
