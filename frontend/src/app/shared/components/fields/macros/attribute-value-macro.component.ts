@@ -99,7 +99,7 @@ export class AttributeValueMacroComponent {
     let resource:HalResource|null;
 
     try {
-      resource = await this.resourceLoader.require(model, id);
+      resource = (await this.resourceLoader.require(model, id)) || null;
     } catch (e) {
       console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);

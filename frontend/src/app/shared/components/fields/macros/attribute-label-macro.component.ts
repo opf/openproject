@@ -104,7 +104,7 @@ export class AttributeLabelMacroComponent {
     let resource:HalResource|null;
 
     try {
-      this.resource = resource = await this.resourceLoader.require(model, id);
+      this.resource = resource = (await this.resourceLoader.require(model, id)) || null;
     } catch (e) {
       console.error(`Failed to render macro ${e}`);
       return this.markError(this.text.not_found);

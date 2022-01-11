@@ -59,7 +59,7 @@ export class TimeEntriesCurrentUserConfigurationModalService {
   }
 
   private validDays(days:DisplayedDays) {
-    if (days.every((value) => !value)) {
+    if (days.every((value:any) => !value)) {
       return Array.apply(null, Array(7)).map(() => true);
     }
     return days;
