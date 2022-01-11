@@ -3,7 +3,7 @@ require:
   - rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 2.7
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
