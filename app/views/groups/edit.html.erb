@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   </li>
   <% if current_user.admin? %>
     <li class="toolbar-item">
-      <%= link_to @group,
+      <%= link_to group_path(@group),
                   data: { confirm: t(:text_are_you_sure) },
                   class: 'button -danger',
                   method: :delete do %>

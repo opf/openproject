@@ -15,11 +15,11 @@ ca:
       file_invalid: "Fitxer BCF invàlid"
     x_bcf_issues:
       zero: 'Sense problemes BCF'
-      one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      one: 'Un tema BCF'
+      other: '%{count} temes BCF'
     bcf_xml:
       xml_file: 'Fitxer BCF XML'
-      import_title: 'Import'
+      import_title: 'Importació'
       export: 'Exportar'
       import_update_comment: '(Actualitzat a l''importació del BCF)'
       import_failed: 'No s''ha pogut importar el fitxer BCF: %{error}'

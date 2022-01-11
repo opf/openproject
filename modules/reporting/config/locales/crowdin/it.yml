@@ -47,7 +47,7 @@ it:
   label_money: "Valore in contanti"
   label_month_reporting: "Mese (passato)"
   label_new_report: "Nuovo rapporto di costo"
-  label_open: "aperte"
+  label_open: "apri"
   label_operator: "Operatore"
   label_private_report_plural: "Report costo privato"
   label_progress_bar_explanation: "Generazione Report..."

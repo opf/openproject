@@ -77,7 +77,8 @@ describe Groups::AddUsersService, 'integration', type: :model do
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
         .with(a_collection_containing_exactly(*ids),
-              message)
+              message,
+              true)
     end
   end
 

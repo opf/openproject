@@ -70,6 +70,8 @@ OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_CREATED) do |pa
 end
 
 OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_UPDATED) do |payload|
+  next unless payload[:send_notifications]
+
   Mails::MemberUpdatedJob
     .perform_later(current_user: User.current,
                    member: payload[:member],

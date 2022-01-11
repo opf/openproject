@@ -23,10 +23,10 @@ hu:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Feladatcsoport"
+        work_package: "Munkacsomag"
         overridden_costs: "Felülbírált költségek"
         spent: "Elköltve"
-        spent_on: "dátum"
+        spent_on: "Dátum"
       cost_type:
         unit: "Egység neve"
         unit_plural: "Többes számú egység neve"
@@ -52,18 +52,18 @@ hu:
           is_not_a_valid_target_for_cost_entries: "Munkacsomag #%{id} nem érvényes cél a költség újrahozzárendeléséhez."
           nullify_is_not_valid_for_cost_entries: "Költségek nem hozzárendelhetőek a projekthez."
   attributes:
-    comment: "Vélemény"
+    comment: "Komment"
     cost_type: "Költségtípus"
     costs: "Költségek"
     current_rate: "Jelenlegi állapot"
-    hours: "órák"
+    hours: "Óra"
     units: "Egységek"
     valid_from: "Innentől érvényes"
     fixed_date: "Fix dátum"
   button_add_rate: "Új díj"
   button_log_costs: "Költségek naplózása"
   caption_booked_on_project: "Foglalt projekt"
-  caption_default: "alapértelmezett"
+  caption_default: "Alapértelmezett"
   caption_default_rate_history_for: "Alapértelmezett díj történet %{user}-nek"
   caption_locked_on: "Lezárás ideje"
   caption_materials: "Egységek"
@@ -85,7 +85,7 @@ hu:
   label_currency: "Pénznem"
   label_currency_format: "Pénznem formátuma"
   label_current_default_rate: "Jelenlegi alapértelmezett díj"
-  label_date_on: "be"
+  label_date_on: "mikor"
   label_deleted_cost_types: "Törölt költségnemek"
   label_locked_cost_types: "Zárolt költségnemek"
   label_display_cost_entries: "Fajlagos költségek megjelenítése"

@@ -36,7 +36,7 @@ hu:
               can_only_contain_work_packages_of_current_sprint: "csak a jelenlegi sprint munkacsomagjainak azonosítóit tartalmazhatja."
               must_block_at_least_one_work_package: "legalább egy munkacsomag azonosítóját tartalmaznia kell."
             parent_id:
-              parent_child_relationship_across_projects: "érvénytelen, mert a munkacsomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
+              parent_child_relationship_across_projects: "érvénytelen, mert a munka csomag \"%{work_package_name}\" egy backlog feladat, ezért nem lehet a szülő nem az aktuális projektben."
               type_must_be_one_of_the_following: "A következő típusok egyikének kell lennie: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
@@ -54,7 +54,7 @@ hu:
     date: "Nap"
     definition_of_done: "A \"Kész\" meghatározása"
     generating_chart: "Ábra létrehozása..."
-    hours: "órák"
+    hours: "Óra"
     impediment: "Akadály"
     label_versions_default_fold_state: "Összecsukott verziók mutatása"
     work_package_is_closed: "A munkacsomag készen áll, ekkor"
@@ -111,7 +111,7 @@ hu:
   label_backlog: "Elvégzendő feladatok"
   label_backlogs: "Backlogs"
   label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
-  label_blocks_ids: "Lezárt munkacsomagok azonosítója"
+  label_blocks_ids: "IDs of blocked work packages"
   label_burndown: "Burndown"
   label_column_in_backlog: "Column in backlog"
   label_hours: "hours"
@@ -131,7 +131,7 @@ hu:
   label_stories: "Storyk"
   label_stories_tasks: "Storyk/Feladatok"
   label_task_board: "Task board"
-  label_version_setting: "Verzió"
+  label_version_setting: "Versions"
   label_version: 'Verzió'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
@@ -157,5 +157,5 @@ hu:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Column in backlog"
   version_settings_display_option_left: "balra"
-  version_settings_display_option_none: "Egyik sem"
+  version_settings_display_option_none: "none"
   version_settings_display_option_right: "jobbra"

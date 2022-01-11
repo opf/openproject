@@ -33,7 +33,12 @@
 # Refusing to boot will encourage admins to fix missing migrations.
 
 exceptions = %w(
-  db:create db:drop db:migrate db:structure:load db:schema:load
+  db:create db:drop
+  db:migrate db:migrate:down db:migrate:redo db:migrate:up db:migrate:status
+  db:prepare db:reset db:rollback
+  db:structure:load db:schema:load
+  db:environment:set
+  db:version
   assets:precompile assets:clean
 )
 is_console = Rails.const_defined? 'Console'

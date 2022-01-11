@@ -38,7 +38,7 @@ sv:
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
   description_attended: "deltog"
-  description_invite: "inbjuden"
+  description_invite: "inbjudna"
   events:
     meeting: Mötet redigerat
     meeting_agenda: Mötets agenda redigerat

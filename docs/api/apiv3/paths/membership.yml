@@ -209,5 +209,7 @@ patch:
 
     By providing a `notificationMessage` within the `_meta` block of the payload, the client can include a customized message to the user
     of the updated membership. In case of a group, the message will be sent to every user belonging to the group.
+
+    By including `{ "sendNotifications": false }` within the `_meta` block of the payload, no notifications is send out at all.
   operationId: Update_membership
   summary: Update membership

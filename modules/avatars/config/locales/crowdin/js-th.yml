@@ -1,0 +1,14 @@
+#English strings go here
+th:
+  js:
+    label_preview: 'แสดงตัวอย่าง'
+    button_update: 'ปรับปรุง'
+    avatars:
+      label_choose_avatar: "เลือกรูปจากไฟล์"
+      uploading_avatar: "อัปโหลดรูป"
+      text_upload_instructions: |
+        เลือกรูปขนาด 128 x 128 พิกเซลเท่านั้น รูปที่ใหญ่กว่านี้จะถูกลดขนาดและตัดให้พอดี แสดงรูปภาพโปรไฟล์ก่อนบันทึก
+      error_image_too_large: "แฟ้มมีขนาดใหญ่เกินไป"
+      wrong_file_format: "อนุญาติให้ใช้รูปภาพนามสุกล .jpg, .png, .gif"
+      empty_file_error: "กรุณาเลือกรูปภาพนามสุกล .jpg .png .gif"
+

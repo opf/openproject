@@ -30,6 +30,7 @@
 
 class Members::UpdateService < ::BaseServices::Update
   include Members::Concerns::CleanedUp
+  include Members::Concerns::NotificationSender
 
   around_call :post_process
 
@@ -49,23 +50,13 @@ class Members::UpdateService < ::BaseServices::Update
     end
   end
 
-  def send_notification(member)
-    OpenProject::Notifications.send(OpenProject::Events::MEMBER_UPDATED,
-                                    member: member,
-                                    message: notification_message)
-  end
-
   def update_group_roles(member)
     Groups::UpdateRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(member: member, send_notifications: true, message: notification_message)
+      .call(member: member, send_notifications: send_notifications?, message: notification_message)
   end
 
-  def set_attributes_params(params)
-    super.except(:notification_message)
-  end
-
-  def notification_message
-    params[:notification_message]
+  def event_type
+    OpenProject::Events::MEMBER_UPDATED
   end
 end

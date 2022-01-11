@@ -315,10 +315,14 @@ sk:
     x_descendants:
       one: 'Podradený pracovný balíček'
       few: '%{count} podradené pracovné balíčky'
-      many: '%{count} podradených pracovných balíčkov'
-      other: '%{count} podradených pracovných balíčkov'
+      many: '%{count} podradené pracovné balíčky'
+      other: '%{count} podradené pracovné balíčky'
     bulk:
       could_not_be_saved: "Nasledujúce pracovné balíčky sa nepodarilo uložiť:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Pre všetky vybraté pracovné balíčky nie je k dispozícii žiadny stav. Ich stav nemožno zmeniť."
       unsupported_for_multiple_projects: 'Hromadné premiestnenie alebo kopírovanie nie je podporované pre pracovné balíky z viacerých projektov'
@@ -739,6 +743,7 @@ sk:
               does_not_exist: "Špecifikovaná kategória neexistuje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musí byť najmenej 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -1854,7 +1859,7 @@ sk:
   label_used_by: "Používané"
   label_used_by_types: "Používa sa podľa typov"
   label_used_in_projects: "Použité v projektoch"
-  label_user: "Užívateľ(ka)"
+  label_user: "Užívateľ"
   label_user_and_permission: "Users & Permissions"
   label_user_named: "Užívateľ %{name}"
   label_user_activity: "Aktivita používateľa %{value}"
@@ -1918,20 +1923,20 @@ sk:
   label_workflow_plural: "Pracovné postupy"
   label_workflow_summary: "Zhrnutie"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 uzatvorený"
+    other: "%{count} uzatvorených"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 komentár"
+    other: "%{count} komentárov"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 otvorený"
+    other: "%{count} otvorených"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projektov"
     zero: "no projects"
   label_yesterday: "včera"
   label_role_type: "Typ"
@@ -2242,7 +2247,7 @@ sk:
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Naozaj chcete archivovať projekt \"%{name}\"?"
-      archived: "Archived"
+      archived: "Archivované"
   project_module_activity: "Činnosť"
   project_module_forums: "Diskusie"
   project_module_calendar: "Kalendár"

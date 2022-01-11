@@ -78,7 +78,7 @@ vi:
   label_cost_filter_add: "Add cost entry filter"
   label_costlog: "Logged unit costs"
   label_cost_plural: "Chi phí"
-  label_cost_type_plural: "Cost types"
+  label_cost_type_plural: "Loại chi phí"
   label_cost_type_specific: "Cost type #%{id}: %{name}"
   label_costs_per_page: "Costs per page"
   label_currency: "Currency"

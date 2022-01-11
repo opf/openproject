@@ -56,7 +56,7 @@ module Groups::Concerns
 
       touch_updated(affected_member_ids)
 
-      send_notifications(affected_member_ids, message) if affected_member_ids.any? && send_notifications
+      send_notifications(affected_member_ids, message, send_notifications) if affected_member_ids.any? && send_notifications
     end
 
     def modify_members_and_roles(_params)
@@ -77,8 +77,8 @@ module Groups::Concerns
         .touch_all
     end
 
-    def send_notifications(member_ids, message)
-      Notifications::GroupMemberAlteredJob.perform_later(member_ids, message)
+    def send_notifications(member_ids, message, send_notifications)
+      Notifications::GroupMemberAlteredJob.perform_later(member_ids, message, send_notifications)
     end
   end
 end

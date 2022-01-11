@@ -11,6 +11,6 @@ ca:
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'superposició.'
+          outside: 'és fora de la graella.'
+          end_before_start: 'el valor final ha de ser major que el valor inicial.'

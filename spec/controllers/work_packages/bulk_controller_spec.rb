@@ -222,65 +222,16 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
       end
     end
 
-    context 'when updating two work packages with differing whitelisted params' do
-      let!(:work_package_ids) { [work_package_1.id, work_package_3.id] }
-
-      let!(:role_with_permission_to_add_watchers) do
-        FactoryBot.create(:role, permissions: role.permissions + [:add_work_package_watchers])
-      end
-      let!(:other_user) { FactoryBot.create :user }
-
-      let!(:other_member_1) do
-        FactoryBot.create(:member,
-                          project: project_1,
-                          principal: other_user,
-                          roles: [role_with_permission_to_add_watchers])
-      end
-      let!(:other_member_2) do
-        FactoryBot.create(:member,
-                          project: project_2,
-                          principal: other_user,
-                          roles: [role])
-      end
-
-      let(:description) { 'Text' }
-      let(:work_package_params) do
-        { description: description, watcher_user_ids: [user.id] }
-      end
-
-      before do
-        # create user memberships to allow the user to watch work packages
-        member1_p1
-        member1_p2
-        # let other_user perform the bulk update
-        allow(User).to receive(:current).and_return other_user
-        put :update, params: { ids: work_package_ids, work_package: work_package_params }
-      end
-
-      it 'updates the description if whitelisted' do
-        expect(work_package_1.reload.description).to eq(description)
-        expect(work_package_3.reload.description).to eq(description)
-      end
-
-      it 'updates the watchers if the watcher user ids are whitelisted' do
-        expect(work_package_1.reload.watcher_users).to include user
-      end
-
-      it 'does not update the watchers if the watcher user ids are not whitelisted' do
-        expect(work_package_3.reload.watcher_users).not_to include user
-      end
-    end
-
     shared_context 'update_request' do
       before do
         put :update,
             params: {
               ids: work_package_ids,
-              notes: 'Bulk editing',
               work_package: { priority_id: priority.id,
                               assigned_to_id: group_id,
                               responsible_id: responsible_id,
-                              send_notification: send_notification }
+                              send_notification: send_notification,
+                              journal_notes: 'Bulk editing' }
             }
       end
     end
@@ -401,10 +352,14 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
           end
 
           context 'not allowed' do
+            render_views
+
             include_context 'update_request'
 
             it 'does not succeed' do
-              expect(assigns[:bulk_errors].keys).to match_array(work_package_ids)
+              expect(flash[:error])
+                .to include(I18n.t(:'work_packages.bulk.none_could_be_saved',
+                                   total: 2))
               expect(subject).to match_array [user.id]
             end
           end
