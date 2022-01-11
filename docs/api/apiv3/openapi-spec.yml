@@ -7,6 +7,13 @@ info:
 
     ## Introduction
 
+    The documentation for the APIv3 is written according to the [OpenAPI 3.0 Specification](https://swagger.io/specification/).
+    You can either view the static version of this documentation on the [website](https://www.openproject.com/docs/api/introduction/)
+    or the interactive Swagger UI version in your OpenProject installation under `/api/docs`.
+    In the latter you can try out the various API endpoints directly interacting with our OpenProject data.
+    Moreover you can access the specification source itself under `/api/v3/spec.json` and `/api/v3/spec.yml`
+    (e.g. [here](https://community.openproject.org/api/v3/spec.yml)).
+
     The APIv3 is a hypermedia REST API, a shorthand for "Hypermedia As The Engine Of Application State" (HATEOAS).
     This means that each endpoint of this API will have links to other resources or actions defined in the resulting body.
 
@@ -217,26 +224,26 @@ paths:
     "$ref": "./paths/priorities.yml"
   "/api/v3/priorities/{id}":
     "$ref": "./paths/priority.yml"
-  "/api/v3/project_statuses/{id}":
-    "$ref": "./paths/project_status.yml"
   "/api/v3/projects":
     "$ref": "./paths/projects.yml"
-  "/api/v3/projects/available_parent_projects":
-    "$ref": "./paths/projects_available_parent_projects.yml"
   "/api/v3/projects/form":
     "$ref": "./paths/projects_form.yml"
   "/api/v3/projects/schema":
     "$ref": "./paths/projects_schema.yml"
   "/api/v3/projects/{id}":
     "$ref": "./paths/project.yml"
-  "/api/v3/projects/{id}/budgets":
-    "$ref": "./paths/project_budgets.yml"
+  "/api/v3/projects/{id}/form":
+    "$ref": "./paths/project_form.yml"
   "/api/v3/projects/{id}/copy":
     "$ref": "./paths/project_copy.yml"
   "/api/v3/projects/{id}/copy/form":
     "$ref": "./paths/project_copy_form.yml"
-  "/api/v3/projects/{id}/form":
-    "$ref": "./paths/project_form.yml"
+  "/api/v3/project_statuses/{id}":
+    "$ref": "./paths/project_status.yml"
+  "/api/v3/projects/available_parent_projects":
+    "$ref": "./paths/projects_available_parent_projects.yml"
+  "/api/v3/projects/{id}/budgets":
+    "$ref": "./paths/project_budgets.yml"
   "/api/v3/projects/{id}/queries/default":
     "$ref": "./paths/project_queries_default.yml"
   "/api/v3/projects/{id}/queries/filter_instance_schemas":
@@ -393,6 +400,10 @@ paths:
     "$ref": "./paths/work_package_watcher.yml"
 components:
   examples:
+    Project:
+      $ref: "./components/examples/project.yml"
+    ProjectBody:
+      $ref: "./components/examples/project_body.yml"
     QueriesModel:
       "$ref": "./components/examples/queries.yml"
     QueryModel:
@@ -704,8 +715,6 @@ components:
       "$ref": "./components/schemas/view_membership_model.yml"
     View_membership_schemaModel:
       "$ref": "./components/schemas/view_membership_schema_model.yml"
-    View_projectModel:
-      "$ref": "./components/schemas/view_project_model.yml"
     View_project_statusModel:
       "$ref": "./components/schemas/view_project_status_model.yml"
     View_time_entries_activityModel:

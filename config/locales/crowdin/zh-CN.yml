@@ -454,7 +454,7 @@ zh-CN:
       repository:
         url: "URL"
       role:
-        assignable: "无法将工作包分配给在各自项目中具有此角色的用户和群组"
+        assignable: "工作包可以分配给在各自项目中拥有此角色的用户和组"
         permissions: "权限"
       time_entry:
         activity: "活动"
@@ -817,7 +817,7 @@ zh-CN:
     attachments: "附件"
     author: "作者"
     base: "一般错误："
-    blocks_ids: "被工作包屏蔽的IDs"
+    blocks_ids: "被工作包阻止的IDs"
     category: "类别"
     comment: "评论"
     comments: "评论"
@@ -842,7 +842,7 @@ zh-CN:
     id: "ID"
     is_default: "默认值"
     is_for_all: "为所有项目"
-    is_public: "公开"
+    public: "公开"
     #kept for backwards compatibility
     issue: "工作包"
     lastname: "姓氏"
@@ -852,7 +852,6 @@ zh-CN:
     password: "密码"
     priority: "优先级"
     project: "项目"
-    public: "公开"
     responsible: "负责"
     role: "角色"
     roles: "角色"
@@ -1598,7 +1597,7 @@ zh-CN:
   lable_membership_added: '已添加成员'
   lable_membership_updated: '已更新成员'
   label_menu_badge:
-    pre_alpha: 'pre-alpha'
+    pre_alpha: 'pre-beta'
     alpha: 'alpha'
     beta: 'beta'
   label_menu_item_name: "菜单项名称"
@@ -1706,7 +1705,6 @@ zh-CN:
   label_public_projects: "公开项目"
   label_query_new: "新的查询"
   label_query_plural: "自定义查询"
-  label_query_menu_item: "查询菜单项"
   label_read: "阅读..."
   label_register: "创建一个新帐户"
   label_register_with_developer: "注册成为开发人员"
@@ -2200,7 +2198,7 @@ zh-CN:
     active_or_archived: "激活或已存档"
     assigned_to_role: "指定人角色"
     member_of_group: "指定人用户组"
-    assignee_or_group: "受让人或所属组"
+    assignee_or_group: "指定人或所属组"
     subproject_id: "包括子项目"
     only_subproject_id: "仅子项目"
     name_or_identifier: "名称或标识符"
@@ -2808,7 +2806,6 @@ zh-CN:
   wiki_menu_item_new_main_item_explanation: >
     您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
   wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
-  query_menu_item_for: "查询\"%{title}\"的菜单项"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

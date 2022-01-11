@@ -38,6 +38,7 @@ describe Projects::CopyService, 'integration', type: :model do
     FactoryBot.create :work_package, project: source, subject: 'source wp locked', status: status_locked
   end
   shared_let(:source_query) { FactoryBot.create :query, project: source, name: 'My query' }
+  shared_let(:source_view) { FactoryBot.create :view_work_packages_table, query: source_query }
   shared_let(:source_category) { FactoryBot.create :category, project: source, name: 'Stock management' }
   shared_let(:source_version) { FactoryBot.create :version, project: source, name: 'Version A' }
   shared_let(:source_wiki_page) { FactoryBot.create(:wiki_page_with_content, wiki: source.wiki) }
@@ -103,6 +104,7 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(project_copy.wiki).to be_present
       expect(project_copy.wiki.pages.count).to eq 2
       expect(project_copy.queries.count).to eq 1
+      expect(project_copy.queries[0].views.count).to eq 1
       expect(project_copy.versions.count).to eq 1
       expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
       expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
@@ -275,9 +277,12 @@ describe Projects::CopyService, 'integration', type: :model do
     describe 'valid queries' do
       context 'with a filter' do
         let!(:query) do
-          query = FactoryBot.build(:query, project: source)
-          query.add_filter('subject', '~', ['bogus'])
-          query.save!
+          FactoryBot.build(:query, project: source).tap do |q|
+            q.add_filter('subject', '~', ['bogus'])
+            q.save!
+
+            FactoryBot.create(:view_work_packages_table, query: q)
+          end
         end
 
         it 'produces a valid query in the new project' do
@@ -289,11 +294,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
       context 'with a filter to be mapped' do
         let!(:query) do
-          query = FactoryBot.build(:query, project: source)
-          query.add_filter('parent', '=', [source_wp.id.to_s])
-          # Not valid due to wp not visible
-          query.save!(validate: false)
-          query
+          FactoryBot.build(:query, project: source).tap do |q|
+            q.add_filter('parent', '=', [source_wp.id.to_s])
+            # Not valid due to wp not visible
+            q.save!(validate: false)
+
+            FactoryBot.create(:view_work_packages_table, query: q)
+          end
         end
 
         it 'produces a valid query that is mapped in the new project' do
@@ -305,26 +312,34 @@ describe Projects::CopyService, 'integration', type: :model do
       end
     end
 
-    describe 'query menu items' do
-      let!(:query) do
-        query = FactoryBot.build(:query, project: source, name: 'Query with item')
+    describe 'views' do
+      let!(:query_with_view) do
+        query = FactoryBot.build(:query, project: source, name: 'Query with view')
         query.add_filter('subject', '~', ['bogus'])
         query.save!
 
-        MenuItems::QueryMenuItem.create(
-          navigatable_id: query.id,
-          name: 'some-uuid',
-          title: 'My query title'
-        )
+        FactoryBot.create(:view_work_packages_table, query: query)
 
         query
       end
 
-      it 'copies the menu item' do
+      let!(:query_without_view) do
+        query = FactoryBot.build(:query, project: source, name: 'Query without view')
+        query.add_filter('subject', '~', ['bogus'])
+        query.save!
+
+        query
+      end
+
+      it 'copies only the query with a view (non viewed queries will have to implement specific copy service)' do
         expect(subject).to be_success
-        query = project_copy.queries.find_by(name: 'Query with item')
-        expect(query).to be_present
-        expect(query.query_menu_item.title).to eq('My query title')
+        copied_query_with_view = project_copy.queries.find_by(name: 'Query with view')
+        expect(copied_query_with_view).to be_present
+        expect(copied_query_with_view.views.length).to eq 1
+        expect(copied_query_with_view.views[0].type).to eq 'work_packages_table'
+
+        expect(project_copy.queries)
+          .not_to exist(name: 'Query without view')
       end
     end
 
@@ -366,6 +381,8 @@ describe Projects::CopyService, 'integration', type: :model do
           FactoryBot.create(:query, name: 'Manual query', user: current_user, project: source, show_hierarchies: false).tap do |q|
             q.sort_criteria = [[:manual_sorting, 'asc']]
             q.save!
+
+            FactoryBot.create(:view_work_packages_table, query: q)
           end
         end
 
@@ -496,7 +513,7 @@ describe Projects::CopyService, 'integration', type: :model do
             wp.add_watcher user
             wp.save
 
-            user.lock!
+            user.locked!
 
             source.work_packages << wp
           end

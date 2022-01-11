@@ -419,7 +419,7 @@ zh-CN:
     label_sort_lower: "向下移动"
     label_sorting: "排序"
     label_spent_time: "已耗时间"
-    label_star_query: "最爱"
+    label_star_query: "收藏夹"
     label_press_enter_to_save: "按回车键可以保存。"
     label_public_query: "公开"
     label_sum: "总计"
@@ -454,6 +454,7 @@ zh-CN:
     label_starred_queries: "收藏夹视图"
     label_global_queries: "公共视图"
     label_custom_queries: "私有视图"
+    label_create_new_query: "新建"
     label_columns: "列"
     label_attachments: 文件
     label_drop_files: 将文件拖至此处
@@ -663,22 +664,22 @@ zh-CN:
     two_factor_authentication:
       label_two_factor_authentication: '双重身份验证'
     watchers:
-      label_loading: 正在加载关注者...
-      label_error_loading: 加载关注者时出错
-      label_search_watchers: 搜索关注者
+      label_loading: 正在加载关注人...
+      label_error_loading: 加载关注人时出错
+      label_search_watchers: 搜索关注人
       label_add: 添加关注人
       label_discard: 放弃选择
-      typeahead_placeholder: 寻找可能的观察者
+      typeahead_placeholder: 查找可能的关注人
     relation_labels:
       parent: "父"
       children: "子类"
       relates: "关于"
       duplicates: "重复项"
       duplicated: "复制于"
-      blocks: "块"
+      blocks: "阻止"
       blocked: "阻止于"
-      precedes: "前置项"
-      follows: "后置项"
+      precedes: "前置于"
+      follows: "后置于"
       includes: "包括"
       partof: "隶属于"
       requires: "需要"

@@ -16,7 +16,7 @@ id:
     x_bcf_issues:
       zero: 'Tidak ada masalah BCF'
       one: 'One BCF issue'
-      other: '%{count} BCF issues'
+      other: 'Terdapat %{count} masalah BCF'
     bcf_xml:
       xml_file: 'File BCF XML'
       import_title: 'Impor'

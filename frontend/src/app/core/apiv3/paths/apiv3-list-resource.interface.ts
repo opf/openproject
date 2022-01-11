@@ -32,7 +32,7 @@ import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-
 
 export type ApiV3ListFilter = [string, FilterOperator, boolean|string[]];
 
-export interface Apiv3ListParameters {
+export interface ApiV3ListParameters {
   filters?:ApiV3ListFilter[];
   sortBy?:[string, string][];
   groupBy?:string;
@@ -40,11 +40,11 @@ export interface Apiv3ListParameters {
   offset?:number;
 }
 
-export interface Apiv3ListResourceInterface<T> {
-  list(params:Apiv3ListParameters):Observable<CollectionResource<T>>;
+export interface ApiV3ListResourceInterface<T> {
+  list(params:ApiV3ListParameters):Observable<CollectionResource<T>>;
 }
 
-export function listParamsString(params?:Apiv3ListParameters):string {
+export function listParamsString(params?:ApiV3ListParameters):string {
   const queryProps = [];
 
   if (params && params.sortBy) {

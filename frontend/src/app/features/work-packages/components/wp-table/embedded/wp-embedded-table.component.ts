@@ -15,7 +15,7 @@ import {
 } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -36,7 +36,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  @InjectField() apiv3Service:APIV3Service;
+  @InjectField() apiv3Service:ApiV3Service;
 
   @InjectField() opModalService:OpModalService;
 

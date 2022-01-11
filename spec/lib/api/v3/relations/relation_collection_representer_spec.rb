@@ -34,11 +34,10 @@ describe ::API::V3::Relations::RelationCollectionRepresenter do
   end
 
   let(:relations) do
-    (1..3).map do
-      FactoryBot.build_stubbed(:relation,
-                               from: work_package,
-                               to: FactoryBot.build_stubbed(:work_package))
-    end
+    FactoryBot.build_stubbed_list(:relation,
+                                  3,
+                                  from: work_package,
+                                  to: FactoryBot.build_stubbed(:work_package))
   end
 
   let(:user) do

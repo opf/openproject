@@ -9,7 +9,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { Moment } from 'moment';
 import { TimeEntryCreateModalComponent } from 'core-app/shared/components/time_entries/create/create.modal';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
@@ -18,7 +18,7 @@ export class TimeEntryCreateService {
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService) {

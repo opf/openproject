@@ -26,10 +26,9 @@ export class WpGraphConfiguration implements WpGraphConfiguration {
     this.chartType = this.chartType || 'horizontalBar';
   }
 
-  public static queryCreationParams(i18n:I18nService, is_public:boolean) {
+  public static queryCreationParams(i18n:I18nService, isPublic:boolean):unknown {
     return {
-      hidden: true,
-      public: is_public,
+      public: isPublic,
       name: i18n.t('js.grid.widgets.work_packages_graph.title'),
       showHierarchies: false,
       _links: {

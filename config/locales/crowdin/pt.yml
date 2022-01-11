@@ -316,6 +316,10 @@ pt:
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Não há situação disponível para todos os pacotes de trabalho selecionados. Sua situação não pode ser alterada."
       unsupported_for_multiple_projects: 'Movimentação/cópia em massa não é suportada para pacotes de trabalho de vários projetos'
@@ -736,6 +740,7 @@ pt:
               does_not_exist: "Categoria especificada não existe."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "deve ser >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -821,7 +826,7 @@ pt:
   attributes:
     active: "Ativo"
     assigned_to: "Atribuição"
-    assignee: "Atribuição"
+    assignee: "Atribuído para"
     attachments: "Anexos"
     author: "Autor"
     base: "Erro geral:"
@@ -850,7 +855,7 @@ pt:
     id: "ID"
     is_default: "Valor padrão"
     is_for_all: "Para todos os projetos"
-    is_public: "Público"
+    public: "Público"
     #kept for backwards compatibility
     issue: "Pacote de trabalho"
     lastname: "Sobrenome"
@@ -860,7 +865,6 @@ pt:
     password: "Senha"
     priority: "Prioridade"
     project: "Projeto"
-    public: "Público"
     responsible: "Responsável"
     role: "Papel"
     roles: "Papéis"
@@ -1280,7 +1284,7 @@ pt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Português Brasileiro"
+  general_lang_name: "Português (Brasil)"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "não"
   general_text_yes: "sim"
@@ -1726,7 +1730,6 @@ pt:
   label_public_projects: "Projetos públicos"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultas personalizadas"
-  label_query_menu_item: "Item de menu de consulta"
   label_read: "Leia..."
   label_register: "Criar uma nova conta"
   label_register_with_developer: "Registre-se como desenvolvedor"
@@ -2298,7 +2301,7 @@ pt:
     go_to_revision: "Ir para revisão"
     managed_remote: "Repositórios gerenciados deste fornecedor são manipulados remotamente."
     managed_remote_note: "Informações sobre o URL e o caminho deste repositório não estão disponíveis antes da sua criação."
-    managed_url: "URL gerenciado"
+    managed_url: "URL gerenciada"
     settings:
       automatic_managed_repos_disabled: "Desativar criação automática"
       automatic_managed_repos: "Criação automática de repositórios gerenciados"
@@ -2321,7 +2324,7 @@ pt:
         url: "Digite o URL do repositório. Você pode apontar para um repositório local (começando com %{local_proto}) ou um repositório remoto. \nSão suportados os seguintes esquemas de URL:"
       managed_title: "Repositório do Subversion integrado ao OpenProject"
       managed_introduction: "Deixe OpenProject criar e integrar um repositório Subversion local automaticamente."
-      managed_url: "URL gerenciado"
+      managed_url: "URL gerenciada"
       password: "Senha do repositório"
       username: "Nome de usuário do repositório"
     truncated: "Pedimos desculpa, mas tivemos que truncar este diretório em %{limit} arquivos. %{truncated} entradas foram omitidas da lista."
@@ -2464,7 +2467,7 @@ pt:
       retention_text: >
         Defina o número de dias em que os eventos de notificação para usuários (a fonte para notificações no aplicativo) serão mantidos no sistema. Todos os eventos anteriores a esse horário serão excluídos. 
       events_explanation: 'Governa para qual evento um e-mail é enviado. Como as notificações de pacotes de trabalhos podem ser configuradas especificamente para todos os usuários, eles são excluídos desta lista.'
-      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com notificação configurada no aplicativo confirmem a notificação no aplicativo antes que um e-mail seja enviado. Os usuários que lerem uma notificação no aplicativo não receberão um e-mail com a notificação já lida. "
+      delay_minutes_explanation: "O envio de e-mail pode ser atrasado para permitir que os usuários com a notificação configurada no aplicativo confirmem a notificação dentro da aplicação antes que o e-mail seja enviado. Usuários que lerem uma notificação no aplicativo não receberão um e-mail dessa mesma notificação"
     display:
       first_date_of_week_and_year_set: >
         Se as opções "%{day_of_week_setting_name}" ou "%{first_week_setting_name}" forem definidas, a outra também deve ser definida, para evitar inconsistências no front-end.
@@ -2835,7 +2838,6 @@ pt:
   wiki_menu_item_new_main_item_explanation: >
     Você está excluindo somente o item de menu principal da wiki. Você agora tem que escolher uma página wiki para que um novo item principal seja gerado. Para excluir a wiki, o módulo wiki deve ser desativado pelos administradores do projeto.
   wiki_menu_item_delete_not_permitted: O item de menu da página wiki é único e não pode ser excluído.
-  query_menu_item_for: "Item de menu para consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

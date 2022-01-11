@@ -106,10 +106,6 @@ en:
     button_export-atom: "Download Atom"
     button_create: "Create"
 
-    calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-
     card:
       add_new: 'Add new card'
       highlighting:
@@ -499,6 +495,7 @@ en:
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
+    label_create_new_query: "Create new"
     label_columns: "Columns"
     label_attachments: Files
     label_drop_files: Drop files here

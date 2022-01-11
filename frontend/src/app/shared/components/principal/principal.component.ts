@@ -35,7 +35,7 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
@@ -44,9 +44,7 @@ import {
 } from './principal-renderer.service';
 import { PrincipalLike } from './principal-types';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
-import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
-import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
-import PrincipalType = PrincipalHelper.PrincipalType;
+import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
 
 export const principalSelector = 'op-principal';
 
@@ -76,7 +74,7 @@ export class OpPrincipalComponent implements OnInit {
     readonly PathHelper:PathHelperService,
     readonly principalRenderer:PrincipalRendererService,
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly timezoneService:TimezoneService) {
 
   }

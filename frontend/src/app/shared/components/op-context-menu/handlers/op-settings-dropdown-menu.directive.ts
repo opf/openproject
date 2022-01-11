@@ -55,6 +55,8 @@ import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-reso
 export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
+  @Input() public hideTableOptions:boolean;
+
   private form:QueryFormResource;
 
   private loadingPromise:PromiseLike<any>;
@@ -158,6 +160,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         // Configuration modal
         disabled: false,
         linkText: this.I18n.t('js.toolbar.settings.configure_view'),
+        hidden: this.hideTableOptions,
         icon: 'icon-settings',
         onClick: ($event:JQuery.TriggeredEvent) => {
           this.opContextMenu.close();
@@ -169,6 +172,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       {
         // Insert columns
         linkText: this.I18n.t('js.work_packages.query.insert_columns'),
+        hidden: this.hideTableOptions,
         icon: 'icon-columns',
         class: 'hidden-for-mobile',
         onClick: () => {
@@ -183,6 +187,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       {
         // Sort by
         linkText: this.I18n.t('js.toolbar.settings.sort_by'),
+        hidden: this.hideTableOptions,
         icon: 'icon-sort-by',
         onClick: () => {
           this.opModalService.show<WpTableConfigurationModalComponent>(
@@ -196,6 +201,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       {
         // Group by
         linkText: this.I18n.t('js.toolbar.settings.group_by'),
+        hidden: this.hideTableOptions,
         icon: 'icon-group-by',
         class: 'hidden-for-mobile',
         onClick: () => {
@@ -268,6 +274,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         // Export query
         disabled: this.authorisationService.cannot('work_packages', 'representations'),
         linkText: this.I18n.t('js.toolbar.settings.export'),
+        hidden: this.hideTableOptions,
         icon: 'icon-export',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowWorkPackageAction($event, 'representations')) {
@@ -296,7 +303,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       },
       {
         // Settings modal
-        hidden: !this.query.results.customFields,
+        hidden: !this.query.results.customFields || this.hideTableOptions,
         href: this.query.results.customFields && this.query.results.customFields.href,
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',

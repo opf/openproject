@@ -54,7 +54,7 @@ pt:
     date: "Dia"
     definition_of_done: "Definição de pronto"
     generating_chart: "Gerando gráfico..."
-    hours: "horas"
+    hours: "Horas"
     impediment: "Impedimento"
     label_versions_default_fold_state: "Mostrar versões em modo fechado"
     work_package_is_closed: "Pacote de trabalho está pronto, quando"

@@ -317,6 +317,10 @@ fi:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Kaikkien valittujen tehtävien tilaa ei ole saatavilla. Niiden tilaa ei voi muuttaa."
       unsupported_for_multiple_projects: 'Massasiirto tai -kopiointi ei ole sallittu eri projektien tehtäville'
@@ -446,9 +450,9 @@ fi:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Hyvä'
+          at_risk: 'Rajalla'
+          off_track: 'Huono'
       query:
         column_names: "Sarakkeet"
         relations_to_type_column: "Riippuvuus %{type}"
@@ -737,6 +741,7 @@ fi:
               does_not_exist: "Määritettyä luokkaa ei ole."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "on oltava > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -810,7 +815,7 @@ fi:
       wiki: "Wiki"
       wiki_page: "Wiki-sivu"
       workflow: "Työnkulku"
-      work_package: "Tehtävä"
+      work_package: "Työpaketti"
       'doorkeeper/application': "OAuth application"
   errors:
     header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
@@ -851,9 +856,9 @@ fi:
     id: "ID"
     is_default: "Oletusarvo"
     is_for_all: "Kaikille projekteille"
-    is_public: "Julkinen"
+    public: "Julkinen"
     #kept for backwards compatibility
-    issue: "Tehtävä"
+    issue: "Työpaketti"
     lastname: "Sukunimi"
     login: "Käyttäjätunnus"
     mail: "Sähköposti"
@@ -861,7 +866,6 @@ fi:
     password: "Salasana"
     priority: "Prioriteetti"
     project: "Projekti"
-    public: "Julkinen"
     responsible: "Vastuuhenkilö"
     role: "Rooli"
     roles: "Roolit"
@@ -876,7 +880,7 @@ fi:
     uploader: "Uploader"
     user: "Käyttäjä"
     version: "Versio"
-    work_package: "Tehtävä"
+    work_package: "Työpaketti"
   backup:
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
@@ -1574,7 +1578,7 @@ fi:
   label_index_by_date: "Hakemisto päivittäin"
   label_index_by_title: "Hakemisto otsikoittain"
   label_information: "Tietoja"
-  label_information_plural: "Tietoja"
+  label_information_plural: "Tieto"
   label_integer: "Kokonaisluku"
   label_internal: "Sisäinen"
   label_introduction_video: "Introduction video"
@@ -1710,7 +1714,7 @@ fi:
   label_privacy_policy: "Data privacy and security policy"
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
-  label_profile: "Käyttäjäprofiili"
+  label_profile: "Profile"
   label_project_all: "Kaikki projektit"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
@@ -1727,7 +1731,6 @@ fi:
   label_public_projects: "Julkiset projektit"
   label_query_new: "Uusi haku"
   label_query_plural: "Räätälöidyt haut"
-  label_query_menu_item: "Kysely-valikkovaihtoehto"
   label_read: "Lue..."
   label_register: "Rekisteröidy"
   label_register_with_developer: "Rekisteröidy kehittäjänä"
@@ -1870,7 +1873,7 @@ fi:
   label_wiki_show_new_page_link: "Show submenu item 'Create new child page'"
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_wiki_start: "Aloitussivu"
-  label_work_package: "Tehtävä"
+  label_work_package: "Työpaketti"
   label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "Uusi luokka"
   label_work_package_category_plural: "Kategoriat"
@@ -2838,7 +2841,6 @@ fi:
   wiki_menu_item_new_main_item_explanation: >
     Sinä olet poistat vain tärkeimmät wiki valikosta. Sinun täytyy nyt valita wiki sivu joista tärkein uusi kohde luodaan. Poistaa wiki wiki moduuli voidaan kytkeä pois päältä hankkeen ylläpitäjät.
   wiki_menu_item_delete_not_permitted: Wiki valikosta vain wiki sivu voi olla Poistetaan.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

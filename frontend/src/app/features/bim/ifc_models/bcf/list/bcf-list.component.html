@@ -1,0 +1,38 @@
+<div class="op-bcf-list--result-overlay"
+     *ngIf="(showResultOverlay$ | async) && showTableView"></div>
+
+<!-- TABLE representation of the WP -->
+<div class="op-bcf-list--work-packages-split-view--tabletimeline-container"
+     [ngClass]="{ '_with-resizer': showResizerInCardView() }"
+     *ngIf="tableInformationLoaded && showTableView">
+  <wp-resizer *ngIf="showResizer"
+              elementClass="work-packages-partitioned-page--content-right"
+              localStorageKey="openProject-splitViewFlexBasis">
+  </wp-resizer>
+
+  <wp-table [projectIdentifier]="CurrentProject.identifier"
+            [configuration]="wpTableConfiguration"
+            (itemClicked)="handleWorkPackageClicked($event)"
+            (stateLinkClicked)="openStateLink($event)"
+            class="work-packages-split-view--tabletimeline-content">
+  </wp-table>
+</div>
+
+<!-- GRID representation of the WP -->
+<div *ngIf="!showTableView"
+     class="op-bcf-list--work-packages--card-view-container"
+     [ngClass]="{ '_with-resizer': showResizerInCardView() }">
+  <wp-grid [configuration]="wpTableConfiguration"
+           [showResizer]="showResizerInCardView()"
+           (itemClicked)="handleWorkPackageClicked($event)"
+           (stateLinkClicked)="openStateLink($event)"
+           resizerClass="work-packages-partitioned-page--content-right"
+           resizerStorageKey="openProject-splitViewFlexBasis">
+  </wp-grid>
+</div>
+
+<!-- Footer -->
+<div class="work-packages-split-view--tabletimeline-footer hide-when-print"
+     *ngIf="tableInformationLoaded">
+  <wp-table-pagination></wp-table-pagination>
+</div>

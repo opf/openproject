@@ -321,6 +321,10 @@ ar:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'حجم النقل أو النسخ غير مدعوم من أجل حزم العمل المكونة من عدة مشاريع'
@@ -741,6 +745,7 @@ ar:
               does_not_exist: "الفئة المحددة غير موجودة."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "يجب أن تكون > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -761,12 +766,12 @@ ar:
               numeric: "رقمية (على سبيل المثال، '1')"
               special: "خاصة (مثل '%')"
               reused:
-                zero: "has been used before. Please choose one that is different from your last %{count}."
+                zero: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
                 one: "has been used before. Please choose one that is different from your last one."
-                two: "has been used before. Please choose one that is different from your last %{count}."
-                few: "has been used before. Please choose one that is different from your last %{count}."
-                many: "has been used before. Please choose one that is different from your last %{count}."
-                other: "has been used before. Please choose one that is different from your last %{count}."
+                two: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
+                few: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
+                many: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
+                other: "لقد تم استخدامه من قبل. الرجاء اختيار واحد مختلف عن اخر%{count}."
               match:
                 confirm: "تأكيد كلمة المرور الجديدة."
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة المرور الجديدة'."
@@ -789,12 +794,12 @@ ar:
       template:
         body: "من فضلك تحقّقْ من الحقول التالية:"
         header:
-          zero: "%{count} errors prohibited this %{model} from being saved"
+          zero: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
           one: "1 error prohibited this %{model} from being saved"
-          two: "%{count} errors prohibited this %{model} from being saved"
-          few: "%{count} errors prohibited this %{model} from being saved"
-          many: "%{count} errors prohibited this %{model} from being saved"
-          other: "%{count} errors prohibited this %{model} from being saved"
+          two: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
+          few: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
+          many: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
+          other: "أخطاء %{count} ويحظر هذا %{model} من يتم حفظها"
     models:
       attachment: "ملف"
       attribute_help_text: "Attribute help text"
@@ -848,7 +853,7 @@ ar:
     base: "خطأ عام:"
     blocks_ids: "مُعرِّفات مجموعات العمل المحظورة"
     category: "الفئة"
-    comment: "تعليق"
+    comment: "التعليق"
     comments: "تعليق"
     content: "المحتوى"
     color: "اللون"
@@ -871,7 +876,7 @@ ar:
     id: "الهوية المُعَرِّفة"
     is_default: "القيمة الافتراضية"
     is_for_all: "لكافة المشاريع"
-    is_public: "عام"
+    public: "عام"
     #kept for backwards compatibility
     issue: "مجموعة العمل"
     lastname: "الاسم الأخير"
@@ -881,7 +886,6 @@ ar:
     password: "كلمة المرور"
     priority: "الأولوية"
     project: "مشروع"
-    public: "عام"
     responsible: "Accountable"
     role: "الدور"
     roles: "دور"
@@ -1087,41 +1091,41 @@ ar:
         many: "حوالي %{count} ساعات"
         other: "حوالي %{count} ساعات"
       about_x_months:
-        zero: "about %{count} months"
+        zero: "حوالي %{count} ساعات"
         one: "about 1 month"
-        two: "about %{count} months"
-        few: "about %{count} months"
-        many: "about %{count} months"
-        other: "about %{count} months"
+        two: "حوالي %{count} ساعات"
+        few: "حوالي %{count} ساعات"
+        many: "حوالي %{count} ساعات"
+        other: "حوالي %{count} ساعات"
       about_x_years:
-        zero: "about %{count} years"
+        zero: "حوالي %{count} سنوات"
         one: "about 1 year"
-        two: "about %{count} years"
-        few: "about %{count} years"
-        many: "about %{count} years"
-        other: "about %{count} years"
+        two: "حوالي %{count} سنوات"
+        few: "حوالي %{count} سنوات"
+        many: "حوالي %{count} سنوات"
+        other: "حوالي %{count} سنوات"
       almost_x_years:
-        zero: "almost %{count} years"
+        zero: "تقريبا %{count} سنوات"
         one: "almost 1 year"
-        two: "almost %{count} years"
-        few: "almost %{count} years"
-        many: "almost %{count} years"
-        other: "almost %{count} years"
+        two: "تقريبا %{count} سنوات"
+        few: "تقريبا %{count} سنوات"
+        many: "تقريبا %{count} سنوات"
+        other: "تقريبا %{count} سنوات"
       half_a_minute: "نصف دقيقة"
       less_than_x_minutes:
-        zero: "less than %{count} minutes"
+        zero: "أقل من %{count} دقائق"
         one: "less than a minute"
-        two: "less than %{count} minutes"
-        few: "less than %{count} minutes"
-        many: "less than %{count} minutes"
-        other: "less than %{count} minutes"
+        two: "أقل من %{count} دقائق"
+        few: "أقل من %{count} دقائق"
+        many: "أقل من %{count} دقائق"
+        other: "أقل من %{count} دقائق"
       less_than_x_seconds:
-        zero: "less than %{count} seconds"
+        zero: "أقل من %{count} ثواني"
         one: "less than 1 second"
-        two: "less than %{count} seconds"
-        few: "less than %{count} seconds"
-        many: "less than %{count} seconds"
-        other: "less than %{count} seconds"
+        two: "أقل من %{count} ثواني"
+        few: "أقل من %{count} ثواني"
+        many: "أقل من %{count} ثواني"
+        other: "أقل من %{count} ثواني"
       over_x_years:
         zero: "على مدى %{count} سنوات"
         one: "على مدى %{count} سنوات"
@@ -1137,19 +1141,19 @@ ar:
         many: "%{count} يوم"
         other: "%{count} يوم"
       x_minutes:
-        zero: "%{count} minutes"
+        zero: "دقائق %{count}"
         one: "1 minute"
-        two: "%{count} minutes"
-        few: "%{count} minutes"
-        many: "%{count} minutes"
-        other: "%{count} minutes"
+        two: "دقائق %{count}"
+        few: "دقائق %{count}"
+        many: "دقائق %{count}"
+        other: "دقائق %{count}"
       x_months:
-        zero: "%{count} months"
+        zero: "%{count} ساعه"
         one: "1 month"
-        two: "%{count} months"
-        few: "%{count} months"
-        many: "%{count} months"
-        other: "%{count} months"
+        two: "%{count} ساعه"
+        few: "%{count} ساعه"
+        many: "%{count} ساعه"
+        other: "%{count} ساعه"
       x_seconds:
         zero: "%{count} ثانية"
         one: "1 ثانية\n\n%{count} ثانية"
@@ -1349,7 +1353,7 @@ ar:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "العربية"
+  general_lang_name: "اَللُّغَةُ اَلْعَرَبِيَّة"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "لا"
   general_text_yes: "نعم"
@@ -1620,7 +1624,7 @@ ar:
   label_generate_key: "توليد مفتاح"
   label_git_path: "المسار إلى .دليل البوابة"
   label_greater_or_equal: "=<"
-  label_group_by: "مجموعة من"
+  label_group_by: "مجموعة بحسب"
   label_group_new: "مجموعة جديدة"
   label_group: "مجموعة"
   label_group_named: "Group %{name}"
@@ -1795,7 +1799,6 @@ ar:
   label_public_projects: "المشاريع العامة"
   label_query_new: "استعلام جديد"
   label_query_plural: "استعلامات مخصصة"
-  label_query_menu_item: "استعلام عنصر قائمة"
   label_read: "قراءة..."
   label_register: "إنشاء حساب جديد"
   label_register_with_developer: "التسجيل كمطور"
@@ -1956,20 +1959,20 @@ ar:
   label_workflow_plural: "تدفقات العمل"
   label_workflow_summary: "مُلخّص"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 مغلقة"
+    other: "%{count} مغلق"
     zero: "0 closed"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} تعليقات"
     zero: "no comments"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} مفتوح"
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} مشاريع"
     zero: "no projects"
   label_yesterday: "الأمس"
   label_role_type: "النّوع"
@@ -2180,12 +2183,12 @@ ar:
         format: "%n %u"
         units:
           byte:
-            zero: "Bytes"
+            zero: "بايت"
             one: "Byte"
-            two: "Bytes"
-            few: "Bytes"
-            many: "Bytes"
-            other: "Bytes"
+            two: "بايت"
+            few: "بايت"
+            many: "بايت"
+            other: "بايت"
           gb: "غيغا بايت"
           kb: "كيلو بايت"
           mb: "ميغا بايت"
@@ -2920,7 +2923,6 @@ ar:
   wiki_menu_item_new_main_item_explanation: >
     يتم حذف عنصر القائمة Wiki الرئيسي فقط. لديك الآن لاختيار صفحة wiki التي سيتم إنشاء عنصر جديد الرئيسي. لحذف صفحة wiki يمكن إلغاء تنشيط الوحدة النمطية Wiki بواسطة المسؤولين عن المشروع.
   wiki_menu_item_delete_not_permitted: لا يمكن حذف عنصر القائمة ويكي لصفحة wiki فقط.
-  query_menu_item_for: "عنصر القائمة للاستعلام \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

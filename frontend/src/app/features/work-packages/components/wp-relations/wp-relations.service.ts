@@ -3,7 +3,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { multiInput, MultiInputState, StatesGroup } from 'reactivestates';
 import { Injectable } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class RelationStateGroup extends StatesGroup {
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
   constructor(private PathHelper:PathHelperService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private halResource:HalResourceService) {
     super(new RelationStateGroup().relations);
   }

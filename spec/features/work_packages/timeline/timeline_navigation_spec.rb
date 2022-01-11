@@ -75,6 +75,9 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       query.name = 'Query without Timeline'
 
       query.save!
+      FactoryBot.create(:view_work_packages_table,
+                        query: query)
+
       query
     end
 
@@ -87,6 +90,9 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       query.name = 'Query with Timeline'
 
       query.save!
+      FactoryBot.create(:view_work_packages_table,
+                        query: query)
+
       query
     end
 

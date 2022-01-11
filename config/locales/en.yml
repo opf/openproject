@@ -366,6 +366,10 @@ en:
 
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
 
 
     move:
@@ -797,6 +801,7 @@ en:
               does_not_exist: "The specified category does not exist."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -807,6 +812,8 @@ en:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -915,7 +922,7 @@ en:
     id: "ID"
     is_default: "Default value"
     is_for_all: "For all projects"
-    is_public: "Public"
+    public: "Public"
     # kept for backwards compatibility
     issue: "Work package"
     lastname: "Last name"
@@ -1795,7 +1802,6 @@ en:
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
-  label_query_menu_item: "Query menu item"
   label_read: "Read..."
   label_register: "Create a new account"
   label_register_with_developer: "Register as developer"
@@ -2262,7 +2268,6 @@ en:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2302,7 +2307,6 @@ en:
 
   project_module_activity: "Activity"
   project_module_forums: "Forums"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
@@ -3002,8 +3006,6 @@ en:
     To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
 
-  query_menu_item_for: "Menu item for query \"%{title}\""
-
   # TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -3066,6 +3068,7 @@ en:
 
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
 
   doorkeeper:
     pre_authorization:

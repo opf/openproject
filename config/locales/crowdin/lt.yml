@@ -55,7 +55,7 @@ lt:
         alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
         content-link-color: "Šrifto spalva daugeliui nuorodų."
         primary-color: "Pagrindinė spalva."
-        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama sklandymo efektui sukurti."
+        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama žymeklio užvedimo efektui sukurti."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
@@ -310,12 +310,16 @@ lt:
       no_results_title_text: Šiuo metu darbo sekų.
   work_packages:
     x_descendants:
-      one: 'Vieno pasekėjo darbo paketas'
-      few: '%{count} darbo paketo pasekėjai'
-      many: '%{count} darbo paketo pasekėjų'
-      other: '%{count} darbo paketo pasekėjas'
+      one: 'Vienas pasekėjas darbo paketas'
+      few: '%{count} pasekėjų darbo paketų'
+      many: '%{count} pasekėjų darbo paketų'
+      other: '%{count} pasekėjų darbo paketų'
     bulk:
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
+      none_could_be_saved: "Ne visus iš %{total} darbo paketų pavyko pakeisti."
+      x_out_of_y_could_be_saved: "%{failing} iš %{total} darbo paketų nepavyko atnaujinti, o %{success} - pavyko."
+      selected_because_descendants: "Nors %{selected} darbo paketai buvo pažymėti, iš viso %{total} darbo paketai įtakoti, įskaitant ir palikuonis."
+      descendant: "pažymėto palikuonis"
     move:
       no_common_statuses_exists: "Parinkti darbo paketai neturi būsenos. Jų būsena negali pakeista."
       unsupported_for_multiple_projects: 'Masinis darbų paketų perkėlimas/kopijavimas nėra palaikomas darbui iškart su keliais projektais'
@@ -373,7 +377,7 @@ lt:
         attachment_content: "Prisegto failo turinys"
         attachment_file_name: "Prisegto failo vardas"
         downloads: "Atsisiuntimai"
-        file: "Byla"
+        file: "Failas"
         filename: "Byla"
         filesize: "Dydis"
       attribute_help_text:
@@ -431,7 +435,7 @@ lt:
       journal:
         notes: "Pastabos"
       member:
-        roles: "Rolės (-ė, -ių)"
+        roles: "Vaidmenys"
       project:
         identifier: "Identifikatorius"
         latest_activity_at: "Naujausia veikla"
@@ -458,7 +462,7 @@ lt:
       repository:
         url: "URL"
       role:
-        assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal rolės vaidmenį atitinkamame projekte"
+        assignable: "Darbų paketai gali būti priskirti naudotojams ir grupėms pagal vaidmenį atitinkamame projekte"
         permissions: "Leidimai"
       time_entry:
         activity: "Veikla"
@@ -661,7 +665,7 @@ lt:
             public:
               error_unauthorized: "- Naudotojas neturi teisių kurti viešus vaizdus."
             group_by:
-              invalid: "Negalima grupuoti naudojant: %{value}"
+              invalid: "Negalima grupuoti pagal: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Netinkamas užklausos stulpelis: %{value}"
@@ -683,11 +687,11 @@ lt:
             circular_dependency: "Ryšys sukuria ryšių ciklą."
           attributes:
             to:
-              error_not_found: "darbų paketas į 'iki' poziciją nerastas arba yra nematomas"
-              error_readonly: "esama ryšio sąsaja 'iki' yra nekintama"
+              error_not_found: "„iki“ pozicijos darbų paketas nerastas arba nematomas"
+              error_readonly: "esamo ryšio sąsaja „iki“ yra nekintama"
             from:
-              error_not_found: "darbų paketas į 'nuo' poziciją nerastas arba yra nematomas"
-              error_readonly: "esama ryšio sąsaja 'nuo' yra nekintama"
+              error_not_found: "„nuo“ pozicijos darbų paketas nerastas arba nematomas"
+              error_readonly: "esamo ryšio sąsaja „iš“ yra nekintama"
         repository:
           not_available: "SCM tiekėjas neprieinamas"
           not_whitelisted: "neleidžiama pagal konfigūraciją."
@@ -721,11 +725,11 @@ lt:
               cannot_be_milestone: "negali būti svarbus etapas."
               cannot_be_self_assigned: "negalima priskirti sau pačiam"
               cannot_be_in_another_project: "negali būti kitame projekte."
-              not_a_valid_parent: " neteisingas."
+              not_a_valid_parent: " netinkamas."
             start_date:
               violates_relationships: "negali būti nustatyta į %{soonest_start} ar vėliau, kad nepažeistų darbų paketo ryšių."
             status_id:
-              status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamoms naudotojų rolėms."
+              status_transition_invalid: "netinkamas, nes nėra tinkamo perėjimo iš senos į naują būseną esamiems naudotojų vaidmenims."
               status_invalid_in_type: "yra netinkamas, nes dabartinė būsena neegzistuoja šiame tipe."
             type:
               cannot_be_milestone_due_to_children: "negali būti etapas, nes šis darbo paketas turi vaikų."
@@ -736,6 +740,7 @@ lt:
               does_not_exist: "Nurodyta kategorija neegzistuoja."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "turi būti >= 0."
+          readonly_status: 'Darbo paketas yra tik skaitymo būsenoje, taigi jo atributų keisti negalima.'
         type:
           attributes:
             attribute_groups:
@@ -772,7 +777,7 @@ lt:
           role_blank: "turi būti priskirtas."
           attributes:
             roles:
-              ungrantable: "turi nepriskiriamą rolę."
+              ungrantable: "turi nepriskiriamą vaidmenį."
             principal:
               unassignable: "negalima priskirti projektui."
         version:
@@ -787,7 +792,7 @@ lt:
           many: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
           other: "%{count} klaidos (-a, -ų) neleido, kad šis %{model} būtų išsaugotas"
     models:
-      attachment: "Byla"
+      attachment: "Failas"
       attribute_help_text: "Atributo pagalbos tekstas"
       forum: "Forumas"
       comment: "Komentaras"
@@ -801,16 +806,16 @@ lt:
       notification:
         one: "Pranešimas"
         few: "Pranešimai"
-        many: "Pranešimų"
+        many: "Pranešimo"
         other: "Pranešimų"
       placeholder_user: "Statytinis naudotojas"
       project: "Projektas"
       query: "Sava užklausa"
       role:
-        one: "Rolė"
-        few: "Rolės (-ė, -ių)"
-        many: "Rolės (-ė, -ių)"
-        other: "Rolės (-ė, -ių)"
+        one: "Vaidmuo"
+        few: "Vaidmenys"
+        many: "Vaidmenų"
+        other: "Vaidmuo"
       type: "Tipas"
       user: "Naudotojas"
       version: "Versija"
@@ -858,7 +863,7 @@ lt:
     id: "ID"
     is_default: "Numatytoji vertė"
     is_for_all: "Visiems projektams"
-    is_public: "Viešas"
+    public: "Viešas"
     #kept for backwards compatibility
     issue: "Darbų paketas"
     lastname: "Pavardė"
@@ -868,10 +873,9 @@ lt:
     password: "Slaptažodis"
     priority: "Pirmenybė"
     project: "Projektas"
-    public: "Viešas"
     responsible: "Atsakingas"
-    role: "Rolė"
-    roles: "Rolės (-ė, -ių)"
+    role: "Vaidmuo"
+    roles: "Vaidmenys"
     start_date: "Pradžios data"
     status: "Būsena"
     subject: "Tema"
@@ -891,8 +895,8 @@ lt:
     label_reset_token: "Atstatyti atsarginės kopijos žetoną"
     label_token_users: "Šie naudotojai turi atsarginės kopijos žetonus"
     reset_token:
-      action_create: Sukurti
-      action_reset: Nustatyti iš naujo
+      action_create: Kurti
+      action_reset: Atstatyti
       heading_reset: "Atstatyti atsarginės kopijos žetoną"
       heading_create: "Sukurti atsarginės kopijos žetoną"
       implications: >
@@ -1051,7 +1055,7 @@ lt:
       - "Vasaris"
       - "Kovas"
       - "Balandis"
-      - "Geg"
+      - "Gegužė"
       - "Birželis"
       - "Liepa"
       - "Rugpjūtis"
@@ -1068,60 +1072,60 @@ lt:
     distance_in_words:
       about_x_hours:
         one: "apie 1 valandą"
-        few: "apie %{count} valandos (-a, -ų)"
-        many: "apie %{count} valandos (-a, -ų)"
-        other: "apie %{count} valandos (-a, -ų)"
+        few: "apie %{count} valandas"
+        many: "apie %{count} valandų"
+        other: "apie %{count} valandas"
       about_x_months:
         one: "apie 1 mėnesį"
-        few: "apie %{count} mėnesius (-į, -ių)"
-        many: "apie %{count} mėnesius (-į, -ių)"
-        other: "apie %{count} mėnesius (-į, -ių)"
+        few: "apie %{count} mėnesius"
+        many: "apie %{count} mėnesių"
+        other: "apie %{count} mėnesius"
       about_x_years:
         one: "apie 1 metus"
-        few: "apie %{count} metus (-ų)"
-        many: "apie %{count} metus (-ų)"
-        other: "apie %{count} metus (-ų)"
+        few: "apie %{count} metus"
+        many: "apie %{count} metų"
+        other: "apie %{count} metus"
       almost_x_years:
         one: "beveik 1 metus"
         few: "beveik %{count} metus (-ų)"
-        many: "beveik %{count} metus (-ų)"
-        other: "beveik %{count} metus (-ų)"
+        many: "beveik %{count} metų"
+        other: "beveik %{count} metus"
       half_a_minute: "pusę minutės"
       less_than_x_minutes:
         one: "mažiau nei 1 minutę"
-        few: "mažiau nei %{count} minutes (-ę, -ių)"
-        many: "mažiau nei %{count} minutes (-ę, -ių)"
-        other: "mažiau nei %{count} minutes (-ę, -ių)"
+        few: "mažiau nei %{count} minutes"
+        many: "mažiau nei %{count} minučių"
+        other: "mažiau nei %{count} minutes"
       less_than_x_seconds:
         one: "mažiau nei 1 sekundę"
-        few: "mažiau nei %{count} sekundžių (-ę, -es)"
-        many: "mažiau nei %{count} sekundžių (-ę, -es)"
-        other: "mažiau nei %{count} sekundžių (-ę, -es)"
+        few: "mažiau nei %{count} sekundes"
+        many: "mažiau nei %{count} sekundžių"
+        other: "mažiau nei %{count} sekundes"
       over_x_years:
         one: "daugiau nei 1 metus"
-        few: "daugiau nei %{count} metus (-ų)"
-        many: "daugiau nei %{count} metus (-ų)"
-        other: "daugiau nei %{count} metus (-ų)"
+        few: "daugiau nei %{count} metus"
+        many: "daugiau nei %{count} metų"
+        other: "daugiau nei %{count} metus"
       x_days:
         one: "1 dieną"
-        few: "%{count} dienas (-ą, -ų)"
-        many: "%{count} dienas (-ą, -ų)"
-        other: "%{count} dienas (-ą, -ų)"
+        few: "%{count} dienos"
+        many: "%{count} dienų"
+        other: "%{count} dienos"
       x_minutes:
         one: "1 minutę"
-        few: "%{count} minutes (-ę, -ių)"
-        many: "%{count} minutes (-ę, -ių)"
-        other: "%{count} minutes (-ę, -ių)"
+        few: "%{count} minutes"
+        many: "%{count} minučių"
+        other: "%{count} minutes"
       x_months:
         one: "1 mėnesį"
-        few: "%{count} mėnesius (-į, -ių)"
-        many: "%{count} mėnesius (-į, -ių)"
-        other: "%{count} mėnesius (-į, -ių)"
+        few: "%{count} mėnesius"
+        many: "%{count} mėnesių"
+        other: "%{count} mėnesius"
       x_seconds:
         one: "1 sekundę"
-        few: "%{count} sekundes (-ę, -ių)"
-        many: "%{count} sekundes (-ę, -ių)"
-        other: "%{count} sekundes (-ę, -ių)"
+        few: "%{count} sekundes"
+        many: "%{count} sekundžių"
+        other: "%{count} sekundes"
     units:
       hour:
         one: "valanda"
@@ -1232,13 +1236,13 @@ lt:
   error_can_not_delete_type:
     explanation: 'Yra darbo paketų su tokiu tipu, todėl jis negali būti ištrintas. Visus susijusius darbo paketus galite matyti <a target="_blank" href="%{url}">šiame vaizde</a>.'
     archived_projects: 'Taip pat yra darbo paketų archyvuotuose projektuose. Jums iš pradžių reikia iš naujo aktyvuoti šiuos projektus, kad galėtumėte pakeisti atitinkamų darbo paketų tipą: %{archived_projects}'
-  error_can_not_delete_standard_type: "Standartinės rolės negali būti ištrintos."
+  error_can_not_delete_standard_type: "Standartiniai vaidmenys negali būti ištrinti."
   error_can_not_invite_user: "Nepavyko išsiųsti pakvietimo vartotojui."
-  error_can_not_remove_role: "Ši rolė naudojama, todėl negali būti ištrinta."
+  error_can_not_remove_role: "Šis vaidmuo naudojamas, todėl negali būti ištrintas."
   error_can_not_reopen_work_package_on_closed_version: "Uždarytai versijai priskirtas darbų paketas negali būti atvertas"
   error_can_not_find_all_resources: "Nepavyko rasti visų su šia užklausa susijusių resursų."
   error_can_not_unarchive_project: "Projekto negalima išarchyvuoti: %{errors}"
-  error_check_user_and_role: "Prašome pasirinkti vartotoją ir rolę."
+  error_check_user_and_role: "Prašome pasirinkti naudotoją ir vaidmenį."
   error_code: "Klaida %{code}"
   error_cookie_missing: 'OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai yra įgalinti, nes kitaip aplikacija tinkamai neveiks.'
   error_custom_option_not_found: "Galimybė neegzistuoja."
@@ -1434,7 +1438,7 @@ lt:
   label_attachment_plural: "Failai"
   label_attribute: "Atributas"
   label_attribute_plural: "Atributai"
-  label_auth_source: "Autentikacijos būdas"
+  label_auth_source: "Autentifikacijos būdas"
   label_auth_source_new: "Naujas autentifikacijos būdas"
   label_auth_source_plural: "Autentifikacijos būdai"
   label_authentication: "Autentifikacija"
@@ -1645,7 +1649,7 @@ lt:
   label_max_size: "Maksimalus dydis"
   label_me: "aš"
   label_member_new: "Naujas narys"
-  label_member_all_admin: "(Visos rolės, nes turite administratoriaus statusą)"
+  label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
   lable_membership_added: 'Narys pridėtas'
   lable_membership_updated: 'Narys atnaujintas'
@@ -1758,7 +1762,6 @@ lt:
   label_public_projects: "Vieši projektai"
   label_query_new: "Nauja užklausa"
   label_query_plural: "Naudotojo užklausos"
-  label_query_menu_item: "Užklausos meniu punktas"
   label_read: "Skaityti..."
   label_register: "Sukurti naują paskyrą"
   label_register_with_developer: "Registruotis kaip kūrėjas"
@@ -1796,10 +1799,10 @@ lt:
   label_roadmap_due_in: "Baigiasi po %{value}"
   label_roadmap_no_work_packages: "Nėra darbų paketų šiai versijai"
   label_roadmap_overdue: "%{value} vėluojama"
-  label_role_and_permissions: "Rolės ir leidimai"
-  label_role_new: "Nauja rolė"
-  label_role_plural: "Rolės (-ė, -ių)"
-  label_role_search: "Priskirti rolę naujiems nariams"
+  label_role_and_permissions: "Vaidmenys ir leidimai"
+  label_role_new: "Naujas vaidmuo"
+  label_role_plural: "Vaidmenys"
+  label_role_search: "Priskirti vaidmenį naujiems nariams"
   label_scm: "SCM"
   label_search: "Paieška"
   label_send_information: "Nusiųsti naudotojui paskyros informaciją"
@@ -1807,7 +1810,7 @@ lt:
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
-  label_sort: "Rūšiuoti"
+  label_sort: "Rikiuoti"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
   label_sort_higher: "Perkelti aukštyn"
@@ -1855,7 +1858,7 @@ lt:
   label_used_by: "Naudotas"
   label_used_by_types: "Naudojama šių tipų"
   label_used_in_projects: "Naudojama šių projektų"
-  label_user: "Naudotojas"
+  label_user: "Vartotojas"
   label_user_and_permission: "Naudotojai ir leidimai"
   label_user_named: "Naudotojas %{name}"
   label_user_activity: "%{value} veikla"
@@ -1936,8 +1939,8 @@ lt:
     zero: "nėra projektų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
-  label_member_role: "Projekto rolė"
-  label_global_role: "Globali rolė"
+  label_member_role: "Projekto vaidmuo"
+  label_global_role: "Globalus vaidmuo"
   label_not_changeable: "(negalima pakeisti)"
   label_global: "Globali"
   auth_source:
@@ -1987,7 +1990,7 @@ lt:
       more_to_see:
         one: 'Yra dar 1 darbų paketas su pranešimais.'
         few: 'Yra dar %{count} darbų paketai su pranešimais.'
-        many: 'Yra dar %{count} darbų paketų su pranešimais.'
+        many: 'Yra dar %{count} darbų paketai su pranešimais.'
         other: 'Yra dar %{count} darbų paketų su pranešimais.'
       reason:
         watched: 'Stebimas'
@@ -2039,7 +2042,7 @@ lt:
         with_message: "%{user} pridėjo jus kaip narį į projektą „%{project}“ su prierašu:"
       roles: "Jūs turite tokias roles:"
   mail_member_updated_project:
-    subject: "%{project} - Jūsų rolės buvo atnaujintos"
+    subject: "%{project} - Jūsų vaidmenys buvo atnaujinti"
     body:
       updated_by:
         without_message: "%{user} atnaujino roles, kurias jūs turite projekte '%{project}'."
@@ -2050,8 +2053,8 @@ lt:
     body:
       updated_by:
         without_message: "%{user} atnaujino teises, kurias jūs turite globaliai."
-        with_message: "%{user} atnaujino jūsų globaliai turimas roles su prierašu:"
-      roles: "Jūs dabar turite tokias roles:"
+        with_message: "%{user} atnaujino jūsų globaliai turimus vaidmenis su prierašu:"
+      roles: "Jūs dabar turite tokius vaidmenis:"
   mail_user_activation_limit_reached:
     subject: Pasiekta vartotojų aktyvinimo riba
     message: |
@@ -2142,9 +2145,9 @@ lt:
         units:
           byte:
             one: "Baitas"
-            few: "Baitai (-as, -ų)"
-            many: "Baitai (-as, -ų)"
-            other: "Baitai (-as, -ų)"
+            few: "Baitai"
+            many: "Baitų"
+            other: "Baitai"
           gb: "GB"
           kb: "kB"
           mb: "MB"
@@ -2258,7 +2261,7 @@ lt:
   #which are not attributes of an AR-Model.
   query_fields:
     active_or_archived: "Aktyvus arba suarchyvuotas"
-    assigned_to_role: "Priskirtojo asmens rolė"
+    assigned_to_role: "Priskirtojo asmens vaidmuo"
     member_of_group: "Priskirtojo asmens grupė"
     assignee_or_group: "Paskirtas ar priklausanti grupė"
     subproject_id: "Įtraukti sub-projektus"
@@ -2445,7 +2448,7 @@ lt:
   setting_mail_handler_body_delimiters: "Trumpinti laiškus po vienos iš šių eilučių"
   setting_mail_handler_body_delimiter_regex: "Sutrumpinti laiškus, atitinkančius šią reguliarią išraišką"
   setting_mail_handler_ignore_filenames: "Ignoruoti laiško priedai"
-  setting_new_project_user_role_id: "Rolė suteikta vartotojui, kuris nėra administratorius ir kuris kuria projektą"
+  setting_new_project_user_role_id: "Vaidmuo suteiktas naudotojui, kuris nėra administratorius ir kuris kuria projektą"
   setting_password_active_rules: "Aktyvios savybių klasės"
   setting_password_count_former_banned: "Vėliausiai uždraustų pakartotinai naudoti slaptažodžių skaičius"
   setting_password_days_valid: "Dienų skaičius, po kurio versti pasikeisti slaptažodį"
@@ -2524,7 +2527,7 @@ lt:
   status_active: "aktyvus"
   status_archived: "suarchyvuotas"
   status_invited: pakviestas
-  status_locked: užrakinti
+  status_locked: užrakintas
   status_registered: registruotas
   #Used in array.to_sentence.
   support:
@@ -2595,9 +2598,9 @@ lt:
   text_line_separated: "Galimos kelios reikšmės (viena eilutė vienai reikšmei)."
   text_load_default_configuration: "Įkelti numatytąją konfigūraciją"
   text_min_max_length_info: "0 reiškia jokių apribojimų"
-  text_no_roles_defined: Nėra nustatytų rolių.
+  text_no_roles_defined: Nėra nustatytų vaidmenų.
   text_no_access_tokens_configurable: "Nėra prieigos raktų, kurie gali būti konfigūruojami."
-  text_no_configuration_data: "Rolės, tipai, darbų paketo būsenos ir darbų eiga dar nesukonfigūruoti. Stipriai rekomenduojama įkelti numatytąją konfigūraciją. Jūs ją galėsite redaguoti iškart po įkėlimo."
+  text_no_configuration_data: "Vaidmenys, tipai, darbų paketo būsenos ir darbų eiga dar nesukonfigūruoti. Stipriai rekomenduojama įkelti numatytąją konfigūraciją. Jūs ją galėsite redaguoti iškart po įkėlimo."
   text_no_notes: "Šis darbų paketas neturi komentarų."
   text_notice_too_many_values_are_inperformant: "Pastaba: Rodant daugiau nei 100 įrašų puslapyje gali prailginti puslapio įkėlimo laiką."
   text_notice_security_badge_displayed_html: >
@@ -2627,7 +2630,7 @@ lt:
   text_wiki_page_destroy_question: "Šis puslapis turi %{descendants} vaikų puslapį (-ių) arba išvestinių puslapių. Ką norite daryti?"
   text_wiki_page_nullify_children: "Palikti vaikų puslapius kaip pagrindinius puslapius"
   text_wiki_page_reassign_children: "Priskirkite iš naujo vaikų puslapius šiam pagrindiniam puslapiui"
-  text_workflow_edit: "Išrinkite rolę ir tipą, kad redaguotumėte darbų eigą"
+  text_workflow_edit: "Išrinkite vaidmenį ir tipą, kad redaguotumėte darbų eigą"
   text_zoom_in: "Priartinti"
   text_zoom_out: "Nutolinti"
   text_setup_mail_configuration: "Sukonfigūruoti Jūsų el. pašto paslaugų teikėją"
@@ -2660,9 +2663,9 @@ lt:
     duration: "Trukmė"
     duration_days:
       one: "1 dieną"
-      few: "%{count} dienas (-ą, -ų)"
-      many: "%{count} dienas (-ą, -ų)"
-      other: "%{count} dienas (-ą, -ų)"
+      few: "%{count} dienos"
+      many: "%{count} dienų"
+      other: "%{count} dienos"
     edit_color: "Redaguoti spalvą"
     edit_thing: "Redaguoti"
     edit_timeline: "Redaguoti laiko juostos ataskaitą %{timeline}"
@@ -2822,9 +2825,9 @@ lt:
     blocked: "laikinai užrakintas"
     blocked_num_failed_logins:
       one: "laikinai užrakintas (vienas nesėkmingas prisijungimas)"
-      few: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
-      many: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
-      other: "laikinai užrakintas (%{count} nesėkmingi(-as, -ų) prisijungimai(-as, -ų))"
+      few: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
+      many: "laikinai užrakintas (%{count} nesėkmingų prisijungimų)"
+      other: "laikinai užrakintas (%{count} nesėkmingi prisijungimai)"
     confirm_status_change: "Jūs pakeisti „%{name}“ būseną. Ar tikrai norite tęsti?"
     deleted: "Ištrintas vartotojas"
     error_status_change_failed: "Vartotojo būsenos keitimas nepavyko dėl šių klaidų: %{errors}"
@@ -2874,7 +2877,6 @@ lt:
   wiki_menu_item_new_main_item_explanation: >
     Jūs ketinate šalinti tik pagrindinį wiki meniu punktą. Jūs dabar turėsite pasirinkti wiki puslapį, kuriam naujas pagrindinis punktas bus sugeneruotas. Jei norite ištrinti wiki, wiki modulį gali išjungti projekto administratoriai.
   wiki_menu_item_delete_not_permitted: Wiki meniu punktas, kuris priklauso vieninteliam wiki puslapiui, negali būti ištrintas.
-  query_menu_item_for: "Meniu punktas užklausai „%{title}“"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -3004,7 +3006,7 @@ lt:
       none_given: "Jokioms OAuth aplikacijoms nesuteikta prieiga prie jūsų paskyros."
     x_active_tokens:
       one: 'vienas akytus žetonas'
-      few: '%{count} aktyvus žetonai'
+      few: '%{count} aktyvių žetonų'
       many: '%{count} aktyvių žetonų'
       other: '%{count} aktyvių žetonų'
     flows:

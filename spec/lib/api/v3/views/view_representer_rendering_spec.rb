@@ -33,12 +33,11 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  let(:query) { FactoryBot.build_stubbed(:query, is_public: query_public, query_menu_item: query_menu_item) }
+  let(:query) { FactoryBot.build_stubbed(:query, public: query_public, starred: query_starred) }
   let(:view) { FactoryBot.build_stubbed(:view_work_packages_table, query: query) }
   let(:current_user) { FactoryBot.build_stubbed(:user) }
   let(:query_public) { true }
-  # aka starred
-  let(:query_menu_item) { FactoryBot.build_stubbed(:query_menu_item) }
+  let(:query_starred) { true }
 
   let(:embed_links) { false }
 
@@ -85,7 +84,7 @@ describe ::API::V3::Views::ViewRepresenter, 'rendering' do
       end
 
       context 'without the query being starred' do
-        let(:query_menu_item) { nil }
+        let(:query_starred) { false }
 
         it_behaves_like 'property', :starred do
           let(:value) { false }

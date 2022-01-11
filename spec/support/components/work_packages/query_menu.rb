@@ -47,7 +47,7 @@ module Components
       end
 
       def autocompleter_results_selector
-        '.op-query-select--search-results'
+        '.op-view-select--search-results'
       end
 
       def autocompleter_item_selector
@@ -56,6 +56,18 @@ module Components
 
       def autocompleter_selector
         '#query-title-filter'
+      end
+
+      def expect_menu_entry(name)
+        expect(page).to have_selector(autocompleter_item_selector, text: name)
+      end
+
+      def expect_menu_entry_not_visible(name)
+        expect(page).not_to have_selector(autocompleter_item_selector, text: name)
+      end
+
+      def expect_no_menu_entry
+        expect(page).not_to have_selector(autocompleter_item_selector)
       end
     end
   end

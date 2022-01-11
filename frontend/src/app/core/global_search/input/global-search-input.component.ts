@@ -53,7 +53,7 @@ import { OpAutocompleterComponent } from 'core-app/shared/components/autocomplet
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from '../../apiv3/api-v3.service';
+import { ApiV3Service } from '../../apiv3/api-v3.service';
 
 export const globalSearchSelector = 'global-search-input';
 
@@ -127,7 +127,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   constructor(readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly pathHelperService:PathHelperService,
     readonly halResourceService:HalResourceService,
     readonly globalSearchService:GlobalSearchService,

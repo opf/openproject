@@ -49,6 +49,19 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
           let(:value) { meta.notification_message }
         end
       end
+
+      describe 'sendNotifications' do
+        let(:meta) { OpenStruct.new send_notifications: true }
+        let(:representer) do
+          described_class.create(membership,
+                                 meta: meta,
+                                 current_user: current_user)
+        end
+
+        it_behaves_like 'property', :'_meta/sendNotifications' do
+          let(:value) { true }
+        end
+      end
     end
   end
 
@@ -68,7 +81,8 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
             '_meta' => {
               'notificationMessage' => {
                 "raw" => 'Come to the dark side'
-              }
+              },
+              'sendNotifications' => true
             }
           }
         end
@@ -76,6 +90,11 @@ describe ::API::V3::Memberships::MembershipPayloadRepresenter do
         it 'sets the parsed message' do
           expect(parsed.meta.notification_message)
             .to eql 'Come to the dark side'
+        end
+
+        it 'sets the notification sending configuration' do
+          expect(parsed.meta.send_notifications)
+            .to be_truthy
         end
       end
     end

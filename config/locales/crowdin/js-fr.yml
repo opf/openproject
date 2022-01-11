@@ -297,7 +297,7 @@ fr:
               new_features_html: >
                 Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Centre de notifications : réduisez le nombre de mails que vous recevez. Au lieu de cela, trouvez et agissez sur toutes les notifications pertinentes dans un endroit central.</li> <li>Tous les fichiers IFC téléversés peuvent maintenant également être téléchargés.</li> <li>Le téléversement et le traitement des fichiers IFC sont devenus plus rapides et ont reçu de meilleurs messages d'erreur.</li> <li>Le <a href="https://github.com/opf/openproject-revit-add-in">L'add-in OpenProject Revit</a> a reçu de nombreuses corrections de bugs.</li> </ul>.
     label_activate: "Activer"
-    label_add_column_after: "Ajouter une colonne après"
+    label_add_column_after: "Ajouter une colonne au-dessus"
     label_add_column_before: "Ajouter une colonne avant"
     label_add_columns: "Ajouter des colonnes"
     label_add_comment: "Ajouter un commentaire"
@@ -454,6 +454,7 @@ fr:
     label_starred_queries: "Vue préférées"
     label_global_queries: "Vues publiques"
     label_custom_queries: "Vues privées"
+    label_create_new_query: "Créer nouveau"
     label_columns: "Colonnes"
     label_attachments: Fichiers
     label_drop_files: Déposez des fichiers ici

@@ -279,7 +279,7 @@ class BudgetsController < ApplicationController
     reassign_to_id = params[:reassign_to_id]
     budget_id = params[:id]
 
-    budget_exists = Budget.visible(current_user).exists?(reassign_to_id) if params[:todo] == 'reassign'
+    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == 'reassign'
     reassign_to = budget_exists ? reassign_to_id : nil
 
     WorkPackage

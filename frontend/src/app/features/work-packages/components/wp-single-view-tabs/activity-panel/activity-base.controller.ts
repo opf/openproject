@@ -41,7 +41,7 @@ import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
 
 @Directive()
@@ -74,7 +74,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   private initialized = false;
 
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly uiRouterGlobals:UIRouterGlobals,

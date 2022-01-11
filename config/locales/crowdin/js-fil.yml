@@ -59,7 +59,7 @@ fil:
     button_check_all: "Suriin lahat"
     button_configure-form: "Configure form"
     button_confirm: "Kumpirmahin"
-    button_continue: "Ipagpatuloy"
+    button_continue: "Magpatuloy"
     button_copy: "Kopyahin"
     button_custom-fields: "Mga pasadyang patlang"
     button_delete: "Burahin"
@@ -454,6 +454,7 @@ fil:
     label_starred_queries: "Favorite views"
     label_global_queries: "Public views"
     label_custom_queries: "Private views"
+    label_create_new_query: "Create new"
     label_columns: "Mga hanay"
     label_attachments: Mga file
     label_drop_files: Ihulog ang mga file dito
@@ -1156,7 +1157,7 @@ fil:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Ipagpatuloy'
+        next_button: 'Magpatuloy'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

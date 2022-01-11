@@ -107,37 +107,43 @@ module API
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :timeline_zoom_level,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :timeline_labels,
                  type: 'QueryTimelineLabels',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :highlighting_mode,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :display_representation,
                  type: 'String',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :starred,
                  type: 'Boolean',
@@ -149,7 +155,8 @@ module API
                  type: 'Boolean',
                  required: true,
                  writable: true,
-                 has_default: true
+                 has_default: true,
+                 deprecated: true
 
           schema :ordered_work_packages,
                  type: 'QueryOrder',

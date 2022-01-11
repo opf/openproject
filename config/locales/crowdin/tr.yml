@@ -278,7 +278,7 @@ tr:
         Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
-        <strong>Uyarı</strong>: Devralınan değerler (örneğin; alt iş paketleri ve ilişkili iş paketleri) hala geçerli olacaktır.
+        <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
@@ -317,6 +317,10 @@ tr:
       other: '%{count} Bir soydan iş paketi'
     bulk:
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Seçilen tüm iş paketleri için uygun bir durum yoktur. Durumları değiştirilemez."
       unsupported_for_multiple_projects: 'Birden çok projeden iş paketi için toplu taşıma / kopyalama desteklenmiyor'
@@ -737,6 +741,7 @@ tr:
               does_not_exist: "Belirtilen kategori yok."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "> = 0 olmalıdır."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -797,7 +802,7 @@ tr:
       news: "Haberler"
       notification:
         one: "Notification"
-        other: "Notifications"
+        other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
       query: "Özel sorgu"
@@ -851,7 +856,7 @@ tr:
     id: "ID"
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
-    is_public: "Herkese Açık"
+    public: "Herkese Açık"
     #kept for backwards compatibility
     issue: "İş paketi"
     lastname: "Soyisim"
@@ -861,7 +866,6 @@ tr:
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"
-    public: "Herkese Açık"
     responsible: "Sorumlu"
     role: "Rol"
     roles: "Yetkiler"
@@ -1559,7 +1563,7 @@ tr:
   label_group_plural: "Gruplar"
   label_help: "Yardım"
   label_here: buraya
-  label_hide: "Gizle"
+  label_hide: "Saklamak"
   label_history: "Geçmiş"
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
@@ -1727,7 +1731,6 @@ tr:
   label_public_projects: "Genel Projeler"
   label_query_new: "Yeni Sorgu"
   label_query_plural: "Özel Sorgular"
-  label_query_menu_item: "Sorgu menü öğesi"
   label_read: "Oku..."
   label_register: "Yeni hesap oluştur"
   label_register_with_developer: "Geliştirici olarak kayıt ol"
@@ -1744,7 +1747,7 @@ tr:
   label_remove_columns: "Seçili sütunları sil"
   label_renamed: "yeniden adlandırıldı"
   label_reply_plural: "Yanıtlar"
-  label_report: "Rapor"
+  label_report: "Rapor (bildiri)"
   label_report_bug: "Hata bildir"
   label_report_plural: "Raporlar"
   label_reported_work_packages: "Raporlanan iş paketleri"
@@ -2385,7 +2388,7 @@ tr:
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
   setting_diff_max_lines_displayed: "Görüntülenen fark satırlarının maksimum sayısı"
   setting_display_subprojects_work_packages: "Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster"
-  setting_emails_footer: "E-posta altbilgisi"
+  setting_emails_footer: "E-posta altbilgi"
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
@@ -2590,9 +2593,9 @@ tr:
   text_warn_on_leaving_unsaved: "İş paketi bu sayfadan ayrıldığınızda kaybolabilecek kaydedilmemiş metinler içeriyor."
   text_what_did_you_change_click_to_add_comment: "Ne değiştirdiniz? Yorum eklemek için tıkayın"
   text_wiki_destroy_confirmation: "Bu wiki'yi ve içeriğini silmek istediğinizden emin misiniz?"
-  text_wiki_page_destroy_children: "Tüm alt sayfaları özyinelemeli olarak sil"
+  text_wiki_page_destroy_children: "Çocuk sayfalarını ve tüm torunlarını sil"
   text_wiki_page_destroy_question: "Bu sayfada %{descendants} alt sayfaları özyinelemeli olarak mevcut. Ne yapmak istersiniz?"
-  text_wiki_page_nullify_children: "Alt sayfaları kök sayfalar olarak sakla"
+  text_wiki_page_nullify_children: "Çocuk sayfalarını kök sayfalar olarak sakla"
   text_wiki_page_reassign_children: "Alt sayfaları bu üst sayfaya yeniden ata"
   text_workflow_edit: "İş akışını düzenlemek için bir rol ve iş tipi seçin"
   text_zoom_in: "Yakınlaştır"
@@ -2837,11 +2840,10 @@ tr:
   wiki_menu_item_new_main_item_explanation: >
     Sadece ana wiki menü öğesini silmektesiniz. Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki'yi silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
   wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
-  query_menu_item_for: "\" %{title} \" sorgusu için menü öğesi"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _Alt iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
+      _Çocuk iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
     destroy:
       info: "İş paketinin silinmesi geri döndürülemez bir işlemdir."
       title: "İş paketini sil"

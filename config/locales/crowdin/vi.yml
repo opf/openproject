@@ -61,7 +61,7 @@ vi:
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
         header-border-bottom-color: "Dòng ngắt trang, chỗ này sẽ bỏ trống nếu bạn không muốn hiễn thị"
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
-      theme_warning: Thay đổi chủ đề sẽ ghi đè lên phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục?
+      theme_warning: Thay đổi chủ đề sẽ ghi đè phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục không?
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
@@ -318,6 +318,10 @@ vi:
       other: '%{count} gói sản phẩm phụ thuộc'
     bulk:
       could_not_be_saved: "Không thể lưu các gói công việc sau:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -738,6 +742,7 @@ vi:
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -848,7 +853,7 @@ vi:
     id: "ID"
     is_default: "Giá trị mặc định"
     is_for_all: "Cho tất cả các dự án"
-    is_public: "Công cộng"
+    public: "Công cộng"
     #kept for backwards compatibility
     issue: "Work Package"
     lastname: "Họ"
@@ -858,7 +863,6 @@ vi:
     password: "Mật khẩu"
     priority: "Độ ưu tiên"
     project: "Dự án"
-    public: "Công cộng"
     responsible: "Trách nhiệm"
     role: "Vai trò"
     roles: "Vai trò"
@@ -1266,7 +1270,7 @@ vi:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Tiếng Việt"
+  general_lang_name: "Việtnam"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "không"
   general_text_yes: "có"
@@ -1712,7 +1716,6 @@ vi:
   label_public_projects: "Các dự án công khai"
   label_query_new: "Truy vấn mới"
   label_query_plural: "Truy vấn tùy chỉnh"
-  label_query_menu_item: "Truy vấn trình đơn"
   label_read: "Đọc..."
   label_register: "Tạo tài khoản mới"
   label_register_with_developer: "Đăng ký là nhà phát triển"
@@ -2192,7 +2195,7 @@ vi:
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?"
-      archived: "Archived"
+      archived: "Đã lưu"
   project_module_activity: "Hoạt động"
   project_module_forums: "Diễn đàn"
   project_module_calendar: "Lịch"
@@ -2818,7 +2821,6 @@ vi:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

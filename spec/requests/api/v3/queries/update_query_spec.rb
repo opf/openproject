@@ -42,7 +42,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       :global_query,
       name: "A Query",
       user: user,
-      is_public: false,
+      public: false,
       show_hierarchies: false,
       display_sums: false
     )
@@ -136,7 +136,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
       expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.project).to eq project
-      expect(query.is_public).to eq true
+      expect(query.public).to eq true
       expect(query.display_sums).to eq false
 
       expect(query.filters.size).to eq 1

@@ -317,6 +317,10 @@ fil:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba''t ibang mga proyekto'
@@ -737,6 +741,7 @@ fil:
               does_not_exist: "Ang tinukoy na kategorya ay hindi umiiral."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "dapat >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -851,7 +856,7 @@ fil:
     id: "ID"
     is_default: "Ang default na halaga"
     is_for_all: "Para sa lahat ng mga proyekto"
-    is_public: "Publiko"
+    public: "Publiko"
     #kept for backwards compatibility
     issue: "Work package"
     lastname: "Huling pangalan"
@@ -861,7 +866,6 @@ fil:
     password: "Password"
     priority: "Ang prayoridad"
     project: "Proyekto"
-    public: "Publiko"
     responsible: "Accountable"
     role: "Tungkulin"
     roles: "Ang mga tungkulin"
@@ -1281,7 +1285,7 @@ fil:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ingles"
+  general_lang_name: "Filipino"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hindi"
   general_text_yes: "oo"
@@ -1727,7 +1731,6 @@ fil:
   label_public_projects: "Publikong proyekto"
   label_query_new: "Bagong query"
   label_query_plural: "Ang mga custom query"
-  label_query_menu_item: "Aytem ng query na pagpipilian"
   label_read: "Basahin..."
   label_register: "Gumawa ng bagong akwant"
   label_register_with_developer: "Pagrehistro bilang developer"
@@ -1888,20 +1891,20 @@ fil:
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "Isa ang isinara"
+    other: "%{count} ang isinara"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "Isang komento"
+    other: "%{count} mga komento"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "Isa ang bukas"
+    other: "%{count} ang bukas"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "Isang proyekto"
+    other: "%{count} mga proyekto"
     zero: "no projects"
   label_yesterday: "kahapon"
   label_role_type: "Uri"
@@ -2836,7 +2839,6 @@ fil:
   wiki_menu_item_new_main_item_explanation: >
     Ikay ay nagtatanggal sa tanging pangunahing aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa proyekto.
   wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang wiki lamang ay hindi maibura.
-  query_menu_item_for: "Aytem na pagpipilian sa query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

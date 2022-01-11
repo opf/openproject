@@ -23,7 +23,7 @@ fi:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Tehtävä"
+        work_package: "Työpaketti"
         overridden_costs: "Ohitetut kustannukset"
         spent: "Käytetty"
         spent_on: "Päivämäärä"

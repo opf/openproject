@@ -35,8 +35,8 @@ module Queries
     attribute :name
 
     attribute :project_id
-    attribute :hidden
-    attribute :is_public # => public
+    attribute :starred
+    attribute :public # => public
     attribute :display_sums # => sums
     attribute :timeline_visible
     attribute :timeline_zoom_level
@@ -66,7 +66,7 @@ module Queries
     end
 
     def project_visible?
-      Project.visible(user).where(id: project_id).exists?
+      Project.visible(user).exists?(id: project_id)
     end
 
     def may_not_manage_queries?
@@ -75,10 +75,10 @@ module Queries
 
     def user_allowed_to_make_public
       # Add error only when changing public flag
-      return unless model.is_public_changed?
+      return unless model.public_changed?
       return if model.project_id.present? && model.project.nil?
 
-      if is_public && may_not_manage_queries?
+      if model.public && may_not_manage_queries?
         errors.add :public, :error_unauthorized
       end
     end

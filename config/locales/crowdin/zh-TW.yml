@@ -316,6 +316,10 @@ zh-TW:
       other: '%{count} 個子工作項目'
     bulk:
       could_not_be_saved: "以下文檔無法被保存"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: '工作項目不支援從多個專案的大區塊的移動/複製'
@@ -632,7 +636,7 @@ zh-TW:
             mail_reminder_sent:
               set_on_creation: '在創建通知時不能設置為 true'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
         notification_settings:
@@ -736,6 +740,7 @@ zh-TW:
               does_not_exist: "指定的類別不存在"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "必須是 > = 0。"
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -846,7 +851,7 @@ zh-TW:
     id: "ID"
     is_default: "預設值"
     is_for_all: "對所有的專案"
-    is_public: "公開"
+    public: "公開"
     #kept for backwards compatibility
     issue: "工作項目"
     lastname: "姓："
@@ -856,7 +861,6 @@ zh-TW:
     password: "密碼"
     priority: "優先等級"
     project: "專案"
-    public: "公開"
     responsible: "可信賴的"
     role: "角色"
     roles: "角色"
@@ -1264,7 +1268,7 @@ zh-TW:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "星期日"
-  general_lang_name: "繁體中文"
+  general_lang_name: "台灣正體"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "否"
   general_text_yes: "是"
@@ -1710,7 +1714,6 @@ zh-TW:
   label_public_projects: "公開專案"
   label_query_new: "新增查詢"
   label_query_plural: "自訂查詢"
-  label_query_menu_item: "查詢選單項目"
   label_read: "讀取..."
   label_register: "建立新帳號"
   label_register_with_developer: "註冊成開發者"
@@ -1872,19 +1875,19 @@ zh-TW:
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
-    other: "%{count} closed"
+    other: "%{count} 個已結案"
     zero: "0 個已關閉"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} 個評論"
     zero: "沒有留言"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} 個專案"
     zero: "沒有專案"
   label_yesterday: "昨天"
   label_role_type: "類型"
@@ -1933,19 +1936,19 @@ zh-TW:
     salutation: '嘿 %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
+      login_to_see_all: '登入以查看所有通知'
+      mentioned: '您已在<b>評論中被提醒</b>'
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
-        other: 'There are %{count} more work packages with notifications.'
+        other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: '監看'
+        assigned: '指派'
         responsible: '可信賴的'
-        mentioned: 'Mentioned'
+        mentioned: '提醒'
         subscribed: '所有'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        prefix: '因為通知設定而收到：%{reason}'
+      see_all: '全部顯示'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
@@ -2816,7 +2819,6 @@ zh-TW:
   wiki_menu_item_new_main_item_explanation: >
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
-  query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

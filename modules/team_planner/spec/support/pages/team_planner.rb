@@ -30,6 +30,8 @@ require 'support/pages/page'
 
 module Pages
   class TeamPlanner < ::Pages::Page
+    include ::Components::NgSelectAutocompleteHelpers
+
     attr_reader :project,
                 :filters
 
@@ -48,9 +50,36 @@ module Pages
       expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
     end
 
+    def expect_empty_state(present: true)
+      expect(page).to have_conditional_selector(present, '.op-team-planner--no-data', text: 'Add assignees to set up your team planner.')
+    end
+
     def expect_assignee(user, present: true)
       name = user.is_a?(User) ? user.name : user.to_s
       expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
+    end
+
+    def add_item(assignee, start_date, end_date)
+      script = <<~JS
+        var event = new CustomEvent(
+          'teamPlannerSelectDate',
+          {
+            detail: {
+              assignee: arguments[0],
+              start: arguments[1],
+              end: arguments[2]
+            }
+          });
+
+        document.dispatchEvent(event);
+      JS
+
+      page.execute_script(script, assignee, start_date, end_date)
+      ::Pages::SplitWorkPackageCreate.new project: project
+    end
+
+    def remove_assignee(user)
+      page.find(%([data-qa-remove-assignee="#{user.id}"])).click
     end
 
     def within_lane(user, &block)
@@ -72,6 +101,30 @@ module Pages
         .click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
+    end
+
+    def add_assignee(name)
+      click_add_user
+      search_user_to_add name
+      select_user_to_add name
+    end
+
+    def click_add_user
+      # Close the existing, if it is open
+      is_open = page.all('[data-qa-selector="tp-add-assignee"] input').first
+      page.find('[data-qa-selector="tp-assignee-add-button"]').click unless is_open
+    end
+
+    def select_user_to_add(name)
+      select_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+                          query: name,
+                          results_selector: 'body'
+    end
+
+    def search_user_to_add(name)
+      search_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
+                          query: name,
+                          results_selector: 'body'
     end
   end
 end

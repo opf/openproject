@@ -59,7 +59,7 @@ pl:
     button_check_all: "Zaznacz wszystko"
     button_configure-form: "Skonfiguruj formularz"
     button_confirm: "Potwierdź"
-    button_continue: "Dalej"
+    button_continue: "Kontynuuj"
     button_copy: "Kopiuj"
     button_custom-fields: "Pola niestandardowe"
     button_delete: "Usuń"
@@ -454,6 +454,7 @@ pl:
     label_starred_queries: "Widoki ulubione"
     label_global_queries: "Widoki publiczne"
     label_custom_queries: "Widoki prywatne"
+    label_create_new_query: "Utwórz nową"
     label_columns: "Kolumny"
     label_attachments: Pliki
     label_drop_files: Upuść pliki tutaj
@@ -525,7 +526,7 @@ pl:
         and_more_users:
           one: 'i 1 inny'
           few: 'i %{count} inne'
-          many: 'i %{count} innych'
+          many: 'i %{count} inne'
           other: 'i %{count} innych'
         no_results:
           at_all: 'Nowe powiadomienia pojawią się tutaj, gdy pojawi się aktywność, która dotyczy ciebie'
@@ -636,7 +637,7 @@ pl:
           label: 'Tymczasowo wstrzymuj codzienne przypomnienia e-mail'
           first_day: 'Pierwszy dzień'
           last_day: 'Ostatni dzień'
-    text_are_you_sure: "Jesteś pewien?"
+    text_are_you_sure: "Jesteś pewny?"
     text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
     types:
       attribute_groups:
@@ -1162,7 +1163,7 @@ pl:
           user: 'Użytkownik może się teraz zalogować, aby uzyskać dostęp do %{project}.  Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           placeholder: 'Symbolu zastępczego można teraz użyć w %{project}. Tymczasem możesz już planować z tym użytkownikiem i na przykład przypisać pakiety robocze.'
           group: 'Grupa jest teraz częścią %{project}. Tymczasem możesz już planować z tą grupą i na przykład przypisać pakiety robocze.'
-        next_button: 'Dalej'
+        next_button: 'Kontynuuj'
     forms:
       submit_success_message: 'Formularz został przesłany'
       load_error_message: 'Podczas ładowania formularza wystąpił błąd'

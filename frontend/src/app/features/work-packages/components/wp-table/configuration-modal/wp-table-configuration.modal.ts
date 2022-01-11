@@ -31,7 +31,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ComponentType } from '@angular/cdk/portal';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -84,7 +84,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     readonly loadingIndicator:LoadingIndicatorService,
     readonly querySpace:IsolatedQuerySpace,
     readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly notificationService:WorkPackageNotificationService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly cdRef:ChangeDetectorRef,

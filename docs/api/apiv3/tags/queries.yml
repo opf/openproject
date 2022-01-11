@@ -28,7 +28,7 @@ description: |
 
   Please note, that all the properties listed above will also be embedded when individual queries are returned but will not be embedded when a list of queries is returned. Whether the properties are embedded or not may be subject to change in the future.
   
-  The `columns` and `highlightedAttributes` properties will be moved into the `QueryProjection::Table` so it is deprecated to have it listed within the Query directly.
+  The `columns` and `highlightedAttributes` properties will be moved into `Views::WorkPackagesTable` so it is deprecated to have it listed within the Query directly.
 
   ## Local Properties
 
@@ -37,7 +37,6 @@ description: |
   | id               | Query id                                                                                                         | Integer               | x > 0                                | READ                 |
   | name             | Query name                                                                                                       | String                |                                      | READ/WRITE           |
   | filters          | A set of QueryFilters which will be applied to the work packages to determine the resulting work packages        | []QueryFilterInstance |                                      | READ/WRITE           |
-  | projections      | A set of `QueryProjection` objects where each represents one projection (display option) defined for the query.  | []QueryProjection     |                                      | READ/WRITE           |
   | sums             | Should sums (of supported properties) be shown?                                                                  | Boolean               |                                      | READ/WRITE           |
   | timelineVisible  | Should the timeline mode be shown?                                                                               | Boolean               |                                      | READ/WRITE           |
   | timelineLabels   | Which labels are shown in the timeline, empty when default                                                       | QueryTimelineLabels   |                                      | READ/WRITE           |
@@ -52,9 +51,9 @@ description: |
 
   A query that is not assigned to a project (`"project": null`) is called a global query. Global queries filter work packages regardless of the project they are assigned to. As such, a different set of filters exists for those queries.
   
-  The `hidden` property is deprecated as it will be replaced by `QueryProjection`.
+  The `hidden` property is deprecated as it is replaced by the `Views` concept. A query that isn't hidden will have a `View` while a query that is hidden won't.
   
-  The `timelineVisible`, `timelineLabels`, `timelineZoomLevel`, `highlightingMode` and `showHierarchies` properties will be moved into the more appropriate projections (`QueryProjection::Gantt` and `QueryProjection::Table`) so it is deprecated to have them within the Query directly.
+  The `timelineVisible`, `timelineLabels`, `timelineZoomLevel`, `highlightingMode` and `showHierarchies` properties will be moved into the more appropriate Views (probably `Views::WorkPackagesTable`) so it is deprecated to have them within the Query directly.
 
   ## Query Filter Instance
 

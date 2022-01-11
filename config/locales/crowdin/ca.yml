@@ -195,11 +195,11 @@ ca:
   projects:
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
-      schedule_failed: "Project cannot be deleted: %{errors}"
-      failed: "Deletion of project %{name} has failed"
-      failed_text: "The request to delete project %{name} has failed. The project was left archived."
-      completed: "Deletion of project %{name} completed"
-      completed_text: "The request to delete project '%{name}' has been completed."
+      schedule_failed: "El projecte no es pot eliminar: %{errors}"
+      failed: "L'eliminació del projecte %{name} ha fallat"
+      failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
+      completed: "S'ha completat l'eliminació del projecte %{name}"
+      completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -211,8 +211,8 @@ ca:
       activities:
         no_results_title_text: Actualment no hi ha activitats disponibles.
       forums:
-        no_results_title_text: There are currently no forums for the project.
-        no_results_content_text: Create a new forum
+        no_results_title_text: Ara mateix no hi ha fòrums pel projecte.
+        no_results_content_text: Crea un fòrum nou
       categories:
         no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
         no_results_content_text: Crear una nova categoria de paquet de treball
@@ -232,9 +232,9 @@ ca:
     invite_by_mail: "Send invite to %{mail}"
   my:
     access_token:
-      failed_to_reset_token: "Failed to reset access token: %{error}"
-      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
-      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
+      failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
+      notice_reset_token: "S'ha generat un nou token %{type}. El vostre token d'accés és:"
+      token_value_warning: "Nota: Aquesta és la única vegada que veureu aquest token, assegureu-vos de copiar-lo ara."
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
   news:
     index:
@@ -264,8 +264,8 @@ ca:
   prioritiies:
     edit:
       priority_color_text: |
-        Click to assign or change the color of this priority.
-        It can be used for highlighting work packages in the table.
+        Cliqueu per assignar o canviar el color d'aquesta prioritat.
+        Pot fer-se servir per a remarcar paquets de treball en la taula.
   reportings:
     index:
       no_results_title_text: Actualment no hi ha cap informe d'estat.
@@ -273,13 +273,13 @@ ca:
   statuses:
     edit:
       status_readonly_html: |
-        Check this option to mark work packages with this status as read-only.
-        No attributes can be changed with the exception of the status.
+        Activeu aquesta opció per a marcar paquets de treball amb els seus estats com a sols lectura.
+        No es poden canviar els atributs amb l'excepció de l'atribut estat-
         <br/>
-        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+        <strong>Nota</strong> : Els valors heretats (p.e., de fills o relacions) es continuaran aplicant.
       status_color_text: |
-        Click to assign or change the color of this status.
-        It is shown in the status button and can be used for highlighting work packages in the table.
+        Clica per a assignar o canviar el color d'aquest estat.
+        Es mostra al botó d'estat i es pot fer servir per a remarcat paquets de treball a la taula.
     index:
       no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
       no_results_content_text: Afegir un nou estat
@@ -291,10 +291,10 @@ ca:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
       projects: "Projectes"
-      enabled_projects: "Enabled projects"
-      edit_query: "Edit table"
-      query_group_placeholder: "Give the table a name"
-      reset: "Reset to defaults"
+      enabled_projects: "Projectes habilitats"
+      edit_query: "Edita la taula"
+      query_group_placeholder: "Anomena la taula"
+      reset: "Restableix als valors per defecte"
       type_color_text: |
         El color seleccionat distingeix direfents tipus als diagrames Gantt o a les taules de paquets de treballs. Així doncs recomanem de fer servir un color fort.
   versions:
@@ -314,6 +314,10 @@ ca:
       other: '%{count} paquets de treball descendents'
     bulk:
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "No hi ha estats disponibles per a tots els paquets de treball seleccionats. El seus estats no es poden canviar."
       unsupported_for_multiple_projects: 'Moure o copiar en massa no està soportat per paquets de treball de múltiples projectes'
@@ -350,8 +354,8 @@ ca:
         other: "El compte es suprimirà del sistema. Per tant, l'usuari ja no podrà iniciar la sessió amb les seves credencials actuals. Ell/ella pot decidir convertir-se en un usuari d'aquesta aplicació una altra vegada pels mitjans que aquesta aplicació ofereix."
         self: "El seu compte es suprimirà del sistema. Per tant, ja no podreu accedir amb les vostres credencials actuals. Si vostè vol convertir-se en un usuari d'aquesta aplicació una altra vegada, pot fer-ho utilitzant els mitjans que l'aplicació proporciona."
       login_verification:
-        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
-        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
+        other: "Introduïu les credencials %{name} per a verificar l'eliminació. Una cop enviades, us demanarem la confirmació de la vostra contrasenya."
+        self: "Introduïu les vostres credencials %{name} per a verificar l'eliminació. Una cop enviades, us demanarem la confirmació de la vostra contrasenya."
     error_inactive_activation_by_mail: >
       El teu compte encara no ha estat activat. Per activar el compte, feu clic a l'enllaç que se us va enviar per e-mail.
     error_inactive_manual_activation: >
@@ -368,8 +372,8 @@ ca:
       announcements:
         show_until: "Mostrar fins"
       attachment:
-        attachment_content: "Attachment content"
-        attachment_file_name: "Attachment file name"
+        attachment_content: "Adjunta contingut"
+        attachment_file_name: "Nom de fitxer de l'adjunció"
         downloads: "Descàrregues"
         file: "Fitxer"
         filename: "Fitxer"
@@ -401,7 +405,7 @@ ca:
         is_required: "Obligatori"
         max_length: "Longitud màxima"
         min_length: "Longitud mínima"
-        multi_value: "Allow multi-select"
+        multi_value: "Permet la selecció múltiple"
         possible_values: "Valors possibles"
         regexp: "Expressió regular"
         searchable: "Es pot cercar"
@@ -411,13 +415,13 @@ ca:
       enterprise_token:
         starts_at: "Vàlid des de"
         expires_at: "Caduca el"
-        subscriber: "Subscriber"
-        encoded_token: "Enterprise support token"
+        subscriber: "Subscriptor"
+        encoded_token: "Token de suport Enterprise"
         active_user_count_restriction: "Màxim nombre d'usuaris actius"
       grids/grid:
         page: "Pàgina"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
+        row_count: "Nombre de files"
+        column_count: "Nombre de columnes"
         widgets: "Widgets"
       relation:
         delay: "Retard"
@@ -425,7 +429,7 @@ ca:
         to: "Paquet de treball relacionat"
       status:
         is_closed: "Paquet de treball tancat"
-        is_readonly: "Work package read-only"
+        is_readonly: "Paquet de treball en sols lectura"
       journal:
         notes: "Notes"
       member:
@@ -441,18 +445,18 @@ ca:
         templated: 'Template project'
       projects/status:
         code: 'Estat'
-        explanation: 'Status description'
+        explanation: 'Descripció de l''estat'
         codes:
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
+          on_track: 'Pel bon camí'
+          at_risk: 'En risc'
+          off_track: 'En mal camí'
       query:
         column_names: "Columnes"
-        relations_to_type_column: "Relations to %{type}"
-        relations_of_type_column: "%{type} relations"
+        relations_to_type_column: "Relacions a %{type}"
+        relations_of_type_column: "relacions %{type}"
         group_by: "Agrupa els resultats per"
         filters: "Filtres"
-        timeline_labels: "Timeline labels"
+        timeline_labels: "Etiquetes de cronologia"
       repository:
         url: "URL"
       role:
@@ -464,10 +468,10 @@ ca:
         spent_on: "Data"
         type: "Tipus"
       type:
-        description: "Default text for description"
+        description: "Text per defecte per la descripció"
         attribute_groups: ''
-        is_in_roadmap: "Displayed in roadmap by default"
-        is_default: "Activated for new projects by default"
+        is_in_roadmap: "Es mostra al full de ruta per defecte "
+        is_default: "Actiu per defecte als nous projectes "
         is_milestone: "És una fita"
         color: "Color"
       user:
@@ -479,16 +483,16 @@ ca:
         last_login_on: "Darrer inici de sessió"
         new_password: "Nova contrasenya"
         password_confirmation: "Confirmació"
-        consented_at: "Consented at"
+        consented_at: "Consentit a"
       user_preference:
         comments_sorting: "Mostra els comentaris"
         hide_mail: "Oculta la meva adreça de correu electrònic"
         impaired: "Mode d'accessibilitat"
         time_zone: "Zona horària"
-        auto_hide_popups: "Auto-hide success notifications"
-        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+        auto_hide_popups: "Oculta automàticament les notificacions de succés"
+        warn_on_leaving_unsaved: "Avisa quan es deixi un paquet de treball amb canvis no desats"
       version:
-        effective_date: "Finish date"
+        effective_date: "Data de finalització"
         sharing: "Compartint"
       wiki_content:
         text: "Text"
@@ -500,7 +504,7 @@ ca:
       work_package:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
-        children: "Subelements"
+        children: "Sub-elements"
         done_ratio: "Progrés (%)"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
@@ -518,13 +522,13 @@ ca:
         type: "Tipus"
         watcher: "Observador"
       'doorkeeper/application':
-        uid: "Client ID"
-        secret: "Client secret"
-        owner: "Owner"
-        redirect_uri: "Redirect URI"
-        client_credentials_user_id: "Client Credentials User ID"
-        scopes: "Scopes"
-        confidential: "Confidential"
+        uid: "ID de Client"
+        secret: "Clau secreta del Client"
+        owner: "Propietari"
+        redirect_uri: "URI de redirecció"
+        client_credentials_user_id: "ID d'Usuari Credencials de Client"
+        scopes: "Àmbits"
+        confidential: "Confidencial"
     errors:
       messages:
         accepted: "hauran de ser acceptats."
@@ -540,8 +544,8 @@ ca:
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "no existeix."
         error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
-        error_unauthorized: "may not be accessed."
-        error_readonly: "was attempted to be written but is not writable."
+        error_unauthorized: "no és possible accedir."
+        error_readonly: "es va intentar d'escriure-hi però no és modificable."
         email: "is not a valid email address."
         empty: "no pot estar buit."
         even: "ha de ser parell."
@@ -556,31 +560,31 @@ ca:
         inclusion: "no està establert a un dels valors permesos."
         inclusion_nested: "no correspon a un dels valors permesos a la ruta '%{path}'."
         invalid: "no és vàlid."
-        invalid_url: 'is not a valid URL.'
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: 'no és una URL vàlida.'
+        invalid_url_scheme: 'no és un protocal suportat (permès: %{allowed_schemes}).'
         less_than_or_equal_to: "ha de ser menor o igual a %{count}."
         not_available: "no és disponible degut a la configuració del sistema."
         not_deletable: "cannot be deleted."
         not_current_user: "is not the current user."
-        not_a_date: "is not a valid date."
-        not_a_datetime: "is not a valid date time."
+        not_a_date: "no és una data vàlida."
+        not_a_datetime: "no és una data-i-hora vàlida."
         not_a_number: "no és un número."
-        not_allowed: "is invalid because of missing permissions."
+        not_allowed: "és invàlid perquè falten permisos."
         not_an_integer: "no és un enter."
         not_an_iso_date: "no és una data vàlida. Format requerit: AAAA-MM-DD."
         not_same_project: "no pertany al mateix projecte."
         odd: "ha de ser senar."
-        regex_invalid: "could not be validated with the associated regular expression."
+        regex_invalid: "no s'ha pogut validar amb l'expressió regular associada."
         smaller_than_or_equal_to_max_length: "ha de ser inferior o igual a la longitud màxima."
         taken: "ja s'està utilitzant."
         too_long: "és massa llarg (el màxim són %{count} caràcters)."
         too_short: "és massa curt (el mínim són %{count} caràcters)."
         type_mismatch: "no és del tipus '%{type}'"
         type_mismatch_nested: "no és del tipus '%{type}' a la ruta '%{path}'"
-        unchangeable: "cannot be changed."
+        unchangeable: "no es pot canviar."
         unknown_property: "no és una propietat coneguda."
         unknown_property_nested: "té la ruta desconeguda '%{path}'."
-        unremovable: "cannot be removed."
+        unremovable: "no es pot eliminar."
         wrong_length: "la longitud és incorrecta (haurien de ser %{count} caràcters)."
       models:
         attachment:
@@ -596,32 +600,32 @@ ca:
             filters:
               minimum: "necessita d'incloure almenys un filtre per a principal, a context o id amb l'operador '='."
         custom_field:
-          at_least_one_custom_option: "At least one option needs to be available."
+          at_least_one_custom_option: "Al menys hi ha d'haver una opció disponible."
         custom_actions:
-          only_one_allowed: "(%{name}) only one value is allowed."
-          empty: "(%{name}) value can't be empty."
-          inclusion: "(%{name}) value is not set to one of the allowed values."
-          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
-          not_an_integer: "(%{name}) is not an integer."
-          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
-          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          only_one_allowed: "(%{name}) sols és permès un valor."
+          empty: "(%{name}) el valor no ser buit."
+          inclusion: "(%{name}) el valor no s'ha establert a un dels valors permesos."
+          not_logged_in: "(%{name}) no es pot establir el valor perquè no heu iniciat la sessió."
+          not_an_integer: "(%{name}) no és un enter."
+          smaller_than_or_equal_to: "(%{name}) ha de ser més petit o igual a %{count}."
+          greater_than_or_equal_to: "(%{name}) ha de ser més gran o igual a %{count}."
           format: "%{message}"
         doorkeeper/application:
           attributes:
             redirect_uri:
-              fragment_present: 'cannot contain a fragment.'
-              invalid_uri: 'must be a valid URI.'
-              relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
-              forbidden_uri: 'is forbidden by the server.'
+              fragment_present: 'no pot contenir un fragment.'
+              invalid_uri: 'ha de ser una URI vàlida.'
+              relative_uri: 'ha de ser una URI absoluta.'
+              secured_uri: 'ha de ser una URI HTTPS/SSL.'
+              forbidden_uri: 'és vetada pel servidor.'
             scopes:
-              not_match_configured: "doesn't match available scopes."
+              not_match_configured: "no coincideix amb els àmbits disponibles."
         enterprise_token:
-          unreadable: "can't be read. Are you sure it is a support token?"
+          unreadable: "no es pot llegir. Sou segurs de que és un token de suport?"
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'superposició.'
+          outside: 'és fora de la graella.'
+          end_before_start: 'el valor final ha de ser major que el valor inicial.'
         notifications:
           at_least_one_channel: 'És necessari d''especificar almenys un canal per enviar notificacions.'
           attributes:
@@ -640,8 +644,8 @@ ca:
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: "The operator is not supported."
-              invalid_values: "A value is invalid."
+              unsupported_operator: "L'operador no és suportat."
+              invalid_values: "Un valor és invàlid."
               id_filter_required: "An 'id' filter is required."
         project:
           archived_ancestor: 'The project has an archived ancestor.'
@@ -734,6 +738,7 @@ ca:
               does_not_exist: "La categoria especificada no existeix."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "ha de ser > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -839,7 +844,7 @@ ca:
     derived_estimated_hours: "Derived estimated time"
     derived_start_date: "Derived start date"
     display_sums: "Mostra les sumes"
-    due_date: "Finish date"
+    due_date: "Data de finalització"
     estimated_hours: "Temps estimat"
     estimated_time: "Temps estimat"
     firstname: "Nom"
@@ -848,7 +853,7 @@ ca:
     id: "Id"
     is_default: "Valor per defecte"
     is_for_all: "Per tots els projectes"
-    is_public: "Públic"
+    public: "Públic"
     #kept for backwards compatibility
     issue: "Paquet de treball"
     lastname: "Cognom"
@@ -858,7 +863,6 @@ ca:
     password: "Contrasenya"
     priority: "Prioritat"
     project: "Projecte"
-    public: "Públic"
     responsible: "Accountable"
     role: "Rol"
     roles: "Rol"
@@ -916,7 +920,7 @@ ca:
   button_check_all: "Marcar-ho tot"
   button_clear: "Netejar"
   button_click_to_reveal: "Click to reveal"
-  button_close: 'Tancar'
+  button_close: 'Tanca'
   button_collapse_all: "Replega-ho tot"
   button_configure: "Configurar"
   button_continue: "Continue"
@@ -1525,7 +1529,7 @@ ca:
   label_equals: "és"
   label_everywhere: "everywhere"
   label_example: "Exemple"
-  label_import: "Import"
+  label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
   label_f_hour: "%{value} hora"
@@ -1724,7 +1728,6 @@ ca:
   label_public_projects: "Projectes públics"
   label_query_new: "Nova consulta"
   label_query_plural: "Consultes personalitzades"
-  label_query_menu_item: "Element de menú de consulta"
   label_read: "Llegir..."
   label_register: "Crea un nou compte"
   label_register_with_developer: "Registrar com a desenvolupador"
@@ -1885,20 +1888,20 @@ ca:
   label_workflow_plural: "Fluxos de treball"
   label_workflow_summary: "Resum"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 tancat"
+    other: "%{count} tancats"
     zero: "0 tancats"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 comentari"
+    other: "%{count} comentaris"
     zero: "sense comentaris"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 obert"
+    other: "%{count} oberts"
     zero: "0 oberts"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projecte"
+    other: "%{count} projectes"
     zero: "sense projectes"
   label_yesterday: "ahir"
   label_role_type: "Tipus"
@@ -2833,7 +2836,6 @@ ca:
   wiki_menu_item_new_main_item_explanation: >
     Esteu Suprimint l'únic l'element de menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un nou element principal. Per suprimir la wiki, els administradors del projecte poden desactivar el mòdul wiki.
   wiki_menu_item_delete_not_permitted: No es pot suprimir l'element de menú de wiki de la única pàgina wiki.
-  query_menu_item_for: "Element de menú per a la consulta \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2943,7 +2945,7 @@ ca:
         client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
         register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
         default_scopes: ""
-    client_id: "Client ID"
+    client_id: "ID de Client"
     client_secret_notice: >
       This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
     authorization_dialog:

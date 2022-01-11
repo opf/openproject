@@ -57,8 +57,8 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { QuerySelectComponent } from 'core-app/shared/components/op-query-select/op-query-select.component';
-import { StaticQueriesService } from 'core-app/shared/components/op-query-select/op-static-queries.service';
+import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
   OpHighlightColDirective,
@@ -85,6 +85,7 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -190,10 +191,11 @@ export function bootstrapModule(injector:Injector) {
   ],
   providers: [
     StaticQueriesService,
+    ViewsResourceService,
   ],
   declarations: [
     OpDateTimeComponent,
-    QuerySelectComponent,
+    ViewSelectComponent,
 
     ToastsContainerComponent,
     ToastComponent,

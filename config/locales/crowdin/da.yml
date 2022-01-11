@@ -315,6 +315,10 @@ da:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -735,6 +739,7 @@ da:
               does_not_exist: "Den angivne kategori findes ikke."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -849,7 +854,7 @@ da:
     id: "Id"
     is_default: "Forhåndsvalgt værdi"
     is_for_all: "For alle projekter"
-    is_public: "Offentlig"
+    public: "Offentlig"
     #kept for backwards compatibility
     issue: "Arbejdspakke"
     lastname: "Efternavn"
@@ -859,7 +864,6 @@ da:
     password: "Adgangskode"
     priority: "Prioritet"
     project: "Prjoekt"
-    public: "Offentlig"
     responsible: "Accountable"
     role: "Rolle"
     roles: "Rollee"
@@ -1507,7 +1511,7 @@ da:
   label_duplicated_by: "duplikeret gennem"
   label_duplicate: "duplicate"
   label_duplicates: "dubletter"
-  label_edit: "Rediger"
+  label_edit: "Redigér"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Vælg multivalg"
   label_enabled_project_custom_fields: 'Aktiverede brugerdefinerede felter'
@@ -1725,7 +1729,6 @@ da:
   label_public_projects: "Offentlige projekter"
   label_query_new: "Ny forespørgsel"
   label_query_plural: "Selvvalgte forespørgsler"
-  label_query_menu_item: "Punkt på forespørgselsmenu"
   label_read: "Læs..."
   label_register: "Opret en ny konto"
   label_register_with_developer: "Registrer dig som udvikler"
@@ -1799,7 +1802,7 @@ da:
   label_summary: "Opsummering"
   label_system: "System"
   label_system_storage: "Lagringsoplysninger"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Indholdsfortegnelse"
   label_tag: "Etiket"
   label_text: "Lang tekst"
   label_this_month: "denne måned"
@@ -2834,7 +2837,6 @@ da:
   wiki_menu_item_new_main_item_explanation: >
     Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
-  query_menu_item_for: "Menupunkt for forespørgsel \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

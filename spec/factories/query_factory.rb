@@ -33,19 +33,43 @@ FactoryBot.define do
     sequence(:name) { |n| "Query #{n}" }
 
     factory :public_query do
-      is_public { true }
+      public { true }
       sequence(:name) { |n| "Public query #{n}" }
     end
 
     factory :private_query do
-      is_public { false }
+      public { false }
       sequence(:name) { |n| "Private query #{n}" }
     end
 
     factory :global_query do
       project { nil }
-      is_public { true }
+      public { true }
       sequence(:name) { |n| "Global query #{n}" }
+    end
+
+    factory :query_with_view_work_packages_table do
+      sequence(:name) { |n| "Work packages query #{n}" }
+
+      callback(:after_create) do |query|
+        FactoryBot.create(:view_work_packages_table, query: query)
+      end
+    end
+
+    factory :query_with_view_team_planner do
+      sequence(:name) { |n| "Team planner query #{n}" }
+
+      callback(:after_create) do |query|
+        FactoryBot.create(:view_team_planner, query: query)
+      end
+    end
+
+    factory :query_with_view_work_packages_calendar do
+      sequence(:name) { |n| "Calendar query #{n}" }
+
+      callback(:after_create) do |query|
+        FactoryBot.create(:view_work_packages_calendar, query: query)
+      end
     end
 
     callback(:after_build) { |query| query.add_default_filter }

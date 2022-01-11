@@ -318,6 +318,10 @@ ru:
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
+      none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
+      x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."
+      selected_because_descendants: "В то время как выбрано %{selected} пакетов работ, в общей сложности затрагиваются %{total} пакетов работ, включая дочерние."
+      descendant: "дочерний выбранного"
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: 'Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов'
@@ -440,7 +444,7 @@ ru:
         parent: "Подпроект"
         queries: "Запросы"
         types: "Типы"
-        versions: "Версии"
+        versions: "Этапы"
         work_packages: "Задачи"
         templated: 'Проект шаблона'
       projects/status:
@@ -448,7 +452,7 @@ ru:
         explanation: 'Описание статуса'
         codes:
           on_track: 'В работе'
-          at_risk: 'Под угрозой'
+          at_risk: 'Есть риск'
           off_track: 'Приостановлен'
       query:
         column_names: "Столбцы"
@@ -508,7 +512,7 @@ ru:
         done_ratio: "Прогресс (%)"
         end_insertion: "Завершение вставки"
         end_deletion: "Завершение удаления"
-        version: "Стадия"
+        version: "Этапы"
         parent: "Родитель"
         parent_issue: "Родитель"
         parent_work_package: "Родитель"
@@ -738,6 +742,7 @@ ru:
               does_not_exist: "Указанная категория не существует."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "должно быть > = 0."
+          readonly_status: 'Пакет работ находится в состоянии только для чтения, поэтому его атрибуты не могут быть изменены.'
         type:
           attributes:
             attribute_groups:
@@ -804,7 +809,7 @@ ru:
         one: "Уведомление"
         few: "Уведомления"
         many: "Уведомлений"
-        other: "Уведомления"
+        other: "Уведомлений"
       placeholder_user: "Пользователь-заполнитель"
       project: "Проект"
       query: "Настраиваемый запрос"
@@ -815,7 +820,7 @@ ru:
         other: "Роль"
       type: "Тип"
       user: "Пользователь"
-      version: "Стадия"
+      version: "Этапы"
       wiki: "Wiki"
       wiki_page: "Wiki-страница"
       workflow: "Рабочий поток"
@@ -860,7 +865,7 @@ ru:
     id: "ID"
     is_default: "Значение по умолчанию"
     is_for_all: "Для всех проектов"
-    is_public: "Общий"
+    public: "Общий"
     #kept for backwards compatibility
     issue: "Пакет работ"
     lastname: "Фамилия"
@@ -870,7 +875,6 @@ ru:
     password: "Пароль"
     priority: "Приоритет"
     project: "Проект"
-    public: "Общий"
     responsible: "Подотчетный"
     role: "Роль"
     roles: "Роль"
@@ -884,7 +888,7 @@ ru:
     updated_on: "Обновлено"
     uploader: "Кто загрузил"
     user: "Пользователь"
-    version: "Стадия"
+    version: "Этапы"
     work_package: "Пакет работ"
   backup:
     label_backup_token: "Маркер резервного копирования"
@@ -1314,7 +1318,7 @@ ru:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Pyccĸий"
+  general_lang_name: "Русский"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "нет"
   general_text_yes: "Да"
@@ -1760,7 +1764,6 @@ ru:
   label_public_projects: "Проекты, доступные всем"
   label_query_new: "Новый запрос"
   label_query_plural: "Пользовательские запросы"
-  label_query_menu_item: "Пункт меню запроса"
   label_read: "Читать..."
   label_register: "Создайте новую учетную запись"
   label_register_with_developer: "Зарегистрируйтесь как разработчик"
@@ -1873,7 +1876,7 @@ ru:
   label_user_search: "Найти пользователя"
   label_user_settings: "Настройки пользователя"
   label_version_new: "Новый этап"
-  label_version_plural: "Версии"
+  label_version_plural: "Этапы"
   label_version_sharing_descendants: "С подпроэктами"
   label_version_sharing_hierarchy: "С иерархией проектов"
   label_version_sharing_none: "Не используется другими"
@@ -2875,7 +2878,6 @@ ru:
   wiki_menu_item_new_main_item_explanation: >
     Вы удалили только элемент главного меню wiki. Сейчас вы должны выбрать wiki-страницы для которых будет сгенерирован новый элемент меню. Для удаления wiki  администратор проекта должен деактивировать модуль wiki.
   wiki_menu_item_delete_not_permitted: Элемент меню wiki только wiki-страницы удален быть не может.
-  query_menu_item_for: "Пункт меню для запроса «%{title}»"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

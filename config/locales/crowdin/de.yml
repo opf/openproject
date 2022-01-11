@@ -238,7 +238,7 @@ de:
   news:
     index:
       no_results_title_text: Es gibt aktuell keine Nachrichten.
-      no_results_content_text: Nachricht hinzufügen
+      no_results_content_text: Neuigkeit hinzufügen
   users:
     groups:
       member_in_these_groups: 'Dieser Benutzer ist Mitglied der folgenden Gruppen:'
@@ -312,6 +312,10 @@ de:
       other: '%{count} untergeordnete Arbeitspakete'
     bulk:
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
+      none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
+      x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
+      selected_because_descendants: "Während %{selected} Arbeitspakete ausgewählt wurden, sind insgesamt %{total} Arbeitspakete betroffen, die untergeordnete Arbeitspakete enthalten."
+      descendant: "untergeordnetes Arbeitspaket eines ausgewählten Arbeitspaketes"
     move:
       no_common_statuses_exists: "Es gibt keine gemeinsamen Status für die ausgewählten Arbeitspakete. Ihr Status kann daher nicht verändert werden."
       unsupported_for_multiple_projects: 'Verschieben / Kopieren nicht unterstützt für Arbeitspakete in verschiedenen Projekten'
@@ -460,7 +464,7 @@ de:
         activity: "Aktivität"
         hours: "Stunden"
         spent_on: "Datum"
-        type: "Typ"
+        type: "Art"
       type:
         description: "Standardtext für Beschreibung"
         attribute_groups: ''
@@ -721,7 +725,7 @@ de:
             start_date:
               violates_relationships: "muss mindestens auf %{soonest_start} gesetzt werden, um Beziehungen zu anderen Arbeitspaketen nicht zu verletzten."
             status_id:
-              status_transition_invalid: "ist ungültig da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert."
+              status_transition_invalid: "ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert."
               status_invalid_in_type: "ist ungültig, da der aktuelle Status nicht in diesem Typ vorhanden ist."
             type:
               cannot_be_milestone_due_to_children: "kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt."
@@ -732,6 +736,7 @@ de:
               does_not_exist: "Die angegebene Kategorie existiert nicht."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "muss >= 0 sein."
+          readonly_status: 'Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.'
         type:
           attributes:
             attribute_groups:
@@ -846,7 +851,7 @@ de:
     id: "ID"
     is_default: "Standardwert"
     is_for_all: "Für alle Projekte"
-    is_public: "Öffentlich"
+    public: "Öffentlich"
     #kept for backwards compatibility
     issue: "Arbeitspaket"
     lastname: "Nachname"
@@ -856,7 +861,6 @@ de:
     password: "Kennwort"
     priority: "Priorität"
     project: "Projekt"
-    public: "Öffentlich"
     responsible: "Verantwortlich"
     role: "Rollen"
     roles: "Rollen"
@@ -922,7 +926,7 @@ de:
   button_copy_and_follow: "Kopieren und Arbeitspaket anzeigen"
   button_create: "Anlegen"
   button_create_and_continue: "Anlegen und weiter"
-  button_delete: "Löschen"
+  button_delete: "Lösche"
   button_decline: "Ablehnen"
   button_delete_watcher: "Lösche Beobachter %{name}"
   button_download: "Download"
@@ -969,7 +973,7 @@ de:
     checkbox_label: Ich habe die obigen Angaben zur Kenntnis genommen und erkläre mich einverstanden.
     failure_message: Einwilligung fehlgeschlagen, kann nicht fortfahren.
     title: Nutzer-Einwilligung
-    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgelehnt.
+    decline_warning_message: Sie haben die Einwilligung abgelehnt und wurden deshalb abgemeldet.
     user_has_consented: Der Benutzer hat seine Einwilligung zu dem Statement dieser Instanz zu der angegebenen Zeit gegeben.
     not_yet_consented: Der Benutzer hat seine Einwilligung noch nicht gegeben und wird beim nächsten Login dazu befragt.
     contact_mail_instructions: Definieren Sie die E-Mail-Adresse, über die Benutzer einen Daten-Controller erreichen können, um Anfragen zu Datenänderung oder -löschung einzureichen.
@@ -1274,7 +1278,7 @@ de:
       tesseract: "Tesseract verfügbar (optional)"
   general_csv_decimal_separator: ","
   general_csv_encoding: "UTF-8"
-  general_csv_separator: ";"
+  general_csv_separator: ","
   general_first_day_of_week: "1"
   general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
@@ -1547,7 +1551,7 @@ de:
   label_generate_key: "Schlüssel generieren"
   label_git_path: "Pfad zum .git-Verzeichnis"
   label_greater_or_equal: ">="
-  label_group_by: "Gruppiere Ergebnisse"
+  label_group_by: "Gruppieren nach"
   label_group_new: "Neue Gruppe"
   label_group: "Gruppe"
   label_group_named: "Gruppe %{name}"
@@ -1644,19 +1648,19 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news_singular: "Nachrichten"
-  label_news_added: "Nachricht hinzugefügt"
+  label_news_singular: "Nachricht"
+  label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
   label_news_latest: "Aktuellste Nachrichten"
   label_news_new: "Nachricht hinzufügen"
   label_news_edit: "Nachricht bearbeiten"
   label_news_plural: "Nachrichten"
-  label_news_view_all: "Alle Nachrichten anzeigen"
+  label_news_view_all: "Alle Neuigkeiten anzeigen"
   label_next: "Weiter"
   label_next_week: "Woche vor"
   label_no_change_option: "(Keine Änderung)"
   label_no_data: "Es sind keine Daten vorhanden"
-  label_no_parent_page: "Keine Übergeordnete Seite"
+  label_no_parent_page: "Keine übergeordnete Seite"
   label_nothing_display: "Nichts anzuzeigen"
   label_nobody: "Niemand"
   label_not_found: 'nicht gefunden'
@@ -1722,7 +1726,6 @@ de:
   label_public_projects: "Öffentliche Projekte"
   label_query_new: "Neuer Bericht"
   label_query_plural: "Benutzerdefinierte Berichte"
-  label_query_menu_item: "Filter-Menüpunkt"
   label_read: "Lesen ..."
   label_register: "Neues Konto erstellen"
   label_register_with_developer: "Als Entwickler anmelden"
@@ -2156,7 +2159,7 @@ de:
   permission_manage_categories: "Arbeitspaket-Kategorien verwalten"
   permission_manage_work_package_relations: "Arbeitspaket-Beziehungen verwalten"
   permission_manage_members: "Mitglieder verwalten"
-  permission_manage_news: "Nachrichten verwalten"
+  permission_manage_news: "Nachricht verwalten"
   permission_manage_project_activities: "Aktivitäten (Zeiterfassung) verwalten"
   permission_manage_public_queries: "Öffentliche Ansichten verwalten"
   permission_manage_repository: "Projektarchiv verwalten"
@@ -2833,7 +2836,6 @@ de:
   wiki_menu_item_new_main_item_explanation: >
     Der einzige Wiki-Hauptmenüpunkt wird gelöscht. Sie müssen nun eine Wikiseite auswählen, für die ein neuer Menüpunkt erzeugt wird. Um das Wiki zu entfernen kann das Wiki Modul durch Projektadministratoren deaktiviert werden.
   wiki_menu_item_delete_not_permitted: Der Wiki-Menüpunkt der einzigen Wiki-Seite kann nicht gelöscht werden.
-  query_menu_item_for: "Menüpunkt für die Suche \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2916,7 +2918,7 @@ de:
         unsupported_response_type: 'Der Autorisierungsserver unterstützt diesen Antworttyp nicht.'
         #Access token errors
         invalid_client: 'Die Client-Authentifizierung ist aufgrund eines unbekannten Clients oder einer nicht unterstützten Anfrage fehlgeschlagen.'
-        invalid_grant: 'Die bereitgestellte Genehmigung ist ungültig, abgelaufen, widerrufen, entspricht nicht der Redirect-URI, die in der Autorisierungsanfrage verwendet wird oder an einen anderen Client ausgegeben wurde.'
+        invalid_grant: 'Die bereitgestellte Genehmigung ist ungültig, abgelaufen, widerrufen, entspricht nicht der Redirect-URI, die in der Autorisierungsanfrage verwendet wird oder wurde an einen anderen Client ausgegeben.'
         unsupported_grant_type: 'Der Autorisierungs-Grant-Typ wird vom Autorisierungsserver nicht unterstützt.'
         invalid_token:
           revoked: "Das Zugangstoken wurde widerrufen"

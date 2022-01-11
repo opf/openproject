@@ -22,17 +22,17 @@
 tr:
   js:
     ajax:
-      hide: "Gizle"
+      hide: "Saklamak"
       loading: "Yükleniyor ..."
     attachments:
       draggable_hint: |
         Editör alanında, satır içi görüntüye veya referans ekine sürükleyin. Sürüklemeye devam ederken kapalı editör alanları açılacaktır.
     autocomplete_select:
       placeholder:
-        multi: "\"%{name}\" ekle"
-        single: "\"%{name}\" Seç"
-      remove: "%{name} kaldır"
-      active: "Etkin %{label} %{name}"
+        multi: "\"%{name}\" ekleyin"
+        single: "\"%{name}\" seçeneğini seçin"
+      remove: "%{name} öğesini kaldır"
+      active: "Aktif %{label} %{name}"
     backup:
       attachments_disabled: Ekler, izin verilen maksimum toplam boyutu aştıkları için dahil edilmeyebilir. Bunu yapılandırma yoluyla değiştirebilirsiniz (sunucunun yeniden başlatılması gerekir).
       info: >
@@ -46,47 +46,47 @@ tr:
       include_attachments: Ekleri dahil et
       download_backup: Yedeği indir
       request_backup: Yedek talep et
-    close_popup_title: "Pencereyi kapat"
+    close_popup_title: "Açılır pencereyi kapat"
     close_filter_title: "Filtreyi kapat"
     close_form_title: "Formu kapat"
     button_add_watcher: "Takipçi ekle"
     button_add: "Ekle"
     button_back: "Geri"
-    button_back_to_list_view: "Listeye görünümüne geri dön"
-    button_cancel: "İptal"
+    button_back_to_list_view: "Liste görünümüne geri dön"
+    button_cancel: "İptal etmek"
     button_close: "Kapat"
     button_change_project: "Projeyi değiştir"
-    button_check_all: "Tümünü işaretle"
+    button_check_all: "Hepsini kontrol et"
     button_configure-form: "Formu yapılandır"
-    button_confirm: "Doğrula"
+    button_confirm: "Onaylamak"
     button_continue: "Devam et"
-    button_copy: "Kopyala"
-    button_custom-fields: "Özel alanlar"
-    button_delete: "Sil"
+    button_copy: "Kopyalamak"
+    button_custom-fields: "Özel Alanlar"
+    button_delete: "silmek"
     button_delete_watcher: "Takipçi sil"
-    button_details_view: "Detay görünümü"
-    button_duplicate: "Çoğalt"
+    button_details_view: "Ayrıntılar görünümü"
+    button_duplicate: "Çoğaltın"
     button_edit: "Düzenle"
     button_filter: "Filtre"
     button_collapse_all: "Tümünü daralt"
     button_expand_all: "Tümünü genişlet"
     button_advanced_filter: "Gelişmiş filtre"
     button_list_view: "Liste görünümü"
-    button_show_view: "Tam Ekran görünümü"
-    button_log_time: "Zaman kaydet"
-    button_more: "Fazlası"
-    button_open_details: "Detay görünümünü aç"
-    button_close_details: "Detay görünümünü kapat"
-    button_open_fullscreen: "Tam Ekran görünümünü aç"
+    button_show_view: "Tam ekran görünümü"
+    button_log_time: "Günlük zamanı kaydet"
+    button_more: "Daha"
+    button_open_details: "Ayrıntılar görünümünü aç"
+    button_close_details: "Ayrıntılar görünümünü kapat"
+    button_open_fullscreen: "Tam ekran görünümünü aç"
     button_show_cards: "Kart görünümünü göster"
     button_show_list: "Liste görünümünü göster"
     button_quote: "Alıntı"
-    button_save: "Kaydet"
+    button_save: "Kayıt etmek"
     button_settings: "Ayarlar"
-    button_uncheck_all: "Tüm işaretleri kaldır"
-    button_update: "Güncelle"
+    button_uncheck_all: "Tümünü işaretleme"
+    button_update: "Güncelleştirme"
     button_export-pdf: "PDF indir"
-    button_export-atom: "Atom indir"
+    button_export-atom: "Atom İndir"
     button_create: "Oluştur"
     calendar:
       title: 'Takvim'
@@ -99,7 +99,7 @@ tr:
       remove_from_list: 'Kartı listeden çıkar'
     caption_rate_history: "Hız tarihi"
     clipboard:
-      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Metni lütfen elle kopyalayınız."
+      browser_error: "Tarayıcınız panoya kopyalamayı desteklemiyor. Lütfen seçilen metni manuel olarak kopyalayın."
       copied_successful: "Panoya başarıyla kopyalandı!"
     chart:
       type: 'Grafik tipi'
@@ -187,7 +187,7 @@ tr:
         reset_to_defaults: 'Varsayılanlara geri yükle'
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_expired: "süresi dolmuş"
         trial:
           confirmation: "E-posta adresi doğrulama"
           confirmation_info: >
@@ -406,7 +406,7 @@ tr:
     label_remove_column: "Sütunu kaldır"
     label_remove_columns: "Seçili sütunları sil"
     label_remove_row: "Satırı kaldır"
-    label_report: "Rapor"
+    label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
     label_select_watcher: "Takipçi seç..."
@@ -422,7 +422,7 @@ tr:
     label_star_query: "avantajlı"
     label_press_enter_to_save: "Kaydetmek için enter tuşuna basın."
     label_public_query: "Herkese Açık"
-    label_sum: "Toplam"
+    label_sum: "toplam\n"
     label_sum_for: "Toplam"
     label_total_sum: "Toplam miktar"
     label_subject: "Konu"
@@ -454,6 +454,7 @@ tr:
     label_starred_queries: "Gözde görünümler"
     label_global_queries: "Herkese açık görünümler"
     label_custom_queries: "Gizli görünümler"
+    label_create_new_query: "Yeni oluştur"
     label_columns: "Sütunlar"
     label_attachments: Dosyalar
     label_drop_files: Dosyaları buraya bırakın
@@ -537,23 +538,23 @@ tr:
           no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Yeni bildirimler var'
+          link_text: 'Yüklemek için buraya tıklayın'
       menu:
         accountable: 'Sorumlu'
-        assigned: 'Assigned'
+        assigned: 'Atanmış'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        by_reason: 'Katılım'
+        inbox: 'Gelen Kutusu'
+        mentioned: '@bahsedilen'
+        watching: 'İzliyor'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Bildirim ayarları"
-        notify_me: "Notify me"
+        notify_me: "Beni dürt"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
+            title: 'benden @bahsedildi'
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'
@@ -574,9 +575,9 @@ tr:
         project_specific:
           title: 'Project-specific notification settings'
           description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          add: 'Proje için ayar ekle'
+          already_selected: 'Bu proje zaten seçildi'
+          remove: 'Proje ayarlarını sil'
     password_confirmation:
       field_description: 'Bu değişikliği onaylamak için hesap parolanızı girmeniz gerekir.'
       title: 'Devam etmek için parolanızı doğrulayın'
@@ -607,7 +608,7 @@ tr:
       settings:
         daily:
           add_time: 'Add time'
-          enable: 'Enable daily email reminders'
+          enable: 'Günlük email hatırlatıcılarını etkinleştir'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Time %{counter}:'
@@ -615,7 +616,7 @@ tr:
         workdays:
           title: 'Receive email reminders on these days'
         immediate:
-          title: 'Send me an email reminder'
+          title: 'Bana email hatırlatıcısı gönder'
           mentioned: 'Immediately when someone @mentions me'
         alerts:
           title: 'Email alerts for other items (that are not work packages)'
@@ -623,19 +624,19 @@ tr:
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: 'Haberler eklendi'
           news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          document_added: 'Belgeler eklendi'
+          forum_messages: 'Yeni forum mesajları'
           wiki_page_added: 'Viki sayfası eklendi'
           wiki_page_updated: 'Viki sayfası güncellendi'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          membership_added: 'Üyelik eklendi'
+          membership_updated: 'Üyelik güncellendi'
+        title: 'Email hatırlatıcıları'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: 'Email hatırlatıcılarını geçici olarak durdur'
+          first_day: 'İlk gün'
+          last_day: 'Son gün'
     text_are_you_sure: "Emin misiniz?"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "Girilen tüm veriler silinecek."
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} ismi birden fazla kullanıldı. Grup isimleri eşsiz olmalıdır."
@@ -718,7 +719,7 @@ tr:
       parent_placeholder: "Yeni bir ebeveyn seçin veya iptal etmek için escape tuşuna basın."
     autocompleter:
       placeholder: "Aramak için metni yazın"
-      notFoundText: "No items found"
+      notFoundText: "Hiçbir öge bulunamadı"
       typeToSearchText: "Aramak için metni yazın"
     repositories:
       select_tag: 'Etiket seç'
@@ -913,7 +914,7 @@ tr:
         label_content: "Menüyü geçerek içeriği görmek için tıklayın"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Tarih seçin"
         formattable: "%{name}: Düzenlemek için tıklayın ..."
       query:
         column_names: "Sütunlar"

@@ -36,7 +36,7 @@ describe Queries::UpdateContract do
 
   let(:project) { FactoryBot.build_stubbed :project }
   let(:query) do
-    FactoryBot.build_stubbed(:query, project: project, is_public: public, user: user)
+    FactoryBot.build_stubbed(:query, project: project, public: public, user: user)
   end
 
   let(:current_user) do

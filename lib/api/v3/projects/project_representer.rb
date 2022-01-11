@@ -153,12 +153,31 @@ module API
           }
         end
 
+        links :ancestors,
+              uncacheable: true do
+          represented.ancestors_from_root.map do |ancestor|
+            # Explicitly check for admin as an archived project
+            # will lead to the admin loosing permissions in the project.
+            if current_user.admin? || ancestor.visible?
+              {
+                href: api_v3_paths.project(ancestor.id),
+                title: ancestor.name
+              }
+            else
+              {
+                href: API::V3::URN_UNDISCLOSED,
+                title: I18n.t(:'api_v3.undisclosed.ancestor')
+              }
+            end
+          end
+        end
+
         associated_resource :parent,
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,
                             uncacheable_link: true,
                             undisclosed: true,
-                            skip_render: ->(*) { represented.parent && !represented.parent.visible? }
+                            skip_render: ->(*) { represented.parent && !represented.parent.visible? && !current_user.admin? }
 
         property :id
         property :identifier,

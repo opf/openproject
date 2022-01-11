@@ -29,7 +29,7 @@ import { Injectable } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import * as moment from 'moment';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -41,7 +41,7 @@ export class ConfigurationService {
   public initialized:Promise<boolean>;
 
   public constructor(readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
     this.initialized = this.loadConfiguration().then(() => true).catch(() => false);
   }
 

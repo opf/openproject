@@ -45,6 +45,9 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     query.name = "My fancy query"
 
     query.save!
+    FactoryBot.create(:view_work_packages_table,
+                      query: query)
+
     query
   end
 
@@ -158,7 +161,7 @@ RSpec.feature 'Work package navigation', js: true, selenium: true do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.op-query-select--search-results')
+    expect(page).to have_selector('.op-view-select--search-results')
     find('.op-sidemenu--item-action', text: query.name).click
 
     expect(page).not_to have_selector('.title-container', text: 'Overview')

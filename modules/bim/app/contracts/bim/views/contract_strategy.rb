@@ -14,7 +14,7 @@ module ::Bim
       def view_permissions?
         return false unless user_allowed_on_view?(:view_ifc_models)
         return false unless user_allowed_on_view?(:save_bcf_queries)
-        if model.query.is_public && !user_allowed_on_view?(:manage_public_bcf_queries)
+        if model.query.public && !user_allowed_on_view?(:manage_public_bcf_queries)
           return false
         end
 

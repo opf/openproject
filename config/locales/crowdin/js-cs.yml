@@ -454,6 +454,7 @@ cs:
     label_starred_queries: "Oblíbená zobrazení"
     label_global_queries: "Veřejné zobrazení"
     label_custom_queries: "Soukromé zobrazení"
+    label_create_new_query: "Vytvořit nový"
     label_columns: "Sloupce"
     label_attachments: Soubory
     label_drop_files: Sem přetáhněte soubory

@@ -23,10 +23,10 @@ fr:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Lot de travaux"
+        work_package: "Lot de Travaux"
         overridden_costs: "Coûts outrepassés"
         spent: "Consommé"
-        spent_on: "date"
+        spent_on: "Date"
       cost_type:
         unit: "Nom de l'unité"
         unit_plural: "Nom pluriel de l'unité"
@@ -63,7 +63,7 @@ fr:
   button_add_rate: "Ajouter tarif"
   button_log_costs: "Consigner coûts unitaires"
   caption_booked_on_project: "Réservé pour le projet"
-  caption_default: "défaut"
+  caption_default: "Défaut"
   caption_default_rate_history_for: "Historique des tarifs par défaut pour %{user}"
   caption_locked_on: "Verrouillé le"
   caption_materials: "Unités"

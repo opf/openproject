@@ -44,7 +44,7 @@ describe "POST /api/v3/queries/form", type: :request do
     FactoryBot.create(
       :query,
       name: "Existing Query",
-      is_public: false,
+      public: false,
       project: project,
       user: user
     )

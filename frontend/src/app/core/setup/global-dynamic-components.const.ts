@@ -98,9 +98,9 @@ import {
   wpOverviewGraphSelector,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import {
-  opQuerySelectSelector,
-  QuerySelectComponent,
-} from 'core-app/shared/components/op-query-select/op-query-select.component';
+  opViewSelectSelector,
+  ViewSelectComponent,
+} from 'core-app/shared/components/op-view-select/op-view-select.component';
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector,
@@ -223,7 +223,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
-  { selector: opQuerySelectSelector, cls: QuerySelectComponent },
+  { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

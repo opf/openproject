@@ -64,7 +64,7 @@ de:
   label_filter: "Filter"
   label_filter_add: "Filter hinzufügen"
   label_filter_plural: "Filter"
-  label_group_by: "Gruppiere Ergebnisse"
+  label_group_by: "Gruppieren nach"
   label_group_by_add: "Gruppierung hinzufügen"
   label_inactive: "«nicht aktiviert»"
   label_no: "Nein"

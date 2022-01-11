@@ -38,7 +38,6 @@ describe 'Create BCF',
   shared_examples 'bcf details creation' do |with_viewpoints|
     it "can create a new #{with_viewpoints ? 'bcf' : 'plain'} work package" do
       create_page = index_page.create_wp_by_button(type)
-      create_page.view_route = view_route
 
       create_page.expect_current_path
 
@@ -74,8 +73,6 @@ describe 'Create BCF',
 
       create_page.save!
 
-      sleep 5
-
       index_page.expect_and_dismiss_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
       )
@@ -97,7 +94,7 @@ describe 'Create BCF',
         expect(work_package.bcf_issue.viewpoints.count).to eq 2
       end
 
-      expect(page).to have_current_path /bcf\/#{Regexp.escape(view_route)}$/, ignore_query: true
+      expect(page).to have_current_path /bcf$/, ignore_query: true
     end
   end
 
@@ -106,45 +103,50 @@ describe 'Create BCF',
   end
 
   context 'with all permissions' do
-    context 'on the split page' do
-      let(:view_route) { 'split' }
+    context 'when on default view' do
       before do
-        index_page.visit!
-        index_page.finished_loading
+        index_page.visit_and_wait_until_finished_loading!
       end
 
       it_behaves_like 'bcf details creation', true
     end
 
-    context 'on the split page switching to list' do
-      let(:view_route) { 'list' }
+    context 'when going to split table view first' do
       before do
-        index_page.visit!
-        index_page.finished_loading
+        index_page.visit_and_wait_until_finished_loading!
+
+        index_page.switch_view 'Viewer and table'
+      end
+
+      it_behaves_like 'bcf details creation', true
+    end
+
+    context 'when going to cards view first' do
+      before do
+        index_page.visit_and_wait_until_finished_loading!
 
         index_page.switch_view 'Cards'
-        expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
       end
 
       it_behaves_like 'bcf details creation', false
     end
 
-    context 'starting on the list page' do
-      let(:view_route) { 'list' }
+    context 'when going to table view first' do
       before do
-        visit bcf_project_frontend_path(project, "list")
-        expect(page).to have_current_path /\/bcf\/list$/, ignore_query: true
+        index_page.visit_and_wait_until_finished_loading!
+
+        index_page.switch_view 'Table'
       end
 
       it_behaves_like 'bcf details creation', false
     end
 
-    context 'starting on the details page of an existing work package' do
+    context 'when starting on the details page of an existing work package' do
       let(:work_package) { FactoryBot.create :work_package, project: project }
-      let(:view_route) { 'split' }
+
       before do
-        visit bcf_project_frontend_path(project, "split/details/#{work_package.id}")
-        expect(page).to have_current_path /\/bcf\/split\/details/, ignore_query: true
+        visit bcf_project_frontend_path(project, "details/#{work_package.id}")
+        index_page.expect_details_path
       end
 
       it_behaves_like 'bcf details creation', true
@@ -155,8 +157,7 @@ describe 'Create BCF',
     let(:permissions) { %i[view_ifc_models manage_bcf view_work_packages] }
 
     it 'has the create button disabled' do
-      index_page.visit!
-      index_page.finished_loading
+      index_page.visit_and_wait_until_finished_loading!
 
       index_page.expect_wp_create_button_disabled
     end
@@ -165,11 +166,9 @@ describe 'Create BCF',
   context 'with add_work_packages but without manage_bcf permission' do
     let(:permissions) { %i[view_ifc_models view_work_packages add_work_packages] }
 
-    context 'on the split page' do
-      let(:view_route) { 'split' }
+    context 'when on default view' do
       before do
-        index_page.visit!
-        index_page.finished_loading
+        index_page.visit_and_wait_until_finished_loading!
       end
 
       it_behaves_like 'bcf details creation', false

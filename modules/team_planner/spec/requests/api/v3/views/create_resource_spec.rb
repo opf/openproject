@@ -48,7 +48,7 @@ describe ::API::V3::Views::ViewsAPI,
   shared_let(:public_query) do
     FactoryBot.create(:query,
                       project: project,
-                      is_public: true)
+                      public: true)
   end
 
   let(:additional_setup) do

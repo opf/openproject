@@ -454,6 +454,7 @@ uk:
     label_starred_queries: "Улюблені види"
     label_global_queries: "Види громадськості"
     label_custom_queries: "Приватні види"
+    label_create_new_query: "Створити новий"
     label_columns: "Стовпці"
     label_attachments: Файли
     label_drop_files: Перетягніть файли сюди
@@ -1078,8 +1079,8 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 год"
+        other: "%{count} год"
         zero: "0 h"
     zen_mode:
       button_activate: 'Активуйте режим дзен'

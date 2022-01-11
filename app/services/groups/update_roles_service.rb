@@ -54,7 +54,6 @@ module Groups
       execute_query(sql_query)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def update_roles_cte
       <<~SQL
         WITH
@@ -123,6 +122,5 @@ module Groups
         UNION SELECT member_id from members_with_added_roles
       SQL
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

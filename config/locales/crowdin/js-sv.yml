@@ -214,7 +214,7 @@ sv:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_confirmed: "bekräftade"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -440,7 +440,7 @@ sv:
     label_warning: "Varning"
     label_work_package: "Arbetspaket"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Arbetspaketen"
+    label_work_package_plural: "Arbetspaket"
     label_watch: "Bevaka"
     label_watch_work_package: "Bevaka arbetspaket"
     label_watcher_added_successfully: "Bevakare har lagts till!"
@@ -453,6 +453,7 @@ sv:
     label_starred_queries: "Favoritvyer"
     label_global_queries: "Offentliga vyer"
     label_custom_queries: "Privata vyer"
+    label_create_new_query: "Skapa ny"
     label_columns: "Kolumner"
     label_attachments: Filer
     label_drop_files: Släpp filer här
@@ -1071,8 +1072,8 @@ sv:
         one: "ett barnarbetspaket"
         other: "%{count} arbetspaket barn"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 tim"
+        other: "%{count} timmar"
         zero: "0 h"
     zen_mode:
       button_activate: 'Aktivera zen-läge'

@@ -31,11 +31,12 @@
 class Notifications::GroupMemberAlteredJob < ApplicationJob
   queue_with_priority :notification
 
-  def perform(members_ids, message)
+  def perform(members_ids, message, send_notifications)
     each_member(members_ids) do |member|
       OpenProject::Notifications.send(event_type(member),
                                       member: member,
-                                      message: message)
+                                      message: message,
+                                      send_notifications: send_notifications)
     end
   end
 

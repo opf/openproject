@@ -383,8 +383,9 @@ describe 'API v3 Query resource', type: :request, content_type: :json do
         let(:permissions) { %i[view_work_packages manage_public_queries] }
 
         context 'when unstarring a starred query' do
+          let(:query) { FactoryBot.create(:public_query, project: project, starred: true) }
+
           before(:each) do
-            FactoryBot.create(:query_menu_item, query: query)
             patch unstar_path
           end
 

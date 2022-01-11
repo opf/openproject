@@ -138,7 +138,7 @@ module Pages
       end
 
       def save
-        click_button I18n.t(:button_save)
+        click_button I18n.t('js.button_save')
       end
     end
   end

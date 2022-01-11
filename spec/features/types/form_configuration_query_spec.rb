@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'form query configuration', type: :feature, js: true do
   shared_let(:admin) { FactoryBot.create :admin }
   let(:type_bug) { FactoryBot.create :type_bug }
@@ -128,6 +129,34 @@ describe 'form query configuration', type: :feature, js: true do
 
         wp_page.expect_no_group 'Subtasks'
         expect(page).to have_no_text 'Subtasks'
+      end
+    end
+
+    context 'with an archived project' do
+      let!(:archived) { FactoryBot.create :project, name: 'To be archived' }
+
+      it 'uses the valid subset of the query (Regression #40324)' do
+        form.add_query_group('Archived project', :children)
+        form.edit_query_group('Archived project')
+
+        # Select the soon archived project
+        modal.switch_to 'Filters'
+        filters.expect_filter_count 1
+        filters.add_filter_by('Project', 'is', archived.name)
+        filters.expect_filter_count 2
+        filters.save
+
+        form.save_changes
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+
+        archived.update_attribute(:active, false)
+
+        visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
+        form.edit_query_group('Archived project')
+
+        # Expect we now get the valid subset without the invalid project
+        modal.switch_to 'Filters'
+        filters.expect_filter_count 1
       end
     end
 
@@ -293,3 +322,4 @@ describe 'form query configuration', type: :feature, js: true do
     end
   end
 end
+# rubocop:enable RSpec/MultipleMemoizedHelpers

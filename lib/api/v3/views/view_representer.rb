@@ -70,7 +70,7 @@ module API
 
         property :public,
                  getter: ->(*) {
-                   query.is_public
+                   query.public
                  }
 
         property :starred,

@@ -39,7 +39,7 @@ describe WorkPackages::ExportJob do
   let(:query) { FactoryBot.build_stubbed(:query) }
   let(:query_attributes) { {} }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,
@@ -100,7 +100,7 @@ describe WorkPackages::ExportJob do
   end
 
   describe 'query passing' do
-    context 'passing in group_by through attributes' do
+    context 'when passing in group_by through attributes' do
       let(:query_attributes) { { group_by: 'assigned_to' } }
       let(:mime_type) { :pdf }
       let(:exporter) { WorkPackage::PDFExport::WorkPackageListToPdf }

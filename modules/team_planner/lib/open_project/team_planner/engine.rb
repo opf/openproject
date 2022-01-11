@@ -40,9 +40,17 @@ module OpenProject::TeamPlanner
            :team_planner_view,
            { controller: '/team_planner/team_planner', action: :index },
            caption: :'team_planner.label_team_planner',
-           after: :backlogs,
+           after: :work_packages,
            icon: 'icon2 icon-calendar',
            badge: 'label_menu_badge.pre_alpha'
+
+      menu :project_menu,
+           :team_planner_menu,
+           { controller: '/team_planner/team_planner', action: :index },
+           parent: :team_planner_view,
+           partial: 'team_planner/team_planner/menu',
+           last: true,
+           caption: :'team_planner.label_team_planner'
     end
 
     add_view :TeamPlanner,

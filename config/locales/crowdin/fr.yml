@@ -317,6 +317,10 @@ fr:
       other: '%{count} lots de travaux descendants'
     bulk:
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Il n’y a pas de statut disponible pour tous les lots de travaux sélectionnés. Ce statut ne peut pas être changé."
       unsupported_for_multiple_projects: 'Déplacer/copier en masse n''est pas supporté pour des lots de travaux provenant de plusieurs projets'
@@ -524,10 +528,10 @@ fr:
         uid: "Id du client"
         secret: "Clé secrète du client"
         owner: "Propriétaire"
-        redirect_uri: "URL de redirection"
+        redirect_uri: "URI de redirection"
         client_credentials_user_id: "ID d'utilisateur d'informations d'identification client"
         scopes: "Portées"
-        confidential: "Confidentielle"
+        confidential: "Confidentiel"
     errors:
       messages:
         accepted: "doi(ven)t être accepté(e)(s)."
@@ -613,7 +617,7 @@ fr:
           attributes:
             redirect_uri:
               fragment_present: 'ne peut pas contenir un fragment.'
-              invalid_uri: 'doit être une URL valide.'
+              invalid_uri: 'doit être une URI valide.'
               relative_uri: 'doit être une URI absolue.'
               secured_uri: 'doit être une URI HTTPS/SSL.'
               forbidden_uri: 'est interdit par le serveur.'
@@ -737,6 +741,7 @@ fr:
               does_not_exist: "La catégorie spécifiée n'existe pas."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "doit être >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -811,7 +816,7 @@ fr:
       wiki_page: "Page wiki"
       workflow: "Flux de travail"
       work_package: "Lot de travaux"
-      'doorkeeper/application': "Applications OAuth"
+      'doorkeeper/application': "Application OAuth"
   errors:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
@@ -851,7 +856,7 @@ fr:
     id: "ID"
     is_default: "Valeur par défaut"
     is_for_all: "Pour tous les projets"
-    is_public: "Public"
+    public: "Public"
     #kept for backwards compatibility
     issue: "Lot de travaux"
     lastname: "Nom de famille"
@@ -861,7 +866,6 @@ fr:
     password: "Mot de passe"
     priority: "Priorité"
     project: "Projet"
-    public: "Public"
     responsible: "Responsable"
     role: "Rôle"
     roles: "Rôles"
@@ -1727,7 +1731,6 @@ fr:
   label_public_projects: "Projets publics"
   label_query_new: "Nouvelle requête"
   label_query_plural: "Requêtes personnalisées"
-  label_query_menu_item: "Menu des requêtes"
   label_read: "Lire…"
   label_register: "Créer un compte"
   label_register_with_developer: "S'inscrire en tant que développeur"
@@ -1851,7 +1854,7 @@ fr:
   label_view_diff: "Afficher les différences"
   label_view_revisions: "Afficher les révisions"
   label_watched_work_packages: "Lots de travaux suivis"
-  label_what_is_this: "Qu'est-ce que c est?"
+  label_what_is_this: "Qu'est-ce que c'est?"
   label_week: "Semaine"
   label_wiki_content_added: "Page wiki ajoutée"
   label_wiki_content_updated: "Page wiki mise à jour"
@@ -2837,7 +2840,6 @@ fr:
   wiki_menu_item_new_main_item_explanation: >
     Vous êtes en train de supprimer l'élement principal du menu wiki. Vous devez maintenant choisir une page wiki pour laquelle un nouvel élément principal sera créé. Pour supprimer le wiki, le module wiki peut être désactivé par les administrateurs du projet.
   wiki_menu_item_delete_not_permitted: L'élement du menu wiki de la seule page wiki ne peut être supprimé.
-  query_menu_item_for: "Élément de menu pour question « %{title} »"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2920,7 +2922,7 @@ fr:
         unsupported_response_type: 'Le serveur d''autorisation ne supporte pas ce type de réponse.'
         #Access token errors
         invalid_client: 'L''authentification du client a échoué en raison d''un client inconnu, d''une authentification du client non supportée ou d''une méthode d''authentification non supportée.'
-        invalid_grant: 'L''autorisation accordée est invalide, expirée, révoquée, ne correspond pas à l''URI de redirection utilisée dans la demande d''autorisation ou a été accordée à un autre client.'
+        invalid_grant: 'Le droit d’autorisation fourni n’est pas valide, a expiré, est révoqué, ne correspond pas à l’URI de redirection utilisée dans la requête d’autorisation, ou a été remis à un autre client.'
         unsupported_grant_type: 'Le type de subvention d''autorisation n''est pas supporté par le serveur d''autorisation.'
         invalid_token:
           revoked: "Le jeton d'accès a été révoqué"
@@ -2933,7 +2935,7 @@ fr:
     close_warning: "Ignorer cet avertissement."
   oauth:
     application:
-      singular: "Applications OAuth"
+      singular: "Application OAuth"
       plural: "Applications OAuth"
       named: "Application OAuth '%{name}'"
       new: "Nouvelle application Oauth"
@@ -2956,7 +2958,7 @@ fr:
       prompt_html: "Autoriser <strong>%{application_name}</strong> à utiliser votre compte <em>%{login}</em> ?"
       title: "Autoriser %{application_name}"
       wants_to_access_html: >
-        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>Il a demandé les autorisations suivantes
+        Cette application demande l'accès à votre compte OpenProject. <br/> <strong>Il a demandé les autorisations suivantes:</strong>
     scopes:
       api_v3: "Accès complet à l'API v3"
       api_v3_text: "L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom."

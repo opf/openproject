@@ -167,6 +167,7 @@ services:
       - "opdata:/var/openproject/assets"
       - "bundle:/usr/local/bundle"
       - "tmp-test:/home/dev/openproject/tmp"
+      - "./tmp/capybara:/home/dev/openproject/tmp/capybara"
 
   # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
   selenium-hub:

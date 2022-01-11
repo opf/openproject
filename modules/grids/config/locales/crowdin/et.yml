@@ -1,0 +1,16 @@
+et:
+  grids:
+    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+  activerecord:
+    attributes:
+      grids/grid:
+        page: "Lehekülg"
+        row_count: "Ridade arv"
+        column_count: "Veergude arv"
+        widgets: "Vidinad"
+    errors:
+      models:
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'

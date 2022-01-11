@@ -62,7 +62,7 @@ de:
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
-    button_delete: "Löschen"
+    button_delete: "Lösche"
     button_delete_watcher: "Beobachter löschen"
     button_details_view: "Detailansicht"
     button_duplicate: "Duplizieren"
@@ -228,7 +228,7 @@ de:
             installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
             premium_features: "Premiumfunktionen"
             premium_features_text: "Agile Boards, benutzerdefinierte Farben und Logo, Graphen, intelligente Workflows und vieles mehr."
-            professional_support: "Professionelle Unterstützung"
+            professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
           button_book_now: "Jetzt buchen"
@@ -306,20 +306,20 @@ de:
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
     label_added_time_by: "Hinzugefügt von <a href=%{authorLink}>%{author}</a> am %{age}"
-    label_ago: "vor (Tage)"
+    label_ago: "Tage her"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"
     label_author: "Autor: %{user}"
-    label_avatar: "Profilbild"
+    label_avatar: "Avatar"
     label_between: "zwischen"
     label_board: "Board"
     label_board_locked: "Gesperrt"
     label_board_plural: "Boards"
-    label_board_sticky: "Wichtig (immer oben)"
+    label_board_sticky: "Angepinnt"
     label_change: "Wechseln"
-    label_create: "Anlegen"
+    label_create: "Erstellen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
     label_date: "Datum"
@@ -355,12 +355,12 @@ de:
     label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
-    label_group_by: "Gruppiere Ergebnisse"
+    label_group_by: "Gruppieren nach"
     label_group_plural: "Gruppen"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
-    label_in: "an"
+    label_in: "in"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
@@ -368,20 +368,20 @@ de:
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
-    label_learn_more_link: "Weitere Informationen"
+    label_learn_more_link: "Mehr Erfahren"
     label_less_or_equal: "<="
-    label_less_than_ago: "vor weniger als (Tage)"
-    label_loading: "Lade..."
-    label_mail_notification: "Mailbenachrichtigung"
+    label_less_than_ago: "vor weniger Tagen als"
+    label_loading: "Wird geladen…"
+    label_mail_notification: "Email-Benachrichtigungen"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Protokoll"
     label_menu_collapse: "zusammenklappen"
     label_menu_expand: "ausklappen"
-    label_more_than_ago: "vor mehr als (Tage)"
+    label_more_than_ago: "vor mehr Tagen als"
     label_next: "Weiter"
     label_no_color: "Keine Farbe"
-    label_no_data: "Es sind keine Daten vorhanden"
+    label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
     label_no_value: "Kein Wert"
@@ -392,7 +392,7 @@ de:
     label_open_menu: "Menü öffnen"
     label_open_context_menu: "Kontextmenü öffnen"
     label_open_work_packages: "Offen"
-    label_password: "Kennwort"
+    label_password: "Passwort"
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
@@ -405,7 +405,7 @@ de:
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
     label_remove_row: "Zeile entfernen"
-    label_report: "Report"
+    label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
     label_select_watcher: "Beobachter auswählen ..."
@@ -414,8 +414,8 @@ de:
     label_show_in_menu: "Ansicht im Seitenmenü anzeigen"
     label_sort_by: "Sortieren nach"
     label_sorted_by: "sortiert nach"
-    label_sort_higher: "Eins höher"
-    label_sort_lower: "Eins tiefer"
+    label_sort_higher: "Nach oben bewegen"
+    label_sort_lower: "Nach unten bewegen"
     label_sorting: "Sortierung"
     label_spent_time: "Aufgewendete Zeit"
     label_star_query: "Favorisiert"
@@ -425,7 +425,7 @@ de:
     label_sum_for: "Summe für"
     label_total_sum: "Gesamtsumme"
     label_subject: "Thema"
-    label_this_week: "aktuelle Woche"
+    label_this_week: "diese Woche"
     label_today: "Heute"
     label_time_entry_plural: "Aufgewendete Zeit"
     label_up: "Nach oben"
@@ -446,13 +446,14 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
-    label_unwatch: "Nicht beobachten"
+    label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
     label_default_queries: "Standardansichten"
     label_starred_queries: "Favoriten"
     label_global_queries: "Öffentliche Ansichten"
     label_custom_queries: "Private Ansichten"
+    label_create_new_query: "Neu erstellen"
     label_columns: "Spalten"
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
@@ -596,7 +597,7 @@ de:
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
-      use_template: "Projektvorlage verwenden"
+      use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
       copy:
         copy_options: "Kopieroptionen"
@@ -620,12 +621,12 @@ de:
           title: 'E-Mail-Benachrichtigungen für andere Objekte (die keine Arbeitspakete sind)'
           explanation: >
             Die Benachrichtigungen sind aktuell auf Arbeitspakete beschränkt. Sie können die E-Mail-Benachrichtigungen für diese Ereignisse so lange erhalten, bis sie in den Benachrichtigungen enthalten sind:
-          news_added: 'Nachricht hinzugefügt'
+          news_added: 'News hinzugefügt'
           news_commented: 'Kommentar zu einer Nachricht'
           document_added: 'Dokument hinzugefügt'
           forum_messages: 'Neue Nachricht im Forum'
-          wiki_page_added: 'Die Wiki-Seite wurde erfolgreich hinzugefügt.'
-          wiki_page_updated: 'Die Wiki-Seite wurde erfolgreich aktualisiert.'
+          wiki_page_added: 'Wiki-Seite hinzugefügt'
+          wiki_page_updated: 'Wiki-Seite aktualisiert'
           membership_added: 'Mitgliedschaft hinzugefügt'
           membership_updated: 'Mitgliedschaft aktualisiert'
         title: 'E-Mail-Erinnerungen'
@@ -822,7 +823,7 @@ de:
         edit: 'Arbeitspakete bearbeiten'
         copy: 'Arbeitspakete kopieren'
         delete: 'Arbeitspakete löschen'
-      button_clear: "Zurücksetzen"
+      button_clear: "Leeren"
       comment_added: "Der Kommentar wurde erfolgreich hinzugefügt."
       comment_send_failed: "Ein Fehler ist aufgetreten. Der Kommentar konnte nicht gespeichert werden."
       comment_updated: "Der Kommentar wurde erfolgreich aktualisiert."
@@ -853,7 +854,7 @@ de:
         header: 'Neu: %{type}'
         header_no_type: 'Neues Arbeitspaket (Typ noch nicht gesetzt)'
         header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
-        button: 'Anlegen'
+        button: 'Erstellen'
       copy:
         title: 'Arbeitspaket kopieren'
       hierarchy:
@@ -876,7 +877,7 @@ de:
         estimatesAndTime: "Schätzungen & Zeiten"
         other: "Andere"
       properties:
-        assignee: "Zugewiesen an"
+        assignee: "Zugewiesen"
         author: "Autor"
         createdAt: "Erstellt"
         description: "Beschreibung"
@@ -888,14 +889,14 @@ de:
         percentageDone: "% erledigt"
         priority: "Priorität"
         projectName: "Projekt"
-        responsible: "Verantwortlicher"
+        responsible: "Verantwortlich"
         startDate: "Anfangstermin"
         status: "Status"
         subject: "Thema"
         subproject: "Unterprojekt"
         title: "Titel"
         type: "Typ"
-        updatedAt: "Aktualisiert am"
+        updatedAt: "Aktualisiert"
         versionName: "Version"
         version: "Version"
       default_queries:
@@ -917,13 +918,13 @@ de:
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
-        group: "Gruppiere Ergebnisse"
+        group: "Gruppieren nach"
         group_by_disabled_by_hierarchy: "Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist."
         hierarchy_disabled_by_group_by: "Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind."
         sort_ascending: "Sortiere aufsteigend"
         sort_descending: "Sortiere absteigend"
-        move_column_left: "Spalte nach links"
-        move_column_right: "Spalte nach rechts"
+        move_column_left: "Spalte nach links verschieben"
+        move_column_right: "Spalte nach rechts verschieben"
         hide_column: "Spalte ausblenden"
         insert_columns: "Spalten hinzufügen ..."
         filters: "Filter"
@@ -978,8 +979,8 @@ de:
         columns_help_text: "Über das Eingabefeld oben können Sie weitere Spalten zu Ihrer Tabellenansicht hinzuzufügen. Sie können die Spalten durch drag and drop neu anordnen."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
-          relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'
-          check_out_link: 'Testen Sie die Enterprise Edition.'
+          relation_columns: 'Möchte Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?'
+          check_out_link: 'Schauen Sie sich die Enterprise Edition an.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Arbeitspakete nach Beziehungs-Typ filtern'
       tabs:

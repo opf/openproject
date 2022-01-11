@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { MembershipResourceEmbedded } from 'core-app/features/hal/resources/membership-resource';
 
-export class Apiv3MembershipsForm extends APIv3FormResource {
+export class ApiV3MembershipsForm extends ApiV3FormResource {
   /**
    * We need to override the grid widget extraction
    * to pass the correct payload to the API.
@@ -59,6 +59,6 @@ export class Apiv3MembershipsForm extends APIv3FormResource {
    * @param schema
    */
   public extractPayload(request:MembershipResourceEmbedded) {
-    return Apiv3MembershipsForm.extractPayload(request);
+    return ApiV3MembershipsForm.extractPayload(request);
   }
 }
