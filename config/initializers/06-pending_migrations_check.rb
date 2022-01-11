@@ -30,7 +30,8 @@
 
 is_console = Rails.const_defined? 'Console'
 no_rake_task = !(Rake.respond_to?(:application) && Rake.application.top_level_tasks.present?)
+no_override = ENV['OPENPROJECT_DISABLE__MIGRATIONS__CHECK'] != 'true'
 
-if Rails.env.production? && !is_console && no_rake_task
+if Rails.env.production? && !is_console && no_rake_task && no_override
   ActiveRecord::Migration.check_pending! # will raise an exception and abort boot
 end
