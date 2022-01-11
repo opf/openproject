@@ -52,8 +52,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% if !@path.blank? %>
     <% unidiff_link.gsub!('?', '&amp;') %>
   <% end %>
-  <% wrong_url = CGI::escapeHTML(URI.encode(with_leading_slash(@path))).concat('.diff') %>
-  <% good_url = '.diff'.concat('?repo_path=', URI.encode(without_leading_slash(@path)).gsub('&', '%26')) %>
+  <% wrong_url = CGI::escapeHTML(CGI.escape(with_leading_slash(@path))).concat('.diff') %>
+  <% good_url = '.diff'.concat('?repo_path=', CGI.escape(without_leading_slash(@path)).gsub('&', '%26')) %>
   <% unidiff_link.gsub!(wrong_url, good_url) %>
   <%= unidiff_link.html_safe %>
 <% end %>
