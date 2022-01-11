@@ -69,9 +69,9 @@ module Users::Scopes
         # * reminders are enabled
         # * any of the configured reminder time is the local time
         # * the local workday is enabled to receive a reminder on
-        # If no time zone is present, utc is assumed.
+        # If no time zone is present or if it is blank, the configured default time zone or UTC is assumed.
         # If no reminder settings are present, sending a reminder at 08:00 local time is assumed.
-        # If no workdays are specified, 1 - 5 is assumed which is represents Monday to Friday.
+        # If no workdays are specified, 1 - 5 is assumed which represents Monday to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
                       .as('t(today_local, hours, zone, workday)')
@@ -80,7 +80,7 @@ module Users::Scopes
 
         <<~SQL.squish
           JOIN (SELECT * FROM #{times_sql.to_sql}) AS local_times
-          ON COALESCE(user_preferences.settings->>'time_zone', #{default_timezone}, 'Etc/UTC') = local_times.zone
+          ON COALESCE(NULLIF(user_preferences.settings->>'time_zone',''), #{default_timezone}, 'Etc/UTC') = local_times.zone
           AND (
             user_preferences.settings->'workdays' @> to_jsonb(local_times.workday)
             OR (

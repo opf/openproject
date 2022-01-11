@@ -575,6 +575,27 @@ describe User, '.having_reminder_mail_to_send', type: :model do
     end
   end
 
+  context 'for a user without a blank time zone' do
+    let(:paris_user) do
+      FactoryBot.create(
+        :user,
+        firstname: 'Europe/Paris',
+        preferences: {
+          time_zone: '',
+          daily_reminders: {
+            enabled: true,
+            times: [hitting_reminder_slot_for("Etc/UTC", current_time)]
+          }
+        }
+      )
+    end
+
+    it 'is including the user as Etc/UTC is assumed' do
+      expect(scope)
+        .to match_array([paris_user])
+    end
+  end
+
   context 'for a user without a time zone and daily_reminders at 08:00' do
     let(:paris_user) do
       FactoryBot.create(
