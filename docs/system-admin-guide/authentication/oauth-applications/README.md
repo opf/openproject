@@ -65,7 +65,8 @@ With the authorization code that you obtained above you can now request an API t
 We do this manually in the command line using cURL. Please replace
 
  * the `example.com` with the root path of your OpenProject instance,
- * `<Client ID>` with your client ID
+ * `<Client ID>` with your client ID,
+ * `<Client secret>` with your client secret,
  * `<Authentication code>` with the code you obtained above,
  * and `<Redirect URI>` with the redirect URI just as you configured it above.
 
