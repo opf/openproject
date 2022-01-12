@@ -156,6 +156,11 @@ PATH
       costs
 
 PATH
+  remote: modules/storages
+  specs:
+    openproject-storages (1.0.0)
+
+PATH
   remote: modules/team_planner
   specs:
     openproject-team_planner (1.0.0)
@@ -1063,6 +1068,7 @@ DEPENDENCIES
   openproject-pdf_export!
   openproject-recaptcha!
   openproject-reporting!
+  openproject-storages!
   openproject-team_planner!
   openproject-token (~> 2.2.0)
   openproject-two_factor_authentication!
