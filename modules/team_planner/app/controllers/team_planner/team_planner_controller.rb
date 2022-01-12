@@ -10,8 +10,7 @@ module ::TeamPlanner
       render layout: 'angular/angular'
     end
 
-    def upsale
-    end
+    def upsale; end
 
     def require_ee_token
       unless EnterpriseToken.allows_to?(:team_planner_view)
