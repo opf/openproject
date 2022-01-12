@@ -1,6 +1,6 @@
 <div class="op-ian-center">
   <div class="op-ian-center--content">
-    <ng-container *ngIf="dataLoaded || (hasNotifications$ | async); else noResults">
+    <ng-container *ngIf="(hasNotifications$ | async); else noResults">
       <cdk-virtual-scroll-viewport
           itemSize="100"
           class="op-ian-center--viewport"
