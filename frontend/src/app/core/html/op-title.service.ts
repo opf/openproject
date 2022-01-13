@@ -23,4 +23,11 @@ export class OpTitleService {
 
     this.titleService.setTitle(parts.join(titlePartsSeparator));
   }
+
+  public prependFirstPart(value:string) {
+    const parts = this.titleParts;
+    parts.unshift(value);
+
+    this.titleService.setTitle(parts.join(titlePartsSeparator));
+  }
 }
