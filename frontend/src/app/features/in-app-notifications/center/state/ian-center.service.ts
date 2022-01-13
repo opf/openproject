@@ -76,7 +76,6 @@ export class IanCenterService extends UntilDestroyedMixin {
     switchMap(() => this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
-        // We don't want to set loading if the request is sent in the background
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
             .pipe(
