@@ -105,6 +105,7 @@ module Pages
 
     def add_assignee(name)
       click_add_user
+      page.find('[data-qa-selector="tp-add-assignee"] input')
       search_user_to_add name
       select_user_to_add name
     end
@@ -125,6 +126,12 @@ module Pages
       search_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
                           query: name,
                           results_selector: 'body'
+    end
+    def drag_wp_by_pixel(work_package, x, y)
+      source = page
+                 .find('.fc-event', text: work_package.subject)
+
+      drag_by_pixel(element: source, by_x: x, by_y: y)
     end
   end
 end

@@ -1,0 +1,162 @@
+#-- encoding: UTF-8
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2021 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require 'spec_helper'
+require_relative './shared_context'
+
+describe 'Team planner', type: :feature, js: true do
+  include_context 'with team planner full access'
+
+  let!(:other_user) do
+    FactoryBot.create :user,
+                      firstname: 'Bernd',
+                      member_in_project: project,
+                      member_with_permissions: %w[
+                          view_work_packages view_team_planner
+                        ]
+  end
+
+  let!(:first_wp) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      assigned_to: other_user,
+                      start_date: Time.zone.today - 1.day,
+                      due_date: Time.zone.today + 1.day
+  end
+  let!(:second_wp) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      parent: first_wp,
+                      assigned_to: other_user,
+                      start_date: Time.zone.today - 1.day,
+                      due_date: Time.zone.today + 1.day
+  end
+  let!(:third_wp) do
+    FactoryBot.create :work_package,
+                      project: project,
+                      assigned_to: user,
+                      start_date: Time.zone.today - 10.days,
+                      due_date: Time.zone.today + 20.days
+  end
+
+  context 'with full permissions' do
+    before do
+      team_planner.visit!
+
+      team_planner.add_assignee user
+      retry_block do
+        team_planner.add_assignee other_user
+      end
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp, present: false
+      end
+    end
+
+    it 'allows to drag&drop between the lanes to change the assignee' do
+      # Move first wp to the user
+      team_planner.drag_wp_by_pixel(first_wp, 0, -50)
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp, present: false
+      end
+
+      # Move second wp to the user, resulting in the other user having no WPs any more
+      team_planner.drag_wp_by_pixel(second_wp, 0, -50)
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp, present: false
+      end
+
+      # Move the third WP to the empty row of the other user
+      team_planner.drag_wp_by_pixel(third_wp, 0, 100)
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      team_planner.within_lane(user) do
+        team_planner.expect_event first_wp
+        team_planner.expect_event second_wp
+        team_planner.expect_event third_wp, present: false
+      end
+
+      team_planner.within_lane(other_user) do
+        team_planner.expect_event first_wp, present: false
+        team_planner.expect_event second_wp, present: false
+        team_planner.expect_event third_wp
+      end
+    end
+
+    it 'allows to resize to change the dates of a wp' do
+
+    end
+  end
+
+  context 'without permission to edit' do
+    current_user { other_user }
+
+    before do
+      team_planner.visit!
+
+      team_planner.add_assignee user
+      etry_block do
+        team_planner.add_assignee other_user
+      end
+    end
+
+    it 'allows neither dragging nor resizing any wp' do
+
+    end
+  end
+end
