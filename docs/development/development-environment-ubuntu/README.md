@@ -159,11 +159,7 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 ruby --version
-<<<<<<< HEAD
-ruby 2.7.5p203 (2021-11-24 revision f69aeb8314) [x86_64-linux]
-=======
 ruby 3.0.3p157 (2021-11-24 revision 3fb7d2cadc) [x86_64-darwin20]
->>>>>>> 003c95615c (bump ruby to 3.0)
 
 bundler --version
 Bundler version 2.2.33
