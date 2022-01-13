@@ -121,7 +121,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     const filters = new ApiV3FilterBuilder();
 
     if (matching) {
-      filters.add('subjectOrId', '**', [matching]);
+      filters.add('typeahead', '**', [matching]);
     }
 
     return filters;

@@ -98,18 +98,11 @@
       ></filter-string-value>
 
       <filter-searchable-multiselect-value
-          *ngSwitchCase="'[]WorkPackage'"
-          (filterChanged)="onFilterUpdated($event)"
-          [shouldFocus]="shouldFocus"
-          [filter]="filter"
-      ></filter-searchable-multiselect-value>
-
-      <filter-toggled-multiselect-value
           *ngSwitchDefault
           (filterChanged)="onFilterUpdated($event)"
           [shouldFocus]="shouldFocus"
           [filter]="filter"
-      ></filter-toggled-multiselect-value>
+      ></filter-searchable-multiselect-value>
     </div>
   </ng-container>
 
