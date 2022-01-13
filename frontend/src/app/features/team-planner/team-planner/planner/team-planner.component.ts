@@ -105,6 +105,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
     noData: this.I18n.t('js.team_planner.no_data'),
+    two_weeks: this.I18n.t('js.team_planner.two_weeks'),
   };
 
   principals$ = this.principalIds$
@@ -214,11 +215,51 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
-            initialView: 'resourceTimelineWeekDaysOnly',
+            initialView: (this.calendar.initialView || 'resourceTimelineWeek') as string,
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'resourceTimelineWeek,resourceTimelineTwoWeeks,resourceTimelineMonth',
+            },
             views: {
-              resourceTimelineWeekDaysOnly: {
+              resourceTimelineWeek: {
                 type: 'resourceTimeline',
                 duration: { weeks: 1 },
+                slotDuration: { days: 1 },
+                slotLabelFormat: [
+                  {
+                    weekday: 'long',
+                    day: '2-digit',
+                  },
+                ],
+                resourceAreaColumns: [
+                  {
+                    field: 'title',
+                    headerContent: this.text.assignees,
+                  },
+                ],
+              },
+              resourceTimelineTwoWeeks: {
+                type: 'resourceTimeline',
+                buttonText: this.text.two_weeks,
+                duration: { weeks: 2 },
+                slotDuration: { days: 1 },
+                slotLabelFormat: [
+                  {
+                    weekday: 'long',
+                    day: '2-digit',
+                  },
+                ],
+                resourceAreaColumns: [
+                  {
+                    field: 'title',
+                    headerContent: this.text.assignees,
+                  },
+                ],
+              },
+              resourceTimelineMonth: {
+                type: 'resourceTimeline',
+                duration: { months: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
                   {
