@@ -127,6 +127,26 @@ module Pages
                           query: name,
                           results_selector: 'body'
     end
+
+    def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)
+      wp_strip = page.find('.fc-event', text: work_package.subject)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(wp_strip.native)
+        .perform
+
+      if is_start_date
+        resizer = wp_strip.find('.fc-event-resizer-start')
+      else
+        resizer = wp_strip.find('.fc-event-resizer-end')
+      end
+
+      drag_by_pixel(element: resizer, by_x: number_of_days * 150, by_y: 0) unless resizer.nil?
+    end
+
     def drag_wp_by_pixel(work_package, x, y)
       source = page
                  .find('.fc-event', text: work_package.subject)

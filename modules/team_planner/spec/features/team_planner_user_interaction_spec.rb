@@ -47,16 +47,16 @@ describe 'Team planner', type: :feature, js: true do
     FactoryBot.create :work_package,
                       project: project,
                       assigned_to: other_user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day
+                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
     FactoryBot.create :work_package,
                       project: project,
                       parent: first_wp,
                       assigned_to: other_user,
-                      start_date: Time.zone.today - 1.day,
-                      due_date: Time.zone.today + 1.day
+                      start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
+                      due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:third_wp) do
     FactoryBot.create :work_package,
@@ -139,6 +139,41 @@ describe 'Team planner', type: :feature, js: true do
     end
 
     it 'allows to resize to change the dates of a wp' do
+      retry_block do
+      # Change date of second_wp by resizing it
+      team_planner.change_wp_date_by_resizing(second_wp, number_of_days: 1, is_start_date: true)
+
+      end
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      # The date has changed, but the assignee remains unchanged.
+      # Because of the hierarchy, the first wp is updated, too.
+      first_wp.reload
+      second_wp.reload
+      expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:thursday))
+      expect(second_wp.assigned_to_id).to eq(other_user.id)
+
+      expect(first_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(first_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:thursday))
+
+      # The calendar needs some time to redraw. If we continue right away we'd get conflicting modifications
+      sleep 5
+
+      # Change the dates by dragging the complete wp
+      team_planner.drag_wp_by_pixel(second_wp, -100, 0)
+      team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      first_wp.reload
+      second_wp.reload
+      expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
+      expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+      expect(second_wp.assigned_to_id).to eq(other_user.id)
+
+      expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
+      expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
+
+      # Parent elements cannot be resized, as they derive their values from their children
 
     end
   end
