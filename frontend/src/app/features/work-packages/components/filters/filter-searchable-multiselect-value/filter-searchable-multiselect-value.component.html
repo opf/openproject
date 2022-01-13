@@ -21,5 +21,10 @@
              bindLabel="name"
              [typeahead]="requests.input$"
              [virtualScroll]="true">
+    <ng-template ng-footer-tmp *ngIf="total > count">
+      <div class="ng-footer-text">
+        <span [textContent]="moreItemsText(count, total)"></span>
+      </div>
+    </ng-template>
   </ng-select>
 </div>

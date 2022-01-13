@@ -1,10 +1,13 @@
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DebouncedRequestSwitchmap, errorNotificationHandler } from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
+import {
+  DebouncedRequestSwitchmap,
+  errorNotificationHandler,
+} from 'core-app/shared/helpers/rxjs/debounced-input-switchmap';
 import { Observable } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
@@ -40,6 +43,10 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   public compareByHrefOrString = compareByHrefOrString;
 
   public active:Set<string>;
+
+  public count = 0;
+
+  public total = 0;
 
   public requests = new DebouncedRequestSwitchmap<string, HalResource>(
     (searchTerm:string) => this.loadAvailable(searchTerm),
@@ -96,12 +103,19 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     this
       .requests
       .output$.pipe(
-        this.untilDestroyed(),
-      )
+      this.untilDestroyed(),
+    )
       .subscribe((values:HalResource[]) => {
         this.availableOptions = values;
         this.cdRef.detectChanges();
       });
+  }
+
+  public moreItemsText(count:number, total:number) {
+    return this.I18n.t(
+      'js.filter.more_values_not_shown',
+      { total: total - count },
+    )
   }
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
@@ -112,7 +126,13 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
       .filtered(filters)
       .get()
-      .pipe(map((collection) => collection.elements));
+      .pipe(
+        tap((collection) => {
+          this.count = collection.count;
+          this.total = collection.total;
+        }),
+        map((collection) => collection.elements),
+      );
 
     return filteredData;
   }
@@ -146,4 +166,5 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
       }
     }
   }
+
 }
