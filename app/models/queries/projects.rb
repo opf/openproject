@@ -40,6 +40,7 @@ module Queries::Projects
     filter query, filters::TemplatedFilter
     filter query, filters::PublicFilter
     filter query, filters::NameAndIdentifierFilter
+    filter query, filters::TypeaheadFilter
     filter query, filters::CustomFieldFilter
     filter query, filters::CreatedAtFilter
     filter query, filters::LatestActivityAtFilter
