@@ -4,7 +4,10 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Observable } from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import {
+  ApiV3Filter,
+  ApiV3FilterBuilder,
+} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
@@ -98,6 +101,16 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param params additional URL params to append
    */
   public filtered<R = ApiV3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
+    const url = new URL(this.path, window.location.origin);
+
+    if (url.searchParams.has('filters')) {
+      const existingFilters = JSON.parse(url.searchParams.get('filters') as string) as ApiV3Filter[];
+      url.searchParams.set('filters', JSON.stringify(existingFilters.concat(filters.filters)));
+      const cls = resourceClass || APIv3GettableResource;
+
+      // eslint-disable-next-line new-cap
+      return new cls(this.apiRoot, url.pathname + url.search, '', this) as R;
+    }
     return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
   }
 
