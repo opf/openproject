@@ -7,6 +7,7 @@ import {
   CalendarOptions,
   DatesSetArg,
   EventApi,
+  EventDropArg,
 } from '@fullcalendar/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -37,6 +38,11 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { EventResizeDoneArg } from '@fullcalendar/interaction';
+import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -77,6 +83,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     readonly halResourceService:HalResourceService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly timezoneService:TimezoneService,
+    readonly halEditing:HalResourceEditingService,
   ) {
     super();
   }
@@ -98,32 +105,15 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return { ...this.defaultOptions(), ...additionalOptions };
   }
 
-  addTooltip(event:CalendarViewEvent):void {
-    jQuery(event.el).tooltip({
-      content: this.tooltipContentString(event.event.extendedProps.workPackage),
-      items: '.fc-event',
-      close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
-      },
-      track: true,
-    });
-  }
-
-  removeTooltip(element:HTMLElement):void {
-    // deactivate tooltip so that it is not displayed on the wp show page
-    jQuery(element).tooltip({
-      close() {
-        jQuery('.ui-helper-hidden-accessible').remove();
-      },
-      disabled: true,
-    });
-  }
-
   eventDate(workPackage:WorkPackageResource, type:'start'|'due'):string {
-    if (this.schemaCache.of(workPackage).isMilestone) {
+    if (this.isMilestone(workPackage)) {
       return workPackage.date;
     }
     return workPackage[`${type}Date`];
+  }
+
+  isMilestone(workPackage:WorkPackageResource):boolean {
+    return this.schemaCache.of(workPackage).isMilestone as boolean;
   }
 
   warnOnTooManyResults(collection:WorkPackageCollectionResource, isStatic = false):void {
@@ -257,63 +247,15 @@ export class OpCalendarService extends UntilDestroyedMixin {
       datesSet: (dates) => this.updateDateParam(dates),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventClick: this.openSplitView.bind(this),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventDidMount: this.addTooltip.bind(this),
     };
   }
 
   private openSplitView(event:EventClickArg) {
     const workPackage = event.event.extendedProps.workPackage as WorkPackageResource;
-
-    if (event.el) {
-      // do not display the tooltip on the wp show page
-      this.removeTooltip(event.el);
-    }
-
     void this.$state.go(
       `${splitViewRoute(this.$state)}.tabs`,
       { workPackageId: workPackage.id, tabIdentifier: 'overview' },
     );
-  }
-
-  private sanitizedValue(workPackage:WorkPackageResource, attribute:string, toStringMethod:string|null = 'name'):string {
-    let value = workPackage[attribute];
-    value = toStringMethod && value ? value[toStringMethod] : value;
-    value = value || this.I18n.t('js.placeholders.default');
-
-    return this.sanitizer.sanitize(SecurityContext.HTML, value) || '';
-  }
-
-  private tooltipContentString(workPackage:WorkPackageResource) {
-    return `
-        ${this.sanitizedValue(workPackage, 'type')} #${workPackage.id}: ${this.sanitizedValue(workPackage, 'subject', null)}
-        <ul class="tooltip--map">
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.projectName')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'project')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.status')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'status')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.startDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'start')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.dueDate')}:</span>
-            <span class="tooltip--map--value">${this.eventDate(workPackage, 'due')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.assignee')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'assignee')}</span>
-          </li>
-          <li class="tooltip--map--item">
-            <span class="tooltip--map--key">${this.I18n.t('js.work_packages.properties.priority')}:</span>
-            <span class="tooltip--map--value">${this.sanitizedValue(workPackage, 'priority')}</span>
-          </li>
-        </ul>
-        `;
   }
 
   private static defaultQueryProps(startDate:string, endDate:string) {
@@ -378,5 +320,18 @@ export class OpCalendarService extends UntilDestroyedMixin {
         custom: { notify: false },
       },
     );
+  }
+
+  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg):ResourceChangeset<WorkPackageResource> {
+    const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
+
+    const changeset = this.halEditing.edit(workPackage);
+    changeset.setValue('startDate', resizeInfo.event.startStr);
+    const due = moment(resizeInfo.event.endStr)
+      .subtract(1, 'day')
+      .format('YYYY-MM-DD');
+    changeset.setValue('dueDate', due);
+
+    return changeset;
   }
 }

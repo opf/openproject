@@ -11,6 +11,7 @@ import {
 import {
   CalendarOptions,
   DateSelectArg,
+  EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
 import {
@@ -24,10 +25,9 @@ import {
   map,
   mergeMap,
 } from 'rxjs/operators';
-import { EventClickArg } from '@fullcalendar/common';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin from '@fullcalendar/interaction';
+import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -45,6 +45,9 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ResourceLabelContentArg } from '@fullcalendar/resource-common';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -122,6 +125,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     private viewLookup:EventViewLookupService,
     private I18n:I18nService,
     readonly calendar:OpCalendarService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
+    readonly schemaCache:SchemaCacheService,
   ) {
     super();
   }
@@ -198,7 +204,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.calendarOptions$.next(
           this.calendar.calendarOptions({
             schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-            editable: false,
             selectable: true,
             plugins: [
               resourceTimelinePlugin,
@@ -234,6 +239,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             select: this.handleDateClicked.bind(this) as unknown,
             resourceLabelContent: (data:ResourceLabelContentArg) => this.renderTemplate(this.resourceContent, data.resource.id, data),
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
+            // DnD configuration
+            editable: true,
+            eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+            eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -310,18 +319,16 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
           return undefined;
         }
 
-        const startDate = this.calendar.eventDate(workPackage, 'start');
-        const endDate = this.calendar.eventDate(workPackage, 'due');
-
-        const exclusiveEnd = moment(endDate).add(1, 'days').format('YYYY-MM-DD');
-        const assignee = (workPackage.assignee as HalResource).href as string;
-
+        const assignee = this.wpAssignee(workPackage);
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
+          durationEditable: this.eventDurationEditable(workPackage),
+          resourceEditable: this.eventResourceEditable(workPackage),
+          constraint: this.eventConstaints(workPackage),
           title: workPackage.subject,
-          start: startDate,
-          end: exclusiveEnd,
+          start: this.wpStartDate(workPackage),
+          end: this.wpEndDate(workPackage),
           allDay: true,
           className: `__hl_background_type_${workPackage.type.id as string}`,
           workPackage,
@@ -363,5 +370,68 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         tabIdentifier: 'overview',
       },
     );
+  }
+
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+    const changeset = this.calendar.updateDates(info);
+
+    const resource = (info as EventDropArg).newResource;
+    if (resource) {
+      changeset.setValue('assignee', { href: resource.id });
+    }
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      this.halNotification.showError(e.resource, changeset.projectedResource);
+      info.revert();
+    }
+  }
+
+  private eventResourceEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
+  }
+
+  private eventDurationEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.calendar.isMilestone(wp);
+  }
+
+  // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯
+  // When users have the right to change the assignee but cannot change the date (due to hierarchy for example),
+  // they are forced to drag the wp to the exact same date in the others assignee row. This might be confusing.
+  // Without these constraints however, users can drag the WP everywhere, thinking that they changed the date as well.
+  // The WP then moves back to the original date when the calendar re-draws again. Also not optimal..
+  private eventConstaints(wp:WorkPackageResource):{ [key:string]:string|string[] } {
+    const constraints:{ [key:string]:string|string[] } = {};
+
+    if (!this.eventDurationEditable(wp)) {
+      constraints.start = this.wpStartDate(wp);
+      constraints.end = this.wpEndDate(wp);
+    }
+
+    if (!this.eventResourceEditable(wp)) {
+      constraints.resourceIds = [this.wpAssignee(wp)];
+    }
+
+    return constraints;
+  }
+
+  private wpStartDate(wp:WorkPackageResource):string {
+    return this.calendar.eventDate(wp, 'start');
+  }
+
+  private wpEndDate(wp:WorkPackageResource):string {
+    const endDate = this.calendar.eventDate(wp, 'due');
+    return moment(endDate).add(1, 'days').format('YYYY-MM-DD');
+  }
+
+  private wpAssignee(wp:WorkPackageResource):string {
+    return (wp.assignee as HalResource).href as string;
   }
 }
