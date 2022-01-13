@@ -229,6 +229,10 @@ export class OpCalendarService extends UntilDestroyedMixin {
       .toPromise();
   }
 
+  public get initialView():string|undefined {
+    return this.urlParams.cview as string|undefined;
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,
@@ -303,10 +307,6 @@ export class OpCalendarService extends UntilDestroyedMixin {
     }
 
     return undefined;
-  }
-
-  private get initialView():string|undefined {
-    return this.urlParams.cview as string|undefined;
   }
 
   private updateDateParam(dates:DatesSetArg) {

@@ -54,6 +54,23 @@ module Pages
       expect(page).to have_conditional_selector(present, '.op-team-planner--no-data', text: 'Add assignees to set up your team planner.')
     end
 
+    def expect_view_mode(text)
+      expect(page).to have_selector('.fc-button-active', text: text)
+
+      param = {
+        'week' => :resourceTimelineWeek,
+        '2 weeks' => :resourceTimelineTwoWeeks,
+        'month' => :resourceTimelineMonth
+      }[text]
+
+      expect(page).to have_current_path(/cview=#{param}/)
+    end
+
+    def switch_view_mode(text)
+      page.find('.fc-button', text: text).click
+      expect_view_mode(text)
+    end
+
     def expect_assignee(user, present: true)
       name = user.is_a?(User) ? user.name : user.to_s
       expect(page).to have_conditional_selector(present, '.fc-resource', text: name, wait: 10)
