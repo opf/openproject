@@ -82,6 +82,11 @@ en:
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      feature_info: "is an Enterprise feature."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
 
   announcements:
     show_until: Show until

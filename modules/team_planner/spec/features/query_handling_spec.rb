@@ -36,7 +36,7 @@ describe 'Team planner query handling', type: :feature, js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
-  
+
   shared_let(:type_task) { FactoryBot.create(:type_task) }
   shared_let(:type_bug) { FactoryBot.create(:type_bug) }
   shared_let(:project) do

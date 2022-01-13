@@ -1,34 +1,29 @@
-<div class="op-toast upsale-notification">
-  <div class="op-toast--content">
-    <h3><%= t('admin.enterprise.upgrade_to_ee') %></h3>
-    <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
-
+<div class="upsale-notification">
+    
     <p class="upsale--feature-reference">
       <strong><%= feature_title %></strong>
       <br/>
       <%= feature_description %>
     </p>
+    <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+    <p> <%= feature_title %> <%= t('admin.enterprise.feature_info') %></p>
+    <p> <%= t('admin.enterprise.upgrade_info') %></p>
 
-    <p><%= t('js.admin.enterprise.upsale.benefits.description') %></p>
-
-    <ul class="">
-      <li>
-        <%= t('js.admin.enterprise.upsale.benefits.premium_features_text') %>
-      </li>
-      <li>
-        <%= t('js.admin.enterprise.upsale.benefits.professional_support_text') %>
-      </li>
-    </ul>
-    <p>
-      <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
-    </p>
-    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=#{feature_reference}",
-                 { class: 'button -alt-highlight',
-                   aria: {label: t('admin.enterprise.order')},
+    <%= link_to( "",
+                 { class: 'button -highlight-inverted -round',
+                   aria: {label: t('admin.enterprise.buttons.contact')},
                    target: '_blank',
-                   title: t('admin.enterprise.order')}) do %>
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t('admin.enterprise.order') %></span>
+                   title: t('admin.enterprise.buttons.contact')}) do %>
+      <span class="button--text"><%= t('admin.enterprise.buttons.contact') %></span>
     <% end %>
-  </div>
+
+    <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=#{feature_reference}",
+                 { class: 'button -highlight -round',
+                   aria: {label: t('admin.enterprise.buttons.upgrade')},
+                   target: '_blank',
+                   title: t('admin.enterprise.buttons.upgrade')}) do %>
+      <%= op_icon('button--icon icon-star') %>
+      <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
+    <% end %>
+
 </div>
