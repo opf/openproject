@@ -39,6 +39,7 @@ describe 'Team planner create new work package', type: :feature, js: true do
   let!(:priority) { FactoryBot.create :default_priority }
 
   before do
+    with_enterprise_token(:team_planner_view)
     project.types << type_task
   end
 
