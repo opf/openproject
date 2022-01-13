@@ -49,7 +49,7 @@ module Queries::Filters::Shared::UserNameFilter
         ["#{sql_concat_name} IN (?)", sql_value]
       when '!'
         ["#{sql_concat_name} NOT IN (?)", sql_value]
-      when '~'
+      when '~', '**'
         ["#{sql_concat_name} LIKE ?", "%#{sql_value}%"]
       when '!~'
         ["#{sql_concat_name} NOT LIKE ?", "%#{sql_value}%"]
@@ -62,7 +62,7 @@ module Queries::Filters::Shared::UserNameFilter
       case operator
       when '=', '!'
         values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
-      when '~', '!~'
+      when '**', '~', '!~'
         values.first.downcase
       end
     end
