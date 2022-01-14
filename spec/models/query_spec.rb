@@ -662,7 +662,7 @@ describe Query, type: :model do
     end
   end
 
-  describe '#statement_filters (private method)' do
+  describe 'filters and statement_filters (private method)' do
     def subproject_filter?(filter)
       filter.is_a?(Queries::WorkPackages::Filter::SubprojectFilter)
     end
@@ -671,56 +671,57 @@ describe Query, type: :model do
       filters.detect { |filter| subproject_filter?(filter) }
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'adds a * subproject_id filter' do
+    shared_examples_for 'adds a subproject id filter' do |operator|
+      it "does not add a visible subproject filter" do
         expect(detect_subproject_filter(query.filters)).to eq nil
+      end
 
+      it "adds a #{operator} subproject_id filter to the statement" do
         added_filter = detect_subproject_filter(query.send(:statement_filters))
         expect(added_filter).to be_present
-        expect(added_filter.operator).to eq '*'
+        expect(added_filter.operator).to eq operator
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'adds a !* subproject_id filter' do
-        expect(detect_subproject_filter(query.filters)).to eq nil
+    shared_examples_for 'does not add a subproject id filter' do
+      it 'does not add a second subproject id filter' do
+        expect(query.filters.count).to eq(query.send(:statement_filters).count)
 
-        added_filter = detect_subproject_filter(query.send(:statement_filters))
-        expect(added_filter).to be_present
-        expect(added_filter.operator).to eq '!*'
+        expect(query.filters.select { |filter| subproject_filter?(filter) })
+          .to match_array(query.send(:statement_filters).select { |filter| subproject_filter?(filter) })
+      end
+    end
+
+    context 'when subprojects included settings active', with_settings: { display_subprojects_work_packages: true } do
+      it_behaves_like 'adds a subproject id filter', '*'
+    end
+
+    context 'when subprojects included settings inactive', with_settings: { display_subprojects_work_packages: false } do
+      it_behaves_like 'adds a subproject id filter', '!*'
+    end
+
+    context 'with a subproject filter added manually' do
+      before do
+        query.add_filter('subproject_id', '=', ['1234'])
       end
 
-      context 'when subproject filter added manually' do
-        before do
-          query.add_filter('subproject_id', '=', ['1234'])
-        end
+      it_behaves_like 'does not add a subproject id filter'
+    end
 
-        it 'does not add a second subproject id filter' do
-          expect(query.filters.count).to eq(query.send(:statement_filters).count)
-
-          subproject_filters = query.filters.select { |filter| subproject_filter?(filter) }
-          expect(subproject_filters.count).to eq 1
-
-          subproject_filters = query.send(:statement_filters).select { |filter| subproject_filter?(filter) }
-          expect(subproject_filters.count).to eq 1
-        end
+    context 'with a only_subproject filter added manually' do
+      before do
+        query.add_filter('only_subproject_id', '=', ['1234'])
       end
 
-      context 'when only subproject filter added manually' do
-        before do
-          query.add_filter('only_subproject_id', '=', ['1234'])
-        end
+      it_behaves_like 'does not add a subproject id filter'
+    end
 
-        it 'does not add a second subproject id filter' do
-          expect(query.filters.count).to eq(query.send(:statement_filters).count)
-
-          subproject_filters = query.filters.select { |filter| subproject_filter?(filter) }
-          expect(subproject_filters.count).to eq 1
-
-          subproject_filters = query.send(:statement_filters).select { |filter| subproject_filter?(filter) }
-          expect(subproject_filters.count).to eq 1
-        end
+    context 'with a project filter added manually' do
+      before do
+        query.add_filter('project_id', '=', ['1234'])
       end
+
+      it_behaves_like 'does not add a subproject id filter'
     end
   end
 end
