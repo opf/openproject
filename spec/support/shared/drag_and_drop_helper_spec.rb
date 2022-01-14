@@ -26,8 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+def drag_n_drop_element(from:, to:, offset_x: nil, offset_y: nil)
+  scroll_to_element(from)
+  page
+    .driver
+    .browser
+    .action
+    .move_to(from.native)
+    .click_and_hold(from.native)
+    .perform
+
+  scroll_to_element(to)
+  page
+    .driver
+    .browser
+    .action
+    .move_to(to.native, offset_x, offset_y)
+    .release
+    .perform
+end
+
 def drag_by_pixel(element:, by_x:, by_y:)
   scroll_to_element(element)
+
   page
     .driver
     .browser
