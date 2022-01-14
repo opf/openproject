@@ -320,11 +320,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         }
 
         const assignee = this.wpAssignee(workPackage);
+        const durationEditable = this.eventDurationEditable(workPackage);
+        const resourceEditable = this.eventResourceEditable(workPackage);
+
         return {
           id: `${workPackage.href as string}-${assignee}`,
           resourceId: assignee,
-          durationEditable: this.eventDurationEditable(workPackage),
-          resourceEditable: this.eventResourceEditable(workPackage),
+          editable: durationEditable || resourceEditable,
+          durationEditable,
+          resourceEditable,
           constraint: this.eventConstaints(workPackage),
           title: workPackage.subject,
           start: this.wpStartDate(workPackage),

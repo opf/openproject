@@ -144,7 +144,7 @@ module Pages
         resizer = wp_strip.find('.fc-event-resizer-end')
       end
 
-      drag_by_pixel(element: resizer, by_x: number_of_days * 150, by_y: 0) unless resizer.nil?
+      drag_by_pixel(element: resizer, by_x: number_of_days * 170, by_y: 0) unless resizer.nil?
     end
 
     def drag_wp_by_pixel(work_package, x, y)
@@ -152,6 +152,14 @@ module Pages
                  .find('.fc-event', text: work_package.subject)
 
       drag_by_pixel(element: source, by_x: x, by_y: y)
+    end
+
+    def expect_wp_not_resizable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
+    end
+
+    def expect_wp_not_draggable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
   end
 end

@@ -39,8 +39,8 @@ describe 'Team planner', type: :feature, js: true do
                       firstname: 'Bernd',
                       member_in_project: project,
                       member_with_permissions: %w[
-                          view_work_packages view_team_planner
-                        ]
+                        view_work_packages view_team_planner
+                      ]
   end
 
   let!(:first_wp) do
@@ -90,7 +90,9 @@ describe 'Team planner', type: :feature, js: true do
 
     it 'allows to drag&drop between the lanes to change the assignee' do
       # Move first wp to the user
-      team_planner.drag_wp_by_pixel(first_wp, 0, -50)
+      retry_block do
+        team_planner.drag_wp_by_pixel(first_wp, 0, -50)
+      end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       team_planner.within_lane(user) do
@@ -106,7 +108,9 @@ describe 'Team planner', type: :feature, js: true do
       end
 
       # Move second wp to the user, resulting in the other user having no WPs any more
-      team_planner.drag_wp_by_pixel(second_wp, 0, -50)
+      retry_block do
+        team_planner.drag_wp_by_pixel(second_wp, 0, -50)
+      end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       team_planner.within_lane(user) do
@@ -140,10 +144,10 @@ describe 'Team planner', type: :feature, js: true do
 
     it 'allows to resize to change the dates of a wp' do
       retry_block do
-      # Change date of second_wp by resizing it
-      team_planner.change_wp_date_by_resizing(second_wp, number_of_days: 1, is_start_date: true)
-
+        # Change date of second_wp by resizing it
+        team_planner.change_wp_date_by_resizing(second_wp, number_of_days: 1, is_start_date: true)
       end
+
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       # The date has changed, but the assignee remains unchanged.
@@ -161,7 +165,9 @@ describe 'Team planner', type: :feature, js: true do
       sleep 5
 
       # Change the dates by dragging the complete wp
-      team_planner.drag_wp_by_pixel(second_wp, -100, 0)
+      retry_block do
+        team_planner.drag_wp_by_pixel(second_wp, -100, 0)
+      end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       first_wp.reload
@@ -173,8 +179,13 @@ describe 'Team planner', type: :feature, js: true do
       expect(second_wp.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
       expect(second_wp.due_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:wednesday))
 
-      # Parent elements cannot be resized, as they derive their values from their children
+      # The calendar needs some time to redraw. If we continue right away we'd get conflicting modifications
+      sleep 5
 
+      # Parent elements cannot be resized, as they derive their values from their children
+      team_planner.expect_wp_not_resizable(first_wp)
+      # Elements that have start or due date outside of the current view are also not resizable
+      team_planner.expect_wp_not_resizable(third_wp)
     end
   end
 
@@ -185,13 +196,19 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.visit!
 
       team_planner.add_assignee user
-      etry_block do
+      retry_block do
         team_planner.add_assignee other_user
       end
     end
 
     it 'allows neither dragging nor resizing any wp' do
+      team_planner.expect_wp_not_resizable(first_wp)
+      team_planner.expect_wp_not_resizable(second_wp)
+      team_planner.expect_wp_not_resizable(third_wp)
 
+      team_planner.expect_wp_not_draggable(first_wp)
+      team_planner.expect_wp_not_draggable(second_wp)
+      team_planner.expect_wp_not_draggable(third_wp)
     end
   end
 end
