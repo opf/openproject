@@ -34,7 +34,7 @@ require_relative './shared_context'
 describe 'Team planner error handling', type: :feature, js: true do
   include_context 'with team planner full access'
 
-  let!(:first_wp) do
+  let!(:work_package) do
     FactoryBot.create :work_package,
                       project: project,
                       type: type,
@@ -44,10 +44,10 @@ describe 'Team planner error handling', type: :feature, js: true do
   end
 
   let!(:custom_field) do
-    FactoryBot.create(:work_package_custom_field,
+    FactoryBot.create :work_package_custom_field,
                       default_value: nil,
                       is_for_all: true,
-                      is_required: false)
+                      is_required: false
   end
 
   let(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
@@ -57,28 +57,59 @@ describe 'Team planner error handling', type: :feature, js: true do
       project.types << type
       project.save!
 
-      custom_field.is_required = true
-      custom_field.save!
-
       team_planner.visit!
 
       team_planner.add_assignee user
 
       team_planner.within_lane(user) do
-        team_planner.expect_event first_wp, present: true
+        team_planner.expect_event work_package, present: true
       end
     end
 
     it 'cannot change the wp because of required fields not being set' do
+      custom_field.is_required = true
+      custom_field.save!
+
       # Try to move the wp
       retry_block do
-        team_planner.drag_wp_by_pixel(first_wp, 150, 0)
+        team_planner.drag_wp_by_pixel(work_package, 150, 0)
       end
-      team_planner.expect_toast(type: :error, message: 'Custom Field Nr. 1 can\'t be blank')
+      team_planner.expect_toast(type: :error, message: "#{custom_field.name} can't be blank")
 
       team_planner.within_lane(user) do
-        team_planner.expect_event first_wp
+        team_planner.expect_event work_package
       end
+    end
+
+    it 'cannot change the wp because of conflicting modifications' do
+      # Try to move the wp
+      retry_block do
+        wp_strip = page.find('.fc-event', text: work_package.subject)
+
+        page
+          .driver
+          .browser
+          .action
+          .move_to(wp_strip.native)
+          .click_and_hold(wp_strip.native)
+          .perform
+
+        # Enforce a lockVersion conflict
+        work_package.reload.touch
+
+        page
+          .driver
+          .browser
+          .action
+          .move_by(150, 0)
+          .release
+          .perform
+      end
+
+      team_planner.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_409'))
+
+      work_package.reload
+      expect(work_package.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))
     end
   end
 end

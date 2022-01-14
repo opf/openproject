@@ -51,7 +51,9 @@ module Pages
     end
 
     def expect_empty_state(present: true)
-      expect(page).to have_conditional_selector(present, '.op-team-planner--no-data', text: 'Add assignees to set up your team planner.')
+      expect(page).to have_conditional_selector(present,
+                                                '.op-team-planner--no-data',
+                                                text: 'Add assignees to set up your team planner.')
     end
 
     def expect_assignee(user, present: true)
@@ -138,20 +140,16 @@ module Pages
         .move_to(wp_strip.native)
         .perform
 
-      if is_start_date
-        resizer = wp_strip.find('.fc-event-resizer-start')
-      else
-        resizer = wp_strip.find('.fc-event-resizer-end')
-      end
+      resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
 
       drag_by_pixel(element: resizer, by_x: number_of_days * 170, by_y: 0) unless resizer.nil?
     end
 
-    def drag_wp_by_pixel(work_package, x, y)
+    def drag_wp_by_pixel(work_package, by_x, by_y)
       source = page
                  .find('.fc-event', text: work_package.subject)
 
-      drag_by_pixel(element: source, by_x: x, by_y: y)
+      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
     end
 
     def expect_wp_not_resizable(work_package)

@@ -126,7 +126,9 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
       end
 
       # Move the third WP to the empty row of the other user
-      team_planner.drag_wp_by_pixel(third_wp, 0, 100)
+      retry_block do
+        team_planner.drag_wp_by_pixel(third_wp, 0, 100)
+      end
       team_planner.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       team_planner.within_lane(user) do
