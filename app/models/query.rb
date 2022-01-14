@@ -43,8 +43,9 @@ class Query < ApplicationRecord
   serialize :column_names, Array
   serialize :sort_criteria, Array
 
-  validates :name, presence: true
-  validates_length_of :name, maximum: 255
+  validates :name,
+            presence: true,
+            length: { maximum: 255 }
 
   validate :validate_work_package_filters
   validate :validate_columns
@@ -93,7 +94,7 @@ class Query < ApplicationRecord
   end
 
   def add_default_filter
-    return unless filters.blank?
+    return if filters.present?
 
     add_filter('status_id', 'o', [''])
   end
@@ -251,7 +252,7 @@ class Query < ApplicationRecord
 
   def column_names=(names)
     col_names = Array(names)
-                .reject(&:blank?)
+                .compact_blank
                 .map(&:to_sym)
 
     # Set column_names to blank/nil if it is equal to the default columns
@@ -335,7 +336,7 @@ class Query < ApplicationRecord
 
     statement_filters
       .map { |filter| "(#{filter.where})" }
-      .reject(&:empty?)
+      .compact_blank
       .join(' AND ')
   end
 

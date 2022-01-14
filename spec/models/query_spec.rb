@@ -48,14 +48,14 @@ describe Query, type: :model do
 
   describe '.new_default' do
     it 'set the default sortation' do
-      query = Query.new_default
+      query = described_class.new_default
 
       expect(query.sort_criteria)
         .to match_array([['id', 'asc']])
     end
 
     it 'does not use the default sortation if an order is provided' do
-      query = Query.new_default(sort_criteria: [['id', 'asc']])
+      query = described_class.new_default(sort_criteria: [['id', 'asc']])
 
       expect(query.sort_criteria)
         .to match_array([['id', 'asc']])
@@ -175,14 +175,14 @@ describe Query, type: :model do
 
   describe 'hierarchies' do
     it 'is enabled in default queries' do
-      query = Query.new_default
+      query = described_class.new_default
       expect(query.show_hierarchies).to be_truthy
       query.show_hierarchies = false
       expect(query.show_hierarchies).to be_falsey
     end
 
     it 'is mutually exclusive with group_by' do
-      query = Query.new_default
+      query = described_class.new_default
       expect(query.show_hierarchies).to be_truthy
       query.group_by = :assignee
 
@@ -195,7 +195,7 @@ describe Query, type: :model do
 
   describe '#available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
-      it 'should include the done_ratio column' do
+      it 'includes the done_ratio column' do
         expect(query.available_columns.map(&:name)).to include :done_ratio
       end
     end
@@ -205,7 +205,7 @@ describe Query, type: :model do
         allow(WorkPackage).to receive(:done_ratio_disabled?).and_return(true)
       end
 
-      it 'should NOT include the done_ratio column' do
+      it 'does not include the done_ratio column' do
         expect(query.available_columns.map(&:name)).not_to include :done_ratio
       end
     end
@@ -281,7 +281,7 @@ describe Query, type: :model do
         type_not_in_project
       end
 
-      context 'in project' do
+      context 'when in project' do
         before do
           query.project = project
         end
@@ -303,7 +303,7 @@ describe Query, type: :model do
         end
       end
 
-      context 'global' do
+      context 'when global' do
         before do
           query.project = nil
         end
@@ -324,7 +324,7 @@ describe Query, type: :model do
       end
     end
 
-    context 'relation_of_type columns' do
+    context 'with relation_of_type columns' do
       before do
         stub_const('Relation::TYPES',
                    relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
@@ -368,7 +368,7 @@ describe Query, type: :model do
                            [:"relations_to_type_#{type.id}"] +
                            %i(relations_of_type_relation1 relations_of_type_relation2)
 
-        expect(Query.available_columns.map(&:name)).to include *expected_columns
+        expect(described_class.available_columns.map(&:name)).to include *expected_columns
       end
     end
 
@@ -386,14 +386,14 @@ describe Query, type: :model do
         unexpected_columns = [:"relations_to_type_#{type.id}"] +
                              %i(relations_of_type_relation1 relations_of_type_relation2)
 
-        expect(Query.available_columns.map(&:name)).to include *expected_columns
-        expect(Query.available_columns.map(&:name)).not_to include *unexpected_columns
+        expect(described_class.available_columns.map(&:name)).to include *expected_columns
+        expect(described_class.available_columns.map(&:name)).not_to include *unexpected_columns
       end
     end
   end
 
   describe '#valid?' do
-    it 'should not be valid without a name' do
+    it 'is not valid without a name' do
       query.name = ''
       expect(query.save).to be_falsey
       expect(query.errors[:name].first).to include(I18n.t('activerecord.errors.messages.blank'))
@@ -415,7 +415,8 @@ describe Query, type: :model do
       let(:query) { build(:query).tap { |q| q.filters = [] } }
 
       it 'is valid' do
-        expect(query.valid?).to be_truthy
+        expect(query)
+          .to be_valid
       end
     end
 
@@ -428,8 +429,8 @@ describe Query, type: :model do
         query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
       end
 
-      it 'should have the name of the custom field in the error message' do
-        expect(query).to_not be_valid
+      it 'has the name of the custom field in the error message' do
+        expect(query).not_to be_valid
         expect(query.errors.messages[:base].to_s).to include(custom_field.name)
       end
     end
@@ -661,7 +662,7 @@ describe Query, type: :model do
     end
   end
 
-  describe 'project limiting filter' do
+  describe '#statement_filters (private method)' do
     def subproject_filter?(filter)
       filter.is_a?(Queries::WorkPackages::Filter::SubprojectFilter)
     end
