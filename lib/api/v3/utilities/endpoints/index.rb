@@ -31,6 +31,16 @@ module API
     module Utilities
       module Endpoints
         class Index < API::Utilities::Endpoints::Index
+          def initialize(model:,
+                         api_name: model.name.demodulize,
+                         scope: nil,
+                         render_representer: nil,
+                         self_path: api_name.underscore.pluralize)
+            super(model: model, api_name: api_name, scope: scope, render_representer: render_representer)
+
+            self.self_path = self_path
+          end
+
           def mount
             index = self
 
@@ -58,14 +68,11 @@ module API
             end
           end
 
-          def self_path
-            api_name.underscore.pluralize
-          end
-
           attr_accessor :model,
                         :api_name,
                         :scope,
-                        :render_representer
+                        :render_representer,
+                        :self_path
 
           private
 
