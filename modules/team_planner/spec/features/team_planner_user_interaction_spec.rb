@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner', type: :feature, js: true do
+describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   include_context 'with team planner full access'
 
   let!(:other_user) do
