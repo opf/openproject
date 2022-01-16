@@ -293,17 +293,20 @@ properties:
 
             **Resource**: Category
       children:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Array of all visible children of the work package
+        type: array
+        readOnly: true
+        items:
+          allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Array of all visible children of the work package
 
-            **Resource**: Collection
+              **Resource**: Collection
 
-            # Conditions
+              # Conditions
 
-            **Permission** view work packages
-          readOnly: true
+              **Permission** view work packages
+            readOnly: true
       parent:
         allOf:
         - "$ref": "./link.yml"
@@ -390,17 +393,20 @@ properties:
 
             **Resource**: Version
       watchers:
-        allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            All users that are currently watching this work package
+        type: array
+        readOnly: true
+        items:
+          allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              All users that are currently watching this work package
 
-            **Resource**: Collection
+              **Resource**: Collection
 
-            # Conditions
+              # Conditions
 
-            **Permission** view work package watchers
-          readOnly: true
+              **Permission** view work package watchers
+            readOnly: true
 example:
   _type: WorkPackage
   _links:
