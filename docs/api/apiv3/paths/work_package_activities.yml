@@ -57,7 +57,14 @@ get:
                 count: 2
                 total: 2
           schema:
-            "$ref": "../components/schemas/work_package_activities_model.yml"
+            type: object
+            properties:
+              _embedded:
+                type: object
+                properties:
+                  elements:
+                    type: object
+                    "$ref": "../components/schemas/work_package_activities_model.yml"
       description: OK
       headers: {}
     '404':
