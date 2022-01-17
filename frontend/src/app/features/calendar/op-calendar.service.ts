@@ -233,6 +233,22 @@ export class OpCalendarService extends UntilDestroyedMixin {
     return this.urlParams.cview as string|undefined;
   }
 
+  public eventDurationEditable(wp:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(wp);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.isMilestone(wp);
+  }
+
+  /**
+   * The end date from fullcalendar is open, which means it targets
+   * the next day instead of current day 23:59:59.
+   * @param end
+   */
+  public getEndDateFromTimestamp(end:Date):string {
+    return moment(end).subtract(1, 'd').format('YYYY-MM-DD');
+  }
+
   private defaultOptions():CalendarOptions {
     return {
       editable: false,

@@ -24,6 +24,7 @@ import { OpTitleService } from 'core-app/core/html/op-title.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
   CalendarOptions,
+  EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
 import { debounceTime } from 'rxjs/operators';
@@ -33,6 +34,9 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { Subject } from 'rxjs';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -71,6 +75,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     private configuration:ConfigurationService,
     readonly calendar:OpCalendarService,
     readonly currentProject:CurrentProjectService,
+    readonly halEditing:HalResourceEditingService,
+    readonly halNotification:HalResourceNotificationService,
   ) {
     super();
   }
@@ -123,7 +129,14 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       headerToolbar: this.buildHeader(),
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       events: this.calendarEventsFunction.bind(this),
-      plugins: [dayGridPlugin],
+      plugins: [
+        dayGridPlugin,
+        interactionPlugin,
+      ],
+      // DnD configuration
+      editable: true,
+      eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
+      eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
     };
 
     if (this.static) {
@@ -171,6 +184,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       return {
         title: workPackage.subject,
         start: startDate,
+        editable: this.calendar.eventDurationEditable(workPackage),
         end: exclusiveEnd,
         allDay: true,
         className: `__hl_background_type_${workPackage.type.id}`,
@@ -183,5 +197,17 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private get initialView():string|undefined {
     return this.static ? 'dayGridWeek' : undefined;
+  }
+
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+    const changeset = this.calendar.updateDates(info);
+
+    try {
+      const result = await this.halEditing.save(changeset);
+      this.halNotification.showSave(result.resource, result.wasNew);
+    } catch (e) {
+      this.halNotification.showError(e, changeset.projectedResource);
+      info.revert();
+    }
   }
 }
