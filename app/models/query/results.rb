@@ -62,17 +62,6 @@ class ::Query::Results
       .order(sort_criteria_array)
   end
 
-  def versions
-    scope = Version
-            .visible
-
-    if query.project && (limiting_filter = query.project_limiting_filter)
-      scope.where(limiting_filter.where)
-    end
-
-    scope
-  end
-
   def order_option
     order_option = [group_by_sort].compact_blank.join(', ')
 
