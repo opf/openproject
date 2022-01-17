@@ -1,6 +1,10 @@
 <ng-container
   *ngIf="(calendarOptions$ | async) as calendarOptions"
 >
+  <op-quick-add-pane
+    *ngIf="(showQuickAddPane | async)">
+  </op-quick-add-pane>
+
   <full-calendar
     #ucCalendar
     *ngIf="calendarOptions"

@@ -15,6 +15,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import {
+  BehaviorSubject,
   combineLatest,
   Subject,
 } from 'rxjs';
@@ -75,6 +76,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   projectIdentifier:string|undefined = undefined;
 
+  showQuickAddPane = new BehaviorSubject<boolean>(false);
+
   showAddAssignee$ = new Subject<boolean>();
 
   private principalIds$ = this.wpTableFilters
@@ -99,6 +102,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   assignees:HalResource[] = [];
 
   text = {
+    add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
@@ -217,8 +221,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               day: 'numeric',
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
+            customButtons: {
+              showQuickAddPane: {
+                text: this.text.add_existing,
+                click: this.toggleQuickAddPane.bind(this),
+              },
+            },
             headerToolbar: {
-              left: 'prev,next today',
+              left: 'prev,next today showQuickAddPane',
               center: 'title',
               right: 'resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
@@ -456,5 +466,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private wpAssignee(wp:WorkPackageResource):string {
     return (wp.assignee as HalResource).href as string;
+  }
+
+  private toggleQuickAddPane():void {
+    this.showQuickAddPane.next(!this.showQuickAddPane.getValue());
   }
 }
