@@ -29,12 +29,12 @@
 import { Injectable } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
   constructor(
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
   ) {
   }
 
