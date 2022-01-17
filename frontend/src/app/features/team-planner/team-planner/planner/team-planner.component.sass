@@ -8,7 +8,24 @@
   @include no-visible-scroll-bar
 
 .op-team-planner
+  display: grid
+  grid-template-columns: auto 1fr
+  grid-template-rows: 1fr auto
+  grid-column-gap: 10px
+  grid-template-areas: "quickAdd calendar" "quickAdd noData" "quickAdd addAssignee"
+
+  &--quick-add-pane
+    grid-area: quickAdd
+    max-width: 350px
+
+  &--calendar
+    grid-area: calendar
+
+  &--add-assignee
+    grid-area: addAssignee
+
   &--no-data
+    grid-area: noData
     height: 250px
     background-color: lightgray
     display: flex
@@ -17,4 +34,3 @@
 
 .tp-assignee-add-button
   margin-top: 1rem
-

@@ -1,1 +1,19 @@
-<p>quick-add-pane works!</p>
+<op-autocompleter
+    #select
+    classes="quick-add-pane--search"
+    [resource]="'work_packages'"
+    [openDirectly]="true"
+    [fetchDataDirectly]="true"
+></op-autocompleter>
+
+<div
+  *ngIf="isEmpty"
+  class="op-quick-add-pane--empty-state"
+  >
+  <img [src]="image.empty_state" class="op-quick-add-pane--empty-state-image"/>
+
+  <span
+    [innerHTML]="text.empty_state"
+    class="op-quick-add-pane--empty-state-text"
+  ></span>
+</div>
