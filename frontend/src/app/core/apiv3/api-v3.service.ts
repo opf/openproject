@@ -26,8 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import {
+  APIv3GettableResource,
+  APIv3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Constructor } from '@angular/cdk/table';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Apiv3GridsPaths } from 'core-app/core/apiv3/endpoints/grids/apiv3-grids-paths';
@@ -53,11 +59,15 @@ import { Apiv3PlaceholderUsersPaths } from 'core-app/core/apiv3/endpoints/placeh
 import { Apiv3GroupsPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-groups-paths';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Apiv3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
+import { Apiv3BackupsPath } from 'core-app/core/apiv3/endpoints/backups/apiv3-backups-path';
 
 @Injectable({ providedIn: 'root' })
 export class APIV3Service {
   // /api/v3/attachments
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
+
+  // /api/v3/backups
+  public readonly backups = this.apiV3CustomEndpoint(Apiv3BackupsPath);
 
   // /api/v3/configuration
   public readonly configuration = this.apiV3CustomEndpoint(Apiv3ConfigurationPath);
