@@ -52,6 +52,8 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export type ViewType = 'WorkPackagesTable'|'Bim'|'TeamPlanner';
 
@@ -75,7 +77,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     no_results: this.I18n.t('js.work_packages.query.text_no_results'),
   };
 
-  public $views:Observable<IOpSidemenuItem[]>;
+  public views$:Observable<IOpSidemenuItem[]>;
 
   @Input() menuItems:string[] = [];
 
@@ -87,9 +89,9 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
 
   private apiViewType:string;
 
-  private $viewCategories = new BehaviorSubject<IOpSidemenuItem[]>([]);
+  private viewCategories$ = new BehaviorSubject<IOpSidemenuItem[]>([]);
 
-  private $search = new BehaviorSubject<string>('');
+  private search$ = new BehaviorSubject<string>('');
 
   private initialized = false;
 
@@ -102,13 +104,15 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
     readonly mainMenuService:MainMenuNavigationService,
     readonly cdRef:ChangeDetectorRef,
     readonly viewsService:ViewsResourceService,
+    readonly currentUserService:CurrentUserService,
+    readonly currentProjectService:CurrentProjectService,
   ) {
     super();
   }
 
   public set search(input:string) {
-    if (this.$search.value !== input) {
-      this.$search.next(input);
+    if (this.search$.value !== input) {
+      this.search$.next(input);
     }
   }
 
@@ -121,9 +125,9 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .onActivate(...this.menuItems)
       .subscribe(() => this.initializeAutocomplete());
 
-    this.$views = combineLatest(
-      this.$search,
-      this.$viewCategories,
+    this.views$ = combineLatest(
+      this.search$,
+      this.viewCategories$,
     )
       .pipe(
         map(([searchText, categories]) => categories
@@ -183,10 +187,15 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       );
     }
 
-    this.viewsService
-      .fetchViews(params)
+    combineLatest(
+      this.viewsService.fetchViews(params),
+      this.currentUserService.hasCapabilities$(
+        'team_planners/create',
+        this.currentProjectService.id || undefined,
+      ),
+    )
       .pipe(this.untilDestroyed())
-      .subscribe((queryCollection) => {
+      .subscribe(([queryCollection, canAddTeamPlanners]) => {
         queryCollection._embedded.elements.forEach((view) => {
           let cat = 'private';
           if (view.public) {
@@ -201,13 +210,17 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
         const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
-        this.$viewCategories.next([
+        const viewCategories = [
           { title: this.text.scope_starred, children: categories.starred, collapsible: true },
           { title: this.text.scope_default, children: staticQueries, collapsible: true },
           { title: this.text.scope_global, children: categories.public, collapsible: true },
           { title: this.text.scope_private, children: categories.private, collapsible: true },
-          { title: this.text.scope_new, children: newQueryLink, collapsible: true },
-        ]);
+        ];
+
+        if (canAddTeamPlanners) {
+          viewCategories.push({ title: this.text.scope_new, children: newQueryLink, collapsible: true });
+        }
+        this.viewCategories$.next(viewCategories);
       });
   }
 
