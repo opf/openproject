@@ -388,7 +388,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.openNewSplitCreate(
       info.startStr,
       // end date is exclusive
-      moment(info.end).subtract(1, 'd').format('YYYY-MM-DD'),
+      this.calendar.getEndDateFromTimestamp(info.end),
       info.resource?.id || '',
     );
   }

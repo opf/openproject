@@ -44,12 +44,49 @@ module Pages
       project_calendar_path(project)
     end
 
+    def add_item(start_date, end_date)
+      start_container = date_container start_date
+      end_container = date_container end_date
+
+      drag_n_drop_element(from: start_container, to: end_container)
+
+      ::Pages::SplitWorkPackageCreate.new project: project
+    end
+
+    def resize_end_date(work_package, end_date)
+      wp_strip = event(work_package)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(wp_strip.native)
+        .perform
+
+      resizer = wp_strip.find('.fc-event-resizer-end')
+      end_container = date_container end_date
+
+      drag_n_drop_element(from: resizer, to: end_container)
+    end
+
+    def drag_event(work_package, target)
+      start_container = event(work_package)
+      end_container = date_container target
+
+      drag_n_drop_element(from: start_container, to: end_container)
+    end
+
+    def date_container(date)
+      str = date.respond_to?(:iso8601) ? date.iso8601 : date.to_s
+      page.find(".fc-day[data-date='#{str}'] .fc-daygrid-day-frame")
+    end
+
     def expect_title(title = 'Unnamed calendar')
       expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
     end
 
     def expect_event(work_package, present: true)
-      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject)
+      expect(page).to have_conditional_selector(present, '.fc-event', text: work_package.subject, wait: 10)
     end
 
     def open_split_view(work_package)
@@ -58,6 +95,18 @@ module Pages
         .click
 
       ::Pages::SplitWorkPackage.new(work_package, project)
+    end
+
+    def event(work_package)
+      page.find('.fc-event', text: work_package.subject)
+    end
+
+    def expect_wp_not_resizable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
+    end
+
+    def expect_wp_not_draggable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
   end
 end

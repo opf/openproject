@@ -43,6 +43,7 @@ import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/e
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import * as moment from 'moment';
 
 export interface CalendarViewEvent {
   el:HTMLElement;
@@ -235,8 +236,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
 
   public eventDurationEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const schemaEditable = !!schema.startDate.writable && !!schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    const schemaEditable = schema.isAttributeEditable('startDate') && schema.isAttributeEditable('dueDate');
     return (wp.isLeaf || wp.scheduleManually) && schemaEditable && !this.isMilestone(wp);
   }
 

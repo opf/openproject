@@ -24,6 +24,7 @@ import { OpTitleService } from 'core-app/core/html/op-title.service';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import {
   CalendarOptions,
+  DateSelectArg,
   EventDropArg,
   EventInput,
 } from '@fullcalendar/core';
@@ -37,6 +38,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
+import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 
 @Component({
   templateUrl: './wp-calendar.template.html',
@@ -134,6 +136,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         interactionPlugin,
       ],
       // DnD configuration
+      selectable: true,
+      select: this.handleDateClicked.bind(this) as unknown,
       editable: true,
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
@@ -206,8 +210,23 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
-      this.halNotification.showError(e, changeset.projectedResource);
+      this.halNotification.handleRawError(e, changeset.projectedResource);
       info.revert();
     }
+  }
+
+  private handleDateClicked(info:DateSelectArg) {
+    const defaults = {
+      startDate: info.startStr,
+      dueDate: this.calendar.getEndDateFromTimestamp(info.end),
+    };
+
+    void this.$state.go(
+      splitViewRoute(this.$state, 'new'),
+      {
+        defaults,
+        tabIdentifier: 'overview',
+      },
+    );
   }
 }
