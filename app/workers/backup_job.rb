@@ -161,14 +161,17 @@ class BackupJob < ::ApplicationJob
       zipfile.get_output_stream("openproject.sql") { |f| f.write File.read(db_dump_file_name) }
     end
 
-    # delete locally cached files that were downloaded just for the backup
-    paths_to_clean.each do |path|
-      FileUtils.rm_rf path
-    end
+    remove_paths! paths_to_clean # delete locally cached files that were downloaded just for the backup
 
     @archived = true
 
     file_name
+  end
+
+  def remove_paths!(paths)
+    paths.each do |path|
+      FileUtils.rm_rf path
+    end
   end
 
   def get_cache_folder_path(attachment)
@@ -178,6 +181,7 @@ class BackupJob < ::ApplicationJob
       raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
     end
 
+    # returning parent as each cached file is in a separate folder which shall be removed too
     Pathname(attachment.diskfile.path).parent.to_s
   end
 

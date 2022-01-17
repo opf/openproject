@@ -37,9 +37,9 @@ module API
           def href_callback
             query = CGI.escape(::JSON.dump(filter_query))
 
-            # pageSize of 0 is the magic number for maximum size and not
+            # pageSize of -1 is the magic number for maximum size and not
             # the default pageSize value.
-            "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+            "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
           end
 
           def type

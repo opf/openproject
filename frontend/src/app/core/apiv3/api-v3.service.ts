@@ -26,8 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import {
+  ApiV3GettableResource,
+  ApiV3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Constructor } from '@angular/cdk/table';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3GridsPaths } from 'core-app/core/apiv3/endpoints/grids/apiv3-grids-paths';
@@ -59,6 +65,9 @@ import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views
 export class ApiV3Service {
   // /api/v3/attachments
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
+
+  // /api/v3/backups
+  public readonly backups = this.apiV3CustomEndpoint(Apiv3BackupsPath);
 
   // /api/v3/configuration
   public readonly configuration = this.apiV3CustomEndpoint(ApiV3ConfigurationPath);

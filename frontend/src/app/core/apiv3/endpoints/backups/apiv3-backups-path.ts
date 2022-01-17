@@ -26,22 +26,24 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import { Observable } from 'rxjs';
 import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-@Injectable({ providedIn: 'root' })
-export class OpenProjectBackupService {
-  constructor(
-    protected apiV3Service:APIV3Service,
-  ) {
+export class Apiv3BackupsPath extends APIv3GettableResource<ConfigurationResource> {
+  constructor(protected apiRoot:APIV3Service,
+    readonly basePath:string) {
+    super(apiRoot, basePath, 'backups');
   }
 
-  public triggerBackup(backupToken:string, includeAttachments = true):Observable<HalResource> {
+  public post(backupToken:string, includeAttachments:boolean):Observable<HalResource> {
     return this
-      .apiV3Service
-      .backups
-      .post(backupToken, includeAttachments);
+      .halResourceService
+      .post(
+        this.path,
+        { backupToken, attachments: includeAttachments },
+      );
   }
 }

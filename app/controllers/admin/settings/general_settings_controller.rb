@@ -32,6 +32,11 @@ module Admin::Settings
   class GeneralSettingsController < ::Admin::SettingsController
     menu_item :settings_general
 
+    def show
+      super
+      @guessed_host = request.host_with_port.dup
+    end
+
     def default_breadcrumb
       t(:label_general)
     end

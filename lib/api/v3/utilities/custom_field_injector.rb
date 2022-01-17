@@ -291,7 +291,7 @@ module API
             # keep the appended filters between requests.
             filters = static_filters + instance_filters.call(represented)
 
-            api_v3_paths.path_for(:principals, filters: filters, page_size: 0)
+            api_v3_paths.path_for(:principals, filters: filters, page_size: -1)
           }
         end
 
