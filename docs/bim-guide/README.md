@@ -117,3 +117,10 @@ There are many potential reasons why you can't see your building model. Please c
 - Building model is completely sliced ([clear all slices](/ifc-viewer/#slice) within the model viewer toolbar)
 - IFC file isn't uploaded yet or is invalid (please check the status of the uploaded file within the [IFC Model management area](.../ifc-viewer/#import-and-export-ifc-models)).
 - IFC file does not have any geometry (please check if your IFC file has some geometry)
+
+
+
+### Where to find the Version of my Revit AddIn?
+
+To see which version of the Revit AddIn you are currently using, navigate to the OpenProject tab in the Revit taskbar and open the settings. Here you can see which version you are currently using.
+

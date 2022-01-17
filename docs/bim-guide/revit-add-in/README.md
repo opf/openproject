@@ -1,17 +1,10 @@
----
-sidebar_navigation:
-  title: Revit Add-in
-  priority: 700
-description: How to get started with the OpenProject BIM Revit Add-in.
-robots: index, follow
-keywords: BIM, Revit, BCF, IFC
----
+
 
 # Revit Add-In (BIM feature)
 
 The *OpenProject Revit Add-In* allows you to use the open source project management software *OpenProject BIM* directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BCFs centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoparable with any other BCF software.
 
-To download the latest version of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
+To download the latest version (v2.2.3) of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
 
 
@@ -20,41 +13,110 @@ To download the latest version of our OpenProject Revit AddIn click here: [DOWNL
 </div>
 
 
-| Topic                                   | Content                                   |
-| --------------------------------------- | ----------------------------------------- |
-| [How to install?](#how-to-install)      | How to install the Revit Add-In?          |
-| [How to update?](#how-to-update)        | How to get the latest Version?            |
-| [How to uninstall?](#how-to-uninstall?) | How to uninstall Revit Add-In?            |
-| [Troubleshooting](#troubleshooting)     | Troubleshooting of Windows' Error Message |
-| [Reporting Bugs](#reporting-bugs)       | How to report a bug.                      |
+| Topic                                                        | Content                                   |
+| ------------------------------------------------------------ | ----------------------------------------- |
+| [Before Usage](#before-usage)                                | First steps before usage                  |
+| [How to login?](#how-to-login)                               | How to link Revit and OpenProject BIM?    |
+| [How to select a Project?](#how-to-select-a-project?)        | How to select an existing project?        |
+| [Working with BIM Issues](#working-with-bim-issues)          | How to Create, Open or Edit a BIM Issue?  |
+| [Synchronize Tasks between Revit and OpenProject](#synchronize-tasks-between-revit-and-openproject) | How to synchronize tasks?                 |
+| [How to install?](#how-to-install)                           | How to install the Revit Add-In?          |
+| [How to update?](#how-to-update)                             | How to get the latest Version?            |
+| [How to uninstall?](#how-to-uninstall?)                      | How to uninstall the Revit Add-In?        |
+| [Troubleshooting](#troubleshooting)                          | Troubleshooting of Windows' Error Message |
+| [Reporting Bugs](#reporting-bugs)                            | How to report a bug.                      |
+
+
+
+## Before Usage
+
+Please check the following steps before useing the OpenProject BIM Edition.
+
+1. Does OpenProject BIM support your [Version of Revit](#system-requirements)?
+2. Did you already install the latest Version of our OpenProject BIM Addin?
+3. Is the latest IFC Model uploaded to your Project in OpenProject BIM?
+
+If you can answer all questions with "yes" you are ready to start using our Revit Addin.
 
 
 
 ## How to login?
 
+After Installing the OpenProject BIM AddIn you can find a new tab within the Revit taskbar named "OpenProject". To login you have to open the **settings** first.
+
+![Revit AddIn Settings](RevitAddIn_Settings.png)
+
+
+
+The settings will appear in a new tab. Within this tab you have to insert your own ***OpenProject BIM URL*** and confirm with "Go". Your OpenProject account is now linked to your Revit application and you can close the tab.
+
+![OpenProject BIM Login](OpenProject_BIM_Login.png)
+
+
+
+
+
+
+
 ## How to select a Project
 
-## How to Create a new BCF
+After connecting your OpenProject BIM instance you are able to start working with your BCF Tasks within Revit. Firstly you have to open the **OpenProject Tab** in the taskbar and start the application. 
 
-## How to open a BCF
-
-## How to Edit a BCF
-
-## How to Edit a BCF
-
-## Synchronize Revit with OpenProject
-
-## How to export BCF XML
-
-## How to import BCF XML
+![Start OpenProject BIM Addin](OpenProject_BIM_Start.png)
 
 
+
+After starting the application a new tab will be created and you are able to select the Project you want to work in.  
+
+![OpenProject BIM - Select a Project](OpenProject_BIM_Projects.png)
+
+
+
+## Working with BIM Issues
+
+To work with BIM Issues, please open our AddIn and navigate to our BCF Module. 
+
+![OpenProject BIM - BCF Module](OpenProject_BIM_BCF_Module.png)
+
+
+
+Within this module all existing work packages are displayed. Within this demo project doen't exist any work package yet. To create a new one, click on the "add new workpackage"-Button.  
+
+![OpenProject BIM - Create BCF](OpenProject_BIM_Create_BCF.png)
+
+
+
+An empty form for new work packages is now displayed. After adding a title and detailed information describing your issue, you have to add a viewpoint. This viewpoint saves your current view & selection of the building model (so check the rotation, selection and zoom of the model before). 
+
+And the most important thing: **don't forget to save** the work package.
+
+![OpenProject BIM - Add Viewpoint](OpenProject_BIM_Add_Viewpoint.png)
+
+
+
+
+
+To open a BIM Issue (BCF) and restore the viewpoint you have to navigate to the BCF Module and just click on the BIM Issue you want to open. The behavior of working with the issues is almost the same like in OpenProject.
+
+![OpenProject BIM - Issues](OpenProject_BIM_Issues.png)
+
+
+
+
+
+## Synchronize Tasks between Revit and OpenProject
+
+OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. 
+
+![OpenProject BIM - Synchronization](OpenProject_BIM_Synchronization.png)
 
 
 
 
 
 ## How to install?
+
+
 
 ### System Requirements
 
