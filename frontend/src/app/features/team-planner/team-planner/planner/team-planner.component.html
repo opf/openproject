@@ -7,7 +7,6 @@
     [options]="calendarOptions"
   ></full-calendar>
   <div
-    *ngIf="static"
     [textContent]="calendar.tooManyResultsText"
     class="op-wp-calendar--notification"></div>
   <div
@@ -30,7 +29,7 @@
       type="button"
       class="tp-assignee--remove"
       (click)="removeAssignee(resource.id)"
-      [aria-label]="text.remove_assignee"
+      [attr.aria-label]="text.remove_assignee"
       [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
     >
       <op-icon icon-classes="icon-remove"></op-icon>
