@@ -1,0 +1,71 @@
+# Schema: NotificationSettingModel
+---
+type: array
+description: The settings for the notifications to be received by the user
+items:
+  type: object
+  required:
+    - watched
+    - involved
+    - mentioned
+    - workPackageCreated
+    - workPackageCommented
+    - workPackageProcessed
+    - workPackagePrioritized
+    - workPackageScheduled
+    - newsAdded
+    - newsCommented
+    - documentAdded
+    - forumMessages
+    - wikiPageAdded
+    - wikiPageUpdated
+    - membershipAdded
+    - membershipUpdated
+    - _links
+  properties:
+    watched:
+      type: boolean
+    involved:
+      type: boolean
+    mentioned:
+      type: boolean
+    workPackageCreated:
+      type: boolean
+    workPackageCommented:
+      type: boolean
+    workPackageProcessed:
+      type: boolean
+    workPackagePrioritized:
+      type: boolean
+    workPackageScheduled:
+      type: boolean
+    newsAdded:
+      type: boolean
+    newsCommented:
+      type: boolean
+    documentAdded:
+      type: boolean
+    forumMessages:
+      type: boolean
+    wikiPageAdded:
+      type: boolean
+    wikiPageUpdated:
+      type: boolean
+    membershipAdded:
+      type: boolean
+    membershipUpdated:
+      type: boolean
+    _links:
+      type: object
+      required:
+        - project
+      properties:
+        project:
+          type: object
+          required:
+            - href
+          properties:
+            href:
+              type: string
+              format: uri
+    
