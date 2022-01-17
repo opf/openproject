@@ -30,6 +30,6 @@
 
 class Storages::FileLink < ApplicationRecord
   belongs_to :storage
-  belongs_to :creator, foreign_key: 'creator_id', class_name: User
-  belongs_to :container, foreign_key: 'container_id', class_name: WorkPackage # This needs to become more flexible in the future
+  belongs_to :creator, foreign_key: 'creator_id', class_name: 'User'
+  belongs_to :container, foreign_key: 'container_id', class_name: 'WorkPackage' # This needs to become more flexible in the future
 end
