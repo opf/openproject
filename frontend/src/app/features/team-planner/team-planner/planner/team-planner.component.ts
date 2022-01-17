@@ -71,8 +71,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
-  private resizeSubject = new Subject<unknown>();
-
   calendarOptions$ = new Subject<CalendarOptions>();
 
   projectIdentifier:string|undefined = undefined;
@@ -146,8 +144,11 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         this.ucCalendar.getApi().refetchEvents();
       });
 
-    this.resizeSubject
-      .pipe(this.untilDestroyed())
+    this.calendar.resize$
+      .pipe(
+        this.untilDestroyed(),
+        debounceTime(50),
+      )
       .subscribe(() => {
         this.ucCalendar.getApi().updateSize();
       });
@@ -215,7 +216,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               month: 'long',
               day: 'numeric',
             },
-            initialView: (this.calendar.initialView || 'resourceTimelineWeek') as string,
+            initialView: this.calendar.initialView || 'resourceTimelineWeek',
             headerToolbar: {
               left: 'prev,next today',
               center: 'title',
