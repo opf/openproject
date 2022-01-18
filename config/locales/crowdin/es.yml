@@ -749,6 +749,8 @@ es:
               group_without_name: "No se permiten grupos sin nombre."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "La confirmación de contraseña no coincide con la contraseña."
               format: "%{message}"
@@ -2176,7 +2178,6 @@ es:
   permission_select_custom_fields: "Seleccionar campos personalizados"
   permission_select_project_modules: "Seleccionar módulos de proyecto"
   permission_manage_types: "Seleccionar Tipos"
-  permission_view_calendar: "Ver calendario"
   permission_view_changesets: "Ver las revisiones del repositorio en OpenProject"
   permission_view_commit_author_statistics: "Ver estadísticas del commit del autor"
   permission_view_work_package_watchers: "Ver lista de observadores"
@@ -2212,7 +2213,6 @@ es:
       archived: "Archivado"
   project_module_activity: "Actividad"
   project_module_forums: "Foros"
-  project_module_calendar: "Calendario"
   project_module_work_package_tracking: "Seguimiento de paquetes de trabajo"
   project_module_news: "Noticias"
   project_module_repository: "Repositorio"
@@ -2895,6 +2895,7 @@ es:
       schema: 'Esquema'
     undisclosed:
       parent: 'Oculto: el elemento primario seleccionado no se muestra porque no tiene los permisos necesarios.'
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorización'

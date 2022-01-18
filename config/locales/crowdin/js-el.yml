@@ -88,9 +88,6 @@ el:
     button_export-pdf: "Λήψη PDF"
     button_export-atom: "Κατεβάστε το Atom"
     button_create: "Δημιουργία"
-    calendar:
-      title: 'Ημερολόγιο'
-      too_many: 'Συνολικά υπάρχουν %{count} πακέτα εργασίας, αλλά μπορούν να εμφανιστούν μόνο %{max}.'
     card:
       add_new: 'Προσθέστε νέα κάρτα'
       highlighting:

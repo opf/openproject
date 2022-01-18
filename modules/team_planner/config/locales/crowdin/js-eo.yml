@@ -9,3 +9,4 @@ eo:
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
+      two_weeks: '2 weeks'

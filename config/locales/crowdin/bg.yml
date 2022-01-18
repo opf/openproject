@@ -752,6 +752,8 @@ bg:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2181,6 @@ bg:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Преглед на календара"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2215,7 +2216,6 @@ bg:
       archived: "Archived"
   project_module_activity: "Активност"
   project_module_forums: "Форуми"
-  project_module_calendar: "Календар"
   project_module_work_package_tracking: "Проследяване на работен пакет"
   project_module_news: "Новини"
   project_module_repository: "Хранилище"
@@ -2899,6 +2899,7 @@ bg:
       schema: 'Схема'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

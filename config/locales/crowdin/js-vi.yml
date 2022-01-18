@@ -88,9 +88,6 @@ vi:
     button_export-pdf: "Tải PDF"
     button_export-atom: "Tải về Atom"
     button_create: "Tạo mới"
-    calendar:
-      title: 'Lịch'
-      too_many: 'Tổng cộng có %{count} công việc, nhưng chỉ %{max} có thể được hiển thị.'
     card:
       add_new: 'Thêm thẻ mới'
       highlighting:

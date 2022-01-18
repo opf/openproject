@@ -751,6 +751,8 @@ th:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2161,7 +2163,6 @@ th:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "เลือกโมดูลของโครงการ"
   permission_manage_types: "เลือกชนิด"
-  permission_view_calendar: "ดูปฏิทิน"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
@@ -2197,7 +2198,6 @@ th:
       archived: "Archived"
   project_module_activity: "กิจกรรม"
   project_module_forums: "กระทู้"
-  project_module_calendar: "ปฏิทิน"
   project_module_work_package_tracking: "ติดตามผลชุดภารกิจ"
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
@@ -2879,6 +2879,7 @@ th:
       schema: 'Schema'
     undisclosed:
       parent: ไม่เปิดเผย - พาเรนต์ที่เลือกจะมองไม่เห็นเนื่องจากไม่มีสิทธิ์
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

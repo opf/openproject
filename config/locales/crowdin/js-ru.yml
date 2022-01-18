@@ -88,9 +88,6 @@ ru:
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
-    calendar:
-      title: 'Календарь'
-      too_many: 'Всего %{count} пакетов работ, но может быть отображено только %{max}.'
     card:
       add_new: 'Добавить новую карту'
       highlighting:

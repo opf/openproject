@@ -749,6 +749,8 @@ ca:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "La confirmació de la contrasenya no coincideix."
               format: "%{message}"
@@ -2176,7 +2178,6 @@ ca:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecciona els mòduls del projecte"
   permission_manage_types: "Seleccioneu tipus"
-  permission_view_calendar: "Visualitzar calendari"
   permission_view_changesets: "Veure les revisions del repositori a OpenProject"
   permission_view_commit_author_statistics: "Veure les estadístiques de commits de l'autor"
   permission_view_work_package_watchers: "Veure la llista d'observadors"
@@ -2212,7 +2213,6 @@ ca:
       archived: "Archived"
   project_module_activity: "Activitat"
   project_module_forums: "Fòrums"
-  project_module_calendar: "Calendari"
   project_module_work_package_tracking: "Paquet de treball de seguiment"
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
@@ -2894,6 +2894,7 @@ ca:
       schema: 'Esquema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

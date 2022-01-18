@@ -752,6 +752,8 @@ tr:
               group_without_name: "Adsız gruplara izin verilmez."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2181,6 @@ tr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
-  permission_view_calendar: "Takvimi görüntülemek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
   permission_view_work_package_watchers: "Takipçi listesini göster"
@@ -2215,7 +2216,6 @@ tr:
       archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
-  project_module_calendar: "Takvim"
   project_module_work_package_tracking: "İş paketi takibi"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
@@ -2898,6 +2898,7 @@ tr:
       schema: 'Şema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Ön yetkilendirme'
