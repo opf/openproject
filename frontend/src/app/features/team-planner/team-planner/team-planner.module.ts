@@ -13,6 +13,7 @@ import { AddAssigneeComponent } from 'core-app/features/team-planner/team-planne
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
 import { QuickAddPaneComponent } from './add-work-packages/quick-add-pane.component';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { QuickAddPaneComponent } from './add-work-packages/quick-add-pane.compon
     FullCalendarModule,
     // Autocompleters
     OpenprojectAutocompleterModule,
+    OpenprojectContentLoaderModule,
   ],
 })
 export class TeamPlannerModule {}
