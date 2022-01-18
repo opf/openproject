@@ -751,6 +751,8 @@ lt:
               group_without_name: "Bevardės grupės nėra leidžiamos."
         user:
           attributes:
+            base:
+              user_limit_reached: "Pasiekta naudotoj riba. Su dabartiniu planu daugiau paskyrų kurti nebegalima."
             password_confirmation:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"

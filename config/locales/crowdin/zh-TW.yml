@@ -751,6 +751,8 @@ zh-TW:
               group_without_name: "不允許未命名的群組。"
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"

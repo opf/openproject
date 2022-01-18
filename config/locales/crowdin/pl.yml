@@ -751,6 +751,8 @@ pl:
               group_without_name: "Grupy nienazwane nie są dozwolone."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"

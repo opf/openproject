@@ -733,6 +733,8 @@ lol:
               group_without_name: "crwdns540651:0crwdne540651:0"
         user:
           attributes:
+            base:
+              user_limit_reached: "crwdns640531:0crwdne640531:0"
             password_confirmation:
               confirmation: "crwdns540653:0crwdne540653:0"
               format: "crwdns540655:0%{message}crwdne540655:0"

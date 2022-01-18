@@ -754,6 +754,8 @@ cs:
               group_without_name: "Nepojmenované skupiny nejsou povoleny."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"

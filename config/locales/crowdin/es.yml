@@ -749,6 +749,8 @@ es:
               group_without_name: "No se permiten grupos sin nombre."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "La confirmación de contraseña no coincide con la contraseña."
               format: "%{message}"

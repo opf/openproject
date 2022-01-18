@@ -753,6 +753,8 @@ ru:
               group_without_name: "Не именованные группы не допускаются."
         user:
           attributes:
+            base:
+              user_limit_reached: "Достигнут лимит пользователей. В текущем плане аккаунтов больше нет."
             password_confirmation:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"

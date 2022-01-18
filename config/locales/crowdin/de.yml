@@ -747,6 +747,8 @@ de:
               group_without_name: "Unbenannte Gruppen sind nicht erlaubt."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Passwort und Bestätigung stimmt nicht überein."
               format: "%{message}"
