@@ -134,7 +134,13 @@ info:
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
   version: '3'
-servers: []
+servers:
+  - url: https://qa.openproject-edge.com
+    description: Edge QA instance
+  - url: https://qa.openproject-stage.com
+    description: Staging instance
+  - url: https://community.openproject.org
+    description: Community instance
 paths:
   "/api/v3":
     "$ref": "./paths/root.yml"
@@ -370,7 +376,7 @@ paths:
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
     "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas/":
+  "/api/v3/work_packages/schemas":
     "$ref": "./paths/work_packages_schemas.yml"
   "/api/v3/work_packages/schemas/{identifier}":
     "$ref": "./paths/work_packages_schemas_{identifier}.yml"

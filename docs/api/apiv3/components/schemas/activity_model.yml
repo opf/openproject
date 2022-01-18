@@ -19,7 +19,7 @@ properties:
     - "$ref": "./formattable.yml"
     - {}
   details:
-    type: array of formattable
+    type: array
     readOnly: true
   createdAt:
     type: string
