@@ -138,6 +138,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       // DnD configuration
       selectable: true,
       select: this.handleDateClicked.bind(this) as unknown,
+      eventResizableFromStart: true,
       editable: true,
       eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
       eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),

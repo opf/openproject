@@ -53,7 +53,7 @@ module Pages
       ::Pages::SplitWorkPackageCreate.new project: project
     end
 
-    def resize_end_date(work_package, end_date)
+    def resize_date(work_package, date, end_date: true)
       wp_strip = event(work_package)
 
       page
@@ -63,8 +63,9 @@ module Pages
         .move_to(wp_strip.native)
         .perform
 
-      resizer = wp_strip.find('.fc-event-resizer-end')
-      end_container = date_container end_date
+      selector = end_date ? '.fc-event-resizer-end' : '.fc-event-resizer-start'
+      resizer = wp_strip.find(selector)
+      end_container = date_container date
 
       drag_n_drop_element(from: resizer, to: end_container)
     end

@@ -59,14 +59,31 @@ describe 'Calendar drag&dop and resizing', type: :feature, js: true do
   context 'with full permissions' do
     it 'allows to resize to change the dates of a wp' do
       target = work_package.due_date + 1.day
+      current_start = work_package.start_date
       retry_block do
-        calendar.resize_end_date(work_package, target)
+        calendar.resize_date(work_package, target)
       end
 
       calendar.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       work_package.reload
       expect(work_package.due_date).to eq target
+      expect(work_package.start_date).to eq current_start
+    end
+
+    it 'allows to resize from the start' do
+      target = work_package.start_date - 1.day
+      current_end = work_package.due_date
+
+      retry_block do
+        calendar.resize_date(work_package, target, end_date: false)
+      end
+
+      calendar.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
+
+      work_package.reload
+      expect(work_package.start_date).to eq target
+      expect(work_package.due_date).to eq current_end
     end
 
     it 'allows to drag the work package to another date' do
