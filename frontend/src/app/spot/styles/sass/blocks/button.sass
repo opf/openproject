@@ -1,0 +1,63 @@
+.spot-button
+  @include spot-body-small
+
+  box-sizing: border-box
+  display: inline-flex
+  flex-direction: row
+  flex-wrap: nowrap
+  margin: 0
+  padding: $spot-spacing-0_5
+  border-width: 1px
+  border-style: solid
+  border-color: $spot-color-basic-white
+  background-color: $spot-color-basic-white
+  color: $spot-color-main
+
+  &:hover
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
+    color: $spot-color-main-dark
+    
+  &:active
+    background-color: $spot-color-basic-gray-6
+    border-color: $spot-color-basic-gray-6
+    color: $spot-color-main
+
+  &_primary
+    border-color: $spot-color-main
+    background-color: $spot-color-main
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main-dark
+
+    &:active
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main
+
+  &_action
+    border-color: $spot-color-main
+    background-color: $spot-color-main
+    color: $spot-color-basic-white
+
+    &:hover
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main-dark
+
+    &:active
+      border-color: $spot-color-main-light
+      background-color: $spot-color-main-light
+      color: $spot-color-main
+
+  &_outlined
+
+  &_transparent
+    &,
+    &:hover,
+    &:active
+      background-color: transparent
+

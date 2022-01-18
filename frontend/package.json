@@ -145,7 +145,6 @@
     "prebuild": "./scripts/link_plugin_placeholder.js",
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --extract-css --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks --extract-css",
-    "build:spot": "theo",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
     "preserve": "./scripts/link_plugin_placeholder.js",
     "serve": "NG_PERSISTENT_BUILD_CACHE=1 node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://localhost:4200",
