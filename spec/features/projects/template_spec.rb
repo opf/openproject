@@ -100,7 +100,9 @@ describe 'Project templates', type: :feature, js: true do
 
       # It does not show the copy meta flags
       expect(page).to have_no_selector('[data-qa-field-name="copyMembers"]')
-      expect(page).to have_no_selector('[data-qa-field-name="sendNotifications"]')
+
+      # But shows the send notifications field
+      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
 
       # Update status to off track
       status_field.select_option 'Off track'
