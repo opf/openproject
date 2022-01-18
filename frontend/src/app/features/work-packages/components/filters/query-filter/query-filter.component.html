@@ -97,12 +97,20 @@
           [filter]="filter"
       ></filter-string-value>
 
-      <filter-searchable-multiselect-value
-          *ngSwitchDefault
+      <ng-container *ngSwitchDefault>
+        <filter-toggled-multiselect-value
+          *ngIf="filter.currentSchema.loadedAllowedValues()"
           (filterChanged)="onFilterUpdated($event)"
           [shouldFocus]="shouldFocus"
           [filter]="filter"
-      ></filter-searchable-multiselect-value>
+        ></filter-toggled-multiselect-value>
+        <filter-searchable-multiselect-value
+          *ngIf="!filter.currentSchema.loadedAllowedValues()"
+          (filterChanged)="onFilterUpdated($event)"
+          [shouldFocus]="shouldFocus"
+          [filter]="filter"
+        ></filter-searchable-multiselect-value>
+      </ng-container>
     </div>
   </ng-container>
 

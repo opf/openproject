@@ -27,7 +27,6 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
@@ -46,8 +45,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { RootResource } from 'core-app/features/hal/resources/root-resource';
-import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 
@@ -84,8 +81,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     readonly I18n:I18nService) {
   }
 
-  ngOnInit() {
-    this.fetchAllowedValues();
+  ngOnInit():void {
+    this.availableOptions = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
   }
 
   ngAfterViewInit():void {
@@ -94,17 +91,17 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     }
   }
 
-  public get value() {
+  public get value():unknown[] {
     return this.filter.values;
   }
 
-  public setValues(val:any) {
-    this.filter.values = _.castArray(val);
+  public setValues(val:HalResource[]|string[]|string|HalResource):void {
+    this.filter.values = _.castArray(val) as HalResource[]|string[];
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
   }
 
-  public get availableOptions() {
+  public get availableOptions():HalResource[] {
     return this._availableOptions;
   }
 
@@ -125,62 +122,5 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
         }
       }, 25);
     }
-  }
-
-  private get isUserResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null);
-    return type && type.indexOf('User') > 0;
-  }
-
-  private fetchAllowedValues() {
-    if ((this.filter.currentSchema!.values!.allowedValues as CollectionResource).$load) {
-      this.loadAllowedValues();
-    } else {
-      this.availableOptions = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
-    }
-  }
-
-  private loadAllowedValues() {
-    const valuesSchema = this.filter.currentSchema!.values!;
-    const loadingPromises = [(valuesSchema.allowedValues as any).$load()];
-
-    // If it is a User resource, we want to have the 'me' option.
-    // We therefore fetch the current user from the api and copy
-    // the current user's value from the set of allowedValues. The
-    // copy will have it's name altered to 'me' and will then be
-    // prepended to the list.
-    if (this.isUserResource) {
-      loadingPromises.push(this.apiV3Service.root.get().toPromise());
-    }
-
-    Promise.all(loadingPromises)
-      .then(((resources:Array<HalResource>) => {
-        const options = (resources[0] as CollectionResource).elements;
-
-        this.availableOptions = options;
-
-        if (this.isUserResource && this.filter.filter.id !== 'memberOfGroup') {
-          this.addMeValue((resources[1] as RootResource).user);
-        }
-      }));
-  }
-
-  private addMeValue(currentUser:UserResource) {
-    if (!(currentUser && currentUser.href)) {
-      return;
-    }
-
-    const me:HalResource = this.halResourceService.createHalResource(
-      {
-        _links: {
-          self: {
-            href: this.apiV3Service.users.me.path,
-            title: this.I18n.t('js.label_me'),
-          },
-        },
-      }, true,
-    );
-
-    this._availableOptions.unshift(me);
   }
 }
