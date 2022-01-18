@@ -29,13 +29,13 @@
 #++
 
 require 'spec_helper'
-require_relative '../support/pages/team_planner'
+require_relative '../../../../spec/support/components/work_packages/query_menu.rb'
 
 describe 'Team planner sidemenu', type: :feature, js: true do
   shared_let(:project) do
     FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
-  shared_let(:team_planner) { ::Pages::TeamPlanner.new project }
+  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
 
   context 'with a user that does not have create rights' do
     shared_let(:user_without_rights) do
@@ -56,7 +56,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
         click_link 'Team planner'
       end
 
-      team_planner.expect_no_menu_item('Create new planner')
+    query_menu.expect_menu_entry_not_visible('Create new planner')
     end
   end
 
@@ -80,7 +80,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
         click_link 'Team planner'
       end
 
-      team_planner.expect_menu_item('Create new planner')
+      query_menu.expect_menu_entry('Create new planner')
     end
   end
 end

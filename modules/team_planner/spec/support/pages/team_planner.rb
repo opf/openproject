@@ -177,14 +177,6 @@ module Pages
       expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
 
-    def expect_menu_item(name)
-      expect(page).to have_selector('.op-sidemenu--item-title', text: name)
-    end
-
-    def click_menu_item(name)
-      page.find('.op-sidemenu--item-title', text: name).click
-    end
-
     def expect_no_menu_item(name)
       expect(page).to_not have_selector('.op-sidemenu--item-title', text: name)
     end
