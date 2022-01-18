@@ -62,9 +62,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
 
-  public _availableOptions:HalResource[] = [];
-
-  public compareByHrefOrString = compareByHrefOrString;
+  public availableOptions:HalResource[] = [];
 
   private _isEmpty:boolean;
 
@@ -82,7 +80,8 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   ngOnInit():void {
-    this.availableOptions = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
+    const values = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);
+    this.availableOptions = this.halSorting.sort(values);
   }
 
   ngAfterViewInit():void {
@@ -101,24 +100,18 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
     this.cdRef.detectChanges();
   }
 
-  public get availableOptions():HalResource[] {
-    return this._availableOptions;
-  }
-
-  public set availableOptions(val:HalResource[]) {
-    this._availableOptions = this.halSorting.sort(val);
-  }
-
   public get isEmpty():boolean {
     return this._isEmpty = this.value.length === 0;
   }
 
-  public repositionDropdown() {
+  public repositionDropdown():void {
     if (this.ngSelectInstance) {
       setTimeout(() => {
-        const component = (this.ngSelectInstance) as any;
+        const component = this.ngSelectInstance;
         if (component && component.dropdownPanel) {
-          component.dropdownPanel._updatePosition();
+          // _updatePosition is private, but necessary for workaround
+          /* eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access */
+          (component.dropdownPanel as any)._updatePosition();
         }
       }, 25);
     }

@@ -21,8 +21,14 @@ import {
   of,
   Subject,
   merge,
+  BehaviorSubject,
 } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -85,7 +91,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public items?:IOPAutocompleterOption[]|HalResource[];
 
-  private items$ = new Subject();
+  private items$ = new BehaviorSubject(null);
 
   @Input() public clearSearchOnAdd?:boolean = true;
 
@@ -239,7 +245,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = merge(
-          (this.items$ || new Subject()),
+          this.items$,
           this.typeahead.pipe(
             distinctUntilChanged(),
             debounceTime(250),
@@ -263,6 +269,7 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         } else if (this.focusDirectly) {
           this.ngSelectInstance.focus();
         }
+
       }, 25);
     });
   }
