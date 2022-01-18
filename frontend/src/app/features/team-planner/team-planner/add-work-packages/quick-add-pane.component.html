@@ -1,19 +1,36 @@
-<op-autocompleter
-    #select
-    classes="quick-add-pane--search"
-    [resource]="'work_packages'"
-    [openDirectly]="true"
-    [fetchDataDirectly]="true"
-></op-autocompleter>
+<input
+  class="op-quick-add-pane--search"
+  [placeholder]="text.placeholder"
+  (input)="searchWorkPackages($event.target.value)"
+/>
 
-<div
-  *ngIf="isEmpty"
-  class="op-quick-add-pane--empty-state"
+<ng-container
+  *ngIf="(isLoading | async) === false; else loadingTemplate"
+>
+  <ng-container
+    *ngIf="(isEmpty | async) === false; else emptyTemplate"
   >
-  <img [src]="image.empty_state" class="op-quick-add-pane--empty-state-image"/>
+    <div class="op-quick-add-pane--results">
+      <ng-container *ngFor="let wp of resultingWorkPackages">
+        <wp-single-card
+          [workPackage]="wp"
+        ></wp-single-card>
+    </ng-container></div>
+  </ng-container>
 
-  <span
-    [innerHTML]="text.empty_state"
-    class="op-quick-add-pane--empty-state-text"
-  ></span>
-</div>
+  <ng-template #emptyTemplate>
+    <div
+      class="op-quick-add-pane--empty-state"
+    >
+      <img [src]="image.empty_state" class="op-quick-add-pane--empty-state-image"/>
+
+      <span
+        [innerHTML]="text.empty_state"
+        class="op-quick-add-pane--empty-state-text"
+      ></span>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #loadingTemplate>
+</ng-template>
