@@ -115,7 +115,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
     return this.I18n.t(
       'js.filter.more_values_not_shown',
       { total: total - count },
-    )
+    );
   }
 
   public loadAvailable(matching:string):Observable<HalResource[]> {
@@ -124,7 +124,7 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
 
     const filteredData = (this.apiV3Service.collectionFromString(href) as
       ApiV3ResourceCollection<HalResource, ApiV3Resource>)
-      .filtered(filters)
+      .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
         tap((collection) => {
