@@ -1,14 +1,32 @@
-<input
-  class="op-quick-add-pane--search"
-  [placeholder]="text.placeholder"
-  (input)="searchWorkPackages($event.target.value)"
-/>
+<div class="op-quick-add-pane--search">
+  <input
+    [ngModel]="searchString"
+    (ngModelChange)="searchWorkPackages($event)"
+    class="op-quick-add-pane--search-input"
+    [placeholder]="text.placeholder"
+  />
+
+  <op-icon
+    class="op-quick-add-pane--search-icon"
+    icon-classes="icon-context icon-search">
+  </op-icon>
+
+  <button
+    *ngIf="isSearching"
+    (click)="clearInput()"
+    class="op-quick-add-pane--close-search"
+  >
+    <op-icon
+      icon-classes="icon-small icon-close">
+    </op-icon>
+  </button>
+</div>
 
 <ng-container
-  *ngIf="(isLoading | async) === false; else loadingTemplate"
+  *ngIf="(isLoading$ | async) === false; else loadingTemplate"
 >
   <ng-container
-    *ngIf="(isEmpty | async) === false; else emptyTemplate"
+    *ngIf="(isEmpty$ | async) === false; else emptyTemplate"
   >
     <div class="op-quick-add-pane--results">
       <ng-container *ngFor="let wp of resultingWorkPackages">
@@ -23,7 +41,6 @@
       class="op-quick-add-pane--empty-state"
     >
       <img [src]="image.empty_state" class="op-quick-add-pane--empty-state-image"/>
-
       <span
         [innerHTML]="text.empty_state"
         class="op-quick-add-pane--empty-state-text"

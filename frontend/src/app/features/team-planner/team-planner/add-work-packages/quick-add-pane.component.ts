@@ -21,6 +21,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   selector: 'op-quick-add-pane',
@@ -28,10 +29,12 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
   styleUrls: ['./quick-add-pane.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickAddPaneComponent implements OnInit {
-  isEmpty = new BehaviorSubject<boolean>(true);
+export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit {
+  searchString = '';
 
-  isLoading = new BehaviorSubject<boolean>(false);
+  isEmpty$ = new BehaviorSubject<boolean>(true);
+
+  isLoading$ = new BehaviorSubject<boolean>(false);
 
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
@@ -44,12 +47,29 @@ export class QuickAddPaneComponent implements OnInit {
 
   resultingWorkPackages:WorkPackageResource[] = [];
 
-  searchWorkPackages = (searchString:string):void => {
-    this.isLoading.next(true);
+  constructor(
+    private readonly querySpace:IsolatedQuerySpace,
+    private I18n:I18nService,
+    private readonly apiV3Service:ApiV3Service,
+    private readonly notificationService:WorkPackageNotificationService,
+    private readonly currentProject:CurrentProjectService,
+    private readonly urlParamsHelper:UrlParamsHelperService,
+  ) {
+    super();
+  }
+
+  ngOnInit():void {
+  }
+
+  searchWorkPackages(searchString:string):void {
+    this.searchString = searchString;
+    this.isLoading$.next(true);
 
     // Return when the search string is empty
     if (searchString.length === 0) {
-      this.isLoading.next(false);
+      this.isLoading$.next(false);
+      this.isEmpty$.next(true);
+
       return;
     }
 
@@ -89,29 +109,21 @@ export class QuickAddPaneComponent implements OnInit {
           this.notificationService.handleRawError(error);
           return of([]);
         }),
+        this.untilDestroyed(),
       )
       .subscribe((results) => {
         this.resultingWorkPackages = results;
 
-        this.isEmpty.next(results.length === 0);
-        this.isLoading.next(false);
+        this.isEmpty$.next(results.length === 0);
+        this.isLoading$.next(false);
       });
-  };
+  }
 
-  public autocompleterOptions = {
-    resource: 'work_packages',
-    getOptionsFn: this.searchWorkPackages,
-  };
+  clearInput():void {
+    this.searchWorkPackages('');
+  }
 
-  constructor(
-    private readonly querySpace:IsolatedQuerySpace,
-    private I18n:I18nService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly notificationService:WorkPackageNotificationService,
-    private readonly currentProject:CurrentProjectService,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-  ) { }
-
-  ngOnInit():void {
+  get isSearching():boolean {
+    return this.searchString !== '';
   }
 }
