@@ -21,6 +21,8 @@ properties:
   details:
     type: array
     readOnly: true
+    items:
+      type: string
   createdAt:
     type: string
     format: date-time

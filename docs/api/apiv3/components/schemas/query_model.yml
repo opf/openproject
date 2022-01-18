@@ -36,6 +36,8 @@ properties:
     description: Which labels are shown in the timeline, empty when default
     readOnly: true
     deprecated: true
+    items:
+      type: string
   timelineZoomLevel:
     type: string
     description: Which zoom level should the timeline be rendered in?
