@@ -106,12 +106,19 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
     if (url.searchParams.has('filters')) {
       const existingFilters = JSON.parse(url.searchParams.get('filters') as string) as ApiV3Filter[];
       url.searchParams.set('filters', JSON.stringify(existingFilters.concat(filters.filters)));
-      const cls = resourceClass || APIv3GettableResource;
-
-      // eslint-disable-next-line new-cap
-      return new cls(this.apiRoot, url.pathname + url.search, '', this) as R;
+    } else {
+      url.searchParams.set('filters', filters.toJson());
     }
-    return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
+
+    Object
+      .keys(params)
+      .forEach((key) => {
+        url.searchParams.set(key, params[key]);
+      });
+
+    const cls = resourceClass || APIv3GettableResource;
+    // eslint-disable-next-line new-cap
+    return new cls(this.apiRoot, url.pathname, url.search, this) as R;
   }
 
   /**
@@ -120,6 +127,7 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
    * @param segment Additional segment to add to the current path
    */
   protected subResource<R = ApiV3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = ApiV3GettableResource as any):R {
+    // eslint-disable-next-line new-cap
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }
