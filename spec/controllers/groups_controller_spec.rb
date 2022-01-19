@@ -112,6 +112,23 @@ describe GroupsController, type: :controller do
       end
     end
 
+    context 'with a global role membership' do
+      render_views
+
+      let!(:member_group) do
+        FactoryBot.create(:global_member,
+                          principal: group,
+                          roles: [FactoryBot.create(:global_role)])
+      end
+
+      it 'should edit memberships' do
+        get :edit, params: { id: group.id, tab: 'memberships' }
+
+        expect(response).to be_successful
+        expect(response).to render_template 'edit'
+      end
+    end
+
     context 'with project and role' do
       let(:project) { create :project }
       let(:role1) { create :role }

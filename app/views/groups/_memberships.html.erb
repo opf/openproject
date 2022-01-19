@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             </thead>
             <tbody>
-              <% @group.memberships.each do |membership| %>
+              <% @group.memberships.where.not(project: nil).each do |membership| %>
                 <% next if membership.new_record? %>
                   <tr id="member-<%= membership.id %>" class="class">
                     <td class="project"><%= link_to membership.project.name, project_members_path(membership.project) %></td>
