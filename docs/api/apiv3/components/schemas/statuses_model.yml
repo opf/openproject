@@ -1,6 +1,18 @@
 # Schema: StatusesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./status_model.yml"
+            - description: Collection of Work Package Statuses
+            readOnly: true
 example:
   _links:
     self:

@@ -1,6 +1,18 @@
 # Schema: Available_relation_candidatesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./work_package_model.yml"
+            - description: Collection of WorkPackages
+            readOnly: true
 example:
   _links:
     self:

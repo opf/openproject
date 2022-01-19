@@ -1,6 +1,18 @@
 # Schema: DocumentsModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./document_model.yml"
+            - description: Collection of Documents
+            readOnly: true
 example:
   _type: Collection
   total: 2

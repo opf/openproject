@@ -1,6 +1,18 @@
 # Schema: List_projectsModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./project_model.yml"
+            - description: Collection of Projects
+            readOnly: true
 example:
   _links:
     self:

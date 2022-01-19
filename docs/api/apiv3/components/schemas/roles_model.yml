@@ -1,6 +1,18 @@
 # Schema: RolesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./role_model.yml"
+            - description: Collection of User Roles
+            readOnly: true
 example:
   _type: Collection
   total: 5

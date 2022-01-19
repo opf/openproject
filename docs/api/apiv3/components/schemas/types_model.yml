@@ -1,6 +1,18 @@
 # Schema: TypesModel
 ---
 type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./type_model.yml"
+            - description: Collection of Work Package Types
+            readOnly: true
 example:
   _links:
     self:
