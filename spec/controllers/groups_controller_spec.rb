@@ -121,7 +121,7 @@ describe GroupsController, type: :controller do
                           roles: [FactoryBot.create(:global_role)])
       end
 
-      it 'should edit memberships' do
+      it 'displays edit memberships' do
         get :edit, params: { id: group.id, tab: 'memberships' }
 
         expect(response).to be_successful
