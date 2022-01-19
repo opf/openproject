@@ -1,6 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  Input,
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -22,6 +24,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { Draggable } from '@fullcalendar/interaction';
+import { DragMetaInput } from '@fullcalendar/common';
 
 @Component({
   selector: 'op-quick-add-pane',
@@ -47,6 +51,8 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
 
   resultingWorkPackages:WorkPackageResource[] = [];
 
+  draggable:Draggable;
+
   constructor(
     private readonly querySpace:IsolatedQuerySpace,
     private I18n:I18nService,
@@ -54,11 +60,13 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
+    private ref:ElementRef,
   ) {
     super();
   }
 
   ngOnInit():void {
+    this.registerDrag();
   }
 
   searchWorkPackages(searchString:string):void {
@@ -125,5 +133,42 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
 
   get isSearching():boolean {
     return this.searchString !== '';
+  }
+
+  private registerDrag():void {
+    if (this.draggable) {
+      // Destroy old drag handlers to avoid multiple events
+      this.draggable.destroy();
+    }
+
+    this.draggable = new Draggable(this.ref.nativeElement, {
+      itemSelector: '.op-quick-add-pane--wp',
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      eventData: this.eventData.bind(this),
+    });
+  }
+
+  private eventData(eventEl:HTMLElement):undefined|DragMetaInput {
+    const wpID = eventEl.dataset.dragHelperId;
+    if (wpID) {
+      const workPackage = this.resultingWorkPackages.find((wp) => wp.id === wpID);
+
+      if (workPackage) {
+        const startDate = moment(workPackage.startDate);
+        const dueDate = moment(workPackage.dueDate);
+        const diff = dueDate.diff(startDate, 'days') + 1;
+
+        return {
+          title: workPackage.subject,
+          duration: {
+            days: diff || 1,
+          },
+        };
+      }
+
+      return undefined;
+    }
+
+    return undefined;
   }
 }

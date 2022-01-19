@@ -25,10 +25,15 @@ import {
   filter,
   map,
   mergeMap,
+  take,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import interactionPlugin, {
+  DropArg,
+  EventResizeDoneArg,
+  EventReceiveArg,
+} from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -49,6 +54,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -131,6 +137,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super();
   }
@@ -222,15 +229,15 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
             customButtons: {
-              showQuickAddPane: {
+              addExisting: {
                 text: this.text.add_existing,
                 click: this.toggleQuickAddPane.bind(this),
               },
             },
             headerToolbar: {
-              left: 'prev,next today showQuickAddPane',
+              left: 'addExisting',
               center: 'title',
-              right: 'resourceTimelineWeek,resourceTimelineTwoWeeks',
+              right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
             views: {
               resourceTimelineWeek: {
@@ -277,8 +284,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
+            droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+            eventReceive: (dropInfo:EventReceiveArg) => this.updateWorkPackage(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -429,6 +438,40 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     }
   }
 
+  private async updateWorkPackage(dropInfo:EventReceiveArg):Promise<void> {
+    const id = dropInfo.draggedEl.dataset.dragHelperId;
+
+    if (id) {
+      this
+        .apiV3Service
+        .work_packages
+        .id(id)
+        .requireAndStream()
+        .pipe(
+          take(1),
+          this.untilDestroyed(),
+        )
+        .subscribe(async (wp) => {
+          const changeset = this.halEditing.edit(wp);
+          changeset.setValue('startDate', dropInfo.event.startStr);
+          changeset.setValue('dueDate', dropInfo.event.endStr);
+
+          const resource = dropInfo.event.getResources()[0];
+          if (resource) {
+            changeset.setValue('assignee', { href: resource.id });
+          }
+
+          try {
+            const result = await this.halEditing.save(changeset);
+            this.halNotification.showSave(result.resource, result.wasNew);
+          } catch (e) {
+            this.halNotification.showError(e.resource, changeset.projectedResource);
+            dropInfo.revert();
+          }
+        });
+    }
+  }
+
   private eventResourceEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -469,7 +512,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private toggleQuickAddPane():void {
-    document.getElementsByClassName('fc-showQuickAddPane-button')[0].classList.toggle('-active');
+    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
     this.showQuickAddPane.next(!this.showQuickAddPane.getValue());
   }
 }

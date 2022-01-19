@@ -32,6 +32,8 @@
       <ng-container *ngFor="let wp of resultingWorkPackages">
         <wp-single-card
           [workPackage]="wp"
+          [attr.data-drag-helper-id]="wp.id"
+          class="op-quick-add-pane--wp"
         ></wp-single-card>
     </ng-container></div>
   </ng-container>
