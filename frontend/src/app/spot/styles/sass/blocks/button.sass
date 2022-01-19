@@ -1,7 +1,6 @@
 .spot-button
   @include spot-body-small
 
-  box-sizing: border-box
   display: inline-flex
   flex-direction: row
   flex-wrap: nowrap
@@ -9,9 +8,14 @@
   padding: $spot-spacing-0_5
   border-width: 1px
   border-style: solid
+  border-radius: $spot-spacing-1
   border-color: $spot-color-basic-white
   background-color: $spot-color-basic-white
   color: $spot-color-main
+  cursor: pointer
+
+  &, *
+    box-sizing: border-box
 
   &:hover
     background-color: $spot-color-basic-gray-6
@@ -38,20 +42,30 @@
       background-color: $spot-color-main-light
       color: $spot-color-main
 
-  &_action
-    border-color: $spot-color-main
-    background-color: $spot-color-main
+  &_secondary
+    border-color: $spot-color-action-dark
+    background-color: $spot-color-action-dark
     color: $spot-color-basic-white
 
     &:hover
-      border-color: $spot-color-main-light
-      background-color: $spot-color-main-light
-      color: $spot-color-main-dark
+      border-color: $spot-color-action-light
+      background-color: $spot-color-action-light
+      color: $spot-color-action-dark
 
     &:active
-      border-color: $spot-color-main-light
-      background-color: $spot-color-main-light
-      color: $spot-color-main
+      border-color: $spot-color-action-light
+      background-color: $spot-color-action-light
+      color: $spot-color-action
+
+  &[disabled],
+  &_disabled
+    &,
+    &:hover,
+    &:active
+      border-color: $spot-color-basic-gray-4
+      background-color: $spot-color-basic-gray-4
+      color: $spot-color-basic-white
+      cursor: default
 
   &_outlined
 
