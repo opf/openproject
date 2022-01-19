@@ -338,7 +338,7 @@ GEM
       actionpack (>= 5.0)
       cells (>= 4.1.6, < 5.0.0)
     childprocess (4.1.0)
-    claide (1.0.3)
+    claide (1.1.0)
     claide-plugins (0.9.2)
       cork
       nap
@@ -448,7 +448,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.89.0)
+    excon (0.90.0)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
