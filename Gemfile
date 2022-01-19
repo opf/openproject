@@ -142,7 +142,7 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 12.0.0', require: false
+gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
@@ -188,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.8.0', require: false
-  gem "sentry-rails", '~> 4.8.0', require: false
-  gem "sentry-ruby", '~> 4.8.0',  require: false
+  gem "sentry-delayed_job", '~> 4.9.0', require: false
+  gem "sentry-rails", '~> 4.9.0', require: false
+  gem "sentry-ruby", '~> 4.9.0',  require: false
 end
 
 group :test do
@@ -284,7 +284,7 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.9.1', require: false
+gem 'bootsnap', '~> 1.10.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'
