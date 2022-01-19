@@ -1,0 +1,63 @@
+# /api/v3/work_packages/{id}/file_links/{file_link_id}/download
+---
+post:
+  summary: Creates a download uri of the linked file.
+  operationId: Work_Package_File_Link_Download
+  tags:
+    - Work Packages
+    - File links
+  description: |-
+    Creates a download uri of the origin file linked by the given file link. This uri depends on the storage type and
+    always is located on the origin storage itself.
+  parameters:
+    - name: id
+      description: Work package id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+    - name: file_link_id
+      description: File link id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 42
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '#/components/schemas/Link'
+      headers: { }
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete file links of this work package.
+      # TODO: specify permissions, will there be even any except from viewing the wp?
+      description: |-
+        Returned if the client does not have sufficient permissions.
+        
+        **Required permission:** edit work package
+        
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
