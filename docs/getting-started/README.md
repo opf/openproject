@@ -23,9 +23,9 @@ Here you will learn about the **first steps with OpenProject**. If you need more
 | [Invite team members](invite-members)                   | How to invite new members?                                   |
 | [Work packages](work-packages-introduction)             | Learn how to create and edit work packages.                  |
 | [Gantt chart](gantt-chart-introduction)                 | Find out how to create a project plan.                       |
-| [Boards](boards-introduction)                           | How to work with Agile Boards?                               |
-| [My account](my-account)                                | How to configure My Account?                                 |
-| [My page](my-page)                                      | Find out more about a personal My page dashboard.            |
+| [Boards](boards-introduction)                           | How to work with agile boards?                               |
+| [My account](my-account)                                | How to configure my account?                                 |
+| [My page](my-page)                                      | Find out more about a personal my page dashboard.            |
 
 ## 6 steps to get started
 
