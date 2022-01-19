@@ -1,0 +1,155 @@
+# Schema: Work_Package_File_Link_Model
+---
+type: object
+required:
+  - id
+  - _type
+  - storageType
+  - storageId
+  - originData
+properties:
+  id:
+    type: integer
+    description: File link id
+    readOnly: true
+  _type:
+    type: string
+    enum:
+      - FileLink
+  storageType:
+    type: string
+    readOnly: true
+  storageId:
+    type: integer
+    readOnly: true
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of the most recent change to the file link
+    readOnly: true
+  originData:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Linked file's id on the origin
+      name:
+        type: string
+        description: Linked file's name on the origin
+      mimeType:
+        type: string
+        description: MIME type of the linked file
+      createdAt:
+        type: string
+        format: date-time
+        description: Timestamp of the creation datetime of the file on the origin
+      lastModifiedAt:
+        type: string
+        format: date-time
+        description: Timestamp of the datetime of the last modification of the file on the origin
+      createdByName:
+        type: string
+        description: Display name of the author that created the file on the origin
+      lastModifiedByName:
+        type: string
+        description: Display name of the author that modified the file on the origin last
+  _links:
+    type: object
+    required:
+      - self
+      - container
+      - delete
+      - downloadLocation
+      - staticDownloadLocation
+      - originOpen
+    properties:
+      self:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              This file link
+              
+              **Resource**: FileLink
+            readOnly: true
+      container:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The container the origin file is linked to.
+              
+              Can be one of the following **Resources**: 
+              
+              - WorkPackage
+            readOnly: true
+      delete:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to delete the file link
+              
+              **Resource**: N/A
+            readOnly: true
+      downloadLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to download the origin file from
+              
+              **Resource**: N/A
+            readOnly: true
+      staticDownloadLocation:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              A static uri to fetch the download uri
+              
+              **Resource**: N/A
+            readOnly: true
+      originOpen:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The uri to open the origin file on the origin itself
+              
+              **Resource**: N/A
+            readOnly: true
+example:
+  id: 1337
+  _type: FileLink
+  storageType: nextcloud
+  storageId: 2
+  createdAt: '2021-12-20T13:37:00.211Z'
+  updatedAt: '2021-12-20T13:37:00.211Z'
+  originData:
+    id: 5503
+    name: logo.png
+    mimeType: image/png
+    createdAt: '2021-12-19T09:42:10.170Z'
+    lastModifiedAt: '2021-12-20T14:00:13.987Z'
+    createdByName: Luke Skywalker
+    lastModifiedByName: Anakin Skywalker
+  _links:
+    self:
+      href: /api/v3/work_package/17/file_links/1337
+      title: file link
+    container:
+      href: /api/v3/work_package/17
+      title: work package
+    delete:
+      href: /api/v3/work_package/17/file_links/1337
+      title: file link delete API
+    downloadLocation:
+      href: https://nextcloud.deathstar.rocks/index.php/dl?fileid=5503
+      title: file download
+    staticDownloadLocation:
+      href: /api/v3/work_package/17/file_links/1337/download
+      title: file link static download API
+    originOpen:
+      href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
+      title: file open
+  

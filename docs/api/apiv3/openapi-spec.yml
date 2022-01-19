@@ -392,6 +392,12 @@ paths:
     "$ref": "./paths/work_package_available_relation_candidates.yml"
   "/api/v3/work_packages/{id}/available_watchers":
     "$ref": "./paths/work_package_available_watchers.yml"
+  "/api/v3/work_packages/{id}/file_links":
+    "$ref": "./paths/work_package_file_links.yml"
+  "/api/v3/work_packages/{id}/file_links/{file_link_id}":
+    "$ref": "./paths/work_package_file_link.yml"
+  "/api/v3/work_packages/{id}/file_links/{file_link_id}/download":
+    "$ref": "./paths/work_package_file_link_download.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -423,12 +429,8 @@ components:
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
-    Aggregations:
-      "$ref": "./components/schemas/aggregations.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments:
-      "$ref": "./components/schemas/attachments.yml"
     Attachments_by_post:
       "$ref": "./components/schemas/attachments_by_post.yml"
     Attachments_by_postModel:
@@ -745,6 +747,8 @@ components:
       "$ref": "./components/schemas/work_package_create_form_for_project.yml"
     Work_Package_Edit_Form:
       "$ref": "./components/schemas/work_package_edit_form.yml"
+    Work_Package_File_LinkModel:
+      "$ref": "./components/schemas/work_package_file_link_model.yml"
     Work_Package_Relation_FormModel:
       "$ref": "./components/schemas/work_package_relation_form_model.yml"
     Work_Package_Schema:
