@@ -47,12 +47,13 @@ class Principal < ApplicationRecord
           class_name: 'UserPreference',
           foreign_key: 'user_id'
   has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, -> {
-    includes(:project, :roles)
-      .where(["projects.active = ? OR project_id IS NULL", true])
-      .order(Arel.sql('projects.name ASC'))
-    # haven't been able to produce the order using hashes
-  },
+  has_many :memberships,
+           -> {
+             includes(:project, :roles)
+               .where(["projects.active = ? OR project_id IS NULL", true])
+               .order(Arel.sql('projects.name ASC'))
+             # haven't been able to produce the order using hashes
+           },
            class_name: 'Member',
            foreign_key: 'user_id'
   has_many :projects, through: :memberships
