@@ -114,6 +114,74 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     end
   end
 
+  context 'with global membership' do
+    let(:role) { FactoryBot.create :global_role }
+    let!(:group) do
+      FactoryBot.create(:group,
+                        members: users).tap do |group|
+        FactoryBot.create(:global_member,
+                          principal: group,
+                          roles: roles)
+
+        ::Groups::AddUsersService
+          .new(group, current_user: User.system, contract_class: EmptyContract)
+          .call(ids: users.map(&:id))
+      end
+    end
+
+    context 'when adding a global role' do
+      let(:added_role) { FactoryBot.create(:global_role) }
+
+      before do
+        member.roles << added_role
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'adds the roles to all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role, added_role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
+    end
+
+    context 'when removing a global role' do
+      let(:roles) { [role, FactoryBot.create(:global_role)] }
+
+      before do
+        member.roles = [role]
+      end
+
+      it 'is successful' do
+        expect(service_call)
+          .to be_success
+      end
+
+      it 'removes the roles from all inherited memberships' do
+        service_call
+
+        Member.where(principal: users).each do |member|
+          expect(member.roles)
+            .to match_array([role])
+        end
+      end
+
+      it_behaves_like 'sends notification' do
+        let(:user) { users }
+      end
+    end
+  end
+
   context 'when adding a role but with one user having had the role before (no inherited from)' do
     let(:added_role) { create(:role) }
 
