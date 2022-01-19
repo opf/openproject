@@ -75,6 +75,8 @@ module Queries::Filters::Shared::UserNameFilter
         'LOWER(users.firstname)'
       when :lastname_firstname
         "LOWER(CONCAT(users.lastname, CONCAT(' ', users.firstname)))"
+      when :lastname_n_firstname
+        "LOWER(CONCAT(users.lastname, users.firstname))"
       when :username
         "LOWER(users.login)"
       end
