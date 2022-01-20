@@ -1,7 +1,7 @@
-<div class="spot-checkbox">
-  <input
-    type="checkbox"
-    class="spot-checkbox--input"
-  />
-  <span class="spot-checkbox--fake"></span>
-</div>
+<input
+  type="checkbox"
+  class="spot-checkbox--input"
+  (change)="onStateChange"
+  #input
+/>
+<span class="spot-checkbox--fake"></span>

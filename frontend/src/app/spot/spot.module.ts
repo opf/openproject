@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { UIRouterModule } from '@uirouter/angular';
 import { SPOT_DOCS_ROUTES } from './spot.routes';
+import { SpotCheckboxComponent } from './components/checkbox.component';
 import { SpotDocsComponent } from './spot-docs.component';
 
 @NgModule({
@@ -10,7 +11,10 @@ import { SpotDocsComponent } from './spot-docs.component';
   ],
   declarations: [
     SpotDocsComponent,
+    SpotCheckboxComponent,
   ],
-  exports: [ ],
+  exports: [
+    SpotCheckboxComponent,
+  ],
 })
 export class OpSpotModule { }

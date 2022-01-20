@@ -9,13 +9,37 @@
     box-sizing: border-box
 
   &--input
+    position: absolute
+    height: 1px
+    width: 1px
+    overflow: hidden
+    clip: rect(1px,1px,1px,1px)
 
   &--fake
     box-sizing: border-box
-    display: inline-flex
+    display: flex
     justify-content: center
     align-items: center
     height: $spot-spacing-1
     width: $spot-spacing-1
     border-radius: 3px
     border: 1px solid $spot-color-main
+
+    &::before
+      display: block
+      content: ''
+
+  &--input:indeterminate + &--fake::before
+      width: 8px
+      height: 2px
+      background-color: $spot-color-main
+
+  &--input:checked + &--fake::before
+      width: 8px
+      height: 2px
+      background-color: $spot-color-main
+
+  &--input:checked + &--fake::after
+      width: 8px
+      height: 2px
+      background-color: $spot-color-main
