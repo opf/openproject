@@ -1,6 +1,43 @@
 # Schema: Work_PackagesModel
 ---
 type: object
+properties:
+  total:
+    type: integer
+    description: Total number of entries
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: false
+  count:
+    type: integer
+    description: Embedded number of entries
+    readOnly: true
+    minimum: 0
+    exclusiveMinimum: false
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This Work Package List
+
+            **Resource**: Work_PackagesModel
+          readOnly: true
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./work_package_model.yml"
+            - description: Collection of WorkPackages
+            readOnly: true
 example:
   _links:
     self:
