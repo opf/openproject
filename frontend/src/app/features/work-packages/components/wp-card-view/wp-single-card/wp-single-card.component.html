@@ -57,31 +57,37 @@
           data-qa-selector="op-wp-single-card--content-type"
           [ngClass]="typeHighlightingClass(workPackage)">
     </span>
-    <a class="op-wp-single-card--content-id"
-       [href]="fullWorkPackageLink(workPackage)"
-       [ngClass]="uiStateLinkClass"
-       (click)="emitStateLinkClicked($event, workPackage)"
-     >
-      #{{workPackage.id}}
-    </a>
-    <span [textContent]="wpSubject(workPackage)"
-          class="op-wp-single-card--content-subject"
+    <span class="op-wp-single-card--content-subject"
           data-qa-selector="op-wp-single-card--content-subject">
+      <a class="op-wp-single-card--content-id"
+         [href]="fullWorkPackageLink(workPackage)"
+         [ngClass]="uiStateLinkClass"
+         (click)="emitStateLinkClicked($event, workPackage)"
+      >
+        #{{workPackage.id}}
+      </a>
+      <span [textContent]="wpSubject(workPackage)">
+      </span>
     </span>
     <img *ngIf="this.cardCoverImageShown(workPackage)"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
     <wp-status-button *ngIf="showStatusButton"
                       [workPackage]="workPackage"
+                      [small]="true"
                       class="op-wp-single-card--content-status">
     </wp-status-button>
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
-      [hideName]="true"
+      [hideName]="false"
+      [link]="false"
       size="mini"
       class="op-wp-single-card--content-assignee"
       data-qa-selector="op-wp-single-card--content-assignee"
     ></op-principal>
+    <span [textContent]="wpDates(workPackage)"
+          class="op-wp-single-card--content-dates">
+    </span>
   </div>
 </div>

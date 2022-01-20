@@ -126,6 +126,31 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     return wp.project?.name;
   }
 
+  public wpDates(wp:WorkPackageResource):string {
+    const startDate = wp.startDate;
+    const dueDate = wp.dueDate;
+    const dateTimeFormat = new Intl.DateTimeFormat('en', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+
+    if (startDate && dueDate) {
+      // see https://github.com/Microsoft/TypeScript/issues/23691
+      // @ts-ignore
+      return dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate));
+    }
+    if (!startDate && dueDate) {
+      return `- ${dateTimeFormat.format(new Date(dueDate))}`;
+    }
+
+    if (startDate && !dueDate) {
+      return `${dateTimeFormat.format(new Date(startDate))} -`;
+    }
+
+    return '';
+  }
+
   public fullWorkPackageLink(wp:WorkPackageResource):string {
     return this.$state.href('work-packages.show', { workPackageId: wp.id });
   }

@@ -23,7 +23,7 @@
 
   &_horizontal
     height: 100%
-    
+
   &_vertical
     margin-top: 10px
     // Take care that the shadow of the last element is still visible
@@ -38,19 +38,22 @@
 
     &:not(.-new)
       display: grid
-      grid-template-columns: auto 1fr auto
-      grid-template-rows: auto auto auto 1fr auto
-      grid-row-gap: 10px
-      grid-template-areas: "project project project" "type type type" "subject subject subject" "image image image" "attributeTag avatar idlink"
+      grid-template-columns: max-content max-content max-content max-content 1fr
+      grid-template-rows: auto auto 1fr auto
+      grid-row-gap: 5px
+      grid-column-gap: 5px
+      grid-template-areas: "project type status status status" "subject subject subject subject subject" "image image image image image" "avatar avatar dates dates dates"
       overflow: hidden
       flex-grow: 1
+      font-size: 14px
+      line-height: 16px
 
     &-project-name
       grid-area: project
       font-style: italic
       color: var(--gray-dark)
-      font-size: 12px
-      @include text-shortener(false)
+      @include text-shortener
+      max-width: 80px
     &-type
       grid-area: type
     &-subject
@@ -59,12 +62,12 @@
     &-assignee
       grid-area: avatar
       place-self: center left
-    &-id
-      grid-area: idlink
-      place-self: center right
+      color: var(--gray-dark)
+      font-size: 12px
     &-status
-      grid-area: attributeTag
+      grid-area: status
       margin-right: 5px
+      place-self: center start
       overflow: hidden
     &-cover-image
       grid-area: image
@@ -72,6 +75,12 @@
 
       @media screen and (max-width: 679px)
         max-height: 250px
+
+    &-dates
+      grid-area: dates
+      place-self: center end
+      color: var(--gray-dark)
+      font-size: 12px
 
   &--highlighting
     width: 5px
