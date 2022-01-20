@@ -220,7 +220,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             headerToolbar: {
               left: 'prev,next today',
               center: 'title',
-              right: 'resourceTimelineWeek,resourceTimelineTwoWeeks,resourceTimelineMonth',
+              right: 'resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
             views: {
               resourceTimelineWeek: {
@@ -244,23 +244,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                 type: 'resourceTimeline',
                 buttonText: this.text.two_weeks,
                 duration: { weeks: 2 },
-                slotDuration: { days: 1 },
-                slotLabelFormat: [
-                  {
-                    weekday: 'long',
-                    day: '2-digit',
-                  },
-                ],
-                resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: this.text.assignees,
-                  },
-                ],
-              },
-              resourceTimelineMonth: {
-                type: 'resourceTimeline',
-                duration: { months: 1 },
                 slotDuration: { days: 1 },
                 slotLabelFormat: [
                   {

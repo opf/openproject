@@ -51,9 +51,5 @@ describe 'Team planner', type: :feature, js: true do
     # 2 weeks: expect 14 slots
     team_planner.switch_view_mode '2 weeks'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 14)
-
-    # month: Expect 30 slots
-    team_planner.switch_view_mode 'month'
-    expect(page).to have_selector('.fc-timeline-slot-frame', minimum: 28, maximum: 31)
   end
 end
