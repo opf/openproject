@@ -363,13 +363,13 @@ OpenProject::Application.routes.draw do
     resources :groups, except: %i[show] do
       member do
         # this should be put into it's own resource
-        match '/members' => 'groups#add_users', via: :post, as: 'members_of'
-        match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
+        post '/members' => 'groups#add_users', as: 'members_of'
+        delete '/members/:user_id' => 'groups#remove_user', as: 'member_of'
         # this should be put into it's own resource
-        match '/memberships/:membership_id' => 'groups#edit_membership', via: :patch, as: 'membership_of'
-        match '/memberships/:membership_id' => 'groups#edit_membership', via: :put
-        match '/memberships/:membership_id' => 'groups#destroy_membership', via: :delete
-        match '/memberships' => 'groups#create_memberships', via: :post, as: 'memberships_of'
+        patch '/memberships/:membership_id' => 'groups#edit_membership', as: 'membership_of'
+        put '/memberships/:membership_id' => 'groups#edit_membership'
+        delete '/memberships/:membership_id' => 'groups#destroy_membership'
+        post '/memberships' => 'groups#create_memberships', as: 'memberships_of'
       end
     end
 
