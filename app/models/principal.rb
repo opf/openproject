@@ -54,6 +54,8 @@ class Principal < ApplicationRecord
                .order(Arel.sql('projects.name ASC'))
              # haven't been able to produce the order using hashes
            },
+           inverse_of: :principal,
+           dependent: :nullify,
            class_name: 'Member',
            foreign_key: 'user_id'
   has_many :projects, through: :memberships
