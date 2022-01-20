@@ -2,8 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  Input,
+  HostListener,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
@@ -24,8 +25,9 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { Draggable } from '@fullcalendar/interaction';
+import { ThirdPartyDraggable } from '@fullcalendar/interaction';
 import { DragMetaInput } from '@fullcalendar/common';
+import { Drake } from 'dragula';
 
 @Component({
   selector: 'op-quick-add-pane',
@@ -34,6 +36,20 @@ import { DragMetaInput } from '@fullcalendar/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit {
+  @ViewChild('container') container:ElementRef;
+
+  @ViewChild('container')
+  set dragContainer(v:ElementRef|undefined) {
+    // ViewChild reference may be undefined initially
+    // due to ngIf
+    if (v !== undefined) {
+      if (this.drake) {
+        this.drake.destroy();
+      }
+      this.registerDrag();
+    }
+  }
+
   searchString = '';
 
   isEmpty$ = new BehaviorSubject<boolean>(true);
@@ -51,7 +67,7 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
 
   resultingWorkPackages:WorkPackageResource[] = [];
 
-  draggable:Draggable;
+  drake:Drake;
 
   constructor(
     private readonly querySpace:IsolatedQuerySpace,
@@ -66,7 +82,13 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
   }
 
   ngOnInit():void {
-    this.registerDrag();
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    if (this.drake) {
+      this.drake.destroy();
+    }
   }
 
   searchWorkPackages(searchString:string):void {
@@ -111,7 +133,7 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
       .filtered(filters)
       .get()
       .pipe(
-        debounceTime(250),
+        debounceTime(100),
         map((collection) => collection.elements),
         catchError((error:unknown) => {
           this.notificationService.handleRawError(error);
@@ -136,13 +158,19 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
   }
 
   private registerDrag():void {
-    if (this.draggable) {
-      // Destroy old drag handlers to avoid multiple events
-      this.draggable.destroy();
-    }
+    this.drake = dragula({
+      containers: [this.container?.nativeElement],
+      revertOnSpill: true,
+    });
 
-    this.draggable = new Draggable(this.ref.nativeElement, {
+    this.drake.on('drag', (el:HTMLElement) => {
+      el.classList.add('gu-transit');
+    });
+
+    // eslint-disable-next-line no-new
+    new ThirdPartyDraggable(this.container?.nativeElement, {
       itemSelector: '.op-quick-add-pane--wp',
+      mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventData: this.eventData.bind(this),
     });

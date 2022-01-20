@@ -28,7 +28,9 @@
   <ng-container
     *ngIf="(isEmpty$ | async) === false; else emptyTemplate"
   >
-    <div class="op-quick-add-pane--results">
+    <div
+      #container
+      class="op-quick-add-pane--results">
       <ng-container *ngFor="let wp of resultingWorkPackages">
         <wp-single-card
           [workPackage]="wp"

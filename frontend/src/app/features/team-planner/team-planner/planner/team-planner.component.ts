@@ -454,7 +454,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         .subscribe(async (wp) => {
           const changeset = this.halEditing.edit(wp);
           changeset.setValue('startDate', dropInfo.event.startStr);
-          changeset.setValue('dueDate', dropInfo.event.endStr);
+          const due = moment(dropInfo.event.endStr)
+            .subtract(1, 'day')
+            .format('YYYY-MM-DD');
+          changeset.setValue('dueDate', due);
 
           const resource = dropInfo.event.getResources()[0];
           if (resource) {
