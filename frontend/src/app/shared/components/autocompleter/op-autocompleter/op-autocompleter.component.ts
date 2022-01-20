@@ -107,15 +107,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public markFirst ? = true;
 
-  @Input() public placeholder?:string = this.I18n.t('js.autocompleter.placeholder');
+  @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
 
-  @Input() public notFoundText?:string = this.I18n.t('js.autocompleter.notFoundText');
+  @Input() public notFoundText:string = this.I18n.t('js.autocompleter.notFoundText');
 
-  @Input() public typeToSearchText?:string = this.I18n.t('js.autocompleter.typeToSearchText');
+  @Input() public typeToSearchText:string = this.I18n.t('js.autocompleter.typeToSearchText');
 
   @Input() public addTagText?:string;
 
-  @Input() public loadingText?:string;
+  @Input() public loadingText:string = this.I18n.t('js.ajax.loading');
 
   @Input() public clearAllText?:string;
 
@@ -204,9 +204,9 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   public active:Set<string>;
 
-  public results$:any;
+  public results$:Observable<unknown>;
 
-  public isLoading = false;
+  public loading$ = new Subject<boolean>();
 
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
@@ -242,6 +242,8 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
       return;
     }
 
+    this.loading$.subscribe(console.log);
+
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = merge(
@@ -249,12 +251,14 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
           this.typeahead.pipe(
             distinctUntilChanged(),
             debounceTime(250),
+            tap(() => this.loading$.next(true)),
             (this.defaultData
               ? switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
               : this.getOptionsFn
                 ? switchMap((queryString) => this.getOptionsFn(queryString))
                 : switchMap(() => NEVER)
             ),
+            tap(() => this.loading$.next(false)),
           ),
         );
 
