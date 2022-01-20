@@ -11,7 +11,7 @@
     <%= image_tag feature_image, class: "widget-box--teaser-image" %>
     <% end %>
 
-    <p> <%= feature_title %> <%= t('admin.enterprise.feature_info') %>
+    <p> <%= feature_title %> <%= t('admin.enterprise.enterprise_info_html') %> 
     </br>
     <%= t('admin.enterprise.upgrade_info') %>
     </p>
@@ -29,7 +29,7 @@
                    aria: {label: t('admin.enterprise.buttons.upgrade')},
                    target: '_blank',
                    title: t('admin.enterprise.buttons.upgrade')}) do %>
-      <%= op_icon('button--icon icon-star') %>
+      <%= op_icon('button--icon icon-medal') %>
       <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
     <% end %>
 
