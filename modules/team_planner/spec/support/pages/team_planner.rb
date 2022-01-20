@@ -47,7 +47,23 @@ module Pages
     end
 
     def expect_title(title = 'Unnamed team planner')
-      expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
+      expect(page).to have_selector('.editable-toolbar-title--input') { |node| node.value == title }
+    end
+
+    def save_as(name)
+      click_setting_item 'Save as'
+
+      fill_in 'save-query-name', with: name
+
+      click_button 'Save'
+
+      expect_toast message: 'Successful creation.'
+      expect_title name
+    end
+
+    def click_setting_item(label)
+      ::Components::WorkPackages::SettingsMenu
+        .new.open_and_choose(label)
     end
 
     def expect_empty_state(present: true)
