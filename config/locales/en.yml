@@ -185,7 +185,7 @@ en:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
+      title: 'Custom actions'
       description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
 
   custom_fields:
