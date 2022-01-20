@@ -366,7 +366,8 @@ OpenProject::Application.routes.draw do
         match '/members' => 'groups#add_users', via: :post, as: 'members_of'
         match '/members/:user_id' => 'groups#remove_user', via: :delete, as: 'member_of'
         # this should be put into it's own resource
-        match '/memberships/:membership_id' => 'groups#edit_membership', via: :put, as: 'membership_of'
+        match '/memberships/:membership_id' => 'groups#edit_membership', via: :patch, as: 'membership_of'
+        match '/memberships/:membership_id' => 'groups#edit_membership', via: :put
         match '/memberships/:membership_id' => 'groups#destroy_membership', via: :delete
         match '/memberships' => 'groups#create_memberships', via: :post, as: 'memberships_of'
       end

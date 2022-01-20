@@ -48,6 +48,12 @@ module GroupsHelper
         partial: 'groups/memberships',
         path: edit_group_path(@group, tab: :memberships),
         label: :label_project_plural
+      },
+      {
+        name: 'global_roles',
+        partial: 'groups/global_roles',
+        path: edit_group_path(@group, tab: :global_roles),
+        label: :label_global_roles
       }
     ]
   end

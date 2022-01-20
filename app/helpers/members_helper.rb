@@ -36,12 +36,26 @@ module MembersHelper
   # If it is the later, the ids of the non delete roles are appended to the url so that they are kept.
   def global_member_role_deletion_link(member, role)
     if member.roles.length == 1
+      path =
+        if member.principal.is_a?(Group)
+          membership_of_group_path(member.principal, member)
+        else
+          user_membership_path(user_id: member.user_id, id: member.id)
+        end
+
       link_to('',
-              user_membership_path(user_id: member.user_id, id: member.id),
+              path,
               { method: :delete, class: 'icon icon-delete', title: t(:button_delete) })
     else
+      path =
+        if member.principal.is_a?(Group)
+          membership_of_group_path(member.principal, member, 'membership[role_ids]' => member.roles - [role])
+        else
+          user_membership_path(user_id: member.user_id, id: member.id, 'membership[role_ids]' => member.roles - [role])
+        end
+
       link_to('',
-              user_membership_path(user_id: member.user_id, id: member.id, 'membership[role_ids]' => member.roles - [role]),
+              path,
               { method: :patch, class: 'icon icon-delete', title: t(:button_delete) })
     end
   end

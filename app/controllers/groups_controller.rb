@@ -176,12 +176,13 @@ class GroupsController < ApplicationController
   end
 
   def destroy_membership
+    member = Member.find(params[:membership_id])
     Members::DeleteService
-      .new(model: Member.find(params[:membership_id]), user: current_user)
+      .new(model: member, user: current_user)
       .call
 
     flash[:notice] = I18n.t :notice_successful_delete
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(member)
   end
 
   protected
@@ -222,7 +223,15 @@ class GroupsController < ApplicationController
       flash[:error] = service_call.errors.full_messages.join("\n")
     end
 
-    redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships'
+    redirect_to controller: '/groups', action: 'edit', id: @group, tab: redirected_to_tab(service_call.result)
+  end
+
+  def redirected_to_tab(membership)
+    if membership.project
+      'memberships'
+    else
+      'global_roles'
+    end
   end
 
   def respond_users_altered(service_call)
