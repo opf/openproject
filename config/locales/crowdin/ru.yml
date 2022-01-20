@@ -2215,7 +2215,7 @@ ru:
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
   permission_manage_types: "Выберите типы"
-  permission_view_calendar: "Календарь"
+  permission_view_calendar: "Просмотр календаря"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
