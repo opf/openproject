@@ -1,0 +1,15 @@
+# Schema: Attachments
+---
+type: object
+properties:
+  _embedded:
+    type: object
+    properties:
+      elements:
+        type: array
+        readOnly: true
+        items:
+            allOf:
+            - "$ref": "./attachment_model.yml"
+            - description: Collection of Attachments
+            readOnly: true
