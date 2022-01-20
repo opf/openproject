@@ -1,15 +1,22 @@
 <div class="upsale-notification">
-    
+
+    <h2><%= feature_title %></h2>
     <p class="upsale--feature-reference">
-      <strong><%= feature_title %></strong>
-      <br/>
       <%= feature_description %>
     </p>
-    <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
-    <p> <%= feature_title %> <%= t('admin.enterprise.feature_info') %></p>
-    <p> <%= t('admin.enterprise.upgrade_info') %></p>
 
-    <%= link_to( "",
+    <% if feature_image.empty? %>
+    <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
+    <% else %>
+    <%= image_tag feature_image, class: "widget-box--teaser-image" %>
+    <% end %>
+
+    <p> <%= feature_title %> <%= t('admin.enterprise.feature_info') %>
+    </br>
+    <%= t('admin.enterprise.upgrade_info') %>
+    </p>
+
+    <%= link_to( "https://www.openproject.org/contact-us/",
                  { class: 'button -highlight-inverted -round',
                    aria: {label: t('admin.enterprise.buttons.contact')},
                    target: '_blank',
