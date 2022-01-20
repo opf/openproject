@@ -242,6 +242,12 @@ RAILS_ENV=development bin/rails jobs:work
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
 
+**Note:** If you haven't run this command for a while, chances are that a lot of background jobs have queued up and might cause a significant amount of open tabs (due to the way we deliver mails with the letter_opener gem). To get rid of the jobs before starting the worker, use the following command. **This will remove all currently scheduled jobs, never use this in a production setting.**
+
+```bash
+RAILS_ENV=development bin/rails runner "Delayed::Job.delete_all"
+```
+
 
 ## Start Coding
 
