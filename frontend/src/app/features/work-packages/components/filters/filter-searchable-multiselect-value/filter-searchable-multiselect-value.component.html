@@ -1,30 +1,18 @@
 <div class="inline-label ng-select-container"
      id="div-values-{{filter.id}}">
 
-  <ng-select #ngSelectInstance
-             [ngModel]="filter.values"
-             (change)="setValues($event)"
-             (add)="repositionDropdown()"
-             (remove)="repositionDropdown()"
-             (open)="repositionDropdown()"
-             [compareWith]="compareByHrefOrString"
-             [clearSearchOnAdd]="true"
-             [placeholder]="text.placeholder"
-             [ngClass]="{'-required-highlighting' : isEmpty}"
-             class="advanced-filters--ng-select -multi-select"
-             [id]="'values-' + filter.id"
-             [items]="availableOptions"
-             [multiple]="true"
-             [closeOnSelect]="false"
-             [hideSelected]="true"
-             appendTo="body"
-             bindLabel="name"
-             [typeahead]="requests.input$"
-             [virtualScroll]="true">
-    <ng-template ng-footer-tmp *ngIf="total > count">
-      <div class="ng-footer-text">
-        <span [textContent]="moreItemsText(count, total)"></span>
-      </div>
-    </ng-template>
-  </ng-select>
+  <op-autocompleter
+    appendTo="body"
+    class="advanced-filters--ng-select -multi-select"
+    [getOptionsFn]="autocompleterFn"
+    [classes]="{'-required-highlighting' : isEmpty}"
+    [virtualScroll]
+    [closeOnSelect]="false"
+    [placeholder]="text.placeholder"
+    [hideSelected]="true"
+    [multiple]="true"
+    [fetchDataDirectly]="true"
+    [focusDirectly]="shouldFocus"
+    (change)="setValues($event)"
+  ></op-autocompleter>
 </div>

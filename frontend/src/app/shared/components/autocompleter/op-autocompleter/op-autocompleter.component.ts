@@ -273,7 +273,6 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
         } else if (this.focusDirectly) {
           this.ngSelectInstance.focus();
         }
-
       }, 25);
     });
   }

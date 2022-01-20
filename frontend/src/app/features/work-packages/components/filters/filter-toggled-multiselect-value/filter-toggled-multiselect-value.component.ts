@@ -39,7 +39,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -102,18 +101,5 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
 
   public get isEmpty():boolean {
     return this._isEmpty = this.value.length === 0;
-  }
-
-  public repositionDropdown():void {
-    if (this.ngSelectInstance) {
-      setTimeout(() => {
-        const component = this.ngSelectInstance;
-        if (component && component.dropdownPanel) {
-          // _updatePosition is private, but necessary for workaround
-          /* eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access */
-          (component.dropdownPanel as any)._updatePosition();
-        }
-      }, 25);
-    }
   }
 }
