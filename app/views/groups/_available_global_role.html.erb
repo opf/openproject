@@ -27,13 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%
-  name = global_member ? 'membership[role_ids][]' : 'new_membership[role_ids][]'
-%>
-
 <div class="principal_role_option form--field" id= "principal_role_option_<%= h(role.id) %>">
   <label class="form--label-with-check-box" for="principal_role_role_ids_<%= role.id %>">
-    <%= check_box_tag name,
+    <%= check_box_tag 'membership[role_ids][]',
                       role.id,
                       false,
                       id: "principal_role_role_ids_#{role.id}" %>

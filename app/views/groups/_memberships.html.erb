@@ -119,12 +119,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= styled_form_tag(memberships_of_group_path(@group), method: :post) do %>
          <fieldset class="form--fieldset add-membership-form-fieldset">
             <legend class="form--fieldset-legend"><%=t(:label_project_new)%></legend>
-            <%= label_tag "new_membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
-            <%= styled_select_tag 'new_membership[project_id]', options_for_membership_project_select(@group, projects) %>
+            <%= label_tag "membership_project_id", t(:description_choose_project), class: "hidden-for-sighted" %>
+            <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
             <div class="form--field -vertical">
               <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
               <div class="form--field-container -vertical">
-                <%= labeled_check_box_tags 'new_membership[role_ids][]', roles %>
+                <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
               </div>
             </div>
             <div><%= styled_button_tag t(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>

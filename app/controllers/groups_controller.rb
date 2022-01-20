@@ -154,7 +154,7 @@ class GroupsController < ApplicationController
   end
 
   def create_memberships
-    membership_params = permitted_params.group_membership[:new_membership]
+    membership_params = permitted_params.group_membership[:membership]
 
     service_call = Members::CreateService
                    .new(user: current_user)

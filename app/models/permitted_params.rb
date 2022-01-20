@@ -490,11 +490,7 @@ class PermittedParams
           { membership: [
             :project_id,
             { role_ids: [] }
-          ],
-            new_membership: [
-              :project_id,
-              { role_ids: [] }
-            ] }
+          ] }
         ],
         member: [
           role_ids: []

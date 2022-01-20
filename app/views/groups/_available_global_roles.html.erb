@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
 
           <% available_roles.each do |role| %>
-            <%= render :partial => 'groups/available_global_role', :locals => {role: role, global_member: global_member} %>
+            <%= render partial: 'groups/available_global_role', locals: {role: role} %>
           <% end %>
           <p><br/><%= styled_button_tag t(:button_add), class: '-with-icon icon-checkmark' %></p>
         <% end %>

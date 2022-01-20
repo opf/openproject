@@ -136,7 +136,7 @@ describe GroupsController, type: :controller do
 
       it 'should create membership' do
         post :create_memberships,
-             params: { id: group.id, new_membership: { project_id: project.id, role_ids: [role1.id, role2.id] } }
+             params: { id: group.id, membership: { project_id: project.id, role_ids: [role1.id, role2.id] } }
 
         expect(group.reload.members.count).to eq 1
         expect(group.members.first.roles.count).to eq 2
