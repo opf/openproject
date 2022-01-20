@@ -31,26 +31,6 @@ require 'spec_helper'
 describe 'Multi-value custom fields creation', type: :feature, js: true do
   shared_let(:admin) { FactoryBot.create :admin }
 
-  def drag_and_drop(handle, to)
-    scroll_to_element(handle)
-    page
-      .driver
-      .browser
-      .action
-      .move_to(handle.native)
-      .click_and_hold(handle.native)
-      .perform
-
-    scroll_to_element(to)
-    page
-      .driver
-      .browser
-      .action
-      .move_to(to.native)
-      .release
-      .perform
-  end
-
   before do
     login_as(admin)
     visit custom_fields_path
@@ -103,7 +83,7 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
 
     rows = page.all('tr.custom-option-row')
     expect(rows.length).to eq(3)
-    drag_and_drop rows[0].find('.dragula-handle'), page.find('.__drag_and_drop_end_of_list')
+    drag_n_drop_element from: rows[0].find('.dragula-handle'), to: page.find('.__drag_and_drop_end_of_list')
 
     sleep 1
 

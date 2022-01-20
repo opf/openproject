@@ -18,7 +18,7 @@ import {
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { ViewsStore } from 'core-app/core/state/views/views.store';
 import { ViewsQuery } from 'core-app/core/state/views/views.query';
-import { View } from 'core-app/core/state/views/view.model';
+import { IView } from 'core-app/core/state/views/view.model';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
@@ -44,12 +44,12 @@ export class ViewsResourceService {
   ) {
   }
 
-  fetchViews(params:ApiV3ListParameters):Observable<IHALCollection<View>> {
+  fetchViews(params:ApiV3ListParameters):Observable<IHALCollection<IView>> {
     const collectionURL = collectionKey(params);
 
     return this
       .http
-      .get<IHALCollection<View>>(this.viewsPath + collectionURL)
+      .get<IHALCollection<IView>>(this.viewsPath + collectionURL)
       .pipe(
         tap((events) => {
           applyTransaction(() => {
@@ -74,7 +74,7 @@ export class ViewsResourceService {
       );
   }
 
-  update(id:ID, view:Partial<View>):void {
+  update(id:ID, view:Partial<IView>):void {
     this.store.update(id, view);
   }
 

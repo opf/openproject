@@ -55,6 +55,20 @@ describe Views::CreateContract do
 
         it_behaves_like 'contract is invalid', type: :inclusion
       end
+
+      context 'with a work_packages_calendar view with the user having the permission to view_calendar' do
+        let(:permissions) { %i[view_work_packages save_queries view_calendar] }
+        let(:view_type) { 'work_packages_calendar' }
+
+        it_behaves_like 'contract is valid'
+      end
+
+      context 'with a work_packages_calendar view with the user not having the permission to view_calendar' do
+        let(:permissions) { %i[view_work_packages save_queries] }
+        let(:view_type) { 'work_packages_calendar' }
+
+        it_behaves_like 'contract is invalid', base: :error_unauthorized
+      end
     end
   end
 end

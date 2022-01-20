@@ -1,5 +1,9 @@
 user: openproject
 group: openproject
+description: OpenProject
+homepage: "https://www.openproject.org"
+maintainer: "operations+packaging@openproject.com"
+license: "GPL"
 targets:
   debian-9: &debian9
     build_dependencies:

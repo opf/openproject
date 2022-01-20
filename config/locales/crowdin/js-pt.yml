@@ -88,9 +88,6 @@ pt:
     button_export-pdf: "Baixar PDF"
     button_export-atom: "Baixar Atom"
     button_create: "Criar"
-    calendar:
-      title: 'Calendário'
-      too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:

@@ -27,7 +27,7 @@
 //++
 
 import { Observable } from 'rxjs';
-import { View, ViewCreatePayload } from 'core-app/core/state/views/view.model';
+import { IView, IViewCreatePayload } from 'core-app/core/state/views/view.model';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -37,7 +37,7 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export class ApiV3ViewsPaths extends ApiV3ResourceCollection<View, ApiV3GettableResource<View>> {
+export class ApiV3ViewsPaths extends ApiV3ResourceCollection<IView, ApiV3GettableResource<IView>> {
   @InjectField() http:HttpClient;
 
   constructor(
@@ -53,7 +53,7 @@ export class ApiV3ViewsPaths extends ApiV3ResourceCollection<View, ApiV3Gettable
    * @param resource
    * @param type The query's view type
    */
-  post(resource:ViewCreatePayload, type:string):Observable<View> {
+  post(resource:IViewCreatePayload, type:string):Observable<IView> {
     return this
       .http
       .post(
@@ -64,7 +64,7 @@ export class ApiV3ViewsPaths extends ApiV3ResourceCollection<View, ApiV3Gettable
           responseType: 'json',
         },
       ).pipe(
-        map((view:View) => view),
+        map((view:IView) => view),
       );
   }
 }

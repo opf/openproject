@@ -253,6 +253,8 @@ describe 'Stories in backlog',
     backlogs_page
       .drag_in_sprint(backlog_story1, sprint_story2, before: false)
 
+    sleep(0.5)
+
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
 

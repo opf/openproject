@@ -88,9 +88,6 @@ pl:
     button_export-pdf: "Pobierz plik PDF"
     button_export-atom: "Pobierz Atom"
     button_create: "Utwórz"
-    calendar:
-      title: 'Kalendarz'
-      too_many: 'Łącznie pakietów roboczych jest %{count}, ale pokazać można tylko %{max}.'
     card:
       add_new: 'Dodaj nową kartę'
       highlighting:

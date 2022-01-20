@@ -9,3 +9,4 @@ lt:
       no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
       add_assignee: 'Pridėti paskirtąjį'
       remove_assignee: 'Išimti paskirtąjį'
+      two_weeks: '2 savaitės'

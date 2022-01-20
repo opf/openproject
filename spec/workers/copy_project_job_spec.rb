@@ -84,7 +84,7 @@ describe CopyProjectJob, type: :model do
       }
     end
     let(:copy_job) do
-      CopyProjectJob.new(job_args).tap(&:perform_now)
+      described_class.new(**job_args).tap(&:perform_now)
     end
 
     let(:params) { { name: 'Copy', identifier: 'copy', type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }

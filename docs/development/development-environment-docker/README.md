@@ -191,8 +191,7 @@ rebuild the image. For instance when the Ruby version is updated you may run int
 an error like the following when running `bin/compose setup`:
 
 ```
-Creating core_backend_run ... done
-Your Ruby version is 2.7.1, but your Gemfile specified ~> 2.7.5
+Your Ruby version is 2.7.4, but your Gemfile specified ~> 3.0.3
 ```
 
 This means that the current image is out-dated. You can update it like this:

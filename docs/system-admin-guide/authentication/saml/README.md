@@ -17,71 +17,65 @@ You can integrate your active directory or other SAML compliant identity provide
 
 ### 1: Configuring the SAML integration
 
-The configuration can be provided in one of three ways:
+The configuration can be provided in one of two ways:
 
-* `configuration.yml` file (1.1)
+* `config/plugins/auth_saml/settings.yml` file (1.1)
 
 * Environment variables (1.2)
+
+* Settings in the database (1.3)
 
   
 
 Whatever means are chosen, the plugin simply passes all options to omniauth-saml. See [their configuration
 documentation](https://github.com/omniauth/omniauth-saml#usage) for further details.
 
-The three options are mutually exclusive. I.e. if settings are already provided via the `configuration.yml` file, settings in a `settings.yml` file will be ignored. Environment variables will override the `configuration.yml` based configuration, though.
+The options are mutually exclusive. I.e. if settings are already provided via ENV variables, settings in a `settings.yml` file will be ignored. If you decide to save settings in the database, they will override any ENV variables you might have set.
 
+#### 1.1 config/plugins/auth_saml/settings.yml file
 
+In your OpenProject packaged installation, you can modify the `/opt/openproject/config/plugins/auth_saml/settings.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
 
-#### 1.1 configuration.yml file
-
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
-
-Everything belonging to the `saml` key will be made available to the plugin. The first key below `saml` can be freely chosen (`my_saml` in the example).
+The following is an exemplary file with a set of common settings:
 
 ```yaml
-production:
-  # <-- other configuration -->
+saml:
+  name: "saml"
+  display_name: "My SSO"
+  # Use the default SAML icon
+  icon: "auth_provider-saml.png"
 
-  saml:
-    my_saml:
-      name: "saml"
-      display_name: "My SSO"
-      # Use the default SAML icon
-      icon: "auth_provider-saml.png"
+  # omniauth-saml config
+  assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
+  issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
 
-      # omniauth-saml config
-      assertion_consumer_service_url: "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
-      issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
+  # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here
+  #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
+  # Otherwise, the certificate fingerprint must be added
+  # Either `idp_cert` or `idp_cert_fingerprint` must be present!
+  idp_cert_fingerprint: "E7:91:B2:E1:...",
 
-      # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here
-      #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
-      # Otherwise, the certificate fingerprint must be added
-      # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-      idp_cert_fingerprint: "E7:91:B2:E1:...",
+  # Replace with your single sign on URL
+  # For example: "https://sso.example.com/saml/singleSignOn"
+  idp_sso_target_url: "<YOUR SSO URL>"
+  # Replace with your single sign out URL
+  # or comment out
+  # For example: "https://sso.example.com/saml/proxySingleLogout"
+  idp_slo_target_url: "<YOUR SSO logout URL>"
 
-      # Replace with your single sign on URL
-      # For example: "https://sso.example.com/saml/singleSignOn"
-      idp_sso_target_url: "<YOUR SSO URL>"
-      # Replace with your single sign out URL
-      # or comment out
-      # For example: "https://sso.example.com/saml/proxySingleLogout"
-      idp_slo_target_url: "<YOUR SSO logout URL>"
-
-      # Attribute map in SAML
-      attribute_statements:
-        # What attribute in SAML maps to email (default: mail)
-        email: ['mail']
-        # What attribute in SAML maps to the user login (default: uid)
-        login: ['uid']
-        # What attribute in SAML maps to the first name (default: givenName)
-        first_name: ['givenName']
-        # What attribute in SAML maps to the last name (default: sn)
-        last_name: ['sn']
-
-  # <-- other configuration -->
+  # Attribute map in SAML
+  attribute_statements:
+    # What attribute in SAML maps to email (default: mail)
+    email: ['mail']
+    # What attribute in SAML maps to the user login (default: uid)
+    login: ['uid']
+    # What attribute in SAML maps to the first name (default: givenName)
+    first_name: ['givenName']
+    # What attribute in SAML maps to the last name (default: sn)
+    last_name: ['sn']
 ```
 
-Be sure to choose the correct indentation and base key. The `saml` key should be indented two spaces (and all other keys accordingly) and the configuration should belong to the `production` group.
+Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces. You will get an YAML parsing error otherwise when trying to start OpenProject.
 
 #### 1.2 Environment variables
 
@@ -116,13 +110,13 @@ That means it's best to set them using the console.
 > docker-compose run --rm web bundle exec rails console
 ```
 
-Once on the console you can set the same values as named in the `configuration.yml` file.
+Once on the console you can set the same values as named in the `settings.yml` file, however they need to be nested within a 'providers' key as follows.
 For example:
 
 ```ruby
 Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml).deep_merge({
   "providers" => {
-    "my_saml" => {
+    "saml" => {
       "name" => "saml",
       "display_name" => "My SSO",
       "assertion_consumer_service_url" => "https:/<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"

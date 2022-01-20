@@ -750,6 +750,8 @@ da:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2177,7 +2179,6 @@ da:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vælg projektmoduler"
   permission_manage_types: "Vælg typer"
-  permission_view_calendar: "Vis kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Vis statistik for tilknyttet forfatter"
   permission_view_work_package_watchers: "Se liste over tilsynsførende"
@@ -2213,7 +2214,6 @@ da:
       archived: "Archived"
   project_module_activity: "Aktivivtet"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Sporing af arbejdspakke"
   project_module_news: "Nyheder"
   project_module_repository: "Projektarkiv"
@@ -2895,6 +2895,7 @@ da:
       schema: 'Skema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

@@ -748,6 +748,8 @@ el:
               group_without_name: "Δεν επιτρέπονται ομάδες χωρίς όνομα."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2174,7 +2176,6 @@ el:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Επιλογή ενοτήτων έργου"
   permission_manage_types: "Επιλέξτε τύπους"
-  permission_view_calendar: "Προβολή ημερολογίου"
   permission_view_changesets: "Προβολή αποθετηρίου των αναθεωρήσεων στο OpenProject"
   permission_view_commit_author_statistics: "Εμφάνιση στατιστικών συγγραφέων δέσμευσης"
   permission_view_work_package_watchers: "Προβολή λίστας παρατηρητών"
@@ -2210,7 +2211,6 @@ el:
       archived: "Αρχειοθετημένο"
   project_module_activity: "Δραστηριότητα"
   project_module_forums: "Φόρουμ"
-  project_module_calendar: "Ημερολόγιο"
   project_module_work_package_tracking: "Παρακολούθηση πακέτου εργασίας"
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
@@ -2894,6 +2894,7 @@ el:
       schema: 'Σχήμα'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Πριν την εξουσιοδότηση'

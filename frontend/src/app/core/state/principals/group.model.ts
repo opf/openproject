@@ -1,13 +1,13 @@
 import { ID } from '@datorama/akita';
-import { HalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
-export interface GroupHalResourceLinks extends HalResourceLinks { }
+export interface IGroupHalResourceLinks extends IHalResourceLinks { }
 
-export interface Group {
+export interface IGroup {
   id:ID;
   name:string;
   createdAt:string;
   updatedAt:string;
 
-  _links:GroupHalResourceLinks;
+  _links:IGroupHalResourceLinks;
 }

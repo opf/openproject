@@ -50,7 +50,7 @@ describe 'project menu', type: :feature do
   # `url_for controller: 'cost_reports'` will yield different results ...
   #
   # when on `/projects/ponyo/work_packages`: `/projects/ponyo/cost_reports` (correct)
-  # when on `/projects/ponyo/work_packages/calendar`: `/work_packages/cost_reports?project_id=ponyo`
+  # when on `/projects/ponyo/calendar`: `/work_packages/cost_reports?project_id=ponyo`
   #
   # This is only relevant for project menu entries, not global ones (`project_id` param is nil)*.
   # Meaning that you have to make sure to force the absolute URL in a project menu entry
@@ -80,7 +80,7 @@ describe 'project menu', type: :feature do
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
+        let(:current_path) { '/projects/ponyo/calendar' }
 
         it_behaves_like 'it leads to the project costs reports'
       end
@@ -111,7 +111,7 @@ describe 'project menu', type: :feature do
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/work_packages/calendar' }
+        let(:current_path) { '/projects/ponyo/calendar' }
 
         it_behaves_like 'it leads to the cost reports'
       end

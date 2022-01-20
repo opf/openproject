@@ -13,7 +13,7 @@ properties:
     description: Type name
     readOnly: true
   color:
-    type: color
+    type: string
     description: The color used to represent this type
     readOnly: true
   position:

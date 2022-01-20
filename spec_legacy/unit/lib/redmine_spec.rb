@@ -74,12 +74,11 @@ describe Redmine do
   end
 
   it 'should project_menu' do
-    assert_number_of_items_in_menu :project_menu, 13
+    assert_number_of_items_in_menu :project_menu, 12
     assert_menu_contains_item_named :project_menu, :overview
     assert_menu_contains_item_named :project_menu, :activity
     assert_menu_contains_item_named :project_menu, :roadmap
     assert_menu_contains_item_named :project_menu, :work_packages
-    assert_menu_contains_item_named :project_menu, :calendar
     assert_menu_contains_item_named :project_menu, :news
     assert_menu_contains_item_named :project_menu, :forums
     assert_menu_contains_item_named :project_menu, :repository

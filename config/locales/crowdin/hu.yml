@@ -753,6 +753,8 @@ hu:
               group_without_name: "Névtelen csoport nem engedélyezett."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}\n"
@@ -2183,7 +2185,6 @@ hu:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_manage_types: "Jelölje ki a típust"
-  permission_view_calendar: "A naptár megtekintése"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
@@ -2219,7 +2220,6 @@ hu:
       archived: "Archiválva"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
-  project_module_calendar: "Naptár"
   project_module_work_package_tracking: "A munkacsomag nyomon követése"
   project_module_news: "Hírek"
   project_module_repository: "Csomagtároló"
@@ -2909,6 +2909,7 @@ hu:
       schema: 'Séma'
     undisclosed:
       parent: A kiválasztott szülő a jogosultságok hiánya miatt láthatatlan.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: "Előzetes engedélyezés\n"

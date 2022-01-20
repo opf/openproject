@@ -88,9 +88,6 @@ th:
     button_export-pdf: "ดาวน์โหลดไฟล์ PDF"
     button_export-atom: "ดาวน์โหลดไฟล์ Atom"
     button_create: "สร้าง"
-    calendar:
-      title: 'ปฏิทิน'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Add new card'
       highlighting:

@@ -236,7 +236,7 @@ class Budget < ApplicationRecord
     budget_items = send("#{type}_budget_items")
 
     budget_items.reject(&:new_record?).each do |budget_item|
-      attributes = budget_item_attributes[budget_item.id.to_s]
+      attributes = budget_item_attributes[budget_item.id.to_s.to_sym]
       send("correct_#{type}_attributes!", attributes)
 
       if send("valid_#{type}_budget_attributes?", attributes)

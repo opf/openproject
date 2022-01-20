@@ -1,0 +1,7 @@
+#English strings go here
+lol:
+  js:
+    calendar:
+      title: 'crwdns588587:0crwdne588587:0'
+      too_many: 'crwdns588589:0%{count}crwdnd588589:0%{max}crwdne588589:0'
+      unsaved_title: 'crwdns588591:0crwdne588591:0'

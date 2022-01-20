@@ -752,6 +752,8 @@ et:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2181,6 @@ et:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vali projekti mooduleid"
   permission_manage_types: "Muuta tüüpe"
-  permission_view_calendar: "Kuva kalendrit"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Kuvada sissekandestatistikat autorite kohta"
   permission_view_work_package_watchers: "Jälgijate nimekirja kuvada"
@@ -2215,7 +2216,6 @@ et:
       archived: "Archived"
   project_module_activity: "Tegevus"
   project_module_forums: "Foorumid"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Teemasid jälgida"
   project_module_news: "Uudised"
   project_module_repository: "Hoidla"
@@ -2899,6 +2899,7 @@ et:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

@@ -88,9 +88,6 @@ it:
     button_export-pdf: "Scarica PDF"
     button_export-atom: "Scarica Atom"
     button_create: "Crea"
-    calendar:
-      title: 'Calendario'
-      too_many: 'Ci sono %{count} macro-attività in totale, ma solo %{max} può essere mostrata.'
     card:
       add_new: 'Aggiungi una nuova carta'
       highlighting:

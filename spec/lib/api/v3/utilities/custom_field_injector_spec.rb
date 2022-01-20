@@ -233,7 +233,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
           query = CGI.escape(::JSON.dump(params))
 
-          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
       end
     end
@@ -263,7 +263,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
 
           query = CGI.escape(::JSON.dump(params))
 
-          "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
+          "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
       end
     end

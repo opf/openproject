@@ -166,6 +166,8 @@ describe 'Projects custom fields', type: :feature, js: true do
       let(:current_user) { FactoryBot.create :admin, language: 'de' }
 
       it 'displays the float with german locale' do
+        I18n.locale = :de
+
         visit new_project_path
 
         name_field.set_value 'My project name'

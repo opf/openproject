@@ -234,26 +234,22 @@ class User < Principal
     return nil if OpenProject::Configuration.disable_password_login?
 
     attrs = AuthSource.authenticate(login, password)
-    try_to_create(attrs) if attrs
-  end
+    return unless attrs
 
-  # Try to create the user from attributes
-  def self.try_to_create(attrs, notify: false)
-    new(attrs).tap do |user|
-      user.language = Setting.default_language
+    call = Users::CreateService
+      .new(user: User.system)
+      .call(attrs)
 
-      if OpenProject::Enterprise.user_limit_reached?
-        OpenProject::Enterprise.send_activation_limit_notification_about(user) if notify
+    user = call.result
 
-        Rails.logger.error("User '#{user.login}' could not be created as user limit exceeded.")
-        user.errors.add :base, I18n.t(:error_enterprise_activation_user_limit)
-      elsif user.save
-        user.reload
-        Rails.logger.info("User '#{user.login}' created from external auth source: #{user.auth_source&.type} - #{user.auth_source&.name}")
-      else
-        Rails.logger.error("User '#{user.login}' could not be created: #{user.errors.full_messages.join('. ')}")
-      end
+    call.on_failure do |result|
+      Rails.logger.error "Failed to auto-create user from auth-source: #{result.message}"
+
+      # TODO We have no way to pass back the contract errors in this place
+      user.errors.merge! call.errors
     end
+
+    user
   end
 
   # Returns the user who matches the given autologin +key+ or nil
@@ -501,15 +497,18 @@ class User < Principal
   end
 
   # Returns true if user is arg or belongs to arg
+  # rubocop:disable Naming/PredicateName
   def is_or_belongs_to?(arg)
-    if arg.is_a?(User)
+    case arg
+    when User
       self == arg
-    elsif arg.is_a?(Group)
+    when Group
       arg.users.include?(self)
     else
       false
     end
   end
+  # rubocop:enable Naming/PredicateName
 
   def self.allowed(action, project)
     Authorization.users(action, project)
@@ -531,9 +530,7 @@ class User < Principal
     authorization_service.call(action, nil, options.merge(global: true)).result
   end
 
-  def preload_projects_allowed_to(action)
-    authorization_service.preload_projects_allowed_to(action)
-  end
+  delegate :preload_projects_allowed_to, to: :authorization_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
