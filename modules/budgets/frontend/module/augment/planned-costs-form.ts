@@ -27,22 +27,27 @@
 //++
 
 export class PlannedCostsFormAugment {
-  static listen() {
+  static listen():void {
     jQuery(document).on('click', '.costs--edit-planned-costs-btn', (evt) => {
       const link = evt.target as HTMLElement;
       const form = link.nextElementSibling as HTMLElement;
 
       link.hidden = true;
       form.hidden = false;
+
+      const input = form.querySelector('input') as HTMLInputElement;
+      input.disabled = false;
     });
 
     jQuery(document).on('click', '.costs--edit-planned-costs-cancel-btn', (evt) => {
-      const form = evt.target.closest('.costs--edit-form') as HTMLElement;
+      const form = (evt.target as HTMLElement).closest('.costs--edit-form') as HTMLElement;
       const link = form.previousElementSibling as HTMLElement;
 
       link.hidden = false;
       form.hidden = true;
+
+      const input = form.querySelector('input') as HTMLInputElement;
+      input.disabled = true;
     });
   }
 }
-

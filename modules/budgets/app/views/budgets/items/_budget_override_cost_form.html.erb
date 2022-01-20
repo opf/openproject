@@ -7,6 +7,7 @@
               field_name,
               unitless_currency_number(cost_value),
               class: 'currency form--text-field',
+              disabled: true, # disable by default until it was overridden
               placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
               ) %>
       </div>
