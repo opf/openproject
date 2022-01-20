@@ -187,17 +187,21 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .fetchViews(params)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
-        queryCollection._embedded.elements.forEach((view) => {
-          let cat = 'private';
-          if (view.public) {
-            cat = 'public';
-          }
-          if (view.starred) {
-            cat = 'starred';
-          }
+        queryCollection
+          ._embedded
+          .elements
+          .sort((a, b) => a._links.query.title.localeCompare(b._links.query.title))
+          .forEach((view) => {
+            let cat = 'private';
+            if (view.public) {
+              cat = 'public';
+            }
+            if (view.starred) {
+              cat = 'starred';
+            }
 
-          categories[cat].push(this.toOpSideMenuItem(view));
-        });
+            categories[cat].push(this.toOpSideMenuItem(view));
+          });
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
         const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
