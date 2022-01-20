@@ -753,6 +753,8 @@ hr:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2198,7 +2200,6 @@ hr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Odaberi module projekta"
   permission_manage_types: "Odaberi tipove"
-  permission_view_calendar: "Prikaži kalendar"
   permission_view_changesets: "Pogledaj revizije za repozitorij unutar OpenProjecta"
   permission_view_commit_author_statistics: "Pogledaj statistiku commitanja autora"
   permission_view_work_package_watchers: "Prikaži listu nadglednika"
@@ -2234,7 +2235,6 @@ hr:
       archived: "Archived"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_calendar: "Kalendar"
   project_module_work_package_tracking: "Praćenje radnog paketa"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
@@ -2920,6 +2920,7 @@ hr:
       schema: 'Shema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

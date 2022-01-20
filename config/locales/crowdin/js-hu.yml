@@ -90,9 +90,6 @@ hu:
     button_export-pdf: "PDF-fájl letöltése"
     button_export-atom: "Atom letöltés"
     button_create: "Létrehoz"
-    calendar:
-      title: 'Naptár'
-      too_many: 'Összesen %{count} munkacsomag van, de csak %{max} jeleníthető meg.'
     card:
       add_new: 'Új kártya hozzáadása'
       highlighting:

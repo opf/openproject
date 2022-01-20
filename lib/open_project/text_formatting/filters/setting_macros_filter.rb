@@ -64,7 +64,11 @@ module OpenProject::TextFormatting
       end
 
       def base_url
-        OpenProject::Application.root_url
+        url_helpers.root_url.chomp('/')
+      end
+
+      def url_helpers
+        @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
       end
 
       ##

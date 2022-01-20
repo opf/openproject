@@ -750,6 +750,8 @@ ko:
               group_without_name: "명명되지 않은 그룹은 허용되지 않습니다."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "비밀번호와 비밀번호 확인이 일치하지 않습니다."
               format: "%{message}"
@@ -2159,7 +2161,6 @@ ko:
   permission_select_custom_fields: "사용자 지정 필드 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_manage_types: "유형 선택"
-  permission_view_calendar: "달력 보기"
   permission_view_changesets: "OpenProject에서 리포지토리 수정 사항 보기"
   permission_view_commit_author_statistics: "커밋 작성자 통계 보기"
   permission_view_work_package_watchers: "주시자 목록 보기"
@@ -2195,7 +2196,6 @@ ko:
       archived: "보관됨"
   project_module_activity: "활동"
   project_module_forums: "포럼"
-  project_module_calendar: "달력"
   project_module_work_package_tracking: "작업 패키지 추적"
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
@@ -2875,6 +2875,7 @@ ko:
       schema: '스키마'
     undisclosed:
       parent: 숨겨짐 - 권한이 없어 선택한 부모를 볼 수 없습니다.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'

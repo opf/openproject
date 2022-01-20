@@ -37,9 +37,9 @@ module API
 
           included do
             # Because of the ruby method lookup,
-            # wrapping the work_package here and define the
+            # wrapping the object here and define the
             # available_custom_fields methods on the wrapper does not suffice.
-            # We thus extend each work package.
+            # We thus extend each object (e.g. work package).
             def initialize(object)
               super
               object.extend(CustomFieldAccessorPatch)

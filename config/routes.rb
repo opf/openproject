@@ -256,10 +256,6 @@ OpenProject::Application.routes.draw do
     # work as a catchall for everything under /wiki
     get 'wiki' => 'wiki#show'
 
-    namespace :work_packages do
-      resources :calendar, controller: 'calendars', only: [:index]
-    end
-
     resources :work_packages, only: [] do
       collection do
         get '/report/:detail' => 'work_packages/reports#report_details'
@@ -437,7 +433,6 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
-    resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331

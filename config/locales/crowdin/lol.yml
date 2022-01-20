@@ -733,6 +733,8 @@ lol:
               group_without_name: "crwdns495659:0crwdne495659:0"
         user:
           attributes:
+            base:
+              user_limit_reached: "crwdns586679:0crwdne586679:0"
             password_confirmation:
               confirmation: "crwdns495661:0crwdne495661:0"
               format: "crwdns495663:0%{message}crwdne495663:0"
@@ -2145,7 +2147,6 @@ lol:
   permission_select_custom_fields: "crwdns498633:0crwdne498633:0"
   permission_select_project_modules: "crwdns498635:0crwdne498635:0"
   permission_manage_types: "crwdns498637:0crwdne498637:0"
-  permission_view_calendar: "crwdns498639:0crwdne498639:0"
   permission_view_changesets: "crwdns498641:0crwdne498641:0"
   permission_view_commit_author_statistics: "crwdns498643:0crwdne498643:0"
   permission_view_work_package_watchers: "crwdns498645:0crwdne498645:0"
@@ -2181,7 +2182,6 @@ lol:
       archived: "crwdns498691:0crwdne498691:0"
   project_module_activity: "crwdns498693:0crwdne498693:0"
   project_module_forums: "crwdns498695:0crwdne498695:0"
-  project_module_calendar: "crwdns498697:0crwdne498697:0"
   project_module_work_package_tracking: "crwdns498699:0crwdne498699:0"
   project_module_news: "crwdns498701:0crwdne498701:0"
   project_module_repository: "crwdns498703:0crwdne498703:0"
@@ -2862,6 +2862,7 @@ lol:
       schema: 'crwdns499849:0crwdne499849:0'
     undisclosed:
       parent: crwdns499851:0crwdne499851:0
+      ancestor: crwdns586681:0crwdne586681:0
   doorkeeper:
     pre_authorization:
       status: 'crwdns499853:0crwdne499853:0'

@@ -49,7 +49,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
-import { View } from 'core-app/core/state/views/view.model';
+import { IView } from 'core-app/core/state/views/view.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
@@ -187,17 +187,21 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       .fetchViews(params)
       .pipe(this.untilDestroyed())
       .subscribe((queryCollection) => {
-        queryCollection._embedded.elements.forEach((view) => {
-          let cat = 'private';
-          if (view.public) {
-            cat = 'public';
-          }
-          if (view.starred) {
-            cat = 'starred';
-          }
+        queryCollection
+          ._embedded
+          .elements
+          .sort((a, b) => a._links.query.title.localeCompare(b._links.query.title))
+          .forEach((view) => {
+            let cat = 'private';
+            if (view.public) {
+              cat = 'public';
+            }
+            if (view.starred) {
+              cat = 'starred';
+            }
 
-          categories[cat].push(this.toOpSideMenuItem(view));
-        });
+            categories[cat].push(this.toOpSideMenuItem(view));
+          });
 
         const staticQueries = this.opStaticQueries.getStaticQueriesForView(this.viewType);
         const newQueryLink = this.opStaticQueries.getCreateNewQueryForView(this.viewType);
@@ -211,7 +215,7 @@ export class ViewSelectComponent extends UntilDestroyedMixin implements OnInit {
       });
   }
 
-  private toOpSideMenuItem(view:View):IOpSidemenuItem {
+  private toOpSideMenuItem(view:IView):IOpSidemenuItem {
     const { query } = view._links;
     return {
       title: query.title,

@@ -344,10 +344,5 @@ OpenProject::AccessControl.map do |map|
                      require: :loggedin
   end
 
-  map.project_module :calendar, dependencies: :work_package_tracking do |cal|
-    cal.permission :view_calendar,
-                   'work_packages/calendars': [:index]
-  end
-
   map.project_module :activity
 end

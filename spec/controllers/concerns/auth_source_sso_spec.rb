@@ -56,18 +56,12 @@ describe MyController, type: :controller do
   end
 
   shared_examples "auth source sso failure" do
-    def attrs(user)
-      user.attributes.slice(:login, :mail, :auth_source_id)
-    end
-
     it "redirects to AccountController#sso to show the error" do
       expect(response).to redirect_to "/sso"
 
       failure = session[:auth_source_sso_failure]
 
       expect(failure).to be_present
-      expect(attrs(failure[:user])).to eq attrs(user)
-
       expect(failure[:login]).to eq login
       expect(failure[:back_url]).to eq "http://test.host/my/account"
       expect(failure[:ttl]).to eq 1

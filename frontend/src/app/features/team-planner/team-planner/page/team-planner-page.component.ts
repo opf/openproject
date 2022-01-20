@@ -104,7 +104,6 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   }
 
   /**
-   * We only want to load the initial query if it is saved
    * @protected
    */
   protected loadInitialQuery():void {

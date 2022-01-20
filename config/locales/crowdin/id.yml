@@ -748,6 +748,8 @@ id:
               group_without_name: "Kelompok tak bernama tidak dibolehkan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2157,7 +2159,6 @@ id:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Pilih modul Project"
   permission_manage_types: "Pilih Tipe"
-  permission_view_calendar: "Lihat kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
@@ -2193,7 +2194,6 @@ id:
       archived: "Archived"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Tracking Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
@@ -2873,6 +2873,7 @@ id:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

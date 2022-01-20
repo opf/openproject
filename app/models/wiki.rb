@@ -44,7 +44,7 @@ class Wiki < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
 
-  validates_presence_of :start_page
+  validates :start_page, presence: true
 
   after_create :create_menu_item_for_start_page
 

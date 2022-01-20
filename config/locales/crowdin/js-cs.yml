@@ -88,9 +88,6 @@ cs:
     button_export-pdf: "Stáhnout PDF"
     button_export-atom: "Stáhnout Atom"
     button_create: "Vytvořit"
-    calendar:
-      title: 'Kalendář'
-      too_many: 'Celkem je zde %{count} pracovních balíčků, ale pouze %{max} lze zobrazit.'
     card:
       add_new: 'Přidat novou kartu'
       highlighting:

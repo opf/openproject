@@ -753,6 +753,8 @@ ru:
               group_without_name: "Не именованные группы не допускаются."
         user:
           attributes:
+            base:
+              user_limit_reached: "Достигнут лимит пользователей. В текущем плане аккаунтов больше нет."
             password_confirmation:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"
@@ -2215,7 +2217,6 @@ ru:
   permission_select_custom_fields: "Выберите настраиваемые поля"
   permission_select_project_modules: "Выбор модулей проекта"
   permission_manage_types: "Выберите типы"
-  permission_view_calendar: "Календарь"
   permission_view_changesets: "Просмотр изменений репозитория в OpenProject"
   permission_view_commit_author_statistics: "Посмотреть статистику автора, внесшего свою часть работы"
   permission_view_work_package_watchers: "Посмотреть список наблюдателей"
@@ -2251,7 +2252,6 @@ ru:
       archived: "Архивирован"
   project_module_activity: "Деятельность"
   project_module_forums: "Форумы"
-  project_module_calendar: "Календарь"
   project_module_work_package_tracking: "Отслеживание пакета работ"
   project_module_news: "Новости"
   project_module_repository: "Репозиторий"
@@ -2936,6 +2936,7 @@ ru:
       schema: 'Схема'
     undisclosed:
       parent: Неизвестные - выбранный родитель невидим из-за отсутствия разрешений.
+      ancestor: Неизвестные - предок невидим ввиду отсутствия разрешений.
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'

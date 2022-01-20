@@ -436,11 +436,6 @@ Redmine::MenuManager.map :project_menu do |menu|
             last: true,
             caption: :label_all_open_wps
 
-  menu.push :calendar,
-            { controller: '/work_packages/calendars', action: 'index' },
-            caption: :label_calendar,
-            icon: 'icon2 icon-calendar'
-
   menu.push :news,
             { controller: '/news', action: 'index' },
             caption: :label_news_plural,

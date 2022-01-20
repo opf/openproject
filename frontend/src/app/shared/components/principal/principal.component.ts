@@ -44,9 +44,7 @@ import {
 } from './principal-renderer.service';
 import { PrincipalLike } from './principal-types';
 import { DatasetInputs } from 'core-app/shared/components/dataset-inputs.decorator';
-import { PrincipalHelper } from 'core-app/shared/components/principal/principal-helper';
-import PrincipalPluralType = PrincipalHelper.PrincipalPluralType;
-import PrincipalType = PrincipalHelper.PrincipalType;
+import { PrincipalType } from 'core-app/shared/components/principal/principal-helper';
 
 export const principalSelector = 'op-principal';
 

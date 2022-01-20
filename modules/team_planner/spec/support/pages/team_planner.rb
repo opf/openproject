@@ -51,7 +51,26 @@ module Pages
     end
 
     def expect_empty_state(present: true)
-      expect(page).to have_conditional_selector(present, '.op-team-planner--no-data', text: 'Add assignees to set up your team planner.')
+      expect(page).to have_conditional_selector(present,
+                                                '.op-team-planner--no-data',
+                                                text: 'Add assignees to set up your team planner.')
+    end
+
+    def expect_view_mode(text)
+      expect(page).to have_selector('.fc-button-active', text: text)
+
+      param = {
+        'week' => :resourceTimelineWeek,
+        '2 weeks' => :resourceTimelineTwoWeeks,
+        'month' => :resourceTimelineMonth
+      }[text]
+
+      expect(page).to have_current_path(/cview=#{param}/)
+    end
+
+    def switch_view_mode(text)
+      page.find('.fc-button', text: text).click
+      expect_view_mode(text)
     end
 
     def expect_assignee(user, present: true)
@@ -105,6 +124,7 @@ module Pages
 
     def add_assignee(name)
       click_add_user
+      page.find('[data-qa-selector="tp-add-assignee"] input')
       search_user_to_add name
       select_user_to_add name
     end
@@ -125,6 +145,36 @@ module Pages
       search_autocomplete page.find('[data-qa-selector="tp-add-assignee"]'),
                           query: name,
                           results_selector: 'body'
+    end
+
+    def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)
+      wp_strip = page.find('.fc-event', text: work_package.subject)
+
+      page
+        .driver
+        .browser
+        .action
+        .move_to(wp_strip.native)
+        .perform
+
+      resizer = is_start_date ? wp_strip.find('.fc-event-resizer-start') : wp_strip.find('.fc-event-resizer-end')
+
+      drag_by_pixel(element: resizer, by_x: number_of_days * 170, by_y: 0) unless resizer.nil?
+    end
+
+    def drag_wp_by_pixel(work_package, by_x, by_y)
+      source = page
+                 .find('.fc-event', text: work_package.subject)
+
+      drag_by_pixel(element: source, by_x: by_x, by_y: by_y)
+    end
+
+    def expect_wp_not_resizable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
+    end
+
+    def expect_wp_not_draggable(work_package)
+      expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
   end
 end

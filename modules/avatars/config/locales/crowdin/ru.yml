@@ -1,30 +1,31 @@
 #English strings go here
 ru:
-  label_avatar: "Глистовья какашка\n"
+  label_avatar: "Аватар"
   label_avatar_plural: "Пизда дубам"
   label_current_avatar: "анальная глистовина"
   label_choose_avatar: "Выберите аватар из файла"
   message_avatar_uploaded: "глист успешно убит"
   error_image_upload: "ашибка дубов"
-  error_image_size: "изображение говно давай другое"
-  button_change_avatar: "сменить глиста"
+  error_image_size: "Изображение слишком большое."
+  button_change_avatar: "Изменить аватар"
   are_you_sure_delete_avatar: "вы хотите удалить глиста?"
   avatar_deleted: "вы удалили глиста. ЕБАТЬ ТЫ МРАЗЬ СУКА!(((("
-  unable_to_delete_avatar: "ахаха сука хуй тебе"
+  unable_to_delete_avatar: "Аватар не может быть удалён."
   wrong_file_format: "допустимые форматы - хуй, говно, какашка"
   empty_file_error: "Пожалуйста, загрузите допустимое изображение (jpg, png, gif)"
   avatars:
-    label_avatar: "Глистовья какашка\n"
-    label_gravatar: "хуйня какая то\n"
-    label_current_avatar: 'ладно я заебался переводить'
-    label_local_avatar: 'пока'
+    label_avatar: "Аватар"
+    label_gravatar: "Gravatar\n"
+    label_current_avatar: 'Текущий аватар'
+    label_local_avatar: 'Пользовательский аватар'
     text_current_avatar: |
-      пошел нахуй-
+      Изображение ниже показывает текущий аватар.
     text_upload_instructions: |
-      хуй да да пизда пошел нахуй я спать
+      Загрузите свой собственный пользовательский аватар размером 128х128 пикселей. Большие файлы будут изменены и обрезаны соответствующе.
+      После того, как Вы выбрали изображение, перед его загрузкой, будет показан предпросмотр Вашего аватара.
     text_change_gravatar_html: 'Чтобы изменить или добавить Gravatar для вашего адреса электронной почты, перейдите на %{gravatar_url}.'
     text_your_local_avatar: |
-      OpenProject позволяет вам загружать свой собственный аватар.
+      OpenProject позволяет Вам загружать свой собственный аватар.
     text_local_avatar_over_gravatar: |
       Выбранный аватар будет использоваться в приоритете над Gravatar, представленным выше.
     text_your_current_gravatar: |
@@ -32,7 +33,7 @@ ru:
       Текущий Gravatar выглядит следующим образом:
     settings:
       enable_gravatars: 'Использовать Gravatar'
-      gravatar_default: "Картинка Gravitar по умолчанию"
+      gravatar_default: "Gravatar по умолчанию"
       enable_local_avatars: 'Включить пользовательские аватары'
 
 

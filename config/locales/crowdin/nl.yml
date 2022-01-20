@@ -749,6 +749,8 @@ nl:
               group_without_name: "Groepen zonder namen zijn niet toegestaan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2175,7 +2177,6 @@ nl:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecteer project modules"
   permission_manage_types: "Selecteer typen"
-  permission_view_calendar: "Weergave agenda"
   permission_view_changesets: "Bekijk opslagplaats wijzigingen in OpenProject"
   permission_view_commit_author_statistics: "Bekijk de commit auteur statistieken"
   permission_view_work_package_watchers: "Lijst van de watchers weergave"
@@ -2211,7 +2212,6 @@ nl:
       archived: "Gearchiveerd"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Werkpakket bijhouden"
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
@@ -2894,6 +2894,7 @@ nl:
       schema: 'Schema'
     undisclosed:
       parent: Niet openbaar gemaakt - De geselecteerde ouder is onzichtbaar door ontbrekende rechten.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorisatie'

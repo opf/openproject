@@ -1,0 +1,7 @@
+#English strings go here
+es:
+  js:
+    calendar:
+      title: 'Calendar'
+      too_many: 'Hay %{count} paquetes de trabajo en total, pero solo pueden mostrarse %{max}.'
+      unsaved_title: 'Calendario sin nombre'
