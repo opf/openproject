@@ -24,7 +24,7 @@ example:
           method: POST
         delete:
           href: "/api/v3/users/1"
-          title: Delete j.sheppard#
+          title: Delete j.sheppard
           method: DELETE
       id: 1
       login: j.sheppard

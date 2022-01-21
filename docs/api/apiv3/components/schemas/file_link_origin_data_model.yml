@@ -1,0 +1,37 @@
+# Schema: File_Link_Origin_DataModel
+---
+type: object
+required:
+  - id
+  - name
+  - mimeType
+  - createdAt
+  - lastModifiedAt
+  - createdByName
+  - lastModifiedByName
+properties:
+  id:
+    type: string
+    description: Linked file's id on the origin
+  name:
+    type: string
+    description: Linked file's name on the origin
+  mimeType:
+    type: string
+    minLength: 0
+    description: MIME type of the linked file
+  createdAt:
+    type: string
+    format: date-time
+    description: Timestamp of the creation datetime of the file on the origin
+  lastModifiedAt:
+    type: string
+    format: date-time
+    description: Timestamp of the datetime of the last modification of the file on the origin
+  createdByName:
+    type: string
+    description: Display name of the author that created the file on the origin
+  lastModifiedByName:
+    type: string
+    description: Display name of the author that modified the file on the origin last
+        

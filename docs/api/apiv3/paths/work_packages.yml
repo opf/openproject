@@ -21,6 +21,7 @@ get:
       JSON specifying filter conditions.
       Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. If no filter is to be applied, the client should send an empty array (`[]`).
     example: '[{ "type_id": { "operator": "=", "values": [''1'', ''2''] }}]'
+    # TODO: describe filters more, and add file links
     in: query
     name: filters
     required: false

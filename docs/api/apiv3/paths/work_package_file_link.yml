@@ -29,7 +29,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '#/components/schemas/Work_Package_File_LinkModel'
+            $ref: '#/components/schemas/File_LinkModel'
       headers: { }
     '403':
       content:
@@ -40,11 +40,10 @@ get:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not allowed to delete file links of this work package.
-      # TODO: specify permissions, will there be even any except from viewing the wp?
       description: |-
         Returned if the client does not have sufficient permissions.
         
-        **Required permission:** edit work package
+        **Required permission:** view file links
         
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
@@ -99,11 +98,10 @@ delete:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not allowed to delete file links of this work package.
-      # TODO: specify permissions, will there be even any except from viewing the wp?
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** edit work package
+        **Required permission:** manage file links
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':

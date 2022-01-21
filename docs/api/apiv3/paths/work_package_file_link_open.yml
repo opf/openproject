@@ -1,13 +1,13 @@
-# /api/v3/work_packages/{id}/file_links/{file_link_id}/download
+# /api/v3/work_packages/{id}/file_links/{file_link_id}/open
 ---
 post:
-  summary: Creates a download uri of the linked file.
-  operationId: Work_Package_File_Link_Download
+  summary: Creates an opening uri of the linked file.
+  operationId: Work_Package_File_Link_Open
   tags:
     - Work Packages
     - File links
   description: |-
-    Creates a download uri of the origin file linked by the given file link. This uri depends on the storage type and
+    Creates a uri to open the origin file linked by the given file link. This uri depends on the storage type and
     always is located on the origin storage itself.
   parameters:
     - name: id
