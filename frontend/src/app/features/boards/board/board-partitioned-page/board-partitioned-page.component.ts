@@ -152,7 +152,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly apiV3Service:ApiV3Service,
     readonly boardFilters:BoardFiltersService,
     readonly Boards:BoardService,
-    readonly titleService:OpTitleService,) {
+    readonly titleService:OpTitleService) {
     super();
   }
 
