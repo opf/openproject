@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnInit,
   ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -24,9 +23,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { ThirdPartyDraggable } from '@fullcalendar/interaction';
-import { DragMetaInput } from '@fullcalendar/common';
-import { Drake } from 'dragula';
+import { CalendarDragService } from 'core-app/features/team-planner/team-planner/calendar-drag.service';
 
 @Component({
   selector: 'op-quick-add-pane',
@@ -34,7 +31,7 @@ import { Drake } from 'dragula';
   styleUrls: ['./quick-add-pane.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit {
+export class QuickAddPaneComponent extends UntilDestroyedMixin {
   @ViewChild('container') container:ElementRef;
 
   @ViewChild('container')
@@ -42,10 +39,8 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {
-      if (this.drake) {
-        this.drake.destroy();
-      }
-      this.registerDrag();
+      this.calendarDrag.destroyDrake();
+      this.calendarDrag.registerDrag(v);
     }
   }
 
@@ -54,6 +49,8 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
   isEmpty$ = new BehaviorSubject<boolean>(true);
 
   isLoading$ = new BehaviorSubject<boolean>(false);
+
+  currentWorkPackages$ = this.calendarDrag.draggableWorkPackages$;
 
   text = {
     empty_state: this.I18n.t('js.team_planner.quick_add.empty_state'),
@@ -64,10 +61,6 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
     empty_state: imagePath('team-planner/quick-add-empty-state.svg'),
   };
 
-  resultingWorkPackages:WorkPackageResource[] = [];
-
-  drake:Drake;
-
   constructor(
     private readonly querySpace:IsolatedQuerySpace,
     private I18n:I18nService,
@@ -75,19 +68,14 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
-    private ref:ElementRef,
+    private readonly calendarDrag:CalendarDragService,
   ) {
     super();
   }
 
-  ngOnInit():void {
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy():void {
     super.ngOnDestroy();
-    if (this.drake) {
-      this.drake.destroy();
-    }
+    this.calendarDrag.destroyDrake();
   }
 
   searchWorkPackages(searchString:string):void {
@@ -141,7 +129,7 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
         this.untilDestroyed(),
       )
       .subscribe((results) => {
-        this.resultingWorkPackages = results;
+        this.calendarDrag.draggableWorkPackages$.next(results);
 
         this.isEmpty$.next(results.length === 0);
         this.isLoading$.next(false);
@@ -154,52 +142,5 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin implements OnInit
 
   get isSearching():boolean {
     return this.searchString !== '';
-  }
-
-  private registerDrag():void {
-    this.drake = dragula({
-      containers: [this.container?.nativeElement],
-      revertOnSpill: true,
-    });
-
-    this.drake.on('drag', (el:HTMLElement) => {
-      el.classList.add('gu-transit');
-    });
-
-    // eslint-disable-next-line no-new
-    new ThirdPartyDraggable(this.container?.nativeElement, {
-      itemSelector: '.op-quick-add-pane--wp',
-      mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      eventData: this.eventData.bind(this),
-    });
-  }
-
-  private eventData(eventEl:HTMLElement):undefined|DragMetaInput {
-    const wpID = eventEl.dataset.dragHelperId;
-    if (wpID) {
-      const workPackage = this.resultingWorkPackages.find((wp) => wp.id === wpID);
-
-      if (workPackage) {
-        const startDate = moment(workPackage.startDate);
-        const dueDate = moment(workPackage.dueDate);
-        const diff = dueDate.diff(startDate, 'days') + 1;
-
-        return {
-          title: workPackage.subject,
-          duration: {
-            days: diff || 1,
-          },
-          className: `__hl_background_type_${workPackage.type.id as string}`,
-          extendedProps: {
-            workPackage,
-          },
-        };
-      }
-
-      return undefined;
-    }
-
-    return undefined;
   }
 }

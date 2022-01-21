@@ -31,7 +31,7 @@
     <div
       #container
       class="op-quick-add-pane--results">
-      <ng-container *ngFor="let wp of resultingWorkPackages">
+      <ng-container *ngFor="let wp of currentWorkPackages$ | async">
         <wp-single-card
           [workPackage]="wp"
           [attr.data-drag-helper-id]="wp.id"

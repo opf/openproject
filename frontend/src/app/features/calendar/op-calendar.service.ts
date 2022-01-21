@@ -37,7 +37,10 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
-import { EventResizeDoneArg } from '@fullcalendar/interaction';
+import {
+  EventReceiveArg,
+  EventResizeDoneArg,
+} from '@fullcalendar/interaction';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
@@ -335,7 +338,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
     );
   }
 
-  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg):ResourceChangeset<WorkPackageResource> {
+  updateDates(resizeInfo:EventResizeDoneArg|EventDropArg|EventReceiveArg):ResourceChangeset<WorkPackageResource> {
     const workPackage = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
 
     const changeset = this.halEditing.edit(workPackage);

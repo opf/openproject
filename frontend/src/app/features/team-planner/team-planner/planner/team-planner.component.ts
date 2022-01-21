@@ -30,9 +30,8 @@ import {
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin, {
-  DropArg,
-  EventResizeDoneArg,
   EventReceiveArg,
+  EventResizeDoneArg,
 } from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -55,6 +54,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CalendarDragService } from 'core-app/features/team-planner/team-planner/calendar-drag.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -138,6 +138,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
     readonly apiV3Service:ApiV3Service,
+    readonly calendarDrag:CalendarDragService,
   ) {
     super();
   }
@@ -287,7 +288,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
-            eventReceive: (dropInfo:EventReceiveArg) => this.updateWorkPackage(dropInfo),
+            eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -421,57 +422,23 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
-    const resource = (info as EventDropArg).newResource;
+    const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
     }
+
+    this.calendarDrag.handleDrop(changeset.projectedResource as WorkPackageResource);
 
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
+      this.calendarDrag.handleDropError(changeset.projectedResource as WorkPackageResource);
       info.revert();
-    }
-  }
-
-  private async updateWorkPackage(dropInfo:EventReceiveArg):Promise<void> {
-    const id = dropInfo.draggedEl.dataset.dragHelperId;
-
-    if (id) {
-      this
-        .apiV3Service
-        .work_packages
-        .id(id)
-        .requireAndStream()
-        .pipe(
-          take(1),
-          this.untilDestroyed(),
-        )
-        .subscribe(async (wp) => {
-          const changeset = this.halEditing.edit(wp);
-          changeset.setValue('startDate', dropInfo.event.startStr);
-          const due = moment(dropInfo.event.endStr)
-            .subtract(1, 'day')
-            .format('YYYY-MM-DD');
-          changeset.setValue('dueDate', due);
-
-          const resource = dropInfo.event.getResources()[0];
-          if (resource) {
-            changeset.setValue('assignee', { href: resource.id });
-          }
-
-          try {
-            const result = await this.halEditing.save(changeset);
-            this.halNotification.showSave(result.resource, result.wasNew);
-          } catch (e) {
-            this.halNotification.showError(e.resource, changeset.projectedResource);
-            dropInfo.revert();
-          }
-        });
     }
   }
 
