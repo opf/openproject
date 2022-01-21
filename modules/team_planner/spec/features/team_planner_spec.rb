@@ -70,6 +70,7 @@ describe 'Team planner', type: :feature, js: true do
     let!(:user_outside_project) { FactoryBot.create :user, firstname: 'Not', lastname: 'In Project' }
     let(:type_task) { FactoryBot.create :type_task }
     let(:type_bug) { FactoryBot.create :type_bug }
+    let(:closed_status) { FactoryBot.create :status, is_closed: true }
 
     let!(:other_task) do
       FactoryBot.create :work_package,
@@ -85,6 +86,7 @@ describe 'Team planner', type: :feature, js: true do
                         project: project,
                         type: type_bug,
                         assigned_to: other_user,
+                        status: closed_status,
                         start_date: Time.zone.today - 1.day,
                         due_date: Time.zone.today + 1.day,
                         subject: 'Another task for the other user'

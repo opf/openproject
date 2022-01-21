@@ -1,7 +1,6 @@
 import {
   ElementRef,
   Injectable,
-  SecurityContext,
 } from '@angular/core';
 import {
   CalendarOptions,
@@ -39,9 +38,7 @@ import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { EventResizeDoneArg } from '@fullcalendar/interaction';
-import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
 
@@ -284,7 +281,7 @@ export class OpCalendarService extends UntilDestroyedMixin {
       t:
         'id:asc',
       f: [
-        { n: 'status', o: 'o', v: [] },
+        { n: 'status', o: '*', v: [] },
         this.dateFilter(startDate, endDate),
       ],
       pp: OpCalendarService.MAX_DISPLAYED,
