@@ -26,12 +26,12 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { CalendarDragService } from 'core-app/features/team-planner/team-planner/calendar-drag.service';
 
 @Component({
-  selector: 'op-quick-add-pane',
-  templateUrl: './quick-add-pane.component.html',
-  styleUrls: ['./quick-add-pane.component.sass'],
+  selector: 'op-add-existing-pane',
+  templateUrl: './add-existing-pane.component.html',
+  styleUrls: ['./add-existing-pane.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickAddPaneComponent extends UntilDestroyedMixin {
+export class AddExistingPaneComponent extends UntilDestroyedMixin {
   @ViewChild('container') container:ElementRef;
 
   @ViewChild('container')
@@ -58,7 +58,7 @@ export class QuickAddPaneComponent extends UntilDestroyedMixin {
   };
 
   image = {
-    empty_state: imagePath('team-planner/quick-add-empty-state.svg'),
+    empty_state: imagePath('team-planner/add-existing-pane--empty-state.svg'),
   };
 
   constructor(

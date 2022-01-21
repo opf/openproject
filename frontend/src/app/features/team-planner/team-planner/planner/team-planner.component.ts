@@ -82,7 +82,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   projectIdentifier:string|undefined = undefined;
 
-  showQuickAddPane = new BehaviorSubject<boolean>(false);
+  showAddExistingPane = new BehaviorSubject<boolean>(false);
 
   showAddAssignee$ = new Subject<boolean>();
 
@@ -232,7 +232,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             customButtons: {
               addExisting: {
                 text: this.text.add_existing,
-                click: this.toggleQuickAddPane.bind(this),
+                click: this.toggleAddExistingPane.bind(this),
               },
             },
             headerToolbar: {
@@ -481,8 +481,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     return (wp.assignee as HalResource).href as string;
   }
 
-  private toggleQuickAddPane():void {
+  private toggleAddExistingPane():void {
     document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
-    this.showQuickAddPane.next(!this.showQuickAddPane.getValue());
+    this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

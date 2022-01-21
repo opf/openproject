@@ -4,11 +4,11 @@
   <ng-container
     *ngIf="(calendarOptions$ | async) as calendarOptions"
   >
-    <op-quick-add-pane
-      *ngIf="(showQuickAddPane | async)"
-      class="op-team-planner--quick-add-pane"
+    <op-add-existing-pane
+      *ngIf="(showAddExistingPane | async)"
+      class="op-team-planner--add-existing-pane"
     >
-    </op-quick-add-pane>
+    </op-add-existing-pane>
 
     <full-calendar
       #ucCalendar

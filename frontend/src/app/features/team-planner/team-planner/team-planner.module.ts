@@ -12,7 +12,7 @@ import { TeamPlannerComponent } from 'core-app/features/team-planner/team-planne
 import { AddAssigneeComponent } from 'core-app/features/team-planner/team-planner/assignee/add-assignee.component';
 import { TeamPlannerPageComponent } from 'core-app/features/team-planner/team-planner/page/team-planner-page.component';
 import { OPSharedModule } from 'core-app/shared/shared.module';
-import { QuickAddPaneComponent } from './add-work-packages/quick-add-pane.component';
+import { AddExistingPaneComponent } from './add-work-packages/add-existing-pane.component';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
     TeamPlannerComponent,
     TeamPlannerPageComponent,
     AddAssigneeComponent,
-    QuickAddPaneComponent,
+    AddExistingPaneComponent,
   ],
   imports: [
     OPSharedModule,

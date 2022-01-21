@@ -1,20 +1,20 @@
-<div class="op-quick-add-pane--search">
+<div class="op-add-existing-pane--search">
   <input
     [ngModel]="searchString"
     (ngModelChange)="searchWorkPackages($event)"
-    class="op-quick-add-pane--search-input"
+    class="op-add-existing-pane--search-input"
     [placeholder]="text.placeholder"
   />
 
   <op-icon
-    class="op-quick-add-pane--search-icon"
+    class="op-add-existing-pane--search-icon"
     icon-classes="icon-context icon-search">
   </op-icon>
 
   <button
     *ngIf="isSearching"
     (click)="clearInput()"
-    class="op-quick-add-pane--close-search"
+    class="op-add-existing-pane--close-search"
   >
     <op-icon
       icon-classes="icon-small icon-close">
@@ -30,24 +30,24 @@
   >
     <div
       #container
-      class="op-quick-add-pane--results">
+      class="op-add-existing-pane--results">
       <ng-container *ngFor="let wp of currentWorkPackages$ | async">
         <wp-single-card
           [workPackage]="wp"
           [attr.data-drag-helper-id]="wp.id"
-          class="op-quick-add-pane--wp"
+          class="op-add-existing-pane--wp"
         ></wp-single-card>
     </ng-container></div>
   </ng-container>
 
   <ng-template #emptyTemplate>
     <div
-      class="op-quick-add-pane--empty-state"
+      class="op-add-existing-pane--empty-state"
     >
-      <img [src]="image.empty_state" class="op-quick-add-pane--empty-state-image"/>
+      <img [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
       <span
         [innerHTML]="text.empty_state"
-        class="op-quick-add-pane--empty-state-text"
+        class="op-add-existing-pane--empty-state-text"
       ></span>
     </div>
   </ng-template>
@@ -55,7 +55,7 @@
 
 <ng-template #loadingTemplate>
   <op-content-loader
-    class="op-quick-add-pane--loading"
+    class="op-add-existing-pane--loading"
     viewBox="0 0 200 44"
   >
     <svg:rect x="0" y="0" width="50%" height="12" rx="1" />

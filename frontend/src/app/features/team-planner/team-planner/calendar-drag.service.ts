@@ -44,7 +44,7 @@ export class CalendarDragService {
 
     // eslint-disable-next-line no-new
     new ThirdPartyDraggable(container.nativeElement, {
-      itemSelector: '.op-quick-add-pane--wp',
+      itemSelector: '.op-add-existing-pane--wp',
       mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventData: this.eventData.bind(this),
