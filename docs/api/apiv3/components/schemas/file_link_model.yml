@@ -1,11 +1,10 @@
-# Schema: Work_Package_File_Link_Model
+# Schema: File_LinkModel
 ---
 type: object
 required:
   - id
   - _type
   - storageType
-  - storageId
   - originData
 properties:
   id:
@@ -19,9 +18,6 @@ properties:
   storageType:
     type: string
     readOnly: true
-  storageId:
-    type: integer
-    readOnly: true
   createdAt:
     type: string
     format: date-time
@@ -33,35 +29,12 @@ properties:
     description: Time of the most recent change to the file link
     readOnly: true
   originData:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Linked file's id on the origin
-      name:
-        type: string
-        description: Linked file's name on the origin
-      mimeType:
-        type: string
-        description: MIME type of the linked file
-      createdAt:
-        type: string
-        format: date-time
-        description: Timestamp of the creation datetime of the file on the origin
-      lastModifiedAt:
-        type: string
-        format: date-time
-        description: Timestamp of the datetime of the last modification of the file on the origin
-      createdByName:
-        type: string
-        description: Display name of the author that created the file on the origin
-      lastModifiedByName:
-        type: string
-        description: Display name of the author that modified the file on the origin last
+    $ref: '#/components/schemas/File_Link_Origin_DataModel'
   _links:
     type: object
     required:
       - self
+      - storage
       - container
       - delete
       - downloadLocation
@@ -75,6 +48,14 @@ properties:
               This file link
               
               **Resource**: FileLink
+            readOnly: true
+      storage:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage url the file link references to.
+              
+              **Resource**: N/A
             readOnly: true
       container:
         allOf:
@@ -118,11 +99,11 @@ properties:
               
               **Resource**: N/A
             readOnly: true
+
 example:
   id: 1337
   _type: FileLink
   storageType: nextcloud
-  storageId: 2
   createdAt: '2021-12-20T13:37:00.211Z'
   updatedAt: '2021-12-20T13:37:00.211Z'
   originData:
@@ -137,6 +118,9 @@ example:
     self:
       href: /api/v3/work_package/17/file_links/1337
       title: file link
+    storage:
+      href: https://nextcloud.deathstar.rocks/
+      title: Link to storage
     container:
       href: /api/v3/work_package/17
       title: work package
@@ -152,4 +136,3 @@ example:
     originOpen:
       href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
       title: file open
-  

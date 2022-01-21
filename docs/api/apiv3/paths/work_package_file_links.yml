@@ -1,4 +1,4 @@
-# /api/v3/work_packages/{id}/file_links
+# /api/v3/work_packages/{id}/file_links/
 ---
 post:
   summary: Creates file links.
@@ -12,7 +12,10 @@ post:
     The request body must contain the generated storage token, and not the storage id. In addition, the request must
     send the origin file id and the stored meta data.
     
-    If there is already a link on the given work package with the same file id, the previous data is not overwritten.
+    If there is already a link on the given work package with the same file id from the same storage, the previous
+    data is not overwritten.
+    
+    As it is possible to link folders from a storage to a work package, the _mimeType_ of this entity can be empty.
   parameters:
     - name: id
       description: Work package id
@@ -27,58 +30,38 @@ post:
         schema:
           type: object
           required:
-            - storage
-            - files
+            - _type
+            - count
+            - total
+            - _embedded
           properties:
-            storage:
+            _type:
               type: string
-              description: the storage token
-            files:
-              type: array
-              items:
-                type: object
-                required:
-                  - id
-                  - name
-                  - mimeType
-                  - createdAt
-                  - lastModifiedAt
-                  - createdByName
-                  - lastModifiedByName
-                properties:
-                  id:
-                    type: string
-                  name:
-                    type: string
-                  mimeType:
-                    type: string
-                  createdAt:
-                    type: string
-                    format: date-time
-                  lastModifiedAt:
-                    type: string
-                    format: date-time
-                  createdByName:
-                    type: string
-                  lastModifiedByName:
-                    type: string
-          example:
-            storage: e24fac19b889cc23b6f
-            files:
-              - id: 5503
-                name: logo.png
-                mimeType: image/png
-                createdAt: '2022-01-18T12:01:37.302Z'
-                lastModifiedAt: '2022-01-18T12:07:17.017Z'
-                createdByName: Leia Organa
-                lastModifiedByName: Anakin Skywalker
-              - id: 5504
-                name: README.md
-                mimeType: text/plain
-                createdAt: '2022-01-18T12:02:12.117Z'
-                lastModifiedAt: '2022-01-18T12:02:12.117Z'
-                createdByName: Bale Organa
-                lastModifiedByName: Anakin Skywalker
+              enum:
+                - Collection
+            count:
+              type: integer
+              minimum: 0
+            total:
+              type: integer
+              minimum: 0
+            _embedded:
+              type: object
+              required:
+                - elements
+              properties:
+                elements:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: '#/components/schemas/File_LinkModel'
+                      - type: object
+                        required:
+                          - storageUrl
+                        properties:
+                          storageUrl:
+                            type: string
+                            format: uri
   responses:
     '201':
       description: Created
@@ -110,7 +93,7 @@ post:
                   elements:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Work_Package_File_LinkModel'
+                      $ref: '#/components/schemas/File_LinkModel'
     '400':
       content:
         application/hal+json:
@@ -130,11 +113,10 @@ post:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not allowed to create file links of this work package.
-      # TODO: specify permissions, will there be even any except from viewing the wp?
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** edit work package
+        **Required permission:** manage file links
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
@@ -168,19 +150,6 @@ get:
       schema:
         type: integer
       example: 1337
-    - name: filters
-      in: query
-      required: false
-      schema:
-        type: string
-      description: |-
-        JSON specifying filter conditions.
-        
-        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
-        
-        - storage_id: the identifier of a storage the file links refer to
-        - storage_type: the type of a storage of file links
-      example: '[{ "storage_type": { "operator": "=", "values": ["nextcloud"] } }]'
   responses:
     '200':
       description: OK
@@ -212,7 +181,7 @@ get:
                   elements:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Work_Package_File_LinkModel'
+                      $ref: '#/components/schemas/File_LinkModel'
     '403':
       content:
         application/hal+json:
@@ -222,11 +191,10 @@ get:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
             message: You are not allowed to create file links of this work package.
-      # TODO: specify permissions, will there be even any except from viewing the wp?
       description: |-
         Returned if the client does not have sufficient permissions.
         
-        **Required permission:** edit work package
+        **Required permission:** view file links
         
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
