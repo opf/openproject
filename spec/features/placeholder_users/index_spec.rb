@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 describe 'index placeholder users', type: :feature, js: true do
+  before do
+    with_enterprise_token(:placeholder_users)
+  end
+
   let!(:current_user) { FactoryBot.create :admin }
   let!(:anonymous) { FactoryBot.create :anonymous }
   let!(:placeholder_user_1) do
