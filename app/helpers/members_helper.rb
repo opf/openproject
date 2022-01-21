@@ -36,27 +36,43 @@ module MembersHelper
   # If it is the later, the ids of the non delete roles are appended to the url so that they are kept.
   def global_member_role_deletion_link(member, role)
     if member.roles.length == 1
-      path =
-        if member.principal.is_a?(Group)
-          membership_of_group_path(member.principal, member)
-        else
-          user_membership_path(user_id: member.user_id, id: member.id)
-        end
-
       link_to('',
-              path,
+              principal_membership_path(member.principal, member),
               { method: :delete, class: 'icon icon-delete', title: t(:button_delete) })
     else
-      path =
-        if member.principal.is_a?(Group)
-          membership_of_group_path(member.principal, member, 'membership[role_ids]' => member.roles - [role])
-        else
-          user_membership_path(user_id: member.user_id, id: member.id, 'membership[role_ids]' => member.roles - [role])
-        end
-
       link_to('',
-              path,
+              principal_membership_path(member.principal, member, 'membership[role_ids]' => member.roles - [role]),
               { method: :patch, class: 'icon icon-delete', title: t(:button_delete) })
+    end
+  end
+
+  ##
+  # Decorate the form_for helper for membership of a user or a group to a global
+  # role.
+  def global_role_membership_form_for(principal, global_member, options = {}, &block)
+    args =
+      if global_member
+        { url: principal_membership_path(principal, global_member), method: :patch }
+      else
+        { url: principal_memberships_path(principal), method: :post }
+      end
+
+    form_for(:principal_roles, args.merge(options), &block)
+  end
+
+  def principal_membership_path(principal, global_member, options = {})
+    if principal.is_a?(Group)
+      membership_of_group_path(principal, global_member, options)
+    else
+      user_membership_path(principal, global_member, options)
+    end
+  end
+
+  def principal_memberships_path(principal, options = {})
+    if principal.is_a?(Group)
+      memberships_of_group_path(principal, options)
+    else
+      user_memberships_path(principal, options)
     end
   end
 end

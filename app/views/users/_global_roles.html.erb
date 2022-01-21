@@ -59,8 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
           </thead>
           <tbody id="table_principal_roles_body">
           <% global_member.roles.each do |role| %>
-            <%= render :partial => 'assigned_global_role', :locals => { :role => role, member: global_member } %>
-          <%end%>
+            <%= render partial: 'principals/assigned_global_role', locals: { role: role, member: global_member } %>
+          <% end %>
           </tbody>
         </table>
 
@@ -69,5 +69,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   </div>
 
-  <%= render partial: 'users/available_global_roles', locals: { user: @user, global_member: global_member }%>
+  <%= render partial: 'principals/available_global_roles', locals: { principal: @user, global_member: global_member } %>
 </div>

@@ -31,21 +31,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="grid-content" id="available_principal_roles">
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= Role.model_name.human(:count => 2) %></legend>
+    <legend class="form--fieldset-legend"><%= Role.model_name.human(count: 2) %></legend>
     <% if available_roles.empty? %>
       <span id="no_additional_principal_roles">
         <%= no_results_box %>
       </span>
     <% else %>
       <span id="additional_principal_roles">
-        <% args =
-             if global_member
-               { url: membership_of_group_path(group, global_member), method: :put }
-             else
-               { url: memberships_of_group_path(group), method: :post }
-             end
-         %>
-        <%= form_for(:principal_roles, **args) do %>
+        <%= global_role_membership_form_for(principal, global_member) do %>
           <% if global_member %>
             <%= hidden_field_tag('membership[id]', global_member.id ) %>
 
@@ -55,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
 
           <% available_roles.each do |role| %>
-            <%= render partial: 'groups/available_global_role', locals: {role: role} %>
+            <%= render partial: 'principals/available_global_role', locals: {role: role} %>
           <% end %>
           <p><br/><%= styled_button_tag t(:button_add), class: '-with-icon icon-checkmark' %></p>
         <% end %>

@@ -28,6 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% roles = Role.givable %>
 <% projects = Project.active.order(Arel.sql('lft')) %>
+<% memberships = @group.memberships %>
 
 <div class="grid-block">
   <div class="grid-content">
@@ -64,15 +65,19 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             </thead>
             <tbody>
-              <% @group.memberships.where.not(project: nil).each do |membership| %>
+              <% memberships.where.not(project: nil).each do |membership| %>
                 <% next if membership.new_record? %>
-                  <tr id="member-<%= membership.id %>" class="class">
-                    <td class="project"><%= link_to membership.project.name, project_members_path(membership.project) %></td>
+                  <tr id="member-<%= membership.id %>" class="member">
+                    <td class="project">
+                      <%= link_to membership.project.name, project_members_path(membership.project) %>
+                    </td>
                     <td class="roles">
-                      <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+                      <span id="member-<%= membership.id %>-roles">
+                        <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
+                      </span>
                       <%= labelled_tabular_form_for(:membership,
                                                     url: membership_of_group_path(@group, membership),
-                                                    method: :put,
+                                                    method: :patch,
                                                     html: {
                                                       id: "member-#{membership.id}-roles-form",
                                                       style: 'display:none;'
@@ -83,7 +88,8 @@ See COPYRIGHT and LICENSE files for more details.
                                                          role.id,
                                                          membership.roles.include?(role),
                                                          role.name,
-                                                         no_label: true
+                                                         no_label: true,
+                                                         id: nil
                               %>
                               <%= role %>
                             </label>
