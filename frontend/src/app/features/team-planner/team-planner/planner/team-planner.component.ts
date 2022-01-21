@@ -54,7 +54,7 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CalendarDragService } from 'core-app/features/team-planner/team-planner/calendar-drag.service';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -138,7 +138,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
     readonly apiV3Service:ApiV3Service,
-    readonly calendarDrag:CalendarDragService,
+    readonly calendarDrag:CalendarDragDropService,
   ) {
     super();
   }

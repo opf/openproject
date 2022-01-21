@@ -11,20 +11,10 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class CalendarDragService {
+export class CalendarDragDropService {
   drake:Drake;
 
   draggableWorkPackages$ = new BehaviorSubject<WorkPackageResource[]>([]);
-
-  private workPackages:WorkPackageResource[];
-
-  set draggableWorkPackages(wps:WorkPackageResource[]) {
-    this.workPackages = wps;
-  }
-
-  get draggableWorkPackages():WorkPackageResource[] {
-    return this.workPackages;
-  }
 
   destroyDrake():void {
     if (this.drake) {
@@ -32,7 +22,7 @@ export class CalendarDragService {
     }
   }
 
-  registerDrag(container:ElementRef):void {
+  registerDrag(container:ElementRef, itemSelector:string):void {
     this.drake = dragula({
       containers: [container.nativeElement],
       revertOnSpill: true,
@@ -44,7 +34,7 @@ export class CalendarDragService {
 
     // eslint-disable-next-line no-new
     new ThirdPartyDraggable(container.nativeElement, {
-      itemSelector: '.op-add-existing-pane--wp',
+      itemSelector,
       mirrorSelector: '.gu-mirror', // the dragging element that dragula renders
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       eventData: this.eventData.bind(this),

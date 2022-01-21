@@ -23,7 +23,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { CalendarDragService } from 'core-app/features/team-planner/team-planner/calendar-drag.service';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -40,7 +40,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     // due to ngIf
     if (v !== undefined) {
       this.calendarDrag.destroyDrake();
-      this.calendarDrag.registerDrag(v);
+      this.calendarDrag.registerDrag(v, '.op-add-existing-pane--wp');
     }
   }
 
@@ -68,7 +68,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     private readonly notificationService:WorkPackageNotificationService,
     private readonly currentProject:CurrentProjectService,
     private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly calendarDrag:CalendarDragService,
+    private readonly calendarDrag:CalendarDragDropService,
   ) {
     super();
   }
