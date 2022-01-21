@@ -19,7 +19,7 @@
       *ngIf="!isNewResource(workPackage) && showInfoButton"
       [title]="text.detailsView"
       (click)="emitStateLinkClicked($event, workPackage, true)">
-      <op-icon icon-classes="icon icon-info2"></op-icon>
+      <op-icon icon-classes="icon3 icon-info2"></op-icon>
     </button>
     <button
       class="op-link op-wp-single-card--inline-cancel-button"
@@ -28,7 +28,7 @@
       [class.-show]="isNewResource(workPackage)"
       [title]="text.removeCard"
       (click)="onRemoved(workPackage)">
-      <op-icon icon-classes="icon icon-close"></op-icon>
+      <op-icon icon-classes="icon-context icon-close"></op-icon>
     </button>
   </div>
   <edit-form [resource]="workPackage"
@@ -87,7 +87,9 @@
       data-qa-selector="op-wp-single-card--content-assignee"
     ></op-principal>
     <span [textContent]="wpDates(workPackage)"
-          class="op-wp-single-card--content-dates">
+          class="op-wp-single-card--content-dates"
+          [ngClass]="wpOverDueHighlighting(workPackage)"
+    >
     </span>
   </div>
 </div>

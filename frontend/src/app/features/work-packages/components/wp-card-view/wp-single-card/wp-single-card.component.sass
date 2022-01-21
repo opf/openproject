@@ -42,7 +42,7 @@
       grid-template-rows: auto auto 1fr auto
       grid-row-gap: 5px
       grid-column-gap: 5px
-      grid-template-areas: "project type status status status" "subject subject subject subject subject" "image image image image image" "avatar avatar dates dates dates"
+      grid-template-areas: "project type status status status" "subject subject subject subject subject" "image image image image image" "avatar avatar avatar dates dates"
       overflow: hidden
       flex-grow: 1
       font-size: 14px
@@ -69,6 +69,10 @@
       margin-right: 5px
       place-self: center start
       overflow: hidden
+      max-width: -webkit-fill-available
+      max-width: -moz-fill-available
+      max-width: fill-available
+
     &-cover-image
       grid-area: image
       max-height: 350px
@@ -79,6 +83,7 @@
     &-dates
       grid-area: dates
       place-self: center end
+      white-space: nowrap
       color: var(--gray-dark)
       font-size: 12px
 
@@ -92,12 +97,19 @@
 
   &--inline-buttons
     position: absolute
-    right: 0
-    top: 5px
+    top: 9px
     opacity: 0
+    background: white
+    width: 80px
 
     &.-show, .op-wp-single-card:hover &
       opacity: 1
+
+    .op-wp-single-card_checked &
+      background-color: var(--table-row-highlighting-color)
+
+  &--inline-cancel-button
+    color: var(--warn)
 
   @media only screen and (max-width: 679px)
     &_shrink

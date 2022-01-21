@@ -21,6 +21,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   selector: 'wp-single-card',
@@ -64,7 +65,9 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     readonly wpTableSelection:WorkPackageViewSelectionService,
     readonly wpTableFocus:WorkPackageViewFocusService,
     readonly cardView:WorkPackageCardViewService,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly cdRef:ChangeDetectorRef,
+    readonly timezoneService:TimezoneService,
+  ) {
     super();
   }
 
@@ -149,6 +152,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     }
 
     return '';
+  }
+
+  wpOverDueHighlighting(wp:WorkPackageResource):string {
+    const diff = this.timezoneService.daysFromToday(wp.dueDate);
+    return Highlighting.overdueDate(diff);
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource):string {

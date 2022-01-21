@@ -10,7 +10,7 @@
 .op-team-planner
   display: grid
   grid-template-columns: auto 1fr
-  grid-template-rows: 1fr auto
+  grid-template-rows: auto 1fr auto
   grid-column-gap: 10px
   grid-template-areas: "quickAdd calendar" "quickAdd noData" "quickAdd addAssignee"
   max-height: 100%
@@ -27,7 +27,7 @@
 
   &--no-data
     grid-area: noData
-    height: 250px
+    min-height: 250px
     background-color: lightgray
     display: flex
     justify-content: center
