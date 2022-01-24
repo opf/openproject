@@ -34,6 +34,8 @@ OpenProject BIM supports the standard of the ***BIM Collaboration Format (BCF)**
 
 ## Create a BIM Issue
 
+@Valentin: hier wäre der Hinweis gut, dass BIM Issue kein spezifischer Workpackagetyp ist, sondern, dass einbeliebiges Workpackage zu einem BIM Issue wird, indem per Viewer ein Viewpoint gesetzt wird. (generell ist die unterscheidung wichtig: BIM issue, BCF, viewpoint ==> evtl. mit grafik erklären wie beim ifc viewer)   
+
 There are two ways to create new BIM Issue:
 
 - [Create a new BIM Issue](#create-a-new-bim-issue) within the building model
@@ -61,6 +63,8 @@ Click on the **+ Create new work package** and select the type of workpackage yo
 
 Now you can see a detail view of the new BIM Issue. Describe all necessary information to work on that task and add a viewpoint by clicking on the **"+ Viewpoint"**-Button. Now the current Viewpoint of the Building Model is added to the BIM Issue (BCF). After saveing your new BIM issue is created.
 
+@Valentin: Hinweis, dass auch mehrere Viewpoint erstellt werden können 
+
 *Within the viewpoint the current status of your building model is saved. So please check the view before - is there everything shown within the model viewer?*
 
 ![Add a viewpoint](add_a_viewpoint.png)
@@ -86,15 +90,26 @@ Make sure the "Model Viewer & Maps" - View or "Model Viewer & Table" - View is s
 
 
 
-Now open the **work package Details** by double click on the work package ("my first work-package"). Now you are able to add a viewpoint like it is described aboce.
+Now open the **work package Details** by double click on the work package ("my first work-package"). Now you are able to add a viewpoint like it is described above.
+
+
+## BIM Issue Handling (Details View)
+
+@Valentin: anhand des erstellen Issues: Handling eines BIM Issues
+
+* Detailsansicht
+* Jump to Viewpoint
+* Hinweis auf Konfiguration+ Hinweis, dass ansonsten alles wie bei der Core Anwendung ist, bspw. auch Konfiguration von Attributen
+
+
+### Details
 
 
 
 
+### Jump to Viewpoint in the viewer
 
-## Open and edit a BIM Issue
 
-To open and edit a BIM issue, you are able to ***double click on the BCF*** if the model viewer is already shown (e.g. "Model Viewer & Cards" - View).
 
 If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and follow the Cube symol of the preview. Now the model viewer opens and the viewpoint of the BIM Issue will be displayed.
 
@@ -102,9 +117,102 @@ If the Model viewer isn't shown yet, open the Detail - view of the BIM Issue and
 
 
 
+@Valentin: zeigen, wie man zwischen denen viewpoints wechselt
 
 
-## Import and Export BCF Issues
+
+### @Valentin: Hinweis auf Konfiguration
+
+@Valentin: unter dieser Überschrift nochmal aufgreifen, dass BIM Issue kein WP typ ist. Die konfiguration hängt am WP Typ. (und damit auch die Konfiguration) ==> ansonsten erfolgt alles wie bei der core anwendung
+
+
+
+
+## View and Find BIM Issues (Cards and List View)
+
+### Overview
+
+@Valentin ==> zeigen wie man oben rechts zwischen den ansichten wechseln kann
+
+
+
+
+
+
+### Viewer and Cards
+
+@Valentin: wichtig ist in jeder ansicht:
+
+* wie komme ich zu den details? (doppelklick, klick auf # oder i)
+* wie zeige ich den viewpoint an? (klick aufs bild)
+
+
+
+### Cards
+
+@Valentin: wichtig ist in jeder ansicht:
+
+* wie komme ich zu den details? (doppelklick, klick auf # oder i)
+* wie zeige ich den viewpoint an? (detailansicht ==> dann cube)
+
+
+
+
+### Viewer and Table
+
+@Valentin: wichtig ist in jeder ansicht:
+
+* wie komme ich zu den details? (doppelklick, klick auf #)
+* wie zeige ich den viewpoint an? (wechselt automatisch)
+
+
+
+
+### Table
+
+@Valentin: wichtig ist in jeder ansicht:
+
+* wie komme ich zu den details? (doppelklick, klick auf # oder i)
+* wie zeige ich den viewpoint an? (detailansicht ==> dann cube)
+
+
+
+
+
+
+## Filter BIM Issues
+
+@Valentin: erwähnen, dass in jeder View ähnlich (auch verweis auf Core anwendung) ==> würde es am beispiel viewer + card view zeigen
+
+
+
+
+## BIM Issues in Workpackage Module
+
+@Valentin: hier gehts darum, dass die BIM issues auch im workpackage module auftauchen können ==> wie unterscheidet man sie (fltern nach BCF snapshot)
+
+
+
+
+## Import and Export BCF Issues using BCF
 
 Within the BCF module you are able to upload BIM Issues (BCF) which are created within other software and download already existing files to manage them within other BIM project management solutions. Just Click on the ***"Import"-Button*** or ***"Export"-Button*** within the OpenProject Toolbar. 
+
+@valentin: wichtig ist vor allem übersicht: welche attribute werden synchronisiert?
+
+* Personen (autor, verantwortlich)
+* comments
+* status
+* wieland fragen was noch alles
+
+@Valentin: hier dann mal wirklich ein beispiel durchmachen (vor allem import, da es dabei auch zu mapping themen kommt) ==> hast du solibri? wenn nein, besorgs dir mal und generier darin ein paar bcfs :)
+
+@Valentin: dasselbe gilt für den export (nur eben schmalen)
+
+==> am besten schön mit teilüberschriften
+
+
+
+
+
 

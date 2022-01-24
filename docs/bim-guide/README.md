@@ -10,27 +10,61 @@ keywords: BIM user guide
 
 Welcome to the OpenProject BIM User guide.
 
-This guide covers only BIM features and functionalities found in OpenProject BIM. To learn more about all core features of OpenProject (are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/). 
-
-
+This guide only covers the specific BIM features and functionalities of OpenProject. To learn more about the core features of OpenProject (are included in the BIM Edition as well), please visit our [User Guide](/.../user-guide/). 
 
 ![BIM Project Management](demo_project_teaser_bim.jpg)
 
 
 
+@Valentin: Alle Abbildungen bitte auf Englisch. :)
+
+
+
+@Valentin: Du sprichst manchmal von BCF Management, manchmal von BIM Issue Management (ich bevorzuge BIM Issue Management und würde den Begriff BCF wirklich nur für den Im- und Export nutzen)
+
+
+
+@Valentin: eine neue subseite wäre noch gut (in der ein konkretes beispiel durchexerziert wird)
+
 
 
 ## Overview of all topics regarding the OpenProject BIM Edition
 
-Please choose the topic you want to learn more about.
+OpenProject BIM Edition provides powerful features particular designed for the needs of construction industry. Please choose the topic you want to learn more about.
 
-| Topic                                  | Content                                              |
-| -------------------------------------- | :--------------------------------------------------- |
-| [Free trial](#how-to-get-a-new-trial?) | How to get a free trial?                             |
-| [IFC-Viewer](./ifc-viewer)             | How to use the IFC Viewer?                           |
-| [BCF-Management](./bcf-management)     | How to use OpenProject BCF Management?               |
-| [Revit Add-in](./revit-add-in)         | How to install and use the Revit Add-In?             |
-| [FAQs](#faqs)                          | Frequently asked questions (FAQ) for the BIM Edition |
+| Topic                                                        | Content                                              |
+| ------------------------------------------------------------ | :--------------------------------------------------- |
+| [IFC-Viewer](./ifc-viewer)                                               | How to use the IFC Viewer?                           |
+| [BCF-Management](./bcf-management)                           | How to use OpenProject BCF Management?               |
+| [Revit Add-in](./revit-add-in)                               | How to install and use the Revit Add-In?             |
+| [Free trial](#how-to-get-a-new-trial?)                       | How to get a free trial?                             |
+| [How to enable the BCF module?](#how-to-enable-the-bcf-module?) | How to enable the BCF module?                        |
+| [Reporting Bugs](#reporting-bugs)                            | How to report a bug.                                 |
+| [FAQs](#faqs)                                                | Frequently asked questions (FAQ) for the BIM Edition |
+
+
+
+## IFC Viewer
+
+Upload your IFC building models and show them directly in the internet browser, without any additional software.
+
+Details: [IFC-Viewer](./ifc-viewer)
+
+
+
+## BCF Management
+
+Create tasks directly connected to your building model, import tasks or export tasks from any other BIM application.
+
+Deails: [BCF-Management](./bcf-management)
+
+
+
+## Revit Addin
+
+Stay always connected to OpenProject in realtime, show and create tasks while you're working in the Revit, using the Revit Addin.
+
+Details: [Revit Add-in](./revit-add-in)
 
 
 
@@ -39,6 +73,16 @@ Please choose the topic you want to learn more about.
 You easily can start a new BIM trial on our [OpenProject BIM website](https://www.openproject.org/bim-project-management/). The have a look at the full description of how to start a new trial installation just follow the Link: [Create trial installation](/.../enterprise-guide/enterprise-cloud-guide/create-cloud-trial/).
 
 
+
+## How to enable the BCF module?
+
+The BCF Module and the included IFC viewer can be enabled for every single project. Here you can find the description how to [enable a module](/.../user-guide/projects/project-settings/modules/) within your ***poject settings***.
+
+
+
+## Reporting bugs
+
+You found a bug? Please [report it](https://docs.openproject.org/development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!
 
 
 
