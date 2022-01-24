@@ -51,7 +51,7 @@ module GroupsHelper
       },
       {
         name: 'global_roles',
-        partial: 'groups/global_roles',
+        partial: 'principals/global_roles',
         path: edit_group_path(group, tab: :global_roles),
         label: :label_global_roles
       }
