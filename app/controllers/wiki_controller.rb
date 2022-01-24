@@ -346,7 +346,7 @@ class WikiController < ApplicationController
       menu_item.menu_identifier
     elsif page.present?
       menu_item = default_menu_item(page)
-      "no-menu-item-#{menu_item.menu_identifier}".to_sym
+      "no-menu-item-#{menu_item&.menu_identifier || 'unknown'}".to_sym
     end
   end
 
