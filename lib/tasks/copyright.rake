@@ -53,9 +53,9 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'COPYRIGHT_short'
     if options[:path]
-      path = File.join(options[:path], 'COPYRIGHT_short') if File.exists?(File.join(options[:path],
+      path = File.join(options[:path], 'COPYRIGHT_short') if File.exist?(File.join(options[:path],
                                                                                               'COPYRIGHT_short'))
-      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exists?(File.join(options[:path],
+      path = File.join(options[:path], 'COPYRIGHT_short.md') if File.exist?(File.join(options[:path],
                                                                                               'COPYRIGHT_short.md'))
     end
     path
