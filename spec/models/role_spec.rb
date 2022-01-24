@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe Role, type: :model do
   let(:permissions) { %i[permission1 permission2] }
-  let(:build_role) { FactoryBot.build(:role, permissions: permissions) }
-  let(:created_role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:build_role) { build(:role, permissions: permissions) }
+  let(:created_role) { create(:role, permissions: permissions) }
 
   describe '#by_permission' do
     it 'returns roles with given permission' do
@@ -150,14 +150,14 @@ describe Role, type: :model do
   end
 
   describe '.in_new_project' do
-    let!(:ungivable_role) { FactoryBot.create(:role, builtin: Role::BUILTIN_NON_MEMBER) }
+    let!(:ungivable_role) { create(:role, builtin: Role::BUILTIN_NON_MEMBER) }
     let!(:second_role) do
-      FactoryBot.create(:role).tap do |r|
+      create(:role).tap do |r|
         r.update_column(:position, 100)
       end
     end
     let!(:first_role) do
-      FactoryBot.create(:role).tap do |r|
+      create(:role).tap do |r|
         r.update_column(:position, 1)
       end
     end

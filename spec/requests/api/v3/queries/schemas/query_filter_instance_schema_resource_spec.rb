@@ -33,14 +33,14 @@ describe 'API v3 Query Filter Schema resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:visible_child) do
-    FactoryBot.create(:project, parent: project, members: { user => role })
+    create(:project, parent: project, members: { user => role })
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end

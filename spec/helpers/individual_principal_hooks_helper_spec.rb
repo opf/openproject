@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe IndividualPrincipalHooksHelper, type: :helper do
-  let(:user) { FactoryBot.build(:user) }
-  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
+  let(:user) { build(:user) }
+  let(:placeholder_user) { build(:placeholder_user) }
 
   describe '#individual_principal_key' do
     it 'returns the class name in underscore format' do

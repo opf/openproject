@@ -29,13 +29,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Budget, type: :model do
-  let(:budget) { FactoryBot.build(:budget, project: project) }
-  let(:type) { FactoryBot.create(:type_feature) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:user) { FactoryBot.create(:user) }
+  let(:budget) { build(:budget, project: project) }
+  let(:type) { create(:type_feature) }
+  let(:project) { create(:project_with_types) }
+  let(:user) { create(:user) }
 
   describe 'destroy' do
-    let(:work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:work_package) { create(:work_package, project: project) }
 
     before do
       budget.author = user
@@ -52,7 +52,7 @@ describe Budget, type: :model do
 
   describe '#existing_material_budget_item_attributes=' do
     let!(:existing_material_budget_item) do
-      FactoryBot.create(:material_budget_item, budget: budget, units: 10.0)
+      create(:material_budget_item, budget: budget, units: 10.0)
 
       budget.material_budget_items.reload.first
     end

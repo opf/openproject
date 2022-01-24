@@ -4,49 +4,49 @@ require 'features/page_objects/notification'
 # rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Moving a work package through Rails view', js: true do
   let(:dev_role) do
-    FactoryBot.create :role,
+    create :role,
                       permissions: %i[view_work_packages add_work_packages]
   end
   let(:mover_role) do
-    FactoryBot.create :role,
+    create :role,
                       permissions: %i[view_work_packages move_work_packages manage_subtasks add_work_packages]
   end
   let(:dev) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
                       member_through_role: dev_role
   end
   let(:mover) do
-    FactoryBot.create :admin,
+    create :admin,
                       firstname: 'Manager',
                       lastname: 'Guy',
                       member_in_project: project,
                       member_through_role: mover_role
   end
 
-  let(:type) { FactoryBot.create :type, name: 'Bug' }
-  let(:type2) { FactoryBot.create :type, name: 'Risk' }
+  let(:type) { create :type, name: 'Bug' }
+  let(:type2) { create :type, name: 'Risk' }
 
-  let!(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
-  let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
+  let!(:project) { create(:project, name: 'Source', types: [type, type2]) }
+  let!(:project2) { create(:project, name: 'Target', types: [type, type2]) }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: dev,
                       project: project,
                       type: type,
                       status: status)
   end
   let(:work_package2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: dev,
                       project: project,
                       type: type,
                       status: work_package2_status)
   end
-  let(:status) { FactoryBot.create(:status) }
+  let(:status) { create(:status) }
   let(:work_package2_status) { status }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
@@ -65,7 +65,7 @@ describe 'Moving a work package through Rails view', js: true do
   describe 'moving a work package and its children' do
     let(:work_packages) { [work_package, child_wp] }
     let(:child_wp) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         author: dev,
                         parent: work_package,
                         project: project,
@@ -97,7 +97,7 @@ describe 'Moving a work package through Rails view', js: true do
       end
 
       context 'when the target project does not have the type' do
-        let!(:project2) { FactoryBot.create(:project, name: 'Target', types: [type2]) }
+        let!(:project2) { create(:project, name: 'Target', types: [type2]) }
 
         it 'does moves the work package and changes the type' do
           expect_angular_frontend_initialized
@@ -127,7 +127,7 @@ describe 'Moving a work package through Rails view', js: true do
 
   describe 'moving an unmovable (e.g. readonly status) and a movable work package', with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
-    let(:work_package2_status) { FactoryBot.create(:status, is_readonly: true) }
+    let(:work_package2_status) { create(:status, is_readonly: true) }
 
     before do
       loading_indicator_saveguard

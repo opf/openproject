@@ -32,13 +32,13 @@ require_relative './../support/board_page'
 
 describe 'Status action board', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -47,30 +47,30 @@ describe 'Status action board', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:open_status) { FactoryBot.create :default_status, name: 'Open' }
-  let!(:other_status) { FactoryBot.create :status, name: 'Whatever' }
-  let!(:closed_status) { FactoryBot.create :status, is_closed: true, name: 'Closed' }
-  let!(:work_package) { FactoryBot.create :work_package, project: project, subject: 'Foo', status: other_status }
+  let!(:priority) { create :default_priority }
+  let!(:open_status) { create :default_status, name: 'Open' }
+  let!(:other_status) { create :status, name: 'Whatever' }
+  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
+  let!(:work_package) { create :work_package, project: project, subject: 'Foo', status: other_status }
 
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let!(:workflow_type) do
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: open_status.id,
                       new_status_id: closed_status.id)
   end
   let!(:workflow_type_back) do
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: other_status.id,
                       new_status_id: open_status.id)
   end
   let!(:workflow_type_back_open) do
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       type: type,
                       role: role,
                       old_status_id: closed_status.id,

@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe AddWorkPackageNoteService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:user) }
+  let(:work_package) { build_stubbed(:work_package) }
   let(:instance) do
     described_class.new(user: user,
                         work_package: work_package)

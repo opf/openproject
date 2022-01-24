@@ -62,7 +62,7 @@ FactoryBot.define do
     end
 
     priority
-    project { FactoryBot.build_stubbed(:project_with_types) }
+    project { build_stubbed(:project_with_types) }
     status
     sequence(:subject) { |n| "WorkPackage No. #{n}" }
     description { |i| "Description for '#{i.subject}'" }

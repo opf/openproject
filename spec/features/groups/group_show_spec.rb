@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 feature 'group show page', type: :feature do
-  let!(:member) { FactoryBot.create :user }
-  let!(:group) { FactoryBot.create :group, lastname: "Bob's Team", members: [member] }
+  let!(:member) { create :user }
+  let!(:group) { create :group, lastname: "Bob's Team", members: [member] }
 
   before do
     login_as current_user
   end
 
   context 'as an admin' do
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
     let(:current_user) { admin }
 
     scenario 'I can visit the group page' do
@@ -49,7 +49,7 @@ feature 'group show page', type: :feature do
   end
 
   context 'as a regular user' do
-    let(:current_user) { FactoryBot.create :user }
+    let(:current_user) { create :user }
 
     scenario 'I can visit the group page' do
       visit show_group_path(group)

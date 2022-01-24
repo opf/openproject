@@ -34,7 +34,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
   let(:object) do
     OpenStruct.new available_custom_fields: []
   end
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(object, current_user: user)
   end

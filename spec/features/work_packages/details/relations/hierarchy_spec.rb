@@ -31,10 +31,10 @@ require 'spec_helper'
 shared_examples 'work package relations tab', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project: project) }
   let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
 
@@ -58,9 +58,9 @@ shared_examples 'work package relations tab', js: true, selenium: true do
   end
 
   describe 'as admin' do
-    let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
-    let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
-    let!(:child2) { FactoryBot.create(:work_package, project: project, subject: 'Another child WP') }
+    let!(:parent) { create(:work_package, project: project, subject: 'Parent WP') }
+    let!(:child) { create(:work_package, project: project, subject: 'Child WP') }
+    let!(:child2) { create(:work_package, project: project, subject: 'Another child WP') }
 
     it 'allows to manage hierarchy' do
       # Add parent
@@ -87,7 +87,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
     context 'when switching to custom field with required CF' do
       let(:custom_field) do
-        FactoryBot.create(
+        create(
           :work_package_custom_field,
           field_format: 'string',
           default_value: nil,
@@ -95,10 +95,10 @@ shared_examples 'work package relations tab', js: true, selenium: true do
           is_for_all: true
         )
       end
-      let(:type2) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+      let(:type2) { create(:type, custom_fields: [custom_field]) }
       let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
-      let!(:status) { FactoryBot.create(:status, is_default: true) }
-      let!(:priority) { FactoryBot.create(:priority, is_default: true) }
+      let!(:status) { create(:status, is_default: true) }
+      let!(:priority) { create(:priority, is_default: true) }
 
       before do
         project.types << type2
@@ -136,11 +136,11 @@ shared_examples 'work package relations tab', js: true, selenium: true do
     end
 
     describe 'inline create' do
-      let!(:status) { FactoryBot.create(:status, is_default: true) }
-      let!(:priority) { FactoryBot.create(:priority, is_default: true) }
-      let(:type_bug) { FactoryBot.create(:type_bug) }
+      let!(:status) { create(:status, is_default: true) }
+      let!(:priority) { create(:priority, is_default: true) }
+      let(:type_bug) { create(:type_bug) }
       let!(:project) do
-        FactoryBot.create(:project, types: [type_bug])
+        create(:project, types: [type_bug])
       end
 
       it 'can inline-create children' do
@@ -158,21 +158,21 @@ shared_examples 'work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { FactoryBot.create :project, types: [type_1, type_2] }
-    let(:type_1) { FactoryBot.create :type }
-    let(:type_2) { FactoryBot.create :type }
+    let(:project) { create :project, types: [type_1, type_2] }
+    let(:type_1) { create :type }
+    let(:type_2) { create :type }
 
-    let(:to_1) { FactoryBot.create(:work_package, type: type_1, project: project) }
-    let(:to_2) { FactoryBot.create(:work_package, type: type_2, project: project) }
+    let(:to_1) { create(:work_package, type: type_1, project: project) }
+    let(:to_2) { create(:work_package, type: type_2, project: project) }
 
     let!(:relation_1) do
-      FactoryBot.create :relation,
+      create :relation,
                         from: work_package,
                         to: to_1,
                         relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
-      FactoryBot.create :relation,
+      create :relation,
                         from: work_package,
                         to: to_2,
                         relation_type: Relation::TYPE_RELATES
@@ -192,18 +192,18 @@ shared_examples 'work package relations tab', js: true, selenium: true do
     describe 'with limited permissions' do
       let(:permissions) { %i(view_work_packages) }
       let(:user_role) do
-        FactoryBot.create :role, permissions: permissions
+        create :role, permissions: permissions
       end
 
       let(:user) do
-        FactoryBot.create :user,
+        create :user,
                           member_in_project: project,
                           member_through_role: user_role
       end
 
       context 'as view-only user, with parent set' do
-        let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
-        let!(:work_package) { FactoryBot.create(:work_package, parent: parent, project: project, subject: 'Child WP') }
+        let!(:parent) { create(:work_package, project: project, subject: 'Parent WP') }
+        let!(:work_package) { create(:work_package, parent: parent, project: project, subject: 'Child WP') }
 
         it 'shows no links to create relations' do
           # No create buttons should exist
@@ -229,8 +229,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       context 'with manage_subtasks permissions' do
         let(:permissions) { %i(view_work_packages manage_subtasks) }
-        let!(:parent) { FactoryBot.create(:work_package, project: project, subject: 'Parent WP') }
-        let!(:child) { FactoryBot.create(:work_package, project: project, subject: 'Child WP') }
+        let!(:parent) { create(:work_package, project: project, subject: 'Parent WP') }
+        let!(:child) { create(:work_package, project: project, subject: 'Child WP') }
 
         it 'should be able to link parent and children' do
           # Add parent

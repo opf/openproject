@@ -31,12 +31,12 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Assigned to me embedded query on my page', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:assigned_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'Assigned to me',
                       type: type,
@@ -44,7 +44,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
                       assigned_to: user
   end
   let!(:assigned_work_package_2) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'My task 2',
                       type: type,
@@ -52,7 +52,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
                       assigned_to: user
   end
   let!(:assigned_to_other_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'Not assigned to me',
                       type: type,
@@ -60,13 +60,13 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
                       assigned_to: other_user
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
+  let(:role) { create(:role, permissions: %i[view_work_packages add_work_packages edit_work_packages save_queries]) }
 
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
@@ -84,7 +84,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
 
   context 'with parent work package' do
     let!(:assigned_work_package_child) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         subject: 'Child',
                         parent: assigned_work_package,
                         project: project,

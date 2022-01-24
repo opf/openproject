@@ -59,7 +59,7 @@ describe 'Team planner', type: :feature, js: true do
 
   context 'with an assigned work package' do
     let!(:other_user) do
-      FactoryBot.create :user,
+      create :user,
                         firstname: 'Other',
                         lastname: 'User',
                         member_in_project: project,
@@ -67,13 +67,13 @@ describe 'Team planner', type: :feature, js: true do
                           view_work_packages edit_work_packages view_team_planner manage_team_planner
                         ]
     end
-    let!(:user_outside_project) { FactoryBot.create :user, firstname: 'Not', lastname: 'In Project' }
-    let(:type_task) { FactoryBot.create :type_task }
-    let(:type_bug) { FactoryBot.create :type_bug }
-    let(:closed_status) { FactoryBot.create :status, is_closed: true }
+    let!(:user_outside_project) { create :user, firstname: 'Not', lastname: 'In Project' }
+    let(:type_task) { create :type_task }
+    let(:type_bug) { create :type_bug }
+    let(:closed_status) { create :status, is_closed: true }
 
     let!(:other_task) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         type: type_task,
                         assigned_to: other_user,
@@ -82,7 +82,7 @@ describe 'Team planner', type: :feature, js: true do
                         subject: 'A task for the other user'
     end
     let!(:other_bug) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         type: type_bug,
                         assigned_to: other_user,
@@ -92,7 +92,7 @@ describe 'Team planner', type: :feature, js: true do
                         subject: 'Another task for the other user'
     end
     let!(:user_bug) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         project: project,
                         type: type_bug,
                         assigned_to: user,

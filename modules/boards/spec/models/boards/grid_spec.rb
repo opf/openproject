@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Boards::Grid, type: :model do
   let(:instance) { described_class.new }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
 
   context 'attributes' do
     it '#project' do

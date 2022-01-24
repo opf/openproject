@@ -37,7 +37,7 @@ describe Queries::Copy::FiltersMapper do
 
   describe 'with a query filters array' do
     let(:query) do
-      query = FactoryBot.build(:query)
+      query = build(:query)
       query.add_filter 'parent', '=', ['1']
       query.add_filter 'category_id', '=', ['2']
       query.add_filter 'version_id', '=', ['3']

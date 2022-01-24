@@ -35,7 +35,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   include_context 'with team planner full access'
 
   let!(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Bernd',
                       member_in_project: project,
                       member_with_permissions: %w[
@@ -44,14 +44,14 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
   end
 
   let!(:first_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       assigned_to: other_user,
                       start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
                       due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       parent: first_wp,
                       assigned_to: other_user,
@@ -59,7 +59,7 @@ describe 'Team planner drag&dop and resizing', type: :feature, js: true do
                       due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:third_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       assigned_to: user,
                       start_date: Time.zone.today - 10.days,

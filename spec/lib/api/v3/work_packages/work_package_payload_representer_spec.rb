@@ -32,20 +32,20 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              start_date: Date.today.to_datetime,
                              due_date: Date.today.to_datetime,
                              created_at: DateTime.now,
                              updated_at: DateTime.now,
                              budget: budget,
-                             type: FactoryBot.build_stubbed(:type)) do |wp|
+                             type: build_stubbed(:type)) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
     end
   end
 
-  let(:budget) { FactoryBot.build_stubbed(:budget) }
+  let(:budget) { build_stubbed(:budget) }
 
   let(:representer) do
     ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
@@ -61,7 +61,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
   end
 
   let(:user) do
-    FactoryBot.build_stubbed(:user) do |u|
+    build_stubbed(:user) do |u|
       allow(u)
         .to receive(:allowed_to?)
         .and_return(true)
@@ -120,7 +120,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'set' do
-          let(:work_package) { FactoryBot.build(:work_package, estimated_hours: 0) }
+          let(:work_package) { build(:work_package, estimated_hours: 0) }
 
           it { is_expected.to have_json_type(String).at_path('estimatedTime') }
         end
@@ -171,7 +171,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no start date' do
-          let(:work_package) { FactoryBot.build(:work_package, start_date: nil) }
+          let(:work_package) { build(:work_package, start_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('startDate')
@@ -208,7 +208,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
 
         context 'no finish date' do
-          let(:work_package) { FactoryBot.build(:work_package, due_date: nil) }
+          let(:work_package) { build(:work_package, due_date: nil) }
 
           it 'renders as null' do
             is_expected.to be_json_eql(nil.to_json).at_path('dueDate')
@@ -246,8 +246,8 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         context 'no finish date' do
           let(:work_package) do
-            FactoryBot.build_stubbed(:work_package,
-                                     type: FactoryBot.build_stubbed(:type),
+            build_stubbed(:work_package,
+                                     type: build_stubbed(:type),
                                      due_date: nil)
           end
 
@@ -299,7 +299,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'status' do
-        let(:status) { FactoryBot.build_stubbed(:status) }
+        let(:status) { build_stubbed(:status) }
 
         before do
           work_package.status = status
@@ -314,7 +314,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'assignee and responsible' do
-        let(:other_user) { FactoryBot.build_stubbed(:user) }
+        let(:other_user) { build_stubbed(:user) }
         let(:link) { "/api/v3/users/#{other_user.id}" }
 
         describe 'assignee' do
@@ -343,7 +343,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'version' do
-        let(:version) { FactoryBot.build_stubbed(:version) }
+        let(:version) { build_stubbed(:version) }
 
         before do
           work_package.version = version
@@ -358,7 +358,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'category' do
-        let(:category) { FactoryBot.build_stubbed(:category) }
+        let(:category) { build_stubbed(:category) }
 
         before do
           work_package.category = category
@@ -373,7 +373,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'priority' do
-        let(:priority) { FactoryBot.build_stubbed(:priority) }
+        let(:priority) { build_stubbed(:priority) }
 
         before do
           work_package.priority = priority
@@ -389,7 +389,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
       describe 'parent' do
         context 'with a parent' do
-          let(:parent) { FactoryBot.build_stubbed(:work_package) }
+          let(:parent) { build_stubbed(:work_package) }
 
           before do
             work_package.parent = parent
@@ -446,7 +446,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'custom fields' do
-      let(:available_custom_fields) { [FactoryBot.build_stubbed(:int_wp_custom_field)] }
+      let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
       it 'uses a CustomFieldInjector' do
         expect(::API::V3::Utilities::CustomFieldInjector).to receive(:create_value_representer)
           .and_call_original
@@ -698,9 +698,9 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      let(:parent) { FactoryBot.build_stubbed :work_package }
+      let(:parent) { build_stubbed :work_package }
       let(:new_parent) do
-        wp = FactoryBot.build_stubbed :work_package
+        wp = build_stubbed :work_package
         allow(WorkPackage)
           .to receive(:find_by)
           .with(id: wp.id.to_s)

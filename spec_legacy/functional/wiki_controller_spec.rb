@@ -86,9 +86,9 @@ describe WikiController, type: :controller do
   end
 
   it 'should history with one version' do
-    FactoryBot.create :wiki_content_journal,
+    create :wiki_content_journal,
                       journable_id: 2,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
+                      data: build(:journal_wiki_content_journal,
                                              text: "h1. Another page\n\n\nthis is a link to ticket: #2")
     get :history, params: { project_id: 1, id: 'Another page' }
     assert_response :success
@@ -99,13 +99,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should diff' do
-    journal_from = FactoryBot.create :wiki_content_journal,
+    journal_from = create :wiki_content_journal,
                                      journable_id: 1,
-                                     data: FactoryBot.build(:journal_wiki_content_journal,
+                                     data: build(:journal_wiki_content_journal,
                                                             text: 'h1. CookBook documentation')
-    journal_to = FactoryBot.create :wiki_content_journal,
+    journal_to = create :wiki_content_journal,
                                    journable_id: 1,
-                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                   data: build(:journal_wiki_content_journal,
                                                           text: "h1. CookBook documentation\n\n\nSome updated [[documentation]] here...")
 
     get :diff,
@@ -117,13 +117,13 @@ describe WikiController, type: :controller do
   end
 
   it 'should annotate' do
-    FactoryBot.create :wiki_content_journal,
+    create :wiki_content_journal,
                       journable_id: 1,
-                      data: FactoryBot.build(:journal_wiki_content_journal,
+                      data: build(:journal_wiki_content_journal,
                                              text: 'h1. CookBook documentation')
-    journal_to = FactoryBot.create :wiki_content_journal,
+    journal_to = create :wiki_content_journal,
                                    journable_id: 1,
-                                   data: FactoryBot.build(:journal_wiki_content_journal,
+                                   data: build(:journal_wiki_content_journal,
                                                           text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
     get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }

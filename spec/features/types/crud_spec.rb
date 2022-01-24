@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 feature 'Types', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let!(:existing_role) { FactoryBot.create(:role) }
-  let!(:existing_workflow) { FactoryBot.create(:workflow_with_default_status, role: existing_role, type: existing_type) }
-  let!(:existing_type) { FactoryBot.create(:type) }
+  let!(:existing_role) { create(:role) }
+  let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: existing_type) }
+  let!(:existing_type) { create(:type) }
   let(:index_page) { Pages::Types::Index.new }
 
   before do

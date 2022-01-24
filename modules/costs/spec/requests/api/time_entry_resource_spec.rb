@@ -34,34 +34,34 @@ describe 'API v3 time_entry resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:time_entry) do
-    FactoryBot.create(:time_entry, project: project, work_package: work_package, user: current_user)
+    create(:time_entry, project: project, work_package: work_package, user: current_user)
   end
   let(:other_time_entry) do
-    FactoryBot.create(:time_entry, project: project, work_package: work_package, user: other_user)
+    create(:time_entry, project: project, work_package: work_package, user: other_user)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:invisible_time_entry) do
-    FactoryBot.create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
+    create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
   end
   let(:project) { work_package.project }
-  let(:work_package) { FactoryBot.create(:work_package) }
-  let(:other_work_package) { FactoryBot.create(:work_package) }
+  let(:work_package) { create(:work_package) }
+  let(:other_work_package) { create(:work_package) }
   let(:other_project) { other_work_package.project }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_time_entries view_work_packages) }
-  let(:custom_field) { FactoryBot.create(:time_entry_custom_field) }
+  let(:custom_field) { create(:time_entry_custom_field) }
   let(:custom_value) do
     CustomValue.create(custom_field: custom_field,
                        value: '1234',
                        customized: time_entry)
   end
   let(:activity) do
-    FactoryBot.create(:time_entry_activity)
+    create(:time_entry_activity)
   end
 
   subject(:response) { last_response }
@@ -139,7 +139,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'filtering by user' do
       let(:invisible_time_entry) do
-        FactoryBot.create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
+        create(:time_entry, project: other_project, work_package: other_work_package, user: other_user)
       end
 
       before do
@@ -172,11 +172,11 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'filtering by work package' do
       let(:unwanted_work_package) do
-        FactoryBot.create(:work_package, project: project, type: project.types.first)
+        create(:work_package, project: project, type: project.types.first)
       end
 
       let(:other_time_entry) do
-        FactoryBot.create(:time_entry, project: project, work_package: unwanted_work_package, user: current_user)
+        create(:time_entry, project: project, work_package: unwanted_work_package, user: current_user)
       end
 
       let(:path) do
@@ -209,11 +209,11 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'filtering by project' do
       let(:other_time_entry) do
-        FactoryBot.create(:time_entry, project: other_project, work_package: other_work_package, user: current_user)
+        create(:time_entry, project: other_project, work_package: other_work_package, user: current_user)
       end
 
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           roles: [role],
                           project: other_project,
                           user: current_user)
@@ -246,27 +246,27 @@ describe 'API v3 time_entry resource', type: :request do
 
     context 'filtering by global activity' do
       let(:activity) do
-        FactoryBot.create(:time_entry_activity)
+        create(:time_entry_activity)
       end
       let(:another_activity) do
-        FactoryBot.create(:time_entry_activity)
+        create(:time_entry_activity)
       end
       let!(:time_entry) do
-        FactoryBot.create(:time_entry,
+        create(:time_entry,
                           project: project,
                           work_package: work_package,
                           user: current_user,
                           activity: activity)
       end
       let!(:other_time_entry) do
-        FactoryBot.create(:time_entry,
+        create(:time_entry,
                           project: other_project,
                           work_package: other_work_package,
                           user: current_user,
                           activity: activity)
       end
       let!(:another_time_entry) do
-        FactoryBot.create(:time_entry,
+        create(:time_entry,
                           project: project,
                           work_package: work_package,
                           user: current_user,
@@ -274,7 +274,7 @@ describe 'API v3 time_entry resource', type: :request do
       end
 
       before do
-        FactoryBot.create(:member,
+        create(:member,
                           roles: [role],
                           project: other_project,
                           user: current_user)

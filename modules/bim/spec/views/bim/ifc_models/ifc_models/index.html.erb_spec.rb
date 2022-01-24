@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe 'bim/ifc_models/ifc_models/index', type: :view do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[bim]) }
+  let(:project) { create(:project, enabled_module_names: %i[bim]) }
   let(:ifc_model) do
-    FactoryBot.create(:ifc_model,
+    create(:ifc_model,
                       uploader: uploader_user,
                       title: "office.ifc",
                       project: project).tap do |model|
@@ -39,11 +39,11 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
     end
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_ifc_models manage_ifc_models])
   end
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
@@ -89,7 +89,7 @@ describe 'bim/ifc_models/ifc_models/index', type: :view do
 
     context 'without ifc_attachment' do
       let(:ifc_model) do
-        FactoryBot.create(:ifc_model_without_ifc_attachment,
+        create(:ifc_model_without_ifc_attachment,
                           title: "office.ifc",
                           project: project)
       end

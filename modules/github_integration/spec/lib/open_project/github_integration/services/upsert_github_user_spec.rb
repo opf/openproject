@@ -53,7 +53,7 @@ describe OpenProject::GithubIntegration::Services::UpsertGithubUser do
 
   context 'when a github user with that id already exists' do
     let(:github_user) do
-      FactoryBot.create(:github_user, github_id: 123, github_avatar_url: 'https://github.com/test_user/old_avatar.jpg')
+      create(:github_user, github_id: 123, github_avatar_url: 'https://github.com/test_user/old_avatar.jpg')
     end
 
     it 'updates the github user' do

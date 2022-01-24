@@ -38,20 +38,20 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   current_user { user }
 
   describe 'admin user' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     it_behaves_like 'create placeholder user request flow'
   end
 
   describe 'user with manage_placeholder_user permission' do
-    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'create placeholder user request flow'
   end
 
   describe 'unauthorized user' do
     include_context 'create placeholder user request context'
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     it 'returns an erroneous response' do
       send_request

@@ -37,21 +37,21 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:global_member,
+    create(:user).tap do |u|
+      create(:global_member,
                         principal: u,
                         roles: [global_role])
     end
   end
 
   let(:global_role) do
-    FactoryBot.create(:global_role, permissions: permissions)
+    create(:global_role, permissions: permissions)
   end
   let(:text_custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   let(:list_custom_field) do
-    FactoryBot.create(:list_project_custom_field)
+    create(:list_project_custom_field)
   end
   let(:permissions) { [:add_project] }
   let(:path) { api_v3_paths.create_project_form }
@@ -181,12 +181,12 @@ describe ::API::V3::Projects::CreateFormAPI, content_type: :json do
 
     context 'with only add_subprojects permission' do
       current_user do
-        FactoryBot.create(:user,
+        create(:user,
                           member_in_project: parent_project,
                           member_with_permissions: %i[add_subprojects])
       end
 
-      let(:parent_project) { FactoryBot.create(:project) }
+      let(:parent_project) { create(:project) }
 
       let(:params) do
         {

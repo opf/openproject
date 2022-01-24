@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CustomActionsController, type: :controller do
-  let(:admin) { FactoryBot.build(:admin) }
-  let(:non_admin) { FactoryBot.build(:user) }
-  let(:action) { FactoryBot.build_stubbed(:custom_action) }
+  let(:admin) { build(:admin) }
+  let(:non_admin) { build(:user) }
+  let(:action) { build_stubbed(:custom_action) }
   let(:params) do
     { custom_action: { name: 'blubs',
                        actions: { assigned_to: 1 } } }

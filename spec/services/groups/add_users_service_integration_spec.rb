@@ -31,18 +31,18 @@ require 'spec_helper'
 describe Groups::AddUsersService, 'integration', type: :model do
   subject(:service_call) { instance.call(ids: user_ids, message: message) }
 
-  let(:projects) { FactoryBot.create_list :project, 2 }
-  let(:role) { FactoryBot.create :role }
-  let(:admin) { FactoryBot.create :admin }
+  let(:projects) { create_list :project, 2 }
+  let(:role) { create :role }
+  let(:admin) { create :admin }
 
   let!(:group) do
-    FactoryBot.create :group,
+    create :group,
                       member_in_projects: projects,
                       member_through_role: role
   end
 
-  let(:user1) { FactoryBot.create :user }
-  let(:user2) { FactoryBot.create :user }
+  let(:user1) { create :user }
+  let(:user2) { create :user }
   let(:user_ids) { [user1.id, user2.id] }
   let(:message) { 'Some message' }
 
@@ -95,7 +95,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
       before do
         group
         # The group is now invalid as it has no cv for this field
-        FactoryBot.create(:custom_field, type: 'GroupCustomField', is_required: true, field_format: 'int')
+        create(:custom_field, type: 'GroupCustomField', is_required: true, field_format: 'int')
       end
 
       it_behaves_like 'adds the users to the group and project'
@@ -108,7 +108,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
     context 'when the user was already a member in a project with the same role' do
       let(:previous_project) { projects.first }
       let!(:user_member) do
-        FactoryBot.create(:member,
+        create(:member,
                           project: previous_project,
                           roles: [role],
                           principal: user1)
@@ -134,18 +134,18 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'when the user was already a member in a project with only one role the group adds' do
-      let(:project) { FactoryBot.create(:project) }
-      let(:roles) { FactoryBot.create_list(:role, 2) }
+      let(:project) { create(:project) }
+      let(:roles) { create_list(:role, 2) }
       let!(:group) do
-        FactoryBot.create :group do |g|
-          FactoryBot.create(:member,
+        create :group do |g|
+          create(:member,
                             project: project,
                             principal: g,
                             roles: roles)
         end
       end
       let!(:user_member) do
-        FactoryBot.create(:member,
+        create(:member,
                           project: project,
                           roles: [roles.first],
                           principal: user1)
@@ -177,10 +177,10 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'when the user was already a member in a project with a different role' do
-      let(:other_role) { FactoryBot.create(:role) }
+      let(:other_role) { create(:role) }
       let(:previous_project) { projects.first }
       let!(:user_member) do
-        FactoryBot.create(:member,
+        create(:member,
                           project: previous_project,
                           roles: [other_role],
                           principal: user1)

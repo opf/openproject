@@ -30,39 +30,39 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project,
+    create(:work_package, project: project,
                                      status: status)
   end
   let(:work_package2) do
-    FactoryBot.create(:work_package, project: project2,
+    create(:work_package, project: project2,
                                      status: status)
   end
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type]) }
-  let(:project2) { FactoryBot.create(:project, types: [type]) }
-  let(:role) { FactoryBot.create(:role) }
-  let(:role2) { FactoryBot.create(:role) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type]) }
+  let(:project2) { create(:project, types: [type]) }
+  let(:role) { create(:role) }
+  let(:role2) { create(:role) }
   let(:member) do
-    FactoryBot.create(:member, principal: user,
+    create(:member, principal: user,
                                roles: [role])
   end
   let(:member2) do
-    FactoryBot.create(:member, principal: user,
+    create(:member, principal: user,
                                roles: [role2],
                                project: work_package2.project)
   end
-  let(:status) { FactoryBot.create(:status) }
-  let(:priority) { FactoryBot.create(:priority) }
-  let(:cost_type) { FactoryBot.create(:cost_type) }
+  let(:status) { create(:status) }
+  let(:priority) { create(:priority) }
+  let(:cost_type) { create(:cost_type) }
   let(:cost_entry) do
-    FactoryBot.create(:cost_entry, work_package: work_package,
+    create(:cost_entry, work_package: work_package,
                                    project: work_package.project,
                                    cost_type: cost_type)
   end
   let(:cost_entry2) do
-    FactoryBot.create(:cost_entry, work_package: work_package2,
+    create(:cost_entry, work_package: work_package2,
                                    project: work_package2.project,
                                    cost_type: cost_type)
   end

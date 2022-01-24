@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
-  let(:custom_field) { FactoryBot.build(:custom_field) }
-  let(:work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+  let(:custom_field) { build(:custom_field) }
+  let(:work_package) { build_stubbed(:stubbed_work_package) }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?)
         .and_return(false)

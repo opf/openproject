@@ -35,7 +35,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
   include ::API::V3::Utilities::PathHelper
 
   let(:preference) { OpenStruct.new }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
   describe 'notification_settings' do

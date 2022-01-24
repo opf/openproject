@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Navigate to overview', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:permissions) { [] }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

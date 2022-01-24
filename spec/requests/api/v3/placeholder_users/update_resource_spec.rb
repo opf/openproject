@@ -35,7 +35,7 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { FactoryBot.create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
 
   let(:parameters) do
     {}
@@ -55,19 +55,19 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   describe 'admin user' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     it_behaves_like 'updates the placeholder'
   end
 
   describe 'user with manage_placeholder_user permission' do
-    let(:user) { FactoryBot.create(:user, global_permission: %i[manage_placeholder_user]) }
+    let(:user) { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'updates the placeholder'
   end
 
   describe 'unauthorized user' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     it 'returns a 403 response' do
       expect(last_response.status).to eq(403)

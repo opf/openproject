@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe PlaceholderUsers::SetAttributesService, type: :model do
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:contract_instance) do
     contract = double('contract_instance')

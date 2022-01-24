@@ -31,12 +31,12 @@
 require 'spec_helper'
 
 describe WorkPackages::ExportJob do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:attachment) { double('Attachment', id: 1234) }
   let(:export) do
-    FactoryBot.build_stubbed(:work_packages_export)
+    build_stubbed(:work_packages_export)
   end
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:query) { build_stubbed(:query) }
 
   let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do

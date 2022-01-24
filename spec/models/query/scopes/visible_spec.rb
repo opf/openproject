@@ -33,48 +33,48 @@ describe Queries::Scopes::Visible, type: :model do
     subject(:scope) { ::Query.visible(user) }
 
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
     let(:permissions) { %i[view_work_packages] }
     let!(:private_user_query) do
-      FactoryBot.create(:query,
+      create(:query,
                         project: project,
                         user: user)
     end
     let!(:private_other_user_query) do
-      FactoryBot.create(:query,
+      create(:query,
                         project: project)
     end
     let!(:private_user_query_lacking_permissions) do
-      FactoryBot.create(:query,
-                        project: FactoryBot.create(:project,
-                                                   members: { user => FactoryBot.create(:role, permissions: []) }),
+      create(:query,
+                        project: create(:project,
+                                                   members: { user => create(:role, permissions: []) }),
                         user: user)
     end
     let!(:public_query) do
-      FactoryBot.create(:query,
+      create(:query,
                         project: project,
                         public: true)
     end
     let!(:public_query_lacking_permissions) do
-      FactoryBot.create(:query,
-                        project: FactoryBot.create(:project,
-                                                   members: { user => FactoryBot.create(:role, permissions: []) }),
+      create(:query,
+                        project: create(:project,
+                                                   members: { user => create(:role, permissions: []) }),
                         public: true)
     end
     let!(:global_user_query) do
-      FactoryBot.create(:query,
+      create(:query,
                         project: nil,
                         user: user)
     end
     let!(:global_other_user_query) do
-      FactoryBot.create(:query,
+      create(:query,
                         project: nil)
     end
-    let(:project) { FactoryBot.create(:project) }
-    let(:public_project) { FactoryBot.create(:public_project) }
+    let(:project) { create(:project) }
+    let(:public_project) { create(:public_project) }
 
     context 'with the user having the :view_work_packages permission' do
       it 'returns the queries that are public or that are the user`s' do

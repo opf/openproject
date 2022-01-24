@@ -31,24 +31,24 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page time entries current user widget spec', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:activity) { FactoryBot.create :time_entry_activity }
-  let!(:other_activity) { FactoryBot.create :time_entry_activity }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type] }
+  let!(:activity) { create :time_entry_activity }
+  let!(:other_activity) { create :time_entry_activity }
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user
   end
   let!(:other_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user
   end
   let!(:visible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       activity: activity,
@@ -58,7 +58,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       comments: 'My comment'
   end
   let!(:other_visible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       activity: activity,
@@ -68,7 +68,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       comments: 'My other comment'
   end
   let!(:last_week_visible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       activity: activity,
@@ -78,7 +78,7 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       comments: 'My last week comment'
   end
   let!(:invisible_time_entry) do
-    FactoryBot.create :time_entry,
+    create :time_entry,
                       work_package: work_package,
                       project: project,
                       activity: activity,
@@ -86,13 +86,13 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
                       hours: 4
   end
   let!(:custom_field) do
-    FactoryBot.create :time_entry_custom_field, field_format: 'text'
+    create :time_entry_custom_field, field_format: 'text'
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[view_time_entries edit_time_entries view_work_packages log_time])
   end

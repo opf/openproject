@@ -31,21 +31,21 @@ require 'spec_helper'
 describe 'Subproject creation', type: :feature, js: true do
   let(:name_field) { ::FormFields::InputFormField.new :name }
   let(:parent_field) { ::FormFields::SelectFormField.new :parent }
-  let(:add_subproject_role) { FactoryBot.create(:role, permissions: %i[edit_project add_subprojects]) }
-  let(:view_project_role) { FactoryBot.create(:role, permissions: %i[edit_project]) }
+  let(:add_subproject_role) { create(:role, permissions: %i[edit_project add_subprojects]) }
+  let(:view_project_role) { create(:role, permissions: %i[edit_project]) }
   let!(:parent_project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Foo project',
                       members: { current_user => add_subproject_role })
   end
   let!(:other_project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Other project',
                       members: { current_user => view_project_role })
   end
 
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   before do

@@ -33,17 +33,17 @@ require_relative './shared_responses'
 
 describe 'BCF 2.1 project extensions resource', type: :request, content_type: :json do
   include Rack::Test::Methods
-  shared_let(:type_task) { FactoryBot.create :type_task }
-  shared_let(:status) { FactoryBot.create :default_status }
-  shared_let(:priority) { FactoryBot.create :default_priority }
-  shared_let(:project) { FactoryBot.create(:project, enabled_module_names: [:bim], types: [type_task]) }
+  shared_let(:type_task) { create :type_task }
+  shared_let(:status) { create :default_status }
+  shared_let(:priority) { create :default_priority }
+  shared_let(:project) { create(:project, enabled_module_names: [:bim], types: [type_task]) }
   subject(:response) { last_response }
 
   let(:path) { "/api/bcf/2.1/projects/#{project.id}/extensions" }
 
   context 'with only view_project permissions' do
     let(:current_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: [:view_project])
     end
@@ -73,13 +73,13 @@ describe 'BCF 2.1 project extensions resource', type: :request, content_type: :j
 
   context 'with edit permissions in project' do
     let(:current_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: %i[view_project edit_project manage_bcf view_members])
     end
 
     let(:other_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: [:view_project])
     end

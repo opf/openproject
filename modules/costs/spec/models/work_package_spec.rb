@@ -29,23 +29,23 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage, type: :model do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:role) { FactoryBot.create(:role) }
+  let(:user) { create(:admin) }
+  let(:role) { create(:role) }
   let(:project) do
-    FactoryBot.create(:project_with_types, members: { user => role })
+    create(:project_with_types, members: { user => role })
   end
 
-  let(:project2) { FactoryBot.create(:project_with_types, types: project.types) }
+  let(:project2) { create(:project_with_types, types: project.types) }
   let(:work_package) do
-    FactoryBot.create(:work_package, project: project,
+    create(:work_package, project: project,
                                      type: project.types.first,
                                      author: user)
   end
   let!(:cost_entry) do
-    FactoryBot.create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
+    create(:cost_entry, work_package: work_package, project: project, units: 3, spent_on: Date.today, user: user,
                                    comments: 'test entry')
   end
-  let!(:budget) { FactoryBot.create(:budget, project: project) }
+  let!(:budget) { create(:budget, project: project) }
 
   def move_to_project(work_package, project)
     WorkPackages::UpdateService

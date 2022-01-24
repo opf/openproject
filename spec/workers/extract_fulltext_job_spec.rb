@@ -50,7 +50,7 @@ describe ExtractFulltextJob, type: :job do
 
   let(:text) { 'lorem ipsum' }
   let(:attachment) do
-    FactoryBot.create(:attachment).tap do |attachment|
+    create(:attachment).tap do |attachment|
       expect(ExtractFulltextJob)
         .to have_been_enqueued
         .with(attachment.id)

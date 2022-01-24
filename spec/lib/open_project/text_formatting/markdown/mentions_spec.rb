@@ -34,16 +34,16 @@ describe OpenProject::TextFormatting,
   include_context 'expected markdown modules'
 
   describe '.format_text' do
-    shared_let(:project) { FactoryBot.create :valid_project }
+    shared_let(:project) { create :valid_project }
     let(:identifier) { project.identifier }
     shared_let(:role) do
-      FactoryBot.create :role,
+      create :role,
                         permissions: %i(view_work_packages edit_work_packages
                                         browse_repository view_changesets view_wiki_pages)
     end
 
     shared_let(:project_member) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_through_role: role
     end
@@ -56,13 +56,13 @@ describe OpenProject::TextFormatting,
 
     context 'User links' do
       let(:role) do
-        FactoryBot.create :role,
+        create :role,
                           permissions: %i[view_work_packages edit_work_packages
                                           browse_repository view_changesets view_wiki_pages]
       end
 
       let(:linked_project_member) do
-        FactoryBot.create :user,
+        create :user,
                           member_in_project: project,
                           member_through_role: role
       end
@@ -141,7 +141,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
+          let(:role) { create(:non_member) }
 
           it_behaves_like 'format_text produces' do
             let(:raw) do
@@ -189,7 +189,7 @@ describe OpenProject::TextFormatting,
 
           context "with an email address as login name" do
             let(:linked_project_member) do
-              FactoryBot.create :user,
+              create :user,
                                 member_in_project: project,
                                 member_through_role: role,
                                 login: "foo@bar.com"
@@ -217,7 +217,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when linked user not visible for reader' do
-          let(:role) { FactoryBot.create(:non_member) }
+          let(:role) { create(:non_member) }
 
           it_behaves_like 'format_text produces' do
             let(:raw) do
@@ -260,15 +260,15 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when visible user exists' do
-          let(:project) { FactoryBot.create :project }
-          let(:role) { FactoryBot.create(:role, permissions: %i(view_work_packages)) }
+          let(:project) { create :project }
+          let(:role) { create(:role, permissions: %i(view_work_packages)) }
           let(:current_user) do
-            FactoryBot.create(:user,
+            create(:user,
                               member_in_project: project,
                               member_through_role: role)
           end
           let(:user) do
-            FactoryBot.create(:user,
+            create(:user,
                               login: 'foo@bar.com',
                               firstname: 'Foo',
                               lastname: 'Barrit',
@@ -323,13 +323,13 @@ describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        FactoryBot.create :role,
+        create :role,
                           permissions: []
       end
 
       let(:linked_project_member_group) do
-        FactoryBot.create(:group).tap do |group|
-          FactoryBot.create(:member,
+        create(:group).tap do |group|
+          create(:member,
                             principal: group,
                             project: project,
                             roles: [role])

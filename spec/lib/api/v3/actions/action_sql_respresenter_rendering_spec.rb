@@ -40,7 +40,7 @@ describe ::API::V3::Actions::ActionSqlRepresenter, 'rendering' do
     'memberships/create'
   end
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   subject(:json) do

@@ -40,7 +40,7 @@ describe 'rendering the login buttons', js: true do
   end
 
   describe 'in a public project', with_settings: { login_required: false } do
-    let(:public_project) { FactoryBot.build(:project, public: true) }
+    let(:public_project) { build(:project, public: true) }
 
     it 'renders correctly' do
       visit project_path(public_project)

@@ -34,7 +34,7 @@ require_relative './shared_contract_examples'
 describe TimeEntries::UpdateContract do
   it_behaves_like 'time entry contract' do
     let(:time_entry) do
-      FactoryBot.build_stubbed(:time_entry,
+      build_stubbed(:time_entry,
                                project: time_entry_project,
                                work_package: time_entry_work_package,
                                user: time_entry_user,
@@ -56,7 +56,7 @@ describe TimeEntries::UpdateContract do
 
     context 'if project changed' do
       let(:new_project) do
-        FactoryBot.build_stubbed(:project).tap do |p|
+        build_stubbed(:project).tap do |p|
           allow(TimeEntryActivity)
             .to receive(:active_in_project)
             .with(p)

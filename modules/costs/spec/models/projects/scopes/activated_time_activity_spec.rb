@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe Projects::Scopes::ActivatedTimeActivity, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:other_project) { FactoryBot.create(:project) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
 
   describe '.activated_time_activity' do
     subject { Project.activated_time_activity(activity) }

@@ -35,7 +35,7 @@ describe 'Team planner error handling', type: :feature, js: true do
   include_context 'with team planner full access'
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       assigned_to: user,
@@ -44,13 +44,13 @@ describe 'Team planner error handling', type: :feature, js: true do
   end
 
   let!(:custom_field) do
-    FactoryBot.create :work_package_custom_field,
+    create :work_package_custom_field,
                       default_value: nil,
                       is_for_all: true,
                       is_required: false
   end
 
-  let(:type) { FactoryBot.create(:type, custom_fields: [custom_field]) }
+  let(:type) { create(:type, custom_fields: [custom_field]) }
 
   context 'with full permissions' do
     before do

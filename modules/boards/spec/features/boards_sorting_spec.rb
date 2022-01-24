@@ -31,11 +31,11 @@ require_relative './support/board_index_page'
 require_relative './support/board_page'
 
 describe 'Work Package boards sorting spec', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:admin) { create(:admin) }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:status) { FactoryBot.create :default_status }
-  let(:version) { @version ||= FactoryBot.create(:version, project: project) }
+  let!(:status) { create :default_status }
+  let(:version) { @version ||= create(:version, project: project) }
 
   before do
     with_enterprise_token :board_view

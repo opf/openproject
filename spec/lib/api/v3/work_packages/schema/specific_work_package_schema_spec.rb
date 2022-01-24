@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { build_stubbed(:project) }
+  let(:type) { build_stubbed(:type) }
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
+    build_stubbed(:work_package,
                              project: project,
                              type: type)
   end
@@ -132,8 +132,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_priorities' do
-    let(:active_priority) { FactoryBot.build(:priority, active: true) }
-    let(:inactive_priority) { FactoryBot.build(:priority, active: false) }
+    let(:active_priority) { build(:priority, active: true) }
+    let(:inactive_priority) { build(:priority, active: false) }
 
     before do
       active_priority.save!
@@ -317,8 +317,8 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_custom_field_values' do
-    let(:list_cf) { FactoryBot.create(:list_wp_custom_field) }
-    let(:version_cf) { FactoryBot.build_stubbed(:version_wp_custom_field) }
+    let(:list_cf) { create(:list_wp_custom_field) }
+    let(:version_cf) { build_stubbed(:version_wp_custom_field) }
 
     it "is a list custom fields' possible values" do
       expect(subject.assignable_custom_field_values(list_cf))

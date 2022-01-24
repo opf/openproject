@@ -37,7 +37,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
   let(:actual_count) { 3 }
 
   let(:users) do
-    users = FactoryBot.build_stubbed_list(:user,
+    users = build_stubbed_list(:user,
                                           actual_count)
     allow(users)
       .to receive(:per_page)

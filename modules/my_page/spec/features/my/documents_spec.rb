@@ -31,22 +31,22 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page documents widget', type: :feature, js: true do
-  let!(:project) { FactoryBot.create :project }
-  let!(:other_project) { FactoryBot.create :project }
+  let!(:project) { create :project }
+  let!(:other_project) { create :project }
   let!(:visible_document) do
-    FactoryBot.create :document,
+    create :document,
                       project: project,
                       description: 'blubs'
   end
   let!(:invisible_document) do
-    FactoryBot.create :document,
+    create :document,
                       project: other_project
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[view_documents])
   end

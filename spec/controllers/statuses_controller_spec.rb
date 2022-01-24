@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe StatusesController, type: :controller do
-  shared_let(:user) { FactoryBot.create(:admin) }
-  shared_let(:status) { FactoryBot.create(:status) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:status) { create(:status) }
 
   before { login_as(user) }
 
@@ -90,7 +90,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) do
-        FactoryBot.create(:status,
+        create(:status,
                           is_default: true)
       end
 
@@ -175,7 +175,7 @@ describe StatusesController, type: :controller do
 
     context 'used' do
       let(:work_package) do
-        FactoryBot.create(:work_package,
+        create(:work_package,
                           status: status)
       end
 
@@ -192,7 +192,7 @@ describe StatusesController, type: :controller do
 
     context 'default' do
       let!(:status_default) do
-        FactoryBot.create(:status,
+        create(:status,
                           is_default: true)
       end
 

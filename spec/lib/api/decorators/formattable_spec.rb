@@ -45,7 +45,7 @@ describe ::API::Decorators::Formattable do
   end
 
   context 'passing an object context' do
-    let(:object) { FactoryBot.build_stubbed :work_package }
+    let(:object) { build_stubbed :work_package }
     subject { described_class.new(represented, object: object) }
 
     it 'passes that to format_text' do

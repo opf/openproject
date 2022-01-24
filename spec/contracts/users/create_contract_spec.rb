@@ -50,7 +50,7 @@ describe Users::CreateContract do
     end
 
     context 'when admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       it_behaves_like 'contract is valid'
 

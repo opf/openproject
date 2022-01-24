@@ -33,12 +33,12 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to budget', js: true do
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_budgets
                                                   edit_budgets]
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }

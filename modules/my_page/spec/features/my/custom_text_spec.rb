@@ -34,17 +34,17 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:permissions) do
     []
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:my_page) do
     Pages::My::Page.new

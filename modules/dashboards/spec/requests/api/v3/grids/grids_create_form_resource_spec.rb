@@ -34,25 +34,25 @@ describe "POST /api/v3/grids/form for Dashboard Grids", type: :request, content_
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   let(:current_user) { allowed_user }
 
   shared_let(:allowed_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[view_dashboards manage_dashboards save_queries manage_public_queries])
   end
 
   shared_let(:no_save_query_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[view_dashboards manage_dashboards])
   end
 
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: [])
   end

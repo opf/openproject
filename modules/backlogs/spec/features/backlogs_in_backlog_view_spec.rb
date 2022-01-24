@@ -33,25 +33,25 @@ describe 'Backlogs in backlog view',
          type: :feature,
          js: true do
   let!(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       types: [story, task],
                       enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let!(:story) { FactoryBot.create(:type_feature) }
-  let!(:other_story) { FactoryBot.create(:type) }
-  let!(:task) { FactoryBot.create(:type_task) }
-  let!(:priority) { FactoryBot.create(:default_priority) }
-  let!(:default_status) { FactoryBot.create(:status, is_default: true) }
-  let!(:other_status) { FactoryBot.create(:status) }
+  let!(:story) { create(:type_feature) }
+  let!(:other_story) { create(:type) }
+  let!(:task) { create(:type_task) }
+  let!(:priority) { create(:default_priority) }
+  let!(:default_status) { create(:status, is_default: true) }
+  let!(:other_status) { create(:status) }
   let!(:workflows) do
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       old_status: default_status,
                       new_status: other_status,
                       role: role,
                       type_id: story.id)
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i(view_master_backlog
                                       add_work_packages
                                       view_work_packages
@@ -62,34 +62,34 @@ describe 'Backlogs in backlog view',
                                       assign_versions))
   end
   let!(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let!(:sprint) do
-    FactoryBot.create(:version,
+    create(:version,
                       project: project,
                       start_date: Date.today - 10.days,
                       effective_date: Date.today + 10.days,
                       version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_LEFT }])
   end
   let!(:backlog) do
-    FactoryBot.create(:version,
+    create(:version,
                       project: project,
                       version_settings_attributes: [{ project: project, display: VersionSetting::DISPLAY_RIGHT }])
   end
   let!(:other_project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
   let!(:other_project_sprint) do
-    FactoryBot.create(:version,
+    create(:version,
                       project: other_project,
                       sharing: 'system',
                       start_date: Date.today - 10.days,
                       effective_date: Date.today + 10.days)
   end
   let!(:sprint_story1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: story,
                       status: default_status,

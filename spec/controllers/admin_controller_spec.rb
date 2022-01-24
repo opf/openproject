@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe AdminController, type: :controller do
-  let(:user) { FactoryBot.build :admin }
+  let(:user) { build :admin }
 
   before do
     allow(User).to receive(:current).and_return user

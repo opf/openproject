@@ -32,17 +32,17 @@ require 'rack/test'
 describe 'BCF XML API v1 bcf_xml resource', type: :request do
   include Rack::Test::Methods
 
-  let!(:status) { FactoryBot.create(:status, name: 'New', is_default: true) }
-  let!(:type) { FactoryBot.create :type, name: 'Issue', is_standard: true, is_default: true }
-  let!(:priority) { FactoryBot.create(:issue_priority, name: "Mega high", is_default: true) }
-  let!(:project) { FactoryBot.create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
+  let!(:status) { create(:status, name: 'New', is_default: true) }
+  let!(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
+  let!(:priority) { create(:issue_priority, name: "Mega high", is_default: true) }
+  let!(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking], types: [type]) }
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")
+    create(:user, member_in_project: project, member_through_role: role, firstname: "BIMjamin")
   end
-  let(:work_package) { FactoryBot.create(:work_package, status: status, priority: priority, project: project) }
-  let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:work_package) { create(:work_package, status: status, priority: priority, project: project) }
+  let(:bcf_issue) { create(:bcf_issue_with_comment, work_package: work_package) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_work_packages view_linked_issues) }
   let(:filename) { 'MaximumInformation.bcf' }
   let(:bcf_xml_file) do

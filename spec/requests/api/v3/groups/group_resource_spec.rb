@@ -35,9 +35,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   subject(:response) { last_response }
 
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { create(:project) }
   let(:group) do
-    FactoryBot.create(:group,
+    create(:group,
                       member_in_project: project,
                       member_through_role: role).tap do |g|
       members.each do |members|
@@ -45,15 +45,15 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       end
     end
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_members manage_members] }
   let(:members) do
-    FactoryBot.create_list(:user, 2)
+    create_list(:user, 2)
   end
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   current_user do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
@@ -99,7 +99,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     context 'not having the necessary permission to see the specific group' do
       let(:permissions) { %i[view_members] }
-      let(:group) { FactoryBot.create(:group) }
+      let(:group) { create(:group) }
 
       it_behaves_like 'not found'
     end
@@ -126,7 +126,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     context 'when the user is allowed and the input is valid' do
-      current_user { FactoryBot.create(:admin) }
+      current_user { create(:admin) }
 
       it 'responds with 201' do
         expect(last_response.status).to eq(201)
@@ -153,7 +153,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     end
 
     context 'when the user is allowed and the input is invalid' do
-      current_user { FactoryBot.create(:admin) }
+      current_user { create(:admin) }
 
       let(:body) do
         {
@@ -177,9 +177,9 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'PATCH api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
     let(:another_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_through_role: another_role)
     end
@@ -198,12 +198,12 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       }.to_json
     end
     let(:group_updated_at) { group.reload.updated_at }
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let!(:membership) do
-      FactoryBot.create(:member,
+      create(:member,
                         principal: group,
                         project: other_project,
-                        roles: [FactoryBot.create(:role)])
+                        roles: [create(:role)])
     end
 
     before do
@@ -327,14 +327,14 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
   describe 'DELETE /api/v3/groups/:id' do
     let(:path) { api_v3_paths.group(group.id) }
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let!(:membership) do
-      FactoryBot.create(:member,
+      create(:member,
                         principal: group,
                         project: other_project,
-                        roles: [FactoryBot.create(:role)])
+                        roles: [create(:role)])
     end
-    let(:another_role) { FactoryBot.create(:role) }
+    let(:another_role) { create(:role) }
 
     before do
       # Setup the memberships in the group has
@@ -396,7 +396,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
   describe 'GET api/v3/groups' do
     let(:get_path) { api_v3_paths.groups }
     let(:other_group) do
-      FactoryBot.create(:group)
+      create(:group)
     end
 
     before do

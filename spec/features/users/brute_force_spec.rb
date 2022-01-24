@@ -33,7 +33,7 @@ describe 'Loggin (with brute force protection)', type: :feature do
   let(:password) { "PassW0rd!!!" }
   let(:invalid_password) { password[0..-2] }
   let!(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       login: login,
                       password: password,
                       password_confirmation: password)

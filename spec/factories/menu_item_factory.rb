@@ -43,7 +43,7 @@ FactoryBot.define do
 
       factory :wiki_menu_item_with_parent do
         callback(:after_build) do |wiki_menu_item|
-          parent = FactoryBot.build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
+          parent = build(:wiki_menu_item, wiki: wiki_menu_item.wiki)
           wiki_menu_item.wiki.wiki_menu_items << parent
           wiki_menu_item.parent = parent
         end

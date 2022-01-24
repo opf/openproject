@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'robots.txt', type: :feature do
-  let!(:project) { FactoryBot.create(:public_project) }
+  let!(:project) { create(:public_project) }
 
   before do
     visit '/robots.txt'

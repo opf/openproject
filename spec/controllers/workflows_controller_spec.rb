@@ -31,9 +31,9 @@
 require 'spec_helper'
 
 describe WorkflowsController, type: :controller do
-  let(:current_user) { FactoryBot.build_stubbed(:admin) }
+  let(:current_user) { build_stubbed(:admin) }
   let!(:role) do
-    FactoryBot.build_stubbed(:role).tap do |r|
+    build_stubbed(:role).tap do |r|
       allow(Role)
         .to receive(:find)
         .with(r.id.to_s)
@@ -41,7 +41,7 @@ describe WorkflowsController, type: :controller do
     end
   end
   let!(:type) do
-    FactoryBot.build_stubbed(:type) do |t|
+    build_stubbed(:type) do |t|
       allow(Type)
         .to receive(:find)
         .with(t.id.to_s)

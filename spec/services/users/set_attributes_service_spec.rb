@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Users::SetAttributesService, type: :model do
   subject(:call) { instance.call(params) }
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:contract_instance) do
     contract = double('contract_instance')

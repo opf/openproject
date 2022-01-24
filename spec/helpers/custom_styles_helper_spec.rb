@@ -47,7 +47,7 @@ describe CustomStylesHelper, type: :helper do
     end
 
     context 'CustomStyle present' do
-      let(:current_theme) { FactoryBot.build_stubbed(:custom_style) }
+      let(:current_theme) { build_stubbed(:custom_style) }
 
       context 'without EE' do
         before do
@@ -99,7 +99,7 @@ describe CustomStylesHelper, type: :helper do
     end
 
     context 'CustomStyle present' do
-      let(:current_theme) { FactoryBot.build_stubbed(:custom_style) }
+      let(:current_theme) { build_stubbed(:custom_style) }
 
       before do
         allow(current_theme).to receive(:favicon).and_return(true)

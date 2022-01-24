@@ -30,41 +30,41 @@ require 'spec_helper'
 
 describe 'Going back and forth through the browser history', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_work_packages
                                       save_queries])
   end
 
   let(:work_package_1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: type)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: type,
                       assigned_to: user)
   end
   let(:version) do
-    FactoryBot.create(:version,
+    create(:version,
                       project: project)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: type,
                       version: version)
   end
   let(:assignee_query) do
-    query = FactoryBot.create(:query,
+    query = create(:query,
                               name: 'Assignee Query',
                               project: project,
                               user: user)
@@ -75,7 +75,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     query
   end
   let(:version_query) do
-    query = FactoryBot.create(:query,
+    query = create(:query,
                               name: 'Version Query',
                               project: project,
                               user: user)

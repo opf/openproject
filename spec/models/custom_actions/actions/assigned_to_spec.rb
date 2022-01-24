@@ -32,8 +32,8 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   let(:key) { :assigned_to }
   let(:type) { :associated_property }
   let(:allowed_values) do
-    users = [FactoryBot.build_stubbed(:user),
-             FactoryBot.build_stubbed(:group)]
+    users = [build_stubbed(:user),
+             build_stubbed(:group)]
     allow(Principal)
       .to receive_message_chain(:not_locked, :select, :ordered_by_name)
       .and_return(users)
@@ -56,8 +56,8 @@ describe CustomActions::Actions::AssignedTo, type: :model do
   end
 
   describe 'current_user special value' do
-    let(:work_package) { FactoryBot.build_stubbed(:work_package) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:work_package) { build_stubbed(:work_package) }
+    let(:user) { build_stubbed(:user) }
     subject { described_class.new }
 
     before do

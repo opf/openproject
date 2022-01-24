@@ -34,11 +34,11 @@ require 'contracts/shared/model_contract_shared_context'
 describe Projects::EnabledModulesContract do
   include_context 'ModelContract shared context'
 
-  let(:project) { FactoryBot.build_stubbed(:project, enabled_module_names: enabled_modules) }
+  let(:project) { build_stubbed(:project, enabled_module_names: enabled_modules) }
   let(:contract) { described_class.new(project, current_user) }
   let(:ac_modules) { [{ name: :a_module, dependencies: %i[b_module] }] }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |requested_permission, requested_project|
         permissions.include?(requested_permission) && requested_project == project

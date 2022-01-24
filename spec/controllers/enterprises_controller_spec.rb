@@ -50,7 +50,7 @@ describe EnterprisesController, type: :controller do
   end
 
   context 'with admin' do
-    let(:user) { FactoryBot.build(:admin) }
+    let(:user) { build(:admin) }
 
     describe '#show' do
       render_views
@@ -188,7 +188,7 @@ describe EnterprisesController, type: :controller do
   end
 
   context 'regular user' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     before do
       get :show

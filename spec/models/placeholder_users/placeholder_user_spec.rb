@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe PlaceholderUser, type: :model do
-  let(:placeholder_user) { FactoryBot.build(:placeholder_user) }
+  let(:placeholder_user) { build(:placeholder_user) }
 
   subject { placeholder_user }
 

@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe UserPreferences::UpdateService, 'integration', type: :model do
   shared_let(:current_user) do
-    FactoryBot.create(:user).tap do |u|
+    create(:user).tap do |u|
       u.pref.save
     end
   end
   shared_let(:preferences) do
-    FactoryBot.create(:user_preference, user: current_user)
+    create(:user_preference, user: current_user)
   end
 
   let(:instance) { described_class.new(user: current_user, model: preferences) }
@@ -101,7 +101,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
     end
 
     context 'with a full replacement' do
-      let(:project) { FactoryBot.create :project }
+      let(:project) { create :project }
       let(:attributes) do
         {
           notification_settings: [

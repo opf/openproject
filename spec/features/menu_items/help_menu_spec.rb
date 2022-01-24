@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Help menu items' do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
 
   before do

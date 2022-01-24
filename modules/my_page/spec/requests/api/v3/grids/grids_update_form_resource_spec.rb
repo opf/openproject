@@ -34,11 +34,11 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   let(:grid) do
-    FactoryBot.create(:my_page, user: current_user)
+    create(:my_page, user: current_user)
   end
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }
@@ -161,8 +161,8 @@ describe "PATCH /api/v3/grids/:id/form", type: :request, content_type: :json do
     end
 
     context 'for another user\'s grid' do
-      let(:other_user) { FactoryBot.create(:user) }
-      let(:other_grid) { FactoryBot.create(:my_page, user: other_user) }
+      let(:other_user) { create(:user) }
+      let(:other_grid) { create(:my_page, user: other_user) }
 
       let(:path) { api_v3_paths.grid_form(other_grid.id) }
 

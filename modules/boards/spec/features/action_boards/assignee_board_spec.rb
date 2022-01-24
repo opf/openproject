@@ -34,17 +34,17 @@ describe 'Assignee action board',
          type: :feature,
          js: true do
   let(:bobself_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'Bob',
                       lastname: 'Self',
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:type) { FactoryBot.create(:type_standard) }
-  let(:project) { FactoryBot.create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:project_without_members) { FactoryBot.create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:admin) { create(:admin) }
+  let(:type) { create(:type_standard) }
+  let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:project_without_members) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
+  let(:role) { create(:role, permissions: permissions) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:other_board_index) { Pages::BoardIndex.new(project_without_members) }
@@ -54,12 +54,12 @@ describe 'Assignee action board',
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { FactoryBot.create :default_priority }
+  let!(:priority) { create :default_priority }
 
   # Set up other assignees
 
   let!(:foobar_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'Foo',
                       lastname: 'Bar',
                       member_in_project: project,
@@ -67,8 +67,8 @@ describe 'Assignee action board',
   end
 
   let!(:group) do
-    FactoryBot.create(:group, name: 'Grouped').tap do |group|
-      FactoryBot.create(:member,
+    create(:group, name: 'Grouped').tap do |group|
+      create(:member,
                         principal: group,
                         project: project,
                         roles: [role])
@@ -76,7 +76,7 @@ describe 'Assignee action board',
   end
 
   let!(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       assigned_to: bobself_user,
                       subject: 'Some Task'

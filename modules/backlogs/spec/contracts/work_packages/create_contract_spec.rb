@@ -30,11 +30,11 @@ require 'spec_helper'
 
 describe WorkPackages::CreateContract do
   let(:work_package) do
-    WorkPackage.new FactoryBot.attributes_for(:stubbed_work_package, author: other_user, project: project)
+    WorkPackage.new attributes_for(:stubbed_work_package, author: other_user, project: project)
   end
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   include_context 'user with stubbed permissions'
-  let (:project) { FactoryBot.build_stubbed(:project) }
+  let (:project) { build_stubbed(:project) }
   let(:permissions) do
     %i[
       view_work_packages

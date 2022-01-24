@@ -37,14 +37,14 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
 
   include_context 'with CreateFromJournalJob context'
 
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:news) { FactoryBot.create(:news, project: project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:news) { create(:news, project: project) }
 
   let(:permissions) { [] }
   let(:send_notifications) { true }
 
   let(:resource) do
-    FactoryBot.create(:comment,
+    create(:comment,
                       commented: news,
                       author: author,
                       comments: 'Some text')
@@ -78,7 +78,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -88,7 +88,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -98,7 +98,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
       context 'with the user having registered for watcher notifications and watching the news' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
@@ -121,7 +121,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
       context 'with the user not having registered for watcher notifications and watching the news' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -135,7 +135,7 @@ describe Notifications::CreateFromModelService, 'comment', with_settings: { jour
       context 'with the user having registered for watcher notifications and not watching the news' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(watched: true))
+            build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 

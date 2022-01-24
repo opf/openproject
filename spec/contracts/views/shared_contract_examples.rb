@@ -33,7 +33,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
   include_context 'ModelContract shared context'
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project, **_args|
         permissions.include?(permission) && query_project == permission_project
@@ -41,7 +41,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
     end
   end
   let(:view_query) do
-    FactoryBot.build_stubbed(:query,
+    build_stubbed(:query,
                              user: query_user,
                              public: query_public,
                              project: query_project)
@@ -50,7 +50,7 @@ shared_examples_for 'view contract' do |disabled_permission_checks|
   let(:query_public) { false }
   let(:query_user) { current_user }
   let(:query_visible) { true }
-  let(:query_project) { FactoryBot.build_stubbed(:project) }
+  let(:query_project) { build_stubbed(:project) }
 
   before do
     next unless view_query

@@ -32,14 +32,14 @@ describe ::API::V3::Posts::PostRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:message) do
-    FactoryBot.build_stubbed(:message) do |wp|
+    build_stubbed(:message) do |wp|
       allow(wp)
         .to receive(:project)
         .and_return(project)
     end
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(message, current_user: user, embed_links: true)
   end

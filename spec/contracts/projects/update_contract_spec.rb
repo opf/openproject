@@ -32,7 +32,7 @@ require_relative './shared_contract_examples'
 describe Projects::UpdateContract do
   it_behaves_like 'project contract' do
     let(:project) do
-      FactoryBot.build_stubbed(:project,
+      build_stubbed(:project,
                                active: project_active,
                                public: project_public,
                                status: project_status).tap do |p|

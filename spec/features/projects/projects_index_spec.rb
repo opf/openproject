@@ -33,21 +33,21 @@ describe 'Projects index page',
          clear_cache: true,
          js: true,
          with_settings: { login_required?: false } do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  shared_let(:manager)   { FactoryBot.create :role, name: 'Manager' }
-  shared_let(:developer) { FactoryBot.create :role, name: 'Developer' }
+  shared_let(:manager)   { create :role, name: 'Manager' }
+  shared_let(:developer) { create :role, name: 'Developer' }
 
-  shared_let(:custom_field) { FactoryBot.create :project_custom_field }
-  shared_let(:invisible_custom_field) { FactoryBot.create :project_custom_field, visible: false }
+  shared_let(:custom_field) { create :project_custom_field }
+  shared_let(:invisible_custom_field) { create :project_custom_field, visible: false }
 
   shared_let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Plain project',
                       identifier: 'plain-project')
   end
   shared_let(:public_project) do
-    project = FactoryBot.create(:project,
+    project = create(:project,
                                 name: 'Public project',
                                 identifier: 'public-project',
                                 public: true)
@@ -56,11 +56,11 @@ describe 'Projects index page',
     project
   end
   shared_let(:development_project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Development project',
                       identifier: 'development-project')
   end
-  let(:news) { FactoryBot.create(:news, project: project) }
+  let(:news) { create(:news, project: project) }
   let(:projects_page) { Pages::Projects::Index.new }
 
   def load_and_open_filters(user)
@@ -105,7 +105,7 @@ describe 'Projects index page',
 
     feature 'for project members' do
       shared_let(:user) do
-        FactoryBot.create(:user,
+        create(:user,
                           member_in_project: development_project,
                           member_through_role: developer,
                           login: 'nerd',
@@ -341,12 +341,12 @@ describe 'Projects index page',
 
     feature 'Active or archived' do
       shared_let(:parent_project) do
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Parent project',
                           identifier: 'parent-project')
       end
       shared_let(:child_project) do
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Child project',
                           identifier: 'child-project',
                           parent: parent_project)
@@ -426,21 +426,21 @@ describe 'Projects index page',
     feature 'project status filter' do
       shared_let(:no_status_project) do
         # A project that never had project status associated.
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'No status project')
       end
 
       shared_let(:green_project) do
         # A project that has a project status associated.
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Green project',
-                          status: FactoryBot.create(:project_status))
+                          status: create(:project_status))
       end
       shared_let(:gray_project) do
         # A project that once had a project status associated, that was later unset.
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Gray project',
-                          status: FactoryBot.create(:project_status, code: nil))
+                          status: create(:project_status, code: nil))
       end
 
       scenario 'sort and filter on project status' do
@@ -511,8 +511,8 @@ describe 'Projects index page',
     end
 
     feature 'other filter types' do
-      shared_let(:list_custom_field) { FactoryBot.create :list_project_custom_field }
-      shared_let(:date_custom_field) { FactoryBot.create :date_project_custom_field }
+      shared_let(:list_custom_field) { create :list_project_custom_field }
+      shared_let(:date_custom_field) { create :date_project_custom_field }
       shared_let(:datetime_of_this_week) do
         today = Date.today
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
@@ -522,7 +522,7 @@ describe 'Projects index page',
       shared_let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
       shared_let(:project_created_on_today) do
-        project = FactoryBot.create(:project,
+        project = create(:project,
                                     name: 'Created today project',
                                     created_at: DateTime.now)
         project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
@@ -531,23 +531,23 @@ describe 'Projects index page',
         project
       end
       shared_let(:project_created_on_this_week) do
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Created on this week project',
                           created_at: datetime_of_this_week)
       end
       shared_let(:project_created_on_six_days_ago) do
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Created on six days ago project',
                           created_at: DateTime.now - 6.days)
       end
       shared_let(:project_created_on_fixed_date) do
-        FactoryBot.create(:project,
+        create(:project,
                           name: 'Created on fixed date project',
                           created_at: fixed_datetime)
       end
       shared_let(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
-        FactoryBot.create(:work_package,
+        create(:work_package,
                           updated_at: DateTime.now,
                           project: project_created_on_today)
       end
@@ -759,30 +759,30 @@ describe 'Projects index page',
 
   feature 'Non-admins with role with permission' do
     shared_let(:can_copy_projects_role) do
-      FactoryBot.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
+      create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
     shared_let(:can_add_subprojects_role) do
-      FactoryBot.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
+      create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
     end
 
     shared_let(:parent_project) do
-      FactoryBot.create(:project,
+      create(:project,
                         name: 'Parent project',
                         identifier: 'parent-project')
     end
 
     shared_let(:can_copy_projects_manager) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: parent_project,
                         member_through_role: can_copy_projects_role)
     end
     shared_let(:can_add_subprojects_manager) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: parent_project,
                         member_through_role: can_add_subprojects_role)
     end
     let(:simple_member) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: parent_project,
                         member_through_role: developer)
     end
@@ -865,21 +865,21 @@ describe 'Projects index page',
   end
 
   feature 'order' do
-    shared_let(:integer_custom_field) { FactoryBot.create(:int_project_custom_field) }
+    shared_let(:integer_custom_field) { create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
     shared_let(:child_project_z) do
-      FactoryBot.create(:project,
+      create(:project,
                         parent: project,
                         name: "Z Child")
     end
     shared_let(:child_project_m) do
-      FactoryBot.create(:project,
+      create(:project,
                         parent: project,
                         name: "m Child") # intentionally written lowercase to test for case insensitive sorting
     end
     shared_let(:child_project_a) do
-      FactoryBot.create(:project,
+      create(:project,
                         parent: project,
                         name: "A Child")
     end
@@ -971,7 +971,7 @@ describe 'Projects index page',
   end
 
   context 'with a multi-value custom field' do
-    let!(:list_custom_field) { FactoryBot.create(:list_project_custom_field, multi_value: true) }
+    let!(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
 
     before do
       project.custom_values << CustomValue.new(custom_field: list_custom_field, value: list_custom_field.value_of('A'))

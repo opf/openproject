@@ -37,8 +37,8 @@ describe Queries::Projects::Filters::TypeFilter, type: :model do
     let(:model) { Project }
     let(:attribute) { :type_id }
     let(:values) { ['3'] }
-    let(:admin) { FactoryBot.build_stubbed(:admin) }
-    let(:user) { FactoryBot.build_stubbed(:user) }
+    let(:admin) { build_stubbed(:admin) }
+    let(:user) { build_stubbed(:user) }
 
     before do
       allow(Type).to receive(:pluck).with(:name, :id).and_return([['Foo', '1234']])

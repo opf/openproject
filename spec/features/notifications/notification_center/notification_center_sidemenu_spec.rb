@@ -1,24 +1,24 @@
 require 'spec_helper'
 
 describe "Notification center sidemenu", type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:project2) { FactoryBot.create :project }
-  shared_let(:project3) { FactoryBot.create :project, parent: project2 }
+  shared_let(:project) { create :project }
+  shared_let(:project2) { create :project }
+  shared_let(:project3) { create :project, parent: project2 }
 
   shared_let(:recipient) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_projects: [project, project2, project3],
                       member_with_permissions: %i[view_work_packages]
   end
-  shared_let(:other_user) { FactoryBot.create(:user) }
+  shared_let(:other_user) { create(:user) }
 
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project, author: other_user }
-  shared_let(:work_package2) { FactoryBot.create :work_package, project: project2, author: other_user }
-  shared_let(:work_package3) { FactoryBot.create :work_package, project: project3, author: other_user }
-  shared_let(:work_package4) { FactoryBot.create :work_package, project: project3, author: other_user }
+  shared_let(:work_package) { create :work_package, project: project, author: other_user }
+  shared_let(:work_package2) { create :work_package, project: project2, author: other_user }
+  shared_let(:work_package3) { create :work_package, project: project3, author: other_user }
+  shared_let(:work_package4) { create :work_package, project: project3, author: other_user }
 
   let(:notification) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project,
                       resource: work_package,
@@ -26,7 +26,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
   end
 
   let(:notification2) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project2,
                       resource: work_package2,
@@ -34,7 +34,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
   end
 
   let(:notification3) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project3,
                       resource: work_package3,
@@ -42,7 +42,7 @@ describe "Notification center sidemenu", type: :feature, js: true do
   end
 
   let(:notification4) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project3,
                       resource: work_package4,

@@ -50,13 +50,13 @@ describe Members::CreateContract do
       end
 
       context 'if the principal is a builtin user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:anonymous) }
+        let(:member_principal) { build_stubbed(:anonymous) }
 
         it_behaves_like 'contract is invalid', principal: :unassignable
       end
 
       context 'if the principal is a locked user' do
-        let(:member_principal) { FactoryBot.build_stubbed(:locked_user) }
+        let(:member_principal) { build_stubbed(:locked_user) }
 
         it_behaves_like 'contract is invalid', principal: :unassignable
       end
@@ -64,7 +64,7 @@ describe Members::CreateContract do
 
     describe '#assignable_projects' do
       context 'as a user without permission' do
-        let(:current_user) { FactoryBot.build_stubbed :user }
+        let(:current_user) { build_stubbed :user }
 
         it 'is empty' do
           expect(contract.assignable_projects).to be_empty
@@ -72,10 +72,10 @@ describe Members::CreateContract do
       end
 
       context 'as a user with permission in one project' do
-        let!(:project1) { FactoryBot.create :project }
-        let!(:project2) { FactoryBot.create :project }
+        let!(:project1) { create :project }
+        let!(:project2) { create :project }
         let(:current_user) do
-          FactoryBot.create :user,
+          create :user,
                             member_in_project: project1,
                             member_with_permissions: %i[manage_members]
         end
