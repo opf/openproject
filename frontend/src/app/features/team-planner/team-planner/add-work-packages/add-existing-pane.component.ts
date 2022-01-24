@@ -73,6 +73,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     super();
   }
 
+  // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.calendarDrag.destroyDrake();
@@ -96,22 +97,11 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     filters.add('subjectOrId', '**', [searchString]);
 
     if (queryResults && queryResults.elements.length > 0) {
-      filters.add('id', '!', queryResults.elements.map((wp:WorkPackageResource) => wp.id!));
+      filters.add('id', '!', queryResults.elements.map((wp:WorkPackageResource) => wp.id || ''));
     }
 
     // Add the existing filter, if any
-    const query = this.querySpace.query.value;
-    if (query?.filters) {
-      const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-
-      currentFilters.forEach((filter) => {
-        Object.keys(filter).forEach((name) => {
-          if (name !== 'assignee' && name !== 'datesInterval') {
-            filters.add(name, filter[name].operator, filter[name].values);
-          }
-        });
-      });
-    }
+    this.addExistingFilters(filters);
 
     this
       .apiV3Service
@@ -120,7 +110,6 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
       .filtered(filters)
       .get()
       .pipe(
-        debounceTime(100),
         map((collection) => collection.elements),
         catchError((error:unknown) => {
           this.notificationService.handleRawError(error);
@@ -142,5 +131,20 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
 
   get isSearching():boolean {
     return this.searchString !== '';
+  }
+
+  private addExistingFilters(filters:ApiV3FilterBuilder) {
+    const query = this.querySpace.query.value;
+    if (query?.filters) {
+      const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
+
+      currentFilters.forEach((filter) => {
+        Object.keys(filter).forEach((name) => {
+          if (name !== 'assignee' && name !== 'datesInterval') {
+            filters.add(name, filter[name].operator, filter[name].values);
+          }
+        });
+      });
+    }
   }
 }

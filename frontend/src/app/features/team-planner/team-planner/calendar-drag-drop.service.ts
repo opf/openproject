@@ -8,9 +8,7 @@ import { Drake } from 'dragula';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CalendarDragDropService {
   drake:Drake;
 
@@ -61,29 +59,28 @@ export class CalendarDragDropService {
 
   private eventData(eventEl:HTMLElement):undefined|DragMetaInput {
     const wpID = eventEl.dataset.dragHelperId;
-    if (wpID) {
-      const workPackage = this.draggableWorkPackages$.value.find((wp) => wp.id === wpID);
-
-      if (workPackage) {
-        const startDate = moment(workPackage.startDate);
-        const dueDate = moment(workPackage.dueDate);
-        const diff = dueDate.diff(startDate, 'days') + 1;
-
-        return {
-          title: workPackage.subject,
-          duration: {
-            days: diff || 1,
-          },
-          className: `__hl_background_type_${workPackage.type.id as string}`,
-          extendedProps: {
-            workPackage,
-          },
-        };
-      }
-
+    if (!wpID) {
       return undefined;
     }
 
-    return undefined;
+    const workPackage = this.draggableWorkPackages$.value.find((wp) => wp.id === wpID);
+    if (!workPackage) {
+      return undefined;
+    }
+
+    const startDate = moment(workPackage.startDate);
+    const dueDate = moment(workPackage.dueDate);
+    const diff = dueDate.diff(startDate, 'days') + 1;
+
+    return {
+      title: workPackage.subject,
+      duration: {
+        days: diff || 1,
+      },
+      className: `__hl_background_type_${workPackage.type.id as string}`,
+      extendedProps: {
+        workPackage,
+      },
+    };
   }
 }

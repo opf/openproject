@@ -231,6 +231,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             customButtons: {
               addExisting: {
                 text: this.text.add_existing,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 click: this.toggleAddExistingPane.bind(this),
               },
             },
@@ -429,14 +430,14 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       changeset.setValue('assignee', { href: resource.id });
     }
 
-    this.calendarDrag.handleDrop(changeset.projectedResource as WorkPackageResource);
+    this.calendarDrag.handleDrop(changeset.projectedResource);
 
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
-      this.calendarDrag.handleDropError(changeset.projectedResource as WorkPackageResource);
+      this.calendarDrag.handleDropError(changeset.projectedResource );
       info.revert();
     }
   }

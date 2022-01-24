@@ -59,7 +59,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   isNewResource = isNewResource;
 
-  constructor(readonly pathHelper:PathHelperService,
+  constructor(
+    readonly pathHelper:PathHelperService,
     readonly I18n:I18nService,
     readonly $state:StateService,
     readonly wpTableSelection:WorkPackageViewSelectionService,
@@ -130,18 +131,19 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   public wpDates(wp:WorkPackageResource):string {
-    const startDate = wp.startDate;
-    const dueDate = wp.dueDate;
-    const dateTimeFormat = new Intl.DateTimeFormat('en', {
+    const { startDate } = wp;
+    const { dueDate } = wp;
+    const dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
     });
 
     if (startDate && dueDate) {
-      // see https://github.com/Microsoft/TypeScript/issues/23691
-      // @ts-ignore
-      return dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      return String(dateTimeFormat.formatRange(new Date(startDate), new Date(dueDate)));
     }
     if (!startDate && dueDate) {
       return `- ${dateTimeFormat.format(new Date(dueDate))}`;
