@@ -14,5 +14,28 @@
 <h1>Checkbox</h1>
 
 <label>
-  <spot-checkbox></spot-checkbox>
+  <spot-checkbox></spot-checkbox> Unchecked
+</label>
+
+<label>
+  <spot-checkbox [checked]="true"></spot-checkbox> Checked
+</label>
+
+<label>
+  <spot-checkbox [disabled]="true"></spot-checkbox> Disabled
+</label>
+
+<label>
+  <spot-checkbox [disabled]="true"></spot-checkbox> Disabled checked
+</label>
+
+<label>
+  <spot-checkbox [(ngModel)]="indeterminateState"></spot-checkbox> Indeterminate
+</label>
+
+<label>
+  <spot-checkbox
+    [(ngModel)]="indeterminateState"
+    [disabled]="true"
+  ></spot-checkbox> Indeterminate disabled
 </label>

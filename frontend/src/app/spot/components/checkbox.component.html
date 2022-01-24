@@ -1,6 +1,8 @@
 <input
   type="checkbox"
   class="spot-checkbox--input"
+  [disabled]="disabled"
+  [checked]="checked"
   (change)="onStateChange"
   #input
 />

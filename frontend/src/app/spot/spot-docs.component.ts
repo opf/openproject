@@ -5,4 +5,5 @@ import { Component } from '@angular/core';
   templateUrl: './spot-docs.component.html',
 })
 export class SpotDocsComponent {
+  indeterminateState = null;
 }

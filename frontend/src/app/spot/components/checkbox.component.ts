@@ -9,6 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { after } from 'lodash';
 
 export type SpotCheckboxState = true|false|null;
 
@@ -26,28 +27,36 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   @ViewChild('input') public input:ElementRef;
 
+  @Input() disabled = false;
+
   @Input() name = `spot-checkbox-${+(new Date())}`;
 
-  @Output() change = new EventEmitter<boolean>();
+  @Output() checkedChange = new EventEmitter<boolean>();
 
-  onStateChange(e:Event) {
-    console.log('Checkbox changed!', e);
+  @Input() public checked = false;
+
+  onStateChange() {
+    const value = this.input.nativeElement.checked;
+    this.checkedChange.emit(value);
+    this.onChange(value);
+    this.onTouched(value);
+  }
+
+  writeValue(value:SpotCheckboxState) {
+    // This is set in a timeout because the initial value is set before the template is ready,
+    // which causes the input nativeElement to not be available yet.
+    setTimeout(() => {
+      const input = this.input.nativeElement;
+      if (value === null) {
+        input.indeterminate = true;
+      }
+      
+      this.checked = !!value;
+    });
   }
 
   onChange = (_:SpotCheckboxState) => {};
-
   onTouched = (_:SpotCheckboxState) => {};
-
-  writeValue(value:SpotCheckboxState) {
-    const input = this.input.nativeElement;
-    if (value === null) {
-      input.indeterminate = true;
-      return;
-    }
-
-    input.indeterminate = false;
-    input.checked = value;
-  }
 
   registerOnChange(fn:any) {
     this.onChange = fn;
