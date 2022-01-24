@@ -87,6 +87,25 @@ _**Note**: This is an Enterprise Edition feature. If you do not see the button y
 
 You can see a list of possible options [here](https://github.com/m0n9oose/omniauth_openid_connect#options-overview).
 
+### Known providers and multiple connection per provider
+
+There are a number of known providers where the endpoints are configured automatically based on the provider name in the configuration. All that is required are the client ID (identifier) and secret in that case.
+
+If you want to configure multiple connections using the same provider you can prefix an arbitary name with the
+provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
+
+```
+Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_openid_connect || {}).deep_merge({
+  "providers" => {
+    "azure.dept1" =>  { "display_name"=>"Department 1","identifier"=>"...","secret"=>"..." },
+    "azure.dept2" =>  { "display_name"=>"Department 2","identifier"=>"...","secret"=>"..." },
+    "google" =>  { "display_name"=>"Google","identifier"=>"...","secret"=>"..." }
+  }
+})
+```
+
+At the time of writing the known providers are: `azure`, `google`, `okta`
+
 ### Claims
 
 You can also request [claims](https://openid.net/specs/openid-connect-core-1_0-final.html#Claims) for both the id_token and userinfo endpoint.

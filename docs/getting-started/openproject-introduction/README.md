@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Introduction to OpenProject
   priority: 999
-description: Get and introduction to OpenProject.
+description: Get an introduction to OpenProject.
 robots: index, follow
 keywords: OpenProject introduction
 ---
