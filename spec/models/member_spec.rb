@@ -62,4 +62,21 @@ describe Member, type: :model do
       end
     end
   end
+
+  describe '#deletable_role?' do
+    it 'returns true if not inherited from a group' do
+      expect(member.deletable_role?(role)).to eq(true)
+    end
+
+    it 'returns false if role is inherited' do
+      member
+      group = FactoryBot.create(:group, members: [user])
+      FactoryBot.create(:member, project: project, principal: group, roles: [role])
+      ::Groups::AddUsersService
+        .new(group, current_user: User.system, contract_class: EmptyContract)
+        .call(ids: [user.id])
+
+      expect(user.reload.memberships.map { _1.deletable_role?(role) }).to match_array([true, false])
+    end
+  end
 end

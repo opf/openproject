@@ -70,6 +70,10 @@ class Member < ApplicationRecord
     member_roles.detect(&:inherited_from).nil?
   end
 
+  def deletable_role?(role)
+    member_roles.filter { _1.role_id == role.id }.none?(&:inherited_from)
+  end
+
   def include?(principal)
     if user?
       self.principal == principal
