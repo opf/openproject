@@ -2,20 +2,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import {
   BehaviorSubject,
+  Observable,
   of,
+  Subject,
 } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import {
   catchError,
   debounceTime,
+  distinctUntilChanged,
   map,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -24,6 +31,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
+import { input } from 'reactivestates';
 
 @Component({
   selector: 'op-add-existing-pane',
@@ -31,7 +39,9 @@ import { CalendarDragDropService } from 'core-app/features/team-planner/team-pla
   styleUrls: ['./add-existing-pane.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddExistingPaneComponent extends UntilDestroyedMixin {
+export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnInit {
+  @HostBinding('class.op-add-existing-pane') className = true;
+
   @ViewChild('container') container:ElementRef;
 
   @ViewChild('container')
@@ -44,7 +54,11 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     }
   }
 
-  searchString = '';
+  /** Observable to the current search filter term */
+  public searchString = input<string>('');
+
+  /** Input for search requests */
+  public searchStringChanged$:Subject<string> = new Subject<string>();
 
   isEmpty$ = new BehaviorSubject<boolean>(true);
 
@@ -73,14 +87,29 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     super();
   }
 
+  ngOnInit():void {
+    this.searchStringChanged$
+      .pipe(
+        this.untilDestroyed(),
+        distinctUntilChanged(),
+        debounceTime(500),
+        tap((val) => this.searchString.putValue(val)),
+        switchMap((searchString:string) => this.searchWorkPackages(searchString)),
+      ).subscribe((results) => {
+        this.calendarDrag.draggableWorkPackages$.next(results);
+
+        this.isEmpty$.next(results.length === 0);
+        this.isLoading$.next(false);
+      });
+  }
+
   // eslint-disable-next-line @angular-eslint/use-lifecycle-interface
   ngOnDestroy():void {
     super.ngOnDestroy();
     this.calendarDrag.destroyDrake();
   }
 
-  searchWorkPackages(searchString:string):void {
-    this.searchString = searchString;
+  searchWorkPackages(searchString:string):Observable<WorkPackageResource[]> {
     this.isLoading$.next(true);
 
     // Return when the search string is empty
@@ -88,7 +117,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
       this.isLoading$.next(false);
       this.isEmpty$.next(true);
 
-      return;
+      return of([]);
     }
 
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
@@ -103,7 +132,7 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
     // Add the existing filter, if any
     this.addExistingFilters(filters);
 
-    this
+    return this
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
@@ -116,21 +145,15 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin {
           return of([]);
         }),
         this.untilDestroyed(),
-      )
-      .subscribe((results) => {
-        this.calendarDrag.draggableWorkPackages$.next(results);
-
-        this.isEmpty$.next(results.length === 0);
-        this.isLoading$.next(false);
-      });
+      );
   }
 
   clearInput():void {
-    this.searchWorkPackages('');
+    this.searchStringChanged$.next('');
   }
 
   get isSearching():boolean {
-    return this.searchString !== '';
+    return this.searchString.value !== '';
   }
 
   private addExistingFilters(filters:ApiV3FilterBuilder) {

@@ -1,7 +1,7 @@
 <div class="op-add-existing-pane--search">
   <input
-    [ngModel]="searchString"
-    (ngModelChange)="searchWorkPackages($event)"
+    [ngModel]="searchString.values$() | async"
+    (ngModelChange)="searchStringChanged$.next($event)"
     class="op-add-existing-pane--search-input"
     data-qa-selector="op-add-existing-pane--search-input"
     [placeholder]="text.placeholder"

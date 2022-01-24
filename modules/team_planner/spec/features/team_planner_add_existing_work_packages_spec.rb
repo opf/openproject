@@ -60,8 +60,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
                       subject: 'Task 2',
                       parent: first_wp,
                       assigned_to: other_user,
-                      start_date: Time.zone.today.prev_week.prev_occurring(:tuesday),
-                      due_date: Time.zone.today.prev_week.prev_occurring(:thursday)
+                      start_date: 10.days.from_now,
+                      due_date: 12.days.from_now
   end
   let!(:third_wp) do
     FactoryBot.create :work_package,
@@ -100,7 +100,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel second_wp, 650, 50
+      add_existing_pane.drag_wp_by_pixel second_wp, 750, 50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 
@@ -117,7 +117,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel third_wp, 650, -50
+      add_existing_pane.drag_wp_by_pixel third_wp, 750, -50
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 

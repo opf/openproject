@@ -437,7 +437,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
-      this.calendarDrag.handleDropError(changeset.projectedResource );
+      this.calendarDrag.handleDropError(changeset.projectedResource);
       info.revert();
     }
   }
