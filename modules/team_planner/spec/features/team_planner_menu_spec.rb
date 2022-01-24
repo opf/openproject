@@ -29,7 +29,7 @@
 #++
 
 require 'spec_helper'
-require_relative '../../../../spec/support/components/work_packages/query_menu.rb'
+require_relative '../../../../spec/support/components/work_packages/query_menu'
 
 describe 'Team planner sidemenu', type: :feature, js: true do
   shared_let(:project) do
@@ -56,7 +56,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
         click_link 'Team planner'
       end
 
-    query_menu.expect_menu_entry_not_visible('Create new planner')
+      query_menu.expect_menu_entry_not_visible('Create new planner')
     end
   end
 
@@ -69,7 +69,6 @@ describe 'Team planner sidemenu', type: :feature, js: true do
                           view_team_planner manage_team_planner
                         ]
     end
-
 
     current_user { user_with_rights }
 

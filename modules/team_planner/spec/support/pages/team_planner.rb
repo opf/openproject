@@ -177,7 +177,7 @@ module Pages
     end
 
     def expect_no_menu_item(name)
-      expect(page).to_not have_selector('.op-sidemenu--item-title', text: name)
+      expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
     end
   end
 end
