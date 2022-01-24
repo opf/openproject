@@ -79,5 +79,21 @@ module OpenProject::Storages
     add_api_path :file_link_open do |work_package_id, file_link_id|
       "#{work_package(work_package_id)}/file_links/#{file_link_id}/open"
     end
+
+    add_api_path :file_links do |work_package_id|
+      "#{work_package(work_package_id)}/file_links"
+    end
+
+    add_api_path :file_link do |work_package_id, file_link_id|
+      "#{work_package(work_package_id)}/file_links/#{file_link_id}"
+    end
+
+    add_api_path :file_link_download do |work_package_id, file_link_id|
+      "#{work_package(work_package_id)}/file_links/#{file_link_id}/download"
+    end
+
+    add_api_path :file_link_open do |work_package_id, file_link_id|
+      "#{work_package(work_package_id)}/file_links/#{file_link_id}/open"
+    end
   end
 end
