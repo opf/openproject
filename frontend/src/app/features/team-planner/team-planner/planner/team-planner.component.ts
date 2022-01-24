@@ -25,7 +25,6 @@ import {
   filter,
   map,
   mergeMap,
-  take,
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
