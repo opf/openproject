@@ -175,5 +175,9 @@ module Pages
     def expect_wp_not_draggable(work_package)
       expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
+
+    def expect_no_menu_item(name)
+      expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
+    end
   end
 end
