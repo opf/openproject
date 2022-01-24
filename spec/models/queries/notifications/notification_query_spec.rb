@@ -29,10 +29,17 @@
 require 'spec_helper'
 
 describe Queries::Notifications::NotificationQuery, type: :model do
-  shared_let(:recipient) { FactoryBot.create :user }
+  shared_let(:project) { FactoryBot.create :project }
+
+  shared_let(:recipient) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
+
+  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:notification) { FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package }
 
   let(:instance) { described_class.new(user: recipient) }
-  let(:base_scope) { Notification.recipient(recipient) }
+  let(:base_scope) { Notification.visible(recipient).recipient(recipient) }
+
+  current_user { recipient }
 
   context 'without a filter' do
     describe '#results' do
@@ -49,9 +56,9 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = base_scope.where("notifications.read_ian IN ('t')").order(id: :desc)
+        expected = base_scope.merge(Notification.where("notifications.read_ian IN ('t')").order(id: :desc)).to_sql
 
-        expect(instance.results.to_sql).to eql expected.to_sql
+        expect(instance.results.to_sql).to eql expected
       end
     end
 
@@ -114,11 +121,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = <<~SQL.squish
-          SELECT "notifications".* FROM "notifications"
-          WHERE "notifications"."recipient_id" = #{recipient.id}
-          ORDER BY "notifications"."read_ian" DESC, "notifications"."id" DESC
-        SQL
+        expected = base_scope.merge(Notification.order(read_ian: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -132,11 +135,7 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = <<~SQL.squish
-          SELECT "notifications".* FROM "notifications"
-          WHERE "notifications"."recipient_id" = #{recipient.id}
-          ORDER BY "notifications"."reason" DESC, "notifications"."id" DESC
-        SQL
+        expected = base_scope.merge(Notification.order(reason: :desc, id: :desc)).to_sql
 
         expect(instance.results.to_sql).to eql expected
       end
@@ -170,12 +169,11 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = <<~SQL.squish
-          SELECT "notifications"."reason", COUNT(*) FROM "notifications"
-          WHERE "notifications"."recipient_id" = #{recipient.id}
-          GROUP BY "notifications"."reason"
-          ORDER BY "notifications"."reason" ASC
-        SQL
+        scope = Notification
+          .group(:reason)
+          .order(reason: :asc)
+          .select(:reason, Arel.sql('COUNT(*)'))
+        expected = base_scope.merge(scope).to_sql
 
         expect(instance.groups.to_sql).to eql expected
       end
@@ -189,12 +187,11 @@ describe Queries::Notifications::NotificationQuery, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expected = <<~SQL.squish
-          SELECT "notifications"."project_id", COUNT(*) FROM "notifications"
-          WHERE "notifications"."recipient_id" = #{recipient.id}
-          GROUP BY "notifications"."project_id"
-          ORDER BY "notifications"."project_id" ASC
-        SQL
+        scope = Notification
+          .group(:project_id)
+          .order(project_id: :asc)
+          .select(:project_id, Arel.sql('COUNT(*)'))
+        expected = base_scope.merge(scope).to_sql
 
         expect(instance.groups.to_sql).to eql expected
       end
