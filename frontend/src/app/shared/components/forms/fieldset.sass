@@ -7,13 +7,12 @@
 
   &_collapsible &
     &--toggle::before
-      display: inline-block
-      content: ""
+      @include icon-mixin-arrow-up1
       padding: .625rem .25rem 0
 
   &_collapsed &
     &--toggle::before
-      content: ""
+      @include icon-mixin-arrow-down1
 
     &--fields
       height: 0

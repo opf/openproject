@@ -73,7 +73,7 @@ module Pages
       open_edit_planned_costs!(id, type: type)
 
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
-      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_costs_edit"
+      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_amount"
 
       page.within row_id do
         fill_in editor_name, with: costs
