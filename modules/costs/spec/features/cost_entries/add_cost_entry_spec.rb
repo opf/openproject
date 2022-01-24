@@ -93,7 +93,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
     # Override costs
     find('#cost_entry_costs').click
     SeleniumHubWaiter.wait
-    fill_in 'cost_entry_costs_edit', with: '15.52'
+    fill_in 'cost_entry_overridden_costs', with: '15.52'
 
     click_on 'Save'
 
@@ -130,7 +130,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
       # Override costs
       find('#cost_entry_costs').click
       SeleniumHubWaiter.wait
-      fill_in 'cost_entry_costs_edit', with: '1.350,25'
+      fill_in 'cost_entry_overridden_costs', with: '1.350,25'
 
       click_on I18n.t(:button_save)
 
@@ -152,7 +152,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
 
       # Update the costs in german locale
       SeleniumHubWaiter.wait
-      fill_in 'cost_entry_costs_edit', with: '55.000,55'
+      fill_in 'cost_entry_overridden_costs', with: '55.000,55'
       click_on I18n.t(:button_save)
 
       expect(page).to have_selector('#cost_entry_costs', text: '55.000,55 EUR')
