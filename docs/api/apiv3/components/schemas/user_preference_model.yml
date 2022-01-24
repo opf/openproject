@@ -9,8 +9,7 @@ properties:
     type: boolean
     description: Hide mail address from other users
   notifications:
-    type: NotificationSetting
-    description: The settings for the notifications to be received by the user
+    $ref: "./notification_settings_model.yml"
   timeZone:
     type: string
     description: Current selected time zone

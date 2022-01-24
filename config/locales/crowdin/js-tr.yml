@@ -88,9 +88,6 @@ tr:
     button_export-pdf: "PDF indir"
     button_export-atom: "Atom İndir"
     button_create: "Oluştur"
-    calendar:
-      title: 'Takvim'
-      too_many: 'Toplamda %{count} iş paketi var, ancak sadece  %{max} gösterilebilir.'
     card:
       add_new: 'Yeni kart ekleyin'
       highlighting:

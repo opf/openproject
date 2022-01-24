@@ -88,9 +88,6 @@ ne:
     button_export-pdf: "PDF डाउनलोड गर्नुहोस्"
     button_export-atom: "एटम डाउनलोड गर्नुहोस्"
     button_create: "Create"
-    calendar:
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'नयाँ कार्ड थप्नुहोस्'
       highlighting:

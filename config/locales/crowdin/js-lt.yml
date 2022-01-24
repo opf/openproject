@@ -88,9 +88,6 @@ lt:
     button_export-pdf: "Atsisiųsti PDF"
     button_export-atom: "Atsisiųsti Atom"
     button_create: "Kurti"
-    calendar:
-      title: 'Kalendorius'
-      too_many: 'Iš viso yra %{count} darbo paketų, bet tik %{max} gali būti rodomi.'
     card:
       add_new: 'Pridėti naują kortelę'
       highlighting:

@@ -751,6 +751,8 @@ lt:
               group_without_name: "Bevardės grupės nėra leidžiamos."
         user:
           attributes:
+            base:
+              user_limit_reached: "Pasiekta naudotoj riba. Su dabartiniu planu daugiau paskyrų kurti nebegalima."
             password_confirmation:
               confirmation: "Slaptažodžio patvirtinimas nesutampa su įvestu slaptažodžiu."
               format: "%{message}"
@@ -2214,7 +2216,6 @@ lt:
   permission_select_custom_fields: "Parinkite savo laukus"
   permission_select_project_modules: "Parinkti projekto modulius"
   permission_manage_types: "Pasirinkti tipus"
-  permission_view_calendar: "Peržiūrėti kalendorių"
   permission_view_changesets: "Rodyti repozitorijos pakeitimus OpenProject"
   permission_view_commit_author_statistics: "Peržiūrėti autorių pakeitimų pateikimo statistiką"
   permission_view_work_package_watchers: "Peržiūrėti stebėtojų sąrašą"
@@ -2250,7 +2251,6 @@ lt:
       archived: "Suarchyvuotas"
   project_module_activity: "Veikla"
   project_module_forums: "Forumai"
-  project_module_calendar: "Kalendorius"
   project_module_work_package_tracking: "Darbų paketo sekimas"
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
@@ -2935,6 +2935,7 @@ lt:
       schema: 'Schema'
     undisclosed:
       parent: Nerodomas -- pasirinktas tėvinis projektas yra nematomas nes trūksta teisių.
+      ancestor: Nerodoma - tėvas nematomas dėl teisių trūkumo.
   doorkeeper:
     pre_authorization:
       status: 'Išankstinė autorizacija'

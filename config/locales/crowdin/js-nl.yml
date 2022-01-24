@@ -88,9 +88,6 @@ nl:
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Maken"
-    calendar:
-      title: 'Kalender'
-      too_many: 'Er zijn in totaal %{count} werkpakketten, maar alleen %{max} kan worden getoond.'
     card:
       add_new: 'Nieuwe kaart toevoegen'
       highlighting:

@@ -6,11 +6,11 @@ required:
 - filter
 properties:
   name:
-    type: field schema
+    type: string
     description: Describes the name attribute
     readOnly: true
   filter:
-    type: field schema
+    type: string
     description: QuerySortBy name
   _links:
     type: object

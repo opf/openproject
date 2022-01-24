@@ -753,6 +753,8 @@ ro:
               group_without_name: "Grupurile fără nume nu sunt permise."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2197,7 +2199,6 @@ ro:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selectare module proiect"
   permission_manage_types: "Selectare tipuri"
-  permission_view_calendar: "Vizualizare calendar"
   permission_view_changesets: "Vizualizare revizii repo în OpenProject"
   permission_view_commit_author_statistics: "Vizualizare statistici autor înregistrări"
   permission_view_work_package_watchers: "Vizualizare listă observatori"
@@ -2233,7 +2234,6 @@ ro:
       archived: "Arhivat"
   project_module_activity: "Activitate"
   project_module_forums: "Forumuri"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Urmărire pachete de lucru"
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
@@ -2919,6 +2919,7 @@ ro:
       schema: 'Schemă'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Autorizare prealabilă'

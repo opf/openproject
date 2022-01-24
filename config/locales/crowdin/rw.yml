@@ -752,6 +752,8 @@ rw:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2181,6 @@ rw:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2215,7 +2216,6 @@ rw:
       archived: "Archived"
   project_module_activity: "Activity"
   project_module_forums: "Forums"
-  project_module_calendar: "Calendar"
   project_module_work_package_tracking: "Work package tracking"
   project_module_news: "News"
   project_module_repository: "Repository"
@@ -2899,6 +2899,7 @@ rw:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

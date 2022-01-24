@@ -88,9 +88,6 @@ fi:
     button_export-pdf: "Lataa PDF"
     button_export-atom: "Lataa Atom"
     button_create: "Uusi"
-    calendar:
-      title: 'Kalenteri'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Uusi kortti'
       highlighting:

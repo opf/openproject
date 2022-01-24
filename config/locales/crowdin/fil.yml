@@ -752,6 +752,8 @@ fil:
               group_without_name: "Wala pangalan ng grupo ay hindi pinapayagan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
             password_confirmation:
               confirmation: "Password confirmation does not match password."
               format: "%{message}"
@@ -2179,7 +2181,6 @@ fil:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Piliin ang mga proyektong modyul"
   permission_manage_types: "Pumili ng mga uri"
-  permission_view_calendar: "Tanawin ang kalendaryo"
   permission_view_changesets: "Tingnan ang mga repository revision ng OpenProject"
   permission_view_commit_author_statistics: "Tanawin ang commit"
   permission_view_work_package_watchers: "Tanawin ang mga manunuod ng listahan"
@@ -2215,7 +2216,6 @@ fil:
       archived: "Archived"
   project_module_activity: "Aktibidad"
   project_module_forums: "Mga forum"
-  project_module_calendar: "Kalendaryo"
   project_module_work_package_tracking: "Ang pagtra-track ng work package"
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
@@ -2897,6 +2897,7 @@ fil:
       schema: 'Iskema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
