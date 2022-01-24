@@ -75,8 +75,6 @@ class GroupsController < ApplicationController
   # GET /groups/1/edit
   def edit
     @group = Group.includes(:members, :users).find(params[:id])
-
-    set_filters_for_user_autocompleter
   end
 
   # POST /groups

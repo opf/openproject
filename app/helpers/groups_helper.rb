@@ -58,9 +58,10 @@ module GroupsHelper
     ]
   end
 
-  def set_filters_for_user_autocompleter
-    @autocompleter_filters = []
-    @autocompleter_filters.push({ selector: 'status', operator: '=', values: ['active', 'invited'] })
-    @autocompleter_filters.push({ selector: 'group', operator: '!', values: [@group.id] })
+  def autocompleter_filters(group)
+    [
+      { selector: 'status', operator: '=', values: ['active', 'invited'] },
+      { selector: 'group', operator: '!', values: [group.id] }
+    ]
   end
 end
