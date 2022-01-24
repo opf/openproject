@@ -5,11 +5,11 @@
 <button class="spot-button spot-button_alert">Alert [Not implemented]</button>
 <button class="spot-button" disabled>Disabled</button>
 <hr>
-<button class="spot-button spot-button_outline">Default</button>
-<button class="spot-button spot-button_outline spot-button_primary">Primary</button>
-<button class="spot-button spot-button_outline spot-button_secondary">Secondary</button>
-<button class="spot-button spot-button_outline spot-button_alert">Alert [Not implemented]</button>
-<button class="spot-button spot-button_outline" disabled>Disabled</button>
+<button class="spot-button spot-button_outlined">Default</button>
+<button class="spot-button spot-button_outlined spot-button_primary">Primary</button>
+<button class="spot-button spot-button_outlined spot-button_secondary">Secondary</button>
+<button class="spot-button spot-button_outlined spot-button_alert">Alert [Not implemented]</button>
+<button class="spot-button spot-button_outlined" disabled>Disabled</button>
 
 <h1>Checkbox</h1>
 
@@ -39,3 +39,26 @@
     [disabled]="true"
   ></spot-checkbox> Indeterminate disabled
 </label>
+
+<h1>Filter Chip</h1>
+
+<div class="spot-filter-chip">
+  <button class="spot-filter-chip--remove">
+    x
+  </button>
+  <div class="spot-filter-chip--title">
+    Active Filter
+  </div>
+</div>
+
+<div class="spot-filter-chip">
+  <div class="spot-filter-chip--title">
+    Unremovable Filter
+  </div>
+</div>
+
+<div class="spot-filter-chip">
+  <div class="spot-filter-chip--title">
+    Unremovable Filter
+  </div>
+</div>

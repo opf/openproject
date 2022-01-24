@@ -68,6 +68,49 @@
       cursor: default
 
   &_outlined
+    background-color: transparent
+    border-color: $spot-color-basic-white
+    color: $spot-color-basic-white
+
+    &:hover
+      background-color: $spot-color-basic-gray-6
+      border-color: $spot-color-main
+      color: $spot-color-main
+      
+    &:active
+      background-color: $spot-color-basic-white
+      border-color: $spot-color-basic-white
+      color: $spot-color-main
+
+  &_outlined#{&}_primary
+    background-color: transparent
+    border-color: $spot-color-main
+    color: $spot-color-main
+
+    &:hover
+      background-color: $spot-color-main-light
+      border-color: $spot-color-main
+      color: $spot-color-main
+      
+    &:active
+      background-color: $spot-color-main
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
+
+  &_outlined#{&}_secondary
+    background-color: transparent
+    border-color: $spot-color-action-dark
+    color: $spot-color-action-dark
+
+    &:hover
+      background-color: $spot-color-action-light
+      border-color: $spot-color-action-dark
+      color: $spot-color-action-dark
+      
+    &:active
+      background-color: $spot-color-action-dark
+      border-color: $spot-color-basic-white
+      color: $spot-color-basic-white
 
   &_transparent
     &,
