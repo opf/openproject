@@ -142,7 +142,7 @@ module Pages
       within_list(list_name) do
         found = all('[data-qa-selector="op-wp-single-card--content-subject"]')
           .map(&:text)
-        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? title.subject : title.to_s }
+        expected = card_titles.map { |title| title.is_a?(WorkPackage) ? "##{title.id} #{title.subject}" : title.to_s }
 
         expect(found)
           .to match expected
