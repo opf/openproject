@@ -57,6 +57,8 @@ import { EnterpriseBannerBootstrapComponent } from 'core-app/shared/components/e
 import { HomescreenNewFeaturesBlockComponent } from 'core-app/features/homescreen/blocks/new-features.component';
 import { TablePaginationComponent } from 'core-app/shared/components/table-pagination/table-pagination.component';
 import { HookService } from 'core-app/features/plugins/hook-service';
+import { ViewSelectComponent } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import {
   highlightColSelector,
   OpHighlightColDirective,
@@ -64,9 +66,9 @@ import {
 
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
-import { NotificationComponent } from './components/notifications/notification.component';
-import { NotificationsContainerComponent } from './components/notifications/notifications-container.component';
-import { UploadProgressComponent } from './components/notifications/upload-progress.component';
+import { ToastComponent } from './components/toaster/toast.component';
+import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
+import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
 import { CollapsibleSectionComponent } from './components/collapsible-section/collapsible-section.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
@@ -83,6 +85,7 @@ import { OpFormFieldComponent } from './components/forms/form-field/form-field.c
 import { OpFormBindingDirective } from './components/forms/form-field/form-binding.directive';
 import { OpOptionListComponent } from './components/option-list/option-list.component';
 import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
+import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 
 export function bootstrapModule(injector:Injector) {
   // Ensure error reporter is run
@@ -149,9 +152,8 @@ export function bootstrapModule(injector:Injector) {
     FocusModule,
     OpDateTimeComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 
@@ -187,12 +189,16 @@ export function bootstrapModule(injector:Injector) {
     OpOptionListComponent,
     OpSidemenuComponent,
   ],
+  providers: [
+    StaticQueriesService,
+    ViewsResourceService,
+  ],
   declarations: [
     OpDateTimeComponent,
+    ViewSelectComponent,
 
-    // Notifications
-    NotificationsContainerComponent,
-    NotificationComponent,
+    ToastsContainerComponent,
+    ToastComponent,
     UploadProgressComponent,
     OpDateTimeComponent,
 

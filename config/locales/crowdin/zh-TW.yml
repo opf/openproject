@@ -316,6 +316,10 @@ zh-TW:
       other: '%{count} 個子工作項目'
     bulk:
       could_not_be_saved: "以下文檔無法被保存"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
       unsupported_for_multiple_projects: '工作項目不支援從多個專案的大區塊的移動/複製'
@@ -459,6 +463,7 @@ zh-TW:
         url: "URL"
       role:
         assignable: "可以將工作包分配給在相應專案中擁有此角色的使用者和群組"
+        permissions: "權限"
       time_entry:
         activity: "活動"
         hours: "小時"
@@ -587,7 +592,9 @@ zh-TW:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "設置為 '%{value}'，未列入上傳白名單"
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: '全域設定'
@@ -629,7 +636,7 @@ zh-TW:
             mail_reminder_sent:
               set_on_creation: '在創建通知時不能設置為 true'
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
         notification_settings:
@@ -670,7 +677,6 @@ zh-TW:
           filters:
             custom_fields:
               inexistent: "篩選器沒有自訂欄位。"
-              invalid: "自訂欄位在指定的上下文中無效。"
         queries/filters/base:
           attributes:
             values:
@@ -734,6 +740,7 @@ zh-TW:
               does_not_exist: "指定的類別不存在"
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "必須是 > = 0。"
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -744,6 +751,11 @@ zh-TW:
               group_without_name: "不允許未命名的群組。"
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "必須包含以下的字元 (至少 %{all_count} 個中的 %{min_count} 個): %{rules}"
               lowercase: "小寫（例如：「a」）"
@@ -841,7 +853,7 @@ zh-TW:
     id: "ID"
     is_default: "預設值"
     is_for_all: "對所有的專案"
-    is_public: "公開"
+    public: "公開"
     #kept for backwards compatibility
     issue: "工作項目"
     lastname: "姓："
@@ -851,7 +863,6 @@ zh-TW:
     password: "密碼"
     priority: "優先等級"
     project: "專案"
-    public: "公開"
     responsible: "可信賴的"
     role: "角色"
     roles: "角色"
@@ -1176,7 +1187,9 @@ zh-TW:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "無法刪除項目"
   error_can_not_delete_custom_field: "無法刪除自訂欄位"
-  error_can_not_delete_type: "這個類型還有工作項目在使用，無法刪除。"
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "標準類型無法刪除"
   error_can_not_invite_user: "無法向用戶發送邀請。"
   error_can_not_remove_role: "這個角色正在使用中，無法刪除。"
@@ -1257,7 +1270,7 @@ zh-TW:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "星期日"
-  general_lang_name: "繁體中文"
+  general_lang_name: "台灣正體"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "否"
   general_text_yes: "是"
@@ -1323,6 +1336,23 @@ zh-TW:
         mentioned: "您已在 %{work_package} 中被提醒"
         responsible: "您已對 %{work_package} 負責"
         watched: "您正在監看 %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: '新知'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "輔助功能"
   label_account: "帳號"
   label_active: "啟用"
@@ -1577,6 +1607,10 @@ zh-TW:
   label_member_plural: "成員"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: '早期開發版本'
+    alpha: '開發版本'
+    beta: '測試版本'
   label_menu_item_name: "選單項目名稱"
   label_message: "訊息"
   label_message_last: "最後訊息"
@@ -1682,7 +1716,6 @@ zh-TW:
   label_public_projects: "公開專案"
   label_query_new: "新增查詢"
   label_query_plural: "自訂查詢"
-  label_query_menu_item: "查詢選單項目"
   label_read: "讀取..."
   label_register: "建立新帳號"
   label_register_with_developer: "註冊成開發者"
@@ -1844,19 +1877,19 @@ zh-TW:
   label_workflow_summary: "大綱"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
-    other: "%{count} closed"
+    other: "%{count} 個已結案"
     zero: "0 個已關閉"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} 個評論"
     zero: "沒有留言"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} 個專案"
     zero: "沒有專案"
   label_yesterday: "昨天"
   label_role_type: "類型"
@@ -1905,19 +1938,19 @@ zh-TW:
     salutation: '嘿 %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
+      login_to_see_all: '登入以查看所有通知'
+      mentioned: '您已在<b>評論中被提醒</b>'
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
-        other: 'There are %{count} more work packages with notifications.'
+        other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
       reason:
-        watched: 'Watched'
-        assigned: 'Assigned'
+        watched: '監看'
+        assigned: '指派'
         responsible: '可信賴的'
-        mentioned: 'Mentioned'
+        mentioned: '提醒'
         subscribed: '所有'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        prefix: '因為通知設定而收到：%{reason}'
+      see_all: '全部顯示'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
@@ -2125,9 +2158,9 @@ zh-TW:
   permission_protect_wiki_pages: "專案維基頁面"
   permission_rename_wiki_pages: "重新命名維基頁面"
   permission_save_queries: "保存視圖"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "選擇專案的模組"
   permission_manage_types: "選擇類型"
-  permission_view_calendar: "檢視行事曆"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
   permission_view_commit_author_statistics: "檢視 Commit 的作者統計資訊"
   permission_view_work_package_watchers: "檢視監看者清單"
@@ -2163,7 +2196,6 @@ zh-TW:
       archived: "封存"
   project_module_activity: "活動"
   project_module_forums: "論壇"
-  project_module_calendar: "行事曆"
   project_module_work_package_tracking: "工作項目追蹤"
   project_module_news: "新知"
   project_module_repository: "Repository"
@@ -2787,7 +2819,6 @@ zh-TW:
   wiki_menu_item_new_main_item_explanation: >
     您正在刪除 wiki 唯一的主功能表項目。現在, 您必須選擇一個 wiki 頁面, 該網頁將生成一個新的主專案。要刪除 wiki, 可以由專案管理員停用 wiki 模組。
   wiki_menu_item_delete_not_permitted: 無法刪除 wiki 頁面的唯一 wiki 功能表項目。
-  query_menu_item_for: "查詢 \"%{title}\" 的功能表項目"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2846,6 +2877,7 @@ zh-TW:
       schema: '架構'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: '提前授權'

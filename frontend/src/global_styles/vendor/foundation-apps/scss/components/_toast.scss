@@ -1,0 +1,207 @@
+/*
+  TOAST
+  ------------
+
+  An alert that pins to the corner of the screen when triggered by JavaScript. It can be set to disappear after a certain period of time, or to stay put until the user clicks on it. A custom action can be asigned to a toaster as well.
+
+  Optionally, the toasters directive can also tap into the browser's native toaster support, if it exists.
+*/
+
+/// @Foundation.settings
+// Notification
+$toaster-default-position: right top !default;
+$toaster-width: rem-calc(400) !default;
+$toaster-offset: $global-padding !default;
+
+$toaster-background: $primary-color !default;
+$toaster-color: white !default;
+$toaster-padding: $global-padding !default;
+$toaster-radius: 4px !default;
+
+$toaster-icon-size: 60px !default;
+$toaster-icon-margin: $global-padding !default;
+$toaster-icon-align: top !default;
+
+///
+
+%toaster {
+  z-index: 1000;
+  display: flex;
+  position: relative;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+  display: none;
+
+  h1 {
+    font-size: 1.25em;
+    margin: 0;
+  }
+  p {
+    margin: 0;
+  }
+
+  // Placeholder animation
+  // transition: opacity 1s ease-out;
+
+  &.is-active {
+    display: flex;
+  }
+
+  .close-button {
+    color: white;
+  }
+}
+
+%toaster-container {
+  z-index: 3000;
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin toaster-layout(
+  $x: nth($toaster-default-position, 1),
+  $y: nth($toaster-default-position, 2),
+  $size: $toaster-width,
+  $offset: $toaster-offset
+) {
+  width: $size;
+
+  @if $x == right {
+    right: $offset;
+  }
+  @else if $x == left {
+    left: $offset;
+  }
+  @else if $x == middle {
+    left: 50%;
+    margin-left: -($size * 0.5);
+  }
+
+  @if $y == top {
+    top: $offset;
+  }
+  @else if $y == bottom {
+    top: auto;
+    bottom: $offset;
+  }
+
+  // On small screens, toasters are full width but maintain their vertical orientation
+  @include breakpoint(small only) {
+    width: auto;
+    left: $offset;
+    right: $offset;
+    margin-left: 0;
+  }
+}
+@mixin toaster-style(
+  $background: $toaster-background,
+  $color: $toaster-color,
+  $padding: $toaster-padding,
+  $radius: $toaster-radius
+) {
+  background: $background;
+  padding: $padding;
+  border-radius: $radius;
+
+  &, h1, h2, h3, h4, h5, h6 {
+    color: $color;
+  }
+}
+
+@mixin toaster(
+  $background: $toaster-background,
+  $color: $toaster-color,
+  $padding: $toaster-padding,
+  $radius: $toaster-radius
+) {
+  @extend %toaster;
+  @include toaster-style($background, $color, $padding, $radius);
+}
+
+@mixin toaster-container(
+  $x: nth($toaster-default-position, 1),
+  $y: nth($toaster-default-position, 2),
+  $size: $toaster-width,
+  $offset: $toaster-offset
+) {
+  @extend %toaster-container;
+  @include toaster-layout($x, $y, $size, $offset);
+}
+
+@mixin toaster-icon(
+  $size: $toaster-icon-size,
+  $margin: $toaster-icon-margin,
+  $align: $toaster-icon-align
+) {
+  $alignments: (
+    top: flex-start,
+    middle: middle,
+    bottom: flex-end,
+  );
+  flex: 0 0 $size;
+  margin-right: $global-padding;
+  align-self: map-get($alignments, $align);
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/*
+  CSS Output
+*/
+
+@include exports(toaster) {
+  .toaster {
+    @include toaster;
+
+    &.success   { @include toaster-style($success-color) }
+    &.warning   { @include toaster-style($warning-color) }
+    &.alert     { @include toaster-style($alert-color) }
+    &.dark      { @include toaster-style($dark-color, #fff) }
+
+
+  }
+
+  .static-toaster {
+    @include toaster;
+
+    position: fixed !important;
+    
+    &.top-right     { @include toaster-layout(right, top); }
+    &.top-left      { @include toaster-layout(left, top); }
+    &.top-middle    { @include toaster-layout(middle, top); }
+
+    &.bottom-right  { @include toaster-layout(right, bottom); }
+    &.bottom-left   { @include toaster-layout(left, bottom); }
+    &.bottom-middle { @include toaster-layout(middle, bottom); }
+
+    &.success   { @include toaster-style($success-color) }
+    &.warning   { @include toaster-style($warning-color) }
+    &.alert     { @include toaster-style($alert-color) }
+    &.dark      { @include toaster-style($dark-color, #fff) }
+  }
+
+  .toaster-container {
+    @include toaster-container;
+
+    &.top-right     { @include toaster-layout(right, top); }
+    &.top-left      { @include toaster-layout(left, top); }
+    &.top-middle    { @include toaster-layout(middle, top); }
+
+    &.bottom-right  { @include toaster-layout(right, bottom); }
+    &.bottom-left   { @include toaster-layout(left, bottom); }
+    &.bottom-middle { @include toaster-layout(middle, bottom); }
+  }
+
+  .toaster-icon {
+    @include toaster-icon;
+  }
+  .toaster-content {
+    flex: 1;
+  }
+
+}

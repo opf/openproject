@@ -37,7 +37,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -53,7 +53,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
     readonly $state:StateService,
     protected workPackageNotificationService:WorkPackageNotificationService,
     protected halEditing:HalResourceEditingService,
-    protected notificationService:NotificationsService,
+    protected toastService:ToastService,
     protected I18n:I18nService,
     protected halEvents:HalEventsService) {
     super(elementRef, opContextMenu);
@@ -68,7 +68,7 @@ export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
 
       const { writable } = change.schema.status;
       if (!writable) {
-        this.notificationService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
+        this.toastService.addError(this.I18n.t('js.work_packages.message_work_package_status_blocked'));
       } else {
         this.opContextMenu.show(this, evt);
       }

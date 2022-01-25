@@ -149,7 +149,7 @@ class Setting < ApplicationRecord
   end
 
   def formatted_value(value)
-    return value unless value.present?
+    return value if value.blank?
 
     default = @@available_settings[name]
 
@@ -314,7 +314,7 @@ class Setting < ApplicationRecord
     default = @@available_settings[name]
 
     if default['serialized'] && v.is_a?(String)
-      YAML::load(v)
+      YAML::safe_load(v, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time])
     elsif v.present?
       read_formatted_setting v, default["format"]
     else

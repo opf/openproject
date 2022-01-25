@@ -14,14 +14,14 @@
   <ul class="widget-box--arrow-links">
     <li class="-widget-box--arrow-multiline" 
         *ngFor="let news of entries">
-      <div class="news-project">
+      <div>
         <op-principal
           *ngIf="news.author"
           [principal]="news.author"
-          [hide-name]="true"
+          [hideName]="true"
           class="news-author-avatar hidden-for-mobile"
         ></op-principal>
-        <div>
+        <div class="news--project">
           <a [href]="newsProjectPath(news)"
              [textContent]="newsProjectName(news)">
           </a>:

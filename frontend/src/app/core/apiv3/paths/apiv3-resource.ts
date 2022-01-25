@@ -3,20 +3,20 @@ import { SimpleResource, SimpleResourceCollection } from 'core-app/core/apiv3/pa
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Observable } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
-export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
+export class ApiV3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
 
   @InjectField() halResourceService:HalResourceService;
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     readonly basePath:string,
     readonly id:string|number,
-    protected parent?:APIv3ResourcePath|APIv3ResourceCollection<any, any>) {
+    protected parent?:ApiV3ResourcePath|ApiV3ResourceCollection<any, any>) {
     super(basePath, id);
   }
 
@@ -25,12 +25,12 @@ export class APIv3ResourcePath<T = HalResource> extends SimpleResource {
    *
    * @param segment Additional segment to add to the current path
    */
-  protected subResource<R = APIv3GettableResource>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+  protected subResource<R = ApiV3GettableResource>(segment:string, cls:Constructor<R> = ApiV3GettableResource as any):R {
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }
 
-export class APIv3GettableResource<T = HalResource> extends APIv3ResourcePath<T> {
+export class ApiV3GettableResource<T = HalResource> extends ApiV3ResourcePath<T> {
   /**
    * Perform a request to the HalResourceService with the current path
    */
@@ -41,12 +41,12 @@ export class APIv3GettableResource<T = HalResource> extends APIv3ResourcePath<T>
   }
 }
 
-export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> extends SimpleResourceCollection {
+export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> extends SimpleResourceCollection {
   readonly injector = this.apiRoot.injector;
 
   @InjectField() halResourceService:HalResourceService;
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string,
     segment:string,
     protected resource?:Constructor<T>) {
@@ -66,7 +66,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
       id = input.id!;
     }
 
-    return new (this.resource || APIv3GettableResource)(this.apiRoot, this.path, id, this) as T;
+    return new (this.resource || ApiV3GettableResource)(this.apiRoot, this.path, id, this) as T;
   }
 
   public withOptionalId(id?:string|number|null):this|T {
@@ -97,7 +97,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    * @param filters filter object to filter with
    * @param params additional URL params to append
    */
-  public filtered<R = APIv3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
+  public filtered<R = ApiV3GettableResource<CollectionResource<V>>>(filters:ApiV3FilterBuilder, params:{ [key:string]:string } = {}, resourceClass?:Constructor<R>):R {
     return this.subResource<R>(`?${filters.toParams(params)}`, resourceClass);
   }
 
@@ -106,7 +106,7 @@ export class APIv3ResourceCollection<V, T extends APIv3GettableResource<V>> exte
    *
    * @param segment Additional segment to add to the current path
    */
-  protected subResource<R = APIv3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = APIv3GettableResource as any):R {
+  protected subResource<R = ApiV3GettableResource<HalResource>>(segment:string, cls:Constructor<R> = ApiV3GettableResource as any):R {
     return new cls(this.apiRoot, this.path, segment, this);
   }
 }

@@ -89,9 +89,9 @@ module Pages
       expect(current_path).to eql expected_path
     end
 
-    def expect_notification(message:, type: :success)
-      if notification_type == :angular
-        expect(page).to have_selector(".notification-box.-#{type}", text: message, wait: 20)
+    def expect_toast(message:, type: :success)
+      if toast_type == :angular
+        expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
         expect(page).to have_selector(".errorExplanation", text: message)
       elsif type == :success
@@ -101,25 +101,25 @@ module Pages
       end
     end
 
-    def expect_and_dismiss_notification(message:, type: :success)
-      expect_notification(type: type, message: message)
-      dismiss_notification!
-      expect_no_notification(type: type, message: message)
+    def expect_and_dismiss_toaster(message:, type: :success)
+      expect_toast(type: type, message: message)
+      dismiss_toaster!
+      expect_no_toaster(type: type, message: message)
     end
 
-    def dismiss_notification!
-      if notification_type == :angular
-        page.find('.notification-box--close').click
+    def dismiss_toaster!
+      if toast_type == :angular
+        page.find('.op-toast--close').click
       else
         page.find('.flash .icon-close').click
       end
     end
 
-    def expect_no_notification(type: :success, message: nil)
+    def expect_no_toaster(type: :success, message: nil)
       if type.nil?
-        expect(page).to have_no_selector(".notification-box")
+        expect(page).to have_no_selector(".op-toast")
       else
-        expect(page).to have_no_selector(".notification-box.-#{type}", text: message)
+        expect(page).to have_no_selector(".op-toast.-#{type}", text: message)
       end
     end
 
@@ -127,7 +127,7 @@ module Pages
       nil
     end
 
-    def notification_type
+    def toast_type
       :angular
     end
   end

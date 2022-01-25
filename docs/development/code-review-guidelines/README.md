@@ -20,7 +20,7 @@ When reviewing code and you think the author has not run the code through Ruboco
 - Blank line
 - Detailed description of the change, wrapped to 72 characters so the text is readable in git log
 
-See the [Git Book](http://git-scm.com/book/en/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
+See the [Git Book](https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project#Commit-Guidelines).
 
 ## Testing
 
@@ -36,7 +36,7 @@ See the [Git Book](http://git-scm.com/book/en/Distributed-Git-Contributing-to-a-
 
 Every developer and reviewer should read the Rails Security Guide.
 
-[Rails Security Guide](http://guides.rubyonrails.org/security.html)
+[Rails Security Guide](https://guides.rubyonrails.org/security.html)
 
 ## Changelog
 
@@ -50,7 +50,7 @@ Every developer and reviewer should read the Rails Security Guide.
 - Copyright notice: When new files are added, make sure they contain the OpenProject copyright notice (copy from any file in OpenProject).
 - Adding Gems: When adding gems, make sure not only the Gemfile is updated, but also the Gemfile.lock.
 - No trailing whitespace.
-- [Single newline at the end of a file](http://stackoverflow.com/questions/729692/why-should-files-end-with-a-newline).
+- [Single newline at the end of a file](https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline).
 
 ## Readability
 

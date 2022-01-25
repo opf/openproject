@@ -70,12 +70,11 @@ module Journals
       predecessor = journal.previous
 
       if aggregatable?(predecessor, journal)
+        notify_aggregation_destruction(predecessor, journal)
+
         predecessor.destroy
-        if predecessor.notes.present?
-          journal.update_columns(notes: predecessor.notes, version: predecessor.version)
-        else
-          journal.update_columns(version: predecessor.version)
-        end
+
+        take_over_journal_details(predecessor, journal)
       end
     end
 
@@ -492,6 +491,20 @@ module Journals
         predecessor.created_at >= journal.created_at - Setting.journal_aggregation_time_minutes.to_i.minutes &&
         predecessor.user_id == journal.user_id &&
         (predecessor.notes.empty? || journal.notes.empty?)
+    end
+
+    def notify_aggregation_destruction(predecessor, journal)
+      OpenProject::Notifications.send(OpenProject::Events::JOURNAL_AGGREGATE_BEFORE_DESTROY,
+                                      journal: journal,
+                                      predecessor: predecessor)
+    end
+
+    def take_over_journal_details(predecessor, journal)
+      if predecessor.notes.present?
+        journal.update_columns(notes: predecessor.notes, version: predecessor.version)
+      else
+        journal.update_columns(version: predecessor.version)
+      end
     end
   end
 end

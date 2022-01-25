@@ -63,7 +63,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project description")
 
-    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
   end
 
   before do
@@ -143,7 +143,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       field.save!
 
-      dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+      dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
         expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")

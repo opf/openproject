@@ -47,7 +47,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 @Component({
   templateUrl: './wp-split-view.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'wp-split-view-entry',
+  selector: 'op-wp-split-view',
   providers: [
     WpSingleViewService,
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },

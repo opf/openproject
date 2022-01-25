@@ -3,7 +3,7 @@ import { Observable, Subscription } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardListsService } from 'core-app/features/boards/board/board-list/board-lists.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -21,7 +21,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
 import { filter, tap } from 'rxjs/operators';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 
 @Component({
@@ -75,20 +75,20 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
 
   constructor(readonly I18n:I18nService,
     readonly state:StateService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly halNotification:HalResourceNotificationService,
     readonly boardComponent:BoardPartitionedPageComponent,
     readonly BoardList:BoardListsService,
     readonly boardActionRegistry:BoardActionsRegistryService,
     readonly opModalService:OpModalService,
     readonly injector:Injector,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly Boards:BoardService,
     readonly Banner:BannersService,
     readonly boardListCrossSelectionService:BoardListCrossSelectionService,
     readonly wpStatesInitialization:WorkPackageStatesInitializationService,
     readonly Drag:DragAndDropService,
-    readonly apiv3Service:APIV3Service,
+    readonly apiv3Service:ApiV3Service,
     readonly QueryUpdated:QueryUpdatedService) {
     super();
   }
@@ -179,7 +179,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   }
 
   private showError(text = this.text.loadingError) {
-    this.notifications.addError(text);
+    this.toastService.addError(text);
   }
 
   private requestRefreshOfUpdatedLists(queries:QueryResource[]) {

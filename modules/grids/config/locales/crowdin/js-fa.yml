@@ -1,0 +1,63 @@
+fa:
+  js:
+    grid:
+      add_widget: 'افزودن ویجت'
+      remove: 'حذف ویجت'
+      configure: 'Configure widget'
+      upsale:
+        text: "Some widgets, like the work package graph widget, are only available in the "
+        link: 'enterprise edition.'
+      widgets:
+        custom_text:
+          title: 'Custom text'
+        documents:
+          title: 'اسناد'
+          no_results: 'سندی وجود ندارد.'
+        members:
+          title: 'Members'
+          no_results: 'No visible members.'
+          view_all_members: 'مشاهده همه کاربران'
+          add: 'Member'
+          too_many: 'Displaying %{count} of %{total} members.'
+        news:
+          title: 'News'
+          at: 'در'
+          no_results: 'Nothing new to report.'
+        project_description:
+          title: 'Project description'
+          no_results: "No description has been written yet. One can be provided in the 'Project settings'."
+        project_details:
+          title: 'جزئیات پروژه'
+          no_results: 'No custom fields have been defined for projects.'
+        project_status:
+          title: 'وضعیت پروژه'
+          on_track: 'On track'
+          off_track: 'Off track'
+          at_risk: 'At risk'
+          not_set: 'تنظیم نشده'
+        subprojects:
+          title: 'Subprojects'
+          no_results: 'No subprojects.'
+        time_entries_current_user:
+          title: 'My spent time'
+          displayed_days: 'Days displayed in the widget:'
+        time_entries_list:
+          title: 'زمان سپری شده (7 روز آخر)'
+          no_results: 'زمانی برای 7 روز آخر وارد نشده.'
+        work_packages_accountable:
+          title: "Work packages I am accountable for"
+        work_packages_assigned:
+          title: 'Work packages assigned to me'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_watched:
+          title: 'Work packages watched by me'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_graph:
+          title: 'Work packages graph'
+        work_packages_calendar:
+          title: 'Calendar'
+        work_packages_overview:
+          title: 'Work packages overview'
+          placeholder: 'برای ویرایش کلیک کنید...'

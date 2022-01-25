@@ -88,9 +88,6 @@ pt:
     button_export-pdf: "Baixar PDF"
     button_export-atom: "Baixar Atom"
     button_create: "Criar"
-    calendar:
-      title: 'Calendário'
-      too_many: 'Existem %{count} pacotes de trabalho, mas apenas %{max} podem ser mostrados.'
     card:
       add_new: 'Adicionar novo cartão'
       highlighting:
@@ -263,9 +260,9 @@ pt:
       value_spacer: "-"
       sorting:
         criteria:
-          one: "Primeiro critério de classificação"
-          two: "Segundo critério de classificação"
-          three: "Terceiro critério de classificação"
+          one: "Primeiro critério de ordenação"
+          two: "Segundo critério de ordenação"
+          three: "Terceiro critério de ordenação"
       upsale_for_more: "Para filtros avançados, confira o"
       upsale_link: 'Enterprise Edition.'
     general_text_no: "não"
@@ -284,14 +281,17 @@ pt:
         new_features:
           text_new_features: "Ler sobre os novos recursos e atualizações de produtos."
           learn_about: "Saiba mais sobre os novos recursos"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Novo botão na navegação do cabeçalho para criar pacotes de projetos, de usuários e de trabalho.</li> <li>Um novo convite restrito para usuários, usuários de espaço reservado e grupos facilita a adição e convite de novos usuários e a atribuição de pacotes de trabalho para eles.</li> <li>A integração do GitHub no OpenProject.</li> <li>Extensões v3 de API para grupos e mais, ou seja, criação, leitura, atualização e exclusão de grupos e membros de grupo através de API.</li> <li>Multi-seleção para campos de personalização de projetos da lista de tipos.</li> <li>Criação de backup para a interface da web.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                A versão contém vários recursos e melhorias novos: <br> <ul class="%{list_styling_class}"> <li>Com as novas <b>notificações no aplicativo</b> você recebe todas as atualizações importantes diretamente do aplicativo, sem uma enxurrada de e-mail.</li> <li>O novo <b>centro de notificações</b> mostra todas as alterações, incluindo as opções de filtro, por ex., por motivo de notificação ou projetos. Ela até mesmo permite a edição direta em uma vista dividida.</li> <li>Configurações de Notificações <b>melhoradas</b> permitem que você ajuste de forma minuciosa para que ações e que projetos você deseja receber uma notificação.</li> <li><b>Lembretes por e-mail</b> podem ser configurados para que você receba atualizações importantes através de um e-mail com um resumo diário</li> <li>O auto-completador do pacote de trabalho para relações agora também mostra informações adicionais (nome do projeto, situação, ...) para uma fácil identificação do respectivo pacote de trabalho.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                A versão contém vários recursos importantes: <br> <ul class="%{list_styling_class}"> <li>Centro de notificações: Reduz o número de e-mails que você recebe. Ao invés disso você encontra e toma as ações necessárias sobre todas as notificações importantes em um único local central.</li> <li>Todos os arquivos IFC enviados agora também podem ser baixados.</li> <li>O envio e processamento de IFC ficou mais rápido e recebeu melhores mensagens de erro.</li> <li>O <a href="https://github.com/opf/openproject-revit-add-in">Complemento Revit do OpenProject</a> passou por várias correções de erros.</li> </ul>
     label_activate: "Ativar"
     label_add_column_after: "Adicionar coluna depois"
     label_add_column_before: "Adicionar coluna antes"
@@ -450,6 +450,7 @@ pt:
     label_starred_queries: "Visões favoritas"
     label_global_queries: "Visões públicas"
     label_custom_queries: "Visões privadas"
+    label_create_new_query: "Criar novo"
     label_columns: "Colunas"
     label_attachments: Arquivos
     label_drop_files: Solte os arquivos aqui
@@ -489,89 +490,90 @@ pt:
         wiki: 'No <b>wiki</b>, você pode documentar e compartilhar conhecimento junto com sua equipe. '
         backlogs:
           overview: "Gerencie seu trabalho na exibição de <b>backlogs</b>."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          sprints: "À direita você encontra o backlog do produto e de erros, à esquerda você encontra os respectivos sprits. Aqui você pode criar <b>histórias de usuário épicas e bugs</b>, priorizar através de arrastar e soltar e adicioná-los a um sprint."
           task_board_arrow: 'Para ver o seu <b>quadro de tarefas</b>, abra o menu suspenso de sprint ... '
-          task_board_select: '... e selecione a entrada <b>quadro de tarefas</b>. '
-          task_board: "O painel de tarefas visualiza o progresso de <b>para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
+          task_board_select: '... e selecione a entrada do <b>quadro de tarefas</b>. '
+          task_board: "O painel de tarefas visualiza o <b>progresso para este sprint</b>. Clique no ícone mais (+) ao lado de uma história de usuário para adicionar novas tarefas ou impedimentos. <br> O status pode ser atualizado arrastando e soltando."
         boards:
           overview: 'Selecione <b>paineis</b> para mudar a visão e gerenciar seu projeto usando a exibição de paineis ágeis.'
-          lists: 'Aqui você pode criar múltiplas listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
+          lists: 'Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Painel Kanban</b>, por exemplo.'
           add: 'Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no painel.'
           drag: 'Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.'
         wp:
-          toggler: "Agora vamos dar uma olhada na seção <b>pacote de trabalho</b> , que lhe dá uma visão mais detalhada do seu trabalho."
-          list: 'Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Pacotes de trabalho podem ser criados e editados diretamente desta visualização. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.'
-          full_view: 'A exibição <b>de detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, status, prioridade, atividades, dependências e comentários.'
+          toggler: "Agora vamos dar uma olhada na seção <b>pacote de trabalho</b> , que permitirá que você tenha uma visão mais detalhada de seu trabalho."
+          list: 'Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Os Pacotes de trabalho podem ser criados e editados diretamente deste panorama. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.'
+          full_view: 'O panorama <b>com os detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, status, prioridade, atividades, dependências e comentários.'
           back_button: 'Use a seta de retorno no canto superior esquerdo para sair e retornar à lista de pacotes de trabalho.'
           create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
-          timeline_button: 'Você pode ativar a exibição de gráfico de <b>Gantt</b> para criar uma linha do tempo para o seu projeto.'
-          timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem ver e atualizar o plano mais recente a qualquer momento.'
+          timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
+          timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem visualizar e atualizar o plano mais recente a qualquer momento.'
     notifications:
       title: "Notificações"
       no_unread: "Nenhuma notificação não lida"
       reasons:
         mentioned: 'mencionado'
-        watched: 'observado'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        watched: 'assistido'
+        assigned: 'atribuído'
+        responsible: 'responsável'
       facets:
         unread: 'Não lido'
         all: 'Todos'
       center:
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: 'e mais 1'
+          other: 'e mais %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: 'Novas notificações aparecerão aqui quando houver atividade que o(a) interesse'
+          with_current_filter: 'No momento, não há notificações nesta vista '
         mark_all_read: 'Marcar tudo como lido'
-        mark_as_read: 'Mark as read'
-        text_update_date: "%{date} by"
-        total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Mas %{more_count} não são exibidas."
+        mark_as_read: 'Marcar como lido'
+        text_update_date: "%{date} por"
+        total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "Parece que você já está com tudo em dia."
+          no_notification_with_current_filter: "Mude de envolvimento ou volte para a caixa de entrada para visualizar as notificações"
+          no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Há novas notificações.'
+          link_text: 'Clique aqui para carregá-las'
       menu:
         accountable: 'Responsável'
-        assigned: 'Assigned'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        assigned: 'Atribuído'
+        by_project: 'Não lido por projeto'
+        by_reason: 'Envolvimento'
+        inbox: 'Caixa de entrada'
+        mentioned: '@mencionado'
+        watching: 'Assistindo'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
-        title: "Configurações de Notificação"
-        notify_me: "Notify me"
+        change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
+        title: "Configurações de notificação"
+        notify_me: "Notifique-me"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Eu sou @mencionado'
+            description: 'Receber uma notificação sempre que alguém me mencionar'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Atribuído a mim ou responsável'
+            description: 'Receba notificações para todas as atividades nos pacotes de trabalho atribuídos a mim ou de minha responsabilidade'
+          watched: 'Atualizações em itens assistidos'
+          work_package_commented: 'Todos os novos comentários'
+          work_package_created: 'Novos pacotes de trabalho'
+          work_package_processed: 'Todas as mudanças de situação'
+          work_package_prioritized: 'Todas as mudanças de prioridade'
+          work_package_scheduled: 'Todas as mudanças de data'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Notifique-me imediatamente'
+            description: 'Estas configurações aplicam-se a todos os projetos. Você pode criar exceções específicas a projetos abaixo.  '
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Também notifique-me por'
+            description: 'Receber notificações para estas atividades em pacotes de trabalho em todos os projetos:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: 'Configurações de notificação específicas a projetos'
+          description: 'Essas configurações específicas a projeto substituem as configurações padrão acima'
+          add: 'Adicionar configuração para o projeto'
+          already_selected: 'Este projeto já está selecionado'
+          remove: 'Remover configurações de projeto'
     password_confirmation:
       field_description: 'Você precisa digitar sua senha para confirmar essa alteração.'
       title: 'Confirme sua senha para continuar'
@@ -601,33 +603,34 @@ pt:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Adicionar hora'
+          enable: 'Ativar lembretes diários por e-mail '
+          explanation: 'Você só receberá estes lembretes para as notificações não lidas e apenas nas horas especificadas por você. %{no_time_zone}'
+          no_time_zone: 'Até que um fuso horário seja configurado em sua conta, os horários serão interpretados como UTC.'
+          time_label: 'Hora %{counter}:'
+          title: 'Envie-me lembretes por e-mail diários para as notificações não lidas'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'Receber lembretes por e-mail nestes dias'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: 'Envie-me um lembrete por e-mail'
+          mentioned: 'Imediatamente quando alguém me @mencionar'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'Alertas por e-mail para outros itens (qua não sejam pacotes de trabalho)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            As notificações hoje estão limitadas a pacotes de trabalho. Você pode optar por continuar a receber alertas por e-mail para estes eventos até que eles sejam incluídos nas notificações:
           news_added: 'Notícia adicionada'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
+          news_commented: 'Comentar em um item de notícia'
+          document_added: 'Documentos adicionados'
+          forum_messages: 'Novas mensagens de fórum'
           wiki_page_added: 'Página wiki adicionada'
           wiki_page_updated: 'Página wiki atualizada'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+          membership_added: 'Associação adicionada'
+          membership_updated: 'Associação atualizada'
+        title: 'Lembretes por e-mail'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: 'Pausar temporariamente lembretes por e-mail diários '
+          first_day: 'Primeiro dia'
+          last_day: 'Último dia'
     text_are_you_sure: "Você tem certeza?"
     text_data_lost: "Todos os dados inseridos serão perdidos."
     types:
@@ -864,14 +867,14 @@ pt:
       no_results:
         title: Não há pacotes de trabalho para exibir.
         description: Nenhum pacote criado ou todos os pacotes de trabalho foram filtrados.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Apenas %{count} pacotes de trabalho podem ser exibidos no modo manual de classificação. Reduza os resultados através de filtragem ou alterando a ordenação automática.
       property_groups:
         details: "Detalhes"
         people: "Pessoas"
         estimatesAndTime: "Estimativas e Tempo"
         other: "Outro"
       properties:
-        assignee: "Atribuição"
+        assignee: "Atribuído para"
         author: "Autor"
         createdAt: "Criado em"
         description: "Descrição"
@@ -907,7 +910,7 @@ pt:
         label_content: "Clique aqui para pular o menu e ir para o conteúdo"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Selecionar data"
         formattable: "%{name}: Clique para editar..."
       query:
         column_names: "Colunas"

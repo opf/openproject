@@ -29,7 +29,7 @@ zh-TW:
   enumeration:
     document_category:
       documentation: 說明文件
-      specification: 規格
+      specification: 技術規格
       other: 其他
   documents:
     label_attachment_author: "附件作者"

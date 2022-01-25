@@ -20,6 +20,8 @@ delete:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -34,6 +36,8 @@ delete:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -100,6 +104,8 @@ get:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -163,6 +169,8 @@ patch:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -175,6 +183,8 @@ patch:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -189,6 +199,8 @@ patch:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -196,7 +208,7 @@ patch:
                 errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
                 message: The requested resource could not be found.
       description: |-
-        Returned if the membership does not exist or the client does not have sufficient permissions
+        Returned if the group does not exist or the client does not have sufficient permissions
         to see it.
 
         **Required permission** If the user has the *manage members* permission in at least one project the user will be able to query all groups. If not, the user
@@ -208,6 +220,8 @@ patch:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -224,7 +238,35 @@ patch:
       headers: {}
   tags:
   - Groups
-  description: Updates the given group by applying the attributes provided in the
+  description: |-
+    Updates the given group by applying the attributes provided in the
     body.
+
+    Please note that the `members` array provided will override the existing set of members (similar to a PUT). A client thus
+    has to provide the complete list of members the group is to have after the PATCH even if only one member is to be added.
   operationId: Update_group
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            _links:
+              members:
+                - href: "/api/v3/users/363"
+                - href: "/api/v3/users/60"
+            name: The group
+          properties:
+            _links:
+              properties:
+                members:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+              type: object
+            name:
+              type: string
+          type: object
   summary: Update group

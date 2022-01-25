@@ -56,7 +56,7 @@ class DigestMailer < ApplicationMailer
     recipient = User.find(recipient_id)
 
     open_project_headers User: recipient.name
-    message_id nil, recipient
+    message_id 'digest', recipient
 
     @user = recipient
     @notification_ids = notification_ids

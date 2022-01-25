@@ -37,20 +37,20 @@ module MailNotificationHelper
     if current_logo.present?
       logo_file = current_logo.local_file
       logo = File.read(logo_file)
-      suffix = MIME::Types.type_for(logo_file.path).first.content_type
+      content_type = MIME::Types.type_for(logo_file.path).first.content_type
     else
       logo = File.read(Rails.root.join('app/assets/images/logo_openproject_narrow.svg'))
-      suffix = "svg+xml"
+      content_type = "image/svg+xml"
     end
 
-    email_image_tag(logo, suffix, options)
+    email_image_tag(logo, content_type, **options)
   end
 
-  def email_image_tag(image, suffix, **options)
+  def email_image_tag(image, content_type, **options)
     image_string = image.to_s
     base64_string = Base64.strict_encode64(image_string)
 
-    image_tag "data:image/#{suffix};base64,#{base64_string}", **options
+    image_tag "data:#{content_type};base64,#{base64_string}", **options
   end
 
   def unique_reasons_of_notifications(notifications)
@@ -82,6 +82,20 @@ module MailNotificationHelper
     }
 
     default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(' ')
+  end
+
+  def placeholder_text_styles(**overwrites)
+    {
+      color: '#878787',
+      'line-height': '24px',
+      'font-size': '14px',
+      'white-space': 'normal',
+      overflow: 'hidden',
+      'max-width': '100%',
+      width: '100%'
+    }.merge(overwrites)
+     .map { |k, v| "#{k}: #{v}" }
+     .join('; ')
   end
 
   def placeholder_cell(number, vertical:)

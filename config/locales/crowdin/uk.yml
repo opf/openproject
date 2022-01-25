@@ -70,15 +70,15 @@ uk:
       paste: "Вставте маркер підтримки для Enterprise Edition"
       required_for_feature: "Ця функція доступна лише з активним маркером підтримки Enterprise Edition."
       enterprise_link: "Для отримання додаткової інформації натисніть тут."
-      start_trial: 'Start free trial'
-      book_now: 'Book now'
+      start_trial: 'Розпочати безкоштовну пробну версію'
+      book_now: 'Забронювати зараз'
       get_quote: 'Get a quote'
   announcements:
     show_until: Показувати до
     is_active: наразі відображається
     is_inactive: наразі не відображається
   attribute_help_texts:
-    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    note_public: 'Будь який доданий вами текст чи зображення видимі для усіх активних користувачів!'
     text_overview: 'У цьому поданні можна створювати спеціальні тексти довідки для перегляду атрибутів. Коли вони визначені, ці тексти можна показувати, натиснувши піктограму довідки поруч з її атрибутом.'
     label_plural: 'Тексти довідки атрибутів'
     show_preview: 'Попередній перегляд тексту'
@@ -298,8 +298,8 @@ uk:
       query_group_placeholder: "Найменувати таблицю"
       reset: "Скинути на типові значення"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Обраний колір відрізняє різні типи 
+        у Gantt графіках чи робочих блоках. Отож рекомендуємо використовувати насичений колір.
   versions:
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
@@ -319,6 +319,10 @@ uk:
       other: '%{count} нащадки робочого пакета'
     bulk:
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Немає доступного статусу для всіх вибраних робочих пакетів. Їх статус не може бути змінений."
       unsupported_for_multiple_projects: 'Масове переміщення/копіювання не підтримується для робочих пакетів з декількох проектів'
@@ -462,6 +466,7 @@ uk:
         url: "Посилання"
       role:
         assignable: "Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті"
+        permissions: "Дозволи"
       time_entry:
         activity: "Активність"
         hours: "Години"
@@ -590,7 +595,9 @@ uk:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Глобальний'
@@ -673,7 +680,6 @@ uk:
           filters:
             custom_fields:
               inexistent: "Немає спеціального поля для фільтра."
-              invalid: "Спеціальне поле не є дійсним у даному контексті."
         queries/filters/base:
           attributes:
             values:
@@ -737,6 +743,7 @@ uk:
               does_not_exist: "Указана категорія не існує."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "повинно бути >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -747,6 +754,11 @@ uk:
               group_without_name: "Неназвані групи не дозволені."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Має містити символи наступних класів (принаймні %{min_count} з %{all_count}): %{rules}."
               lowercase: "нижній реєстр шрифту (наприклад, 'a')"
@@ -797,7 +809,7 @@ uk:
       member: "Учасник"
       news: "Новини"
       notification:
-        one: "Notification"
+        one: "Сповіщення"
         few: "Notifications"
         many: "Notifications"
         other: "Notifications"
@@ -856,7 +868,7 @@ uk:
     id: "№"
     is_default: "Значення за замовчуванням"
     is_for_all: "Для усіх проектів"
-    is_public: "Публічний"
+    public: "Публічний"
     #kept for backwards compatibility
     issue: "Пакет робіт"
     lastname: "Прізвище"
@@ -866,7 +878,6 @@ uk:
     password: "Пароль"
     priority: "Пріоритет"
     project: "Проект"
-    public: "Публічний"
     responsible: "Відповідальний"
     role: "роль"
     roles: "Роль"
@@ -1227,7 +1238,9 @@ uk:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Неможливо видалити запис"
   error_can_not_delete_custom_field: "Неможливо видалити спеціальне поле"
-  error_can_not_delete_type: "Цей тип містить робочі пакети і не може бути видалений."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартні типи неможливо видалити."
   error_can_not_invite_user: "Не вдалося надіслати запрошення користувачеві."
   error_can_not_remove_role: "Ця роль використовується і не може бути видалений."
@@ -1341,10 +1354,10 @@ uk:
   image_conversion:
     imagemagick: 'Imagemagick'
   journals:
-    changes_retracted: "The changes were retracted."
+    changes_retracted: "Зміни було відхилено."
   links:
     configuration_guide: 'Посібник з налаштування'
-    get_in_touch: "You have questions? Get in touch with us."
+    get_in_touch: "У вас виникли запитання? Зв'яжіться з нами."
   instructions_after_registration: "Ви можете ввійти, як тільки ваш обліковий запис активується, натиснувши %{signin}."
   instructions_after_logout: "Ви можете ввійти знову, натиснувши %{signin}."
   instructions_after_error: "Ви можете спробувати ввійти знову, натиснувши %{signin}. Якщо помилка не зникне, зверніться до адміністратора за допомогою."
@@ -1368,12 +1381,29 @@ uk:
     send_notifications: "Send notifications for this action"
     work_packages:
       subject:
-        created: "The work package was created."
-        assigned: "You have been assigned to %{work_package}"
-        subscribed: "You subscribed to %{work_package}"
-        mentioned: "You have been mentioned in %{work_package}"
-        responsible: "You have become accountable for %{work_package}"
-        watched: "You are watching %{work_package}"
+        created: "Робочий блок було створено."
+        assigned: "Ви були назначені до %{work_package}"
+        subscribed: "Ви підписалися на %{work_package}"
+        mentioned: "Вас було згадано у %{work_package}"
+        responsible: "Ви стали відповідальними за %{work_package}"
+        watched: "Ви переглядаєте %{work_package}"
+    update_info_mail:
+      body: >
+        Ми з задоволенням оголошуємо про випуск нової версії OpenProject 12.0. Це одне із найбільших наших оновлень, яке ми сподіваємося значно покращить ваш досвід використання OpenProject.
+
+        Починаючи із цього оновлення, ми вводимо сповіщення у самій програмі. Від сьогодні ви будете отримувати сповіщення про оновлення робочих блоків прямо у  OpenProject. Ви зможете позначати ці сповіщення як прочитані, коментувати їх чи навіть прямо редагувати зміни у робочих блоках не залишаючи центр сповіщень. 
+
+        Це також означає, що ми не будемо більш використовувати електронні листи для сповіщень. Гадаємо, що новий центр сповіщень є кращим місцем, щоб переглянути і відреагувати на усі оновлення. Проте, якщо ви бажаєте отримувати сповіщення на свою електронну адресу і надалі, ви можете обрати отримання загальний лист із усіма оновленнями за день у певний час.
+
+        Будь ласка, перегляньте новий центр сповіщень та налаштуйте його, оберіть чи бажаєте отримувати оновлення на пошту в налаштуваннях свого профілю. Ви можете зробити це натиснувши на кнопку "Змінити налаштування електронної пошти", що знаходиться внизу. 
+
+        Сподіваємося, що центр сповіщень буде корисним для вас та допоможе вам стати значно продуктивнішими. 
+
+        З повагою, 
+        команда OpenProject
+      body_header: 'Версія 12.0 з Центром Сповіщень'
+      body_subheader: 'Новини'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Розробникам також потрібно оплачувати свої рахунки. З доступністю"
   label_account: "Обліковий запис"
   label_active: "Активний"
@@ -1628,6 +1658,10 @@ uk:
   label_member_plural: "Учасники"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Назва пункту меню"
   label_message: "Повідомлення"
   label_message_last: "Останнє повідомлення"
@@ -1733,7 +1767,6 @@ uk:
   label_public_projects: "Публічні проекти"
   label_query_new: "Новий запит"
   label_query_plural: "Спеціальні запити"
-  label_query_menu_item: "Запит меню"
   label_read: "Читання..."
   label_register: "Створити новий акаунт"
   label_register_with_developer: "Зареєструйтеся як розробник"
@@ -1762,7 +1795,7 @@ uk:
   label_required: 'вимагається'
   label_requires: 'вимагається'
   label_result_plural: "Результати"
-  label_reverse_chronological_order: "Newest first"
+  label_reverse_chronological_order: "Спочатку нові"
   label_revision: "Ревізія"
   label_revision_id: "Ревізія %{value}"
   label_revision_plural: "Ревізії"
@@ -1894,20 +1927,20 @@ uk:
   label_workflow_plural: "Робочі процеси"
   label_workflow_summary: "Резюме"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 закрита"
+    other: "%{count} закритих"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 коментар"
+    other: "Коментарів: %{count}"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 відкрита"
+    other: "%{count} відкритих"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 проект"
+    other: "%{count} проектів"
     zero: "no projects"
   label_yesterday: "вчора"
   label_role_type: "Тип"
@@ -1943,15 +1976,15 @@ uk:
     digests:
       including_mention_singular: 'including a mention'
       including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
+      unread_notification_singular: '1 не прочитане сповіщення '
       unread_notification_plural: '%{number_unread} unread notifications'
       you_have: 'You have'
-    logo_alt_text: 'Logo'
+    logo_alt_text: 'Логотип'
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
+      center: 'Центр сповіщень'
+      see_in_center: 'Переглянути коментарі у центрі сповіщень'
       settings: 'Change email settings'
     salutation: 'Hey %{user}!'
     work_packages:
@@ -2183,9 +2216,9 @@ uk:
   permission_protect_wiki_pages: "Захист wiki-сторінок"
   permission_rename_wiki_pages: "Перейменування wiki-сторінок"
   permission_save_queries: "Зберегти перегляди"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Вибір модулів проекту"
   permission_manage_types: "Виберіть типи"
-  permission_view_calendar: "Перегляд календаря"
   permission_view_changesets: "Перегляд змін репозиторію (сховища) в OpenProject"
   permission_view_commit_author_statistics: "Перегляд статистики комітів автора"
   permission_view_work_package_watchers: "Перегляд списку спостерігачів"
@@ -2221,7 +2254,6 @@ uk:
       archived: "Archived"
   project_module_activity: "Активність"
   project_module_forums: "Форуми"
-  project_module_calendar: "Календар"
   project_module_work_package_tracking: "Відстеження робочого пакету"
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
@@ -2850,7 +2882,6 @@ uk:
   wiki_menu_item_new_main_item_explanation: >
     Ви видаляєте лише головний пункт меню вікі. Тепер ви повинні вибрати вікі-сторінку, для якої буде створено новий головний елемент. Щоб видалити вікі, модуль wiki може бути відключений адміністраторами проекту.
   wiki_menu_item_delete_not_permitted: Пункт меню вікі лише з вікі-сторінки не можна видалити.
-  query_menu_item_for: "Пункт меню для запиту %{title}"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2909,6 +2940,7 @@ uk:
       schema: 'Схема'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Попередня авторизація'

@@ -65,16 +65,16 @@ export class PersistentToggleComponent implements OnInit {
       .find('.persistent-toggle--click-handler')
       .on('click', () => this.toggle(!this.isHidden));
 
-    // Register target notification close icon
+    // Register target toaster close icon
     this.$targetNotification
-      .find('.notification-box--close')
+      .find('.op-toast--close')
       .on('click', () => this.toggle(true));
   }
 
   private getTargetNotification() {
     return this.$element
       .parent()
-      .find('.persistent-toggle--notification');
+      .find('.persistent-toggle--toaster');
   }
 
   private toggle(isNowHidden:boolean) {

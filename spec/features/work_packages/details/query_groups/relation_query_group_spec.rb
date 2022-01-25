@@ -179,7 +179,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
 
         # Will first try to load the query, and then hide it.
         expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_selector('.work-packages-embedded-view--container .notification-box.-error')
+        expect(page).to have_no_selector('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end

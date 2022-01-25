@@ -84,7 +84,7 @@ describe 'Read-only statuses affect work package editing',
     status_field.expect_state_text 'Unlocked'
     status_field.update 'Locked'
 
-    wp_page.expect_and_dismiss_notification(message: 'Successful update.')
+    wp_page.expect_and_dismiss_toaster(message: 'Successful update.')
 
     status_field.expect_state_text 'Locked'
 

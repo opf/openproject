@@ -231,7 +231,10 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_node_or_partial(node, project)
     if node.partial
-      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
+      content_tag('li',
+                  render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name }),
+                  class: "partial",
+                  data: { name: node.name })
     else
       content_tag('li', render_single_menu_node(node, project), data: { name: node.name })
     end

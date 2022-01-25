@@ -49,8 +49,7 @@ describe Grids::MyPage, type: :model do
       let(:user) { FactoryBot.create(:user) }
       let(:query) do
         FactoryBot.create(:query,
-                          user: user,
-                          hidden: true)
+                          user: user)
       end
 
       before do

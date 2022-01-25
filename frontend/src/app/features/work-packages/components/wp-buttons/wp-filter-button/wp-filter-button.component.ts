@@ -49,10 +49,12 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   public iconClass = 'icon-filter';
 
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     protected cdRef:ChangeDetectorRef,
     protected wpFiltersService:WorkPackageFiltersService,
-    protected wpTableFilters:WorkPackageViewFiltersService) {
+    protected wpTableFilters:WorkPackageViewFiltersService,
+  ) {
     super(I18n);
   }
 

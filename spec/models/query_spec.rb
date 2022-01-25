@@ -63,10 +63,20 @@ describe Query, type: :model do
   end
 
   describe 'hidden' do
-    it 'sets the hidden property' do
-      expect(query.hidden).to eq(false)
-      query.hidden = true
-      expect(query.hidden).to eq(true)
+    context 'with a view' do
+      before do
+        FactoryBot.create(:view_work_packages_table, query: query)
+      end
+
+      it 'is false' do
+        expect(query.hidden).to eq(false)
+      end
+    end
+
+    context 'without a view' do
+      it 'is true' do
+        expect(query.hidden).to eq(true)
+      end
     end
   end
 

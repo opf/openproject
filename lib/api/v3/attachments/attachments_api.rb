@@ -66,7 +66,7 @@ module API
 
             namespace :uploaded do
               get do
-                attachment = Attachment.pending_direct_uploads.where(id: params[:id]).first!
+                attachment = Attachment.pending_direct_upload.find(params[:id])
 
                 raise API::Errors::NotFound unless attachment.file.readable?
 

@@ -32,7 +32,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
@@ -58,7 +58,7 @@ export class WpTabWrapperComponent implements OnInit {
 
   constructor(readonly I18n:I18nService,
     readonly uiRouterGlobals:UIRouterGlobals,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly wpTabsService:WorkPackageTabsService) {}
 
   ngOnInit() {

@@ -71,7 +71,8 @@ describe MyController, type: :controller do
         assert_response :success
         assert_template 'password'
         expect(user.errors.attribute_names).to eq([:password_confirmation])
-        expect(user.errors.map(&:message).flatten.join('')).to include("doesn't match")
+        expect(user.errors.map(&:message).flatten)
+          .to contain_exactly("Password confirmation does not match password.")
       end
     end
 

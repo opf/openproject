@@ -21,7 +21,7 @@ describe 'Cost report saving', type: :feature, js: true do
     report_page.save as: 'Testreport'
 
     # Check if the category is displayed
-    expect(page).to have_selector('#private_sidebar_report_category', text: I18n.t(:label_private_report_plural).upcase)
+    expect(page).to have_selector('#private_sidebar_report_category', text: I18n.t(:label_private_report_plural))
     # Check if the new report is displayed
     expect(page).to have_selector('.tree-menu--title', text: 'Testreport')
 
@@ -38,7 +38,7 @@ describe 'Cost report saving', type: :feature, js: true do
     report_page.save as: 'Public report', public: true
 
     # Check if the category is displayed
-    expect(page).to have_selector('#public_sidebar_report_category', text: I18n.t(:label_public_report_plural).upcase)
+    expect(page).to have_selector('#public_sidebar_report_category', text: I18n.t(:label_public_report_plural))
     # Check if the new report is displayed
     expect(page).to have_selector('.tree-menu--title', text: 'Public report')
 

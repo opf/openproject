@@ -3,26 +3,31 @@ import {
   Injector,
 } from '@angular/core';
 import {
+  debounceTime,
   distinctUntilChanged,
   map,
   mapTo,
   pluck,
-  share,
+  shareReplay,
   switchMap,
   take,
-  debounceTime,
+  tap,
 } from 'rxjs/operators';
-import { Subject, from } from 'rxjs';
+import {
+  from,
+  Subject,
+} from 'rxjs';
 import {
   ID,
   setLoading,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
+  centerUpdatedInPlace,
   markNotificationsAsRead,
-  notificationsMarkedRead,
   notificationCountIncreased,
+  notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
@@ -32,9 +37,13 @@ import {
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { mapHALCollectionToIDCollection, selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
+import {
+  mapHALCollectionToIDCollection,
+  selectCollectionAsEntities$,
+  selectCollectionAsHrefs$,
+} from 'core-app/core/state/collection-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IanCenterStore,
@@ -44,6 +53,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Injectable()
 @EffectHandler
@@ -54,15 +64,20 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   readonly query = new IanCenterQuery(this.store, this.resourceService);
 
+  private activeReloadToast:IToast|null = null;
+
   private reload = new Subject();
 
   private onReload = this.reload.pipe(
     debounceTime(0),
-    switchMap((setToLoading) => this.resourceService
+    tap((setToLoading) => {
+      if (setToLoading) {
+        this.store.setLoading(true);
+      }
+    }),
+    switchMap(() => this.resourceService
       .fetchNotifications(this.query.params)
       .pipe(
-        // We don't want to set loading if the request is sent in the background
-        setToLoading ? setLoading(this.store) : map((res) => res),
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
             .pipe(
@@ -70,6 +85,14 @@ export class IanCenterService extends UntilDestroyedMixin {
             ),
         ),
       )),
+
+    // We need to be slower than the onReload subscribers set below.
+    // Because they're subscribers they're called next in the callback queue.
+    // We need our loading state to be set to false only after all data is in the store,
+    // but we cannot guarantee that here, since the data is set _after_ this piece of code
+    // gets run. The solution is to queue this piece of code back, allowing the store contents
+    // update before the loading state gets reset.
+    tap(() => setTimeout(() => this.store.setLoading(false))),
   );
 
   public selectedNotificationIndex = 0;
@@ -79,7 +102,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     pluck('workPackageId'),
     distinctUntilChanged(),
     map((workPackageId:string) => (workPackageId ? this.apiV3Service.work_packages.id(workPackageId).path : undefined)),
-    share(),
+    shareReplay(),
   );
 
   constructor(
@@ -87,10 +110,11 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
-    readonly apiV3Service:APIV3Service,
-    readonly notificationsService:NotificationsService,
+    readonly apiV3Service:ApiV3Service,
+    readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
+    readonly deviceService:DeviceService,
   ) {
     super();
     this.reload.subscribe();
@@ -125,13 +149,13 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    selectCollectionAsHrefs$(this.resourceService, this.query.params)
-      .pipe(
-        take(1),
-      )
-      .subscribe((collection) => {
-        this.markAsRead(collection.ids);
-      });
+    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.query.params)
+      .filter((notification) => notification.readIAN === false)
+      .map((notification) => notification.id);
+
+    if (ids.length > 0) {
+      this.markAsRead(ids);
+    }
   }
 
   openSplitScreen(wpId:string|null):void {
@@ -179,13 +203,20 @@ export class IanCenterService extends UntilDestroyedMixin {
         return;
       }
 
-      this.notificationsService.add({
+      if (this.activeReloadToast) {
+        this.toastService.remove(this.activeReloadToast);
+        this.activeReloadToast = null;
+      }
+
+      this.activeReloadToast = this.toastService.add({
         type: 'info',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
           text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
           target: () => {
             this.store.update({ activeCollection: collection });
+            this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+            this.activeReloadToast = null;
           },
         },
       });
@@ -204,7 +235,10 @@ export class IanCenterService extends UntilDestroyedMixin {
         ids: activeCollection.ids.filter((activeID) => !action.notifications.includes(activeID)),
       },
     });
-    this.showNextNotification();
+
+    if (!this.deviceService.isMobile && this.state.includes('**.details.*')) {
+      this.showNextNotification();
+    }
   }
 
   private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {

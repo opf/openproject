@@ -31,7 +31,7 @@
 namespace :attachments do
   desc 'Clear all attachments created before yesterday'
   task clear: [:environment] do
-    CarrierWave.clean_cached_files!
+    Attachment.clean_cached_files!
   end
 
   desc 'Copies all attachments from the current to the given storage.'
@@ -83,7 +83,7 @@ namespace :attachments do
       # file in the target location.
       def self.store!(attachment)
         return nil unless attachment.attributes['file'].present? &&
-                          File.exists?(attachment.file.path)
+                          File.exist?(attachment.file.path)
 
         new.tap do |target|
           target.id = attachment.id

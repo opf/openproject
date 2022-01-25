@@ -171,7 +171,7 @@ describe 'Assignee action board',
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:assignee).update('Foo Bar')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       work_package.reload
       expect(work_package.assigned_to).to eq(foobar_user)

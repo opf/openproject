@@ -9,6 +9,8 @@ import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 export class BoardStatusActionService extends CachedBoardActionService {
   filterName = 'status';
 
+  resourceName = 'status';
+
   text = this.I18n.t('js.boards.board_type.board_type_title.status');
 
   description = this.I18n.t('js.boards.board_type.action_text_status');
@@ -41,7 +43,7 @@ export class BoardStatusActionService extends CachedBoardActionService {
         .then(() => board));
   }
 
-  public warningTextWhenNoOptionsAvailable() {
+  public warningTextWhenNoOptionsAvailable():Promise<string> {
     return Promise.resolve(this.I18n.t('js.boards.add_list_modal.warning.status'));
   }
 

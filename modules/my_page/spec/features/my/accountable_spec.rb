@@ -87,7 +87,7 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     # browser can get confused. Therefore we wait.
     sleep(1)
 
-    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     accountable_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(3)')
 
@@ -96,7 +96,7 @@ describe 'Accountable widget on my page', type: :feature, js: true do
     assigned_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     assigned_area.remove
 
-    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
     created_area.expect_to_span(1, 1, 2, 2)

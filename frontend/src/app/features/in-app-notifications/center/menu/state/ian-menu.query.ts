@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { Project } from 'core-app/core/state/projects/project.model';
+import { IProject } from 'core-app/core/state/projects/project.model';
 import { collectionKey } from 'core-app/core/state/collection-store';
 import {
   IanMenuState,
@@ -25,7 +25,7 @@ export class IanMenuQuery extends Query<IanMenuState> {
 
       return ids
         .map((id:string) => this.projectsResourceService.query.getEntity(id))
-        .filter((item:Project|undefined) => !!item) as Project[];
+        .filter((item:IProject|undefined) => !!item) as IProject[];
     }),
   );
 

@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::Exports::ExportJob, 'Integration' do
+describe WorkPackages::ExportJob, 'Integration' do
   let(:project) { FactoryBot.create(:project) }
   let(:user) do
     FactoryBot.create(:user,
@@ -43,7 +43,7 @@ describe WorkPackages::Exports::ExportJob, 'Integration' do
   let(:query) { FactoryBot.create(:query, name: 'Query report 04/2021 äöü', project: project) }
   let(:query_attributes) { {} }
 
-  let(:job) { described_class.new(jobs_args) }
+  let(:job) { described_class.new(**jobs_args) }
   let(:jobs_args) do
     {
       export: export,

@@ -173,62 +173,6 @@ describe Relation, type: :model do
     end
   end
 
-  describe '.visible' do
-    let(:user) { FactoryBot.create(:user) }
-    let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-    let(:member_project_to) do
-      FactoryBot.create(:member,
-                        project: to.project,
-                        user: user,
-                        roles: [role])
-    end
-
-    let(:member_project_from) do
-      FactoryBot.create(:member,
-                        project: from.project,
-                        user: user,
-                        roles: [role])
-    end
-
-    before do
-      relation.save!
-    end
-
-    context 'user can see both work packages' do
-      before do
-        member_project_to
-        member_project_from
-      end
-
-      it 'returns the relation' do
-        expect(Relation.visible(user))
-          .to match_array([relation])
-      end
-    end
-
-    context 'user can see only the from work packages' do
-      before do
-        member_project_from
-      end
-
-      it 'does not return the relation' do
-        expect(Relation.visible(user))
-          .to be_empty
-      end
-    end
-
-    context 'user can see only the to work packages' do
-      before do
-        member_project_to
-      end
-
-      it 'does not return the relation' do
-        expect(Relation.visible(user))
-          .to be_empty
-      end
-    end
-  end
-
   describe 'it should validate circular dependency' do
     let(:otherwp) { FactoryBot.create(:work_package) }
     let(:relation) do

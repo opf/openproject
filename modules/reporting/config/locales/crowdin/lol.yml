@@ -1,0 +1,87 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+lol:
+  button_save_as: "crwdns494073:0crwdne494073:0"
+  comments: "crwdns494075:0crwdne494075:0"
+  cost_reports_title: "crwdns494077:0crwdne494077:0"
+  label_cost_report: "crwdns494079:0crwdne494079:0"
+  label_cost_report_plural: "crwdns494081:0crwdne494081:0"
+  description_drill_down: "crwdns494083:0crwdne494083:0"
+  description_filter_selection: "crwdns494085:0crwdne494085:0"
+  description_multi_select: "crwdns494087:0crwdne494087:0"
+  description_remove_filter: "crwdns494089:0crwdne494089:0"
+  information_restricted_depending_on_permission: "crwdns494091:0crwdne494091:0"
+  label_click_to_edit: "crwdns494093:0crwdne494093:0"
+  label_closed: "crwdns494095:0crwdne494095:0"
+  label_columns: "crwdns494097:0crwdne494097:0"
+  label_cost_entry_attributes: "crwdns494099:0crwdne494099:0"
+  label_days_ago: "crwdns494101:0crwdne494101:0"
+  label_entry: "crwdns494103:0crwdne494103:0"
+  label_filter_text: "crwdns494105:0crwdne494105:0"
+  label_filter_value: "crwdns494107:0crwdne494107:0"
+  label_filters: "crwdns494109:0crwdne494109:0"
+  label_greater: "crwdns494111:0crwdne494111:0"
+  label_is_not_project_with_subprojects: "crwdns494113:0crwdne494113:0"
+  label_is_project_with_subprojects: "crwdns494115:0crwdne494115:0"
+  label_work_package_attributes: "crwdns494117:0crwdne494117:0"
+  label_less: "crwdns494119:0crwdne494119:0"
+  label_money: "crwdns494121:0crwdne494121:0"
+  label_month_reporting: "crwdns494123:0crwdne494123:0"
+  label_new_report: "crwdns494125:0crwdne494125:0"
+  label_open: "crwdns494127:0crwdne494127:0"
+  label_operator: "crwdns494129:0crwdne494129:0"
+  label_private_report_plural: "crwdns494131:0crwdne494131:0"
+  label_progress_bar_explanation: "crwdns494133:0crwdne494133:0"
+  label_public_report_plural: "crwdns494135:0crwdne494135:0"
+  label_really_delete_question: "crwdns494137:0crwdne494137:0"
+  label_rows: "crwdns494139:0crwdne494139:0"
+  label_saving: "crwdns494141:0crwdne494141:0"
+  label_spent_on_reporting: "crwdns494143:0crwdne494143:0"
+  label_sum: "crwdns494145:0crwdne494145:0"
+  label_units: "crwdns494147:0crwdne494147:0"
+  label_week_reporting: "crwdns494149:0crwdne494149:0"
+  label_year_reporting: "crwdns494151:0crwdne494151:0"
+  label_count: "crwdns494153:0crwdne494153:0"
+  label_filter: "crwdns494155:0crwdne494155:0"
+  label_filter_add: "crwdns494157:0crwdne494157:0"
+  label_filter_plural: "crwdns494159:0crwdne494159:0"
+  label_group_by: "crwdns494161:0crwdne494161:0"
+  label_group_by_add: "crwdns494163:0crwdne494163:0"
+  label_inactive: "crwdns494165:0crwdne494165:0"
+  label_no: "crwdns494167:0crwdne494167:0"
+  label_none: "crwdns494169:0crwdne494169:0"
+  label_no_reports: "crwdns494171:0crwdne494171:0"
+  label_report: "crwdns494173:0crwdne494173:0"
+  label_yes: "crwdns494175:0crwdne494175:0"
+  load_query_question: "crwdns494177:0%{size}crwdne494177:0"
+  permission_save_cost_reports: "crwdns494179:0crwdne494179:0"
+  permission_save_private_cost_reports: "crwdns494181:0crwdne494181:0"
+  project_module_reporting_module: "crwdns494183:0crwdne494183:0"
+  text_costs_are_rounded_note: "crwdns494185:0crwdne494185:0"
+  toggle_multiselect: "crwdns494187:0crwdne494187:0"
+  units: "crwdns494189:0crwdne494189:0"
+  validation_failure_date: "crwdns494191:0crwdne494191:0"
+  validation_failure_integer: "crwdns494193:0crwdne494193:0"
+  reporting:
+    group_by:
+      selected_columns: "crwdns494195:0crwdne494195:0"
+      selected_rows: "crwdns494197:0crwdne494197:0"

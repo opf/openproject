@@ -81,7 +81,7 @@ class AccountController < ApplicationController
       @user = @token.user
       if request.post?
         call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
-        call.apply_flash_message!(flash)
+        call.apply_flash_message!(flash) if call.errors.empty?
 
         if call.success?
           @token.destroy
@@ -269,7 +269,8 @@ class AccountController < ApplicationController
 
   def auth_source_sso_failed
     failure = session.delete :auth_source_sso_failure
-    user = failure[:user]
+    login = failure[:login]
+    user = find_or_create_sso_user(login, save: false)
 
     if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id

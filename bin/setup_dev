@@ -11,6 +11,9 @@ printf "Bundling rails dependencies ... "
 try 'bundle install > log/setup_dev.log'
 echo "done."
 
+echo "Migrating database"
+try 'bundle exec rake db:migrate'
+
 echo "Removing public assets"
 try 'rm -rf public/assets >> log/setup_dev.log'
 

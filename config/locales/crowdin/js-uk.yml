@@ -88,9 +88,6 @@ uk:
     button_export-pdf: "Завантажити PDF"
     button_export-atom: "Завантажити Atom"
     button_create: "Створити"
-    calendar:
-      title: 'Календар'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
     card:
       add_new: 'Додати нову картку'
       highlighting:
@@ -189,14 +186,14 @@ uk:
         text_reprieve_days_left: "%{days} days until end of grace period"
         text_expired: "expired"
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "Підтвердження електронної адреси"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
-            invalid_email: "Invalid email address"
-            label_company: "Company"
+            invalid_email: "Хибна адреса ел. пошти"
+            label_company: "Компанія"
             label_first_name: "Ім'я"
             label_last_name: "Прізвище"
             label_domain: "Domain"
@@ -208,15 +205,15 @@ uk:
             taken_domain: There can only be one active trial per domain.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
-          try_another_email: "Or try it with another email address."
-          next_steps: "Next steps"
+          try_another_email: "Спробуйте з іншою електронною адресою."
+          next_steps: "Настуні кроки"
           resend_link: "Повторно надіслати"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
-          resend_warning: "Could not resend email."
-          session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
-          status_confirmed: "confirmed"
-          status_waiting: "email sent - waiting for confirmation"
+          resend_warning: "Не вдалося повторно надіслати листа."
+          session_timeout: "Сеанс закінчено. Будь ласка спробуйте перезавантажити сторінку або надіслати листа ще раз."
+          status_label: "Статус:"
+          status_confirmed: "Підтверджено"
+          status_waiting: "Лист надіслано - очікуємо підтвердження"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
         upsale:
@@ -231,8 +228,8 @@ uk:
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Професійна підтримка"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
-          button_start_trial: "Start free trial"
-          button_book_now: "Book now"
+          button_start_trial: "Розпочати безкоштовну пробну версію"
+          button_book_now: "Забронювати зараз"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
@@ -285,14 +282,17 @@ uk:
         new_features:
           text_new_features: "Читайте про нові функції та оновлення продуктів."
           learn_about: "Learn more about the new features"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Активувати"
     label_add_column_after: "Додати стовпець після"
     label_add_column_before: "Додати стовпець перед"
@@ -421,7 +421,7 @@ uk:
     label_public_query: "Публічний"
     label_sum: "Сума"
     label_sum_for: "Сума для"
-    label_total_sum: "Total sum"
+    label_total_sum: "Загальна сума"
     label_subject: "Тема"
     label_this_week: "цього тижня"
     label_today: "Today"
@@ -451,6 +451,7 @@ uk:
     label_starred_queries: "Улюблені види"
     label_global_queries: "Види громадськості"
     label_custom_queries: "Приватні види"
+    label_create_new_query: "Створити новий"
     label_columns: "Стовпці"
     label_attachments: Файли
     label_drop_files: Перетягніть файли сюди
@@ -556,7 +557,7 @@ uk:
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -575,6 +576,7 @@ uk:
           description: 'These project-specific settings override default settings above'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'Вам необхідно ввести пароль облікового запису, щоб підтвердити цю зміну.'
       title: 'Підтвердіть ваш пароль щоб продовжити'
@@ -606,7 +608,8 @@ uk:
         daily:
           add_time: 'Add time'
           enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Time %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
         workdays:
@@ -1073,8 +1076,8 @@ uk:
         many: "%{count} робочий пакет дітей"
         other: "%{count} робочий пакет дітей"
       hour:
-        one: "1 h"
-        other: "%{count} h"
+        one: "1 год"
+        other: "%{count} год"
         zero: "0 h"
     zen_mode:
       button_activate: 'Активуйте режим дзен'

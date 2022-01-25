@@ -94,8 +94,8 @@ describe DigestMailer, type: :mailer do
         .to receive(:current)
               .and_return(Time.current)
 
-      expect(mail['Message-ID']&.value)
-        .to eql "<openproject.digest-#{recipient.id}-#{Time.current.strftime('%Y%m%d%H%M%S')}@example.net>"
+      expect(mail.message_id)
+        .to eql "op.digest.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
     end
 
     it 'sets the expected openproject headers' do

@@ -1,8 +1,8 @@
-<div class="op-scrollable-table">
-  <table
-    class="op-table"
-    *ngIf="settings.length > 0"
-  >
+<div
+  class="op-scrollable-table"
+  *ngIf="settings.length > 0"
+>
+  <table class="op-table">
     <thead>
       <tr>
         <th class="op-table--cell op-table--cell_heading">
@@ -124,7 +124,7 @@
               class="op-link"
               (click)="removeProjectSettings(index)"
             >
-              Remove Project Settings
+              {{ text.remove_project_settings }}
             </button>
           </td>
         </ng-container>

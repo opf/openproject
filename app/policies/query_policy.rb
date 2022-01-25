@@ -58,7 +58,7 @@ class QueryPolicy < BasePolicy
 
   def viewable?(query)
     view_work_packages_allowed?(query) &&
-      (query.is_public? || query.user == user)
+      (query.public? || query.user == user)
   end
 
   def create_allowed?(query)
@@ -70,7 +70,7 @@ class QueryPolicy < BasePolicy
   end
 
   def publicize_allowed?(query)
-    !query.is_public &&
+    !query.public &&
       query.user_id == user.id &&
       manage_public_queries_allowed?(query)
   end
@@ -80,7 +80,7 @@ class QueryPolicy < BasePolicy
   end
 
   def public_manageable_query?(query)
-    query.is_public &&
+    query.public &&
       manage_public_queries_allowed?(query)
   end
 

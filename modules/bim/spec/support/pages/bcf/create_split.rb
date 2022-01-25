@@ -37,14 +37,12 @@ module Pages
 
       attr_accessor :project,
                     :model_id,
-                    :type_id,
-                    :view_route
+                    :type_id
 
       def initialize(project:, model_id: nil, type_id: nil)
         super(project: project)
         self.model_id = model_id
         self.type_id = type_id
-        self.view_route = :split
       end
 
       # Override delete viewpoint since we don't have confirm alert
@@ -53,7 +51,7 @@ module Pages
       end
 
       def path
-        bcf_project_frontend_path(project, "#{view_route}/create_new")
+        bcf_project_frontend_path(project, "create_new")
       end
 
       def expect_current_path

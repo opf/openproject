@@ -1,9 +1,4 @@
 <div class="op-ian-center">
-  <div class="op-ian-center--loading-indicator" *ngIf="loading$ | async">
-    <op-content-loader>
-      <svg:rect x="0" y="0" width="100%" height="100%" rx="1" />
-    </op-content-loader>
-  </div>
   <div class="op-ian-center--content">
     <ng-container *ngIf="(hasNotifications$ | async); else noResults">
       <cdk-virtual-scroll-viewport
@@ -20,6 +15,7 @@
             [aggregatedNotifications]="records"
             attr.data-qa-selector="op-ian-notification-item-{{records[0].id}}"
             [attr.data-qa-ian-read]="records[0].readIAN === true || undefined"
+            [attr.data-qa-ian-selected]="(stateChanged$ | async) === records[0]._links.resource.href"
         ></op-in-app-notification-entry>
       </cdk-virtual-scroll-viewport>
     </ng-container>

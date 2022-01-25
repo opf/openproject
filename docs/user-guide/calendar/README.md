@@ -16,14 +16,14 @@ The calendar shows all of the project's work packages in calendar form.
 | [Calendar overview](#calendar-overview)                      | How to use the calendar in OpenProject.               |
 | [Filters in calendar](#filters-in-calendar)                  | How to filter in the calendar view.                   |
 | [Zen mode](#zen-mode)                                        | How to work distraction free in a calendar view.      |
-| [Project overarching calendar](#project-orverarching-calendar) | How to display more than one project in the calendar. |
+| [Project overarching calendar](#project-overarching-calendar) | How to display more than one project in the calendar. |
 
 
 ## Calendar overview
 
-To display the calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#activate-modules).
+To display the calendar in a project, the module **calendar** needs to be activated in the [project settings](../projects/#project-settings).
 
-When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/#work-package-types).
+When you open the calendar, all work packages within the current project are displayed on the calendar, displaying the title of the work package. The colors represent the different [work package types](../../system-admin-guide/manage-work-packages/work-package-types).
 
 The current month is automatically selected. You can change the  date range between month or week and navigate through the views with the arrows on the left. The **today** button brings you back to the current date.
 
@@ -45,7 +45,7 @@ The number of different filter criteria is displayed on the filter button.
 
 ![filter-calendar](filter-calendar.png)
 
-You can also display the calendar on the dashboard in the [project overview page](#project-overview).
+You can also display the calendar on the dashboard in the [project overview](../project-overview/#calendar-widget).
 
 ## Zen mode
 

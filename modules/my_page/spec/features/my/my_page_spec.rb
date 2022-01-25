@@ -159,7 +159,7 @@ describe 'My page', type: :feature, js: true do
     # that widgets that have been there are moved down
     created_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     reload_grid!
 
@@ -174,7 +174,7 @@ describe 'My page', type: :feature, js: true do
     # as no more widgets start in the second column, that column is removed
     news_area.drag_to(1, 3)
 
-    my_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    my_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
     reload_grid!
 

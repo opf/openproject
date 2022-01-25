@@ -82,7 +82,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       last_response
     end
 
-    context 'logged in user' do
+    context 'for a logged in user' do
       it 'responds with 200 OK' do
         expect(subject.status).to eq(200)
       end
@@ -92,10 +92,14 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(subject.body).to be_json_eql(project.identifier.to_json).at_path('identifier')
       end
 
-      it 'links to the parent project' do
+      it 'links to the parent/ancestor project' do
         expect(subject.body)
           .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
           .at_path('_links/parent/href')
+
+        expect(subject.body)
+          .to be_json_eql(api_v3_paths.project(parent_project.id).to_json)
+          .at_path('_links/ancestors/0/href')
       end
 
       it 'includes custom fields' do
@@ -116,7 +120,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           .at_path("_links/status/href")
       end
 
-      context 'requesting nonexistent project' do
+      context 'when requesting nonexistent project' do
         let(:get_path) { api_v3_paths.project 9999 }
 
         before do
@@ -126,7 +130,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         it_behaves_like 'not found'
       end
 
-      context 'requesting project without sufficient permissions' do
+      context 'when requesting project without sufficient permissions' do
         let(:get_path) { api_v3_paths.project other_project.id }
 
         before do
@@ -136,8 +140,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         it_behaves_like 'not found'
       end
 
-      context 'not being allowed to see the parent project' do
+      context 'when not being allowed to see the parent project' do
         let!(:parent_memberships) do
+          # no parent memberships
         end
 
         it 'shows the `undisclosed` uri' do
@@ -171,7 +176,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'not logged in user' do
+    context 'for a not logged in user' do
       let(:current_user) { FactoryBot.create(:anonymous) }
 
       before do
@@ -200,7 +205,27 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
     it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
-    context 'filtering for project by ancestor' do
+    context 'with a pageSize and offset' do
+      let(:projects) { [project, project2, project3] }
+      let(:project2) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+      let(:project3) do
+        FactoryBot.create(:project,
+                          members: { current_user => [role] })
+      end
+
+      let(:get_path) do
+        api_v3_paths.path_for :projects, sort_by: { id: :asc }, page_size: 2, offset: 2
+      end
+
+      it_behaves_like 'API V3 collection response', 3, 1, 'Project' do
+        let(:elements) { [project3] }
+      end
+    end
+
+    context 'when filtering for project by ancestor' do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
@@ -216,7 +241,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
 
       let(:get_path) do
-        "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+        api_v3_paths.path_for :projects, filters: filter_query
       end
 
       it_behaves_like 'API V3 collection response', 1, 1, 'Project'
@@ -236,7 +261,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
 
       let(:get_path) do
-        api_v3_paths.path_for :projects, filters: [{ "user_action": { "operator": "=", "values": ["projects/copy"] } }]
+        api_v3_paths.path_for :projects, filters: [{ user_action: { operator: "=", values: ["projects/copy"] } }]
       end
 
       it_behaves_like 'API V3 collection response', 1, 1, 'Project'
@@ -248,7 +273,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
     end
 
-    context 'filtering for principals (members)' do
+    context 'when filtering for principals (members)' do
       let(:other_project) do
         Role.non_member
         FactoryBot.create(:public_project)
@@ -261,7 +286,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         end
 
         let(:get_path) do
-          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+          api_v3_paths.path_for :projects, filters: filter_query
         end
 
         it 'returns the filtered for value' do
@@ -277,7 +302,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         end
 
         let(:get_path) do
-          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+          api_v3_paths.path_for :projects, filters: filter_query
         end
 
         it 'returns the projects not matching the value' do
@@ -311,7 +336,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
 
       let(:get_path) do
-        api_v3_paths.path_for :projects, filters: [{ "visible": { "operator": "=", "values": [other_user.id.to_s] } }]
+        api_v3_paths.path_for :projects, filters: [{ visible: { operator: "=", values: [other_user.id.to_s] } }]
       end
 
       current_user { admin }
@@ -419,9 +444,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql(
             {
-              "format": "markdown",
-              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
-              "raw": "Some explanation."
+              format: "markdown",
+              html: "<p class=\"op-uc-p\">Some explanation.</p>",
+              raw: "Some explanation."
             }.to_json
           )
           .at_path("statusExplanation")
@@ -442,7 +467,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
           identifier: 'new_project_identifier',
           name: 'Project name',
           "customField#{custom_field.id}": {
-            "raw": "CF text"
+            raw: "CF text"
           }
         }.to_json
       end
@@ -577,7 +602,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:body) do
         {
           "customField#{custom_field.id}": {
-            "raw": "CF text"
+            raw: "CF text"
           }
         }
       end
@@ -633,9 +658,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql(
             {
-              "format": "markdown",
-              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
-              "raw": "Some explanation."
+              format: "markdown",
+              html: "<p class=\"op-uc-p\">Some explanation.</p>",
+              raw: "Some explanation."
             }.to_json
           )
           .at_path("statusExplanation")
@@ -664,9 +689,9 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
         expect(last_response.body)
           .to be_json_eql(
             {
-              "format": "markdown",
-              "html": "<p class=\"op-uc-p\">Some explanation.</p>",
-              "raw": "Some explanation."
+              format: "markdown",
+              html: "<p class=\"op-uc-p\">Some explanation.</p>",
+              raw: "Some explanation."
             }.to_json
           )
           .at_path("statusExplanation")

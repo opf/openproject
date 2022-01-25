@@ -33,6 +33,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
+// The key used in the I18n files to distinguish between versions.
+const OpVersionI18n = '12_0';
 
 @Component({
   template: `
@@ -42,8 +44,9 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
       </p>
       <div class="widget-box--description">
         <p [innerHtml]="currentNewFeatureHtml"></p>
-        <img [src]="new_features_image"/>
-        <a class="widget-box--teaser-image op-new-features--teaser-image"></a>
+        <img
+          class="widget-box--teaser-image op-new-features--teaser-image"
+          [src]="new_features_image"/>
       </div>
 
       <a [href]="teaserWebsiteUrl" target="_blank">{{ text.learnAbout }}</a>
@@ -61,7 +64,7 @@ export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
 
-  new_features_image = imagePath('11_3_features.png');
+  new_features_image = imagePath('12_0_features.png');
 
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
@@ -82,16 +85,11 @@ export class HomescreenNewFeaturesBlockComponent {
   }
 
   public get currentNewFeatureHtml():string {
-    return this.translated('current_new_feature_html');
+    return this.translated('new_features_html');
   }
 
   private translated(key:string):string {
-    return this.i18n.t(`${this.i18nBase + this.i18nPrefix}.${key}`, { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
-  }
-
-  private i18nBase = 'js.homescreen.blocks.new_features.';
-
-  private get i18nPrefix():string {
-    return this.isStandardEdition ? 'standard' : 'bim';
+    return this.i18n.t(`js.homescreen.blocks.new_features.${OpVersionI18n}.${this.isStandardEdition ? 'standard' : 'bim'}.${key}`,
+      { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
   }
 }

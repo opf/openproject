@@ -96,7 +96,7 @@ describe 'Show viewpoint in model viewer',
 
   context 'when in details view' do
     before do
-      card_view.open_full_screen_by_details(work_package)
+      card_view.click_info_icon(work_package)
       bcf_details.expect_viewpoint_count(1)
 
       # We need to wait a bit for xeokit to be initialized
@@ -117,7 +117,7 @@ describe 'Show viewpoint in model viewer',
         bcf_details.expect_viewpoint_count(1)
         bcf_details.show_current_viewpoint
 
-        path = Regexp.escape("bcf/split/details/#{work_package.id}/overview")
+        path = Regexp.escape("bcf/details/#{work_package.id}/overview")
         expect(page).to have_current_path /#{path}/
 
         expect(page).to have_current_path /#{project.id}/

@@ -5,6 +5,7 @@ import { OpSingleDatePickerComponent } from 'core-app/shared/components/op-date-
 import * as moment from 'moment';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'op-date-picker-adapter',
@@ -24,10 +25,11 @@ export class DatePickerAdapterComponent extends OpSingleDatePickerComponent impl
 
   constructor(
     timezoneService:TimezoneService,
+    configurationService:ConfigurationService,
     private ngZone:NgZone,
     private changeDetectorRef:ChangeDetectorRef,
   ) {
-    super(timezoneService);
+    super(timezoneService, configurationService);
   }
 
   writeValue(date:string):void {

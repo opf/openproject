@@ -150,7 +150,7 @@ describe Attachment, type: :model do
 
   describe 'create' do
     it('creates a jpg file called test') do
-      expect(File.exists?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to eq true
     end
 
     it('has the content type "image/jpeg"') do
@@ -170,6 +170,7 @@ describe Attachment, type: :model do
 
   describe 'two attachments with same file name' do
     let(:second_file) { FactoryBot.create :uploaded_jpg, name: file.original_filename }
+
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
                               file: file,
@@ -190,7 +191,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exists?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to eq true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -199,12 +200,13 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exists?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to eq false
     end
   end
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe "#external_url", with_direct_uploads: true do
     let(:author) { FactoryBot.create :user }
 
@@ -242,12 +244,27 @@ describe Attachment, type: :model do
       end
     end
 
+    shared_examples "it uses content disposition inline" do
+      let(:attachment) { raise "define me!" }
+
+      describe 'the external url (for remote attachments)' do
+        it 'contains inline content disposition without the filename' do
+          expect(attachment.external_url.to_s).to include "response-content-disposition=inline&"
+        end
+      end
+
+      describe 'content disposition (for local attachments)' do
+        it 'is inline, including the filename' do
+          expect(attachment.content_disposition).to eq "inline; filename=#{attachment.filename}"
+        end
+      end
+    end
+
     describe "for an image file" do
       before { image_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(image_attachment.content_disposition).to eq "inline"
-        expect(image_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { image_attachment }
       end
 
       # this is independent from the type of file uploaded so we just test this for the first one
@@ -259,9 +276,19 @@ describe Attachment, type: :model do
     describe "for a text file" do
       before { text_attachment.save! }
 
-      it "should make S3 use content_disposition inline" do
-        expect(text_attachment.content_disposition).to eq "inline"
-        expect(text_attachment.external_url.to_s).to include "response-content-disposition=inline"
+      it_behaves_like "it uses content disposition inline" do
+        let(:attachment) { text_attachment }
+      end
+    end
+
+    describe 'for a video file' do
+      let(:attachment) { described_class.new }
+
+      it 'assumes it to be inlineable' do
+        %w[video/webm video/mp4 video/quicktime].each do |content_type|
+          attachment.content_type = content_type
+          expect(attachment).to be_inlineable, "#{content_type} should be inlineable"
+        end
       end
     end
 
@@ -269,11 +296,12 @@ describe Attachment, type: :model do
       before { binary_attachment.save! }
 
       it "should make S3 use content_disposition 'attachment; filename=...'" do
-        expect(binary_attachment.content_disposition).to eq "attachment"
+        expect(binary_attachment.content_disposition).to eq "attachment; filename=textfile.txt.gz"
         expect(binary_attachment.external_url.to_s).to include "response-content-disposition=attachment"
       end
     end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe 'full text extraction job on commit' do
     let(:created_attachment) do

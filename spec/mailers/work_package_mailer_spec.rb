@@ -89,10 +89,18 @@ describe WorkPackageMailer, type: :mailer do
     end
 
     it 'has a message id header' do
-      created_at = work_package.created_at.strftime('%Y%m%d%H%M%S')
+      Timecop.freeze(Time.current) do
+        expect(mail.message_id)
+          .to eql "op.journal-#{journal.id}.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
+      end
+    end
 
-      expect(mail['Message-ID'].value)
-        .to eql "<openproject.work_package-#{recipient.id}-#{work_package.id}.#{created_at}@example.net>"
+    it 'has a references header' do
+      journal_part = "op.journal-#{journal.id}@example.net"
+      work_package_part = "op.work_package-#{work_package.id}@example.net"
+
+      expect(mail.references)
+        .to eql [work_package_part, journal_part]
     end
 
     it 'has a work package assignee header' do
@@ -106,16 +114,32 @@ describe WorkPackageMailer, type: :mailer do
 
     let(:watcher_changer) { author }
 
-    before do
-      described_class.watcher_changed(work_package, recipient, author, 'added').deliver_now
-      described_class.watcher_changed(work_package, recipient, author, 'removed').deliver_now
+    context 'for an added watcher' do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, 'added') }
+
+      it 'contains the WP subject in the mail subject' do
+        expect(mail.subject)
+          .to include(work_package.subject)
+      end
+
+      it 'has a references header' do
+        expect(mail.references)
+          .to eql "op.work_package-#{work_package.id}@example.net"
+      end
     end
 
-    include_examples 'multiple mails are sent', 2
+    context 'for a removed watcher' do
+      subject(:mail) { described_class.watcher_changed(work_package, recipient, author, 'removed') }
 
-    it 'contains the WP subject in the mail subject' do
-      expect(deliveries.first.subject)
-        .to include(work_package.subject)
+      it 'contains the WP subject in the mail subject' do
+        expect(mail.subject)
+          .to include(work_package.subject)
+      end
+
+      it 'has a references header' do
+        expect(mail.references)
+          .to eql "op.work_package-#{work_package.id}@example.net"
+      end
     end
   end
 end

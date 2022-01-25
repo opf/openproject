@@ -45,7 +45,7 @@ module Pages
     end
 
     def create_page(args)
-      Pages::FullWorkPackageCreate.new(args)
+      Pages::FullWorkPackageCreate.new(**args)
     end
   end
 end

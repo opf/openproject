@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { Observable } from 'rxjs';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -31,7 +31,7 @@ export abstract class BoardActionService {
     protected halResourceService:HalResourceService,
     protected pathHelper:PathHelperService,
     protected currentProject:CurrentProjectService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected schemaCache:SchemaCacheService) {
   }
 
@@ -44,6 +44,11 @@ export abstract class BoardActionService {
    * The action filter name
    */
   filterName:string;
+
+  /**
+   * The action resource name for the autocompleter
+   */
+  resourceName:string;
 
   /**
    * The icon used in tile

@@ -59,18 +59,11 @@ export class EmptyStateComponent {
     no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
   };
 
-  private hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.query.hasNotifications$;
 
-  private totalCount$ = this.bellService.unread$;
+  totalCount$ = this.bellService.unread$;
 
-  dataChanged$ = combineLatest([
-    this.hasNotifications$,
-    this.totalCount$,
-  ])
-    .pipe(
-      distinctUntilChanged(),
-      debounceTime(350),
-    );
+  loading$ = this.storeService.query.selectLoading();
 
   constructor(
     readonly I18n:I18nService,

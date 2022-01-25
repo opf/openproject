@@ -54,7 +54,7 @@ pt:
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Atas"
   label_meeting_close: "Fechar"
-  label_meeting_open: "Aberto"
+  label_meeting_open: "Abrir"
   label_meeting_agenda_close: "Fechar a agenda para iniciar a Ata"
   label_meeting_date_time: "Data/Horário"
   label_meeting_diff: "Diferenças"
@@ -64,7 +64,7 @@ pt:
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Copiado para a Reunião #%{id}"
   notice_successful_notification: "Notificação enviada com sucesso"
   notice_timezone_missing: Nenhum fuso horário está definido, portanto assumiu-se %{zone}. Para escolher o seu fuso horário, clique aqui.
   permission_create_meetings: "Criar reuniões"

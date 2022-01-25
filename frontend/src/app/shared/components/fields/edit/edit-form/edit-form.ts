@@ -194,7 +194,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
         .catch((error:ErrorResource|unknown) => {
           this.halNotification.handleRawError(error, this.resource);
 
-          if (error instanceof HalError) {
+          if (error instanceof HalError && error.resource) {
             this.handleSubmissionErrors(error.resource);
             reject();
           }

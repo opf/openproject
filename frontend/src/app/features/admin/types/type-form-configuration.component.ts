@@ -2,7 +2,7 @@ import {
   AfterViewInit, Component, ElementRef, OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { DragulaService, DrakeWithModels } from 'ng2-dragula';
@@ -75,7 +75,7 @@ export class TypeFormConfigurationComponent extends UntilDestroyedMixin implemen
     private Gon:GonService,
     private dragula:DragulaService,
     private confirmDialog:ConfirmDialogService,
-    private notificationsService:NotificationsService,
+    private toastService:ToastService,
     private externalRelationQuery:ExternalRelationQueryConfigurationService) {
     super();
   }

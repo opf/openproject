@@ -546,7 +546,7 @@ class PermittedParams
         query: %i(
           name
           display_sums
-          is_public
+          public
           group_by
         ),
         role: [

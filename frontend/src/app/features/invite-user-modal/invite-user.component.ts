@@ -10,7 +10,7 @@ import {
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PrincipalData } from 'core-app/shared/components/principal/principal-types';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -71,7 +71,7 @@ export class InviteUserModalComponent extends OpModalComponent implements OnInit
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
   ) {
     super(locals, cdRef, elementRef);
   }

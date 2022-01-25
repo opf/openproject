@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { PrincipalLike } from './principal-types';
-import { PrincipalHelper } from './principal-helper';
-import PrincipalType = PrincipalHelper.PrincipalType;
+import {
+  PrincipalType,
+  hrefFromPrincipal,
+  typeFromHref,
+} from './principal-helper';
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -24,18 +26,18 @@ export interface NameOptions {
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
   constructor(private pathHelper:PathHelperService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private colors:ColorsService) {
 
   }
 
   renderMultiple(
     container:HTMLElement,
-    users:PrincipalLike[],
+    users:PrincipalLike[]|IPrincipal[],
     name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
-  ) {
+  ):void {
     container.classList.add('op-principal');
     const list = document.createElement('span');
 
@@ -61,12 +63,12 @@ export class PrincipalRendererService {
 
   render(
     container:HTMLElement,
-    principal:PrincipalLike,
+    principal:PrincipalLike|IPrincipal,
     name:NameOptions = { hide: false, link: true },
     avatar:AvatarOptions = { hide: false, size: 'default' },
   ):void {
     container.classList.add('op-principal');
-    const type = PrincipalHelper.typeFromHref(principal.href || '')!;
+    const type = typeFromHref(hrefFromPrincipal(principal)) as PrincipalType;
 
     if (!avatar.hide) {
       const el = this.renderAvatar(principal, avatar, type);
@@ -80,7 +82,7 @@ export class PrincipalRendererService {
   }
 
   private renderAvatar(
-    principal:PrincipalLike,
+    principal:PrincipalLike|IPrincipal,
     options:AvatarOptions,
     type:PrincipalType,
   ) {
@@ -88,6 +90,7 @@ export class PrincipalRendererService {
     const colorCode = this.colors.toHsl(principal.name);
 
     const fallback = document.createElement('div');
+    fallback.classList.add('op-principal--avatar');
     fallback.classList.add('op-avatar');
     fallback.classList.add(`op-avatar_${options.size}`);
     fallback.classList.add(`op-avatar_${type.replace('_', '-')}`);
@@ -110,7 +113,7 @@ export class PrincipalRendererService {
     return fallback;
   }
 
-  private renderUserAvatar(principal:PrincipalLike, fallback:HTMLElement, options:AvatarOptions):void {
+  private renderUserAvatar(principal:PrincipalLike|IPrincipal, fallback:HTMLElement, options:AvatarOptions):void {
     const url = this.userAvatarUrl(principal);
 
     if (!url) {
@@ -123,18 +126,19 @@ export class PrincipalRendererService {
     image.src = url;
     image.title = principal.name;
     image.alt = principal.name;
-    image.onload = function () {
+    image.onload = () => {
       fallback.replaceWith(image);
-      (fallback as any) = undefined;
+      // eslint-disable-next-line no-param-reassign
+      (fallback as unknown) = undefined;
     };
   }
 
-  private userAvatarUrl(principal:PrincipalLike):string|null {
-    const id = principal.id || idFromLink(principal.href || '');
+  private userAvatarUrl(principal:PrincipalLike|IPrincipal):string|null {
+    const id = principal.id || idFromLink(hrefFromPrincipal(principal));
     return id ? this.apiV3Service.users.id(id).avatar.toString() : null;
   }
 
-  private renderName(principal:PrincipalLike, type:PrincipalType, asLink = true) {
+  private renderName(principal:PrincipalLike|IPrincipal, type:PrincipalType, asLink = true) {
     if (asLink) {
       const link = document.createElement('a');
       link.textContent = principal.name;
@@ -151,18 +155,23 @@ export class PrincipalRendererService {
     return span;
   }
 
-  private principalURL(principal:PrincipalLike, type:PrincipalType) {
+  private principalURL(principal:PrincipalLike|IPrincipal, type:PrincipalType):string {
+    const href = hrefFromPrincipal(principal);
+    const id = principal.id || (href ? idFromLink(href) : '');
+
     switch (type) {
       case 'group':
-        return this.pathHelper.groupPath(principal.id || '');
+        return this.pathHelper.groupPath(id);
       case 'placeholder_user':
-        return this.pathHelper.placeholderUserPath(principal.id || '');
+        return this.pathHelper.placeholderUserPath(id);
       case 'user':
-        return this.pathHelper.userPath(principal.id || '');
+        return this.pathHelper.userPath(id);
+      default:
+        throw new Error('Invalid principal type provided');
     }
   }
 
-  private getInitials(name:string) {
+  private getInitials(name:string):string {
     const characters = [...name];
     const lastSpace = name.lastIndexOf(' ');
     const first = characters[0]?.toUpperCase();

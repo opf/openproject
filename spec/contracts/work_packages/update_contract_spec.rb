@@ -42,7 +42,8 @@ describe WorkPackages::UpdateContract do
   let(:work_package) do
     FactoryBot.build_stubbed(:work_package,
                              project: work_package_project,
-                             type: type).tap do |wp|
+                             type: type,
+                             status: status).tap do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -58,6 +59,7 @@ describe WorkPackages::UpdateContract do
   end
   let(:user) { FactoryBot.build_stubbed(:user) }
   let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:status) { FactoryBot.build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   before do
@@ -334,6 +336,34 @@ describe WorkPackages::UpdateContract do
 
         expect(subject)
           .not_to include('subject', 'start_date', 'description')
+      end
+    end
+  end
+
+  describe 'readonly status' do
+    context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
+      let(:status) { FactoryBot.build_stubbed(:status, is_readonly: true) }
+      let(:new_priority) { FactoryBot.build_stubbed(:priority) }
+
+      before do
+        work_package.priority = new_priority
+
+        contract.validate
+      end
+
+      it 'is invalid' do
+        expect(contract)
+          .not_to be_valid
+      end
+
+      it 'adds an error to the written to attribute' do
+        expect(contract.errors.symbols_for(:priority_id))
+          .to include(:error_readonly)
+      end
+
+      it 'adds an error to base to better explain' do
+        expect(contract.errors.symbols_for(:base))
+          .to include(:readonly_status)
       end
     end
   end

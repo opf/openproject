@@ -110,13 +110,15 @@ de:
     label_edit_defaults: 'Standard-Modelle bearbeiten'
     no_defaults_warning:
       title: 'Es wurde kein IFC-Modell als Standard für dieses Projekt festgelegt.'
-      check_1: 'Überprüfen Sie, dass Sie mindestens ein IFC-Modell hochgeladen haben.'
+      check_1: 'Stellen Sie sicher, dass Sie mindestens ein IFC-Modell hochgeladen haben.'
       check_2: 'Überprüfen Sie, dass mindestens ein IFC-Modell als "Standard" gesetzt ist.'
     no_results: "Es wurden keine IFC-Modelle in diesem Projekt hochgeladen."
-    processing_state:
+    conversion_status:
       label: 'Verarbeitung?'
-      in_progress: 'In Bearbeitung'
+      pending: 'Ausstehend'
+      processing: 'Wird verarbeitet'
       completed: 'Abgeschlossen'
+      error: 'Fehler'
     processing_notice:
       processing_default: 'Die folgenden Standard-IFC-Modelle werden noch verarbeitet und sind daher noch nicht verfügbar:'
     flash_messages:

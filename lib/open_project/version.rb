@@ -34,7 +34,7 @@ require 'open3'
 module OpenProject
   module VERSION #:nodoc:
     MAJOR = 12
-    MINOR = 0
+    MINOR = 1
     PATCH = 0
 
     class << self
@@ -60,7 +60,7 @@ module OpenProject
       def product_version
         cached_or_block(:@product_version) do
           path = Rails.root.join('config', 'PRODUCT_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -69,7 +69,7 @@ module OpenProject
       def core_version
         cached_or_block(:@core_version) do
           path = Rails.root.join('config', 'CORE_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -96,7 +96,7 @@ module OpenProject
       def release_date_from_file
         cached_or_block(:@release_date_from_file) do
           path = Rails.root.join('config', 'RELEASE_DATE')
-          if File.exists? path
+          if File.exist? path
             s = File.read(path)
             Date.parse(s)
           end

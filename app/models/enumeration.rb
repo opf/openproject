@@ -34,7 +34,6 @@ class Enumeration < ApplicationRecord
   belongs_to :project
 
   acts_as_list scope: 'type = \'#{type}\''
-  acts_as_customizable
   acts_as_tree order: 'position ASC'
 
   before_destroy :check_integrity

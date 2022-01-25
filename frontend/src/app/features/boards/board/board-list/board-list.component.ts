@@ -19,7 +19,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { BoardInlineCreateService } from 'core-app/features/boards/board/board-list/board-inline-create.service';
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Board } from 'core-app/features/boards/board/board';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
@@ -48,7 +48,7 @@ import {
 import { ChangeItem } from 'core-app/shared/components/fields/changeset/changeset';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -133,13 +133,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public buttonPlaceholder:DisabledButtonPlaceholder|undefined;
 
-  constructor(readonly apiv3Service:APIV3Service,
+  constructor(readonly apiv3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly state:StateService,
     readonly cdRef:ChangeDetectorRef,
     readonly transitions:TransitionService,
     readonly boardFilters:BoardFiltersService,
-    readonly notifications:NotificationsService,
+    readonly toastService:ToastService,
     readonly querySpace:IsolatedQuerySpace,
     readonly halNotification:HalResourceNotificationService,
     readonly halEvents:HalEventsService,
@@ -296,7 +296,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       .subscribe(
         () => {
           this.inFlight = false;
-          this.notifications.addSuccess(this.text.updateSuccessful);
+          this.toastService.addSuccess(this.text.updateSuccessful);
         },
         (_error) => this.inFlight = false,
       );

@@ -70,7 +70,7 @@ describe 'filter me value', js: true do
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
-        wp_table.expect_notification(type: :error,
+        wp_table.expect_toast(type: :error,
                                      message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end
@@ -118,7 +118,7 @@ describe 'filter me value', js: true do
         subject.set_value 'foobar'
         subject.submit_by_enter
 
-        split_screen.expect_and_dismiss_notification message: 'Successful creation.'
+        split_screen.expect_and_dismiss_toaster message: 'Successful creation.'
 
         wp = WorkPackage.last
         expect(wp.assigned_to_id).to eq(admin.id)
@@ -129,9 +129,8 @@ describe 'filter me value', js: true do
   describe 'custom_field of type user' do
     let(:custom_field) do
       FactoryBot.create(
-        :work_package_custom_field,
+        :user_wp_custom_field,
         name: 'CF user',
-        field_format: 'user',
         is_required: false
       )
     end
@@ -176,7 +175,7 @@ describe 'filter me value', js: true do
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
-        wp_table.expect_notification(type: :error,
+        wp_table.expect_toast(type: :error,
                                      message: I18n.t('js.work_packages.faulty_query.description'))
       end
     end

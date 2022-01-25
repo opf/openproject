@@ -417,6 +417,13 @@ module API
 
           resources :version
 
+          index :view
+          show :view
+
+          def self.views_type(type)
+            "#{views}/#{type}"
+          end
+
           def self.versions_available_projects
             "#{versions}/available_projects"
           end
@@ -490,12 +497,13 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
-              pageSize: page_size
+              pageSize: page_size,
+              offset: offset
             }.reject { |_, v| v.blank? }
 
             if query_params.any?

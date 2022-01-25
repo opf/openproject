@@ -1,0 +1,1159 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+th:
+  js:
+    ajax:
+      hide: "ซ่อน"
+      loading: "กำลังโหลด..."
+    attachments:
+      draggable_hint: |
+        ลากมาฟิลด์เพื่อแก้ไขรูปภาพหรือเอกสารแนบอ้างอิง, ฟิลด์ตัวแก้ไขที่ถูกปิดจะเปิดขึ้นในขณะที่คุณทำการลากต่อไป
+    autocomplete_select:
+      placeholder:
+        multi: "เพิ่ม \"%{name}\""
+        single: "เลือก \"%{name}\""
+      remove: "ลบ %{name}"
+      active: "ใช้งาน %{label} %{name}"
+    backup:
+      attachments_disabled: ไม่สามารถรวมไฟล์แนบได้เนื่องจากเกินขนาดโดยรวมสูงสุดที่อนุญาต คุณสามารถเปลี่ยนค่านี้ได้ผ่านการกำหนดค่า (ต้องรีสตาร์ทเซิร์ฟเวอร์) 
+      info: >
+        คุณสามารถเรียกใช้การสำรองข้อมูลได้ที่นี่ กระบวนการนี้อาจใช้เวลาสักครู่ขึ้นอยู่กับปริมาณข้อมูล (โดยเฉพาะไฟล์แนบ) ที่คุณมี คุณจะได้รับอีเมลเมื่อพร้อม
+      note: >
+        ข้อมูลสำรองใหม่จะแทนที่ข้อมูลสำรองก่อนหน้า สามารถขอสำรองข้อมูลได้จำนวนจำกัดต่อวันเท่านั้น
+      last_backup: สำรองข้อมูลล่าสุด
+      last_backup_from: ข้อมูลสำรองล่าสุดจาก
+      title: สำรองข้อมูล OpenProject
+      options: ตัวเลือก
+      include_attachments: รวมไฟล์แนบ
+      download_backup: ดาวน์โหลดข้อมูลการสำรอง
+      request_backup: ขอสำรองข้อมูล
+    close_popup_title: "ปิดป๊อปอัพ"
+    close_filter_title: "ปิดตัวกรอง"
+    close_form_title: "ปิดแบบฟอร์ม"
+    button_add_watcher: "เพิ่มผู้ดูข้อมูล"
+    button_add: "เพิ่ม"
+    button_back: "ย้อนกลับ"
+    button_back_to_list_view: "กลับไปยังรายการก่อนหน้า"
+    button_cancel: "ยกเลิก"
+    button_close: "Close"
+    button_change_project: "Change project"
+    button_check_all: "ทำเครื่องหมายทั้งหมด"
+    button_configure-form: "กำหนดค่าฟอร์ม"
+    button_confirm: "ยืนยัน"
+    button_continue: "Continue"
+    button_copy: "คัดลอก"
+    button_custom-fields: "ฟิลด์ที่กำหนดเอง"
+    button_delete: "ลบ"
+    button_delete_watcher: "ลบผู้ดูข้อมูล"
+    button_details_view: "ดูรายละเอียด"
+    button_duplicate: "ทำซ้ำ"
+    button_edit: "แก้ไข"
+    button_filter: "ตัวกรอง"
+    button_collapse_all: "ยุบทั้งหมด"
+    button_expand_all: "ขยายทั้งหมด"
+    button_advanced_filter: "ตัวกรองขั้นสูง"
+    button_list_view: "มุมมองรายการ"
+    button_show_view: "มุมมองแบบเต็มหน้าจอ"
+    button_log_time: "เวลาที่ถูกบันทึก"
+    button_more: "เพิ่มเติม"
+    button_open_details: "Open details view"
+    button_close_details: "Close details view"
+    button_open_fullscreen: "เปิดมุมมองเต็มหน้าจอ"
+    button_show_cards: "Show card view"
+    button_show_list: "Show list view"
+    button_quote: "อ้างถึง"
+    button_save: "บันทึก"
+    button_settings: "การตั้งค่า"
+    button_uncheck_all: "เอาเครื่องหมายออกทั้งหมด"
+    button_update: "ปรับปรุง"
+    button_export-pdf: "ดาวน์โหลดไฟล์ PDF"
+    button_export-atom: "ดาวน์โหลดไฟล์ Atom"
+    button_create: "สร้าง"
+    card:
+      add_new: 'Add new card'
+      highlighting:
+        inline: 'Highlight inline:'
+        entire_card_by: 'Entire card by'
+      remove_from_list: 'Remove card from list'
+    caption_rate_history: "Rate history"
+    clipboard:
+      browser_error: "เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง"
+      copied_successful: "Successfully copied to clipboard!"
+    chart:
+      type: 'Chart type'
+      axis_criteria: 'Axis criteria'
+      modal_title: 'Work package graph configuration'
+      types:
+        line: 'Line'
+        horizontal_bar: 'Horizontal bar'
+        bar: 'Bar'
+        pie: 'Pie'
+        doughnut: 'Doughnut'
+        radar: 'Radar'
+        polar_area: 'Polar area'
+      tabs:
+        graph_settings: 'ทั่วไป'
+        dataset: 'Dataset %{number}'
+      errors:
+        could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
+    description_available_columns: "คอลัมน์ที่มีอยู่"
+    description_current_position: "You are here: "
+    description_select_work_package: "เลือกแพ็คเกจงาน #%{id}"
+    description_selected_columns: "คอลัมน์ที่เลือก"
+    description_subwork_package: "แพ็คเกจงานย่อย #%{id}"
+    editor:
+      preview: 'สลับโหมดแสดงตัวอย่าง'
+      source_code: 'Toggle Markdown source mode'
+      error_saving_failed: 'การบันทึกเอกสารล้มเหลวด้วยข้อผิดพลาดต่อไปนี้: %{error}'
+      ckeditor_error: 'An error occurred within CKEditor'
+      mode:
+        manual: 'Switch to Markdown source'
+        wysiwyg: 'Switch to WYSIWYG editor'
+      macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
+        child_pages:
+          button: 'Links to child pages'
+          include_parent: 'Include parent'
+          text: '[Placeholder] Links to child pages of'
+          page: 'หน้าวิกิ'
+          this_page: 'this page'
+          hint: |
+            Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
+        code_block:
+          button: 'Insert code snippet'
+          title: 'Insert / edit Code snippet'
+          language: 'Formatting language'
+          language_hint: 'Enter the formatting language that will be used for highlighting (if supported).'
+        dropdown:
+          macros: 'Macros'
+          chose_macro: 'Chose macro'
+        toc: 'Table of contents'
+        toolbar_help: 'Click to select widget and show the toolbar. Double-click to edit widget'
+        wiki_page_include:
+          button: 'Include content of another wiki page'
+          text: '[Placeholder] Included wiki page of'
+          page: 'หน้าวิกิ'
+          not_set: '(Page not yet set)'
+          hint: |
+            Include the content of another wiki page by specifying its title or slug.
+            You can include the wiki page of another project by separating them with a colon like the following example.
+        work_package_button:
+          button: 'Insert create work package button'
+          type: 'Work package type'
+          button_style: 'Use button style'
+          button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
+          without_type: 'Create work package'
+          with_type: 'Create work package (Type: %{typename})'
+        embedded_table:
+          button: 'Embed work package table'
+          text: '[Placeholder] Embedded work package table'
+        embedded_calendar:
+          text: '[Placeholder] Embedded calendar'
+    admin:
+      type_form:
+        custom_field: 'ฟิลด์ที่กำหนดเอง'
+        inactive: 'Inactive'
+        drag_to_activate: "Drag fields from here to activate them"
+        add_group: "Add attribute group"
+        add_table: "Add table of related work packages"
+        edit_query: 'Edit query'
+        new_group: 'กลุ่มใหม่'
+        reset_to_defaults: 'Reset to defaults'
+      enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
+        trial:
+          confirmation: "Confirmation of email address"
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          form:
+            general_consent: >
+              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Invalid email address"
+            label_company: "Company"
+            label_first_name: "ชื่อ"
+            label_last_name: "นามสกุล"
+            label_domain: "Domain"
+            label_subscriber: "Subscriber"
+            label_maximum_users: "Maximum active users"
+            label_starts_at: "Starts at"
+            label_expires_at: "Expires at"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "confirmed"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise Edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "Become a hero!"
+          benefits:
+            description: "ประโยชย์ของ Enterprise on-premises Edition มีอย่างไร? "
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Premium features"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "Professional support"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          text: >
+            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+    custom_actions:
+      date:
+        specific: 'on'
+        current_date: 'วันที่ปัจจุบัน'
+    error:
+      internal: "เกิดความผิดพลาดภายใน"
+      cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
+      query_saving: "ไม่สามารถบันทึกแฟ้มได้"
+      embedded_table_loading: "The embedded view could not be loaded: %{message}"
+    enumeration_activities: "กิจกรรม (ติดตามการใชเวลา)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "ระดับความสำคัญของชุดภารกิจ"
+    filter:
+      description:
+        text_open_filter: "Open this filter with 'ALT' and arrow keys."
+        text_close_filter: "To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry."
+      noneElement: "(ไม่มี)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: "From %{from} in your local time."
+        only_end: "Till %{to} in your local time."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "First sorting criteria"
+          two: "Second sorting criteria"
+          three: "Third sorting criteria"
+      upsale_for_more: "For more advanced filters, check out the"
+      upsale_link: 'Enterprise Edition.'
+    general_text_no: "ไม่ใช่"
+    general_text_yes: "ใช่"
+    general_text_No: "ไม่ใช่"
+    general_text_Yes: "ใช่"
+    hal:
+      error:
+        update_conflict_refresh: "Click here to refresh the resource and update to the newest version."
+        edit_prohibited: "Editing %{attribute} is blocked for this resource. Either this attribute is derived from relations (e.g, children) or otherwise not configurable."
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: "An error has occurred."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "Read about new features and product updates."
+          learn_about: "Learn more about the new features"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+    label_activate: "เปิดใช้งาน"
+    label_add_column_after: "Add column after"
+    label_add_column_before: "Add column before"
+    label_add_columns: "Add columns"
+    label_add_comment: "เพิ่มความคิดเห็น"
+    label_add_comment_title: "Comment and type @ to notify other people"
+    label_add_row_after: "Add row after"
+    label_add_row_before: "Add row before"
+    label_add_selected_columns: "เพิ่มคอลัมน์ที่เลือก"
+    label_added_by: "เพิ่มโดย"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_ago: "วันที่ผ่านมา"
+    label_all: "ทั้งหมด"
+    label_all_work_packages: "ชุดภารกิจทั้งหมด"
+    label_and: "และ"
+    label_ascending: "จากน้อยไปมาก"
+    label_author: "Author: %{user}"
+    label_avatar: "รูปโปรไฟล์"
+    label_between: "between"
+    label_board: "Board"
+    label_board_locked: "ล็อค"
+    label_board_plural: "Boards"
+    label_board_sticky: "ปักหมุด"
+    label_change: "เปลี่ยนแปลง"
+    label_create: "สร้าง"
+    label_create_work_package: "สร้างชุดภารกิจใหม่"
+    label_created_by: "Created by"
+    label_date: "วันที่"
+    label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
+    label_deactivate: "ปิดใช้งาน"
+    label_descending: "มากไปน้อย"
+    label_description: "คำอธิบาย"
+    label_details: "รายละเอียด"
+    label_display: "การแสดงผล"
+    label_cancel_comment: "Cancel comment"
+    label_closed_work_packages: "ปิด"
+    label_collapse: "ยุบ"
+    label_collapsed: "ยุบ"
+    label_collapse_all: "ยุบทั้งหมด"
+    label_comment: "ความคิดเห็น"
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: "committed revision %{revision_identifier}"
+    label_contains: "ประกอบด้วย"
+    label_created_on: "created on"
+    label_edit_comment: "แก้ไขความคิดเห็นนี้"
+    label_edit_status: "Edit the status of the work package"
+    label_email: "อีเมล"
+    label_equals: "เป็น"
+    label_expand: "ขยาย"
+    label_expanded: "ขยาย"
+    label_expand_all: "ขยายทั้งหมด"
+    label_expand_project_menu: "Expand project menu"
+    label_export: "Export"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_filename: "ไฟล์"
+    label_filesize: "ขนาด"
+    label_general: "ทั่วไป"
+    label_global_roles: "Global Roles"
+    label_greater_or_equal: ">="
+    label_group: 'กลุ่ม'
+    label_group_by: "Group by"
+    label_group_plural: "กลุ่ม"
+    label_hide_attributes: "Show less"
+    label_hide_column: "ซ่อนคอลัมน์"
+    label_hide_project_menu: "Collapse project menu"
+    label_in: "ใน"
+    label_in_less_than: "ในไม่เกิน"
+    label_in_more_than: "ในมากกว่า"
+    label_incoming_emails: "อีเมลขาเข้า"
+    label_information_plural: "ข้อมูล"
+    label_import: "Import"
+    label_latest_activity: "Latest activity"
+    label_last_updated_on: "แก้ไขล่าสุดเมื่อ"
+    label_learn_more_link: "เรียนรู้เพิ่มเติม"
+    label_less_or_equal: "<="
+    label_less_than_ago: "น้อยกว่าสามวันที่ผ่านมา"
+    label_loading: "กำลังโหลด..."
+    label_mail_notification: "อีเมล์แจ้งเตือน"
+    label_me: "ฉัน"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
+    label_menu_collapse: "ยุบ"
+    label_menu_expand: "ขยาย"
+    label_more_than_ago: "มากกว่าวันที่ผ่านมา"
+    label_next: "ถัดไป"
+    label_no_color: "ไม่มีสี"
+    label_no_data: "ไม่มีข้อมูลให้แสดง"
+    label_no_due_date: "no finish date"
+    label_no_start_date: "ไม่มีวันเริ่มต้น"
+    label_no_value: "ไม่มีค่า"
+    label_none: "ไม่มี"
+    label_not_contains: "ไม่ประกอบด้วยการ"
+    label_not_equals: "ไม่"
+    label_on: "on"
+    label_open_menu: "เปิดเมนู"
+    label_open_context_menu: "Open context menu"
+    label_open_work_packages: "เปิด"
+    label_password: "รหัสผ่าน"
+    label_previous: "ก่อนหน้านี้"
+    label_per_page: "ต่อหน้า"
+    label_please_wait: "กรุณารอสักครู่"
+    label_project_plural: "โครงการ"
+    label_visibility_settings: "Visibility settings"
+    label_quote_comment: "Quote this comment"
+    label_recent: "Recent"
+    label_reset: "ตั้งค่าใหม่"
+    label_remove: "Remove"
+    label_remove_column: "Remove column"
+    label_remove_columns: "ลบคอลัมน์ที่เลือก"
+    label_remove_row: "Remove row"
+    label_report: "รายงาน"
+    label_repository_plural: "ที่เก็บ"
+    label_save_as: "บันทึกเป็น"
+    label_select_watcher: "เลือกผู้ดูข้อมูล..."
+    label_selected_filter_list: "ตัวกรองที่เลือก"
+    label_show_attributes: "Show all attributes"
+    label_show_in_menu: "Show view in menu"
+    label_sort_by: "เรียงลำดับโดย"
+    label_sorted_by: "เรียงลำดับตาม"
+    label_sort_higher: "เลื่อนขึ้น"
+    label_sort_lower: "เลื่อนลง"
+    label_sorting: "การเรียงลำดับ"
+    label_spent_time: "เวลาที่ใช้"
+    label_star_query: "Favored"
+    label_press_enter_to_save: "Press enter to save."
+    label_public_query: "สาธารณะ"
+    label_sum: "Sum"
+    label_sum_for: "ผลรวมสำหรับ"
+    label_total_sum: "Total sum"
+    label_subject: "หัวข้อ"
+    label_this_week: "สัปดาห์นี้"
+    label_today: "Today"
+    label_time_entry_plural: "เวลาที่ใช้"
+    label_up: "Up"
+    label_user_plural: "ผู้ใช้"
+    label_activity_show_only_comments: "Show activities with comments only"
+    label_activity_show_all: "Show all activities"
+    label_total_progress: "%{percent}% Total progress"
+    label_total_amount: "Total: %{amount}"
+    label_updated_on: "แก้ไขเมื่อ"
+    label_value_derived_from_children: "(value derived from children)"
+    label_children_derived_duration: "Work package's children derived duration"
+    label_warning: "Warning"
+    label_work_package: "ชุดภารกิจ"
+    label_work_package_parent: "Parent work package"
+    label_work_package_plural: "ชุดภารกิจ"
+    label_watch: "ดู"
+    label_watch_work_package: "Watch work package"
+    label_watcher_added_successfully: "เพิ่มผู้ดูข้อมูลเรียบร้อยแล้ว"
+    label_watcher_deleted_successfully: "ลบผู้ดูข้อมูลเรียบร้อยแล้ว"
+    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_unwatch: "ไม่เข้าชม"
+    label_unwatch_work_package: "Unwatch work package"
+    label_uploaded_by: "อัปโหลดโดย"
+    label_default_queries: "Default views"
+    label_starred_queries: "Favorite views"
+    label_global_queries: "Public views"
+    label_custom_queries: "Private views"
+    label_create_new_query: "Create new"
+    label_columns: "คอลัมน์"
+    label_attachments: ไฟล์
+    label_drop_files: วางไฟล์ที่นี่
+    label_drop_files_hint: หรือคลิกเพื่อเพิ่มไฟล์
+    label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
+    label_add_attachments: "เพิ่มไฟล์แนบ"
+    label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
+    label_remove_file: "ลบ %{fileName}"
+    label_remove_watcher: "Remove watcher %{name}"
+    label_remove_all_files: ลบไฟล์ทั้งหมด
+    label_add_description: "เพิ่มคำอธิบายสำหรับ %{file}"
+    label_upload_notification: "Uploading files..."
+    label_work_package_upload_notification: "Uploading files for Work package #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} added by %{author}"
+    label_files_to_upload: "These files will be uploaded:"
+    label_rejected_files: "These files cannot be uploaded:"
+    label_rejected_files_reason: "These files cannot be uploaded as their size is greater than %{maximumFilesize}"
+    label_wait: "Please wait for configuration..."
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: "The work package could not be saved due to the following errors:"
+    label_version_plural: "เวอร์ชั่น"
+    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    help_texts:
+      show_modal: 'Show attribute help text entry'
+    onboarding:
+      buttons:
+        skip: 'Skip'
+        next: 'ถัดไป'
+        got_it: 'Got it'
+      steps:
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        welcome: 'Take a three minutes introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        backlogs:
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+        boards:
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+        wp:
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+    notifications:
+      title: "Notifications"
+      no_unread: "No unread notifications"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        assigned: 'assigned'
+        responsible: 'accountable'
+      facets:
+        unread: 'Unread'
+        all: 'ทั้งหมด'
+      center:
+        and_more_users:
+          other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
+        mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
+      menu:
+        accountable: 'Accountable'
+        assigned: 'Assigned'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
+    password_confirmation:
+      field_description: 'You need to enter your account password to confirm this change.'
+      title: 'Confirm your password to continue'
+    pagination:
+      no_other_page: "You are on the only page."
+      pages:
+        next: "Forward to the next page"
+        previous: "Back to the previous page"
+    placeholders:
+      default: '-'
+      subject: 'Enter subject here'
+      selection: 'โปรดเลือก'
+      relation_description: 'Click to add description for this relation'
+    project:
+      required_outside_context: >
+        Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      context: 'Project context'
+      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
+      click_to_switch_context: 'Open this work package in that project.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      no_template_selected: "(ไม่มี)"
+      copy:
+        copy_options: "ตัวเลือกการคัดลอก"
+      autocompleter:
+        label: 'Project autocompletion'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'เพิ่มข่าวแล้ว'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'เพิ่มหน้าวิกิแล้ว'
+          wiki_page_updated: 'ปรับปรุงหน้าวิกิแล้ว'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
+    text_are_you_sure: "คุณแน่ใจหรือไม่ ?"
+    text_data_lost: "All entered data will be lost."
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
+        error_no_table_configured: "Please configure a table for %{group}."
+        reset_title: "Reset form configuration"
+        confirm_reset: >
+          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+        upgrade_to_ee: "อัปเกรดเป็น Enterprise on-premises Edition"
+        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        more_information: "More information"
+        nevermind: "Nevermind"
+      edit:
+        form_configuration: "Form Configuration"
+        projects: "โครงการ"
+        settings: "การตั้งค่า"
+    time_entry:
+      project: 'โครงการ'
+      work_package: 'ชุดภารกิจ'
+      work_package_required: 'Requires selecting a work package first.'
+      activity: 'กิจกรรม'
+      comment: 'ความคิดเห็น'
+      duration: 'ระยะเวลา'
+      spent_on: 'วันที่'
+      hours: 'ชั่วโมง'
+      title: 'เวลาที่ถูกบันทึก'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: เพิ่มผู้เฝ้าดู
+      label_discard: Discard selection
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: "หัวข้อหลัก"
+      children: "Children"
+      relates: "ที่เกี่ยวข้องกับ"
+      duplicates: "Duplicates"
+      duplicated: "Duplicated by"
+      blocks: "บล็อก"
+      blocked: "Blocked by"
+      precedes: "Precedes"
+      follows: "Follows"
+      includes: "Includes"
+      partof: "Part of"
+      requires: "Requires"
+      required: "Required by"
+      relation_type: "relation type"
+    relations_hierarchy:
+      parent_headline: "หัวข้อหลัก"
+      hierarchy_headline: "Hierarchy"
+      children_headline: "Children"
+    relation_buttons:
+      set_parent: "Set parent"
+      change_parent: "Change parent"
+      remove_parent: "Remove parent"
+      hierarchy_indent: "Indent hierarchy"
+      hierarchy_outdent: "Outdent hierarchy"
+      group_by_wp_type: "Group by work package type"
+      group_by_relation_type: "Group by relation type"
+      add_parent: "Add existing parent"
+      add_new_child: "Create new child"
+      create_new: "Create new"
+      add_existing: "Add existing"
+      add_existing_child: "Add existing child"
+      remove_child: "Remove child"
+      add_new_relation: "Create new relation"
+      add_existing_relation: "Add existing relation"
+      update_description: "Set or update description of this relation"
+      toggle_description: "Toggle relation description"
+      update_relation: "Click to change the relation type"
+      add_follower: "Add follower"
+      add_predecessor: "Add predecessor"
+      remove: "Remove relation"
+      save: "Save relation"
+      abort: "Abort"
+    relations_autocomplete:
+      placeholder: "Type to search"
+      parent_placeholder: "Choose new parent or press escape to cancel."
+    autocompleter:
+      placeholder: "Type to search"
+      notFoundText: "ไม่พบรายการ "
+      typeToSearchText: "Type to search"
+    repositories:
+      select_tag: 'Select tag'
+      select_branch: 'Select branch'
+    field_value_enter_prompt: "Enter a value for '%{field}'"
+    project_menu_details: "รายละเอียด"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: 'sorting is disabled'
+      activate_asc: 'activate to apply an ascending sort'
+      activate_dsc: 'activate to apply a descending sort'
+      activate_no: 'activate to remove the sort'
+    text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
+    text_query_destroy_confirmation: "Are you sure you want to delete the selected view?"
+    text_attachment_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'Gantt chart'
+      labels:
+        title: 'Label configuration'
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        showNone: '-- No label --'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering an element, its date labels will be shown instead of these attributes.
+      button_activate: 'Show Gantt chart'
+      button_deactivate: 'Hide Gantt chart'
+      cancel: ยกเลิก
+      change: "การเปลี่ยนแปลงในการวางแผน"
+      due_date: "Finish date"
+      empty: "(ว่าง)"
+      error: "An error has occurred."
+      errors:
+        not_implemented: "ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ"
+        report_comparison: "แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา"
+        report_epicfail: "พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้"
+        report_timeout: "ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้"
+      filter:
+        grouping_other: "อื่น ๆ"
+        noneSelection: "(ไม่มี)"
+      name: "ชื่อ"
+      outline: "ตั้งค่าโครงร่างใหม่"
+      outlines:
+        aggregation: "แสดงรวมเท่านั้น"
+        level1: "ขยายระดับ 1"
+        level2: "ขยายระดับ 2"
+        level3: "ขยายระดับ 3"
+        level4: "ขยายระดับ 4"
+        level5: "ขยายระดับ 5"
+        all: "แสดงทั้งหมด"
+      project_status: "สถานะของโครงการ"
+      really_close_dialog: "Do you really want to close the dialog and lose the entered data?"
+      responsible: "รับผิดชอบ"
+      save: บันทึก
+      start_date: "วันเริ่มต้น"
+      tooManyProjects: "พบมากกว่า %{count} โครงการ กรุณาใช้ตัวกรองที่ดีกว่านี้ !"
+      selection_mode:
+        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+      zoom:
+        in: "ขยาย"
+        out: "ซูมออก"
+        auto: "Auto zoom"
+        days: "วัน"
+        weeks: "สัปดาห์"
+        months: "เดือน"
+        quarters: "ไตรมาส"
+        years: "ปี"
+        slider: "ขยายแถบเลื่อน"
+        description: >
+          Select the initial zoom level that should be shown when autozoom is not available.
+    tl_toolbar:
+      zooms: "ระดับการย่อ/ขยาย"
+      outlines: "ระดับของ Hierarchy"
+    upsale:
+      ee_only: 'Enterprise Edition only feature'
+    wiki_formatting:
+      strong: "Strong"
+      italic: "ตัวเอียง"
+      underline: "ขีดเส้นใต้"
+      deleted: "Deleted"
+      code: "Inline Code"
+      heading1: "Heading 1"
+      heading2: "Heading 2"
+      heading3: "Heading 3"
+      unordered_list: "Unordered List"
+      ordered_list: "Ordered List"
+      quote: "อ้างถึง"
+      unquote: "Unquote"
+      preformatted_text: "Preformatted Text"
+      wiki_link: "Link to a Wiki page"
+      image: "รูปภาพ"
+    work_packages:
+      bulk_actions:
+        move: 'Bulk change of project'
+        edit: 'Bulk edit'
+        copy: 'Bulk copy'
+        delete: 'Bulk delete'
+      button_clear: "ล้างข้อมูล"
+      comment_added: "เพิ่มความคิดเห็นเรียบร้อยแล้ว"
+      comment_send_failed: "An error has occurred. Could not submit the comment."
+      comment_updated: "The comment was successfully updated."
+      confirm_edit_cancel: "คุณแน่ใจหรือไม่ว่าจะยกเลิกการแก้ไขชุดภารกิจ"
+      description_filter: "ตัวกรอง"
+      description_enter_text: "ป้อนข้อความ"
+      description_options_hide: "ซ่อนตัวเลือก"
+      description_options_show: "แสดงตัวเลือก"
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "Enable multiselect"
+      label_disable_multi_select: "Disable multiselect"
+      label_filter_add: "เพิ่มตัวกรอง"
+      label_filter_by_text: "Filter by text"
+      label_options: "ตัวเลือก"
+      label_column_multiselect: "Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace"
+      message_error_during_bulk_delete: An error occurred while trying to delete work packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: "Click here to open this work package in fullscreen view."
+      message_view_spent_time: "Show spent time for this work package"
+      message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
+      message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
+      placeholder_filter_by_text: "Subject, description, comments, ..."
+      inline_create:
+        title: 'Click here to add a new work package to this list'
+      create:
+        title: 'ชุดภารกิจใหม่'
+        header: 'New %{type}'
+        header_no_type: 'New work package (Type not yet set)'
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: 'สร้าง'
+      copy:
+        title: 'Copy work package'
+      hierarchy:
+        show: "Show hierarchy mode"
+        hide: "Hide hierarchy mode"
+        toggle_button: 'Click to toggle hierarchy mode.'
+        leaf: 'Work package leaf at level %{level}.'
+        children_collapsed: 'Hierarchy level %{level}, collapsed. Click to show the filtered children'
+        children_expanded: 'Hierarchy level %{level}, expanded. Click to collapse the filtered children'
+      faulty_query:
+        title: ไม่สามารถโหลดชุดภารกิจได้
+        description: Your view is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered out.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "รายละเอียด"
+        people: "People"
+        estimatesAndTime: "Estimates & Time"
+        other: "อื่น ๆ"
+      properties:
+        assignee: "ผู้ได้รับมอบหมาย"
+        author: "ผู้เขียน"
+        createdAt: "สร้างเมื่อ"
+        description: "คำอธิบาย"
+        date: "วันที่"
+        dueDate: "Finish date"
+        estimatedTime: "ระยะเวลาโดยประมาณ"
+        spentTime: "เวลาที่ใช้"
+        category: "ประเภท"
+        percentageDone: "Percentage done"
+        priority: "ระดับความสำคัญ"
+        projectName: "โครงการ"
+        responsible: "รับผิดชอบ"
+        startDate: "วันเริ่มต้น"
+        status: "สถานะ"
+        subject: "หัวข้อ"
+        subproject: "โครงการย่อย"
+        title: "ชื่อเรื่อง"
+        type: "ประเภท"
+        updatedAt: "แก้ไขเมื่อ"
+        versionName: "เวอร์ชัน"
+        version: "เวอร์ชัน"
+      default_queries:
+        latest_activity: "Latest activity"
+        created_by_me: "Created by me"
+        assigned_to_me: "Assigned to me"
+        recently_created: "Recently created"
+        all_open: "All open"
+        summary: "สรุป"
+      jump_marks:
+        pagination: "Jump to table pagination"
+        label_pagination: "Click here to skip over the work packages table and go to pagination"
+        content: "Jump to content"
+        label_content: "Click here to skip over the menu and go to the content"
+      placeholders:
+        default: "-"
+        date: "Select date"
+        formattable: "%{name}: Click to edit..."
+      query:
+        column_names: "คอลัมน์"
+        group_by: "จัดกลุ่มผลลัพธ์โดย"
+        group: "Group by"
+        group_by_disabled_by_hierarchy: "Group by is disabled due to the hierarchy mode being active."
+        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        sort_ascending: "Sort ascending"
+        sort_descending: "Sort descending"
+        move_column_left: "ย้ายคอลัมน์ไปทางซ้าย"
+        move_column_right: "ย้ายคอลัมน์ไปทางขวา"
+        hide_column: "ซ่อนคอลัมน์"
+        insert_columns: "แทรกคอลัมน์..."
+        filters: "ตัวกรอง"
+        display_sums: "แสดงยอดรวม"
+        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
+        click_to_edit_query_name: "Click to edit title of this view."
+        rename_query_placeholder: "Name of this view"
+        star_text: "Mark this view as favorite and add to the saved views sidebar on the left."
+        public_text: >
+          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+        errors:
+          unretrievable_query: "Unable to retrieve view from URL"
+          not_found: "There is no such view"
+          duplicate_query_title: "Name of this view already exists. Change anyway?"
+        text_no_results: "No matching views were found."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      table:
+        configure_button: 'Configure work package table'
+        summary: "Table with rows of work package and columns of work package attributes."
+        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
+        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
+        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+      table_configuration:
+        button: 'Configure this work package table'
+        choose_display_mode: 'Display work packages as'
+        modal_title: 'Work package table configuration'
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        default: "ค่าเริ่มต้น"
+        display_settings: 'Display settings'
+        default_mode: "Flat list"
+        hierarchy_mode: "Hierarchy"
+        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
+        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
+        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
+        highlighting: 'Highlighting'
+        highlighting_mode:
+          description: "Highlight with color"
+          none: "No highlighting"
+          inline: 'Highlighted attribute(s)'
+          inline_all: 'All attributes'
+          entire_row_by: 'Entire row by'
+          status: 'สถานะ'
+          priority: 'ระดับความสำคัญ'
+          type: 'ประเภท'
+        sorting_mode:
+          description: 'Chose the mode to sort your Work packages:'
+          automatic: 'Automatic'
+          manually: 'Manually'
+          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        upsale:
+          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
+          relation_columns: 'Need to see relations in the work package list?'
+          check_out_link: 'Check out the Enterprise Edition.'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+      tabs:
+        overview: ภาพรวม
+        activity: กิจกรรม
+        relations: Relations
+        watchers: ผู้เฝ้าดู
+        attachments: ไฟล์แนบ
+      time_relative:
+        days: "วัน"
+        weeks: "สัปดาห์"
+        months: "เดือน"
+    toolbar:
+      settings:
+        configure_view: "Configure view ..."
+        columns: "คอลัมน์..."
+        sort_by: "Sort by ..."
+        group_by: "Group by ..."
+        display_sums: "Display sums"
+        display_hierarchy: "Display hierarchy"
+        hide_hierarchy: "Hide hierarchy"
+        hide_sums: "Hide sums"
+        save: "บันทึก"
+        save_as: "บันทึกเป็น..."
+        export: "Export ..."
+        visibility_settings: "Visibility settings ..."
+        page_settings: "Rename view ..."
+        delete: "ลบ"
+      filter: "ตัวกรอง"
+      unselected_title: "ชุดภารกิจ"
+      search_query_label: "Search saved views"
+      search_query_title: "Click to search saved views"
+      placeholder_query_title: "Set a title for this view"
+    modals:
+      label_settings: "Rename view"
+      label_name: "ชื่อ"
+      label_delete_page: "ลบหน้าปัจจุบัน"
+      button_apply: "นำไปใช้"
+      button_save: "บันทึก"
+      button_submit: "ส่งข้อมูล"
+      button_cancel: "ยกเลิก"
+      form_submit:
+        title: 'Confirm to continue'
+        text: 'Are you sure you want to perform this action?'
+      destroy_work_package:
+        title: "Confirm deletion of %{label}"
+        text: "Are you sure you want to delete the following %{label} ?"
+        has_children: "The work package has %{childUnits}:"
+        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
+        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
+    notice_no_results_to_display: "No visible results to display."
+    notice_successful_create: "สร้างเรียบร้อยแล้ว"
+    notice_successful_delete: "ลบเรียบร้อยแล้ว"
+    notice_successful_update: "ปรับปรุงข้อมูลเรียบร้อยแล้ว"
+    notice_job_started: "เรื่มงาน"
+    notice_bad_request: "คำขอไม่ถูกต้อง"
+    relations:
+      empty: ไม่มีความสัมพันธ์
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: แก้ไข"
+      button_save: "%{attribute}: บันทึก"
+      button_cancel: "%{attribute}: ยกเลิก"
+      button_save_all: "บันทึก"
+      button_cancel_all: "ยกเลิก"
+      link_formatting_help: "Text formatting help"
+      btn_preview_enable: "แสดงตัวอย่าง"
+      btn_preview_disable: "ปิดใช้งานตัวอย่าง"
+      null_value_label: "ไม่มีค่า"
+      clear_value_label: "-"
+      errors:
+        required: 'ฟิลด์ %{field} ต้องไม่ว่างเปล่า'
+        number: '%{field} ไม่ใช่หมายเลขที่ถูกต้อง'
+        maxlength: '%{field} cannot contain more than %{maxLength} digit(s)'
+        minlength: '%{field} cannot contain less than %{minLength} digit(s)'
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: "ไม่สามารถแก้ไขเวอร์ชัน"
+    error_could_not_resolve_user_name: "ไม่สามารถแก้ไขชื่อผู้ใช้"
+    error_attachment_upload: "File failed to upload: %{error}"
+    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    units:
+      workPackage:
+        other: "work packages"
+      child_work_packages:
+        other: "%{count} work package children"
+      hour:
+        one: "1 h"
+        other: "%{count} h"
+        zero: "0 h"
+    zen_mode:
+      button_activate: 'Activate zen mode'
+      button_deactivate: 'Deactivate zen mode'
+    global_search:
+      all_projects: "In all projects"
+      search: "ค้นหา"
+      close_search: "Close search"
+      current_project: "In this project"
+      current_project_and_all_descendants: "In this project + subprojects"
+      title:
+        all_projects: "all projects"
+        project_and_subprojects: "and all subprojects"
+        search_for: "Search for"
+    views:
+      card: 'Cards'
+      list: 'Table'
+      timeline: 'Gantt'
+    invite_user_modal:
+      back: 'ย้อนกลับ'
+      invite: 'เชิญ'
+      title:
+        invite: 'Invite user'
+        invite_to_project: 'เชิญ %{type} ไปที่ %{project} '
+        User: 'ผู้ใช้งาน'
+        Group: 'กลุ่ม'
+        PlaceholderUser: 'ผู้ใช้งาน Placeholder'
+        invite_principal_to_project: 'เชิญ %{principal} ไปที่ %{project}'
+      project:
+        label: 'โครงการ'
+        required: 'กรุณาเลือกโครงการ'
+        lacking_permission: 'โปรดเลือกโครงการอื่น เนื่องจากคุณไม่มีสิทธิ์มอบหมายผู้ใช้ให้กับโครงการที่เลือกในปัจจุบัน '
+        lacking_permission_info: 'คุณไม่มีสิทธิ์มอบหมายผู้ใช้ให้กับโครงการที่คุณอยู่ คุณต้องเลือกโครงการอื่น'
+        next_button: 'ถัดไป'
+        no_results: 'ไม่พบโครงการ'
+        no_invite_rights: 'คุณไม่ได้รับอนุญาตให้เชิญสมาชิกเข้าร่วมโครงการนี้ '
+      type:
+        required: 'กรุณาเลือกประเภทที่จะเชิญ'
+        user:
+          title: 'ผู้ใช้'
+          description: 'สิทธิ์ตามบทบาทที่ได้รับมอบหมายในโครงการที่เลือก'
+        group:
+          title: 'กลุ่ม'
+          description: 'สิทธิ์ตามบทบาทที่ได้รับมอบหมายในโครงการที่เลือก'
+        placeholder:
+          title: 'Placeholder user'
+          title_no_ee: 'ผู้ใช้ตัวยึดตำแหน่ง (คุณลักษณะ Enterprise Edition เท่านั้น)'
+          description: 'ไม่มีสิทธิ์เข้าถึงโครงการและไม่มีการส่งอีเมล'
+          description_no_ee: 'ไม่มีสิทธิ์เข้าถึงโครงการและไม่มีการส่งอีเมล <br>ตรวจสอบ <a href="%{eeHref}" target="_blank">Enterprise Edition</a> '
+      principal:
+        label:
+          name_or_email: 'ชื่อหรือที่อยู่อีเมล'
+          name: 'ชื่อ'
+        already_member_message: 'เป็นสมาชิกของ %{project} แล้ว'
+        no_results_user: 'ไม่พบผู้ใช้'
+        invite_user: 'เชิญ:'
+        no_results_placeholder: 'ไม่พบตัวยึดตำแหน่ง'
+        create_new_placeholder: 'สร้างตัวยึดตำแหน่งใหม่:'
+        no_results_group: 'ไม่พบกลุ่ม'
+        next_button: 'ถัดไป'
+        required:
+          user: 'กรุณาเลือกผู้ใช้'
+          placeholder: 'โปรดเลือกตัวยึดตำแหน่ง'
+          group: 'กรุณาเลือกกลุ่ม'
+      role:
+        label: 'บทบาทใน %{project}'
+        no_roles_found: 'ไม่พบบทบาท'
+        description: 'นี่คือบทบาทที่ %{principal} จะได้รับเมื่อพวกเขาเข้าร่วมโครงการของคุณ บทบาทกำหนดการกระทำที่พวกเขาได้รับอนุญาตให้ทำและข้อมูลที่พวกเขาได้รับอนุญาตให้ดู <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> เรียนรู้เพิ่มเติมเกี่ยวกับบทบาทและการอนุญาต </a> '
+        required: 'กรุณาเลือกบทบาท'
+        next_button: 'ถัดไป'
+      message:
+        label: 'ข้อความเชิญ'
+        description: 'เราจะส่งอีเมลไปที่ %{principal} ซึ่งคุณสามารถเพิ่มข้อความส่วนตัวได้ที่นี่ คำอธิบายสำหรับคำเชิญอาจเป็นประโยชน์ หรืออาจเป็นข้อมูลเล็กน้อยเกี่ยวกับโครงการเพื่อช่วยพวกเขาในการเริ่มต้น '
+        next_button: 'ตรวจสอบคำเชิญ'
+      summary:
+        next_button: 'Send invitation'
+      success:
+        title: '%{principal} ได้รับคำเชิญแล้ว!'
+        description:
+          user: 'ขณะนี้ผู้ใช้สามารถเข้าสู่ระบบเพื่อเข้าถึง %{project}, คุณสามารถวางแผนกับผู้ใช้รายนั้นและกำหนดแพ็คเกจงานได้'
+          placeholder: 'ขณะนี้ Placeholder สามารถใช้งานใน %{project} ได้แล้ว, คุณสามารถวางแผนกับผู้ใช้รายนั้นและกำหนดแพ็คเกจงานได้'
+          group: 'ตอนนี้กลุ่มนี้เป็นส่วนหนึ่งของ %{project}, คุณสามารถวางแผนกับกลุ่มนั้นและกำหนดแพ็คเกจงานได้'
+        next_button: 'Continue'
+    forms:
+      submit_success_message: 'ส่งแบบฟอร์มเรียบร้อยแล้ว'
+      load_error_message: 'เกิดข้อผิดพลาดในการโหลดแบบฟอร์ม'
+      validation_error_message: 'โปรดแก้ไขข้อผิดพลาดที่มีอยู่ในแบบฟอร์ม'
+      advanced_settings: 'Advanced settings'

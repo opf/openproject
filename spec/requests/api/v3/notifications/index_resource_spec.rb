@@ -67,11 +67,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   let(:parsed_response) { JSON.parse(last_response.body) }
+  let(:additional_setup) do
+    # To be overwritten by individual specs
+  end
 
   before do
     notifications
 
     login_as current_user
+    additional_setup
 
     send_request
   end
@@ -267,11 +271,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a project groupBy' do
-      let(:work_package2) { FactoryBot.create :work_package }
+      let(:other_project) do
+        FactoryBot.create(:project,
+                          members: { recipient => recipient.members.first.roles })
+      end
+      let(:work_package2) { FactoryBot.create :work_package, project: other_project }
       let(:other_project_notification) do
         FactoryBot.create :notification,
                           resource: work_package2,
-                          project: work_package2.project,
+                          project: other_project,
                           recipient: recipient,
                           reason: :responsible,
                           journal: work_package2.journals.first
@@ -292,13 +300,21 @@ describe ::API::V3::Notifications::NotificationsAPI,
         expect(groups.count).to eq 2
 
         keyed = groups.index_by { |el| el['value'] }
-        expect(keyed.keys).to contain_exactly work_package2.project.name, work_package.project.name
+        expect(keyed.keys).to contain_exactly other_project.name, work_package.project.name
         expect(keyed[work_package.project.name]['count']).to eq 2
         expect(keyed[work_package2.project.name]['count']).to eq 1
 
         expect(keyed.dig(work_package.project.name, '_links', 'valueLink')[0]['href'])
           .to eq "/api/v3/projects/#{work_package.project.id}"
       end
+    end
+
+    context 'when having lost the permission to see the work package' do
+      let(:additional_setup) do
+        Member.where(principal: recipient).destroy_all
+      end
+
+      it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
     end
   end
 

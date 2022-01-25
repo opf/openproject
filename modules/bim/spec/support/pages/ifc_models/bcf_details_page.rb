@@ -36,7 +36,7 @@ module Pages
     protected
 
     def path(tab = 'overview')
-      bcf_project_frontend_path project, "split/details/#{work_package.id}/#{tab}"
+      bcf_project_frontend_path project, "details/#{work_package.id}/#{tab}"
     end
   end
 end

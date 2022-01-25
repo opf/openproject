@@ -140,6 +140,27 @@ describe UserPreference do
     end
   end
 
+  describe '#diff_type' do
+    it 'can be set and written' do
+      expect(subject.diff_type)
+        .to eql 'inline'
+
+      subject.diff_type = 'sbs'
+
+      expect(subject.diff_type)
+        .to eql 'sbs'
+    end
+
+    context 'with a new pref instance' do
+      subject { described_class.new }
+
+      it 'defaults to `inline`' do
+        expect(subject.diff_type)
+          .to eql 'inline'
+      end
+    end
+  end
+
   describe '#daily_reminders' do
     context 'without reminders being stored' do
       it 'uses the defaults' do

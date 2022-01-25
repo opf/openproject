@@ -1,0 +1,16 @@
+#English strings go here
+de:
+  js:
+    team_planner:
+      add_existing: 'Add existing'
+      create_new: 'Neuen Plan erstellen'
+      title: 'Teamplaner'
+      unsaved_title: 'Unbenannter Teamplaner'
+      label_assignee_plural: 'Zugewiesene Benutzer'
+      no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
+      add_assignee: 'Zugewiesenen Benutzer hinzufügen'
+      remove_assignee: 'Zugewiesenen Benutzer entfernen'
+      two_weeks: '2 weeks'
+      quick_add:
+        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        search_placeholder: 'Search...'

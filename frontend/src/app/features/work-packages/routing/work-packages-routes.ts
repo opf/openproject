@@ -65,6 +65,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     url: '/new?type&parent_id',
     component: WorkPackageNewFullViewComponent,
     reloadOnSearch: false,
+    params: {
+      defaults: {
+        value: null,
+      },
+    },
     data: {
       baseRoute: 'work-packages',
       allowMovingInEditMode: true,

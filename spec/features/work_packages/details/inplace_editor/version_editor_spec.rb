@@ -87,7 +87,7 @@ describe 'subject inplace editor', js: true, selenium: true do
       field.set_new_value 'Super cool new release'
       field.expect_state_text 'Super cool new release'
 
-      visit settings_versions_project_path(project)
+      visit project_settings_versions_path(project)
       expect(page).to have_content 'Super cool new release'
     end
   end

@@ -1,0 +1,102 @@
+// Do no simply remove this selector without proper replacement as it is needed for specificity
+#content-wrapper
+  // ------------------------ BEGIN: Full calendar overwrite ------------------------
+  .fc
+    font-size: 14px
+
+    // ------------------------ BEGIN: Calendar cells ------------------------
+    .fc-datagrid-cell-cushion,
+    .fc-timeline-slot-cushion,
+    .fc-col-header-cell-cushion
+      padding: 12px 16px
+
+    .fc-timeline-lane-frame
+      padding: 4px 0
+
+    .fc-resource-timeline-divider
+      width: 1px
+      background: none
+      border: none
+      cursor: unset
+
+    // ------------------------ END: Calendar cells ------------------------
+    // -------
+    // ------------------------ BEGIN: Calendar events ------------------------
+    .fc-timeline-event,
+    .fc-daygrid-event
+      padding-top: 5px
+      padding-bottom: 5px
+      border-radius: 5px
+      margin-bottom: 4px
+      background-color: var(--timeline--type-fallback-color)
+      border-color: var(--timeline--type-fallback-color)
+      color: #000000
+
+      &:before,
+      &:after
+        padding-right: 4px
+        pointer-events: none
+
+    .fc-event-title-container
+      margin: 0 16px
+      line-height: 12px
+
+    .fc-event-main
+      color: unset
+
+    // ------------------------ END:  Calendar events ------------------------
+    // -------
+    // ------------------------ BEGIN: Calendar toolbar ------------------------
+    .fc-toolbar-title
+      font-size: 16px
+
+    .fc-header-toolbar .fc-toolbar-chunk
+      .fc-button
+        background: transparent
+        margin-bottom: 0
+
+        &:focus
+          box-shadow: none
+
+      > .fc-button
+        border-radius: 2rem
+
+      .fc-button-group .fc-button
+        &:first-of-type
+          border-bottom-left-radius: 2rem
+          border-top-left-radius: 2rem
+
+        &:last-of-type
+          border-bottom-right-radius: 2rem
+          border-top-right-radius: 2rem
+
+      .fc-prev-button,
+      .fc-next-button
+        border-radius: 2rem
+        padding: 4px
+        margin: 0 8px 0 0
+        font-size: 8px
+        height: 32px
+        width: 32px
+
+      .fc-prev-button .fc-icon
+        @include icon-font-common
+        @extend .icon-arrow-left1
+
+      .fc-next-button .fc-icon
+        @include icon-font-common
+        @extend .icon-arrow-right3
+
+      .fc-addExisting-button
+        &:before
+          @include icon-font-common
+          @extend .icon-add
+          margin-right: 10px
+
+
+    thead .fc-scroller
+      @include no-visible-scroll-bar
+
+  // ------------------------ END: Calendar toolbar ------------------------
+  // -------
+  // ------------------------ END: Full calendar overwrite ------------------------

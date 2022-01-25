@@ -62,79 +62,84 @@
     button
       margin-right: 0
 
-.work-packages-full-view--split-container
-  display: flex
-  flex-shrink: 8
-  border-top: 1px solid #ccc
-  overflow: visible
-  height: 100%
-  // Important for Firefox to let 'flex-shrink' work correctly.
-  min-height: 0
+.work-packages-full-view
 
-
-.work-packages-full-view--split-left
-  border-right: 1px solid #ccc
-  overflow-y: auto
-  overflow-x: hidden
-  flex: 2
-  position: relative
-  @include styled-scroll-bar
-
-  .work-packages--panel-inner
-    padding: 0px 5px 20px 0
-    width: 100%
-
-    // These styles were taken over from the details tab styling.
-    // Thus the header and the details tab can be aligned on the same line.
-    .attributes-group:first-of-type
-      margin-top: 0px
-
-      .attributes-group--header-container
-        padding-bottom: 2px
-
-        h3.attributes-group--header-text
-          line-height: calc(var(--work-package-details--tab-height) - 10px)
-
-.work-packages-full-view--split-right
-  min-width: 530px
-  overflow-y: hidden
-  overflow-x: auto
-  position: relative
-  @include styled-scroll-bar
-
-  .work-packages--panel-inner
-    display: grid
-    grid-template-rows: auto 1fr
+  &--split-container
+    display: flex
+    flex-shrink: 8
+    border-top: 1px solid #ccc
+    overflow: visible
     height: 100%
-    padding: 5px 0 10px 15px
+    // Important for Firefox to let 'flex-shrink' work correctly.
+    min-height: 0
 
-  .tabcontent
-    height: 100%
-    overflow: auto
+  &--split-left
+    border-right: 1px solid #ccc
+    overflow-y: auto
+    overflow-x: hidden
+    flex: 2
+    position: relative
     @include styled-scroll-bar
-    padding-right: 5px
 
-  .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
-    padding-left: 0
+    .work-packages--panel-inner
+      padding: 0px 5px 20px 0
+      width: 100%
 
-  .activity-comment
-    margin-top: 15px
+      // These styles were taken over from the details tab styling.
+      // Thus the header and the details tab can be aligned on the same line.
+      .attributes-group:first-of-type
+        margin-top: 0px
 
-  .button.icon-edit.ng-hide
-    display: block !important
-    visibility: hidden
+        .attributes-group--header-container
+          padding-bottom: 2px
 
-.work-packages-full-view--resizer
-  position: sticky
-  top: 50%
-  bottom: 50%
-  width: 18px
-  .work-packages--resizer
-    left: -2px
+          h3.attributes-group--header-text
+            line-height: calc(var(--work-package-details--tab-height) - 10px)
+
+  &--split-right
+    min-width: 530px
+    overflow-y: hidden
+    overflow-x: auto
+    position: relative
+    @include styled-scroll-bar
+
+    .work-packages--panel-inner
+      display: grid
+      grid-template-rows: auto auto 1fr
+      height: 100%
+      padding: 5px 0 10px 15px
+
+    .tabcontent
+      height: 100%
+      overflow: auto
+      @include styled-scroll-bar
+      padding-right: 5px
+
+    .work-package-details-activities-activity-contents ul.work-package-details-activities-messages
+      padding-left: 0
+
+    .activity-comment
+      margin-top: 15px
+
+    .button.icon-edit.ng-hide
+      display: block !important
+      visibility: hidden
+
+  &--resizer
+    position: sticky
+    top: 50%
+    bottom: 50%
     width: 18px
-    &::before
-      left: 0
+    .work-packages--resizer
+      left: -2px
+      width: 18px
+      &::before
+        left: 0
 
+  &--tab-breadcrumb
+    text-align: right
+    padding-right: 1rem
+    margin-bottom: 5px
 
 .nosidebar
   ul.subject-header
@@ -162,6 +167,13 @@
   #toolbar
     #toolbar-items
       margin-left: 0
+
+    .work-packages-back-button
+      // Move button in the current reverse order to front
+      position: absolute
+      top: 0
+      left: 0
+      z-index: 1
 
 #work-packages-index
   .op-uc-link_permalink

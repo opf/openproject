@@ -95,7 +95,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project details")
 
-    dashboard_page.expect_and_dismiss_notification message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
   end
 
   def change_cf_value(cf, old_value, new_value)
@@ -143,7 +143,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
         expect(page)
           .to have_content("#{date_cf.name}\n#{Date.today.strftime('%m/%d/%Y')}")
         expect(page)
-           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}#{other_user.name}")
+           .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}\n#{other_user.name}")
 
         # The fields are not editable
         field = EditField.new dashboard_page, "customField#{bool_cf.id}"

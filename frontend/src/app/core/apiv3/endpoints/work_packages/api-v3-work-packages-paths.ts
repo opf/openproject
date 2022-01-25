@@ -27,35 +27,35 @@
 //++
 
 import { Observable } from 'rxjs';
-import { APIV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
+import { ApiV3WorkPackagePaths } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-paths';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { APIv3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
+import { ApiV3WorkPackageForm } from 'core-app/core/apiv3/endpoints/work_packages/apiv3-work-package-form';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
-import { APIv3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
 import {
   ApiV3FilterBuilder,
   ApiV3FilterValueType,
-  buildApiV3Filter,
+  ApiV3Filter,
 } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
-export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageResource, APIV3WorkPackagePaths, WorkPackageCache> {
+export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource, ApiV3WorkPackagePaths, WorkPackageCache> {
   // Base path
   public readonly path:string;
 
-  constructor(readonly apiRoot:APIV3Service,
+  constructor(readonly apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'work_packages', APIV3WorkPackagePaths);
+    super(apiRoot, basePath, 'work_packages', ApiV3WorkPackagePaths);
   }
 
   // Static paths
 
   // /api/v3/(projects/:projectIdentifier)/work_packages/form
-  public readonly form:APIv3WorkPackageForm = this.subResource('form', APIv3WorkPackageForm);
+  public readonly form:ApiV3WorkPackageForm = this.subResource('form', ApiV3WorkPackageForm);
 
   /**
    *
@@ -100,7 +100,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       );
   }
 
-  filtered<R = APIv3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
+  filtered<R = ApiV3GettableResource<WorkPackageCollectionResource>>(filters:ApiV3FilterBuilder, params:{ [p:string]:string } = {}):R {
     return super.filtered(filters, params, ApiV3WorkPackageCachedSubresource) as any;
   }
 
@@ -161,7 +161,7 @@ export class APIV3WorkPackagesPaths extends CachableAPIV3Collection<WorkPackageR
       this.path,
       ids.length,
       {
-        filters: buildApiV3Filter('id', '=', ids).toJson(),
+        filters: ApiV3Filter('id', '=', ids).toJson(),
       },
     );
   }

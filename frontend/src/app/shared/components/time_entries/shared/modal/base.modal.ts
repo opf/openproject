@@ -8,7 +8,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/form/form.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -28,7 +28,7 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public formInFlight:boolean;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   constructor(readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,

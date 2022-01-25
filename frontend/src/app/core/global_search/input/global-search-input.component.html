@@ -29,7 +29,7 @@
     (search)="search($event)"
     (open)="openCloseMenu(currentValue)"
     (close)="select.searchTerm = currentValue"
-    (change)="followSelectedItem()"
+    (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
     (keydown.escape)="blur()"
     (clear)="clearSearch()"
@@ -54,7 +54,7 @@
           style="line-height: 1"
         >
           <op-principal
-            [hide-name]="true"
+            [hideName]="true"
             [principal]="item.author"
             class="hidden-for-mobile global-search--principal"
           ></op-principal>

@@ -37,7 +37,7 @@ import { Board } from 'core-app/features/boards/board/board';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { StateService } from '@uirouter/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 
 @Directive({
@@ -54,7 +54,7 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
     readonly boardService:BoardService,
-    readonly Notifications:NotificationsService,
+    readonly Notifications:ToastService,
     readonly State:StateService,
     readonly injector:Injector,
     readonly I18n:I18nService) {

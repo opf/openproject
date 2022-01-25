@@ -44,7 +44,7 @@ Configuring OpenProject through environment variables is detailed [in this separ
 * [`disabled_modules`](#disabled-modules) (default: [])
 * [`blacklisted_routes`](#blacklisted-routes) (default: [])
 * [`global_basic_auth`](#global-basic-auth)
-* [`apiv3_enable_basic_auth`](#apiv3_enable_basic_auth)
+* [`apiv3_enable_basic_auth`](#apiv3-basic-auth-control)
 * [`enterprise_limits`](#enterprise-limits)
 * [`backup_enabled`](#backup-enabled)
 * [`show_community_links`](#show-community-links)
@@ -352,7 +352,7 @@ the configuration flag `security_badge_displayed: false` .
 
 ## Cache options:
 
-* `rails_cache_store`: `memcache` for [memcached](http://www.memcached.org/) or `memory_store` (default: `file_store`)
+* `rails_cache_store`: `memcache` for [memcached](https://www.memcached.org/) or `memory_store` (default: `file_store`)
 * `cache_memcache_server`: The memcache server host and IP (default: `127.0.0.1:11211`)
 * `cache_expires_in`: Expiration time for memcache entries (default: `0`, no expiry)
 * `cache_namespace`: Namespace for cache keys, useful when multiple applications use a single memcache server (default: none)
@@ -482,6 +482,6 @@ OPENPRJOECT_STATSD_PORT=8125 # overriden by: STATSD_PORT
 | [Configuring inbound emails](./incoming-emails) | How to configure inbound emails for work package updates directly from an email |
 | [Configuring a custom database](./database) | How to use an external database |
 | [Configuring a custom web server](./server) | How to use a custom web server (e.g. NginX) with your OpenProject installation |
-| [Configuring a custom caching server](#TODO) | TODO: How to use a custom caching server with your OpenProject installation |
+| Configuring a custom caching server | How to use a custom caching server with your OpenProject installation |
 | [Configuring Git and Subversion repositories](./repositories) | How to integrate Git and Subversion repositories into OpenProject |
 | [Adding plugins](./plugins) | How to add plugins to your OpenProject installation |

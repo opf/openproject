@@ -30,7 +30,7 @@
 queries_001:
   id: 1
   project_id: 1
-  is_public: true
+  public: true
   name: Multiple custom fields query
   filters: |
     ---
@@ -52,7 +52,7 @@ queries_001:
 queries_002:
   id: 2
   project_id: 1
-  is_public: false
+  public: false
   name: Private query for cookbook
   filters: |
     ---
@@ -70,7 +70,7 @@ queries_002:
 queries_003:
   id: 3
   project_id:
-  is_public: false
+  public: false
   name: Private query for all projects
   filters: |
     ---
@@ -84,7 +84,7 @@ queries_003:
 queries_004:
   id: 4
   project_id:
-  is_public: true
+  public: true
   name: Public query for all projects
   filters: |
     ---
@@ -98,7 +98,7 @@ queries_004:
 queries_005:
   id: 5
   project_id:
-  is_public: true
+  public: true
   name: Open issues by priority and type
   filters: |
     ---
@@ -118,7 +118,7 @@ queries_005:
 queries_006:
   id: 6
   project_id:
-  is_public: true
+  public: true
   name: Open issues grouped by type
   filters: |
     ---
@@ -137,7 +137,7 @@ queries_006:
 queries_007:
   id: 7
   project_id: 2
-  is_public: true
+  public: true
   name: Public query for project 2
   filters: |
     ---
@@ -151,7 +151,7 @@ queries_007:
 queries_008:
   id: 8
   project_id: 2
-  is_public: false
+  public: false
   name: Private query for project 2
   filters: |
     ---
@@ -165,7 +165,7 @@ queries_008:
 queries_009:
   id: 9
   project_id:
-  is_public: true
+  public: true
   name: Open issues grouped by list custom field
   filters: |
     ---

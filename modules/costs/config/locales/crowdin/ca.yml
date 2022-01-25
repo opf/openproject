@@ -112,7 +112,7 @@ ca:
   label_user: "Usuari"
   label_until: "until"
   label_valid_from: "Valid from"
-  label_yes: "Sí"
+  label_yes: "Si"
   notice_something_wrong: "Something went wrong. Please try again."
   notice_successful_restore: "Successful restore."
   notice_successful_lock: "Locked successfully."

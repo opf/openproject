@@ -86,10 +86,6 @@ describe Enumeration, type: :model do
     assert_equal @issues.size, new_priority.objects_count
   end
 
-  it 'should be customizable' do
-    assert Enumeration.included_modules.include?(Redmine::Acts::Customizable::InstanceMethods)
-  end
-
   it 'should belong to a project' do
     association = Enumeration.reflect_on_association(:project)
     assert association, 'No Project association found'

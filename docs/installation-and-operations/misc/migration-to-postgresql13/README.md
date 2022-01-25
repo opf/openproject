@@ -85,7 +85,7 @@ sudo su - postgres -c "/usr/lib/postgresql/13/bin/pg_ctl start --wait --pgdata=/
 7. If everything is fine, you can then remove your older PostgreSQL installation:
 
 ```bash
-rm -rf /var/lib/postgresql/10/main
+sudo rm -rf /var/lib/postgresql/10/main
 # you can optionally go further and purge postgresql-10 from your system if you wish
 sudo apt-get purge postgresql-10 # debian/ubuntu
 sudo yum remove postgresql-10 # rhel/centos
@@ -103,6 +103,10 @@ Please follow this section only if you have installed OpenProject using [this pr
 
 Before attempting the upgrade, please ensure you have performed a backup of your installation by following the [backup guide](../../operation/backing-up/).
 </div>
+
+You can find the upgrade instructions for your docker-compose setup in the [openproject-deploy](https://github.com/opf/openproject-deploy/blob/stable/12/compose/control/README.md#upgrade) repository.
+
+Remember that you need to have checked out that repository and work in the `compose` directory for the instructions to work.
 
 [compose-based-installation]: ../../installation/docker/#one-container-per-process-recommended
 
@@ -175,6 +179,23 @@ sudo mv /var/lib/openproject/pgdata-prev /var/lib/openproject/pgdata
 ```
 
 And then restart OpenProject.
+
+## Upgrade table query plans after the upgrade
+
+After an upgrade of PostgreSQL, we strongly recommend running the following SQL command to ensure query plans are regenerated as this doesn't necessarily happen automatically.
+
+For that, open a database console. On a packaged installation, this is the way to do it:
+
+```
+psql $(openproject config:get DATABASE_URL)
+``` 
+
+Please change the command appropriately for other installation methods. Once connected, run the following command
+
+```sql
+ANALYZE VERBOSE;
+```
+
 
 [all-in-one-docker-installation]: ../../installation/docker/#all-in-one-container
 

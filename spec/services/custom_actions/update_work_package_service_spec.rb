@@ -70,7 +70,7 @@ describe CustomActions::UpdateWorkPackageService do
     end
   end
   let!(:update_wp_service) do
-    wp_service_instance = double('WorkPackages::UpdateService instance')
+    wp_service_instance = instance_double(WorkPackages::UpdateService)
 
     allow(WorkPackages::UpdateService)
       .to receive(:new)
@@ -164,7 +164,7 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .and_return(alter_action1.key => ['invalid'])
+          .and_return(instance_double(ActiveModel::Errors, attribute_names: [alter_action1.key]))
 
         work_package.lock_version = 200
 
@@ -205,7 +205,7 @@ describe CustomActions::UpdateWorkPackageService do
 
         allow(contract)
           .to receive(:errors)
-          .and_return(base: ['invalid'])
+          .and_return(instance_double(ActiveModel::Errors, attribute_names: [:base]))
 
         work_package.lock_version = 200
 

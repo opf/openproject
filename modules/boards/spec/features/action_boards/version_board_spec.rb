@@ -30,6 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Version action board', type: :feature, js: true do
   let(:user) do
     FactoryBot.create(:user,
@@ -156,13 +157,14 @@ describe 'Version action board', type: :feature, js: true do
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
       expect(subjects).to match_array [['Task 1', other_version.id]]
 
-      # Expect that version is not available for global filter selection
-      filters.expect_available_filter 'Version', present: false
-
       # Add filter
       # Filter for Task
       filters.expect_filter_count 0
       filters.open
+
+      # Expect that version is not available for global filter selection
+      filters.open_available_filter_list
+      filters.expect_available_filter 'Version', present: false
 
       filters.quick_filter 'Task'
       board_page.expect_changed
@@ -180,7 +182,7 @@ describe 'Version action board', type: :feature, js: true do
 
       # Expect filter to be saved in board
       board_page.board(reload: true) do |board|
-        expect(board.options['filters']).to eq [{ 'search' => { 'operator' => '**', 'values' => ['Task'] } }]
+        expect(board.options[:filters]).to eq [{ search: { operator: '**', values: ['Task'] } }]
       end
 
       # Revisit board
@@ -212,7 +214,7 @@ describe 'Version action board', type: :feature, js: true do
       split_view = card.open_details_view
       split_view.expect_subject
       split_view.edit_field(:version).update('Open version')
-      split_view.expect_and_dismiss_notification message: 'Successful update.'
+      split_view.expect_and_dismiss_toaster message: 'Successful update.'
 
       work_package.reload
       expect(work_package.version).to eq(open_version)
@@ -228,7 +230,7 @@ describe 'Version action board', type: :feature, js: true do
       board_page.add_list_with_new_value 'Completely new version'
       board_page.expect_list 'Completely new version'
 
-      visit settings_versions_project_path(project)
+      visit project_settings_versions_path(project)
       expect(page).to have_content 'Completely new version'
       expect(page).to have_content 'Closed version'
 
@@ -346,3 +348,4 @@ describe 'Version action board', type: :feature, js: true do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

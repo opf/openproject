@@ -1,0 +1,7 @@
+#English strings go here
+ru:
+  permission_view_team_planner: "Просмотр планировщика команды"
+  permission_manage_team_planner: "Управление планировщиком команды"
+  project_module_team_planner_view: "Командный планировщик"
+  team_planner:
+    label_team_planner: "Командный планировщик"

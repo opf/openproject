@@ -1,0 +1,134 @@
+#English strings go here for Rails i18n
+lol:
+  bim:
+    label_bim: 'crwdns496051:0crwdne496051:0'
+  bcf:
+    label_bcf: 'crwdns496055:0crwdne496055:0'
+    label_imported_failed: 'crwdns496057:0crwdne496057:0'
+    label_imported_successfully: 'crwdns496061:0crwdne496061:0'
+    issues: "crwdns496065:0crwdne496065:0"
+    recommended: 'crwdns496069:0crwdne496069:0'
+    not_recommended: 'crwdns496077:0crwdne496077:0'
+    no_viewpoints: 'crwdns496079:0crwdne496079:0'
+    new_badge: "crwdns496091:0crwdne496091:0"
+    exceptions:
+      file_invalid: "crwdns496095:0crwdne496095:0"
+    x_bcf_issues:
+      zero: 'crwdns496099:0crwdne496099:0'
+      one: 'crwdns496101:0crwdne496101:0'
+      other: 'crwdns496105:0%{count}crwdne496105:0'
+    bcf_xml:
+      xml_file: 'crwdns496109:0crwdne496109:0'
+      import_title: 'crwdns496113:0crwdne496113:0'
+      export: 'crwdns496115:0crwdne496115:0'
+      import_update_comment: 'crwdns496119:0crwdne496119:0'
+      import_failed: 'crwdns496121:0%{error}crwdne496121:0'
+      import_failed_unsupported_bcf_version: 'crwdns496125:0%{minimal_version}crwdne496125:0'
+      import_successful: 'crwdns496127:0%{count}crwdne496127:0'
+      import_canceled: 'crwdns496131:0crwdne496131:0'
+      type_not_active: "crwdns496133:0crwdne496133:0"
+      import:
+        num_issues_found: 'crwdns496137:0%{x_bcf_issues}crwdne496137:0'
+        button_prepare: 'crwdns496139:0crwdne496139:0'
+        button_perform_import: 'crwdns496145:0crwdne496145:0'
+        button_proceed: 'crwdns496147:0crwdne496147:0'
+        button_back_to_list: 'crwdns496151:0crwdne496151:0'
+        no_permission_to_add_members: 'crwdns496153:0crwdne496153:0'
+        contact_project_admin: 'crwdns496157:0crwdne496157:0'
+        continue_anyways: 'crwdns496161:0crwdne496161:0'
+        description: "crwdns496165:0crwdne496165:0"
+        invalid_types_found: 'crwdns496169:0crwdne496169:0'
+        invalid_statuses_found: 'crwdns496171:0crwdne496171:0'
+        invalid_priorities_found: 'crwdns496175:0crwdne496175:0'
+        invalid_emails_found: 'crwdns496179:0crwdne496179:0'
+        unknown_emails_found: 'crwdns496183:0crwdne496183:0'
+        unknown_property: 'crwdns496187:0crwdne496187:0'
+        non_members_found: 'crwdns496189:0crwdne496189:0'
+        import_types_as: 'crwdns496193:0crwdne496193:0'
+        import_statuses_as: 'crwdns496195:0crwdne496195:0'
+        import_priorities_as: 'crwdns496199:0crwdne496199:0'
+        invite_as_members_with_role: 'crwdns496201:0%{project}crwdne496201:0'
+        add_as_members_with_role: 'crwdns496203:0%{project}crwdne496203:0'
+        no_type_provided: 'crwdns496207:0crwdne496207:0'
+        no_status_provided: 'crwdns496209:0crwdne496209:0'
+        no_priority_provided: 'crwdns496219:0crwdne496219:0'
+        perform_description: "crwdns496221:0crwdne496221:0"
+        replace_with_system_user: 'crwdns496223:0crwdne496223:0'
+        import_as_system_user: 'crwdns496227:0crwdne496227:0'
+        what_to_do: "crwdns496229:0crwdne496229:0"
+        work_package_has_newer_changes: "crwdns496233:0crwdne496233:0"
+        bcf_file_not_found: "crwdns496235:0crwdne496235:0"
+  export:
+    format:
+      bcf: "crwdns496239:0crwdne496239:0"
+  attributes:
+    bcf_thumbnail: "crwdns496241:0crwdne496241:0"
+  project_module_bcf: "crwdns496245:0crwdne496245:0"
+  project_module_bim: "crwdns496249:0crwdne496249:0"
+  permission_view_linked_issues: "crwdns496251:0crwdne496251:0"
+  permission_manage_bcf: "crwdns496255:0crwdne496255:0"
+  permission_delete_bcf: "crwdns496257:0crwdne496257:0"
+  oauth:
+    scopes:
+      bcf_v2_1: "crwdns496261:0crwdne496261:0"
+      bcf_v2_1_text: "crwdns496265:0crwdne496265:0"
+  activerecord:
+    models:
+      bim/ifc_models/ifc_model: "crwdns496267:0crwdne496267:0"
+    attributes:
+      bim/ifc_models/ifc_model:
+        ifc_attachment: "crwdns496281:0crwdne496281:0"
+        is_default: "crwdns496283:0crwdne496283:0"
+        attachments: "crwdns496285:0crwdne496285:0"
+    errors:
+      models:
+        bim/ifc_models/ifc_model:
+          attributes:
+            base:
+              ifc_attachment_missing: "crwdns496287:0crwdne496287:0"
+              invalid_ifc_file: "crwdns496291:0crwdne496291:0"
+        bim/bcf/viewpoint:
+          bitmaps_not_writable: "crwdns496293:0crwdne496293:0"
+          index_not_integer: "crwdns496297:0crwdne496297:0"
+          invalid_clipping_planes: "crwdns496299:0crwdne496299:0"
+          invalid_components: "crwdns496303:0crwdne496303:0"
+          invalid_lines: "crwdns496305:0crwdne496305:0"
+          invalid_orthogonal_camera: "crwdns496309:0crwdne496309:0"
+          invalid_perspective_camera: "crwdns496311:0crwdne496311:0"
+          mismatching_guid: "crwdns496315:0crwdne496315:0"
+          no_json: "crwdns496317:0crwdne496317:0"
+          snapshot_type_unsupported: "crwdns496321:0crwdne496321:0"
+          snapshot_data_blank: "crwdns496325:0crwdne496325:0"
+          unsupported_key: "crwdns496327:0crwdne496327:0"
+        bim/bcf/issue:
+          uuid_already_taken: "crwdns496331:0crwdne496331:0"
+  ifc_models:
+    label_ifc_models: 'crwdns496333:0crwdne496333:0'
+    label_new_ifc_model: 'crwdns496337:0crwdne496337:0'
+    label_show_defaults: 'crwdns496339:0crwdne496339:0'
+    label_default_ifc_models: 'crwdns496343:0crwdne496343:0'
+    label_edit_defaults: 'crwdns496345:0crwdne496345:0'
+    no_defaults_warning:
+      title: 'crwdns496347:0crwdne496347:0'
+      check_1: 'crwdns496349:0crwdne496349:0'
+      check_2: 'crwdns496353:0crwdne496353:0'
+    no_results: "crwdns496355:0crwdne496355:0"
+    conversion_status:
+      label: 'crwdns496359:0crwdne496359:0'
+      pending: 'crwdns496363:0crwdne496363:0'
+      processing: 'crwdns496365:0crwdne496365:0'
+      completed: 'crwdns496367:0crwdne496367:0'
+      error: 'crwdns496369:0crwdne496369:0'
+    processing_notice:
+      processing_default: 'crwdns496371:0crwdne496371:0'
+    flash_messages:
+      upload_successful: 'crwdns496375:0crwdne496375:0'
+    conversion:
+      missing_commands: "crwdns496379:0%{names}crwdne496379:0"
+  project_module_ifc_models: "crwdns496381:0crwdne496381:0"
+  permission_view_ifc_models: "crwdns496387:0crwdne496387:0"
+  permission_manage_ifc_models: "crwdns496393:0crwdne496393:0"
+  extraction:
+    available:
+      ifc_convert: "crwdns496395:0crwdne496395:0"
+

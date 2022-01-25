@@ -3,24 +3,20 @@ module API
     extend self
 
     def spec
-      @spec ||= begin
-        spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
+      spec = if Rails.env.development?
+               load_spec
+             else
+               memoized_spec
+             end
 
-        if spec_path.exist?
-          assemble_spec spec_path
-        else
-          raise "Could not find openapi-spec.yml under #{spec_path}"
-        end
-      end
-
-      @spec["servers"] = [
+      spec["servers"] = [
         {
           "description" => "This server",
           "url" => "#{Setting.protocol}://#{Setting.host_name}/"
         }
       ]
 
-      @spec
+      spec
     end
 
     def assemble_spec(file_path)
@@ -29,6 +25,22 @@ module API
       substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
     rescue Psych::SyntaxError => e
       raise "Failed to load #{file_path}: #{e.class} #{e.message}"
+    end
+
+    private
+
+    def memoized_spec
+      @memoized_spec ||= load_spec
+    end
+
+    def load_spec
+      spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
+
+      if spec_path.exist?
+        assemble_spec spec_path
+      else
+        raise "Could not find openapi-spec.yml under #{spec_path}"
+      end
     end
 
     def substitute_refs(spec, path:, root_path:, root_spec: spec)
@@ -102,7 +114,14 @@ module API
       file = schema_file ref_path, path: path, root_path: root_path
       spec_path = schema_path ref_path, path: path, root_path: root_path
 
-      root_spec.dig(*spec_path).find { |_k, v| v["$ref"] == file }.first
+      spec_files = root_spec.dig(*spec_path)
+
+      raise "Path not defined #{spec_path}" unless spec_files
+
+      spec_file = spec_files.find { |_k, v| v["$ref"] == file }&.first
+      raise "Reference '#{file}' not valid within #{spec_path}" unless spec_file
+
+      spec_file
     end
   end
 end

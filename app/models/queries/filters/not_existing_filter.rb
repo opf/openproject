@@ -58,7 +58,7 @@ module Queries
 
       def to_hash
         {
-          non_existent_filter: {
+          (name || :non_existent_filter) => {
             operator: operator,
             values: values
           }

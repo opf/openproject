@@ -318,6 +318,10 @@ hu:
       other: '%{count} munkacsomag leszármazottai'
     bulk:
       could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Az összes kiválasztott feladatcsoporthoz nincs elérhető állapot. Státuszuk nem változtatható meg."
       unsupported_for_multiple_projects: 'Tömeges mozgatás/másolás nem támogatott a különböző projektekből származó feladatcsoportokhoz'
@@ -376,7 +380,7 @@ hu:
         attachment_file_name: "Melléklet fájl neve"
         downloads: "Letöltés"
         file: "Fájl"
-        filename: "Fájl"
+        filename: "File"
         filesize: "Méret"
       attribute_help_text:
         attribute_name: 'Attribútum'
@@ -461,6 +465,7 @@ hu:
         url: "URL"
       role:
         assignable: "Munkacsomagok hozzárendelhetők a szerephez tartozó felhasználókhoz és csoportokhoz az adott projektben"
+        permissions: "Jogosultságok"
       time_entry:
         activity: "Tevékenység"
         hours: "órák"
@@ -589,7 +594,9 @@ hu:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "'%{value}'-re van állítva, ami nem szerepel a feltöltés fehér listáján.\n"
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}\n"
         capability:
           context:
             global: 'Globális'
@@ -631,7 +638,7 @@ hu:
             mail_reminder_sent:
               set_on_creation: "nem állítható igaz értékre az értesítések létrehozásakor.\n"
             reason:
-              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+              no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
         notification_settings:
@@ -672,7 +679,6 @@ hu:
           filters:
             custom_fields:
               inexistent: "Nincs egyedi mező ehhez a szűrőhöz."
-              invalid: "Az egyéni mező érvénytelen az adott környezetben."
         queries/filters/base:
           attributes:
             values:
@@ -736,6 +742,7 @@ hu:
               does_not_exist: "A megadott kategória nem létezik."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "legyen >=0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -746,6 +753,11 @@ hu:
               group_without_name: "Névtelen csoport nem engedélyezett."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}\n"
             password:
               weak: "Az alábbi karakter típusokból tartalmaznia kell karaktert (legalább %{min_count} a %{all_count} típusból): %{rules}."
               lowercase: "Kisbetű (pl. 'a')"
@@ -780,7 +792,7 @@ hu:
           one: "1 hiba miatt nem menthető a következő: %{model}"
           other: "%{count} hiba miatt nem menthető a következő: %{model}"
     models:
-      attachment: "Fájl"
+      attachment: "File"
       attribute_help_text: "Attribútum-súgószöveg"
       forum: "Fórum"
       comment: "Vélemény"
@@ -824,7 +836,7 @@ hu:
     base: "Általános hiba:"
     blocks_ids: "Lezárt munkacsomagok azonosítója"
     category: "Kategória"
-    comment: "Vélemény"
+    comment: "Komment"
     comments: "Vélemény"
     content: "Tartalom"
     color: "Szín"
@@ -847,7 +859,7 @@ hu:
     id: "ID"
     is_default: "Alap érték"
     is_for_all: "Minden projekthez"
-    is_public: "Nyilvános"
+    public: "Nyilvános"
     #kept for backwards compatibility
     issue: "Feladatcsoport"
     lastname: "Vezetéknév"
@@ -857,7 +869,6 @@ hu:
     password: "Jelszó"
     priority: "Fontosság"
     project: "Projekt"
-    public: "Nyilvános"
     responsible: "Felelős"
     role: "Szerepkör"
     roles: "Szerepkörök"
@@ -1198,7 +1209,9 @@ hu:
   error_can_not_archive_project: "Ezt a projektet nem lehet archiválni: %{errors}"
   error_can_not_delete_entry: "Bejegyzését nem lehet törölni"
   error_can_not_delete_custom_field: "Nem törölhető az egyéni mező"
-  error_can_not_delete_type: "Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Alap típusokat nem lehet törölni."
   error_can_not_invite_user: "A meghívó küldése sikertelen a felhasználó részére."
   error_can_not_remove_role: "Ez a szerepkör használatban van, nem lehet törölni"
@@ -1345,6 +1358,23 @@ hu:
         mentioned: "Megemlítettek a %{work_package}-ban"
         responsible: "You have become accountable for %{work_package}"
         watched: "Megfigyeled a %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Hírek'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Kisegítő lehetőségek"
   label_account: "Felhasználói fiók"
   label_active: "aktív"
@@ -1520,7 +1550,7 @@ hu:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
-  label_filter_plural: "Szürő"
+  label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
   label_folder: "Mappa"
@@ -1599,6 +1629,10 @@ hu:
   label_member_plural: "Tagok"
   lable_membership_added: 'Felhasználó hozzáadva'
   lable_membership_updated: 'Felhasználó frissítve'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "A menüpont neve"
   label_message: "Üzenet"
   label_message_last: "Utolsó üzenet"
@@ -1704,7 +1738,6 @@ hu:
   label_public_projects: "Nyilvános projektek"
   label_query_new: "Új lekérdezés"
   label_query_plural: "Egyéni lekérdezések"
-  label_query_menu_item: "Lekérdezések menüpont"
   label_read: "Olvassa el..."
   label_register: "Új fiók létrehozása"
   label_register_with_developer: "Regisztráljon mint fejlesztő"
@@ -1927,20 +1960,20 @@ hu:
     salutation: 'Helló %{user}!'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
-      login_to_see_all: 'Log in to see all notifications.'
-      mentioned: 'You have been <b>mentioned in a comment</b>'
+      login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
+      mentioned: "Megemlítettek egy <b>mentioned in a comment</b> hozzásolásban\n"
       mentioned_by: '%{user} mentioned you in a comment'
       more_to_see:
-        one: 'There is 1 more work package with notifications.'
+        one: "Még 1 munkacsomag van értesítésekkel.\n"
         other: 'There are %{count} more work packages with notifications.'
       reason:
-        watched: 'Watched'
+        watched: 'Megfigyelt'
         assigned: 'Assigned'
         responsible: 'Felelős'
-        mentioned: 'Mentioned'
+        mentioned: 'Megemlített'
         subscribed: 'mind'
-        prefix: 'Received because of the notification setting: %{reason}'
-      see_all: 'See all'
+        prefix: "Az értesítés beállítása miatt érkezett: %{reason}\n"
+      see_all: 'Mutasd mindet'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Új felhasználó (%{value}) regisztrálva van. A hozzáférés az Ön jóváhagyására vár:"
   mail_body_account_information: "A fiókod adatai"
@@ -2149,9 +2182,9 @@ hu:
   permission_protect_wiki_pages: "Védett wiki oldalak"
   permission_rename_wiki_pages: "Wiki oldalak átnevezése"
   permission_save_queries: "Nézet mentése"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Projekt modulok kiválasztása"
   permission_manage_types: "Jelölje ki a típust"
-  permission_view_calendar: "A naptár megtekintése"
   permission_view_changesets: "Tároló verziók megtekintése az OpenProject-ben"
   permission_view_commit_author_statistics: "Szerző,statisztika megtekintése"
   permission_view_work_package_watchers: "A megfigyelők listájának megtekintése"
@@ -2187,7 +2220,6 @@ hu:
       archived: "Archiválva"
   project_module_activity: "Tevékenység"
   project_module_forums: "Fórumok"
-  project_module_calendar: "Naptár"
   project_module_work_package_tracking: "A munkacsomag nyomon követése"
   project_module_news: "Hírek"
   project_module_repository: "Csomagtároló"
@@ -2445,7 +2477,7 @@ hu:
         Állítsa be, hogy a felhasználók hány napig tartsák az értesítési eseményeket (az alkalmazáson belüli értesítések forrása) a rendszerben. Az ennél régebbi események törlődnek.
 
       events_explanation: "Azt szabályozza, hogy melyik eseményhez küldjön e -mailt. A munkacsomagok nem tartoznak ebbe a listába, mivel a rájuk vonatkozó értesítések kifejezetten minden felhasználó számára konfigurálhatók.\n"
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      delay_minutes_explanation: "Az e -mailek küldése késleltethető, hogy az alkalmazások értesítésében beállított felhasználók megerősíthessék az értesítést az alkalmazáson belül, mielőtt levelet küldenek. Azok a felhasználók, akik elolvasták az értesítést az alkalmazáson belül, nem kapnak e -mailt a már olvasott értesítésről.\n"
     display:
       first_date_of_week_and_year_set: >
         Ha a "%{day_of_week_setting_name}" vagy a "%{first_week_setting_name}" opciók közül valamelyik be van állítva, akkor a másiknak is be kell lennie, hogy elkerüljük az ellentmondásokat a frontendben.
@@ -2607,8 +2639,8 @@ hu:
     delete_thing: "Törlés"
     duration: "Időtartam"
     duration_days:
-      one: "1 napja"
-      other: "%{count} napja"
+      one: "%{count} nap"
+      other: "%{count} nap"
     edit_color: "Színek szerkesztése"
     edit_thing: "Szerkesztés"
     edit_timeline: "A %{timeline} ütemterv jelentés szerkesztése"
@@ -2819,7 +2851,6 @@ hu:
   wiki_menu_item_new_main_item_explanation: >
     Csak a fő wiki menüelemet törölted. Most ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
   wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem lehet törölni.
-  query_menu_item_for: "Menüpont lekérdezés \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2878,6 +2909,7 @@ hu:
       schema: 'Séma'
     undisclosed:
       parent: A kiválasztott szülő a jogosultságok hiánya miatt láthatatlan.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: "Előzetes engedélyezés\n"

@@ -1,5 +1,9 @@
 class RenameCostObjectType < ActiveRecord::Migration[6.1]
   def up
+    # Remove the index to allow duplicates for the time of the reordering.
+    # It is recreated right afterwards.
+    remove_index :journals, %i[journable_type journable_id version]
+
     execute <<~SQL.squish
       UPDATE
         journals
@@ -18,6 +22,8 @@ class RenameCostObjectType < ActiveRecord::Migration[6.1]
       AND
         journals.journable_type = 'Budget'
     SQL
+
+    add_index :journals, %i[journable_type journable_id version], unique: true
 
     Journal
       .where(journable_type: 'CostObject')

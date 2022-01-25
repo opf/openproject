@@ -76,7 +76,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
 
@@ -86,7 +86,7 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
 
@@ -102,13 +102,14 @@ describe RepositoriesController, type: :controller do
       end
 
       it 'redirects to settings' do
-        expect(response).to redirect_to(controller: '/project_settings/repository', id: project.identifier, action: 'show')
+        expect(response).to redirect_to project_settings_repository_path(project.identifier)
       end
     end
   end
 
   describe 'with empty repository' do
     let(:role) { FactoryBot.create(:role, permissions: [:browse_repository]) }
+
     before do
       allow(repository.scm)
         .to receive(:check_availability!)

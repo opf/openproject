@@ -9,6 +9,17 @@ post:
     required: true
     schema:
       type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
+          "empty":
+            description: Empty request to get the form initially in order to start the guided update of a project
+            value: {}
   responses:
     '200':
       description: OK
@@ -16,6 +27,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -28,6 +41,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

@@ -1,0 +1,7 @@
+#English strings go here
+lol:
+  permission_view_team_planner: "crwdns493745:0crwdne493745:0"
+  permission_manage_team_planner: "crwdns493747:0crwdne493747:0"
+  project_module_team_planner_view: "crwdns493749:0crwdne493749:0"
+  team_planner:
+    label_team_planner: "crwdns493751:0crwdne493751:0"

@@ -31,11 +31,11 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import {
   distinctUntilChanged, filter, first, map,
 } from 'rxjs/operators';
-import { BcfViewpointInterface } from 'core-app/features/bim/bcf/api/viewpoints/bcf-viewpoint.interface';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 declare global {
   interface Window {
@@ -49,7 +49,7 @@ declare global {
 type RevitBridgeMessage = {
   messageType:string,
   trackingId:string,
-  messagePayload:BcfViewpointInterface
+  messagePayload:CreateBcfViewpointData
 };
 
 @Injectable()
@@ -82,7 +82,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     return this.viewerVisible$.getValue();
   }
 
-  public getViewpoint$():Observable<BcfViewpointInterface> {
+  public getViewpoint$():Observable<CreateBcfViewpointData> {
     const trackingId = this.newTrackingId();
 
     this.sendMessageToRevit('ViewpointGenerationRequest', trackingId, '');
@@ -118,7 +118,7 @@ export class RevitBridgeService extends ViewerBridgeService {
   public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
-      .subscribe((viewpoint:BcfViewpointInterface) => this.sendMessageToRevit(
+      .subscribe((viewpoint:BcfViewpointData) => this.sendMessageToRevit(
         'ShowViewpoint', this.newTrackingId(), JSON.stringify(viewpoint),
       ));
   }
@@ -142,7 +142,7 @@ export class RevitBridgeService extends ViewerBridgeService {
       this.revitMessageReceivedSource.next({
         messageType,
         trackingId,
-        messagePayload: JSON.parse(messagePayload) as BcfViewpointInterface,
+        messagePayload: JSON.parse(messagePayload) as CreateBcfViewpointData,
       });
     };
     this.viewerVisible$.next(true);

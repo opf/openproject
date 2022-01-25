@@ -27,6 +27,6 @@ fi:
       properties:
         overallCosts: "Kokonaiskustannukset"
         spentUnits: "Käytetyt yksiköt"
-    button_log_costs: "Kirjaa työkustannuksia"
+    button_log_costs: "Kirjaa kustannuksia"
     label_hour: "tunti"
     label_hours: "tuntia"

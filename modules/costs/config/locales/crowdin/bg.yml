@@ -43,8 +43,8 @@ bg:
         default_rates: "Ставка по подразбиране"
     models:
       cost_type:
-        one: "Cost type"
-        other: "Cost types"
+        one: "Тип разход"
+        other: "Видове разходи"
       rate: "Ставка"
     errors:
       models:

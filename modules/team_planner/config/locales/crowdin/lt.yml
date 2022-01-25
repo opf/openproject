@@ -1,0 +1,7 @@
+#English strings go here
+lt:
+  permission_view_team_planner: "Žiūrėti komandos planą"
+  permission_manage_team_planner: "Tvarkyti komandos planą"
+  project_module_team_planner_view: "Komandos planas"
+  team_planner:
+    label_team_planner: "Komandos planas"

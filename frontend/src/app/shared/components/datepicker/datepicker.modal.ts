@@ -52,6 +52,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { DayElement } from "flatpickr/dist/types/instance";
+import flatpickr from 'flatpickr';
 
 export type DateKeys = 'date'|'start'|'end';
 
@@ -285,11 +286,11 @@ export class DatePickerModalComponent extends OpModalComponent implements AfterV
         onYearChange: () => {
           this.datepickerHelper.setRangeClasses(this.dates);
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:DatePicker, dayElem:DayElement) => {
+        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
         },
       },
-      undefined,
+      null,
       this.configurationService,
     );
   }

@@ -113,10 +113,12 @@ pt:
       check_1: 'Verifique se você carregou pelo menos um modelo IFC.'
       check_2: 'Verifique se pelo menos um modelo IFC está definido como "Padrão".'
     no_results: "Não nenhum modelo IFC foi carregado neste projeto."
-    processing_state:
+    conversion_status:
       label: 'Processando?'
-      in_progress: 'Em andamento'
+      pending: 'Pendente'
+      processing: 'Processando'
       completed: 'Concluído'
+      error: 'Erro'
     processing_notice:
       processing_default: 'Os seguintes modelos IFC padrão ainda estão sendo processados, e dessa forma, ainda não estão disponíveis:'
     flash_messages:

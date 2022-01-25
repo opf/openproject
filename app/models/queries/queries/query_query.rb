@@ -32,6 +32,6 @@ class Queries::Queries::QueryQuery < Queries::BaseQuery
   end
 
   def default_scope
-    Query.visible(to: user)
+    Query.visible(user)
   end
 end

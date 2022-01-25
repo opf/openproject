@@ -1,0 +1,37 @@
+@import "helpers"
+
+\:host
+  display: block
+  height: 100%
+  overflow: auto
+  // Avoid empty space on the right since the styled scrollbar would only be visible on hover.
+  @include no-visible-scroll-bar
+
+.op-team-planner
+  display: grid
+  grid-template-columns: auto 1fr
+  grid-template-rows: auto 1fr auto
+  grid-column-gap: 10px
+  grid-template-areas: "addExisting calendar" "addExisting noData" "addExisting addAssignee"
+  max-height: 100%
+
+  &--add-existing-pane
+    grid-area: addExisting
+    width: 350px
+
+  &--calendar
+    grid-area: calendar
+
+  &--add-assignee
+    grid-area: addAssignee
+
+  &--no-data
+    grid-area: noData
+    min-height: 250px
+    background-color: lightgray
+    display: flex
+    justify-content: center
+    align-items: center
+
+.tp-assignee-add-button
+  margin-top: 1rem

@@ -1,0 +1,16 @@
+#English strings go here
+ru:
+  js:
+    team_planner:
+      add_existing: 'Add existing'
+      create_new: 'Создать нового планировщика'
+      title: 'Командный планировщик'
+      unsaved_title: 'Безымянный планировщик команды'
+      label_assignee_plural: 'Ответственные'
+      no_data: 'Добавьте ответственных для создания планировщика вашей команды.'
+      add_assignee: 'Добавить отвественного'
+      remove_assignee: 'Удалить ответственного'
+      two_weeks: '2 недели'
+      quick_add:
+        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        search_placeholder: 'Search...'

@@ -6,8 +6,8 @@
 
   <div class="op-modal--body">
     <div *ngIf="showWarning && warningText"
-         class="notification-box -warning">
-      <div class="notification-box--content">
+         class="op-toast -warning">
+      <div class="op-toast--content">
         <p [innerHTML]="warningText"></p>
       </div>
     </div>
@@ -51,7 +51,7 @@
       [attr.title]="text.button_cancel"
     ></button>
     <button
-      class="button -highlight"
+      class="confirm-form-submit--submit button -highlight"
       (click)="create()"
       [disabled]="!this.selectedAttribute || inFlight"
       [textContent]="text.button_add"

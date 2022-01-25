@@ -1,5 +1,5 @@
 import { ApplicationRef, Injector, NgZone } from '@angular/core';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ExternalQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -13,7 +13,7 @@ import { States } from 'core-app/core/states/states.service';
 import { CKEditorPreviewService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
@@ -32,6 +32,7 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
  */
 export class OpenProjectPluginContext {
   private _knownHookNames = [
+    'workPackageBulkContextMenu',
     'workPackageTableContextMenu',
     'workPackageSingleContextMenu',
     'workPackageNewInitialization',
@@ -45,7 +46,7 @@ export class OpenProjectPluginContext {
     halResource: this.injector.get<HalResourceService>(HalResourceService),
     hooks: this.injector.get<HookService>(HookService),
     i18n: this.injector.get<I18nService>(I18nService),
-    notifications: this.injector.get<NotificationsService>(NotificationsService),
+    notifications: this.injector.get<ToastService>(ToastService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
     opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
@@ -55,7 +56,7 @@ export class OpenProjectPluginContext {
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
     states: this.injector.get<States>(States),
-    apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
+    apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
   };
 

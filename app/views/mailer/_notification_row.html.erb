@@ -1,10 +1,7 @@
 <a style="text-decoration: none;display: block;"
    href="<%= notifications_path(work_package.id) %>"
    target="_blank">
-<table <%= placeholder_table_styles(width:'100%',style: "width:100%;border-width:1px;border-color:#E0E0E0;border-style:solid;border-radius:10px") %>>
-    <tr>
-      <%= placeholder_cell('12px', vertical: false) %>
-    </tr>
+  <%= render layout: 'mailer/border_table' do %>
     <tr>
       <td>
         <table <%= placeholder_table_styles(width:'100%',style: 'width:100%;font-size:14px;') %>>
@@ -21,7 +18,8 @@
                           <%= status_colors(work_package.status) %>
                           white-space: nowrap;
                           padding: 2px 12px;
-                          height: 18px;">
+                          height: 18px;
+                          border-radius:2px;">
                           <%= work_package.status %>
                         </td>
                       </tr>
@@ -97,11 +95,5 @@
     <tr>
       <%= placeholder_cell('12px', vertical: false) %>
     </tr>
-  </table>
-
-  <table>
-    <tr>
-      <%= placeholder_cell('20px', vertical: false) %>
-    </tr>
-  </table>
+  <% end %>
 </a>

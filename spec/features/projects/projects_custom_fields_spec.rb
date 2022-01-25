@@ -92,7 +92,7 @@ describe 'Projects custom fields', type: :feature, js: true do
       expect(page).to have_current_path /\/projects\/my-project-name\/?/
       created_project = Project.last
 
-      visit settings_project_path(created_project)
+      visit project_settings_general_path(created_project)
 
       default_int_field.expect_value default_int_custom_field.default_value.to_s
       default_string_field.expect_value 'Overwritten'
@@ -107,7 +107,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     let(:editor) { ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{custom_field.id}']" }
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
       expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
@@ -156,7 +156,7 @@ describe 'Projects custom fields', type: :feature, js: true do
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit settings_generic_project_path(project)
+        visit project_settings_general_path(project)
         float_field.expect_value '10000.55'
       end
     end
@@ -166,22 +166,24 @@ describe 'Projects custom fields', type: :feature, js: true do
       let(:current_user) { FactoryBot.create :admin, language: 'de' }
 
       it 'displays the float with german locale' do
+        I18n.locale = :de
+
         visit new_project_path
 
         name_field.set_value 'My project name'
-        find('.op-fieldset--toggle', text: 'ERWEITERTE EINSTELLUNGEN').click
+        find('.op-fieldset--toggle', text: I18n.t('js.forms.advanced_settings').upcase).click
 
         float_field.set_value '10000,55'
 
         # Save project settings
-        click_on 'Speichern'
+        click_on I18n.t('js.button_save')
 
         expect(page).to have_current_path /\/projects\/my-project-name\/?/
         project = Project.find_by(name: 'My project name')
         cv = project.custom_values.find_by(custom_field_id: float_cf.id).typed_value
         expect(cv).to eq 10000.55
 
-        visit settings_generic_project_path(project)
+        visit project_settings_general_path(project)
         # The field renders in german locale, but there's no way to test that
         # as the internal value is always english locale
         float_field.expect_value '10000.55'
@@ -195,7 +197,7 @@ describe 'Projects custom fields', type: :feature, js: true do
     end
 
     scenario 'allows settings the project boolean CF (regression #26313)' do
-      visit settings_generic_project_path(project.id)
+      visit project_settings_general_path(project.id)
       field = page.find(identifier)
       expect(field).not_to be_checked
 

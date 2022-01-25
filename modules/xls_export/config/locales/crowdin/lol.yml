@@ -1,0 +1,13 @@
+lol:
+  export_to_excel: "crwdns493967:0crwdne493967:0"
+  print_with_description: "crwdns493969:0crwdne493969:0"
+  sentence_separator_or: "crwdns493971:0crwdne493971:0"
+  different_formats: crwdns493973:0crwdne493973:0
+  export:
+    format:
+      xls: "crwdns493975:0crwdne493975:0"
+      xls_with_descriptions: "crwdns493977:0crwdne493977:0"
+      xls_with_relations: "crwdns493979:0crwdne493979:0"
+  xls_export:
+    child_of: crwdns493981:0crwdne493981:0
+    parent_of: crwdns493983:0crwdne493983:0

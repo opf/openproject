@@ -141,14 +141,25 @@ describe Project, type: :model do
   end
 
   describe 'name' do
-    let(:project) { FactoryBot.build_stubbed :project, name: '     Hello    World   ' }
+    let(:name) { '     Hello    World   ' }
+    let(:project) { described_class.new FactoryBot.attributes_for(:project, name: name) }
 
-    before do
-      project.valid?
+    context 'with white spaces in the name' do
+      it 'trims the name' do
+        project.save
+        expect(project.name).to eql('Hello World')
+      end
     end
 
-    it 'trims the name' do
-      expect(project.name).to eql('Hello World')
+    context 'when updating the name' do
+      it 'persists the update' do
+        project.save
+        project.name = 'A new name'
+        project.save
+        project.reload
+
+        expect(project.name).to eql('A new name')
+      end
     end
   end
 
@@ -165,51 +176,6 @@ describe Project, type: :model do
       other_project_work_package
 
       expect(project.types_used_by_work_packages).to match_array [project_work_package.type]
-    end
-  end
-
-  context '#rolled_up_versions' do
-    let!(:project) { FactoryBot.create(:project) }
-    let!(:parent_version1) { FactoryBot.create(:version, project: project) }
-    let!(:parent_version2) { FactoryBot.create(:version, project: project) }
-
-    it 'should include the versions for the current project' do
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
-    end
-
-    it 'should include versions for a subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      subproject_version = FactoryBot.create(:version, project: subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, subproject_version]
-    end
-
-    it 'should include versions for a sub-subproject' do
-      subproject = FactoryBot.create(:project, parent: project)
-      sub_subproject = FactoryBot.create(:project, parent: subproject)
-      sub_subproject_version = FactoryBot.create(:version, project: sub_subproject)
-
-      project.reload
-
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2, sub_subproject_version]
-    end
-
-    it 'should only check active projects' do
-      subproject = FactoryBot.create(:project, parent: project)
-      FactoryBot.create(:version, project: subproject)
-      subproject.update(active: false)
-
-      project.reload
-
-      expect(subproject)
-        .not_to be_active
-      expect(project.rolled_up_versions)
-        .to match_array [parent_version1, parent_version2]
     end
   end
 end

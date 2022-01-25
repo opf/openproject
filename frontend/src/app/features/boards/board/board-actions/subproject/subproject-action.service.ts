@@ -14,6 +14,8 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 export class BoardSubprojectActionService extends CachedBoardActionService {
   filterName = 'onlySubproject';
 
+  resourceName = 'subproject';
+
   text = this.I18n.t('js.boards.board_type.board_type_title.subproject');
 
   description = this.I18n.t('js.boards.board_type.action_text_subprojects');

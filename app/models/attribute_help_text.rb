@@ -54,11 +54,11 @@ class AttributeHelpText < ApplicationRecord
     scope
   end
 
-  validates_presence_of :help_text
-  validates_uniqueness_of :attribute_name, scope: :type
+  validates :help_text, presence: true
+  validates :attribute_name, uniqueness: { scope: :type }
 
   def attribute_caption
-    @caption ||= self.class.available_attributes[attribute_name]
+    @attribute_caption ||= self.class.available_attributes[attribute_name]
   end
 
   def attribute_scope

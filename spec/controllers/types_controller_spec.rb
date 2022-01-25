@@ -309,7 +309,7 @@ describe TypesController, type: :controller do
       let(:type2) { FactoryBot.create(:type, name: 'My type 2', projects: [project]) }
       let(:type3) { FactoryBot.create(:type, name: 'My type 3', is_standard: true) }
 
-      describe 'successful detroy' do
+      describe 'successful destroy' do
         let(:params) { { 'id' => type.id } }
 
         before do
@@ -326,9 +326,10 @@ describe TypesController, type: :controller do
         end
       end
 
-      describe 'detroy type in use should fail' do
+      describe 'destroy type in use should fail' do
         let(:project2) do
           FactoryBot.create(:project,
+                            active: false,
                             work_package_custom_fields: [custom_field_2],
                             types: [type2])
         end
@@ -347,8 +348,13 @@ describe TypesController, type: :controller do
         it { expect(response).to be_redirect }
         it { expect(response).to redirect_to(types_path) }
         it 'should show an error message' do
-          expect(flash[:error]).to eq(I18n.t(:error_can_not_delete_type))
+          error_message = [I18n.t(:'error_can_not_delete_type.explanation')]
+          error_message.push(I18n.t(:'error_can_not_delete_type.archived_projects',
+                                    archived_projects: project2.name))
+
+          expect(sanitize_string(flash[:error])).to eq(sanitize_string(error_message))
         end
+
         it 'should be present in the database' do
           expect(::Type.find_by(name: 'My type 2').id).to eq(type2.id)
         end

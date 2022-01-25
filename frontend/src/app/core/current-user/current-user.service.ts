@@ -31,7 +31,7 @@ import { forkJoin, of } from 'rxjs';
 import {
   distinctUntilChanged, map, mergeMap, take,
 } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -43,7 +43,7 @@ export class CurrentUserService {
   private PAGE_FETCH_SIZE = 1000;
 
   constructor(
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private currentUserStore:CurrentUserStore,
     private currentUserQuery:CurrentUserQuery,
   ) {

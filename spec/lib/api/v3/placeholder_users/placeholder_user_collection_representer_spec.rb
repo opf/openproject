@@ -50,6 +50,10 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUserCollectionRepresenter do
       .with(page)
       .and_return(placeholders)
 
+    allow(placeholders)
+      .to receive(:count)
+      .and_return(total)
+
     placeholders
   end
 

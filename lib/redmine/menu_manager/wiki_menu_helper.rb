@@ -48,8 +48,8 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_main_menu(menu, main_item, project)
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
-              param: :project_id,
               caption: main_item.title,
+              before: :members,
               icon: 'icon2 icon-wiki',
               html: { class: 'wiki-menu--main-item' }
 
@@ -64,7 +64,6 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_menu_subitem(menu, main_item, child)
     menu.push child.menu_identifier,
               { controller: '/wiki', action: 'show', id: child.slug },
-              param: :project_id,
               caption: child.title,
               html: { class: 'wiki-menu--sub-item' },
               parent: main_item.menu_identifier
@@ -86,7 +85,6 @@ module Redmine::MenuManager::WikiMenuHelper
   def push_wiki_menu_partial(main_item, menu)
     menu.push :wiki_menu_partial,
               { controller: '/wiki', action: 'show' },
-              param: :project_id,
               parent: main_item.menu_identifier,
               partial: 'wiki/menu_pages_tree',
               last: true

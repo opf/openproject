@@ -225,8 +225,8 @@ describe 'work package export', type: :feature do
         # Despite attempts to provoke the error by having a lot of columns, the pdf
         # is still being drawn successfully. We thus have to fake the error.
         allow_any_instance_of(WorkPackage::PDFExport::WorkPackageListToPdf)
-          .to receive(:render!)
-          .and_return(WorkPackage::Exporter::Result::Error.new(I18n.t(:error_pdf_export_too_many_columns)))
+          .to receive(:export!)
+          .and_raise(I18n.t(:error_pdf_export_too_many_columns))
       end
 
       it 'returns the error' do

@@ -38,7 +38,6 @@ module OpenProject::Documents
       menu :project_menu,
            :documents,
            { controller: '/documents', action: 'index' },
-           param: :project_id,
            caption: :label_document_plural,
            before: :members,
            icon: 'icon2 icon-notes'
@@ -55,7 +54,7 @@ module OpenProject::Documents
 
     activity_provider :documents, class_name: 'Activities::DocumentActivityProvider', default: false
 
-    patches %i[CustomFieldsHelper Project]
+    patches %i[Project]
 
     add_api_path :documents do
       "#{root}/documents"
@@ -79,7 +78,6 @@ module OpenProject::Documents
     config.to_prepare do
       require_dependency 'document'
       require_dependency 'document_category'
-      require_dependency 'document_category_custom_field'
 
       require_dependency 'open_project/documents/patches/textile_converter_patch'
     end

@@ -110,9 +110,9 @@ module Pages
 
       def expect_paused(paused, first: nil, last: nil)
         if paused
-          expect(page).to have_field 'Temporarily pause daily email reminders'
+          expect(page).to have_checked_field 'Temporarily pause daily email reminders'
         else
-          expect(page).to have_no_field 'Temporarily pause daily email reminders'
+          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
         end
 
         if first && last
@@ -126,8 +126,8 @@ module Pages
         if paused
           check 'Temporarily pause daily email reminders'
           page.find('.flatpickr-input').click
-          page.find('.flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
-          page.find('.flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
+          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
+          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
 
           expect(page).to have_selector('.flatpickr-input') do |node|
             expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
@@ -138,7 +138,7 @@ module Pages
       end
 
       def save
-        click_button I18n.t(:button_save)
+        click_button I18n.t('js.button_save')
       end
     end
   end

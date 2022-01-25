@@ -22,6 +22,10 @@
                 "auto_hide_popups": {
                     "type": "boolean"
                 },
+                "diff_type": {
+                  "type": "string",
+                  "enum": ["inline", "sbs"]
+                },
                 "workdays": {
                   "type": "array",
                   "items": {

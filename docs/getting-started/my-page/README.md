@@ -75,7 +75,7 @@ You can configure the view of a work package widget to have the information incl
 
 On a work package widget, click the three dots and select **Configure view...**
 
-You can configure the work package table (e.g. filter, group, highlight, sort) according to the [filter, sorting and grouping criteria for work packages](../../user-guide/work-packages/#work-package-table-configuration). 
+You can configure the work package table (e.g. filter, group, highlight, sort) according to the [filter, sorting and grouping criteria for work packages](../../user-guide/work-packages/work-package-table-configuration/). 
 
 ![configure-view-widget](configure-view-widget.gif)
 
@@ -87,7 +87,7 @@ To delete a widget from the dashboard, click on the three dots in the upper righ
 
 ## My spent time widget
 
-To track spent time, [add the **My spent time** widget](#add-widget) in the My Page.
+To track spent time, [add the **My spent time** widget](#add-widgets) in the My Page.
 
 You can directly create new time entries by clicking on the day, change the date with drag and drop, edit or remove time entries.
 

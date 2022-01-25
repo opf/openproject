@@ -146,7 +146,7 @@ module ApplicationHelper
 
     # Add autohide class to notice flashes if configured
     if type.to_s == 'notice' && User.current.pref.auto_hide_popups?
-      css_classes << 'autohide-notification'
+      css_classes << 'autohide-toaster'
     end
 
     html_options = { class: css_classes.join(' '), role: 'alert' }.merge(html_options)
@@ -307,6 +307,8 @@ module ApplicationHelper
     end
 
     css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
+
+    css << "env-#{Rails.env}"
 
     # Add browser specific classes to aid css fixes
     css += browser_specific_classes

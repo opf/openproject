@@ -28,13 +28,13 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.4'
+ruby '~> 3.0.3'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-import', '~> 1.2.0'
+gem 'activerecord-import', '~> 1.3.0'
 gem 'activerecord-session_store', '~> 2.0.0'
-gem 'rails', '~> 6.1.3'
+gem 'rails', '~> 6.1.4'
 gem 'responders', '~> 3.0'
 
 gem 'rdoc', '>= 2.4.2'
@@ -83,7 +83,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.0'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 3.26.0'
+gem 'rouge', '~> 3.27.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.0'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -112,7 +112,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.13.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.8.0'
+gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
 gem 'rack-protection', '~> 2.1.0'
@@ -142,31 +142,31 @@ gem 'structured_warnings', '~> 0.4.0'
 
 # catch exceptions and send them to any airbrake compatible backend
 # don't require by default, instead load on-demand when actually configured
-gem 'airbrake', '~> 12.0.0', require: false
+gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
 
 gem 'cells-erb', '~> 0.1.0'
-gem 'cells-rails', '~> 0.0.9'
+gem 'cells-rails', '~> 0.1.4'
 
 gem 'meta-tags', '~> 2.16.0'
 
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
-  gem 'dalli', '~> 3.0.3'
+  gem 'dalli', '~> 3.2.0'
 end
 
 gem 'i18n-js', '~> 3.9.0'
-gem 'rails-i18n', '~> 6.0.0'
+gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.0'
 
 gem 'puma', '~> 5.5'
 gem 'rack-timeout', '~> 0.6.0', require: "rack/timeout/base"
 gem 'puma-plugin-statsd', '~> 2.0'
 
-gem 'nokogiri', '~> 1.12.5'
+gem 'nokogiri', '~> 1.13.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -188,9 +188,9 @@ gem 'mini_magick', '~> 4.11.0', require: false
 
 # Sentry error reporting, loaded on demand
 group :sentry do
-  gem "sentry-delayed_job", '~> 4.7.0', require: false
-  gem "sentry-rails", '~> 4.7.0', require: false
-  gem "sentry-ruby", '~> 4.7.0',  require: false
+  gem "sentry-delayed_job", '~> 4.9.0', require: false
+  gem "sentry-rails", '~> 4.9.0', require: false
+  gem "sentry-ruby", '~> 4.9.0',  require: false
 end
 
 group :test do
@@ -218,7 +218,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.35.0'
+  gem 'capybara', '~> 3.36.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.0.0'
@@ -280,11 +280,11 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.6.0'
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.1.0'
+  gem 'brakeman', '~> 5.2.0'
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.9.1', require: false
+gem 'bootsnap', '~> 1.10.0', require: false
 
 # API gems
 gem 'grape', '~> 1.6.0'
@@ -295,7 +295,7 @@ gem 'roar', '~> 1.1.0'
 gem 'rack-cors', '~> 1.1.1'
 
 # Required for contracts
-gem 'disposable', '~> 0.4.7'
+gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
@@ -303,23 +303,21 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.7.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
   gem 'with_advisory_lock', '~> 4.6.0'
 end
 
-gem 'openproject-translations',
-    git: 'https://github.com/opf/openproject-translations.git',
-    branch: 'dev'
+# Load Gemfile.modules explicitly to allow dependabot to work
+eval_gemfile './Gemfile.modules'
 
-# Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles
-gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.modules,Gemfile.local,lib/plugins/*/Gemfile}',
-                                     __dir__)
+# Load Gemfile.local, Gemfile.plugins and custom Gemfiles
+gemfiles = Dir.glob File.expand_path('{Gemfile.plugins,Gemfile.local}', __dir__)
 gemfiles << ENV['CUSTOM_PLUGIN_GEMFILE'] unless ENV['CUSTOM_PLUGIN_GEMFILE'].nil?
 gemfiles.each do |file|
-  next unless File.readable?(file)
-
-  eval_gemfile(file)
+  # We use send to allow dependabot to function
+  # don't use eval_gemfile(file) here as it will break dependabot!
+  send(:eval_gemfile, file) if File.readable?(file)
 end

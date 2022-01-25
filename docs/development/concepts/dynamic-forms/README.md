@@ -31,7 +31,7 @@ The following guides are related:
 
 Let us take a look at the new projects form API response to get an overview of how this works.
 
-With an [access token or other means of API authentication](../../../api/introduction/#header-authentication-1), send a `POST` to `/api/v3/projects/form`. This will return a HAL form response that looks something like this:
+With an [access token or other means of API authentication](../../../api/introduction/#authentication), send a `POST` to `/api/v3/projects/form`. This will return a HAL form response that looks something like this:
 
 
 

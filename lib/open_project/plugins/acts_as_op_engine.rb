@@ -29,6 +29,7 @@
 require_dependency 'open_project/ui/extensible_tabs'
 require_dependency 'config/constants/api_patch_registry'
 require_dependency 'config/constants/open_project/activity'
+require_dependency 'config/constants/views'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -213,6 +214,10 @@ module OpenProject::Plugins
       # Add a tab entry to an extensible tab
       def add_tab_entry(key, name:, partial:, path:, label:, only_if: nil)
         ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, path: path, label: label, only_if: only_if)
+      end
+
+      def add_view(type, contract_strategy: nil)
+        Constants::Views.add(type, contract_strategy: contract_strategy)
       end
 
       def add_api_path(path_name, &block)

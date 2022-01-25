@@ -143,11 +143,11 @@ module API
         end
 
         link :customFields,
-             cache_if: -> { current_user_allowed_to(:edit_project, context: represented.project) } do
+             cache_if: -> { current_user_allowed_to(:select_custom_fields, context: represented.project) } do
           next if represented.project.nil?
 
           {
-            href: settings_custom_fields_project_path(represented.project.identifier),
+            href: project_settings_custom_fields_path(represented.project.identifier),
             type: 'text/html',
             title: "Custom fields"
           }

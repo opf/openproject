@@ -32,17 +32,17 @@ import {
   OnInit,
 } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
+import { Observable } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
+import { take } from 'rxjs/internal/operators/take';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ActivityEntryInfo } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/activity-entry-info';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
-import { take } from 'rxjs/internal/operators/take';
 
 @Directive()
 export class ActivityPanelBaseController extends UntilDestroyedMixin implements OnInit {
@@ -71,13 +71,16 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
 
   private additionalScrollMargin = 200;
 
+  private initialized = false;
+
   constructor(
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly I18n:I18nService,
     readonly cdRef:ChangeDetectorRef,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly wpActivity:WorkPackagesActivityService,
     readonly storeService:WpSingleViewService,
+    private wpSingleViewService:WpSingleViewService,
   ) {
     super();
 
@@ -86,8 +89,7 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   }
 
   ngOnInit():void {
-    let initialized = false;
-
+    this.initialized = false;
     this
       .apiV3Service
       .work_packages
@@ -96,15 +98,17 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
       .pipe(this.untilDestroyed())
       .subscribe((wp) => {
         this.workPackage = wp;
-        void this.wpActivity.require(this.workPackage).then((activities:HalResource[]) => {
-          this.updateActivities(activities);
-          this.cdRef.detectChanges();
+        this.reloadActivities();
+      });
 
-          if (!initialized) {
-            initialized = true;
-            this.scrollIfNotificationPresent();
-          }
-        });
+    this.wpSingleViewService.query
+      .selectNotificationsCount$
+      .pipe(
+        this.untilDestroyed(),
+        distinctUntilChanged(),
+      )
+      .subscribe(() => {
+        this.reloadActivities();
       });
   }
 
@@ -116,6 +120,18 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
           this.scrollToUnreadNotification();
         }
       });
+  }
+
+  private reloadActivities() {
+    void this.wpActivity.require(this.workPackage, true).then((activities:HalResource[]) => {
+      this.updateActivities(activities);
+      this.cdRef.detectChanges();
+
+      if (!this.initialized) {
+        this.initialized = true;
+        this.scrollIfNotificationPresent();
+      }
+    });
   }
 
   protected updateActivities(activities:HalResource[]):void {

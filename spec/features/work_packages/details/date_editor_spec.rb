@@ -124,7 +124,7 @@ describe 'date inplace editor',
 
     start_date.save!
 
-    work_packages_page.expect_and_dismiss_notification message: 'Successful update.'
+    work_packages_page.expect_and_dismiss_toaster message: 'Successful update.'
 
     start_date.expect_inactive!
     start_date.expect_state_text 'no start date'
@@ -177,7 +177,7 @@ describe 'date inplace editor',
 
       # When cancelling, expect there to be no notification
       create_page.cancel!
-      create_page.expect_no_notification type: nil
+      create_page.expect_no_toaster type: nil
 
       create_page.visit!
       cf_field.expect_active!
@@ -188,7 +188,7 @@ describe 'date inplace editor',
 
       create_page.edit_field(:subject).set_value 'My subject!'
       create_page.save!
-      create_page.expect_and_dismiss_notification message: 'Successful creation'
+      create_page.expect_and_dismiss_toaster message: 'Successful creation'
 
       wp = WorkPackage.last
       expect(wp.custom_value_for(date_cf.id).value).to eq Time.zone.today.iso8601

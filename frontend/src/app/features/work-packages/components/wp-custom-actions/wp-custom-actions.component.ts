@@ -30,7 +30,7 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
 } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
@@ -44,7 +44,7 @@ export class WpCustomActionsComponent extends UntilDestroyedMixin implements OnI
 
   actions:CustomActionResource[] = [];
 
-  constructor(readonly apiV3Service:APIV3Service,
+  constructor(readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef) {
     super();
   }

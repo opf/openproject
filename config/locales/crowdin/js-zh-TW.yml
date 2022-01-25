@@ -88,9 +88,6 @@ zh-TW:
     button_export-pdf: "下載 PDF"
     button_export-atom: "下載 Atom"
     button_create: "建立"
-    calendar:
-      title: '行事曆'
-      too_many: '總共有 %{count} 個工作項目，但只有 %{max} 個可以顯示。'
     card:
       add_new: '新增卡片'
       highlighting:
@@ -214,7 +211,7 @@ zh-TW:
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "Status:"
-          status_confirmed: "confirmed"
+          status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Test the Enterprise Edition 14 days for free"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
@@ -284,14 +281,17 @@ zh-TW:
         new_features:
           text_new_features: "Read about new features and product updates."
           learn_about: "瞭解更多新功能的資訊"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>New button in header navigation to create projects, users and work packages.</li> <li>A new invite modal for users, groups and placeholder users allows to easily add or invite new users and assign them to work packages.</li> <li>GitHub integration into OpenProject.</li> <li>API v3 extensions for groups and more, i.e. create, read, update and delete groups and group members through the API.</li> <li>Multi-selection for project custom fields of type list.</li> <li>Creation of backup from the web interface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Take a look at our <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> which lets you work on BCF work packages directly in Revit.</li> <li>IFC properties got a dedicated pane. Copying GUIDs has never been easier.</li> <li>Reverse clipping plane direction in BCF viewpoint and become compliant with future BCF 3.0 (Now same direction as Solibri). <li>Fixed viewing IFC models on mobile.</li> <li>Fixed export of work package views with BCF snapshot column.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "啟用"
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
@@ -450,6 +450,7 @@ zh-TW:
     label_starred_queries: "最愛檢視"
     label_global_queries: "公開檢視"
     label_custom_queries: "私密檢視"
+    label_create_new_query: "新增"
     label_columns: "欄"
     label_attachments: 檔案
     label_drop_files: 將檔案拖曳至此處
@@ -507,7 +508,7 @@ zh-TW:
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
     notifications:
-      title: "Notifications"
+      title: "通知"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
@@ -536,7 +537,7 @@ zh-TW:
           link_text: 'Click here to load them'
       menu:
         accountable: '可信賴的'
-        assigned: 'Assigned'
+        assigned: '指派'
         by_project: 'Unread by project'
         by_reason: 'Involvement'
         inbox: 'Inbox'
@@ -552,7 +553,7 @@ zh-TW:
             description: 'Receive a notification every time someone mentions me anywhere'
           involved:
             title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates on watched items'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
@@ -571,6 +572,7 @@ zh-TW:
           description: 'These project-specific settings override default settings above'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'
@@ -602,7 +604,8 @@ zh-TW:
         daily:
           add_time: '添加時間'
           enable: '啟用每日電子郵件提醒'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: '時間 %{counter}:'
           title: 'Send me daily email reminders for unread notifications'
         workdays:
@@ -1064,7 +1067,7 @@ zh-TW:
         other: "%{count} 個子工作項目"
       hour:
         one: "1 h"
-        other: "%{count} h"
+        other: "%{count} 小時"
         zero: "0 h"
     zen_mode:
       button_activate: '啟動 zen 模式'
@@ -1149,7 +1152,7 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     forms:
-      submit_success_message: 'The form was successfully submitted'
+      submit_success_message: '檔案已成功提交'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: '進階設定'

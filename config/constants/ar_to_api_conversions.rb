@@ -42,7 +42,6 @@ module Constants
       relation_type: 'type',
       mail: 'email',
       column_names: 'columns',
-      is_public: 'public',
       sort_criteria: 'sortBy',
       message: 'post',
       firstname: 'firstName',

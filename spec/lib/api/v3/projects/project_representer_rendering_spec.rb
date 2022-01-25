@@ -50,13 +50,25 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
         .to receive(:custom_value_for)
         .with(version_custom_field)
         .and_return(version_custom_value)
+
+      allow(p)
+        .to receive(:ancestors_from_root)
+              .and_return(ancestors)
     end
   end
   let(:status) do
     FactoryBot.build_stubbed(:project_status)
   end
-  let(:parent_project) { FactoryBot.build_stubbed(:project) }
+  let(:parent_project) do
+    FactoryBot.build_stubbed(:project).tap do |parent|
+      allow(parent)
+        .to receive(:visible?)
+              .and_return(parent_visible)
+    end
+  end
   let(:representer) { described_class.create(project, current_user: user, embed_links: true) }
+  let(:parent_visible) { true }
+  let(:ancestors) { [parent_project] }
 
   let(:user) do
     FactoryBot.build_stubbed(:user).tap do |u|
@@ -196,40 +208,147 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
 
     describe 'parent' do
-      before do
-        allow(parent_project)
-          .to receive(:visible?)
-          .and_return(visible)
-      end
-      let(:visible) { true }
+      let(:link) { 'parent' }
 
       it_behaves_like 'has a titled link' do
-        let(:link) { 'parent' }
         let(:href) { api_v3_paths.project(parent_project.id) }
         let(:title) { parent_project.name }
       end
 
       context 'if lacking the permissions to see the parent' do
-        let(:visible) { false }
+        let(:parent_visible) { false }
 
         it_behaves_like 'has a titled link' do
-          let(:link) { 'parent' }
           let(:href) { API::V3::URN_UNDISCLOSED }
           let(:title) { I18n.t(:'api_v3.undisclosed.parent') }
         end
       end
 
+      context 'if lacking the permissions to see the parent but being an admin (archived project)' do
+        let(:parent_visible) { false }
+
+        before do
+          allow(user)
+            .to receive(:admin?)
+                  .and_return(true)
+        end
+
+        it_behaves_like 'has a titled link' do
+          let(:href) { api_v3_paths.project(parent_project.id) }
+          let(:title) { parent_project.name }
+        end
+      end
+
       context 'without a parent' do
         let(:parent_project) { nil }
+        let(:ancestors) { [] }
 
         it_behaves_like 'has an untitled link' do
-          let(:link) { 'parent' }
           let(:href) { nil }
         end
       end
     end
 
-    context 'status' do
+    # rubocop:disable RSpec/MultipleMemoizedHelpers
+    describe 'ancestors' do
+      let(:link) { 'ancestors' }
+      let(:grandparent_project) do
+        FactoryBot.build_stubbed(:project).tap do |p|
+          allow(p)
+            .to receive(:visible?)
+                  .and_return(true)
+        end
+      end
+      let(:root_project) do
+        FactoryBot.build_stubbed(:project).tap do |p|
+          allow(p)
+            .to receive(:visible?)
+                  .and_return(true)
+        end
+      end
+      let(:ancestors) { [root_project, grandparent_project, parent_project] }
+
+      it_behaves_like 'has a link collection' do
+        let(:hrefs) do
+          [
+            {
+              href: api_v3_paths.project(root_project.id),
+              title: root_project.name
+            },
+            {
+              href: api_v3_paths.project(grandparent_project.id),
+              title: grandparent_project.name
+            },
+            {
+              href: api_v3_paths.project(parent_project.id),
+              title: parent_project.name
+            }
+          ]
+        end
+      end
+
+      context 'if lacking the permissions to see the parent but being allowed to see the other ancestors' do
+        let(:parent_visible) { false }
+
+        it_behaves_like 'has a link collection' do
+          let(:hrefs) do
+            [
+              {
+                href: api_v3_paths.project(root_project.id),
+                title: root_project.name
+              },
+              {
+                href: api_v3_paths.project(grandparent_project.id),
+                title: grandparent_project.name
+              },
+              {
+                href: API::V3::URN_UNDISCLOSED,
+                title: I18n.t(:'api_v3.undisclosed.ancestor')
+              }
+            ]
+          end
+        end
+      end
+
+      context 'if lacking the permissions to see the parent but being an admin (archived project)' do
+        let(:parent_visible) { false }
+
+        before do
+          allow(user)
+            .to receive(:admin?)
+                  .and_return(true)
+        end
+
+        it_behaves_like 'has a link collection' do
+          let(:hrefs) do
+            [
+              {
+                href: api_v3_paths.project(root_project.id),
+                title: root_project.name
+              },
+              {
+                href: api_v3_paths.project(grandparent_project.id),
+                title: grandparent_project.name
+              },
+              {
+                href: api_v3_paths.project(parent_project.id),
+                title: parent_project.name
+              }
+            ]
+          end
+        end
+      end
+
+      context 'without an ancestor' do
+        let(:parent_project) { nil }
+        let(:ancestors) { [] }
+
+        it_behaves_like 'has an empty link collection'
+      end
+    end
+    # rubocop:enable RSpec/MultipleMemoizedHelpers
+
+    describe 'status' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'status' }
         let(:href) { api_v3_paths.project_status(project.status.code) }
@@ -333,7 +452,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
       end
     end
 
-    context 'link custom field' do
+    describe 'link custom field' do
       context 'if the user is admin and the field is invisible' do
         before do
           allow(user)

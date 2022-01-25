@@ -315,6 +315,10 @@ da:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -458,6 +462,7 @@ da:
         url: "Webadresse"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Tilladelser"
       time_entry:
         activity: "Aktivivtet"
         hours: "Timer"
@@ -586,7 +591,9 @@ da:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -669,7 +676,6 @@ da:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -733,6 +739,7 @@ da:
               does_not_exist: "Den angivne kategori findes ikke."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -743,6 +750,11 @@ da:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Skal indeholde tegn fra følgende klasser (minimum %{min_count} af %{all_count}): %{rules}."
               lowercase: "små bogstaver (f.eks. \"a\")"
@@ -844,7 +856,7 @@ da:
     id: "Id"
     is_default: "Forhåndsvalgt værdi"
     is_for_all: "For alle projekter"
-    is_public: "Offentlig"
+    public: "Offentlig"
     #kept for backwards compatibility
     issue: "Arbejdspakke"
     lastname: "Efternavn"
@@ -854,7 +866,6 @@ da:
     password: "Adgangskode"
     priority: "Prioritet"
     project: "Prjoekt"
-    public: "Offentlig"
     responsible: "Accountable"
     role: "Rolle"
     roles: "Rollee"
@@ -1191,7 +1202,9 @@ da:
   error_can_not_archive_project: "Dette projekt kan ikke arkiveres: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Kan ikke slette det selvvalgte felt"
-  error_can_not_delete_type: "Denne type indeholder arbejdspakker og kan ikke slettes."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardtyper kan  ikke slettes."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Denne rolle er i brug og kan ikke slettes."
@@ -1338,6 +1351,23 @@ da:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Nyheder'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Accessibility"
   label_account: "Konto"
   label_active: "Aktiv"
@@ -1483,7 +1513,7 @@ da:
   label_duplicated_by: "duplikeret gennem"
   label_duplicate: "duplicate"
   label_duplicates: "dubletter"
-  label_edit: "Rediger"
+  label_edit: "Redigér"
   label_edit_x: "Edit: %{x}"
   label_enable_multi_select: "Vælg multivalg"
   label_enabled_project_custom_fields: 'Aktiverede brugerdefinerede felter'
@@ -1592,6 +1622,10 @@ da:
   label_member_plural: "Medlemmer"
   lable_membership_added: 'Medlem tilføjet'
   lable_membership_updated: 'Medlem opdateret'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Navn på menupunkt"
   label_message: "Message"
   label_message_last: "Seneste meddelelse"
@@ -1697,7 +1731,6 @@ da:
   label_public_projects: "Offentlige projekter"
   label_query_new: "Ny forespørgsel"
   label_query_plural: "Selvvalgte forespørgsler"
-  label_query_menu_item: "Punkt på forespørgselsmenu"
   label_read: "Læs..."
   label_register: "Opret en ny konto"
   label_register_with_developer: "Registrer dig som udvikler"
@@ -1771,7 +1804,7 @@ da:
   label_summary: "Opsummering"
   label_system: "System"
   label_system_storage: "Lagringsoplysninger"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Indholdsfortegnelse"
   label_tag: "Etiket"
   label_text: "Lang tekst"
   label_this_month: "denne måned"
@@ -2143,9 +2176,9 @@ da:
   permission_protect_wiki_pages: "Beskyt wiki-sider"
   permission_rename_wiki_pages: "Omdøb wiki-sider"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Vælg projektmoduler"
   permission_manage_types: "Vælg typer"
-  permission_view_calendar: "Vis kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Vis statistik for tilknyttet forfatter"
   permission_view_work_package_watchers: "Se liste over tilsynsførende"
@@ -2181,7 +2214,6 @@ da:
       archived: "Archived"
   project_module_activity: "Aktivivtet"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Sporing af arbejdspakke"
   project_module_news: "Nyheder"
   project_module_repository: "Projektarkiv"
@@ -2805,7 +2837,6 @@ da:
   wiki_menu_item_new_main_item_explanation: >
     Du er ved at slette det eneste overordnede punkt på wiki-menuen. Du skal nu vælge en wiki-side, udfra hvilken der kan dannes et nyt hovedpunkt. Hvis du vil slette wikien helt kan wiki-modulet deaktiveres af projektadministratorer.
   wiki_menu_item_delete_not_permitted: Menupunktet til den eneste wiki-side kan ikke slettes.
-  query_menu_item_for: "Menupunkt for forespørgsel \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2864,6 +2895,7 @@ da:
       schema: 'Skema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

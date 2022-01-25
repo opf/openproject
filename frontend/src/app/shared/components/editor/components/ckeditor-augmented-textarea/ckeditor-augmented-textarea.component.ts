@@ -35,7 +35,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { States } from 'core-app/core/states/states.service';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ICKEditorType,
@@ -90,7 +90,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
   constructor(protected elementRef:ElementRef,
     protected pathHelper:PathHelperService,
     protected halResourceService:HalResourceService,
-    protected Notifications:NotificationsService,
+    protected Notifications:ToastService,
     protected I18n:I18nService,
     protected states:States,
     protected ConfigurationService:ConfigurationService) {

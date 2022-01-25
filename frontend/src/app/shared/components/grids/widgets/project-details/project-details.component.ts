@@ -42,7 +42,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { Observable } from 'rxjs';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './project-details.component.html',
@@ -60,7 +60,7 @@ export class WidgetProjectDetailsComponent extends AbstractWidgetComponent imple
 
   constructor(protected readonly i18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly currentProject:CurrentProjectService,
     protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);

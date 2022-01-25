@@ -1,0 +1,4 @@
+#English strings go here
+fr:
+  permission_view_calendar: "Voir le calendrier"
+  project_module_calendar_view: "Calendrier"
