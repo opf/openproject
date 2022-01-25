@@ -2,6 +2,7 @@
 tr:
   js:
     team_planner:
+      add_existing: 'Add existing'
       create_new: 'Create new planner'
       title: 'Team planner'
       unsaved_title: 'Unnamed team planner'
@@ -10,3 +11,6 @@ tr:
       add_assignee: 'Add assignee'
       remove_assignee: 'Remove assignee'
       two_weeks: '2 weeks'
+      quick_add:
+        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        search_placeholder: 'Search...'
