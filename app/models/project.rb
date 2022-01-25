@@ -88,6 +88,9 @@ class Project < ApplicationRecord
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :projects_storages
+
 
   acts_as_nested_set order_column: :name, dependent: :destroy
 

@@ -1,0 +1,18 @@
+<% html_title t(:label_administration), t("project_module_storages") %>
+<% local_assigns[:additional_breadcrumb] = t('storages.label_new_storage') %>
+<%= toolbar title: t("storages.label_new_storage") %>
+
+<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storages_path do |f| -%>
+  <%= error_messages_for_contract @project_storage, @errors %>
+
+  <section class="form--section">
+    <div class="form--field -required">
+      <%= f.select :storage_id,
+          @available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
+                   selected: @available_storages.first.id,
+                   container_class: '-slim' %>
+    </div>
+  </section>
+
+  <%= styled_button_tag t(:button_create), class: "-highlight -with-icon icon-checkmark" %>
+<% end %>

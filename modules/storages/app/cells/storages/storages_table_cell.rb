@@ -1,6 +1,13 @@
 module Storages
-  class TableCell < ::TableCell
+  class StoragesTableCell < ::TableCell
     include ::IconsHelper
+
+    class << self
+      def row_class
+        ::Storages::StoragesRowCell
+      end
+    end
+
     columns :name, :provider_type, :creator, :created_at
 
     def initial_sort

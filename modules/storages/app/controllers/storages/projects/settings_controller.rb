@@ -28,56 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::Admin::StoragesController < ApplicationController
-  layout 'admin'
-  before_action :require_admin
-  menu_item :storages_admin_settings
+class Storages::Projects::SettingsController < Projects::SettingsController
+  menu_item :project_settings_storages
 
   def index
-    @storages = Storages::Storage.all
-    render 'storages/admin/index'
-  end
-
-  def show
-    @storage = Storages::Storage.find_by id: params[:id]
-    render 'storages/admin/show'
-  end
-
-  def new
-    @storage = Storages::Storage.new(provider_type: 'nextcloud', name: I18n.t('storages.provider_types.nextcloud'))
-    render 'storages/admin/new'
+    # tbd
   end
 
   def create
-    combined_params = permitted_storage_params
-                        .to_h
-                        .reverse_merge(creator_id: current_user.id)
-
-    @storage = Storages::Storage.create combined_params
-    redirect_to storage_path(@storage)
-  end
-
-  def update
     # tbd
   end
 
   def delete
     # tbd
-  end
-
-  def default_breadcrumb
-    t(:project_module_storages)
-  end
-
-  def show_local_breadcrumb
-    true
-  end
-
-  private
-
-  def permitted_storage_params
-    params
-      .require(:storages_storage)
-      .permit('name', 'provider_type')
   end
 end

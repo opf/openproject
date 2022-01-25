@@ -35,15 +35,23 @@ module OpenProject::Storages
                    {},
                    dependencies: %i[view_file_links]
         permission :manage_storage_in_project,
-                   {},
-                   dependencies: %i[select_project_modules]
+                   { 'storages/admin/projects_storages': %i[index new create destroy] },
+                   dependencies: %i[]
       end
 
       # Menu extensions
+      menu :admin_menu,
+           :storages_admin_settings,
+           { controller: '/storages/admin/storages', action: :index },
+           if: Proc.new { User.current.admin? },
+           caption: :project_module_storages,
+           icon: 'icon2 icon-hosting'
+
       menu :project_menu,
-           :storages,
-           { controller: '/storages/storages', action: 'index' },
-           caption: :'storages.label_storage'
+           :settings_projects_storages,
+           { controller: '/storages/admin/projects_storages', action: 'index' },
+           caption: :'storages.label_storage',
+           parent: :settings
     end
   end
 end

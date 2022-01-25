@@ -407,12 +407,6 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: Proc.new { User.current.admin? },
             caption: :label_setting_plural,
             parent: :admin_backlogs
-
-  menu.push :storages_settings,
-            { controller: '/storages/admin/storages', action: :index },
-            if: Proc.new { User.current.admin? },
-            caption: :project_module_storages,
-            icon: 'icon2 icon-hosting'
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
@@ -481,8 +475,7 @@ Redmine::MenuManager.map :project_menu do |menu|
     categories: :label_work_package_category_plural,
     repository: :label_repository,
     time_entry_activities: :enumeration_activities,
-    storage: :label_required_disk_storage,
-    storages: :'storages.storage'
+    storage: :label_required_disk_storage
   }.each do |key, caption|
     menu.push :"settings_#{key}",
               { controller: "/projects/settings/#{key}", action: 'show' },
