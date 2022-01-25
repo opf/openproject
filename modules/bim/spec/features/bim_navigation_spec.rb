@@ -78,7 +78,7 @@ describe 'BIM navigation spec',
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
         expect(page).to have_selector('.wp-cards-container')
-        card_view.expect_work_package_listed work_package
+        card_view.expect_work_package_listed(work_package)
       end
 
       it 'can switch between the different view modes' do
@@ -100,7 +100,7 @@ describe 'BIM navigation spec',
         details_view.go_back
 
         details_view.expect_closed
-        card_view.expect_work_package_listed work_package
+        card_view.expect_work_package_listed(work_package)
 
         # Go to viewer only
         model_page.switch_view 'Viewer'
@@ -113,7 +113,7 @@ describe 'BIM navigation spec',
 
         model_page.model_viewer_visible false
         expect(page).to have_selector('.wp-cards-container')
-        card_view.expect_work_package_listed work_package
+        card_view.expect_work_package_listed(work_package)
 
         # Go to single view
         card_view.open_full_screen_by_details(work_package)

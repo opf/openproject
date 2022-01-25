@@ -27,6 +27,7 @@
 //++
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -40,18 +41,19 @@ import { IfcModelsDataService } from 'core-app/modules/bim/ifc_models/pages/view
 import { I18nService } from 'core-app/modules/common/i18n/i18n.service';
 import { CurrentUserService } from 'core-app/modules/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/components/projects/current-project.service';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { take } from "rxjs/operators";
 
 @Component({
-  selector: 'ifc-viewer',
+  selector: 'op-ifc-viewer',
   templateUrl: './ifc-viewer.component.html',
   styleUrls: ['./ifc-viewer.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IFCViewerComponent implements OnInit, OnDestroy {
-  private viewerUI:any;
+export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
+  private viewInitialized$ = new Subject();
 
-  modelCount:number;
+  modelCount:number = this.ifcData.models.length;
 
   canManage = this.ifcData.allowed('manage_ifc_models');
 
@@ -63,11 +65,19 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
 
   keyboardEnabled = false;
 
-  public inspectorVisible$:BehaviorSubject<boolean>;
+  inspectorVisible$:BehaviorSubject<boolean> = this.ifcViewerService.inspectorVisible$;
 
   @ViewChild('outerContainer') outerContainer:ElementRef;
 
+  @ViewChild('viewerContainer') viewerContainer:ElementRef;
+
   @ViewChild('modelCanvas') modelCanvas:ElementRef;
+
+  @ViewChild('navCubeCanvas') navCubeCanvas:ElementRef;
+
+  @ViewChild('toolbar') toolbarElement:ElementRef;
+
+  @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
   constructor(private I18n:I18nService,
               private elementRef:ElementRef,
@@ -75,42 +85,47 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
               private ifcViewerService:IFCViewerService,
               private currentUserService:CurrentUserService,
               private currentProjectService:CurrentProjectService) {
-    this.inspectorVisible$ = this.ifcViewerService.inspectorVisible$;
   }
 
   ngOnInit():void {
-    this.modelCount = this.ifcData.models.length;
-
     if (this.modelCount === 0) {
       return;
     }
 
-    const element = jQuery(this.elementRef.nativeElement as HTMLElement);
-
-    this.currentUserService
-      .hasCapabilities$(
-        [
-          'ifc_models/create',
-          'ifc_models/update',
-          'ifc_models/destroy',
-        ],
-        this.currentProjectService.id as string,
-      )
-      .subscribe((manageIfcModelsAllowed) => {
+    // we have to wait until view is initialized before constructing the ifc viewer,
+    // as it needs all view children ready and rendered
+    combineLatest(
+      this.currentUserService
+        .hasCapabilities$(
+          [
+            'ifc_models/create',
+            'ifc_models/update',
+            'ifc_models/destroy',
+          ],
+          this.currentProjectService.id as string,
+        ),
+      this.viewInitialized$,
+    )
+      .pipe(take(1))
+      .subscribe(([manageIfcModelsAllowed]) => {
         this.ifcViewerService.newViewer(
           {
-            canvasElement: this.modelCanvas.nativeElement, // WebGL canvas
-            explorerElement: jQuery('.op-ifc-viewer--tree-panel')[0], // Left panel
-            toolbarElement: element.find('[data-qa-selector="op-ifc-viewer--toolbar-container"]')[0], // Toolbar
-            inspectorElement: element.find('[data-qa-selector="op-ifc-viewer--inspector-container"]')[0], // Toolbar
-            navCubeCanvasElement: element.find('[data-qa-selector="op-ifc-viewer--nav-cube-canvas"]')[0],
-            busyModelBackdropElement: element.find('.xeokit-busy-modal-backdrop')[0],
+            canvasElement: this.modelCanvas.nativeElement as HTMLElement,
+            explorerElement: document.getElementsByClassName('op-ifc-viewer--tree-panel')[0] as HTMLElement, // Left panel
+            toolbarElement: this.toolbarElement.nativeElement as HTMLElement,
+            inspectorElement: this.inspectorElement.nativeElement as HTMLElement,
+            navCubeCanvasElement: this.navCubeCanvas.nativeElement as HTMLElement,
+            busyModelBackdropElement: this.viewerContainer.nativeElement as HTMLElement,
+            keyboardEventsElement: this.modelCanvas.nativeElement as HTMLElement,
             enableEditModels: manageIfcModelsAllowed,
           },
           this.ifcData.projects,
         );
       });
+  }
 
+  ngAfterViewInit():void {
+    this.viewInitialized$.next();
   }
 
   ngOnDestroy():void {
@@ -121,8 +136,17 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
     this.ifcViewerService.inspectorVisible$.next(!this.inspectorVisible$.getValue());
   }
 
+  // Key events for navigating the viewer shall not propagate further up in the DOM, i.e.
+  // pressing the S-key shall not trigger the global search which listens on `document`.
+  @HostListener('keydown', ['$event'])
+  @HostListener('keyup', ['$event'])
+  @HostListener('keypress', ['$event'])
+  cancelAllKeyEvents($event:KeyboardEvent):void {
+    $event.stopPropagation();
+  }
+
   @HostListener('mousedown')
-  enableKeyBoard() {
+  enableKeyBoard():void {
     if (this.modelCount) {
       this.keyboardEnabled = true;
       this.ifcViewerService.setKeyboardEnabled(true);
@@ -130,14 +154,14 @@ export class IFCViewerComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window:mousedown', ['$event.target'])
-  disableKeyboard(target:Element) {
+  disableKeyboard(target:Element):void {
     if (this.modelCount && !this.outerContainer.nativeElement?.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewerService.setKeyboardEnabled(false);
     }
   }
 
-  enableFromIcon(event:MouseEvent) {
+  enableFromIcon(event:MouseEvent):boolean {
     this.enableKeyBoard();
 
     // Focus on the canvas
