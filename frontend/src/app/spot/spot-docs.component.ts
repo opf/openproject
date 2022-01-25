@@ -6,4 +6,18 @@ import { Component } from '@angular/core';
 })
 export class SpotDocsComponent {
   indeterminateState = null;
+  checkboxValue = null;
+  textFieldValue = 'ngModel value';
+
+  checkboxValueString() {
+    if (this.checkboxValue === null) {
+      return 'null (indeterminate)';
+    }
+
+    if (this.checkboxValue) {
+      return 'true (checked)';
+    }
+
+    return 'false (unchecked)';
+  }
 }

@@ -9,7 +9,6 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { after } from 'lodash';
 
 export type SpotCheckboxState = true|false|null;
 
@@ -37,6 +36,7 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
 
   onStateChange() {
     const value = this.input.nativeElement.checked;
+    console.log('stateChange', value);
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);

@@ -4,6 +4,7 @@
 <button class="spot-button spot-button_secondary">Secondary</button>
 <button class="spot-button spot-button_alert">Alert [Not implemented]</button>
 <button class="spot-button" disabled>Disabled</button>
+
 <hr>
 <button class="spot-button spot-button_outlined">Default</button>
 <button class="spot-button spot-button_outlined spot-button_primary">Primary</button>
@@ -30,14 +31,16 @@
 </label>
 
 <label>
-  <spot-checkbox [(ngModel)]="indeterminateState"></spot-checkbox> Indeterminate
+  <spot-checkbox [(ngModel)]="checkboxValue"></spot-checkbox>
+  Currently {{ checkboxValueString() }}
 </label>
 
 <label>
   <spot-checkbox
-    [(ngModel)]="indeterminateState"
+    [(ngModel)]="checkboxValue"
     [disabled]="true"
-  ></spot-checkbox> Indeterminate disabled
+  ></spot-checkbox>
+  Currently {{ checkboxValueString() }}
 </label>
 
 <h1>Filter Chip</h1>
@@ -62,3 +65,59 @@
     Unremovable Filter
   </div>
 </div>
+
+<h1>Text Field</h1>
+
+<input
+  class="spot-text-field"
+  placeholder="Placeholder value"
+/>
+
+<input
+  class="spot-text-field"
+  value="Test value"
+/>
+
+<spot-text-field
+  placeholder="Placeholder value"
+  value="Test value"
+></spot-text-field>
+
+<spot-text-field
+  placeholder="Placeholder value"
+  [(ngModel)]="textFieldValue"
+></spot-text-field>
+
+<spot-text-field
+  placeholder="Placeholder value"
+  [(ngModel)]="textFieldValue"
+>
+  <span
+    slot="after"
+    class="op-icon icon-bell"
+  ></span>
+</spot-text-field>
+
+<spot-text-field
+  placeholder="Placeholder value"
+  [(ngModel)]="textFieldValue"
+>
+  <span
+    slot="before"
+    class="op-icon icon-bell"
+  ></span>
+  <span
+    slot="after"
+    class="op-icon icon-bell"
+  ></span>
+</spot-text-field>
+
+<spot-text-field
+  placeholder="Placeholder value"
+  [(ngModel)]="textFieldValue"
+>
+  <span
+    slot="before"
+    class="op-icon icon-bell"
+  ></span>
+</spot-text-field>
