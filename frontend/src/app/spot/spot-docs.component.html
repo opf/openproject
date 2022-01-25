@@ -45,26 +45,14 @@
 
 <h1>Filter Chip</h1>
 
-<div class="spot-filter-chip">
-  <button class="spot-filter-chip--remove">
-    x
-  </button>
-  <div class="spot-filter-chip--title">
-    Active Filter
-  </div>
-</div>
-
-<div class="spot-filter-chip">
-  <div class="spot-filter-chip--title">
-    Unremovable Filter
-  </div>
-</div>
-
-<div class="spot-filter-chip">
-  <div class="spot-filter-chip--title">
-    Unremovable Filter
-  </div>
-</div>
+<spot-filter-chip
+  title="Default chip"
+  (remove)="onRemoveChip()"
+></spot-filter-chip>
+<spot-filter-chip
+  [removable]="false"
+  title="Unremovable chip"
+></spot-filter-chip>
 
 <h1>Text Field</h1>
 
@@ -121,3 +109,10 @@
     class="op-icon icon-bell"
   ></span>
 </spot-text-field>
+
+
+<h1>Chip Field</h1>
+
+<spot-chip-field
+  placeholder="Type and press enter"
+></spot-chip-field>

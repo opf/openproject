@@ -9,6 +9,10 @@ export class SpotDocsComponent {
   checkboxValue = null;
   textFieldValue = 'ngModel value';
 
+  onRemoveChip() {
+    alert('Remove chip');
+  }
+
   checkboxValueString() {
     if (this.checkboxValue === null) {
       return 'null (indeterminate)';

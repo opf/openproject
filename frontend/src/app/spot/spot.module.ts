@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { UIRouterModule } from '@uirouter/angular';
 import { SPOT_DOCS_ROUTES } from './spot.routes';
 import { SpotCheckboxComponent } from './components/checkbox.component';
 import { SpotTextFieldComponent } from './components/text-field.component';
+import { SpotFilterChipComponent } from './components/filter-chip.component';
+import { SpotChipFieldComponent } from './components/chip-field.component';
 import { SpotDocsComponent } from './spot-docs.component';
 
 @NgModule({
@@ -11,15 +14,21 @@ import { SpotDocsComponent } from './spot-docs.component';
     // Routes for /spot-docs
     UIRouterModule.forChild({ states: SPOT_DOCS_ROUTES }),
     FormsModule,
+    CommonModule,
   ],
   declarations: [
     SpotDocsComponent,
+
     SpotCheckboxComponent,
     SpotTextFieldComponent,
+    SpotFilterChipComponent,
+    SpotChipFieldComponent,
   ],
   exports: [
     SpotCheckboxComponent,
     SpotTextFieldComponent,
+    SpotFilterChipComponent,
+    SpotChipFieldComponent,
   ],
 })
 export class OpSpotModule { }
