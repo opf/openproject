@@ -13,6 +13,9 @@ if [ -n "$custom_gemfile" ] && [ -f "$custom_gemfile" ]; then
         # Need to override the frozen setting for the vendored gems
         ${CLI} run bundle config --local frozen 0
 
+        # Unset deployment, allowing changes to the Gemfile
+        ${CLI} run bundle config unset deployment
+
         # Re-bundle the application including gems
         ${CLI} run bundle install
 
