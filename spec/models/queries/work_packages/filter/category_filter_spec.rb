@@ -64,7 +64,7 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#allowed_values' do
-      let(:category) { FactoryBot.build_stubbed(:category) }
+      let(:category) { build_stubbed(:category) }
 
       before do
         allow(project)
@@ -79,8 +79,8 @@ describe Queries::WorkPackages::Filter::CategoryFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:category1) { FactoryBot.build_stubbed(:category) }
-      let(:category2) { FactoryBot.build_stubbed(:category) }
+      let(:category1) { build_stubbed(:category) }
+      let(:category2) { build_stubbed(:category) }
 
       before do
         allow(project)

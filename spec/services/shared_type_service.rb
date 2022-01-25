@@ -95,8 +95,8 @@ shared_examples_for 'type service' do
     end
 
     describe 'custom fields' do
-      let(:cf1) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
-      let(:cf2) { FactoryBot.create :work_package_custom_field, field_format: 'text' }
+      let(:cf1) { create :work_package_custom_field, field_format: 'text' }
+      let(:cf2) { create :work_package_custom_field, field_format: 'text' }
       let(:params) do
         {
           attribute_groups: [
@@ -134,7 +134,7 @@ shared_examples_for 'type service' do
         { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
-      let(:query) { FactoryBot.create(:query, user_id: 0) }
+      let(:query) { create(:query, user_id: 0) }
       let(:service_result) { ServiceResult.new(success: true, result: query) }
 
       before do

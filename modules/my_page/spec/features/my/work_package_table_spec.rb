@@ -31,21 +31,21 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:other_type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:other_project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:other_type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:other_project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
   let!(:type_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user,
                       responsible: user
   end
   let!(:other_type_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: other_type,
                       author: user,
@@ -55,7 +55,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', type: :feature, 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
 
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

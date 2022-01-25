@@ -34,7 +34,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
   subject(:generated) { representer.to_json }
 
   let(:project) do
-    FactoryBot.build_stubbed(:project,
+    build_stubbed(:project,
                              parent: parent_project,
                              description: 'some description',
                              status: status).tap do |p|
@@ -57,10 +57,10 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
   end
   let(:status) do
-    FactoryBot.build_stubbed(:project_status)
+    build_stubbed(:project_status)
   end
   let(:parent_project) do
-    FactoryBot.build_stubbed(:project).tap do |parent|
+    build_stubbed(:project).tap do |parent|
       allow(parent)
         .to receive(:visible?)
               .and_return(parent_visible)
@@ -71,7 +71,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
   let(:ancestors) { [parent_project] }
 
   let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |permission, context|
         permissions.include?(permission) && context == project
@@ -79,14 +79,14 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
   end
 
-  let(:int_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field, visible: false) }
-  let(:version_custom_field) { FactoryBot.build_stubbed(:version_project_custom_field, visible: true) }
+  let(:int_custom_field) { build_stubbed(:int_project_custom_field, visible: false) }
+  let(:version_custom_field) { build_stubbed(:version_project_custom_field, visible: true) }
   let(:int_custom_value) do
     CustomValue.new(custom_field: int_custom_field,
                     value: '1234',
                     customized: nil)
   end
-  let(:version) { FactoryBot.build_stubbed(:version) }
+  let(:version) { build_stubbed(:version) }
   let(:version_custom_value) do
     CustomValue.new(custom_field: version_custom_field,
                     value: version.id,
@@ -253,14 +253,14 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
     describe 'ancestors' do
       let(:link) { 'ancestors' }
       let(:grandparent_project) do
-        FactoryBot.build_stubbed(:project).tap do |p|
+        build_stubbed(:project).tap do |p|
           allow(p)
             .to receive(:visible?)
                   .and_return(true)
         end
       end
       let(:root_project) do
-        FactoryBot.build_stubbed(:project).tap do |p|
+        build_stubbed(:project).tap do |p|
           allow(p)
             .to receive(:visible?)
                   .and_return(true)

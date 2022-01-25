@@ -31,10 +31,10 @@
 require 'spec_helper'
 
 describe TimeEntryActivities::Scopes::ActiveInProject, type: :model do
-  let!(:activity) { FactoryBot.create(:time_entry_activity) }
-  let!(:other_activity) { FactoryBot.create(:time_entry_activity) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_project) { FactoryBot.create(:project) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:other_activity) { create(:time_entry_activity) }
+  let(:project) { create(:project) }
+  let(:other_project) { create(:project) }
 
   describe '.active_in_project' do
     subject { TimeEntryActivity.active_in_project(project) }

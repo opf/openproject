@@ -90,8 +90,8 @@ end
 shared_examples_for 'relation filter dependency' do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:query) { FactoryBot.build_stubbed(:query, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:query) { build_stubbed(:query, project: project) }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -146,7 +146,7 @@ shared_examples_for 'relation filter dependency' do
 
     describe 'caching' do
       let(:operator) { Queries::Operators::Equals }
-      let(:other_project) { FactoryBot.build_stubbed(:project) }
+      let(:other_project) { build_stubbed(:project) }
 
       before do
         # fill the cache

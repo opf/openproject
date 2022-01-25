@@ -2,9 +2,9 @@ shared_examples_for 'repository can be relocated' do |vendor|
   let(:job_call) do
     ::SCM::RelocateRepositoryJob.perform_now repository
   end
-  let(:project) { FactoryBot.build :project }
+  let(:project) { build :project }
   let(:repository) do
-    repo = FactoryBot.build("repository_#{vendor}".to_sym,
+    repo = build("repository_#{vendor}".to_sym,
                             project: project,
                             scm_type: :managed)
 
@@ -51,7 +51,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       stub_request(:post, url)
         .to_return(status: 200,
                    body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
-      FactoryBot.create("repository_#{vendor}".to_sym,
+      create("repository_#{vendor}".to_sym,
                         project: project,
                         scm_type: :managed)
     end

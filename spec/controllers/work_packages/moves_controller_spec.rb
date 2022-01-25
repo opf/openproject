@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:role) do
-    FactoryBot.create :role,
+    create :role,
                       permissions: %i(move_work_packages
                                       view_work_packages
                                       add_work_packages
@@ -39,26 +39,26 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
                                       assign_versions
                                       manage_subtasks)
   end
-  let(:type) { FactoryBot.create :type }
-  let(:type_2) { FactoryBot.create :type }
-  let!(:status) { FactoryBot.create :default_status }
-  let(:target_status) { FactoryBot.create :status }
-  let(:priority) { FactoryBot.create :priority }
-  let(:target_priority) { FactoryBot.create :priority }
+  let(:type) { create :type }
+  let(:type_2) { create :type }
+  let!(:status) { create :default_status }
+  let(:target_status) { create :status }
+  let(:priority) { create :priority }
+  let(:target_priority) { create :priority }
   let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       public: false,
                       types: [type, type_2])
   end
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project_id: project.id,
                       type: type,
                       author: user,
                       priority: priority)
   end
 
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -117,11 +117,11 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
   end
 
   describe '#create' do
-    let!(:source_member) { FactoryBot.create(:member, user: current_user, project: project, roles: [role]) }
-    let!(:target_member) { FactoryBot.create(:member, user: current_user, project: target_project, roles: [role]) }
-    let(:target_project) { FactoryBot.create(:project, public: false) }
+    let!(:source_member) { create(:member, user: current_user, project: project, roles: [role]) }
+    let!(:target_member) { create(:member, user: current_user, project: target_project, roles: [role]) }
+    let(:target_project) { create(:project, public: false) }
     let(:work_package_2) do
-      FactoryBot.create(:work_package,
+      create(:work_package,
                         project_id: project.id,
                         type: type_2,
                         priority: priority)
@@ -333,11 +333,11 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
         context "with changing the work package's attribute" do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
-          let(:target_version) { FactoryBot.create(:version, project: target_project) }
+          let(:target_version) { create(:version, project: target_project) }
           let(:target_user) do
-            user = FactoryBot.create :user
+            user = create :user
 
-            FactoryBot.create(:member,
+            create(:member,
                               user: user,
                               project: target_project,
                               roles: [role])
@@ -431,7 +431,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
         context 'parent and child work package' do
           let!(:child_wp) do
-            FactoryBot.create(:work_package,
+            create(:work_package,
                               type: type,
                               project: project,
                               parent: work_package)
@@ -460,17 +460,17 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
         context 'child work package from one project to other' do
           let(:to_project) do
-            FactoryBot.create(:project,
+            create(:project,
                               types: [type])
           end
           let!(:member) do
-            FactoryBot.create(:member,
+            create(:member,
                               user: current_user,
                               roles: [role],
                               project: to_project)
           end
           let!(:child_wp) do
-            FactoryBot.create(:work_package,
+            create(:work_package,
                               type: type,
                               project: project,
                               parent: work_package)

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Calendar::CalendarController, type: :controller do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id.to_s)
@@ -39,7 +39,7 @@ describe Calendar::CalendarController, type: :controller do
   end
   let(:permissions) { [:view_calendar] }
   let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, p, global:|
         permission[:controller] == 'calendar/calendar' &&

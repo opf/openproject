@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Projects::Status, type: :model do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:explanation) { 'some explanation' }
   let(:code) { :on_track }

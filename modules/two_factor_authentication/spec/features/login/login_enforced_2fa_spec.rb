@@ -6,14 +6,14 @@ describe 'Login with enforced 2FA', with_2fa_ee: true, type: :feature,
                                     js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       login: 'bob',
                       password: user_password,
                       password_confirmation: user_password)
   end
 
   context 'with a default device' do
-    let!(:device) { FactoryBot.create :two_factor_authentication_device_sms, user: user, active: true, default: true }
+    let!(:device) { create :two_factor_authentication_device_sms, user: user, active: true, default: true }
 
     it 'requests a 2FA' do
       sms_token = nil

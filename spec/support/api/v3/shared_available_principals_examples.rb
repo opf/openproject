@@ -32,24 +32,24 @@ shared_examples_for 'available principals' do |principals|
   include API::V3::Utilities::PathHelper
 
   current_user do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:role) { create(:role, permissions: permissions) }
+  let(:project) { create(:project) }
   let(:group) do
-    FactoryBot.create(:group,
+    create(:group,
                       member_in_project: project,
                       member_through_role: role)
   end
   let(:placeholder_user) do
-    FactoryBot.create(:placeholder_user,
+    create(:placeholder_user,
                       member_in_project: project,
                       member_through_role: role)
   end

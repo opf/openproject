@@ -46,17 +46,17 @@ describe CustomFieldFormBuilder do
     let(:options) { { class: 'custom-class' } }
 
     let(:custom_field) do
-      FactoryBot.build_stubbed(:custom_field)
+      build_stubbed(:custom_field)
     end
     let(:custom_value) do
-      FactoryBot.build_stubbed(:custom_value, customized: resource, custom_field: custom_field)
+      build_stubbed(:custom_value, customized: resource, custom_field: custom_field)
     end
     let(:typed_value) do
       custom_value.typed_value
     end
 
     let(:resource) do
-      FactoryBot.build_stubbed(:user)
+      build_stubbed(:user)
     end
 
     before do
@@ -190,11 +190,11 @@ describe CustomFieldFormBuilder do
 
     context 'for a list custom field' do
       let(:custom_field) do
-        FactoryBot.build_stubbed(:list_wp_custom_field,
+        build_stubbed(:list_wp_custom_field,
                                  custom_options: [custom_option])
       end
       let(:custom_option) do
-        FactoryBot.build_stubbed(:custom_option, value: 'my_option')
+        build_stubbed(:custom_option, value: 'my_option')
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do
@@ -248,9 +248,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a user custom field' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:user1) { FactoryBot.build_stubbed(:user) }
-      let(:user2) { FactoryBot.build_stubbed(:user) }
+      let(:project) { build_stubbed(:project) }
+      let(:user1) { build_stubbed(:user) }
+      let(:user2) { build_stubbed(:user) }
 
       let(:resource) { project }
 
@@ -304,9 +304,9 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a version custom field' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:version1) { FactoryBot.build_stubbed(:version) }
-      let(:version2) { FactoryBot.build_stubbed(:version) }
+      let(:project) { build_stubbed(:project) }
+      let(:version1) { build_stubbed(:version) }
+      let(:version2) { build_stubbed(:version) }
 
       let(:resource) { project }
 

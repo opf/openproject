@@ -34,7 +34,7 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
   subject(:generated) { representer.to_json }
 
   let(:github_pull_request) do
-    FactoryBot.build_stubbed(:github_pull_request,
+    build_stubbed(:github_pull_request,
                              state: 'open',
                              labels: labels,
                              github_user: github_user,
@@ -52,13 +52,13 @@ describe ::API::V3::GithubPullRequests::GithubPullRequestRepresenter do
       }
     ]
   end
-  let(:github_user) { FactoryBot.build_stubbed(:github_user) }
-  let(:merged_by) { FactoryBot.build_stubbed(:github_user) }
+  let(:github_user) { build_stubbed(:github_user) }
+  let(:merged_by) { build_stubbed(:github_user) }
   let(:latest_check_runs) { [check_run] }
-  let(:check_run) { FactoryBot.build_stubbed(:github_check_run) }
+  let(:check_run) { build_stubbed(:github_check_run) }
   let(:representer) { described_class.create(github_pull_request, current_user: user) }
 
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:admin) }
 
   it { is_expected.to include_json('GithubPullRequest'.to_json).at_path('_type') }
 

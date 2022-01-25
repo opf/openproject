@@ -34,13 +34,13 @@ require 'contracts/shared/model_contract_shared_context'
 describe Queries::UpdateContract do
   include_context 'ModelContract shared context'
 
-  let(:project) { FactoryBot.build_stubbed :project }
+  let(:project) { build_stubbed :project }
   let(:query) do
-    FactoryBot.build_stubbed(:query, project: project, public: public, user: user)
+    build_stubbed(:query, project: project, public: public, user: user)
   end
 
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && project == permission_project
@@ -74,7 +74,7 @@ describe Queries::UpdateContract do
     end
 
     context 'when user is someone else' do
-      let(:user) { FactoryBot.build_stubbed :user }
+      let(:user) { build_stubbed :user }
       let(:permissions) { %i(save_queries) }
 
       it_behaves_like 'contract user is unauthorized'

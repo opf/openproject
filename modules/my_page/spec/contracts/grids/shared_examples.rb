@@ -29,7 +29,7 @@
 #++
 
 shared_context 'grid contract' do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(grid, user) }
   let(:default_values) do
     {
@@ -39,7 +39,7 @@ shared_context 'grid contract' do
     }
   end
   let(:grid) do
-    FactoryBot.build_stubbed(:my_page, default_values)
+    build_stubbed(:my_page, default_values)
   end
 end
 
@@ -293,7 +293,7 @@ shared_examples_for 'shared grid contract attributes' do
   describe 'valid grid subclasses' do
     context 'for a registered subclass' do
       let(:grid) do
-        FactoryBot.build_stubbed(:my_page, default_values)
+        build_stubbed(:my_page, default_values)
       end
 
       it 'is valid' do
@@ -304,7 +304,7 @@ shared_examples_for 'shared grid contract attributes' do
 
     context 'for the Grid superclass itself' do
       let(:grid) do
-        FactoryBot.build_stubbed(:grid, default_values)
+        build_stubbed(:grid, default_values)
       end
 
       before do

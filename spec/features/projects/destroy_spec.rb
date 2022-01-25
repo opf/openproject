@@ -31,11 +31,11 @@ require 'spec_helper'
 describe 'Projects#destroy',
          type: :feature,
          js: true do
-  let!(:project) { FactoryBot.create(:project, name: 'foo', identifier: 'foo') }
+  let!(:project) { create(:project, name: 'foo', identifier: 'foo') }
   let(:project_page) { Pages::Projects::Destroy.new(project) }
   let(:danger_zone) { DangerZone.new(page) }
 
-  current_user { FactoryBot.create(:admin) }
+  current_user { create(:admin) }
 
   before do
     # Disable background worker

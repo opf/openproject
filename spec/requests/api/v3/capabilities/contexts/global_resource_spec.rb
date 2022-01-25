@@ -36,7 +36,7 @@ describe 'API v3 capabilities global context resource', type: :request, content_
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   describe 'GET /api/v3/capabilities/contexts/global' do

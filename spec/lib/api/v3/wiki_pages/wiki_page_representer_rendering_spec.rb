@@ -32,14 +32,14 @@ describe ::API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:wiki_page) do
-    FactoryBot.build_stubbed(:wiki_page) do |wp|
+    build_stubbed(:wiki_page) do |wp|
       allow(wp)
         .to receive(:project)
         .and_return(project)
     end
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(wiki_page, current_user: user, embed_links: true)
   end

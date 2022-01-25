@@ -31,17 +31,17 @@ require 'spec_helper'
 require_relative '../support/pages/overview'
 
 describe 'Overview page managing', type: :feature, js: true, with_mail: false do
-  let!(:type) { FactoryBot.create :type }
-  let!(:project) { FactoryBot.create :project, types: [type], description: 'My **custom** description' }
-  let!(:open_status) { FactoryBot.create :default_status }
+  let!(:type) { create :type }
+  let!(:project) { create :project, types: [type], description: 'My **custom** description' }
+  let!(:open_status) { create :default_status }
   let!(:created_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       author: user
   end
   let!(:assigned_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       assigned_to: user
@@ -57,7 +57,7 @@ describe 'Overview page managing', type: :feature, js: true, with_mail: false do
   end
 
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

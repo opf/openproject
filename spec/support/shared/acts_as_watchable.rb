@@ -43,17 +43,17 @@ MESSAGE
   let(:watcher_role) do
     permissions = is_public_permission ? [] : [watch_permission]
 
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
-  let(:non_watcher_role) { FactoryBot.create(:role, permissions: []) }
-  let(:non_member_user) { FactoryBot.create(:user) }
+  let(:non_watcher_role) { create(:role, permissions: []) }
+  let(:non_member_user) { create(:user) }
   let(:user_with_permission) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: watcher_role)
   end
   let(:locked_user_with_permission) do
-    FactoryBot.create(:user,
+    create(:user,
                       status: Principal.statuses[:locked],
                       member_in_project: project,
                       member_through_role: watcher_role)
@@ -61,17 +61,17 @@ MESSAGE
 
   let(:user_wo_permission) do
     if is_public_permission
-      FactoryBot.create(:user)
+      create(:user)
     else
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_through_role: non_watcher_role)
     end
   end
-  let(:admin) { FactoryBot.build(:admin) }
-  let(:anonymous_user) { FactoryBot.build(:anonymous) }
+  let(:admin) { build(:admin) }
+  let(:anonymous_user) { build(:anonymous) }
   let(:watching_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: watcher_role).tap do |user|
       Watcher.create(watchable: model_instance, user: user)
@@ -101,7 +101,7 @@ MESSAGE
   shared_context 'anonymous role has the permission to watch' do
     let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
-      FactoryBot.build :anonymous_role, permissions: permissions
+      build :anonymous_role, permissions: permissions
     end
 
     before do

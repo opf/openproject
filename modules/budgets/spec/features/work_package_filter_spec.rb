@@ -29,34 +29,34 @@
 require 'spec_helper'
 
 describe 'Filter by budget', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
   let(:member) do
-    FactoryBot.create(:member,
+    create(:member,
                       user: user,
                       project: project,
-                      roles: [FactoryBot.create(:role)])
+                      roles: [create(:role)])
   end
   let(:status) do
-    FactoryBot.create(:status)
+    create(:status)
   end
 
   let(:budget) do
-    FactoryBot.create(:budget, project: project)
+    create(:budget, project: project)
   end
 
   let(:work_package_with_budget) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       budget: budget)
   end
 
   let(:work_package_without_budget) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project)
   end
 

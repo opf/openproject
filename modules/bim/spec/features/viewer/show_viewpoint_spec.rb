@@ -33,19 +33,19 @@ describe 'Show viewpoint in model viewer',
          type: :feature,
          js: true do
   let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       enabled_module_names: %i[bim work_package_tracking],
                       parent: parent_project)
   end
   let(:parent_project) { nil }
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
-  let!(:viewpoint) { FactoryBot.create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
+  let!(:work_package) { create(:work_package, project: project) }
+  let!(:bcf) { create :bcf_issue, work_package: work_package }
+  let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       title: 'minimal',
                       project: project,
                       uploader: user)
@@ -129,7 +129,7 @@ describe 'Show viewpoint in model viewer',
     end
 
     context "current project is a parent of the work package's project" do
-      let(:parent_project) { FactoryBot.create :project, enabled_module_names: [:work_package_tracking] }
+      let(:parent_project) { create :project, enabled_module_names: [:work_package_tracking] }
       let(:wp_details) { ::Pages::SplitWorkPackage.new(work_package, parent_project) }
 
       it_behaves_like "moves to the BCF page"
@@ -139,7 +139,7 @@ describe 'Show viewpoint in model viewer',
       let(:permissions) { %i[view_ifc_models view_work_packages] }
 
       let(:user) do
-        FactoryBot.create(:user,
+        create(:user,
                           member_in_project: project,
                           member_with_permissions: permissions)
       end

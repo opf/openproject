@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe Members::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -57,7 +57,7 @@ describe Members::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:member) do
-    FactoryBot.build_stubbed(:member)
+    build_stubbed(:member)
   end
 
   describe 'call' do
@@ -99,9 +99,9 @@ describe Members::SetAttributesService, type: :model do
     end
 
     context 'with changes to the roles do' do
-      let(:first_role) { FactoryBot.build_stubbed(:role) }
-      let(:second_role) { FactoryBot.build_stubbed(:role) }
-      let(:third_role) { FactoryBot.build_stubbed(:role) }
+      let(:first_role) { build_stubbed(:role) }
+      let(:second_role) { build_stubbed(:role) }
+      let(:third_role) { build_stubbed(:role) }
 
       let(:call_attributes) do
         {
@@ -111,7 +111,7 @@ describe Members::SetAttributesService, type: :model do
 
       context 'with a persisted record' do
         let(:member) do
-          FactoryBot.build_stubbed(:member, roles: [first_role, second_role]).tap do |m|
+          build_stubbed(:member, roles: [first_role, second_role]).tap do |m|
             allow(m)
               .to receive(:touch)
           end

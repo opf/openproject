@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility', type: :model do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:anonymous) { FactoryBot.create(:anonymous) }
-  let(:user) { FactoryBot.create(:user) }
-  let(:public_project) { FactoryBot.create(:project, public: true) }
-  let(:private_project) { FactoryBot.create(:project, public: false) }
-  let(:other_project) { FactoryBot.create(:project, public: true) }
-  let(:view_work_packages) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
-  let(:view_work_packages_role2) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  shared_let(:admin) { create :admin }
+  let(:anonymous) { create(:anonymous) }
+  let(:user) { create(:user) }
+  let(:public_project) { create(:project, public: true) }
+  let(:private_project) { create(:project, public: false) }
+  let(:other_project) { create(:project, public: true) }
+  let(:view_work_packages) { create(:role, permissions: [:view_work_packages]) }
+  let(:view_work_packages_role2) { create(:role, permissions: [:view_work_packages]) }
 
   describe 'of public projects' do
-    subject { FactoryBot.create(:work_package, project: public_project) }
+    subject { create(:work_package, project: public_project) }
 
     it 'is viewable by anonymous, with the view_work_packages permissison' do
       # it is not really clear, where these kind of "preconditions" belong to: This setting
@@ -51,7 +51,7 @@ describe 'WorkPackage-Visibility', type: :model do
   end
 
   describe 'of private projects' do
-    subject { FactoryBot.create(:work_package, project: private_project) }
+    subject { create(:work_package, project: private_project) }
 
     it 'is visible for the admin, even if the project is private' do
       expect(WorkPackage.visible(admin)).to match_array [subject]
@@ -62,7 +62,7 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is visible for members of the project, with the view_work_packages permissison' do
-      FactoryBot.create(:member,
+      create(:member,
                         user: user,
                         project: private_project,
                         role_ids: [view_work_packages.id])
@@ -73,7 +73,7 @@ describe 'WorkPackage-Visibility', type: :model do
     it 'is only returned once for members with two roles having view_work_packages permission' do
       subject
 
-      FactoryBot.create(:member,
+      create(:member,
                         user: user,
                         project: private_project,
                         role_ids: [view_work_packages.id,
@@ -87,8 +87,8 @@ describe 'WorkPackage-Visibility', type: :model do
     end
 
     it 'is not visible for members of the project, without the view_work_packages permissison' do
-      no_permission = FactoryBot.create(:role, permissions: [:no_permission])
-      FactoryBot.create(:member,
+      no_permission = create(:role, permissions: [:no_permission])
+      create(:member,
                         user: user,
                         project: private_project,
                         role_ids: [no_permission.id])

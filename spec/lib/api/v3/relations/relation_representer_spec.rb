@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter do
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:admin) }
 
-  let(:from) { FactoryBot.build_stubbed(:stubbed_work_package) }
-  let(:to) { FactoryBot.build_stubbed :stubbed_work_package }
+  let(:from) { build_stubbed(:stubbed_work_package) }
+  let(:to) { build_stubbed :stubbed_work_package }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
   let(:delay) { 3 }
 
   let(:relation) do
-    FactoryBot.build_stubbed :relation,
+    build_stubbed :relation,
                              from: from,
                              to: to,
                              relation_type: type,

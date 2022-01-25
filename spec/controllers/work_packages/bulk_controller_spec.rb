@@ -29,57 +29,57 @@
 require 'spec_helper'
 
 describe WorkPackages::BulkController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
   let(:custom_field_value) { '125' }
   let(:custom_field_1) do
-    FactoryBot.create(:work_package_custom_field,
+    create(:work_package_custom_field,
                       field_format: 'string',
                       is_for_all: true)
   end
-  let(:custom_field_2) { FactoryBot.create(:work_package_custom_field) }
-  let(:custom_field_user) { FactoryBot.create(:user_issue_custom_field) }
-  let(:status) { FactoryBot.create(:status) }
+  let(:custom_field_2) { create(:work_package_custom_field) }
+  let(:custom_field_user) { create(:user_issue_custom_field) }
+  let(:status) { create(:status) }
   let(:type) do
-    FactoryBot.create(:type_standard,
+    create(:type_standard,
                       custom_fields: [custom_field_1, custom_field_2, custom_field_user])
   end
   let(:project_1) do
-    FactoryBot.create(:project,
+    create(:project,
                       types: [type],
                       work_package_custom_fields: [custom_field_2])
   end
   let(:project_2) do
-    FactoryBot.create(:project,
+    create(:project,
                       types: [type])
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[edit_work_packages
                                       view_work_packages
                                       manage_subtasks
                                       assign_versions])
   end
   let(:member1_p1) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project_1,
                       principal: user,
                       roles: [role])
   end
   let(:member2_p1) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project_1,
                       principal: user2,
                       roles: [role])
   end
   let(:member1_p2) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project_2,
                       principal: user,
                       roles: [role])
   end
   let(:work_package_1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: user,
                       assigned_to: user,
                       responsible: user2,
@@ -89,7 +89,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
                       project: project_1)
   end
   let(:work_package_2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: user,
                       assigned_to: user,
                       responsible: user2,
@@ -99,7 +99,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
                       project: project_1)
   end
   let(:work_package_3) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: user,
                       type: type,
                       status: status,
@@ -107,7 +107,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
                       project: project_2)
   end
 
-  let(:stub_work_package) { FactoryBot.build_stubbed(:work_package) }
+  let(:stub_work_package) { build_stubbed(:work_package) }
 
   before do
     custom_field_1
@@ -192,7 +192,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
   describe '#update' do
     let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
     let(:work_packages) { WorkPackage.where(id: work_package_ids) }
-    let(:priority) { FactoryBot.create(:priority_immediate) }
+    let(:priority) { create(:priority_immediate) }
     let(:group_id) { '' }
     let(:responsible_id) { '' }
 
@@ -332,13 +332,13 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
       describe '#properties' do
         describe '#groups' do
-          let(:group) { FactoryBot.create(:group) }
+          let(:group) { create(:group) }
           let(:group_id) { group.id }
           subject { work_packages.map(&:assigned_to_id).uniq }
 
           context 'allowed' do
             let!(:member_group_p1) do
-              FactoryBot.create(:member,
+              create(:member,
                                 project: project_1,
                                 principal: group,
                                 roles: [role])
@@ -376,9 +376,9 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         end
 
         describe '#status' do
-          let(:closed_status) { FactoryBot.create(:closed_status) }
+          let(:closed_status) { create(:closed_status) }
           let(:workflow) do
-            FactoryBot.create(:workflow,
+            create(:workflow,
                               role: role,
                               type_id: type.id,
                               old_status: status,
@@ -402,7 +402,7 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
         describe '#parent' do
           let(:parent) do
-            FactoryBot.create(:work_package,
+            create(:work_package,
                               author: user,
                               project: project_1)
           end
@@ -472,13 +472,13 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
         describe '#version' do
           describe 'set version_id attribute to some version' do
             let(:version) do
-              FactoryBot.create(:version,
+              create(:version,
                                 status: 'open',
                                 sharing: 'tree',
                                 project: subproject)
             end
             let(:subproject) do
-              FactoryBot.create(:project,
+              create(:project,
                                 parent: project_1,
                                 types: [type])
             end
@@ -547,21 +547,21 @@ describe WorkPackages::BulkController, type: :controller, with_settings: { journ
 
     describe 'updating two children with dates to a new parent (Regression #28670)' do
       let(:task1) do
-        FactoryBot.create :work_package,
+        create :work_package,
                           project: project_1,
                           start_date: Date.today - 5.days,
                           due_date: Date.today
       end
 
       let(:task2) do
-        FactoryBot.create :work_package,
+        create :work_package,
                           project: project_1,
                           start_date: Date.today - 2.days,
                           due_date: Date.today + 1.days
       end
 
       let(:new_parent) do
-        FactoryBot.create :work_package, project: project_1
+        create :work_package, project: project_1
       end
 
       before do

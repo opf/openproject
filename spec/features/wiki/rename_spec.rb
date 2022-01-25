@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe 'Wiki page', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_wiki_pages
                                                   rename_wiki_pages]
   end
   let!(:wiki_page) do
-    FactoryBot.create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
+    create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)
   end
   let(:initial_name) { 'Initial name' }
   let(:rename_name) { 'Rename name' }

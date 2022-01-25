@@ -29,76 +29,76 @@
 require 'spec_helper'
 
 describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
-  let(:project) { FactoryBot.create(:project) }
-  let(:origin) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let(:origin) { create(:work_package, project: project) }
   let(:predecessor) do
-    FactoryBot.create(:work_package, project: project).tap do |pre|
-      FactoryBot.create(:follows_relation, from: origin, to: pre)
+    create(:work_package, project: project).tap do |pre|
+      create(:follows_relation, from: origin, to: pre)
     end
   end
   let(:parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: origin)
+    create(:work_package, project: project).tap do |par|
+      create(:hierarchy_relation, from: par, to: origin)
     end
   end
   let(:grandparent) do
-    FactoryBot.create(:work_package, project: project).tap do |grand|
-      FactoryBot.create(:hierarchy_relation, from: grand, to: parent)
+    create(:work_package, project: project).tap do |grand|
+      create(:hierarchy_relation, from: grand, to: parent)
     end
   end
   let(:successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: origin)
+    create(:work_package, project: project).tap do |suc|
+      create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor2) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: origin)
+    create(:work_package, project: project).tap do |suc|
+      create(:follows_relation, from: suc, to: origin)
     end
   end
   let(:successor_parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: successor)
+    create(:work_package, project: project).tap do |par|
+      create(:hierarchy_relation, from: par, to: successor)
     end
   end
   let(:successor_child) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: successor, to: chi)
+    create(:work_package, project: project).tap do |chi|
+      create(:hierarchy_relation, from: successor, to: chi)
     end
   end
   let(:successor_child2) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: successor, to: chi)
+    create(:work_package, project: project).tap do |chi|
+      create(:hierarchy_relation, from: successor, to: chi)
     end
   end
   let(:successor_successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: successor)
+    create(:work_package, project: project).tap do |suc|
+      create(:follows_relation, from: suc, to: successor)
     end
   end
   let(:parent_successor) do
-    FactoryBot.create(:work_package, project: project).tap do |suc|
-      FactoryBot.create(:follows_relation, from: suc, to: parent)
+    create(:work_package, project: project).tap do |suc|
+      create(:follows_relation, from: suc, to: parent)
     end
   end
   let(:parent_successor_parent) do
-    FactoryBot.create(:work_package, project: project).tap do |par|
-      FactoryBot.create(:hierarchy_relation, from: par, to: parent_successor)
+    create(:work_package, project: project).tap do |par|
+      create(:hierarchy_relation, from: par, to: parent_successor)
     end
   end
   let(:parent_successor_child) do
-    FactoryBot.create(:work_package, project: project).tap do |chi|
-      FactoryBot.create(:hierarchy_relation, from: parent_successor, to: chi)
+    create(:work_package, project: project).tap do |chi|
+      create(:hierarchy_relation, from: parent_successor, to: chi)
     end
   end
   let(:blocker) do
-    FactoryBot.create(:work_package, project: project).tap do |blo|
-      FactoryBot.create(:relation, relation_type: 'blocks', from: blo, to: origin)
+    create(:work_package, project: project).tap do |blo|
+      create(:relation, relation_type: 'blocks', from: blo, to: origin)
     end
   end
   let(:includer) do
-    FactoryBot.create(:work_package, project: project).tap do |inc|
-      FactoryBot.create(:relation, relation_type: 'includes', from: inc, to: origin)
+    create(:work_package, project: project).tap do |inc|
+      create(:relation, relation_type: 'includes', from: inc, to: origin)
     end
   end
   let(:existing_work_packages) { [] }
@@ -211,7 +211,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_child, successor_parent, successor_successor] }
 
       before do
-        FactoryBot.create(:hierarchy_relation, from: successor_parent, to: successor_successor)
+        create(:hierarchy_relation, from: successor_parent, to: successor_successor)
       end
 
       context 'with all scheduled automatically' do
@@ -248,7 +248,7 @@ describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       let!(:existing_work_packages) { [successor, successor_parent] }
 
       before do
-        FactoryBot.create(:follows_relation, from: successor_parent, to: origin)
+        create(:follows_relation, from: successor_parent, to: origin)
       end
 
       context 'with all scheduled automatically' do

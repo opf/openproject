@@ -31,8 +31,8 @@
 require 'spec_helper'
 
 describe Types::Scopes::Milestone, type: :model do
-  let!(:milestone) { FactoryBot.create(:type, is_milestone: true) }
-  let!(:other_type) { FactoryBot.create(:type, is_milestone: false) }
+  let!(:milestone) { create(:type, is_milestone: true) }
+  let!(:other_type) { create(:type, is_milestone: false) }
 
   describe '.milestone' do
     subject { Type.milestone }

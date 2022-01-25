@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
 
   before do
@@ -37,22 +37,22 @@ describe Queries::Principals::PrincipalQuery, 'integration', type: :model do
   end
 
   context 'with a member filter' do
-    let(:project) { FactoryBot.create(:project) }
-    let(:role) { FactoryBot.create(:role) }
+    let(:project) { create(:project) }
+    let(:role) { create(:role) }
     let(:project_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_through_role: role) do |u|
         # Granting another membership in order to better test the "not" filter
-        FactoryBot.create(:member,
+        create(:member,
                           principal: u,
                           project: other_project,
                           roles: [role])
       end
     end
-    let(:other_project) { FactoryBot.create(:project) }
+    let(:other_project) { create(:project) }
     let(:other_project_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: other_project,
                         member_through_role: role)
     end

@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Global role: Unchanged Member Roles', type: :feature, js: true do
-  let(:admin) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create :project }
-  let!(:role) { FactoryBot.create(:role, name: 'MemberRole1') }
-  let!(:global_role) { FactoryBot.create(:global_role, name: 'GlobalRole1') }
+  let(:admin) { create(:admin) }
+  let(:project) { create :project }
+  let!(:role) { create(:role, name: 'MemberRole1') }
+  let!(:global_role) { create(:global_role, name: 'GlobalRole1') }
 
   let(:members) { ::Pages::Members.new project.identifier }
 

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'project contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let!(:allowed_to) do
     allow(current_user)
@@ -43,9 +43,9 @@ shared_examples_for 'project contract' do
   let(:project_description) { 'Project description' }
   let(:project_active) { true }
   let(:project_public) { true }
-  let(:project_status) { FactoryBot.build_stubbed(:project_status) }
+  let(:project_status) { build_stubbed(:project_status) }
   let(:project_parent) do
-    FactoryBot.build_stubbed(:project)
+    build_stubbed(:project)
   end
   let(:parent_assignable) { true }
   let!(:assignable_parents) do
@@ -223,7 +223,7 @@ shared_examples_for 'project contract' do
     end
 
     context 'for a list custom field' do
-      let(:custom_field) { FactoryBot.build_stubbed(:list_project_custom_field) }
+      let(:custom_field) { build_stubbed(:list_project_custom_field) }
 
       it 'is the list of custom field values' do
         expect(subject.assignable_custom_field_values(custom_field))
@@ -232,7 +232,7 @@ shared_examples_for 'project contract' do
     end
 
     context 'for a version custom field' do
-      let(:custom_field) { FactoryBot.build_stubbed(:version_project_custom_field) }
+      let(:custom_field) { build_stubbed(:version_project_custom_field) }
       let(:versions) { double('versions') }
 
       before do
@@ -249,8 +249,8 @@ shared_examples_for 'project contract' do
   end
 
   describe 'available_custom_fields' do
-    let(:visible_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field, visible: true) }
-    let(:invisible_custom_field) { FactoryBot.build_stubbed(:int_project_custom_field, visible: false) }
+    let(:visible_custom_field) { build_stubbed(:int_project_custom_field, visible: true) }
+    let(:invisible_custom_field) { build_stubbed(:int_project_custom_field, visible: false) }
 
     before do
       allow(project)

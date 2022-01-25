@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
          type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
 
-  let!(:type) { FactoryBot.create :type, name: 'MyTaskName' }
+  let!(:type) { create :type, name: 'MyTaskName' }
   let(:project) do
-    FactoryBot.create :valid_project,
+    create :valid_project,
                       identifier: 'my-project',
                       enabled_module_names: %w[wiki work_package_tracking],
                       name: 'My project name',

@@ -29,27 +29,27 @@
 require 'spec_helper'
 
 describe 'Custom actions me value', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                              member_in_project: project,
                              member_through_role: role)
   end
-  let(:type) { FactoryBot.create(:type_task) }
-  let(:project) { FactoryBot.create(:project, types: [type], name: 'This project') }
-  let!(:custom_field) { FactoryBot.create :user_wp_custom_field, types: [type], projects: [project] }
+  let(:type) { create(:type_task) }
+  let(:project) { create(:project, types: [type], name: 'This project') }
+  let!(:custom_field) { create :user_wp_custom_field, types: [type], projects: [project] }
   let!(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    FactoryBot.create(:default_priority, name: 'Normal')
+    create(:default_priority, name: 'Normal')
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 

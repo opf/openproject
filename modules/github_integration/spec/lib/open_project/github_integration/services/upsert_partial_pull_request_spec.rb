@@ -66,7 +66,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
       }
     }
   end
-  let(:work_packages) { FactoryBot.create_list(:work_package, 1) }
+  let(:work_packages) { create_list(:work_package, 1) }
 
   it 'creates a new github pull request' do
     expect { upsert }.to change(GithubPullRequest, :count).by(1)
@@ -86,7 +86,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
 
   context 'when a github pull request with that html_url already exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request,
+      create(:github_pull_request,
                         github_html_url: 'https://github.com/pulls/1')
     end
 
@@ -97,7 +97,7 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
 
   context 'when a github pull request with that html_url and work_package exists' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request,
+      create(:github_pull_request,
                         github_html_url: 'https://github.com/pulls/1',
                         work_packages: work_packages)
     end
@@ -109,11 +109,11 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
 
   context 'when a github pull request with that html_url and work_package exists and a new work_package is referenced' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request,
+      create(:github_pull_request,
                         github_html_url: 'https://github.com/pulls/1',
                         work_packages: already_known_work_packages)
     end
-    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:work_packages) { create_list(:work_package, 2) }
     let(:already_known_work_packages) { [work_packages[0]] }
 
     it 'adds the new work package' do
@@ -126,14 +126,14 @@ describe OpenProject::GithubIntegration::Services::UpsertPartialPullRequest do
 
   context 'when an open github pull request with that html_url and work_package exists and a new work_package is referenced' do
     let(:github_pull_request) do
-      FactoryBot.create(:github_pull_request,
+      create(:github_pull_request,
                         github_html_url: 'https://github.com/pulls/1',
                         repository: 'some_user/a_repository',
                         state: 'open',
                         github_id: 1,
                         work_packages: already_known_work_packages)
     end
-    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:work_packages) { create_list(:work_package, 2) }
     let(:already_known_work_packages) { [work_packages[0]] }
 
     it 'adds the new work package and updates attributes' do

@@ -33,9 +33,9 @@ describe ::API::V3::GithubPullRequests::GithubCheckRunRepresenter do
 
   subject(:generated) { representer.to_json }
 
-  let(:check_run) { FactoryBot.build_stubbed(:github_check_run) }
+  let(:check_run) { build_stubbed(:github_check_run) }
   let(:representer) { described_class.create(check_run, current_user: user) }
-  let(:user) { FactoryBot.build_stubbed(:admin) }
+  let(:user) { build_stubbed(:admin) }
 
   it { is_expected.to include_json('GithubCheckRun'.to_json).at_path('_type') }
 

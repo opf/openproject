@@ -35,10 +35,10 @@ describe 'bcf view management',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:bcf_page) { ::Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    FactoryBot.create :role,
+    create :role,
                       permissions: %w[
                         view_work_packages
                         save_queries
@@ -50,13 +50,13 @@ describe 'bcf view management',
   end
 
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user,
                       is_default: true)

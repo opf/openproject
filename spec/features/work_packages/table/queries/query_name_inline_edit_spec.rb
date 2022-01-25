@@ -30,27 +30,27 @@ require 'spec_helper'
 
 describe 'Query name inline edit', js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_work_packages
                                       save_queries])
   end
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       assigned_to: user,
                       type: type)
   end
 
   let(:assignee_query) do
-    query = FactoryBot.create(:query,
+    query = create(:query,
                               name: 'Assignee Query',
                               project: project,
                               user: user)

@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe "POST /api/v3/queries", type: :request do
-  let(:user) { FactoryBot.create :admin }
-  let(:status) { FactoryBot.create :status }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:status) { create :status }
+  let(:project) { create :project }
 
   let(:default_params) do
     {

@@ -33,7 +33,7 @@ require 'services/base_services/behaves_like_create_service'
 
 describe Projects::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
-    let(:new_project_role) { FactoryBot.build_stubbed(:role) }
+    let(:new_project_role) { build_stubbed(:role) }
     let(:create_member_instance) { instance_double(Members::CreateService) }
 
     before do

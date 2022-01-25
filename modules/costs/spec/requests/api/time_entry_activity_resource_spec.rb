@@ -34,11 +34,11 @@ describe 'API v3 time_entry_activity resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:activity) { FactoryBot.create(:time_entry_activity) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:activity) { create(:time_entry_activity) }
+  let(:project) { create(:project) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_time_entries) }
 
   subject(:response) { last_response }

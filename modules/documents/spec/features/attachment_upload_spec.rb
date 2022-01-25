@@ -35,20 +35,20 @@ describe 'Upload attachment to documents',
            journal_aggregation_time_minutes: 0,
          } do
   let!(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_documents
                                                   manage_documents]
   end
   let!(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_documents]
   end
   let!(:category) do
-    FactoryBot.create(:document_category)
+    create(:document_category)
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }

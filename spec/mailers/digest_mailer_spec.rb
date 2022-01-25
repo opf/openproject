@@ -37,21 +37,21 @@ describe DigestMailer, type: :mailer do
   include Redmine::I18n
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(User)
         .to receive(:find)
               .with(u.id)
               .and_return(u)
     end
   end
-  let(:project1) { FactoryBot.build_stubbed(:project) }
+  let(:project1) { build_stubbed(:project) }
 
   let(:work_package) do
-    FactoryBot.build_stubbed(:work_package,
-                             type: FactoryBot.build_stubbed(:type))
+    build_stubbed(:work_package,
+                             type: build_stubbed(:type))
   end
   let(:journal) do
-    FactoryBot.build_stubbed(:work_package_journal,
+    build_stubbed(:work_package_journal,
                              notes: 'Some notes').tap do |j|
       allow(j)
         .to receive(:details)
@@ -59,7 +59,7 @@ describe DigestMailer, type: :mailer do
     end
   end
   let(:notifications) do
-    [FactoryBot.build_stubbed(:notification,
+    [build_stubbed(:notification,
                               resource: work_package,
                               reason: :commented,
                               journal: journal,

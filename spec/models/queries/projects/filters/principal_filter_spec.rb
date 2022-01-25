@@ -31,10 +31,10 @@
 require 'spec_helper'
 
 describe Queries::Projects::Filters::PrincipalFilter, type: :model do
-  let(:group1) { FactoryBot.build_stubbed(:group) }
-  let(:group2) { FactoryBot.build_stubbed(:group) }
-  let(:user1) { FactoryBot.build_stubbed(:user) }
-  let(:user2) { FactoryBot.build_stubbed(:user) }
+  let(:group1) { build_stubbed(:group) }
+  let(:group2) { build_stubbed(:group) }
+  let(:user1) { build_stubbed(:user) }
+  let(:user2) { build_stubbed(:user) }
 
   before do
     allow(Principal)

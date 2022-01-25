@@ -33,13 +33,13 @@ require_relative '../../../../spec/support/components/work_packages/query_menu'
 
 describe 'Team planner sidemenu', type: :feature, js: true do
   shared_let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
+    create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
   let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
 
   context 'with a user that does not have create rights' do
     shared_let(:user_without_rights) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_with_permissions: %w[
                           view_work_packages edit_work_packages add_work_packages
@@ -62,7 +62,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
 
   context 'with a user that has create rights' do
     shared_let(:user_with_rights) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_with_permissions: %w[
                           view_work_packages edit_work_packages add_work_packages

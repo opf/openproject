@@ -29,12 +29,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'Work Package budget fields', type: :feature, js: true do
-  let(:type_task) { FactoryBot.create(:type_task) }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:priority) { FactoryBot.create(:priority, is_default: true) }
-  let!(:project) { FactoryBot.create(:project, types: [type_task]) }
-  let(:user) { FactoryBot.create :admin }
-  let!(:budget) { FactoryBot.create :budget, author: user, project: project }
+  let(:type_task) { create(:type_task) }
+  let!(:status) { create(:status, is_default: true) }
+  let!(:priority) { create(:priority, is_default: true) }
+  let!(:project) { create(:project, types: [type_task]) }
+  let(:user) { create :admin }
+  let!(:budget) { create :budget, author: user, project: project }
 
   let(:create_page) { ::Pages::FullWorkPackageCreate.new(project: project) }
   let(:view_page) { ::Pages::FullWorkPackage.new(project: project) }

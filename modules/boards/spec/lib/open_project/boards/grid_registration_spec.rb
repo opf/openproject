@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe OpenProject::Boards::GridRegistration do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:permissions) { [:show_board_views] }
-  let(:board) { FactoryBot.create(:board_grid, project: project) }
+  let(:board) { create(:board_grid, project: project) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end

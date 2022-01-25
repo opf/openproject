@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              start_date: work_package_start_date,
                              due_date: work_package_due_date)
   end
@@ -42,17 +42,17 @@ describe WorkPackages::SetScheduleService do
     described_class.new(user: user, work_package: work_package)
   end
   let!(:following) { [] }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:user) { build_stubbed(:user) }
+  let(:type) { build_stubbed(:type) }
 
   def stub_follower(start_date, due_date, predecessors)
-    work_package = FactoryBot.build_stubbed(:stubbed_work_package,
+    work_package = build_stubbed(:stubbed_work_package,
                                             type: type,
                                             start_date: start_date,
                                             due_date: due_date)
 
     relations = predecessors.map do |predecessor, delay|
-      FactoryBot.build_stubbed(:follows_relation,
+      build_stubbed(:follows_relation,
                                delay: delay,
                                from: work_package,
                                to: predecessor)
@@ -70,7 +70,7 @@ describe WorkPackages::SetScheduleService do
                           due,
                           {})
 
-    relation = FactoryBot.build_stubbed(:hierarchy_relation,
+    relation = build_stubbed(:hierarchy_relation,
                                         from: parent,
                                         to: child)
 
@@ -114,7 +114,7 @@ describe WorkPackages::SetScheduleService do
                                  parent_follower1_due_date,
                                  {})
 
-    relation = FactoryBot.build_stubbed(:hierarchy_relation,
+    relation = build_stubbed(:hierarchy_relation,
                                         from: work_package,
                                         to: following_work_package1)
 
@@ -130,7 +130,7 @@ describe WorkPackages::SetScheduleService do
                             follower1_due_date + 4.days,
                             {})
 
-    relation = FactoryBot.build_stubbed(:hierarchy_relation,
+    relation = build_stubbed(:hierarchy_relation,
                                         from: parent_following_work_package1,
                                         to: sibling)
 
@@ -330,20 +330,20 @@ describe WorkPackages::SetScheduleService do
 
     context 'moving backwards with the follower having another relation limiting movement' do
       let(:other_work_package) do
-        FactoryBot.build_stubbed(:stubbed_work_package,
+        build_stubbed(:stubbed_work_package,
                                  type: type,
                                  start_date: follower1_start_date - 8.days,
                                  due_date: follower1_start_date - 5.days)
       end
 
       let(:follow_relation) do
-        FactoryBot.build_stubbed(:follows_relation,
+        build_stubbed(:follows_relation,
                                  to: work_package,
                                  from: following_work_package1)
       end
 
       let(:other_follow_relation) do
-        FactoryBot.build_stubbed(:follows_relation,
+        build_stubbed(:follows_relation,
                                  delay: 3,
                                  to: other_work_package,
                                  from: following_work_package1)
@@ -465,7 +465,7 @@ describe WorkPackages::SetScheduleService do
                       another_successor => 0)
       end
       let(:another_successor) do
-        FactoryBot.build_stubbed(:stubbed_work_package,
+        build_stubbed(:stubbed_work_package,
                                  start_date: nil,
                                  due_date: nil)
       end
@@ -498,7 +498,7 @@ describe WorkPackages::SetScheduleService do
 
   context 'with only a parent' do
     let(:parent_work_package) do
-      FactoryBot.build_stubbed(:stubbed_work_package)
+      build_stubbed(:stubbed_work_package)
     end
     let(:work_package_start_date) { Date.today - 5.days }
     let!(:following) do
@@ -580,14 +580,14 @@ describe WorkPackages::SetScheduleService do
 
     context 'moving backwards with the parent having another relation limiting movement' do
       let(:other_work_package) do
-        FactoryBot.build_stubbed(:stubbed_work_package,
+        build_stubbed(:stubbed_work_package,
                                  type: type,
                                  start_date: Date.today - 8.days,
                                  due_date: Date.today - 4.days)
       end
 
       let(:other_follow_relation) do
-        FactoryBot.build_stubbed(:follows_relation,
+        build_stubbed(:follows_relation,
                                  delay: 2,
                                  to: other_work_package,
                                  from: parent_following_work_package1)
@@ -615,14 +615,14 @@ describe WorkPackages::SetScheduleService do
 
     context 'moving backwards with the parent having another relation not limiting movement' do
       let(:other_work_package) do
-        FactoryBot.build_stubbed(:stubbed_work_package,
+        build_stubbed(:stubbed_work_package,
                                  type: type,
                                  start_date: Date.today - 10.days,
                                  due_date: Date.today - 9.days)
       end
 
       let(:other_follow_relation) do
-        FactoryBot.build_stubbed(:follows_relation,
+        build_stubbed(:follows_relation,
                                  delay: 2,
                                  to: other_work_package,
                                  from: parent_following_work_package1)
@@ -921,7 +921,7 @@ describe WorkPackages::SetScheduleService do
   end
 
   context 'when setting the parent' do
-    let(:new_parent_work_package) { FactoryBot.build_stubbed(:stubbed_work_package) }
+    let(:new_parent_work_package) { build_stubbed(:stubbed_work_package) }
     let(:attributes) { [:parent] }
 
     before do

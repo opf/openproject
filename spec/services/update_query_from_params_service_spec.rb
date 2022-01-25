@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe UpdateQueryFromParamsService,
          type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:query) { FactoryBot.build_stubbed(:query) }
+  let(:user) { build_stubbed(:user) }
+  let(:query) { build_stubbed(:query) }
 
   let(:instance) { described_class.new(query, user) }
 

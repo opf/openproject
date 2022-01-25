@@ -34,17 +34,17 @@ describe "PATCH /api/v3/grids/:id/form for Board Grids", type: :request, content
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
   shared_let(:allowed_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
+    create(:user, member_in_project: project, member_with_permissions: [:manage_board_views])
   end
   shared_let(:prohibited_user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
+    create(:user, member_in_project: project, member_with_permissions: [:show_board_views])
   end
 
   let(:grid) do
-    FactoryBot.create(:board_grid, project: project)
+    create(:board_grid, project: project)
   end
   let(:path) { api_v3_paths.grid_form(grid.id) }
   let(:params) { {} }

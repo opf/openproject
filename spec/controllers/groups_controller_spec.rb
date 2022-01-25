@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe GroupsController, type: :controller do
-  let(:group) { FactoryBot.create :group, members: group_members }
+  let(:group) { create :group, members: group_members }
   let(:group_members) { [] }
 
   before do
@@ -38,7 +38,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as admin' do
-    shared_let(:admin) { FactoryBot.create :admin }
+    shared_let(:admin) { create :admin }
     let(:current_user) { admin }
 
     it 'should index' do
@@ -92,8 +92,8 @@ describe GroupsController, type: :controller do
     end
 
     context 'with two existing users' do
-      let(:user1) { FactoryBot.create :user }
-      let(:user2) { FactoryBot.create :user }
+      let(:user1) { create :user }
+      let(:user2) { create :user }
 
       it 'should add users' do
         post :add_users, params: { id: group.id, user_ids: [user1.id, user2.id] }
@@ -102,8 +102,8 @@ describe GroupsController, type: :controller do
     end
 
     context 'with a group member' do
-      let(:user1) { FactoryBot.create :user }
-      let(:user2) { FactoryBot.create :user }
+      let(:user1) { create :user }
+      let(:user2) { create :user }
       let(:group_members) { [user1] }
 
       it 'should add users' do
@@ -113,9 +113,9 @@ describe GroupsController, type: :controller do
     end
 
     context 'with project and role' do
-      let(:project) { FactoryBot.create :project }
-      let(:role1) { FactoryBot.create :role }
-      let(:role2) { FactoryBot.create :role }
+      let(:project) { create :project }
+      let(:role1) { create :role }
+      let(:role2) { create :role }
 
       it 'should create membership' do
         post :create_memberships,
@@ -127,7 +127,7 @@ describe GroupsController, type: :controller do
 
       context 'with an existing membership' do
         let!(:member_group) do
-          FactoryBot.create(:member,
+          create(:member,
                             project: project,
                             principal: group,
                             roles: [role1])
@@ -158,7 +158,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as regular user' do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
     let(:current_user) { user }
 
     it 'should forbid index' do

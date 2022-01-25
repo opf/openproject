@@ -49,7 +49,7 @@ describe SCM::CreateLocalRepositoryJob do
   describe 'with a managed repository' do
     include_context 'with tmpdir'
 
-    let(:project) { FactoryBot.build(:project) }
+    let(:project) { build(:project) }
     let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project

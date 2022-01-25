@@ -33,21 +33,21 @@ shared_context 'ModelContract shared context' do
 
   shared_examples 'contract is valid for active admins and invalid for regular users' do
     context 'when admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
+      let(:current_user) { build_stubbed(:admin) }
 
       context 'when admin active' do
         it_behaves_like 'contract is valid'
       end
 
       context 'when admin not active' do
-        let(:current_user) { FactoryBot.build_stubbed(:admin, status: User.statuses[:locked]) }
+        let(:current_user) { build_stubbed(:admin, status: User.statuses[:locked]) }
 
         it_behaves_like 'contract user is unauthorized'
       end
     end
 
     context 'when not admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:user) }
+      let(:current_user) { build_stubbed(:user) }
 
       it_behaves_like 'contract user is unauthorized'
     end

@@ -34,10 +34,10 @@ describe NewsController, type: :controller do
   include BecomeMember
 
   let(:user) do
-    FactoryBot.create(:admin)
+    create(:admin)
   end
-  let(:project) { FactoryBot.create(:project) }
-  let(:news) { FactoryBot.create(:news) }
+  let(:project) { create(:project) }
+  let(:news) { create(:news) }
 
   before do
     allow(User).to receive(:current).and_return user

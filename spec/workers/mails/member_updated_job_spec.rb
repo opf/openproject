@@ -35,7 +35,7 @@ describe Mails::MemberUpdatedJob, type: :model do
 
     context 'with a group membership' do
       let(:member) do
-        FactoryBot.build_stubbed(:member,
+        build_stubbed(:member,
                                  project: project,
                                  principal: group,
                                  member_roles: group_member_roles)
@@ -57,7 +57,7 @@ describe Mails::MemberUpdatedJob, type: :model do
 
       context 'with the user not having had a membership before the group`s membership was added' do
         let(:group_user_member_roles) do
-          [FactoryBot.build_stubbed(:member_role,
+          [build_stubbed(:member_role,
                                     role: role,
                                     inherited_from: group_member_roles.first.id)]
         end
@@ -67,7 +67,7 @@ describe Mails::MemberUpdatedJob, type: :model do
 
       context 'with the user having had a membership with the same roles before the group`s membership was added' do
         let(:group_user_member_roles) do
-          [FactoryBot.build_stubbed(:member_role,
+          [build_stubbed(:member_role,
                                     role: role,
                                     inherited_from: nil)]
         end
@@ -78,7 +78,7 @@ describe Mails::MemberUpdatedJob, type: :model do
       context 'with the user having had a membership with the same roles
                from another group before the group`s membership was added' do
         let(:group_user_member_roles) do
-          [FactoryBot.build_stubbed(:member_role,
+          [build_stubbed(:member_role,
                                     role: role,
                                     inherited_from: group_member_roles.first.id + 5)]
         end
@@ -87,12 +87,12 @@ describe Mails::MemberUpdatedJob, type: :model do
       end
 
       context 'with the user having had a membership before the group`s membership was added but now has additional roles' do
-        let(:other_role) { FactoryBot.build_stubbed(:role) }
+        let(:other_role) { build_stubbed(:role) }
         let(:group_user_member_roles) do
-          [FactoryBot.build_stubbed(:member_role,
+          [build_stubbed(:member_role,
                                     role: role,
                                     inherited_from: group_member_roles.first.id),
-           FactoryBot.build_stubbed(:member_role,
+           build_stubbed(:member_role,
                                     role: other_role,
                                     inherited_from: nil)]
         end

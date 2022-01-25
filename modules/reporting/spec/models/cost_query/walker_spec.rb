@@ -32,10 +32,10 @@ describe CostQuery, type: :model, reporting_query_helper: true do
   minimal_query
 
   before do
-    FactoryBot.create(:admin)
-    project = FactoryBot.create(:project_with_types)
-    work_package = FactoryBot.create(:work_package, project: project)
-    FactoryBot.create(:time_entry, work_package: work_package, project: project)
+    create(:admin)
+    project = create(:project_with_types)
+    work_package = create(:work_package, project: project)
+    create(:time_entry, work_package: work_package, project: project)
   end
 
   describe Report::Transformer do

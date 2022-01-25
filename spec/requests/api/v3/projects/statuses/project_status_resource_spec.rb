@@ -33,7 +33,7 @@ describe 'API v3 Project status resource', type: :request, content_type: :json d
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  current_user { FactoryBot.create(:user) }
+  current_user { create(:user) }
 
   describe '#get /project_statuses/:id' do
     subject(:response) do

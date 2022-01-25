@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 RSpec.feature 'Keep current details tab', js: true, selenium: true do
-  let(:user) { FactoryBot.create(:admin) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:wp1) { FactoryBot.create(:work_package, project: project) }
-  let!(:wp2) { FactoryBot.create(:work_package, project: project) }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
+  let!(:wp1) { create(:work_package, project: project) }
+  let!(:wp2) { create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:split) { Pages::WorkPackagesTable.new(project) }

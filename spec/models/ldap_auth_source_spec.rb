@@ -68,7 +68,7 @@ describe LdapAuthSource, type: :model do
 
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
-      FactoryBot.create :ldap_auth_source,
+      create :ldap_auth_source,
                         port: ParallelHelper.port_for_ldap.to_s,
                         account: 'uid=admin,ou=system',
                         account_password: 'secret',

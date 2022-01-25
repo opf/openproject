@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'form configuration', type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:type) { FactoryBot.create :type }
+  shared_let(:admin) { create :admin }
+  let(:type) { create :type }
 
-  let(:project) { FactoryBot.create :project, types: [type] }
-  let(:category) { FactoryBot.create :category, project: project }
+  let(:project) { create :project, types: [type] }
+  let(:category) { create :category, project: project }
   let(:work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type,
                       done_ratio: 10,
@@ -247,7 +247,7 @@ describe 'form configuration', type: :feature, js: true do
 
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -277,7 +277,7 @@ describe 'form configuration', type: :feature, js: true do
       let(:project_settings_page) { Pages::Projects::Settings.new(project) }
 
       let(:custom_fields) { [custom_field] }
-      let(:custom_field) { FactoryBot.create(:integer_issue_custom_field, name: 'MyNumber') }
+      let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
       let(:cf_identifier) { "custom_field_#{custom_field.id}" }
       let(:cf_identifier_api) { "customField#{custom_field.id}" }
 
@@ -336,7 +336,7 @@ describe 'form configuration', type: :feature, js: true do
 
       context 'active in project' do
         let(:project) do
-          FactoryBot.create :project,
+          create :project,
                             types: [type],
                             work_package_custom_fields: custom_fields
         end

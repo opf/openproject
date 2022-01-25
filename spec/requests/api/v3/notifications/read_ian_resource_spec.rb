@@ -35,15 +35,15 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryBot.create(:project) }
-  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project: project) }
   shared_let(:recipient) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       resource: work_package,
                       project: project
@@ -78,7 +78,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.build(:admin) }
+    let(:current_user) { build(:admin) }
 
     it 'returns a 404 response' do
       send_read

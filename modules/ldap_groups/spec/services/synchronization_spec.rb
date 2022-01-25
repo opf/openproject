@@ -20,7 +20,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
-    FactoryBot.create :ldap_auth_source,
+    create :ldap_auth_source,
                       port: ParallelHelper.port_for_ldap.to_s,
                       account: 'uid=admin,ou=system',
                       account_password: 'secret',
@@ -37,22 +37,22 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
-  let(:user_aa729) { FactoryBot.create :user, login: 'aa729', auth_source: auth_source }
-  let(:user_bb459) { FactoryBot.create :user, login: 'bb459', auth_source: auth_source }
-  let(:user_cc414) { FactoryBot.create :user, login: 'cc414', auth_source: auth_source }
+  let(:user_aa729) { create :user, login: 'aa729', auth_source: auth_source }
+  let(:user_bb459) { create :user, login: 'bb459', auth_source: auth_source }
+  let(:user_cc414) { create :user, login: 'cc414', auth_source: auth_source }
 
-  let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal' }
-  let(:group_bar) { FactoryBot.create :group, lastname: 'bar' }
+  let(:group_foo) { create :group, lastname: 'foo_internal' }
+  let(:group_bar) { create :group, lastname: 'bar' }
 
   let(:synced_foo) do
-    FactoryBot.create :ldap_synchronized_group,
+    create :ldap_synchronized_group,
                       dn: 'cn=foo,ou=groups,dc=example,dc=com',
                       group: group_foo,
                       sync_users: sync_users,
                       auth_source: auth_source
   end
   let(:synced_bar) do
-    FactoryBot.create :ldap_synchronized_group,
+    create :ldap_synchronized_group,
                       dn: 'cn=bar,ou=groups,dc=example,dc=com',
                       group: group_bar,
                       sync_users: sync_users,
@@ -285,7 +285,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     context 'foo group exists' do
-      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: user_aa729 }
+      let(:group_foo) { create :group, lastname: 'foo_internal', members: user_aa729 }
 
       before do
         group_foo
@@ -307,9 +307,9 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
-      let(:group_foo) { FactoryBot.create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
-      let(:manager) { FactoryBot.create :role, name: 'Manager' }
-      let(:project) { FactoryBot.create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
+      let(:group_foo) { create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
+      let(:manager) { create :role, name: 'Manager' }
+      let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
 
       before do
         project
@@ -337,7 +337,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   end
 
   context 'with invalid connection' do
-    let(:auth_source) { FactoryBot.create :ldap_auth_source }
+    let(:auth_source) { create :ldap_auth_source }
 
     before do
       synced_foo
@@ -351,11 +351,11 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   context 'with invalid base' do
     let(:synced_foo) do
-      FactoryBot.create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
+      create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
                         auth_source: auth_source
     end
     let(:synced_bar) do
-      FactoryBot.create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
+      create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
                         auth_source: auth_source
     end
 

@@ -34,13 +34,13 @@ describe 'Work package overview graph widget on dashboard',
          type: :feature,
          with_mail: false,
          js: true do
-  let!(:type) { FactoryBot.create :type }
-  let!(:priority) { FactoryBot.create :default_priority }
-  let!(:project) { FactoryBot.create :project, types: [type] }
-  let!(:open_status) { FactoryBot.create :default_status }
-  let!(:closed_status) { FactoryBot.create :closed_status }
+  let!(:type) { create :type }
+  let!(:priority) { create :default_priority }
+  let!(:project) { create :project, types: [type] }
+  let!(:open_status) { create :default_status }
+  let!(:closed_status) { create :closed_status }
   let!(:open_work_package) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       subject: 'Spanning work package',
                       project: project,
                       status: open_status,
@@ -49,7 +49,7 @@ describe 'Work package overview graph widget on dashboard',
                       responsible: user
   end
   let!(:closed) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       subject: 'Starting work package',
                       project: project,
                       status: closed_status,
@@ -65,12 +65,12 @@ describe 'Work package overview graph widget on dashboard',
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:member, project: project, user: u, roles: [role])
+    create(:user).tap do |u|
+      create(:member, project: project, user: u, roles: [role])
     end
   end
 

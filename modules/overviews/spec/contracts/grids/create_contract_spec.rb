@@ -32,7 +32,7 @@ require 'spec_helper'
 
 describe Grids::CreateContract, 'for Grids::Overview' do
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.identifier)
@@ -41,7 +41,7 @@ describe Grids::CreateContract, 'for Grids::Overview' do
   end
   let(:permissions) { %i[manage_overview] }
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |permission, permission_project|
           permissions.include?(permission) && permission_project == project

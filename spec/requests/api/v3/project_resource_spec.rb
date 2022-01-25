@@ -34,22 +34,22 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
   let(:project) do
-    FactoryBot.create(:project, public: false, status: project_status, active: project_active)
+    create(:project, public: false, status: project_status, active: project_active)
   end
   let(:project_active) { true }
   let(:project_status) do
-    FactoryBot.build(:project_status, project: nil)
+    build(:project_status, project: nil)
   end
   let(:other_project) do
-    FactoryBot.create(:project, public: false)
+    create(:project, public: false)
   end
-  let(:role) { FactoryBot.create(:role) }
+  let(:role) { create(:role) }
   let(:custom_field) do
-    FactoryBot.create(:text_project_custom_field)
+    create(:text_project_custom_field)
   end
   let(:custom_value) do
     CustomValue.create(custom_field: custom_field,
@@ -64,16 +64,16 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
   describe '#get /projects/:id' do
     let(:get_path) { api_v3_paths.project project.id }
     let!(:parent_project) do
-      FactoryBot.create(:project, public: false).tap do |p|
+      create(:project, public: false).tap do |p|
         project.parent = p
         project.save!
       end
     end
     let!(:parent_memberships) do
-      FactoryBot.create(:member,
+      create(:member,
                         user: current_user,
                         project: parent_project,
-                        roles: [FactoryBot.create(:role, permissions: [])])
+                        roles: [create(:role, permissions: [])])
     end
 
     subject(:response) do
@@ -177,7 +177,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     end
 
     context 'for a not logged in user' do
-      let(:current_user) { FactoryBot.create(:anonymous) }
+      let(:current_user) { create(:anonymous) }
 
       before do
         get get_path
@@ -208,11 +208,11 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with a pageSize and offset' do
       let(:projects) { [project, project2, project3] }
       let(:project2) do
-        FactoryBot.create(:project,
+        create(:project,
                           members: { current_user => [role] })
       end
       let(:project3) do
-        FactoryBot.create(:project,
+        create(:project,
                           members: { current_user => [role] })
       end
 
@@ -229,7 +229,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       let(:projects) { [project, other_project, parent_project] }
 
       let(:parent_project) do
-        parent_project = FactoryBot.create(:project, public: false, members: { current_user => role })
+        parent_project = create(:project, public: false, members: { current_user => role })
 
         project.update_attribute(:parent_id, parent_project.id)
 
@@ -255,10 +255,10 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
     context 'with filtering by capability action' do
       let(:other_project) do
-        FactoryBot.create(:project, members: [current_user])
+        create(:project, members: [current_user])
       end
       let(:projects) { [project, other_project] }
-      let(:role) { FactoryBot.create(:role, permissions: [:copy_projects]) }
+      let(:role) { create(:role, permissions: [:copy_projects]) }
 
       let(:get_path) do
         api_v3_paths.path_for :projects, filters: [{ user_action: { operator: "=", values: ["projects/copy"] } }]
@@ -276,7 +276,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'when filtering for principals (members)' do
       let(:other_project) do
         Role.non_member
-        FactoryBot.create(:public_project)
+        create(:public_project)
       end
       let(:projects) { [project, other_project] }
 
@@ -316,23 +316,23 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'with filtering by visiblity' do
       let(:public_project) do
         # Otherwise, the public project is invisible
-        FactoryBot.create(:non_member)
+        create(:non_member)
 
-        FactoryBot.create(:public_project)
+        create(:public_project)
       end
       let(:member_project) do
-        FactoryBot.create(:project, members: { other_user => role })
+        create(:project, members: { other_user => role })
       end
       let(:non_member_project) do
-        FactoryBot.create(:project)
+        create(:project)
       end
       let(:archived_member_project) do
-        FactoryBot.create(:project, members: { other_user => role }, active: false)
+        create(:project, members: { other_user => role }, active: false)
       end
       let(:projects) { [member_project, public_project, non_member_project, archived_member_project] }
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:role) { create(:role, permissions: []) }
       let(:other_user) do
-        FactoryBot.create(:user)
+        create(:user)
       end
 
       let(:get_path) do
@@ -380,14 +380,14 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
   describe '#post /projects' do
     let(:current_user) do
-      FactoryBot.create(:user).tap do |u|
-        FactoryBot.create(:global_member,
+      create(:user).tap do |u|
+        create(:global_member,
                           principal: u,
                           roles: [global_role])
       end
     end
     let(:global_role) do
-      FactoryBot.create(:global_role, permissions: permissions)
+      create(:global_role, permissions: permissions)
     end
     let(:permissions) { [:add_project] }
     let(:path) { api_v3_paths.projects }
@@ -556,7 +556,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
   describe '#patch /projects/:id' do
     let(:current_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
@@ -773,15 +773,15 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     context 'deactivating (archiving) the project' do
       context 'for an admin' do
         let(:current_user) do
-          FactoryBot.create(:admin)
+          create(:admin)
         end
         let(:project) do
-          FactoryBot.create(:project).tap do |p|
+          create(:project).tap do |p|
             p.children << child_project
           end
         end
         let(:child_project) do
-          FactoryBot.create(:project)
+          create(:project)
         end
 
         let(:body) do
@@ -844,7 +844,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
     subject { last_response }
 
     context 'with required permissions (admin)' do
-      let(:current_user) { FactoryBot.create(:admin) }
+      let(:current_user) { create(:admin) }
 
       it 'responds with HTTP No Content' do
         expect(subject.status).to eq 204
@@ -855,7 +855,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
 
       context 'for a project with work packages' do
-        let(:work_package) { FactoryBot.create(:work_package, project: project) }
+        let(:work_package) { create(:work_package, project: project) }
         let(:setup) { work_package }
 
         it 'deletes the work packages' do
@@ -865,10 +865,10 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
       context 'for a project with members' do
         let(:member) do
-          FactoryBot.create(:member,
+          create(:member,
                             project: project,
                             principal: current_user,
-                            roles: [FactoryBot.create(:role)])
+                            roles: [create(:role)])
         end
         let(:member_role) { member.member_roles.first }
         let(:setup) do
@@ -887,7 +887,7 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
 
       context 'for a project with a forum' do
         let(:forum) do
-          FactoryBot.create(:forum,
+          create(:forum,
                             project: project)
         end
         let(:setup) do
@@ -906,8 +906,8 @@ describe 'API v3 Project resource', type: :request, content_type: :json do
       end
 
       context 'for a project which has a version foreign work packages refer to' do
-        let(:version) { FactoryBot.create(:version, project: project) }
-        let(:work_package) { FactoryBot.create(:work_package, version: version) }
+        let(:version) { create(:version, project: project) }
+        let(:work_package) { create(:work_package, version: version) }
 
         let(:setup) { work_package }
 

@@ -33,14 +33,14 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:resource) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:resource) { create :work_package, project: project }
 
-  let(:recipient) { FactoryBot.build_stubbed(:user) }
+  let(:recipient) { build_stubbed(:user) }
   let(:journal) { nil }
   let(:actor) { nil }
   let(:notification) do
-    FactoryBot.build_stubbed :notification,
+    build_stubbed :notification,
                              recipient: recipient,
                              project: project,
                              resource: resource,
@@ -167,7 +167,7 @@ describe ::API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     context 'when set' do
-      let(:actor) { FactoryBot.create :user }
+      let(:actor) { create :user }
 
       it_behaves_like 'has a titled link' do
         let(:link) { 'actor' }

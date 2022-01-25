@@ -33,8 +33,8 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.create(:admin) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:current_user) { create(:admin) }
+  let(:other_user) { create(:user) }
 
   subject(:response) { last_response }
 
@@ -93,8 +93,8 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
       let(:local_avatars) { true }
 
       let(:other_user) do
-        u = FactoryBot.create :user
-        u.attachments = [FactoryBot.build(:avatar_attachment, author: u)]
+        u = create :user
+        u.attachments = [build(:avatar_attachment, author: u)]
         u
       end
 

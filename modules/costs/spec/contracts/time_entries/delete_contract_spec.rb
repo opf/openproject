@@ -32,21 +32,21 @@ require 'spec_helper'
 
 describe TimeEntries::DeleteContract do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user) do |user|
+    build_stubbed(:user) do |user|
       allow(user)
         .to receive(:allowed_to?) do |permission, permission_project|
         permissions.include?(permission) && time_entry_project == permission_project
       end
     end
   end
-  let(:other_user) { FactoryBot.build_stubbed(:user) }
+  let(:other_user) { build_stubbed(:user) }
   let(:time_entry_work_package) do
-    FactoryBot.build_stubbed(:work_package,
+    build_stubbed(:work_package,
                              project: time_entry_project)
   end
-  let(:time_entry_project) { FactoryBot.build_stubbed(:project) }
+  let(:time_entry_project) { build_stubbed(:project) }
   let(:time_entry_user) { current_user }
-  let(:time_entry_activity) { FactoryBot.build_stubbed(:time_entry_activity) }
+  let(:time_entry_activity) { build_stubbed(:time_entry_activity) }
   let(:time_entry_spent_on) { Date.today }
   let(:time_entry_hours) { 5 }
   let(:time_entry_comments) { "A comment" }
@@ -54,7 +54,7 @@ describe TimeEntries::DeleteContract do
   let(:permissions) { %i[edit_time_entries] }
 
   let(:time_entry) do
-    FactoryBot.build_stubbed(:time_entry,
+    build_stubbed(:time_entry,
                              project: time_entry_project,
                              work_package: time_entry_work_package,
                              user: time_entry_user,

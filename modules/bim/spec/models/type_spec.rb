@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Type, type: :model do
-  let(:type) { FactoryBot.create :type, name: "Issue" }
+  let(:type) { create :type, name: "Issue" }
 
   it 'bcf_thumbnail is available as a WorkPackageRepresenter attribute' do
     expect(API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs.keys).to(

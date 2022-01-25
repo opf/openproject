@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Query menu item', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
@@ -49,9 +49,9 @@ describe 'Query menu item', js: true do
   end
 
   context 'filtering by version in project' do
-    let(:version) { FactoryBot.create :version, project: project }
-    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, version: version }
-    let(:work_package_without_version) { FactoryBot.create :work_package, project: project }
+    let(:version) { create :version, project: project }
+    let(:work_package_with_version) { create :work_package, project: project, version: version }
+    let(:work_package_without_version) { create :work_package, project: project }
 
     before do
       work_package_with_version

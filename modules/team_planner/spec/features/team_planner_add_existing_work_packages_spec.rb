@@ -35,10 +35,10 @@ require_relative '../support/components/add_existing_pane'
 describe 'Team planner add existing work packages', type: :feature, js: true do
   include_context 'with team planner full access'
 
-  let(:closed_status) { FactoryBot.create :status, is_closed: true }
+  let(:closed_status) { create :status, is_closed: true }
 
   let!(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Bernd',
                       member_in_project: project,
                       member_with_permissions: %w[
@@ -47,7 +47,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
   end
 
   let!(:first_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'Task 1',
                       assigned_to: user,
@@ -55,7 +55,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
                       due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
   end
   let!(:second_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'Task 2',
                       parent: first_wp,
@@ -64,7 +64,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
                       due_date: 12.days.from_now
   end
   let!(:third_wp) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       subject: 'TA Aufgabe 3',
                       status: closed_status

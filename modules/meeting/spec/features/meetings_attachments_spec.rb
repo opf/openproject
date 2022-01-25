@@ -3,21 +3,21 @@ require 'features/page_objects/notification'
 
 describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
-    FactoryBot.create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
+    create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
   end
 
   let(:dev) do
-    FactoryBot.create :user, member_in_project: project, member_through_role: role
+    create :user, member_in_project: project, member_through_role: role
   end
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   let(:meeting) do
-    FactoryBot.create(
+    create(
       :meeting,
       project: project,
       title: "Versammlung",
-      agenda: FactoryBot.create(:meeting_agenda, text: "Versammlung")
+      agenda: create(:meeting_agenda, text: "Versammlung")
     )
   end
 

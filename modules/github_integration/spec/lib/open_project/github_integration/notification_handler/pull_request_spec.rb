@@ -32,7 +32,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   subject(:process) { handler_instance.process(payload) }
 
   let(:handler_instance) { described_class.new }
-  let(:github_system_user) { FactoryBot.create(:admin) }
+  let(:github_system_user) { create(:admin) }
   let(:upsert_service) { instance_double(OpenProject::GithubIntegration::Services::UpsertPullRequest) }
 
   let(:payload) do
@@ -76,7 +76,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
       }
     }
   end
-  let(:work_package) { FactoryBot.create(:work_package) }
+  let(:work_package) { create(:work_package) }
   let(:pr_body) { "Mentioning OP##{work_package.id}" }
   let(:pr_merged) { false }
   let(:pr_draft) { false }
@@ -148,7 +148,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     it_behaves_like 'calls the pull request upsert service'
 
     context 'when the work package is already known to the GithubPullRequest' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
+      let(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
 
       before { github_pull_request }
 
@@ -179,7 +179,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     it_behaves_like 'calls the pull request upsert service'
 
     context 'when a GithubPullRequest exists that is not linked to the mentioned work package yet' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123) }
+      let(:github_pull_request) { create(:github_pull_request, github_id: 123) }
 
       before { github_pull_request }
 
@@ -192,7 +192,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     end
 
     context 'when the work package is already known to the GithubPullRequest' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
+      let(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
 
       before { github_pull_request }
 
@@ -205,8 +205,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     end
 
     context 'when the a work package is already known to the GithubPullRequest but another work package is new' do
-      let(:github_pull_request) { FactoryBot.create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
-      let(:other_work_package) { FactoryBot.create(:work_package) }
+      let(:github_pull_request) { create(:github_pull_request, github_id: 123, work_packages: [work_package]) }
+      let(:other_work_package) { create(:work_package) }
       let(:pr_body) { "Mentioning OP##{work_package.id} and OP##{other_work_package.id}" }
 
       before do

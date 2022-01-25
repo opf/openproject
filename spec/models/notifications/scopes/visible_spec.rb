@@ -33,21 +33,21 @@ describe Notifications::Scopes::Visible, type: :model do
     subject(:scope) { ::Notification.visible(user) }
 
     let(:user) do
-      FactoryBot.create(:user,
+      create(:user,
                         member_in_project: project,
                         member_with_permissions: permissions)
     end
 
     let(:notification) do
-      FactoryBot.create(:notification,
+      create(:notification,
                         project: project,
                         resource: work_package,
                         recipient: notification_recipient)
     end
     let(:notification_recipient) { user }
     let(:permissions) { %i[view_work_packages] }
-    let(:project) { FactoryBot.create(:project) }
-    let(:work_package) { FactoryBot.create(:work_package, project: project) }
+    let(:project) { create(:project) }
+    let(:work_package) { create(:work_package, project: project) }
 
     let!(:notifications) { notification }
 
@@ -72,7 +72,7 @@ describe Notifications::Scopes::Visible, type: :model do
     end
 
     context 'with the user not being recipient but being allowed to see the work package' do
-      let(:notification_recipient) { FactoryBot.create(:user) }
+      let(:notification_recipient) { create(:user) }
 
       it_behaves_like 'is empty'
     end

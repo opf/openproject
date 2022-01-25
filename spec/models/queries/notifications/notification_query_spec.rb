@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe Queries::Notifications::NotificationQuery, type: :model do
-  shared_let(:project) { FactoryBot.create :project }
+  shared_let(:project) { create :project }
 
-  shared_let(:recipient) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
+  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
 
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:notification) { FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package }
+  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:notification) { create :notification, recipient: recipient, project: project, resource: work_package }
 
   let(:instance) { described_class.new(user: recipient) }
   let(:base_scope) { Notification.visible(recipient).recipient(recipient) }

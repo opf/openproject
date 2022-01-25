@@ -33,22 +33,22 @@ require 'spec_helper'
 describe Attachments::CleanupUncontaineredJob, type: :job do
   let(:grace_period) { 120 }
 
-  let!(:containered_attachment) { FactoryBot.create(:attachment) }
+  let!(:containered_attachment) { create(:attachment) }
   let!(:old_uncontainered_attachment) do
-    FactoryBot.create(:attachment, container: nil, created_at: Time.now - grace_period.minutes)
+    create(:attachment, container: nil, created_at: Time.now - grace_period.minutes)
   end
   let!(:new_uncontainered_attachment) do
-    FactoryBot.create(:attachment, container: nil, created_at: Time.now - (grace_period - 1).minutes)
+    create(:attachment, container: nil, created_at: Time.now - (grace_period - 1).minutes)
   end
 
   let!(:finished_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - grace_period.minutes, digest: "0x42")
+    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "0x42")
   end
   let!(:old_pending_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - grace_period.minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "", downloads: -1)
   end
   let!(:new_pending_upload) do
-    FactoryBot.create(:attachment, created_at: Time.now - (grace_period - 1).minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - (grace_period - 1).minutes, digest: "", downloads: -1)
   end
 
   let(:job) { described_class.new }

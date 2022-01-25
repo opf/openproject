@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe "PATCH /api/v3/queries/:id", type: :request do
-  let(:user) { FactoryBot.create :admin }
-  let(:status) { FactoryBot.create :status }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:status) { create :status }
+  let(:project) { create :project }
 
   def json
     JSON.parse last_response.body
   end
 
   let!(:query) do
-    FactoryBot.create(
+    create(
       :global_query,
       name: "A Query",
       user: user,

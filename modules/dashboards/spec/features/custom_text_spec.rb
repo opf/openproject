@@ -31,9 +31,9 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project description widget on dashboard', type: :feature, js: true do
-  let!(:type) { FactoryBot.create :type_task, name: 'Task' }
+  let!(:type) { create :type_task, name: 'Task' }
   let!(:project) do
-    FactoryBot.create :project, types: [type]
+    create :project, types: [type]
   end
 
   let(:permissions) do
@@ -44,11 +44,11 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:user) do
-    FactoryBot.create(:user, member_in_project: project, member_with_permissions: permissions)
+    create(:user, member_in_project: project, member_with_permissions: permissions)
   end
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
@@ -157,7 +157,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
   context 'for a user lacking edit permissions' do
     let!(:dashboard) do
-      FactoryBot.create(:dashboard_with_custom_text, project: project)
+      create(:dashboard_with_custom_text, project: project)
     end
 
     let(:permissions) do

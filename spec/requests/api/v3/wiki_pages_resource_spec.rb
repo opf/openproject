@@ -34,18 +34,18 @@ describe 'API v3 wiki_pages resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:other_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
-  let(:wiki) { FactoryBot.create(:wiki, project: project) }
-  let(:wiki_page) { FactoryBot.create(:wiki_page, wiki: wiki) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:other_wiki) { FactoryBot.create(:wiki, project: other_project) }
-  let(:other_wiki_page) { FactoryBot.create(:wiki_page, wiki: other_wiki) }
-  let(:other_project) { FactoryBot.create(:project) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:wiki) { create(:wiki, project: project) }
+  let(:wiki_page) { create(:wiki_page, wiki: wiki) }
+  let(:project) { create(:project) }
+  let(:other_wiki) { create(:wiki, project: other_project) }
+  let(:other_wiki_page) { create(:wiki_page, wiki: other_wiki) }
+  let(:other_project) { create(:project) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i(view_wiki_pages) }
 
   subject(:response) { last_response }

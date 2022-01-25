@@ -34,7 +34,7 @@ describe Journals::CompletedJob, type: :model do
   let(:send_mail) { true }
 
   let(:journal) do
-    FactoryBot.build_stubbed(:journal, journable: journable).tap do |j|
+    build_stubbed(:journal, journable: journable).tap do |j|
       allow(Journal)
         .to receive(:find)
               .with(j.id.to_s)
@@ -77,19 +77,19 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with a work_package' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
 
     context 'with a wiki page' do
-      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_content) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
 
     context 'with a news' do
-      let(:journable) { FactoryBot.build_stubbed(:news) }
+      let(:journable) { build_stubbed(:news) }
 
       it_behaves_like 'enqueues a JournalCompletedJob'
     end
@@ -114,28 +114,28 @@ describe Journals::CompletedJob, type: :model do
     end
 
     context 'with a work packages' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY
     end
 
     context 'with wiki page content' do
-      let(:journable) { FactoryBot.build_stubbed(:wiki_content) }
+      let(:journable) { build_stubbed(:wiki_content) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_WIKI_JOURNAL_READY
     end
 
     context 'with a news' do
-      let(:journable) { FactoryBot.build_stubbed(:news) }
+      let(:journable) { build_stubbed(:news) }
 
       it_behaves_like 'sends a notification',
                       OpenProject::Events::AGGREGATED_NEWS_JOURNAL_READY
     end
 
     context 'with a non non-existant journal' do
-      let(:journable) { FactoryBot.build_stubbed(:work_package) }
+      let(:journable) { build_stubbed(:work_package) }
 
       before do
         allow(Journal)

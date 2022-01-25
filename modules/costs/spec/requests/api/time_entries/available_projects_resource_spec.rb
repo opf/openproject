@@ -34,53 +34,53 @@ describe 'API v3 time entries available projects resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:project_with_log_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:log_time])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [:log_time])],
                         project: p,
                         user: current_user)
     end
   end
   let(:project_with_edit_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:edit_time_entries])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [:edit_time_entries])],
                         project: p,
                         user: current_user)
     end
   end
   let(:project_with_edit_own_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:edit_own_time_entries])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [:edit_own_time_entries])],
                         project: p,
                         user: current_user)
     end
   end
   let(:project_with_view_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:view_time_entries])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [:view_time_entries])],
                         project: p,
                         user: current_user)
     end
   end
   let(:project_without_permission) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [])],
                         project: p,
                         user: current_user)
     end
   end
   let(:project_without_membership) do
-    FactoryBot.create(:project)
+    create(:project)
   end
 
   subject(:response) { last_response }

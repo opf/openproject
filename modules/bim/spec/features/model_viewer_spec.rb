@@ -32,19 +32,19 @@ describe 'model viewer',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
-  let(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let(:role) { FactoryBot.create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
+  let(:work_package) { create(:work_package, project: project) }
+  let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: user)
   end
@@ -103,9 +103,9 @@ describe 'model viewer',
   end
 
   context 'with only viewing permissions' do
-    let(:view_role) { FactoryBot.create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
+    let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_through_role: view_role
     end
@@ -125,9 +125,9 @@ describe 'model viewer',
   end
 
   context 'without any permissions' do
-    let(:no_permissions_role) { FactoryBot.create(:role, permissions: %i[]) }
+    let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
-      FactoryBot.create :user,
+      create :user,
                         member_in_project: project,
                         member_through_role: no_permissions_role
     end

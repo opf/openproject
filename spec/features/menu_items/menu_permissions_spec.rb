@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe 'menu permissions', type: :feature, js: true do
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[manage_versions view_work_packages])
   end
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   context 'as an admin' do
     before do

@@ -33,7 +33,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
 
   let(:query) { {} }
   let(:groups) { nil }
@@ -67,7 +67,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       .to receive(:allowed_to?)
       .and_return(true)
 
-    FactoryBot.create_list(:work_package, total)
+    create_list(:work_package, total)
   end
 
   subject(:collection) { representer.to_json }
@@ -118,7 +118,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       end
 
       context 'when inside of a project and the user has the export_work_packages permission' do
-        let(:project) { FactoryBot.build_stubbed(:project) }
+        let(:project) { build_stubbed(:project) }
 
         let(:expected) do
           expected_query = query.merge(pageSize: 30, offset: 1)
@@ -176,7 +176,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     describe 'customFields' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
+      let(:project) { build_stubbed(:project) }
 
       before do
         allow(user)
@@ -318,7 +318,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'when in project context' do
-      let(:project) { FactoryBot.build_stubbed :project }
+      let(:project) { build_stubbed :project }
 
       it 'has no link to create work_packages' do
         expect(collection)

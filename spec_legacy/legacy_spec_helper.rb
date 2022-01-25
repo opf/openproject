@@ -62,6 +62,8 @@ RSpec.configure do |config|
   config.include Shoulda::Context::Assertions
   # included in order to use #fixture_file_upload
   config.include ActionDispatch::TestProcess
+  # Allow factories to be used without FactoryBot.
+  config.include FactoryBot::Syntax::Methods
 
   config.include RSpec::Rails::RequestExampleGroup,   file_path: %r(spec_legacy/integration)
   config.include Shoulda::Matchers::ActionController, file_path: %r(spec_legacy/integration)

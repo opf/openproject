@@ -33,7 +33,7 @@ describe Overviews::OverviewsController, type: :controller do
     %i(view_project)
   end
   let(:current_user) do
-    FactoryBot.build_stubbed(:user).tap do |u|
+    build_stubbed(:user).tap do |u|
       allow(u)
         .to receive(:allowed_to?) do |permission, permission_project, _global|
         permission_project == project &&
@@ -44,7 +44,7 @@ describe Overviews::OverviewsController, type: :controller do
     end
   end
   let(:project) do
-    FactoryBot.build_stubbed(:project).tap do |p|
+    build_stubbed(:project).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id.to_s)

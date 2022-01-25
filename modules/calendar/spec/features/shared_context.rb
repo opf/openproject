@@ -33,11 +33,11 @@ require_relative '../support/pages/calendar'
 
 shared_context 'with calendar full access' do
   shared_let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
+    create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %w[
                         view_work_packages edit_work_packages add_work_packages

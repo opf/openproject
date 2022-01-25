@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe 'Projects autocomplete page', type: :feature, js: true do
-  let!(:user) { FactoryBot.create :user }
+  let!(:user) { create :user }
 
   let!(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Plain project',
                       identifier: 'plain-project')
   end
 
   let!(:project2) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: '<strong>foobar</strong>',
                       identifier: 'foobar')
   end
 
   let!(:project3) do
-    FactoryBot.create(:project,
+    create(:project,
                       name: 'Plain other project',
                       parent: project2,
                       identifier: 'plain-project-2')
@@ -61,19 +61,19 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     names.map do |name|
       identifier = name.gsub(/[ \-]+/, "-").downcase
 
-      FactoryBot.create :project, name: name, identifier: identifier
+      create :project, name: name, identifier: identifier
     end
   end
   let!(:non_member_project) do
-    FactoryBot.create :project
+    create :project
   end
   let!(:public_project) do
-    FactoryBot.create :public_project
+    create :public_project
   end
   # necessary to be able to see public projects
-  let!(:non_member_role) { FactoryBot.create :non_member }
+  let!(:non_member_role) { create :non_member }
   # we only need the public permissions: view_project, :view_news
-  let(:role) { FactoryBot.create(:role, permissions: []) }
+  let(:role) { create(:role, permissions: []) }
 
   include BecomeMember
 

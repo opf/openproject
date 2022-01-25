@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Priorities::PriorityCollectionRepresenter do
-  let(:priorities)  { FactoryBot.build_list(:priority, 3) }
+  let(:priorities)  { build_list(:priority, 3) }
   let(:representer) do
     described_class.new(priorities, self_link: '/api/v3/priorities', current_user: double('current_user'))
   end

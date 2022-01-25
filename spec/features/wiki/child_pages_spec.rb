@@ -30,19 +30,19 @@ require 'spec_helper'
 
 describe 'wiki child pages', type: :feature, js: true do
   let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
-    FactoryBot.create(:wiki_page_with_content,
+    create(:wiki_page_with_content,
                       wiki: project.wiki)
   end
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }

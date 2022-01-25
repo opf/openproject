@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe EnumerationsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   current_user do
     admin
@@ -54,7 +54,7 @@ describe EnumerationsController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:enum) { FactoryBot.create(:priority) }
+    let(:enum) { create(:priority) }
     let(:params) { { id: enum.id } }
     let(:work_packages) { [] }
 
@@ -75,7 +75,7 @@ describe EnumerationsController, type: :controller do
     end
 
     context 'when in use' do
-      let(:work_packages) { [FactoryBot.create(:work_package, priority: enum)] }
+      let(:work_packages) { [create(:work_package, priority: enum)] }
 
       it 'keeps the enum (as it needs to be reassigned)' do
         expect(Enumeration.where(id: enum.id))
@@ -94,8 +94,8 @@ describe EnumerationsController, type: :controller do
     end
 
     context 'when in use and reassigning' do
-      let(:work_packages) { [FactoryBot.create(:work_package, priority: enum)] }
-      let!(:other_enum) { FactoryBot.create(:priority) }
+      let(:work_packages) { [create(:work_package, priority: enum)] }
+      let!(:other_enum) { create(:priority) }
       let(:params) { { id: enum.id, reassign_to_id: other_enum.id } }
 
       it 'destroys the enum' do

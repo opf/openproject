@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal filters spec', js: true do
-  let(:user) { FactoryBot.create :admin }
+  let(:user) { create :admin }
 
-  let(:project) { FactoryBot.create(:project) }
-  let!(:wp_1) { FactoryBot.create(:work_package, project: project) }
+  let(:project) { create(:project) }
+  let!(:wp_1) { create(:work_package, project: project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
 
   let!(:query) do
-    query = FactoryBot.build(:query, user: user, project: project)
+    query = build(:query, user: user, project: project)
     query.column_names = ['subject', 'done_ratio']
 
     query.save!
@@ -23,9 +23,9 @@ describe 'Work Package table configuration modal filters spec', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { FactoryBot.create :version, project: project }
-    let(:work_package_with_version) { FactoryBot.create :work_package, project: project, version: version }
-    let(:work_package_without_version) { FactoryBot.create :work_package, project: project }
+    let(:version) { create :version, project: project }
+    let(:work_package_with_version) { create :work_package, project: project, version: version }
+    let(:work_package_without_version) { create :work_package, project: project }
 
     before do
       work_package_with_version

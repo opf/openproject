@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe AttributeHelpTextsController, type: :controller do
-  let(:user) { FactoryBot.build_stubbed :admin }
-  let(:model) { FactoryBot.build :work_package_help_text }
+  let(:user) { build_stubbed :admin }
+  let(:model) { build :work_package_help_text }
   let(:relation_columns_allowed) { true }
 
   let(:find_expectation) do

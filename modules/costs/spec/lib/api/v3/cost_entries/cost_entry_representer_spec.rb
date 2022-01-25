@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::CostEntries::CostEntryRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:cost_entry) { FactoryBot.build_stubbed(:cost_entry) }
+  let(:cost_entry) { build_stubbed(:cost_entry) }
   let(:representer) { described_class.new(cost_entry, current_user: double('current_user')) }
 
   subject { representer.to_json }
