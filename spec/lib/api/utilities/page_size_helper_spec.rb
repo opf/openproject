@@ -38,16 +38,16 @@ describe ::API::Utilities::PageSizeHelper do
 
   describe '#maximum_page_size' do
     context 'when small values in per_page_options',
-            with_settings: { per_page_options: '20,100' } do
-      it 'uses the magical number 500' do
-        expect(subject.maximum_page_size).to eq(500)
+            with_settings: { per_page_options: '20,100', apiv3_max_page_size: 57 } do
+      it 'uses the value from settings' do
+        expect(subject.maximum_page_size).to eq(57)
       end
     end
 
     context 'when larger values in per_page_options',
-            with_settings: { per_page_options: '20,100,1000' } do
+            with_settings: { per_page_options: '20,100,1000', apiv3_max_page_size: 57 } do
       it 'uses that value' do
-        expect(subject.maximum_page_size).to eq(1000)
+        expect(subject.maximum_page_size).to eq(57)
       end
     end
   end
