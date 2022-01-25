@@ -49,6 +49,10 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
       .with(page)
       .and_return(users)
 
+    allow(users)
+      .to receive(:count)
+      .and_return(total)
+
     users
   end
 

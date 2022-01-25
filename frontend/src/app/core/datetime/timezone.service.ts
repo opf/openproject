@@ -34,8 +34,10 @@ import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
-  constructor(readonly configurationService:ConfigurationService,
-    readonly I18n:I18nService) {
+  constructor(
+    readonly configurationService:ConfigurationService,
+    readonly I18n:I18nService,
+  ) {
     this.setupLocale();
   }
 

@@ -30,7 +30,11 @@ require 'spec_helper'
 require 'features/categories/categories_page'
 
 describe 'Deletion', type: :feature do
-  let(:current_user) { FactoryBot.create :admin }
+  let(:current_user) do
+    FactoryBot.create :user,
+                      member_in_project: category.project,
+                      member_with_permissions: %i[manage_categories]
+  end
   let(:category) { FactoryBot.create :category }
   let(:categories_page) { CategoriesPage.new(category.project) }
   let(:delete_button) { 'a.icon-delete' }

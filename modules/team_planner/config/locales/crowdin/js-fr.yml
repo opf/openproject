@@ -1,0 +1,16 @@
+#English strings go here
+fr:
+  js:
+    team_planner:
+      add_existing: 'Add existing'
+      create_new: 'Créer un nouveau planificateur'
+      title: 'Planificateur d''équipe'
+      unsaved_title: 'Planificateur d''équipe sans nom'
+      label_assignee_plural: 'Affectés à'
+      no_data: 'Ajouter des personnes pour configurer votre planificateur d''équipe.'
+      add_assignee: 'Assigner à quelqu''un'
+      remove_assignee: 'Supprimer l''assignation'
+      two_weeks: '2 semaines'
+      quick_add:
+        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        search_placeholder: 'Search...'

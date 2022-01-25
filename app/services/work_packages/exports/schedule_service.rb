@@ -45,12 +45,12 @@ class WorkPackages::Exports::ScheduleService
   private
 
   def schedule_export(export_storage, mime_type, params, query)
-    WorkPackages::Exports::ExportJob.perform_later(export: export_storage,
-                                                   user: user,
-                                                   mime_type: mime_type,
-                                                   options: params,
-                                                   query: serialize_query(query),
-                                                   query_attributes: serialize_query_props(query))
+    WorkPackages::ExportJob.perform_later(export: export_storage,
+                                          user: user,
+                                          mime_type: mime_type,
+                                          query: serialize_query(query),
+                                          query_attributes: serialize_query_props(query),
+                                          **params)
   end
 
   ##

@@ -26,26 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
+import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
 import {
-  Apiv3ListParameters,
-  Apiv3ListResourceInterface,
+  ApiV3ListParameters,
+  ApiV3ListResourceInterface,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { Observable } from 'rxjs';
-import { Apiv3MembershipsForm } from 'core-app/core/apiv3/endpoints/memberships/apiv3-memberships-form';
+import { ApiV3MembershipsForm } from 'core-app/core/apiv3/endpoints/memberships/apiv3-memberships-form';
 import { MembershipResource, MembershipResourceEmbedded } from 'core-app/features/hal/resources/membership-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
-export class Apiv3MembershipsPaths
-  extends APIv3ResourceCollection<MembershipResource, APIv3GettableResource<MembershipResource>>
-  implements Apiv3ListResourceInterface<MembershipResource> {
+export class ApiV3MembershipsPaths
+  extends ApiV3ResourceCollection<MembershipResource, ApiV3GettableResource<MembershipResource>>
+  implements ApiV3ListResourceInterface<MembershipResource> {
   // Static paths
-  readonly form = this.subResource('form', Apiv3MembershipsForm);
+  readonly form = this.subResource('form', ApiV3MembershipsForm);
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
     super(apiRoot, basePath, 'memberships');
   }
@@ -54,14 +54,14 @@ export class Apiv3MembershipsPaths
    * Load a list of membership entries with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<MembershipResource>> {
+  public list(params?:ApiV3ListParameters):Observable<CollectionResource<MembershipResource>> {
     return this
       .halResourceService
       .get<CollectionResource<MembershipResource>>(this.path + listParamsString(params));
   }
 
   // /api/v3/memberships/available_projects
-  readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
+  readonly available_projects = this.subResource('available_projects', ApiV3AvailableProjectsPaths);
 
   /**
    * Create a new MembershipResource

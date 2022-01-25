@@ -65,13 +65,13 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
       # Attach file manually
       expect(page).to have_no_selector('.work-package--attachments--filename')
       attachments.attach_file_on_input(image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
-      expect(page).not_to have_selector('notification-upload-progress')
+      expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('.work-package--attachments--filename', text: 'image.png', count: 2, wait: 5)
     end
   end

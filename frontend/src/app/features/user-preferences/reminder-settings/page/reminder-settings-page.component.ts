@@ -134,7 +134,7 @@ export class ReminderSettingsPageComponent extends UntilDestroyedMixin implement
 
     const dailyReminderTimes = this.form.get('dailyReminders.times') as FormArray;
     dailyReminderTimes.clear({ emitEvent: false });
-    settings.dailyReminders.times.forEach((time) => {
+    [...settings.dailyReminders.times].sort().forEach((time) => {
       dailyReminderTimes.push(this.fb.control(time), { emitEvent: false });
     });
 

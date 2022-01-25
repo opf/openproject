@@ -41,7 +41,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
     attributes
   end
 
-  validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
+  validates :attribute_name, inclusion: { in: ->(*) { available_attributes.keys } }
 
   def type_caption
     I18n.t(:label_work_package)

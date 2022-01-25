@@ -1,0 +1,7 @@
+# English strings go here
+en:
+  js:
+    calendar:
+      title: 'Calendar'
+      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
+      unsaved_title: 'Unnamed calendar'

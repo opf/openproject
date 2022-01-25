@@ -34,8 +34,8 @@
         </div>
       </div>
     <% else %>
-      <div class="notification-box -warning">
-        <div class="notification-box--content">
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
           <%= t('bcf.bcf_xml.import.no_permission_to_add_members') %>
           <%= t('bcf.bcf_xml.import.contact_project_admin') %>
         </div>
@@ -48,8 +48,8 @@
     <% end %>
     <%= styled_submit_tag t('bcf.bcf_xml.import.button_proceed'), class: '-highlight' %>
   <% else %>
-    <div class="notification-box -error">
-      <div class="notification-box--content">
+    <div class="op-toast -error">
+      <div class="op-toast--content">
         <%= I18n.t('text_no_roles_defined') %>
       </div>
     </div>

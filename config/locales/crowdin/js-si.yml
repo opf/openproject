@@ -1,0 +1,1162 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+si:
+  js:
+    ajax:
+      hide: "සඟවන්න"
+      loading: "පැටවීම..."
+    attachments:
+      draggable_hint: |
+        පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
+    autocomplete_select:
+      placeholder:
+        multi: "එකතු කරන්න \"%{name}”"
+        single: "තෝරන්න \"%{name}”"
+      remove: "%{name}ඉවත් කරන්න"
+      active: "ක්රියාකාරී %{label} %{name}"
+    backup:
+      attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
+      info: >
+        You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
+      note: >
+        A new backup will override any previous one. Only a limited number of backups per day can be requested.
+      last_backup: Last backup
+      last_backup_from: Last backup from
+      title: Backup OpenProject
+      options: විකල්ප
+      include_attachments: Include attachments
+      download_backup: Download backup
+      request_backup: Request backup
+    close_popup_title: "උත්පතන වසන්න"
+    close_filter_title: "පෙරහන් වසන්න"
+    close_form_title: "සමීප ආකෘතිය"
+    button_add_watcher: "මුරකරු එකතු කරන්න"
+    button_add: "එකතු කරන්න"
+    button_back: "ආපසු"
+    button_back_to_list_view: "ලැයිස්තු දැක්ම වෙත ආපසු"
+    button_cancel: "අවලංගු කරන්න"
+    button_close: "වසන්න"
+    button_change_project: "ව්යාපෘතිය වෙනස් කරන්න"
+    button_check_all: "සියල්ල පරීක්ෂා කරන්න"
+    button_configure-form: "පෝරමය සකසන්න"
+    button_confirm: "තහවුරු කරන්න"
+    button_continue: "ඉදිරියට යන්න"
+    button_copy: "පිටපත් කරන්න"
+    button_custom-fields: "අභිරුචි ක්ෂේත්ර"
+    button_delete: "මකන්න"
+    button_delete_watcher: "මුරකරු මකන්න"
+    button_details_view: "විස්තර දැක්ම"
+    button_duplicate: "අනුපිටපත්"
+    button_edit: "සංස්කරණය කරන්න"
+    button_filter: "පෙරහන්"
+    button_collapse_all: "සියල්ල කඩා වැටෙන්න"
+    button_expand_all: "සියල්ල පුළුල්"
+    button_advanced_filter: "උසස් පෙරහන"
+    button_list_view: "ලැයිස්තුව දැක්ම"
+    button_show_view: "පූර්ණ තිර දර්ශනය"
+    button_log_time: "ලොග් වේලාව"
+    button_more: "තවත්"
+    button_open_details: "විවෘත විස්තර දැක්ම"
+    button_close_details: "වසන්න විස්තර දැක්ම"
+    button_open_fullscreen: "පූර්ණ තිර දර්ශනය විවෘත කරන්න"
+    button_show_cards: "කාඩ් දැක්ම පෙන්වන්න"
+    button_show_list: "ලැයිස්තු දර්ශනය පෙන්වන්න"
+    button_quote: "උපුටා"
+    button_save: "සුරකින්න"
+    button_settings: "සැකසුම්"
+    button_uncheck_all: "සියල්ල ඉවත් කරන්න"
+    button_update: "යාවත්කාලීන"
+    button_export-pdf: "PDF බාගන්න"
+    button_export-atom: "බාගත කරන්න පරමාණුව"
+    button_create: "සාදන්න"
+    card:
+      add_new: 'නව කාඩ් එකතු කරන්න'
+      highlighting:
+        inline: 'පේළිගත ඉස්මතු:'
+        entire_card_by: 'මුළු කාඩ්පත'
+      remove_from_list: 'ලැයිස්තුවෙන් කාඩ් ඉවත් කරන්න'
+    caption_rate_history: "Rate history"
+    clipboard:
+      browser_error: "ඔබගේ බ්රව්සරය පසුරු පුවරුවට පිටපත් කිරීමට සහාය නොදක්වයි. කරුණාකර තෝරාගත් පෙළ අතින් පිටපත් කරන්න."
+      copied_successful: "Successfully copied to clipboard!"
+    chart:
+      type: 'සටහන වර්ගය'
+      axis_criteria: 'අක්ෂ නිර්ණායක'
+      modal_title: 'වැඩ පැකේජය ප්රස්ථාර වින්යාසය'
+      types:
+        line: 'මාර්ගය'
+        horizontal_bar: 'තිරස් තීරුව'
+        bar: 'බාර්'
+        pie: 'පයි'
+        doughnut: 'ඩග්නට්'
+        radar: 'රේඩාර්'
+        polar_area: 'ධ්රැව ප්රදේශය'
+      tabs:
+        graph_settings: 'පොදු'
+        dataset: 'දත්ත සමුදාය %{number}'
+      errors:
+        could_not_load: 'ප්රස්ථාරය ප්රදර්ශනය කිරීම සඳහා දත්ත පටවා ගත නොහැකි විය. අවශ්ය අවසරයන් නොමැති විය හැකිය.'
+    description_available_columns: "ලබා ගත හැකි තීරු"
+    description_current_position: "ඔයා මෙහෙයි: "
+    description_select_work_package: "වැඩ පැකේජය තෝරන්න #%{id}"
+    description_selected_columns: "තෝරාගත් තීරු"
+    description_subwork_package: "වැඩ පැකේජය දරුවා #%{id}"
+    editor:
+      preview: 'පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න'
+      source_code: 'සලකුණු කිරීමේ ප්රභව ප්රකාරය ටොගල් කරන්න'
+      error_saving_failed: 'පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}'
+      ckeditor_error: 'An error occurred within CKEditor'
+      mode:
+        manual: 'මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න'
+        wysiwyg: 'WYSIWYG සංස්කාරකය වෙත මාරු වන්න'
+      macro:
+        error: 'Cannot expand macro: %{message}'
+        attribute_reference:
+          macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
+          not_found: 'Requested resource could not be found'
+          invalid_attribute: "The selected attribute '%{name}' does not exist."
+        child_pages:
+          button: 'ළමා පිටු වලට සබැඳි'
+          include_parent: 'දෙමව්පියන් ඇතුළත් කරන්න'
+          text: '[Placeholder] ළමා පිටු වෙත සබැඳි'
+          page: 'විකි පිටුව'
+          this_page: 'මෙම පිටුව'
+          hint: |
+            වත්මන් පිටුවේ සියලුම ළමා පිටු ලැයිස්තුගත කිරීම සඳහා මෙම ක්ෂේත්රය හිස්ව තබන්න. ඔබට වෙනත් පිටුවක් යොමු කිරීමට අවශ්ය නම්, එහි මාතෘකාව හෝ ස්ලූග් ලබා දෙන්න.
+        code_block:
+          button: 'ස්නිපෙට් කේතය ඇතුල් කරන්න'
+          title: 'ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්'
+          language: 'හැඩතල භාෂාව'
+          language_hint: 'අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).'
+        dropdown:
+          macros: 'මැක්රෝස්'
+          chose_macro: 'සාර්ව තෝරා'
+        toc: 'අන්තර්ගත වගුව'
+        toolbar_help: 'විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න'
+        wiki_page_include:
+          button: 'වෙනත් විකි පිටුවක අන්තර්ගතය ඇතුළත් කරන්න'
+          text: '[Placeholder] විකි පිටුවේ ඇතුළත්'
+          page: 'විකි පිටුව'
+          not_set: '(පිටුව තවමත් සකසා නැත)'
+          hint: |
+            එහි මාතෘකාව හෝ ස්ලූග් සඳහන් කිරීමෙන් තවත් විකි පිටුවක අන්තර්ගතය ඇතුළත් කරන්න.
+            පහත දැක්වෙන උදාහරණය වැනි මහා බඩවැල සමඟ වෙන් කිරීමෙන් ඔබට වෙනත් ව්යාපෘතියක විකි පිටුව ඇතුළත් කළ හැකිය.
+        work_package_button:
+          button: 'වැඩ පැකේජ බොත්තම නිර්මාණය කරන්න ඇතුල් කරන්න'
+          type: 'වැඩ පැකේජය වර්ගය'
+          button_style: 'බොත්තම ශෛලිය භාවිතා'
+          button_style_hint: 'විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න.'
+          without_type: 'වැඩ පැකේජයක් සාදන්න'
+          with_type: 'වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})'
+        embedded_table:
+          button: 'කාවැද්දූ වැඩ පැකේජය වගුව'
+          text: '[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව'
+        embedded_calendar:
+          text: '[Placeholder] කාවැද්දූ දින දර්ශනය'
+    admin:
+      type_form:
+        custom_field: 'අභිරුචි ක්ෂේත්රය'
+        inactive: 'අක්රිය'
+        drag_to_activate: "ඒවා සක්රිය කිරීම සඳහා මෙතැන් සිට ක්ෂේත්ර ඇදගෙන යන්න"
+        add_group: "ගුණාංග පිරිසක් එකතු කරන්න"
+        add_table: "අදාළ වැඩ පැකේජ වගුව එකතු කරන්න"
+        edit_query: 'විමසුම සංස්කරණය කරන්න'
+        new_group: 'නව කණ්ඩායම'
+        reset_to_defaults: 'පැහැර හැරීම් නැවත සකසන්න'
+      enterprise:
+        text_reprieve_days_left: "%{days} days until end of grace period"
+        text_expired: "expired"
+        trial:
+          confirmation: "Confirmation of email address"
+          confirmation_info: >
+            We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
+          form:
+            general_consent: >
+              I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
+            invalid_email: "Invalid email address"
+            label_company: "Company"
+            label_first_name: "මුල් නම"
+            label_last_name: "අවසාන නම"
+            label_domain: "Domain"
+            label_subscriber: "ග්රාහකයා"
+            label_maximum_users: "උපරිම ක්රියාකාරී පරිශීලකයින්"
+            label_starts_at: "Starts at"
+            label_expires_at: "කල් ඉකුත්"
+            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
+            taken_domain: There can only be one active trial per domain.
+            taken_email: Each user can only create one trial.
+          email_not_received: "You did not receive an email? You can resend the email with the link on the right."
+          try_another_email: "Or try it with another email address."
+          next_steps: "Next steps"
+          resend_link: "Resend"
+          resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
+          resend_warning: "Could not resend email."
+          session_timeout: "Your session timed out. Please try to reload the page or resend email."
+          status_label: "Status:"
+          status_confirmed: "confirmed"
+          status_waiting: "email sent - waiting for confirmation"
+          test_ee: "Test the Enterprise Edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+        upsale:
+          become_hero: "වීරයෙක් වෙන්න!"
+          benefits:
+            description: "What are the benefits of the Enterprise on-premises Edition?"
+            high_security: "Security features"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            installation: "Installation support"
+            installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
+            premium_features: "Premium features"
+            premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
+            professional_support: "වෘත්තීය සහාය"
+            professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
+          button_start_trial: "Start free trial"
+          button_book_now: "Book now"
+          confidence: >
+            We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
+          link_quote: "Get a quote"
+          text: >
+            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "Unlimited"
+          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+    custom_actions:
+      date:
+        specific: 'මත'
+        current_date: 'වත්මන් දිනය'
+    error:
+      internal: "අභ්යන්තර දෝෂයක් සිදුවී ඇත."
+      cannot_save_changes_with_message: "පහත දැක්වෙන දෝෂය හේතුවෙන් ඔබගේ වෙනස්කම් සුරැකිය නොහැක: %{error}"
+      query_saving: "දැක්ම ගැලවීම කළ නොහැකි විය."
+      embedded_table_loading: "කාවැද්දූ දර්ශනය පටවා ගත නොහැකි විය: %{message}"
+    enumeration_activities: "ක්රියාකාරකම් (කාලය සොයා ගැනීම)"
+    enumeration_doc_categories: "Document categories"
+    enumeration_work_package_priorities: "වැඩ පැකේජ ප්රමුඛතා"
+    filter:
+      description:
+        text_open_filter: "මෙම පෙරණය 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කරන්න."
+        text_close_filter: "ඇතුලත් කිරීමක් තෝරා ගැනීමට ඇතුලත් කරන්න එබීමෙන් උදාහරණයක් ලෙස අවධානය යොමු තබන්න. පෙරහන නොමැතිව පිටව යාමට පළමු (හිස්) ප්රවේශය තෝරන්න."
+      noneElement: "(කිසිවක් නැත)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} ඔබේ දේශීය කාලය තුළ."
+        only_start: "ඔබේ දේශීය කාලය තුළ %{from} සිට."
+        only_end: "ඔබගේ දේශීය වේලාව තුළ %{to} දක්වා."
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
+          two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
+          three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
+      upsale_for_more: "තවත් දියුණු පෙරහන් සඳහා, පරීක්ෂා කරන්න"
+      upsale_link: 'ව්යවසාය සංස්කරණය.'
+    general_text_no: "නැත"
+    general_text_yes: "ඔව්"
+    general_text_No: "නැත"
+    general_text_Yes: "ඔව්"
+    hal:
+      error:
+        update_conflict_refresh: "මෙහි ක්ලික් කරන්න සම්පත නැවුම් කිරීමට සහ නවතම අනුවාදයට යාවත්කාලීන කරන්න."
+        edit_prohibited: "සංස්කරණය %{attribute} මෙම සම්පත සඳහා අවහිර කර ඇත. එක්කෝ මෙම ගුණාංගය සම්බන්ධතා වලින් ව්යුත්පන්න වී ඇත (උදා: දරුවන්) හෝ වෙනත් ආකාරයකින් වින්යාසගත කළ නොහැක."
+        format:
+          date: "%{attribute} වලංගු දිනයක් නොවේ - YYY-MM-DD අපේක්ෂා කෙරේ."
+        general: "දෝෂයක් සිදුවී ඇත."
+    homescreen:
+      blocks:
+        new_features:
+          text_new_features: "නව විශේෂාංග සහ නිෂ්පාදන යාවත්කාලීන කිරීම් ගැන කියවන්න."
+          learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+    label_activate: "සක්රිය කරන්න"
+    label_add_column_after: "පසු තීරුව එකතු කරන්න"
+    label_add_column_before: "පෙර තීරුව එකතු කරන්න"
+    label_add_columns: "තීරු එකතු කරන්න"
+    label_add_comment: "අදහස් එක් කරන්න"
+    label_add_comment_title: "අනෙක් අයට දැනුම් දීම සඳහා අදහස් දක්වන්න සහ @ ටයිප් කරන්න"
+    label_add_row_after: "පසු පේළිය එකතු කරන්න"
+    label_add_row_before: "පෙර පේළිය එකතු කරන්න"
+    label_add_selected_columns: "තෝරාගත් තීරු එකතු කරන්න"
+    label_added_by: "විසින් එකතු කරන ලදි"
+    label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
+    label_ago: "දින කිහිපයකට පෙර"
+    label_all: "සියලු"
+    label_all_work_packages: "සියලුම වැඩ පැකේජ"
+    label_and: "සහ"
+    label_ascending: "නැගීම"
+    label_author: "කර්තෘ: %{user}"
+    label_avatar: "අවතාර්"
+    label_between: "අතර"
+    label_board: "මණ්ඩලය"
+    label_board_locked: "අගුළු දමා ඇත"
+    label_board_plural: "පුවරු"
+    label_board_sticky: "ඇලවෙන"
+    label_change: "වෙනස් කරන්න"
+    label_create: "සාදන්න"
+    label_create_work_package: "නව වැඩ පැකේජයක් සාදන්න"
+    label_created_by: "විසින් නිර්මාණය"
+    label_date: "දිනය"
+    label_date_with_format: "පහත දැක්වෙන ආකෘතිය භාවිතා කරමින් %{date_attribute} ඇතුල් කරන්න: %{format}"
+    label_deactivate: "අක්රිය කරන්න"
+    label_descending: "බැස යාම"
+    label_description: "විස්තරය"
+    label_details: "විස්තර"
+    label_display: "සංදර්ශකය"
+    label_cancel_comment: "අදහස් අවලංගු කරන්න"
+    label_closed_work_packages: "වසා"
+    label_collapse: "බිඳවැටීම"
+    label_collapsed: "කඩා වැටී"
+    label_collapse_all: "සියල්ල කඩා වැටෙන්න"
+    label_comment: "අදහස් දක්වන්න"
+    label_committed_at: "%{committed_revision_link} දී %{date}"
+    label_committed_link: "කැපවූ සංශෝධනය %{revision_identifier}"
+    label_contains: "අඩංගු"
+    label_created_on: "මත නිර්මාණය"
+    label_edit_comment: "මෙම අදහස සංස්කරණය කරන්න"
+    label_edit_status: "වැඩ පැකේජයේ තත්වය සංස්කරණය කරන්න"
+    label_email: "ඊ-තැපැල්"
+    label_equals: "වේ"
+    label_expand: "පුළුල්"
+    label_expanded: "පුළුල්"
+    label_expand_all: "සියල්ල පුළුල්"
+    label_expand_project_menu: "ව්යාපෘති මෙනුව පුළුල් කරන්න"
+    label_export: "අපනයන"
+    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_filename: "ගොනුව"
+    label_filesize: "ප්‍රමාණය"
+    label_general: "පොදු"
+    label_global_roles: "Global Roles"
+    label_greater_or_equal: ">="
+    label_group: 'කණ්ඩායම'
+    label_group_by: "කණ්ඩායම විසින්"
+    label_group_plural: "කණ්ඩායම්"
+    label_hide_attributes: "අඩු පෙන්වන්න"
+    label_hide_column: "තීරුව සඟවන්න"
+    label_hide_project_menu: "ව්යාපෘති මෙනුව බිඳ වැටීම"
+    label_in: "තුළ"
+    label_in_less_than: "වඩා අඩු"
+    label_in_more_than: "වඩා වැඩි"
+    label_incoming_emails: "ලැබෙන විද්යුත් තැපැල්"
+    label_information_plural: "තොරතුරු"
+    label_import: "ආනයන"
+    label_latest_activity: "නවතම ක්රියාකාරකම්"
+    label_last_updated_on: "අවසන් වරට යාවත්කාලීන කරන ලදි"
+    label_learn_more_link: "වැඩිදුර ඉගෙන ගන්න"
+    label_less_or_equal: "<="
+    label_less_than_ago: "දින ගණනකට පෙර"
+    label_loading: "පැටවීම..."
+    label_mail_notification: "වි-ල් ස්කිනිම්"
+    label_me: "මට"
+    label_meeting_agenda: "Agenda"
+    label_meeting_minutes: "Minutes"
+    label_menu_collapse: "බිඳවැටීම"
+    label_menu_expand: "පුළුල්"
+    label_more_than_ago: "දින කිහිපයකට පෙර"
+    label_next: "ඊළඟ"
+    label_no_color: "වර්ණ නැත"
+    label_no_data: "ප්රදර්ශනය කිරීමට දත්ත නොමැත"
+    label_no_due_date: "no finish date"
+    label_no_start_date: "ආරම්භක දිනයක් නැත"
+    label_no_value: "වටිනාකමක් නැත"
+    label_none: "කිසිවක් නැත"
+    label_not_contains: "අඩංගු නොවේ"
+    label_not_equals: "නැත"
+    label_on: "මත"
+    label_open_menu: "මෙනුව විවෘත කරන්න"
+    label_open_context_menu: "සන්දර්භය මෙනුව විවෘත කරන්න"
+    label_open_work_packages: "විවෘත"
+    label_password: "මුරපදය"
+    label_previous: "පසුගිය"
+    label_per_page: "එක් පිටුවකට:"
+    label_please_wait: "කරුණාකර රැඳී සිටින්න"
+    label_project_plural: "ව්‍යාපෘති"
+    label_visibility_settings: "දෘශ්යතා සැකසුම්"
+    label_quote_comment: "මෙම අදහස උපුටා දක්වන්න"
+    label_recent: "මෑත"
+    label_reset: "යළි පිහිටුවීම"
+    label_remove: "ඉවත් කරන්න"
+    label_remove_column: "තීරුව ඉවත් කරන්න"
+    label_remove_columns: "තෝරාගත් තීරු ඉවත් කරන්න"
+    label_remove_row: "පේළිය ඉවත් කරන්න"
+    label_report: "වාර්තාව"
+    label_repository_plural: "ගබඩාවලදී"
+    label_save_as: "ලෙස සුරකින්න"
+    label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
+    label_selected_filter_list: "තෝරාගත් පෙරහන්"
+    label_show_attributes: "සියලු ගුණාංග පෙන්වන්න"
+    label_show_in_menu: "මෙනුවේ දර්ශනය පෙන්වන්න"
+    label_sort_by: "විසින් වර්ග"
+    label_sorted_by: "විසින් වර්ග"
+    label_sort_higher: "ඉහළට ගෙනයන්න"
+    label_sort_lower: "පහළට ගෙනයන්න"
+    label_sorting: "තෝරා බේරා ගැනීමේ"
+    label_spent_time: "වැය කළ කාලය"
+    label_star_query: "අනුග්රහය"
+    label_press_enter_to_save: "සුරැකීමට ඔබන්න ඇතුල් කරන්න."
+    label_public_query: "පොදු"
+    label_sum: "මුදල"
+    label_sum_for: "මුදල"
+    label_total_sum: "Total sum"
+    label_subject: "විෂය"
+    label_this_week: "මේ සතියේ"
+    label_today: "Today"
+    label_time_entry_plural: "වැය කළ කාලය"
+    label_up: "ඉහළට"
+    label_user_plural: "පරිශීලකයන්"
+    label_activity_show_only_comments: "අදහස් දැක්වීම් සමඟ පමණක් ක්රියාකාරකම් පෙන්වන්න"
+    label_activity_show_all: "සියලුම ක්රියාකාරකම් පෙන්වන්න"
+    label_total_progress: "%{percent}% මුළු ප්රගතිය"
+    label_total_amount: "මුළු: %{amount}"
+    label_updated_on: "යාවත්කාලීන කරන ලදි"
+    label_value_derived_from_children: "(දරුවන්ගෙන් ලබාගත් වටිනාකම)"
+    label_children_derived_duration: "Work package's children derived duration"
+    label_warning: "අවවාදය"
+    label_work_package: "වැඩ පැකේජය"
+    label_work_package_parent: "Parent work package"
+    label_work_package_plural: "වැඩ පැකේජ"
+    label_watch: "වොච්"
+    label_watch_work_package: "වැඩ පැකේජය නරඹන්න"
+    label_watcher_added_successfully: "මුරකරු සාර්ථකව එකතු කළා!"
+    label_watcher_deleted_successfully: "මුරකරු සාර්ථකව මකා දමන ලදි!"
+    label_work_package_details_you_are_here: "ඔබ %{type} %{subject}සඳහා %{tab} ටැබ් එකේ ඉන්නේ."
+    label_unwatch: "අසන්න"
+    label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
+    label_uploaded_by: "විසින් උඩුගත"
+    label_default_queries: "පෙරනිමි අදහස්"
+    label_starred_queries: "ප්රියතම අදහස්"
+    label_global_queries: "මහජන අදහස්"
+    label_custom_queries: "පෞද්ගලික අදහස්"
+    label_create_new_query: "නව නිර්මාණය"
+    label_columns: "තීරු"
+    label_attachments: ගොනු
+    label_drop_files: ගොනු මෙහි අතහැර
+    label_drop_files_hint: හෝ ගොනු එකතු කිරීමට ක්ලික් කරන්න
+    label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
+    label_add_attachments: "ඇමුණුම් එකතු කරන්න"
+    label_formattable_attachment_hint: "අමුණන්න සහ සම්බන්ධ ගොනු මෙම ක්ෂේත්රය මත අතහැර, හෝ පසුරු පුවරුවේ සිට ඇලවීම."
+    label_remove_file: "%{fileName}මකන්න"
+    label_remove_watcher: "මුරකරු ඉවත් කරන්න %{name}"
+    label_remove_all_files: සියලුම ගොනු මකන්න
+    label_add_description: "%{file}සඳහා විස්තරයක් එක් කරන්න"
+    label_upload_notification: "ගොනු උඩුගත කිරීම..."
+    label_work_package_upload_notification: "වැඩ පැකේජය සඳහා ගොනු උඩුගත කිරීම #%{id}: %{subject}"
+    label_wp_id_added_by: "#%{id} විසින් එකතු කරන ලද %{author}"
+    label_files_to_upload: "මෙම ගොනු උඩුගත කරනු ඇත:"
+    label_rejected_files: "මෙම ගොනු උඩුගත කළ නොහැක:"
+    label_rejected_files_reason: "ඔවුන්ගේ ප්රමාණය %{maximumFilesize}ට වඩා වැඩි බැවින් මෙම ගොනු උඩුගත කළ නොහැක"
+    label_wait: "කරුණාකර වින්යාසය සඳහා රැඳී සිටින්න..."
+    label_upload_counter: "%{done} ගොනු %{count} අවසන්"
+    label_validation_error: "පහත සඳහන් දෝෂ හේතුවෙන් වැඩ පැකේජය සුරැකිය නොහැකි විය:"
+    label_version_plural: "අනුවාද"
+    label_view_has_changed: "මෙම මතය නොගැලවූ වෙනස්කම් ඇත. ඒවා සුරැකීමට ක්ලික් කරන්න."
+    help_texts:
+      show_modal: 'ගුණාංග උපකාරක පෙළ ප්රවේශය පෙන්වන්න'
+    onboarding:
+      buttons:
+        skip: 'මගහරින්න'
+        next: 'ඊළඟ'
+        got_it: 'ඒක ගත්තා'
+      steps:
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        members: 'Invite new <b>members</b> to join your project.'
+        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
+        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        welcome: 'වඩාත්ම ඉගෙන ගැනීමට විනාඩි තුනක් හඳුන්වාදීමේ චාරිකාවක් ගන්න <b>වැදගත් ලක්ෂණ</b>. <br> අවසානය දක්වා පියවර සම්පූර්ණ කිරීම අපි නිර්දේශ කරමු. ඔබට ඕනෑම වේලාවක සංචාරය නැවත ආරම්භ කළ හැකිය.'
+        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        backlogs:
+          overview: "Manage your work in the <b>backlogs</b> view."
+          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
+          task_board_select: '...and select the <b>task board</b> entry.'
+          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+        boards:
+          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
+          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+        wp:
+          toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
+          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
+          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+    notifications:
+      title: "Notifications"
+      no_unread: "නොකියවූ දැනුම්දීම් නැත"
+      reasons:
+        mentioned: 'mentioned'
+        watched: 'watched'
+        assigned: 'assigned'
+        responsible: 'accountable'
+      facets:
+        unread: 'Unread'
+        all: 'සියලු'
+      center:
+        and_more_users:
+          one: 'and 1 other'
+          other: 'and %{count} others'
+        no_results:
+          at_all: 'New notifications will appear here when there is activity that concerns you'
+          with_current_filter: 'There are no notifications in this view at the moment'
+        mark_all_read: 'Mark all as read'
+        mark_as_read: 'Mark as read'
+        text_update_date: "%{date} by"
+        total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
+        empty_state:
+          no_notification: "Looks like you're all caught up."
+          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_selection: "Click on a notification to view all activity details."
+        new_notifications:
+          message: 'There are new notifications.'
+          link_text: 'Click here to load them'
+      menu:
+        accountable: 'වගවීම'
+        assigned: 'Assigned'
+        by_project: 'Unread by project'
+        by_reason: 'Involvement'
+        inbox: 'Inbox'
+        mentioned: '@mentioned'
+        watching: 'Watching'
+      settings:
+        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        title: "Notification settings"
+        notify_me: "Notify me"
+        reasons:
+          mentioned:
+            title: 'I am @mentioned'
+            description: 'Receive a notification every time someone mentions me anywhere'
+          involved:
+            title: 'Assigned to me or accountable'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
+          watched: 'Updates on watched items'
+          work_package_commented: 'All new comments'
+          work_package_created: 'New work packages'
+          work_package_processed: 'All status changes'
+          work_package_prioritized: 'All priority changes'
+          work_package_scheduled: 'All date changes'
+        global:
+          immediately:
+            title: 'Notify me immediately'
+            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+          delayed:
+            title: 'Also notify me for'
+            description: 'Receive notifications for these activities on work packages in all projects:'
+        project_specific:
+          title: 'Project-specific notification settings'
+          description: 'These project-specific settings override default settings above'
+          add: 'Add setting for project'
+          already_selected: 'This project is already selected'
+          remove: 'Remove project settings'
+    password_confirmation:
+      field_description: 'මෙම වෙනස තහවුරු කිරීම සඳහා ඔබගේ ගිණුමේ මුරපදය ඇතුළත් කළ යුතුය.'
+      title: 'දිගටම කරගෙන යාමට ඔබගේ මුරපදය තහවුරු කරන්න'
+    pagination:
+      no_other_page: "ඔබ සිටින්නේ එකම පිටුවේ ය."
+      pages:
+        next: "ඊළඟ පිටුවට ඉදිරියට යන්න"
+        previous: "පෙර පිටුවට ආපසු යන්න"
+    placeholders:
+      default: '-'
+      subject: 'මෙහි විෂය ඇතුලත් කරන්න'
+      selection: 'කරුණාකර තෝරන්න'
+      relation_description: 'මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න'
+    project:
+      required_outside_context: >
+        කරුණාකර සියලු ගුණාංග බැලීමට වැඩ පැකේජය නිර්මාණය කිරීම සඳහා ව්යාපෘතියක් තෝරන්න. ඔබට තෝරා ගත හැක්කේ ඉහත ආකාරයේ සක්රිය කර ඇති ව්යාපෘති පමණි.
+      context: 'ව්යාපෘති සන්දර්භය'
+      work_package_belongs_to: 'මෙම වැඩ පැකේජය ව්යාපෘතියට අයත් වේ %{projectname}.'
+      click_to_switch_context: 'එම ව්යාපෘතියේ මෙම වැඩ පැකේජය විවෘත කරන්න.'
+      confirm_template_load: 'Switching the template will reload the page and you will lose all input to this form. Continue?'
+      use_template: "Use template"
+      no_template_selected: "(None)"
+      copy:
+        copy_options: "Copy options"
+      autocompleter:
+        label: 'ව්යාපෘති ස්වයංක්රීයව නිම කිරීම'
+    reminders:
+      settings:
+        daily:
+          add_time: 'Add time'
+          enable: 'Enable daily email reminders'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          time_label: 'Time %{counter}:'
+          title: 'Send me daily email reminders for unread notifications'
+        workdays:
+          title: 'Receive email reminders on these days'
+        immediate:
+          title: 'Send me an email reminder'
+          mentioned: 'Immediately when someone @mentions me'
+        alerts:
+          title: 'Email alerts for other items (that are not work packages)'
+          explanation: >
+            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+          news_added: 'පුවත් එකතු'
+          news_commented: 'Comment on a news item'
+          document_added: 'Documents added'
+          forum_messages: 'New forum messages'
+          wiki_page_added: 'විකි පිටුව එකතු කරන ලදි'
+          wiki_page_updated: 'විකි පිටුව යාවත්කාලීන කරන ලදි'
+          membership_added: 'Membership added'
+          membership_updated: 'Membership updated'
+        title: 'Email reminders'
+        pause:
+          label: 'Temporarily pause daily email reminders'
+          first_day: 'First day'
+          last_day: 'Last day'
+    text_are_you_sure: "ඔබට විශ්වාසද?"
+    text_data_lost: "All entered data will be lost."
+    types:
+      attribute_groups:
+        error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
+        error_no_table_configured: "කරුණාකර %{group}සඳහා වගුවක් වින්යාස කරන්න."
+        reset_title: "ආකෘති වින්යාසය සකසන්න"
+        confirm_reset: >
+          අවවාදයයි: ආකෘති වින්යාසය නැවත සැකසීමට ඔබට අවශ්යද? මෙය ඔවුන්ගේ පෙරනිමි කණ්ඩායමට ගුණාංග නැවත සකස් කර සියලුම අභිරුචි ක්ෂේත්ර අක්රීය කරනු ඇත.
+        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
+        upgrade_to_ee_text: "වාව්! ඔබට මෙම අංගය අවශ්ය නම් ඔබ සුපිරි ගැති වේ! Enterprise Edition සේවාදායකයෙකු බවට පත්වීමෙන් OpenSource සංවර්ධකයින්ට සහාය දැක්වීමට ඔබ කැමතිද?"
+        more_information: "වැඩි විස්තර"
+        nevermind: "කිසි විටෙකත් මනස"
+      edit:
+        form_configuration: "ආකෘති වින්යාසය"
+        projects: "ව්‍යාපෘති"
+        settings: "සැකසුම්"
+    time_entry:
+      project: 'ව්යාපෘති'
+      work_package: 'වැඩ පැකේජය'
+      work_package_required: 'පළමුව වැඩ පැකේජයක් තෝරා ගැනීම අවශ්ය වේ.'
+      activity: 'ක්‍රියාකාරකම'
+      comment: 'අදහස් දක්වන්න'
+      duration: 'කාල සීමාව'
+      spent_on: 'දිනය'
+      hours: 'පැය'
+      title: 'ලොග් වේලාව'
+    two_factor_authentication:
+      label_two_factor_authentication: 'Two-factor authentication'
+    watchers:
+      label_loading: පැටවුම් මුරකරුවන්...
+      label_error_loading: මුරකරුවන් පැටවීම අතරතුර දෝෂයක් ඇති විය
+      label_search_watchers: මුරකරුවන් සොයන්න
+      label_add: මුරකරුවන් එකතු කරන්න
+      label_discard: තෝරා ගැනීම ඉවතලන්න
+      typeahead_placeholder: හැකි මුරකරුවන් සොයන්න
+    relation_labels:
+      parent: "මාපිය"
+      children: "දරුවන්"
+      relates: "සම්බන්ධ කිරීම"
+      duplicates: "අනුපිටපත්"
+      duplicated: "විසින් අනුපිටපත්"
+      blocks: "බ්ලොක්"
+      blocked: "විසින් අවහිර කර ඇත"
+      precedes: "පෙර"
+      follows: "පහත දැක්වේ"
+      includes: "ඇතුළත් වේ"
+      partof: "කොටසක්"
+      requires: "අවශ්ය"
+      required: "විසින් අවශ්ය"
+      relation_type: "සම්බන්ධතා වර්ගය"
+    relations_hierarchy:
+      parent_headline: "මාපිය"
+      hierarchy_headline: "ධූරාවලිය"
+      children_headline: "දරුවන්"
+    relation_buttons:
+      set_parent: "මව් සකසන්න"
+      change_parent: "මාපිය වෙනස් කරන්න"
+      remove_parent: "දෙමව්පියන් ඉවත් කරන්න"
+      hierarchy_indent: "ඉන්ඩන්ට් ධූරාවලිය"
+      hierarchy_outdent: "Outdent ධූරාවලිය"
+      group_by_wp_type: "වැඩ පැකේජ වර්ගය අනුව සමූහය"
+      group_by_relation_type: "සම්බන්ධයක් වර්ගය අනුව සමූහය"
+      add_parent: "දැනට පවතින මව් එකතු කරන්න"
+      add_new_child: "නව දරුවෙකු නිර්මාණය කරන්න"
+      create_new: "නව නිර්මාණය"
+      add_existing: "පවතින එකතු කරන්න"
+      add_existing_child: "දැනට පවතින දරුවා එකතු කරන්න"
+      remove_child: "දරුවා ඉවත් කරන්න"
+      add_new_relation: "නව සම්බන්ධතාවයක් සාදන්න"
+      add_existing_relation: "පවතින සම්බන්ධතාවය එකතු කරන්න"
+      update_description: "මෙම සම්බන්ධතාවය පිළිබඳ විස්තරය සකසන්න හෝ යාවත්කාලීන කරන්න"
+      toggle_description: "සම්බන්ධතා විස්තරය ටොගල් කරන්න"
+      update_relation: "සම්බන්ධතා වර්ගය වෙනස් කිරීමට ක්ලික් කරන්න"
+      add_follower: "අනුගාමිකයෙක් එකතු කරන්න"
+      add_predecessor: "පූර්වගාමියා එකතු කරන්න"
+      remove: "සම්බන්ධතාවය ඉවත් කරන්න"
+      save: "සම්බන්ධතාවය සුරකින්න"
+      abort: "අවෙර්ට්"
+    relations_autocomplete:
+      placeholder: "සෙවීමට ටයිප් කරන්න"
+      parent_placeholder: "අවලංගු කිරීමට නව මව් හෝ මාධ්ය පැන තෝරන්න."
+    autocompleter:
+      placeholder: "සෙවීමට ටයිප් කරන්න"
+      notFoundText: "No items found"
+      typeToSearchText: "සෙවීමට ටයිප් කරන්න"
+    repositories:
+      select_tag: 'ටැගය තෝරන්න'
+      select_branch: 'ශාඛාව තෝරන්න'
+    field_value_enter_prompt: "'%{field}' සඳහා වටිනාකමක් ඇතුළත් කරන්න"
+    project_menu_details: "විස්තර"
+    scheduling:
+      manual: 'Manual scheduling'
+      automatic: 'Automatic scheduling'
+    sort:
+      sorted_asc: 'නැගී එන ආකාරයේ අයදුම්, '
+      sorted_dsc: 'බැස වර්ග අයදුම්, '
+      sorted_no: 'කිසිදු ආකාරයක අයදුම්, '
+      sorting_disabled: 'වර්ග කිරීම අක්රීය කර ඇත'
+      activate_asc: 'නැගී එන ආකාරයේ අයදුම් කිරීමට සක්රිය'
+      activate_dsc: 'අවරෝහණ ආකාරයක අයදුම් කිරීමට සක්රිය'
+      activate_no: 'වර්ග කිරීම ඉවත් කිරීමට සක්රිය'
+    text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
+    text_query_destroy_confirmation: "තෝරාගත් දර්ශනය මකා දැමීමට ඔබට අවශ්යද?"
+    text_attachment_destroy_confirmation: "ඔබට ඇමුණුම මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
+    timelines:
+      quarter_label: 'Q%{quarter_number}'
+      gantt_chart: 'ගැන්ට් සටහන'
+      labels:
+        title: 'ලේබල් වින්යාසය'
+        bar: 'බාර් ලේබල්'
+        left: 'වම'
+        right: 'අයිතිය'
+        farRight: 'ඈත හරි'
+        showNone: '— ලේබලයක් නැත —'
+        description: >
+          ඔබට සෑම විටම ගැන්ට් ප්රස්ථාරයේ අදාළ ස්ථානවල පෙන්වීමට අවශ්ය ගුණාංග තෝරන්න. මූලද්රව්යයක් සැරිසරන විට, මෙම ගුණාංග වෙනුවට එහි දිනය ලේබල් පෙන්වනු ලැබේ.
+      button_activate: 'Gantt සටහන පෙන්වන්න'
+      button_deactivate: 'Gantt සටහන සඟවන්න'
+      cancel: අවලංගු කරන්න
+      change: "සැලසුම්කරණය වෙනස් කිරීම"
+      due_date: "අවසන් දිනය"
+      empty: "(හිස්)"
+      error: "දෝෂයක් සිදුවී ඇත."
+      errors:
+        not_implemented: "එය තවමත් ක්රියාත්මක කර නොමැති අංගයක් භාවිතා කරන නිසා කාල නියමය ඉටු කළ නොහැකි විය."
+        report_comparison: "කාලසටහනට වින්යාසගත කළ සැසඳීම් කළ නොහැකි විය. කරුණාකර වින්යාසයේ සුදුසු කොටස පරීක්ෂා කරන්න, එය නැවත සකස් කිරීම මෙම ගැටළුව විසඳීමට උපකාරී වේ."
+        report_epicfail: "අනපේක්ෂිත දෝෂයක් හේතුවෙන් කාල නියමය පැටවිය නොහැකි විය."
+        report_timeout: "කාල නියමය සාධාරණ කාලයක් තුළ පටවා ගත නොහැකි විය."
+      filter:
+        grouping_other: "වෙනත්"
+        noneSelection: "(කිසිවක් නැත)"
+      name: "නම"
+      outline: "දළ සටහන යළි පිහිටුවන්න"
+      outlines:
+        aggregation: "සමුච්චයන් පමණක් පෙන්වන්න"
+        level1: "1 මට්ටම පුළුල් කරන්න"
+        level2: "2 මට්ටම පුළුල් කරන්න"
+        level3: "3 මට්ටම පුළුල් කරන්න"
+        level4: "4 මට්ටම පුළුල් කරන්න"
+        level5: "5 වන මට්ටම පුළුල් කරන්න"
+        all: "සියල්ල පෙන්වන්න"
+      project_status: "ව්යාපෘති තත්ත්වය"
+      really_close_dialog: "ඔබට ඇත්තටම සංවාදය වසා දමා ඇතුළත් කළ දත්ත අහිමි කිරීමට අවශ්යද?"
+      responsible: "වගකිව යුතු"
+      save: සුරකින්න
+      start_date: "ආරම්භක දිනය"
+      tooManyProjects: "ව්යාපෘති %{count} කට වඩා. කරුණාකර වඩා හොඳ පෙරණයක් භාවිතා කරන්න!"
+      selection_mode:
+        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
+      zoom:
+        in: "විශාලනය"
+        out: "විශාලනය"
+        auto: "වාහන විශාලනය"
+        days: "දින"
+        weeks: "සති"
+        months: "මාස"
+        quarters: "නිල නිවාස"
+        years: "අවුරුදු"
+        slider: "විශාලන කීරීම"
+        description: >
+          ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
+    tl_toolbar:
+      zooms: "විශාලන මට්ටම"
+      outlines: "ධූරාවලිය මට්ටම"
+    upsale:
+      ee_only: 'ව්යවසාය සංස්කරණය පමණක් විශේෂාංගය'
+    wiki_formatting:
+      strong: "ශක්තිමත්"
+      italic: "ඇල අකුරු"
+      underline: "යටින් ඉරි"
+      deleted: "මකා දැමූ"
+      code: "පේළිගත කේතය"
+      heading1: "ශීර්ෂය 1"
+      heading2: "ශීර්ෂය 2"
+      heading3: "ශීර්ෂය 3"
+      unordered_list: "නියෝග නොකළ ලැයිස්තුව"
+      ordered_list: "නියෝග ලැයිස්තුව"
+      quote: "උපුටා"
+      unquote: "උපුටා දක්වන්න"
+      preformatted_text: "පෙර ආකෘතිකරණය කරන ලද පෙළ"
+      wiki_link: "විකි පිටුවකට සබැඳිය"
+      image: "පින්තූරය"
+    work_packages:
+      bulk_actions:
+        move: 'ව්යාපෘතියේ තොග වෙනසක්'
+        edit: 'තොග සංස්කරණය'
+        copy: 'තොග පිටපතක්'
+        delete: 'තොග මකන්න'
+      button_clear: "පැහැදිලි"
+      comment_added: "අදහස් දැක්වීම සාර්ථකව එකතු කරන ලදී."
+      comment_send_failed: "දෝෂයක් සිදුවී ඇත. අදහස ඉදිරිපත් කළ නොහැකි විය."
+      comment_updated: "අදහස් දැක්වීම සාර්ථකව යාවත්කාලීන කරන ලදී."
+      confirm_edit_cancel: "ඔබට වැඩ පැකේජය සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද?"
+      description_filter: "පෙරහන්"
+      description_enter_text: "පෙළ ඇතුලත් කරන්න"
+      description_options_hide: "විකල්ප සඟවන්න"
+      description_options_show: "විකල්ප පෙන්වන්න"
+      edit_attribute: "%{attribute} - සංස්කරණය කරන්න"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: "බහුතේරීම් සක්රීය කරන්න"
+      label_disable_multi_select: "බහුකාර්ය අක්රීය කරන්න"
+      label_filter_add: "පෙරහන් එකතු කරන්න"
+      label_filter_by_text: "පෙළ අනුව පෙරහන්"
+      label_options: "විකල්ප"
+      label_column_multiselect: "ඒකාබද්ධ බිංදු ක්ෂේත්රය: ඊතල යතුරු සමඟ තෝරන්න, ඇතුල් කිරීම සමඟ තේරීම තහවුරු කරන්න, පසුබිම් අවකාශය සමඟ මකා දමන්න"
+      message_error_during_bulk_delete: වැඩ පැකේජ මකා දැමීමට උත්සාහ කරන අතරතුර දෝෂයක් සිදුවිය.
+      message_successful_bulk_delete: සාර්ථකව මකා දැමූ වැඩ පැකේජ.
+      message_successful_show_in_fullscreen: "සම්පූර්ණ තිර දර්ශනය තුළ මෙම වැඩ පැකේජය විවෘත කිරීමට මෙහි ක්ලික් කරන්න."
+      message_view_spent_time: "මෙම වැඩ පැකේජය සඳහා ගත කළ කාලය පෙන්වන්න"
+      message_work_package_read_only: "වැඩ පැකේජය මෙම තත්වය තුළ අගුලු දමා ඇත. තත්වය හැර වෙනත් කිසිදු ගුණාංගයක් වෙනස් කළ නොහැක."
+      message_work_package_status_blocked: "සංවෘත තත්ත්වය සහ සංවෘත අනුවාදය පවරා ඇති නිසා වැඩ පැකේජ තත්ත්වය ලිවිය නොහැකි ය."
+      placeholder_filter_by_text: "විෂය, විස්තරය, අදහස්,..."
+      inline_create:
+        title: 'මෙම ලැයිස්තුවට නව වැඩ පැකේජයක් එක් කිරීමට මෙහි ක්ලික් කරන්න'
+      create:
+        title: 'නව වැඩ පැකේජය'
+        header: 'අලුත් %{type}'
+        header_no_type: 'නව වැඩ පැකේජය (ටයිප් තවමත් සකසා නැත)'
+        header_with_parent: 'නව %{type} ( %{parent_type} #%{id}දරුවා)'
+        button: 'සාදන්න'
+      copy:
+        title: 'වැඩ පැකේජය පිටපත් කරන්න'
+      hierarchy:
+        show: "ධූරාවලිය මාදිලිය පෙන්වන්න"
+        hide: "ධූරාවලිය මාදිලිය සඟවන්න"
+        toggle_button: 'ධූරාවලිය මාදිලිය ටොගල් කිරීමට ක්ලික් කරන්න.'
+        leaf: '%{level}මට්ටමේ වැඩ පැකේජ කොළ.'
+        children_collapsed: 'ධූරාවලියේ මට්ටම %{level}, බිඳ වැටුණි. පෙරීම දරුවන්ට පෙන්වීමට ක්ලික් කරන්න'
+        children_expanded: 'ධූරාවලියේ මට්ටම %{level}, පුළුල් විය. පෙරහන් කළ දරුවන් බිඳ වැටීම සඳහා ක්ලික් කරන්න'
+      faulty_query:
+        title: වැඩ පැකේජ පටවා ගත නොහැකි විය.
+        description: ඔබේ මතය වැරදියි. එය ක්රියාවට නැංවිය නොහැක.
+      no_results:
+        title: ප්රදර්ශනය කිරීමට වැඩ පැකේජ නොමැත.
+        description: එක්කෝ කිසිවක් නිර්මාණය කර නැත හෝ සියලු වැඩ පැකේජ පෙරීම ඇත.
+      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      property_groups:
+        details: "විස්තර"
+        people: "ජනතාව"
+        estimatesAndTime: "ඇස්තමේන්තු සහ වේලාව"
+        other: "වෙනත්"
+      properties:
+        assignee: "අස්ගිනී"
+        author: "කර්තෘ"
+        createdAt: "මත නිර්මාණය"
+        description: "විස්තරය"
+        date: "දිනය"
+        dueDate: "අවසන් දිනය"
+        estimatedTime: "ඇස්තමේන්තුගත කාලය"
+        spentTime: "වැය කළ කාලය"
+        category: "ප්රවර්ගය"
+        percentageDone: "ප්රතිශතය සිදු"
+        priority: "ප්රමුඛතාව"
+        projectName: "ව්යාපෘති"
+        responsible: "වගකිව යුතු"
+        startDate: "ආරම්භක දිනය"
+        status: "තත්වය"
+        subject: "විෂය"
+        subproject: "උප ව්යාපෘතිය"
+        title: "මාතෘකාව"
+        type: "වර්ගය"
+        updatedAt: "යාවත්කාලීන කරන ලදි"
+        versionName: "අනුවාදය"
+        version: "අනුවාදය"
+      default_queries:
+        latest_activity: "නවතම ක්රියාකාරකම්"
+        created_by_me: "මා විසින් නිර්මාණය කරන ලදී"
+        assigned_to_me: "මට පවරනු ලැබේ"
+        recently_created: "මෑතකදී නිර්මාණය"
+        all_open: "සියල්ල විවෘතයි"
+        summary: "සාරාංශය"
+      jump_marks:
+        pagination: "මේසය පේනීම වෙත පනින්න"
+        label_pagination: "වැඩ පැකේජ වගුව හරහා මඟ හැරීමට සහ පේනිෂන් වෙත යන්න මෙහි ක්ලික් කරන්න"
+        content: "අන්තර්ගතයට පනින්න"
+        label_content: "මෙනුව හරහා මඟ හැරීමට සහ අන්තර්ගතයට යන්න මෙහි ක්ලික් කරන්න"
+      placeholders:
+        default: "-"
+        date: "Select date"
+        formattable: "%{name}: සංස්කරණය කිරීමට ක්ලික් කරන්න..."
+      query:
+        column_names: "තීරු"
+        group_by: "කණ්ඩායම් ප්රතිඵල විසින්"
+        group: "කණ්ඩායම විසින්"
+        group_by_disabled_by_hierarchy: "ධූරාවලියේ මාදිලිය ක්රියාකාරී වීම හේතුවෙන් සමූහය අක්රීය වේ."
+        hierarchy_disabled_by_group_by: "%{column}විසින් කාණ්ඩගත කර ඇති ප්රති results ල හේතුවෙන් ධූරාවලියේ මාදිලිය අක්රිය වේ."
+        sort_ascending: "නැගී එන වර්ග"
+        sort_descending: "බැස වර්ග"
+        move_column_left: "තීරුව වමට ගෙනයන්න"
+        move_column_right: "තීරුව දකුණට ගෙනයන්න"
+        hide_column: "තීරුව සඟවන්න"
+        insert_columns: "තීරු ඇතුල් කරන්න..."
+        filters: "පෙරහන්"
+        display_sums: "සංදර්ශකය"
+        confirm_edit_cancel: "ඔබට මෙම දර්ශනයේ නම සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද? මාතෘකාව පෙර වටිනාකමට නැවත සකසනු ඇත."
+        click_to_edit_query_name: "මෙම දර්ශනයේ මාතෘකාව සංස්කරණය කිරීමට ක්ලික් කරන්න."
+        rename_query_placeholder: "මෙම දර්ශනයේ නම"
+        star_text: "මෙම දර්ශනය ප්රියතම ලෙස සලකුණු කර වම් පසින් සුරකින ලද අදහස් පැති තීරුවේ එකතු කරන්න."
+        public_text: >
+          මෙම මතය ප්රකාශයට පත් කරන්න, වෙනත් පරිශීලකයින්ට ඔබගේ දැක්ම වෙත ප්රවේශ වීමට ඉඩ සලසයි. 'මහජන අදහස් කළමනාකරණය කරන්න' අවසරය ඇති පරිශීලකයින්ට මහජන විමසුම වෙනස් කිරීමට හෝ ඉවත් කිරීමට හැකිය. එම දර්ශනයේ වැඩ පැකේජ ප්රති results ල දෘශ්යතාවයට මෙය බලපාන්නේ නැති අතර ඔවුන්ගේ අවසර මත පදනම්ව පරිශීලකයින්ට විවිධ ප්රති results ල දැකිය හැකිය.
+        errors:
+          unretrievable_query: "URL වෙතින් දැක්ම ලබා ගැනීමට නොහැකි විය"
+          not_found: "එවැනි මතයක් නොමැත"
+          duplicate_query_title: "මෙම දර්ශනයේ නම දැනටමත් පවතී. කෙසේ හෝ වෙනස් කරන්න?"
+        text_no_results: "ගැලපෙන අදහස් කිසිවක් සොයාගත නොහැකි විය."
+      scheduling:
+        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
+        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+      table:
+        configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
+        summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."
+        text_inline_edit: "මෙම වගුවේ බොහෝ සෛල එම ගුණාංගයේ පේලි-සංස්කරණ ක්රියාකාරිත්වය සක්රිය කරන බොත්තම් වේ."
+        text_sort_hint: "වගු ශීර්ෂයන්හි ඇති සබැඳි සමඟ ඔබට වගු තීරු වර්ග කිරීම, කණ්ඩායම් කිරීම, නැවත සකස් කිරීම, ඉවත් කිරීම සහ එකතු කිරීම කළ හැකිය."
+        text_select_hint: "තෝරන්න පෙට්ටි 'ALT' සහ ඊතල යතුරු සමඟ විවෘත කළ යුතුය."
+      table_configuration:
+        button: 'මෙම වැඩ පැකේජ වගුව සකසන්න'
+        choose_display_mode: 'වැඩ පැකේජ ලෙස පෙන්වන්න'
+        modal_title: 'වැඩ පැකේජය වගු වින්යාසය'
+        embedded_tab_disabled: "ඔබ සංස්කරණය කරන්නේ කාවැද්දූ දර්ශනය සඳහා මෙම වින්යාස පටිත්ත ලබා ගත නොහැක."
+        default: "පෙරනිමි"
+        display_settings: 'දර්ශන සැකසුම්'
+        default_mode: "පැතලි ලැයිස්තුව"
+        hierarchy_mode: "ධූරාවලිය"
+        hierarchy_hint: "සියළුම පෙරූ වගු ප්රතිඵල ඔවුන්ගේ මුතුන් මිත්තන් සමඟ වැඩි දියුණු කරනු ඇත. ධූරාවලිය පුළුල් කර බිඳ දැමිය හැකිය."
+        display_sums_hint: "වගු ප්රතිඵලවලට පහළින් පේළියක සියලු සාරාංශගත ගුණාංගවල සාරාංශ දර්ශනය කරන්න."
+        show_timeline_hint: "වගුවේ දකුණු පැත්තේ අන්තර් ක්රියාකාරී ගැන්ට් ප්රස්ථාරයක් පෙන්වන්න. වගුව සහ ගැන්ට් ප්රස්ථාරය අතර බෙදුම්කරු ඇදගෙන යාමෙන් ඔබට එහි පළල වෙනස් කළ හැකිය."
+        highlighting: 'උද්දීපනය'
+        highlighting_mode:
+          description: "වර්ණය සමඟ ඉස්මතු කරන්න"
+          none: "කිසිදු අවධාරණය"
+          inline: 'උද්දීපිත ගුණාංගය (ය)'
+          inline_all: 'සියලු ගුණාංග'
+          entire_row_by: 'මුළු පේළිය'
+          status: 'තත්වය'
+          priority: 'ප්රමුඛතාව'
+          type: 'වර්ගය'
+        sorting_mode:
+          description: 'ඔබගේ වැඩ පැකේජ වර්ග කිරීම සඳහා මාදිලිය තෝරා ගන්න:'
+          automatic: 'ස්වයංක්රීය'
+          manually: 'අතින්'
+          warning: 'ස්වයංක්රීය තෝරා බේරා ගැනීමේ මාදිලිය සක්රිය විට ඔබ ඔබේ පෙර තෝරා බේරා ගැනීමේ අහිමි වනු ඇත.'
+        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+        upsale:
+          attribute_highlighting: 'ස්කන්ධයෙන් කැපී පෙනෙන ඇතැම් වැඩ පැකේජ අවශ්යද?'
+          relation_columns: 'වැඩ පැකේජ ලැයිස්තුවේ සබඳතා දැකීමට අවශ්යද?'
+          check_out_link: 'ව්යවසාය සංස්කරණය පරීක්ෂා කරන්න.'
+        relation_filters:
+          filter_work_packages_by_relation_type: 'සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න'
+      tabs:
+        overview: දළ විශ්ලේෂණය
+        activity: ක්‍රියාකාරකම
+        relations: සබඳතා
+        watchers: මුරකරුවන්
+        attachments: ඇමුණුම්
+      time_relative:
+        days: "දින"
+        weeks: "සති"
+        months: "මාස"
+    toolbar:
+      settings:
+        configure_view: "දැක්ම සකසන්න..."
+        columns: "තීරු..."
+        sort_by: "විසින් වර්ග කරන්න..."
+        group_by: "කණ්ඩායම විසින්..."
+        display_sums: "සංදර්ශකය"
+        display_hierarchy: "ධූරාවලිය පෙන්වන්න"
+        hide_hierarchy: "ධූරාවලිය සඟවන්න"
+        hide_sums: "සඟවන්න"
+        save: "සුරකින්න"
+        save_as: "ලෙස සුරකින්න..."
+        export: "අපනයන..."
+        visibility_settings: "දෘශ්යතා සැකසුම්..."
+        page_settings: "දැක්ම නැවත නම් කරන්න..."
+        delete: "මකන්න"
+      filter: "පෙරහන්"
+      unselected_title: "වැඩ පැකේජය"
+      search_query_label: "සුරකින ලද අදහස් සොයන්න"
+      search_query_title: "සුරකින ලද අදහස් සෙවීමට ක්ලික් කරන්න"
+      placeholder_query_title: "මෙම මතය සඳහා මාතෘකාවක් සකසන්න"
+    modals:
+      label_settings: "දැක්ම නැවත නම්"
+      label_name: "නම"
+      label_delete_page: "වත්මන් පිටුව මකන්න"
+      button_apply: "අයදුම් කරන්න"
+      button_save: "සුරකින්න"
+      button_submit: "ඉදිරිපත් කරන්න"
+      button_cancel: "අවලංගු කරන්න"
+      form_submit:
+        title: 'දිගටම කරගෙන යාමට තහවුරු කරන්න'
+        text: 'ඔබට මෙම ක්රියාව කිරීමට අවශ්ය බව ඔබට විශ්වාසද?'
+      destroy_work_package:
+        title: "%{label}මකාදැමීම තහවුරු කරන්න"
+        text: "ඔබට පහත සඳහන් %{label} මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
+        has_children: "වැඩ පැකේජයට %{childUnits}ඇත:"
+        confirm_deletion_children: "ලැයිස්තුගත වැඩ පැකේජ වලින් පැවත එන සියලුම දෙනා නැවත නැවතත් ඉවත් කරන බව මම පිළිගනිමි."
+        deletes_children: "සියලුම ළමා වැඩ පැකේජ සහ ඔවුන්ගෙන් පැවත එන්නන් ද නැවත නැවතත් මකා දැමෙනු ඇත."
+      destroy_time_entry:
+        title: "Confirm deletion of time entry"
+        text: "Are you sure you want to delete the following time entry?"
+    notice_no_results_to_display: "ප්රදර්ශනය කිරීමට දෘශ්යමාන ප්රති results ල නොමැත."
+    notice_successful_create: "සාර්ථක නිර්මාණය."
+    notice_successful_delete: "සාර්ථක මකාදැමීම."
+    notice_successful_update: "සාර්ථක යාවත්කාලීන කිරීම."
+    notice_job_started: "job started."
+    notice_bad_request: "නරක ඉල්ලීම."
+    relations:
+      empty: සම්බන්ධයක් නොමැත
+      remove: සම්බන්ධතාවය ඉවත් කරන්න
+    inplace:
+      button_edit: "%{attribute}: සංස්කරණය කරන්න"
+      button_save: "%{attribute}: සුරකින්න"
+      button_cancel: "%{attribute}: අවලංගු කරන්න"
+      button_save_all: "සුරකින්න"
+      button_cancel_all: "අවලංගු කරන්න"
+      link_formatting_help: "පෙළ හැඩතල ගැන්වීම උදව්"
+      btn_preview_enable: "පෙරදසුන"
+      btn_preview_disable: "පෙරදසුන අක්රීය කරන්න"
+      null_value_label: "වටිනාකමක් නැත"
+      clear_value_label: "-"
+      errors:
+        required: '%{field} හිස් විය නොහැක'
+        number: '%{field} වලංගු අංකයක් නොවේ'
+        maxlength: '%{field} ඉලක්කම් %{maxLength} ට වඩා අඩංගු විය නොහැක (ය)'
+        minlength: '%{field} ඉලක්කම් %{minLength} ට වඩා අඩු අඩංගු විය නොහැක (ය)'
+        messages_on_field: 'මෙම ක්ෂේත්රය අවලංගුයි: %{messages}'
+    error_could_not_resolve_version_name: "අනුවාදයේ නම විසඳිය නොහැක"
+    error_could_not_resolve_user_name: "පරිශීලක නාමය විසඳිය නොහැක"
+    error_attachment_upload: "ගොනුව උඩුගත කිරීමට අසමත් විය: %{error}"
+    error_attachment_upload_permission: "මෙම සම්පත මත ගොනු උඩුගත කිරීමට ඔබට අවසර නැත."
+    units:
+      workPackage:
+        one: "වැඩ පැකේජය"
+        other: "වැඩ පැකේජ"
+      child_work_packages:
+        one: "එක් ළමා වැඩ පැකේජය"
+        other: "%{count} වැඩ පැකේජය දරුවන්"
+      hour:
+        one: "1 h"
+        other: "%{count} ඌ"
+        zero: "0 ඌ"
+    zen_mode:
+      button_activate: 'සක්රිය මාදිලිය'
+      button_deactivate: 'සෙන් මාදිලිය අක්රිය'
+    global_search:
+      all_projects: "සියලු ව්යාපෘති"
+      search: "සොයන්න"
+      close_search: "සෙවුම වසන්න"
+      current_project: "මෙම ව්යාපෘතියේ"
+      current_project_and_all_descendants: "මෙම ව්යාපෘතිය+උප ව්යාපෘති"
+      title:
+        all_projects: "සියලු ව්යාපෘති"
+        project_and_subprojects: "සහ සියලු උප ව්යාපෘති"
+        search_for: "සොයන්න"
+    views:
+      card: 'කාඩ්'
+      list: 'මේසය'
+      timeline: 'ගැන්ට්'
+    invite_user_modal:
+      back: 'ආපසු'
+      invite: 'Invite'
+      title:
+        invite: 'පරිශීලකයාට ආරාධනා කරන්න'
+        invite_to_project: 'Invite %{type} to %{project}'
+        User: 'user'
+        Group: 'group'
+        PlaceholderUser: 'placeholder user'
+        invite_principal_to_project: 'Invite %{principal} to %{project}'
+      project:
+        label: 'ව්යාපෘති'
+        required: 'Please select a project'
+        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
+        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        next_button: 'ඊළඟ'
+        no_results: 'No projects were found'
+        no_invite_rights: 'You are not allowed to invite members to this project'
+      type:
+        required: 'Please select the type to be invited'
+        user:
+          title: 'පරිශීලක'
+          description: 'Permissions based on the assigned role in the selected project'
+        group:
+          title: 'කණ්ඩායම'
+          description: 'Permissions based on the assigned role in the selected project'
+        placeholder:
+          title: 'Placeholder user'
+          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          description: 'Has no access to the project and no emails are sent out.'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+      principal:
+        label:
+          name_or_email: 'Name or email address'
+          name: 'නම'
+        already_member_message: 'Already a member of %{project}'
+        no_results_user: 'No users were found'
+        invite_user: 'Invite:'
+        no_results_placeholder: 'No placeholders were found'
+        create_new_placeholder: 'Create new placeholder:'
+        no_results_group: 'No groups were found'
+        next_button: 'ඊළඟ'
+        required:
+          user: 'Please select a user'
+          placeholder: 'Please select a placeholder'
+          group: 'Please select a group'
+      role:
+        label: 'Role in %{project}'
+        no_roles_found: 'No roles were found'
+        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        required: 'Please select a role'
+        next_button: 'ඊළඟ'
+      message:
+        label: 'Invitation message'
+        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
+        next_button: 'Review invitation'
+      summary:
+        next_button: 'ආරාධනය යවන්න'
+      success:
+        title: '%{principal} was invited!'
+        description:
+          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
+          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+        next_button: 'ඉදිරියට යන්න'
+    forms:
+      submit_success_message: 'The form was successfully submitted'
+      load_error_message: 'There was an error loading the form'
+      validation_error_message: 'Please fix the errors present in the form'
+      advanced_settings: 'උසස් සැකසුම්'

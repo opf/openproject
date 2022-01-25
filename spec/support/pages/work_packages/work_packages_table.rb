@@ -123,8 +123,8 @@ module Pages
     def expect_query_in_select_dropdown(name)
       page.find('.title-container').click
 
-      page.within('#querySelectDropdown') do
-        expect(page).to have_selector('.ui-menu-item', text: name)
+      page.within('#viewSelect') do
+        expect(page).to have_selector('.op-sidemenu--item-action', text: name)
       end
     end
 
@@ -251,7 +251,7 @@ module Pages
 
       click_button 'Save'
 
-      expect_notification message: 'Successful creation.'
+      expect_toast message: 'Successful creation.'
       expect_title name
     end
 

@@ -70,8 +70,8 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <div>
-  <%= rails_cell Members::UserFilterCell, params, @members_filter_options %>
-  <%= rails_cell Members::TableCell, @members, @members_table_options %>
+  <%= rails_cell Members::UserFilterCell, params, **@members_filter_options %>
+  <%= rails_cell Members::TableCell, @members, **@members_table_options %>
 </div>
 
 

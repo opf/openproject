@@ -5,12 +5,12 @@ ca:
     attributes:
       grids/grid:
         page: "Pàgina"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
+        row_count: "Nombre de files"
+        column_count: "Nombre de columnes"
         widgets: "Widgets"
     errors:
       models:
         grids/grid:
-          overlaps: 'overlap.'
-          outside: 'is outside of the grid.'
-          end_before_start: 'end value needs to be larger than the start value.'
+          overlaps: 'superposició.'
+          outside: 'és fora de la graella.'
+          end_before_start: 'el valor final ha de ser major que el valor inicial.'

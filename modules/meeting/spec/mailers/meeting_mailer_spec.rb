@@ -95,6 +95,38 @@ describe MeetingMailer, type: :mailer do
         expect(mail.to).to match_array([watcher1.mail])
       end
     end
+
+    context 'when the meeting time results in another date' do
+      let(:meeting) do
+        FactoryBot.create :meeting,
+                          author: author,
+                          project: project,
+                          start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+      end
+
+      describe 'it renders november 9th for Berlin zone' do
+        let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', author }
+
+        it 'renders the mail with the correct locale' do
+          expect(mail.html_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
+          expect(mail.text_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
+
+          expect(mail.to).to match_array([author.mail])
+        end
+      end
+
+      describe 'it renders november 10th for Tokyo zone' do
+        let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
+        let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+
+        it 'renders the mail with the correct locale' do
+          expect(mail.text_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')
+          expect(mail.html_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')
+
+          expect(mail.to).to match_array([watcher1.mail])
+        end
+      end
+    end
   end
 
   describe 'icalendar' do
@@ -159,13 +191,45 @@ describe MeetingMailer, type: :mailer do
       let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
       let(:mail) { described_class.content_for_review meeting_agenda, 'meeting_agenda', watcher1 }
 
-      it 'renders the mail with the correcet locale' do
+      it 'renders the mail with the correct locale' do
         expect(mail.text_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
         expect(mail.text_part.body).to include("#{author.name} has put the")
         expect(mail.html_part.body).to include('01/19/2021 07:00 PM-08:00 PM (GMT+09:00) Asia/Tokyo')
         expect(mail.html_part.body).to include("#{author.name} has put the")
 
         expect(mail.to).to match_array([watcher1.mail])
+      end
+    end
+
+    context 'when the meeting time results in another date' do
+      let(:meeting) do
+        FactoryBot.create :meeting,
+                          author: author,
+                          project: project,
+                          start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+      end
+
+      describe 'it renders november 9th for Berlin zone' do
+        let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', author }
+
+        it 'renders the mail with the correct locale' do
+          expect(mail.text_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
+          expect(mail.html_part.body).to include('11/09/2021 11:00 PM-12:00 AM (GMT+01:00) Europe/Berlin')
+
+          expect(mail.to).to match_array([author.mail])
+        end
+      end
+
+      describe 'it renders november 10th for Tokyo zone' do
+        let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', watcher1 }
+        let!(:preference) { FactoryBot.create(:user_preference, user: watcher1, time_zone: 'Asia/Tokyo') }
+
+        it 'renders the mail with the correct locale' do
+          expect(mail.text_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')
+          expect(mail.html_part.body).to include('11/10/2021 07:00 AM-08:00 AM (GMT+09:00) Asia/Tokyo')
+
+          expect(mail.to).to match_array([watcher1.mail])
+        end
       end
     end
   end

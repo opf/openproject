@@ -41,7 +41,7 @@ import {
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -98,7 +98,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     protected schemaCache:SchemaCacheService,
     // Get parent field group from injector if we're in a form
     @Optional() protected editForm:EditFormComponent,
-    protected NotificationsService:NotificationsService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService) {
     super();

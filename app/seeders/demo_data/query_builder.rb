@@ -51,8 +51,7 @@ module DemoData
       {
         name: config[:name],
         user: User.admin.first,
-        is_public: config[:is_public] != false,
-        hidden: config[:hidden] == true,
+        public: config[:public] != false,
         show_hierarchies: config[:hierarchy] == true,
         timeline_visible: config[:timeline] == true
       }
@@ -70,16 +69,15 @@ module DemoData
 
       query = Query.create! attr
 
-      create_menu_item query
+      create_view(query) unless config[:hidden]
 
       query
     end
 
-    def create_menu_item(query)
-      MenuItems::QueryMenuItem.create!(
-        navigatable_id: query.id,
-        name: SecureRandom.uuid,
-        title: query.name
+    def create_view(query)
+      View.create!(
+        type: 'work_packages_table',
+        query: query
       )
     end
 

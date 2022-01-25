@@ -113,10 +113,12 @@ fr:
       check_1: 'Vérifiez que vous avez téléversé au moins un modèle IFC.'
       check_2: 'Vérifiez qu''au moins un modèle IFC est défini comme « Par défaut ».'
     no_results: "Aucun modèle IFC n'a été téléversé dans ce projet."
-    processing_state:
+    conversion_status:
       label: 'En cours de traitement ?'
-      in_progress: 'En cours'
+      pending: 'En attente'
+      processing: 'En cours de traitement'
       completed: 'Terminé'
+      error: 'Erreur'
     processing_notice:
       processing_default: 'Les modèles IFC par défaut suivants sont toujours en cours de traitement et ne sont donc pas encore disponibles :'
     flash_messages:

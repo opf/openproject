@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 shared_examples 'represents the notification' do
-  it :aggregate_failures do
+  it 'represents the notification', :aggregate_failures do
     expect(last_response.status).to eq(200)
     expect(last_response.body)
       .to(be_json_eql('Notification'.to_json).at_path('_type'))

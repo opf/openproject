@@ -30,7 +30,7 @@
 require 'spec_helper'
 
 describe Authentication::OmniauthService do
-  let(:strategy) { double('Omniauth Strategy') }
+  let(:strategy) { double('Omniauth Strategy', name: 'saml') }
   let(:auth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'google',

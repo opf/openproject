@@ -55,25 +55,6 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
               where: "project_id IS NOT NULL",
               name: 'index_notification_settings_unique_project'
     end
-
-    # Set all channels to ian
-    execute <<~SQL.squish
-      UPDATE notification_settings SET channel = 0;
-    SQL
-
-    # Restore notification settings
-    execute <<~SQL.squish
-      INSERT INTO notification_settings
-        (project_id, user_id, channel, watched, involved, mentioned,
-        work_package_commented, work_package_created, work_package_processed, work_package_prioritized, work_package_scheduled)
-      SELECT project_id, user_id, channel + 1, watched, involved, mentioned,
-        work_package_commented, work_package_created, work_package_processed, work_package_prioritized, work_package_scheduled
-      FROM notification_settings
-      UNION
-      SELECT project_id, user_id, channel + 2, watched, involved, mentioned,
-        work_package_commented, work_package_created, work_package_processed, work_package_prioritized, work_package_scheduled
-      FROM notification_settings;
-    SQL
   end
   # rubocop:enable Metrics/AbcSize
 end

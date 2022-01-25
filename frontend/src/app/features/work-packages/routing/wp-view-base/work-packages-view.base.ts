@@ -35,7 +35,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { filter, take, withLatestFrom } from 'rxjs/operators';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WorkPackageStaticQueriesService } from 'core-app/features/work-packages/components/wp-query-select/wp-static-queries.service';
+import { StaticQueriesService } from 'core-app/shared/components/op-view-select/op-static-queries.service';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -98,7 +98,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   @InjectField() I18n!:I18nService;
 
-  @InjectField() wpStaticQueries:WorkPackageStaticQueriesService;
+  @InjectField() opStaticQueries:StaticQueriesService;
 
   @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
 
@@ -232,7 +232,11 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
    * @return {boolean} whether any of these events should trigger the view reloading
    */
   protected filterRefreshEvents(events:HalEvent[]):boolean {
-    const rendered = new Set(this.querySpace.renderedWorkPackageIds.getValueOr([]));
+    const source:string[] = this.querySpace.renderedWorkPackageIds.value
+      || this.querySpace.results.value?.elements.map((el) => el.id as string)
+      || [];
+
+    const rendered = new Set(source);
 
     for (let i = 0; i < events.length; i++) {
       const item = events[i];

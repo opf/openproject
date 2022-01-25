@@ -29,7 +29,7 @@ hr:
       no_results_title_text: Nema dostupnih dodataka.
     custom_styles:
       color_theme: "Color theme"
-      color_theme_custom: "(Custom)"
+      color_theme_custom: "(Prilagođeno)"
       colors:
         alternative-color: "Alternative"
         content-link-color: "Link font"
@@ -318,6 +318,10 @@ hr:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Masovno premještanje/kopiranje ne podržava radne pakete iz više projekata'
@@ -461,6 +465,7 @@ hr:
         url: "URL"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Dozvole"
       time_entry:
         activity: "Aktivnost"
         hours: "Sati"
@@ -589,7 +594,9 @@ hr:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globalne'
@@ -672,7 +679,6 @@ hr:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -736,6 +742,7 @@ hr:
               does_not_exist: "Navedena kategorija ne postoji."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "mora biti >=0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -746,6 +753,11 @@ hr:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Mora sadržavati znakove sljedećih klasa (najamanje %{min_count} od %{all_count}: %{rules})."
               lowercase: "mala slova (npr. 'a')"
@@ -851,17 +863,16 @@ hr:
     id: "ID"
     is_default: "Zadane vrijednost"
     is_for_all: "Za sve projekte"
-    is_public: "Javno"
+    public: "Javno"
     #kept for backwards compatibility
     issue: "Radni paket"
     lastname: "Prezime"
-    login: "Username"
+    login: "Korisničko ime"
     mail: "Email"
     name: "Naziv"
     password: "Lozinka"
     priority: "Prioritet"
     project: "Projekt"
-    public: "Javno"
     responsible: "Accountable"
     role: "Role"
     roles: "Role"
@@ -1210,7 +1221,9 @@ hr:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Nije moguće izbrisati prilagođeno polje"
-  error_can_not_delete_type: "Ovaj tip sadrži radni paket i ne može biti izbrisan."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standardni tipovi ne mogu biti izbrisani."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Ova rola se koristi i ne može biti izbrisana."
@@ -1357,6 +1370,23 @@ hr:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Vijesti'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Accessibility"
   label_account: "Korisnički račun"
   label_active: "Aktivno"
@@ -1380,7 +1410,7 @@ hr:
   label_all: "sve"
   label_all_time: "sve vrijeme"
   label_all_words: "Sve riječi"
-  label_all_open_wps: "All open"
+  label_all_open_wps: "Svi otvoreni"
   label_always_visible: "Uvijek se prikazuje"
   label_announcement: "Obavijest"
   label_api_access_key: "API pristupni ključ"
@@ -1426,13 +1456,13 @@ hr:
   label_consent_settings: "Pristanak korisnika"
   label_wiki_menu_item: Element Wiki izbornika
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
-  label_select_project: "Select a project"
+  label_select_project: "Odaberi projekt"
   label_required_disk_storage: "Potraban diskovni prostor"
   label_send_invitation: Pošalji pozivnicu
   label_change_plural: "Promjene"
   label_change_properties: "Promjeni značajke"
   label_change_status: "Promijeni status"
-  label_change_status_of_user: "Change status of #{username}"
+  label_change_status_of_user: "Promijeni status #{username}"
   label_change_view_all: "Pogledaj sve promjene"
   label_changes_details: "Detalji svih promjena"
   label_changeset: "Changeset"
@@ -1611,6 +1641,10 @@ hr:
   label_member_plural: "Članovi"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Naziv stavke izbornika"
   label_message: "Poruka"
   label_message_last: "Posljednja poruka"
@@ -1636,7 +1670,7 @@ hr:
   label_name: "Naziv"
   label_never: "Nikad"
   label_new: "Novi"
-  label_new_features: "New features"
+  label_new_features: "Nove značajke"
   label_new_statuses_allowed: "Novi statusi dopušteni"
   label_news_singular: "Vijesti"
   label_news_added: "Vijest dodana"
@@ -1716,7 +1750,6 @@ hr:
   label_public_projects: "Javni projekti"
   label_query_new: "Novi upit"
   label_query_plural: "Prilagođeni upiti"
-  label_query_menu_item: "Dohvati stavku izbornika"
   label_read: "Pročitajte..."
   label_register: "Kreirajte novi račun"
   label_register_with_developer: "Registrirajte se kao developer"
@@ -1877,20 +1910,20 @@ hr:
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 zaključen"
+    other: "%{count} zatvorenih"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "1 komentar"
+    other: "%{count} komentara"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "1 započet"
+    other: "%{count} započeta"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "1 projekt"
+    other: "%{count} projekta"
     zero: "no projects"
   label_yesterday: "jučer"
   label_role_type: "Tip"
@@ -2109,7 +2142,7 @@ hr:
     heading_getting_started: "Get an overview"
     text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
-    welcome: "Welcome to OpenProject"
+    welcome: "Dobrodošli na OpenProject"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Dodaj bilješke"
   permission_add_work_packages: "Dodaj radne pakete"
@@ -2164,9 +2197,9 @@ hr:
   permission_protect_wiki_pages: "Zaštiti wiki stranice"
   permission_rename_wiki_pages: "Preimenuj wiki stranice"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Odaberi module projekta"
   permission_manage_types: "Odaberi tipove"
-  permission_view_calendar: "Prikaži kalendar"
   permission_view_changesets: "Pogledaj revizije za repozitorij unutar OpenProjecta"
   permission_view_commit_author_statistics: "Pogledaj statistiku commitanja autora"
   permission_view_work_package_watchers: "Prikaži listu nadglednika"
@@ -2202,7 +2235,6 @@ hr:
       archived: "Archived"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_calendar: "Kalendar"
   project_module_work_package_tracking: "Praćenje radnog paketa"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
@@ -2830,7 +2862,6 @@ hr:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisati će te samo glavnu stavku wiki izbornika. U sljdećem koraku morate izabrati wiki stranicu za koju će se generirati nova stavka. Za brisanje wiki stranice, wiki modul mora biti deaktiviran od strane administratora projekta.
   wiki_menu_item_delete_not_permitted: Wiki stavka izbornika jedine wiki stranice ne može biti izbrisana.
-  query_menu_item_for: "Stavka izbornika za upit \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2889,6 +2920,7 @@ hr:
       schema: 'Shema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

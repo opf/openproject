@@ -34,9 +34,13 @@ import {
   globalSearchWorkPackagesSelectorEntry,
 } from 'core-app/core/global_search/global-search-work-packages-entry.component';
 import {
-  NotificationsContainerComponent,
-  notificationsContainerSelector,
-} from 'core-app/shared/components/notifications/notifications-container.component';
+  ToastsContainerComponent,
+  toastsContainerSelector,
+} from 'core-app/shared/components/toaster/toasts-container.component';
+import {
+  OpSidemenuComponent,
+  sidemenuSelector,
+} from 'core-app/shared/components/sidemenu/sidemenu.component';
 import {
   CkeditorAugmentedTextareaComponent,
   ckeditorAugmentedTextareaSelector,
@@ -45,7 +49,10 @@ import {
   PersistentToggleComponent,
   persistentToggleSelector,
 } from 'core-app/shared/components/persistent-toggle/persistent-toggle.component';
-import { OpPrincipalComponent, principalSelector } from 'core-app/shared/components/principal/principal.component';
+import {
+  OpPrincipalComponent,
+  principalSelector,
+} from 'core-app/shared/components/principal/principal.component';
 import {
   HideSectionLinkComponent,
   hideSectionLinkSelector,
@@ -91,9 +98,9 @@ import {
   wpOverviewGraphSelector,
 } from 'core-app/shared/components/work-package-graphs/overview/wp-overview-graph.component';
 import {
-  WorkPackageQuerySelectDropdownComponent,
-  wpQuerySelectSelector,
-} from 'core-app/features/work-packages/components/wp-query-select/wp-query-select-dropdown.component';
+  opViewSelectSelector,
+  ViewSelectComponent,
+} from 'core-app/shared/components/op-view-select/op-view-select.component';
 import {
   GlobalSearchTitleComponent,
   globalSearchTitleSelector,
@@ -177,7 +184,6 @@ import {
   ianMenuSelector,
 } from 'core-app/features/in-app-notifications/center/menu/menu.component';
 
-
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
   { selector: attributeHelpTextSelector, cls: AttributeHelpTextComponent },
@@ -193,7 +199,8 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: customDateActionAdminSelector, cls: CustomDateActionAdminComponent },
   { selector: boardsMenuSelector, cls: BoardsMenuComponent },
   { selector: globalSearchWorkPackagesSelectorEntry, cls: GlobalSearchWorkPackagesEntryComponent },
-  { selector: notificationsContainerSelector, cls: NotificationsContainerComponent },
+  { selector: toastsContainerSelector, cls: ToastsContainerComponent },
+  { selector: sidemenuSelector, cls: OpSidemenuComponent },
   { selector: adminTypeFormConfigurationSelector, cls: TypeFormConfigurationComponent },
   { selector: ckeditorAugmentedTextareaSelector, cls: CkeditorAugmentedTextareaComponent, embeddable: true },
   { selector: persistentToggleSelector, cls: PersistentToggleComponent },
@@ -216,7 +223,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: projectMenuAutocompleteSelector, cls: ProjectMenuAutocompleteComponent },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
-  { selector: wpQuerySelectSelector, cls: WorkPackageQuerySelectDropdownComponent },
+  { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: triggerActionsEntryComponentSelector, cls: TriggerActionsEntryComponent, embeddable: true },
   { selector: backlogsPageComponentSelector, cls: BacklogsPageComponent },
   { selector: attributeValueMacro, cls: AttributeValueMacroComponent, embeddable: true },

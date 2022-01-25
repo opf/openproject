@@ -50,11 +50,12 @@ description: |-
   | writable          | If false it is not allowed to **change** the properties value                      | Boolean      | true    |
   | location          | If present, contains a reference to the location of the property in the JSON       | String       |         |
   | description       | If present, contains a formattable, human readable description                     | Formattable  |         |
+  | deprecated        | If present, the client should considere the existence of the property depreacated  | Boolean      | false   |
 
   All of the above properties that do not have a default value *must* be present in the schema.
   For properties that have a default value, the client can assume the default value, if the property is missing.
 
-  Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](http://www.ruby-doc.org/core-2.2.6/Regexp.html).
+  Note that regular expressions used in the API follow the rules of [Ruby Regular Expressions](https://ruby-doc.org/core-2.2.6/Regexp.html).
 
   ### Location property
 

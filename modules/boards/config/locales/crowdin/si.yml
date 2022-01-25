@@ -1,0 +1,8 @@
+#English strings go here
+si:
+  permission_show_board_views: "View boards"
+  permission_manage_board_views: "Manage boards"
+  project_module_board_view: "පුවරු"
+  boards:
+    label_board: "මණ්ඩලය"
+    label_boards: "පුවරු"

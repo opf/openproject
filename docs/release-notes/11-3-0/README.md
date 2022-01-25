@@ -19,7 +19,7 @@ This new release will bring many new features and bug fixes that will improve cl
 
 In the header navigation we have introduced a **new button to create a project, invite a user (or a group or placeholder user), and create a new work package**. If a project is not selected it needs to be chosen at first during the create process. For the user invitation a new and simplified user creation modal will open.
 
-![Create-button-header-navigation](Create-button-header-navigation.PNG)
+![Create-button-header-navigation](Create-button-header-navigation.png)
 
 ## Simplified invitation of users, groups or placeholder users
 
@@ -39,9 +39,9 @@ The **new invite modal for users, groups, and placeholder users** can now be ope
 
 ## GitHub integration
 
-With OpenProject 11.3 we released a new **integration between GitHub and OpenProject**. This integration facilitates the collaboration of developers by connecting the two applications. The new GitHub integration in OpenProject is an individual module that, once activated, will be displayed to you as a tab in the work package details view. All activities taking place on GitHub that are related to the work package, are listed on this new GitHub tab. [Find out more about the OpenProject GitHub integration](../../system-admin-guide/github-integration/).
+With OpenProject 11.3 we released a new **integration between GitHub and OpenProject**. This integration facilitates the collaboration of developers by connecting the two applications. The new GitHub integration in OpenProject is an individual module that, once activated, will be displayed to you as a tab in the work package details view. All activities taking place on GitHub that are related to the work package, are listed on this new GitHub tab. [Find out more about the OpenProject GitHub integration](../../system-admin-guide/integrations/github-integration/).
 
-![github-integration](github-integration.PNG)
+![github-integration](github-integration.png)
 
 ## API v3 extensions
 

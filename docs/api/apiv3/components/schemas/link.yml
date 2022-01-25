@@ -25,10 +25,6 @@ properties:
   identifier:
     type: string
     description: "\tAn optional unique identifier to the link object"
-examples:
-- href: 
-- href: "/api/v3/work_packages"
+example:
+  href: "/api/v3/work_packages"
   method: POST
-- href: "/api/v3/examples/{example_id}"
-  templated: true
-- href: urn:openproject-org:api:v3:undisclosed

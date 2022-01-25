@@ -113,10 +113,12 @@ it:
       check_1: 'Verifica di aver caricato almeno un modello IFC.'
       check_2: 'Accertati che almeno un modello IFC sia impostato su "Predefinito".'
     no_results: "Nessun modello IFC è stato caricato in questo progetto."
-    processing_state:
+    conversion_status:
       label: 'Elaborare?'
-      in_progress: 'In corso'
+      pending: 'In sospeso'
+      processing: 'In elaborazione'
       completed: 'Completato'
+      error: 'Errore'
     processing_notice:
       processing_default: 'I seguenti modelli IFC predefiniti sono ancora in fase di elaborazione e non sono quindi ancora disponibili:'
     flash_messages:

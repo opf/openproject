@@ -1,0 +1,15 @@
+#English strings go here
+si:
+  js:
+    label_preview: 'පෙරදසුන'
+    button_update: 'යාවත්කාලීන'
+    avatars:
+      label_choose_avatar: "ගොනුව සිට Avatar තෝරන්න"
+      uploading_avatar: "ඔබගේ අවතාරය උඩුගත කිරීම."
+      text_upload_instructions: |
+        128 පික්සල විසින් 128 ඔබේ ම අභිරුචි avatar උඩුගත කරන්න. විශාල ගොනු නැවත සකස් කිරීමට හා ගැලපෙන මුහුණදී ඇත.
+        ඔබ රූපයක් තෝරාගත් පසු ඔබගේ අවතාරයේ පෙරදසුනක් උඩුගත කිරීමට පෙර පෙන්වනු ලැබේ.
+      error_image_too_large: "රූපය ඉතා විශාලයි."
+      wrong_file_format: "අවසර ලත් ආකෘති jpg, png, gif වේ"
+      empty_file_error: "කරුණාකර වලංගු රූපයක් උඩුගත කරන්න (jpg, png, gif)"
+

@@ -55,13 +55,15 @@ module UserInvitation
   #         on the returned user will yield `false`. Check for validation errors
   #         in that case.
   def invite_new_user(email:, login: nil, first_name: nil, last_name: nil)
-    user = User.new mail: email,
-                    login: login,
-                    firstname: first_name,
-                    lastname: last_name,
-                    status: Principal.statuses[:invited]
+    attributes = {
+      mail: email,
+      login: login,
+      firstname: first_name,
+      lastname: last_name,
+      status: Principal.statuses[:invited]
+    }
 
-    assign_user_attributes(user)
+    user = user_from_attributes(attributes)
 
     yield user if block_given?
 
@@ -73,13 +75,11 @@ module UserInvitation
   # derives login and first name
   #
   # The default login is the email address.
-  def assign_user_attributes(user)
-    placeholder = placeholder_name(user.mail)
-
-    user.login = user.login.presence || user.mail
-    user.firstname = user.firstname.presence || placeholder.first
-    user.lastname = user.lastname.presence || placeholder.last
-    user.language = user.language.presence || Setting.default_language
+  def user_from_attributes(attributes)
+    ::Users::SetAttributesService
+      .new(user: User.system, model: User.new, contract_class: ::Users::CreateContract)
+      .call(attributes)
+      .result
   end
 
   ##
@@ -105,25 +105,6 @@ module UserInvitation
   def reset_login(user_id)
     User.where(id: user_id).update_all identity_url: nil
     UserPassword.where(user_id: user_id).destroy_all
-  end
-
-  ##
-  # Creates a placeholder name for the user based on their email address.
-  # For the unlikely case that the local or domain part of the email address
-  # are longer than 30 characters they will be trimmed to 27 characters and an
-  # ellipsis will be appended.
-  def placeholder_name(email)
-    first, last = email.split('@').map { |name| trim_name(name) }
-
-    [first, '@' + last]
-  end
-
-  def trim_name(name)
-    if name.size > 30
-      name[0..26] + '...'
-    else
-      name
-    end
   end
 
   ##

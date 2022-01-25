@@ -499,6 +499,17 @@ describe ::API::V3::Utilities::PathHelper do
     end
   end
 
+  describe 'view paths' do
+    it_behaves_like 'show', :view
+    it_behaves_like 'index', :view
+
+    describe '#views_type' do
+      subject { helper.views_type('work_packages_table') }
+
+      it_behaves_like 'api v3 path', '/views/work_packages_table'
+    end
+  end
+
   describe 'wiki pages paths' do
     it_behaves_like 'show', :wiki_page
   end

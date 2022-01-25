@@ -41,6 +41,10 @@ describe ::API::V3::Groups::GroupCollectionRepresenter do
         .to receive(:page)
         .with(page)
         .and_return(groups)
+
+      allow(groups)
+        .to receive(:count)
+        .and_return(total)
     end
   end
   let(:current_user) { FactoryBot.build_stubbed(:user) }

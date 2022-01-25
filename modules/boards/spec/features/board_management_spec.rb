@@ -242,7 +242,7 @@ describe 'Board management spec', type: :feature, js: true do
       # Add item
       board_page.add_card 'List 1', 'Task 1'
 
-      board_page.expect_and_dismiss_notification(message: "Successful creation.")
+      board_page.expect_and_dismiss_toaster(message: "Successful creation.")
 
       # Move item to Second list
       board_page.move_card(0, from: 'List 1', to: 'List 2')

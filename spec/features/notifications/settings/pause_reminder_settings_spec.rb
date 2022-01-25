@@ -22,7 +22,7 @@ describe "Pause reminder settings", type: :feature, js: true do
 
       reminders_settings_page.save
 
-      reminders_settings_page.expect_and_dismiss_notification(message: I18n.t('js.notice_successful_update'))
+      reminders_settings_page.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_update'))
 
       reminders_settings_page.reload!
 

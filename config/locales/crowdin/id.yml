@@ -313,6 +313,10 @@ id:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -456,6 +460,7 @@ id:
         url: "URL"
       role:
         assignable: "Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan kelompok-kelompok yang memiliki peran dalam proyek masing-masing"
+        permissions: "Hak akses"
       time_entry:
         activity: "Activity"
         hours: "Jam"
@@ -584,7 +589,9 @@ id:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -667,7 +674,6 @@ id:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -731,6 +737,7 @@ id:
               does_not_exist: "Kategori yang dipilih tidak ada."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -741,6 +748,11 @@ id:
               group_without_name: "Kelompok tak bernama tidak dibolehkan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
               lowercase: "huruf kecil (spt. 'a')"
@@ -838,7 +850,7 @@ id:
     id: "ID"
     is_default: "Nilai default"
     is_for_all: "Untuk semua Project"
-    is_public: "Publik"
+    public: "Publik"
     #kept for backwards compatibility
     issue: "Paket-Penugasan"
     lastname: "Nama belakang"
@@ -848,7 +860,6 @@ id:
     password: "Password"
     priority: "Prioritas"
     project: "Project"
-    public: "Publik"
     responsible: "Accountable"
     role: "Role"
     roles: "Roles"
@@ -1173,7 +1184,9 @@ id:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Tidak dapat menghapus isian"
   error_can_not_delete_custom_field: "Tidak dapat menghapus isian kustom"
-  error_can_not_delete_type: "Tipe ini berisi Work Package dan tidak dapat dihapus."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Tipe standar tidak dapat dihapus."
   error_can_not_invite_user: "Gagal untuk mengirimkan undangan kepada pengguna."
   error_can_not_remove_role: "Role ini sedang dipakai dan tidak dapat dihapus."
@@ -1254,7 +1267,7 @@ id:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Indonesion"
+  general_lang_name: "Bahasa Indonesia"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1320,6 +1333,23 @@ id:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'News'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Kemampuan akses"
   label_account: "Akun"
   label_active: "Aktif"
@@ -1574,6 +1604,10 @@ id:
   label_member_plural: "Member"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Nama item menu"
   label_message: "Message"
   label_message_last: "Pesan terakhir"
@@ -1679,7 +1713,6 @@ id:
   label_public_projects: "Project untuk publik"
   label_query_new: "Queri baru"
   label_query_plural: "Kustom queri"
-  label_query_menu_item: "Queri menu item"
   label_read: "Baca..."
   label_register: "Buat akun baru"
   label_register_with_developer: "Daftar sebagai pengembang"
@@ -1753,7 +1786,7 @@ id:
   label_summary: "Ringkasan"
   label_system: "Sistem"
   label_system_storage: "Informasi storage"
-  label_table_of_contents: "Table of contents"
+  label_table_of_contents: "Daftar isi"
   label_tag: "Tag"
   label_text: "Teks panjang"
   label_this_month: "bulan ini"
@@ -1841,22 +1874,22 @@ id:
   label_workflow_summary: "Ringkasan"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
-    other: "%{count} closed"
+    other: "%{count} tertutup"
     zero: "0 closed"
   label_x_comments:
     one: "1 comment"
-    other: "%{count} comments"
+    other: "%{count} komentar"
     zero: "tak ada komentar"
   label_x_open_work_packages_abbr:
     one: "1 open"
-    other: "%{count} open"
+    other: "%{count} terbuka"
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} proyek"
     zero: "no projects"
   label_yesterday: "kemarin"
-  label_role_type: "Tipe"
+  label_role_type: "Mengetik"
   label_member_role: "Peran proyek"
   label_global_role: "Peran global"
   label_not_changeable: "(tidak berubah)"
@@ -2123,9 +2156,9 @@ id:
   permission_protect_wiki_pages: "Proteksi halaman Wiki"
   permission_rename_wiki_pages: "Rename halaman Wiki"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Pilih modul Project"
   permission_manage_types: "Pilih Tipe"
-  permission_view_calendar: "Lihat kalender"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "Lihat commit statistik penulis"
   permission_view_work_package_watchers: "Lihat daftar pemantau"
@@ -2161,7 +2194,6 @@ id:
       archived: "Archived"
   project_module_activity: "Activity"
   project_module_forums: "Forum"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Tracking Paket-Penugasan"
   project_module_news: "News"
   project_module_repository: "Repositori"
@@ -2783,7 +2815,6 @@ id:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2842,6 +2873,7 @@ id:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

@@ -1,10 +1,23 @@
 # /api/v3/projects/form
 ---
 post:
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+        examples:
+          "with custom fields":
+            "$ref": "../components/examples/project_body.yml"
+          "empty":
+            description: Empty request to get the form initially in order to start the guided creation of a project
+            value: {}
   responses:
     '200':
       content:
         application/hal+json:
+          schema:
+            type: object
           examples:
             response:
               value:
@@ -234,6 +247,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -246,6 +261,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

@@ -125,7 +125,17 @@ module Pages
       end
 
       def open_filters
-        click_button('Show/hide filters')
+        retry_block do
+          click_button('Show/hide filters')
+          page.find_field('Add filter', visible: true)
+        end
+      end
+
+      def click_more_menu_item(item)
+        page.find('[data-qa-selector="project-more-dropdown-menu"]').click
+        page.within('.menu-drop-down-container') do
+          click_link(item)
+        end
       end
 
       def click_menu_item_of(title, project)

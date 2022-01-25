@@ -258,7 +258,7 @@ describe 'Enterprise trial management',
 
     it 'can confirm that trial regularly' do
       find('.op-modal--body [data-qa-selector="op-ee-trial-waiting-resend-link"]', text: 'Resend').click
-      expect(page).to have_selector('.notification-box.-success', text: 'Email has been resent.', wait: 20)
+      expect(page).to have_selector('.op-toast.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'
       expect(page).to have_text 'email sent - waiting for confirmation'

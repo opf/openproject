@@ -35,12 +35,27 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
+  shared_let(:project) { FactoryBot.create :project }
+  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+
+  shared_let(:recipient) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
   shared_let(:other_recipient) { FactoryBot.create :user }
-  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient, read_ian: true }
-  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient, read_ian: true }
-  shared_let(:notification3) { FactoryBot.create :notification, recipient: recipient, read_ian: true }
-  shared_let(:other_user_notification) { FactoryBot.create :notification, recipient: other_recipient, read_ian: true }
+  shared_let(:notification1) do
+    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+  end
+  shared_let(:notification2) do
+    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+  end
+  shared_let(:notification3) do
+    FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package, read_ian: true
+  end
+  shared_let(:other_user_notification) do
+    FactoryBot.create :notification,
+                      recipient: other_recipient,
+                      read_ian: true,
+                      project: project,
+                      resource: work_package
+  end
 
   let(:filters) { nil }
 
@@ -86,10 +101,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
 
       it 'sets the current users`s notifications matching the filter to read' do
-        expect(::Notification.where(id: [notification1.id, notification2.id]).pluck(:read_ian))
+        expect(::Notification.where(id: [notification1.id, notification2.id]).order(id: :asc).pluck(:read_ian))
           .to all(be_falsey)
 
-        expect(::Notification.where(id: [other_user_notification, notification3.id]).pluck(:read_ian))
+        expect(::Notification.where(id: [other_user_notification.id, notification3.id]).order(id: :asc).pluck(:read_ian))
           .to all(be_truthy)
       end
     end

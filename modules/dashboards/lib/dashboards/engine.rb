@@ -14,10 +14,8 @@ module Dashboards
                   { controller: '/dashboards/dashboards', action: 'show' },
                   caption: :'dashboards.label',
                   after: :work_packages,
-                  before: :calendar,
-                  param: :project_id,
                   icon: 'icon2 icon-status',
-                  badge: 'dashboards.menu_badge')
+                  badge: 'label_menu_badge.alpha')
       end
     end
 

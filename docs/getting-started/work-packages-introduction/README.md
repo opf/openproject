@@ -15,8 +15,8 @@ For further documentation, please visit our [user guide for work packages](../..
 
 | Topic                                                        | Content                                                   |
 | ------------------------------------------------------------ | --------------------------------------------------------- |
-| [What is a work package?](#what-is-a-work-package?)          | Find out what a work package in OpenProject is.           |
-| [Create a new work package](#create-a-new-work-package)      | How to create a new work package in  a project?           |
+| [What is a work package?](#what-is-a-work-package)          | Find out what a work package in OpenProject is.           |
+| [Create a new work package](#create-a-new-work-package)      | How to create a new work package in a project?           |
 | [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
 | [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
 
@@ -28,7 +28,7 @@ A work package in OpenProject can basically be everything you need to keep track
 
 ## Create a new work package
 
-To get started, create a new work package in your project, [open the project](#open-an-existing-project) with the project drop-down menu, navigate to the **module work packages** in the project menu.
+To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project drop-down menu, navigate to the **module work packages** in the project menu.
 
 Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone.
 
@@ -84,7 +84,7 @@ You can also insert a comment at the end of the Activity list.
 
 ![activity-work-packages](activity-work-packages.png)
 
-The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/system-settings/display-settings/#time-and-date-formatting,-aggregation-of-changes-in-activity).
+The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
 

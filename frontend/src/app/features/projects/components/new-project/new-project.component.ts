@@ -4,7 +4,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { JobStatusModalComponent } from 'core-app/features/job-status/job-status-modal/job-status.modal';
@@ -43,7 +43,6 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
 
   hiddenFields:string[] = [
     'identifier',
-    'sendNotifications',
     'active',
   ];
 
@@ -72,7 +71,7 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   @ViewChild(DynamicFormComponent) dynamicForm:DynamicFormComponent;
 
   constructor(
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private uIRouterGlobals:UIRouterGlobals,
     private pathHelperService:PathHelperService,
     private modalService:OpModalService,
@@ -114,6 +113,11 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private isHiddenField(key:string|undefined):boolean {
+    // We explictly want to show the sendNotifications param
+    if (key === '_meta.sendNotifications') {
+      return false;
+    }
+
     return !!key && (this.hiddenFields.includes(key) || this.isMeta(key));
   }
 

@@ -38,7 +38,7 @@ describe 'Project templates', type: :feature, js: true do
     end
 
     it 'can make the project a template from settings' do
-      visit settings_generic_project_path(project)
+      visit project_settings_general_path(project)
 
       # Make a template
       find('.button', text: 'Set as template').click
@@ -100,7 +100,9 @@ describe 'Project templates', type: :feature, js: true do
 
       # It does not show the copy meta flags
       expect(page).to have_no_selector('[data-qa-field-name="copyMembers"]')
-      expect(page).to have_no_selector('[data-qa-field-name="sendNotifications"]')
+
+      # But shows the send notifications field
+      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
 
       # Update status to off track
       status_field.select_option 'Off track'

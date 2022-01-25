@@ -1,7 +1,7 @@
 <% unless EnterpriseToken.allows_to?(ee_feature) %>
   <span class="form--field -indented">
-    <div class="ee-attribute-highlighting-upsale notification-box -ee-upsale">
-      <div class="notification-box--content">
+    <div class="ee-attribute-highlighting-upsale op-toast -ee-upsale">
+      <div class="op-toast--content">
         <p><strong><%= title.present? ? title : t('js.upsale.ee_only') %></strong></p>
         <p><%= explanation %></p>
         <p>

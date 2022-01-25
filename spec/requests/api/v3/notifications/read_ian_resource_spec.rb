@@ -35,8 +35,19 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
-  shared_let(:notification) { FactoryBot.create :notification, recipient: recipient }
+  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:work_package) { FactoryBot.create(:work_package, project: project) }
+  shared_let(:recipient) do
+    FactoryBot.create :user,
+                      member_in_project: project,
+                      member_with_permissions: %i[view_work_packages]
+  end
+  shared_let(:notification) do
+    FactoryBot.create :notification,
+                      recipient: recipient,
+                      resource: work_package,
+                      project: project
+  end
 
   let(:send_read) do
     post api_v3_paths.notification_read_ian(notification.id)

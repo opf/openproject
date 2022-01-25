@@ -23,7 +23,8 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     work_packages
     relations
     work_packages.each(&:reload) # to init .leaves and relations
-    load_sheet export
+    io = StringIO.new export.export!.content
+    Spreadsheet.open(io).worksheets.first
   end
 
   let(:options) { {} }
@@ -33,21 +34,6 @@ describe XlsExport::WorkPackage::Exporter::XLS do
       query,
       options
     )
-  end
-
-  def load_sheet(export)
-    f = Tempfile.new 'result.xls'
-    begin
-      f.binmode
-      f.write export.list(&:content)
-    ensure
-      f.close
-    end
-
-    sheet = Spreadsheet.open(f.path).worksheets.first
-    f.unlink
-
-    sheet
   end
 
   context 'with relations' do

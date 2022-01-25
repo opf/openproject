@@ -29,6 +29,8 @@
 #++
 
 class Members::CreateService < ::BaseServices::Create
+  include Members::Concerns::NotificationSender
+
   around_call :post_process
 
   def post_process
@@ -44,13 +46,6 @@ class Members::CreateService < ::BaseServices::Create
 
   protected
 
-  def send_notification(member)
-    OpenProject::Notifications.send(OpenProject::Events::MEMBER_CREATED,
-                                    member: member,
-                                    message: params[:notification_message],
-                                    send_notifications: params.fetch(:send_notifications, true))
-  end
-
   def add_group_memberships(member)
     return unless member.principal.is_a?(Group)
 
@@ -59,7 +54,7 @@ class Members::CreateService < ::BaseServices::Create
       .call(ids: member.principal.user_ids, send_notifications: false)
   end
 
-  def set_attributes_params(params)
-    super.except(:notification_message, :send_notifications)
+  def event_type
+    OpenProject::Events::MEMBER_CREATED
   end
 end

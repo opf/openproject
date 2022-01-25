@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
  * General components
  */
 export interface GlobalI18n {
-  t(translateId:string, parameters?:any):string;
+  t<T=string>(translateId:string, parameters?:unknown):T;
 
   lookup(translateId:string):boolean|undefined;
 

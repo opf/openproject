@@ -45,7 +45,7 @@ describe 'Work package query summary item', type: :feature, js: true do
   end
 
   it 'allows users to visit the summary page' do
-    find('.ui-menu-item', text: 'Summary', wait: 10).click
+    find('.op-sidemenu--item-action', text: 'Summary', wait: 10).click
     expect(page).to have_selector('h2', text: 'Summary')
     expect(page).to have_selector('td', text: work_package.type.name)
   end

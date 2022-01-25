@@ -154,6 +154,19 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
       expect(container.attachments).to be_empty
       expect { pending_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
+
+    context 'when the job is getting a whitelist override' do
+      it "Does save the attachment" do
+        job.perform(pending_attachment.id, whitelist: false)
+
+        container.reload
+
+        expect(container.attachments.count).to eq 1
+        expect { pending_attachment.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+
+        expect(pending_attachment.downloads).to eq 0
+      end
+    end
   end
 
   context 'with the user not being allowed',

@@ -14,7 +14,7 @@ import {
 } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
 export const opInAppNotificationBellSelector = 'op-in-app-notification-bell';
@@ -39,7 +39,7 @@ export class InAppNotificationBellComponent {
 
   constructor(
     readonly storeService:IanBellService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly activeWindow:ActiveWindowService,
     readonly modalService:OpModalService,
     readonly pathHelper:PathHelperService,

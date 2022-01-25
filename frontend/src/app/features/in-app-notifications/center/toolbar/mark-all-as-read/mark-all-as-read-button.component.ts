@@ -13,7 +13,6 @@ import { IanCenterService } from 'core-app/features/in-app-notifications/center/
 export class MarkAllAsReadButtonComponent {
   text = {
     mark_all_read: this.I18n.t('js.notifications.center.mark_all_read'),
-
   };
 
   constructor(

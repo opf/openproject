@@ -43,6 +43,7 @@ module OpenProject::Bim
                }
              } do
       project_module(:bim,
+                     dependencies: :work_package_tracking,
                      if: ->(*) { OpenProject::Configuration.bim? }) do
         permission :view_ifc_models,
                    {
@@ -74,6 +75,12 @@ module OpenProject::Bim
                                     edit_work_packages
                                     delete_work_packages],
                    contract_actions: { bcf: %i[destroy] }
+        permission :save_bcf_queries,
+                   {},
+                   dependencies: %i[save_queries]
+        permission :manage_public_bcf_queries,
+                   {},
+                   dependencies: %i[manage_public_queries save_bcf_queries]
       end
 
       OpenProject::AccessControl.permission(:view_work_packages).controller_actions << 'bim/bcf/issues/redirect_to_bcf_issues_list'
@@ -82,14 +89,12 @@ module OpenProject::Bim
         menu.push(:ifc_models,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
                   caption: :'bcf.label_bcf',
-                  param: :project_id,
                   after: :work_packages,
                   icon: 'icon2 icon-bcf',
                   badge: :label_new)
 
         menu.push :ifc_viewer_panels,
                   { controller: '/bim/ifc_models/ifc_models', action: 'defaults' },
-                  param: :project_id,
                   parent: :ifc_models,
                   partial: '/bim/ifc_models/ifc_models/panels'
       end
@@ -99,7 +104,7 @@ module OpenProject::Bim
 
     assets %w(bim/logo_openproject_bim_big.png)
 
-    patches %i[WorkPackage Type Journal RootSeeder Project FogFileUploader]
+    patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
@@ -211,9 +216,10 @@ module OpenProject::Bim
     end
 
     config.to_prepare do
-      ::WorkPackage::Exporter
-        .register_for_list(:bcf, OpenProject::Bim::BcfXml::Exporter)
-      ::WorkPackage::Exporter::Formatters.register("OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail")
+      ::Exports::Register.register do
+        list ::WorkPackage, OpenProject::Bim::BcfXml::Exporter
+        formatter ::WorkPackage, OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail
+      end
 
       ::Queries::Register.filter ::Query, ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       ::Queries::Register.column ::Query, ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
@@ -226,5 +232,8 @@ module OpenProject::Bim
         end
       end
     end
+
+    add_view :Bim,
+             contract_strategy: 'Bim::Views::ContractStrategy'
   end
 end

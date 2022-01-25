@@ -317,6 +317,10 @@ bg:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Масово преместване/копиране не се поддържа за работни пакети от множество проекти'
@@ -460,6 +464,7 @@ bg:
         url: "URL АДРЕС"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Права"
       time_entry:
         activity: "Активност"
         hours: "Часове"
@@ -588,7 +593,9 @@ bg:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -671,7 +678,6 @@ bg:
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
-              invalid: "The custom field is not valid in the given context."
         queries/filters/base:
           attributes:
             values:
@@ -735,6 +741,7 @@ bg:
               does_not_exist: "Определената категория не съществува."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "трябва да бъде > = 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -745,6 +752,11 @@ bg:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Трябва да съдържа знаци от следните класове (най-малко %{min_count} на %{all_count}): %{rules}."
               lowercase: "малки букви (например \"а\")"
@@ -846,7 +858,7 @@ bg:
     id: "ID"
     is_default: "Стойност по подразбиране"
     is_for_all: "За всички проекти"
-    is_public: "Публичен"
+    public: "Публичен"
     #kept for backwards compatibility
     issue: "Работен пакет"
     lastname: "Фамилно име"
@@ -856,7 +868,6 @@ bg:
     password: "Парола"
     priority: "Приоритет"
     project: "Проект"
-    public: "Публичен"
     responsible: "Accountable"
     role: "Роля"
     roles: "Роли"
@@ -1193,7 +1204,9 @@ bg:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Не може да изтриете това потребителско поле"
-  error_can_not_delete_type: "Този тип съдържа работни пакети и не може да бъде изтрит."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Стандартни типове не могат да бъдат изтрити."
   error_can_not_invite_user: "Failed to send invitation to user."
   error_can_not_remove_role: "Тази роля се използва и не може да бъде изтрита."
@@ -1274,7 +1287,7 @@ bg:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Български"
+  general_lang_name: "български език"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "Не"
   general_text_yes: "Да"
@@ -1340,6 +1353,23 @@ bg:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Новини'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Достъпност"
   label_account: "Акаунт"
   label_active: "Активен"
@@ -1594,6 +1624,10 @@ bg:
   label_member_plural: "Потребители"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Име на елемент от меню"
   label_message: "Message"
   label_message_last: "Последно съобщение"
@@ -1699,7 +1733,6 @@ bg:
   label_public_projects: "Публични проекти"
   label_query_new: "Ново търсене"
   label_query_plural: "Потребителско търсене"
-  label_query_menu_item: "Търсене на елемент от менюто"
   label_read: "Прочитане..."
   label_register: "Регистрирайте нов профил"
   label_register_with_developer: "Регистрирайте се като разработчик"
@@ -2145,9 +2178,9 @@ bg:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Преглед на календара"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2183,7 +2216,6 @@ bg:
       archived: "Archived"
   project_module_activity: "Активност"
   project_module_forums: "Форуми"
-  project_module_calendar: "Календар"
   project_module_work_package_tracking: "Проследяване на работен пакет"
   project_module_news: "Новини"
   project_module_repository: "Хранилище"
@@ -2809,7 +2841,6 @@ bg:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2868,6 +2899,7 @@ bg:
       schema: 'Схема'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

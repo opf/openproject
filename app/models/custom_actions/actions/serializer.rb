@@ -33,7 +33,7 @@ class CustomActions::Actions::Serializer
     return [] unless value
 
     YAML
-      .safe_load(value, [Symbol])
+      .safe_load(value, permitted_classes: [Symbol])
       .map do |key, values|
       klass = nil
 

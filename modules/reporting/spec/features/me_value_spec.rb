@@ -41,7 +41,12 @@ describe 'Cost report showing my own times', type: :feature, js: true do
 
       expect(page).to have_selector('.report', text: '10.00')
 
-      report = CostQuery.last
+      report = nil
+      retry_block do
+        report = CostQuery.last
+        raise "Expected CostQuery to exist" unless report
+      end
+
       user_filter = report.serialized[:filters].detect { |name, _| name == filter_name }
       expect(user_filter[1][:values]).to eq %w(me)
 

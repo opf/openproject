@@ -1,0 +1,69 @@
+<div class="op-add-existing-pane--search">
+  <input
+    [ngModel]="searchString.values$() | async"
+    (ngModelChange)="searchStringChanged$.next($event)"
+    class="op-add-existing-pane--search-input"
+    data-qa-selector="op-add-existing-pane--search-input"
+    [placeholder]="text.placeholder"
+  />
+
+  <op-icon
+    class="op-add-existing-pane--search-icon"
+    icon-classes="icon-context icon-search">
+  </op-icon>
+
+  <button
+    *ngIf="isSearching"
+    type="button"
+    (click)="clearInput()"
+    class="op-add-existing-pane--close-search"
+  >
+    <op-icon
+      icon-classes="icon-small icon-close">
+    </op-icon>
+  </button>
+</div>
+
+<ng-container
+  *ngIf="(isLoading$ | async) === false; else loadingTemplate"
+>
+  <ng-container
+    *ngIf="(isEmpty$ | async) === false; else emptyTemplate"
+  >
+    <div
+      #container
+      class="op-add-existing-pane--results">
+      <ng-container *ngFor="let wp of currentWorkPackages$ | async">
+        <wp-single-card
+          [workPackage]="wp"
+          [attr.data-drag-helper-id]="wp.id"
+          class="op-add-existing-pane--wp"
+          [attr.data-qa-selector]="'op-add-existing-pane--wp-' + wp.id"
+        ></wp-single-card>
+    </ng-container></div>
+  </ng-container>
+
+  <ng-template #emptyTemplate>
+    <div
+      class="op-add-existing-pane--empty-state"
+      data-qa-selector="op-add-existing-pane--empty-state"
+    >
+      <img [src]="image.empty_state" class="op-add-existing-pane--empty-state-image"/>
+      <span
+        [innerHTML]="text.empty_state"
+        class="op-add-existing-pane--empty-state-text"
+      ></span>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <op-content-loader
+    class="op-add-existing-pane--loading"
+    viewBox="0 0 200 44"
+  >
+    <svg:rect x="0" y="0" width="50%" height="12" rx="1" />
+    <svg:rect x="0" y="16" width="100%" height="12" rx="1" />
+    <svg:rect x="0" y="32" width="100%" height="12" rx="1" />
+  </op-content-loader>
+</ng-template>

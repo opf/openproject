@@ -20,7 +20,7 @@ As the scheduling mode only affects individual work packages you can combine man
 | ------------------------------------------------------- | ------------------------------------------------------------ |
 | [Automatic scheduling mode](#automatic-scheduling-mode) | What happens to work packages, when you connect them in automatic scheduling mode? |
 | [Manual scheduling mode](#manual-scheduling-mode)       | What happens to work packages, when you connect them in manual scheduling mode? |
-| [Changing modes](#changing-modes)                       | How can I change between manual and automatic scheduling mode? |
+| [Changing mode](#changing-mode)                         | How can I change between manual and automatic scheduling mode? |
 
 
 ## Automatic scheduling mode

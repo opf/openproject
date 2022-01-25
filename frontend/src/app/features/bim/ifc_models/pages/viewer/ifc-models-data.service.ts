@@ -18,7 +18,7 @@ export interface IFCGonDefinition {
 
 export interface IfcProjectDefinition {
   name:string;
-  id:number;
+  id:string;
 }
 
 export interface IfcModelDefinition {

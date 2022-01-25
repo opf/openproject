@@ -40,14 +40,14 @@ import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-reso
 import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
   constructor(protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly states:States,
     protected readonly causedUpdates:CausedUpdatesService,
     protected readonly wpTableSortBy:WorkPackageViewSortByService,

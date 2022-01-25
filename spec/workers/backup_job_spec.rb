@@ -57,7 +57,7 @@ describe BackupJob, type: :model do
 
     let(:db_dump_success) { false }
 
-    let(:arguments) { [{ backup: backup, user: user, **opts }] }
+    let(:arguments) { [{ backup: backup, user: user, **opts.except(:remote_storage) }] }
 
     let(:user) { FactoryBot.create :admin }
 
@@ -97,11 +97,19 @@ describe BackupJob, type: :model do
       let(:db_dump_success) { true }
 
       let!(:attachment) { FactoryBot.create :attachment }
+      let!(:pending_direct_upload) { FactoryBot.create :pending_direct_upload }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
-      let(:backed_up_attachment) { "attachment/file/#{attachment.id}/#{attachment.filename}" }
 
-      before { perform }
+      def backed_up_attachment(attachment)
+        "attachment/file/#{attachment.id}/#{attachment.filename}"
+      end
+
+      before do
+        allow(job).to receive(:remove_paths!)
+
+        perform
+      end
 
       it "destroys any previous backups" do
         expect(Backup.find_by(id: previous_backup.id)).to be_nil
@@ -117,11 +125,26 @@ describe BackupJob, type: :model do
 
       if opts[:include_attachments] != false
         it "includes attachments in the backup" do
-          expect(backup_files).to include backed_up_attachment
+          expect(backup_files).to include backed_up_attachment(attachment)
+        end
+
+        it "does not include pending direct uploads" do
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
+        end
+
+        if opts[:remote_storage] == true
+          it "cleans up locally cached files afterwards" do
+            expect(job).to have_received(:remove_paths!).with([Pathname(attachment.diskfile.path).parent.to_s])
+          end
+        else
+          it "does not clean up files afterwards as none were cached" do
+            expect(job).to have_received(:remove_paths!).with([])
+          end
         end
       else
         it "does not include attachments in the backup" do
-          expect(backup_files).not_to include backed_up_attachment
+          expect(backup_files).not_to include backed_up_attachment(attachment)
+          expect(backup_files).not_to include backed_up_attachment(pending_direct_upload)
         end
       end
     end
@@ -129,6 +152,35 @@ describe BackupJob, type: :model do
 
   context "per default" do
     it_behaves_like "it creates a backup"
+  end
+
+  context(
+    "with remote storage",
+    with_config: {
+      attachments_storage: :fog,
+      fog: {
+        directory: MockCarrierwave.bucket,
+        credentials: MockCarrierwave.credentials
+      }
+    }
+  ) do
+    let(:dummy_path) { "/tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext" }
+
+    before do
+      FileUtils.mkdir_p Pathname(dummy_path).parent.to_s
+      File.open(dummy_path, "w") { |f| f.puts 'dummy' }
+
+      allow_any_instance_of(LocalFileUploader).to receive(:cached?).and_return(true)
+      allow_any_instance_of(LocalFileUploader)
+        .to receive(:local_file)
+        .and_return(File.new(dummy_path))
+    end
+
+    after do
+      FileUtils.rm dummy_path if File.exist? dummy_path
+    end
+
+    it_behaves_like "it creates a backup", remote_storage: true
   end
 
   context "with include_attachments: false" do

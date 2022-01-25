@@ -118,11 +118,7 @@ class TypesController < ApplicationController
       @type.destroy
       flash[:notice] = I18n.t(:notice_successful_delete)
     else
-      flash[:error] = if @type.is_standard?
-                        t(:error_can_not_delete_standard_type)
-                      else
-                        t(:error_can_not_delete_type)
-                      end
+      flash[:error] = destroy_error_message
     end
     redirect_to action: 'index'
   end
@@ -164,5 +160,32 @@ class TypesController < ApplicationController
 
   def show_local_breadcrumb
     true
+  end
+
+  def destroy_error_message
+    if @type.is_standard?
+      t(:error_can_not_delete_standard_type)
+    else
+      error_message = [
+        ApplicationController.helpers.sanitize(
+          t(:'error_can_not_delete_type.explanation', url: belonging_wps_url(@type.id)),
+          attributes: %w(href target)
+        )
+      ]
+
+      archived_projects = @type.projects.filter(&:archived?)
+      if !archived_projects.empty?
+        error_message.push(
+          t(:'error_can_not_delete_type.archived_projects',
+            archived_projects: archived_projects.map(&:name).join(', '))
+        )
+      end
+
+      error_message
+    end
+  end
+
+  def belonging_wps_url(type_id)
+    work_packages_path query_props: '{"f":[{"n":"type","o":"=","v":[' + type_id.to_s + ']}]}'
   end
 end

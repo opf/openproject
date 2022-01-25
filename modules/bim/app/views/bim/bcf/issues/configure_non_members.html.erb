@@ -12,8 +12,8 @@
                                                        solution_text: t('bcf.bcf_xml.import.add_as_members_with_role', project: @project.name),
                                                        solution_options: @roles.collect { |obj| [obj.name, obj.id] }} %>
     <% else %>
-      <div class="notification-box -warning">
-        <div class="notification-box--content">
+      <div class="op-toast -warning">
+        <div class="op-toast--content">
           <input type="hidden" name="import_options[non_members_action]" value="cancel">
           <%= t('bcf.bcf_xml.import.contact_project_admin') %>
         </div>
@@ -24,8 +24,8 @@
                   class: 'button' %>
     <% end %>
   <% else %>
-    <div class="notification-box -error">
-      <div class="notification-box--content">
+    <div class="op-toast -error">
+      <div class="op-toast--content">
         <%= I18n.t('text_no_roles_defined') %>
       </div>
     </div>

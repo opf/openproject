@@ -80,7 +80,7 @@ describe MailHandler, type: :model do
     end
   end
 
-  shared_context 'wp_update_with_quoted_reply_above' do
+  shared_context 'with a reply to a wp mention with quotes above' do
     let(:permissions) { %i[edit_work_packages view_work_packages] }
     let!(:user) do
       FactoryBot.create(:user,
@@ -90,33 +90,19 @@ describe MailHandler, type: :model do
     end
 
     let!(:work_package) do
-      FactoryBot.create(:work_package, id: 2, project: project)
+      FactoryBot.create(:work_package,
+                        id: 2,
+                        project: project).tap do |wp|
+        wp.journals.last.update_column(:id, 891223)
+      end
     end
 
     subject do
-      submit_email('wp_update_with_quoted_reply_above.eml')
+      submit_email('wp_reply_with_quoted_reply_above.eml')
     end
   end
 
-  shared_context 'wp_update_with_multiple_quoted_reply_above' do
-    let(:permissions) { %i[edit_work_packages view_work_packages] }
-    let!(:user) do
-      FactoryBot.create(:user,
-                        mail: 'JSmith@somenet.foo',
-                        member_in_project: project,
-                        member_with_permissions: permissions)
-    end
-
-    let!(:work_package) do
-      FactoryBot.create(:work_package, id: 2, project: project)
-    end
-
-    subject do
-      submit_email('wp_update_with_multiple_quoted_reply_above.eml')
-    end
-  end
-
-  shared_context 'wp create with cc' do
+  shared_context 'with wp create with cc' do
     let(:permissions) { %i[add_work_packages view_work_packages add_work_package_watchers] }
     let!(:user) do
       FactoryBot.create(:user,
@@ -141,6 +127,104 @@ describe MailHandler, type: :model do
     end
   end
 
+  shared_context 'with a reply to a wp mention' do
+    let(:permissions) { %i[add_work_package_notes view_work_packages] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'j.doe@openproject.org',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+
+    let!(:work_package) do
+      FactoryBot.create(:work_package,
+                        subject: 'Some subject of the bug',
+                        id: 39733,
+                        project: project).tap do |wp|
+        wp.journals.last.update_column(:id, 99999999)
+      end
+    end
+
+    subject do
+      submit_email('wp_mention_reply.eml')
+    end
+  end
+
+  shared_context 'with a reply to a wp mention with attributes' do
+    let(:permissions) { %i[add_work_package_notes view_work_packages edit_work_packages] }
+    let(:role) do
+      FactoryBot.create(:role, permissions: permissions)
+    end
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'j.doe@openproject.org',
+                        member_in_project: project,
+                        member_through_role: role)
+    end
+
+    let!(:work_package) do
+      FactoryBot.create(:work_package,
+                        subject: 'Some subject of the bug',
+                        id: 39733,
+                        project: project,
+                        status: original_status).tap do |wp|
+        wp.journals.last.update_column(:id, 99999999)
+      end
+    end
+    let!(:original_status) do
+      FactoryBot.create(:default_status)
+    end
+    let!(:resolved_status) do
+      FactoryBot.create(:status,
+                        name: 'Resolved').tap do |status|
+        FactoryBot.create(:workflow,
+                          old_status: original_status,
+                          new_status: status,
+                          role: role,
+                          type: work_package.type)
+      end
+    end
+    let!(:other_user) do
+      FactoryBot.create(:user,
+                        mail: 'jsmith@somenet.foo',
+                        member_in_project: project,
+                        member_through_role: role)
+    end
+    let!(:float_cf) do
+      FactoryBot.create(:float_wp_custom_field,
+                        name: 'float field').tap do |cf|
+        project.work_package_custom_fields << cf
+        work_package.type.custom_fields << cf
+      end
+    end
+
+    subject do
+      submit_email('wp_mention_reply_with_attributes.eml')
+    end
+  end
+
+  shared_context 'with a reply to a message' do
+    let(:permissions) { %i[view_messages add_messages] }
+    let!(:user) do
+      FactoryBot.create(:user,
+                        mail: 'j.doe@openproject.org',
+                        member_in_project: project,
+                        member_with_permissions: permissions)
+    end
+
+    let!(:message) do
+      FactoryBot.create(:message,
+                        id: 70917,
+                        forum: FactoryBot.create(:forum, project: project)).tap do |wp|
+        wp.journals.last.update_column(:id, 99999999)
+      end
+    end
+
+    subject do
+      submit_email('message_reply.eml')
+    end
+  end
+
   describe '#receive' do
     shared_examples_for 'work package created' do
       it 'creates the work package' do
@@ -162,7 +246,7 @@ describe MailHandler, type: :model do
       end
     end
 
-    context 'create work package' do
+    context 'when sending a mail not as a reply' do
       context 'in a given project' do
         let!(:status) { FactoryBot.create(:status, name: 'Resolved') }
         let!(:version) { FactoryBot.create(:version, name: 'alpha', project: project) }
@@ -306,12 +390,13 @@ describe MailHandler, type: :model do
         it 'rejects if unknown_user=accept and permission check is present' do
           expected =
             'MailHandler: work_package could not be created by Anonymous due to ' \
-          '#["may not be accessed.", "Type was attempted to be written but is not writable.", ' \
-          '"Project was attempted to be written but is not writable.", ' \
-          '"Subject was attempted to be written but is not writable.", ' \
-          '"Description was attempted to be written but is not writable."]'
+            '#["may not be accessed.", ' \
+            '"Type was attempted to be written but is not writable.", ' \
+            '"Project was attempted to be written but is not writable.", ' \
+            '"Subject was attempted to be written but is not writable.", ' \
+            '"Description was attempted to be written but is not writable."]'
 
-          expect(Rails.logger)
+          allow(Rails.logger)
             .to receive(:error)
             .with(expected)
 
@@ -320,6 +405,10 @@ describe MailHandler, type: :model do
                                 unknown_user: 'accept'
 
           expect(result).to eq false
+
+          expect(Rails.logger)
+            .to have_received(:error)
+                  .with(expected)
         end
 
         it 'accepts if unknown_user=accept and no_permission_check' do
@@ -391,7 +480,7 @@ describe MailHandler, type: :model do
       end
 
       context 'wp with cc' do
-        include_context 'wp create with cc'
+        include_context 'with wp create with cc'
 
         it_behaves_like 'work package created'
 
@@ -402,7 +491,7 @@ describe MailHandler, type: :model do
       end
     end
 
-    describe 'update work package' do
+    context 'when sending a reply to work package mail' do
       let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
       let!(:work_package) { FactoryBot.create :work_package, project: project }
 
@@ -437,7 +526,7 @@ describe MailHandler, type: :model do
           work_package.reload
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          # Mail with two attachments, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           expect(work_package.attachments.length).to eq 2
@@ -445,7 +534,7 @@ describe MailHandler, type: :model do
       end
 
       context 'with reply text' do
-        include_context 'wp_update_with_quoted_reply_above'
+        include_context 'with a reply to a wp mention with quotes above'
 
         it_behaves_like 'journal created'
 
@@ -466,6 +555,66 @@ describe MailHandler, type: :model do
         end
       end
 
+      context 'when replying to mention mail with only text' do
+        include_context 'with a reply to a wp mention'
+
+        it_behaves_like 'journal created'
+
+        it 'adds the content to the last journal' do
+          subject
+
+          expect(work_package.journals.reload.last.notes)
+            .to include 'The text of the reply.'
+        end
+
+        it 'does not alter any attributes' do
+          subject
+
+          expect(work_package.journals.reload.last.details)
+            .to be_empty
+        end
+
+        it 'performs the changes in the name of the sender' do
+          subject
+
+          expect(work_package.journals.reload.last.user)
+            .to eql user
+        end
+      end
+
+      context 'when replying to mention mail with text and attributes' do
+        include_context 'with a reply to a wp mention with attributes'
+
+        it_behaves_like 'journal created'
+
+        it 'adds the content to the last journal' do
+          subject
+
+          expect(work_package.journals.reload.last.notes)
+            .to include 'The text of the reply.'
+        end
+
+        it 'alters the attributes' do
+          subject
+
+          expect(work_package.journals.reload.last.details)
+            .to eql(
+              "due_date" => [nil, Date.parse("Fri, 31 Dec 2010")],
+              "status_id" => [original_status.id, resolved_status.id],
+              "assigned_to_id" => [nil, other_user.id],
+              "start_date" => [nil, Date.parse("Fri, 01 Jan 2010")],
+              "custom_fields_#{float_cf.id}" => [nil, "52.6"]
+            )
+        end
+
+        it 'performs the changes in the name of the sender' do
+          subject
+
+          expect(work_package.journals.reload.last.user)
+            .to eql user
+        end
+      end
+
       context 'with a custom field' do
         let(:work_package) { FactoryBot.create :work_package, project: project }
         let(:type) { FactoryBot.create :type }
@@ -476,15 +625,15 @@ describe MailHandler, type: :model do
 
           allow_any_instance_of(WorkPackage).to receive(:available_custom_fields).and_return([custom_field])
 
-          expect(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
-          expect(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
+          allow(WorkPackage).to receive(:find_by).with(id: 42).and_return(work_package)
+          allow(User).to receive(:find_by_mail).with("h.wurst@openproject.com").and_return(mail_user)
         end
 
         context 'of type text' do
           let(:custom_field) { FactoryBot.create :text_wp_custom_field, name: "Notes" }
 
           before do
-            submit_email 'work_package_with_text_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'wp_reply_with_text_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
@@ -500,7 +649,7 @@ describe MailHandler, type: :model do
           let(:custom_field) { FactoryBot.create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
 
           before do
-            submit_email 'work_package_with_list_custom_field.eml', issue: { project: project.identifier }
+            submit_email 'wp_reply_with_list_custom_field.eml', issue: { project: project.identifier }
 
             work_package.reload
           end
@@ -512,6 +661,30 @@ describe MailHandler, type: :model do
             expect(value).to eq option.id.to_s
           end
         end
+      end
+    end
+
+    context 'when sending a reply to a message mail' do
+      include_context 'with a reply to a message'
+
+      it 'creates a new message in the name of the sender', aggregate_failures: true do
+        expect(subject)
+          .to be_a Message
+
+        expect(subject.subject)
+          .to eql('Response to the original message')
+
+        expect(subject.content)
+          .to include('Test message')
+
+        expect(subject.author)
+          .to eql user
+
+        expect(subject.forum)
+          .to eql message.forum
+
+        expect(subject.parent)
+          .to eql message
       end
     end
 
@@ -552,25 +725,7 @@ describe MailHandler, type: :model do
 
       context 'with a single quoted reply (e.g. reply to a OpenProject email notification)',
               with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
-        include_context 'wp_update_with_quoted_reply_above'
-
-        it_behaves_like 'journal created'
-
-        it 'truncates the email at the delimiter with the quoted reply symbols (>)' do
-          expect(subject.notes)
-            .to include('An update to the issue by the sender.')
-
-          expect(subject.notes)
-            .not_to match(Regexp.escape('--- Reply above. Do not remove this line. ---'))
-
-          expect(subject.notes)
-            .not_to include('Looks like the JSON api for projects was missed.')
-        end
-      end
-
-      context 'with multiple quoted replies (e.g. reply to a reply of a Redmine email notification)',
-              with_settings: { mail_handler_body_delimiters: '--- Reply above. Do not remove this line. ---' } do
-        include_context 'wp_update_with_quoted_reply_above'
+        include_context 'with a reply to a wp mention with quotes above'
 
         it_behaves_like 'journal created'
 
@@ -645,36 +800,6 @@ describe MailHandler, type: :model do
 
       it 'removes the irrelevant lines' do
         expect(handler.send(:cleaned_up_text_body)).to eq("Subject:foo\nDescription:bar")
-      end
-    end
-  end
-
-  describe '#dispatch_target_from_message_id' do
-    let!(:mail_user) { FactoryBot.create :admin, mail: 'user@example.org' }
-    let(:instance) do
-      mh = MailHandler.new
-      mh.options = {}
-      mh
-    end
-    subject { instance.receive mail }
-
-    context 'receiving reply from work package' do
-      let(:mail) { Mail.new(read_email('work_package_reply.eml')) }
-
-      it 'calls the work package reply' do
-        expect(instance).to receive(:receive_work_package_reply).with(34540)
-
-        subject
-      end
-    end
-
-    context 'receiving reply from message' do
-      let(:mail) { Mail.new(read_email('message_reply.eml')) }
-
-      it 'calls the work package reply' do
-        expect(instance).to receive(:receive_message_reply).with(12559)
-
-        subject
       end
     end
   end

@@ -1042,8 +1042,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       describe 'customFields' do
         it_behaves_like 'action link' do
           let(:action) { 'customFields' }
-          let(:permission) { :edit_project }
-          let(:href) { settings_custom_fields_project_path(work_package.project.identifier) }
+          let(:permission) { :select_custom_fields }
+          let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
         end
       end
 

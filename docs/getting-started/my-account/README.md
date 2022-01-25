@@ -17,7 +17,7 @@ Change your personal settings in My account. Here you can adapt, e.g. the langua
 | [Change password](#change-password)                          | How to change my password                                    |
 | [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject       |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
-| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication                    |
+| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication         |
 | [Notifications settings](#notifications settings)            | How to change in-app notifications in OpenProject            |
 | [Email reminders](#email-reminders)                          | How to change email reminders sent by OpenProject            |
 | [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture |
@@ -144,13 +144,13 @@ Click the blue **Continue** button to finish the registration.
 
 **My account > Notification settings**
 
-In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification_settings).
+In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings).
 
 Please also see our detailed [in-app notifications](../../user-guide/notifications) guide to gain a general understanding.
 
 ## Email reminders
 
-**My account > Email reminders**.
+**My account > Email reminders**
 
 To configure the email reminders which you receive from the system, navigate to **My account** and choose **Email reminders** in the menu. Your system administrator can also set them for you or change the global default settings.
 
@@ -160,7 +160,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all. 
 
-![Email reminders](EmailNotificationsv12.PNG)
+![Email reminders](EmailNotificationsv12.png)
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 
@@ -172,8 +172,6 @@ You can also opt-in to receive **email alerts for other items (that are not work
 - **Wiki page updated** - ...updates a [Wiki page](../../user-guide/wiki)
 - **Membership added** - ...adds you to a new work package
 - **Membership updates** - ...updates your membership associations
-
-
 
 ## Set an avatar
 

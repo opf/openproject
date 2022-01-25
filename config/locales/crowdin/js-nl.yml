@@ -59,7 +59,7 @@ nl:
     button_check_all: "Selecteer alles"
     button_configure-form: "Formulier configureren"
     button_confirm: "Accepteren"
-    button_continue: "Verdergaan"
+    button_continue: "Ga verder"
     button_copy: "Kopieer"
     button_custom-fields: "Aangepaste velden"
     button_delete: "Verwijderen"
@@ -70,7 +70,7 @@ nl:
     button_filter: "Filter"
     button_collapse_all: "Alles inklappen"
     button_expand_all: "Alles uitklappen"
-    button_advanced_filter: "Geavanceerd filter"
+    button_advanced_filter: "Geavanceerde filter"
     button_list_view: "Lijstweergave"
     button_show_view: "Fullscreen weergave"
     button_log_time: "Gelogde tijd"
@@ -88,9 +88,6 @@ nl:
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Maken"
-    calendar:
-      title: 'Kalender'
-      too_many: 'Er zijn in totaal %{count} werkpakketten, maar alleen %{max} kan worden getoond.'
     card:
       add_new: 'Nieuwe kaart toevoegen'
       highlighting:
@@ -285,22 +282,25 @@ nl:
         new_features:
           text_new_features: "Lees over nieuwe functies en product-updates."
           learn_about: "Meer informatie over de nieuwe functies"
-          standard:
-            learn_about_link: https://www.openproject.org/openproject-11-3-release
-            current_new_feature_html: >
-              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Nieuwe knop in de koptekstnavigatie om projecten, gebruikers en werkpakketten te creëren.</li> <li>Een nieuwe uitnodigingsmodus voor gebruikers, groepen en placeholder gebruikers laat toe eenvoudig nieuwe gebruikers toe te voegen of uit te nodigen en toe te wijzen aan werkpakketten.</li> <li>GitHub integratie in OpenProject.</li> <li>API v3 extensies voor groepen en meer, i. e. maak, lees, update en verwijder groepen en groepsleden via de API.</li> <li>Multi-selectie voor project aangepaste velden van het type lijst.</li> <li>Maken van back-up vanuit de webinterface.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              De release bevat verschillende nieuwe functies en verbeteringen: <br> <ul class="%{list_styling_class}"> <li>Neem een kijkje op onze <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a> waarmee u direct in Revit aan BCF werkpakketten kunt werken.</li> <li>IFC-eigenschappen kregen een eigen venster. GUIDs kopiëren is nooit zo eenvoudig geweest.</li> <li>Omgekeerd knipvlak richting in BCF gezichtspunt en compatibel worden met toekomstige BCF 3.0 (Nu dezelfde richting als Solibri). <li>Probleem opgelost met mobiel bekijken IFC-modellen.</li> <li>Vaste export van werkpakket weergaven met BCF momentopname kolom.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
     label_activate: "Activeren"
-    label_add_column_after: "Kolom toevoegen na"
-    label_add_column_before: "Kolom toevoegen voor"
+    label_add_column_after: "Kolom toevoegen"
+    label_add_column_before: "Kolom invoegen"
     label_add_columns: "Kolommen toevoegen"
     label_add_comment: "Commentaar toevoegen"
     label_add_comment_title: "Plaats een opmerking en gebruik het @-teken om anderen te informeren"
-    label_add_row_after: "Rij toevoegen na"
-    label_add_row_before: "Rij voor toevoegen"
+    label_add_row_after: "Rij toevoegen"
+    label_add_row_before: "Rij invoegen"
     label_add_selected_columns: "Geselecteerde kolommen toevoegen"
     label_added_by: "toegevoegd door"
     label_added_time_by: "Added by <a href=%{authorLink}>%{author}</a> at %{age}"
@@ -451,6 +451,7 @@ nl:
     label_starred_queries: "Favoriete weergaven"
     label_global_queries: "Openbare weergaven"
     label_custom_queries: "Privé weergaven"
+    label_create_new_query: "Nieuwe aanmaken"
     label_columns: "Kolommen"
     label_attachments: Bestanden
     label_drop_files: Bestanden hier neerzetten
@@ -554,7 +555,7 @@ nl:
             description: 'Ontvang een melding elke keer dat iemand mij ergens noemt'
           involved:
             title: 'Toegewezen aan mij of verantwoordelijk'
-            description: 'Meldingen ontvangen voor alle activiteiten op werkpakketten waarvoor ik uitvoerder of verantwoordelijke ben.'
+            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
           watched: 'Updates van bekeken artikelen'
           work_package_commented: 'Alle nieuwe reacties'
           work_package_created: 'Nieuwe werkpakketten'
@@ -573,6 +574,7 @@ nl:
           description: 'Deze project-specifieke instellingen overschrijven standaard instellingen hierboven'
           add: 'Instelling voor project toevoegen'
           already_selected: 'Dit project is al geselecteerd'
+          remove: 'Remove project settings'
     password_confirmation:
       field_description: 'U moet uw wachtwoord invoeren om deze wijziging te bevestigen.'
       title: 'Voer uw wachtwoord in om door te gaan'
@@ -604,7 +606,8 @@ nl:
         daily:
           add_time: 'Tijd toevoegen'
           enable: 'Dagelijkse e-mailherinneringen inschakelen'
-          explanation: 'U ontvangt deze herinneringen alleen voor ongelezen meldingen en slechts op uren die u opgeeft.'
+          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
+          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: 'Tijd %{counter}:'
           title: 'Stuur me dagelijkse herinneringen voor ongelezen meldingen'
         workdays:
@@ -841,7 +844,7 @@ nl:
       message_view_spent_time: "Toon bestede tijd voor dit werkpakket"
       message_work_package_read_only: "Werkpakket is opgesloten in deze status. Geen kenmerk dan status kan worden gewijzigd."
       message_work_package_status_blocked: "Werkpakket status is niet schrijfbaar vanwege gesloten status en gesloten toegewezen versie."
-      placeholder_filter_by_text: "Betreft, beschrijving, commentaar, ..."
+      placeholder_filter_by_text: "Onderwerp, beschrijving, commentaar, ..."
       inline_create:
         title: 'Klik hier om een nieuw werkpakket aan deze lijst toe te voegen'
       create:
@@ -1151,7 +1154,7 @@ nl:
           user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
-        next_button: 'Verdergaan'
+        next_button: 'Ga verder'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

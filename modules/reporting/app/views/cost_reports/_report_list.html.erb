@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% if queries.any? %>
   <% queries.each do |query| -%>
     <ul class="pages-hierarchy -with-hierarchy">
-      <li class="tree-menu--item ui-menu-item collapsible-menu--item" slug="<%= query.name %>">
+      <li class="tree-menu--item" slug="<%= query.name %>">
         <%= link_to(h(query.name),
                     {:controller => '/cost_reports', :action => 'show', :id => query.id},
                      :class => 'tree-menu--title ellipsis') %>
@@ -40,6 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% end -%>
 <% else %>
   <ul class="pages-hierarchy -with-hierarchy">
-    <li class="collapsible-menu--placeholder"><%= t(:"label_no_reports") %></li>
+    <li><%= t(:"label_no_reports") %></li>
   </ul>
 <% end -%>

@@ -1,0 +1,19 @@
+lol:
+  logout_warning: >
+    crwdns494661:0crwdne494661:0
+  activemodel:
+    attributes:
+      openid_connect/provider:
+        name: crwdns494663:0crwdne494663:0
+        display_name: crwdns494665:0crwdne494665:0
+        identifier: crwdns494667:0crwdne494667:0
+        secret: crwdns494669:0crwdne494669:0
+        scope: crwdns494671:0crwdne494671:0
+  openid_connect:
+    menu_title: crwdns494673:0crwdne494673:0
+    providers:
+      label_add_new: crwdns494675:0crwdne494675:0
+      label_edit: crwdns494677:0%{name}crwdne494677:0
+      no_results_table: crwdns494679:0crwdne494679:0
+      plural: crwdns494681:0crwdne494681:0
+      singular: crwdns494683:0crwdne494683:0

@@ -66,18 +66,6 @@ module CustomFieldsHelper
         partial: 'custom_fields/tab',
         path: custom_fields_path(tab: :GroupCustomField),
         label: :label_group_plural
-      },
-      {
-        name: 'TimeEntryActivityCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :TimeEntryActivityCustomField),
-        label: TimeEntryActivity::OptionName
-      },
-      {
-        name: 'IssuePriorityCustomField',
-        partial: 'custom_fields/tab',
-        path: custom_fields_path(tab: :IssuePriorityCustomField),
-        label: IssuePriority::OptionName
       }
     ]
   end

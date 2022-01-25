@@ -72,7 +72,6 @@ module OpenProject::Reporting
       menu :project_menu,
            :costs,
            { controller: '/cost_reports', action: 'index' },
-           param: :project_id,
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
@@ -81,7 +80,6 @@ module OpenProject::Reporting
       menu :project_menu,
            :costs_menu,
            { controller: '/cost_reports', action: 'index' },
-           param: :project_id,
            if: Proc.new { |project| project.module_enabled?(:costs) },
            partial: '/cost_reports/report_menu',
            parent: :costs

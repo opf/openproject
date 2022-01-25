@@ -1,0 +1,2986 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+et:
+  no_results_title_text: There is currently nothing to display.
+  activities:
+    index:
+      no_results_title_text: There has not been any activity for the project within this time frame.
+  admin:
+    plugins:
+      no_results_title_text: There are currently no plugins available.
+    custom_styles:
+      color_theme: "Värviteema"
+      color_theme_custom: "(Kohandatud)"
+      colors:
+        alternative-color: "Alternatiiv"
+        content-link-color: "Link font"
+        primary-color: "Peamine"
+        primary-color-dark: "Primary (dark)"
+        header-bg-color: "Header background"
+        header-item-bg-hover-color: "Header background on hover"
+        header-item-font-color: "Header font"
+        header-item-font-hover-color: "Header font on hover"
+        header-border-bottom-color: "Header border"
+        main-menu-bg-color: "Main menu background"
+        main-menu-bg-selected-background: "Main menu when selected"
+        main-menu-bg-hover-background: "Main menu on hover"
+        main-menu-font-color: "Main menu font"
+        main-menu-selected-font-color: "Main menu font when selected"
+        main-menu-hover-font-color: "Main menu font on hover"
+        main-menu-border-color: "Main menu border"
+      custom_colors: "Custom colors"
+      customize: "Customize your OpenProject installation with your own logo. Note: This logo will be publicly accessible."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
+      manage_colors: "Edit color select options"
+      instructions:
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Font color of most of the links."
+        primary-color: "Main color."
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
+        header-item-font-color: "Font color of clickable header items."
+        header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
+        header-border-bottom-color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main-menu-bg-color: "Left side menu's background color."
+      theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
+    enterprise:
+      upgrade_to_ee: "Upgrade to the Enterprise Edition"
+      add_token: "Upload an Enterprise Edition support token"
+      replace_token: "Replace your current support token"
+      order: "Order Enterprise on-premises Edition"
+      paste: "Paste your Enterprise Edition support token"
+      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+      enterprise_link: "For more information, click here."
+      start_trial: 'Start free trial'
+      book_now: 'Book now'
+      get_quote: 'Get a quote'
+  announcements:
+    show_until: Show until
+    is_active: currently displayed
+    is_inactive: currently not displayed
+  attribute_help_texts:
+    note_public: 'Any text and images you add to this field is publicly visible to all logged in users!'
+    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
+    label_plural: 'Attribute help texts'
+    show_preview: 'Teksti eelvaade'
+    add_new: 'Add help text'
+    edit: "Edit help text for %{attribute_caption}"
+  auth_sources:
+    index:
+      no_results_content_title: There are currently no authentication modes.
+      no_results_content_text: Create a new authentication mode
+  background_jobs:
+    status:
+      error_requeue: "Job experienced an error but is retrying. The error was: %{message}"
+      cancelled_due_to: "Job was cancelled due to error: %{message}"
+  ldap_auth_sources:
+    technical_warning_html: |
+      This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
+      <br/>
+      <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
+    attribute_texts:
+      name: Arbitrary name of the LDAP connection
+      host: LDAP host name or IP address
+      login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
+      generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
+      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      system_user_dn_html: |
+        Enter the DN of the system user used for read-only access.
+        <br/>
+        Example: uid=openproject,ou=system,dc=example,dc=com
+      system_user_password: Enter the bind password of the system user
+      base_dn: |
+        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
+        OpenProject will filter for provided usernames in this subtree only.
+        Example: ou=users,dc=example,dc=com
+      filter_string: |
+        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
+        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+      filter_string_concat: |
+        OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
+        it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
+      onthefly_register: |
+        If you check this box, OpenProject will automatically create new users from their LDAP entries
+        when they first authenticate with OpenProject.
+        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+    connection_encryption: 'Connection encryption'
+    system_account: 'System account'
+    system_account_legend: |
+      OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
+      Please specify the bind credentials for that system user in the following section.
+    ldap_details: 'LDAP details'
+    user_settings: 'Attribute mapping'
+    user_settings_legend: |
+      The following fields are related to how users are created in OpenProject from LDAP entries and
+      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+    tls_mode:
+      plain: 'pole'
+      simple_tls: 'simple_tls'
+      start_tls: 'start_tls'
+      plain_description: "Plain unencrypted connection, no TLS negotiation."
+      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
+      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      section_more_info_link_html: >
+        This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+  forums:
+    show:
+      no_results_title_text: There are currently no posts for the forum.
+  colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+    label_no_color: 'No color'
+  custom_actions:
+    actions:
+      name: 'Actions'
+      add: 'Add action'
+      assigned_to:
+        executing_user_value: '(Assign to executing user)'
+    conditions: 'Conditions'
+    plural: 'Custom actions'
+    new: 'New custom action'
+    edit: 'Edit custom action %{name}'
+    execute: 'Execute %{name}'
+    upsale:
+      title: 'Custom actions is an Enterprise Edition feature'
+      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+  custom_fields:
+    text_add_new_custom_field: >
+      To add new custom fields to a project you first need to create them before you can add them to this project.
+    is_enabled_globally: 'Is enabled globally'
+    enabled_in_project: 'Enabled in project'
+    contained_in_type: 'Contained in type'
+    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
+    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    tab:
+      no_results_title_text: There are currently no custom fields.
+      no_results_content_text: Create a new custom field
+  concatenation:
+    single: 'või'
+  documentation:
+    see_more_link: For more information, please see our documentation on this topic.
+  global_search:
+    overwritten_tabs:
+      wiki_pages: "Viki"
+      messages: "Foorum"
+  groups:
+    index:
+      no_results_title_text: There are currently no groups.
+      no_results_content_text: Create a new group
+    users:
+      no_results_title_text: There are currently no users part of this group.
+    memberships:
+      no_results_title_text: There are currently no projects part of this group.
+  incoming_mails:
+    ignore_filenames: >
+      Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
+  projects:
+    delete:
+      scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
+      schedule_failed: "Project cannot be deleted: %{errors}"
+      failed: "Deletion of project %{name} has failed"
+      failed_text: "The request to delete project %{name} has failed. The project was left archived."
+      completed: "Deletion of project %{name} completed"
+      completed_text: "The request to delete project '%{name}' has been completed."
+    index:
+      open_as_gantt: 'Open as Gantt view'
+      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
+      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
+      no_results_title_text: There are currently no projects
+      no_results_content_text: Create a new project
+    settings:
+      change_identifier: Change identifier
+      activities:
+        no_results_title_text: There are currently no activities available.
+      forums:
+        no_results_title_text: There are currently no forums for the project.
+        no_results_content_text: Loo uus värv
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently no custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
+      storage:
+        no_results_title_text: There is no additional recorded disk space consumed by this project.
+  members:
+    index:
+      no_results_title_text: There are currently no members part of this project.
+      no_results_content_text: Add a member to the project
+    invite_by_mail: "Send invite to %{mail}"
+  my:
+    access_token:
+      failed_to_reset_token: "Failed to reset access token: %{error}"
+      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
+      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
+      no_results_title_text: There are currently no access tokens available.
+  news:
+    index:
+      no_results_title_text: There is currently no news to report.
+      no_results_content_text: Add a news item
+  users:
+    groups:
+      member_in_these_groups: 'This user is currently a member of the following groups:'
+      no_results_title_text: This user is currently not a member in any group.
+    memberships:
+      no_results_title_text: This user is currently not a member of a project.
+  placeholder_users:
+    right_to_manage_members_missing: >
+      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
+    delete_tooltip: "Delete placeholder user"
+    deletion_info:
+      heading: "Delete placeholder user %{name}"
+      data_consequences: >
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
+        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+      irreversible: "This action is irreversible"
+      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+    upsale:
+      title: Assign work to people that are not members of the project.
+      description: >
+        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+  prioritiies:
+    edit:
+      priority_color_text: |
+        Click to assign or change the color of this priority.
+        It can be used for highlighting work packages in the table.
+  reportings:
+    index:
+      no_results_title_text: There are currently no status reportings.
+      no_results_content_text: Add a status reporting
+  statuses:
+    edit:
+      status_readonly_html: |
+        Check this option to mark work packages with this status as read-only.
+        No attributes can be changed with the exception of the status.
+        <br/>
+        <strong>Note</strong>: Inherited values (e.g., from children or relations) will still apply.
+      status_color_text: |
+        Click to assign or change the color of this status.
+        It is shown in the status button and can be used for highlighting work packages in the table.
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: Lisa uus staatus
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+    edit:
+      settings: "Seaded"
+      form_configuration: "Vormi seadistamine"
+      projects: "Projektid"
+      enabled_projects: "Lubatud projektid"
+      edit_query: "Muuda tabelit"
+      query_group_placeholder: "Anna tabelile nimi"
+      reset: "Taasta vaikesätted"
+      type_color_text: |
+        The selected color distinguishes different types
+        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+  versions:
+    overview:
+      no_results_title_text: There are currently no work packages assigned to this version.
+  wiki:
+    page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
+    no_results_title_text: There are currently no wiki pages.
+    index:
+      no_results_content_text: Lisa uus wiki lehekülg
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
+  work_packages:
+    x_descendants:
+      one: 'One descendant work package'
+      other: '%{count} work package descendants'
+    bulk:
+      could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
+    move:
+      no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
+      unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
+    summary:
+      reports:
+        category:
+          no_results_title_text: There are currently no categories available.
+        assigned_to:
+          no_results_title_text: There are currently no members part of this project.
+        responsible:
+          no_results_title_text: There are currently no members part of this project.
+        author:
+          no_results_title_text: There are currently no members part of this project.
+        priority:
+          no_results_title_text: There are currently no priorities available.
+        type:
+          no_results_title_text: There are currently no types available.
+        version:
+          no_results_title_text: There are currently no versions available.
+  label_invitation: Kutse
+  account:
+    delete: "Kustuta konto"
+    delete_confirmation: "Oled kindel, et tahad seda kontot kustutada?"
+    deleted: "Konto on kustutatud"
+    deletion_info:
+      data_consequences:
+        other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
+        self: "Of the data you created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data you created from the data of another deleted account."
+      heading: "Kustuta konto %{name}"
+      info:
+        other: "Kasutajakonto kustutamine on pöördumatu tegevus."
+        self: "Oma kasutajakonto kustutamine on pöördumatu tegevus."
+      login_consequences:
+        other: "Konto kustutatakse süsteemist. Seetõttu ei saa kasutaja enam sisse logida oma praeguste kasutajatunnustega. Küll aga võib ta registreerida end uuesti rakenduse kasutajaks."
+        self: "Sinu konto kustutatakse süsteemist. Seetõttu ei saa sa enam sisse logida oma praeguste kasutajatunnustega. Küll aga võid sa registreerida end uuesti rakenduse kasutajaks."
+      login_verification:
+        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
+        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be asked to confirm your password."
+    error_inactive_activation_by_mail: >
+      Sinu konto ei ole veel aktiivne. Sulle saadetud e-kirjas on link, millega saad oma konto aktiveerida.
+    error_inactive_manual_activation: >
+      Sinu konto pole aktiveeritud veel. Palun oota, kuni administraator aktiveerib selle.
+    error_self_registration_disabled: >
+      Konto loomine on hetkel keelatud. Palun küsi administraatoril tekitada konto sulle.
+    login_with_auth_provider: "või logi sisse oma olemasoleva kontoga"
+    signup_with_auth_provider: "or sign up using"
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
+  actionview_instancetag_blank_option: "Palun vali"
+  activerecord:
+    attributes:
+      announcements:
+        show_until: "Display until"
+      attachment:
+        attachment_content: "Attachment content"
+        attachment_file_name: "Attachment file name"
+        downloads: "Allalaaditud failid"
+        file: "Manus"
+        filename: "Manus"
+        filesize: "Suurus"
+      attribute_help_text:
+        attribute_name: 'Atribuut'
+        help_text: 'Abitekst'
+      auth_source:
+        account: "Konto"
+        attr_firstname: "Eesnimi"
+        attr_lastname: "Perekonnanimi"
+        attr_login: "Username attribute"
+        attr_mail: "E-posti aadress"
+        base_dn: "Põhiline domeeninimi"
+        host: "Host"
+        onthefly: "Automatic user creation"
+        port: "Port"
+      changeset:
+        repository: "Hoidla"
+      comment:
+        commented: "Kommenteeritud" #an object that this comment belongs to
+      custom_action:
+        actions: "Actions"
+      custom_field:
+        default_value: "Vaikeväärtus"
+        editable: "Muudetav"
+        field_format: "Formaat"
+        is_filter: "Kasutatakse filtrina"
+        is_required: "Nõutav"
+        max_length: "Maksimaalne pikkus"
+        min_length: "Lühima lubatud parooli pikkus"
+        multi_value: "Allow multi-select"
+        possible_values: "Võimalikud väärtused"
+        regexp: "Regulaaravaldis"
+        searchable: "Otsitav"
+        visible: "Nähtav"
+      custom_value:
+        value: "Väärtus"
+      enterprise_token:
+        starts_at: "Kehtib alates"
+        expires_at: "Aegub"
+        subscriber: "Tellija"
+        encoded_token: "Enterprise support token"
+        active_user_count_restriction: "Maximum active users"
+      grids/grid:
+        page: "Lehekülg"
+        row_count: "Ridade arv"
+        column_count: "Veergude arv"
+        widgets: "Vidinad"
+      relation:
+        delay: "Viivitus"
+        from: "Teema"
+        to: "Seotud teema"
+      status:
+        is_closed: "Teema on suletud"
+        is_readonly: "Work package read-only"
+      journal:
+        notes: "Märkmed"
+      member:
+        roles: "Rollid"
+      project:
+        identifier: "Identifikaator"
+        latest_activity_at: "Latest activity at"
+        parent: "Ülemprojekt"
+        queries: "Päringuid"
+        types: "Tüübid"
+        versions: "Versioonid"
+        work_packages: "Teemad"
+        templated: 'Template project'
+      projects/status:
+        code: 'Olek'
+        explanation: 'Status description'
+        codes:
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+      query:
+        column_names: "Väljad"
+        relations_to_type_column: "Relations to %{type}"
+        relations_of_type_column: "%{type} relations"
+        group_by: "Grupeeri tulemused"
+        filters: "Filtrid"
+        timeline_labels: "Timeline labels"
+      repository:
+        url: "URL"
+      role:
+        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Õigused"
+      time_entry:
+        activity: "Tegevus"
+        hours: "Tunnid"
+        spent_on: "Kuupäev"
+        type: "Tüüp"
+      type:
+        description: "Default text for description"
+        attribute_groups: ''
+        is_in_roadmap: "Displayed in roadmap by default"
+        is_default: "Activated for new projects by default"
+        is_milestone: "on verstapost"
+        color: "Värv"
+      user:
+        admin: "Administraator"
+        auth_source: "Autentimise viis"
+        current_password: "Praegune parool"
+        force_password_change: "Sunni parooli vahetada järgmisel sisselogimisel"
+        language: "Keel"
+        last_login_on: "Viimane sisselogimine"
+        new_password: "Uus parool"
+        password_confirmation: "Kinnitus"
+        consented_at: "Consented at"
+      user_preference:
+        comments_sorting: "Kuva kommentaare"
+        hide_mail: "Peida minu eposti aadress"
+        impaired: "Hõlbustusfunktsioonidega režiim"
+        time_zone: "Ajavöönd"
+        auto_hide_popups: "Auto-hide success notifications"
+        warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"
+      version:
+        effective_date: "Lõpetamise kuupäev"
+        sharing: "Jagamine"
+      wiki_content:
+        text: "Tekst"
+      wiki_page:
+        parent_title: "Pärineb lehelt"
+        redirect_existing_links: "Suuna olemasolevad lingid ümber"
+      planning_element_type_color:
+        hexcode: Hex kood
+      work_package:
+        begin_insertion: "Sisestamise algus"
+        begin_deletion: "Kustutamise algus"
+        children: "Alamelemendid"
+        done_ratio: "Progress (%)"
+        end_insertion: "End of the insertion"
+        end_deletion: "End of the deletion"
+        version: "Versioon"
+        parent: "Pärineb teemast"
+        parent_issue: "Pärineb teemast"
+        parent_work_package: "Pärineb teemast"
+        priority: "Prioriteet"
+        progress: "Progress (%)"
+        schedule_manually: "Manual scheduling"
+        spent_hours: "Kulutatud aeg"
+        spent_time: "Kulutatud aeg"
+        subproject: "Alamprojekt"
+        time_entries: "Ajakulu"
+        type: "Tüüp"
+        watcher: "Jälgija"
+      'doorkeeper/application':
+        uid: "Kliendi ID"
+        secret: "Kliendi salasõna"
+        owner: "Omanik"
+        redirect_uri: "Redirect URI"
+        client_credentials_user_id: "Client Credentials User ID"
+        scopes: "Scopes"
+        confidential: "Konfidentsiaalne"
+    errors:
+      messages:
+        accepted: "must be accepted."
+        after: "must be after %{date}."
+        after_or_equal_to: "must be after or equal to %{date}."
+        before: "must be before %{date}."
+        before_or_equal_to: "must be before or equal to %{date}."
+        blank: "ei tohi olla tühi."
+        blank_nested: "needs to have the property '%{property}' set."
+        cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
+        circular_dependency: "This relation would create a circular dependency."
+        confirmation: "doesn't match %{attribute}."
+        could_not_be_copied: "%{dependency} could not be (fully) copied."
+        does_not_exist: "does not exist."
+        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_unauthorized: "may not be accessed."
+        error_readonly: "was attempted to be written but is not writable."
+        email: "is not a valid email address."
+        empty: "ei tohi olla tühi."
+        even: "peab olema paarisarv."
+        exclusion: "on reserveeritud."
+        file_too_large: "is too large (maximum size is %{count} Bytes)."
+        format: "does not match the expected format '%{expected}'."
+        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        greater_than: "must be greater than %{count}."
+        greater_than_or_equal_to: "must be greater than or equal to %{count}."
+        greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
+        greater_than_start_date: "must be greater than the start date."
+        inclusion: "is not set to one of the allowed values."
+        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        invalid: "on vigane."
+        invalid_url: 'is not a valid URL.'
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        less_than_or_equal_to: "must be less than or equal to %{count}."
+        not_available: "is not available due to a system configuration."
+        not_deletable: "cannot be deleted."
+        not_current_user: "is not the current user."
+        not_a_date: "is not a valid date."
+        not_a_datetime: "is not a valid date time."
+        not_a_number: "pole arv."
+        not_allowed: "is invalid because of missing permissions."
+        not_an_integer: "pole täisarv."
+        not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
+        not_same_project: "doesn't belong to the same project."
+        odd: "peab olema paaritu arv."
+        regex_invalid: "could not be validated with the associated regular expression."
+        smaller_than_or_equal_to_max_length: "must be smaller than or equal to maximum length."
+        taken: "on juba kasutusel."
+        too_long: "is too long (maximum is %{count} characters)."
+        too_short: "is too short (minimum is %{count} characters)."
+        type_mismatch: "is not of type '%{type}'"
+        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        unchangeable: "cannot be changed."
+        unknown_property: "is not a known property."
+        unknown_property_nested: "has the unknown path '%{path}'."
+        unremovable: "cannot be removed."
+        wrong_length: "is the wrong length (should be %{count} characters)."
+      models:
+        attachment:
+          attributes:
+            content_type:
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
+        capability:
+          context:
+            global: 'Üldine'
+          query:
+            filters:
+              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+        custom_field:
+          at_least_one_custom_option: "At least one option needs to be available."
+        custom_actions:
+          only_one_allowed: "(%{name}) only one value is allowed."
+          empty: "(%{name}) value can't be empty."
+          inclusion: "(%{name}) value is not set to one of the allowed values."
+          not_logged_in: "(%{name}) value cannot be set because you are not logged in."
+          not_an_integer: "(%{name}) is not an integer."
+          smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
+          greater_than_or_equal_to: "(%{name}) must be greater than or equal to %{count}."
+          format: "%{message}"
+        doorkeeper/application:
+          attributes:
+            redirect_uri:
+              fragment_present: 'cannot contain a fragment.'
+              invalid_uri: 'must be a valid URI.'
+              relative_uri: 'must be an absolute URI.'
+              secured_uri: 'must be an HTTPS/SSL URI.'
+              forbidden_uri: 'is forbidden by the server.'
+            scopes:
+              not_match_configured: "doesn't match available scopes."
+        enterprise_token:
+          unreadable: "can't be read. Are you sure it is a support token?"
+        grids/grid:
+          overlaps: 'overlap.'
+          outside: 'is outside of the grid.'
+          end_before_start: 'end value needs to be larger than the start value.'
+        notifications:
+          at_least_one_channel: 'At least one channel for sending notifications needs to be specified.'
+          attributes:
+            read_ian:
+              read_on_creation: 'cannot be set to true on notification creation.'
+            mail_reminder_sent:
+              set_on_creation: 'cannot be set to true on notification creation.'
+            reason:
+              no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
+            reason_mail_digest:
+              no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        notification_settings:
+          only_one_global_setting: 'There must only be one global notification setting.'
+          email_alerts_global: 'The email notification settings can only be set globally.'
+          format: "%{message}"
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: "The operator is not supported."
+              invalid_values: "A value is invalid."
+              id_filter_required: "An 'id' filter is required."
+        project:
+          archived_ancestor: 'The project has an archived ancestor.'
+          foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
+          attributes:
+            types:
+              in_use_by_work_packages: "still in use by work packages: %{types}"
+            enabled_modules:
+              dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
+              format: "%{message}"
+        query:
+          attributes:
+            project:
+              error_not_found: "not found"
+            public:
+              error_unauthorized: "- The user has no permission to create public views."
+            group_by:
+              invalid: "Can't group by: %{value}"
+              format: "%{message}"
+            column_names:
+              invalid: "Invalid query column: %{value}"
+              format: "%{message}"
+            sort_criteria:
+              invalid: "Can't sort by column: %{value}"
+              format: "%{message}"
+          group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
+          filters:
+            custom_fields:
+              inexistent: "There is no custom field for the filter."
+        queries/filters/base:
+          attributes:
+            values:
+              inclusion: "filter has invalid values."
+              format: "%{message}"
+        relation:
+          typed_dag:
+            circular_dependency: "The relationship creates a circle of relationships."
+          attributes:
+            to:
+              error_not_found: "work package in `to` position not found or not visible"
+              error_readonly: "an existing relation's `to` link is immutable"
+            from:
+              error_not_found: "work package in `from` position not found or not visible"
+              error_readonly: "an existing relation's `from` link is immutable"
+        repository:
+          not_available: "SCM vendor is not available"
+          not_whitelisted: "is not allowed by the configuration."
+          invalid_url: "is not a valid repository URL or path."
+          must_not_be_ssh: "must not be an SSH url."
+          no_directory: "is not a directory."
+        role:
+          attributes:
+            permissions:
+              dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        time_entry:
+          attributes:
+            hours:
+              day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        user_preference:
+          attributes:
+            pause_reminders:
+              invalid_range: "can only be a valid date range."
+            daily_reminders:
+              full_hour: "can only be configured to be delivered at a full hour."
+        wiki_page:
+          attributes:
+            slug:
+              undeducible: "cannot be deduced from the title '%{title}'."
+        work_package:
+          is_not_a_valid_target_for_time_entries: "Töötunde ei sobi üle kanda teemale #%{id}."
+          attributes:
+            due_date:
+              not_start_date: "verstapostil on vajalik määrata alguskuupäev."
+            parent:
+              cannot_be_milestone: "ei sobi verstapostiks."
+              cannot_be_self_assigned: "cannot be assigned to itself."
+              cannot_be_in_another_project: "ei saa esineda teises projektis."
+              not_a_valid_parent: "on vigane."
+            start_date:
+              violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+            status_id:
+              status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
+              status_invalid_in_type: "is invalid because the current status does not exist in this type."
+            type:
+              cannot_be_milestone_due_to_children: "cannot be a milestone because this work package has children."
+            priority_id:
+              only_active_priorities_allowed: "peab olema aktiivne."
+            category:
+              only_same_project_categories_allowed: "The category of a work package must be within the same project as the work package."
+              does_not_exist: "The specified category does not exist."
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+        type:
+          attributes:
+            attribute_groups:
+              attribute_unknown: "Invalid work package attribute used."
+              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
+              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
+              group_without_name: "Unnamed groups are not allowed."
+        user:
+          attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
+            password:
+              weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
+              lowercase: "väiketäht (näiteks \"a\")"
+              uppercase: "suurtäht (näiteks 'A')"
+              numeric: "arvuline (nt 1, 2, 3)"
+              special: "erimärk (nt %, &)"
+              reused:
+                one: "Vali uus parool, mis erineb eelmisest paroolist."
+                other: "Vali uus parool, mis erineb eelmiselt kasutatud %{count}-st paroolist."
+              match:
+                confirm: "Confirm new password."
+                description: "'Password confirmation' should match the input in the 'New password' field."
+            status:
+              invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
+        member:
+          principal_blank: "Vali vähemalt üks kasutaja või grupp."
+          role_blank: "need to be assigned."
+          attributes:
+            roles:
+              ungrantable: "has an unassignable role."
+            principal:
+              unassignable: "cannot be assigned to a project."
+        version:
+          undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
+        status:
+          readonly_default_exlusive: "can not be activated for statuses that are marked default."
+      template:
+        body: "Kontrolli järgnevad väljad:"
+        header:
+          one: "1 viga ei võimaldanud selle %{model} salvestamist"
+          other: "%{count} viga ei võimaldanud selle %{model} salvestamist"
+    models:
+      attachment: "Manus"
+      attribute_help_text: "Attribute help text"
+      forum: "Foorum"
+      comment: "Kommentaar"
+      custom_action: "Custom action"
+      custom_field: "Lisaväli"
+      group: "Grupp"
+      category: "Kategooria"
+      status: "Teema olek"
+      member: "Liige"
+      news: "Uudised"
+      notification:
+        one: "Notification"
+        other: "Notifications"
+      placeholder_user: "Placeholder user"
+      project: "Projekt"
+      query: "Kohandatud päring"
+      role:
+        one: "Roll"
+        other: "Rollid"
+      type: "Tüüp"
+      user: "Kasutaja"
+      version: "Versioon"
+      wiki: "Viki"
+      wiki_page: "Viki leht"
+      workflow: "Töövoog"
+      work_package: "Teema"
+      'doorkeeper/application': "OAuth application"
+  errors:
+    header_invalid_fields: "Järgmiste väljadega esines tõrkeid:"
+    field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
+  activity:
+    created: "Loodud: %{title}"
+    updated: "Uuendatud: %{title}"
+  #common attributes of all models
+  attributes:
+    active: "Aktiivne"
+    assigned_to: "Määratud tegija"
+    assignee: "Määratud tegija"
+    attachments: "Manused"
+    author: "Autor"
+    base: "Üldine tõrge:"
+    blocks_ids: "IDs of blocked work packages"
+    category: "Kategooria"
+    comment: "Kommentaar"
+    comments: "Kommentaar"
+    content: "Sisu"
+    color: "Värv"
+    created_at: "Loodud"
+    custom_options: "Võimalikud väärtused"
+    custom_values: "Lisaväljad"
+    date: "Kuupäev"
+    default_columns: "Vaikimisi veerud"
+    description: "Teave"
+    derived_due_date: "Derived finish date"
+    derived_estimated_hours: "Derived estimated time"
+    derived_start_date: "Derived start date"
+    display_sums: "Kuva summasid"
+    due_date: "Lõpetamise kuupäev"
+    estimated_hours: "Eeldatav ajakulu"
+    estimated_time: "Eeldatav ajakulu"
+    firstname: "Eesnimi"
+    group: "Grupp"
+    groups: "Rühmad"
+    id: "ID"
+    is_default: "Vaikeväärtus"
+    is_for_all: "Kõikide projektide jaoks"
+    public: "Avalik"
+    #kept for backwards compatibility
+    issue: "Teema"
+    lastname: "Perekonnanimi"
+    login: "Kasutajanimi"
+    mail: "E-posti aadress"
+    name: "Nimi"
+    password: "Parool"
+    priority: "Prioriteet"
+    project: "Projekt"
+    responsible: "Accountable"
+    role: "Roll"
+    roles: "Rollid"
+    start_date: "Alguskuupäev"
+    status: "Olek"
+    subject: "Teema"
+    summary: "Kokkuvõte"
+    title: "Pealkiri"
+    type: "Tüüp"
+    updated_at: "Uuendatud"
+    updated_on: "Uuendatud"
+    uploader: "Uploader"
+    user: "Kasutaja"
+    version: "Versioon"
+    work_package: "Teema"
+  backup:
+    label_backup_token: "Backup token"
+    label_create_token: "Create backup token"
+    label_delete_token: "Delete backup token"
+    label_reset_token: "Reset backup token"
+    label_token_users: "The following users have active backup tokens"
+    reset_token:
+      action_create: Loo uus
+      action_reset: Nulli
+      heading_reset: "Reset backup token"
+      heading_create: "Create backup token"
+      implications: >
+        Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
+      info: >
+        You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
+      verification: >
+        Enter %{word} to confirm you want to %{action} the backup token.
+      verification_word_reset: reset
+      verification_word_create: create
+      warning: >
+        When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
+    text_token_deleted: Backup token deleted. Backups are now disabled.
+    error:
+      invalid_token: Invalid or missing backup token
+      token_cooldown: The backup token will be valid in %{hours} hours.
+      backup_pending: There is already a backup pending.
+      limit_reached: You can only do %{limit} backups per day.
+  button_add: "Lisamine"
+  button_add_comment: "Lisa kommentaar"
+  button_add_member: Lisa liige
+  button_add_watcher: "Lisa jälgija"
+  button_annotate: "Annoteeri"
+  button_apply: "Rakenda"
+  button_archive: "Arhiveeri"
+  button_back: "Tagasi"
+  button_cancel: "Tühista"
+  button_change: "Muuda"
+  button_change_parent_page: "Muuda mis lehelt see pärineb"
+  button_change_password: "Muuda parool"
+  button_check_all: "Märgi kõik"
+  button_clear: "Tühjenda"
+  button_click_to_reveal: "Näitamiseks kliki"
+  button_close: 'Sulge'
+  button_collapse_all: "Koonda kõik"
+  button_configure: "Seadista"
+  button_continue: "Jätka"
+  button_copy: "Kopeeri"
+  button_copy_and_follow: "Kopeeri ja järgne"
+  button_create: "Loo uus"
+  button_create_and_continue: "Loo uus ja jätka"
+  button_delete: "Kustuta"
+  button_decline: "Keeldu"
+  button_delete_watcher: "Kustuta jälgija %{name}"
+  button_download: "Laadi alla"
+  button_duplicate: "Duplitseeri"
+  button_edit: "Muuda"
+  button_edit_associated_wikipage: "Muuda seotud vikilehte \"%{page_title}\""
+  button_expand_all: "Laienda kõik"
+  button_filter: "Filter"
+  button_generate: "Genereeri"
+  button_list: "Nimistu"
+  button_lock: "Lukusta"
+  button_login: "Logi sisse"
+  button_move: "Tõsta"
+  button_move_and_follow: "Tõsta ja järgne"
+  button_print: "Prindi"
+  button_quote: "Tsiteeri"
+  button_remove: Eemalda
+  button_rename: "Nimeta ümber"
+  button_replace: "Asenda"
+  button_revoke: "Võta tagasi"
+  button_reply: "Vasta"
+  button_reset: "Nulli"
+  button_rollback: "Pöördu tagasi sellesse versiooni"
+  button_save: "Salvesta"
+  button_save_back: "Salvesta ja mine tagasi"
+  button_show: "Kuva"
+  button_sort: "Sorteeri"
+  button_submit: "Sisesta"
+  button_test: "Testi"
+  button_unarchive: "Paki arhiiv lahti"
+  button_uncheck_all: "Tühjenda valik"
+  button_unlock: "Aktiveeri"
+  button_unwatch: "Ära jälgi"
+  button_update: "Uuenda"
+  button_upgrade: "Uuenda"
+  button_upload: "Laadi üles"
+  button_view: "Kuva"
+  button_watch: "Vaata"
+  button_manage_menu_entry: "Muuda menüükäsk"
+  button_add_menu_entry: "Lisa menüükäsk"
+  button_configure_menu_entry: "Muuda menüükäsk"
+  button_delete_menu_entry: "Kustuta menüükäsk"
+  consent:
+    checkbox_label: I have noted and do consent to the above.
+    failure_message: Consent failed, cannot proceed.
+    title: Kasutaja nõusolek
+    decline_warning_message: Sa ei andnud nõusolekut ja sind on välja logitud.
+    user_has_consented: Kasutaja andis oma nõusoleku.
+    not_yet_consented: User has not consented yet, will be requested upon next login.
+    contact_mail_instructions: Define the mail address that users can reach a data controller to perform data change or removal requests.
+    contact_your_administrator: Please contact your administrator if you want to have your account deleted.
+    contact_this_mail_address: Please contact %{mail_address} if you want to have your account deleted.
+    text_update_consent_time: Check this box to force users to consent again. Enable when you have changed the legal aspect of the consent information above.
+    update_consent_last_time: "Last update of consent: %{update_time}"
+  copy_project:
+    title: 'Copy project "%{source_project_name}"'
+    started: "Started to copy project \"%{source_project_name}\" to \"%{target_project_name}\". You will be informed by mail as soon as \"%{target_project_name}\" is available."
+    failed: "Projekti %{source_project_name} ei saa kopeerida"
+    failed_internal: "Copying failed due to an internal error."
+    succeeded: "Projekt %{target_project_name} on loodud"
+    errors: "Tõrge"
+    project_custom_fields: 'Custom fields on project'
+    x_objects_of_this_type:
+      zero: 'No objects of this type'
+      one: 'One object of this type'
+      other: '%{count} objects of this type'
+    text:
+      failed: "Ei saanud kopeerida andmeid projektist \"%{source_project_name}\" projekti \"%{target_project_name}\"."
+      succeeded: "Projekti \"%{source_project_name}\" andmed kopeeriti projekti \"%{target_project_name}\"."
+  create_new_page: "Viki leht"
+  date:
+    abbr_day_names:
+      - "P"
+      - "E"
+      - "T"
+      - "K"
+      - "N"
+      - "R"
+      - "L"
+    abbr_month_names:
+      - null
+      - "jaanuar"
+      - "veebruar"
+      - "märts"
+      - "aprill"
+      - "mai"
+      - "juuni"
+      - "juuli"
+      - "august"
+      - "september"
+      - "oktoober"
+      - "november"
+      - "detsember"
+    abbr_week: 'Wk'
+    day_names:
+      - "pühapäev"
+      - "esmaspäev"
+      - "teisipäev"
+      - "kolmapäev"
+      - "neljapäev"
+      - "reede"
+      - "laupäev"
+    formats:
+      #Use the strftime parameters for formats.
+      #When no format has been given, it uses default.
+      #You can provide other formats here if you like!
+      default: "%d.%m.%Y"
+      long: "%d %B %Y"
+      short: "%d %b"
+    #Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names:
+      - null
+      - "jaanuar"
+      - "veebruar"
+      - "märts"
+      - "aprill"
+      - "mai"
+      - "juuni"
+      - "juuli"
+      - "august"
+      - "september"
+      - "oktoober"
+      - "november"
+      - "detsember"
+    #Used in date_select and datime_select.
+    order:
+      - :aasta
+      - :kuu
+      - ':päev'
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "umbes %{count} tundi"
+        other: "umbes %{count} tundi"
+      about_x_months:
+        one: "umbes 1 kuu"
+        other: "umbes %{count} kuud"
+      about_x_years:
+        one: "umbes 1 aasta"
+        other: "umbes %{count} aastat"
+      almost_x_years:
+        one: "peaaegu 1 aasta"
+        other: "peaaegu %{count} aastat"
+      half_a_minute: "pool minutit"
+      less_than_x_minutes:
+        one: "vähem kui minut"
+        other: "vähem kui %{count} minutit"
+      less_than_x_seconds:
+        one: "vähem kui sekund"
+        other: "vähem kui %{count} sekundit"
+      over_x_years:
+        one: "rohkem kui aasta"
+        other: "rohkem kui %{count} aastat"
+      x_days:
+        one: "1 päev"
+        other: "%{count} päeva"
+      x_minutes:
+        one: "1 minut"
+        other: "%{count} minutit"
+      x_months:
+        one: "1 kuu"
+        other: "%{count} kuud"
+      x_seconds:
+        one: "1 sekund"
+        other: "%{count} sekundit"
+    units:
+      hour:
+        one: "tund"
+        other: "tundi"
+  default_activity_development: "Arendamine"
+  default_activity_management: "Juhtimine"
+  default_activity_other: "Muu"
+  default_activity_specification: "Spetsifikatsioon"
+  default_activity_support: "Klienditugi"
+  default_activity_testing: "Testimine"
+  default_color_black: "Must"
+  default_color_blue: "Sinine"
+  default_color_blue_dark: "Sinine (tume)"
+  default_color_blue_light: "Sinine (hele)"
+  default_color_green_dark: "Roheline (tume)"
+  default_color_green_light: "Roheline (hele)"
+  default_color_grey_dark: "Hall (tume)"
+  default_color_grey_light: "Hall (hele)"
+  default_color_grey: "Hall"
+  default_color_magenta: "Purpurviolett"
+  default_color_orange: "Oranž"
+  default_color_red: "Punane"
+  default_color_white: "Valge"
+  default_color_yellow: "Kollane"
+  default_status_closed: "Suletud"
+  default_status_confirmed: "Confirmed"
+  default_status_developed: "Developed"
+  default_status_in_development: "In development"
+  default_status_in_progress: "In progress"
+  default_status_in_specification: "In specification"
+  default_status_in_testing: "In testing"
+  default_status_new: "Uus"
+  default_status_on_hold: "On hold"
+  default_status_rejected: "Tagasi lükatud"
+  default_status_scheduled: "Scheduled"
+  default_status_specified: "Specified"
+  default_status_tested: "Tested"
+  default_status_test_failed: "Test failed"
+  default_status_to_be_scheduled: "To be scheduled"
+  default_priority_low: "Aega on"
+  default_priority_normal: "Tavaline"
+  default_priority_high: "Pakiline"
+  default_priority_immediate: "Kohe vaja"
+  default_role_anonymous: "Anonüümne"
+  default_role_developer: "Arendaja"
+  default_role_project_admin: "Projekti administraator"
+  default_role_project_creator_and_staff_manager: "Staff and projects manager"
+  default_role_non_member: "Mitteliige"
+  default_role_reader: "Lugeja"
+  default_role_member: "Liige"
+  default_type: "Teema"
+  default_type_bug: "Veaparandus"
+  default_type_deliverable: "Deliverable"
+  default_type_epic: "Eepiline"
+  default_type_feature: "Täiendus"
+  default_type_milestone: "Verstapost"
+  default_type_phase: "Etapp"
+  default_type_task: "Ülesanne"
+  default_type_user_story: "Kasutaja lugu"
+  description_active: "Aktiivne?"
+  description_attachment_toggle: "Kuva/peida manused"
+  description_autocomplete: >
+    See väli kasutab väärtuste automaatset pakkumist. Teema pealkirja sisestamise ajal pakutakse võimalike kandidaatide nimekirja. Võid valida ühe pakutavatest kandidaatidest kasutades noolteklahve ja valida saab tabulaatori või reavahetuse klahviga. Alternatiivina saate sisestada kohe teema numbri.
+  description_available_columns: "Saadaolevad väljad"
+  description_choose_project: "Projektid"
+  description_compare_from: "Võrdle alates"
+  description_compare_to: "Võrdle kuni"
+  description_current_position: "Oled siin: "
+  description_date_from: "Sisestage alguskuupäev"
+  description_date_to: "Sisestage lõpukuupäev"
+  description_enter_number: "Sisestage number"
+  description_enter_text: "Sisestage tekst"
+  description_filter: "Filter"
+  description_filter_toggle: "Kuva/peida filter"
+  description_category_reassign: "Vali kategooria"
+  description_message_content: "Sõnumi sisu"
+  description_my_project: "Oled liige"
+  description_notes: "Märkmed"
+  description_parent_work_package: "Teema sisaldub teises teemas"
+  description_project_scope: "Otsingu ulatus"
+  description_query_sort_criteria_attribute: "Sortimise alus"
+  description_query_sort_criteria_direction: "Sortimissuund"
+  description_search: "Otsingu väli"
+  description_select_work_package: "Vali teema"
+  description_selected_columns: "Valitud väljad"
+  description_sub_work_package: "Teema sisaldab alamteemasid"
+  description_toc_toggle: "Kuva/peida sisukord"
+  description_wiki_subpages_reassign: "Vali uus ülemleht"
+  #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
+  direction: vasakult paremale
+  ee:
+    upsale:
+      form_configuration:
+        description: "Customize the form configuration with these additional features:"
+        add_groups: "Add new attribute groups"
+        rename_groups: "Rename attributes groups"
+      project_filters:
+        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+  enumeration_activities: "Time tracking activities"
+  enumeration_work_package_priorities: "Teemade prioriteedid"
+  enumeration_reported_project_statuses: "Esitatud projekti olek"
+  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
+  error_can_not_archive_project: "This project cannot be archived: %{errors}"
+  error_can_not_delete_entry: "Unable to delete entry"
+  error_can_not_delete_custom_field: "Lisavälja ei saa kustutada"
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
+  error_can_not_delete_standard_type: "Standardseid tüüpe ei saa kustutada."
+  error_can_not_invite_user: "Failed to send invitation to user."
+  error_can_not_remove_role: "See roll on kasutuses ja seda ei saa kustutada."
+  error_can_not_reopen_work_package_on_closed_version: "Suletud versiooni juurde kuulunud teemat ei saa taasavada"
+  error_can_not_find_all_resources: "Could not find all related resources to this request."
+  error_can_not_unarchive_project: "This project cannot be unarchived: %{errors}"
+  error_check_user_and_role: "Palun vali kasutaja ja roll."
+  error_code: "Error %{code}"
+  error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
+  error_custom_option_not_found: "Option does not exist."
+  error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
+  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_failed_to_delete_entry: 'Failed to delete this entry.'
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_invalid_selected_value: "Invalid selected value."
+  error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
+  error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
+  error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
+  error_token_authenticity: 'Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again.'
+  error_work_package_done_ratios_not_updated: "Teema edenemise astmed jäid uuendamata."
+  error_work_package_not_found_in_project: "Teemat ei leitud või see ei kuulu siia projekti"
+  error_must_be_project_member: "peab olema projekti liige"
+  error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
+  error_migrations_visit_upgrade_guides: "Please visit our upgrade guide documentation"
+  error_no_default_work_package_status: "Teema algolek on määramata. Palun vaata seadistused üle (\"Seadistused -> Teemade olekud\")."
+  error_no_type_in_project: "Ühtegi tüüpi ei ole seotud selle projektiga. Palun kontrolli projekti seadeid."
+  error_omniauth_registration_timed_out: "Registreerimine välise autentija kaudu aegus. Palun proovi uuesti."
+  error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_password_change_failed: 'An error occurred when trying to change the password.'
+  error_scm_command_failed: "Juurdepääsu katsel versioonihalduse süsteemile ilmnes tõrge: %{value}"
+  error_scm_not_found: "Versioonihalduse süsteemis ei leidunud otsitavat sissekannet või versiooni."
+  error_unable_delete_status: "The work package status cannot be deleted since it is used by at least one work package."
+  error_unable_delete_default_status: "Unable to delete the default work package status. Please select another default work package status before deleting the current one."
+  error_unable_to_connect: "Ühenduse loomine ebaõnnestus (%{value})"
+  error_unable_delete_wiki: "Unable to delete the wiki page."
+  error_unable_update_wiki: "Unable to update the wiki page."
+  error_workflow_copy_source: "Palun vali lähtepunkti liik või roll"
+  error_workflow_copy_target: "Palun vali sihtpunkti tüübid ja rollid"
+  error_menu_item_not_created: Menüü üksust ei saanud lisada
+  error_menu_item_not_saved: Menüü üksust ei saanud salvestada
+  error_wiki_root_menu_item_conflict: >
+    Can't rename "%{old_name}" to "%{new_name}" due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}" (%{existing_identifier}).
+  error_external_authentication_failed: "An error occurred during external authentication. Please try again."
+  error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
+  events:
+    project: 'Projekti on muudetud'
+    changeset: 'Toimikut on muudetud'
+    message: Sõnum on muudetud
+    news: Uudised
+    reply: Vastatud
+    time_entry: 'Ajalogi on muudetud'
+    wiki_page: 'Viki leht on muudetud'
+    work_package_closed: 'Teema on suletud'
+    work_package_edit: 'Teemat on uuendatud'
+    work_package_note: 'Teemale on lisatud märkus'
+  export:
+    your_work_packages_export: "Your work packages export"
+    succeeded: "The export has completed successfully."
+    failed: "The export has failed: %{message}"
+    format:
+      atom: "Atom"
+      csv: "CSV"
+      pdf: "PDF"
+      pdf_with_descriptions: "PDF koos kirjeldustega"
+      pdf_with_descriptions_and_attachments: "PDF with descriptions and attachments"
+      pdf_with_attachments: "PDF with attachments"
+    image:
+      omitted: "Image not exported."
+  extraction:
+    available:
+      pdftotext: "Pdftotext available (optional)"
+      unrtf: "Unrtf available (optional)"
+      catdoc: "Catdoc available (optional)"
+      xls2csv: "Xls2csv available (optional)"
+      catppt: "Catppt available (optional)"
+      tesseract: "Tesseract available (optional)"
+  general_csv_decimal_separator: "."
+  general_csv_encoding: "UTF-8"
+  general_csv_separator: ","
+  general_first_day_of_week: "1"
+  general_lang_name: "Eesti"
+  general_pdf_encoding: "ISO-8859-1"
+  general_text_no: "ei"
+  general_text_yes: "jah"
+  general_text_No: "Ei"
+  general_text_Yes: "Jah"
+  general_text_true: "true"
+  general_text_false: "väär"
+  gui_validation_error: "1 viga"
+  gui_validation_error_plural: "%{count} viga"
+  homescreen:
+    additional:
+      projects: "Newest visible projects in this instance."
+      no_visible_projects: "There are no visible projects in this instance."
+      users: "Newest registered users in this instance."
+    blocks:
+      community: "OpenProject community"
+      upsale:
+        title: "Upgrade to Enterprise Edition"
+        more_info: "Lisainfo"
+    links:
+      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+      postgres_migration: "Migrating your installation to PostgreSQL"
+      user_guides: "User guides"
+      faq: "KKK"
+      glossary: "Sõnastik"
+      shortcuts: "Otseteed"
+      blog: "OpenProject blog"
+      forums: "Community forum"
+      newsletter: "Security alerts / Newsletter"
+  image_conversion:
+    imagemagick: 'Imagemagick'
+  journals:
+    changes_retracted: "The changes were retracted."
+  links:
+    configuration_guide: 'Configuration guide'
+    get_in_touch: "You have questions? Get in touch with us."
+  instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
+  instructions_after_logout: "You can sign in again by clicking %{signin}."
+  instructions_after_error: "You can try to sign in again by clicking %{signin}. If the error persists, ask your admin for help."
+  menus:
+    admin:
+      mail_notification: "Eposti märguandmed"
+      incoming_outgoing: "Incoming & Outgoing"
+    quick_add:
+      label: "Open quick add menu"
+  my_account:
+    access_tokens:
+      no_results:
+        title: "No access tokens to display"
+        description: "All of them have been disabled. They can be re-enabled in the administration menu."
+      access_token: "Access token"
+      headers:
+        action: "Tegevus"
+        expiration: "Aegub"
+      indefinite_expiration: "Mitte kunagi"
+  notifications:
+    send_notifications: "Send notifications for this action"
+    work_packages:
+      subject:
+        created: "The work package was created."
+        assigned: "You have been assigned to %{work_package}"
+        subscribed: "You subscribed to %{work_package}"
+        mentioned: "You have been mentioned in %{work_package}"
+        responsible: "You have become accountable for %{work_package}"
+        watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Uudised'
+      subject: 'Important changes to notifications with the release of 12.0'
+  label_accessibility: "Accessibility"
+  label_account: "Konto"
+  label_active: "Aktiivne"
+  label_activate_user: 'Activate user'
+  label_active_in_new_projects: "Active in new projects"
+  label_activity: "Tegevus"
+  label_add_edit_translations: "Add and edit translations"
+  label_add_another_file: "Lisa veel mõni fail"
+  label_add_columns: "Lisa valitud väljad"
+  label_add_note: "Lisa märge"
+  label_add_related_work_packages: "Lisa seotud teemasid"
+  label_add_subtask: "Lisa alamtoiming"
+  label_added: "lisatud"
+  label_added_time_by: "Lisatud %{author} poolt %{age} tagasi"
+  label_additional_workflow_transitions_for_assignee: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi teostaja"
+  label_additional_workflow_transitions_for_author: "Täiendavad üleminekud on lubatud juhul kui kasutaja on tööpaketi autor"
+  label_administration: "Haldamine"
+  label_advanced_settings: "Täpsemad seaded"
+  label_age: "Vanus"
+  label_ago: "päeva tagasi"
+  label_all: "kõik"
+  label_all_time: "kogu aeg"
+  label_all_words: "Kõik sõnad"
+  label_all_open_wps: "All open"
+  label_always_visible: "Always displayed"
+  label_announcement: "Announcement"
+  label_api_access_key: "API ligipääsutunnus"
+  label_api_access_key_created_on: "API ligipääsutunnus on loodud %{value} tagasi"
+  label_api_access_key_type: "API"
+  label_applied_status: "Rakendatud olek"
+  label_archive_project: "Archive project"
+  label_ascending: "Kasvav"
+  label_assigned_to_me_work_packages: "Minu teemad"
+  label_associated_revisions: "Seotud muudatused"
+  label_attachment_delete: "Kustuta fail"
+  label_attachment_new: "Loo uus fail"
+  label_attachment_plural: "Failid"
+  label_attribute: "Atribuut"
+  label_attribute_plural: "Atribuudid"
+  label_auth_source: "Autentimise viis"
+  label_auth_source_new: "Uus autentimise viis"
+  label_auth_source_plural: "Autentimise viisid"
+  label_authentication: "Autentimine"
+  label_available_project_work_package_categories: 'Available work package categories'
+  label_available_project_work_package_types: 'Available work package types'
+  label_available_project_forums: 'Available forums'
+  label_available_project_versions: 'Available versions'
+  label_available_project_repositories: 'Available repositories'
+  label_api_documentation: "API documentation"
+  label_backup: "Backup"
+  label_between: "between"
+  label_blocked_by: "blokeeritud"
+  label_blocks: "blokeerib"
+  label_blog: "Blogi"
+  label_forums_locked: "Lukus"
+  label_forum_new: "Uus foorum"
+  label_forum_plural: "Foorumid"
+  label_forum_sticky: "Külgejääv"
+  label_boolean: "Tõeväärtus"
+  label_branch: "Haru"
+  label_browse: "Sirvi"
+  label_bulk_edit_selected_work_packages: "Muuda valitud teemasid korraga"
+  label_bundled: '(Bundled)'
+  label_calendar: "Kalender"
+  label_calendar_show: "Kuva kalender"
+  label_category: "Kategooria"
+  label_consent_settings: "Kasutaja nõusolek"
+  label_wiki_menu_item: Viki menüüvalik
+  label_select_main_menu_item: Vali uus peamenüü valik
+  label_select_project: "Vali projekt"
+  label_required_disk_storage: "Required disk storage"
+  label_send_invitation: Send invitation
+  label_change_plural: "Muutused"
+  label_change_properties: "Muuda andmeid"
+  label_change_status: "Muuda olekut"
+  label_change_status_of_user: "Change status of #{username}"
+  label_change_view_all: "Vaata kõiki muutusi"
+  label_changes_details: "Kõigi muutuste üksikasjad"
+  label_changeset: "Changeset"
+  label_changeset_id: "Changeset ID"
+  label_changeset_plural: "Toimikud"
+  label_checked: "märgitud"
+  label_check_uncheck_all_in_column: "Check/Uncheck all in column"
+  label_check_uncheck_all_in_row: "Check/Uncheck all in row"
+  label_child_element: "Child element"
+  label_chronological_order: "Oldest first"
+  label_close_versions: "Sule lõpetatud versioonid"
+  label_closed_work_packages: "suletud"
+  label_collapse: "Koonda"
+  label_collapsed_click_to_show: "Collapsed. Click to show"
+  label_configuration: configuration
+  label_comment_add: "Lisa kommentaar"
+  label_comment_added: "Kommentaar lisatud"
+  label_comment_delete: "Kustuta kommentaarid"
+  label_comment_plural: "Kommentaarid"
+  label_commits_per_author: "Sissekandeid autori kohta"
+  label_commits_per_month: "Sissekandeid kuu kohta"
+  label_confirmation: "Kinnitus"
+  label_contains: "sisaldab"
+  label_content: "Sisu"
+  label_copied: "kopeeritud"
+  label_copy_to_clipboard: "Copy to clipboard"
+  label_copy_same_as_target: "Sama mis sihtkoht"
+  label_copy_source: "Lähtepunkt"
+  label_copy_target: "Sihtpunkt"
+  label_copy_workflow_from: "Kopeeri töövoog"
+  label_copy_project: "Kopeeri projekt"
+  label_core_version: "Tuumiku versioon"
+  label_current_status: "Praegune olek"
+  label_current_version: "Praegune versioon"
+  label_custom_field_add_no_type: "Add this field to a work package type"
+  label_custom_field_new: "Uus lisaväli"
+  label_custom_field_plural: "Lisaväljad"
+  label_custom_field_default_type: "Määramata tüüp"
+  label_custom_style: "Kavandamine"
+  label_database_version: "PostgreSQL version"
+  label_date: "Kuupäev"
+  label_date_and_time: "Kuupäev ja kellaaeg"
+  label_date_from: "Algus"
+  label_date_from_to: "Kuupäevast %{start} kuni %{end}"
+  label_date_to: "Lõpp"
+  label_day_plural: "päeva"
+  label_default: "Vaikimisi"
+  label_delete_user: "Kustuta kasutaja"
+  label_delete_project: "Kustuta projekt"
+  label_deleted: "kustutatud"
+  label_deleted_custom_field: "(kustutatud lisaväli)"
+  label_deleted_custom_option: "(deleted option)"
+  label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
+  label_descending: "Kahanev"
+  label_details: "Üksikasjad"
+  label_development_roadmap: "Arendamise plaanid"
+  label_diff: "diff"
+  label_diff_inline: "Põimitult"
+  label_diff_side_by_side: "kõrvuti"
+  label_disabled: "keelatud"
+  label_display: "Kuva"
+  label_display_per_page: "Lehe kohta: %{value}"
+  label_display_used_statuses_only: "Kuva ainult olekud, mis on kasutatud selle tüübi poolt"
+  label_download: "%{count} allalaadimine"
+  label_download_plural: "%{count} allalaadimisi"
+  label_downloads_abbr: "A/L"
+  label_duplicated_by: "dubleeris"
+  label_duplicate: "duplicate"
+  label_duplicates: "duplikaadid"
+  label_edit: "Muuda"
+  label_edit_x: "Edit: %{x}"
+  label_enable_multi_select: "Võimalda mitmene valik"
+  label_enabled_project_custom_fields: 'Enabled custom fields'
+  label_enabled_project_modules: 'Enabled modules'
+  label_enabled_project_activities: 'Enabled time tracking activities'
+  label_end_to_end: "otsast lõpuni"
+  label_end_to_start: "lõpust alguseni"
+  label_enumeration_new: "Uus loendatav väärtus"
+  label_enumeration_value: "Enumeration value"
+  label_enumerations: "Loendid"
+  label_enterprise: "Enterprise"
+  label_enterprise_active_users: "%{current}/%{limit} booked active users"
+  label_enterprise_edition: "Enterprise Edition"
+  label_environment: "Keskkond"
+  label_estimates_and_time: "Estimates and time"
+  label_equals: "võrdub"
+  label_everywhere: "everywhere"
+  label_example: "Näide"
+  label_import: "Import"
+  label_export_to: "Saadaval ka:"
+  label_expanded_click_to_collapse: "Expanded. Click to collapse"
+  label_f_hour: "%{value} tund"
+  label_f_hour_plural: "%{value} tundi"
+  label_feed_plural: "Kanalid"
+  label_feeds_access_key: "RSS kasutuse võti"
+  label_feeds_access_key_created_on: "RSS kasutuse võti on loodud %{value} tagasi"
+  label_feeds_access_key_type: "RSS"
+  label_file_plural: "Failid"
+  label_filter_add: "Lisa filter"
+  label_filter_plural: "Filtrid"
+  label_filters_toggle: "Show/hide filters"
+  label_float: "Ujuvkomaarv"
+  label_folder: "Kaust"
+  label_follows: "järgneb"
+  label_force_user_language_to_default: "Sea keel kasutajatele, kellel on vaikimisi keeleks valitud mittelubatud keel"
+  label_form_configuration: "Vormi seadistamine"
+  label_gantt: "Gantt"
+  label_gantt_chart: "Gantt diagrammi"
+  label_general: "Üldine"
+  label_generate_key: "Genereeri võti"
+  label_git_path: "Tee .git kataloog"
+  label_greater_or_equal: ">="
+  label_group_by: "Grupeeri"
+  label_group_new: "Uus rühm"
+  label_group: "Grupp"
+  label_group_named: "Grupp %{name}"
+  label_group_plural: "Rühmad"
+  label_help: "Abi"
+  label_here: siin
+  label_hide: "Peida"
+  label_history: "Ajalugu"
+  label_hierarchy_leaf: "Hierarchy leaf"
+  label_home: "Avaleht"
+  label_subject_or_id: "Subject or ID"
+  label_impressum: "Legal notice"
+  label_in: "sisaldub hulgas"
+  label_in_less_than: "on väiksem kui"
+  label_in_more_than: "on suurem kui"
+  label_inactive: "Inactive"
+  label_incoming_emails: "Sissetulevad e-postisõnumid"
+  label_includes: 'includes'
+  label_index_by_date: "Indeks kuupäeva järgi"
+  label_index_by_title: "Indeks pealkirja järgi"
+  label_information: "Teave"
+  label_information_plural: "Teave"
+  label_integer: "Täisarv"
+  label_internal: "Sisemine"
+  label_introduction_video: "Introduction video"
+  label_invite_user: "Invite user"
+  label_show_hide: "Show/hide"
+  label_show_all_registered_users: "Show all registered users"
+  label_journal: "Journal"
+  label_journal_diff: "Kirjelduse võrdlus"
+  label_language: "Keel"
+  label_jump_to_a_project: "Mine projekti..."
+  label_keyword_plural: 'Keywords'
+  label_language_based: "Põhineb kasutaja keelel"
+  label_last_activity: "Last activity"
+  label_last_change_on: "Last change on"
+  label_last_changes: "%{count} viimast muudatust"
+  label_last_login: "Viimane sisselogimine"
+  label_last_month: "eelmisel kuul"
+  label_last_n_days: "viimasel %{count} päeval"
+  label_last_week: "eelmisel nädalal"
+  label_latest_revision: "Viimane versioon"
+  label_latest_revision_plural: "Viimased versioonid"
+  label_ldap_authentication: "LDAP autentimine"
+  label_less_or_equal: "<="
+  label_less_than_ago: "vähem kui päev tagasi"
+  label_list: "Nimistu"
+  label_loading: "Laadimine..."
+  label_lock_user: 'Lock user'
+  label_logged_as: "Logitud sisse kui"
+  label_login: "Logi sisse"
+  label_custom_logo: "Custom logo"
+  label_custom_favicon: "Custom favicon"
+  label_custom_touch_icon: "Custom touch icon"
+  label_logout: "Logi välja"
+  label_main_menu: "Ääremenüü"
+  label_manage_groups: "Manage groups"
+  label_managed_repositories_vendor: "Managed %{vendor} repositories"
+  label_max_size: "Maksimaalne suurus"
+  label_me: "mina"
+  label_member_new: "Uus liige"
+  label_member_all_admin: "(All roles due to admin status)"
+  label_member_plural: "Liikmed"
+  lable_membership_added: 'Member added'
+  lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
+  label_menu_item_name: "Menüüvaliku nimi"
+  label_message: "Message"
+  label_message_last: "Viimane sõnum"
+  label_message_new: "Uus sõnum"
+  label_message_plural: "Sõnumid"
+  label_message_posted: "Sõnum on lisatud"
+  label_min_max_length: "Min - Max pikkus"
+  label_minute_plural: "minutes"
+  label_missing_api_access_key: "Missing API access key"
+  label_missing_feeds_access_key: "Missing RSS access key"
+  label_modification: "%{count} muudatust"
+  label_modified: "muudetud"
+  label_module_plural: "Moodulid"
+  label_modules: "Moodulid"
+  label_months_from: "kuu kaugusel"
+  label_more: "Rohkem"
+  label_more_than_ago: "vanem kui"
+  label_move_work_package: "Tõsta teema ümber"
+  label_my_account: "Oma konto"
+  label_my_account_data: "Oma konto andmed"
+  label_my_projects: "Minu projektid"
+  label_my_queries: "Mu omaloodud päringud"
+  label_name: "Nimi"
+  label_never: "Mitte kunagi"
+  label_new: "Uus"
+  label_new_features: "New features"
+  label_new_statuses_allowed: "Uued olekud lubatud"
+  label_news_singular: "Uudised"
+  label_news_added: "Uudis lisatud"
+  label_news_comment_added: "Kommentaar lisatud uudisele"
+  label_news_latest: "Viimased uudised"
+  label_news_new: "Lisa uudis"
+  label_news_edit: "Muuda uudist"
+  label_news_plural: "Uudised"
+  label_news_view_all: "Kõik uudised"
+  label_next: "Järgmine"
+  label_next_week: "Järgmine nädal"
+  label_no_change_option: "(Ei muutu)"
+  label_no_data: "Pole"
+  label_no_parent_page: "No parent page"
+  label_nothing_display: "Pole midagi näidata"
+  label_nobody: "eikeegi"
+  label_not_found: 'not found'
+  label_none: "pole"
+  label_none_parentheses: "(pole)"
+  label_not_contains: "ei sisalda"
+  label_not_equals: "ei ole"
+  label_on: "on"
+  label_open_menu: "Ava menüü"
+  label_open_work_packages: "avatud"
+  label_open_work_packages_plural: "avatud"
+  label_openproject_website: "OpenProject website"
+  label_optional_description: "Teave"
+  label_options: "Valikud"
+  label_other: "Muu"
+  label_overall_activity: "Üldine tegevuste ajalugu"
+  label_overview: "Ülevaade"
+  label_page_title: "Page title"
+  label_part_of: "part of"
+  label_password_lost: "Forgot your password?"
+  label_password_rule_lowercase: "Väiketäheline"
+  label_password_rule_numeric: "Numbrid"
+  label_password_rule_special: "Erimärgid"
+  label_password_rule_uppercase: "Suurtäheline"
+  label_path_encoding: "Teeraja kodeering"
+  label_pdf_with_descriptions: "PDF koos kirjeldustega"
+  label_per_page: "Lehekülje kohta"
+  label_people: "Inimesed"
+  label_permissions: "Õigused"
+  label_permissions_report: "Õiguste aruanne"
+  label_personalize_page: "Isikupärasta see leht"
+  label_placeholder_user: "Placeholder user"
+  label_placeholder_user_new: "New placeholder user"
+  label_placeholder_user_plural: "Placeholder users"
+  label_planning: "Planeerimine"
+  label_please_login: "Palun logi sisse"
+  label_plugins: "Pluginad"
+  label_modules_and_plugins: "Modules and Plugins"
+  label_precedes: "eelneb"
+  label_preferences: "Eelistused"
+  label_preview: "Eelvaade"
+  label_previous: "Eelmine"
+  label_previous_week: "Eelmine nädal"
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: "Add existing users or groups"
+  label_privacy_policy: "Data privacy and security policy"
+  label_product_version: "Product version"
+  label_professional_support: "Professionaalne kasutajatugi"
+  label_profile: "Profiil"
+  label_project_all: "Kõik projektid"
+  label_project_count: "Total number of projects"
+  label_project_copy_notifications: "Saada e-postiga teateid projekti kopeerimise ajal"
+  label_project_latest: "Viimased projektid"
+  label_project_default_type: "Luba määramata tüüp"
+  label_project_hierarchy: "Projekti hierarhia"
+  label_project_new: "Uus projekt"
+  label_project_plural: "Projektid"
+  label_project_settings: "Projekti sätted"
+  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_project_view_all: "Vaata kõiki projekte"
+  label_project_show_details: "Show project details"
+  label_project_hide_details: "Hide project details"
+  label_public_projects: "Avalikud projektid"
+  label_query_new: "Uus päring"
+  label_query_plural: "Kohandatud päringud"
+  label_read: "Loe..."
+  label_register: "Create a new account"
+  label_register_with_developer: "Registreeru kui arendaja"
+  label_registered_on: "Registreeritud"
+  label_registration_activation_by_email: "konto aktiveerimine e-posti teel"
+  label_registration_automatic_activation: "automaatne konto aktiveerimine"
+  label_registration_manual_activation: "konto aktiveerimine käsitsi"
+  label_related_work_packages: "Seotud teemad"
+  label_relates: "seotud"
+  label_relates_to: "seotud"
+  label_relation_delete: "Kustuta seos"
+  label_relation_new: "Uus seos"
+  label_release_notes: "Release notes"
+  label_remove_columns: "Eemalda valitud väljad"
+  label_renamed: "ümber nimetatud"
+  label_reply_plural: "Vastused"
+  label_report: "Aruanne"
+  label_report_bug: "Report a bug"
+  label_report_plural: "Aruanded"
+  label_reported_work_packages: "Minu poolt lisatud teemad"
+  label_reporting: "Aruandlus"
+  label_reporting_plural: "Aruandlused"
+  label_repository: "Hoidla"
+  label_repository_root: "Repository root"
+  label_repository_plural: "Hoidlad"
+  label_required: 'required'
+  label_requires: 'requires'
+  label_result_plural: "Tulemused"
+  label_reverse_chronological_order: "Newest first"
+  label_revision: "Sissekanne"
+  label_revision_id: "Sissekande kood %{value}"
+  label_revision_plural: "Sissekanded"
+  label_roadmap: "Tegevusplaan"
+  label_roadmap_edit: "Toimeta tegevusplaani %{name}"
+  label_roadmap_due_in: "Tähtaeg %{value}"
+  label_roadmap_no_work_packages: "Versioonil puuduvad teemad"
+  label_roadmap_overdue: "%{value} hiljaks jäänud"
+  label_role_and_permissions: "Rollid ja õigused"
+  label_role_new: "Uus roll"
+  label_role_plural: "Rollid"
+  label_role_search: "Assign role to new members"
+  label_scm: "Lähtekoodi haldusvahendid"
+  label_search: "Otsi"
+  label_send_information: "Saada konto andmed kasutajale"
+  label_send_test_email: "Saada kontrollkiri"
+  label_setting_plural: "Seaded"
+  label_system_settings: "Süsteemiseaded"
+  label_show_completed_versions: "Näita lõpetatud versioone"
+  label_sort: "Sorteeri"
+  label_sort_by: "Sorteeri %{value} järgi"
+  label_sorted_by: "Sorteeritud %{value} järgi"
+  label_sort_higher: "Nihuta üles"
+  label_sort_highest: "Nihuta esimeseks"
+  label_sort_lower: "Nihuta alla"
+  label_sort_lowest: "Nihuta viimaseks"
+  label_spent_time: "Kulutatud aeg"
+  label_start_to_end: "algusest lõpuni"
+  label_start_to_start: "algusest alguseni"
+  label_statistics: "Statistika"
+  label_status: "Olek"
+  label_stay_logged_in: "Püsi sisselogituna"
+  label_storage_free_space: "Remaining disk space"
+  label_storage_used_space: "Used disk space"
+  label_storage_group: "Storage filesystem %{identifier}"
+  label_storage_for: "Encompasses storage for"
+  label_string: "Tekst"
+  label_subproject: "Alamprojekt"
+  label_subproject_new: "Uus alamprojekt"
+  label_subproject_plural: "Alamprojektid"
+  label_subtask_plural: "Alamteemad"
+  label_summary: "Kokkuvõte"
+  label_system: "Süsteem"
+  label_system_storage: "Storage information"
+  label_table_of_contents: "Table of contents"
+  label_tag: "Silt"
+  label_text: "Pikk tekst"
+  label_this_month: "sel kuul"
+  label_this_week: "sel nädalal"
+  label_this_year: "sel aastal"
+  label_time_entry_plural: "Kulutatud aeg"
+  label_projects_menu: "Projektid"
+  label_today: "täna"
+  label_top_menu: "Ülemine menüü"
+  label_topic_plural: "Teemad"
+  label_total: "Kokku"
+  label_type_new: "Uus tüüp"
+  label_type_plural: "Tüübid"
+  label_ui: "Kasutajaliides"
+  label_update_work_package_done_ratios: "Uuenda edenemise astmeid"
+  label_updated_time: "Uuendatud %{value} tagasi"
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: "Uuendatud %{author} poolt %{age} tagasi"
+  label_upgrade_guides: 'Upgrade guides'
+  label_used_by: "Kasutab"
+  label_used_by_types: "Used by types"
+  label_used_in_projects: "Used in projects"
+  label_user: "Kasutaja"
+  label_user_and_permission: "Users & Permissions"
+  label_user_named: "User %{name}"
+  label_user_activity: "%{value}-s tegevus"
+  label_user_anonymous: "Anonüümne"
+  label_user_mail_option_all: "Kõigi sündmuste kohta minu projektides"
+  label_user_mail_option_none: "Sündmusi pole"
+  label_user_mail_option_only_assigned: "Ainult minule määratud tööde kohta"
+  label_user_mail_option_only_my_events: "Ainult tööde kohta, mida ma jälgin või millega olen seotud"
+  label_user_mail_option_only_owner: "Ainult minu omanduses olevate asjade kohta"
+  label_user_mail_option_selected: "For any event on the selected projects only"
+  label_user_new: "Uus kasutaja"
+  label_user_plural: "Kasutajad"
+  label_user_search: "Otsi kasutajat"
+  label_user_settings: "User settings"
+  label_version_new: "Uus versioon"
+  label_version_plural: "Versioonid"
+  label_version_sharing_descendants: "Alamprojektidega"
+  label_version_sharing_hierarchy: "Projektihierarhiaga"
+  label_version_sharing_none: "Ei jaga"
+  label_version_sharing_system: "Kõigi projektidega"
+  label_version_sharing_tree: "Projekti puuga"
+  label_videos: "Videos"
+  label_view_all_revisions: "Kogu ajalugu"
+  label_view_diff: "Vaata erinevusi"
+  label_view_revisions: "Haru ajalugu"
+  label_watched_work_packages: "Jälgitavad teemad"
+  label_what_is_this: "What is this?"
+  label_week: "Nädal"
+  label_wiki_content_added: "Viki leht on lisatud"
+  label_wiki_content_updated: "Viki leht on uuendatud"
+  label_wiki_toc: "Sisukord"
+  label_wiki_toc_empty: "Table of Contents is empty as no headings are present."
+  label_wiki_dont_show_menu_item: "Ära näita seda vikilehte projektimenüüs"
+  label_wiki_edit: "Viki muutmine"
+  label_wiki_edit_plural: "Viki muutmised"
+  label_wiki_page_attachments: "Wiki page attachments"
+  label_wiki_page_id: "Wiki page ID"
+  label_wiki_navigation: "Viki navigeerimine"
+  label_wiki_page: "Viki leht"
+  label_wiki_page_plural: "Viki lehed"
+  label_wiki_show_index_page_link: "Kuva alammenüü valik \"Sisukord\""
+  label_wiki_show_menu_item: "Näita lehe nime projektimenüüs"
+  label_wiki_show_new_page_link: "Näita alammenüüs valikut 'Loo uus alamleht'"
+  label_wiki_show_submenu_item: "Näita kui alammenüüd (<--) "
+  label_wiki_start: "Esileht"
+  label_work_package: "Teema"
+  label_work_package_attachments: "Work package attachments"
+  label_work_package_category_new: "Uus kategooria"
+  label_work_package_category_plural: "Teema kategooriad"
+  label_work_package_hierarchy: "Work package hierarchy"
+  label_work_package_new: "Uus teema"
+  label_work_package_edit: "Muuda teemat %{name}"
+  label_work_package_plural: "Teemad"
+  label_work_package_status: "Teema olek"
+  label_work_package_status_new: "Uus olek"
+  label_work_package_status_plural: "Teemade olekud"
+  label_work_package_types: "Work package types"
+  label_work_package_tracking: "Teemasid jälgida"
+  label_work_package_view_all: "Kuva kõiki teemasid"
+  label_workflow: "Töövoog"
+  label_workflow_plural: "Töövood"
+  label_workflow_summary: "Kokkuvõte"
+  label_x_closed_work_packages_abbr:
+    one: "1 suletud"
+    other: "%{count} suletud"
+    zero: "0 closed"
+  label_x_comments:
+    one: "1 kommentaar"
+    other: "%{count} kommentaari"
+    zero: "no comments"
+  label_x_open_work_packages_abbr:
+    one: "1 avatud"
+    other: "%{count} avatud"
+    zero: "0 open"
+  label_x_projects:
+    one: "1 projekt"
+    other: "%{count} projekti"
+    zero: "no projects"
+  label_yesterday: "eile"
+  label_role_type: "Tüüp"
+  label_member_role: "Projekti roll"
+  label_global_role: "Globaalne roll"
+  label_not_changeable: "(pole muudetav)"
+  label_global: "Üldine"
+  auth_source:
+    using_abstract_auth_source: "Can't use an abstract authentication source."
+    ldap_error: "LDAP-Error: %{error_message}"
+    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+  macro_execution_error: "Error executing the macro %{macro_name}"
+  macro_unavailable: "Macro %{macro_name} cannot be displayed."
+  macros:
+    placeholder: '[Placeholder] Macro %{macro_name}'
+    errors:
+      missing_or_invalid_parameter: 'Missing or invalid macro parameter.'
+    legacy_warning:
+      timeline: 'This legacy timeline macro has been removed and is no longer available. You can replace the functionality with an embedded table macro.'
+    include_wiki_page:
+      removed: 'The macro does no longer exist.'
+    wiki_child_pages:
+      errors:
+        page_not_found: "Cannot find the wiki page '%{name}'."
+    create_work_package_link:
+      errors:
+        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        invalid_type: "No type found with name '%{type}' in project '%{project}'."
+      link_name: 'Uus teema'
+      link_name_type: 'New %{type_name}'
+  mail:
+    actions: 'Actions'
+    digests:
+      including_mention_singular: 'including a mention'
+      including_mention_plural: 'including %{number_mentioned} mentions'
+      unread_notification_singular: '1 unread notification'
+      unread_notification_plural: '%{number_unread} unread notifications'
+      you_have: 'You have'
+    logo_alt_text: 'Logo'
+    mention:
+      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+    notification:
+      center: 'To notification center'
+      see_in_center: 'See comment in notification center'
+      settings: 'Change email settings'
+    salutation: 'Hey %{user}!'
+    work_packages:
+      created_at: 'Created at %{timestamp} by %{user} '
+      login_to_see_all: 'Log in to see all notifications.'
+      mentioned: 'You have been <b>mentioned in a comment</b>'
+      mentioned_by: '%{user} mentioned you in a comment'
+      more_to_see:
+        one: 'There is 1 more work package with notifications.'
+        other: 'There are %{count} more work packages with notifications.'
+      reason:
+        watched: 'Watched'
+        assigned: 'Assigned'
+        responsible: 'Accountable'
+        mentioned: 'Mentioned'
+        subscribed: 'kõik'
+        prefix: 'Received because of the notification setting: %{reason}'
+      see_all: 'See all'
+      updated_at: 'Updated at %{timestamp} by %{user}'
+  mail_body_account_activation_request: "Uus kasutaja (%{value}) on registreerunud. Konto aktiveerimine ootab sinu nõusolekut:"
+  mail_body_account_information: "Sinu konto andmed"
+  mail_body_account_information_external: "Sa võid kasutada oma %{value} kontot sisselogimiseks."
+  mail_body_backup_ready: "Your requested backup is ready. You can download it here:"
+  mail_body_backup_token_reset_admin_info: The backup token for user '%{user}' has been reset.
+  mail_body_backup_token_reset_user_info: Your backup token has been reset.
+  mail_body_backup_token_info: The previous token is no longer valid.
+  mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
+  mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_lost_password: "Link viib sind parooli muutmise juurde:"
+  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register_header_title: "Project member invitation email"
+  mail_body_register_user: "Dear %{name}, "
+  mail_body_register_links_html: |
+    Please feel free to browse our youtube channel (%{youtube_link}) where we provide a webinar (%{webinar_link})
+    and “Get started” videos (%{get_started_link}) to make your first steps in OpenProject as easy as possible.
+    <br />
+    If you have any further questions, consult our documentation (%{documentation_link}) or contact your administrator.
+  mail_body_register_closing: "Your OpenProject team"
+  mail_body_register_ending: "Stay connected! Kind regards,"
+  mail_body_reminder: "%{count} Sulle määratud teema tähtaeg jõuab kätte järgmise %{days} päeva jooksul:"
+  mail_body_group_reminder: "%{count} work package(s) that are assigned to group \"%{group}\" are due in the next %{days} days:"
+  mail_body_wiki_content_added: "Kasutaja %{author} lisas uue lehekülje \"%{id}\" vikisse."
+  mail_body_wiki_content_updated: "Kasutaja %{author} toimetas lehekülje \"%{id}\" sisu vikis."
+  mail_subject_account_activation_request: "%{value} konto aktiveerimise nõuet"
+  mail_subject_backup_ready: "Your backup is ready"
+  mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_lost_password: "Sinu \"%{value}\" parool"
+  mail_subject_register: "Sinu \"%{value}\" konto aktiveerimine"
+  mail_subject_reminder: "%{count} teema tähtaeg jõuab kätte järgmise %{days} päeva jooksul"
+  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
+  mail_subject_wiki_content_added: "Lisatud vikileht \"%{id}\""
+  mail_subject_wiki_content_updated: "Uuendatud vikileht \"%{id}\""
+  mail_member_added_project:
+    subject: "%{project} - You have been added as a member"
+    body:
+      added_by:
+        without_message: "%{user} added you as a member to the project '%{project}'."
+        with_message: "%{user} added you as a member to the project '%{project}' writing:"
+      roles: "You have the following roles:"
+  mail_member_updated_project:
+    subject: "%{project} - Your roles have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have in the project '%{project}'."
+        with_message: "%{user} updated the roles you have in the project '%{project}' writing:"
+      roles: "You now have the following roles:"
+  mail_member_updated_global:
+    subject: "Your global permissions have been updated"
+    body:
+      updated_by:
+        without_message: "%{user} updated the roles you have globally."
+        with_message: "%{user} updated the roles you have globally writing:"
+      roles: "You now have the following roles:"
+  mail_user_activation_limit_reached:
+    subject: User activation limit reached
+    message: |
+      A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
+      The user cannot activate their account since the user limit has been reached.
+    steps:
+      label: "To allow the user to sign in you can either: "
+      a: "Upgrade your payment plan ([here](upgrade_url))" #here turned into a link
+      b: "Lock or delete an existing user ([here](users_url))" #here turned into a link
+  more_actions: "Rohkem tegevusi"
+  noscript_description: "OpenProject vajab JavaScripti sisselülitamist su veebilehitsejas!"
+  noscript_heading: "JavaScript ei ole sisselülitatud"
+  noscript_learn_more: "Loe rohkem"
+  notice_accessibility_mode: The accessibility mode can be enabled in your [account settings](url).
+  notice_account_activated: "Su konto on aktiveeritud. Saad nüüd sisse logida."
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
+  notice_account_invalid_credentials: "Vale kasutajanimi või parool"
+  notice_account_invalid_credentials_or_blocked: "Sisestatud kasutajanimi ja parool ei ole õiged või on kasutajakonto blokeeritud mitmekordse nurjunud sisselogimiskatse pärast. Kui nii, siis kasutajakonto blokk eemaldatakse mõningase aja pärast."
+  notice_account_lost_email_sent: "Sulle saadeti e-kiri parooli vahetamise juhistega."
+  notice_account_new_password_forced: "Parooli vahetamine on kohustuslik."
+  notice_account_password_expired: "Parool on vananenud %{days} eest. Palun vali uus parool."
+  notice_account_password_updated: "Parooli uuendamine õnnestus."
+  notice_account_pending: "Sinu konto on loodud ja ootab nüüd administraatori kinnitust."
+  notice_account_register_done: "Konto loomine õnnestus. Konto aktiveerimiseks vajuta vastaval lingil Sulle saadetud e-kirjas."
+  notice_account_unknown_email: "Tundmatu kasutaja."
+  notice_account_update_failed: "Account setting could not be saved. Please have a look at your account page."
+  notice_account_updated: "Konto on õnnelikult uuendatud."
+  notice_account_other_session_expired: "All other sessions tied to your account have been invalidated."
+  notice_account_wrong_password: "Vale parool"
+  notice_account_registered_and_logged_in: "Tere, teie konto on aktiveeritud. Teid logitakse nüüd sisse."
+  notice_activation_failed: The account could not be activated.
+  notice_auth_stage_verification_error: "Could not verify stage '%{stage}'."
+  notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
+  notice_auth_stage_error: "Authentication stage '%{stage}' failed."
+  notice_can_t_change_password: "See konto kasutab välist autentimisallikat. Siin ei saa selle konto parooli vahetada."
+  notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
+  notice_email_error: "Kirja saatmisel tekkis viga (%{value})"
+  notice_email_sent: "%{value}-le saadeti kiri"
+  notice_failed_to_save_work_packages: "%{count} teemat %{total}-st ei õnnestunud salvestada: %{ids}."
+  notice_failed_to_save_members: "Liiget või liikmeid ei õnnestunud salvestada: %{errors}."
+  notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
+  notice_file_not_found: "Sellist lehte ei leitud."
+  notice_forced_logout: "Sind logiti automaatselt välja %{ttl_time} tegevuseta minuti järel."
+  notice_internal_server_error: "Lehel, mida Sa üritasid avada, ilmnes tõrge. Kui probleem on püsiv, siis pöörduge abi saamiseks rakenduse %{app_title} administraatori poole."
+  notice_work_package_done_ratios_updated: "Teema edenemise astmed on uuendatud."
+  notice_locking_conflict: "Teine kasutaja uuendas vahepeal neid andmeid."
+  notice_locking_conflict_additional_information: "Uuendused on tehtud %{users} poolt."
+  notice_locking_conflict_reload_page: "Palun laadi lehekülg uuesti, kontrolli tehtud muudatusi ja püüa neid uuesti salvestada."
+  notice_member_added: Added %{name} to the project.
+  notice_members_added: Added %{number} users to the project.
+  notice_member_removed: "Removed %{user} from project."
+  notice_member_deleted: "%{user} has been removed from the project and deleted."
+  notice_no_principals_found: "Ühtki kasutajat ega gruppi ei leitud."
+  notice_bad_request: "Vigane päring."
+  notice_not_authorized: "Sul ei ole sellele lehele ligipääsuks õigusi."
+  notice_not_authorized_archived_project: "See projekt on arhiveeritud."
+  notice_password_confirmation_failed: "Your password is not correct. Cannot continue."
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_project_not_deleted: "Projekti ei ole kustutatud."
+  notice_successful_connection: "Ühenduse loomine õnnestus."
+  notice_successful_create: "Loomine õnnestus."
+  notice_successful_delete: "Kustutamine õnnestus."
+  notice_successful_update: "Uuendamine õnnestus."
+  notice_to_many_principals_to_display: "Leiti liiga palju tulemusi. Palun otsi täpsemini sisestades uue kasutaja või grupi nime."
+  notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  present_access_key_value: "Your %{key_name} is: %{value}"
+  notice_automatic_set_of_standard_type: "Vaikimisi tüüp valitakse automaatselt."
+  notice_logged_out: "You have been logged out."
+  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
+  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
+  notice_attachment_migration_wiki_page: >
+    This page was generated automatically during the update of OpenProject. It contains all attachments previously associated with the %{container_type} "%{container_name}".
+  #Default format for numbers
+  number:
+    format:
+      delimiter: ""
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Baiti"
+            other: "Baiti"
+          gb: "GB"
+          kb: "KB"
+          mb: "MB"
+          tb: "TB"
+  onboarding:
+    heading_getting_started: "Get an overview"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
+    text_show_again: "You can restart this video from the help menu"
+    welcome: "Welcome to OpenProject"
+    select_language: "Please select your language"
+  permission_add_work_package_notes: "Märkusi lisada"
+  permission_add_work_packages: "Teemasid lisada"
+  permission_add_messages: "Postitusi lisada"
+  permission_add_project: "Projekte luua"
+  permission_manage_user: "Create and edit users"
+  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_add_subprojects: "Alamprojekte luua"
+  permission_add_work_package_watchers: "Jälgijaid lisada"
+  permission_assign_versions: "Assign versions"
+  permission_browse_repository: "Read-only access to repository (browse and checkout)"
+  permission_change_wiki_parent_page: "Muuta viki ülemlehti"
+  permission_comment_news: "Uudiseid kommenteerida"
+  permission_commit_access: "Read/write access to repository (commit)"
+  permission_copy_projects: "Kopeerida projekte"
+  permission_delete_work_package_watchers: "Jälgijaid eemaldada"
+  permission_delete_work_packages: "Teemasid kustutada"
+  permission_delete_messages: "Postitusi kustutada"
+  permission_delete_own_messages: "Omi postitusi kustutada"
+  permission_delete_reportings: "Teadaandeid kustutada"
+  permission_delete_timelines: "Kustutada ajakavasid"
+  permission_delete_wiki_pages: "Kustutada vikilehti"
+  permission_delete_wiki_pages_attachments: "Kustutada manuseid"
+  permission_edit_work_package_notes: "Märkusi toimetada"
+  permission_edit_work_packages: "Teemasid muuta"
+  permission_edit_messages: "Muuta sõnumeid"
+  permission_edit_own_work_package_notes: "Oma märkusi toimetada"
+  permission_edit_own_messages: "Muuta enda sõnumeid"
+  permission_edit_own_time_entries: "Muuta enda ajalogisid"
+  permission_edit_project: "Muuta projekti"
+  permission_edit_reportings: "Muuta teadaandeid"
+  permission_edit_time_entries: "Muuta ajalogisid"
+  permission_edit_timelines: "Muuta ajakavasid"
+  permission_edit_wiki_pages: "Muuta vikilehti"
+  permission_export_work_packages: "Export work packages"
+  permission_export_wiki_pages: "Eksportida vikilehti"
+  permission_list_attachments: "Kuvada manuseid"
+  permission_log_time: "Logida ajakulu"
+  permission_manage_forums: "Hallata foorumeid"
+  permission_manage_categories: "Kategooriaid hallata"
+  permission_manage_work_package_relations: "Teemade seoseid hallata"
+  permission_manage_members: "Halda liikmeid"
+  permission_manage_news: "Halda uudiseid"
+  permission_manage_project_activities: "Halda projekti tegevusi"
+  permission_manage_public_queries: "Manage public views"
+  permission_manage_repository: "Halda hoidlat"
+  permission_manage_subtasks: "Manage work package hierarchies"
+  permission_manage_versions: "Halda versioone"
+  permission_manage_wiki: "Halda vikit"
+  permission_manage_wiki_menu: "Halda viki menüüd"
+  permission_move_work_packages: "Teemasid liigutada"
+  permission_protect_wiki_pages: "Kaitse viki lehekülgi"
+  permission_rename_wiki_pages: "Nimeta viki lehekülgi ümber"
+  permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
+  permission_select_project_modules: "Vali projekti mooduleid"
+  permission_manage_types: "Muuta tüüpe"
+  permission_view_changesets: "View repository revisions in OpenProject"
+  permission_view_commit_author_statistics: "Kuvada sissekandestatistikat autorite kohta"
+  permission_view_work_package_watchers: "Jälgijate nimekirja kuvada"
+  permission_view_work_packages: "View work packages"
+  permission_view_messages: "Kuva sõnumeid"
+  permission_view_members: "View members"
+  permission_view_reportings: "Kuvada teadaandeid"
+  permission_view_time_entries: "Kuva ajakulu"
+  permission_view_timelines: "Kuvada ajakavu"
+  permission_view_wiki_edits: "Kuva viki toimetuste ajalugu"
+  permission_view_wiki_pages: "Kuva vikit"
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      info: "Deleting the project is an irreversible action."
+      project_verification: "Enter the project's name %{name} to verify the deletion."
+      subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
+      title: "Delete the project %{name}"
+    identifier:
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
+    template:
+      copying: >
+        Your project is being created from the selected template project. You will be notified by mail as soon as the project is available.
+      use_template: 'Use template'
+      make_template: 'Set as template'
+      remove_from_templates: 'Remove from templates'
+    archive:
+      are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
+  project_module_activity: "Tegevus"
+  project_module_forums: "Foorumid"
+  project_module_work_package_tracking: "Teemasid jälgida"
+  project_module_news: "Uudised"
+  project_module_repository: "Hoidla"
+  project_module_wiki: "Viki"
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  #possible query parameters (e.g. issue queries),
+  #which are not attributes of an AR-Model.
+  query_fields:
+    active_or_archived: "Active or archived"
+    assigned_to_role: "Omistatud rollile"
+    member_of_group: "Omistatud rühmale"
+    assignee_or_group: "Assignee or belonging group"
+    subproject_id: "Including Subproject"
+    only_subproject_id: "Only subproject"
+    name_or_identifier: "Name or identifier"
+  repositories:
+    at_identifier: 'at %{identifier}'
+    atom_revision_feed: 'Atom revision feed'
+    autofetch_information: "Check this if you want repositories to be updated automatically when accessing the repository module page.\nThis encompasses the retrieval of commits from the repository and refreshing the required disk storage."
+    checkout:
+      access:
+        readwrite: 'Read + Write'
+        read: 'Read-only'
+        none: 'No checkout access, you may only view the repository through this application.'
+      access_permission: 'Your permissions on this repository'
+      url: "Checkout URL"
+      base_url_text: "The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).\nNote: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered."
+      default_instructions:
+        git: |-
+          The data contained in this repository can be downloaded to your computer with Git.
+          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+        subversion: |-
+          The data contained in this repository can be downloaded to your computer with Subversion.
+          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
+      enable_instructions_text: "Displays checkout instructions defined below on all repository-related pages."
+      instructions: "Checkout instructions"
+      show_instructions: "Display checkout instructions"
+      text_instructions: "This text is displayed alongside the checkout URL for guidance on how to check out the repository."
+      not_available: "Checkout instructions are not defined for this repository. Ask your administrator to enable them for this repository in the system settings."
+    create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
+    create_successful: "The repository has been registered."
+    delete_sucessful: "The repository has been deleted."
+    destroy:
+      confirmation: "If you continue, this will permanently delete the managed repository."
+      info: "Deleting the repository is an irreversible action."
+      info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
+      managed_path_note: "The following directory will be erased: %{path}"
+      repository_verification: "Enter the project's identifier %{identifier} to verify the deletion of its repository."
+      subtitle: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
+      subtitle_not_managed: "Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?"
+      title: "Delete the %{repository_type}"
+      title_not_managed: "Remove the linked %{repository_type}?"
+    errors:
+      build_failed: "Unable to create the repository with the selected configuration. %{reason}"
+      managed_delete: "Unable to delete the managed repository."
+      managed_delete_local: "Unable to delete the local repository on filesystem at '%{path}': %{error_message}"
+      empty_repository: "The repository exists, but is empty. It does not contain any revisions yet."
+      exists_on_filesystem: "The repository directory already exists in the filesystem."
+      filesystem_access_failed: "An error occurred while accessing the repository in the filesystem: %{message}"
+      not_manageable: "This repository vendor cannot be managed by OpenProject."
+      path_permission_failed: "An error occurred trying to create the following path: %{path}. Please ensure that OpenProject may write to that folder."
+      unauthorized: "You're not authorized to access the repository or the credentials are invalid."
+      unavailable: "The repository is unavailable."
+      exception_title: "Cannot access the repository: %{message}"
+      disabled_or_unknown_type: "The selected type %{type} is disabled or no longer available for the SCM vendor %{vendor}."
+      disabled_or_unknown_vendor: "The SCM vendor %{vendor} is disabled or no longer available."
+      remote_call_failed: "Calling the managed remote failed with message '%{message}' (Code: %{code})"
+      remote_invalid_response: "Received an invalid response from the managed remote."
+      remote_save_failed: "Could not save the repository with the parameters retrieved from the remote."
+    git:
+      instructions:
+        managed_url: "This is the URL of the managed (local) Git repository."
+        path: >-
+          Specify the path to your local Git repository ( e.g., %{example_path} ). You can also use remote repositories which are cloned to a local copy by using a value starting with http(s):// or file://.
+        path_encoding: "Override Git path encoding (Default: UTF-8)"
+      local_title: "Link existing local Git repository"
+      local_url: "Local URL"
+      local_introduction: "If you have an existing local Git repository, you can link it with OpenProject to access it from within the application."
+      managed_introduction: "Let OpenProject create and integrate a local Git repository automatically."
+      managed_title: "Git repository integrated into OpenProject"
+      managed_url: "Managed URL"
+      path: "Path to Git repository"
+      path_encoding: "Teeraja kodeering"
+    go_to_revision: "Go to revision"
+    managed_remote: "Managed repositories for this vendor are handled remotely."
+    managed_remote_note: "Information on the URL and path of this repository is not available prior to its creation."
+    managed_url: "Managed URL"
+    settings:
+      automatic_managed_repos_disabled: "Disable automatic creation"
+      automatic_managed_repos: "Automatic creation of managed repositories"
+      automatic_managed_repos_text: "By setting a vendor here, newly created projects will automatically receive a managed repository of this vendor."
+    scm_vendor: "Source control management system"
+    scm_type: "Repository type"
+    scm_types:
+      local: "Link existing local repository"
+      existing: "Link existing repository"
+      managed: "Create new repository in OpenProject"
+    storage:
+      not_available: "Disk storage consumption is not available for this repository."
+      update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+    subversion:
+      existing_title: "Existing Subversion repository"
+      existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
+      existing_url: "Existing URL"
+      instructions:
+        managed_url: "This is the URL of the managed (local) Subversion repository."
+        url: "Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.\nThe following URL schemes are supported:"
+      managed_title: "Subversion repository integrated into OpenProject"
+      managed_introduction: "Let OpenProject create and integrate a local Subversion repository automatically."
+      managed_url: "Managed URL"
+      password: "Repository Password"
+      username: "Repository username"
+    truncated: "Sorry, we had to truncate this directory to %{limit} files. %{truncated} entries were omitted from the list."
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: "The settings have been successfully saved."
+    url: "URL to repository"
+    warnings:
+      cannot_annotate: "This file cannot be annotated."
+  scheduling:
+    activated: 'activated'
+    deactivated: 'deactivated'
+  search_input_placeholder: "Search ..."
+  setting_apiv3_cors_enabled: "Enable CORS"
+  setting_apiv3_cors_origins: "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+  setting_apiv3_cors_origins_text_html: >
+    If CORS is enabled, these are the origins that are allowed to access OpenProject API. <br/> Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_docs: "Documentation"
+  setting_apiv3_docs_enabled: "Enable docs page"
+  setting_apiv3_docs_enabled_instructions_html: >
+    If the docs page is enabled you can get an interactive view of the APIv3 documentation under <a href="%{link}" target="_blank">%{link}</a>.
+  setting_attachment_whitelist: "Attachment upload whitelist"
+  setting_email_delivery_method: "Email delivery method"
+  setting_sendmail_location: "Location of the sendmail executable"
+  setting_smtp_enable_starttls_auto: "Automatically use STARTTLS if available"
+  setting_smtp_ssl: "Use SSL connection"
+  setting_smtp_address: "SMTP server"
+  setting_smtp_port: "SMTP port"
+  setting_smtp_authentication: "SMTP authentication"
+  setting_smtp_user_name: "SMTP username"
+  setting_smtp_password: "SMTP password"
+  setting_smtp_domain: "SMTP HELLO domain"
+  setting_activity_days_default: "Projektide ajalugu näidatakse"
+  setting_app_subtitle: "Rakenduse alamnimetus"
+  setting_app_title: "Rakenduse nimetus"
+  setting_attachment_max_size: "Manuste suurim lubatud suurus"
+  setting_autofetch_changesets: "Autofetch repository changes"
+  setting_autologin: "Automaatne sisselogimine"
+  setting_available_languages: "Kõik keeled"
+  setting_bcc_recipients: "Salakoopia vastuvõtjad"
+  setting_brute_force_block_after_failed_logins: "Block user after this number of failed login attempts"
+  setting_brute_force_block_minutes: "Time the user is blocked for"
+  setting_cache_formatted_text: "Vormindatud teksti jaoks kasutatakse vahemälu"
+  setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
+  setting_column_options: "Teemade nimekirja vaikimisi veerud"
+  setting_commit_fix_keywords: "Paranduste võtmesõnad"
+  setting_commit_logs_encoding: "Sissekannete kodeering"
+  setting_commit_logtime_activity_id: "Tegevus kulunud ajal"
+  setting_commit_logtime_enabled: "Luba ajakulu sisestamine"
+  setting_commit_ref_keywords: "Viitade võtmesõnad"
+  setting_consent_time: "Consent time"
+  setting_consent_info: "Consent information text"
+  setting_consent_required: "Consent required"
+  setting_consent_decline_mail: "Consent contact mail address"
+  setting_cross_project_work_package_relations: "Võimalda seostada teemasid teistest projektidest"
+  setting_first_week_of_year: "First week in year contains"
+  setting_date_format: "Kuupäevaformaat"
+  setting_default_language: "Vaikimisi keel"
+  setting_default_projects_modules: "Uue projekti vaikimisi moodulid"
+  setting_default_projects_public: "Uued projektid on vaikimisi avalikud"
+  setting_diff_max_lines_displayed: "Enim korraga näidatavaid erinevusi"
+  setting_display_subprojects_work_packages: "Kuva ka alamprojektide teemad peaprojekti teemade juures"
+  setting_emails_footer: "E-kirja jalus"
+  setting_emails_header: "E-kirja päis"
+  setting_email_login: "Use email as login"
+  setting_enabled_scm: "Kasutatavad lähtekoodi haldusvahendid"
+  setting_enabled_projects_columns: "Visible in project list"
+  setting_notification_retention_period_days: "Notification retention period"
+  setting_feeds_enabled: "Luba tellitavaid uudisvoogusid"
+  setting_feeds_limit: "Uudisvoogude suurim uudiste arv"
+  setting_file_max_size_displayed: "Teksti sees kuvatava tekstifaili maksimaalne suurus"
+  setting_host_name: "Serveri nimi ja teerada"
+  setting_invitation_expiration_days: "Activation email expires after"
+  setting_work_package_done_ratio: "Määra teema edenemise aste"
+  setting_work_package_done_ratio_field: "kasutades vastavat välja"
+  setting_work_package_done_ratio_status: "kasutades teema olekut"
+  setting_work_package_done_ratio_disabled: "Ära kuva edenemist"
+  setting_work_package_list_default_columns: "Kuva vaikimisi"
+  setting_work_package_properties: "Teemade atribuudid"
+  setting_work_package_startdate_is_adddate: "Uute teemade alguskuupäevaks käesolev päev"
+  setting_work_packages_export_limit: "Teemade ekspordi limiit"
+  setting_journal_aggregation_time_minutes: "User actions aggregated within"
+  setting_log_requesting_user: "Logi iga taotluse kasutajanimi, nimi ja epost"
+  setting_login_required: "Autentimine kohustuslik"
+  setting_mail_from: "Saatja e-posti aadress"
+  setting_mail_handler_api_key: "Veebiteenuse API võti"
+  setting_mail_handler_body_delimiters: "Kärbi e-kirja lõpp peale sellist rida"
+  setting_mail_handler_body_delimiter_regex: "Truncate emails matching this regex"
+  setting_mail_handler_ignore_filenames: "Ignored mail attachments"
+  setting_new_project_user_role_id: "Projekti looja vaikimisi roll oma loodud projektis"
+  setting_password_active_rules: "Võimaldatud tähemärgid"
+  setting_password_count_former_banned: "Arv kordi kui eelnevalt kasutatud parooli kasutamine on keelatud"
+  setting_password_days_valid: "Number of days, after which to enforce a password change"
+  setting_password_min_length: "Lühima lubatud parooli pikkus"
+  setting_password_min_adhered_rules: "Minimaalne nõutav erineva tähemärgiklassi kasutamine paroolis"
+  setting_per_page_options: "Kuvatud tulemuste arv lehe kohta"
+  setting_plain_text_mail: "E-kiri tavalise tekstina (ilma HTML-ta)"
+  setting_protocol: "Protokoll"
+  setting_project_gantt_query: "Project portfolio Gantt view"
+  setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
+  setting_security_badge_displayed: "Display security badge"
+  setting_registration_footer: "Registration footer"
+  setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"
+  setting_repositories_encodings: "Manuste ja hoidlate kodeering"
+  setting_repository_authentication_caching_enabled: "Enable caching for authentication request of version control software"
+  setting_repository_storage_cache_minutes: "Repository disk size cache"
+  setting_repository_checkout_display: "Show checkout instructions"
+  setting_repository_checkout_base_url: "Checkout base URL"
+  setting_repository_checkout_text: "Checkout instruction text"
+  setting_repository_log_display_limit: "Enim ajaloos näidatavaid sissekandeid"
+  setting_repository_truncate_at: "Maximum number of files displayed in the repository browser"
+  setting_rest_api_enabled: "Luba REST API kasutamine"
+  setting_self_registration: "Omaloodud konto aktiveerimine"
+  setting_session_ttl: "Sessiooni aegumise aeg"
+  setting_session_ttl_hint: "Väärtus alla 5-e mõjub nii, nagu sessioon ei aeguks kunagi"
+  setting_session_ttl_enabled: "Seansi lõppemine"
+  setting_start_of_week: "Week starts on"
+  setting_sys_api_enabled: "Enable repository management web service"
+  setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
+  setting_time_format: "Aja esitusviis"
+  setting_accessibility_mode_for_anonymous: "Võimalda külalistel kasutada hõlbustus- ja juurdepääsetavusrežiimi"
+  setting_user_format: "Kasutaja nime esitamise vorm"
+  setting_user_default_timezone: "Users default time zone"
+  setting_users_deletable_by_admins: "Luba administraator-rolliga kasutajatel kustutada kasutajate kontosid"
+  setting_users_deletable_by_self: "Luba kasutajatel kustuta oma konto"
+  setting_welcome_text: "Welcome block text"
+  setting_welcome_title: "Welcome block title"
+  setting_welcome_on_homescreen: "Display welcome block on homescreen"
+  setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
+  setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
+  settings:
+    general: "Üldine"
+    other: "Muu"
+    passwords: "Paroolid"
+    session: "Seanss"
+    brute_force_prevention: "Automatiseeritud kasutajate blokeerimine"
+    attachments:
+      whitelist_text_html: >
+        Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    notifications:
+      retention_text: >
+        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
+      events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
+      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+    display:
+      first_date_of_week_and_year_set: >
+        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+      first_week_of_year_text: >
+        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year.
+    projects:
+      section_new_projects: "Settings for new projects"
+      section_project_overview: "Settings for project overview list"
+    user:
+      default_preferences: "Default preferences"
+      deletion: "Deletion"
+    highlighting:
+      mode_long:
+        inline: "Highlight attribute(s) inline"
+        none: "No highlighting"
+        status: "Entire row by Status"
+        type: "Entire row by Type"
+        priority: "Entire row by Priority"
+  text_formatting:
+    markdown: 'Markdown'
+    plain: 'Plain text'
+  status_active: "aktiivne"
+  status_archived: "archived"
+  status_invited: ktsutud
+  status_locked: lukustatud
+  status_registered: registreeritud
+  #Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "ja"
+      skip_last_comma: "väär"
+  text_accessibility_hint: "The accessibility mode is designed for users who are blind, motorically handicaped or have a bad eyesight. For the latter focused elements are specially highlighted. Please notice, that the Backlogs module is not available in this mode."
+  text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
+  text_analyze: "Analüüsi täiendavalt: %{subject}"
+  text_are_you_sure: "Kas oled kindel?"
+  text_are_you_sure_with_children: "Oled Sa kindel oma soovis see teema koos selle alamteemadega täielikult kustutada?"
+  text_assign_to_project: "Määra projektile"
+  text_form_configuration: >
+    You can customize which fields will be displayed in work package forms. You can freely group the fields to reflect the needs for your domain.
+  text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
+  text_caracters_maximum: "%{count} märki kõige rohkem."
+  text_caracters_minimum: "Peab olema vähemalt %{count} märki pikk."
+  text_comma_separated: "Lubatud erinevad väärtused (komaga eraldatult)."
+  text_comment_wiki_page: "Comment to wiki page: %{page}"
+  text_custom_field_possible_values_info: "Lubatud erinevad väärtused (igaüks eraldi real)."
+  text_custom_field_hint_activate_per_project: >
+    When using custom fields: Keep in mind that custom fields need to be activated per project, too.
+  text_custom_field_hint_activate_per_project_and_type: >
+    Custom fields need to be activated per work package type and per project.
+  text_custom_logo_instructions: >
+    A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
+  text_custom_favicon_instructions: >
+    This is the tiny icon that appears in your browser window/tab next to the page's title. It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+  text_custom_touch_icon_instructions: >
+    This is the icon that appears in your mobile or tablet when you place a bookmark on your homescreen. It's needs to be a squared 180 by 180 pixels sized PNG image file. Please make sure the image's background is not transparent otherwise it will look bad on iOS.
+  text_database_allows_tsv: "Database allows TSVector (optional)"
+  text_default_administrator_account_changed: "Algne administraatori konto on muudetud"
+  text_default_encoding: "Vaikimisi: UTF-8"
+  text_destroy: "Kustuta"
+  text_destroy_with_associated: "Kustutamiseks määratud teema(de)ga on seostatud veel objekte. Objektid on järgnevate tüüpidega:"
+  text_destroy_what_to_do: "Mis sa soovid ette võtta?"
+  text_diff_truncated: "... Osa erinevusi jäi välja, sest neid on näitamiseks liiga palju."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server to enable them."
+  text_enumeration_category_reassign_to: "Määra neile uus väärtus:"
+  text_enumeration_destroy_question: "Selle väärtusega on %{count} objekti."
+  text_file_repository_writable: "Manuste kataloog on kirjutatav"
+  text_git_repo_example: "hoidla peab olema paljas (bare) ja kohalik (nt. /gitrepo, c:\\gitrepo)"
+  text_hint_date_format: "Enter a date in the form of YYYY-MM-DD. Other formats may be changed to an unwanted date."
+  text_hint_disable_with_0: "Note: Disable with 0"
+  text_hours_between: "Between %{min} and %{max} hours."
+  text_work_package_added: "%{author} lisas uue teema %{id}."
+  text_work_package_category_destroy_assignments: "Jäta teemadel kategooria määramata"
+  text_work_package_category_destroy_question: "Kustutatavat kategooriat kasutab %{count} teema(t). Mis Sa soovid nendega ette võtta?"
+  text_work_package_category_reassign_to: "Määra teemad sellesse kategooriasse"
+  text_work_package_updated: "%{author} uuendas teemat %{id}."
+  text_work_package_watcher_added: "You have been added as a watcher to Work package %{id} by %{watcher_changer}."
+  text_work_package_watcher_removed: "You have been removed from watchers of Work package %{id} by %{watcher_changer}."
+  text_work_packages_destroy_confirmation: "Oled Sa kindel oma soovis valitud teema(d) kustutada?"
+  text_work_packages_ref_in_commit_messages: "Teemadele ja parandustele viitamine sissekannete märkustes"
+  text_journal_added: "%{label} %{value} lisatud"
+  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
+  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
+  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_no_detail: "%{label} uuendatud"
+  text_journal_changed_with_diff: "%{label} uuendatud (%{link})"
+  text_journal_deleted: "%{label} kustutatud (%{old})"
+  text_journal_deleted_with_diff: "%{label} kustutatud (%{link})"
+  text_journal_set_to: "%{label} on nüüd %{value}"
+  text_journal_set_with_diff: "%{label} määratud (%{link})"
+  text_journal_label_value: "%{label} %{value}"
+  text_latest_note: "The latest comment is: %{note}"
+  text_length_between: "Pikkus peab olema %{min} kuni %{max} märki."
+  text_line_separated: "Lubatud erinevad väärtused (igaüks eraldi real)."
+  text_load_default_configuration: "Laadi vaikeasetused"
+  text_min_max_length_info: "0 tähendab, et piiranguid ei ole"
+  text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: "There are no access tokens which can be configured."
+  text_no_configuration_data: "Rollid, valdkonnad, olekud ja töövood ei ole veel seadistatud.\\nVäga soovitav on laadida vaikeasetused. Peale laadimist saad neid ise muuta."
+  text_no_notes: "There are no comments available for this work package."
+  text_notice_too_many_values_are_inperformant: "Note: Displaying more than 100 items per page can increase the page load time."
+  text_notice_security_badge_displayed_html: >
+    Note: if enabled, this will display a badge with your installation status in the <a href="%{information_panel_path}">%{information_panel_label}</a> administration panel, and on the home page. It is displayed to administrators only. <br/> The badge will check your current OpenProject version against the official OpenProject release database to alert you of any updates or known vulnerabilities. For more information on what the check provides, what data is needed to provide available updates, and how to disable this check, please visit <a href="%{more_info_url}">the configuration documentation</a>.
+  text_own_membership_delete_confirmation: "Sa võtad endalt ära osa või kõik õigused ega saa edaspidi seda projekti võib-olla enam muuta.\nOled sa jätkamises kindel?"
+  text_plugin_assets_writable: "Lisamoodulite abifailide kataloog on kirjutatav"
+  text_powered_by: "Jooksutab %{link}"
+  text_project_identifier_info: "Lubatud on ainult väikesed tähed (a-z), numbrid ja kriipsud. Peab algama väikse tähega."
+  text_reassign: "Reassign to work package:"
+  text_regexp_info: "ehk teisisõnu ^[A-Z0-9]+$"
+  text_regexp_multiline: 'The regex is applied in a multi-line mode. e.g., ^---\s+'
+  text_repository_usernames_mapping: "Seosta OpenProject kasutaja hoidlasse sissekannete tegijaga. Sama nime või e-postiga kasutajad seostatakse automaatselt."
+  text_status_changed_by_changeset: "Kehtestati toimikus %{value}."
+  text_table_difference_description: "In this table the single %{entries} are shown. You can view the difference between any two entries by first selecting the according checkboxes in the table. When clicking on the button below the table the differences are shown."
+  text_time_logged_by_changeset: "Kehtestati toimikus %{value}."
+  text_tip_work_package_begin_day: "teema avamise päev"
+  text_tip_work_package_begin_end_day: "teema avati ja sulgeti samal päeval"
+  text_tip_work_package_end_day: "teema sulgemise päev on täna"
+  text_type_no_workflow: "Selle tüübi jaoks ei ole töövooge defineeritud"
+  text_unallowed_characters: "Lubamatud märgid"
+  text_user_invited: The user has been invited and is pending registration.
+  text_user_wrote: "%{value} kirjutas:"
+  text_warn_on_leaving_unsaved: "The work package contains unsaved text that will be lost if you leave this page."
+  text_what_did_you_change_click_to_add_comment: "What did you change? Click to add comment"
+  text_wiki_destroy_confirmation: "Oled Sa kindel oma soovis kustutada see Viki koos kogu sisuga?"
+  text_wiki_page_destroy_children: "Kustuta järglaslehed ja kõik nende järglased"
+  text_wiki_page_destroy_question: "Sellel vikilehel on %{descendants} järglasleht(e) ja järeltulija(t). Mis Sa soovid ette võtta?"
+  text_wiki_page_nullify_children: "Muuda järglaslehed uuteks juurlehtedeks"
+  text_wiki_page_reassign_children: "Määra järglaslehed teise lehe alla"
+  text_workflow_edit: "Töövoo muutmiseks vali roll ja valdkond"
+  text_zoom_in: "Vaata lähemalt"
+  text_zoom_out: "Vaata kaugemalt"
+  text_setup_mail_configuration: "Configure your email provider"
+  time:
+    am: "enne lõunat"
+    formats:
+      default: "%m.%d.%Y %I:%M %p"
+      long: "%d. %B, %Y. aastal, kell %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: "pärast lõunat"
+  timeframe:
+    show: "Kuva ajakava"
+    end: "kuni"
+    start: "alates"
+  timelines:
+    admin_menu:
+      color: "Värv"
+      colors: "Värvid"
+    associations: "Sõltuvused"
+    button_delete_all: "Kustuta kõik"
+    change: "Muudatus planeerimises"
+    children: "Alamelemendid"
+    color_could_not_be_saved: "Värvi ei saa salvestada"
+    current_planning: "Kehtiv plaan"
+    dates: "Kuupäevad"
+    dates_are_calculated_based_on_sub_elements: "Kuupäevad on arvutatud alamelementide järgi."
+    delete_all: "Kustuta kõik"
+    delete_thing: "Kustuta"
+    duration: "kestus"
+    duration_days:
+      one: "1 päev"
+      other: "%{count} päeva"
+    edit_color: "Muuda värvi"
+    edit_thing: "Muuda"
+    edit_timeline: "Muuda ajakulu sissekannet %{timeline}"
+    delete_timeline: "Kustuta ajakulu aruanne %{timeline}"
+    empty: "(tühi)"
+    enable_type_in_project: 'Luba kasutada tüüpi "%{type}" projektis'
+    end: "Lõpp"
+    errors:
+      not_implemented: "Ajakava ei saa koostada, kuna see kasutab funktsiooni, mis pole veel realiseeritud."
+      report_comparison: "Ajakava ei saa kujutada konfigureeritud võrdlusi. Palun kontrollige konfiguratsiooni vastavat jaotist, selle andmete algväärtustamine võib aidata probleemi lahendada."
+      report_epicfail: "Ajakava ei saa laadida ootamatu tõrke tõttu."
+      report_timeout: "Ajakava ei saa laadida vastuvõetava aja jooksul."
+    filter:
+      errors:
+        timeframe_start: "Perioodi algus "
+        timeframe_end: "Perioodi lõpp "
+        compare_to_relative: "Suhtelise võrdluse väärtus "
+        compare_to_absolute: "Absoluutse võrdluse väärtus "
+        planning_element_time_relative_one: "Teatud perioodis olevate teemade algus  "
+        planning_element_time_relative_two: "Teatud perioodis olevate teemade lõpp  "
+        planning_element_time_absolute_one: "The start for work packages in a certain timeframe  "
+        planning_element_time_absolute_two: "The end for work packages in a certain timeframe  "
+      sort:
+        sortation: "Sorteeri"
+        alphabet: "tähestikuliselt"
+        explicit_order: "käsitsi"
+        project_sortation: "Sorteeri projektid"
+        date: "ajaliselt"
+        default: "vaikimisi"
+      column:
+        assigned_to: "Määratud tegija"
+        type: "Tüüp"
+        due_date: "Lõppkuupäev"
+        name: "Nimi"
+        status: "Olek"
+        start_date: "Alguskuupäev"
+      columns: "Väljad"
+      comparisons: "Võrdlused"
+      comparison:
+        absolute: "Absoluutne"
+        none: "Mittemingi"
+        relative: "Suhteline"
+        compare_relative_prefix: "Compare current planning to"
+        compare_relative_suffix: "tagasi"
+        compare_absolute: "Võrdle praegust plaani kuupäeval %{date} kehtinud plaaniga"
+      time_relative:
+        days: "päeva"
+        weeks: "nädalat"
+        months: "kuud"
+      exclude_own_work_packages: "Ära kuva minu poolt lisatud teemad"
+      exclude_reporters: "Peida muud projektid"
+      exclude_empty: "Peida tühjad projektid"
+      grouping: "Rühmitamine"
+      grouping_hide_group: "Peida rühm \"%{group}\""
+      grouping_one: "Esimene grupeerimise kriteerium"
+      grouping_one_phrase: "On alamprojektiks projektile"
+      grouping_other: "Muu"
+      hide_chart: "Peida diagramm"
+      noneElement: "(pole)"
+      noneSelection: "(pole)"
+      outline: "Esmase kontuuri laiendamine"
+      parent: "Näita alamprojekte"
+      work_package_filters: "Filtreeri teemasid"
+      work_package_responsible: "Show work packages with accountable"
+      work_package_assignee: "Kuva teemad nende tegijatega"
+      types: "Kuva tüübid"
+      status: "Kuva olek"
+      project_time_filter: "Projektid teatud teema tüübiga ja teatud ajakavaga"
+      project_time_filter_timeframe: "Ajakava"
+      project_time_filter_historical_from: "alates"
+      project_time_filter_historical_to: "kuni"
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} tagasi, %{end_label} %{endspan}%{endspanunit} praegusest"
+      project_filters: "Filtreeri projektid"
+      project_responsible: "Show projects with accountable"
+      project_status: "Kuva projekti olek"
+      timeframe: "Kuva ajakava"
+      timeframe_end: "kuni"
+      timeframe_start: "alates"
+      timeline: "Üldseaded"
+      zoom: "Suurendus"
+    history: "Ajalugu"
+    new_color: "Uus värv"
+    new_association: "Uus sõltuvus"
+    new_work_package: "Uus teema"
+    new_reporting: "Uus aruandlus"
+    new_timeline: "Uus aruanne ajakava kohta"
+    no_projects_for_reporting_available: "Pole ühtki projekti mille juurde võiks lisada aruandluse."
+    no_right_to_view_timeline: "Sul pole lingitud ajakava vaatamiseks vajalikke õigusi."
+    no_timeline_for_id: "Ei ole olemas ajakava, mille ID on %{id}."
+    notice_successful_deleted_all_elements: "Kõikide elementide kustutamine õnnestus"
+    outline: "Lähtesta kontuur"
+    outlines:
+      aggregation: "Näita ainult summeeritult"
+      level1: "Laienda tasemele 1"
+      level2: "Laienda tasemele 2"
+      level3: "Laienda tasemele 3"
+      level4: "Laienda tasemele 4"
+      level5: "Laienda tasemele 5"
+      all: "Näita kõiki"
+    reporting_for_project:
+      show: "Projekti %{title} oleku aruanne"
+      edit_delete: "oleku aruanne projektile %{title}"
+      history: "Projekti %{title} olekute ajalugu"
+    reporting:
+      delete: "Kustuta olek: %{comment}"
+      edit: "Muuda olekut: %{comment}"
+      show: "Olek: %{comment}"
+    planning_element_update: "Muudatus: %{title}"
+    type_could_not_be_saved: "Tüüpi ei saa salvestada"
+    reporting_could_not_be_saved: "Aruandlust ei saa salvestada"
+    properties: "Atribuudid"
+    really_delete_color: >
+      Kas oled kindel, et tahad seda värvi kustutada? Tüübid, mis seda värvi kasutavad, jäävad alles.
+    really_delete_reporting: >
+      Kas sa oled kindel, et tahad seda aruannet kustutada? Eelmised aruande olekud kustutatakse ka ära.
+    start: "Algus"
+    timeline: "Perioodi aruanne"
+    timelines: "Perioodi aruanded"
+    settings: "Perioodid"
+    vertical_work_package: "Vertikaalsed teemad"
+    you_are_viewing_the_selected_timeline: "Sa näed valitud perioodi aruannet"
+    zoom:
+      in: "Vaata lähemalt"
+      out: "Vaata kaugemalt"
+      days: "Päevad"
+      weeks: "Nädalad"
+      months: "Kuud"
+      quarters: "Kvartalid"
+      years: "Aastad"
+  title_remove_and_delete_user: Remove the invited user from the project and delete him/her.
+  title_enterprise_upgrade: "Upgrade to unlock more users."
+  tooltip_user_default_timezone: >
+    The default time zone for new users. Can be changed in a user's settings.
+  tooltip_resend_invitation: >
+    Sends another invitation email with a fresh token in case the old one expired or the user did not get the original email. Can also be used for active users to choose a new authentication method. When used with active users their status will be changed to 'invited'.
+  tooltip:
+    setting_email_login: >
+      If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
+  queries:
+    apply_filter: Eelseadistatud filtri rakendamine
+  top_menu:
+    additional_resources: "Additional resources"
+    getting_started: "Getting started"
+    help_and_support: "Help and support"
+  total_progress: "Täielik edenemine"
+  user:
+    all: "kõik"
+    active: "aktiivne"
+    activate: "Aktiveerimine"
+    activate_and_reset_failed_logins: "Aktiveeri ja unusta ebaõnnestunud sisselogimised"
+    authentication_provider: "Autentimisteenuse pakkuja"
+    authentication_settings_disabled_due_to_external_authentication: >
+      See kasutaja autendib end välise autentimisteenuse pakkuja abil, seega ei saa parooli OpenProject'is muuta.
+    authorization_rejected: "You are not allowed to sign in."
+    assign_random_password: "Assign random password (sent to user via email)"
+    blocked: "ajutiselt blokeeritud"
+    blocked_num_failed_logins:
+      one: "ajutiselt blokeeritud (üks ebaõnnestunud sisselogimise katse)"
+      other: "ajutiselt blokeeritud (%{count} ebaõnnestunud sisselogimise katset)"
+    confirm_status_change: "You are about to change the status of '%{name}'. Are you sure you want to continue?"
+    deleted: "Kustutatud kasutaja"
+    error_status_change_failed: "Kasutaja oleku muutmine nurjus järgmiste tõrgete tõttu: %{errors}"
+    invite: Invite user via email
+    invited: ktsutud
+    lock: "Lukustada jäädavalt"
+    locked: "lukustatud jäädavalt"
+    no_login: "This user authenticates through login by password. Since it is disabled, they cannot log in."
+    password_change_unsupported: Change of password is not supported.
+    registered: "registreeritud"
+    reset_failed_logins: "Lähtesta ebaõnnestunud sisselogimised"
+    status_user_and_brute_force: "%{user} ja %{brute_force}"
+    status_change: "Status change"
+    text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    unlock: "Aktiveeri"
+    unlock_and_reset_failed_logins: "Aktiveeri ja lähtesta ebaõnnestunud sisselogimised"
+  version_status_closed: "suletud"
+  version_status_locked: "lukustatud"
+  version_status_open: "avatud"
+  note: Note
+  note_password_login_disabled: "Password login has been disabled by %{configuration}."
+  warning: Hoiatus
+  warning_attachments_not_saved: "%{count} faili ei saa salvestada."
+  warning_imminent_user_limit: >
+    You invited more users than are supported by your current plan. Invited users may not be able to join your OpenProject environment. Please <a href="%{upgrade_url}">upgrade your plan</a> or block existing users in order to allow invited and registered users to join.
+  warning_registration_token_expired: |
+    The activation email has expired. We sent you a new one to %{email}.
+    Please click the link inside of it to activate your account.
+  warning_user_limit_reached: >
+    User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
+  warning_user_limit_reached_instructions: >
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+  warning_protocol_mismatch_html: >
+
+  warning_bar:
+    protocol_mismatch:
+      title: 'Protocol setting mismatch'
+      text_html: >
+        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+    hostname_mismatch:
+      title: 'Hostname setting mismatch'
+      text_html: >
+        Your application is running with its host name setting set to <code>%{set_hostname}</code>, but the request is a <code>%{actual_hostname}</code> hostname. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Host name" setting to correct this.
+  menu_item: "Menüüvalik"
+  menu_item_setting: "Nähtavus"
+  wiki_menu_item_for: "Menüüvalik vikilehele \"%{title}\""
+  wiki_menu_item_setting: "Nähtavus"
+  wiki_menu_item_new_main_item_explanation: >
+    Sa oled kustutamas ainsat viki põhilehele viivat menüüvalikut. Nüüd pead sa valima ühe viki lehtedest, mille jaoks genereeritakse uus peamine menüüvalik. Kui soovid hoopiski vabaneda vikilehtedest, siis palu projekti administraatoril viki moodul välja lülitada.
+  wiki_menu_item_delete_not_permitted: Ainsa vikilehe menüüvalikut ei saa kustutada.
+  #TODO: merge with work_packages top level key
+  work_package:
+    updated_automatically_by_child_changes: |
+      _Uuendati automaatselt, kuna muudeti alamteemat %{child}_
+    destroy:
+      info: "Deleting the work package is an irreversible action."
+      title: "Delete the work package"
+  nothing_to_preview: "Eelvaateks pole midagi näidata"
+  api_v3:
+    attributes:
+      lock_version: "Lock Version"
+    errors:
+      code_400: "Bad request: %{message}"
+      code_401: "You need to be authenticated to access this resource."
+      code_401_wrong_credentials: "You did not provide the correct credentials."
+      code_403: "You are not authorized to access this resource."
+      code_404: "The requested resource could not be found."
+      code_409: "Could not update the resource because of conflicting modifications."
+      code_429: "Too many requests. Please try again later."
+      code_500: "An internal error has occurred."
+      not_found:
+        work_package: "The work package you are looking for cannot be found or has been deleted."
+      expected:
+        date: "YYYY-MM-DD (ISO 8601 date only)"
+        duration: "ISO 8601 duration"
+      invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
+      invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
+      invalid_json: "The request could not be parsed as JSON."
+      invalid_relation: "The relation is invalid."
+      invalid_resource: "For property '%{property}' a link like '%{expected}' is expected, but got '%{actual}'."
+      invalid_signal:
+        embed: "The requested embedding of %{invalid} is not supported. Supported embeddings are %{supported}."
+        select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
+      invalid_user_status_transition: "The current user account status does not allow this operation."
+      missing_content_type: "not specified"
+      missing_request_body: "There was no request body."
+      missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
+      multipart_body_error: "The request body did not contain the expected multipart parts."
+      multiple_errors: "Multiple field constraints have been violated."
+      unable_to_create_attachment: "The attachment could not be created"
+      unable_to_create_attachment_permissions: "The attachment could not be saved due to lacking file system permissions"
+      render:
+        context_not_parsable: "The context provided is not a link to a resource."
+        unsupported_context: "The resource given is not supported as context."
+        context_object_not_found: "Cannot find the resource given as the context."
+      validation:
+        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        due_date: "Finish date cannot be set on parent work packages."
+        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
+        start_date: "Start date cannot be set on parent work packages."
+      eprops:
+        invalid_gzip: "is invalid gzip: %{message}"
+        invalid_json: "is invalid json: %{message}"
+    resources:
+      schema: 'Schema'
+    undisclosed:
+      parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+  doorkeeper:
+    pre_authorization:
+      status: 'Pre-authorization'
+    auth_url: 'Auth URL'
+    access_token_url: 'Access token URL'
+    errors:
+      messages:
+        #Common error messages
+        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        unauthorized_client: 'The client is not authorized to perform this request using this method.'
+        access_denied: 'The resource owner or authorization server denied the request.'
+        invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
+        invalid_code_challenge_method: 'The code challenge method must be plain or S256.'
+        server_error: 'The authorization server encountered an unexpected condition which prevented it from fulfilling the request.'
+        temporarily_unavailable: 'The authorization server is currently unable to handle the request due to a temporary overloading or maintenance of the server.'
+        #Configuration error messages
+        credential_flow_not_configured: 'Resource Owner Password Credentials flow failed due to Doorkeeper.configure.resource_owner_from_credentials being unconfigured.'
+        resource_owner_authenticator_not_configured: 'Resource Owner find failed due to Doorkeeper.configure.resource_owner_authenticator being unconfigured.'
+        admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
+        #Access grant errors
+        unsupported_response_type: 'The authorization server does not support this response type.'
+        #Access token errors
+        invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
+        invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
+        unsupported_grant_type: 'The authorization grant type is not supported by the authorization server.'
+        invalid_token:
+          revoked: "The access token was revoked"
+          expired: "The access token expired"
+          unknown: "The access token is invalid"
+  unsupported_browser:
+    title: "Your browser is outdated and unsupported."
+    message: "You may run into errors and degraded experience on this page."
+    update_message: 'Please update your browser.'
+    close_warning: "Ignore this warning."
+  oauth:
+    application:
+      singular: "OAuth application"
+      plural: "OAuth applications"
+      named: "OAuth application '%{name}'"
+      new: "New OAuth application"
+      default_scopes: "(Default scopes)"
+      instructions:
+        name: "The name of your application. This will be displayed to other users upon authorization."
+        redirect_uri_html: >
+          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
+        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
+        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+        default_scopes: ""
+    client_id: "Kliendi ID"
+    client_secret_notice: >
+      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+    authorization_dialog:
+      authorize: "Authorize"
+      cancel: "Cancel and deny authorization."
+      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
+      title: "Authorize %{application_name}"
+      wants_to_access_html: >
+        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+    scopes:
+      api_v3: "Full API v3 access"
+      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+    grants:
+      created_date: "Approved on"
+      scopes: "Õigused"
+      successful_application_revocation: "Revocation of application %{application_name} successful."
+      none_given: "No OAuth applications have been granted access to your user account."
+    x_active_tokens:
+      one: 'one active token'
+      other: '%{count} active token'
+    flows:
+      authorization_code: "Authorization code flow"
+      client_credentials: "Client credentials flow"
+    client_credentials: "User used for Client credentials"
+    client_credentials_impersonation_set_to: "Client credentials user set to"
+    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+    client_credentials_impersonation_html: >
+      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+    authorization_error: "An authorization error has occurred."
+    revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
+    my_registered_applications: "Registered OAuth applications"
+  you: you

@@ -1,0 +1,51 @@
+<div class="op-toast -{{ type }}" tabindex="0">
+  <div class="op-toast--content" role="alert" aria-atomic="true">
+    <p>
+      <span [textContent]="toast.message"></span>
+      <span [textContent]="' '"></span>
+      <a class="op-toast--target-link"
+         *ngIf="toast.link"
+         (click)="executeTarget($event)"
+         [textContent]="toast.link!.text">
+      </a>
+    </p>
+    <div [ngSwitch]="type">
+      <div *ngSwitchCase="'upload'">
+        <div *ngIf="canBeHidden()">
+          <a (click)="show = true" [hidden]="show">
+            <op-icon icon-classes="icon-arrow-right2"></op-icon>
+          </a>
+          <a (click)="show = false" [hidden]="!show">
+            <op-icon icon-classes="icon-arrow-down1"></op-icon>
+          </a>
+          <span [textContent]="uploadText"></span>
+        </div>
+        <div [ngClass]="{ '-hidden': !show && canBeHidden() }">
+          <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
+            <op-toasters-upload-progress
+                *ngFor="let upload of data"
+                [upload]="upload"
+                (onSuccess)="onUploadSuccess()"
+                (onError)="onUploadError($event)">
+            </op-toasters-upload-progress>
+          </ul>
+        </div>
+      </div>
+      <div *ngSwitchCase="'success'"></div>
+      <div *ngSwitchCase="'error'">
+        <ul class="op-toast--errors">
+          <li *ngFor="let error of data" [textContent]="error"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <button
+      *ngIf="removable()"
+      type="button"
+      class="op-link op-toast--close"
+      [title]="text.close_popup"
+      (click)="remove()"
+  >
+    <op-icon icon-classes="icon-context icon-close icon-no-color"></op-icon>
+  </button>
+</div>

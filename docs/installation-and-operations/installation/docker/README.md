@@ -24,10 +24,10 @@ OpenProject with Docker can be launched in two ways:
 
 ### Quick Start
 
-First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/11/compose) repository:
+First, you must clone the [openproject-deploy](https://github.com/opf/openproject-deploy/tree/stable/12/compose) repository:
 
 ```bash
-git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/11 openproject
+git clone https://github.com/opf/openproject-deploy --depth=1 --branch=stable/12 openproject
 ```
 
 Then, go into the compose folder:
@@ -66,7 +66,7 @@ The fastest way to get an OpenProject instance up and running is to run the
 following command:
 
 ```bash
-docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
+docker run -it -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
 ```
 
 This will take a bit of time the first time you launch it, but after a few
@@ -84,7 +84,7 @@ For normal usage you probably want to start it in the background, which can be
 achieved with the `-d` flag:
 
 ```bash
-docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:11
+docker run -d -p 8080:80 -e SECRET_KEY_BASE=secret openproject/community:12
 ```
 
 **Note**: We've had reports of people being unable to start OpenProject this way
@@ -116,7 +116,7 @@ docker run -d -p 8080:80 --name openproject \
   -e SECRET_KEY_BASE=secret \ # The secret key base used for cookies
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
-  openproject/community:11
+  openproject/community:12
 ```
 
 Please make sure you set the correct public facing hostname in `SERVER_HOSTNAME`. If you don't have a load-balancing or proxying web server in front of your docker container,
@@ -287,14 +287,14 @@ For instance:
 
 ```
 group :opf_plugins do
-  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/11.0"
+  gem "openproject-slack", git: "https://github.com/opf/openproject-slack.git", branch: "release/12.0"
 end
 ```
 
 **3. Create the `Dockerfile`** in the same folder. The contents have to look like this:
 
 ```
-FROM openproject/community:11
+FROM openproject/community:12
 
 # If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
 # you will have to copy the plugin code into the container here and use the
@@ -326,7 +326,7 @@ The `-t` option is the tag for your image. You can choose what ever you want.
 **5. Run the image**
 
 You can run the image just like the normal OpenProject image (as shown earlier).
-You just have to use your chosen tag instead of `openproject/community:11`.
+You just have to use your chosen tag instead of `openproject/community:12`.
 To just give it a quick try you can run this:
 
 ```
@@ -345,7 +345,7 @@ The installation works the same as described above. The only difference is that 
 On a system that has access to the internet run the following.
 
 ```
-docker pull openproject/community:11 && docker save openproject/community:11 | gzip > openproject-11.tar.gz
+docker pull openproject/community:12 && docker save openproject/community:12 | gzip > openproject-12.tar.gz
 ```
 
 This creates a compressed archive containing the latest OpenProject docker image.
@@ -361,7 +361,7 @@ This could be sftp, scp or even via a USB stick in case of a truly air-gapped sy
 Once the file is on the system you can load it like this:
 
 ```
-gunzip openproject-11.tar.gz && docker load -i openproject-11.tar
+gunzip openproject-12.tar.gz && docker load -i openproject-12.tar
 ```
 
 This extracts the archive and loads the contained image layers into docker.
@@ -420,7 +420,7 @@ We will show both possibilities later in the configuration.
 
 ### 3) Create stack
 
-To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/11.0/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
+To create a stack you need a stack file. The easiest way is to just copy OpenProject's [docker-compose.yml](https://github.com/opf/openproject/blob/release/12.0/docker-compose.yml). Just download it and save it as, say, `openproject-stack.yml`.
 
 #### Configuring storage
 
@@ -428,7 +428,7 @@ To create a stack you need a stack file. The easiest way is to just copy OpenPro
 
 ##### Attachments
 
-**NFS**
+###### NFS
 
 If you are using NFS to share attachments use a mounted docker volume to share the attachments folder.
 
@@ -453,23 +453,41 @@ You can either change this to a path in your mounted NFS folder or just create a
 ln -s /mnt/openproject/assets /var/openproject/assets
 ```
 
-**S3**
+###### AWS S3
 
-If you want to use S3 you will have to add the respective configuration to the `stack.yml`'s environment section for the `app`.
+If you want to use S3 you will need to add the following configuration to the `app` section of `stack.yml`.
 
-```
+```yaml
 x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    # ...
-    # ADD THIS FOR S3 attachments substituting the respective credentials:
-    - "OPENPROJECT_ATTACHMENTS__STORAGE=fog"
-    - "OPENPROJECT_FOG_DIRECTORY="<bucket-name>"
-    - "OPENPROJECT_FOG_CREDENTIALS_PROVIDER=AWS"
-    - "OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID=<access-key-id>"
-    - "OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY=<secret-access-key>"
-    - "OPENPROJECT_FOG_CREDENTIALS_REGION=us-east-1"
+    ...
+    OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
+    OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
+    OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "AWS"
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_REGION: "«us-east-1»" # Must be the region that you created your bucket in
+```
+
+###### MinIO S3
+
+If you want to use MinIO as a self-hosted S3-compliant storage backend you will need to add the following configuration to the `app` section of `stack.yml`.
+
+```yaml
+x-op-app: &app
+  <<: *image
+  <<: *restart_policy
+  environment:
+    ...
+    OPENPROJECT_ATTACHMENTS__STORAGE: "fog"
+    OPENPROJECT_FOG_DIRECTORY: "«s3-bucket-name»"
+    OPENPROJECT_FOG_CREDENTIALS_PROVIDER: "aws" # Minio is S3 compliant, so we can use the AWS provider
+    OPENPROJECT_FOG_CREDENTIALS_ENDPOINT: "«https://minio-host.domain.tld»" # URI for your MinIO instance
+    OPENPROJECT_FOG_CREDENTIALS_AWS__ACCESS__KEY__ID: "«access-key-id»" 
+    OPENPROJECT_FOG_CREDENTIALS_AWS__SECRET__ACCESS__KEY: "«secret-access-key»" 
+    OPENPROJECT_FOG_CREDENTIALS_PATH__STYLE: "true"
 ```
 
 ##### Database
@@ -528,12 +546,12 @@ Once this has finished you should see something like this when running `docker s
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:11   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
-canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:11   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
+uvtfnc9dnlbn        openproject_proxy    replicated          1/1                 openproject/community:12   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
+canb3m7ilkjn        openproject_web      replicated          1/1                 openproject/community:12   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
 ```
 
 You can now access OpenProject under [http://0.0.0.0:8080](http://0.0.0.0:8080).
@@ -571,12 +589,12 @@ This will take a moment to converge. Once done you should see something like the
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
-qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:11   
+qrd8rx6ybg90        openproject_cron     replicated          1/1                 openproject/community:12   
 cvgd4c4at61i        openproject_db       replicated          1/1                 postgres:10                
-uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:11   *:8080->80/tcp
-g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:11   
-canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:11   
-7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:11
+uvtfnc9dnlbn        openproject_proxy    replicated          2/2                 openproject/community:12   *:8080->80/tcp
+g8e3lannlpb8        openproject_seeder   replicated          0/1                 openproject/community:12   
+canb3m7ilkjn        openproject_web      replicated          6/6                 openproject/community:12   
+7ovn0sbu8a7w        openproject_worker   replicated          1/1                 openproject/community:12
 ```
 
 Docker swarm handles the networking necessary to distribute the load among the nodes.

@@ -26,15 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
 
-export class Apiv3HelpTextsPaths
-  extends APIv3ResourceCollection<HelpTextResource, APIv3GettableResource<HelpTextResource>> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3HelpTextsPaths
+  extends ApiV3ResourceCollection<HelpTextResource, ApiV3GettableResource<HelpTextResource>> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
     super(apiRoot, basePath, 'help_texts');
   }

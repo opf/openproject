@@ -68,7 +68,7 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
   end
 
   scenario 'adding, editing and history' do
-    visit settings_modules_project_path(project)
+    visit project_settings_modules_path(project)
 
     expect(page).to have_no_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
 

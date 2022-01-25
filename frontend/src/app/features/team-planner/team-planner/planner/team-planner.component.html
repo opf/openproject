@@ -1,0 +1,72 @@
+<div
+  class="op-team-planner"
+>
+  <ng-container
+    *ngIf="(calendarOptions$ | async) as calendarOptions"
+  >
+    <op-add-existing-pane
+      *ngIf="(showAddExistingPane | async)"
+      class="op-team-planner--add-existing-pane"
+      data-qa-selector="add-existing-pane"
+    >
+    </op-add-existing-pane>
+
+    <full-calendar
+      #ucCalendar
+      *ngIf="calendarOptions"
+      [options]="calendarOptions"
+      class="op-team-planner--calendar"
+    ></full-calendar>
+
+    <div
+      [textContent]="calendar.tooManyResultsText"
+      class="op-wp-calendar--notification"></div>
+    <div
+      *ngIf="!(principalIds$ | async)?.length && !(showAddAssignee$ | async)"
+      class="op-team-planner--no-data">
+      <span [textContent]="text.noData"></span>
+    </div>
+  </ng-container>
+
+  <ng-template #resourceContent let-resource="resource">
+    <div
+      *ngIf="resource.extendedProps.principal"
+      class="tp-assignee"
+    >
+      <op-principal
+        [principal]="resource.extendedProps.principal"
+        class="tp-assignee--principal"
+      ></op-principal>
+      <button
+        type="button"
+        class="tp-assignee--remove"
+        (click)="removeAssignee(resource.id)"
+        [attr.aria-label]="text.remove_assignee"
+        [attr.data-qa-remove-assignee]="resource.extendedProps.principal.id"
+      >
+        <op-icon icon-classes="icon-remove"></op-icon>
+      </button>
+    </div>
+
+    <op-tp-add-assignee
+      *ngIf="!resource.extendedProps.principal"
+      (selectAssignee)="addAssignee($event)"
+      [alreadySelected]="principalIds$ | async"
+    ></op-tp-add-assignee>
+  </ng-template>
+
+  <div
+    class="wp-inline-create-button op-team-planner--add-assignee"
+    *ngIf="!(showAddAssignee$ | async)"
+  >
+    <button
+      type="button"
+      class="wp-inline-create--add-link tp-assignee-add-button"
+      (click)="showAssigneeAddRow()"
+      data-qa-selector="tp-assignee-add-button"
+    >
+      <op-icon icon-classes="icon-context icon-add"></op-icon>
+      <span [textContent]="text.add_assignee"></span>
+    </button>
+  </div>
+</div>

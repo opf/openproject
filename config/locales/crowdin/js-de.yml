@@ -62,7 +62,7 @@ de:
     button_continue: "Fortfahren"
     button_copy: "Kopieren"
     button_custom-fields: "Benutzerdefinierte Felder"
-    button_delete: "Löschen"
+    button_delete: "Lösche"
     button_delete_watcher: "Beobachter löschen"
     button_details_view: "Detailansicht"
     button_duplicate: "Duplizieren"
@@ -88,9 +88,6 @@ de:
     button_export-pdf: "PDF-Download"
     button_export-atom: "Atom-Download"
     button_create: "Anlegen"
-    calendar:
-      title: 'Kalender'
-      too_many: 'Es gibt insgesamt %{count} Arbeitspakete, aber nur %{max} können angezeigt werden.'
     card:
       add_new: 'Neue Karte hinzufügen'
       highlighting:
@@ -228,7 +225,7 @@ de:
             installation_text: "Erfahrene Software-Ingenieure führen Sie durch den gesamten Installations- und Einrichtungsprozess in Ihrer eigenen Infrastruktur."
             premium_features: "Premiumfunktionen"
             premium_features_text: "Agile Boards, benutzerdefinierte Farben und Logo, Graphen, intelligente Workflows und vieles mehr."
-            professional_support: "Professionelle Unterstützung"
+            professional_support: "Professioneller Support"
             professional_support_text: "Erhalten Sie zuverlässigen und schnellen Support von erfahrenen OpenProject Software-Ingenieuren."
           button_start_trial: "Kostenlose Testversion starten"
           button_book_now: "Jetzt buchen"
@@ -284,14 +281,17 @@ de:
         new_features:
           text_new_features: "Lesen Sie über neue Funktionen und Updates."
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
-          standard:
-            learn_about_link: https://www.openproject.org/de/openproject-11-3-release/
-            current_new_feature_html: >
-              Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Neuer Button in der Header-Navigation zum Anlegen von Projekten, Benutzern und Arbeitspaketen.</li> <li>Ein neues Modalfenster zum Einladen für Benutzer, Gruppen und Platzhalter-Benutzer ermöglicht das einfache Hinzufügen neuer Benutzer und deren Zuweisung zu Arbeitspaketen. </li> <li>GitHub-Integration in OpenProject.</li> <li>API v3-Erweiterungen für Gruppen und mehr, insb. Erstellen, Lesen, Aktualisieren und Löschen von Gruppen und Gruppenmitgliedern über die API.</li> <li>Mehrfachauswahl für projektspezifische Felder vom Typ Liste.</li> <li>Erstellung von Backups über die Web-Oberfläche.</li> </ul>
-          bim:
-            learn_about_link: https://www.openproject.org/blog/openproject-11-4-release
-            current_new_feature_html: >
-              Dieses Release enthält eine Reihe neuer Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Probieren Sie unser <a href="https://github.com/opf/openproject-revit-add-in">Revit Add-in</a>! Damit können Sie direkt in Revit BCF-Arbeitspakete erstellen, koordinieren und abarbeiten.</li> <li>Das Erkunden und Kopieren von einzelnen Elementen im IFC-Modell war nie einfacher. Denn IFC-Attribute haben nun ihren eigenen Platz erhalten.</li> <li>Bei Anlegen von Schnitten im Modell haben wir im darunterliegenden Datenmodell (BCF-Viewpoint) die Seiten vertauscht, sodass nun die andere Seite versteckt wird. Damit ist OpenProject in dem Punkt mit dem neuen BCF 3.0 Standard konform, was übrigens auch bereits der gelebte Standard bei Anbietern wie Solibri ist. <li>Die Bedienung des IFC-Modell-Viewers mit dem Mobiltelefon wurde massiv überarbeitet.</li> <li>Der Export von Arbeitspaket-Ansichten mit der Spalte "BCF-Snapshot" wurde gefixt.</li> </ul>
+          #Include the version to invalidate outdated translations in other locales.
+          #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
+          '12_0':
+            standard:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Mit den neuen<b>In-App-Benachrichtigungen</b> erhalten Sie wichtige Updates direkt in der Anwendung und werden nicht mit zahlreichen E-Mails überfordert.</li> <li>Die neue <b>Benachrichtigungszentrale</b> zeigt alle Aktivitäten mit intuitiven Filtermöglichkeiten wie z. B. Benachrichtungsgrund oder Projekte. Eine Split-View erlaubt das leichte Bearbeiten aus der Zentrale.</li> <li>Verbesserte <b>Einstellungen für Benachrichtigungen</b> erlaubt das genaue Einstellen für einzelne Projekte und Aktionen, die zu Benachrichtigungen führen sollen.</li> <li><b>E-Mail-Erinnerungen</b> erlauben eine regelmäßige Zusammenfassung ausstehender Benachrichtungen</li> <li>Die Autovervollständigung von Arbeitspaketen enthält zusätzliche Informationen (Projektname, Status, ...) für einfachere Identifizierung.</li> </ul>
+            bim:
+              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              new_features_html: >
+                Das Release besteht aus folgenden Features und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Benachrichtigungszentrale: Reduziert die Anzahl an E-Mails, die Sie erhalten. Erhalten und verarbeiten Sie Benachrichtigungen an einer Stelle.</li> <li>Alle hochgeladenen IFC-Dateien können jetzt komfortabel heruntergeladen werden.</li> <li>Das Hochladen und Verarbeiten von IFC-Dateien sowie dessen Fehlerbehandlung wurde verbessert.</li> <li>Das <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> wurde verbessert.</li> </ul>
     label_activate: "Aktiviere"
     label_add_column_after: "Spalte danach hinzufügen"
     label_add_column_before: "Spalte davor hinzufügen"
@@ -303,20 +303,20 @@ de:
     label_add_selected_columns: "Ausgewählte Spalten hinzufügen"
     label_added_by: "hinzugefügt von"
     label_added_time_by: "Hinzugefügt von <a href=%{authorLink}>%{author}</a> am %{age}"
-    label_ago: "vor (Tage)"
+    label_ago: "Tage her"
     label_all: "alle"
     label_all_work_packages: "alle Arbeitspakete"
     label_and: "und"
     label_ascending: "Aufsteigend"
     label_author: "Autor: %{user}"
-    label_avatar: "Profilbild"
+    label_avatar: "Avatar"
     label_between: "zwischen"
     label_board: "Board"
     label_board_locked: "Gesperrt"
     label_board_plural: "Boards"
-    label_board_sticky: "Wichtig (immer oben)"
+    label_board_sticky: "Angepinnt"
     label_change: "Wechseln"
-    label_create: "Anlegen"
+    label_create: "Erstellen"
     label_create_work_package: "Erstelle neues Arbeitspaket"
     label_created_by: "Erstellt von"
     label_date: "Datum"
@@ -352,12 +352,12 @@ de:
     label_global_roles: "Globale Rollen"
     label_greater_or_equal: ">="
     label_group: 'Gruppe'
-    label_group_by: "Gruppiere Ergebnisse"
+    label_group_by: "Gruppieren nach"
     label_group_plural: "Gruppen"
     label_hide_attributes: "Weniger anzeigen"
     label_hide_column: "Spalte ausblenden"
     label_hide_project_menu: "Projektmenü einklappen"
-    label_in: "an"
+    label_in: "in"
     label_in_less_than: "in weniger als"
     label_in_more_than: "in mehr als"
     label_incoming_emails: "Eingehende E-Mails"
@@ -365,20 +365,20 @@ de:
     label_import: "Import"
     label_latest_activity: "Letzte Änderungen"
     label_last_updated_on: "Zuletzt aktualisiert am"
-    label_learn_more_link: "Weitere Informationen"
+    label_learn_more_link: "Mehr Erfahren"
     label_less_or_equal: "<="
-    label_less_than_ago: "vor weniger als (Tage)"
-    label_loading: "Lade..."
-    label_mail_notification: "Mailbenachrichtigung"
+    label_less_than_ago: "vor weniger Tagen als"
+    label_loading: "Wird geladen…"
+    label_mail_notification: "Email-Benachrichtigungen"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Protokoll"
     label_menu_collapse: "zusammenklappen"
     label_menu_expand: "ausklappen"
-    label_more_than_ago: "vor mehr als (Tage)"
+    label_more_than_ago: "vor mehr Tagen als"
     label_next: "Weiter"
     label_no_color: "Keine Farbe"
-    label_no_data: "Es sind keine Daten vorhanden"
+    label_no_data: "Nichts anzuzeigen"
     label_no_due_date: "kein Endtermin"
     label_no_start_date: "kein Startdatum"
     label_no_value: "Kein Wert"
@@ -389,7 +389,7 @@ de:
     label_open_menu: "Menü öffnen"
     label_open_context_menu: "Kontextmenü öffnen"
     label_open_work_packages: "Offen"
-    label_password: "Kennwort"
+    label_password: "Passwort"
     label_previous: "Zurück"
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
@@ -402,7 +402,7 @@ de:
     label_remove_column: "Spalte entfernen"
     label_remove_columns: "Ausgewählte Spalten entfernen"
     label_remove_row: "Zeile entfernen"
-    label_report: "Report"
+    label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
     label_select_watcher: "Beobachter auswählen ..."
@@ -411,8 +411,8 @@ de:
     label_show_in_menu: "Ansicht im Seitenmenü anzeigen"
     label_sort_by: "Sortieren nach"
     label_sorted_by: "sortiert nach"
-    label_sort_higher: "Eins höher"
-    label_sort_lower: "Eins tiefer"
+    label_sort_higher: "Nach oben bewegen"
+    label_sort_lower: "Nach unten bewegen"
     label_sorting: "Sortierung"
     label_spent_time: "Aufgewendete Zeit"
     label_star_query: "Favorisiert"
@@ -422,7 +422,7 @@ de:
     label_sum_for: "Summe für"
     label_total_sum: "Gesamtsumme"
     label_subject: "Thema"
-    label_this_week: "aktuelle Woche"
+    label_this_week: "diese Woche"
     label_today: "Heute"
     label_time_entry_plural: "Aufgewendete Zeit"
     label_up: "Nach oben"
@@ -443,13 +443,14 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
-    label_unwatch: "Nicht beobachten"
+    label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht beobachten"
     label_uploaded_by: "Hochgeladen von"
     label_default_queries: "Standardansichten"
     label_starred_queries: "Favoriten"
     label_global_queries: "Öffentliche Ansichten"
     label_custom_queries: "Private Ansichten"
+    label_create_new_query: "Neu erstellen"
     label_columns: "Spalten"
     label_attachments: Dateien
     label_drop_files: Dateien hier ablegen
@@ -488,8 +489,8 @@ de:
         welcome: 'Lernen Sie in drei Minuten die <b>wichtigen Funktionen</b> kennen. <br> Wir empfehlen Ihnen die Tour bis zum Ende zu machen. Sie können diese jeder Zeit wieder neu starten.'
         wiki: 'Im <b>Wiki</b> können Sie gemeinsam mit dem Team Informationen dokumentieren und eine Wissensdatenbank aufbauen.'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
-          sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
+          overview: "Verwalten Sie Ihre Arbeit in der <b>-Backlogs</b> Ansicht."
+          sprints: "Rechts befindet sich das Product Backlog oder Bug Backlog, links die jeweiligen Sprints. Hier können Sie <b>Epics, User Stories und Bugs (Fehler)</b> anlegen und mit Drag and Drop priorisieren und einem Sprint zuweisen."
           task_board_arrow: 'Um das <b>Taskboard</b> zu sehen, öffnen Sie das Sprint Drop-down Menü...'
           task_board_select: '… und wählen Sie den Menüpunkt <b>Taskboard</b>.'
           task_board: "Das Aufgabenfeld visualisiert den <b>Fortschritt für diesen Sprint</b>. Klicken Sie auf das Plus (+) Symbol neben einer User Story, um neue Aufgaben oder Hindernisse hinzuzufügen. <br> Der Status kann per Drag & Drop aktualisiert werden."
@@ -508,70 +509,71 @@ de:
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jeder Zeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
     notifications:
       title: "Benachrichtigungen"
-      no_unread: "No unread notifications"
+      no_unread: "Keine ungelesenen Benachrichtigungen"
       reasons:
         mentioned: 'erwähnt'
         watched: 'beobachtet'
-        assigned: 'assigned'
-        responsible: 'accountable'
+        assigned: 'zugewiesen'
+        responsible: 'verantwortlich'
       facets:
         unread: 'Ungelesen'
         all: 'Alle'
       center:
         and_more_users:
-          one: 'and 1 other'
-          other: 'and %{count} others'
+          one: 'und ein weiterer'
+          other: 'und %{count} weitere'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: 'Neue Benachrichtigungen werden hier erscheinen, wenn es Sie betreffende Aktivitäten gibt'
+          with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
         text_update_date: "%{date} von"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
-          no_selection: "Click on a notification to view all activity details."
+          no_notification: "Alle Benachrichtungen abgearbeitet"
+          no_notification_with_current_filter: "Den Filter ändern oder zurück zum Eingang gehen, um Benachrichtigungen anzuzeigen"
+          no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
-          message: 'There are new notifications.'
-          link_text: 'Click here to load them'
+          message: 'Es gibt neue Benachrichtigungen.'
+          link_text: 'Hier klicken zum aktualisieren'
       menu:
         accountable: 'Verantwortlich'
-        assigned: 'Assigned'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        assigned: 'Zugewiesen'
+        by_project: 'Ungelesen pro Projekt'
+        by_reason: 'Beteiligung'
+        inbox: 'Eingang'
+        mentioned: '@erwähnt'
+        watching: 'Beobachten'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'Um Ihre Benachrichtigungseinstellungen anzuzeigen und zu ändern, <a target="_blank" href="%{url}">klicken Sie hier</a>'
         title: "Benachrichtigungseinstellungen"
-        notify_me: "Notify me"
+        notify_me: "Benachrichtige mich"
         reasons:
           mentioned:
-            title: 'I am @mentioned'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            title: 'Wenn ich @erwähnt werde'
+            description: 'Jedes mal eine Benachrichtigung erhalten, wenn ich irgendwo erwähnt werde'
           involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable.'
-          watched: 'Updates on watched items'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+            title: 'Mir zugewiesen oder verantwortlich'
+            description: 'Benachrichtigungen für Aktivitäten auf Arbeitspaketen erhalten, wenn ich zugewiesen oder verantwortlich bin'
+          watched: 'Aktualisierungen auf beobachteten Objekten'
+          work_package_commented: 'Alle neuen Kommentare'
+          work_package_created: 'Neue Arbeitspakete'
+          work_package_processed: 'Änderungen am Status'
+          work_package_prioritized: 'Änderungen der Priorität'
+          work_package_scheduled: 'Alle Datumsänderungen'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Sofort benachrichtigen'
+            description: 'Diese Einstellungen gelten für alle Projekte. Sie können unten projektspezifische Ausnahmen erstellen.'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Außerdem benachrichtigen für'
+            description: 'Benachrichtigungen für diese Aktivitäten bei Arbeitspaketen in allen Projekten erhalten:'
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
+          title: 'Projektspezifische Benachrichtigungseinstellungen'
+          description: 'Diese projektspezifischen Einstellungen ersetzen die Standardeinstellungen oben'
+          add: 'Einstellung für Projekt hinzufügen'
+          already_selected: 'Dieses Projekt ist bereits ausgewählt'
+          remove: 'Projektspezifische Einstellungen entfernen'
     password_confirmation:
       field_description: 'Sie müssen Ihr Kennwort eingeben um diese Änderungen zu speichern.'
       title: 'Geben Sie Ihr Kennwort ein um fortzufahren'
@@ -592,7 +594,7 @@ de:
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
       confirm_template_load: 'Das Ändern der Vorlage wird die Seite neu laden und Sie verlieren alle Eingaben zu diesem Formular. Fortfahren?'
-      use_template: "Projektvorlage verwenden"
+      use_template: "Vorlage verwenden"
       no_template_selected: "(Keine)"
       copy:
         copy_options: "Kopieroptionen"
@@ -601,33 +603,34 @@ de:
     reminders:
       settings:
         daily:
-          add_time: 'Add time'
-          enable: 'Enable daily email reminders'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify.'
-          time_label: 'Time %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          add_time: 'Zeit hinzufügen'
+          enable: 'Tägliche E-Mail-Erinnerungen aktivieren'
+          explanation: 'Sie erhalten diese Erinnerungen nur für ungelesene Benachrichtigungen und nur zu Stunden, die Sie angegeben haben. %{no_time_zone}'
+          no_time_zone: 'Bis Sie eine Zeitzone für Ihr Konto konfigurieren, sind diese Zeiten als UTC (GMT+0) zu verstehen.'
+          time_label: 'Zeit %{counter}:'
+          title: 'Tägliche E-Mail-Erinnerungen für ungelesene Benachrichtigungen zusenden'
         workdays:
-          title: 'Receive email reminders on these days'
+          title: 'E-Mail-Erinnerungen an diesen Tagen erhalten'
         immediate:
-          title: 'Send me an email reminder'
-          mentioned: 'Immediately when someone @mentions me'
+          title: 'Mir eine E-Mail Erinnerung versenden'
+          mentioned: 'Sofort, wenn mich jemand @erwähnt'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'E-Mail-Benachrichtigungen für andere Objekte (die keine Arbeitspakete sind)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
-          news_added: 'Nachricht hinzugefügt'
-          news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
-          forum_messages: 'New forum messages'
-          wiki_page_added: 'Die Wiki-Seite wurde erfolgreich hinzugefügt.'
-          wiki_page_updated: 'Die Wiki-Seite wurde erfolgreich aktualisiert.'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
-        title: 'Email reminders'
+            Die Benachrichtigungen sind aktuell auf Arbeitspakete beschränkt. Sie können die E-Mail-Benachrichtigungen für diese Ereignisse so lange erhalten, bis sie in den Benachrichtigungen enthalten sind:
+          news_added: 'News hinzugefügt'
+          news_commented: 'Kommentar zu einer Nachricht'
+          document_added: 'Dokument hinzugefügt'
+          forum_messages: 'Neue Nachricht im Forum'
+          wiki_page_added: 'Wiki-Seite hinzugefügt'
+          wiki_page_updated: 'Wiki-Seite aktualisiert'
+          membership_added: 'Mitgliedschaft hinzugefügt'
+          membership_updated: 'Mitgliedschaft aktualisiert'
+        title: 'E-Mail-Erinnerungen'
         pause:
-          label: 'Temporarily pause daily email reminders'
-          first_day: 'First day'
-          last_day: 'Last day'
+          label: 'Tägliche E-Mail-Erinnerungen vorübergehend pausieren'
+          first_day: 'Erster Tag'
+          last_day: 'Letzter Tag'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."
     types:
@@ -817,7 +820,7 @@ de:
         edit: 'Arbeitspakete bearbeiten'
         copy: 'Arbeitspakete kopieren'
         delete: 'Arbeitspakete löschen'
-      button_clear: "Zurücksetzen"
+      button_clear: "Leeren"
       comment_added: "Der Kommentar wurde erfolgreich hinzugefügt."
       comment_send_failed: "Ein Fehler ist aufgetreten. Der Kommentar konnte nicht gespeichert werden."
       comment_updated: "Der Kommentar wurde erfolgreich aktualisiert."
@@ -848,7 +851,7 @@ de:
         header: 'Neu: %{type}'
         header_no_type: 'Neues Arbeitspaket (Typ noch nicht gesetzt)'
         header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
-        button: 'Anlegen'
+        button: 'Erstellen'
       copy:
         title: 'Arbeitspaket kopieren'
       hierarchy:
@@ -864,14 +867,14 @@ de:
       no_results:
         title: Keine Arbeitspakete anzuzeigen.
         description: Es wurden entweder keine Arbeitspakete erzeugt oder alle Arbeitspakete wurden ausgefiltert.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Nur %{count} Arbeitspakete können im manuellen Sortiermodus angezeigt werden. Bitte reduzieren Sie die Ergebnisse durch Filtern oder wechseln Sie auf eine automatische Sortierung.
       property_groups:
         details: "Details"
         people: "Personen"
         estimatesAndTime: "Schätzungen & Zeiten"
         other: "Andere"
       properties:
-        assignee: "Zugewiesen an"
+        assignee: "Zugewiesen"
         author: "Autor"
         createdAt: "Erstellt"
         description: "Beschreibung"
@@ -883,14 +886,14 @@ de:
         percentageDone: "% erledigt"
         priority: "Priorität"
         projectName: "Projekt"
-        responsible: "Verantwortlicher"
+        responsible: "Verantwortlich"
         startDate: "Anfangstermin"
         status: "Status"
         subject: "Thema"
         subproject: "Unterprojekt"
         title: "Titel"
         type: "Typ"
-        updatedAt: "Aktualisiert am"
+        updatedAt: "Aktualisiert"
         versionName: "Version"
         version: "Version"
       default_queries:
@@ -907,18 +910,18 @@ de:
         label_content: "Klicken Sie hier, um über das Menü zu überspringen und zum Inhalt zu gelangen"
       placeholders:
         default: "-"
-        date: "Select date"
+        date: "Zeitraum auswählen"
         formattable: "%{name}: Klicken zum Bearbeiten..."
       query:
         column_names: "Spalten"
         group_by: "Gruppiere Ergebnisse nach"
-        group: "Gruppiere Ergebnisse"
+        group: "Gruppieren nach"
         group_by_disabled_by_hierarchy: "Die Gruppierung ist deaktiviert, da der Hierarchie-Modus aktiv ist."
         hierarchy_disabled_by_group_by: "Der Hierarchie-Modus ist deaktiviert da die Ergebnisse nach %{column} gruppiert sind."
         sort_ascending: "Sortiere aufsteigend"
         sort_descending: "Sortiere absteigend"
-        move_column_left: "Spalte nach links"
-        move_column_right: "Spalte nach rechts"
+        move_column_left: "Spalte nach links verschieben"
+        move_column_right: "Spalte nach rechts verschieben"
         hide_column: "Spalte ausblenden"
         insert_columns: "Spalten hinzufügen ..."
         filters: "Filter"
@@ -973,8 +976,8 @@ de:
         columns_help_text: "Über das Eingabefeld oben können Sie weitere Spalten zu Ihrer Tabellenansicht hinzuzufügen. Sie können die Spalten durch drag and drop neu anordnen."
         upsale:
           attribute_highlighting: 'Sollen bestimmte Arbeitspakete aus der Menge herausstechen?'
-          relation_columns: 'Möchten Sie Zusammenhänge in der Arbeitspaketliste anzeigen?'
-          check_out_link: 'Testen Sie die Enterprise Edition.'
+          relation_columns: 'Möchte Sie Beziehungen als Spalten in der Arbeitspaketliste sehen können?'
+          check_out_link: 'Schauen Sie sich die Enterprise Edition an.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Arbeitspakete nach Beziehungs-Typ filtern'
       tabs:

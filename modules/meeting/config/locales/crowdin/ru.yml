@@ -25,7 +25,7 @@ ru:
     attributes:
       meeting:
         location: "Расположение"
-        duration: "Продолжительность"
+        duration: "Длительность"
         participants: "Участники"
         participants_attended: "Участники"
         participants_invited: "Приглашенные"
@@ -60,7 +60,7 @@ ru:
   label_meeting_diff: "Различия"
   label_notify: "Отправка на рецензию"
   label_icalendar: "Отправить iCalendar"
-  label_version: "Стадия"
+  label_version: "Версия"
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   meeting:

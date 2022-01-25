@@ -278,7 +278,7 @@ tr:
         Bu durumdaki iş paketlereni salt okunur olarak işaretlemek için bu seçeneği işaretleyin.
         Durum haricindeki başka özellikler değiştirilemez.
         <br/>
-        <strong>Uyarı</strong>: Devralınan değerler (örneğin; alt iş paketleri ve ilişkili iş paketleri) hala geçerli olacaktır.
+        <strong>Uyarı</strong>: Devralınan değerler (örneğin; çocuklardan ve bağlantılardan) hala geçerli olacaktır.
       status_color_text: |
         Bu durumun rengini atamak veya değiştirmek için tıklayın.
         Durum düğmesinde gösterilir ve tablodaki iş paketlerini vurgulamak için kullanılabilir.
@@ -317,6 +317,10 @@ tr:
       other: '%{count} Bir soydan iş paketi'
     bulk:
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Seçilen tüm iş paketleri için uygun bir durum yoktur. Durumları değiştirilemez."
       unsupported_for_multiple_projects: 'Birden çok projeden iş paketi için toplu taşıma / kopyalama desteklenmiyor'
@@ -460,6 +464,7 @@ tr:
         url: "URL"
       role:
         assignable: "İşpaketleri bağlı projedeki rollere göre kullanıcı ve gruplara atanabilir"
+        permissions: "İzinler"
       time_entry:
         activity: "Etkinlik"
         hours: "Saat"
@@ -588,7 +593,9 @@ tr:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "Dosyanın içerik türü boş olamaz."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Küresel'
@@ -671,7 +678,6 @@ tr:
           filters:
             custom_fields:
               inexistent: "Hiçbir özel alan filtresi yok."
-              invalid: "Verilen içerikteki özel alan filitresi geçerli değil."
         queries/filters/base:
           attributes:
             values:
@@ -735,6 +741,7 @@ tr:
               does_not_exist: "Belirtilen kategori yok."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "> = 0 olmalıdır."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -745,6 +752,11 @@ tr:
               group_without_name: "Adsız gruplara izin verilmez."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Aşağıdaki sınıfların karakterlerini içermelidir (en az% {min_count} /% {all_count}):% {rules}. %{min_count} %{all_count} %{rules} "
               lowercase: "küçük harf (örneğin 'a')"
@@ -792,7 +804,7 @@ tr:
       news: "Haberler"
       notification:
         one: "Notification"
-        other: "Notifications"
+        other: "Bildirimler"
       placeholder_user: "Yer tutucu kullanıcı"
       project: "Proje"
       query: "Özel sorgu"
@@ -846,7 +858,7 @@ tr:
     id: "ID"
     is_default: "Varsayılan değer"
     is_for_all: "Tüm projeler için"
-    is_public: "Herkese Açık"
+    public: "Herkese Açık"
     #kept for backwards compatibility
     issue: "İş paketi"
     lastname: "Soyisim"
@@ -856,7 +868,6 @@ tr:
     password: "Parola"
     priority: "Öncelik"
     project: "Proje"
-    public: "Herkese Açık"
     responsible: "Sorumlu"
     role: "Rol"
     roles: "Yetkiler"
@@ -1193,7 +1204,9 @@ tr:
   error_can_not_archive_project: "Bu proje arşivlenemiyor: %{errors}"
   error_can_not_delete_entry: "Girdi silinemiyor"
   error_can_not_delete_custom_field: "Özel alan silinemiyor"
-  error_can_not_delete_type: "Bu tür iş paketleri içeriyor ve silinemez."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standart türler silinemez."
   error_can_not_invite_user: "Kullanıcı daveti gönderemedi."
   error_can_not_remove_role: "Bu rol kullanımda ve silinemez."
@@ -1340,6 +1353,23 @@ tr:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Haberler'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Erişilebilirlik"
   label_account: "Hesap"
   label_active: "Aktif"
@@ -1535,7 +1565,7 @@ tr:
   label_group_plural: "Gruplar"
   label_help: "Yardım"
   label_here: buraya
-  label_hide: "Gizle"
+  label_hide: "Saklamak"
   label_history: "Geçmiş"
   label_hierarchy_leaf: "Hiyerarşi ağacı"
   label_home: "Ana sayfa"
@@ -1594,6 +1624,10 @@ tr:
   label_member_plural: "Üyeler"
   lable_membership_added: 'Üye eklendi'
   lable_membership_updated: 'Üye güncellendi'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Menü öğesinin ismi"
   label_message: "İleti"
   label_message_last: "Son mesaj"
@@ -1699,7 +1733,6 @@ tr:
   label_public_projects: "Genel Projeler"
   label_query_new: "Yeni Sorgu"
   label_query_plural: "Özel Sorgular"
-  label_query_menu_item: "Sorgu menü öğesi"
   label_read: "Oku..."
   label_register: "Yeni hesap oluştur"
   label_register_with_developer: "Geliştirici olarak kayıt ol"
@@ -1716,7 +1749,7 @@ tr:
   label_remove_columns: "Seçili sütunları sil"
   label_renamed: "yeniden adlandırıldı"
   label_reply_plural: "Yanıtlar"
-  label_report: "Rapor"
+  label_report: "Rapor (bildiri)"
   label_report_bug: "Hata bildir"
   label_report_plural: "Raporlar"
   label_reported_work_packages: "Raporlanan iş paketleri"
@@ -2145,9 +2178,9 @@ tr:
   permission_protect_wiki_pages: "Wiki sayfalarını koruma"
   permission_rename_wiki_pages: "Wiki sayfalarını yeniden adlandır"
   permission_save_queries: "Görünüm kaydetmek"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Proje modülleri seçmek"
   permission_manage_types: "İş paketi türlerini seçmek"
-  permission_view_calendar: "Takvimi görüntülemek"
   permission_view_changesets: "OpenProject'de depo revizyonlarını görüntüle"
   permission_view_commit_author_statistics: "Yazar istatistiklerini inceleyin"
   permission_view_work_package_watchers: "Takipçi listesini göster"
@@ -2183,7 +2216,6 @@ tr:
       archived: "Arşivlenen"
   project_module_activity: "Etkinlik"
   project_module_forums: "Forumlar"
-  project_module_calendar: "Takvim"
   project_module_work_package_tracking: "İş paketi takibi"
   project_module_news: "Haberler"
   project_module_repository: "Depo"
@@ -2356,7 +2388,7 @@ tr:
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
   setting_diff_max_lines_displayed: "Görüntülenen fark satırlarının maksimum sayısı"
   setting_display_subprojects_work_packages: "Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster"
-  setting_emails_footer: "E-posta altbilgisi"
+  setting_emails_footer: "E-posta altbilgi"
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
@@ -2561,9 +2593,9 @@ tr:
   text_warn_on_leaving_unsaved: "İş paketi bu sayfadan ayrıldığınızda kaybolabilecek kaydedilmemiş metinler içeriyor."
   text_what_did_you_change_click_to_add_comment: "Ne değiştirdiniz? Yorum eklemek için tıkayın"
   text_wiki_destroy_confirmation: "Bu wiki'yi ve içeriğini silmek istediğinizden emin misiniz?"
-  text_wiki_page_destroy_children: "Tüm alt sayfaları özyinelemeli olarak sil"
+  text_wiki_page_destroy_children: "Çocuk sayfalarını ve tüm torunlarını sil"
   text_wiki_page_destroy_question: "Bu sayfada %{descendants} alt sayfaları özyinelemeli olarak mevcut. Ne yapmak istersiniz?"
-  text_wiki_page_nullify_children: "Alt sayfaları kök sayfalar olarak sakla"
+  text_wiki_page_nullify_children: "Çocuk sayfalarını kök sayfalar olarak sakla"
   text_wiki_page_reassign_children: "Alt sayfaları bu üst sayfaya yeniden ata"
   text_workflow_edit: "İş akışını düzenlemek için bir rol ve iş tipi seçin"
   text_zoom_in: "Yakınlaştır"
@@ -2808,11 +2840,10 @@ tr:
   wiki_menu_item_new_main_item_explanation: >
     Sadece ana wiki menü öğesini silmektesiniz. Artık yeni bir ana öğenin oluşturulacağı bir wiki sayfası seçmelisiniz. Wiki'yi silmek için, wiki modülü proje yöneticileri tarafından devre dışı bırakılabilir.
   wiki_menu_item_delete_not_permitted: Yalnızca wiki sayfasının wiki menü öğesi silinemez.
-  query_menu_item_for: "\" %{title} \" sorgusu için menü öğesi"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
-      _Alt iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
+      _Çocuk iş paketi %{child} _ içindeki değerler değiştirilerek otomatik olarak güncellendi _
     destroy:
       info: "İş paketinin silinmesi geri döndürülemez bir işlemdir."
       title: "İş paketini sil"
@@ -2867,6 +2898,7 @@ tr:
       schema: 'Şema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Ön yetkilendirme'

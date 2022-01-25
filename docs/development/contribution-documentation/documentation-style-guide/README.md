@@ -79,9 +79,10 @@ Do not include the same information in multiple places. Instead, link through to
 ## References across the documentation
 
 - When mentioning other OpenProject modules or features, link to their respective documentation, at least on first mention. 
-- Please see in [links](/#links) how to use links within the documentation.
 
-- When making reference to third-party products or technologies, link out to their external sites,     documentation and resources.
+- Please see in [links](#links) how to use links within the documentation.
+
+- When making reference to third-party products or technologies, link out to their external sites, documentation and resources.
 
   
 
@@ -294,7 +295,7 @@ To help tables be easier to maintain, consider adding additional spaces to the c
 
 - Make your subheading titles clear, descriptive, and complete to help users find the right example.
 
-- See  [Capitalization](/#capitalization) for guidelines on capitalizing headings.
+- See  [Capitalization](#capitalization) for guidelines on capitalizing headings.
 
   
 
@@ -354,20 +355,19 @@ When documenting navigation through the OpenProject application, use these terms
 Use these terms when referring to OpenProject’s main application elements:
 
 - **Header menu**: This is the blue bar at the top that spans the width of the application. It includes the OpenProject logo, the search field, the link to all projects, the global modules, the help icon and the user’s avatar.
-
 - **Project menu**: This is the menu on the left in the OpenProject application that displays the modules after the selection of a project.
+
+All project menu items are spelled as in the application in bold, e.g.
+
+- In the project menu, select **Work packages** to open your work package list.
 
   
 
-### How to document the menus
+### How to document a navigation path
 
-To be consistent, use this format when you write about UI navigation.
+To be consistent, use this format when you write about UI navigation. Use the same names as in the application in italic and with arrows in between:
 
-1. In the header menu, click on your **Avatar > Administration** to find system settings.
-
-2. In the project menu, select **Work packages** to open your work package list.
-
-   
+* In the header menu, click on your *Avatar > Administration* to find system settings.
 
 ## Images
 
@@ -419,7 +419,9 @@ At the moment it is not possible for external contributors to upload videos to t
 
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
-`<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-an-openproject-trial-installation).
-</div>`
+```
+<div class="alert alert-info" role="alert">
+**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
+</div>
+```
 

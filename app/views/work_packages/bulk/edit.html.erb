@@ -29,24 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_bulk_edit_selected_work_packages) %>
 
-<% if @bulk_errors.present? %>
-  <div class="notification-box -error">
-    <a title="close" class="notification-box--close icon-context icon-close"></a>
-    <div class="notification-box--content">
-      <p><strong><%= t('work_packages.bulk.could_not_be_saved') %></strong></p>
-
-      <ul>
-      <% @bulk_errors.each do |wpid, messages| %>
-        <li>
-          <%= link_to "##{wpid}", work_package_path(wpid) %>:
-          <%= safe_join messages, ', ' %>
-        </li>
-      <% end %>
-      </ul>
-    </div>
-  </div>
-<% end %>
-
 <h2><%= t(:label_bulk_edit_selected_work_packages) %></h2>
 <ul>
   <% @work_packages.each do |wp| %>
@@ -189,8 +171,8 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
-      <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'notes', @notes, class: 'wiki-edit', with_text_formatting: true %>
+      <%= label_tag 'work_package_journal_notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+      <%= styled_text_area_tag 'work_package[journal_notes]', @notes, class: 'wiki-edit', with_text_formatting: true %>
       <p><%= send_notification_option %></p>
     </fieldset>
   </section>

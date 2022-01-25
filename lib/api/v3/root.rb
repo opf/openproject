@@ -73,6 +73,7 @@ module API
       mount ::API::V3::UserPreferences::UserPreferencesAPI
       mount ::API::V3::Groups::GroupsAPI
       mount ::API::V3::Versions::VersionsAPI
+      mount ::API::V3::Views::ViewsAPI
       mount ::API::V3::WorkPackages::WorkPackagesAPI
       mount ::API::V3::WikiPages::WikiPagesAPI
       mount ::API::V3::Grids::GridsAPI

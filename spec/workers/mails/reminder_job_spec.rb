@@ -40,7 +40,7 @@ describe Mails::ReminderJob, type: :model do
   let(:notification_ids) { [1, 2, 3] }
 
   let!(:notifications) do
-    instance_double(ActiveRecord::Relation).tap do |notifications|
+    class_double(Notification).tap do |notifications|
       allow(Time)
         .to receive(:current)
               .and_return(Time.current)
@@ -48,6 +48,11 @@ describe Mails::ReminderJob, type: :model do
       allow(Notification)
         .to receive(:unsent_reminders_before)
               .with(recipient: recipient, time: Time.current)
+              .and_return(notifications)
+
+      allow(notifications)
+        .to receive(:visible)
+              .with(recipient)
               .and_return(notifications)
 
       allow(notifications)

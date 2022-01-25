@@ -45,6 +45,8 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input('workPackage') public workPackage:WorkPackageResource;
 
+  @Input() public small = false;
+
   public text = {
     explanation: this.I18n.t('js.label_edit_status'),
     workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),

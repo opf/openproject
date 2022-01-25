@@ -3,11 +3,12 @@
 .op-form-field
   display: flex
   flex-direction: column
+  line-height: 1.6rem
 
   // This is a fix for the formly-forms, which render the wrapper around a non-visible input
   &:empty
     display: none
-  
+
   &--label,
   &--description,
   &--input,
@@ -22,7 +23,6 @@
   &--label
     font-size: 1rem
     font-weight: bold
-    line-height: 1.2
 
     &-indicator
       color: var(--primary-color)

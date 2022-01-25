@@ -4,24 +4,24 @@ uk:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
+    label_imported_failed: 'Не вдалося імпортувати BFC теми'
+    label_imported_successfully: 'Успішно завантажено BCF теми'
     issues: "Задачі"
     recommended: 'рекомендовано'
     not_recommended: 'не рекомендується'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'Позиції відсутні'
     new_badge: "Новий"
     exceptions:
-      file_invalid: "BCF file invalid"
+      file_invalid: "BCF файл недоступний "
     x_bcf_issues:
-      zero: 'No BCF issues'
-      one: 'One BCF issue'
+      zero: 'Немає проблем BCF'
+      one: 'Одна проблема BCF'
       other: '%{count} BCF issues'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF файл XML'
       import_title: 'Імпортувати'
       export: 'Експорт'
-      import_update_comment: '(Updated in BCF import)'
+      import_update_comment: '(Оновлено в BCF імпорті)'
       import_failed: 'Не вдалося імпортувати файл BCF: %{error}'
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
       import_successful: 'Imported %{count} BCF issues'
@@ -54,7 +54,7 @@ uk:
         no_priority_provided: 'Пріоритет не вказано'
         perform_description: "Do you want to import or update the issues listed above?"
         replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        import_as_system_user: 'Імпортуйте їх як користувача "Система".'
         what_to_do: "Що ти хочеш зробити?"
         work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
         bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
@@ -113,10 +113,12 @@ uk:
       check_1: 'Check that you have uploaded at least one IFC model.'
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
-    processing_state:
+    conversion_status:
       label: 'Processing?'
-      in_progress: 'У процесі'
+      pending: 'Очікування'
+      processing: 'Обробка'
       completed: 'Completed'
+      error: 'Помилка'
     processing_notice:
       processing_default: 'The following default IFC models are still being processed and are thus not available, yet:'
     flash_messages:

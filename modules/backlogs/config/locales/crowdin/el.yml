@@ -137,6 +137,7 @@ el:
   label_wiki: "Wiki"
   permission_view_master_backlog: "Εμφάνιση του κύριου backlog"
   permission_view_taskboards: "Εμφάνιση πινάκων εργασίας"
+  permission_select_done_statuses: "Select done statuses"
   permission_update_sprints: "Ενημέρωση των sprints"
   points_accepted: "πόντοι που έγιναν αποδεκτοί"
   points_committed: "πόντοι που δεσμεύτηκαν"

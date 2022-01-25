@@ -71,6 +71,10 @@ export interface HalResourceFactoryConfigInterface {
   attrTypes?:{ [attrName:string]:string };
 }
 
+interface ErrorWithType {
+  _type?:string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class HalResourceService {
   /**
@@ -110,8 +114,7 @@ export class HalResourceService {
         map((response:unknown) => this.createHalResource<T>(response)),
         catchError((error:HttpErrorResponse) => {
           whenDebugging(() => console.error(`Failed to ${method} ${href}: ${error.name}`));
-          const resource = this.createHalResource<ErrorResource>(error.error);
-          return throwError(new HalError(error, resource));
+          return this.createErrorObservable(error);
         }),
       );
   }
@@ -349,5 +352,17 @@ export class HalResourceService {
     const compressed = base64.bytesToBase64(deflatedArray);
 
     return { eprops: compressed };
+  }
+
+  private createErrorObservable(error:HttpErrorResponse):Observable<never> {
+    let resource:ErrorResource|null = null;
+
+    const body = error.error as string|ErrorWithType|unknown;
+    // eslint-disable-next-line no-underscore-dangle
+    if (typeof body === 'object' && (body as ErrorWithType)?._type) {
+      resource = this.createHalResource<ErrorResource>(error.error);
+    }
+
+    return throwError(new HalError(error, resource));
   }
 }

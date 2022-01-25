@@ -35,7 +35,7 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { Observable } from 'rxjs';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './project-description.component.html',
@@ -49,7 +49,7 @@ export class WidgetProjectDescriptionComponent extends AbstractWidgetComponent i
 
   constructor(protected readonly i18n:I18nService,
     protected readonly injector:Injector,
-    protected readonly apiV3Service:APIV3Service,
+    protected readonly apiV3Service:ApiV3Service,
     protected readonly currentProject:CurrentProjectService,
     protected readonly cdRef:ChangeDetectorRef) {
     super(i18n, injector);

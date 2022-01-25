@@ -33,7 +33,7 @@ describe "POST /api/v3/queries", type: :request do
   let(:status) { FactoryBot.create :status }
   let(:project) { FactoryBot.create :project }
 
-  let(:params) do
+  let(:default_params) do
     {
       name: "Dummy Query",
       showHierarchies: false,
@@ -90,6 +90,7 @@ describe "POST /api/v3/queries", type: :request do
       }
     }
   end
+  let(:params) { default_params }
 
   before do
     login_as user

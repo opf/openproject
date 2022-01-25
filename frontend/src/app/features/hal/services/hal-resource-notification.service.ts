@@ -30,7 +30,7 @@ import { StateService } from '@uirouter/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injectable, Injector } from '@angular/core';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -47,7 +47,7 @@ export class HalResourceNotificationService {
 
   @InjectField() protected halResourceService:HalResourceService;
 
-  @InjectField() protected NotificationsService:NotificationsService;
+  @InjectField() protected ToastService:ToastService;
 
   @InjectField() protected loadingIndicator:LoadingIndicatorService;
 
@@ -61,7 +61,7 @@ export class HalResourceNotificationService {
       message: this.I18n.t(`js.notice_successful_${isCreate ? 'create' : 'update'}`),
     };
 
-    this.NotificationsService.addSuccess(message);
+    this.ToastService.addSuccess(message);
   }
 
   /**
@@ -79,7 +79,7 @@ export class HalResourceNotificationService {
 
     // Some transformation may already have returned the error as a HAL resource,
     // which we will forward to handleErrorResponse
-    if (response instanceof HalError) {
+    if (response instanceof HalError && resource) {
       return this.handleErrorResponse(response.resource, resource);
     }
 
@@ -90,12 +90,12 @@ export class HalResourceNotificationService {
     }
 
     if (typeof (response) === 'string') {
-      this.NotificationsService.addError(response);
+      this.ToastService.addError(response);
       return;
     }
 
     if (response instanceof Error) {
-      this.NotificationsService.addError(response.message);
+      this.ToastService.addError(response.message);
       return;
     }
 
@@ -169,11 +169,11 @@ export class HalResourceNotificationService {
       error += ` ${(message as any).toString()}`;
     }
 
-    this.NotificationsService.addError(error);
+    this.ToastService.addError(error);
   }
 
   public showEditingBlockedError(attribute:string) {
-    this.NotificationsService.addError(this.I18n.t(
+    this.ToastService.addError(this.I18n.t(
       'js.hal.error.edit_prohibited',
       { attribute },
     ));
@@ -190,7 +190,7 @@ export class HalResourceNotificationService {
         return false;
       }
 
-      this.NotificationsService.addError(this.I18n.t(i18nString,
+      this.ToastService.addError(this.I18n.t(i18nString,
         { attribute: attributeName }));
 
       return true;
@@ -202,9 +202,9 @@ export class HalResourceNotificationService {
     const messages = errorResource.errorMessages;
 
     if (messages.length > 1) {
-      this.NotificationsService.addError('', messages);
+      this.ToastService.addError('', messages);
     } else {
-      this.NotificationsService.addError(messages[0]);
+      this.ToastService.addError(messages[0]);
     }
 
     return true;

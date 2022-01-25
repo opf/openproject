@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= op_icon('button--icon icon-delete') %>
             <span class="button--text"><%= t(:button_delete) %></span>
         <% end %>
-        <%= link_to settings_repository_tab_path,
+        <%= link_to project_settings_repository_path(@project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>
@@ -64,8 +64,8 @@ See COPYRIGHT and LICENSE files for more details.
     </section>
   <% end %>
 <% else %>
-  <div class="notification-box -warning">
-    <div class="notification-box--content">
+  <div class="op-toast -warning">
+    <div class="op-toast--content">
       <p><strong><%= t('repositories.destroy.title_not_managed', repository_type: "<em>#{h(@repository.repository_type)} - #{t(:project_module_repository)}</em>").html_safe %></strong><br /></p>
       <p>
         <%= t('repositories.destroy.subtitle_not_managed',
@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= op_icon('button--icon icon-remove') %>
           <span class="button--text"><%= t(:button_remove) %></span>
         <% end %>
-        <%= link_to settings_repository_tab_path,
+        <%= link_to project_settings_repository_path(@project),
           title: t(:button_cancel),
           class: 'button -with-icon icon-cancel' do %>
             <%= t(:button_cancel) %>

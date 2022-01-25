@@ -14,7 +14,7 @@ uk:
   wrong_file_format: "Дозволені формати: jpg, png, gif"
   empty_file_error: "Будь ласка, завантажте зображення вірного формату (jpg, png, gif)"
   avatars:
-    label_avatar: "Аватар"
+    label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
     label_current_avatar: 'Поточний avatar'
     label_local_avatar: 'Довільний avatar'

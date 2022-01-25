@@ -10,7 +10,7 @@ import {
 } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import {
   ApiV3ListFilter,
-  Apiv3ListParameters,
+  ApiV3ListParameters,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { selectEntitiesFromIDCollection } from 'core-app/core/state/collection-store';
@@ -62,7 +62,7 @@ export class IanCenterQuery extends Query<IanCenterState> {
       distinctUntilChanged(),
     );
 
-  get params():Apiv3ListParameters {
+  get params():ApiV3ListParameters {
     const state = this.store.getValue();
     const hasFilters = state.filters.name && state.filters.filter;
     return {

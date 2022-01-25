@@ -33,7 +33,8 @@ class Relation < ApplicationRecord
 
   include ::Scopes::Scoped
 
-  scopes :follows_non_manual_ancestors
+  scopes :follows_non_manual_ancestors,
+         :visible
 
   scope :of_work_package,
         ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
@@ -139,12 +140,6 @@ class Relation < ApplicationRecord
     elsif TYPES.key?(type) || type == TYPE_HIERARCHY
       type
     end
-  end
-
-  def self.visible(user = User.current)
-    direct
-      .where(from_id: WorkPackage.visible(user))
-      .where(to_id: WorkPackage.visible(user))
   end
 
   def self.from_work_package_or_ancestors(work_package)

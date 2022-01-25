@@ -18,14 +18,16 @@ Meetings in OpenProject allow you to manage and document your project meetings a
 
 | Topic                                                        | Content                                     |
 | ------------------------------------------------------------ | ------------------------------------------- |
-| [Meetings in OpenProject](#meetings-in-OpenProject)          | How to open meetings in OpenProject?        |
+| [Meetings in OpenProject](#meetings-in-openproject)          | How to open meetings in OpenProject?        |
 | [Create a new meeting](#create-a-new-meeting)                | How to create a new meeting in OpenProject? |
 | [Edit a meeting](#edit-a-meeting)                            | How to edit an existing meeting?            |
 | [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting?          |
 | [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda?           |
-| [Copy a meeting (recurring meetings)](#copy-a-meeting-(recurring meetings)) | How to create recurring meetings?           |
+| [Copy a meeting (recurring meetings)](#copy-a-meeting-recurring-meetings) | How to create recurring meetings?           |
 
 ## Meetings in OpenProject
+
+![](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-How-to-Meetings.mp4)
 
 By selecting **Meetings** in the project menu on the left, you get an overview of all project meetings sorted by date. By clicking on a meeting name you can view further details of the meeting.
 

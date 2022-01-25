@@ -1,40 +1,39 @@
 #English strings go here
 hr:
   label_avatar: "Avatar"
-  label_avatar_plural: "Avatars"
-  label_current_avatar: "Current Avatar"
-  label_choose_avatar: "Choose Avatar from file"
-  message_avatar_uploaded: "Avatar changed successfully."
+  label_avatar_plural: "Avatari"
+  label_current_avatar: "Trenutni avatar"
+  label_choose_avatar: "Odaberite avatar iz datoteke"
+  message_avatar_uploaded: "Avatar je uspješno promijenjen. "
   error_image_upload: "Greška pri spremanju slike."
   error_image_size: "Slika je prevelika."
-  button_change_avatar: "Change avatar"
-  are_you_sure_delete_avatar: "Are you sure you want to delete your avatar?"
-  avatar_deleted: "Avatar deleted successfully."
-  unable_to_delete_avatar: "Avatar could not be deleted."
-  wrong_file_format: "Allowed formats are jpg, png, gif"
-  empty_file_error: "Please upload a valid image (jpg, png, gif)"
+  button_change_avatar: "Promijenite avatar"
+  are_you_sure_delete_avatar: "Jeste li sigurni da želite obrisati svoj avatar?"
+  avatar_deleted: "Avatar je uspješno obrisan."
+  unable_to_delete_avatar: "Nije bilo moguće obrisati avatar."
+  wrong_file_format: "Dozvoljeni formati su jpg, png, gif"
+  empty_file_error: "Molimo pohranite sliku u ispravom formatu (jpg, png, gif)"
   avatars:
     label_avatar: "Avatar"
     label_gravatar: 'Gravatar'
-    label_current_avatar: 'Current avatar'
-    label_local_avatar: 'Custom avatar'
+    label_current_avatar: 'Trenutni avatar'
+    label_local_avatar: 'Prilagođeni avatar'
     text_current_avatar: |
-      The following image shows the current avatar.
+      Sljedeća slika pokazuje trenutni avatar
     text_upload_instructions: |
-      Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-      A preview of your avatar will be shown before uploading, once you selected an image.
-    text_change_gravatar_html: 'To change or add the Gravatar for your mail address, go to %{gravatar_url}.'
+      Pohranite svoj prilagođeni avatar dimenzija 128 s 128 piksela. Datoteke većih dimenzija bit će smanjene i izrezane. Kad odaberete sliku, pregled Vašeg avatara bit će prikazan prije pohranjivanja.
+    text_change_gravatar_html: 'Kako biste promijenili ili dodali Gravatar za Vašu mail adresu, odite na %{gravatar_url}'
     text_your_local_avatar: |
-      OpenProject allows you to upload your own custom avatar.
+      OpenProject Vam omogućava pohranjivanje vlastitog prilagođenog avatara.
     text_local_avatar_over_gravatar: |
-      If you set one, this custom avatar is used in precedence over the gravatar above.
+      Ako ste ga postavili, ovaj prilagođeni avatar koristi se umjesto gravatara iznad.
     text_your_current_gravatar: |
-      OpenProject uses your gravatar if you registered one, or a default image or icon if one exists.
-      The current gravatar is as follows:
+      OpenProject koristi ili Vaš gravatar ako ste ga registrirali ili zadanu sliku ili ikonu ako ona postoji.
+      Trenutni gravatar izgleda ovako:
     settings:
-      enable_gravatars: 'Enable user gravatars'
+      enable_gravatars: 'Dozvoli korisničke gravatare'
       gravatar_default: "Zadane Gravatar slike"
-      enable_local_avatars: 'Enable user custom avatars'
+      enable_local_avatars: 'Dozvoli prilagođene korisničke avatare'
 
 
 

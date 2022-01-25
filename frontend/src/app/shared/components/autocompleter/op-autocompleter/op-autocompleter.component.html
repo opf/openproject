@@ -123,7 +123,7 @@
         class="op-autocompleter--option-principal"
         *ngIf="item.author && item.author.href"
         [principal]="item.author"
-        [hide-name]="true"
+        [hideName]="true"
       ></op-principal>
       <span
         class="op-autocompleter--wp-subject"
@@ -162,13 +162,16 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="resource ==='user' || resource ==='assignee'">
-    <op-principal
-      *ngIf="item && item.href"
-      [principal]="item"
-      [hide-name]="true"
-      size="mini"
-    ></op-principal>
-    <span [ngOptionHighlight]="search">{{ item.name }}</span>
+    <div class="op-autocompleter--option-principal-wrapper">
+      <op-principal
+        *ngIf="item && item.href"
+        [principal]="item"
+        [hideName]="true"
+        class="op-autocompleter--option-principal-avatar"
+        size="mini"
+      ></op-principal>
+      <span [ngOptionHighlight]="search">{{ item.name }}</span>
+    </div>
   </ng-container>
 
   <ng-container *ngSwitchCase="resource ==='subproject' || resource ==='version' || resource ==='status' || resource ==='default'">

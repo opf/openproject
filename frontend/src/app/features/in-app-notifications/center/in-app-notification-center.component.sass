@@ -10,6 +10,8 @@
 
   &--viewport
     height: 100%
+    // Avoid infinite horizontal scrolling on mobile iOS (#39849)
+    overflow-x: hidden
     @include styled-scroll-bar
 
   &--max-warning

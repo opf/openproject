@@ -6,7 +6,7 @@ import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-fun
 import { map } from 'rxjs/operators';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
 
 export const boardsMenuSelector = 'boards-menu';
@@ -32,7 +32,7 @@ export class BoardsMenuComponent extends UntilDestroyedMixin implements OnInit {
     );
 
   constructor(private readonly boardService:BoardService,
-    private readonly apiV3Service:APIV3Service,
+    private readonly apiV3Service:ApiV3Service,
     private readonly currentProject:CurrentProjectService,
     private readonly mainMenuService:MainMenuNavigationService) {
     super();

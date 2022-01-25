@@ -41,10 +41,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -87,9 +87,9 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected wpLinkedActivities:WorkPackagesActivityService,
     protected ConfigurationService:ConfigurationService,
     protected loadingIndicator:LoadingIndicatorService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected workPackageNotificationService:WorkPackageNotificationService,
-    protected NotificationsService:NotificationsService,
+    protected toastService:ToastService,
     protected cdRef:ChangeDetectorRef,
     protected I18n:I18nService) {
     super(elementRef, injector);
@@ -150,7 +150,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     indicator.promise = this.commentService.createComment(this.workPackage, this.commentValue)
       .then(() => {
         this.active = false;
-        this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
+        this.toastService.addSuccess(this.I18n.t('js.work_packages.comment_added'));
 
         void this.wpLinkedActivities.require(this.workPackage, true);
         void this
@@ -167,7 +167,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
         if (error instanceof HalError) {
           this.workPackageNotificationService.showError(error.resource, this.workPackage);
         } else {
-          this.NotificationsService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
+          this.toastService.addError(this.I18n.t('js.work_packages.comment_send_failed'));
         }
       });
 

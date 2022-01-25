@@ -40,6 +40,7 @@ export class NotificationSettingsTableComponent {
     work_package_processed_header: this.I18n.t('js.notifications.settings.reasons.work_package_processed'),
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.reasons.work_package_prioritized'),
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
+    remove_project_settings: this.I18n.t('js.notifications.settings.project_specific.remove'),
   };
 
   constructor(

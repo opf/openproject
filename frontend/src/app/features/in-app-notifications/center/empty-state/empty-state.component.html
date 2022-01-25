@@ -3,8 +3,8 @@
         data-qa-selector="op-empty-state"
 >
     <div class="work-packages-tab-view--overflow op-empty-state--content">
-      <ng-container *ngIf="(dataChanged$ | async ) as currentNotificationData; else loading">
-        <ng-container *ngIf="currentNotificationData[0]; else noNotification">
+      <ng-container *ngIf="(loading$ | async) === false; else loading">
+        <ng-container *ngIf="(hasNotifications$ | async) as hasNotifications; else noNotification">
           <img [src]="image.no_selection" class="op-empty-state--content-image"/>
           <p class="op-empty-state--content-text">
             <span>{{ text.no_selection }}</span>
@@ -13,7 +13,7 @@
         <ng-template #noNotification>
           <img [src]="image.no_notification" class="op-empty-state--content-image"/>
           <p class="op-empty-state--content-text">
-            <span [textContent]="noNotificationText(currentNotificationData[0], currentNotificationData[1])"></span>
+            <span [textContent]="noNotificationText(hasNotifications, (totalCount$ | async))"></span>
           </p>
         </ng-template>
 

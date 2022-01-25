@@ -64,7 +64,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/ubuntu/20.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/20.04.repo
 ```
 
 Download the OpenProject package:
@@ -90,7 +90,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/ubuntu/18.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/18.04.repo
 ```
 
 Download the OpenProject package:
@@ -114,7 +114,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/ubuntu/16.04.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/ubuntu/16.04.repo
 ```
 
 Download the OpenProject package:
@@ -140,7 +140,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/debian/11.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/11.repo
 ```
 
 Download the OpenProject package:
@@ -164,7 +164,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/debian/10.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/10.repo
 ```
 
 Download the OpenProject package:
@@ -188,7 +188,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/apt/sources.list.d/openproject.list \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/debian/9.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/debian/9.repo
 ```
 
 Download the OpenProject package:
@@ -208,7 +208,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/el/8.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/8.repo
 ```
 
 If it is not already enabled, make sure to enable [Extra Packages for Enterprise Linux](https://fedoraproject.org/wiki/EPEL) (EPEL).
@@ -233,7 +233,7 @@ Add the OpenProject package source:
 
 ```bash
 sudo wget -O /etc/yum.repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/el/7.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/el/7.repo
 ```
 
 Download the OpenProject package:
@@ -254,7 +254,7 @@ Add the OpenProject package source:
 
 ```bash
 wget -O /etc/zypp/repos.d/openproject.repo \
-  https://dl.packager.io/srv/opf/openproject/stable/11/installer/sles/12.repo
+  https://dl.packager.io/srv/opf/openproject/stable/12/installer/sles/12.repo
 ```
 
 Download the OpenProject package:

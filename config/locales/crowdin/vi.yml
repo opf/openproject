@@ -61,7 +61,7 @@ vi:
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
         header-border-bottom-color: "Dòng ngắt trang, chỗ này sẽ bỏ trống nếu bạn không muốn hiễn thị"
         main-menu-bg-color: "Màu nền của trình đơn ở bên trái."
-      theme_warning: Thay đổi chủ đề sẽ ghi đè lên phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục?
+      theme_warning: Thay đổi chủ đề sẽ ghi đè phong cách tùy chỉnh của bạn. Thiết kế sau đó sẽ bị mất. Bạn có chắc chắn muốn tiếp tục không?
     enterprise:
       upgrade_to_ee: "Nâng cấp lên bản cho doanh nghiệp"
       add_token: "Upload an Enterprise Edition support token"
@@ -318,6 +318,10 @@ vi:
       other: '%{count} gói sản phẩm phụ thuộc'
     bulk:
       could_not_be_saved: "Không thể lưu các gói công việc sau:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Có là tình trạng không có sẵn cho tất cả các gói đã chọn công việc. Tình trạng của họ không thể thay đổi."
       unsupported_for_multiple_projects: 'Bulk move/copy is not supported for work packages from multiple projects'
@@ -461,6 +465,7 @@ vi:
         url: "Đường dẫn (URL)"
       role:
         assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
+        permissions: "Phân Quyền"
       time_entry:
         activity: "Hoạt động"
         hours: "Giờ"
@@ -589,7 +594,9 @@ vi:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -672,7 +679,6 @@ vi:
           filters:
             custom_fields:
               inexistent: "Không có trường tùy chỉnh cho bộ lọc."
-              invalid: "Trường tùy chỉnh không hợp lệ trong ngữ cảnh nhất định."
         queries/filters/base:
           attributes:
             values:
@@ -736,6 +742,7 @@ vi:
               does_not_exist: "Thể loại đã chỉ định không tồn tại."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "must be >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -746,6 +753,11 @@ vi:
               group_without_name: "Unnamed groups are not allowed."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Must contain characters of the following classes (at least %{min_count} of %{all_count}): %{rules}."
               lowercase: "chữ thường (ví dụ như 'a')"
@@ -843,7 +855,7 @@ vi:
     id: "ID"
     is_default: "Giá trị mặc định"
     is_for_all: "Cho tất cả các dự án"
-    is_public: "Công cộng"
+    public: "Công cộng"
     #kept for backwards compatibility
     issue: "Work Package"
     lastname: "Họ"
@@ -853,7 +865,6 @@ vi:
     password: "Mật khẩu"
     priority: "Độ ưu tiên"
     project: "Dự án"
-    public: "Công cộng"
     responsible: "Trách nhiệm"
     role: "Vai trò"
     roles: "Vai trò"
@@ -1178,7 +1189,9 @@ vi:
   error_can_not_archive_project: "Dự án này không thể lưu trữ: %{errors}"
   error_can_not_delete_entry: "Không thể xoá"
   error_can_not_delete_custom_field: "Không thể xóa mục tùy biến"
-  error_can_not_delete_type: "Kiểu này chứa các work package và không thể bị xóa."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Kiểu chuẩn không thể bị xóa."
   error_can_not_invite_user: "Gửi lời mời không thành công."
   error_can_not_remove_role: "Vai trò này đang được sử dụng và không thể bị xóa."
@@ -1259,7 +1272,7 @@ vi:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Tiếng Việt"
+  general_lang_name: "Việtnam"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "không"
   general_text_yes: "có"
@@ -1325,6 +1338,23 @@ vi:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Tin tức'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Trợ năng"
   label_account: "Tài khoản"
   label_active: "Đang hoạt động"
@@ -1579,6 +1609,10 @@ vi:
   label_member_plural: "Members"
   lable_membership_added: 'Thành viên đã thêm'
   lable_membership_updated: 'Thành viên đã cập nhật'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
@@ -1684,7 +1718,6 @@ vi:
   label_public_projects: "Các dự án công khai"
   label_query_new: "Truy vấn mới"
   label_query_plural: "Truy vấn tùy chỉnh"
-  label_query_menu_item: "Truy vấn trình đơn"
   label_read: "Đọc..."
   label_register: "Tạo tài khoản mới"
   label_register_with_developer: "Đăng ký là nhà phát triển"
@@ -2128,9 +2161,9 @@ vi:
   permission_protect_wiki_pages: "Protect wiki pages"
   permission_rename_wiki_pages: "Rename wiki pages"
   permission_save_queries: "Lưu các chế độ xem"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Select project modules"
   permission_manage_types: "Select types"
-  permission_view_calendar: "View calendar"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "View commit author statistics"
   permission_view_work_package_watchers: "View watchers list"
@@ -2163,10 +2196,9 @@ vi:
       remove_from_templates: 'Remove from templates'
     archive:
       are_you_sure: "Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?"
-      archived: "Archived"
+      archived: "Đã lưu"
   project_module_activity: "Hoạt động"
   project_module_forums: "Diễn đàn"
-  project_module_calendar: "Lịch"
   project_module_work_package_tracking: "Theo dõi work package"
   project_module_news: "Tin tức"
   project_module_repository: "Kho lưu trữ"
@@ -2789,7 +2821,6 @@ vi:
   wiki_menu_item_new_main_item_explanation: >
     You are deleting the only main wiki menu item. You now have to choose a wiki page for which a new main item will be generated. To delete the wiki the wiki module can be deactivated by project administrators.
   wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot be deleted.
-  query_menu_item_for: "Menu item for query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2848,6 +2879,7 @@ vi:
       schema: 'Schema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Xác thực'

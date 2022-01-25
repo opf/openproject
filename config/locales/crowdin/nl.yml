@@ -314,6 +314,10 @@ nl:
       other: '%{count} werk pakket afstammelingen'
     bulk:
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "Er is geen status beschikbaar voor alle geselecteerde werkpakketten. Hun status kan niet worden gewijzigd."
       unsupported_for_multiple_projects: 'Bulk verplaatsen/kopiëren wordt niet ondersteund voor werkpakketten uit meerdere projecten'
@@ -457,6 +461,7 @@ nl:
         url: "URL"
       role:
         assignable: "Werkpakketten kunnen worden toegewezen aan gebruikers en groepen met deze rol in het respectieve project"
+        permissions: "Machtigingen"
       time_entry:
         activity: "Activiteit"
         hours: "Uren"
@@ -585,7 +590,9 @@ nl:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is ingesteld op '%{value}', wat niet op de whitelist staat voor het uploaden."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Globaal'
@@ -668,7 +675,6 @@ nl:
           filters:
             custom_fields:
               inexistent: "Er is geen aangepast veld voor dit filter."
-              invalid: "Het aangepaste veld is niet geldig in deze context."
         queries/filters/base:
           attributes:
             values:
@@ -732,6 +738,7 @@ nl:
               does_not_exist: "De gekozen categorie bestaat niet."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "moet > = 0 zijn."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -742,6 +749,11 @@ nl:
               group_without_name: "Groepen zonder namen zijn niet toegestaan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Moet karakters bevatten van de volgende klassen (ten minste %{min_count} van %{all_count}):%{rules}."
               lowercase: "kleine letters (bijvoorbeeld 'a')"
@@ -820,7 +832,7 @@ nl:
     base: "Algemene fout:"
     blocks_ids: "It's van geblokkeerde werkpakketten"
     category: "Categorie"
-    comment: "Commentaar"
+    comment: "Reactie"
     comments: "Commentaar"
     content: "Inhoud"
     color: "Kleur"
@@ -843,7 +855,7 @@ nl:
     id: "ID"
     is_default: "Standaardwaarde"
     is_for_all: "Voor alle projecten"
-    is_public: "Publiek"
+    public: "Publiek"
     #kept for backwards compatibility
     issue: "Werkpakket"
     lastname: "Achternaam"
@@ -853,7 +865,6 @@ nl:
     password: "Wachtwoord"
     priority: "Prioriteit"
     project: "Project"
-    public: "Publiek"
     responsible: "Verantwoording afleggen"
     role: "Rol"
     roles: "Rollen"
@@ -1190,7 +1201,9 @@ nl:
   error_can_not_archive_project: "Dit project kan niet worden gearchiveerd: %{errors}"
   error_can_not_delete_entry: "Niet in staat om ingave te verwijderen"
   error_can_not_delete_custom_field: "Aangepast veld kan niet verwijderd worden"
-  error_can_not_delete_type: "Dit type bevat werkpakketten en kan niet worden verwijderd."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Standaard types kunnen niet worden verwijderd."
   error_can_not_invite_user: "Het versturen van de uitnodiging naar de gebruiker is mislukt."
   error_can_not_remove_role: "Deze rol is in gebruik en kan niet worden verwijderd."
@@ -1337,6 +1350,23 @@ nl:
         mentioned: "U bent genoemd in %{work_package}"
         responsible: "Je bent verantwoordelijk geworden voor %{work_package}"
         watched: "Je volgt %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Nieuws'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Toegankelijkheid"
   label_account: "Account"
   label_active: "Actief"
@@ -1591,6 +1621,10 @@ nl:
   label_member_plural: "Leden"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Naam van het menu-item"
   label_message: "Bericht"
   label_message_last: "Laatste bericht"
@@ -1696,7 +1730,6 @@ nl:
   label_public_projects: "Publieke projecten"
   label_query_new: "Nieuwe query"
   label_query_plural: "Aangepaste query 's"
-  label_query_menu_item: "Query menu-item"
   label_read: "Lees..."
   label_register: "Een nieuw account aanmaken"
   label_register_with_developer: "Registreer als ontwikkelaar"
@@ -1857,12 +1890,12 @@ nl:
   label_workflow_plural: "Workflows"
   label_workflow_summary: "Samenvatting"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "1 gesloten"
+    other: "%{count} gesloten"
     zero: "0 gesloten"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "%{count} reactie"
+    other: "%{count} reacties"
     zero: "geen reacties"
   label_x_open_work_packages_abbr:
     one: "1 open"
@@ -1870,7 +1903,7 @@ nl:
     zero: "0 open"
   label_x_projects:
     one: "1 project"
-    other: "%{count} projects"
+    other: "%{count} projecten"
     zero: "geen projecten"
   label_yesterday: "gisteren"
   label_role_type: "Type"
@@ -2141,9 +2174,9 @@ nl:
   permission_protect_wiki_pages: "Wiki-pagina's beveiligen"
   permission_rename_wiki_pages: "Wiki-pagina's wijzigen"
   permission_save_queries: "Weergaves opslaan"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Selecteer project modules"
   permission_manage_types: "Selecteer typen"
-  permission_view_calendar: "Weergave agenda"
   permission_view_changesets: "Bekijk opslagplaats wijzigingen in OpenProject"
   permission_view_commit_author_statistics: "Bekijk de commit auteur statistieken"
   permission_view_work_package_watchers: "Lijst van de watchers weergave"
@@ -2179,7 +2212,6 @@ nl:
       archived: "Gearchiveerd"
   project_module_activity: "Activiteit"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalender"
   project_module_work_package_tracking: "Werkpakket bijhouden"
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
@@ -2804,7 +2836,6 @@ nl:
   wiki_menu_item_new_main_item_explanation: >
     U verwijdert het alleen het hoofd wiki menu-item. Je moet nu kiezen van een wiki-pagina waarvoor een nieuw belangrijkste item zal worden gegenereerd. Als u de wiki wilt verwijderen, kan de wiki module worden gedeactiveerd door project beheerders.
   wiki_menu_item_delete_not_permitted: De wiki menu-item van de enige wikipagina kan niet worden verwijderd.
-  query_menu_item_for: "Menu-item voor query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2863,6 +2894,7 @@ nl:
       schema: 'Schema'
     undisclosed:
       parent: Niet openbaar gemaakt - De geselecteerde ouder is onzichtbaar door ontbrekende rechten.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-autorisatie'

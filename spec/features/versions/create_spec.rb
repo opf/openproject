@@ -48,7 +48,7 @@ describe 'version create', type: :feature, js: false do
       fill_in 'Name', with: new_version_name
       click_on 'Create'
 
-      expect(page).to have_current_path(settings_versions_project_path(project))
+      expect(page).to have_current_path(project_settings_versions_path(project))
       expect(page).to have_content new_version_name
     end
 

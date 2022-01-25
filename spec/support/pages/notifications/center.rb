@@ -92,6 +92,11 @@ module Pages
           .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
+      def expect_item_selected(notification)
+        expect(page)
+          .to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
+      end
+
       def expect_work_package_item(*notifications)
         notifications.each do |notification|
           work_package = notification.resource
@@ -135,15 +140,15 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).to have_no_selector('.notification-box.-info', wait: 10)
+        expect(page).to have_no_selector('.op-toast.-info', wait: 10)
       end
 
-      def expect_toaster
-        expect(page).to have_selector('.notification-box.-info', wait: 10)
+      def expect_toast
+        expect(page).to have_selector('.op-toast.-info', wait: 10)
       end
 
       def update_via_toaster
-        page.find('.notification-box.-info a', wait: 10).click
+        page.find('.op-toast.-info a', wait: 10).click
       end
     end
   end

@@ -23,7 +23,7 @@ id:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Paket-Penugasan"
+        work_package: "Work Package"
         overridden_costs: "Overridden costs"
         spent: "Dihabiskan"
         spent_on: "Tanggal"
@@ -138,4 +138,4 @@ id:
   text_warning_hidden_elements: "Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan."
   week: "minggu"
   js:
-    text_are_you_sure: "Anda yakin?"
+    text_are_you_sure: "Apakah anda yakin?"

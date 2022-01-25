@@ -4,7 +4,7 @@ es:
     label_preview: 'Vista preliminar'
     button_update: 'Actualizar'
     avatars:
-      label_choose_avatar: "Seleccionar avatar de un archivo"
+      label_choose_avatar: "Elije un Ávatar desde archivo"
       uploading_avatar: "Cargando su avatar."
       text_upload_instructions: |
         Cargue su propio avatar personalizado de 128 × 128 píxeles. Si se agregan archivos más grandes, se cambiará el tamaño y se recortará para que coincida.

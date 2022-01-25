@@ -171,29 +171,34 @@ OpenProject::Application.routes.draw do
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
   scope ':object_type/:object_id', constraints: OpenProject::Acts::Watchable::Routes do
-    match '/watch' => 'watchers#watch', via: :post
-    match '/unwatch' => 'watchers#unwatch', via: :delete
+    post '/watch' => 'watchers#watch'
+    delete '/unwatch' => 'watchers#unwatch'
   end
 
-  resources :projects, except: %i[show edit create] do
-    member do
-      ProjectSettingsHelper.project_settings_tabs.each do |tab|
-        get "settings/#{tab[:name]}", controller: "project_settings/#{tab[:name]}", action: 'show', as: "settings_#{tab[:name]}"
+  resources :projects, except: %i[show edit create update] do
+    scope module: 'projects' do
+      namespace 'settings' do
+        resource :general, only: %i[show], controller: 'general'
+        resource :modules, only: %i[show update]
+        resource :types, only: %i[show update]
+        resource :custom_fields, only: %i[show update]
+        resource :repository, only: %i[show], controller: 'repository'
+        resource :versions, only: %i[show]
+        resource :categories, only: %i[show update]
+        resource :storage, only: %i[show], controller: 'storage'
       end
-      get "settings"
 
-      get 'identifier', action: 'identifier'
-      patch 'identifier', action: 'update_identifier'
+      resource :templated, only: %i[create destroy], controller: 'templated'
+      resource :archive, only: %i[create destroy], controller: 'archive'
+      resource :identifier, only: %i[show update], controller: 'identifier'
+    end
+
+    member do
+      get "settings", to: redirect('projects/%{id}/settings/general/') # rubocop:disable Style/FormatStringToken
 
       get :copy
 
-      put :modules
-      put :custom_fields
-      put :archive
-      put :unarchive
       patch :types
-
-      get 'column_sums', controller: 'work_packages'
 
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info, as: 'confirm_destroy'
@@ -202,8 +207,6 @@ OpenProject::Application.routes.draw do
     collection do
       get :level_list
     end
-
-    resource :time_entry_activities, controller: 'projects/time_entry_activities', only: %i[update]
 
     resources :versions, only: %i[new create] do
       collection do
@@ -214,7 +217,7 @@ OpenProject::Application.routes.draw do
     # this is only another name for versions#index
     # For nice "road in the url for the index action
     # this could probably be rewritten with a resource as: 'roadmap'
-    match '/roadmap' => 'versions#index', via: :get
+    get '/roadmap' => 'versions#index'
 
     resources :news, only: %i[index new create]
 
@@ -252,10 +255,6 @@ OpenProject::Application.routes.draw do
     # than any other route as it otherwise would
     # work as a catchall for everything under /wiki
     get 'wiki' => 'wiki#show'
-
-    namespace :work_packages do
-      resources :calendar, controller: 'calendars', only: [:index]
-    end
 
     resources :work_packages, only: [] do
       collection do
@@ -434,7 +433,6 @@ OpenProject::Application.routes.draw do
 
   namespace :work_packages do
     match 'auto_complete' => 'auto_completes#index', via: %i[get post]
-    resources :calendar, controller: 'calendars', only: [:index]
     resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331

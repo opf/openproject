@@ -14,10 +14,16 @@ class ErrorsController < ::ActionController::Base
   end
 
   def internal_error
-    render_500
+    render_500 error_options
   end
 
   private
+
+  def error_options
+    {
+      exception: request.env["action_dispatch.exception"] || request.env["sentry.rescued_exception"]
+    }.compact
+  end
 
   def use_layout
     'only_logo'

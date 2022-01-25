@@ -74,6 +74,8 @@ get:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -105,6 +107,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -117,6 +121,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -131,6 +137,8 @@ post:
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -149,4 +157,28 @@ post:
   - Groups
   description: Creates a new group applying the attributes provided in the body.
   operationId: Create_group
+  requestBody:
+    content:
+      application/json:
+        schema:
+          example:
+            _links:
+              members:
+                - href: "/api/v3/users/363"
+                - href: "/api/v3/users/60"
+            name: The group
+          properties:
+            _links:
+              properties:
+                members:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      href:
+                        type: string
+              type: object
+            name:
+              type: string
+          type: object
   summary: Create group

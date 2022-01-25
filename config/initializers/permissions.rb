@@ -30,18 +30,6 @@
 
 require 'open_project/access_control'
 
-def edit_project_hash
-  permissions = {
-    projects: %i[edit update custom_fields],
-    project_settings: [:show]
-  }
-
-  ProjectSettingsHelper.project_settings_tabs.each do |node|
-    permissions["project_settings/#{node[:name]}"] = [:show]
-  end
-  permissions
-end
-
 OpenProject::AccessControl.map do |map|
   map.project_module nil, order: 100 do
     map.permission :add_project,
@@ -59,7 +47,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :manage_user,
                    {
                      users: %i[index show new create edit update resend_invitation],
-                     "users/memberships": %i[create update destroy],
+                     'users/memberships': %i[create update destroy],
                      admin: %i[index]
                    },
                    require: :loggedin,
@@ -69,7 +57,7 @@ OpenProject::AccessControl.map do |map|
     map.permission :manage_placeholder_user,
                    {
                      placeholder_users: %i[index show new create edit update deletion_info destroy],
-                     "placeholder_users/memberships": %i[create update destroy],
+                     'placeholder_users/memberships': %i[create update destroy],
                      admin: %i[index]
                    },
                    require: :loggedin,
@@ -86,14 +74,20 @@ OpenProject::AccessControl.map do |map|
                    public: true
 
     map.permission :edit_project,
-                   edit_project_hash,
+                   {
+                     'projects/settings/general': %i[show],
+                     'projects/settings/storage': %i[show],
+                     'projects/templated': %i[create destroy],
+                     'projects/identifier': %i[show update]
+                   },
                    require: :member,
                    contract_actions: { projects: %i[update] }
 
     map.permission :select_project_modules,
-                   { projects: :modules },
-                   require: :member,
-                   dependencies: :edit_project
+                   {
+                     'projects/settings/modules': %i[show update]
+                   },
+                   require: :member
 
     map.permission :manage_members,
                    { members: %i[index new create update destroy autocomplete_for_member] },
@@ -107,13 +101,21 @@ OpenProject::AccessControl.map do |map|
 
     map.permission :manage_versions,
                    {
-                     "project_settings/versions": [:show],
+                     'projects/settings/versions': [:show],
                      versions: %i[new create edit update close_completed destroy]
                    },
                    require: :member
 
     map.permission :manage_types,
-                   { projects: :types },
+                   {
+                     'projects/settings/types': %i[show update]
+                   },
+                   require: :member
+
+    map.permission :select_custom_fields,
+                   {
+                     'projects/settings/custom_fields': %i[show update]
+                   },
                    require: :member
 
     map.permission :add_subprojects,
@@ -175,7 +177,7 @@ OpenProject::AccessControl.map do |map|
     # WorkPackage categories
     wpt.permission :manage_categories,
                    {
-                     "project_settings/categories": [:show],
+                     'projects/settings/categories': [:show],
                      categories: %i[new create edit update destroy]
                    },
                    require: :member
@@ -299,7 +301,10 @@ OpenProject::AccessControl.map do |map|
                     {}
 
     repo.permission :manage_repository,
-                    { repositories: %i[edit create update committers destroy_info destroy] },
+                    {
+                      repositories: %i[edit create update committers destroy_info destroy],
+                      'projects/settings/repository': :show
+                    },
                     require: :member
 
     repo.permission :view_changesets,
@@ -337,11 +342,6 @@ OpenProject::AccessControl.map do |map|
     forum.permission :delete_own_messages,
                      { messages: :destroy },
                      require: :loggedin
-  end
-
-  map.project_module :calendar, dependencies: :work_package_tracking do |cal|
-    cal.permission :view_calendar,
-                   'work_packages/calendars': [:index]
   end
 
   map.project_module :activity

@@ -1,0 +1,16 @@
+#English strings go here
+lt:
+  js:
+    team_planner:
+      add_existing: 'Add existing'
+      create_new: 'Kurti naują komandos planą'
+      title: 'Komandos planas'
+      unsaved_title: 'Nepavadintas komandos planas'
+      label_assignee_plural: 'Paskirtieji'
+      no_data: 'Komandos plano sudarymui pridėkite paskirtųjų.'
+      add_assignee: 'Pridėti paskirtąjį'
+      remove_assignee: 'Išimti paskirtąjį'
+      two_weeks: '2 savaitės'
+      quick_add:
+        empty_state: 'Use the search field to find work packages and drag them to the planner to assign it to someone and define start and end dates.'
+        search_placeholder: 'Search...'

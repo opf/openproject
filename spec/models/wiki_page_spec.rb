@@ -85,6 +85,25 @@ describe WikiPage, type: :model do
           .to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+
+    context 'with another default language', with_settings: { default_language: 'de' } do
+      let(:wiki_page) { FactoryBot.build(:wiki_page, wiki: wiki, title: 'Übersicht') }
+
+      it 'will still use english slug methods' do
+        expect(wiki_page.save).to eq true
+        expect(wiki_page.slug).to eq 'ubersicht'
+      end
+    end
+
+    context 'with another I18n.locale set', with_settings: { default_language: 'de' } do
+      let(:wiki_page) { FactoryBot.build(:wiki_page, wiki: wiki, title: 'Übersicht') }
+
+      it 'will still use english slug methods' do
+        I18n.locale = :de
+        expect(wiki_page.save).to eq true
+        expect(wiki_page.slug).to eq 'ubersicht'
+      end
+    end
   end
 
   describe '#nearest_main_item' do

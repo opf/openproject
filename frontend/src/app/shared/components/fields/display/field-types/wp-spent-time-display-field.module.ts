@@ -32,7 +32,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DurationDisplayField } from './duration-display-field.module';
 
 export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
@@ -45,7 +45,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {

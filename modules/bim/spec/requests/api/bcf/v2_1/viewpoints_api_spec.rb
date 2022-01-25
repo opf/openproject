@@ -78,7 +78,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     it_behaves_like 'bcf api successful response' do
-      let(:expected_body) { [viewpoint_json] }
+      let(:expected_body) { [viewpoint_json.except('components')] }
     end
 
     context 'lacking permission to see project' do
@@ -99,7 +99,7 @@ describe 'BCF 2.1 viewpoints resource', type: :request, content_type: :json, wit
     end
 
     it_behaves_like 'bcf api successful response' do
-      let(:expected_body) { viewpoint_json }
+      let(:expected_body) { viewpoint_json.except('components') }
     end
 
     context 'lacking permission to see project' do

@@ -8,7 +8,7 @@ import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export interface CreateBoardParams {
   type:BoardType;
@@ -29,7 +29,7 @@ export class BoardService {
     unnamed_list: this.I18n.t('js.boards.label_unnamed_list'),
   };
 
-  constructor(protected apiV3Service:APIV3Service,
+  constructor(protected apiV3Service:ApiV3Service,
     protected PathHelper:PathHelperService,
     protected CurrentProject:CurrentProjectService,
     protected halResourceService:HalResourceService,

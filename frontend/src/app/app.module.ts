@@ -46,7 +46,7 @@ import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openpro
 import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
 import { OpenprojectWorkPackageRoutesModule } from 'core-app/features/work-packages/openproject-work-package-routes.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { OpenprojectCalendarModule } from 'core-app/shared/components/calendar/openproject-calendar.module';
+import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
 import { OpenprojectDashboardsModule } from 'core-app/features/dashboards/openproject-dashboards.module';
 import { OpenprojectWorkPackageGraphsModule } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';

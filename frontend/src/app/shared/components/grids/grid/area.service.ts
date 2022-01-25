@@ -6,11 +6,11 @@ import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WidgetChangeset } from 'core-app/shared/components/grids/widgets/widget-changeset';
-import { NotificationsService } from 'core-app/shared/components/notifications/notifications.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BehaviorSubject } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3GridForm } from 'core-app/core/apiv3/endpoints/grids/apiv3-grid-form';
 
 @Injectable()
 export class GridAreaService {
@@ -36,8 +36,8 @@ export class GridAreaService {
 
   public helpMode = false;
 
-  constructor(private apiV3Service:APIV3Service,
-    private notification:NotificationsService,
+  constructor(private apiV3Service:ApiV3Service,
+    private toastService:ToastService,
     private i18n:I18nService) { }
 
   public set gridResource(value:GridResource) {
@@ -111,7 +111,7 @@ export class GridAreaService {
   }
 
   public saveWidgetChangeset(changeset:WidgetChangeset) {
-    const payload:any = Apiv3GridForm.extractPayload(this.resource, this.schema);
+    const payload:any = ApiV3GridForm.extractPayload(this.resource, this.schema);
 
     const payloadWidget = payload.widgets.find((w:any) => w.id === changeset.pristineResource.id);
     Object.assign(payloadWidget, changeset.changes);
@@ -158,7 +158,7 @@ export class GridAreaService {
       .patch(resource, schema)
       .subscribe((updatedGrid) => {
         this.assignAreasWidget(updatedGrid);
-        this.notification.addSuccess(this.i18n.t('js.notice_successful_update'));
+        this.toastService.addSuccess(this.i18n.t('js.notice_successful_update'));
       });
   }
 

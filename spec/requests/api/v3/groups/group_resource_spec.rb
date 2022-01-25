@@ -186,7 +186,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
     let(:body) do
       {
         _links: {
-          "members": [
+          members: [
             {
               href: api_v3_paths.user(members.last.id)
             },
@@ -258,15 +258,18 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
           .to match_array [members.last, another_user]
       end
 
-      it 'sends a mail notifying of the added project memberships to the added user' do
+      it 'sends mails notifying of the added and updated project memberships to the added user' do
         expect(ActionMailer::Base.deliveries.size)
-          .to eql 1
+          .to eq 2
 
         expect(ActionMailer::Base.deliveries.map(&:to).flatten.uniq)
           .to match_array another_user.mail
 
         expect(ActionMailer::Base.deliveries.map(&:subject).flatten)
-          .to match_array [I18n.t(:'mail_member_updated_project.subject', project: project.name)]
+          .to match_array [
+            I18n.t(:'mail_member_updated_project.subject', project: project.name),
+            I18n.t(:'mail_member_added_project.subject', project: other_project.name)
+          ]
       end
     end
 
@@ -276,7 +279,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
       let(:body) do
         {
           _links: {
-            "members": [
+            members: [
               {
                 href: api_v3_paths.user(members.last.id)
               },

@@ -114,7 +114,7 @@ class BackupJob < ::ApplicationJob
 
   def remove_files!(*files)
     Array(files).each do |file|
-      FileUtils.rm file if File.exists? file
+      FileUtils.rm file if File.exist? file
     end
   end
 
@@ -142,6 +142,9 @@ class BackupJob < ::ApplicationJob
   end
 
   def create_backup_archive!(file_name:, db_dump_file_name:, attachments: attachments_to_include)
+    paths_to_clean = []
+    clean_up = OpenProject::Configuration.remote_storage?
+
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
         # If an attachment is destroyed on disk, skip i
@@ -151,14 +154,35 @@ class BackupJob < ::ApplicationJob
         path = diskfile.path
 
         zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
+
+        paths_to_clean << get_cache_folder_path(attachment) if clean_up && attachment.file.cached?
       end
 
       zipfile.get_output_stream("openproject.sql") { |f| f.write File.read(db_dump_file_name) }
     end
 
+    remove_paths! paths_to_clean # delete locally cached files that were downloaded just for the backup
+
     @archived = true
 
     file_name
+  end
+
+  def remove_paths!(paths)
+    paths.each do |path|
+      FileUtils.rm_rf path
+    end
+  end
+
+  def get_cache_folder_path(attachment)
+    # expecting paths like /tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext
+    # just making extra sure so we don't delete anything wrong later on
+    unless attachment.diskfile.path =~ /#{attachment.file.cache_dir}\/[^\/]+\/[^\/]+/
+      raise "Unexpected cache path for attachment ##{attachment.id}: #{attachment.diskfile}"
+    end
+
+    # returning parent as each cached file is in a separate folder which shall be removed too
+    Pathname(attachment.diskfile.path).parent.to_s
   end
 
   def attachments_to_include

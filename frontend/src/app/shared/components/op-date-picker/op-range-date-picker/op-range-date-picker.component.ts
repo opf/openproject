@@ -1,6 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  ChangeDetectionStrategy, Input, Output,
+  Input,
+  Output,
 } from '@angular/core';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
@@ -8,7 +10,6 @@ import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker
 import { AbstractDatePickerDirective } from 'core-app/shared/components/op-date-picker/date-picker.directive';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export const rangeSeparator = '-';
 
@@ -24,10 +25,6 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
 
   initialValue = '';
 
-  constructor(protected timezoneService:TimezoneService) {
-    super(timezoneService);
-  }
-
   protected initializeDatepicker():void {
     this.initialDates = this.initialDates || [];
     this.initialValue = this.resolveDateArrayToString(this.initialDates);
@@ -35,7 +32,7 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
     const options = {
       allowInput: true,
       appendTo: this.appendTo,
-      mode: 'range',
+      mode: 'range' as const,
       onChange: (selectedDates:Date[], dateStr:string) => {
         if (this.isEmpty()) {
           return;
@@ -64,6 +61,8 @@ export class OpRangeDatePickerComponent extends AbstractDatePickerDirective {
       `#${this.id}`,
       initialValue,
       options,
+      null,
+      this.configurationService,
     );
   }
 

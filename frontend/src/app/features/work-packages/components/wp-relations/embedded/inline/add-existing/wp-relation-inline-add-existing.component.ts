@@ -36,7 +36,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -57,7 +57,7 @@ export class WpRelationInlineAddExistingComponent {
 
   constructor(protected readonly parent:WorkPackageInlineCreateComponent,
     @Inject(WorkPackageInlineCreateService) protected readonly wpInlineCreate:WpRelationInlineCreateServiceInterface,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected wpRelations:WorkPackageRelationsService,
     protected notificationService:WorkPackageNotificationService,
     protected halEvents:HalEventsService,

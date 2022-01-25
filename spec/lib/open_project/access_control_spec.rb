@@ -156,7 +156,7 @@ describe OpenProject::AccessControl do
 
       it 'includes actions' do
         expect(subject.controller_actions)
-          .to include('project_settings/show')
+          .to include('projects/settings/general/show')
       end
     end
   end

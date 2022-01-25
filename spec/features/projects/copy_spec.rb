@@ -76,7 +76,7 @@ describe 'Projects copy',
       FactoryBot.create(:role,
                         permissions: permissions)
     end
-    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages) }
+    let(:permissions) { %i(copy_projects edit_project add_subprojects manage_types view_work_packages select_custom_fields) }
     let(:wp_user) do
       user = FactoryBot.create(:user)
 

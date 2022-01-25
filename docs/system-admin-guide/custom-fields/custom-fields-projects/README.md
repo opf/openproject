@@ -41,7 +41,7 @@ To do this navigate to a project and select *Project settings* from the side men
 
 
 
-If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/#view-all-projects) overview.
+If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/#global-projects-overview---view-all-projects) overview.
 
 Navigate to this project list by selecting *View all projects* from the project selection menu on the top left side.
 
@@ -52,7 +52,7 @@ In the list of all projects you will see the project custom fields displayed as 
 ![Sys-admin-display-project-custom-field](Sys-admin-display-project-custom-field.png)
 
 <div class="alert alert-info" role="alert">
-**Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-project-overview-list) for the projects overview list.
+**Please note**: The visibility settings of the project custom fields will be overruled by [these settings](../../system-settings/project-system-settings/#settings-for-the-projects-overview-list) for the projects overview list.
 </div>
 
 To change the **order of the project custom fields' columns**, change it in -> *Administration* -> *Custom fields* by using the sorting **arrows**.

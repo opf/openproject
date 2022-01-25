@@ -317,6 +317,10 @@ fil:
       other: '%{count} work package descendants'
     bulk:
       could_not_be_saved: "The following work packages could not be saved:"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
+      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
+      descendant: "descendant of selected"
     move:
       no_common_statuses_exists: "There is no status available for all selected work packages. Their status cannot be changed."
       unsupported_for_multiple_projects: 'Ang bulk na paglipat/kopya ay hindi suportado sa mga work packages mula sa iba''t ibang mga proyekto'
@@ -460,6 +464,7 @@ fil:
         url: "Ang URL"
       role:
         assignable: "Ang mga work package ay maaring nakatalaga sa mga gumagamit at grupo sa possesyon ng tungkulin na ito sa nakatalagang proyekto"
+        permissions: "Mga pahintulot"
       time_entry:
         activity: "Aktibidad"
         hours: "Mga oras"
@@ -588,7 +593,9 @@ fil:
         attachment:
           attributes:
             content_type:
-              not_whitelisted: "is set to '%{value}', which is not whitelisted for uploading."
+              blank: "The content type of the file cannot be blank."
+              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              format: "%{message}"
         capability:
           context:
             global: 'Global'
@@ -671,7 +678,6 @@ fil:
           filters:
             custom_fields:
               inexistent: "Walang pasadyang patlabg para sa pag-sala."
-              invalid: "Ang pasadyang patlang ay hindi balido sa ibinigay na konteksto."
         queries/filters/base:
           attributes:
             values:
@@ -735,6 +741,7 @@ fil:
               does_not_exist: "Ang tinukoy na kategorya ay hindi umiiral."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "dapat >= 0."
+          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
         type:
           attributes:
             attribute_groups:
@@ -745,6 +752,11 @@ fil:
               group_without_name: "Wala pangalan ng grupo ay hindi pinapayagan."
         user:
           attributes:
+            base:
+              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+            password_confirmation:
+              confirmation: "Password confirmation does not match password."
+              format: "%{message}"
             password:
               weak: "Dapat naglalaman ng mga karakter sa mga sumusunod na klase (kahit na %{min_count} sa %{all_count}): %{rules}."
               lowercase: "lowercase (e.g. 'a')"
@@ -846,7 +858,7 @@ fil:
     id: "ID"
     is_default: "Ang default na halaga"
     is_for_all: "Para sa lahat ng mga proyekto"
-    is_public: "Publiko"
+    public: "Publiko"
     #kept for backwards compatibility
     issue: "Work package"
     lastname: "Huling pangalan"
@@ -856,7 +868,6 @@ fil:
     password: "Password"
     priority: "Ang prayoridad"
     project: "Proyekto"
-    public: "Publiko"
     responsible: "Accountable"
     role: "Tungkulin"
     roles: "Ang mga tungkulin"
@@ -1193,7 +1204,9 @@ fil:
   error_can_not_archive_project: "This project cannot be archived: %{errors}"
   error_can_not_delete_entry: "Hindi mabura na entry"
   error_can_not_delete_custom_field: "Hindi mabura ang custom field"
-  error_can_not_delete_type: "Itong uri ay naglalaman ng mga work package at hindi pwedeng burahin."
+  error_can_not_delete_type:
+    explanation: 'This type contains work packages and cannot be deleted. You can see all affected work packages in <a target="_blank" href="%{url}">this view</a>.'
+    archived_projects: 'There are also work packages in archived projects. You need to reactivate the following projects first, before you can change the type of the respective work packages: %{archived_projects}'
   error_can_not_delete_standard_type: "Ang mga uri ng pamantayan na hindi maaring burahin."
   error_can_not_invite_user: "Nabigong ipadala ang imbiyltasyon sa gumagamit."
   error_can_not_remove_role: "Itong tungkulin ay ginamit pa at hindi pwedeng burahin."
@@ -1274,7 +1287,7 @@ fil:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ingles"
+  general_lang_name: "Filipino"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hindi"
   general_text_yes: "oo"
@@ -1340,6 +1353,23 @@ fil:
         mentioned: "You have been mentioned in %{work_package}"
         responsible: "You have become accountable for %{work_package}"
         watched: "You are watching %{work_package}"
+    update_info_mail:
+      body: >
+        We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
+
+        Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
+
+        This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
+
+        Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
+
+        We hope you find in-app notifications useful and that they makes you even more productive.
+
+        Sincerely,
+        The OpenProject team
+      body_header: 'Version 12.0 with Notification Center'
+      body_subheader: 'Mga balita'
+      subject: 'Important changes to notifications with the release of 12.0'
   label_accessibility: "Aksibilidad"
   label_account: "Akawnt"
   label_active: "Aktibo"
@@ -1594,6 +1624,10 @@ fil:
   label_member_plural: "Mga miyembro"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Pangalan ng pagpipiliang aytem"
   label_message: "Mensahe"
   label_message_last: "Huling mensahe"
@@ -1699,7 +1733,6 @@ fil:
   label_public_projects: "Publikong proyekto"
   label_query_new: "Bagong query"
   label_query_plural: "Ang mga custom query"
-  label_query_menu_item: "Aytem ng query na pagpipilian"
   label_read: "Basahin..."
   label_register: "Gumawa ng bagong akwant"
   label_register_with_developer: "Pagrehistro bilang developer"
@@ -1860,20 +1893,20 @@ fil:
   label_workflow_plural: "Daloy ng trabaho"
   label_workflow_summary: "Buod"
   label_x_closed_work_packages_abbr:
-    one: "1 closed"
-    other: "%{count} closed"
+    one: "Isa ang isinara"
+    other: "%{count} ang isinara"
     zero: "0 closed"
   label_x_comments:
-    one: "1 comment"
-    other: "%{count} comments"
+    one: "Isang komento"
+    other: "%{count} mga komento"
     zero: "no comments"
   label_x_open_work_packages_abbr:
-    one: "1 open"
-    other: "%{count} open"
+    one: "Isa ang bukas"
+    other: "%{count} ang bukas"
     zero: "0 open"
   label_x_projects:
-    one: "1 project"
-    other: "%{count} projects"
+    one: "Isang proyekto"
+    other: "%{count} mga proyekto"
     zero: "no projects"
   label_yesterday: "kahapon"
   label_role_type: "Uri"
@@ -2145,9 +2178,9 @@ fil:
   permission_protect_wiki_pages: "Protektahan ang mga wiki package"
   permission_rename_wiki_pages: "Baguhin ang pangalan ng mga wiki na pahina"
   permission_save_queries: "Save views"
+  permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Piliin ang mga proyektong modyul"
   permission_manage_types: "Pumili ng mga uri"
-  permission_view_calendar: "Tanawin ang kalendaryo"
   permission_view_changesets: "Tingnan ang mga repository revision ng OpenProject"
   permission_view_commit_author_statistics: "Tanawin ang commit"
   permission_view_work_package_watchers: "Tanawin ang mga manunuod ng listahan"
@@ -2183,7 +2216,6 @@ fil:
       archived: "Archived"
   project_module_activity: "Aktibidad"
   project_module_forums: "Mga forum"
-  project_module_calendar: "Kalendaryo"
   project_module_work_package_tracking: "Ang pagtra-track ng work package"
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
@@ -2807,7 +2839,6 @@ fil:
   wiki_menu_item_new_main_item_explanation: >
     Ikay ay nagtatanggal sa tanging pangunahing aytem sa wiki na pagpipilian. Ikaw ay pwede nang makapili ng isang pahinang wiki kung saan ang isang bagong pangunahing aytem ay magiging buo. Para matanggal ang wiki ang modyul na wiki ay hindi aktibo sa pamamagitan ng mga administrador sa proyekto.
   wiki_menu_item_delete_not_permitted: Ang wiki na aytem na pagpipilian sa pahinang wiki lamang ay hindi maibura.
-  query_menu_item_for: "Aytem na pagpipilian sa query \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2866,6 +2897,7 @@ fil:
       schema: 'Iskema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'

@@ -1,0 +1,90 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+lol:
+  activerecord:
+    attributes:
+      meeting:
+        location: "crwdns494323:0crwdne494323:0"
+        duration: "crwdns494325:0crwdne494325:0"
+        participants: "crwdns494327:0crwdne494327:0"
+        participants_attended: "crwdns494329:0crwdne494329:0"
+        participants_invited: "crwdns494331:0crwdne494331:0"
+        start_time: "crwdns494333:0crwdne494333:0"
+        start_time_hour: "crwdns494335:0crwdne494335:0"
+    errors:
+      messages:
+        invalid_time_format: "crwdns494337:0crwdne494337:0"
+    models:
+      meeting_agenda: "crwdns494339:0crwdne494339:0"
+      meeting_minutes: "crwdns494341:0crwdne494341:0"
+  description_attended: "crwdns494343:0crwdne494343:0"
+  description_invite: "crwdns494345:0crwdne494345:0"
+  events:
+    meeting: crwdns494347:0crwdne494347:0
+    meeting_agenda: crwdns494349:0crwdne494349:0
+    meeting_agenda_closed: crwdns494351:0crwdne494351:0
+    meeting_agenda_opened: crwdns494353:0crwdne494353:0
+    meeting_minutes: crwdns494355:0crwdne494355:0
+    meeting_minutes_created: crwdns494357:0crwdne494357:0
+  error_notification_with_errors: "crwdns494359:0%{recipients}crwdne494359:0"
+  label_meeting: "crwdns494361:0crwdne494361:0"
+  label_meeting_plural: "crwdns494363:0crwdne494363:0"
+  label_meeting_new: "crwdns494365:0crwdne494365:0"
+  label_meeting_edit: "crwdns494367:0crwdne494367:0"
+  label_meeting_agenda: "crwdns494369:0crwdne494369:0"
+  label_meeting_minutes: "crwdns494371:0crwdne494371:0"
+  label_meeting_close: "crwdns494373:0crwdne494373:0"
+  label_meeting_open: "crwdns494375:0crwdne494375:0"
+  label_meeting_agenda_close: "crwdns494377:0crwdne494377:0"
+  label_meeting_date_time: "crwdns494379:0crwdne494379:0"
+  label_meeting_diff: "crwdns494381:0crwdne494381:0"
+  label_notify: "crwdns494383:0crwdne494383:0"
+  label_icalendar: "crwdns494385:0crwdne494385:0"
+  label_version: "crwdns494387:0crwdne494387:0"
+  label_time_zone: "crwdns494389:0crwdne494389:0"
+  label_start_date: "crwdns494391:0crwdne494391:0"
+  meeting:
+    copied: "crwdns494393:0%{id}crwdne494393:0"
+  notice_successful_notification: "crwdns494395:0crwdne494395:0"
+  notice_timezone_missing: crwdns494397:0%{zone}crwdne494397:0
+  permission_create_meetings: "crwdns494399:0crwdne494399:0"
+  permission_edit_meetings: "crwdns494401:0crwdne494401:0"
+  permission_delete_meetings: "crwdns494403:0crwdne494403:0"
+  permission_view_meetings: "crwdns494405:0crwdne494405:0"
+  permission_create_meeting_agendas: "crwdns494407:0crwdne494407:0"
+  permission_close_meeting_agendas: "crwdns494409:0crwdne494409:0"
+  permission_send_meeting_agendas_notification: "crwdns494411:0crwdne494411:0"
+  permission_create_meeting_minutes: "crwdns494413:0crwdne494413:0"
+  permission_send_meeting_minutes_notification: "crwdns494415:0crwdne494415:0"
+  permission_meetings_send_invite: "crwdns494417:0crwdne494417:0"
+  permission_send_meeting_agendas_icalendar: "crwdns494419:0crwdne494419:0"
+  project_module_meetings: "crwdns494421:0crwdne494421:0"
+  text_duration_in_hours: "crwdns494423:0crwdne494423:0"
+  text_in_hours: "crwdns494425:0crwdne494425:0"
+  text_meeting_agenda_for_meeting: 'crwdns494427:0%{meeting}crwdne494427:0'
+  text_meeting_closing_are_you_sure: "crwdns494429:0crwdne494429:0"
+  text_meeting_agenda_open_are_you_sure: "crwdns494431:0crwdne494431:0"
+  text_meeting_minutes_for_meeting: 'crwdns494433:0%{meeting}crwdne494433:0'
+  text_review_meeting_agenda: "crwdns494435:0%{author}crwdnd494435:0%{link}crwdne494435:0"
+  text_review_meeting_minutes: "crwdns494437:0%{author}crwdnd494437:0%{link}crwdne494437:0"
+  text_notificiation_invited: "crwdns494439:0crwdne494439:0"

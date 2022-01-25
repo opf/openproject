@@ -239,8 +239,8 @@ class BudgetsController < ApplicationController
     }
 
     if current_user.allowed_to?(permission, project)
-      response["#{element_id}_costs_text"] = number_to_currency(costs)
-      response["#{element_id}_cost_value"] = unitless_currency_number(costs)
+      response["#{element_id}_costs"] = number_to_currency(costs)
+      response["#{element_id}_cost_value"] = response["#{element_id}_amount"] = unitless_currency_number(costs)
     end
 
     response
@@ -279,7 +279,7 @@ class BudgetsController < ApplicationController
     reassign_to_id = params[:reassign_to_id]
     budget_id = params[:id]
 
-    budget_exists = Budget.visible(current_user).exists?(reassign_to_id) if params[:todo] == 'reassign'
+    budget_exists = Budget.visible(current_user).exists?(id: reassign_to_id) if params[:todo] == 'reassign'
     reassign_to = budget_exists ? reassign_to_id : nil
 
     WorkPackage
