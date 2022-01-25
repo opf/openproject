@@ -33,6 +33,8 @@ import { from, Observable, of } from "rxjs";
 import { share, switchMap } from "rxjs/operators";
 import { OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress } from './op-file-upload.service';
 
+import * as mime from "mime";
+
 interface PrepareUploadResult {
   url:string;
   form:FormData;
@@ -100,13 +102,16 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
     };
   }
 
-  public getDirectUploadFormFrom(url:string, file:UploadFile|UploadBlob):Promise<PrepareUploadResult> {
+  public async getDirectUploadFormFrom(url:string, file:UploadFile|UploadBlob):Promise<PrepareUploadResult> {
+    const fileName = file.customName || file.name;
+    const contentType = file.type || (fileName && mime.getType(fileName)) || '';
+
     const formData = new FormData();
     const metadata = {
       description: file.description,
-      fileName: file.customName || file.name,
+      fileName: fileName,
       fileSize: file.size,
-      contentType: file.type
+      contentType: contentType,
     };
 
     /*
@@ -121,28 +126,25 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
       JSON.stringify(metadata),
     );
 
-    const result = this
+    const result = await this
       .http
       .request<HalResource>(
-        "post",
+        'post',
         url,
         {
           body: formData,
           withCredentials: true,
-          responseType: "json" as any
-        }
+          responseType: 'json' as any,
+        },
       )
-      .toPromise()
-      .then((res) => {
-        const form = new FormData();
+      .toPromise();
 
-        _.each(res._links.addAttachment.form_fields, (value, key) => {
-          form.append(key, value);
-        });
+    const form = new FormData();
 
-        return { url: res._links.addAttachment.href, form: form, response: res };
-      });
+    _.each(result._links.addAttachment.form_fields, (value, key) => {
+      form.append(key, value);
+    });
 
-    return result;
+    return { url: result._links.addAttachment.href, form, response: result };
   }
 }

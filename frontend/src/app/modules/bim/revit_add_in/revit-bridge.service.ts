@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { distinctUntilChanged, filter, first, map, mapTo } from "rxjs/operators";
+import { distinctUntilChanged, filter, first, map } from "rxjs/operators";
 import { BcfViewpointInterface } from "core-app/modules/bim/bcf/api/viewpoints/bcf-viewpoint.interface";
 import { ViewerBridgeService } from "core-app/modules/bim/bcf/bcf-viewer-bridge/viewer-bridge.service";
 import { WorkPackageResource } from "core-app/modules/hal/resources/work-package-resource";
@@ -10,7 +10,10 @@ import { InjectField } from "core-app/helpers/angular/inject-field.decorator";
 
 declare global {
   interface Window {
-    RevitBridge:any;
+    RevitBridge:{
+      sendMessageToRevit:(messageType:string, trackingId:string, payload:string) => void,
+      sendMessageToOpenProject:(message:string) => void
+    };
   }
 }
 
@@ -18,7 +21,8 @@ declare global {
 export class RevitBridgeService extends ViewerBridgeService {
   public shouldShowViewer = false;
   public viewerVisible$ = new BehaviorSubject<boolean>(false);
-  private revitMessageReceivedSource = new Subject<{ messageType:string, trackingId:string, messagePayload:any }>();
+  private revitMessageReceivedSource =
+    new Subject<{ messageType:string, trackingId:string, messagePayload:BcfViewpointInterface }>();
   private trackingIdNumber = 0;
 
   @InjectField() viewpointsService:ViewpointsService;
@@ -37,7 +41,7 @@ export class RevitBridgeService extends ViewerBridgeService {
     }
   }
 
-  public viewerVisible() {
+  public viewerVisible():boolean {
     return this.viewerVisible$.getValue();
   }
 
@@ -50,41 +54,48 @@ export class RevitBridgeService extends ViewerBridgeService {
       .pipe(
         distinctUntilChanged(),
         filter(message => message.messageType === 'ViewpointData' && message.trackingId === trackingId),
-        first()
-      )
-      .pipe(
+        first(),
         map((message) => {
+          // FIXME: Deprecated code
+          // the handling of the message payload is only needed to be compatible to the revit add-in <= 2.3.2. In
+          // newer versions the message payload is sent correctly and needs no special treatment
           const viewpointJson = message.messagePayload;
 
+          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') &&
+            viewpointJson.snapshot.hasOwnProperty('snapshot_data')) {
+            // already correctly formatted payload
+            return viewpointJson;
+          }
+
+          // at this point snapshot data should be sent as a base64 string
           viewpointJson.snapshot = {
             snapshot_type: 'png',
-            snapshot_data: viewpointJson.snapshot,
+            snapshot_data: viewpointJson.snapshot as unknown as string,
           };
 
           return viewpointJson;
-        })
+        }),
       );
   }
 
-  public showViewpoint(workPackage:WorkPackageResource, index:number) {
+  public showViewpoint(workPackage:WorkPackageResource, index:number):void {
     this.viewpointsService
       .getViewPoint$(workPackage, index)
       .subscribe((viewpoint:BcfViewpointInterface) =>
         this.sendMessageToRevit(
           'ShowViewpoint',
           this.newTrackingId(),
-          JSON.stringify(viewpoint)
-        )
+          JSON.stringify(viewpoint),
+        ),
       );
   }
 
-  sendMessageToRevit(messageType:string, trackingId:string, messagePayload?:any) {
+  sendMessageToRevit(messageType:string, trackingId:string, messagePayload:string):void {
     if (!this.viewerVisible()) {
       return;
     }
 
-    const jsonPayload = messagePayload != null ? JSON.stringify(messagePayload) : null;
-    window.RevitBridge.sendMessageToRevit(messageType, trackingId, jsonPayload);
+    window.RevitBridge.sendMessageToRevit(messageType, trackingId, messagePayload);
   }
 
   private hookUpRevitListener() {
@@ -97,7 +108,7 @@ export class RevitBridgeService extends ViewerBridgeService {
       this.revitMessageReceivedSource.next({
         messageType: messageType,
         trackingId: trackingId,
-        messagePayload: messagePayload
+        messagePayload: messagePayload,
       });
     };
     this.viewerVisible$.next(true);

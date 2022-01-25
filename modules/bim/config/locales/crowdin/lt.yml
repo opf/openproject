@@ -15,8 +15,8 @@ lt:
       file_invalid: "Neteisingas BCF failas"
     x_bcf_issues:
       zero: 'Nėra BCF trūkumų'
-      one: 'Vienas BCF trūkumas'
-      other: '%{count} BCF trūkumai'
+      one: 'Viena BCF problema'
+      other: '%{count} BCF problemos'
     bcf_xml:
       xml_file: 'BCF XML failas'
       import_title: 'Importuoti'
@@ -101,7 +101,7 @@ lt:
           snapshot_data_blank: "būtina pateikti snapshot_data."
           unsupported_key: "Įtraukta nepalaikoma json savybė."
         bim/bcf/issue:
-          uuid_already_taken: "Negaliu suimportuoti BCF trūkumo, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF trūkumas jau buvo importuota į kitą projektą?"
+          uuid_already_taken: "Negaliu suimportuoti BCF problemos, nes sistemoje jau yra viena su tokiu pačiu GUID. Ar negalėjo taip būti, kad BCF problema jau buvo importuota į kitą projektą?"
   ifc_models:
     label_ifc_models: 'IFC modeliai'
     label_new_ifc_model: 'Naujas IFC modelis'

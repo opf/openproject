@@ -32,7 +32,7 @@ class Groups::UpdateService < ::BaseServices::Update
   protected
 
   def persist(call)
-    removed_users = call.result.group_users.select(&:marked_for_destruction?).map(&:user)
+    removed_users = groups_removed_users(call.result)
     member_roles = member_roles_to_prune(removed_users)
     project_ids = member_roles.pluck(:project_id)
     member_role_ids = member_roles.pluck(:id)
@@ -59,6 +59,10 @@ class Groups::UpdateService < ::BaseServices::Update
     call
   end
 
+  def groups_removed_users(group)
+    group.group_users.select(&:marked_for_destruction?).map(&:user).compact
+  end
+
   def remove_member_roles(member_role_ids)
     ::Groups::CleanupInheritedRolesService
       .new(model, current_user: user)
@@ -66,6 +70,8 @@ class Groups::UpdateService < ::BaseServices::Update
   end
 
   def member_roles_to_prune(users)
+    return MemberRole.none if users.empty?
+
     MemberRole
       .includes(member: :member_roles)
       .where(inherited_from: model.members.joins(:member_roles).select('member_roles.id'))

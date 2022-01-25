@@ -28,12 +28,12 @@ nl:
         title: "Pull requests"
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Git snippets kopiëren naar klembord
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
+          branch_name: Branch naam
+          commit_message: Commit bericht
+          cmd: Maak branch met lege commit
+          title: Snelle snippets voor Git
           copy_success: '✅ Copied!'
           copy_error: '❌ Copy failed!'
       tab_prs:
