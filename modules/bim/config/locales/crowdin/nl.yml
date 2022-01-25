@@ -4,9 +4,9 @@ nl:
     label_bim: 'BIM'
   bcf:
     label_bcf: 'BCF'
-    label_imported_failed: 'Failed imports of BCF topics'
-    label_imported_successfully: 'Successfully imported BCF topics'
-    issues: "Issues"
+    label_imported_failed: 'Mislukte import van BCF onderwerpen'
+    label_imported_successfully: 'Succesvol BCF onderwerpen geïmporteerd'
+    issues: "Problemen"
     recommended: 'aanbevolen'
     not_recommended: 'niet aanbevolen'
     no_viewpoints: 'Geen standpunten'
@@ -19,44 +19,44 @@ nl:
       other: '%{count} BCF issues'
     bcf_xml:
       xml_file: 'BCF XML bestand'
-      import_title: 'Import'
+      import_title: 'Importeren'
       export: 'Exporteren'
       import_update_comment: '(Bijgewerkt in BCF import)'
       import_failed: 'Kan BCF-bestand niet importeren: %{error}'
       import_failed_unsupported_bcf_version: 'Failed to read the BCF file: The BCF version is not supported. Please ensure the version is at least %{minimal_version} or higher.'
-      import_successful: 'Imported %{count} BCF issues'
-      import_canceled: 'BCF-XML import canceled.'
-      type_not_active: "The issue type is not activated for this project."
+      import_successful: 'Geïmporteerde %{count} BCF problemen'
+      import_canceled: 'BCF-XML import geannuleerd.'
+      type_not_active: "Het probleemtype is niet geactiveerd voor dit project."
       import:
         num_issues_found: '%{x_bcf_issues} staan in het BCF-XML bestand, hun details staan hieronder.'
         button_prepare: 'Import voorbereiden'
         button_perform_import: 'Import bevestigen'
         button_proceed: 'Proceed with import'
         button_back_to_list: 'Terug naar lijst'
-        no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
+        no_permission_to_add_members: 'U heeft niet voldoende rechten om deze als deelnemers aan het project toe te voegen.'
         contact_project_admin: 'Neem contact op met je projectbeheerder om hen als deelnemers toe te voegen en deze import opnieuw te starten.'
-        continue_anyways: 'Do you want to proceed and finish the import anyways?'
-        description: "Provide a BCF-XML v2.1 file to import into this project. You can examine its contents before performing the import."
-        invalid_types_found: 'Invalid topic type names found'
-        invalid_statuses_found: 'Invalid status names found'
-        invalid_priorities_found: 'Invalid priority names found'
+        continue_anyways: 'Wilt u doorgaan en de import toch afsluiten?'
+        description: "Geef een BCF-XML v2.1 bestand op om in dit project te importeren. U kunt de inhoud ervan bekijken voordat u de import uitvoert."
+        invalid_types_found: 'Ongeldige onderwerp type namen gevonden'
+        invalid_statuses_found: 'Ongeldige statusnamen gevonden'
+        invalid_priorities_found: 'Ongeldige prioriteitsnamen gevonden'
         invalid_emails_found: 'Ongeldige emailadressen gevonden'
         unknown_emails_found: 'Onbekende emailadressen gevonden'
-        unknown_property: 'Unknown property'
-        non_members_found: 'Non project members found'
-        import_types_as: 'Set all these types to'
-        import_statuses_as: 'Set all these statuses to'
-        import_priorities_as: 'Set all these priorities to'
+        unknown_property: 'Onbekende eigenschap'
+        non_members_found: 'Niet-projectdeelnemers gevonden'
+        import_types_as: 'Al deze types instellen op'
+        import_statuses_as: 'Al deze statussen instellen op'
+        import_priorities_as: 'Al deze prioriteiten instellen op'
         invite_as_members_with_role: 'Nodig hen uit als deelnemers voor het project "%{project}" met de rol'
         add_as_members_with_role: 'Voeg hen als deelnemers toe aan het project "%{project}" met rol'
         no_type_provided: 'Geen type opgegeven'
         no_status_provided: 'Geen status opgegeven'
-        no_priority_provided: 'No priority provided'
-        perform_description: "Do you want to import or update the issues listed above?"
-        replace_with_system_user: 'Replace them with "System" user'
-        import_as_system_user: 'Import them as "System" user.'
+        no_priority_provided: 'Geen prioriteit opgegeven'
+        perform_description: "Wilt u de hierboven vermelde problemen importeren of bijwerken?"
+        replace_with_system_user: 'Vervang ze door "Systeem" gebruiker'
+        import_as_system_user: 'Importeer ze als "Systeem" gebruiker.'
         what_to_do: "Wat wilt u doen?"
-        work_package_has_newer_changes: "Outdated! This topic was not updated as the latest changes on the server were newer than the \"ModifiedDate\" of the imported topic. However, comments to the topic were imported."
+        work_package_has_newer_changes: "Verouderd! Dit topic is niet geüpdatet omdat de laatste wijzigingen op de server nieuwer zijn dan de \"ModifiedDate\" van het geïmporteerde onderwerp. Opmerkingen over het onderwerp zijn echter geïmporteerd."
         bcf_file_not_found: "Failed to locate BCF file. Please start the upload process again."
   export:
     format:
@@ -66,12 +66,12 @@ nl:
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
   permission_view_linked_issues: "Bekijk alle BCF-kwesties"
-  permission_manage_bcf: "Import and manage BCF issues"
+  permission_manage_bcf: "BCF-problemen importeren en beheren"
   permission_delete_bcf: "Delete BCF issues"
   oauth:
     scopes:
-      bcf_v2_1: "Full access to the BCF v2.1 API"
-      bcf_v2_1_text: "Application will receive full read & write access to the OpenProject BCF API v2.1 to perform actions on your behalf."
+      bcf_v2_1: "Volledige toegang tot de BCF v2.1 API"
+      bcf_v2_1_text: "Toepassing zal volledige lees- en schrijftoegang krijgen tot de OpenProject BCF API v2.1 om namens u acties uit te voeren."
   activerecord:
     models:
       bim/ifc_models/ifc_model: "IFC model"
@@ -88,18 +88,18 @@ nl:
               ifc_attachment_missing: "No ifc file attached."
               invalid_ifc_file: "The provided file is not a valid IFC file."
         bim/bcf/viewpoint:
-          bitmaps_not_writable: "bitmaps is not writable as it is not yet implemented."
-          index_not_integer: "index is not an integer."
-          invalid_clipping_planes: "clipping_planes is invalid."
-          invalid_components: "components is invalid."
-          invalid_lines: "lines is invalid."
-          invalid_orthogonal_camera: "orthogonal_camera is invalid."
-          invalid_perspective_camera: "perspective_camera is invalid."
-          mismatching_guid: "The guid in the json_viewpoint does not match the model's guid."
-          no_json: "Is not a well structured json."
-          snapshot_type_unsupported: "snapshot_type needs to be either 'png' or 'jpg'."
-          snapshot_data_blank: "snapshot_data needs to be provided."
-          unsupported_key: "An unsupported json property is included."
+          bitmaps_not_writable: "bitmaps zijn niet beschrijfbaar omdat ze nog niet geïmplementeerd zijn."
+          index_not_integer: "index is geen geheel getal."
+          invalid_clipping_planes: "clipping_planes is ongeldig."
+          invalid_components: "componenten is ongeldig."
+          invalid_lines: "lijnen is ongeldig."
+          invalid_orthogonal_camera: "orthogonal_camera is ongeldig."
+          invalid_perspective_camera: "perspective_camera is ongeldig."
+          mismatching_guid: "De guid in het json_viewpoint komt niet overeen met de guid van het model."
+          no_json: "Is geen goed gestructureerde json."
+          snapshot_type_unsupported: "snapshot_type moet 'png' of 'jpg' zijn."
+          snapshot_data_blank: "Er moeten momentopnamen worden verstrekt."
+          unsupported_key: "Een niet-ondersteunde json-eigenschap is inbegrepen."
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:

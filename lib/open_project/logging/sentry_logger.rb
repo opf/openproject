@@ -7,7 +7,12 @@ module OpenProject
         def log(message, log_context = {})
           Sentry.configure_scope do |sentry_scope|
             build_sentry_context(sentry_scope, log_context.to_h)
-            Sentry.capture_message(message, level: sentry_level(log_context[:level]))
+
+            if log_context[:exception]
+              Sentry.capture_exception(log_context[:exception])
+            else
+              Sentry.capture_message(message, level: sentry_level(log_context[:level]))
+            end
           end
         end
 

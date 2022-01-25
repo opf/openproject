@@ -43,7 +43,7 @@ module LdapGroups
     def map_to_users(sync_group, entries)
       create_missing!(entries) if sync_group.sync_users
 
-      User.where(login: entries.keys)
+      User.where('LOWER(login) IN (?)', entries.keys.map(&:downcase))
     end
 
     ##

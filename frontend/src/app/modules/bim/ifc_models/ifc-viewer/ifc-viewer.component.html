@@ -15,12 +15,14 @@
     </div>
   </div>
 
-  <div *ngIf="modelCount"
+  <div #viewerContainer
+       *ngIf="modelCount"
        class="op-ifc-viewer--container xeokit-busy-modal-backdrop"
        data-qa-selector="op-ifc-viewer--container">
 
     <div class="op-ifc-viewer--toolbar op-ifc-viewer--model-canvas-overlay">
-      <div class="op-ifc-viewer--toolbar-container"
+      <div #toolbar
+           class="op-ifc-viewer--toolbar-container"
            data-qa-selector="op-ifc-viewer--toolbar-container">
       </div>
 
@@ -46,11 +48,13 @@
       </a>
     </div>
 
-    <canvas class="op-ifc-viewer--nav-cube-canvas op-ifc-viewer--model-canvas-overlay"
+    <canvas #navCubeCanvas
+            class="op-ifc-viewer--nav-cube-canvas op-ifc-viewer--model-canvas-overlay"
             data-qa-selector="op-ifc-viewer--nav-cube-canvas"></canvas>
   </div>
 
-  <div class="op-ifc-viewer--inspector-container"
+  <div #inspectorPane
+       class="op-ifc-viewer--inspector-container"
        [class.op-ifc-viewer--inspector-container-hidden]="!(inspectorVisible$ | async)"
        data-qa-selector="op-ifc-viewer--inspector-container">
   </div>

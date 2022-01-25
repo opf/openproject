@@ -4,12 +4,12 @@ lt:
       ldap_groups/synchronized_group:
         dn: 'DN'
         auth_source: 'LDAP jungtis'
-        sync_users: 'Sinchronizuoti vartotojus'
+        sync_users: 'Sinchronizuoti naudotojus'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP filtras'
         auth_source: 'LDAP jungtis'
         group_name_attribute: "Grupės pavadinimo atributas"
-        sync_users: 'Sinchronizuoti vartotojus'
+        sync_users: 'Sinchronizuoti naudotojus'
         base_dn: "Paieškos pagrindo DN"
     models:
       ldap_groups/synchronized_group: 'Sinchronizuota LDAP grupė'
@@ -39,8 +39,8 @@ lt:
         removed_groups: "Dėmesio: Tai OpenProjecte panaikins tokias grupes ir ištrins jas iš visų projektų!"
         verification: "Naikinimo patvirtinimui įveskite filtro vardą %{name}."
       form:
-        group_name_attribute_text: 'Įveskite LDAP grupės atributą, kuris bus naudojamas nustatyti OpenProject grupės pavadinimą.'
-        filter_string_text: 'Įveskite RFC4515 LDAP filtrą, kuris iš jūsų LDAP praleidžia reikalingas sinchronizavimui su OpenProjectu grupes.'
+        group_name_attribute_text: 'Įveskite LDAP grupės atributą, kuris bus naudojamas nustatant OpenProject grupės pavadinimą.'
+        filter_string_text: 'Įveskite RFC4515 LDAP filtrą, kuris iš jūsų LDAP grąžina sinchronizavimui su OpenProjectu reikalingas grupes.'
         base_dn_text: >
           Įveskite paieškos pagrindo DN norėdami naudoti šį filtrą. Jis turi būti pasirinktos LDAP jungties pagrindo DN viduje.
           Palikite šį nustatymą tuščia, jei norite naudoti LDAP jungties pagrindo DN.
@@ -64,7 +64,7 @@ lt:
       form:
         auth_source_text: 'Pasirinkite kuri LDAP jungtis turėtų būti naudojama.'
         sync_users_text: >
-          Jei jūs įjungsite šį nustatymą, visiems rastiems vartotojams bus automatiškai sukurti OpenProject vartotojai. Neįjungus, tik dabar esantys OpenProject vartotojai bus pridėti į grupes.
+          Jei jūs įjungsite šį nustatymą, visiems rastiems naudotojams bus automatiškai sukurti OpenProject naudotojai. Neįjungus, tik dabar esantys OpenProject naudotojai bus pridėti į grupes.
         dn_text: 'Įveskite LDAP grupės pilną DN.'
         group_text: 'Parinkite esamą OpenProject grupę, su kuria būtų sinchronizuojami LDAP grupės nariai'
 
