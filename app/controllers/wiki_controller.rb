@@ -341,13 +341,13 @@ class WikiController < ApplicationController
     page = page_for_menu_item(page)
 
     menu_item = page.try(:menu_item)
+    return menu_item.menu_identifier if menu_item.present?
+    return unless page
 
-    if menu_item.present?
-      menu_item.menu_identifier
-    elsif page.present?
-      menu_item = default_menu_item(page)
-      "no-menu-item-#{menu_item&.menu_identifier || 'unknown'}".to_sym
-    end
+    default_item = default_menu_item(page)
+    return unless default_item
+
+    "no-menu-item-#{default_item.menu_identifier}".to_sym
   end
 
   private
