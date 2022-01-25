@@ -30,22 +30,6 @@ get:
         application/hal+json:
           schema:
             $ref: '#/components/schemas/File_LinkModel'
-      headers: { }
-    '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "#/components/schemas/ErrorResponse"
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not allowed to delete file links of this work package.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-        
-        **Required permission:** view file links
-        
-        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
     '404':
       content:
         application/hal+json:
@@ -58,7 +42,7 @@ get:
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view work package
+        **Required permission:** view work package, view file links
 
 delete:
   summary: Removes a file link.
@@ -88,7 +72,6 @@ delete:
   responses:
     '200':
       description: OK
-      headers: { }
     '403':
       content:
         application/hal+json:
@@ -97,7 +80,7 @@ delete:
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not allowed to delete file links of this work package.
+            message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -114,6 +97,7 @@ delete:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
       description: |-
-        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+        Returned if the work package or the file link does not exist or the client does not have sufficient permissions
+        to see it.
 
-        **Required permission:** view work package
+        **Required permission:** view work package, view file links

@@ -31,20 +31,12 @@ post:
           type: object
           required:
             - _type
-            - count
-            - total
             - _embedded
           properties:
             _type:
               type: string
               enum:
                 - Collection
-            count:
-              type: integer
-              minimum: 0
-            total:
-              type: integer
-              minimum: 0
             _embedded:
               type: object
               required:
@@ -62,6 +54,23 @@ post:
                           storageUrl:
                             type: string
                             format: uri
+        example:
+          _type: Collection
+          _embedded:
+            elements:
+              - originData:
+                  id: 5503
+                  name: logo.png
+                  mimeType: image/png
+                  createdAt: '2021-12-19T09:42:10.170Z'
+                  lastModifiedAt: '2021-12-20T14:00:13.987Z'
+                  createdByName: Luke Skywalker
+                  lastModifiedByName: Anakin Skywalker
+                _links:
+                  storageUrl:
+                    href: https://nextcloud.deathstar.rocks/
+                    title: Link to storage
+          
   responses:
     '201':
       description: Created
@@ -112,7 +121,7 @@ post:
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not allowed to create file links of this work package.
+            message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -131,7 +140,7 @@ post:
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view work package
+        **Required permission:** view work package, view file links
 get:
   summary: Gets all file links of a work package
   operationId: Work_Package_Get_File_Links
@@ -190,7 +199,7 @@ get:
           example:
             _type: Error
             errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not allowed to create file links of this work package.
+            message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
         

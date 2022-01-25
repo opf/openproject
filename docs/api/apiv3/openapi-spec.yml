@@ -322,6 +322,8 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages/{id}":
+    "$ref": "./paths/storage.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -667,6 +669,8 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageModel:
+      "$ref": "./components/schemas/storage_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:

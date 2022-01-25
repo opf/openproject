@@ -1,6 +1,6 @@
 # /api/v3/work_packages/{id}/file_links/{file_link_id}/download
 ---
-post:
+get:
   summary: Creates a download uri of the linked file.
   operationId: Work_Package_File_Link_Download
   tags:
@@ -25,28 +25,15 @@ post:
         type: integer
       example: 42
   responses:
-    '200':
-      description: OK
-      content:
-        application/hal+json:
+    '303':
+      headers:
+        Location:
           schema:
-            $ref: '#/components/schemas/Link'
-      headers: { }
-    '403':
-      content:
-        application/hal+json:
-          schema:
-            $ref: "#/components/schemas/ErrorResponse"
-          example:
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-            message: You are not allowed to delete file links of this work package.
+            type: string
+            format: uri
       description: |-
-        Returned if the client does not have sufficient permissions.
-        
-        **Required permission:** view file links
-        
-        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+        Returned if the request was succesful. In the `Location` header is the uri where the client can download the
+        origin file from the storage.
     '404':
       content:
         application/hal+json:
@@ -59,4 +46,4 @@ post:
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
-        **Required permission:** view work package
+        **Required permission:** view work package, view file links
