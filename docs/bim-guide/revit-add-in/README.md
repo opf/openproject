@@ -40,6 +40,69 @@ If you can answer all questions with "yes" you are ready to start using our Revi
 
 
 
+## How to install?
+
+
+
+### System Requirements
+
+The **OpenProject Revit AddIn** does not have any special system requirements. Autodesk Revit must be installed. The following versions of Revit are supported:
+
+- 2019
+- 2020
+- 2021
+
+
+
+### Download the Installer
+
+To download the setup application for the **OpenProject Revit AddIn**, click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
+
+You can find the latest version of our AddIn on [Github](https://github.com/opf/openproject-revit-add-in/releases/latest) as well.
+
+
+
+### Installation 
+
+After you have downloaded the file, please run it to start the installation process.
+
+1. **Start Installation process**
+   In the first screen, click *Next* to continue: 
+
+<img src="https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-01.png" alt="Installation Step 01" style="zoom:80%;" />
+
+
+
+2. **Select Revit Version**
+
+   Next, select the Revit version you have installed locally and click *Next* to continue. You can select multiple versions:
+
+![Installation Step 02](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-02.png)
+
+
+
+3. **Start Installation**
+
+   Verify the installation steps are correct in the next screen and click on *Install* to install the **OpenProject Revit AddIn**:
+
+![Installation Step 03](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-03.png)
+
+
+
+4. **Ready to use**
+
+   Please wait a few moments for the installation to complete and then click *Finish* to finish the installation.
+
+
+
+## How to update from an Earlier Version?
+
+If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install?](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
+
+
+
+
+
 ## How to login?
 
 After Installing the OpenProject BIM AddIn you can find a new tab within the Revit taskbar named "OpenProject". To login you have to open the **settings** first.
@@ -102,11 +165,19 @@ To open a BIM Issue (BCF) and restore the viewpoint you have to navigate to the 
 
 
 
+@Valentin: Hier noch n bisschen drauf eingehen, dass die Bedienung genauso ist wie beim BCF Management (mit Link), die wenigen Unterschiede:
+
+* dass dem IFC Veiwer wird Revit verwendet wird
+* weniger Platz ==> reduzierte Ansicht 
+* dass ein paar wenige Bedienelemente des Browsers fehlen, die man evtl. gewohnt ist (zurück button)
+
 
 
 ## Synchronize Tasks between Revit and OpenProject
 
-OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. 
+OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. Whatever you do, users of OpenProject BIM Edition will see any changes in the browser as well.  
+
+
 
 ![OpenProject BIM - Synchronization](OpenProject_BIM_Synchronization.png)
 
@@ -114,64 +185,7 @@ OpenProject BIM and Revit automatically synchronize all BIM work packages. You d
 
 
 
-## How to install?
 
-
-
-### System Requirements
-
-The **OpenProject Revit AddIn** does not have any special system requirements. Autodesk Revit must be installed. The following versions of Revit are supported:
-
-- 2019
-- 2020
-- 2021
-
-
-
-### Download the Installer
-
-To download the setup application for the **OpenProject Revit AddIn**, click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
-
-You can find the latest version of our AddIn on [Github](https://github.com/opf/openproject-revit-add-in/releases/latest) as well.
-
-
-
-### Installation 
-
-After you have downloaded the file, please run it to start the installation process.
-
-1. **Start Installation process**
-   In the first screen, click *Next* to continue: 
-
-<img src="https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-01.png" alt="Installation Step 01" style="zoom:80%;" />
-
-
-
-2. **Select Revit Version**
-
-   Next, select the Revit version you have installed locally and click *Next* to continue. You can select multiple versions:
-
-![Installation Step 02](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-02.png)
-
-
-
-3. **Start Installation**
-
-   Verify the installation steps are correct in the next screen and click on *Install* to install the **OpenProject Revit AddIn**:
-
-![Installation Step 03](https://github.com/opf/openproject-revit-add-in/raw/master/docs/images/installation-step-03.png)
-
-
-
-4. **Ready to use**
-
-   Please wait a few moments for the installation to complete and then click *Finish* to finish the installation.
-
-
-
-## How to update from an Earlier Version?
-
-If you already have an earlier version installed, simply follow the same steps as for a new installation ([How to install?](#how-to-install)). The existing **OpenProject Revit AddIn** will be updated.
 
 
 
