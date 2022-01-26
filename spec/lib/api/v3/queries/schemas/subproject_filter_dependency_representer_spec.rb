@@ -53,7 +53,7 @@ describe ::API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter, cle
           [ancestor: { operator: '=', values: [project.id.to_s] }]
         end
         let(:href) do
-          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filters_params))}"
+          "#{api_v3_paths.projects}?filters=#{CGI.escape(JSON.dump(filters_params))}&pageSize=-1"
         end
 
         context "for operator 'Queries::Operators::Equals'" do

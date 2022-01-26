@@ -366,9 +366,8 @@ apiv3_cors_origins:
 apiv3_docs_enabled:
   default: true
   format: boolean
+apiv3_max_page_size:
+  default: 1000
 notification_retention_period_days:
   default: 30
   format: int
-attachment_whitelist:
-  serialized: true
-  default: []
