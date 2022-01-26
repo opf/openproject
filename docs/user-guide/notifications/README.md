@@ -10,15 +10,16 @@ keywords: notifications
 
 This section will introduce in-app notifications and explain how to work with them. 
 
+## Overview of in-app notifications in OpenProject
+
+
 In-app notifications are a tool to get notified about requests, changes and new assignments in OpenProject. The notifications can work as an alternative to email notification, or be used in parallel. This feature is enabled by default.
 
 ## Accessing in-app notifications
 
 Whenever you are getting in-app notification, a red elliptical with the number of notifications is displayed on the bell symbol on the upper right side of the OpenProject screen between the module button and the help button. (Please note, if there are more than 99 notifications, the elliptical will simply be red without a number in it).
 
-
-
-To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package. 
+To view the notifications, please left-click on the bell symbol. By default, your notifications are sorted by work package.
 
 ![notifications](IaN-1.png)
 
@@ -36,20 +37,21 @@ By clicking on a row in the notification center, you will see the details in the
 
 ![notification-center](notification-center-16366289566021.png)
 
+
 To make viewing notifications more manageable, OpenProject includes several ways to filter or group notifications.
 
 You can filter or group the notifications using the two areas in the left menu bar (1 and 2), or bulk edit notifications by selecting options in the top right (3) of the screen:
 
-1. **1**You can filter by your **involvement**, for example filter for notifications that originated from mentions (@mentioned), from work packages you were assigned to or were accountable for or are simply watching.
+1. ****You can filter by your **involvement**, for example filter for notifications that originated from mentions (@mentioned), from work packages you were assigned to or were accountable for or are simply watching.
 
-2. **2**You can filter by **project**, for example filter for notifications that originated from a specific project.
+2. You can filter by **project**, for example filter for notifications that originated from a specific project.
 
-3. **3**You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
+3. ****You can also filter notifications for "**Unread**" or "**All**" (Read and Unread) notifications, and "**Mark all as read**". Please note that the "**Mark all as read**" button only marks notifications that are currently in view. You may have to ultimately press "**Mark all as read**" multiple times to mark all of your notifications as read if you have a lot of them. The red elliptical will update the number of unread messages in real-time, and eventually disappear when there are no more unread notifications.
    To mark and individual message as read, click on the small envelope icon next to the blue notification bubble.
 
    ![mark-as-read](mark-as-read.png)
-
-4. The [**Notification settings**](./notification-settings/) button will bring you to your personal notification settings to configure your notification preferences.
+   
+4. The [**Notification settings**](/notification-settings) button will bring you to your personal notification settings to configure your notification preferences.
 
 5. When selecting any of the notifications, you can also view more **details in the split screen**, for example comments members made regarding a specific work package. Unread messages are indicated by a blue bubble. You can even edit directly in this view.
 

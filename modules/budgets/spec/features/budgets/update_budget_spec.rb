@@ -162,7 +162,7 @@ describe 'updating a budget', type: :feature, js: true do
 
         # Open first item
         budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
-        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_costs_edit")
+        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_amount")
 
         click_on 'OK'
         expect(budget_page).to have_content(I18n.t(:notice_successful_update, locale: :de))

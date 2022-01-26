@@ -34,6 +34,6 @@ class Queries::Notifications::NotificationQuery < Queries::BaseQuery
   end
 
   def default_scope
-    Notification.recipient(user)
+    Notification.visible(User.current).recipient(user)
   end
 end
