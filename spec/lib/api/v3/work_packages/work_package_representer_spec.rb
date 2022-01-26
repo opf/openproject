@@ -28,6 +28,7 @@
 
 require 'spec_helper'
 
+# rubocop:disable RSpec:MultipleMemoizedHelpers
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include ::API::V3::Utilities::PathHelper
 
@@ -53,20 +54,20 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   let(:budget) { build_stubbed(:budget, project: project) }
   let(:work_package) do
     build_stubbed(:stubbed_work_package,
-                             schedule_manually: schedule_manually,
-                             start_date: start_date,
-                             due_date: due_date,
-                             done_ratio: 50,
-                             parent: parent,
-                             type: type,
-                             project: project,
-                             priority: priority,
-                             assigned_to: assignee,
-                             responsible: responsible,
-                             estimated_hours: estimated_hours,
-                             derived_estimated_hours: derived_estimated_hours,
-                             budget: budget,
-                             status: status) do |wp|
+                  schedule_manually: schedule_manually,
+                  start_date: start_date,
+                  due_date: due_date,
+                  done_ratio: 50,
+                  parent: parent,
+                  type: type,
+                  project: project,
+                  priority: priority,
+                  assigned_to: assignee,
+                  responsible: responsible,
+                  estimated_hours: estimated_hours,
+                  derived_estimated_hours: derived_estimated_hours,
+                  budget: budget,
+                  status: status) do |wp|
       allow(wp)
         .to receive(:available_custom_fields)
         .and_return(available_custom_fields)
@@ -117,6 +118,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     allow(current_user)
       .to receive(:allowed_to?) do |permission, _context|
       permissions.include?(permission)
+    end
+  end
+
+  describe '.new' do
+    it 'is prevented as .create is to be used' do
+      expect { described_class.new(work_package, current_user: current_user, embed_links: embed_links) }
+        .to raise_error NoMethodError
     end
   end
 
@@ -1232,3 +1240,4 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
     end
   end
 end
+# rubocop:enable RSpec:MultipleMemoizedHelpers

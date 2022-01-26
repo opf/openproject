@@ -33,23 +33,23 @@ require_relative '../../../support/bcf_topic_with_stubbed_comment'
 describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   include API::V3::Utilities::PathHelper
   include API::Bim::Utilities::PathHelper
+  include_context 'user with stubbed permissions'
+  include_context 'bcf_topic with stubbed comment'
 
   let(:project) do
     work_package.project
   end
-  include_context 'user with stubbed permissions'
-  include_context 'bcf_topic with stubbed comment'
   let(:permissions) { %i[view_linked_issues view_work_packages manage_bcf] }
   let(:work_package) do
     build_stubbed(:stubbed_work_package, bcf_issue: bcf_topic)
   end
   let(:representer) do
-    described_class.new(work_package,
-                        current_user: user,
-                        embed_links: true)
+    described_class.create(work_package,
+                           current_user: user,
+                           embed_links: true)
   end
 
-  before(:each) do
+  before do
     login_as user
   end
 

@@ -35,9 +35,9 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
   let(:field_format) { 'bool' }
   let(:custom_field) do
     build(:custom_field,
-                     id: 1,
-                     field_format: field_format,
-                     is_required: true)
+          id: 1,
+          field_format: field_format,
+          is_required: true)
   end
 
   describe 'TYPE_MAP' do
@@ -74,10 +74,10 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       context 'with default set' do
         let(:custom_field) do
           build(:custom_field,
-                           id: 1,
-                           field_format: 'string',
-                           default_value: 'foo',
-                           is_required: true)
+                id: 1,
+                field_format: 'string',
+                default_value: 'foo',
+                is_required: true)
         end
 
         it_behaves_like 'has basic schema properties' do
@@ -132,7 +132,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     describe 'version custom field' do
       let(:custom_field) do
         build(:version_wp_custom_field,
-                         is_required: true)
+              is_required: true)
       end
 
       let(:assignable_versions) { build_list(:version, 3) }
@@ -143,7 +143,7 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
           .with(custom_field)
           .and_return(assignable_versions)
 
-        allow(::API::V3::Versions::VersionRepresenter).to receive(:new).and_return(double)
+        allow(::API::V3::Versions::VersionRepresenter).to receive(:create).and_return(double)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -209,8 +209,8 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
     describe 'user custom field' do
       let(:custom_field) do
         build(:custom_field,
-                         field_format: 'user',
-                         is_required: true)
+              field_format: 'user',
+              is_required: true)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -248,8 +248,8 @@ describe ::API::V3::Utilities::CustomFieldInjector, clear_cache: true do
       end
       let(:custom_field) do
         build(:custom_field,
-                         field_format: 'user',
-                         is_required: true)
+              field_format: 'user',
+              is_required: true)
       end
 
       it_behaves_like 'links to allowed values via collection link' do

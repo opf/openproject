@@ -49,7 +49,7 @@ module API
                                                raise "unsupported type"
                                              end
 
-                         representer_class.new(model, current_user: current_user)
+                         representer_class.create(model, current_user: current_user)
                        end
                      },
                      exec_context: :decorator,

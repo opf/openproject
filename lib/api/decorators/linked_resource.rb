@@ -228,7 +228,7 @@ module API
 
           ->(*) do
             represented.send(name)&.map do |associated|
-              representer.new(associated, current_user: current_user)
+              representer.create(associated, current_user: current_user)
             end
           end
         end
