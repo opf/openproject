@@ -84,7 +84,7 @@ export class CombinedDateEditFieldComponent extends DateEditFieldComponent imple
       .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
 
     setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.datepicker-modal');
+      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
       const field = jQuery(this.elementRef.nativeElement);
       modal.reposition(modalElement, field);
     });

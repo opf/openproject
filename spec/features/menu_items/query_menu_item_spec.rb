@@ -32,13 +32,13 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 RSpec.feature 'Query menu items', js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create :project }
+  let(:user) { create :admin }
+  let(:project) { create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
   let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:status) { FactoryBot.create :status }
+  let(:status) { create :status }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -52,13 +52,13 @@ RSpec.feature 'Query menu items', js: true do
 
   context 'with identical names' do
     let(:query_a) do
-      FactoryBot.create :query_with_view_work_packages_table,
+      create :query_with_view_work_packages_table,
                         public: true,
                         name: 'some query.',
                         project: project
     end
     let(:query_b) do
-      FactoryBot.create :query_with_view_work_packages_table,
+      create :query_with_view_work_packages_table,
                         public: true,
                         name: query_a.name,
                         project: project
@@ -74,7 +74,7 @@ RSpec.feature 'Query menu items', js: true do
 
   context 'with dots in their name' do
     let(:query) do
-      FactoryBot.create :query_with_view_work_packages_table,
+      create :query_with_view_work_packages_table,
                         public: true,
                         name: 'OP 3.0',
                         project: project
@@ -99,14 +99,14 @@ RSpec.feature 'Query menu items', js: true do
 
   describe 'renaming a menu item' do
     let(:query_a) do
-      FactoryBot.create :query_with_view_work_packages_table,
+      create :query_with_view_work_packages_table,
                         public: true,
                         name: 'bbbb',
                         project: project,
                         user: user
     end
     let(:query_b) do
-      FactoryBot.create :query_with_view_work_packages_table,
+      create :query_with_view_work_packages_table,
                         public: true,
                         name: 'zzzz',
                         project: project,

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Time entry activity', type: :feature do
-  shared_let(:admin) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project) }
+  shared_let(:admin) { create :admin }
+  let(:project) { create(:project) }
 
   before do
     login_as(admin)

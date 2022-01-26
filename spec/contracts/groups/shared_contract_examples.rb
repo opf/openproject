@@ -34,7 +34,7 @@ shared_examples_for 'group contract' do
   let(:group_name) { 'The group' }
   let(:group_users_user_ids) { [42, 43] }
   let(:group_users) do
-    group_users_user_ids.map { |id| FactoryBot.build_stubbed(:group_user, user_id: id) }
+    group_users_user_ids.map { |id| build_stubbed(:group_user, user_id: id) }
   end
 
   shared_context 'with real group users' do
@@ -42,7 +42,7 @@ shared_examples_for 'group contract' do
     # so GroupUser validations checking for the existance of group and user don't fail
     before do
       group_users_user_ids.each do |id|
-        FactoryBot.create :user, id: id
+        create :user, id: id
       end
     end
   end
@@ -52,7 +52,7 @@ shared_examples_for 'group contract' do
   end
 
   describe 'validations' do
-    let(:current_user) { FactoryBot.build_stubbed :admin }
+    let(:current_user) { build_stubbed :admin }
 
     context 'name' do
       context 'is valid' do
@@ -84,8 +84,8 @@ shared_examples_for 'group contract' do
 
     context 'groups_users' do
       let(:group_users) do
-        [FactoryBot.build_stubbed(:group_user, user_id: 1),
-         FactoryBot.build_stubbed(:group_user, user_id: 1)]
+        [build_stubbed(:group_user, user_id: 1),
+         build_stubbed(:group_user, user_id: 1)]
       end
 
       it_behaves_like 'contract is invalid', group_users: :taken

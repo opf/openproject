@@ -30,19 +30,19 @@ require 'spec_helper'
 
 describe ::Query::Results, 'sums', type: :model do
   let(:project) do
-    FactoryBot.create(:project).tap do |p|
+    create(:project).tap do |p|
       p.work_package_custom_fields << int_cf
       p.work_package_custom_fields << float_cf
     end
   end
   let(:other_project) do
-    FactoryBot.create(:project).tap do |p|
+    create(:project).tap do |p|
       p.work_package_custom_fields << int_cf
       p.work_package_custom_fields << float_cf
     end
   end
   let!(:work_package1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project,
                       estimated_hours: 5,
@@ -53,7 +53,7 @@ describe ::Query::Results, 'sums', type: :model do
                       story_points: 7)
   end
   let!(:work_package2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project,
                       assigned_to: current_user,
@@ -65,7 +65,7 @@ describe ::Query::Results, 'sums', type: :model do
                       story_points: 7)
   end
   let!(:work_package3) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: project,
                       assigned_to: current_user,
@@ -78,7 +78,7 @@ describe ::Query::Results, 'sums', type: :model do
                       story_points: 7)
   end
   let!(:invisible_work_package1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       type: type,
                       project: other_project,
                       estimated_hours: 5,
@@ -88,47 +88,47 @@ describe ::Query::Results, 'sums', type: :model do
                       story_points: 7)
   end
   let!(:cost_entry1) do
-    FactoryBot.create(:cost_entry,
+    create(:cost_entry,
                       project: project,
                       work_package: work_package1,
                       user: current_user,
                       overridden_costs: 200)
   end
   let!(:cost_entry2) do
-    FactoryBot.create(:cost_entry,
+    create(:cost_entry,
                       project: project,
                       work_package: work_package2,
                       user: current_user,
                       overridden_costs: 200)
   end
   let!(:time_entry1) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       project: project,
                       work_package: work_package1,
                       user: current_user,
                       overridden_costs: 300)
   end
   let!(:time_entry2) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       project: project,
                       work_package: work_package2,
                       user: current_user,
                       overridden_costs: 300)
   end
   let(:int_cf) do
-    FactoryBot.create(:int_wp_custom_field)
+    create(:int_wp_custom_field)
   end
   let(:float_cf) do
-    FactoryBot.create(:float_wp_custom_field)
+    create(:float_wp_custom_field)
   end
   let(:type) do
-    FactoryBot.create(:type).tap do |t|
+    create(:type).tap do |t|
       t.custom_fields << int_cf
       t.custom_fields << float_cf
     end
   end
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
@@ -137,7 +137,7 @@ describe ::Query::Results, 'sums', type: :model do
   end
   let(:group_by) { nil }
   let(:query) do
-    FactoryBot.build :query,
+    build :query,
                      project: project,
                      group_by: group_by
   end

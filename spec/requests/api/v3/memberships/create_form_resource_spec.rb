@@ -34,14 +34,14 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
-  let(:other_user) { FactoryBot.create(:user) }
+  let(:role) { create(:role, permissions: permissions) }
+  let(:other_user) { create(:user) }
   let(:permissions) { [:manage_members] }
 
   let(:path) { api_v3_paths.create_membership_form }
@@ -97,8 +97,8 @@ describe ::API::V3::Memberships::CreateFormAPI, content_type: :json do
     end
 
     context 'with all parameters' do
-      let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-      let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+      let!(:int_cf) { create(:int_version_custom_field) }
+      let!(:list_cf) { create(:list_version_custom_field) }
       let(:parameters) do
         {
           _links: {

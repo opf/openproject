@@ -32,7 +32,7 @@ require_relative './shared_contract_examples'
 describe Versions::UpdateContract do
   it_behaves_like 'version contract' do
     let(:version) do
-      FactoryBot.build_stubbed(:version,
+      build_stubbed(:version,
                                project: version_project,
                                description: version_description,
                                start_date: version_start_date,
@@ -69,7 +69,7 @@ describe Versions::UpdateContract do
         end
 
         context 'if the user is admin' do
-          let(:current_user) { FactoryBot.build_stubbed(:admin) }
+          let(:current_user) { build_stubbed(:admin) }
 
           it 'is a list of values' do
             expect(subject.assignable_values(:sharing, current_user))

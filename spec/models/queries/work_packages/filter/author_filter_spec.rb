@@ -33,7 +33,7 @@ describe Queries::WorkPackages::Filter::AuthorFilter, type: :model do
     let(:type) { :list }
     let(:class_key) { :author_id }
 
-    let(:user_1) { FactoryBot.build_stubbed(:user) }
+    let(:user_1) { build_stubbed(:user) }
 
     let(:principal_loader) do
       loader = double('principal_loader')

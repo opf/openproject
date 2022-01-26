@@ -31,7 +31,7 @@
 require 'spec_helper'
 
 describe WikiPages::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -57,7 +57,7 @@ describe WikiPages::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:wiki_page) do
-    FactoryBot.build_stubbed(:wiki_page_with_content)
+    build_stubbed(:wiki_page_with_content)
   end
 
   describe 'call' do

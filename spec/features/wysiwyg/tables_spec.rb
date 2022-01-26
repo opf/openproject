@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe 'Wysiwyg tables',
          type: :feature, js: true do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
   let(:user) { admin }
 
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   before do
@@ -318,7 +318,7 @@ describe 'Wysiwyg tables',
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) do
-        page = FactoryBot.build :wiki_page_with_content,
+        page = build :wiki_page_with_content,
                                 title: 'Wiki page with titles'
         page.content.text = <<~MARKDOWN
 

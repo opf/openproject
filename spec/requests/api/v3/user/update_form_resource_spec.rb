@@ -35,13 +35,13 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:text_custom_field) do
-    FactoryBot.create(:string_user_custom_field)
+    create(:string_user_custom_field)
   end
   shared_let(:list_custom_field) do
-    FactoryBot.create(:list_user_custom_field)
+    create(:list_user_custom_field)
   end
   shared_let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       "custom_field_#{text_custom_field.id}": "CF text",
                       "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
   end
@@ -62,7 +62,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
 
   context 'with authorized user' do
     shared_let(:current_user) do
-      FactoryBot.create(:user, global_permission: :manage_user)
+      create(:user, global_permission: :manage_user)
     end
 
     describe 'empty payload' do
@@ -165,7 +165,7 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   context 'with unauthorized user' do
-    let(:current_user) { FactoryBot.create :user }
+    let(:current_user) { create :user }
 
     it_behaves_like 'unauthorized access'
   end

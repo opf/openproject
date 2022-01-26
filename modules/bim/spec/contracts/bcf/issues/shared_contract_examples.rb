@@ -30,7 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'issues contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let!(:allowed_to) do
     allow(current_user)
@@ -39,8 +39,8 @@ shared_examples_for 'issues contract' do
     end
   end
   let(:issue_uuid) { 'issue uuid' }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:issue_work_package) { FactoryBot.build_stubbed(:stubbed_work_package, project: project) }
+  let(:project) { build_stubbed(:project) }
+  let(:issue_work_package) { build_stubbed(:stubbed_work_package, project: project) }
   let(:issue_work_package_id) do
     id = 5
 

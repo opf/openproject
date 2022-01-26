@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Grids::Schemas::GridSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:self_link) { '/a/self/link' }
   let(:embedded) { true }

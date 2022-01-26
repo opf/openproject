@@ -33,11 +33,11 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryBot.create(:project) }
-  let(:type) { FactoryBot.create(:type) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:project) { create(:project) }
+  let(:type) { create(:type) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   describe 'GET /api/v3/work_packages/schemas/filters=...' do
@@ -119,7 +119,7 @@ describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI, type: :request do
     end
 
     context 'not authorized' do
-      let(:role) { FactoryBot.create(:role, permissions: []) }
+      let(:role) { create(:role, permissions: []) }
 
       it 'returns HTTP 403' do
         expect(last_response.status).to eql(403)

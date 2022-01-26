@@ -34,8 +34,8 @@ describe CustomActions::Actions::Project, type: :model do
   let(:priority) { 10 }
 
   let(:allowed_values) do
-    projects = [FactoryBot.build_stubbed(:project),
-                FactoryBot.build_stubbed(:project)]
+    projects = [build_stubbed(:project),
+                build_stubbed(:project)]
     allow(Project)
       .to receive_message_chain(:select, :order)
             .and_return(projects)

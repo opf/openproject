@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Menu item traversal', type: :feature do
-  shared_let(:admin) { FactoryBot.create(:admin) }
+  shared_let(:admin) { create(:admin) }
 
   describe 'EnterpriseToken management' do
     before do
@@ -50,7 +50,7 @@ describe 'Menu item traversal', type: :feature do
   end
 
   describe 'route authorization', with_settings: { login_required?: false } do
-    let(:user) { FactoryBot.create :user }
+    let(:user) { create :user }
     let(:anon) { User.anonymous }
 
     let(:check_link) do

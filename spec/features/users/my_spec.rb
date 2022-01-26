@@ -34,7 +34,7 @@ describe 'my',
          js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       mail: 'old@mail.com',
                       login: 'bob',
                       password: user_password,
@@ -100,7 +100,7 @@ describe 'my',
         end
 
         context 'as admin' do
-          shared_let(:admin) { FactoryBot.create :admin }
+          shared_let(:admin) { create :admin }
           let(:user) { admin }
 
           it 'requires the password' do

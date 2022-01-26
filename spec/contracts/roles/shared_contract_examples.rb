@@ -30,7 +30,7 @@ require 'spec_helper'
 
 shared_examples_for 'roles contract' do
   let(:current_user) do
-    FactoryBot.build_stubbed(:admin)
+    build_stubbed(:admin)
   end
   let(:role_instance) { Role.new }
   let(:role_name) { 'A role name' }

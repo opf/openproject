@@ -32,29 +32,29 @@ describe 'Impediments on taskboard',
          type: :feature,
          js: true do
   let!(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       types: [story, task],
                       enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let!(:story) { FactoryBot.create(:type_feature) }
-  let!(:task) { FactoryBot.create(:type_task) }
-  let!(:priority) { FactoryBot.create(:default_priority) }
-  let!(:status) { FactoryBot.create(:status, is_default: true) }
-  let!(:other_status) { FactoryBot.create(:status) }
+  let!(:story) { create(:type_feature) }
+  let!(:task) { create(:type_task) }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:status, is_default: true) }
+  let!(:other_status) { create(:status) }
   let!(:workflows) do
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       old_status: status,
                       new_status: other_status,
                       role: role,
                       type_id: story.id)
-    FactoryBot.create(:workflow,
+    create(:workflow,
                       old_status: status,
                       new_status: other_status,
                       role: role,
                       type_id: task.id)
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i(view_taskboards
                                       add_work_packages
                                       view_work_packages
@@ -63,12 +63,12 @@ describe 'Impediments on taskboard',
                                       assign_versions))
   end
   let!(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_through_role: role)
   end
   let!(:task1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       status: status,
                       project: project,
                       type: task,
@@ -76,29 +76,29 @@ describe 'Impediments on taskboard',
                       parent: story1)
   end
   let!(:story1) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: story,
                       version: sprint)
   end
   let!(:other_task) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: task,
                       version: sprint,
                       parent: other_story)
   end
   let!(:other_story) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       type: story,
                       version: other_sprint)
   end
   let!(:sprint) do
-    FactoryBot.create(:version, project: project)
+    create(:version, project: project)
   end
   let!(:other_sprint) do
-    FactoryBot.create(:version, project: project)
+    create(:version, project: project)
   end
 
   before do

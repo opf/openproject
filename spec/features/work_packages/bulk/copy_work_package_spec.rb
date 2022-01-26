@@ -2,21 +2,21 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 describe 'Copy work packages through Rails view', js: true do
-  shared_let(:type) { FactoryBot.create :type, name: 'Bug' }
-  shared_let(:type2) { FactoryBot.create :type, name: 'Risk' }
+  shared_let(:type) { create :type, name: 'Bug' }
+  shared_let(:type2) { create :type, name: 'Risk' }
 
-  shared_let(:project) { FactoryBot.create(:project, name: 'Source', types: [type, type2]) }
-  shared_let(:project2) { FactoryBot.create(:project, name: 'Target', types: [type, type2]) }
+  shared_let(:project) { create(:project, name: 'Source', types: [type, type2]) }
+  shared_let(:project2) { create(:project, name: 'Target', types: [type, type2]) }
 
   shared_let(:dev) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Dev',
                       lastname: 'Guy',
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages]
   end
   shared_let(:mover) do
-    FactoryBot.create :user,
+    create :user,
                       firstname: 'Manager',
                       lastname: 'Guy',
                       member_in_projects: [project, project2],
@@ -29,18 +29,18 @@ describe 'Copy work packages through Rails view', js: true do
   end
 
   shared_let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: dev,
                       project: project,
                       type: type)
   end
   shared_let(:work_package2) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       author: dev,
                       project: project,
                       type: type)
   end
-  shared_let(:version) { FactoryBot.create :version, project: project2 }
+  shared_let(:version) { create :version, project: project2 }
 
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
@@ -95,7 +95,7 @@ describe 'Copy work packages through Rails view', js: true do
 
       context 'with a work package having a child' do
         let!(:child) do
-          FactoryBot.create(:work_package,
+          create(:work_package,
                             author: dev,
                             project: project,
                             type: type,
@@ -124,7 +124,7 @@ describe 'Copy work packages through Rails view', js: true do
 
       context 'when the target project does not have the type' do
         let!(:child) do
-          FactoryBot.create(:work_package,
+          create(:work_package,
                             author: dev,
                             project: project,
                             type: type,

@@ -31,10 +31,10 @@ require 'spec_helper'
 describe 'Journalized Objects' do
   describe 'journal_editable_by?' do
     context 'when the journable is a work package' do
-      let!(:user) { FactoryBot.create(:user, member_in_project: project, member_with_permissions: []) }
-      let!(:project) { FactoryBot.create(:project_with_types) }
+      let!(:user) { create(:user, member_in_project: project, member_with_permissions: []) }
+      let!(:project) { create(:project_with_types) }
       let!(:work_package) do
-        FactoryBot.create(:work_package,
+        create(:work_package,
                           type: project.types.first,
                           author: user,
                           project: project,

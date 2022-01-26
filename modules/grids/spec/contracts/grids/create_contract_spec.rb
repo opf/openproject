@@ -38,7 +38,7 @@ describe Grids::CreateContract do
   it_behaves_like 'shared grid contract attributes'
 
   describe 'type' do
-    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
+    let(:grid) { build_stubbed(:grid, default_values) }
 
     it_behaves_like 'is writable' do
       let(:attribute) { :type }
@@ -47,7 +47,7 @@ describe Grids::CreateContract do
   end
 
   describe 'user_id' do
-    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
+    let(:grid) { build_stubbed(:grid, default_values) }
 
     it_behaves_like 'is not writable' do
       let(:attribute) { :user_id }
@@ -56,7 +56,7 @@ describe Grids::CreateContract do
   end
 
   describe 'project_id' do
-    let(:grid) { FactoryBot.build_stubbed(:grid, default_values) }
+    let(:grid) { build_stubbed(:grid, default_values) }
 
     it_behaves_like 'is not writable' do
       let(:attribute) { :project_id }

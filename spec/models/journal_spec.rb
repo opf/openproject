@@ -39,10 +39,10 @@ describe Journal,
   end
 
   describe '#notifications' do
-    let(:work_package) { FactoryBot.create(:work_package) }
+    let(:work_package) { create(:work_package) }
     let(:journal) { work_package.journals.first }
     let!(:notification) do
-      FactoryBot.create(:notification,
+      create(:notification,
                         journal: journal,
                         resource: work_package,
                         project: work_package.project)

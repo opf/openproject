@@ -35,20 +35,20 @@ describe 'API v3 Work package resource',
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project_id: project.id,
                       description: 'lorem ipsum')
   end
   let(:project) do
-    FactoryBot.create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: 'test_project', public: false)
   end
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:role) { create(:role, permissions: permissions) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
   current_user do
-    user = FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    user = create(:user, member_in_project: project, member_through_role: role)
 
-    FactoryBot.create(:user_preference, user: user)
+    create(:user_preference, user: user)
 
     user
   end

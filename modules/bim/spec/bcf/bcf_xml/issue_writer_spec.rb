@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::OpenProject::Bim::BcfXml::IssueWriter do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:markup) do
     <<-MARKUP
     <Markup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -83,16 +83,16 @@ describe ::OpenProject::Bim::BcfXml::IssueWriter do
     MARKUP
   end
   let(:bcf_issue) do
-    FactoryBot.create(:bcf_issue_with_comment,
+    create(:bcf_issue_with_comment,
                       work_package: work_package,
                       markup: markup)
   end
-  let(:priority) { FactoryBot.create :priority_low }
-  let(:current_user) { FactoryBot.create(:user) }
+  let(:priority) { create :priority_low }
+  let(:current_user) { create(:user) }
   let(:due_date) { DateTime.now }
-  let(:type) { FactoryBot.create :type, name: 'Issue' }
+  let(:type) { create :type, name: 'Issue' }
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project_id: project.id,
                       priority: priority,
                       author: current_user,

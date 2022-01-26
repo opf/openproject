@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::OpenProject::Bim::BcfXml::Exporter do
-  let(:query) { FactoryBot.build(:global_query) }
-  let(:work_package) { FactoryBot.create :work_package }
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:query) { build(:global_query) }
+  let(:work_package) { create :work_package }
+  let(:admin) { create(:admin) }
   let(:current_user) { admin }
 
   before do
@@ -48,7 +48,7 @@ describe ::OpenProject::Bim::BcfXml::Exporter do
   end
 
   context "one WP with BCF issue associated" do
-    let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_comment, work_package: work_package) }
+    let(:bcf_issue) { create(:bcf_issue_with_comment, work_package: work_package) }
 
     before do
       bcf_issue

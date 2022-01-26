@@ -31,25 +31,25 @@
 require 'spec_helper'
 
 describe TimeEntries::Scopes::OfUserAndDay, type: :model do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
   let(:spent_on) { Date.today }
   let!(:time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       user: user,
                       spent_on: spent_on)
   end
   let!(:other_time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       user: user,
                       spent_on: spent_on)
   end
   let!(:other_user_time_entry) do
-    FactoryBot.create(:time_entry,
-                      user: FactoryBot.create(:user),
+    create(:time_entry,
+                      user: create(:user),
                       spent_on: spent_on)
   end
   let!(:other_date_time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       user: user,
                       spent_on: spent_on - 3.days)
   end

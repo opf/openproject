@@ -31,15 +31,15 @@
 require 'spec_helper'
 
 describe 'News creation and commenting', type: :feature, js: true do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let!(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[])
   end
 
   current_user do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[manage_news comment_news])
   end

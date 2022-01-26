@@ -2,7 +2,7 @@ require_relative '../spec_helper'
 
 describe TwoFactorAuthentication::LoginToken, with_2fa_ee: true do
   before(:each) do
-    @user = FactoryBot.build_stubbed(:user, login: "john", password: "doe")
+    @user = build_stubbed(:user, login: "john", password: "doe")
     allow(@user).to receive(:new_record?).and_return(false)
     allow(@user).to receive(:force_password_reset).and_return(false)
     allow(@user).to receive(:password_expired?).and_return(false)

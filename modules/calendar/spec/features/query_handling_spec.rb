@@ -33,16 +33,16 @@ require_relative '../support/pages/calendar'
 require_relative '../../../../spec/features/views/shared_examples'
 
 describe 'Calendar query handling', type: :feature, js: true do
-  shared_let(:type_task) { FactoryBot.create(:type_task) }
-  shared_let(:type_bug) { FactoryBot.create(:type_bug) }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       enabled_module_names: %w[work_package_tracking calendar_view],
                       types: [type_task, type_bug])
   end
 
   shared_let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %w[
                         view_work_packages
@@ -54,7 +54,7 @@ describe 'Calendar query handling', type: :feature, js: true do
   end
 
   shared_let(:task) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type_task,
                       assigned_to: user,
@@ -63,7 +63,7 @@ describe 'Calendar query handling', type: :feature, js: true do
                       subject: 'A task for the user'
   end
   shared_let(:bug) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       project: project,
                       type: type_bug,
                       assigned_to: user,
@@ -73,7 +73,7 @@ describe 'Calendar query handling', type: :feature, js: true do
   end
 
   shared_let(:saved_query) do
-    FactoryBot.create(:query_with_view_work_packages_calendar,
+    create(:query_with_view_work_packages_calendar,
                       project: project,
                       public: true)
   end

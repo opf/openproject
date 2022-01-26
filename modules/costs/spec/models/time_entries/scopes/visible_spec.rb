@@ -31,39 +31,39 @@
 require 'spec_helper'
 
 describe TimeEntries::Scopes::Visible, type: :model do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:permissions) { [:view_time_entries] }
 
   let(:work_package) do
-    FactoryBot.create(:work_package,
+    create(:work_package,
                       project: project,
                       author: user2)
   end
   let(:user2) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let!(:own_project_time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       project: project,
                       work_package: work_package,
                       hours: 2,
                       user: user)
   end
   let!(:project_time_entry) do
-    FactoryBot.create(:time_entry,
+    create(:time_entry,
                       project: project,
                       work_package: work_package,
                       hours: 2,
                       user: user2)
   end
   let!(:own_other_project_time_entry) do
-    FactoryBot.create(:time_entry,
-                      project: FactoryBot.create(:project),
+    create(:time_entry,
+                      project: create(:project),
                       user: user)
   end
 

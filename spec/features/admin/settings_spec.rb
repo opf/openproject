@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Settings', type: :feature do
-  let(:admin) { FactoryBot.create(:admin) }
+  let(:admin) { create(:admin) }
 
   describe 'subsection' do
     before do

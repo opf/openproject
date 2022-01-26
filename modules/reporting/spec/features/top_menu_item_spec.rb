@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 feature 'Top menu items', js: true do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -61,8 +61,8 @@ feature 'Top menu items', js: true do
 
   before do |ex|
     allow(User).to receive(:current).and_return user
-    FactoryBot.create(:anonymous_role)
-    FactoryBot.create(:non_member)
+    create(:anonymous_role)
+    create(:non_member)
 
     if ex.metadata.key?(:allowed_to)
       allow(user).to receive(:allowed_to?).and_return(ex.metadata[:allowed_to])
@@ -78,7 +78,7 @@ feature 'Top menu items', js: true do
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
     context 'as an admin' do
-      let(:user) { FactoryBot.create :admin }
+      let(:user) { create :admin }
 
       it 'displays reporting item' do
         has_menu_items?(reporting_item)

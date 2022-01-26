@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../shared_examples'
 
 describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
-  let(:viewpoint) { FactoryBot.build_stubbed(:bcf_viewpoint) }
+  let(:viewpoint) { build_stubbed(:bcf_viewpoint) }
   let(:instance) { described_class.new(viewpoint) }
 
   subject { instance.to_json }

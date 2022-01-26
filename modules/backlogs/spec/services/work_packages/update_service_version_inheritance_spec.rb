@@ -29,31 +29,31 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::UpdateService, "version inheritance", type: :model do
-  let(:type_feature) { FactoryBot.build(:type_feature) }
-  let(:type_task) { FactoryBot.build(:type_task) }
-  let(:type_bug) { FactoryBot.build(:type_bug) }
+  let(:type_feature) { build(:type_feature) }
+  let(:type_task) { build(:type_task) }
+  let(:type_bug) { build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
-  let(:role) { FactoryBot.build(:role) }
-  let(:user) { FactoryBot.build(:admin) }
-  let(:issue_priority) { FactoryBot.build(:priority) }
-  let(:status) { FactoryBot.build(:status, name: 'status 1', is_default: true) }
+  let(:role) { build(:role) }
+  let(:user) { build(:admin) }
+  let(:issue_priority) { build(:priority) }
+  let(:status) { build(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
-    p = FactoryBot.build(:project,
-                         members: [FactoryBot.build(:member,
+    p = build(:project,
+                         members: [build(:member,
                                                     principal: user,
                                                     roles: [role])],
                          types: [type_feature, type_task, type_bug])
 
-    p.versions << FactoryBot.build(:version, name: 'Version1', project: p)
-    p.versions << FactoryBot.build(:version, name: 'Version2', project: p)
+    p.versions << build(:version, name: 'Version1', project: p)
+    p.versions << build(:version, name: 'Version2', project: p)
 
     p
   end
 
   let(:story) do
-    story = FactoryBot.build(:work_package,
+    story = build(:work_package,
                              subject: 'Story',
                              project: project,
                              type: type_feature,
@@ -65,7 +65,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:story2) do
-    story = FactoryBot.build(:work_package,
+    story = build(:work_package,
                              subject: 'Story2',
                              project: project,
                              type: type_feature,
@@ -77,7 +77,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:story3) do
-    story = FactoryBot.build(:work_package,
+    story = build(:work_package,
                              subject: 'Story3',
                              project: project,
                              type: type_feature,
@@ -89,7 +89,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task',
                      type: type_task,
                      version: version1,
@@ -100,7 +100,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task2) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task2',
                      type: type_task,
                      version: version1,
@@ -111,7 +111,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task3) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task3',
                      type: type_task,
                      version: version1,
@@ -122,7 +122,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task4) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task4',
                      type: type_task,
                      version: version1,
@@ -133,7 +133,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task5) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task5',
                      type: type_task,
                      version: version1,
@@ -144,7 +144,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:task6) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Task6',
                      type: type_task,
                      version: version1,
@@ -155,7 +155,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:bug) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Bug',
                      type: type_bug,
                      version: version1,
@@ -166,7 +166,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:bug2) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Bug2',
                      type: type_bug,
                      version: version1,
@@ -177,7 +177,7 @@ describe WorkPackages::UpdateService, "version inheritance", type: :model do
   end
 
   let(:bug3) do
-    FactoryBot.build(:work_package,
+    build(:work_package,
                      subject: 'Bug3',
                      type: type_bug,
                      version: version1,

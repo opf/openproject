@@ -17,7 +17,7 @@ describe Announcement, type: :model do
       end
 
       context 'WHEN an announcement exists' do
-        let!(:announcement) { FactoryBot.create :announcement }
+        let!(:announcement) { create :announcement }
         it 'returns the true one announcement' do
           expect(Announcement.only_one).to eql announcement
         end
@@ -26,7 +26,7 @@ describe Announcement, type: :model do
 
     describe '#active_and_current' do
       describe 'WHEN no announcement is active' do
-        let!(:announcement) { FactoryBot.create(:inactive_announcement) }
+        let!(:announcement) { create(:inactive_announcement) }
 
         it 'returns no announcement' do
           expect(Announcement.active_and_current).to be_nil
@@ -35,7 +35,7 @@ describe Announcement, type: :model do
 
       describe 'WHEN the one announcement is active and today is before show_until' do
         let!(:announcement) do
-          FactoryBot.create(:active_announcement, show_until: Date.today + 14.days)
+          create(:active_announcement, show_until: Date.today + 14.days)
         end
 
         it 'returns that announcement' do
@@ -45,7 +45,7 @@ describe Announcement, type: :model do
 
       describe 'WHEN the one announcement is active and today is after show_until' do
         let!(:announcement) do
-          FactoryBot.create(:active_announcement, show_until: Date.today - 14.days)
+          create(:active_announcement, show_until: Date.today - 14.days)
         end
 
         it 'returns no announcement' do
@@ -55,7 +55,7 @@ describe Announcement, type: :model do
 
       describe 'WHEN the one announcement is active and today equals show_until' do
         let!(:announcement) do
-          FactoryBot.create(:active_announcement, show_until: Date.today)
+          create(:active_announcement, show_until: Date.today)
         end
         it 'returns that announcement' do
           expect(Announcement.active_and_current).to eql announcement
@@ -66,14 +66,14 @@ describe Announcement, type: :model do
     describe 'instance methods' do
       describe '#active_and_current?' do
         describe 'WHEN the announcement is not active' do
-          let(:announcement) { FactoryBot.build(:inactive_announcement) }
+          let(:announcement) { build(:inactive_announcement) }
 
           it { expect(announcement.active_and_current?).to be_falsey }
         end
 
         describe 'WHEN the announcement is active and today is before show_until' do
           let(:announcement) do
-            FactoryBot.build(:active_announcement, show_until: Date.today + 14.days)
+            build(:active_announcement, show_until: Date.today + 14.days)
           end
 
           it { expect(announcement.active_and_current?).to be_truthy }
@@ -81,7 +81,7 @@ describe Announcement, type: :model do
 
         describe 'WHEN the announcement is active and today is after show_until' do
           let!(:announcement) do
-            FactoryBot.create(:active_announcement, show_until: Date.today - 14.days)
+            create(:active_announcement, show_until: Date.today - 14.days)
           end
 
           it { expect(announcement.active_and_current?).to be_falsey }
@@ -89,7 +89,7 @@ describe Announcement, type: :model do
 
         describe 'WHEN the announcement is active and today equals show_until' do
           let!(:announcement) do
-            FactoryBot.build(:active_announcement, show_until: Date.today)
+            build(:active_announcement, show_until: Date.today)
           end
 
           it { expect(announcement.active_and_current?).to be_truthy }

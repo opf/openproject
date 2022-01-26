@@ -32,7 +32,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:time_entry) do
-    FactoryBot.build_stubbed(:time_entry,
+    build_stubbed(:time_entry,
                              comments: 'blubs',
                              spent_on: Date.today - 3.days,
                              created_at: DateTime.now - 6.hours,
@@ -41,22 +41,22 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
                              project: project,
                              user: user)
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:project2) { FactoryBot.build_stubbed(:project) }
+  let(:project) { build_stubbed(:project) }
+  let(:project2) { build_stubbed(:project) }
   let(:work_package) { time_entry.work_package }
-  let(:work_package2) { FactoryBot.build_stubbed(:work_package) }
-  let(:activity) { FactoryBot.build_stubbed(:time_entry_activity) }
-  let(:activity2) { FactoryBot.build_stubbed(:time_entry_activity) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:user2) { FactoryBot.build_stubbed(:user) }
+  let(:work_package2) { build_stubbed(:work_package) }
+  let(:activity) { build_stubbed(:time_entry_activity) }
+  let(:activity2) { build_stubbed(:time_entry_activity) }
+  let(:user) { build_stubbed(:user) }
+  let(:user2) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(time_entry, current_user: user, embed_links: true)
   end
   let(:user_custom_field) do
-    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'user')
+    build_stubbed(:time_entry_custom_field, field_format: 'user')
   end
   let(:test_custom_field) do
-    FactoryBot.build_stubbed(:time_entry_custom_field, field_format: 'text')
+    build_stubbed(:time_entry_custom_field, field_format: 'text')
   end
 
   let(:hash) do

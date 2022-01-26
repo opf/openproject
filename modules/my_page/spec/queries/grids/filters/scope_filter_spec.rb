@@ -33,7 +33,7 @@ require 'spec_helper'
 describe Grids::Filters::ScopeFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['/my/page'] }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:model) { Grids::Grid }
 
   before do

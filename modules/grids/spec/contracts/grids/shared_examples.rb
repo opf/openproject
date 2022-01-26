@@ -29,7 +29,7 @@
 #++
 
 shared_context 'grid contract' do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:instance) { described_class.new(grid, user) }
   let(:widgets) { [] }
   let(:default_values) do
@@ -40,7 +40,7 @@ shared_context 'grid contract' do
     }
   end
   let(:grid) do
-    FactoryBot.build_stubbed(:grid, default_values)
+    build_stubbed(:grid, default_values)
   end
 
   shared_examples_for 'validates positive integer' do
@@ -117,7 +117,7 @@ shared_examples_for 'shared grid contract attributes' do
   describe 'valid grid subclasses' do
     context 'for the Grid superclass itself' do
       let(:grid) do
-        FactoryBot.build_stubbed(:grid, default_values)
+        build_stubbed(:grid, default_values)
       end
 
       before do
@@ -196,7 +196,7 @@ shared_examples_for 'shared grid contract attributes' do
 
     context 'if there are existing widgets that are not allowed' do
       let(:widgets) do
-        [FactoryBot.build_stubbed(:grid_widget, identifier: 'widget2', start_row: 1, end_row: 3, start_column: 1, end_column: 3)]
+        [build_stubbed(:grid_widget, identifier: 'widget2', start_row: 1, end_row: 3, start_column: 1, end_column: 3)]
       end
 
       it 'is valid' do

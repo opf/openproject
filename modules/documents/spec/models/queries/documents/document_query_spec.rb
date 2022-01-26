@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Queries::Documents::DocumentQuery, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:base_scope) { Document.visible(user).order(id: :desc) }
   let(:instance) { described_class.new }
 

@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
-  let(:group) { FactoryBot.build_stubbed(:group) }
-  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:placeholder_user) { build_stubbed(:placeholder_user) }
+  let(:project) { build_stubbed(:project) }
   let(:instance) { described_class.new(project) }
 
   context 'with a project' do
@@ -90,7 +90,7 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
 
   context 'without a project' do
     let(:project) { nil }
-    let(:visible_projects) { [FactoryBot.build_stubbed(:project)] }
+    let(:visible_projects) { [build_stubbed(:project)] }
     let(:matching_principals) { [user, group, placeholder_user] }
 
     before do

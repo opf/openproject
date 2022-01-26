@@ -32,12 +32,12 @@ describe ::API::V3::News::NewsRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:news) do
-    FactoryBot.build_stubbed(:news,
+    build_stubbed(:news,
                              project: project,
                              author: user)
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(news, current_user: user, embed_links: true)
   end

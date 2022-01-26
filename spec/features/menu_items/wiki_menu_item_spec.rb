@@ -33,25 +33,25 @@ require 'features/work_packages/work_packages_page'
 
 feature 'Wiki menu items' do
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %w[view_wiki_pages
                                                   manage_wiki_menu
                                                   delete_wiki_pages]
   end
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w[wiki] }
+  let(:project) { create :project, enabled_module_names: %w[wiki] }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
-  let(:wiki_page) { FactoryBot.create :wiki_page_with_content, wiki: wiki }
+  let(:wiki_page) { create :wiki_page_with_content, wiki: wiki }
   let(:other_wiki_page) do
-    FactoryBot.create(:wiki_page_with_content, wiki: wiki, title: "Other page").tap do |page|
+    create(:wiki_page_with_content, wiki: wiki, title: "Other page").tap do |page|
       MenuItems::WikiMenuItem.create!(navigatable_id: page.wiki.id,
                                       title: page.title,
                                       name: page.slug)
     end
   end
   let(:another_wiki_page) do
-    FactoryBot.create(:wiki_page_with_content, wiki: wiki)
+    create(:wiki_page_with_content, wiki: wiki)
   end
 
   before do

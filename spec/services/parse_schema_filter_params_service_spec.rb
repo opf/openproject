@@ -30,10 +30,10 @@
 require 'spec_helper'
 
 describe ParseSchemaFilterParamsService do
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:instance) { described_class.new(user: current_user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:type) { FactoryBot.build_stubbed(:type) }
+  let(:project) { build_stubbed(:project) }
+  let(:type) { build_stubbed(:type) }
 
   describe '#call' do
     let(:filter) do

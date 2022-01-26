@@ -35,17 +35,17 @@ describe 'BIM filter spec',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %w(bim work_package_tracking) }
-  let(:open_status) { FactoryBot.create(:status, is_closed: false) }
-  let(:closed_status) { FactoryBot.create(:status, is_closed: true) }
+  let(:project) { create :project, enabled_module_names: %w(bim work_package_tracking) }
+  let(:open_status) { create(:status, is_closed: false) }
+  let(:closed_status) { create(:status, is_closed: true) }
 
-  let(:wp1) { FactoryBot.create(:work_package, project: project, status: open_status) }
-  let(:wp2) { FactoryBot.create(:work_package, project: project, status: closed_status) }
+  let(:wp1) { create(:work_package, project: project, status: open_status) }
+  let(:wp2) { create(:work_package, project: project, status: closed_status) }
 
-  let(:admin) { FactoryBot.create :admin }
+  let(:admin) { create :admin }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       project: project,
                       uploader: admin)
   end

@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe ::API::V3::Memberships::MembershipPayloadRepresenter do
-  let(:membership) { FactoryBot.build_stubbed(:member) }
+  let(:membership) { build_stubbed(:member) }
 
-  current_user { FactoryBot.build_stubbed(:user) }
+  current_user { build_stubbed(:user) }
 
   describe 'generation' do
     subject(:json) { representer.to_json }

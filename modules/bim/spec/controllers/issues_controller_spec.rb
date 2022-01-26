@@ -30,28 +30,28 @@ require 'spec_helper'
 
 describe ::Bim::Bcf::IssuesController, type: :controller do
   let(:manage_bcf_role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[manage_bcf view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
   let(:collaborator_role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_linked_issues view_work_packages add_work_packages edit_work_packages])
   end
-  let(:bcf_manager) { FactoryBot.create(:user, firstname: "BCF Manager") }
-  let(:collaborator) { FactoryBot.create(:user) }
+  let(:bcf_manager) { create(:user, firstname: "BCF Manager") }
+  let(:collaborator) { create(:user) }
 
-  let(:non_member) { FactoryBot.create(:user) }
+  let(:non_member) { create(:user) }
   let(:project) do
-    FactoryBot.create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
+    create(:project, enabled_module_names: %w[bim], identifier: 'bim_project')
   end
   let(:member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       user: collaborator,
                       roles: [collaborator_role])
   end
   let(:bcf_manager_member) do
-    FactoryBot.create(:member,
+    create(:member,
                       project: project,
                       user: bcf_manager,
                       roles: [manage_bcf_role])
@@ -75,7 +75,7 @@ describe ::Bim::Bcf::IssuesController, type: :controller do
 
       context 'no manage_bcf permission' do
         let(:bcf_manager_member) do
-          FactoryBot.create(:member,
+          create(:member,
                             project: project,
                             user: bcf_manager,
                             roles: [collaborator_role])

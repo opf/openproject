@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
-  let(:custom_field) { FactoryBot.build_stubbed(:int_wp_custom_field, id: 1) }
+  let(:custom_field) { build_stubbed(:int_wp_custom_field, id: 1) }
   let(:sums) do
     double('sums',
            story_points: 5,
@@ -42,7 +42,7 @@ describe ::API::V3::WorkPackages::WorkPackageSumsRepresenter do
            available_custom_fields: [custom_field])
   end
   let(:schema) { double 'schema', available_custom_fields: [custom_field] }
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create_class(schema, current_user).new(sums)
   end

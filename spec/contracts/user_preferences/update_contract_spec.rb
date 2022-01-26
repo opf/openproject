@@ -34,10 +34,10 @@ require 'contracts/shared/model_contract_shared_context'
 describe UserPreferences::UpdateContract do
   include_context 'ModelContract shared context'
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:preference_user) { current_user }
   let(:user_preference) do
-    FactoryBot.build_stubbed(:user_preference,
+    build_stubbed(:user_preference,
                              user: preference_user,
                              settings: settings&.with_indifferent_access)
   end
@@ -59,14 +59,14 @@ describe UserPreferences::UpdateContract do
 
   describe 'validation' do
     context 'when current_user is admin' do
-      let(:current_user) { FactoryBot.build_stubbed(:admin) }
-      let(:preference_user) { FactoryBot.build_stubbed(:user) }
+      let(:current_user) { build_stubbed(:admin) }
+      let(:preference_user) { build_stubbed(:user) }
 
       it_behaves_like 'contract is valid'
     end
 
     context 'when current_user has manage_user permission' do
-      let(:preference_user) { FactoryBot.build_stubbed(:user) }
+      let(:preference_user) { build_stubbed(:user) }
 
       before do
         allow(current_user).to receive(:allowed_to_globally?).with(:manage_user).and_return true
@@ -94,7 +94,7 @@ describe UserPreferences::UpdateContract do
     end
 
     context 'when current_user is a regular user' do
-      let(:preference_user) { FactoryBot.build_stubbed(:user) }
+      let(:preference_user) { build_stubbed(:user) }
 
       it_behaves_like 'contract user is unauthorized'
     end

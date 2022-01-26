@@ -34,10 +34,10 @@ describe "POST /api/v3/grids/form", type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:project) do
-    FactoryBot.create(:project)
+    create(:project)
   end
   shared_let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: %i[save_queries])
   end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::Users::LoginService, type: :model do
-  let(:input_user) { FactoryBot.build_stubbed(:user) }
+  let(:input_user) { build_stubbed(:user) }
   let(:controller) { double('ApplicationController') }
   let(:session) { {} }
   let(:flash) { ActionDispatch::Flash::FlashHash.new }

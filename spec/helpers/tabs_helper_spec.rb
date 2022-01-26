@@ -57,7 +57,7 @@ describe TabsHelper, type: :helper do
         .with(:user)
         .and_return [given_tab]
 
-      user = FactoryBot.build(:user, id: 2)
+      user = build(:user, id: 2)
       @tabs = render_extensible_tabs(:user, user: user)
     end
 

@@ -4,7 +4,7 @@ sidebar_navigation:
   priority: 900
 description: Introduction to projects in OpenProject.
 robots: index, follow
-keywords: open project, create project, projects introduction
+keywords: open project, create project, project introduction
 ---
 # Projects introduction
 

@@ -32,12 +32,12 @@ require 'spec_helper'
 
 describe Principals::Scopes::User, type: :model do
   describe '.user' do
-    let!(:anonymous_user) { FactoryBot.create(:anonymous) }
-    let!(:system_user) { FactoryBot.create(:system) }
-    let!(:deleted_user) { FactoryBot.create(:deleted_user) }
-    let!(:group) { FactoryBot.create(:group) }
-    let!(:user) { FactoryBot.create(:user) }
-    let!(:placeholder_user) { FactoryBot.create(:placeholder_user) }
+    let!(:anonymous_user) { create(:anonymous) }
+    let!(:system_user) { create(:system) }
+    let!(:deleted_user) { create(:deleted_user) }
+    let!(:group) { create(:group) }
+    let!(:user) { create(:user) }
+    let!(:placeholder_user) { create(:placeholder_user) }
 
     subject { Principal.user }
 

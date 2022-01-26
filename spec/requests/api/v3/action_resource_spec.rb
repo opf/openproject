@@ -36,7 +36,7 @@ describe 'API v3 action resource', type: :request, content_type: :json do
   subject(:response) { last_response }
 
   current_user do
-    FactoryBot.create(:user)
+    create(:user)
   end
 
   describe 'GET api/v3/actions' do

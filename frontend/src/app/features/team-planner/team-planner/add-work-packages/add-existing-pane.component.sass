@@ -1,0 +1,57 @@
+@import "src/assets/sass/helpers"
+
+\:host
+  display: grid
+  grid-template-rows: 32px 1fr
+  grid-row-gap: 10px
+  background: #F3F3F3
+  padding: 8px
+
+.op-add-existing-pane
+  &--search
+    position: relative
+
+  &--search-input
+    width: 100%
+    line-height: 32px
+    height: 32px
+    padding: 0 12px 0 42px
+
+  &--search-icon
+    position: absolute
+    top: 8px
+    left: 16px
+
+  &--close-search
+    position: absolute
+    top: 8px
+    right: 8px
+    padding: 0
+    margin: 0
+    background: transparent
+    border: 0
+    font: inherit
+    text-align: inherit
+
+  &--results
+    overflow: auto
+    @include styled-scroll-bar
+
+  &--empty-state
+    display: grid
+    grid-template-rows: auto 1fr
+    grid-row-gap: 12px
+
+  &--empty-state-image
+    margin: 0 auto
+
+  &--empty-state-text
+    margin: 0 24px
+    text-align: center
+    line-height: 1.25
+
+  &--loading
+    height: 85px
+    padding: 8px 16px
+    background: white
+    border-radius: 5px

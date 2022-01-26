@@ -15,6 +15,7 @@ import {
   EventInput,
 } from '@fullcalendar/core';
 import {
+  BehaviorSubject,
   combineLatest,
   Subject,
 } from 'rxjs';
@@ -27,7 +28,10 @@ import {
 } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import interactionPlugin, { EventResizeDoneArg } from '@fullcalendar/interaction';
+import interactionPlugin, {
+  EventReceiveArg,
+  EventResizeDoneArg,
+} from '@fullcalendar/interaction';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -48,6 +52,8 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 
 @Component({
   selector: 'op-team-planner',
@@ -75,6 +81,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   projectIdentifier:string|undefined = undefined;
 
+  showAddExistingPane = new BehaviorSubject<boolean>(false);
+
   showAddAssignee$ = new Subject<boolean>();
 
   private principalIds$ = this.wpTableFilters
@@ -99,6 +107,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   assignees:HalResource[] = [];
 
   text = {
+    add_existing: this.I18n.t('js.team_planner.add_existing'),
     assignees: this.I18n.t('js.team_planner.label_assignee_plural'),
     add_assignee: this.I18n.t('js.team_planner.add_assignee'),
     remove_assignee: this.I18n.t('js.team_planner.remove_assignee'),
@@ -127,6 +136,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     readonly halEditing:HalResourceEditingService,
     readonly halNotification:HalResourceNotificationService,
     readonly schemaCache:SchemaCacheService,
+    readonly apiV3Service:ApiV3Service,
+    readonly calendarDrag:CalendarDragDropService,
   ) {
     super();
   }
@@ -217,10 +228,17 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               day: 'numeric',
             },
             initialView: this.calendar.initialView || 'resourceTimelineWeek',
+            customButtons: {
+              addExisting: {
+                text: this.text.add_existing,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                click: this.toggleAddExistingPane.bind(this),
+              },
+            },
             headerToolbar: {
-              left: 'prev,next today',
+              left: 'addExisting',
               center: 'title',
-              right: 'resourceTimelineWeek,resourceTimelineTwoWeeks,resourceTimelineMonth',
+              right: 'prev,next today resourceTimelineWeek,resourceTimelineTwoWeeks',
             },
             views: {
               resourceTimelineWeek: {
@@ -258,23 +276,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
                   },
                 ],
               },
-              resourceTimelineMonth: {
-                type: 'resourceTimeline',
-                duration: { months: 1 },
-                slotDuration: { days: 1 },
-                slotLabelFormat: [
-                  {
-                    weekday: 'long',
-                    day: '2-digit',
-                  },
-                ],
-                resourceAreaColumns: [
-                  {
-                    field: 'title',
-                    headerContent: this.text.assignees,
-                  },
-                ],
-              },
             },
             events: this.calendarEventsFunction.bind(this) as unknown,
             resources: [],
@@ -284,8 +285,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resourceLabelWillUnmount: (data:ResourceLabelContentArg) => this.unrenderTemplate(data.resource.id),
             // DnD configuration
             editable: true,
+            droppable: true,
             eventResize: (resizeInfo:EventResizeDoneArg) => this.updateEvent(resizeInfo),
             eventDrop: (dropInfo:EventDropArg) => this.updateEvent(dropInfo),
+            eventReceive: (dropInfo:EventReceiveArg) => this.updateEvent(dropInfo),
           } as CalendarOptions),
         );
       });
@@ -419,19 +422,22 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     );
   }
 
-  private async updateEvent(info:EventResizeDoneArg|EventDropArg):Promise<void> {
+  private async updateEvent(info:EventResizeDoneArg|EventDropArg|EventReceiveArg):Promise<void> {
     const changeset = this.calendar.updateDates(info);
 
-    const resource = (info as EventDropArg).newResource;
+    const resource = info.event.getResources()[0];
     if (resource) {
       changeset.setValue('assignee', { href: resource.id });
     }
+
+    this.calendarDrag.handleDrop(changeset.projectedResource);
 
     try {
       const result = await this.halEditing.save(changeset);
       this.halNotification.showSave(result.resource, result.wasNew);
     } catch (e) {
       this.halNotification.showError(e.resource, changeset.projectedResource);
+      this.calendarDrag.handleDropError(changeset.projectedResource);
       info.revert();
     }
   }
@@ -473,5 +479,10 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private wpAssignee(wp:WorkPackageResource):string {
     return (wp.assignee as HalResource).href as string;
+  }
+
+  private toggleAddExistingPane():void {
+    document.getElementsByClassName('fc-addExisting-button')[0].classList.toggle('-active');
+    this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
   }
 }

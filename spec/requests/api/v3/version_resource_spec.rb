@@ -34,17 +34,17 @@ describe 'API v3 Version resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages manage_versions] }
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:other_project) { FactoryBot.create(:project, public: false) }
-  let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-  let(:version_in_project) { FactoryBot.build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
+  let(:project) { create(:project, public: false) }
+  let(:other_project) { create(:project, public: false) }
+  let!(:int_cf) { create(:int_version_custom_field) }
+  let(:version_in_project) { build(:version, project: project, custom_field_values: { int_cf.id => 123 }) }
   let(:version_in_other_project) do
-    FactoryBot.build(:version,
+    build(:version,
                      project: other_project,
                      sharing: 'system',
                      custom_field_values: { int_cf.id => 123 })
@@ -120,7 +120,7 @@ describe 'API v3 Version resource', content_type: :json do
   describe 'PATCH api/v3/versions' do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
-      FactoryBot.create(:version,
+      create(:version,
                         name: 'Old name',
                         description: 'Old description',
                         start_date: '2017-06-01',
@@ -131,8 +131,8 @@ describe 'API v3 Version resource', content_type: :json do
                         custom_field_values: { int_cf.id => 123,
                                                list_cf.id => list_cf.custom_options.first.id })
     end
-    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+    let!(:int_cf) { create(:int_version_custom_field) }
+    let!(:list_cf) { create(:list_version_custom_field) }
     let(:body) do
       {
         name: 'New name',
@@ -212,10 +212,10 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'if attempting to switch the project' do
       let(:other_project) do
-        FactoryBot.create(:project).tap do |p|
-          FactoryBot.create(:member,
+        create(:project).tap do |p|
+          create(:member,
                             project: p,
-                            roles: [FactoryBot.create(:role, permissions: [:manage_versions])],
+                            roles: [create(:role, permissions: [:manage_versions])],
                             user: current_user)
         end
       end
@@ -250,9 +250,9 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
-        FactoryBot.create(:member,
-                          project: FactoryBot.create(:project),
-                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+        create(:member,
+                          project: create(:project),
+                          roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -268,8 +268,8 @@ describe 'API v3 Version resource', content_type: :json do
 
   describe 'POST api/v3/versions' do
     let(:path) { api_v3_paths.versions }
-    let!(:int_cf) { FactoryBot.create(:int_version_custom_field) }
-    let!(:list_cf) { FactoryBot.create(:list_version_custom_field) }
+    let!(:int_cf) { create(:int_version_custom_field) }
+    let!(:list_cf) { create(:list_version_custom_field) }
     let(:body) do
       {
         name: 'New version',
@@ -357,9 +357,9 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'if having the manage permission in a different project' do
       let(:other_membership) do
-        FactoryBot.create(:member,
-                          project: FactoryBot.create(:project),
-                          roles: [FactoryBot.create(:role, permissions: [:manage_versions])])
+        create(:member,
+                          project: create(:project),
+                          roles: [create(:role, permissions: [:manage_versions])])
       end
 
       let(:permissions) do
@@ -400,7 +400,7 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'filtering for project by sharing' do
       let(:shared_version_in_project) do
-        FactoryBot.build(:version, project: project, sharing: 'system')
+        build(:version, project: project, sharing: 'system')
       end
       let(:versions) { [version_in_project, shared_version_in_project] }
 
@@ -425,7 +425,7 @@ describe 'API v3 Version resource', content_type: :json do
   describe 'DELETE /api/v3/versions/:id' do
     let(:path) { api_v3_paths.version(version.id) }
     let(:version) do
-      FactoryBot.create(:version,
+      create(:version,
                         project: project)
     end
 
@@ -455,9 +455,9 @@ describe 'API v3 Version resource', content_type: :json do
 
     context 'with work packages attached to it' do
       let(:version) do
-        FactoryBot.create(:version,
+        create(:version,
                           project: project).tap do |v|
-          FactoryBot.create(:work_package,
+          create(:work_package,
                             project: project,
                             version: v)
         end

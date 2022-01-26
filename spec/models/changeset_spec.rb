@@ -33,7 +33,7 @@ describe Changeset, type: :model do
 
   with_virtual_subversion_repository do
     let(:changeset) do
-      FactoryBot.build(:changeset,
+      build(:changeset,
                        repository: repository,
                        revision: '1',
                        committer: email,
@@ -83,7 +83,7 @@ describe Changeset, type: :model do
     let(:comment) { 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5 }
     with_virtual_subversion_repository do
       let(:changeset) do
-        FactoryBot.build(:changeset,
+        build(:changeset,
                          repository: repository,
                          revision: '1',
                          committer: email,
@@ -99,8 +99,8 @@ describe Changeset, type: :model do
   end
 
   describe 'mapping' do
-    let!(:user) { FactoryBot.create :user, login: 'jsmith', mail: 'jsmith@somenet.foo' }
-    let!(:repository) { FactoryBot.create(:repository_subversion) }
+    let!(:user) { create :user, login: 'jsmith', mail: 'jsmith@somenet.foo' }
+    let!(:repository) { create(:repository_subversion) }
 
     it 'should manual user mapping' do
       c = Changeset.create! repository: repository,
@@ -149,21 +149,21 @@ describe Changeset, type: :model do
              commit_fix_keywords: 'fixes , closes',
              default_language: 'en'
            } do
-    let!(:user) { FactoryBot.create :admin, login: 'dlopper' }
-    let!(:open_status) { FactoryBot.create :status }
-    let!(:closed_status) { FactoryBot.create :closed_status }
+    let!(:user) { create :admin, login: 'dlopper' }
+    let!(:open_status) { create :status }
+    let!(:closed_status) { create :closed_status }
 
-    let!(:other_work_package) { FactoryBot.create :work_package, status: open_status }
+    let!(:other_work_package) { create :work_package, status: open_status }
     let(:comments) { "Some fix made, fixes ##{work_package.id} and fixes ##{other_work_package.id}" }
 
     with_virtual_subversion_repository do
       let!(:work_package) do
-        FactoryBot.create :work_package,
+        create :work_package,
                           project: repository.project,
                           status: open_status
       end
       let(:changeset) do
-        FactoryBot.create(:changeset,
+        create(:changeset,
                           repository: repository,
                           revision: '123',
                           committer: user.login,
@@ -211,7 +211,7 @@ describe Changeset, type: :model do
     end
 
     describe 'with timelogs' do
-      let!(:activity) { FactoryBot.create :activity, is_default: true }
+      let!(:activity) { create :activity, is_default: true }
       before do
         repository.project.enabled_module_names += ['costs']
         repository.project.save!
@@ -261,7 +261,7 @@ describe Changeset, type: :model do
       end
 
       context 'with a second work package' do
-        let!(:work_package2) { FactoryBot.create :work_package, project: repository.project, status: open_status }
+        let!(:work_package2) { create :work_package, project: repository.project, status: open_status }
         it 'should ref keywords closing with timelog' do
           allow(Setting).to receive(:commit_fix_status_id).and_return closed_status.id
           allow(Setting).to receive(:commit_ref_keywords).and_return '*'
@@ -315,8 +315,8 @@ describe Changeset, type: :model do
     end
 
     describe 'with work package in parent project' do
-      let(:parent) { FactoryBot.create :project }
-      let!(:work_package) { FactoryBot.create :work_package, project: parent, status: open_status }
+      let(:parent) { create :project }
+      let!(:work_package) { create :work_package, project: parent, status: open_status }
 
       before do
         repository.project.parent = parent
@@ -340,8 +340,8 @@ describe Changeset, type: :model do
     end
 
     describe 'with work package in sub project' do
-      let(:sub) { FactoryBot.create :project }
-      let!(:work_package) { FactoryBot.create :work_package, project: sub, status: open_status }
+      let(:sub) { create :project }
+      let!(:work_package) { create :work_package, project: sub, status: open_status }
 
       before do
         sub.parent = repository.project
@@ -380,7 +380,7 @@ describe Changeset, type: :model do
     end
 
     describe 'with user is committer' do
-      let!(:committer) { FactoryBot.create(:user, login: email) }
+      let!(:committer) { create(:user, login: email) }
 
       before do
         changeset.save!
@@ -392,8 +392,8 @@ describe Changeset, type: :model do
     end
 
     describe 'current user is not committer' do
-      let(:current_user) { FactoryBot.create(:user) }
-      let!(:committer) { FactoryBot.create(:user, login: email) }
+      let(:current_user) { create(:user) }
+      let!(:committer) { create(:user, login: email) }
 
       before do
         allow(User).to receive(:current).and_return current_user

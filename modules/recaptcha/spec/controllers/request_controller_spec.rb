@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ::Recaptcha::RequestController, type: :controller do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
   before do
     login_as user
     allow(Setting)
@@ -29,7 +29,7 @@ describe ::Recaptcha::RequestController, type: :controller do
     end
 
     context 'if the user is an admin' do
-      let(:user) { FactoryBot.create :admin }
+      let(:user) { create :admin }
 
       it 'skips the verification' do
         expect(controller).not_to receive(:perform)

@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
          type: :feature, js: true do
-  let(:user) { FactoryBot.create :admin }
-  let(:project) { FactoryBot.create(:project, enabled_module_names: %w[wiki]) }
+  let(:user) { create :admin }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { ::Components::WysiwygEditor.new }
 
   let(:wiki_page) do
-    page = FactoryBot.build :wiki_page_with_content
+    page = build :wiki_page_with_content
     page.content.text = <<~MARKDOWN
       1. Step 1
          *Expected Results:* Expected 1

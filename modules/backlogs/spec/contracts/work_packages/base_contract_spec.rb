@@ -30,18 +30,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::BaseContract, type: :model do
   let(:instance) { described_class.new(work_package, user) }
-  let(:type_feature) { FactoryBot.build(:type_feature) }
-  let(:type_task) { FactoryBot.build(:type_task) }
-  let(:type_bug) { FactoryBot.build(:type_bug) }
-  let(:version1) { FactoryBot.build_stubbed(:version, name: 'Version1', project: p) }
-  let(:version2) { FactoryBot.build_stubbed(:version, name: 'Version2', project: p) }
-  let(:role) { FactoryBot.build(:role) }
-  let(:user) { FactoryBot.build(:admin) }
-  let(:issue_priority) { FactoryBot.build(:priority) }
-  let(:status) { FactoryBot.build_stubbed(:status, name: 'status 1', is_default: true) }
+  let(:type_feature) { build(:type_feature) }
+  let(:type_task) { build(:type_task) }
+  let(:type_bug) { build(:type_bug) }
+  let(:version1) { build_stubbed(:version, name: 'Version1', project: p) }
+  let(:version2) { build_stubbed(:version, name: 'Version2', project: p) }
+  let(:role) { build(:role) }
+  let(:user) { build(:admin) }
+  let(:issue_priority) { build(:priority) }
+  let(:status) { build_stubbed(:status, name: 'status 1', is_default: true) }
 
   let(:project) do
-    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
+    p = build(:project, members: [build(:member,
                                                               principal: user,
                                                               roles: [role])],
                                    types: [type_feature, type_task, type_bug])
@@ -57,7 +57,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:other_project) do
-    p = FactoryBot.build(:project, members: [FactoryBot.build(:member,
+    p = build(:project, members: [build(:member,
                                                               principal: user,
                                                               roles: [role])],
                                    types: [type_feature, type_task, type_bug])
@@ -72,7 +72,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Story',
                              project: project,
                              type: type_feature,
@@ -83,7 +83,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:story2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Story2',
                              project: project,
                              type: type_feature,
@@ -94,7 +94,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:task) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Task',
                              type: type_task,
                              version: version1,
@@ -105,7 +105,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:task2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Task2',
                              type: type_task,
                              version: version1,
@@ -116,7 +116,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:bug) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Bug',
                              type: type_bug,
                              version: version1,
@@ -127,7 +127,7 @@ describe WorkPackages::BaseContract, type: :model do
   end
 
   let(:bug2) do
-    FactoryBot.build_stubbed(:stubbed_work_package,
+    build_stubbed(:stubbed_work_package,
                              subject: 'Bug2',
                              type: type_bug,
                              version: version1,

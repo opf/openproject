@@ -31,14 +31,14 @@
 require 'spec_helper'
 
 describe Queries::CreateService do
-  let(:user) { FactoryBot.build_stubbed(:admin) }
-  let(:query) { FactoryBot.build(:query, user: user) }
+  let(:user) { build_stubbed(:admin) }
+  let(:query) { build(:query, user: user) }
 
   let(:instance) { described_class.new(user: user) }
   subject { instance.call(query).result }
 
   describe 'ordered work packages' do
-    let!(:work_package) { FactoryBot.create :work_package }
+    let!(:work_package) { create :work_package }
 
     before do
       query.ordered_work_packages.build(work_package_id: work_package.id, position: 0)

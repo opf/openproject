@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ::API::V3::Projects::ProjectCollectionRepresenter do
-  shared_let(:projects) { FactoryBot.create_list(:project, 3) }
+  shared_let(:projects) { create_list(:project, 3) }
 
   let(:self_base_link) { '/api/v3/projects' }
-  let(:current_user) { FactoryBot.build(:user) }
+  let(:current_user) { build(:user) }
   let(:representer) do
     described_class.new Project.all,
                         self_link: self_base_link,

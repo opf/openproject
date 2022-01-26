@@ -32,15 +32,15 @@ describe ::API::V3::Documents::DocumentRepresenter, 'rendering' do
   include ::API::V3::Utilities::PathHelper
 
   let(:document) do
-    FactoryBot.build_stubbed(:document,
+    build_stubbed(:document,
                              description: 'Some description') do |document|
       allow(document)
         .to receive(:project)
         .and_return(project)
     end
   end
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:user) { build_stubbed(:user) }
   let(:representer) do
     described_class.create(document, current_user: user, embed_links: true)
   end

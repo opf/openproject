@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
-  let(:custom_field) { FactoryBot.build_stubbed(:custom_field) }
+  let(:custom_field) { build_stubbed(:custom_field) }
 
   before do
     login_as admin

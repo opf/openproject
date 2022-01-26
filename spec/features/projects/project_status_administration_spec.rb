@@ -32,16 +32,16 @@ describe 'Projects status administration', type: :feature, js: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:current_user) do
-    FactoryBot.create(:user).tap do |u|
-      FactoryBot.create(:global_member,
+    create(:user).tap do |u|
+      create(:global_member,
                         principal: u,
-                        roles: [FactoryBot.create(:global_role, permissions: global_permissions)])
+                        roles: [create(:global_role, permissions: global_permissions)])
     end
   end
   let(:global_permissions) { [:add_project] }
   let(:project_permissions) { [:edit_project] }
   let!(:project_role) do
-    FactoryBot.create(:role, permissions: project_permissions).tap do |r|
+    create(:role, permissions: project_permissions).tap do |r|
       allow(Setting)
         .to receive(:new_project_user_role_id)
         .and_return(r.id.to_s)

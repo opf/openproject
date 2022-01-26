@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe User, type: :model do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.create(:project_with_types) }
-  let(:role) { FactoryBot.create(:role, permissions: [:view_work_packages]) }
+  let(:user) { build(:user) }
+  let(:project) { create(:project_with_types) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:member) do
-    FactoryBot.build(:member, project: project,
+    build(:member, project: project,
                               roles: [role],
                               principal: user)
   end
-  let(:status) { FactoryBot.create(:status) }
+  let(:status) { create(:status) }
   let(:issue) do
-    FactoryBot.build(:work_package, type: project.types.first,
+    build(:work_package, type: project.types.first,
                                     author: user,
                                     project: project,
                                     status: status)
@@ -228,7 +228,7 @@ describe User, type: :model do
 
   describe '#blocked' do
     let!(:blocked_user) do
-      FactoryBot.create(:user,
+      create(:user,
                         failed_login_count: 3,
                         last_failed_login_on: Time.now)
     end
@@ -246,7 +246,7 @@ describe User, type: :model do
   end
 
   describe '#change_password_allowed?' do
-    let(:user) { FactoryBot.build(:user) }
+    let(:user) { build(:user) }
 
     context 'for user without auth source' do
       before do
@@ -259,7 +259,7 @@ describe User, type: :model do
     end
 
     context 'for user with an auth source' do
-      let(:allowed_auth_source) { FactoryBot.create :auth_source }
+      let(:allowed_auth_source) { create :auth_source }
 
       context 'that allows password changes' do
         before do
@@ -273,7 +273,7 @@ describe User, type: :model do
       end
 
       context 'that does not allow password changes' do
-        let(:denied_auth_source) { FactoryBot.create :auth_source }
+        let(:denied_auth_source) { create :auth_source }
 
         before do
           def denied_auth_source.allow_password_changes?; false; end
@@ -330,7 +330,7 @@ describe User, type: :model do
 
   describe '#uses_external_authentication?' do
     context 'with identity_url' do
-      let(:user) { FactoryBot.build(:user, identity_url: 'test_provider:veryuniqueid') }
+      let(:user) { build(:user, identity_url: 'test_provider:veryuniqueid') }
 
       it 'should return true' do
         expect(user.uses_external_authentication?).to be_truthy
@@ -338,7 +338,7 @@ describe User, type: :model do
     end
 
     context 'without identity_url' do
-      let(:user) { FactoryBot.build(:user, identity_url: nil) }
+      let(:user) { build(:user, identity_url: nil) }
 
       it 'should return false' do
         expect(user.uses_external_authentication?).to be_falsey
@@ -405,9 +405,9 @@ describe User, type: :model do
     end
 
     context 'with an external auth source' do
-      let(:auth_source) { FactoryBot.build(:auth_source) }
+      let(:auth_source) { build(:auth_source) }
       let(:user_with_external_auth_source) do
-        user = FactoryBot.build(:user, login: 'user')
+        user = build(:user, login: 'user')
         allow(user).to receive(:auth_source).and_return(auth_source)
         user
       end
@@ -468,7 +468,7 @@ describe User, type: :model do
 
   describe '.default_admin_account_deleted_or_changed?' do
     let(:default_admin) do
-      FactoryBot.build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
+      build(:user, login: 'admin', password: 'admin', password_confirmation: 'admin', admin: true)
     end
 
     before do
@@ -535,8 +535,8 @@ describe User, type: :model do
 
   describe 'scope.newest' do
     let!(:anonymous) { User.anonymous }
-    let!(:user1) { FactoryBot.create(:user) }
-    let!(:user2) { FactoryBot.create(:user) }
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
 
     let(:newest) { User.newest.to_a }
 
@@ -555,9 +555,9 @@ describe User, type: :model do
   end
 
   describe '#find_by_mail' do
-    let!(:user1) { FactoryBot.create(:user, mail: 'foo+test@example.org') }
-    let!(:user2) { FactoryBot.create(:user, mail: 'foo@example.org') }
-    let!(:user3) { FactoryBot.create(:user, mail: 'foo-bar@example.org') }
+    let!(:user1) { create(:user, mail: 'foo+test@example.org') }
+    let!(:user2) { create(:user, mail: 'foo@example.org') }
+    let!(:user3) { create(:user, mail: 'foo-bar@example.org') }
 
     context 'with default plus suffix' do
       it 'finds users matching the suffix' do

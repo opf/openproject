@@ -37,10 +37,10 @@ describe Notifications::GroupMemberAlteredJob, type: :model do
 
   let(:time) { Time.now }
   let(:member1) do
-    FactoryBot.build_stubbed(:member, updated_at: time, created_at: time)
+    build_stubbed(:member, updated_at: time, created_at: time)
   end
   let(:member2) do
-    FactoryBot.build_stubbed(:member, updated_at: time + 1.second, created_at: time)
+    build_stubbed(:member, updated_at: time + 1.second, created_at: time)
   end
   let(:members) { [member1, member2] }
   let(:members_ids) { members.map(&:id) }

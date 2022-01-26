@@ -34,9 +34,9 @@ require_relative './shared_context'
 describe 'Calendar create new work package', type: :feature, js: true do
   include_context 'with calendar full access'
 
-  let(:type_task) { FactoryBot.create :type_task }
-  let!(:status) { FactoryBot.create :default_status }
-  let!(:priority) { FactoryBot.create :default_priority }
+  let(:type_task) { create :type_task }
+  let!(:status) { create :default_status }
+  let!(:priority) { create :default_priority }
 
   before do
     login_as current_user

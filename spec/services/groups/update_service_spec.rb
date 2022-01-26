@@ -52,9 +52,9 @@ describe Groups::UpdateService, type: :model do
     end
 
     context 'with newly created group_users' do
-      let(:old_group_user) { FactoryBot.build_stubbed(:group_user, user_id: 3) }
+      let(:old_group_user) { build_stubbed(:group_user, user_id: 3) }
       let(:new_group_user) do
-        FactoryBot.build_stubbed(:group_user, user_id: 5).tap do |gu|
+        build_stubbed(:group_user, user_id: 5).tap do |gu|
           allow(gu)
             .to receive(:saved_changes?)
             .and_return(true)

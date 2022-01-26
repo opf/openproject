@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe RolesController, type: :controller do
   let(:user) do
-    FactoryBot.build_stubbed(:admin)
+    build_stubbed(:admin)
   end
   let(:params) do
     {

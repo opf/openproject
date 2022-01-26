@@ -36,7 +36,7 @@ describe Users::UpdateContract do
   include_context 'ModelContract shared context'
 
   it_behaves_like 'user contract' do
-    let(:user) { FactoryBot.build_stubbed(:user, attributes) }
+    let(:user) { build_stubbed(:user, attributes) }
     let(:contract) { described_class.new(user, current_user) }
     let(:attributes) do
       {

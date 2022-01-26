@@ -126,9 +126,9 @@ describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   end
 
   describe '#without_already_referenced' do
-    let(:work_packages) { FactoryBot.create_list(:work_package, 2) }
+    let(:work_packages) { create_list(:work_package, 2) }
     let(:referenced_work_packages) { [work_packages[0]] }
-    let(:github_pull_request) { FactoryBot.create(:github_pull_request, work_packages: referenced_work_packages) }
+    let(:github_pull_request) { create(:github_pull_request, work_packages: referenced_work_packages) }
 
     it 'returns only the not already referenced work packages' do
       expect(handler.without_already_referenced(work_packages, github_pull_request)).to match_array([work_packages[1]])

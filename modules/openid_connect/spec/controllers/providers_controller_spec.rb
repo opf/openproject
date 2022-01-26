@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::OpenIDConnect::ProvidersController, type: :controller do
-  let(:user) { FactoryBot.build_stubbed :admin }
+  let(:user) { build_stubbed :admin }
   let(:ee) { true }
 
   let(:valid_params) do
@@ -56,7 +56,7 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
   end
 
   context 'when not admin' do
-    let(:user) { FactoryBot.build_stubbed :user }
+    let(:user) { build_stubbed :user }
 
     it 'renders 403' do
       get :index

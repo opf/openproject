@@ -30,20 +30,20 @@ require 'spec_helper'
 
 describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
-    FactoryBot.create(:project, enabled_module_names: [:news])
+    create(:project, enabled_module_names: [:news])
   end
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
   let(:other_user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_through_role: role
   end
   let(:role) do
-    FactoryBot.create(:role,
+    create(:role,
                       permissions: %i[view_wiki_pages
                                       edit_wiki_pages
                                       view_wiki_edits

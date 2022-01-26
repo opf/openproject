@@ -32,7 +32,7 @@ describe ActivitiesController, type: :controller do
   before :each do
     allow(@controller).to receive(:set_localization)
 
-    admin = FactoryBot.create(:admin)
+    admin = create(:admin)
     allow(User).to receive(:current).and_return admin
 
     @params = {}
@@ -46,13 +46,13 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'global' do
-      let(:work_package) { FactoryBot.create(:work_package) }
+      let(:work_package) { create(:work_package) }
       let!(:journal) do
-        FactoryBot.create(:work_package_journal,
+        create(:work_package_journal,
                           journable_id: work_package.id,
                           created_at: 3.days.ago.to_date.to_s(:db),
                           version: Journal.maximum(:version) + 1,
-                          data: FactoryBot.build(:journal_work_package_journal,
+                          data: build(:journal_work_package_journal,
                                                  subject: work_package.subject,
                                                  status_id: work_package.status_id,
                                                  type_id: work_package.type_id,
@@ -92,7 +92,7 @@ describe ActivitiesController, type: :controller do
 
     describe 'with activated activity module' do
       let(:project) do
-        FactoryBot.create(:project,
+        create(:project,
                           enabled_module_names: %w[activity wiki])
       end
 
@@ -105,7 +105,7 @@ describe ActivitiesController, type: :controller do
 
     describe 'without activated activity module' do
       let(:project) do
-        FactoryBot.create(:project,
+        create(:project,
                           enabled_module_names: %w[wiki])
       end
 
@@ -123,12 +123,12 @@ describe ActivitiesController, type: :controller do
     end
 
     describe '#atom_feed' do
-      let(:user) { FactoryBot.create(:user) }
-      let(:project) { FactoryBot.create(:project) }
+      let(:user) { create(:user) }
+      let(:project) { create(:project) }
 
       context 'work_package' do
         let!(:wp_1) do
-          FactoryBot.create(:work_package,
+          create(:work_package,
                             project: project,
                             author: user)
         end
@@ -147,7 +147,7 @@ describe ActivitiesController, type: :controller do
 
         describe 'list' do
           let!(:wp_2) do
-            FactoryBot.create(:work_package,
+            create(:work_package,
                               project: project,
                               author: user)
           end
@@ -167,15 +167,15 @@ describe ActivitiesController, type: :controller do
 
       context 'forums' do
         let(:forum) do
-          FactoryBot.create(:forum,
+          create(:forum,
                             project: project)
         end
         let!(:message_1) do
-          FactoryBot.create(:message,
+          create(:message,
                             forum: forum)
         end
         let!(:message_2) do
-          FactoryBot.create(:message,
+          create(:message,
                             forum: forum)
         end
         let(:params) do

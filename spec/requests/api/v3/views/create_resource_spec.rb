@@ -33,14 +33,14 @@ describe ::API::V3::Views::ViewsAPI,
          type: :request do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:permitted_user) { FactoryBot.create(:user) }
-  shared_let(:role) { FactoryBot.create(:role, permissions: %w[view_work_packages save_queries]) }
+  shared_let(:permitted_user) { create(:user) }
+  shared_let(:role) { create(:role, permissions: %w[view_work_packages save_queries]) }
   shared_let(:project) do
-    FactoryBot.create(:project,
+    create(:project,
                       members: { permitted_user => role })
   end
   shared_let(:private_user_query) do
-    FactoryBot.create(:query,
+    create(:query,
                       project: project,
                       public: false,
                       user: permitted_user)

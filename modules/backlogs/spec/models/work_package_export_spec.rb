@@ -29,7 +29,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe WorkPackage::PDFExport::WorkPackageToPdf, type: :model do
-  let(:project) { FactoryBot.create :project }
+  let(:project) { create :project }
   let(:query) { Query.new_default(name: '_', project: project) }
   subject { described_class.new query }
 

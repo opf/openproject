@@ -71,7 +71,7 @@ shared_examples 'create placeholder user request flow' do
     end
 
     describe 'when the user name already exists' do
-      let!(:placeholder) { FactoryBot.create :placeholder_user, name: 'PLACEHOLDER' }
+      let!(:placeholder) { create :placeholder_user, name: 'PLACEHOLDER' }
 
       it 'returns an error' do
         send_request

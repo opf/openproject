@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'layouts/admin', type: :view do
-  shared_let(:admin) { FactoryBot.create :admin }
+  shared_let(:admin) { create :admin }
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper

@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'backup', type: :feature, js: true do
-  let(:current_user) { FactoryBot.create :admin, password: user_password, password_confirmation: user_password }
-  let!(:backup_token) { FactoryBot.create :backup_token, user: current_user }
+  let(:current_user) { create :admin, password: user_password, password_confirmation: user_password }
+  let!(:backup_token) { create :backup_token, user: current_user }
   let(:user_password) { "adminadmin!" }
 
   before do

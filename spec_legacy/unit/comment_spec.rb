@@ -34,49 +34,49 @@ describe Comment, type: :model do
 
   it 'should validations' do
     # factory valid
-    assert FactoryBot.build(:comment).valid?
+    assert build(:comment).valid?
 
     # comment text required
-    refute FactoryBot.build(:comment, comments: '').valid?
+    refute build(:comment, comments: '').valid?
     # object that is commented required
-    refute FactoryBot.build(:comment, commented: nil).valid?
+    refute build(:comment, commented: nil).valid?
     # author required
-    refute FactoryBot.build(:comment, author: nil).valid?
+    refute build(:comment, author: nil).valid?
   end
 
   it 'should create' do
-    user = FactoryBot.create(:user)
-    news = FactoryBot.create(:news)
+    user = create(:user)
+    news = create(:news)
     comment = Comment.new(commented: news, author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should create through news' do
-    user = FactoryBot.create(:user)
-    news = FactoryBot.create(:news)
+    user = create(:user)
+    news = create(:news)
     comment = news.new_comment(author: user, comments: 'some important words')
     assert comment.save
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should create comment through news' do
-    user = FactoryBot.create(:user)
-    news = FactoryBot.create(:news)
+    user = create(:user)
+    news = create(:news)
     news.post_comment!(author: user, comments: 'some important words')
     assert_equal 1, news.reload.comments_count
   end
 
   it 'should text' do
-    comment = FactoryBot.build(:comment, comments: 'something useful')
+    comment = build(:comment, comments: 'something useful')
     assert_equal 'something useful', comment.text
   end
 
   # TODO: testing #destroy really needed?
   it 'should destroy' do
     # just setup
-    news = FactoryBot.create(:news)
-    comment = FactoryBot.build(:comment)
+    news = create(:news)
+    comment = build(:comment)
     news.comments << comment
     assert comment.persisted?
 

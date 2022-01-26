@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'repositories/stats', type: :view do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   before do
     assign(:project, project)

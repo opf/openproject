@@ -3,22 +3,22 @@ require 'spec_helper'
 describe "Notification center", type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
-  let!(:project1) { FactoryBot.create :project }
-  let!(:project2) { FactoryBot.create :project }
+  let!(:project1) { create :project }
+  let!(:project2) { create :project }
   let!(:recipient) do
     # Needs to take place before the work package is created so that the notification listener is set up
-    FactoryBot.create :user,
+    create :user,
                       member_in_projects: [project1, project2],
                       member_with_permissions: %i[view_work_packages]
   end
   let!(:other_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:work_package) do
-    FactoryBot.create :work_package, project: project1, author: other_user
+    create :work_package, project: project1, author: other_user
   end
   let(:work_package2) do
-    FactoryBot.create :work_package, project: project2, author: other_user
+    create :work_package, project: project2, author: other_user
   end
   let(:notification) do
     # Will have been created via the JOURNAL_CREATED event listeners
@@ -119,7 +119,7 @@ describe "Notification center", type: :feature, js: true, with_settings: { journ
 
     context "with a new notification" do
       let(:notification3) do
-        FactoryBot.create :notification,
+        create :notification,
                           reason: :commented,
                           recipient: recipient,
                           project: project1,

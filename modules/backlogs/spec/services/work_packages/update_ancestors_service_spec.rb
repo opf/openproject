@@ -29,27 +29,27 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe WorkPackages::UpdateAncestorsService do
-  let(:user) { FactoryBot.create :user }
+  let(:user) { create :user }
 
   let(:sibling_remaining_hours) { 7.0 }
   let(:work_package_remaining_hours) { 5.0 }
 
   let!(:grandparent) do
-    FactoryBot.create :work_package
+    create :work_package
   end
   let!(:parent) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: grandparent
   end
   let!(:sibling) do
-    FactoryBot.create :work_package,
+    create :work_package,
                       parent: parent,
                       remaining_hours: sibling_remaining_hours
   end
 
   context 'for a new ancestors' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         remaining_hours: work_package_remaining_hours,
                         parent: parent
     end
@@ -82,7 +82,7 @@ describe WorkPackages::UpdateAncestorsService do
 
   context 'for the previous ancestors' do
     let!(:work_package) do
-      FactoryBot.create :work_package,
+      create :work_package,
                         remaining_hours: work_package_remaining_hours,
                         parent: parent
     end

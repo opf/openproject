@@ -30,8 +30,8 @@
 require 'spec_helper'
 
 describe SCM::RepositoryFactoryService do
-  let(:user) { FactoryBot.build(:user) }
-  let(:project) { FactoryBot.build(:project) }
+  let(:user) { build(:user) }
+  let(:project) { build(:project) }
 
   let(:enabled_scms) { ['subversion', 'git'] }
 

@@ -35,7 +35,7 @@ describe TabularFormBuilder do
 
   let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, nil) }
   let(:resource) do
-    FactoryBot.build(:user,
+    build(:user,
                      firstname: 'JJ',
                      lastname: 'Abrams',
                      login: 'lost',
@@ -636,7 +636,7 @@ JJ Abrams</textarea>
 
       context 'with ActiveModel and without specified label' do
         let(:resource) do
-          FactoryBot.build_stubbed(:user,
+          build_stubbed(:user,
                                    firstname: 'JJ',
                                    lastname: 'Abrams',
                                    login: 'lost',

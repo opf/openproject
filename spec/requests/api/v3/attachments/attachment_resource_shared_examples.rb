@@ -194,17 +194,17 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
   let(:current_user) { user_with_permissions }
 
   let(:user_with_permissions) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:author) do
     current_user
   end
 
-  let(:project) { FactoryBot.create(:project, public: false) }
-  let(:role) { FactoryBot.create(:role, permissions: permissions) }
+  let(:project) { create(:project, public: false) }
+  let(:role) { create(:role, permissions: permissions) }
 
-  let(:attachment) { FactoryBot.create(:attachment, container: container, author: author) }
+  let(:attachment) { create(:attachment, container: container, author: author) }
   let(:container) { send attachment_type }
 
   let(:attachment_type) { raise "attachment type goes here, e.g. work_package" }
@@ -408,7 +408,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       end
 
       context 'with the user not being the author' do
-        let(:author) { FactoryBot.create(:user) }
+        let(:author) { create(:user) }
 
         it_behaves_like 'does not delete the attachment', 404
       end
@@ -430,7 +430,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:content_disposition) { raise "define content_disposition" }
 
         let(:attachment) do
-          att = FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user)
+          att = create(:attachment, container: container, file: mock_file, author: current_user)
 
           att.file.store!
           att.send :write_attribute, :file, mock_file.original_filename
@@ -496,7 +496,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
         let(:external_url) { 'http://some_service.org/blubs.gif' }
         let(:mock_file) { FileHelpers.mock_uploaded_file name: 'foobar.txt' }
         let(:attachment) do
-          FactoryBot.create(:attachment, container: container, file: mock_file, author: current_user).tap do
+          create(:attachment, container: container, file: mock_file, author: current_user).tap do
             # need to mock here to avoid dependency on external service
             allow_any_instance_of(Attachment)
               .to receive(:external_url)
@@ -535,7 +535,7 @@ shared_examples 'an APIv3 attachment resource', type: :request, content_type: :j
       let(:get_path) { api_v3_paths.send "attachments_by_#{attachment_type}", container.id }
 
       before do
-        FactoryBot.create_list(:attachment, 2, container: container)
+        create_list(:attachment, 2, container: container)
         get get_path
       end
 

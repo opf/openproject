@@ -56,13 +56,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'admin user' do
-    let(:current_user) { FactoryBot.create(:admin) }
+    let(:current_user) { create(:admin) }
 
     it_behaves_like 'create user request flow'
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
-      let(:auth_source) { FactoryBot.create :auth_source, name: auth_source_id }
+      let(:auth_source) { create :auth_source, name: auth_source_id }
 
       context 'ID' do
         before do
@@ -195,7 +195,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'user with global user CRU permission' do
-    shared_let(:current_user) { FactoryBot.create :user, global_permission: :manage_user }
+    shared_let(:current_user) { create :user, global_permission: :manage_user }
 
     it_behaves_like 'create user request flow'
 
@@ -223,7 +223,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
-      let(:auth_source) { FactoryBot.create :auth_source, name: auth_source_id }
+      let(:auth_source) { create :auth_source, name: auth_source_id }
 
       before do
         parameters[:_links] = {
@@ -244,7 +244,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   describe 'unauthorized user' do
-    let(:current_user) { FactoryBot.build(:user) }
+    let(:current_user) { build(:user) }
     let(:parameters) { { status: 'invited', email: 'foo@example.org' } }
 
     it 'returns an erroneous response' do

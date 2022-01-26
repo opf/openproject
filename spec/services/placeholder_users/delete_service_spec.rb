@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::PlaceholderUsers::DeleteService, type: :model do
-  let(:placeholder_user) { FactoryBot.build_stubbed(:placeholder_user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
+  let(:placeholder_user) { build_stubbed(:placeholder_user) }
+  let(:project) { build_stubbed(:project) }
 
   let(:instance) { described_class.new(model: placeholder_user, user: actor) }
 
@@ -53,14 +53,14 @@ describe ::PlaceholderUsers::DeleteService, type: :model do
   end
 
   context 'with admin user' do
-    let(:actor) { FactoryBot.build_stubbed(:admin) }
+    let(:actor) { build_stubbed(:admin) }
 
     it_behaves_like 'deletes the user'
   end
 
   context 'with global user' do
     let(:actor) do
-      FactoryBot.build_stubbed(:user).tap do |u|
+      build_stubbed(:user).tap do |u|
         allow(u)
           .to receive(:allowed_to_globally?) do |permission|
             [:manage_placeholder_user].include?(permission)

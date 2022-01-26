@@ -1,16 +1,16 @@
 require 'spec_helper'
 
 describe "Split screen in the notification center", type: :feature, js: true do
-  shared_let(:project) { FactoryBot.create :project }
-  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
-  shared_let(:second_work_package) { FactoryBot.create :work_package, project: project }
+  shared_let(:project) { create :project }
+  shared_let(:work_package) { create :work_package, project: project }
+  shared_let(:second_work_package) { create :work_package, project: project }
   shared_let(:recipient) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_work_packages]
   end
   shared_let(:notification) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project,
                       resource: work_package,
@@ -18,7 +18,7 @@ describe "Split screen in the notification center", type: :feature, js: true do
   end
 
   shared_let(:second_notification) do
-    FactoryBot.create :notification,
+    create :notification,
                       recipient: recipient,
                       project: project,
                       resource: second_work_package,

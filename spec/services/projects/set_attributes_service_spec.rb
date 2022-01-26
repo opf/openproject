@@ -32,7 +32,7 @@ require 'spec_helper'
 
 # rubocop:disable RSpec/NestedGroups
 describe Projects::SetAttributesService, type: :model do
-  let(:user) { FactoryBot.build_stubbed(:user) }
+  let(:user) { build_stubbed(:user) }
   let(:contract_class) do
     contract = double('contract_class')
 
@@ -58,7 +58,7 @@ describe Projects::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:project) do
-    FactoryBot.build_stubbed(:project)
+    build_stubbed(:project)
   end
 
   describe 'call' do
@@ -185,10 +185,10 @@ describe Projects::SetAttributesService, type: :model do
 
       describe 'types default value' do
         let(:other_types) do
-          [FactoryBot.build_stubbed(:type)]
+          [build_stubbed(:type)]
         end
         let(:default_types) do
-          [FactoryBot.build_stubbed(:type)]
+          [build_stubbed(:type)]
         end
 
         before do
@@ -316,10 +316,10 @@ describe Projects::SetAttributesService, type: :model do
 
         context 'with the project having a status before' do
           let(:project_status) do
-            FactoryBot.build_stubbed(:project_status)
+            build_stubbed(:project_status)
           end
           let(:project) do
-            FactoryBot.build_stubbed(:project, status: project_status)
+            build_stubbed(:project, status: project_status)
           end
 
           context 'with a value provided' do

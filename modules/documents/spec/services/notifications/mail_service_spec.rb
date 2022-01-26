@@ -34,17 +34,17 @@ describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:actor) do
-    FactoryBot.build_stubbed(:user)
+    build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
 
   context 'with a document journal notification' do
     let(:journal) do
-      FactoryBot.build_stubbed(:journal,
-                               journable: FactoryBot.build_stubbed(:document)).tap do |j|
+      build_stubbed(:journal,
+                               journable: build_stubbed(:document)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(initial_journal)
@@ -52,7 +52,7 @@ describe Notifications::MailService, type: :model do
     end
     let(:read_ian) { false }
     let(:notification) do
-      FactoryBot.build_stubbed(:notification,
+      build_stubbed(:notification,
                                journal: journal,
                                resource: journal.journable,
                                recipient: recipient,

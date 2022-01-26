@@ -40,9 +40,9 @@ describe OpenProject::Bim::WorkPackage::Exporter::Formatters::BcfThumbnail do
   end
 
   describe '::format' do
-    let(:work_package_with_viewpoint) { FactoryBot.create(:work_package) }
-    let(:bcf_issue) { FactoryBot.create(:bcf_issue_with_viewpoint, work_package: work_package_with_viewpoint) }
-    let(:work_package_without_viewpoint) { FactoryBot.create(:work_package) }
+    let(:work_package_with_viewpoint) { create(:work_package) }
+    let(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package: work_package_with_viewpoint) }
+    let(:work_package_without_viewpoint) { create(:work_package) }
 
     before do
       bcf_issue

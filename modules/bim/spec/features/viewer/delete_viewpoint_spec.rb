@@ -32,15 +32,15 @@ describe 'Delete viewpoint in model viewer',
          with_config: { edition: 'bim' },
          type: :feature,
          js: true do
-  let(:project) { FactoryBot.create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let(:user) { FactoryBot.create :admin }
+  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:user) { create :admin }
 
-  let!(:work_package) { FactoryBot.create(:work_package, project: project) }
-  let!(:bcf) { FactoryBot.create :bcf_issue, work_package: work_package }
-  let!(:viewpoint) { FactoryBot.create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
+  let!(:work_package) { create(:work_package, project: project) }
+  let!(:bcf) { create :bcf_issue, work_package: work_package }
+  let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
 
   let!(:model) do
-    FactoryBot.create(:ifc_model_minimal_converted,
+    create(:ifc_model_minimal_converted,
                       title: 'minimal',
                       project: project,
                       uploader: user)

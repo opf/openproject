@@ -84,7 +84,7 @@ describe ServiceResult, type: :model do
     end
 
     context 'providing errors from user' do
-      let(:result) { FactoryBot.build :work_package }
+      let(:result) { build :work_package }
 
       it 'creates a new errors instance' do
         instance = ServiceResult.new result: result

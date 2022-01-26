@@ -52,7 +52,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
   let(:instance) { described_class.new(query, self_link: self_link, current_user: user, form_embedded: form_embedded) }
   let(:user) do
-    FactoryBot.build_stubbed(:user).tap do |user|
+    build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:allowed_to?)
         .and_return(false)
@@ -338,7 +338,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:type) { build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
@@ -385,7 +385,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
         context 'when embedding' do
           let(:form_embedded) { true }
-          let(:type) { FactoryBot.build_stubbed(:type) }
+          let(:type) { build_stubbed(:type) }
           let(:available_values) do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1, highlightable: true),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2, highlightable: true)]
@@ -426,7 +426,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryBot.build_stubbed(:project) }
+          let(:project) { build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains the link to the filter schemas' do
@@ -539,7 +539,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
 
         context 'when project query' do
-          let(:project) { FactoryBot.build_stubbed(:project) }
+          let(:project) { build_stubbed(:project) }
           let(:href) { api_v3_paths.query_project_filter_instance_schemas(project.id) }
 
           it 'contains a collection of filter schemas' do

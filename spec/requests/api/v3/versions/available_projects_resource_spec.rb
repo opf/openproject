@@ -34,46 +34,46 @@ describe 'API v3 members available projects resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) do
-    FactoryBot.create(:user)
+    create(:user)
   end
   let(:own_member) do
-    FactoryBot.create(:member,
-                      roles: [FactoryBot.create(:role, permissions: permissions)],
+    create(:member,
+                      roles: [create(:role, permissions: permissions)],
                       project: project,
                       user: current_user)
   end
   let(:permissions) { %i[view_versions manage_versions] }
   let(:manage_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: permissions)],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: permissions)],
                         project: p,
                         user: current_user)
     end
   end
   let(:view_project) do
-    FactoryBot.create(:project).tap do |p|
-      FactoryBot.create(:member,
-                        roles: [FactoryBot.create(:role, permissions: [:view_versions])],
+    create(:project).tap do |p|
+      create(:member,
+                        roles: [create(:role, permissions: [:view_versions])],
                         project: p,
                         user: current_user)
     end
   end
   # let(:membered_project) do
-  #  FactoryBot.create(:project).tap do |p|
-  #    FactoryBot.create(:member,
-  #                      roles: [FactoryBot.create(:role, permissions: permissions)],
+  #  create(:project).tap do |p|
+  #    create(:member,
+  #                      roles: [create(:role, permissions: permissions)],
   #                      project: p,
   #                      user: current_user)
 
-  #    FactoryBot.create(:member,
-  #                      roles: [FactoryBot.create(:role, permissions: permissions)],
+  #    create(:member,
+  #                      roles: [create(:role, permissions: permissions)],
   #                      project: p,
   #                      user: other_user)
   #  end
   # end
   let(:unauthorized_project) do
-    FactoryBot.create(:public_project)
+    create(:public_project)
   end
 
   subject(:response) { last_response }

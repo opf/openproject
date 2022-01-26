@@ -31,19 +31,19 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project details widget on dashboard', type: :feature, js: true do
-  let!(:version_cf) { FactoryBot.create(:version_project_custom_field) }
-  let!(:bool_cf) { FactoryBot.create(:bool_project_custom_field) }
-  let!(:user_cf) { FactoryBot.create(:user_project_custom_field) }
-  let!(:int_cf) { FactoryBot.create(:int_project_custom_field) }
-  let!(:float_cf) { FactoryBot.create(:float_project_custom_field) }
-  let!(:text_cf) { FactoryBot.create(:text_project_custom_field) }
-  let!(:string_cf) { FactoryBot.create(:string_project_custom_field) }
-  let!(:date_cf) { FactoryBot.create(:date_project_custom_field) }
+  let!(:version_cf) { create(:version_project_custom_field) }
+  let!(:bool_cf) { create(:bool_project_custom_field) }
+  let!(:user_cf) { create(:user_project_custom_field) }
+  let!(:int_cf) { create(:int_project_custom_field) }
+  let!(:float_cf) { create(:float_project_custom_field) }
+  let!(:text_cf) { create(:text_project_custom_field) }
+  let!(:string_cf) { create(:string_project_custom_field) }
+  let!(:date_cf) { create(:date_project_custom_field) }
 
-  let(:system_version) { FactoryBot.create(:version, sharing: 'system') }
+  let(:system_version) { create(:version, sharing: 'system') }
 
   let!(:project) do
-    FactoryBot.create(:project, members: { other_user => role }).tap do |p|
+    create(:project, members: { other_user => role }).tap do |p|
       p.send(:"custom_field_#{int_cf.id}=", 5)
       p.send(:"custom_field_#{bool_cf.id}=", true)
       p.send(:"custom_field_#{version_cf.id}=", system_version)
@@ -69,21 +69,21 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
   end
 
   let(:role) do
-    FactoryBot.create(:role, permissions: permissions)
+    create(:role, permissions: permissions)
   end
 
   let(:read_only_user) do
-    FactoryBot.create(:user, member_in_project: project, member_through_role: role)
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:editing_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       member_in_project: project,
                       member_with_permissions: editing_permissions,
                       firstname: 'Cool',
                       lastname: 'Guy')
   end
   let(:other_user) do
-    FactoryBot.create(:user,
+    create(:user,
                       firstname: 'Other',
                       lastname: 'User')
   end

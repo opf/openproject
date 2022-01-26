@@ -37,13 +37,13 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
 
   include_context 'with CreateFromJournalJob context'
 
-  shared_let(:project) { FactoryBot.create(:project) }
+  shared_let(:project) { create(:project) }
 
   let(:permissions) { [:view_documents] }
   let(:send_notifications) { true }
 
   let(:resource) do
-    FactoryBot.create(:document,
+    create(:document,
                       project: project)
   end
   let(:journal) { resource.journals.last }
@@ -73,7 +73,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -83,7 +83,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
@@ -121,7 +121,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for involved notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false.merge(involved: true))
+            build(:notification_setting, **notification_settings_all_false.merge(involved: true))
           ]
         end
 
@@ -131,7 +131,7 @@ describe Notifications::CreateFromModelService, 'document', with_settings: { jou
       context 'with the user having registered for no notifications' do
         let(:recipient_notification_settings) do
           [
-            FactoryBot.build(:notification_setting, **notification_settings_all_false)
+            build(:notification_setting, **notification_settings_all_false)
           ]
         end
 

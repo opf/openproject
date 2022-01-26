@@ -32,13 +32,13 @@ describe BackupJob, type: :model do
   shared_examples "it creates a backup" do |opts = {}|
     let(:job) { BackupJob.new }
 
-    let(:previous_backup) { FactoryBot.create :backup }
-    let(:backup) { FactoryBot.create :backup }
+    let(:previous_backup) { create :backup }
+    let(:backup) { create :backup }
     let(:status) { :in_queue }
     let(:job_id) { 42 }
 
     let(:job_status) do
-      FactoryBot.create(
+      create(
         :delayed_job_status,
         user: user,
         reference: backup,
@@ -59,7 +59,7 @@ describe BackupJob, type: :model do
 
     let(:arguments) { [{ backup: backup, user: user, **opts.except(:remote_storage) }] }
 
-    let(:user) { FactoryBot.create :admin }
+    let(:user) { create :admin }
 
     before do
       previous_backup; backup; status # create
@@ -96,8 +96,8 @@ describe BackupJob, type: :model do
     context "with a successful database dump" do
       let(:db_dump_success) { true }
 
-      let!(:attachment) { FactoryBot.create :attachment }
-      let!(:pending_direct_upload) { FactoryBot.create :pending_direct_upload }
+      let!(:attachment) { create :attachment }
+      let!(:pending_direct_upload) { create :pending_direct_upload }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 

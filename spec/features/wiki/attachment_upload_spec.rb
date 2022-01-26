@@ -33,11 +33,11 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to wiki page', js: true do
   let(:user) do
-    FactoryBot.create :user,
+    create :user,
                       member_in_project: project,
                       member_with_permissions: %i[view_wiki_pages edit_wiki_pages]
   end
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
   let(:attachments) { ::Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { ::Components::WysiwygEditor.new }

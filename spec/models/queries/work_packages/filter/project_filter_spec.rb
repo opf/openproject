@@ -65,8 +65,8 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
       let(:project) { nil }
 
       it 'is an array of group values' do
-        parent = FactoryBot.build_stubbed(:project, id: 1)
-        child = FactoryBot.build_stubbed(:project, parent: parent, id: 2)
+        parent = build_stubbed(:project, id: 1)
+        child = build_stubbed(:project, parent: parent, id: 2)
 
         visible_projects = [parent, child]
 
@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::ProjectFilter, type: :model do
     end
 
     describe '#value_objects' do
-      let(:project) { FactoryBot.build_stubbed(:project) }
-      let(:project2) { FactoryBot.build_stubbed(:project) }
+      let(:project) { build_stubbed(:project) }
+      let(:project2) { build_stubbed(:project) }
 
       before do
         allow(Project)

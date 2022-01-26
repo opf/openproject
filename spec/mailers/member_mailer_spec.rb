@@ -35,16 +35,16 @@ describe MemberMailer, type: :mailer do
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
 
-  let(:current_user) { FactoryBot.build_stubbed(:user) }
+  let(:current_user) { build_stubbed(:user) }
   let(:member) do
-    FactoryBot.build_stubbed(:member,
+    build_stubbed(:member,
                              principal: principal,
                              project: project,
                              roles: roles)
   end
-  let(:principal) { FactoryBot.build_stubbed(:user) }
-  let(:project) { FactoryBot.build_stubbed(:project) }
-  let(:roles) { [FactoryBot.build_stubbed(:role), FactoryBot.build_stubbed(:role)] }
+  let(:principal) { build_stubbed(:user) }
+  let(:project) { build_stubbed(:project) }
+  let(:roles) { [build_stubbed(:role), build_stubbed(:role)] }
   let(:message) { nil }
 
   around do |example|
@@ -66,7 +66,7 @@ describe MemberMailer, type: :mailer do
   end
 
   shared_examples_for 'fails for a group' do
-    let(:principal) { FactoryBot.build_stubbed(:group) }
+    let(:principal) { build_stubbed(:group) }
 
     it 'raises an argument error' do
       # Calling .to in order to have the mail rendered
@@ -76,7 +76,7 @@ describe MemberMailer, type: :mailer do
   end
 
   shared_examples_for "sends a mail to the member's principal" do
-    let(:principal) { FactoryBot.build_stubbed(:group) }
+    let(:principal) { build_stubbed(:group) }
 
     it 'raises an argument error' do
       # Calling .to in order to have the mail rendered

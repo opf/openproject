@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ::Users::SetAttributesService, 'Integration', type: :model do
-  let(:input_user) { FactoryBot.create(:user) }
-  let(:actor) { FactoryBot.build_stubbed(:admin) }
+  let(:input_user) { create(:user) }
+  let(:actor) { build_stubbed(:admin) }
 
   let(:instance) do
     described_class.new model: input_user,
