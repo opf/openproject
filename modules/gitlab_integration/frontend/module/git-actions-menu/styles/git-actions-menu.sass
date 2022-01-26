@@ -1,0 +1,90 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2021 Ben Tey
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+// Copyright (C) 2012-2021 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See docs/COPYRIGHT.rdoc for more details.
+//++
+.git-actions-menu
+  background-color: var(--body-background)
+  border: var(--content-default-border-width) solid var(--content-default-border-color)
+  padding: 1rem 1rem 2rem 1rem
+  min-width: 25rem
+  box-shadow: .1em .1em .4em rgba(0,0,0,0.1)
+
+  .copy-wrapper
+    width: 100%
+    position: relative
+    margin-bottom: 1rem
+
+  .copy-content
+    width: calc(100% - 3em)
+    // the min-height should be the size of the copy-icon, which is the sum of:
+    // 2 * button padding (0.65em)
+    // font-size of the icon (0.9em)
+    // 1px where I don't know where it comes from
+    min-height: calc(2 * 0.65em + 0.9em + 1px)
+    border-radius: 2px 0 0 2px
+    padding: 0.65em
+    color: var(--gray-dark)
+    white-space: pre
+    resize: none
+    font-size: 0.9rem
+    display: inline-block
+
+  .copy-button
+    margin: 0
+    border: 1px solid #ccc
+    border-radius: 0 2px 2px 0
+    vertical-align: top
+    left: -1px
+    position: relative
+    font-size: 0.9rem
+
+    &:hover
+      border-color: #999
+
+  .copy-result-message
+    background-color: var(--main-menu-bg-color)
+    display: inline-block
+    padding: 0.5em
+    border-radius: 5px
+    color: var(--main-menu-font-color)
+    position: absolute
+    right: 0
+    top: calc(2 * 0.65em + 0.9em + 1px + 9px)
+    box-shadow: 1px 1px 4px var(--gray-dark)
+    z-index: 1
+
+    &:before
+      content: ""
+      border-bottom: 0.6em solid var(--main-menu-bg-color)
+      height: 0
+      width: 0
+      position: absolute
+      top: -9px
+      right: 10px
+      border-left: 0.3em solid transparent
+      border-right: 0.3em solid transparent
+
