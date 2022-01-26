@@ -34,7 +34,7 @@ class WikiMenuItemsController < ApplicationController
   include Redmine::MenuManager::WikiMenuHelper
 
   current_menu_item :edit do |controller|
-    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.persisted?
+    next controller.wiki_menu_item.menu_identifier if controller.wiki_menu_item.try(:persisted?)
 
     project = controller.instance_variable_get(:@project)
     if (page = WikiPage.find_by(wiki_id: project.wiki.id, slug: controller.params[:id]))
@@ -52,6 +52,8 @@ class WikiMenuItemsController < ApplicationController
 
   def self.default_menu_item(controller, page)
     menu_item = controller.default_menu_item(page)
+    return unless menu_item
+
     "no-menu-item-#{menu_item.menu_identifier}".to_sym
   end
 

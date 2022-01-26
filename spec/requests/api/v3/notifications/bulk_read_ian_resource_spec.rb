@@ -35,11 +35,16 @@ describe ::API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:recipient) { FactoryBot.create :user }
+  shared_let(:project) { FactoryBot.create :project }
+
+  shared_let(:recipient) { FactoryBot.create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
   shared_let(:other_recipient) { FactoryBot.create :user }
-  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient }
-  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient }
-  shared_let(:notification3) { FactoryBot.create :notification, recipient: recipient }
+
+  shared_let(:work_package) { FactoryBot.create :work_package, project: project }
+
+  shared_let(:notification1) { FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package }
+  shared_let(:notification2) { FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package }
+  shared_let(:notification3) { FactoryBot.create :notification, recipient: recipient, project: project, resource: work_package }
   shared_let(:other_user_notification) { FactoryBot.create :notification, recipient: other_recipient }
 
   let(:filters) { nil }

@@ -18,9 +18,9 @@ fr:
     models:
       two_factor_authentication/device: "Appareil de 2FA"
       two_factor_authentication/device/sms: "Téléphone mobile"
-      two_factor_authentication/device/totp: "Application authentificatrice"
+      two_factor_authentication/device/totp: "Application d'authentification"
   two_factor_authentication:
-    error_2fa_disabled: "La sortie 2FA a été désactivé."
+    error_2fa_disabled: "La sortie A2F a été désactivée."
     error_no_device: "Aucun appareil 2FA enregistré trouvé pour cet utilisateur, bien qu'étant requis pour cette instance."
     error_no_matching_strategy: "Aucune stratégie 2FA correspondante disponible pour cet utilisateur. Veuillez contacter votre administrateur."
     error_is_enforced_not_active: 'Erreur de configuration : l''authentification à deux facteurs à été imposée, mais aucune stratégie active n''existe.'
@@ -49,8 +49,8 @@ fr:
       title: 'Paramètres 2FA'
       current_configuration: 'Configuration actuelle'
       label_active_strategies: 'Stratégies 2FA actives'
-      label_enforced: 'Appliquer 2FA'
-      label_remember: 'Se souvenir du login 2FA'
+      label_enforced: 'Forcer l''A2F'
+      label_remember: 'Se souvenir de la connexion A2F'
       text_configuration: |
         Remarque : Ces valeurs représentent la configuration actuelle de toute l'application. Vous ne pouvez pas désactiver des paramètres imposés par cette configuration ou changer les stratégies, car cela requiert un redémarrage du serveur.
       text_configuration_guide: Pour plus d’informations, consultez le guide de configuration.

@@ -72,7 +72,7 @@ module LdapGroups
       if call.success?
         Rails.logger.info("[LDAP groups] User '#{call.result.login}' created")
       else
-        Rails.logger.error("[LDAP groups] User '#{user}' could not be created: #{call.message}")
+        Rails.logger.error("[LDAP groups] User '#{call.result&.login}' could not be created: #{call.message}")
       end
     end
 

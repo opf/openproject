@@ -733,6 +733,8 @@ lol:
               group_without_name: "crwdns540651:0crwdne540651:0"
         user:
           attributes:
+            base:
+              user_limit_reached: "crwdns640531:0crwdne640531:0"
             password_confirmation:
               confirmation: "crwdns540653:0crwdne540653:0"
               format: "crwdns540655:0%{message}crwdne540655:0"
@@ -2305,6 +2307,9 @@ lol:
   setting_apiv3_cors_origins: "crwdns543419:0crwdne543419:0"
   setting_apiv3_cors_origins_text_html: >
     crwdns543421:0%{origin_link}crwdne543421:0
+  setting_apiv3_max_page_size: "crwdns655435:0crwdne655435:0"
+  setting_apiv3_max_page_instructions_html: >
+    crwdns655437:0crwdne655437:0
   setting_apiv3_docs: "crwdns543423:0crwdne543423:0"
   setting_apiv3_docs_enabled: "crwdns543425:0crwdne543425:0"
   setting_apiv3_docs_enabled_instructions_html: >
