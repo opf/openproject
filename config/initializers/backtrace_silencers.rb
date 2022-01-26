@@ -39,5 +39,5 @@
 Rails.backtrace_cleaner.remove_silencers!
 
 # compare this with APP_DIRS_PATTERN in railties/lib/rails/backtrace_cleaner.rb
-fixed_dirs_patterns = /^\/?(app|config|lib|test|modules|\(\w*\))/
+fixed_dirs_patterns = /(^\/?(app|config|lib|test|modules|\(\w*\))|open_?project)/
 Rails.backtrace_cleaner.add_silencer { |line| !fixed_dirs_patterns.match?(line) }
