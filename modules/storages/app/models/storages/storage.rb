@@ -33,7 +33,6 @@ class Storages::Storage < ApplicationRecord
   belongs_to :creator, class_name: 'User'
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :projects, through: :projects_storages
-  has_secure_token :identifier
 
   PROVIDER_TYPES = %w[nextcloud].freeze
 
