@@ -75,6 +75,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
   context 'with full permissions' do
     before do
+      with_enterprise_token(:team_planner_view)
       team_planner.visit!
 
       team_planner.add_assignee user
