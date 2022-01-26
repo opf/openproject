@@ -1,9 +1,11 @@
 require 'spec_helper'
 
 describe "Split screen in the notification center", type: :feature, js: true do
+  let(:global_html_title) { ::Components::HtmlTitle.new }
   shared_let(:project) { create :project }
   shared_let(:work_package) { create :work_package, project: project }
   shared_let(:second_work_package) { create :work_package, project: project }
+
   shared_let(:recipient) do
     create :user,
                       member_in_project: project,
@@ -80,6 +82,29 @@ describe "Split screen in the notification center", type: :feature, js: true do
       # The split screen can be closed
       split_screen.close
       split_screen.expect_empty_state
+    end
+
+    it 'can show the correct html title while opening and closing the split view' do
+      global_html_title.expect_first_segment 'Notifications'
+
+      # The split view should be opened and html title should change
+      first_title = "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
+      center.click_item notification
+      global_html_title.expect_first_segment first_title
+
+      # The split view should be closed and html title should change to the previous title
+      split_screen.close
+      global_html_title.expect_first_segment 'Notifications'
+
+      # Html title should be updated with next WP data after making the current one as read
+      second_title = "#{second_work_package.type.name}: #{second_work_package.subject} (##{second_work_package.id})"
+      center.click_item notification
+      center.mark_notification_as_read notification
+      global_html_title.expect_first_segment second_title
+
+      # After making all notifications as read, html title should show the base route
+      center.mark_notification_as_read second_notification
+      global_html_title.expect_first_segment 'Notifications'
     end
   end
 
