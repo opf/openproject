@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@
 
 class Storages::ProjectStorage < ApplicationRecord
   self.table_name = 'projects_storages'
-  belongs_to :project, class_name: 'Project'
+  belongs_to :project
   belongs_to :storage, class_name: 'Storages::Storage'
   belongs_to :creator, class_name: 'User'
 

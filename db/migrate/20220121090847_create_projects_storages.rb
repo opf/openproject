@@ -1,14 +1,15 @@
 class CreateProjectsStorages < ActiveRecord::Migration[6.1]
   def change
     create_table :projects_storages do |t|
-      t.bigint :project_id, null: false, foreign_key: true
-      t.bigint :storage_id, null: false, foreign_key: true
-      t.bigint :creator_id, null: false, foreign_key: true
+      t.references :project, null: false, foreign_key: true, on_delete: :cascade
+      t.references :storage, null: false, foreign_key: true, on_delete: :cascade
+      t.references :creator,
+                   null: false,
+                   index: true,
+                   foreign_key: { to_table: :users }
 
       t.timestamps
 
-      t.index :project_id
-      t.index :storage_id
       t.index %i[project_id storage_id], unique: true
     end
   end

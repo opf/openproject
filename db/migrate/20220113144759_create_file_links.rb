@@ -20,9 +20,9 @@ class CreateFileLinks < ActiveRecord::Migration[6.1]
       t.timestamps
 
       # i.e. show all file links per WP.
-      t.index [:container_id, :container_type]
+      t.index %i[container_id container_type]
       # i.e. show all work packages per file.
-      t.index [:origin_id, :storage_id]
+      t.index %i[origin_id storage_id]
     end
   end
 end
