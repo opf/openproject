@@ -32,7 +32,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
   include ::API::V3::Utilities::PathHelper
 
   let(:object) do
-    OpenStruct.new available_custom_fields: []
+    Hashie::Mash.new available_custom_fields: []
   end
   let(:user) { build_stubbed(:user) }
   let(:representer) do
@@ -117,16 +117,16 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'does set status to nil' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .to have_key(:status)
 
           status = project[:status]
-          expect(status.to_h)
+          expect(status)
             .to have_key(:code)
 
-          expect(status.to_h)
+          expect(status)
             .not_to have_key(:explanation)
 
           expect(status[:code])
@@ -150,7 +150,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'sets the parent_id to the value' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project[:parent_id])
             .to eq "5"
@@ -169,7 +169,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'sets the parent_id to nil' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .to have_key(:parent_id)
@@ -191,7 +191,7 @@ describe ::API::V3::Projects::ProjectPayloadRepresenter, 'parsing' do
         end
 
         it 'omits the parent information' do
-          project = representer.from_hash(hash).to_h
+          project = representer.from_hash(hash)
 
           expect(project)
             .not_to have_key(:parent_id)
