@@ -8,6 +8,7 @@ export class SpotDocsComponent {
   indeterminateState = null;
   checkboxValue = null;
   textFieldValue = 'ngModel value';
+  dropModalOpen = false;
 
   onRemoveChip() {
     alert('Remove chip');

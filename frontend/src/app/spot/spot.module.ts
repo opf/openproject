@@ -7,6 +7,7 @@ import { SpotCheckboxComponent } from './components/checkbox.component';
 import { SpotTextFieldComponent } from './components/text-field.component';
 import { SpotFilterChipComponent } from './components/filter-chip.component';
 import { SpotChipFieldComponent } from './components/chip-field.component';
+import { SpotDropModalComponent } from './components/drop-modal.component';
 import { SpotDocsComponent } from './spot-docs.component';
 
 @NgModule({
@@ -23,12 +24,14 @@ import { SpotDocsComponent } from './spot-docs.component';
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotChipFieldComponent,
+    SpotDropModalComponent,
   ],
   exports: [
     SpotCheckboxComponent,
     SpotTextFieldComponent,
     SpotFilterChipComponent,
     SpotChipFieldComponent,
+    SpotDropModalComponent,
   ],
 })
 export class OpSpotModule { }

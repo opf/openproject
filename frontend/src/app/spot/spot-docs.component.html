@@ -110,9 +110,22 @@
   ></span>
 </spot-text-field>
 
-
 <h1>Chip Field</h1>
 
 <spot-chip-field
   placeholder="Type and press enter"
 ></spot-chip-field>
+
+<h1>Drop Modal</h1>
+
+<spot-drop-modal [open]="dropModalOpen">
+  <button
+    slot="trigger"
+    type="button"
+    class="spot-button spot-button_primary"
+    (click)="dropModalOpen = !dropModalOpen"
+  >Open Modal</button>
+  <ng-container slot="body">
+    <h1>Test</h1>
+  </ng-container>
+</spot-drop-modal>
